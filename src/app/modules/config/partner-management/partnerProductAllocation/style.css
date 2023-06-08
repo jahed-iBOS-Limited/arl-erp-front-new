@@ -1,0 +1,11 @@
+.partnerProductAllocation-row {
+  position: relative;
+}
+
+.partnerProductAllocation-row-delete-btn {
+  position: absolute;
+  right: 0;
+  z-index: 99;
+  padding-right: 0;
+  margin-top: -10px;
+}

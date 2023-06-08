@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali&display=swap');
+
+p {
+  margin: 0;
+  padding: 0;
+}
+.text-left {
+  text-align: left;
+}
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+.bold {
+  font-weight: 600;
+}
+.challan_print_wrapper {
+  padding: 0;
+  box-sizing: border-box;
+  margin: 0 50px;
+  font-size: 18px !important;
+  margin-top: 20px;
+  font-family: 'Noto Sans Bengali', sans-serif;
+}
+
+.challan_print_wrapper .width_50 {
+  width: 50% !important;
+}
+
+.challan_print_wrapper .flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.challan_print_wrapper .signature_wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 120px;
+}
+.challan_print_wrapper .signature_wrapper .signature p {
+  position: relative;
+  padding-top: 2px;
+  border-top: 1px solid black;
+}
+
+@media print {
+  .challan_print_wrapper {
+    display: block !important;
+  }
+}

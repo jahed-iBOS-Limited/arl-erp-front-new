@@ -1,0 +1,43 @@
+.toggle-container {
+    width: 40px;
+    background-color: #8d8d8d;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 15px;
+    padding: 2px;
+    height: 18px;
+    position: relative;
+    margin: 0 auto;
+  }
+  
+  .toggle-container.active {
+    width: 40px;
+    background-color: #24a047;
+  }
+  
+  .dialog-button {
+    cursor: pointer;
+    background-color: #fff;
+    color: white;
+    border-radius: 18px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    min-width: 46px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 14px;
+    height: 14px;
+    min-width: unset;
+    border-radius: 50%;
+    box-sizing: border-box;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    position: absolute;
+    left: 22px;
+    transition: all 0.3s ease;
+  }
+  
+  .disabled {
+    background-color: #e0e0e0;
+    left: 2px;
+  }
+  

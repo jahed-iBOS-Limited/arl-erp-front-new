@@ -1,0 +1,18 @@
+.asset_list {
+    /* padding: 30px 0;
+    min-height: 85vh !important;
+    padding: 30px 0; */
+    max-height: 450px;
+}
+
+
+.asset_list table td,.asset_list table th {
+    min-width: 70px !important;
+    text-align: center !important;
+}
+
+.asset_list table td:first-child,
+.asset_list table th:first-child {
+    min-width: 30px !important;
+}
+

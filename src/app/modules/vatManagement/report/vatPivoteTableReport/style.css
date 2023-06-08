@@ -1,0 +1,18 @@
+.vatPivotetableReport {
+  height: 35rem;
+}
+
+.vatPivotetableReport table tr th {
+  background-color: #ebf0f8 !important;
+  border: 1px solid #c8d4e3;
+}
+
+.pvtButton {
+  display: none !important;
+}
+
+@media only screen and (min-height: 700px) {
+  .vatPivotetableReport {
+    height: 50rem;
+  }
+}

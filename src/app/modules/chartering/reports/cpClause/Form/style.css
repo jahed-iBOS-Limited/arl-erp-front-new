@@ -1,0 +1,29 @@
+.editor .ql-editor {
+  min-height: 18em;
+  background-color: white;
+  padding: 0 50px;
+  width: 800px;
+  margin: auto;
+  height: 65vh;
+}
+
+.editor {
+  height: 70vh;
+}
+
+.editor .ql-toolbar {
+  background-color: #8a58ef38;
+  border-top-left-radius: 1em;
+  border-top-right-radius: 1em;
+  position: sticky;
+  /* height: 90vh; */
+}
+
+.editor .ql-container {
+  border-bottom-left-radius: 1em;
+  border-bottom-right-radius: 1em;
+}
+
+.cpPrint p {
+  margin-bottom: 0 !important;
+}

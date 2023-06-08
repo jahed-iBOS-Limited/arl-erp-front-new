@@ -1,0 +1,179 @@
+import { Form, Formik } from "formik";
+import React from "react";
+import { useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import IEdit from "../../../_helper/_helperIcons/_edit";
+import InputField from "../../../_helper/_inputField";
+import Loading from "../../../_helper/_loading";
+import { ITable } from "../../../_helper/_table";
+import { _dateFormatter } from "./../../../_helper/_dateFormate";
+import PaginationTable from "./../../../_helper/_tablePagination";
+
+const initData = {
+  fromDate: "",
+  toDate: "",
+};
+export default function ChemicalComposition() {
+  const history = useHistory();
+
+  // get selected business unit from store
+  const selectedBusinessUnit = useSelector((state) => {
+    return state.authData.selectedBusinessUnit;
+  }, shallowEqual);
+
+  const [pageNo, setPageNo] = useState(0);
+  const [pageSize, setPageSize] = useState(15);
+  const [rowData, getRowData, isLoading] = useAxiosGet();
+
+  const getData = (values) => {
+    const rowURL = `/mes/MSIL/GetMeltingQCLandingPagination?PartName=MeltingQC&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&BusinessUnitId=${selectedBusinessUnit?.value}&pageNumber=${pageNo}&pageSize=${pageSize}`;
+
+    const url = rowURL;
+    getRowData(url);
+  };
+
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+    getData(values, pageNo, pageSize);
+  };
+
+  return (
+    <div>
+      <ITable
+        link="/production-management/msil-Production/chemicalcomposition/create"
+        title="Chemical Composition"
+      >
+        <Formik
+          enableReinitialize={true}
+          initialValues={initData}
+          onSubmit={(values, { setSubmitting, resetForm }) => {
+            // saveHandler(values, () => {
+            //   resetForm(initData);
+            // });
+          }}
+        >
+          {({
+            handleSubmit,
+            resetForm,
+            values,
+            setFieldValue,
+            isValid,
+            errors,
+            touched,
+          }) => (
+            <>
+              <Form className="form form-label-right">
+                {isLoading && <Loading />}
+                <div className="form-group row global-form">
+                  <div className="col-lg-3">
+                    <InputField
+                      value={values?.fromDate}
+                      label="From Date"
+                      name="fromDate"
+                      type="date"
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <InputField
+                      value={values?.toDate}
+                      label="To Date"
+                      name="toDate"
+                      type="date"
+                      min={values?.fromDate}
+                    />
+                  </div>
+                  <div style={{ marginTop: "15px" }} className="col-lg-1">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        getData(values);
+                      }}
+                      className="btn btn-primary"
+                      disabled={!values?.fromDate || !values?.toDate}
+                    >
+                      Show
+                    </button>
+                  </div>
+                </div>
+
+                {rowData?.data?.length > 0 && (
+                  <div className="row">
+                    <div className="col-lg-12">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th style={{ width: "30px" }}>SL</th>
+                            <th>Date</th>
+                            <th>Shift</th>
+                            <th>Heat No</th>
+                            <th>Sample Type</th>
+                            <th>Carbone (C)</th>
+                            <th>Silicon (Si)</th>
+                            <th>Manganese (Mn)</th>
+                            <th>Phosphorus (P)</th>
+                            <th>Shulfer (S)</th>
+                            <th>Chromium (Cr)</th>
+                            <th>Copper (Cu)</th>
+                            <th>Nickel (Ni)</th>
+                            <th>Carbon Equivalent</th>
+                            <th style={{ width: "50px" }}>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowData?.data?.length > 0 &&
+                            rowData?.data?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>{_dateFormatter(item?.dteDate)}</td>
+                                <td>{item?.strShift}</td>
+                                <td>{item?.strHeatNo}</td>
+                                <td>{item?.strSampleType}</td>
+                                <td className="text-right">{item?.numC}</td>
+                                <td className="text-right">{item?.numSi}</td>
+                                <td className="text-right">{item?.numMn}</td>
+                                <td className="text-right">{item?.numP}</td>
+                                <td className="text-right">{item?.numS}</td>
+                                <td className="text-right">{item?.numCr}</td>
+                                <td className="text-right">{item?.numCu}</td>
+                                <td className="text-right">{item?.numNi}</td>
+                                <td className="text-right">{item?.numCe}</td>
+                                <td className="text-center">
+                                  <IEdit
+                                    onClick={() =>
+                                      history.push({
+                                        pathname: `/production-management/msil-Production/chemicalcomposition/edit/${item?.intAutoId}`,
+                                        state: { ...item },
+                                      })
+                                    }
+                                  />
+                                </td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                      {rowData?.data.length > 0 && (
+                        <PaginationTable
+                          count={rowData?.totalCount}
+                          setPositionHandler={setPositionHandler}
+                          paginationState={{
+                            pageNo,
+                            setPageNo,
+                            pageSize,
+                            setPageSize,
+                          }}
+                          values={values}
+                        />
+                      )}
+                    </div>
+                  </div>
+                )}
+              </Form>
+            </>
+          )}
+        </Formik>
+      </ITable>
+    </div>
+  );
+}

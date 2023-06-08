@@ -1,0 +1,182 @@
+import axios from "axios";
+// import { toast } from "react-toastify";
+import { _dateFormatter } from "./../../../_helper/_dateFormate";
+import { toast } from "react-toastify";
+
+export const getType = () => {
+  return [
+    { value: 1, label: "Inventory, Overhead and COGS" },
+    { value: 2, label: "Depreciation" },
+  ];
+};
+
+export const savebankStatement = async (
+  accId,
+  insertby,
+  cb,
+  setDisabled,
+  setIsUpload
+) => {
+  setDisabled(true);
+
+  try {
+    const res = await axios.post(
+      `/fino/BusinessTransaction/CreateBankAccountStatementSubmit?intAccountID=${accId}&intInsertBy=${insertby}`
+    );
+    if (res.status === 200) {
+      cb();
+      toast.success(res?.data?.message || "Submitted successfully");
+      setDisabled(false);
+      setIsUpload(false);
+    }
+  } catch (error) {
+    setDisabled(false);
+    setIsUpload(false);
+  }
+};
+
+// https://localhost:44315/wms/WmsReport/GetInventoryJournalGenLedger?AccountId=2&BusinessUnitId=164&SbuId=68&fromDate=2021-08-01&toDate=2021-08-30&typeId=2&actionBy=0
+export const getInventoryJournalGenLedger = async (
+  accountId,
+  businessUnitId,
+  sbuId,
+  fromDate,
+  toDate,
+  setter,
+  setLoading
+) => {
+  setLoading(true);
+
+  try {
+    const api = `/wms/WmsReport/GetInventoryJournalGenLedger?AccountId=${accountId}&BusinessUnitId=${businessUnitId}&SbuId=${sbuId}&fromDate=${_dateFormatter(
+      fromDate
+    )}&toDate=${_dateFormatter(toDate)}&typeId=2`;
+
+    const res = await axios.get(api);
+    setLoading(false);
+    setter(res?.data);
+  } catch (err) {
+    setLoading(false);
+  }
+};
+export const getInventoryJournal = async (
+  accountId,
+  businessUnitId,
+  sbuId,
+  fromDate,
+  toDate,
+  setter,
+  setLoading
+) => {
+  setLoading(true);
+  try {
+    const api = `/wms/WmsReport/GetInventoryJournal?AccountId=${accountId}&BusinessUnitId=${businessUnitId}&SbuId=${sbuId}&fromDate=${_dateFormatter(
+      fromDate
+    )}&toDate=${_dateFormatter(toDate)}&typeId=1`;
+
+    const res = await axios.get(api);
+    setLoading(false);
+    setter(res?.data);
+  } catch (err) {
+    setLoading(false);
+  }
+};
+
+// Depricision
+export const getDepreciationGenLedgerList = async (
+  accountId,
+  businessUnitId,
+  sbuId,
+  transactionDate,
+  setter,
+  setLoading
+) => {
+  setLoading(true);
+  try {
+    const api = `/asset/DepreciationJournal/GetDepreciationGenLedgerList?accountId=${accountId}&businessUnitId=${businessUnitId}&sbuId=${sbuId}&dteDate=${_dateFormatter(
+      transactionDate
+    )}&typeId=2`;
+    const res = await axios.get(api);
+    setLoading(false);
+    setter(res?.data);
+  } catch (err) {
+    setLoading(false);
+  }
+};
+
+export const getDepreciationJournal = async (
+  accountId,
+  businessUnitId,
+  sbuId,
+  transactionDate,
+  setter,
+  setLoading
+) => {
+  setLoading(true);
+  try {
+    const api = `/asset/DepreciationJournal/GetDepreciationJournal?accountId=${accountId}&businessUnitId=${businessUnitId}&sbuId=${sbuId}&dteDate=${_dateFormatter(
+      transactionDate
+    )}&typeId=1`;
+
+    const res = await axios.get(api);
+    setLoading(false);
+    setter(res?.data);
+  } catch (err) {
+    setLoading(false);
+  }
+};
+
+export const postInventoryJournal = async (
+  accountId,
+  businessUnitId,
+  sbuId,
+  fromDate,
+  toDate,
+  userId,
+  setLoading,
+  cb
+) => {
+  setLoading(true);
+  try {
+    const api = `/wms/WmsReport/PostInventoryJournal?AccountId=${accountId}&BusinessUnitId=${businessUnitId}&SbuId=${sbuId}&fromDate=${_dateFormatter(
+      fromDate
+    )}&toDate=${_dateFormatter(toDate)}&typeId=3&actionBy=${userId}`;
+    const res = await axios.post(api);
+    setLoading(false);
+    cb(res?.data?.message);
+  } catch (err) {
+    setLoading(false);
+  }
+};
+export const postDepreciationJournal = async (
+  accountId,
+  businessUnitId,
+  sbuId,
+  transactionDate,
+  userId,
+  setLoading,
+  cb
+) => {
+  setLoading(true);
+  try {
+    const api = `/asset/DepreciationJournal/PostDepreciationJournal?accountId=${accountId}&businessUnitId=${businessUnitId}&sbuId=${sbuId}&dteDate=${_dateFormatter(
+      transactionDate
+    )}&typeId=3&actionBy=${userId}`;
+    const res = await axios.post(api);
+    setLoading(false);
+    cb(res?.data?.message);   
+  } catch (err) {
+    setLoading(false);
+  }
+};
+
+export const getSbuDDL = async (accId, buId, setter) => {
+  try {
+    const res = await axios.get(
+      `/domain/BusinessUnitDomain/GetBusinessAreaDDL?AccountId=${accId}&BusinessUnitId=${buId}`
+    );
+    if (res.status === 200) {
+      setter(res?.data);
+    }
+  } catch (error) {}
+};

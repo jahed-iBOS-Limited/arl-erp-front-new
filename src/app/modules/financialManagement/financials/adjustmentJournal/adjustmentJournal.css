@@ -1,0 +1,95 @@
+.adjustment-journal-modal .h4 {
+    font-size: 1.2rem !important;
+}
+.bj-table-landing thead tr th {
+  padding: 5px 0 !important;
+}
+.bj-table-landing tbody tr td {
+  padding: 2px 3px !important;
+}
+.bj-table-landing .edit i {
+  font-size: 13px !important;
+}
+.bj-table-landing .view i {
+  font-size: 13px !important;
+}
+.table.bj-table-landing td {
+    vertical-align: middle;
+}
+.bank-journal-date .cj-landing-date::-webkit-calendar-picker-indicator {
+  font-size: 8px !important;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  transform: translateX(-0px) !important;
+} 
+.cashJournal_buttom{
+  background: #dde3e8;
+  padding-top: 4px;
+}
+.cashJournal_buttom label {
+  padding-right: 10px;
+  display: flex;
+  justify-content: center;
+}
+.bank_Journal .fas,
+.bank_Journal .fa {
+  color: #3699ff;
+}
+.cash_journal .fas,
+.cash_journal .fa {
+  color: #3699ff;
+}
+.adJustmentJournal .approval .fas,
+.adJustmentJournal .fa {
+  color: #3699ff;
+  font-size: 13px;
+}
+.cash_journal span.delete .fa {
+  font-size: 12px;
+}
+.caushJournalButtomCode input {
+  margin-top: -1px;
+}
+.caushJournalButtomCode {
+  padding-left: 37px !important;
+}
+
+.cashJournalCheckbox .d-flex.align-items-center.code input {
+  width: 236px !important;
+}
+/* bank journal media query */
+@media (min-width: 992px) {
+  .bj-add-btn {
+    flex: 0 0 50%;
+    max-width: 48% !important;
+  }
+}
+.adJustmentJournal .cashJournalCheckbox .d-flex.align-items-center.code input {
+  width: 168px !important;
+}
+
+
+.adjustment-journalReport .reportBorder{
+  border-bottom : 1px solid #000;
+  width:'30px'
+}
+
+
+/* Journal Report table */
+
+.journalTable {
+  width: 100%;
+  background-color: #fff;
+}
+
+.journalTable th {
+  text-align: center;
+  background-color: #fff !important;
+  border: 1.5px solid #000;
+}
+
+.journalTable td {
+  text-align: center;
+  background-color: #fff !important;
+  border: 1.5px solid #000;
+}

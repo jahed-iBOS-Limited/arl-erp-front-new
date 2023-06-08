@@ -1,0 +1,13 @@
+.global-loading-css {
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: block;
+  z-index: 99;
+  height: 100%;
+  width: 100%;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

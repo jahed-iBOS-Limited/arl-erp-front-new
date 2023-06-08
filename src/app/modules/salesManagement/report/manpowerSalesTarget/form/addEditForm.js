@@ -1,0 +1,172 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { useParams } from "react-router";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import Loading from "../../../../_helper/_loading";
+import Form from "./form";
+
+const initData = {
+  type: "",
+  channel: "",
+  region: "",
+  area: "",
+  territory: "",
+  zone: "",
+  month: "",
+  year: "",
+  item: "",
+};
+
+export default function ManpowerSalesTargetForm() {
+  // get user data from store
+  const {
+    profileData: { accountId: accId, userId },
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => state?.authData, shallowEqual);
+
+  const shipPointDDL = useSelector((state) => {
+    return state?.commonDDL?.shippointDDL;
+  }, shallowEqual);
+
+  const { id, type } = useParams();
+  const [objProps] = useState({});
+  const [rowData, setRowData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [, postData, isLoading] = useAxiosPost();
+  const [itemList, getItemList] = useAxiosGet();
+  const [salesOrgs, getSalesOrgs] = useAxiosGet();
+
+  useEffect(() => {
+    getSalesOrgs(
+      `/oms/SalesOrganization/GetSalesOrganizationDDL?AccountId=${accId}&BusinessUnitId=${buId}`
+    );
+  }, [accId, buId]);
+
+  const getItems = (values) => {
+    getItemList(
+      `/item/ItemSales/GetItemSalesByChannelAndWarehouseDDL?AccountId=${accId}&BUnitId=${buId}&DistributionChannelId=${values?.channel?.value}&SalesOrgId=${values?.salesOrg?.value}
+    `
+    );
+  };
+
+  const allSelect = (value) => {
+    let _data = [...rowData];
+    const modify = _data.map((item) => {
+      return { ...item, isSelected: value };
+    });
+    setRowData(modify);
+  };
+
+  const selectedAll = () => {
+    return rowData?.filter((item) => item?.isSelected)?.length ===
+      rowData?.length && rowData?.length > 0
+      ? true
+      : false;
+  };
+
+  const rowDataChange = (index, key, value) => {
+    const newRow = [...rowData];
+    newRow[index][key] = value;
+    setRowData(newRow);
+  };
+
+  const saveHandler = (values, cb) => {
+    if (!id) {
+      const payloadOne = rowData
+        ?.filter((e) => e?.isSelected)
+        ?.map((item) => {
+          return {
+            intId: 0,
+            accountId: accId,
+            businessUnitId: buId,
+            targetMonthId: values?.month?.value,
+            targetYearId: values?.year?.value,
+            channelId: values?.channel?.value,
+            channelName: values?.channel?.label,
+            setupPKId: item?.zoneId,
+            setupPkName: item?.zoneName,
+            // setupPKId: values?.zone?.value,
+            // setupPkName: values?.zone?.label,
+            territoryTypeId: 74,
+            territoryTypeName: "Point",
+            employeeEnroll: item?.employeeId,
+            targeQnt: +item?.targetQty,
+            targeAmount: 0,
+            actionBy: userId,
+            typeId: values?.type?.value,
+            entryTypeName: values?.type?.label,
+          };
+        });
+
+      const payloadTwo = rowData
+        ?.filter((e) => e?.isSelected)
+        ?.map((item) => {
+          return {
+            intId: 0,
+            accountId: accId,
+            businessUnitId: buId,
+            targetMonthId: values?.month?.value,
+            targetYearId: values?.year?.value,
+            channelId: 0,
+            setupPKId: 0,
+            setupPkName: "",
+            channelName: "",
+            territoryTypeId: 0,
+            territoryTypeName: "",
+            employeeEnroll: 0,
+            targeQnt: +item?.targetQty,
+            targeAmount: 0,
+            actionBy: userId,
+            typeId: values?.type?.value,
+            entryTypeName: values?.type?.label,
+            shippingPointId: item?.value,
+          };
+        });
+
+      const payload = [1, 2, 3].includes(values?.type?.value)
+        ? payloadOne
+        : payloadTwo;
+
+      const URL = [1, 2, 3].includes(values?.type?.value)
+        ? `/oms/Complains/CreateManPowerSalesTarget`
+        : `/oms/Complains/CreateGhatTargetEntry`;
+
+      postData(
+        URL,
+        payload,
+        () => {
+          cb();
+        },
+        true
+      );
+    }
+  };
+
+  return (
+    <>
+      {(loading || isLoading) && <Loading />}
+      <div className="mt-0">
+        <Form
+          {...objProps}
+          buId={buId}
+          itemList={itemList}
+          salesOrgs={salesOrgs}
+          getItems={getItems}
+          accId={accId}
+          viewType={type}
+          rowData={rowData}
+          initData={initData}
+          allSelect={allSelect}
+          setRowData={setRowData}
+          setLoading={setLoading}
+          selectedAll={selectedAll}
+          saveHandler={saveHandler}
+          shipPointDDL={shipPointDDL}
+          rowDataChange={rowDataChange}
+        />
+      </div>
+    </>
+  );
+}

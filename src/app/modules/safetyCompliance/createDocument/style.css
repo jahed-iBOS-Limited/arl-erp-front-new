@@ -1,0 +1,49 @@
+.legalDocument-entry .editor .ql-editor {
+  min-height: 175px;
+  background-color: white;
+  padding: 0 50px;
+  width: 100%;
+  margin: auto;
+  height: 10vh;
+}
+
+.legalDocument-entry .editor {
+  height: 250px;
+}
+
+.legalDocument-entry .editor .ql-toolbar {
+  background-color: #d3d9dd;
+  border-top-left-radius: 1em;
+  border-top-right-radius: 1em;
+  position: sticky;
+  z-index: 1000;
+  /* height: 90vh; */
+}
+
+.legalDocument-entry .editor .ql-container {
+  border-bottom-left-radius: 1em;
+  border-bottom-right-radius: 1em;
+}
+
+.legalDocument-entry .cpPrint p {
+  margin-bottom: 0 !important;
+}
+
+.legalDocument-entry .image-upload-box {
+  height: 64px;
+  border: 1px dashed rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+}
+.legalDocument-entry .image-upload-box.with-img {
+  max-width: 65px;
+  border: 0;
+  background: transparent;
+}
+.legalDocument-entry .image-upload-box.with-img {
+  max-width: 100%;
+  border: 0;
+  justify-content: left;
+}

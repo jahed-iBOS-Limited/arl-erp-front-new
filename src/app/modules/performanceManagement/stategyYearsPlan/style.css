@@ -1,0 +1,35 @@
+.strategic-year-plan .loan-scrollable-table thead th {
+  position: relative;
+}
+
+.strategic-year-plan .loan-scrollable-table thead th.static {
+  position: -webkit-sticky; /* for Safari */
+  position: sticky;
+  z-index: 9999999;
+}
+
+.strategic-year-plan .loan-scrollable-table thead th {
+  min-width: 100%;
+}
+
+.strategic-year-plan .loan-scrollable-table thead th.bg-1 {
+  background-color: #ffff00 !important;
+}
+
+.strategic-year-plan .loan-scrollable-table thead th.bg-2 {
+  background-color: #9bc2e6 !important;
+}
+
+.strategic-year-plan .loan-scrollable-table thead th.bg-3 {
+  background-color: #f4b084 !important;
+}
+
+.strategic-year-plan .loan-scrollable-table thead th.bg-4 {
+  background-color: #ffc000 !important;
+}
+.strategic-year-plan .fiveYearsGreen{
+  background-color: green;
+}
+.strategic-year-plan .fiveYearsGreen div{
+  color: #fff !important;
+}

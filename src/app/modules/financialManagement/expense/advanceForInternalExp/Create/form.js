@@ -1,0 +1,347 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState } from "react";
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
+import Select from "react-select";
+import { IInput } from "../../../../_helper/_input";
+import { useEffect } from "react";
+import {
+  getRequestedEmp,
+  getPaymentType,
+  getDisbursementCenterName,
+  getSBU,
+  GetBusTransDDLForExp_api,
+} from "../helper";
+import customStyles from "../../../../selectCustomStyle";
+import FormikError from "../../../../_helper/_formikError";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import NewSelect from './../../../../_helper/_select';
+
+
+// Validation schema for Advance for Internal Expense
+const validationSchema = Yup.object().shape({
+  requestedEmp: Yup.object().shape({
+    label: Yup.string().required("Requested Employee is required"),
+    value: Yup.string().required("Requested Employee is required"),
+  }),
+  SBU: Yup.object().shape({
+    label: Yup.string().required("Requested SBU is required"),
+    value: Yup.string().required("Requested SBU is required"),
+  }),
+  expenseGroup: Yup.object().shape({
+    label: Yup.string().required("Expense Group is required"),
+    value: Yup.string().required("Expense Group is required"),
+  }),
+  numRequestedAmount: Yup.number()
+    .min(1, "Minimum 1 symbols")
+    .max(10000000000000, "Maximum 10000000000000 symbols")
+    .required("Requested Amount is required"),
+
+  dueDate: Yup.string().required("Due date is required"),
+  paymentType: Yup.object().shape({
+    label: Yup.string().required("Payment Type is required"),
+    value: Yup.string().required("Payment Type is required"),
+  }),
+  disbursementCenterName: Yup.object().shape({
+    label: Yup.string().required("Disbursment Center is required"),
+    value: Yup.string().required("Disbursment Center is required"),
+  }),
+  expenseHead: Yup.object().shape({
+    label: Yup.string().required("Expense Head is required"),
+    value: Yup.string().required("Expense Head is required"),
+  }),
+  comments: Yup.string(),
+});
+
+export default function _Form({
+  initData,
+  btnRef,
+  saveHandler,
+  resetBtnRef,
+  rowDto,
+  remover,
+  setter,
+  profileData,
+  selectedBusinessUnit,
+  jorunalType,
+  isEdit,
+  state,
+  approval,
+}) {
+  const [requestedEmp, setRequestedEmp] = useState([]);
+  const [paymentType, setPaymentType] = useState([]);
+  const [disbursementCenterName, setDisbursementCenterName] = useState([]);
+  const [selectedSbu, setSelectedSbu] = useState([]);
+  const [expenseHeadDDL, setExpenseHeadDDL] = useState([]);
+
+  useEffect(() => {
+    if (
+      profileData.accountId &&
+      selectedBusinessUnit?.value &&
+      (state?.selectedSbu?.value || state?.item?.sbuid)
+    ) {
+      getSBU(profileData.accountId, selectedBusinessUnit.value, setSelectedSbu);
+      GetBusTransDDLForExp_api(
+        profileData.accountId,
+        selectedBusinessUnit.value,
+        setExpenseHeadDDL
+      );
+      getPaymentType(setPaymentType);
+
+      getDisbursementCenterName(
+        profileData.accountId,
+        selectedBusinessUnit?.value,
+        state?.selectedSbu?.value || state?.item?.sbuid,
+        setDisbursementCenterName
+      );
+    }
+  }, [profileData, selectedBusinessUnit, state]);
+
+  useEffect(() => {
+    if (state?.checkPublic) {
+      getRequestedEmp(
+        profileData.accountId,
+        selectedBusinessUnit?.value,
+        setRequestedEmp
+      );
+    }
+  }, [state]);
+
+  return (
+    <>
+      <Formik
+        enableReinitialize={true}
+        initialValues={
+          isEdit
+            ? initData
+            : {
+                ...initData,
+                requestedEmp: {
+                  value: state?.selectedEmp?.value,
+                  label: state?.selectedEmp?.label,
+                },
+
+                SBU: {
+                  value: state?.selectedSbu?.value,
+                  label: state?.selectedSbu?.label,
+                },
+              }
+        }
+        // initialValues={initData}
+        validationSchema={validationSchema}
+        onSubmit={(values, { setSubmitting, resetForm }) => {
+          saveHandler(values, () => {
+            resetForm(initData);
+          });
+        }}
+      >
+        {({
+          handleSubmit,
+          resetForm,
+          values,
+          errors,
+          touched,
+          setFieldValue,
+          isValid,
+        }) => (
+          <>
+            <Form className="form form-label-right">
+              <div className="row">
+                <div className="col-lg-6">
+                  <div className="row bank-journal bank-journal-custom bj-left">
+                    {/* ///requested employee */}
+
+                    <div className="col-lg-6 pl pr-1 mb-2">
+                      <label>Request For (Employee)</label>
+                      <Select
+                        onChange={(valueOption) => {
+                          setFieldValue("requestedEmp", valueOption);
+                        }}
+                        options={requestedEmp || []}
+                        value={values?.requestedEmp}
+                        isSearchable={true}
+                        name="requestedEmp"
+                        styles={customStyles}
+                        placeholder="EMP"
+                        isDisabled={isEdit}
+                      />
+                      <FormikError
+                        errors={errors}
+                        name="requestedEmp"
+                        touched={touched}
+                      />
+                    </div>
+
+                    <div className="col-lg-6 pl pr-1 mb-2">
+                      <label>Select SBU</label>
+                      <Select
+                        onChange={(valueOption) => {
+                          setFieldValue("SBU", valueOption);
+                          setFieldValue("disbursementCenterName", "");
+                          getDisbursementCenterName(
+                            profileData.accountId,
+                            selectedBusinessUnit?.value,
+                            valueOption?.value,
+                            setDisbursementCenterName
+                          );
+                        }}
+                        options={selectedSbu || []}
+                        value={values?.SBU}
+                        isSearchable={true}
+                        name="SBU"
+                        styles={customStyles}
+                        placeholder="SBU"
+                        isDisabled={isEdit}
+                      />
+                      <FormikError
+                        errors={errors}
+                        name="SBU"
+                        touched={touched}
+                      />
+                    </div>
+
+                    <div className="col-lg-6 pl pr-1 mb-2 disable-border disabled-feedback border-gray">
+                      <IInput
+                        value={values.numRequestedAmount}
+                        label="Requested Amount"
+                        name="numRequestedAmount"
+                        placeholder="Requested Amount"
+                        min="0"
+                        type="number"
+                      />
+                    </div>
+
+                    {/* ////DUE DATE ////// */}
+
+                    <div className="col-lg-6 pl-date pr pl-1 mb-2 bank-journal-date border-gray">
+                      <IInput
+                        value={values.dueDate}
+                        label="Due Date"
+                        name="dueDate"
+                        type="date"
+                        min={_todayDate()}
+                      />
+                    </div>
+
+                    {/* ////  PAYMENT TYPE ////// */}
+
+                    <div className="col-lg-6 pl pr-1 mb-2">
+                      <label>Select Payment Type</label>
+                      <Select
+                        onChange={(valueOption) => {
+                          setFieldValue("paymentType", valueOption);
+                        }}
+                        options={paymentType || []}
+                        value={values?.paymentType}
+                        isSearchable={true}
+                        name="paymentType"
+                        styles={customStyles}
+                        placeholder="Payment Type"
+                      />
+                      <FormikError
+                        errors={errors}
+                        name="paymentType"
+                        touched={touched}
+                      />
+                    </div>
+
+                    {/* ////  DUSBURSEMENT CENTER ////// */}
+                    <div className="col-lg-6 pl pr-1 mb-2">
+                      <label>Select Disbursement Center</label>
+                      <Select
+                        onChange={(valueOption) => {
+                          setFieldValue("disbursementCenterName", valueOption);
+                        }}
+                        options={disbursementCenterName || []}
+                        value={values?.disbursementCenterName}
+                        isSearchable={true}
+                        name="disbursementCenterName"
+                        styles={customStyles}
+                        placeholder="Disbursement Center"
+                      />
+                      <FormikError
+                        errors={errors}
+                        name="disbursementCenterName"
+                        touched={touched}
+                      />
+                    </div>
+
+                    <div className="col-lg-6 pl pr-1 mb-2">
+                      <label>Expense Head</label>
+                      <Select
+                        onChange={(valueOption) => {
+                          setFieldValue("expenseHead", valueOption);
+                        }}
+                        options={expenseHeadDDL || []}
+                        value={values?.expenseHead}
+                        isSearchable={true}
+                        name="expenseHead"
+                        styles={customStyles}
+                        placeholder="Disbursement Center"
+                      />
+                      <FormikError
+                        errors={errors}
+                        name="expenseHead"
+                        touched={touched}
+                      />
+                    </div>
+                    <div className="col-lg-6 pl pr-1 mb-2">
+                      <NewSelect
+                        name="expenseGroup"
+                        options={[
+                          {
+                            value: "TaDa",
+                            label: "Ta/Da",
+                          },
+                          {
+                            value: "Other",
+                            label: "Other",
+                          },
+                        ]}
+                        value={values?.expenseGroup}
+                        label="Expense Group"
+                        onChange={(valueOption) => {
+                          setFieldValue("expenseGroup", valueOption);
+                        }}
+                        placeholder="Expense Group"
+                        errors={errors}
+                        touched={touched}
+                        // isDisabled={isEdit}
+                      />
+                    </div>
+
+                    {/* ////  advExpCategoryName ////// */}
+
+                    <div className="col-lg-6 pl pr mb-2 h-narration border-gray">
+                      <IInput
+                        value={values.comments}
+                        label="Comments"
+                        name="comments"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Row Dto Table End */}
+
+              <button
+                type="submit"
+                style={{ display: "none" }}
+                ref={btnRef}
+                onSubmit={() => handleSubmit()}
+              ></button>
+
+              <button
+                type="reset"
+                style={{ display: "none" }}
+                ref={resetBtnRef}
+                onSubmit={() => resetForm(initData)}
+              ></button>
+            </Form>
+          </>
+        )}
+      </Formik>
+    </>
+  );
+}

@@ -1,0 +1,14 @@
+.itemWiseOrderWrapper .global-table tbody tr .itemWiseOrderQtyModel {
+    color: blue !important;
+  }
+   .itemWiseOrderQtyModel:hover {
+    color: blue !important;
+    font-weight: bold;
+  }
+  
+  .itemWiseOrderQtyModel {
+    color: blue !important;
+    position: relative;
+   
+  }
+  

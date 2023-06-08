@@ -1,0 +1,21 @@
+.actionplan-pdf-section table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    background-color: white !important;
+}
+.actionplan-pdf-section .footer{
+    /* background-color: #ffffff !important; */
+    text-align: end;
+    padding-right: 50px;
+    height: 130px;
+}
+
+/* .actionplan-pdf-section{
+    display: none;
+} */
+
+/* media @print{
+    .actionplan-pdf-section{
+        display: block;
+    }
+} */

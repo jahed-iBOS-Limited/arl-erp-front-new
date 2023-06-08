@@ -1,0 +1,50 @@
+.johari-window-chip{
+  margin-top: 2px !important;
+  margin-right: 2px !important;
+  color: #9f9f9f !important;
+}
+
+.johari-window-chip {
+  margin-top: 3px !important;
+  background-color: #ececec !important;
+  color: black !important;
+}
+
+.johari-window-model {
+  padding: 10px;
+  min-height: 150px;
+  background-color: white;
+}
+
+.johari-window-model-open-block {
+  border-right: 10px solid #dde3e8;
+  border-bottom: 10px solid #dde3e8;
+}
+
+.johari-window-model-hidden-block {
+  border-right: 10px solid #dde3e8;
+}
+
+/* For Pdf download */
+.pdf-chip-johari-window {
+  display: inline-block;
+  padding: 3px 8px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  font-size: 12px;
+  background-color: #ececec;
+}
+
+@media (max-width: 575px) {
+  .johari-window-model-open-block {
+    border-right: none !important;
+    border-bottom: 10px solid #dde3e8;
+  }
+
+  .johari-window-model-hidden-block {
+    border-right: none !important;
+    border-top: 10px solid #dde3e8 !important;
+    border-bottom: 10px solid #dde3e8 !important;
+  }
+}

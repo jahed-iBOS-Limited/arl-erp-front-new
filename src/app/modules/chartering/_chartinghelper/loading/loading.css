@@ -1,0 +1,9 @@
+.global-loading-css {
+  position: absolute;
+  left: 50%;
+  top: 35%;
+  display: block;
+  z-index: 1000;
+  height: 31px;
+  width: 31px;
+}

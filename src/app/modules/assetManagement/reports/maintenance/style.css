@@ -1,0 +1,10 @@
+.table-upper{
+    
+}
+.table-upper thead td{
+    border: 2px solid black !important;
+}
+.table-upper tr td{
+    border:2px solid black;
+    font-size: 11px
+}

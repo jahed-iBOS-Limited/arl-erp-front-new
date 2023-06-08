@@ -1,0 +1,16 @@
+.viewItemBasicInfo label{
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.viewItemBasicInfo .form-card {
+    margin-bottom: 20px;
+}
+
+.viewItemBasicInfo .row > div {
+    margin-bottom: 15px;
+}
+
+.viewItemBasicInfo form {
+    margin-top: 20px;
+}

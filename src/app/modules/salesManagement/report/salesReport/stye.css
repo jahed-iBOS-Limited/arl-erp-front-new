@@ -1,0 +1,13 @@
+.salesReportTableWrapper .global-table tbody tr .salesReportQtyModel {
+  color: blue !important;
+}
+ .salesReportQtyModel:hover {
+  color: blue !important;
+  font-weight: bold;
+}
+
+.salesReportQtyModel {
+  color: blue !important;
+  position: relative;
+ 
+}

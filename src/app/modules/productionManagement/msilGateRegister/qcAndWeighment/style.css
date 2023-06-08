@@ -1,0 +1,10 @@
+
+
+.weightment-report .weightment-report-header{
+   display: none;
+}
+@media print{
+   .weightment-report .weightment-report-header{
+      display: block !important;
+   }
+}

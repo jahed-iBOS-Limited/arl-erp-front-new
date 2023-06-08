@@ -1,0 +1,10 @@
+label.upload-btn-tamkin {
+    height: 25px;
+    font-size: 14px !important;
+    padding: 0 17px;
+    cursor: pointer;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

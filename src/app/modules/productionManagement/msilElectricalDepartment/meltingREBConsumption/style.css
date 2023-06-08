@@ -1,0 +1,7 @@
+.reb-consumption-report-table .global-table tbody tr td {
+  padding: 0px !important;
+}
+
+.reb-consumption-report-table .form-control {
+  padding-left: 2px !important;
+}

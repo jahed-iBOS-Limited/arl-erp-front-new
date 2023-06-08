@@ -1,0 +1,9 @@
+.allotmentSalesReportTop {
+  display: none;
+  text-align: center;
+}
+@media print {
+  .allotmentSalesReportTop {
+    display: block;
+  }
+}

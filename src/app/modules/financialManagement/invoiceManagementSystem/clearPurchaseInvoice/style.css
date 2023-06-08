@@ -1,0 +1,16 @@
+.clear_sales_invoice_View_Form .modal-footer {
+    border-top: 1px solid transparent !important;
+  }
+
+.purchase_inv_action{
+  width: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.custom_space{
+  margin-top: 18px;
+    border-top: 2px solid white;
+    padding-top: 12px;
+}

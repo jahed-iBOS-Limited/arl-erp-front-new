@@ -1,0 +1,18 @@
+.print-height-none {
+  max-height: 400px;
+  position: relative;
+}
+
+@media print {
+  .print-height-none {
+    max-height: none !important;
+    position: unset !important;
+    overflow: none !important;
+  }
+
+  .table-responsive {
+    height: auto !important;
+    max-height: auto !important;
+    overflow: none !important;
+  }
+}

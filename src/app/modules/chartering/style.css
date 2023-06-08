@@ -1,0 +1,70 @@
+.marine-form-card {
+  background: var(--white);
+  border: 1px solid rgba(128, 128, 128, 0.2);
+  border-radius: 8px;
+  z-index: 1;
+  padding: 10px 20px 20px 20px;
+  --tw-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.marine-form-card th {
+  background-color: #bfdbfe !important;
+}
+
+.marine-modal-form-card th {
+  background-color: #bfdbfe !important;
+}
+
+.marine-form-card .btn-success {
+  background-color: #16a34a !important;
+  border-color: #16a34a !important;
+}
+
+.marine-form-card-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  margin: 0 0 15px 0;
+  border-bottom: 1px solid #ededed;
+}
+
+.marine-form-card-heading p {
+  font-size: 17px;
+  font-weight: 500;
+  margin-bottom: 0px;
+}
+
+.marine-form-card input:focus {
+  outline: none;
+}
+
+.marine-form-card-content {
+  margin-top: 10px;
+  background: #eff6ff;
+  border-radius: 5px;
+  padding: 15px;
+}
+.marine-form-card-content label {
+  font-size: 12px;
+}
+
+.marine-modal-form-card {
+  background: var(--white);
+  z-index: 1;
+  padding: 10px 20px 20px 20px;
+}
+
+.marine-modal-form-card input:focus {
+  outline: none;
+}
+
+.marine-form-card textarea:focus {
+  outline: none;
+}
+.MuiChip-sizeSmall{
+  height: 15px;
+}

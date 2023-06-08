@@ -1,0 +1,15 @@
+.sub-po-dropdown label {
+  display: none;
+}
+
+/* 
+.production-order-css {
+} */
+
+/* .production-order-css .input-div {
+  border: 1px solid red;
+} */
+
+.production-order-css .input-qty {
+  border: 1px solid red;
+}

@@ -1,0 +1,424 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Form, Formik } from "formik";
+import React, { useEffect, useRef, useState } from "react";
+import { useMemo } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  CardHeaderToolbar,
+  ModalProgressBar,
+} from "../../../../../../../_metronic/_partials/controls";
+import ICon from "../../../../../chartering/_chartinghelper/icons/_icon";
+import { _dateFormatter } from "../../../../../_helper/_dateFormate";
+import { _formatMoney } from "../../../../../_helper/_formatMoney";
+import Loading from "../../../../../_helper/_loading";
+import NewSelect from "../../../../../_helper/_select";
+import PaginationTable from "../../../../../_helper/_tablePagination";
+import IViewModal from "../../../../../_helper/_viewModal";
+import AttachmentUploadForm from "../../attachmentAdd";
+import {
+  getAttachments,
+  getBankDDLAll,
+  getLoanRegisterLanding,
+} from "../../helper";
+import IClose from "../../../../../_helper/_helperIcons/_close";
+import useAxiosPost from "../../../../../_helper/customHooks/useAxiosPost";
+
+const LoanRegisterLanding = () => {
+  const history = useHistory();
+  const initData = {
+    bank: { label: "ALL", value: 0 },
+    status: { label: "ALL", value: 0 },
+    loanType: "",
+    loanClass: "",
+  };
+
+  // ref
+  // eslint-disable-next-line no-unused-vars
+  const printRef = useRef();
+
+  // eslint-disable-next-line no-unused-vars
+  const [loading, setLoading] = useState(false);
+  const [loanRegisterData, setLoanRegisterData] = useState([]);
+  const [bankDDL, setBankDDL] = useState([]);
+  const [pageNo, setPageNo] = useState(0);
+  const [pageSize, setPageSize] = useState(15);
+  const [open, setOpen] = useState(false);
+  const [fdrNo, setFdrNo] = useState("");
+  const [attachments, setAttachments] = useState([]);
+
+
+  const [, postCloseLoanRegister, closeLoanRegisterLoader] = useAxiosPost();
+
+  const { profileData, selectedBusinessUnit: { value: buId }, } = useSelector((state) => { return state.authData; }, shallowEqual);
+
+  const saveHandler = async (values, cb) => {
+    setLoading(true);
+  };
+
+  useEffect(() => {
+    getBankDDLAll(setBankDDL, setLoading);
+  }, []);
+
+  useEffect(() => {
+    getLoanRegisterLanding(
+      profileData?.accountId,
+      buId,
+      0,
+      0,
+      pageNo,
+      pageSize,
+      setLoanRegisterData,
+      setLoading
+    );
+  }, []);
+
+  //setPositionHandler
+  const setPositionHandler = (pageNo, pageSize, values) => {
+    getLoanRegisterLanding(
+      profileData?.accountId,
+      buId,
+      values?.bank?.value,
+      values?.status?.value,
+      pageNo,
+      pageSize,
+      setLoanRegisterData,
+      setLoading
+    );
+  };
+
+  const totalPrincipleAmount = useMemo(
+    () => loanRegisterData?.data?.reduce((a, c) => a + c?.numPrinciple, 0),
+    [loanRegisterData?.data]
+  );
+  const totalInterestAmount = useMemo(
+    () => loanRegisterData?.data?.reduce((a, c) => a + c?.numInterest, 0),
+    [loanRegisterData?.data]
+  );
+  const totalPayable = useMemo(
+    () => loanRegisterData?.data?.reduce((a, c) => a + c?.numTotalPayable, 0),
+    [loanRegisterData?.data]
+  );
+  const totalPaid = useMemo(
+    () => loanRegisterData?.data?.reduce((a, c) => a + c?.numPaid, 0),
+    [loanRegisterData?.data]
+  );
+  const totalBalance = useMemo(
+    () =>
+      loanRegisterData?.data?.reduce(
+        (a, c) => a + (c?.numTotalPayable - c?.numPaid),
+        0
+      ),
+    [loanRegisterData?.data]
+  );
+
+  return (
+    <>
+      {(loading || closeLoanRegisterLoader) && <Loading />}
+      <Formik
+        enableReinitialize={true}
+        initialValues={initData}
+        onSubmit={(values, { setSubmitting, resetForm }) => {
+          saveHandler(values, (code) => { });
+        }}
+      >
+        {({ values, errors, touched, setFieldValue }) => (
+          <div className="">
+            <Card>
+              {true && <ModalProgressBar />}
+              <CardHeader title={"Loan Register"}>
+                <CardHeaderToolbar>
+                  <button
+                    className="btn btn-primary ml-2"
+                    type="submit"
+                    disabled={false}
+                    onClick={() => {
+                      history.push({
+                        pathname: `${window.location.pathname}/create`,
+                        state: {
+                          ...values,
+                        },
+                      });
+                    }}
+                  >
+                    Create Loan Register
+                  </button>
+                </CardHeaderToolbar>
+              </CardHeader>
+              <CardBody>
+                <Form className="form form-label-right">
+                  <div className="form-group row global-form align-items-end">
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="bank"
+                        options={bankDDL}
+                        value={values?.bank}
+                        onChange={(valueOption) => {
+                          setFieldValue("bank", valueOption);
+                        }}
+                        errors={errors}
+                        touched={touched}
+                        label="Bank"
+                        placeholder="Bank"
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="status"
+                        options={[
+                          { value: 0, label: "ALL" },
+                          { value: 1, label: "Complete" },
+                          { value: 2, label: "Incomplete" },
+                        ]}
+                        value={values?.status}
+                        onChange={(valueOption) => {
+                          if (valueOption) {
+                            setFieldValue("status", valueOption);
+                          } else {
+                            setFieldValue("status", "");
+                          }
+                        }}
+                        errors={errors}
+                        touched={touched}
+                        label="Status"
+                        placeholder="Status"
+                      />
+                    </div>
+                    <div className="col-lg-2">
+                      <button
+                        className="btn btn-primary mr-2"
+                        type="button"
+                        onClick={(e) => {
+                          getLoanRegisterLanding(
+                            profileData?.accountId,
+                            buId,
+                            values?.bank?.value,
+                            values?.status?.value,
+                            pageNo,
+                            pageSize,
+                            setLoanRegisterData,
+                            setLoading
+                          );
+                        }}
+                      >
+                        Show
+                      </button>
+                    </div>
+                  </div>
+                  <div></div>
+                  <div className="row">
+                    <div className="col-12">
+                      <table className="table table-striped table-bordered global-table mt-0 table-font-size-sm mt-5">
+                        <thead className="bg-secondary">
+                          <tr>
+                            <th>SL</th>
+                            <th>Bank</th>
+                            <th>Loan Type</th>
+                            <th>Loan Class</th>
+                            <th>Facility</th>
+                            <th>Loan Acc</th>
+                            <th>Tenure</th>
+                            <th>OpenDate</th>
+                            <th>Mature Date</th>
+                            <th>Principle</th>
+                            <th>Int.Rate</th>
+                            <th>Interst</th>
+                            <th>Total Payable</th>
+                            <th>Paid</th>
+                            <th>Balance</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {loanRegisterData?.data?.map((item, index) => (
+                            <tr key={index}>
+                              <td className="text-center">{index + 1}</td>
+                              <td className="text-">{item?.strBankName}</td>
+                              <td className="text-">{item?.loanTypeName}</td>
+                              <td className="text-">{item?.loanClassName}</td>
+                              <td className="text-">{item?.facilityName}</td>
+                              <td className="text-">{item?.loanAccountName}</td>
+                              <td className="text-">{item?.intTenureDays}</td>
+                              <td className="text-">
+                                {_dateFormatter(item?.dteStartDate)}
+                              </td>
+                              <td className="text-">
+                                {_dateFormatter(item?.dteMaturityDate)}
+                              </td>
+                              <td className="text-right">
+                                {_formatMoney(item?.numPrinciple)}
+                              </td>
+                              <td className="text-right">
+                                {_formatMoney(item?.numInterestRate)}
+                              </td>
+                              <td className="text-right">
+                                {_formatMoney(item?.numInterest)}
+                              </td>
+                              <td className="text-right">
+                                {_formatMoney(item?.numTotalPayable)}
+                              </td>
+                              <td className="text-right">
+                                {_formatMoney(item?.numPaid)}
+                              </td>
+                              <td className="text-right">
+                                {_formatMoney(
+                                  item?.numTotalPayable - item?.numPaid
+                                )}
+                              </td>
+                              <td className="text-center">
+                                <div className="d-flex justify-content-around">
+                                  {/* <span
+                                  onClick={() =>
+                                    history.push({
+                                      pathname: `/financial-management/banking/loan-register/view/${item?.intLoanAccountId}`,
+                                    })
+                                  }
+                                >
+                                  <IView />
+                                </span> */}
+                                  <span>
+                                    <ICon
+                                      title="Attach or View your documents"
+                                      onClick={() => {
+                                        setFdrNo(item?.strLoanAccountName);
+                                        getAttachments(
+                                          buId,
+                                          2,
+                                          item?.strLoanAccountName,
+                                          setAttachments,
+                                          setLoading,
+                                          () => {
+                                            setOpen(true);
+                                          }
+                                        );
+                                      }}
+                                    >
+                                      <i class="fas fa-paperclip"></i>
+                                    </ICon>
+                                  </span>
+                                  <span
+                                    className="text-primary "
+                                    style={{
+                                      marginLeft: "4px",
+                                      cursor: "pointer",
+                                    }}
+                                    onClick={() =>
+                                      history.push({
+                                        pathname: `/financial-management/banking/loan-register/repay/${item?.intLoanAccountId}`,
+                                        state: { bankId: item?.intBankId },
+                                      })
+                                    }
+                                  >
+                                    Repay
+                                  </span>
+                                  <span
+                                    className="text-primary "
+                                    style={{
+                                      marginLeft: "4px",
+                                      cursor: "pointer",
+                                    }}
+                                    onClick={() =>
+                                      history.push({
+                                        pathname: `/financial-management/banking/loan-register/re-new/${item?.intLoanAccountId}`,
+                                        state: item,
+                                      })
+                                    }
+                                  >
+                                    Renew
+                                  </span>
+                                  {/* for close */}
+                                  {item?.numPaid === 0 ? (<span
+                                    className="text-primary "
+                                    style={{
+                                      marginLeft: "4px",
+                                      cursor: "pointer",
+                                    }}
+                                  >
+                                    <IClose
+                                      closer={() => {
+                                        postCloseLoanRegister(`/fino/FundManagement/CancelLoanRegister?businessUnitId=${buId
+                                          }&loanAccountId=${item?.intLoanAccountId}&actionBy=${profileData?.userId}`, null, () => {
+                                            getLoanRegisterLanding(
+                                              profileData?.accountId,
+                                              buId,
+                                              values?.bank?.value,
+                                              values?.status?.value,
+                                              pageNo,
+                                              pageSize,
+                                              setLoanRegisterData,
+                                              setLoading
+                                            );
+                                          })
+                                      }}
+                                      title="Cancel Loan Register"
+                                    />
+                                  </span>)
+                                    :
+                                    null}
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+
+                          <tr>
+                            <td colspan={9} className="text-right">
+                              <b>Total</b>
+                            </td>
+                            <td className="text-right">
+                              <b> {_formatMoney(totalPrincipleAmount)}</b>
+                            </td>
+                            <td className="text-right"></td>
+                            <td className="text-right">
+                              <b> {_formatMoney(totalInterestAmount)}</b>
+                            </td>
+                            <td className="text-right">
+                              <b> {_formatMoney(totalPayable)}</b>
+                            </td>
+                            <td className="text-right">
+                              <b> {_formatMoney(totalPaid)}</b>
+                            </td>
+                            <td className="text-right">
+                              <b> {_formatMoney(totalBalance)}</b>
+                            </td>
+                            <td></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </Form>
+                {loanRegisterData?.data?.length > 0 && (
+                  <PaginationTable
+                    count={loanRegisterData?.totalCount}
+                    setPositionHandler={setPositionHandler}
+                    paginationState={{
+                      pageNo,
+                      setPageNo,
+                      pageSize,
+                      setPageSize,
+                    }}
+                    values={values}
+                  />
+                )}
+              </CardBody>
+            </Card>
+
+            <IViewModal show={open} onHide={() => setOpen(false)}>
+              <AttachmentUploadForm
+                typeId={2}
+                setShow={setOpen}
+                fdrNo={fdrNo}
+                attachments={attachments}
+              />
+            </IViewModal>
+          </div>
+        )}
+      </Formik>
+    </>
+  );
+};
+
+export default LoanRegisterLanding;

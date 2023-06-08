@@ -1,0 +1,7 @@
+.approvalButton.btn:disabled {
+    cursor: default;
+  }
+.costEye{
+  background: url(costIcon.svg);
+  background-size: contain;
+}

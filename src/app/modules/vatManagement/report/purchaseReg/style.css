@@ -1,0 +1,13 @@
+.purchaseRegistration .purchaseRegistrationTable {
+  overflow-x: scroll;
+}
+
+.purchaseRegistration .table thead th {
+vertical-align: middle;
+}
+.purchaseRegistration .purchaseRegistrationTable thead tr th{
+  font-size: 9px !important;
+}
+.purchaseRegistration .purchaseRegistrationTable  tbody tr td{
+  font-size: 9px !important;
+}

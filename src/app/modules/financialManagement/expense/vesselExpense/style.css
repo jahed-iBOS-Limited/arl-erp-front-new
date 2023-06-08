@@ -1,0 +1,28 @@
+.file-input {
+   width: 104px !important;
+   height: 33px !important;
+   opacity: 0;
+}
+.file-input :hover {
+   background: #ccc;
+}
+.uploaded-img {
+   height: 100px !important;
+}
+.file-uploader-mask {
+   position: absolute;
+   border-radius: 5px;
+   width: 104px !important;
+   height: 30px !important;
+   border: 2px dashed #ccc;
+}
+.file-uploader-icon {
+   width: 35px !important;
+   height: 35px !important;
+}
+.approvalChackBox {
+   position: absolute;
+   top: -30px;
+   display: flex;
+   align-items: center;
+}

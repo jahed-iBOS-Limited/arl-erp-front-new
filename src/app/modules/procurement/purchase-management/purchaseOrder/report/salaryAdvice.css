@@ -1,0 +1,22 @@
+.dearSirSpace {
+  line-height: 1px;
+  padding: 0;
+  margin-top: -2px;
+}
+
+.mailDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 10%;
+}
+
+.mailDivWidth {
+  width: 310px;
+  margin-top: 8px;
+}
+
+.mailDivWidthTextArea {
+  width: 250px;
+  margin-top: 8px;
+}

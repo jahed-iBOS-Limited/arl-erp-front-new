@@ -1,0 +1,6 @@
+.pendingDeliveryReport .loan-scrollable-table thead th{
+    min-width: 100px;
+}
+.pendingDeliveryReport .loan-scrollable-table thead th:first-child {
+    min-width: 25px;
+  }

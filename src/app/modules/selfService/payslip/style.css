@@ -1,0 +1,30 @@
+.self-payslip .report-header {
+  text-align: center;
+}
+.self-payslip .report-header h4 {
+  padding-top: 5px;
+}
+.self-payslip .report-body h4 {
+  text-decoration: underline;
+  color: blue;
+  margin-bottom: 0;
+  padding-bottom: 5px;
+}
+.self-payslip .basicInfoTable table tbody tr td {
+  padding-bottom: 3px;
+}
+.self-payslip .basicInfoTable table tbody tr td:nth-child(even) {
+  width: 35%;
+}
+.self-payslip .detailsInfoTabletable,
+.self-payslip table,
+.self-payslip th,
+.self-payslip td {
+  border-collapse: collapse;
+}
+.self-payslip .detailsInfoTabletable table tbody tr td {
+  padding-bottom: 5px;
+}
+.self-payslip table tbody:first-of-type > tr > td:first-child {
+  text-align: left;
+}

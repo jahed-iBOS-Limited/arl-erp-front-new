@@ -1,0 +1,13 @@
+
+
+
+.procureTopay table td,.procureTopay table th {
+    min-width: 70px !important;
+    text-align: center !important;
+}
+
+.procureTopay table td:first-child,
+.procureTopay table th:first-child {
+    min-width: 30px !important;
+}
+

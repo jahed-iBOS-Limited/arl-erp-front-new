@@ -1,0 +1,192 @@
+import React, { useState } from "react";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
+import Loading from "./../../../_helper/_loading";
+import IView from "./../../../_helper/_helperIcons/_view";
+import IViewModal from "../../../_helper/_viewModal";
+import CommercialInvoiceReport from "./ReportModal/reportModal";
+import PaginationTable from "../../../_helper/_tablePagination";
+import { useHistory } from "react-router-dom";
+import IClose from "../../../_helper/_helperIcons/_close";
+import { cancelSalesInvoice, getInvoiceDataForPrint } from "./helper";
+import ICon from "../../../chartering/_chartinghelper/icons/_icon";
+import InvoiceReceptForCement from "./invoiceCement/invoiceRecept";
+import { useCementInvoicePrintHandler } from "./Form/formHandlerBluePill";
+
+const SalesInvoiceGridData = ({
+  rowDto,
+  loading,
+  setLoading,
+  pageNo,
+  setPageNo,
+  pageSize,
+  setPageSize,
+  values,
+  accId,
+  buId,
+  setPositionHandler,
+  getGridData,
+}) => {
+  const [isModalShow, setModalShow] = useState(false);
+  const [invoiceData, setInvoiceData] = useState([]);
+
+  const history = useHistory();
+
+  const {
+    printRefCement,
+    handleInvoicePrintCement,
+  } = useCementInvoicePrintHandler();
+
+  return (
+    <>
+      <div className="row ">
+        <div className="col-lg-12">
+          {[175, 186, 4, 94, 8].includes(buId) ? (
+            <table className="table table-striped table-bordered global-table table-font-size-sm">
+              <thead>
+                <tr>
+                  <th style={{ width: "40px" }}>SL</th>
+                  <th>Invoice No</th>
+                  <th>Invoice Date</th>
+                  <th>Challan Date</th>
+                  <th>Partner Name</th>
+                  <th>Reference No </th>
+                  <th>Project Location</th>
+                  <th>Quantity</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {loading && <Loading />}
+                {rowDto?.data?.map((tableData, index) => (
+                  <tr key={index}>
+                    <td className="text-center"> {index + 1} </td>
+                    <td>{tableData?.strInvoiceNumber}</td>
+                    <td>{_dateFormatter(tableData?.dteInvoiceDate)}</td>
+                    <td>{_dateFormatter(tableData?.dteChallanDate)}</td>
+                    <td>{tableData?.strPartnerName}</td>
+                    <td>{tableData?.strRefference}</td>
+                    <td>{tableData?.strProjectLocation}</td>
+                    <td className="text-right">{tableData?.numQuantity}</td>
+                    <td className="text-center">
+                      <div className="d-flex justify-content-around">
+                        {buId === 4 && (
+                          <span>
+                            <ICon
+                              title={"Print Sales Invoice"}
+                              onClick={() => {
+                                getInvoiceDataForPrint(
+                                  tableData?.intUnitId,
+                                  tableData?.strInvoiceNumber,
+                                  tableData?.intPartnerId,
+                                  setLoading,
+                                  (resData) => {
+                                    setInvoiceData(resData);
+                                    handleInvoicePrintCement();
+                                  }
+                                );
+                              }}
+                            >
+                              <i class="fas fa-print"></i>
+                            </ICon>
+                          </span>
+                        )}
+                        <span
+                          className="cursor-pointer"
+                          onClick={() => {
+                            cancelSalesInvoice(
+                              accId,
+                              buId,
+                              tableData?.intSalesInvoiceId,
+                              setLoading,
+                              () => {
+                                getGridData(values, pageNo, pageSize);
+                              }
+                            );
+                          }}
+                        >
+                          <IClose title="Cancel Sales Invoice" />
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <table className="table table-striped table-bordered global-table table-font-size-sm">
+              <thead>
+                <tr>
+                  <th style={{ width: "20px" }}>SL</th>
+                  <th style={{ width: "80px" }}>Inv No</th>
+                  <th style={{ width: "80px" }}>Inv Date</th>
+                  <th style={{ width: "100px" }}>DO No</th>
+                  <th style={{ width: "100px" }}>Purchase Order No</th>
+                  <th style={{ width: "80px" }}>Total Amount</th>
+                  <th style={{ width: "80px" }}>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {loading && <Loading />}
+                {rowDto?.data?.map((tableData, index) => (
+                  <tr key={index}>
+                    <td className="text-center"> {tableData?.sl} </td>
+                    <td> {tableData?.invoiceCode} </td>
+                    <td>{_dateFormatter(tableData?.invoiceDate)}</td>
+                    <td> {tableData?.doNo} </td>
+                    <td>{tableData?.purchaseOrderNo}</td>
+                    <td className="text-right"> {tableData?.totalAmount} </td>
+                    <td className="text-center">
+                      {/* <span > */}
+                      <div className="d-flex justify-content-around align-items-center">
+                        <IView
+                          //classes="text-muted"
+                          clickHandler={() => {
+                            history.push({ invoiceId: tableData?.invoiceId });
+                            setModalShow(true);
+                          }}
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+          {rowDto?.data?.length > 0 && (
+            <PaginationTable
+              count={rowDto?.totalCount}
+              setPositionHandler={setPositionHandler}
+              paginationState={{
+                pageNo,
+                setPageNo,
+                pageSize,
+                setPageSize,
+              }}
+              values={values}
+              rowsPerPageOptions={[5, 10, 20, 50, 100, 200]}
+            />
+          )}
+        </div>
+
+        <InvoiceReceptForCement
+          printRef={printRefCement}
+          invoiceData={invoiceData}
+          channelId={46}
+        />
+
+        <>
+          <IViewModal
+            show={isModalShow}
+            onHide={() => {
+              setModalShow(false);
+            }}
+          >
+            <CommercialInvoiceReport setLoading={setLoading} />
+          </IViewModal>
+        </>
+      </div>
+    </>
+  );
+};
+
+export default SalesInvoiceGridData;
