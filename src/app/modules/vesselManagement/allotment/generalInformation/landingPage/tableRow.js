@@ -68,7 +68,7 @@ export function LandingTableRow() {
         _pageNo,
         _pageSize
       );
-    } else if (values?.status?.value === 2) {
+    } else if ([2, 3].includes(values?.status?.value)) {
       getRowData(
         `/tms/LigterLoadUnload/PreDataForMotherVesselCommissionEntry?accountId=${accId}&businessUnitId=${buId}&motherVesselId=${values?.motherVessel?.value}`,
         (resData) => {
@@ -97,10 +97,11 @@ export function LandingTableRow() {
     if (selectedItems?.length < 1) {
       return toast.warn("Please select at least one row!");
     }
-
+    const billTypeId =
+      values?.status?.value === 2 ? 23 : values?.status?.value === 3 ? 19 : 0;
     const payload = {
       gtogHead: {
-        billTypeId: 23,
+        billTypeId: billTypeId,
         accountId: accId,
         supplierId: 11841,
         supplierName: "Bangladesh International Shipping Corporation",
@@ -201,6 +202,7 @@ export function LandingTableRow() {
                     options={[
                       { value: 1, label: "General Information" },
                       { value: 2, label: "Mother Vessel Commission" },
+                      { value: 3, label: "Mother Vessel Revenue Generate" },
                     ]}
                     value={values?.status}
                     label="Mother Vessel Status"
@@ -243,7 +245,7 @@ export function LandingTableRow() {
                   />
                 </div>
 
-                {rowData?.length > 0 && values?.status?.value === 2 && (
+                {rowData?.length > 0 && [2, 3].includes(values?.status?.value) && (
                   <>
                     <div className="col-lg-6">
                       <label>Narration</label>
@@ -280,42 +282,54 @@ export function LandingTableRow() {
                 </div>
               </div>
             </form>
-            {rowData?.length > 0 && values?.status?.value === 2 && (
-              <div className="row my-3">
-                <div className="col-lg-4"></div>
-                <div className="col-lg-4">
-                  <h4>
-                    Total Quantity:{" "}
-                    {_fixedPoint(
-                      getTotal(rowData, "quantity", "isSelected"),
-                      true,
-                      0
-                    )}
-                  </h4>
-                </div>
-                {/* <div className="col-lg-4">
+            {rowData?.length > 0 &&
+              [2, 3].includes(values?.status?.value) && (
+                <div className="row my-3">
+                  <div className="col-lg-4">
+                    <h4>
+                      Total Quantity:{" "}
+                      {_fixedPoint(
+                        getTotal(rowData, "quantity", "isSelected"),
+                        true,
+                        0
+                      )}
+                    </h4>
+                  </div>
+                  <div className="col-lg-4">
+                    <h4>
+                      Total Amount:{" "}
+                      {_fixedPoint(
+                        getTotal(rowData, "quantity", "isSelected") *
+                          getTotal(rowData, "freightRate", "isSelected") *
+                          getTotal(rowData, "freightRateBDT", "isSelected"),
+                        true
+                      )}
+                    </h4>
+                  </div>
+                  {/* <div className="col-lg-4">
                     <h4>Total Amount: {getTotal("carrierTotalAmount")}</h4>
                   </div> */}
 
-                <div className="col-lg-4 text-right">
-                  <button
-                    className="btn btn-success"
-                    type="button"
-                    onClick={() => {
-                      commissionEntry(values);
-                    }}
-                    disabled={
-                      !values?.narration ||
-                      rowData?.filter((item) => item?.isSelected)?.length < 1 ||
-                      loader ||
-                      loading
-                    }
-                  >
-                    Mother Vessel Commission
-                  </button>
+                  <div className="col-lg-4 text-right">
+                    <button
+                      className="btn btn-success"
+                      type="button"
+                      onClick={() => {
+                        commissionEntry(values);
+                      }}
+                      disabled={
+                        !values?.narration ||
+                        rowData?.filter((item) => item?.isSelected)?.length <
+                          1 ||
+                        loader ||
+                        loading
+                      }
+                    >
+                      Bill Post
+                    </button>
+                  </div>
                 </div>
-              </div>
-            )}{" "}
+              )}{" "}
             {(loading || loader || isLoader) && <Loading />}
             {gridData?.data?.length > 0 && values?.status?.value === 1 && (
               <div className="row cash_journal">
@@ -431,7 +445,7 @@ export function LandingTableRow() {
                 )}
               </div>
             )}
-            {rowData?.length > 0 && values?.status?.value === 2 && (
+            {rowData?.length > 0 && [2, 3].includes(values?.status?.value) && (
               <div className="row cash_journal">
                 <div className="col-lg-12">
                   <table className="table table-striped table-bordered global-table">
@@ -454,8 +468,12 @@ export function LandingTableRow() {
                         <th>Quantity</th>
                         <th>Total Freight (USD)</th>
                         <th>Conversion Rate (BDT)</th>
-                        <th>Commission Rate</th>
-                        {/* <th>Total Commission Amount</th> */}
+                        {[2].includes(values?.status?.value) && (
+                          <th>Commission Rate</th>
+                        )}
+                        {[3].includes(values?.status?.value) && (
+                          <th>Total Commission Amount</th>
+                        )}
                       </tr>
                     </thead>
                     <tbody>
@@ -499,20 +517,32 @@ export function LandingTableRow() {
                             <td className="text-right">
                               {_fixedPoint(item?.freightRateBDT, true, 0)}
                             </td>
-                            <td className="text-right">
-                              <InputField
-                                name="billAmount"
-                                value={item?.comissionRate || ""}
-                                onChange={(e) => {
-                                  if (+e.target.value < 0) return;
-                                  rowDataHandler(
-                                    "comissionRate",
-                                    index,
-                                    e?.target?.value
-                                  );
-                                }}
-                              />
-                            </td>
+                            {[2].includes(values?.status?.value) && (
+                              <td className="text-right">
+                                <InputField
+                                  name="billAmount"
+                                  value={item?.comissionRate || ""}
+                                  onChange={(e) => {
+                                    if (+e.target.value < 0) return;
+                                    rowDataHandler(
+                                      "comissionRate",
+                                      index,
+                                      e?.target?.value
+                                    );
+                                  }}
+                                />
+                              </td>
+                            )}
+                            {[3].includes(values?.status?.value) && (
+                              <td className="text-right">
+                                {_fixedPoint(
+                                  item?.freightRateBDT *
+                                    item?.freightRate *
+                                    item?.quantity,
+                                  true
+                                )}
+                              </td>
+                            )}
                             {/* <td className="text-right">
                               {_fixedPoint(
                                 item?.quantity *
