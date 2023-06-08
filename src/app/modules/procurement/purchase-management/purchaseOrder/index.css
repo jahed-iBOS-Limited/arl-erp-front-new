@@ -1,0 +1,42 @@
+.purchase-contract-table tr th {
+  font-size: 10px !important;
+  padding: 6px 4px !important;
+}
+
+.po_custom_width {
+  min-width: 100px;
+}
+.pagination_disable_relative .MuiToolbar-root {
+  position: static !important;
+}
+
+/* start landing Serach css */
+.po_custom_search .input-group,
+.po_custom_search .input-group-append .btn{
+  position: static !important;
+}
+.po_custom_search .input-group-append .btn{
+  z-index: auto;
+}
+.po_custom_search .input-group > .form-control {
+  position: static !important;
+  flex: auto;
+  width: auto;
+  min-width: 0;
+  margin-bottom: 0;
+}
+/* end landing Serach css */
+
+.po-label label{
+  font-size: 10px;
+}
+
+
+.po-table tr th {
+  font-size: 10px !important;
+  padding: 6px 4px !important;
+}
+
+.po-table tr td {
+  font-size: 10px !important;
+}

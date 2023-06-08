@@ -1,0 +1,18 @@
+.pivoteTable-deliveryReport {
+  height: 35rem;
+}
+
+.pivoteTable-deliveryReport table tr th {
+  background-color: #ebf0f8 !important;
+  border: 1px solid #c8d4e3;
+}
+
+.pvtButton {
+  display: none !important;
+}
+
+@media only screen and (min-height: 700px) {
+  .pivoteTable-deliveryReport {
+    height: 50rem;
+  }
+}

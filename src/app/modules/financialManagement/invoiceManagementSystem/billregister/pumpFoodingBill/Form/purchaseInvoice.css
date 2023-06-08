@@ -1,0 +1,52 @@
+.purchaseInvoice button[type="reset"] {
+  display: none;
+}
+.space-between {
+  display: flex;
+  flex-direction: row;
+  /* justify-content: space-between; */
+  align-items: center;
+}
+.customLable {
+  font-weight: bold;
+}
+
+.space-between.small .customLable {
+  margin-right: 5px;
+}
+
+.tableBorder {
+  padding: 7px 0;
+  border-bottom: 1px solid #bfc4c7;
+}
+
+.space-between.small div {
+  font-size: 11px;
+}
+
+@media screen and (min-width: 900px) {
+  .invoiceTable th:nth-child(7) {
+    width: 60px;
+  }
+
+  .invoiceTable th:nth-child(5) {
+    width: 60px;
+  }
+
+  .invoiceTable th:nth-child(6) {
+    width: 60px;
+  }
+
+  .invoiceTable th:nth-child(8) {
+    width: 60px;
+  }
+}
+
+.grnCard {
+  padding: 0px !important;
+}
+
+.purchaseInvoiceAttachIcon {
+  font-size: 18px;
+  color: #3699ff;
+}

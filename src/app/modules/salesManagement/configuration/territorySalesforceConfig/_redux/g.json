@@ -1,0 +1,64 @@
+{
+    "singleData": {
+        "itemName": "Laptop",
+        "itemId": 1,
+        "accountId": 1,
+        "businessUnitName": "ACCL",
+        "businessUnitId": 1,
+        "plant": {
+            "label": "plant1",
+            "value": 1
+        }
+    },
+    "DDL": [
+        {
+            "label": "plant",
+            "value": 1
+        },
+        {
+            "label": "plant2",
+            "value": 2
+        },
+        {
+            "label": "plant3",
+            "value": 3,
+            "code": "pl (if any)"
+        }
+    ],
+    "headerRow": {
+        "objHeaderDto": {
+            "itemName": "Laptop",
+            "itemId": 1,
+            "accountId": 1,
+            "businessUnitName": "ACCL",
+            "businessUnitId": 1,
+            "plant": {
+                "label": "plant1",
+                "value": 1
+            }
+        },
+        "objRowDto": [
+            {
+                "itemName": "Laptop",
+                "businessUnitName": "ACCL"
+            }
+        ]
+    },
+    "createDto":{
+        "plantId":"",
+        "warehouseId":"",
+        "businessUnitId":1,
+        "accountId":1,
+        "comment":"Etc...."
+    },
+    "editDto":{
+        "plantId":"",
+        "warehouseId":"",
+        "businessUnitId":1,
+        "accountId":1,
+        "comment":"Jei filed gula sudo editable oigulai ui theke nibe"
+    },
+    "parameter": "/?buid=1&accountid=1",
+    "paramteterByid": "/?id=id"
+}
+  

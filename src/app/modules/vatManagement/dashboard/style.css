@@ -1,0 +1,25 @@
+
+.vatChart {
+    box-shadow: 1px 1px 4px 0px #ededed;
+    transition: all 0.1s ease;
+}
+.vatChart:hover {
+  box-shadow: 4px 4px 9px 0px #efeaea;
+  transition: all 0.1s ease;
+  background: rgba(0, 0, 0, 0.007);
+}
+.chart-wrapper {
+  display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.chart-wrapper h6 {
+  margin-top: 10px;
+  text-transform: uppercase;
+}
+.vatDashboard .card.card-custom > .card-header {
+  justify-content: center !important;
+}
+.vatDashboard .card.card-custom > .card-header .card-title h3 {
+  font-size: 20px;
+}

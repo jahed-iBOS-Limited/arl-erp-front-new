@@ -1,0 +1,19 @@
+.schedule-maintainence-modal p {
+    font-size: 13px;
+}
+.schedule-maintainence-modal b {
+    font-size: 13px;
+}
+.schedule-maintainence-modal form-control {
+    font-size: 13px !important;
+}
+
+.schedule-maintainence-modal .schedule-maintainence-input label{
+    font-size: 13px !important;
+    font-weight: 700;
+    padding-top: 0px !important;
+}
+.schedule-maintainence-modal-view-button{
+    margin-top: 19px !important;
+}
+

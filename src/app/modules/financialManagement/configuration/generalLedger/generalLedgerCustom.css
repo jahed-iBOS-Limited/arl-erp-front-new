@@ -1,0 +1,39 @@
+.general-ledger-collapse-custom.MuiExpansionPanel-root.Mui-expanded {
+    margin: 3px 0;
+}
+.general-ledger-collapse-custom .MuiExpansionPanelSummary-root {
+    min-height: 35px;
+}
+.general-ledger-collapse-custom .MuiExpansionPanelSummary-root.Mui-expanded {
+    min-height: 34px;
+}
+.general-ledger-collapse-custom .MuiExpansionPanelSummary-content {
+    margin: 0px 0;
+}
+.general-ledger-collapse-custom .MuiExpansionPanelSummary-content.Mui-expanded {
+    margin: 0px 0;
+}
+.general-ledger-collapse-custom .gutter-b {
+    margin-bottom: 0px;
+}
+.general-ledger-collapse-custom .MuiExpansionPanelDetails-root {
+    padding: 3px 16px 16px;
+}
+.general-ledger-collapse-custom .MuiIconButton-root {
+    padding: 7px;
+}
+.general-ledger-collapse-custom svg.MuiSvgIcon-root {
+    top: 0px;
+}
+.general-ledger-collapse-custom .card.card-custom > .card-header .card-title {
+    margin: 0;
+}
+.general-ledger-collapse-custom .card.card-custom > .card-header {
+    min-height: 40px;
+}
+.general-ledger-collapse-custom .card.card-custom > .card-header .card-toolbar {
+    margin: 0;
+}
+.general-ledger-collapse-custom .card-header {
+    padding: 0rem 2.25rem;
+}

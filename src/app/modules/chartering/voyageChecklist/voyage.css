@@ -1,0 +1,178 @@
+.voyage-checklist-filter {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+.voyage-checklist-filter h6 {
+  padding-left: 32px;
+  padding-top: 16px;
+  padding-bottom: 15px;
+  font-size: 16px;
+  line-height: 23px;
+  letter-spacing: 0.2px;
+  font-weight: 700;
+  color: #000000;
+}
+.voyage-checklist-filter .overview-filter {
+  padding-left: 10px;
+  padding-right: 15px;
+  /* border-top: 1px solid rgba(0, 0, 0, 0.12); */
+}
+.voyage-checklist-filter .overview-filter .row-filter-tabs .form-main {
+  height: auto;
+  min-height: 404px;
+}
+.voyage-checklist-filter .overview-filter .filter-tabs .tabs-name {
+  margin-top: 17px;
+}
+.voyage-checklist-filter .overview-filter .btn-tab,
+.voyage-checklist-filter .overview-filter .btn-tab:hover,
+.voyage-checklist-filter .overview-filter .btn-tab:focus {
+  margin-left: 20px;
+  border-radius: 4px;
+  border-right: none;
+  width: 87%;
+  padding: 8px 18px;
+  margin-bottom: 10px;
+  font-size: 12px;
+}
+.voyage-checklist-filter .common-overview-part {
+  padding: 18px 35px;
+}
+.voyage-checklist-filter  .common-overview-content h5 {
+  color: rgba(0, 0, 0, 0.7);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 21px;
+  margin-bottom: 15px;
+}
+.voyage-checklist-filter .common-overview-content h2 {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.2px;
+  color: rgba(0, 0, 0, 0.4);
+}
+.voyage-checklist-filter .common-overview-content p {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 19px;
+  letter-spacing: 0.2px;
+  color: #34a853;
+  margin-left: 10px;
+}
+.voyage-checklist-filter .cancel-save-btn {
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  padding-top: 16px;
+}
+.voyage-checklist-filter .cancel-save-btn.default {
+  border-top: 0px solid rgba(0, 0, 0, 0.12);
+  padding-top: 0px;
+}
+.voyage-checklist-filter .overviewAvatar {
+  background-color: #f2f2f7 !important;
+  width: 30px !important;
+  height: 30px !important;
+}
+.voyage-checklist-filter .common-overview-content .view {
+  margin-bottom: 25px;
+}
+.voyage-checklist-filter .common-overview-content h4 {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 19px;
+  letter-spacing: 0.2px;
+  color: rgba(0, 0, 0, 0.7);
+}
+.voyage-checklist-filter .common-overview-content small {
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.2px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.voyage-checklist-filter .MuiFormControlLabel-label {
+  letter-spacing: 0.2px;
+  color: rgba(0, 0, 0, 0.6) !important;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+}
+
+/* filter-tabs */
+.voyage-checklist-filter .filter-tabs .tabs-name {
+  padding: 0;
+}
+
+.voyage-checklist-filter .btn-tab,
+.voyage-checklist-filter .btn-tab:hover,
+.voyage-checklist-filter .btn-tab:focus {
+  color: var(--black70);
+  /* padding   : 19px 33px; */
+  font-weight: 500;
+  /* font-size : 16px; */
+  line-height: 19px;
+  /* width     : 100%; */
+  text-align: left;
+  outline: none;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.voyage-checklist-filter .btn-tab:hover,
+.voyage-checklist-filter .btn-tab:focus {
+  color: #3699ff ;
+}
+
+.voyage-checklist-filter .btn-tab-active {
+  color: #3699ff ;
+  border-right: 1px solid #3699ff ;
+  background: rgb(54, 153, 255,0.1);
+}
+
+.voyage-checklist-filter .row-filter-tabs {
+  position: relative;
+  height: 100%;
+}
+
+.voyage-checklist-filter .row-filter-tabs .form-main {
+  border-left: 1px solid hsla(208, 13%, 45%, 0.39);
+  height: 340px;
+}
+
+.voyage-checklist-filter .row-filter-tabs .col-md-3,
+.voyage-checklist-filter .row-filter-tabs .col-md-9 {
+  padding: 0 !important;
+}
+.voyage-checklist-filter .description-section h5{
+  color: #444 !;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 0;
+  padding-bottom: 5px;
+}
+.voyageChecklistView h6{
+  font-size: 12px;
+  font-weight: 400;
+}
+.voyageCardItem{
+  background-color: #eff6ff;
+  border-radius: 5px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+}
+.voyageCardItem .voyageContent .text{
+  display: flex;
+}
+.voyageSidebar{
+  background-color: #eff6ff;
+  border-radius: 5px;
+  padding: 15px;
+  margin-top: 37px;
+}
+.voyageCardItemActive{
+  border-left: 5px solid #3699FF;
+}

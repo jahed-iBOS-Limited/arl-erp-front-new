@@ -1,0 +1,14 @@
+.workplan-pdf-export #pdf-section {
+    width: 100%;
+    /* display: none; */
+}
+.workplan-pdf-export #pdf-section td {
+    background-color: none !important;
+    border: 1px solid;
+}
+.check-icon i.fa.fa-check-square{
+    font-size: 15px !important;
+}
+.close-icon i.fa.fa-times-circle{
+    font-size: 15px !important;
+}

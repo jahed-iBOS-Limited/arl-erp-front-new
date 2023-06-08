@@ -1,0 +1,11 @@
+.createNoteReportLeft p {
+  margin-bottom: 1px;
+}
+.createNoteReportRight p {
+  margin-bottom: 1px;
+}
+.createNoteReportRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}

@@ -1,0 +1,22 @@
+.cost-sheet-report-table .text-bold {
+  font-style: bold !important;
+}
+
+.cost-sheet-report-table-thead-tr th {
+  background-color: white !important;
+  border-top: 1px solid grey !important;
+  border-bottom: 1px solid grey !important;
+  border-left: none !important;
+  border-right: none !important;
+}
+
+.cost-sheet-report-table-tbody-tr td {
+  border: none !important;
+}
+
+.cost-sheet-report-table-tbody-tr-total {
+  border-top: 1px solid grey !important;
+  border-bottom: none !important;
+  border-left: none !important;
+  border-right: none !important;
+}

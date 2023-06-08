@@ -1,0 +1,19 @@
+/* table */
+
+.prpogrn {
+    width: 100%;
+    background-color: #fff;
+  }
+
+.prpogrn th {
+    text-align: center;
+    border: 1.5px solid #000;
+    background-color: hsl(0, 0%, 50%);
+  }
+  
+.prpogrn td {
+    text-align: center;
+    background-color: #fff !important;
+    border: 1.5px solid #000;
+    text-align: left;
+  }

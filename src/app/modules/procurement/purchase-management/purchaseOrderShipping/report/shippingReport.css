@@ -1,0 +1,33 @@
+@page {
+  size: A4;
+  margin: 11mm 17mm 17mm 17mm;
+}
+
+@media print {
+  .footer {
+    position: fixed;
+    bottom: 0;
+    display: table-footer-group;
+  }
+  /* .fixed .fixed-signature{
+    position: fixed;
+    bottom: 200px;
+  } */
+  /* .ship-report .header-title{
+    left: 45%;
+    position: fixed;
+    top: 0;
+    display: table-footer-group;
+  } */
+
+  .report-table-container {
+    page-break-inside: avoid !important;
+  }
+
+  html,
+  body {
+    width: 210mm;
+    height: 297mm;
+  }
+}
+

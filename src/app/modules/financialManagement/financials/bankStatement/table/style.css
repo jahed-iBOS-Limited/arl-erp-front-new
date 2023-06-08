@@ -1,0 +1,89 @@
+/* @import url("https://cdn.syncfusion.com/ej2/material.css"); */
+
+.global-table.advice-table {
+  border: 0 !important;
+  margin-bottom: 0px !important;
+}
+
+.global-table.advice-table.advice-table-footer {
+  margin: 0 !important;
+}
+
+.global-table.advice-table thead tr th,
+.global-table.advice-table tbody tr td {
+  font-size: 11px;
+  color: #000;
+}
+
+table.global-table.advice-table tbody:first-of-type > tr > td:first-child {
+  text-align: left !important;
+}
+
+.advice-table-wrapper p {
+  color: #000 !important;
+  margin: 0;
+  line-height: 1.8;
+}
+
+.advice-table-wrapper h1,
+.advice-table-wrapper h2,
+.advice-table-wrapper h3,
+.advice-table-wrapper h4,
+.advice-table-wrapper h5,
+.advice-table-wrapper h6 {
+  color: #000 !important;
+}
+
+.global-table.advice-table td,
+.global-table.advice-table th {
+  border: 1px solid #000 !important;
+}
+
+/* .global-table.advice-table tbody tr td {
+  max-width: 170px !important;
+} */
+
+.global-table.advice-table.advice-table-footer td {
+  border-top: 0px solid transparent !important;
+}
+
+.global-table.advice-table tfoot tr.advice-table-footer th {
+  background-color: transparent !important;
+  border: 0 !important;
+  color: #000;
+  text-transform: capitalize;
+}
+
+/* .global-table.advice-table.table-bordered {
+  border: 0px solid transparent !important;
+} */
+
+.dearSirSpace {
+  line-height: 1px;
+  padding: 0;
+  margin-top: -2px;
+}
+
+/* print */
+
+@media print {
+  @page :footer {
+    display: none;
+  }
+  /* @page :header {
+    display: none;
+  } */
+
+  @page {
+    size: auto landscape;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    margin-left: 20px;
+    margin-right: 20px;
+    counter-increment: page;
+
+    @top-right {
+      content: counter(pages);
+    }
+  }
+}

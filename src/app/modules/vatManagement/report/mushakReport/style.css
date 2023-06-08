@@ -1,0 +1,48 @@
+.mushak-report-header {
+  display: flex;
+}
+.mushak-report-header-txt {
+  margin-left: 60px;
+}
+
+.input-tax-report .table tbody > tr > tdy,
+.output-tax-report .table tbody > tr > td {
+  max-width: 250px;
+}
+/* .output-tax-report */
+.output-tax-report .ant-table table th {
+  background: #d6dadd !important;
+  color: #464E5F !important;
+}
+.output-tax-report .table {
+  margin-bottom: 0!important;
+  border: 0;
+}
+.output-tax-report .table th {
+  /* border: 0; */
+  background: #d6dadd !important;
+}
+.output-tax-report table tbody:first-of-type > tr > td:first-child {
+  text-align: left !important;
+}
+
+/* input-tax-report  */
+.input-tax-report  .table.global-table {
+  margin: 0;
+}
+.input-tax-report .table tbody:first-of-type > tr > td:first-child {
+  text-align: left !important;
+}
+.input-tax-report .table tbody > tr > td {
+  max-width: 250px;
+}
+/* .output-tax-report .ant-table-container table > thead > tr:first-child th:last-child {
+  display: none;
+} */
+
+/* .refund .ant-table-container table > tbody > tr:last-child {
+  display: none;
+}
+.refund .ant-table-container table > thead {
+  display: none;
+} */

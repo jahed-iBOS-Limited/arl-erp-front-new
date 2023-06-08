@@ -1,0 +1,30 @@
+#salesInvoiceTable .table th {
+  background-color: white !important;
+  border: 1.5px solid rgb(20, 20, 20) !important;
+}
+#salesInvoiceTable .table {
+  margin-bottom: 0px !important;
+}
+#salesInvoiceTable .table td {
+  background-color: white !important;
+  border: 1.5px solid rgb(20, 20, 20) !important;
+}
+
+#salesInvoiceTable .internal-table .bt-none {
+  border-top: none !important;
+}
+#salesInvoiceTable .internal-table .br-none {
+  border-right: none !important;
+}
+
+#salesInvoiceTable .internal-table {
+  padding: 0 !important;
+}
+#salesInvoiceTable .vt-align {
+  vertical-align: top !important;
+}
+
+.second-table .table .hide-border td{
+    border-bottom: none !important;
+    border-left: none !important;
+}

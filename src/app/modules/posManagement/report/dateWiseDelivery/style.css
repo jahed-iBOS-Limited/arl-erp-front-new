@@ -1,0 +1,20 @@
+.pivoteTable-sales-order-Report {
+    height: 35rem;
+}
+  
+  .pivoteTable-sales-order-Report table tr th {
+    background-color: #ebf0f8 !important;
+    border: 1px solid #c8d4e3;
+  }
+  
+  .pvtButton {
+    display: none !important;
+  }
+  
+  @media only screen and (max-height: 767px) {
+    .pivoteTable-sales-order-Report {
+      /* height: 50rem; */
+      height: auto;
+    }
+  }
+  

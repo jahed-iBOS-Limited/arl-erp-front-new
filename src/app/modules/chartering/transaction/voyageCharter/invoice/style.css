@@ -1,0 +1,70 @@
+.voyageChartererInvoice .headerWrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.voyageChartererInvoice .headerKey {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.voyageChartererInvoice .headerValue {
+  font-weight: normal;
+  font-size: 15px;
+  padding-left: 0.5rem;
+}
+
+/* .voyageChartererInvoice .isCheckedTrue {
+  opacity: 100%;
+} */
+
+/* .voyageChartererInvoice .isCheckedFalse {
+  opacity: 25%;
+} */
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.timeCharterLogo img {
+  height: 100px;
+  width: 100%;
+  margin: 0 auto;
+}
+.statementTitle {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.voyageChartererInvoice input {
+  padding-left: 5px;
+}
+
+.bottom-sign-section {
+  margin: 8rem 1rem 0rem 1rem;
+}
+
+.voyageChartererInvoice .bj-table thead tr th {
+  font-size: 14px;
+}
+
+.voyageChartererInvoice .bj-table tbody tr td {
+  font-size: 14px;
+}
+
+@media print {
+  .voyageChartererInvoice {
+    padding: 0px;
+  }
+  .row {
+    width: 100%;
+  }
+  .headerWrapper {
+    width: 50%;
+    padding: 0px;
+  }
+  .bank-details {
+    width: 100%;
+  }
+}

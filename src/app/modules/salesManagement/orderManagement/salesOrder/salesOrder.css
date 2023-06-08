@@ -1,0 +1,7 @@
+.sales_order_landing_table tbody tr td {
+  padding-left: 4px !important;
+  padding-right: 4px !important;
+}
+.sales_order_landing_table tbody .fas {
+  font-size: 16px !important;
+}

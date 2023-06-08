@@ -1,0 +1,172 @@
+.flow-diagram .flow {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  padding: 0rem 2rem 2rem 2rem;
+}
+
+.flow-diagram .body-flow {
+  height: 30rem;
+  width: 100%;
+  background-color: rgba(229, 231, 235, 1);
+  --tw-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.flow-diagram .react-flow__edge-path {
+  stroke-width: 4px;
+  cursor: pointer;
+}
+
+.flow-diagram .ibos_flow .react-flow__handle {
+  width: 15px;
+  height: 15px;
+}
+
+.flow-diagram .ibos_flow .react-flow__handle-top {
+  top: -9px;
+}
+
+.flow-diagram .ibos_flow .react-flow__node-default {
+  border-color: transparent;
+}
+
+.flow-diagram .ibos_flow .react-flow__handle-bottom {
+  bottom: -9px;
+}
+
+.flow-diagram .ibos_flow .react-flow__node-default .react-flow__handle {
+  background: #c7c7c7;
+}
+.flow-diagram .ibos_flow .react-flow__handle {
+  border: 2px solid #fff;
+}
+
+.flow-diagram .dndflow {
+  flex-direction: column;
+  display: flex;
+  width: 100%;
+  height: 20rem;
+  background-color: rgba(243, 244, 246, 1);
+}
+
+.flow-diagram .dndflow aside {
+  border-right: 1px solid #eee;
+  padding: 15px 10px;
+  font-size: 12px;
+  background: #fcfcfc;
+}
+
+.flow-diagram .dndflow aside .description {
+  margin-bottom: 10px;
+}
+
+.flow-diagram .dndflow .dndnode {
+  height: 20px;
+  padding: 4px;
+  border: 1px solid #1a192b;
+  border-radius: 2px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: grab;
+}
+
+.flow-diagram .dndflow .dndnode.input {
+  border-color: #0041d0;
+}
+
+.flow-diagram .dndflow .dndnode.output {
+  border-color: #ff0072;
+}
+
+.flow-diagram .dndflow .reactflow-wrapper {
+  flex-grow: 1;
+  height: 100%;
+}
+
+@media screen and (min-width: 768px) {
+  .flow-diagram .dndflow {
+    flex-direction: row;
+  }
+
+  .flow-diagram .dndflow aside {
+    width: 20%;
+    max-width: 250px;
+  }
+}
+
+
+.strategic .MuiPaper-elevation1 {
+  box-shadow: 0 4px 8px 0 rgba(82, 63, 105, 0.15) !important;
+}
+
+.css-26l3qy-menu{
+  z-index: 9999 !important;
+}
+
+.flow-diagram .ibos_flow .react-flow__node-default {
+  border-color: transparent;
+  /* background: #1B313E; */
+  /* background: #1b313ede; */
+  background: #00ACFF;
+  font-size: 18px;
+  color: white;
+  /* box-shadow: 0px 0px 10px 5px rgba(27, 49, 62,0.2); */
+}
+
+.react-flow__edge-path {
+  /* stroke: white; */
+  stroke: #808080 ;
+
+}
+.react-flow__edges {
+  /* background: #AEDADA; */
+  background: #F9F9F9 ;
+}
+
+.react-flow__node-default{
+  padding: 18px 13px;
+  border-radius: 12px;
+}
+
+
+.floating_line_wrapper{
+  position: relative;
+  overflow: hidden;
+}
+
+.floating_line{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  /* background: red; */
+  left: 0;
+  z-index: 9;
+ 
+}
+
+
+.line{
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  background: #c5cace;;
+  left: 0;
+  z-index: 9;
+}
+
+.react-flow__node-default{
+  width: 230px;
+}
+
+
+.customRow{
+  text-align: right;
+  margin-top: -70px;
+  margin-bottom: 24px;
+}

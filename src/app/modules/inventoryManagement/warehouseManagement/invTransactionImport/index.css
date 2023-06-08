@@ -1,0 +1,90 @@
+.inv-table tr th {
+  font-size: 10px !important;
+  padding: 6px 4px !important;
+}
+
+.inv-table tr td {
+  font-size: 10px !important;
+}
+
+.custom-file {
+  position: relative;
+}
+ .custom-file .file_label {
+  position: absolute;
+  bottom: -32px;
+  left: 0px;
+}
+
+.po-label label{
+  font-size: 10px;
+}
+
+/* css for inventory */
+
+.inventory-form {
+  font-size: 11px;
+  background: #dde3e8;
+  padding: 5px 0px;
+  margin: 10px 0;
+}
+
+.inventory-form .css-mi0zgc-control,
+.inventory-form .css-h4172c-control,
+.inventory-form .css-88gwsj-ValueContainer,
+.inventory-form .css-1mtnpri-IndicatorsContainer,
+.inventory-form .css-1ik8myk-control,
+.inventory-form .form-control,
+
+.inventory-form input[type="date"] {
+  min-height: 22px !important;
+  height: 22px !important;
+}
+.inventory-form .css-4ljt47-MenuList div {
+  font-size: 11px !important;
+}
+
+.inventory-form .css-25ddfa-placeholder {
+  padding-left: 2px !important;
+  margin-left: 0 !important;
+}
+.inventory-form .css-1gc0yoq {
+  position: unset !important;
+}
+.inventory-form .css-25ddfa-placeholder,
+.inventory-form .form-control {
+  font-size: 11px !important;
+}
+.inventory-form .form-control {
+  padding: 0 0 0 0.65rem;
+}
+.inventory-form .form-control::placeholder {
+  color: hsl(0, 0%, 50%);
+}
+.inventory-form svg {
+  height: 16px !important;
+  margin-top: -3px;
+  margin-right: -8px;
+}
+.inventory-form .css-2b097c-container,
+.inventory-form input[type="text"],
+.inventory-form input[type="number"],
+.inventory-form input[type="date"] {
+  width: 100% !important;
+}
+.border-gray input {
+  border: 1px solid hsl(0, 0%, 80%) !important;
+}
+.inventory-form button,
+.global-table button {
+  padding: 4px 16px;
+  font-size: 14px;
+  line-height: 14px;
+}
+.inventory-form .css-1fe4407 {
+  margin-top: -8px !important;
+}
+
+.inventory-form input[type="number"] {
+  border: none !important;
+}

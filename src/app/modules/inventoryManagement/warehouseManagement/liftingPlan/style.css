@@ -1,0 +1,75 @@
+.sm-table thead th {
+  padding: 0;
+}
+
+.sta-scrollable-table .scroll-table {
+  max-width: 100%;
+  max-height: 20em;
+  overflow: scroll;
+  position: relative;
+  z-index: 0;
+}
+
+.sta-scrollable-table table {
+  position: relative;
+  border-collapse: collapse;
+}
+
+.sta-scrollable-table thead th {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  min-width: 80px;
+  text-align: center;
+  z-index: 99;
+  cursor: pointer;
+  padding: 5px 3px;
+  vertical-align: middle;
+  font-size: 10px;
+}
+
+.sta-scrollable-table thead th:first-child {
+  left: 0;
+  z-index: 999;
+  min-width: 25px !important;
+}
+
+.sta-scrollable-table .sl {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+  border: 1px solid #ecf0f3 !important;
+  background: #fff !important;
+}
+.sta-scrollable-table .bg-even {
+  background: #fff;
+}
+
+.sta-scrollable-table ._table::-webkit-scrollbar-track {
+  background-color: rgb(221, 221, 221);
+}
+
+.sta-scrollable-table ._table::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.sta-scrollable-table ._table::-webkit-scrollbar-thumb {
+  background-color: #bcbfc4;
+  cursor: pointer !important;
+}
+.sta-scrollable-table .childrenTable td:first-child {
+  background: transparent !important;
+  border: 1px solid transparent !important;
+}
+.sta-scrollable-table .childrenTable tr {
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  border-bottom: 1px solid #fbfbfb !important;
+}
+
+@media print {
+  .scroll-table-auto {
+    overflow: hidden !important;
+  }
+}

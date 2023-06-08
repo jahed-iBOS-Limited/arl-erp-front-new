@@ -1,0 +1,14 @@
+.growModel {
+  table,
+  th,
+  td {
+    border: 1px solid black;
+  }
+  .table-row-width {
+    width: 40% !important;
+  }
+  textarea{
+    border: none !important;
+    outline: none;
+  }
+}

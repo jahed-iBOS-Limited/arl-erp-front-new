@@ -1,0 +1,7 @@
+.routesetupDDL label {
+    display: none;
+}
+.routeSetup-table .btn {
+    min-width: 40px;
+    padding: 0;
+}

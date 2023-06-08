@@ -1,0 +1,13 @@
+.SalesReportOMG .reportTopInfo {
+  display: none;
+}
+
+@media print {
+  .SalesReportOMG .reportTopInfo {
+    display: block !important;
+    font-size: 14px
+  }
+  .SalesReportOMG .global-table tbody tr td, .SalesReportOMG .global-table thead tr th{
+    font-size: 14px
+  }
+}

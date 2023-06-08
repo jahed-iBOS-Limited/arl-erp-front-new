@@ -1,0 +1,9 @@
+.loading-slip-report-wrapper {
+    display: none;
+}
+
+@media print {
+    .loading-slip-report-wrapper {
+        display: block !important;
+    }
+}

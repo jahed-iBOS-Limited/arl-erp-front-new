@@ -1,0 +1,9 @@
+.Recivable-Due-Report table tbody:first-of-type > tr > td:first-child {
+  text-align: left !important;
+  padding-left: 10px !important;
+}
+
+.Recivable-Due-Report table tbody:first-of-type > tr > td:nth-child(2) {
+  text-align: left !important;
+  padding-left: 10px !important;
+}

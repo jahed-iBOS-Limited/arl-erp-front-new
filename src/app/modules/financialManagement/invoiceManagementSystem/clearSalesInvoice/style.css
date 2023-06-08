@@ -1,0 +1,12 @@
+.clear_sales_invoice_View_Form .modal-footer {
+  border-top: 1px solid transparent !important;
+}
+.clearsalesinvBillWrapper thead tr th {
+  font-size: 12.5px;
+}
+.clearsalesinvBillWrapper tbody tr td {
+  font-size: 12.5px;
+}
+.clearsalesinvBillWrapper .table-striped tbody tr:nth-of-type(odd) {
+  background-color: transparent !important;
+}

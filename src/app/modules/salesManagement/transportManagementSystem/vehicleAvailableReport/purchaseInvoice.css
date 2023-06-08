@@ -1,0 +1,27 @@
+.itemRequest button[type="reset"]{
+    display: none;
+}
+
+/* 
+@media screen and (min-width: 900px) {
+    .invoiceTable th:nth-child(7){
+        width: 60px;
+    }
+    
+    .invoiceTable th:nth-child(5){
+        width: 60px;
+    }
+    
+    .invoiceTable th:nth-child(6){
+        width: 60px;
+    }
+    
+    .invoiceTable th:nth-child(8){
+        width: 60px;
+    }
+  }
+
+  .grnCard{
+      padding: 0px !important;
+  } */
+

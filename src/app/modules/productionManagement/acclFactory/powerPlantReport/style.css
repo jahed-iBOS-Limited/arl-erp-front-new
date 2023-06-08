@@ -1,0 +1,34 @@
+.power-plant-report-wrapper table,
+.power-plant-report-wrapper td,
+.power-plant-report-wrapper th {
+  border: 1px solid;
+}
+
+.power-plant-report-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.power-plant-report-wrapper th {
+  text-align: center;
+}
+
+.power-plant-report-wrapper {
+  width: 100%;
+}
+
+.power-plant-report-wrapper .table-one {
+  min-width: 49%;
+}
+
+.power-plant-report-wrapper .table-two {
+  min-width: 49%;
+}
+
+.power-plant-report-wrapper .left-table {
+  min-width: 49%;
+}
+
+.power-plant-report-wrapper .right-table {
+  min-width: 49%;
+}

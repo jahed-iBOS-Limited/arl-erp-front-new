@@ -1,0 +1,94 @@
+.weight-scale-report-wrapper {
+  width: 80%;
+  margin:0 auto;
+  margin-top: 20px;
+}
+
+.weight-scale-report-wrapper .center {
+  text-align: center;
+}
+.weight-scale-report-wrapper .width-150px {
+  width: 150px
+}
+
+.weight-scale-report-wrapper .border {
+  border: 1px solid black;
+}
+
+.weight-scale-report-wrapper .border-bottom {
+  border-bottom: 1px solid #000;
+}
+
+.weight-scale-report-wrapper .border-top {
+  border-top: 1px solid #000;
+}
+
+.weight-scale-report-wrapper .border-style {
+  border: 1px solid #000;
+  border-style: dashed;
+}
+
+.weight-scale-report-wrapper .bold {
+  font-weight: bold;
+}
+
+/* serial section */
+.weight-scale-report-wrapper .weight-report-serial {
+  display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-style: double;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
+/* weight report details */
+.weight-scale-report-wrapper .weight-report-details {
+  display: flex;
+  /* align-items: center; */
+  padding: 10px 0;
+}
+
+.weight-scale-report-wrapper .weight-report-details-left-table {
+  width: 100%;
+  float: left;
+  text-align: left;
+}
+
+.weight-scale-report-wrapper .weight-report-details-right-table {
+  width: 50%;
+  float: right;
+  text-align: left;
+}
+
+/* weight scale section */
+.weight-scale-report-wrapper .weight-report-scale {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.weight-scale-report-wrapper .weight-report-scale div {
+  text-align: center;
+  width: 30%;
+  margin: 0 auto;
+}
+
+.weight-scale-report-wrapper .weight-report-scale-border {
+  border: 1px solid #000;
+  padding: 10px 60px;
+  margin: 10px 0;
+}
+
+/* signature section */
+.weight-scale-report-wrapper .weight-report-signature {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 60px 0;
+}
+
+.weight-scale-report-wrapper p {
+  font-size: 14px;
+}

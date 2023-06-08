@@ -1,0 +1,8 @@
+.powerbi-report-style-class {
+  height: 700px;
+}
+@media (max-width: 1499px) {
+  .powerbi-report-style-class {
+    height: 500px;
+  }
+}

@@ -1,0 +1,73 @@
+import React, { useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import IForm from "../../../../../_helper/_form";
+import Loading from "../../../../../_helper/_loading";
+import { _todayDate } from "../../../../../_helper/_todayDate";
+import { createFundLimit } from "../../helper";
+import LimitForm from "./Form";
+
+const initData = {
+  bank: "",
+  facility: "",
+  limit: "",
+  updatedDate: _todayDate(),
+};
+
+export default function FundLimitCreate({
+  history,
+  match: {
+    params: { id },
+  },
+}) {
+  const [objProps, setObjprops] = useState({});
+  const [isDisabled, setDisabled] = useState(false);
+
+  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+    return state?.authData;
+  }, shallowEqual);
+
+  const saveHandler = async (values, cb) => {
+    if (!values?.bank) {
+      setDisabled(false);
+      return toast.warn("Please Select Bank");
+    }
+
+    if (!values?.facility) {
+      setDisabled(false);
+      return toast.warn("Please Select Facility");
+    }
+
+    const payloadForCreateAndEdit = {
+      bankLoanLimitId: +id || 0,
+      accountId: profileData?.accountId,
+      businessUnitId: selectedBusinessUnit?.value || 0,
+      bankId: values?.bank?.value,
+      facilityId: values?.facility?.value,
+      numLimit: +values?.limit || 0,
+      loanUpdateDate: values?.updatedDate,
+      lastActionDatetime: _todayDate(),
+      intActionBy: profileData?.userId,
+      isActive: true,
+    };
+    createFundLimit(payloadForCreateAndEdit, setDisabled, cb);
+  };
+
+  return (
+    <IForm
+      title={`Create Fund Limit`}
+      getProps={setObjprops}
+      isDisabled={isDisabled}
+    >
+      {isDisabled && <Loading />}
+      <LimitForm
+        {...objProps}
+        initData={initData}
+        saveHandler={saveHandler}
+        accountId={profileData?.accountId}
+        selectedBusinessUnit={selectedBusinessUnit}
+        isEdit={id || false}
+      />
+    </IForm>
+  );
+}

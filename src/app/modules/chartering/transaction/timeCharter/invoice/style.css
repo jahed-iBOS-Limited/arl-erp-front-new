@@ -1,0 +1,70 @@
+.transactionInvoice .headerWrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.transactionInvoice .headerKey {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.transactionInvoice .headerValue {
+  font-weight: normal;
+  font-size: 15px;
+  padding-left: 0.5rem;
+}
+
+/* .transactionInvoice .isCheckedTrue {
+  opacity: 100%;
+}
+
+.transactionInvoice .isCheckedFalse {
+  opacity: 25%;
+} */
+
+.transactionInvoice input {
+  padding-left: 5px;
+}
+
+/*
+
+
+*/
+.column-header-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.timeCharterLogo img {
+  height: 60px;
+  width: 100%;
+  margin: 0 auto;
+}
+.statementTitle {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.transactionInvoice .bj-table thead tr th {
+  font-size: 14px;
+}
+
+.transactionInvoice .bj-table tbody tr td {
+  font-size: 14px;
+}
+
+@media print {
+  .transactionInvoice {
+    padding: 0px;
+  }
+  .row {
+    width: 100%;
+  }
+  .headerWrapper {
+    width: 50%;
+  }
+  .bank-details {
+    width: 100%;
+  }
+}

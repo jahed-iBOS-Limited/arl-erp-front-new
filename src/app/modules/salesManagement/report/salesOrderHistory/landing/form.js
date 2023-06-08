@@ -1,0 +1,275 @@
+import { Form, Formik } from "formik";
+import React, { useRef, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
+import IButton from "../../../../_helper/iButton";
+import ICard from "../../../../_helper/_card";
+import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import {
+  getChallanHistory,
+  getCustomerDDL,
+  getSalesOrderDDL,
+  getSalesOrderHistoryLanding,
+  getSalesOrderWithPendingLanding,
+} from "../helper";
+import SalesOrderWP from "./salesOrderWP";
+import Table from "./table";
+
+const initData = {
+  date: _todayDate(),
+  channel: "",
+  customer: "",
+  salesOrder: "",
+  challanCode: "",
+  isSlabBase: "",
+  shipPointFP: "",
+  dbChannelFP: "",
+  customerFP: "",
+  salesOrderFP: "",
+  reasonFP: "",
+};
+
+export default function SalesOrderHistoryLanding() {
+  const printRef = useRef();
+
+  const [loading, setLoading] = useState(false);
+  const [rowDto, setRowDto] = useState();
+
+  const [customerDDL, setCustomerDDL] = useState([]);
+  const [salesOrderDDL, setSalesOrderDDL] = useState([]);
+
+  // get user profile data from store
+  const {
+    profileData: { accountId: accId },
+    profileData: { userId },
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => state.authData, shallowEqual);
+
+  const viewHandler = async (values) => {
+    const typeId = values?.reportName?.value;
+    if (typeId === 1) {
+      getSalesOrderHistoryLanding(
+        accId,
+        buId,
+        values?.channel?.value,
+        values?.customer?.value,
+        values?.date,
+        values?.salesOrder?.value,
+        setLoading,
+        setRowDto
+      );
+    } else if (typeId === 2) {
+      getChallanHistory(
+        typeId,
+        values?.isSlabBase?.value,
+        values?.challanCode,
+        values?.customer?.value,
+        buId,
+        0,
+        setRowDto,
+        setLoading
+      );
+    }else if (typeId === 3) {
+      getSalesOrderWithPendingLanding(
+        {
+          partId : typeId,
+          buId,
+          orderCode : values?.salesOrderFP,
+          shippointId : values?.shipPointFP?.value,
+          userId : userId ,
+          reason : values?.reasonFP,
+          customerId : values?.customerFP?.value,
+          setLoading,
+          setter : setRowDto
+         }
+      );
+    }
+  };
+
+  return (
+    <Formik
+      enableReinitialize={true}
+      initialValues={initData}
+      onSubmit={(values) => {}}
+    >
+      {({ values, errors, touched, setFieldValue }) => (
+        <>
+          <ICard
+            printTitle="Print"
+            title="Sales Order History"
+            isPrint={true}
+            isShowPrintBtn={true}
+            componentRef={printRef}
+            // pageStyle="@page { size: 10in 15in !important; margin: 0mm; } @media print { body { -webkit-print-color-adjust: exact;} }"
+          >
+            <div className="mx-auto">
+              <Form className="form form-label-right">
+                <div className="form-group row global-form printSectionNone">
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="reportName"
+                      options={[
+                        { value: 1, label: "Sales order history" },
+                        { value: 2, label: "Challan History" },
+                        { value: 3, label: "Sales Order with Pending" },
+                      ]}
+                      value={values?.reportName}
+                      label="Report Name"
+                      onChange={(valueOption) => {
+                        setFieldValue("reportName", valueOption);
+                        setRowDto([]);
+                      }}
+                      placeholder="Report Name"
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  {values?.reportName?.value === 3 ? (
+                    <SalesOrderWP
+                      values={values}
+                      setFieldValue={setFieldValue}
+                      error={errors}
+                      touched={touched}
+                    />
+                  ) : (
+                    <>
+                      {values?.reportName?.value === 2 && (
+                        <div className="col-lg-3">
+                          <NewSelect
+                            name="isSlabBase"
+                            options={[
+                              { value: true, label: "Yes" },
+                              { value: false, label: "No" },
+                            ]}
+                            value={values?.isSlabBase}
+                            label="Is Slab Base"
+                            onChange={(valueOption) => {
+                              setFieldValue("isSlabBase", valueOption);
+                              setRowDto([]);
+                            }}
+                            placeholder="Is Slab Base"
+                            errors={errors}
+                            touched={touched}
+                          />
+                        </div>
+                      )}
+                      {values?.reportName?.value === 1 && (
+                        <div className="col-lg-3">
+                          <InputField
+                            value={values?.date}
+                            label="Date"
+                            name="date"
+                            type="date"
+                            onChange={(e) => {
+                              setFieldValue("date", e?.target?.value);
+                              if (values?.customer?.value) {
+                                getSalesOrderDDL(
+                                  accId,
+                                  buId,
+                                  values?.customer?.value,
+                                  e?.target?.value,
+                                  setSalesOrderDDL
+                                );
+                              }
+
+                              setFieldValue("salesOrder", "");
+                              setRowDto([]);
+                            }}
+                          />
+                        </div>
+                      )}
+                      {values?.reportName?.value === 2 && (
+                        <div className="col-lg-3">
+                          <InputField
+                            label="Challan Code"
+                            placeholder="Challan Code"
+                            value={values?.challanCode}
+                            name="challanCode"
+                            type="text"
+                          />
+                        </div>
+                      )}
+                      <RATForm
+                        obj={{
+                          values,
+                          setFieldValue,
+                          onChange: (values) => {
+                            getCustomerDDL(
+                              accId,
+                              buId,
+                              values?.channel?.value,
+                              setCustomerDDL
+                            );
+                            setFieldValue("customer", "");
+                            setRowDto([]);
+                          },
+                          region: false,
+                          area: false,
+                          territory: false,
+                        }}
+                      />
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="customer"
+                          options={customerDDL}
+                          value={values?.customer}
+                          label="Customer"
+                          onChange={(valueOption) => {
+                            setFieldValue("customer", valueOption);
+                            getSalesOrderDDL(
+                              accId,
+                              buId,
+                              valueOption?.value,
+                              values?.date,
+                              setSalesOrderDDL
+                            );
+                            setRowDto([]);
+                          }}
+                          placeholder="Customer"
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+                      {values?.reportName?.value === 1 && (
+                        <div className="col-lg-3">
+                          <NewSelect
+                            name="salesOrder"
+                            options={[
+                              { value: 0, label: "All" },
+                              ...salesOrderDDL,
+                            ]}
+                            value={values?.salesOrder}
+                            label="Sales Order"
+                            onChange={(valueOption) => {
+                              setFieldValue("salesOrder", valueOption);
+                              setRowDto([]);
+                            }}
+                            placeholder="Sales Order"
+                            errors={errors}
+                            touched={touched}
+                          />
+                        </div>
+                      )}
+                    </>
+                  )}
+                  <IButton
+                    onClick={() => {
+                      viewHandler(values);
+                    }}
+                  />
+                </div>
+              </Form>
+
+              {loading && <Loading />}
+
+              <Table rowDto={rowDto} printRef={printRef} values={values} />
+            </div>
+          </ICard>
+        </>
+      )}
+    </Formik>
+  );
+}

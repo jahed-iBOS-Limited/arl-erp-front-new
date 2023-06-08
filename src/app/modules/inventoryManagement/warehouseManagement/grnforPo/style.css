@@ -1,0 +1,15 @@
+.inventory_traction_form .form_header{
+    font-weight: 500;
+    font-size: 1.275rem;
+    color: #212121;
+    margin-top: 25px;
+    margin-bottom: 5px;
+}
+.inventory_traction_form .inv_rowDto_tbl label{
+    display: none;
+}
+.tableAction{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}

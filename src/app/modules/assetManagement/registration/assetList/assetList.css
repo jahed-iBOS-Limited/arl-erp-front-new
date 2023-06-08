@@ -1,0 +1,17 @@
+.AssetList button:nth-child(1){
+    display: none;
+}
+.AssetList button:nth-child(2){
+    display: none;
+}
+
+
+.AssetListView button:nth-child(1){
+    display: none;
+}
+.AssetListView button:nth-child(2){
+    display: none;
+}
+.AssetListView button:nth-child(3){
+    display: none;
+}

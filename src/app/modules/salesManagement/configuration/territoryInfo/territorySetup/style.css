@@ -1,0 +1,5 @@
+.action_space_evenly{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
