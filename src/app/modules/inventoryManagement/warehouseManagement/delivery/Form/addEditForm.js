@@ -321,24 +321,6 @@ export default function DeliveryForm({
         });
       }
 
-      // const modifyData = modifiedSalesOrderList?.map((ele) => {
-      //   return {
-      //     ...ele.objRowData,
-      //     warehouse: values?.warehouse?.label,
-      //     warehouseId: values?.warehouse?.value,
-      //     shipToParty: values?.shipToParty?.label,
-      //     deliveryQty: ele?.objRowData?.pendingQty || "",
-      //     salesOrderId: values?.salesOrder?.value,
-      //     salesOrder: values?.salesOrder?.label,
-      //     salesOrderRowId: ele.objRowData.rowId,
-      //     objLocation: ele?.objLocation,
-      //     amount: ele.objRowData.numItemPrice * ele.objRowData.pendingQty,
-      //     specification: ele.objRowData.specification,
-      //     selectLocation: ele?.objLocation?.[0] || "",
-      //     vatAmount:
-      //       ele?.objRowData?.vatItemPrice * ele?.objRowData?.pendingQty,
-      //   };
-      // });
 
       if (
         isUniq("salesOrderId", values?.salesOrder?.value, values?.itemLists)
@@ -435,9 +417,6 @@ export default function DeliveryForm({
             warehouse: headerData?.warehouse?.value
               ? headerData?.warehouse
               : "",
-            // shipToParty: headerData?.shipToParty?.value
-            //   ? headerData?.shipToParty
-            //   : "",
             soldToParty: headerData?.soldToParty?.value
               ? headerData?.soldToParty
               : "",

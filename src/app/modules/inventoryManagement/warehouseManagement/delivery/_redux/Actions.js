@@ -26,13 +26,12 @@ export const GetCategoryDDLAction = () => (dispatch) => {
 export const GetWarehouseDDLAction = (accId, buId, shipPointId) => (
   dispatch
 ) => {
+  dispatch(slice.SetWarehouseDDL([]));
   return requestFromServer
     .GetWarehouseDDL(accId, buId, shipPointId)
     .then((res) => {
-      const { status, data } = res;
-      if (status === 200 && data) {
-        dispatch(slice.SetWarehouseDDL(data));
-      }
+      const {  data } = res;
+      dispatch(slice.SetWarehouseDDL(data));
     });
 };
 //GetSoldToPartyDDLAction action
@@ -205,11 +204,13 @@ export const getDeliveryById = (id) => (dispatch) => {
           res.data.objListDeliveryRowDetailsDTO.forEach((ele, idx) => {
             const obj = {
               ...ele,
-              warehouse:  item?.objDeliveryHeaderLandingDTO?.warehouseName || "",
-              warehouseId: item?.objDeliveryHeaderLandingDTO?.warehouseId  || 0,
-              shipToParty: item?.objDeliveryHeaderLandingDTO?.shipToPartnerName || "",
+              warehouse: item?.objDeliveryHeaderLandingDTO?.warehouseName || "",
+              warehouseId: item?.objDeliveryHeaderLandingDTO?.warehouseId || 0,
+              shipToParty:
+                item?.objDeliveryHeaderLandingDTO?.shipToPartnerName || "",
               shipToPartnerAddress:
-              res?.data?.objDeliveryHeaderLandingDTO?.shipToPartnerAddress || "",      
+                res?.data?.objDeliveryHeaderLandingDTO?.shipToPartnerAddress ||
+                "",
               deliveryQty: +ele?.quantity || 0,
               salesOrderId: ele?.salesOrderId || 0,
               salesOrder: ele?.salesOrderCode || "",
@@ -222,7 +223,7 @@ export const getDeliveryById = (id) => (dispatch) => {
               },
               vatAmount: (ele?.vatItemPrice || 0) * (+ele?.quantity || 0),
               isItemShow: true,
-    
+
               maxDeliveryQty: +ele?.quantity + ele?.pendingQty,
               uomId: ele?.uomid,
               uomName: ele?.uom,
@@ -388,6 +389,7 @@ export const getSoldToPartner_Action = (
   shipPoint,
   distributionChannel
 ) => (dispatch) => {
+  dispatch(slice.SetSoldToPartnerDDL([]));
   return requestFromServer
     .getSoldToPartner(accId, buId, sbuId, shipPoint, distributionChannel)
     .then((res) => {
