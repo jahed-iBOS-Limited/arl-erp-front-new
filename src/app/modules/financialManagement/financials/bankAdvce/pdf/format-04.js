@@ -122,7 +122,7 @@ export const FormatFour = ({
               </td>
               <td
                 style={{
-                  width: "100px",
+                  width: "230px",
                   border: "1px solid #000",
                   textAlign: "center",
                 }}
