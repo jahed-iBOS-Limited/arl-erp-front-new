@@ -113,7 +113,7 @@ const ViewData = ({ adviceReportData, values }) => {
         <ReactToPrint
           pageStyle={
             // isPotrate(values) &&
-            `@media print{body { -webkit-print-color-adjust: exact;}@page {size: ${(values?.advice?.label === "IBBL" || values?.advice?.label === "JAMUNA-BEFTN") ? "portrait !important"  : values?.advice?.label === "IBBL-BEFTN" ? "landscape !important" : "landscape !important"}}}`
+            `@media print{body { -webkit-print-color-adjust: exact;}@page {size: ${(values?.advice?.label === "IBBL" || values?.advice?.label === "JAMUNA-BEFTN") ? "portrait !important"  : values?.advice?.label === "IBBL-BEFTN" ? "landscape !important" : "landscape !important"};margin:${["IBBL", "JAMUNA-BEFTN"].includes(values?.advice?.label) ?"144px 0 !important" : 0} }}`
           }
           trigger={() => (
             <button
