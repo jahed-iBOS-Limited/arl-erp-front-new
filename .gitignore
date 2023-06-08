@@ -4,7 +4,7 @@
 /~
 /node_modules
 /build
-/src/app/App.js
+# /src/app/App.js
 /.pnp
 .pnp.js
 debug.log
