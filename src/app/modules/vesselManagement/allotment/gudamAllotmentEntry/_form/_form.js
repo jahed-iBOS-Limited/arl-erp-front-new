@@ -382,6 +382,7 @@ const GudamAllotmentForm = ({
                           // "Month",
                           // "Year",
                           "Allotment Qty",
+                          "Revenue Rate (Tk.)",
                           "Action",
                         ]?.map((th, index) => {
                           return <th key={index}> {th} </th>;
@@ -407,7 +408,7 @@ const GudamAllotmentForm = ({
                             <td className="text-right">
                               {_fixedPoint(item?.allotmentQuantity, true)}
                             </td>
-
+                            <td className="text-right">{item?.revenueRate}</td>
                             <td
                               style={{ width: "80px" }}
                               className="text-center"
