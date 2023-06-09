@@ -176,23 +176,28 @@ const ConfirmBySupervisor = () => {
                         ? item?.date
                         : item?.deliveryDate,
                       isConfirmBySupervisor: [2, 3].includes(typeId),
-                      // isConfirmBySupervisor: typeId === 2,
                       confirmBy: userId,
                       updateBy: userId,
                       salesOrder: item?.salesOrder,
-                      // remarks: item?.remarks,
                       remarks: values?.remarks,
 
-                      unloadingSupplierId: item?.godownLabourSupplier?.value,
-                      unloadingSupplier: item?.godownLabourSupplier?.label,
+                      unloadingSupplierId:
+                        item?.godownLabourSupplier?.value || 0,
+                      unloadingSupplier:
+                        item?.godownLabourSupplier?.label || "",
                       unloadingRate: item?.unloadingRate,
                       sbuId: item?.sbuId,
+                      salesRevenueNarration: `Challan No: ${
+                        item?.deliveryCode
+                      }, Partner: ${item?.shipToPartner?.label ||
+                        ""}, Quantity: ${+item?.quantity} bag.`,
 
-                      //new added
                       accountId: accId,
                       businessUnitId: buId,
-                      godownLabourSupplier: item?.godownLabourSupplier?.label,
-                      godownLabourSupplierId: item?.godownLabourSupplier?.value,
+                      godownLabourSupplier:
+                        item?.godownLabourSupplier?.label || "",
+                      godownLabourSupplierId:
+                        item?.godownLabourSupplier?.value || 0,
                       dteDate: values?.jvDate,
 
                       imageId: uploadedImages[0]?.id,
@@ -205,106 +210,97 @@ const ConfirmBySupervisor = () => {
                       transportRate: +item?.transportRate,
                       totalShippingValue:
                         (+item?.transportRate + +item?.godownUnloadingRate) *
-                        //  + +item?.directOrDumpRate +
-                        // +item?.carrierRate
                         +item?.quantity,
-                      // +item?.quantity * +item?.transportRate,
                       unloadingAmount: item?.unloadingAmount,
-                      // "transportRate": 0,
-                      // "totalShippingValue": 0,
                       goDownUnloadLabourRate: +item?.godownUnloadingRate,
 
                       ghatLoadUnloadLabourRate: +item?.directOrDumpRate,
-                      // transPortAmount: +item?.transportAmount,
-                      // goDownLabourAmount: +item?.goDownLabourAmount,
                       transPortAmount: +item?.quantity * +item?.transportRate,
                       goDownLabourAmount:
                         +item?.quantity * +item?.godownUnloadingRate,
                       ghatLabourAmount: 0,
-                      // +item?.quantity * +item?.directOrDumpRate,
                       lighterCarrierAmount: 0,
-                      // +item?.quantity * +item?.carrierRate,
-
-                      //new added
                       isProcess: false,
                       deliveryId: item?.deliveryId,
+
+                      numItemPrice: item?.numItemPrice || 2,
+                      salesRevenueAmount:
+                        +item?.numItemPrice || 2 * +item?.quantity,
                     },
                   };
                 });
-          const payload_2 = selectedItems?.map((item) => {
-            return {
-              typeId: 2,
-              // typeId: typeId,
-              headerObject: {
-                deliveryId: item?.deliveryId || 0,
-                shipToPartnerId: item?.shipToPartner?.value || 0,
-                shipToPartnerName: item?.shipToPartner?.label || "",
-                supplierId: item?.supplierId || 0,
-                supplierName: item?.supplierName || "",
-                lighterVesselId: 0,
-                motherVesselId: 0,
-                totalLogsticFare: +item?.totalLogsticFare || 0,
-                advanceLogisticeFare: +item?.advanceLogisticeFare || 0,
-                dueFare:
-                  (+item?.totalLogsticFare || 0) -
-                    (+item?.advanceLogisticeFare || 0) || 0,
+          // const payload_2 = selectedItems?.map((item) => {
+          //   return {
+          //     typeId: 2,
+          //     // typeId: typeId,
+          //     headerObject: {
+          //       deliveryId: item?.deliveryId || 0,
+          //       shipToPartnerId: item?.shipToPartner?.value || 0,
+          //       shipToPartnerName: item?.shipToPartner?.label || "",
+          //       supplierId: item?.supplierId || 0,
+          //       supplierName: item?.supplierName || "",
+          //       lighterVesselId: 0,
+          //       motherVesselId: 0,
+          //       totalLogsticFare: +item?.totalLogsticFare || 0,
+          //       advanceLogisticeFare: +item?.advanceLogisticeFare || 0,
+          //       dueFare:
+          //         (+item?.totalLogsticFare || 0) -
+          //           (+item?.advanceLogisticeFare || 0) || 0,
 
-                deliveryDate: [2, 3].includes(typeId)
-                  ? item?.date
-                  : item?.deliveryDate,
-                isConfirmBySupervisor: [2, 3].includes(typeId),
-                confirmBy: userId,
-                updateBy: userId,
-                salesOrder: item?.salesOrder,
-                remarks: `Challan No: ${item?.deliveryCode}, Partner: ${item
-                  ?.shipToPartner?.label ||
-                  ""}, Quantity: ${+item?.quantity} bag.`,
+          //       deliveryDate: [2, 3].includes(typeId)
+          //         ? item?.date
+          //         : item?.deliveryDate,
+          //       isConfirmBySupervisor: [2, 3].includes(typeId),
+          //       confirmBy: userId,
+          //       updateBy: userId,
+          //       salesOrder: item?.salesOrder,
+          //       remarks: `Challan No: ${item?.deliveryCode}, Partner: ${item
+          //         ?.shipToPartner?.label ||
+          //         ""}, Quantity: ${+item?.quantity} bag.`,
 
-                unloadingSupplierId: item?.godownLabourSupplier?.value,
-                unloadingSupplier: item?.godownLabourSupplier?.label,
-                unloadingRate: item?.unloadingRate,
-                sbuId: item?.sbuId,
+          //       unloadingSupplierId: item?.godownLabourSupplier?.value,
+          //       unloadingSupplier: item?.godownLabourSupplier?.label,
+          //       unloadingRate: item?.unloadingRate,
+          //       sbuId: item?.sbuId,
 
-                //new added
-                accountId: accId,
-                businessUnitId: buId,
-                godownLabourSupplier: item?.godownLabourSupplier?.label,
-                godownLabourSupplierId: item?.godownLabourSupplier?.value,
-                dteDate: values?.jvDate,
+          //       //new added
+          //       accountId: accId,
+          //       businessUnitId: buId,
+          //       godownLabourSupplier: item?.godownLabourSupplier?.label,
+          //       godownLabourSupplierId: item?.godownLabourSupplier?.value,
+          //       dteDate: values?.jvDate,
 
-                imageId: uploadedImages[0]?.id,
-                billRef: values?.billRef,
-                billTypeId: 99,
-                numItemPrice: item?.numItemPrice,
-              },
-              rowObject: {
-                rowId: item?.rowId,
-                quantity: +item?.quantity,
-                transportRate: +item?.transportRate,
-                totalShippingValue:
-                  (+item?.transportRate + +item?.godownUnloadingRate) *
-                  +item?.quantity,
-                unloadingAmount: item?.unloadingAmount,
-                goDownUnloadLabourRate: +item?.godownUnloadingRate,
+          //       imageId: uploadedImages[0]?.id,
+          //       billRef: values?.billRef,
+          //       billTypeId: 99,
+          //       numItemPrice: item?.numItemPrice || 2,
+          //     },
+          //     rowObject: {
+          //       rowId: item?.rowId,
+          //       quantity: +item?.quantity,
+          //       transportRate: +item?.transportRate,
+          //       totalShippingValue:
+          //         (+item?.transportRate + +item?.godownUnloadingRate) *
+          //         +item?.quantity,
+          //       unloadingAmount: item?.unloadingAmount,
+          //       goDownUnloadLabourRate: +item?.godownUnloadingRate,
 
-                ghatLoadUnloadLabourRate: +item?.directOrDumpRate,
-                transPortAmount: +item?.quantity * +item?.transportRate,
-                goDownLabourAmount:
-                  +item?.quantity * +item?.godownUnloadingRate,
-                ghatLabourAmount: 0,
-                lighterCarrierAmount: 0,
+          //       ghatLoadUnloadLabourRate: +item?.directOrDumpRate,
+          //       transPortAmount: +item?.quantity * +item?.transportRate,
+          //       goDownLabourAmount:
+          //         +item?.quantity * +item?.godownUnloadingRate,
+          //       ghatLabourAmount: 0,
+          //       lighterCarrierAmount: 0,
 
-                //new added
-                isProcess: false,
-                deliveryId: item?.deliveryId,
-                numItemPrice: item?.numItemPrice,
-              },
-            };
-          });
+          //       //new added
+          //       isProcess: false,
+          //       deliveryId: item?.deliveryId,
+          //       numItemPrice: item?.numItemPrice || 2,
+          //     },
+          //   };
+          // });
           challanConfirm(payload, setLoading, () => {
-            challanConfirm(payload_2, setLoading, () => {
-              getData(values, pageNo, pageSize);
-            });
+            getData(values, pageNo, pageSize);
           });
         },
         noAlertFunc: () => {},
@@ -667,9 +663,11 @@ const ConfirmBySupervisor = () => {
                             {/* <th style={{ minWidth: "200px" }}>
                               Ghat Labour Supplier
                             </th> */}
-                            <th style={{ minWidth: "200px" }}>
-                              Godown Labour Supplier
-                            </th>
+                            {values?.confirmationType?.value !== 2 && (
+                              <th style={{ minWidth: "200px" }}>
+                                Godown Labour Supplier
+                              </th>
+                            )}
                             <th style={{ minWidth: "100px" }}>Insert By</th>
                             {/* <th style={{ minWidth: "150px" }}>Remark</th> */}
                           </tr>
@@ -815,27 +813,6 @@ const ConfirmBySupervisor = () => {
                                     item?.godownUnloadingRate
                                   )}
                                 </td>
-                                {/* <td className="text-right">
-                                  {status ? (
-                                    <InputField
-                                      name="carrierRate"
-                                      placeholder="Carrier Rate"
-                                      value={item?.carrierRate || ""}
-                                      type="number"
-                                      min="0"
-                                      onChange={(e) => {
-                                        if (+e.target.value < 0) return;
-                                        rowDataHandler(
-                                          "carrierRate",
-                                          index,
-                                          e?.target?.value
-                                        );
-                                      }}
-                                    />
-                                  ) : (
-                                    item?.carrierRate
-                                  )}
-                                </td> */}
                                 <td
                                   className="text-right"
                                   style={{ width: "100px" }}
@@ -852,11 +829,6 @@ const ConfirmBySupervisor = () => {
                                           : +item?.transportRate +
                                             +item?.godownUnloadingRate) *
                                         +item?.quantity
-                                        // (+item?.transportRate +
-                                        //   // +item?.directOrDumpRate +
-                                        //   +item?.godownUnloadingRate) *
-                                        //   //  + +item?.carrierRate
-                                        //   +item?.quantity || 0
                                       }
                                       onChange={(e) => {
                                         if (+e.target.value < 0) return;
@@ -891,8 +863,6 @@ const ConfirmBySupervisor = () => {
                                   ) : (
                                     item?.shipToPartnerName
                                   )}
-
-                                  {/* {item?.shipToPartnerName} */}
                                 </td>
                                 <td
                                   className="text-right"
@@ -920,97 +890,32 @@ const ConfirmBySupervisor = () => {
                                   {item?.supplierName}
                                 </td>
                                 <td>{item?.deliveryCode}</td>
-                                {/* <td>{item?.salesOrder}</td> */}
                                 <td>{item?.driverName}</td>
                                 <td>{item?.driverPhone}</td>
-                                {/* amount  */}
-                                {/* <td className="text-right">
-                                  {status ? (
-                                    <InputField
-                                      name="directOrDumpRate"
-                                      placeholder="Labour Rate"
-                                      value={item?.directOrDumpRate || ""}
-                                      type="number"
-                                      min="0"
-                                      onChange={(e) => {
-                                        if (+e.target.value < 0) return;
-                                        rowDataHandler(
-                                          "directOrDumpRate",
-                                          index,
-                                          e?.target?.value
-                                        );
-                                      }}
-                                    />
-                                  ) : (
-                                    item?.directOrDumpRate
-                                  )}
-                                </td> */}
-                                {/* <td style={{ width: "200px" }}>
-                                  {item?.ghatLabourSupplier}
-                                </td> */}
-                                {/* <td style={{ width: "100px" }}>
-                                  {item?.godownLabourSupplier}
-                                </td> */}
-                                <td style={{ width: "150px" }}>
-                                  {status ? (
-                                    <SearchAsyncSelect
-                                      selectedValue={item?.godownLabourSupplier}
-                                      handleChange={(valueOption) => {
-                                        rowDataHandler(
-                                          "godownLabourSupplier",
-                                          index,
-                                          valueOption
-                                        );
-                                        // setFieldValue(
-                                        //   "godownLabourSupplier",
-                                        //   valueOption
-                                        // );
-                                      }}
-                                      loadOptions={loadOptions}
-                                      // isDisabled={!createOrEdit}
-                                    />
-                                  ) : (
-                                    // <NewSelect
-                                    //   isClearable={false}
-                                    //   name="godownLabourSupplier"
-                                    //   value={item?.godownLabourSupplier}
-                                    //   options={godownDDL}
-                                    //   onChange={(e) => {
-                                    //     rowDataHandler(
-                                    //       "godownLabourSupplier",
-                                    //       index,
-                                    //       e
-                                    //     );
-                                    //   }}
-                                    // />
-                                    item?.godownLabourSupplierName
-                                  )}
-                                </td>
+                                {values?.confirmationType?.value !== 2 && (
+                                  <td style={{ width: "150px" }}>
+                                    {status ? (
+                                      <SearchAsyncSelect
+                                        selectedValue={
+                                          item?.godownLabourSupplier
+                                        }
+                                        handleChange={(valueOption) => {
+                                          rowDataHandler(
+                                            "godownLabourSupplier",
+                                            index,
+                                            valueOption
+                                          );
+                                        }}
+                                        loadOptions={loadOptions}
+                                      />
+                                    ) : (
+                                      item?.godownLabourSupplierName
+                                    )}
+                                  </td>
+                                )}
                                 <td style={{ width: "100px" }}>
                                   {item?.actionByName}
                                 </td>
-                                {/* <td
-                                  className="text-center"
-                                  style={{ width: "100px" }}
-                                >
-                                  {status ? (
-                                    <InputField
-                                      name="remarks"
-                                      placeholder="Remark"
-                                      value={item?.remarks}
-                                      type="text"
-                                      onChange={(e) => {
-                                        rowDataHandler(
-                                          "remarks",
-                                          index,
-                                          e?.target?.value
-                                        );
-                                      }}
-                                    />
-                                  ) : (
-                                    item?.remarks
-                                  )}
-                                </td> */}
                               </tr>
                             );
                           })}

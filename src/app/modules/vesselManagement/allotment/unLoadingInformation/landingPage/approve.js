@@ -19,7 +19,6 @@ import { _todayDate } from "../../../../_helper/_todayDate";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import AttachFile from "../../../common/attachmentUpload";
-import { validationSchema } from "../helper";
 import TextArea from "../../../../_helper/TextArea";
 import { StockInToInventoryApproval } from "../../challanEntry/helper";
 
@@ -170,7 +169,6 @@ export default function WarehouseApproveFrom({
     <>
       <Formik
         enableReinitialize={true}
-        validationSchema={validationSchema}
         initialValues={{
           ...initData,
           supplier: {
@@ -193,7 +191,9 @@ export default function WarehouseApproveFrom({
             {(loading || loader) && <Loading />}
             <Card>
               <ModalProgressBar />
-              <CardHeader title={`Warehouse Approve (Unloading Information)`}>
+              <CardHeader
+                title={`Warehouse Approve (Unloading Information) > ${singleItem?.shipPointName} -- ${singleItem?.lighterVesselName}`}
+              >
                 <CardHeaderToolbar>
                   <>
                     <button
@@ -243,7 +243,7 @@ export default function WarehouseApproveFrom({
                         <InputField
                           label="Damp Rate"
                           placeholder="Damp Rate"
-                          value={values?.dumpDeliveryRate || ""}
+                          value={values?.dumpDeliveryRate}
                           name="dumpDeliveryRate"
                           type="number"
                           onChange={(e) => {
@@ -259,7 +259,7 @@ export default function WarehouseApproveFrom({
                         <InputField
                           label="Direct Rate"
                           placeholder="Direct Rate"
-                          value={values?.directRate || ""}
+                          value={values?.directRate}
                           name="directRate"
                           type="number"
                           onChange={(e) => {
@@ -275,7 +275,7 @@ export default function WarehouseApproveFrom({
                         <InputField
                           label="Bolgate to Dam Rate"
                           placeholder="Bolgate to Dam Rate"
-                          value={values?.bolgateToDamRate || ""}
+                          value={values?.bolgateToDamRate}
                           name="bolgateToDamRate"
                           type="number"
                           onChange={(e) => {
@@ -291,7 +291,7 @@ export default function WarehouseApproveFrom({
                         <InputField
                           label="Dam to Truck Rate"
                           placeholder="Dam to Truck Rate"
-                          value={values?.damToTruckRate || ""}
+                          value={values?.damToTruckRate}
                           name="damToTruckRate"
                           type="number"
                           onChange={(e) => {
@@ -307,7 +307,7 @@ export default function WarehouseApproveFrom({
                         <InputField
                           label="Lighter to Bolgate Rate"
                           placeholder="Lighter to Bolgate Rate"
-                          value={values?.lighterToBolgateRate || ""}
+                          value={values?.lighterToBolgateRate}
                           name="lighterToBolgateRate"
                           type="number"
                           onChange={(e) => {
@@ -329,7 +329,7 @@ export default function WarehouseApproveFrom({
                         <InputField
                           label="Truck to Dam Rate"
                           placeholder="Truck to Dam Rate"
-                          value={values?.truckToDamRate || ""}
+                          value={values?.truckToDamRate}
                           name="truckToDamRate"
                           type="number"
                           onChange={(e) => {
@@ -345,7 +345,7 @@ export default function WarehouseApproveFrom({
                         <InputField
                           label="Others Cost Rate"
                           placeholder="Others Cost Rate"
-                          value={values?.othersCostRate || ""}
+                          value={values?.othersCostRate}
                           name="othersCostRate"
                           type="number"
                           onChange={(e) => {
