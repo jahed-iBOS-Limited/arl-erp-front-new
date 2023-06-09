@@ -304,13 +304,13 @@ const GudamAllotmentLanding = () => {
                           );
                         })}
                         <tr>
-                          <td colSpan={7} className="text-right">
+                          <td colSpan={6} className="text-right">
                             <b>Total</b>
                           </td>
                           <td className="text-right">
                             <b>{_fixedPoint(totalQty, true)}</b>
                           </td>
-                          <td></td>
+                          <td colSpan={2}></td>
                         </tr>
                       </tbody>
                     </table>

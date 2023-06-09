@@ -203,6 +203,7 @@ export function LandingTableRow() {
                       { value: 1, label: "General Information" },
                       { value: 2, label: "Mother Vessel Commission" },
                       { value: 3, label: "Mother Vessel Revenue Generate" },
+                      // { value: 4, label: "Mother Vessel Cost Generate" },
                     ]}
                     value={values?.status}
                     label="Mother Vessel Status"
@@ -283,7 +284,7 @@ export function LandingTableRow() {
               </div>
             </form>
             {rowData?.length > 0 &&
-              [2, 3].includes(values?.status?.value) && (
+              [2, 3, 4].includes(values?.status?.value) && (
                 <div className="row my-3">
                   <div className="col-lg-4">
                     <h4>
@@ -325,7 +326,7 @@ export function LandingTableRow() {
                         loading
                       }
                     >
-                      Bill Post
+                      JV Create
                     </button>
                   </div>
                 </div>
