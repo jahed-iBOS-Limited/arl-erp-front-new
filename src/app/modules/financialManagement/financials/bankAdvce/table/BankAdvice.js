@@ -110,16 +110,12 @@ const BankAdvice = () => {
             <Formik
               enableReinitialize={true}
               initialValues={initData}
-              onSubmit={(values, { setSubmitting, resetForm }) => {}}
             >
               {({
-                handleSubmit,
-                resetForm,
                 values,
                 errors,
                 touched,
                 setFieldValue,
-                isValid,
               }) => (
                 <>
                   <Form className="form form-label-right">
