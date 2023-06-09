@@ -128,9 +128,13 @@ export default function TenderInformationLandingTable() {
                         <th style={{ width: "40px" }}>SL</th>
                         <th>Mother Vessel</th>
                         <th>Program No</th>
-                        <th>CNF</th>
                         <th>Award</th>
+                        <th>CNF</th>
+                        <th>CNF Rate</th>
                         <th>Steve Dore</th>
+                        <th>Steve Dore Rate</th>
+                        <th>Surveyor</th>
+                        <th>Surveyor Rate</th>
                         <th>Lot No</th>
                         <th>Program Quantity</th>
                         <th>Weight</th>
@@ -144,9 +148,13 @@ export default function TenderInformationLandingTable() {
                             <td> {item?.sl}</td>
                             <td>{item?.motherVesselName}</td>
                             <td>{item?.program}</td>
-                            <td>{item?.cnfname}</td>
                             <td>{item?.award}</td>
+                            <td>{item?.cnfname}</td>
+                            <td className="text-right">{item?.cnfrate}</td>
                             <td>{item?.stevdoreName}</td>
+                            <td className="text-right">{item?.stevdorRate}</td>
+                            <td>{item?.serveyorName}</td>
+                            <td className="text-right">{item?.serveyorRate}</td>
                             <td>{item?.lotNo}</td>
                             <td className="text-right">
                               {_fixedPoint(item?.programQnt, true)}
