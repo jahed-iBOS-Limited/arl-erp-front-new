@@ -24,6 +24,10 @@ const initData = {
   weight: "",
   award: "",
   port: "",
+  surveyor: "",
+  surveyorRate: "",
+  cnfRate: "",
+  steveDoreRate: "",
 };
 
 export default function TenderInformationCreateForm() {
@@ -69,6 +73,12 @@ export default function TenderInformationCreateForm() {
         netWeight,
         portName,
         portId,
+        serveyorId,
+        serveyorName,
+        cnfrate,
+        stevdorRate,
+        serveyorRate,
+        organizationId,
       } = state;
       const singleInfo = {
         motherVessel: {
@@ -88,8 +98,12 @@ export default function TenderInformationCreateForm() {
           value: stevdoreId || 0,
           label: stevdoreName,
         },
+        surveyor: {
+          value: serveyorId || 0,
+          label: serveyorName,
+        },
         lotNo: lotNo,
-        type: "badc",
+        type: organizationId === 73245 ? "bcic" : "badc",
         UoM: {
           value: uomid || 0,
           label: uomname,
@@ -97,6 +111,9 @@ export default function TenderInformationCreateForm() {
         programQuantity: programQnt,
         weight: netWeight,
         award: award,
+        cnfRate: cnfrate,
+        steveDoreRate: stevdorRate,
+        surveyorRate: serveyorRate,
         port: {
           label: portName || "",
           value: portId || 0,
@@ -129,6 +146,13 @@ export default function TenderInformationCreateForm() {
       actionby: userId || 0,
       portId: values?.port?.value || 0,
       portName: values?.port?.label || "",
+      serveyorId: values?.surveyor?.value,
+      serveyorName: values?.surveyor?.label,
+      cnfrate: values?.cnfRate,
+      stevdorRate: values?.steveDoreRate,
+      serveyorRate: values?.surveyorRate,
+      organizationId: values?.type === "badc" ? 73244 : 73245,
+      organizationName: values?.type === "badc" ? "BADC" : "BCIC",
     };
     if (id) {
       payload.programId = +id;
