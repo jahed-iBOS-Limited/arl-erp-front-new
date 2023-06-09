@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
 import { Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import ICustomCard from "../../../../_helper/_customCard";
 import {
   getItemTransferInPagination,
@@ -11,25 +11,26 @@ import {
   productionOrderClose,
 } from "../helper";
 // import itemRequest from "../../../../_helper/images/item_request.png";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import Select from "react-select";
+import IEdit from "../../../../_helper/_helperIcons/_edit";
+import IView from "../../../../_helper/_helperIcons/_view";
 import customStyles from "../../../../selectCustomStyle";
 // import IDelete from "../../../../_helper/_helperIcons/_delete";
 import IConfirmModal from "../../../../_helper/_confirmModal";
+import PaginationSearch from "../../../../_helper/_search";
 import Loading from "./../../../../_helper/_loading";
 import PaginationTable from "./../../../../_helper/_tablePagination";
-import PaginationSearch from "../../../../_helper/_search";
 import ProductionOrderViewFormModel from "./viewModal";
 // import findIndex from "./../../../../_helper/_findIndex";
-import ItemRequestModal from "./itemRequestModal";
-import { SetManufacturePOTableLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
 import IViewModal from "../../../../_helper/_viewModal";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { SetManufacturePOTableLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import { ItemReqViewTableRow } from "../../../../inventoryManagement/warehouseManagement/itemRequest/report/tableRow";
+import ItemRequestModal from "./itemRequestModal";
 import ProductionDetails from "./productionDetails";
 
 export function TableRow() {
@@ -60,6 +61,7 @@ export function TableRow() {
   const [itemRequestId, setItemRequestId] = useState(null)
   const [isShowProductionModal, setIsShowProductionModal] = useState(false);
   const [productionOrderId, setProductionOrderId] = useState(null);
+  const [warehouseDDL, getWarehouseDDL, warehouseDDLloader] = useAxiosGet();
   // const [status, setStatus] = useState();
   // const [landingTableRow, setLandingTableRow] = useState({});
   const history = useHistory();
@@ -105,28 +107,6 @@ export function TableRow() {
       );
     }
   }, [selectedBusinessUnit, profileData]);
-
-  // useEffect for first values of ddl
-  // useEffect(() => {
-  //   if (
-  //     plantName[0]?.value &&
-  //     profileData?.accountId &&
-  //     selectedBusinessUnit?.value
-  //   ) {
-  //     getItemTransferInPagination(
-  //       profileData?.accountId,
-  //       selectedBusinessUnit?.value,
-  //       plantName[0]?.value,
-  //       selectedDDLShop?.value,
-  //       setLoader,
-  //       setGridData,
-  //       pageNo,
-  //       pageSize
-  //     );
-  //     setSelectedPlant(plantName[0]);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [plantName]);
 
   const pushData = () => {
     history.push({
@@ -175,6 +155,11 @@ export function TableRow() {
         selectedPlant?.value,
         setShopFloorDDL
       );
+      getWarehouseDDL(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId
+      }&AccId=${profileData?.accountId
+      }&BusinessUnitId=${selectedBusinessUnit?.value
+      }&PlantId=${selectedPlant?.value
+      }&OrgUnitTypeId=8`)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -248,7 +233,6 @@ export function TableRow() {
     const selectedItemRequest = gridData?.data?.filter(
       (item) => item.isItemRequestCheck === true
     );
-
     if (selectedItemRequest) {
       const payload = selectedItemRequest;
       const callbackFunc = () => {
@@ -275,7 +259,7 @@ export function TableRow() {
     >
       <Formik>
         <>
-          {loader && <Loading />}
+          {(loader || warehouseDDLloader) && <Loading />}
           <div
             style={{
               paddingBottom: "8px",
@@ -287,9 +271,7 @@ export function TableRow() {
             className="d-flex mt-3 bank-journal bank-journal-custom bj-left expenseRegister"
           >
             {/* Header Start */}
-            <div
-            // style={{ width: '375px' }}
-            >
+            <div>
               <div className="row">
                 <div className="col-md-4">
                   <label>Plant</label>
@@ -299,13 +281,17 @@ export function TableRow() {
                       setSelectedPlant(valueOption);
                       setselectedDDLShop("");
                       setSelectedStatus("");
-                      // setStatus('');
                       getShopFloorDDL(
                         profileData?.accountId,
                         selectedBusinessUnit?.value,
                         valueOption?.value,
                         setShopFloorDDL
                       );
+                      getWarehouseDDL(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId
+                      }&AccId=${profileData?.accountId
+                      }&BusinessUnitId=${selectedBusinessUnit?.value
+                      }&PlantId=${valueOption?.value
+                      }&OrgUnitTypeId=8`)
                       dispatch(
                         SetManufacturePOTableLandingAction({
                           plant: valueOption,
@@ -333,7 +319,6 @@ export function TableRow() {
                       setGridData([]);
                       setselectedDDLShop(valueOption);
                       setSelectedStatus("");
-                      // setStatus('');
                       dispatch(
                         SetManufacturePOTableLandingAction({
                           plant: selectedPlant,
@@ -666,34 +651,6 @@ export function TableRow() {
                               >
                                 <IDelete />
                               </button>
-
-                              {/* <span
-                              onClick={() => {
-                                if (item?.isItemRequest) {
-                                  setLandingTableRow(item);
-                                  setModelShow(true);
-                                }
-                              }}
-                              className={`${
-                                !item?.isItemRequest ? "opacity-50" : ""
-                              }`}
-                            >
-                              <OverlayTrigger
-                                overlay={
-                                  <Tooltip id="cs-icon">
-                                    {"Item Request"}
-                                  </Tooltip>
-                                }
-                              >
-                                <span>
-                                  <img
-                                    style={{ width: "18px" }}
-                                    src={itemRequest}
-                                    alt="Item Request Icon"
-                                  ></img>
-                                </span>
-                              </OverlayTrigger>
-                            </span> */}
                             </div>
                           </td>
                         </tr>
@@ -721,7 +678,6 @@ export function TableRow() {
           )}
           <ProductionOrderViewFormModel
             show={modelShow}
-            // landingTableRow={landingTableRow}
             plantNameDDL={plantName}
             onHide={() => {
               setModelShow(false);
@@ -745,6 +701,7 @@ export function TableRow() {
                 selectedBusinessUnit?.value,
                 selectedPlant?.value,
                 selectedDDLShop?.value,
+                selectedStatus?.value,
                 setLoader,
                 setGridData,
                 pageNo,
@@ -757,6 +714,8 @@ export function TableRow() {
             rowDto={rowDto}
             selectItemRequest={selectItemRequest}
             setItemRequestModal={setItemRequestModal}
+            wareHouseId={selectedDDLShop?.wearHouseId}
+            warehouseDDL={warehouseDDL}
           />
         </>
       </Formik>
