@@ -16,9 +16,12 @@ import { useSelector } from "react-redux";
 import { shallowEqual } from "react-redux";
 import NewSelect from "../../../../_helper/_select";
 import { confirmAlert } from "react-confirm-alert";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const initData = {
   sbu: "",
+  plant: "",
+  warehouse: "",
 };
 
 // Validation schema
@@ -26,7 +29,7 @@ const validationSchema = Yup.object().shape({
   sbu: Yup.object().shape({
     value: Yup.string().required("SBU is required"),
     label: Yup.string().required("SBU is required"),
-  }),
+  })
 });
 
 export default function ItemRequestModal({
@@ -36,6 +39,8 @@ export default function ItemRequestModal({
   selectItemRequest,
   setItemRequestModal,
   callLandingApiAgain,
+  wareHouseId,
+  warehouseDDL
 }) {
   const [loading, setLoading] = useState(false);
 
@@ -90,6 +95,8 @@ export default function ItemRequestModal({
       productionid: modifyProductionId,
       itemList: modifyRowDto,
       shopFloorId: selectItemRequest?.[0]?.shopFloorId || 0,
+      plantId: wareHouseId === 0 ? values?.plant?.value : null,
+      wareHouseId: wareHouseId === 0 ? values?.warehouse?.value : wareHouseId
     };
 
     const callbackFunck = () => {
@@ -97,9 +104,20 @@ export default function ItemRequestModal({
       setItemRequestModal(false);
     };
 
-    createItemRequestNew(payload, callbackFunck, IConfirmModal, setLoading);
+
+     createItemRequestNew(payload, callbackFunck, IConfirmModal, setLoading);
   };
   const [sbuDDL, setSbuDDL] = useState([]);
+  // const [plantDDL, getPlantDDL, plantDDLloader] = useAxiosGet();
+  // const [warehouseDDL, getWarehouseDDL, warehouseDDLloader] = useAxiosGet();
+
+  // useEffect(() => {
+  //   getPlantDDL(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId
+  //     }&AccId=${profileData?.accountId
+  //     }&BusinessUnitId=${selectedBusinessUnit?.value
+  //     }&OrgUnitTypeId=7`)
+  // }, []);
+
 
   useEffect(() => {
     getSBUDDL_api(
@@ -112,7 +130,7 @@ export default function ItemRequestModal({
   return (
     <div>
       <IViewModal show={show} onHide={onHide} title={""} btnText="Close">
-        {loading && <Loading />}
+        {(loading ) && <Loading />}
         <>
           <Formik
             enableReinitialize={true}
@@ -165,6 +183,44 @@ export default function ItemRequestModal({
                           placeholder="SBU"
                         />
                       </div>
+                      {
+                        wareHouseId === 0 ? (
+                          <>
+                            {/* <div className="col-lg-3 pb-2">
+                              <NewSelect
+                                name="plant"
+                                options={plantDDL}
+                                value={values?.plant}
+                                onChange={(valueOption) => {
+                                  setFieldValue("warehouse", "");
+                                  setFieldValue("plant", valueOption);
+                                  getWarehouseDDL(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId
+                                    }&AccId=${profileData?.accountId
+                                    }&BusinessUnitId=${selectedBusinessUnit?.value
+                                    }&PlantId=${valueOption?.value
+                                    }&OrgUnitTypeId=8`)
+                                }}
+                                errors={errors}
+                                touched={touched}
+                                placeholder="Plant"
+                              />
+                            </div> */}
+                            <div className="col-lg-3 pb-2">
+                              <NewSelect
+                                name="warehouse"
+                                options={warehouseDDL}
+                                value={values?.warehouse}
+                                onChange={(valueOption) => {
+                                  setFieldValue("warehouse", valueOption);
+                                }}
+                                errors={errors}
+                                touched={touched}
+                                placeholder="Warehouse"
+                              />
+                            </div>
+                          </>
+                        ) : null
+                      }
                     </div>
                     <Form className="form form-label-right">
                       {/* Start Table Part */}
