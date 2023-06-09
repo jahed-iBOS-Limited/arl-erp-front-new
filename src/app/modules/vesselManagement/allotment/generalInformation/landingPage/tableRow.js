@@ -210,6 +210,7 @@ export function LandingTableRow() {
                     onChange={(valueOption) => {
                       setFieldValue("status", valueOption);
                       setGridData([]);
+                      setRowData([]);
                     }}
                     placeholder="Mother Vessel Status"
                   />
@@ -297,19 +298,18 @@ export function LandingTableRow() {
                     </h4>
                   </div>
                   <div className="col-lg-4">
-                    <h4>
-                      Total Amount:{" "}
-                      {_fixedPoint(
-                        getTotal(rowData, "quantity", "isSelected") *
-                          getTotal(rowData, "freightRate", "isSelected") *
-                          getTotal(rowData, "freightRateBDT", "isSelected"),
-                        true
-                      )}
-                    </h4>
+                    {[3].includes(values?.status?.value) && (
+                      <h4>
+                        Total Amount:{" "}
+                        {_fixedPoint(
+                          getTotal(rowData, "quantity", "isSelected") *
+                            getTotal(rowData, "freightRate", "isSelected") *
+                            getTotal(rowData, "freightRateBDT", "isSelected"),
+                          true
+                        )}
+                      </h4>
+                    )}
                   </div>
-                  {/* <div className="col-lg-4">
-                    <h4>Total Amount: {getTotal("carrierTotalAmount")}</h4>
-                  </div> */}
 
                   <div className="col-lg-4 text-right">
                     <button
@@ -513,10 +513,10 @@ export function LandingTableRow() {
                               {_fixedPoint(item?.quantity, true, 0)}
                             </td>
                             <td className="text-right">
-                              {_fixedPoint(item?.freightRate, true, 0)}
+                              {_fixedPoint(item?.freightRate, true)}
                             </td>
                             <td className="text-right">
-                              {_fixedPoint(item?.freightRateBDT, true, 0)}
+                              {_fixedPoint(item?.freightRateBDT, true)}
                             </td>
                             {[2].includes(values?.status?.value) && (
                               <td className="text-right">
