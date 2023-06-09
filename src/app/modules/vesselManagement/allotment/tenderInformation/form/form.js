@@ -10,7 +10,7 @@ import NewSelect from "../../../../_helper/_select";
 import {
   getMotherVesselDDL,
   getMotherVesselInfo,
-  validationSchema
+  validationSchema,
 } from "../helper";
 
 export default function _Form({
@@ -29,6 +29,20 @@ export default function _Form({
 }) {
   const radioStyle = { height: "25px", width: "25px" };
   const history = useHistory();
+  const loadOptions = async (v) => {
+    await [];
+    if (v.length < 3) return [];
+    return axios
+      .get(
+        `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accId}&UnitId=${buId}&SBUId=${0}`
+      )
+      .then((res) => {
+        const updateList = res?.data.map((item) => ({
+          ...item,
+        }));
+        return [...updateList];
+      });
+  };
   return (
     <>
       <Formik
@@ -161,7 +175,6 @@ export default function _Form({
                     disabled
                   />
                 </div>
-
                 <div className="col-lg-3">
                   <label>Item</label>
                   <SearchAsyncSelect
@@ -221,6 +234,28 @@ export default function _Form({
                   />
                 </div>
                 <div className="col-lg-3">
+                  <InputField
+                    value={values?.programQuantity}
+                    name="programQuantity"
+                    placeholder="Program Quantity"
+                    label="Program Quantity"
+                    type="number"
+                    onChange={(e) => {
+                      setFieldValue("programQuantity", e.target.value);
+                      setFieldValue("weight", e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.weight}
+                    name="weight"
+                    placeholder="Weight"
+                    label="Weight"
+                    type="text"
+                  />
+                </div>
+                {/* <div className="col-lg-3">
                   <NewSelect
                     name="cnf"
                     options={lighterCNFDDL || []}
@@ -249,27 +284,65 @@ export default function _Form({
                     touched={touched}
                     isDisabled={type}
                   />
-                </div>
+                </div> */}
                 <div className="col-lg-3">
-                  <InputField
-                    value={values?.programQuantity}
-                    name="programQuantity"
-                    placeholder="Program Quantity"
-                    label="Program Quantity"
-                    type="number"
-                    onChange={(e) => {
-                      setFieldValue("programQuantity", e.target.value);
-                      setFieldValue("weight", e.target.value);
+                  <label>CNF</label>
+                  <SearchAsyncSelect
+                    selectedValue={values?.cnf}
+                    handleChange={(valueOption) => {
+                      setFieldValue("cnf", valueOption);
                     }}
+                    placeholder={"Search CNF"}
+                    loadOptions={loadOptions}
                   />
                 </div>
                 <div className="col-lg-3">
                   <InputField
-                    value={values?.weight}
-                    name="weight"
-                    placeholder="Weight"
-                    label="Weight"
-                    type="text"
+                    value={values?.cnfRate}
+                    name="cnfRate"
+                    placeholder="CNF Rate"
+                    label="CNF Rate"
+                    type="number"
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <label>Steve Dore</label>
+                  <SearchAsyncSelect
+                    selectedValue={values?.steveDore}
+                    handleChange={(valueOption) => {
+                      setFieldValue("steveDore", valueOption);
+                    }}
+                    placeholder={"Search Steve Dore"}
+                    loadOptions={loadOptions}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.steveDoreRate}
+                    name="steveDoreRate"
+                    placeholder="Steve Dore Rate"
+                    label="Steve Dore Rate"
+                    type="number"
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <label>Surveyor</label>
+                  <SearchAsyncSelect
+                    selectedValue={values?.surveyor}
+                    handleChange={(valueOption) => {
+                      setFieldValue("surveyor", valueOption);
+                    }}
+                    placeholder={"Search Surveyor"}
+                    loadOptions={loadOptions}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.surveyorRate}
+                    name="surveyorRate"
+                    placeholder="Surveyor Rate"
+                    label="Surveyor Rate"
+                    type="number"
                   />
                 </div>
               </div>
