@@ -229,76 +229,7 @@ const ConfirmBySupervisor = () => {
                     },
                   };
                 });
-          // const payload_2 = selectedItems?.map((item) => {
-          //   return {
-          //     typeId: 2,
-          //     // typeId: typeId,
-          //     headerObject: {
-          //       deliveryId: item?.deliveryId || 0,
-          //       shipToPartnerId: item?.shipToPartner?.value || 0,
-          //       shipToPartnerName: item?.shipToPartner?.label || "",
-          //       supplierId: item?.supplierId || 0,
-          //       supplierName: item?.supplierName || "",
-          //       lighterVesselId: 0,
-          //       motherVesselId: 0,
-          //       totalLogsticFare: +item?.totalLogsticFare || 0,
-          //       advanceLogisticeFare: +item?.advanceLogisticeFare || 0,
-          //       dueFare:
-          //         (+item?.totalLogsticFare || 0) -
-          //           (+item?.advanceLogisticeFare || 0) || 0,
 
-          //       deliveryDate: [2, 3].includes(typeId)
-          //         ? item?.date
-          //         : item?.deliveryDate,
-          //       isConfirmBySupervisor: [2, 3].includes(typeId),
-          //       confirmBy: userId,
-          //       updateBy: userId,
-          //       salesOrder: item?.salesOrder,
-          //       remarks: `Challan No: ${item?.deliveryCode}, Partner: ${item
-          //         ?.shipToPartner?.label ||
-          //         ""}, Quantity: ${+item?.quantity} bag.`,
-
-          //       unloadingSupplierId: item?.godownLabourSupplier?.value,
-          //       unloadingSupplier: item?.godownLabourSupplier?.label,
-          //       unloadingRate: item?.unloadingRate,
-          //       sbuId: item?.sbuId,
-
-          //       //new added
-          //       accountId: accId,
-          //       businessUnitId: buId,
-          //       godownLabourSupplier: item?.godownLabourSupplier?.label,
-          //       godownLabourSupplierId: item?.godownLabourSupplier?.value,
-          //       dteDate: values?.jvDate,
-
-          //       imageId: uploadedImages[0]?.id,
-          //       billRef: values?.billRef,
-          //       billTypeId: 99,
-          //       numItemPrice: item?.numItemPrice || 2,
-          //     },
-          //     rowObject: {
-          //       rowId: item?.rowId,
-          //       quantity: +item?.quantity,
-          //       transportRate: +item?.transportRate,
-          //       totalShippingValue:
-          //         (+item?.transportRate + +item?.godownUnloadingRate) *
-          //         +item?.quantity,
-          //       unloadingAmount: item?.unloadingAmount,
-          //       goDownUnloadLabourRate: +item?.godownUnloadingRate,
-
-          //       ghatLoadUnloadLabourRate: +item?.directOrDumpRate,
-          //       transPortAmount: +item?.quantity * +item?.transportRate,
-          //       goDownLabourAmount:
-          //         +item?.quantity * +item?.godownUnloadingRate,
-          //       ghatLabourAmount: 0,
-          //       lighterCarrierAmount: 0,
-
-          //       //new added
-          //       isProcess: false,
-          //       deliveryId: item?.deliveryId,
-          //       numItemPrice: item?.numItemPrice || 2,
-          //     },
-          //   };
-          // });
           challanConfirm(payload, setLoading, () => {
             getData(values, pageNo, pageSize);
           });
