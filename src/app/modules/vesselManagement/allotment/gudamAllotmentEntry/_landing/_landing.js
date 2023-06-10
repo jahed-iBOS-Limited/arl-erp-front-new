@@ -30,6 +30,7 @@ const headers = [
   "Business Partner",
   "Buffer Name",
   // "ShipPoint",
+  "Mother Vessel",
   "Item Name",
   "Month",
   "Year",
@@ -269,6 +270,7 @@ const GudamAllotmentLanding = () => {
                               </td>
                               <td>{item?.soldToPartnerName}</td>
                               <td>{item?.shipToPartnerName}</td>
+                              <td>{item?.motherVesselName}</td>
                               <td>{item?.itemName}</td>
                               <td>{getMonth(item?.monthId)}</td>
                               <td>{item?.yearId}</td>
@@ -304,7 +306,7 @@ const GudamAllotmentLanding = () => {
                           );
                         })}
                         <tr>
-                          <td colSpan={6} className="text-right">
+                          <td colSpan={7} className="text-right">
                             <b>Total</b>
                           </td>
                           <td className="text-right">
