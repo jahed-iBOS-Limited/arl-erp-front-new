@@ -287,6 +287,7 @@ const ChallanTable = () => {
                                         onClick={() => {
                                           history.push({
                                             pathname: `/vessel-management/allotment/challanentry/edit/${item?.deliveryId}`,
+                                            state: values,
                                           });
                                         }}
                                       />

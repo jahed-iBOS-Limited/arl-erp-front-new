@@ -21,6 +21,7 @@ import ShipmentVehicleStatusUpdate from "./shipmentVehicleStatusUpdate/landing";
 import ShipmentCancel from "./shipmentCancel/landing";
 import SalesOrderSupport from "./salesOrderSupport/landing";
 import PermissionForModification from "./permissionForModification/_landing/_landing";
+import LoadingStatusReport from "./loadingStatusReport";
 
 export function TransportReportPages() {
   return (
@@ -117,6 +118,10 @@ export function TransportReportPages() {
         <ContentRoute
           path="/transport-management/report/permissionformodificaiton"
           component={PermissionForModification}
+        />
+        <ContentRoute
+          path="/transport-management/report/loadingStatusReport"
+          component={LoadingStatusReport}
         />
       </Switch>
     </Suspense>
