@@ -48,7 +48,9 @@ const initData = {
   departnemt: "",
   brtaType:"",
   assetName:"",
-  category:""
+  category:"",
+  lifeTimeYear: "",
+  depRunRate: "",
 };
 
 export default function AssetParkingForm({ currentRowData,setIsShowModal }) {
@@ -175,6 +177,8 @@ export default function AssetParkingForm({ currentRowData,setIsShowModal }) {
         assetName: values?.assetName || "",
         assetCategoryId: values?.category?.value || 0,
         assetCategoryName: values?.category?.label || "",
+        depRate: +values?.depRunRate || 0,
+        lifeTimeYear: +values?.lifeTimeYear || 0,
       };
       // console.log(payload,"payload")
       saveAssetData(payload, cb , setIsShowModal,setDisabled ,IConfirmModal);
