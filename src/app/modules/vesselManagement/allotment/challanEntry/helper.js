@@ -134,7 +134,9 @@ export const getG2GMotherVesselLocalRevenueApi = async (
     if (res?.status === 200) {
       cb && cb(res?.data);
     }
-  } catch (error) {}
+  } catch (error) {
+    cb && cb('');
+  }
 };
 export const EditLighterChallanInfo = async (payload, cb) => {
   try {
