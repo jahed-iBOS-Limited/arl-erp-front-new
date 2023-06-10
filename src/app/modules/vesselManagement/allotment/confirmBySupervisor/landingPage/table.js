@@ -222,10 +222,8 @@ const ConfirmBySupervisor = () => {
                       lighterCarrierAmount: 0,
                       isProcess: false,
                       deliveryId: item?.deliveryId,
-
                       numItemPrice: +item?.numItemPrice || 0,
-                      salesRevenueAmount:
-                        (+item?.numItemPrice) * +item?.quantity,
+                      salesRevenueAmount: +item?.salesRevenueAmount || 0,
                     },
                   };
                 });
@@ -267,8 +265,8 @@ const ConfirmBySupervisor = () => {
   };
 
   const allSelect = (value, values) => {
-     // is Supervisor Confirmation (Truck Bill || Godown Unload Bill)
-     const isSupervisorConfirmation = [2, 3].includes(
+    // is Supervisor Confirmation (Truck Bill || Godown Unload Bill)
+    const isSupervisorConfirmation = [2, 3].includes(
       values?.confirmationType?.value
     );
     let _data = [...rowData?.data];
@@ -276,11 +274,10 @@ const ConfirmBySupervisor = () => {
       ...rowData,
       data: _data.map((item) => {
         let pricelessThanZero =
-        +item?.numItemPrice <= 0 &&
-        isSupervisorConfirmation;
+          +item?.numItemPrice <= 0 && isSupervisorConfirmation;
         return {
           ...item,
-          isSelected: pricelessThanZero ?  false : value,
+          isSelected: pricelessThanZero ? false : value,
         };
       }),
     };
@@ -546,7 +543,9 @@ const ConfirmBySupervisor = () => {
                           <tr className="cursor-pointer">
                             {status && (
                               <th
-                                onClick={() => allSelect(!selectedAll(), values)}
+                                onClick={() =>
+                                  allSelect(!selectedAll(), values)
+                                }
                                 style={{ minWidth: "30px" }}
                               >
                                 <input

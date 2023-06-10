@@ -48,6 +48,7 @@ export const getLandingDataForConfirmation = async (
         ...item,
         quantity: item?.rowList[0]?.quantity,
         numItemPrice: +item?.rowList?.[0]?.numItemPrice || 0,
+        salesRevenueAmount: +item?.rowList?.[0]?.salesRevenueAmount || 0,
         transportRate: item?.rowList[0]?.transportRate,
         maxQty: item?.rowList[0]?.quantity,
         rowId: item?.rowList[0]?.rowId,
