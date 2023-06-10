@@ -47,7 +47,7 @@ export const getLandingDataForConfirmation = async (
       // data: filteredData?.map((item) => ({
         ...item,
         quantity: item?.rowList[0]?.quantity,
-
+        numItemPrice: item?.rowList?.[0]?.numItemPrice,
         transportRate: item?.rowList[0]?.transportRate,
         maxQty: item?.rowList[0]?.quantity,
         rowId: item?.rowList[0]?.rowId,
