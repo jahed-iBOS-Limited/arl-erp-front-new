@@ -60,7 +60,9 @@ const initData = {
   brtaType:"",
   assetName:"",
   category:"",
-  itemCategory:""
+  itemCategory:"",
+  lifeTimeYear: "",
+  depRunRate: "",
 };
 
 export default function AssetParkingCreateForm({
@@ -200,7 +202,8 @@ export default function AssetParkingCreateForm({
         responsibleEmpName: values.resPerson.label || "",
         actionBy: profileData.userId,
         assetTypeName: values?.assetType?.label || "",
-        depRate: values?.assetType?.value || 0,
+        depRate: +values?.depRunRate || 0,
+        lifeTimeYear: +values?.lifeTimeYear || 0,
         serialNo: values?.manuSerialNumber,
         brtaVehicelTypeId: values?.brtaType?.value || 0,
         assetName: values?.assetName || "",

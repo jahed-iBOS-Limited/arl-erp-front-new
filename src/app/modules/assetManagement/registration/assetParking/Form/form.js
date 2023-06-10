@@ -315,6 +315,42 @@ export default function _Form({
                     // disabled={true}
                   />
                 </div>
+
+                <div className="col-lg-3">
+                  <label>Life time Year</label>
+                  <InputField
+                    value={values?.lifeTimeYear}
+                    placeholder="Life Time Year"
+                    type="number"
+                    name="lifeTimeYear"
+                    min="0"
+                    onChange={(e) => {
+                      if(e.target.value < 0){
+                        return setFieldValue("lifeTimeYear", "");
+                      }else{
+                        setFieldValue("lifeTimeYear", e.target.value);
+                      }
+                    }}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <label>Dep Run rate</label>
+                  <InputField
+                    value={values?.depRunRate}
+                    placeholder="Dep Run rate"
+                    type="number"
+                    name="depRunRate"
+                    min="0"
+                    onChange={(e) => {
+                      if(e.target.value < 0){
+                        return setFieldValue("depRunRate", "");
+                      }else{
+                        setFieldValue("depRunRate", e.target.value);
+                      }
+                    }}
+                  />
+                </div>
+
               </div>
               <div className="form-group row">
                 <div className="col-lg-12">
