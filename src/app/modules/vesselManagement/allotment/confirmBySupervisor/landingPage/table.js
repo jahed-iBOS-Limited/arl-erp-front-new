@@ -223,9 +223,9 @@ const ConfirmBySupervisor = () => {
                       isProcess: false,
                       deliveryId: item?.deliveryId,
 
-                      numItemPrice: item?.numItemPrice || 2,
+                      numItemPrice: +item?.numItemPrice || 2,
                       salesRevenueAmount:
-                        +item?.numItemPrice || 2 * +item?.quantity,
+                        (+item?.numItemPrice || 2) * +item?.quantity,
                     },
                   };
                 });
@@ -600,13 +600,29 @@ const ConfirmBySupervisor = () => {
                               </th>
                             )}
                             <th style={{ minWidth: "100px" }}>Insert By</th>
+                            {[2, 3].includes(
+                              values?.confirmationType?.value
+                            ) && <th style={{ minWidth: "80px" }}>Price</th>}
                             {/* <th style={{ minWidth: "150px" }}>Remark</th> */}
                           </tr>
                         </thead>
                         <tbody>
                           {rowData?.data?.map((item, index) => {
+                            // is Supervisor Confirmation (Truck Bill || Godown Unload Bill)
+                            const isSupervisorConfirmation = [2, 3].includes(
+                              values?.confirmationType?.value
+                            );
+                            // price is less than 0
+                            let pricelessThanZero =
+                              +item?.numItemPrice <= 0 &&
+                              isSupervisorConfirmation
+                                ? "red"
+                                : "";
                             return (
-                              <tr key={index}>
+                              <tr
+                                key={index}
+                                style={{ background: pricelessThanZero }}
+                              >
                                 {status && (
                                   <td
                                     onClick={() => {
@@ -847,6 +863,16 @@ const ConfirmBySupervisor = () => {
                                 <td style={{ width: "100px" }}>
                                   {item?.actionByName}
                                 </td>
+                                {[2, 3].includes(
+                                  values?.confirmationType?.value
+                                ) && (
+                                  <td
+                                    style={{ width: "100px" }}
+                                    className="text-right"
+                                  >
+                                    {item?.numItemPrice}
+                                  </td>
+                                )}
                               </tr>
                             );
                           })}
