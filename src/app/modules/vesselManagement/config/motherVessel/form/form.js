@@ -34,7 +34,7 @@ const initData = {
   supplier: "",
   freightRateDollar: "",
   freightRateTaka: "",
-  localRevenueRate:"",
+  localRevenueRate: "",
 };
 
 const THeaders = [
@@ -46,6 +46,7 @@ const THeaders = [
   "Product",
   "Origin",
   "Lot No",
+  "Local Revenue Rate",
   "Action",
 ];
 
@@ -86,6 +87,7 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
               intProductId: item?.productId,
               intOriginId: item?.originId,
               intOrganizationId: item?.organizationId,
+              localRevenueRate: item?.localRevenueRate || 0,
             }))
           );
           const HI = resData?.motherVesselInfo;
@@ -97,7 +99,6 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
             freightRateDollar: HI?.freightRate,
             freightRateTaka: HI?.freightRateDbt,
             amount: HI?.amount,
-            localRevenueRate: HI?.localRevenueRateBdt,
           });
         }
       );
@@ -150,6 +151,7 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
         intOrganizationId: values?.organization?.value,
         strOrganizationName: values?.organization?.label,
         dteProgramDate: values?.programDate,
+        localRevenueRate: +values?.localRevenueRate || 0,
       };
       setRowData([...rowData, newRow]);
       cb();
@@ -163,9 +165,6 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
   };
 
   const saveHandler = (values) => {
-    if(!values?.localRevenueRate){
-      return toast.warn("Local Revenue Rate is required");
-    }
     const payload = {
       motherVessel: {
         mVesselName: values?.vesselName,
@@ -179,7 +178,6 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
         userId: userId,
         mVesselId: values?.mVesselId || 0,
         amount: values?.amount,
-        localRevenueRateBdt: values?.localRevenueRate || 0,
       },
       motherVesselDetails: rowData,
     };
@@ -324,16 +322,6 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
                           disabled={true}
                         />
                       </div>
-                      <div className="col-lg-3">
-                        <InputField
-                          label="Local Revenue Rate"
-                          placeholder="Local Revenue Rate"
-                          value={values?.localRevenueRate}
-                          name="localRevenueRate"
-                          type="number"
-                          required
-                        />
-                      </div>
                     </div>
                     <div className="row">
                       <div className="col-lg-3">
@@ -381,6 +369,7 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
                           label="Organization"
                           onChange={(valueOption) => {
                             setFieldValue("organization", valueOption);
+                            setFieldValue("localRevenueRate", "");
                           }}
                           placeholder="Organization"
                           errors={errors}
@@ -435,6 +424,22 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
                           disabled={false}
                         />
                       </div>
+                      <div className="col-lg-3">
+                        <InputField
+                          label="Local Revenue Rate"
+                          placeholder="Local Revenue Rate"
+                          value={values?.localRevenueRate}
+                          name="localRevenueRate"
+                          onChange={(e) => {
+                            if (+e.target.value < 0) {
+                              return toast.warning("Rate must be positive");
+                            }
+                            setFieldValue("localRevenueRate", e.target.value);
+                          }}
+                          type="number"
+                          disabled={values?.organization?.value !== 73244}
+                        />
+                      </div>
                       <IButton
                         onClick={() => {
                           addHandler(values, () => {
@@ -456,7 +461,9 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
                           !values?.organization ||
                           !values?.product ||
                           !values?.origin ||
-                          !values?.lotNo
+                          !values?.lotNo ||
+                          (values?.organization?.value === 73244 &&
+                            !values?.localRevenueRate)
                         }
                       >
                         Add
@@ -477,7 +484,10 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
                         <td>{item?.strOrganizationName}</td>
                         <td>{item?.strProductName}</td>
                         <td>{item?.strOriginName}</td>
-                        <td>{item?.strLotNumber}</td>
+                        <td className="text-center">{item?.strLotNumber}</td>
+                        <td className="text-center">
+                          {item?.localRevenueRate}
+                        </td>
                         <td className="text-center">
                           {formType !== "view" && (
                             <div className="d-flex justify-content-around">
