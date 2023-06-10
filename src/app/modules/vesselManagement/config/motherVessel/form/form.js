@@ -34,6 +34,7 @@ const initData = {
   supplier: "",
   freightRateDollar: "",
   freightRateTaka: "",
+  localRevenueRate:"",
 };
 
 const THeaders = [
@@ -96,6 +97,7 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
             freightRateDollar: HI?.freightRate,
             freightRateTaka: HI?.freightRateDbt,
             amount: HI?.amount,
+            localRevenueRate: HI?.localRevenueRateBdt,
           });
         }
       );
@@ -161,6 +163,9 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
   };
 
   const saveHandler = (values) => {
+    if(!values?.localRevenueRate){
+      return toast.warn("Local Revenue Rate is required");
+    }
     const payload = {
       motherVessel: {
         mVesselName: values?.vesselName,
@@ -174,6 +179,7 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
         userId: userId,
         mVesselId: values?.mVesselId || 0,
         amount: values?.amount,
+        localRevenueRateBdt: values?.localRevenueRate || 0,
       },
       motherVesselDetails: rowData,
     };
@@ -316,6 +322,16 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
                           name="amount"
                           type="number"
                           disabled={true}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <InputField
+                          label="Local Revenue Rate"
+                          placeholder="Local Revenue Rate"
+                          value={values?.localRevenueRate}
+                          name="localRevenueRate"
+                          type="number"
+                          required
                         />
                       </div>
                     </div>
