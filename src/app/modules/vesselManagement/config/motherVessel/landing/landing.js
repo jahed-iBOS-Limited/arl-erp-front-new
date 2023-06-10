@@ -29,7 +29,6 @@ const headers = [
   "Supplier Name",
   "Freight Rate (USD)",
   "Conversion Rate (BDT)",
-  "Local Revenue Rate",
   "Program Count",
   "Ports",
   "Action",
@@ -162,9 +161,6 @@ const VesselLanding = () => {
                               </td>
                               <td className="text-right">
                                 {item?.freightRateDbt}
-                              </td>
-                              <td className="text-right">
-                                {item?.localRevenueRateBdt}
                               </td>
                               <td className="text-center">{item?.countPort}</td>
                               <td>{item?.port}</td>
