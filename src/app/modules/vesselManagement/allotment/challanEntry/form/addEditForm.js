@@ -129,7 +129,7 @@ export default function ChallanEntryForm() {
         uom: 0,
         uomName: "",
         quantity: values?.quantity,
-        itemPrice: 0,
+        itemPrice: +values?.itemPrice || 0,
         deliveryValue: 0,
         totalDiscountValue: 0,
         totalShipingValue: 0,
@@ -170,8 +170,8 @@ export default function ChallanEntryForm() {
         businessUnitAddress: buAddress,
         shipToPartnerId: values?.godown?.value,
         shipToPartnerName: values?.godown?.label,
-        soldToPartnerId: 0,
-        soldToPartnerName: "",
+        soldToPartnerId: state?.type === "badc" ? 73244 : 73245,
+        soldToPartnerName: state?.type === "badc" ? "BADC" : "BCIC",
         shipToPartnerAddress: "",
         transportZoneId: 0,
         transportZoneName: "",
@@ -494,7 +494,7 @@ export default function ChallanEntryForm() {
             uom: 0,
             uomName: "",
             quantity: itm?.quantity,
-            itemPrice: 0,
+            itemPrice: +itm?.itemPrice || 0,
             deliveryValue: 0,
             totalDiscountValue: 0,
             totalShipingValue: 0,
@@ -510,6 +510,9 @@ export default function ChallanEntryForm() {
       });
     }
   }, [id]);
+
+ 
+
   return (
     <>
       {(loading || isLoading) && <Loading />}
