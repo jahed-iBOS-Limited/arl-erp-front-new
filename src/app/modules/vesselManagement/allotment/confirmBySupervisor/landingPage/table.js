@@ -222,10 +222,8 @@ const ConfirmBySupervisor = () => {
                       lighterCarrierAmount: 0,
                       isProcess: false,
                       deliveryId: item?.deliveryId,
-
-                      numItemPrice: +item?.numItemPrice || 2,
-                      salesRevenueAmount:
-                        (+item?.numItemPrice || 2) * +item?.quantity,
+                      numItemPrice: +item?.numItemPrice || 0,
+                      salesRevenueAmount: +item?.salesRevenueAmount || 0,
                     },
                   };
                 });
@@ -266,14 +264,20 @@ const ConfirmBySupervisor = () => {
     setRowData({ ...rowData, data: _data });
   };
 
-  const allSelect = (value) => {
+  const allSelect = (value, values) => {
+    // is Supervisor Confirmation (Truck Bill || Godown Unload Bill)
+    const isSupervisorConfirmation = [2, 3].includes(
+      values?.confirmationType?.value
+    );
     let _data = [...rowData?.data];
     const modify = {
       ...rowData,
       data: _data.map((item) => {
+        let pricelessThanZero =
+          +item?.numItemPrice <= 0 && isSupervisorConfirmation;
         return {
           ...item,
-          isSelected: value,
+          isSelected: pricelessThanZero ? false : value,
         };
       }),
     };
@@ -539,7 +543,9 @@ const ConfirmBySupervisor = () => {
                           <tr className="cursor-pointer">
                             {status && (
                               <th
-                                onClick={() => allSelect(!selectedAll())}
+                                onClick={() =>
+                                  allSelect(!selectedAll(), values)
+                                }
                                 style={{ minWidth: "30px" }}
                               >
                                 <input
@@ -615,17 +621,18 @@ const ConfirmBySupervisor = () => {
                             // price is less than 0
                             let pricelessThanZero =
                               +item?.numItemPrice <= 0 &&
-                              isSupervisorConfirmation
-                                ? "red"
-                                : "";
+                              isSupervisorConfirmation;
                             return (
                               <tr
                                 key={index}
-                                style={{ background: pricelessThanZero }}
+                                style={{
+                                  background: pricelessThanZero ? "red" : "",
+                                }}
                               >
                                 {status && (
                                   <td
                                     onClick={() => {
+                                      if (pricelessThanZero) return;
                                       rowDataHandler(
                                         "isSelected",
                                         index,
@@ -647,6 +654,7 @@ const ConfirmBySupervisor = () => {
                                       value={item?.isSelected}
                                       checked={item?.isSelected}
                                       onChange={() => {}}
+                                      disabled={pricelessThanZero}
                                     />
                                   </td>
                                 )}
