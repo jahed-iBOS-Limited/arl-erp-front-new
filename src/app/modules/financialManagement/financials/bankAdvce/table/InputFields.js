@@ -74,7 +74,7 @@ const InputFields = ({ obj }) => {
       if (adviceReportData.length > 0) {
          setTotal(
             Number(
-               adviceReportData?.reduce((acc, item) => acc + item?.numAmount, 0).toFixed(2)
+               adviceReportData?.reduce((acc, item) =>  acc + item?.numAmount, 0).toFixed(2)
             )
          );
       }
@@ -287,7 +287,10 @@ const InputFields = ({ obj }) => {
                         })
                      );
                      if (values?.adviceType?.value === 15) {
-                        zakatAdvicePlanExcel(data, values);
+                        const adviceName = values?.advice?.label === "IBBL" ? "IBBL_ONLINE"  : values?.advice?.label === "IBBL-BEFTN" ? "IBBL_BEFTN" : values?.advice?.label
+                        const dateFormat = values?.dateTime?.split("/").join("_")
+                        const fileName = `${selectedBusinessUnit?.buShortName}_${total ? total : 0}_${adviceName}_${dateFormat}`;
+                        zakatAdvicePlanExcel(data, values, fileName);
                      } else {
 
                         const adviceName = values?.advice?.label === "IBBL" ? "IBBL_ONLINE"  : values?.advice?.label === "IBBL-BEFTN" ? "IBBL_BEFTN" : values?.advice?.label

@@ -1,6 +1,6 @@
 import { generateJsonToExcel } from "../../../../_helper/excel/jsonToExcel";
 
-export const zakatAdvicePlanExcel = (data,values) =>{
+export const zakatAdvicePlanExcel = (data,values, fileName, getZakatBlob) =>{
     const header = [
         {
           text: "Account Name",
@@ -88,5 +88,5 @@ export const zakatAdvicePlanExcel = (data,values) =>{
           bankAccNo:values?.bankAccountNo?.bankAccNo
         };
       });
-    generateJsonToExcel(header, _data);
+    generateJsonToExcel(header, _data, fileName, getZakatBlob);
 }

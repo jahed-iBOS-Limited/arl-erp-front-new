@@ -25,7 +25,7 @@ export const FormatFour = ({
               }}
             >
               <img
-                style={{ width: "70px" }}
+                style={{ width: "65px" }}
                 src={`${APIUrl}/domain/Document/DownlloadFile?id=${selectedBusinessUnit?.imageId}`}
                 alt=""
               />
