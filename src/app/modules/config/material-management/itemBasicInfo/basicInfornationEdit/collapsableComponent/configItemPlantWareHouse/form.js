@@ -13,10 +13,10 @@ import { IInput } from "../../../../../../_helper/_input";
 const DataValiadtionSchema = Yup.object().shape({
   numGrossWeight: Yup.number()
     .required("Gross Weight (Kg) required")
-    .min(1, "Minimum 1 symbols"),
+    .min(0, "Minimum 0"),
   numNetWeight: Yup.number()
     .required("Net Weight (Kg) required")
-    .min(0, "Minimum 0 symbols"),
+    .min(0, "Minimum 0"),
     // ahsan kabir said this should be minimum 0
   // conversionBaseUom:Yup.number().min(2,"Minimum Value Conversion Base Uom"),
   plant: Yup.object().shape({
