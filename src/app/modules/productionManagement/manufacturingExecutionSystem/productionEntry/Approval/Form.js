@@ -186,7 +186,9 @@ export default function _Form({
                     >
                       <tr>
                         {/* <th style={{ width: "20px" }}>SL</th> */}
-                        <th style={{ width: "120px" }}>Outpur Item</th>
+                        <th style={{ width: "50px" }}>Item Code</th>
+                        <th style={{ width: "120px" }}>Output Item</th>
+                        <th style={{ width: "50px" }}>UoM</th>
                         <th style={{ width: "100px" }}>Output Quantity</th>
                         <th style={{ width: "50px" }}>QC Quantity</th>
                         <th style={{ width: "50px" }}>Action</th>
@@ -195,8 +197,14 @@ export default function _Form({
                     <tbody>
                       {rowData?.map((item, index) => (
                         <tr key={index}>
-                          <td style={{ textAlign: "center" }}>
+                           <td style={{ textAlign: "center" }}>
+                            {item?.strItemCode}
+                          </td>
+                          <td className="pl-2">
                             {item?.itemName}
+                          </td>
+                          <td className="pl-2">
+                            {item?.strUomName}
                           </td>
                           <td style={{ textAlign: "center" }}>
                             <input
