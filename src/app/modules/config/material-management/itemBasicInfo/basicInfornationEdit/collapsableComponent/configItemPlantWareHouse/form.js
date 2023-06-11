@@ -17,6 +17,7 @@ const DataValiadtionSchema = Yup.object().shape({
   numNetWeight: Yup.number()
     .required("Net Weight (Kg) required")
     .min(0, "Minimum 0 symbols"),
+    // ahsan kabir said this should be minimum 0
   // conversionBaseUom:Yup.number().min(2,"Minimum Value Conversion Base Uom"),
   plant: Yup.object().shape({
     label: Yup.string().required("Plant is required"),
