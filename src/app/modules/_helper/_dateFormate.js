@@ -61,7 +61,6 @@ export const dateFormatWithMonthName = (date) => {
   ];
 
   let dateArr = date.split("-");
-  console.log(dateArr[1]);
   let year = dateArr[0];
   let month = monthNames[+dateArr[1] - 1];
   let day = dateArr[2];
