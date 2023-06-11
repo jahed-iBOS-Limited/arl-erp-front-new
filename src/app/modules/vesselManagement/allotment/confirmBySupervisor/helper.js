@@ -15,13 +15,25 @@ export const getLandingDataForConfirmation = async (
   setLoading && setLoading(true);
   const search = searchTerm ? `&SearchTerm=${searchTerm}` : "";
   try {
-    const url = `/tms/LigterLoadUnload/GetLighterChallanInfoConfirmation?Type=${
+    const confirmationTypeId = values?.confirmationType?.value;
+
+    const commonURL = `/tms/LigterLoadUnload/GetLighterChallanInfoConfirmation?Type=${
       values?.confirmationStatus?.value
     }&AccountId=${accId}&BusinessUnitId=${buId}&ShipPointId=${values?.shipPoint
       ?.value || 0}&ShipToPartnerId=${values?.shipToPartner?.value ||
       0}&MotherVesselId=${
       values?.motherVessel?.value
     }&PageNo=${pageNo}&PageSize=${pageSize}${search}`;
+
+    const URLForGodownUnloadBill = `/tms/LigterLoadUnload/GetGodownLabourBillInfo?Type=${
+      values?.confirmationStatus?.value
+    }&AccountId=${accId}&BusinessUnitId=${buId}&ShipPointId=${values?.shipPoint
+      ?.value || 0}&ShipToPartnerId=${values?.shipToPartner?.value ||
+      0}&MotherVesselId=${
+      values?.motherVessel?.value
+    }&PageNo=${pageNo}&PageSize=${pageSize}${search}`;
+
+    const url = confirmationTypeId === 3 ? URLForGodownUnloadBill : commonURL;
 
     const res = await axios.get(url);
 
@@ -44,7 +56,7 @@ export const getLandingDataForConfirmation = async (
     const modifyData = {
       ...res?.data,
       data: res?.data?.data?.map((item) => ({
-      // data: filteredData?.map((item) => ({
+        // data: filteredData?.map((item) => ({
         ...item,
         quantity: item?.rowList[0]?.quantity,
         numItemPrice: +item?.rowList?.[0]?.numItemPrice || 0,
