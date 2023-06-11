@@ -1,5 +1,5 @@
 import { createFile } from "./index";
-export const generateJsonToExcel = (header, data, fileName) => {
+export const generateJsonToExcel = (header, data, fileName, getZakatBlob) => {
   const headerMap = new Map();
   header.forEach((head) => {
     headerMap.set(head.key, head);
@@ -20,6 +20,8 @@ export const generateJsonToExcel = (header, data, fileName) => {
       });
     });
   });
+
+  console.log("heaeer", header)
   createFile({
     name: fileName ? fileName : "excel",
     creator: "ibos.io",
@@ -30,5 +32,5 @@ export const generateJsonToExcel = (header, data, fileName) => {
         rows: [header, ...newData],
       },
     ],
-  });
+  }, getZakatBlob);
 };

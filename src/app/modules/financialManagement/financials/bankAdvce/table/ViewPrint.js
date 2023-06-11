@@ -14,6 +14,7 @@ import { FormatSix } from "../pdf/format-06";
 import { FormatSeven } from "../pdf/format-07";
 import { generateExcel } from "./excelReportGenarate";
 import { getPdfFormatNumber } from "./pdfFormatNumber";
+import { zakatAdvicePlanExcel } from "../planExcel/zakatAdvicePlanExcel";
 // import { isIBBLZakat } from "./utils";
 const ViewData = ({ adviceReportData, values }) => {
   const [fontSize, setFontSize] = useState(9);
@@ -89,6 +90,12 @@ const ViewData = ({ adviceReportData, values }) => {
           className="btn btn-primary btn-sm m-0 mx-2 py-2 px-2"
           onClick={(e) => {
             console.log("fileName", )
+            if (values?.adviceType?.value === 15) {
+              const adviceName = values?.advice?.label === "IBBL" ? "IBBL_ONLINE"  : values?.advice?.label === "IBBL-BEFTN" ? "IBBL_BEFTN" : values?.advice?.label
+              const dateFormat = values?.dateTime?.split("/").join("_")
+              const fileName = `${selectedBusinessUnit?.buShortName}_${total ? total : 0}_${adviceName}_${dateFormat}`;
+              zakatAdvicePlanExcel(adviceReportData, values, fileName);
+           }else{
             generateExcel(
               adviceReportData,
               values,
@@ -98,7 +105,7 @@ const ViewData = ({ adviceReportData, values }) => {
               false,  
               null,
               fileName           
-           );
+           );}
             // excelGenerator(
             //   values,
             //   adviceReportData,
