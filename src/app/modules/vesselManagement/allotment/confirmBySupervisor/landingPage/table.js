@@ -174,19 +174,19 @@ const ConfirmBySupervisor = () => {
 
                       deliveryDate: [2, 3].includes(typeId)
                         ? item?.date
-                        : item?.deliveryDate,
+                        : item?.deliveryDate || _todayDate(),
                       isConfirmBySupervisor: [2, 3].includes(typeId),
                       confirmBy: userId,
                       updateBy: userId,
-                      salesOrder: item?.salesOrder,
-                      remarks: values?.remarks,
+                      salesOrder: item?.salesOrder || "",
+                      remarks: values?.remarks || "",
 
                       unloadingSupplierId:
                         item?.godownLabourSupplier?.value || 0,
                       unloadingSupplier:
                         item?.godownLabourSupplier?.label || "",
                       unloadingRate: item?.unloadingRate,
-                      sbuId: item?.sbuId,
+                      sbuId: item?.sbuId || 0,
                       salesRevenueNarration: `Challan No: ${
                         item?.deliveryCode
                       }, Partner: ${item?.shipToPartner?.label ||
@@ -198,30 +198,31 @@ const ConfirmBySupervisor = () => {
                         item?.godownLabourSupplier?.label || "",
                       godownLabourSupplierId:
                         item?.godownLabourSupplier?.value || 0,
-                      dteDate: values?.jvDate,
+                      dteDate: values?.jvDate || _todayDate(),
 
-                      imageId: uploadedImages[0]?.id,
-                      billRef: values?.billRef,
+                      imageId: uploadedImages[0]?.id || "",
+                      billRef: values?.billRef || "",
                       billTypeId: billTypeId,
                     },
                     rowObject: {
-                      rowId: item?.rowId,
-                      quantity: +item?.quantity,
-                      transportRate: +item?.transportRate,
+                      rowId: item?.rowId || 0,
+                      quantity: +item?.quantity || 0,
+                      transportRate: +item?.transportRate || 0,
                       totalShippingValue:
                         (+item?.transportRate + +item?.godownUnloadingRate) *
-                        +item?.quantity,
-                      unloadingAmount: item?.unloadingAmount,
-                      goDownUnloadLabourRate: +item?.godownUnloadingRate,
+                          +item?.quantity || 0,
+                      unloadingAmount: item?.unloadingAmount || 0,
+                      goDownUnloadLabourRate: +item?.godownUnloadingRate || 0,
 
-                      ghatLoadUnloadLabourRate: +item?.directOrDumpRate,
-                      transPortAmount: +item?.quantity * +item?.transportRate,
+                      ghatLoadUnloadLabourRate: +item?.directOrDumpRate || 0,
+                      transPortAmount:
+                        +item?.quantity * +item?.transportRate || 0,
                       goDownLabourAmount:
-                        +item?.quantity * +item?.godownUnloadingRate,
+                        +item?.quantity * +item?.godownUnloadingRate || 0,
                       ghatLabourAmount: 0,
                       lighterCarrierAmount: 0,
                       isProcess: false,
-                      deliveryId: item?.deliveryId,
+                      deliveryId: item?.deliveryId || 0,
                       numItemPrice: +item?.numItemPrice || 0,
                       salesRevenueAmount: +item?.salesRevenueAmount || 0,
                     },
@@ -569,13 +570,17 @@ const ConfirmBySupervisor = () => {
                               Delivery Address
                             </th>
                             <th style={{ minWidth: "100px" }}>Quantity</th>
-                            <th style={{ minWidth: "100px" }}>
-                              Transport Rate (per bag)
-                            </th>{" "}
+                            {values?.confirmationType?.value !== 3 && (
+                              <th style={{ minWidth: "100px" }}>
+                                Transport Rate (per bag)
+                              </th>
+                            )}{" "}
                             {/* 7 */}
-                            <th style={{ minWidth: "100px" }}>
-                              Godown Unloading Rate (per bag)
-                            </th>
+                            {values?.confirmationType?.value !== 2 && (
+                              <th style={{ minWidth: "100px" }}>
+                                Godown Unloading Rate (per bag)
+                              </th>
+                            )}
                             {/* <th style={{ minWidth: "100px" }}>Carrier Rate</th> */}
                             <th style={{ minWidth: "100px" }}>Bill Amount</th>
                             <th style={{ minWidth: "200px" }}>
@@ -586,9 +591,11 @@ const ConfirmBySupervisor = () => {
                                 ? "Receive"
                                 : "Challan"
                             } Date`}</th>
-                            <th style={{ minWidth: "180px" }}>
-                              Transport Supplier
-                            </th>
+                            {values?.confirmationType?.value !== 3 && (
+                              <th style={{ minWidth: "180px" }}>
+                                Transport Supplier
+                              </th>
+                            )}
                             <th style={{ minWidth: "100px" }}>DO No</th>
                             <th style={{ minWidth: "90px" }}>Driver Name</th>
                             <th style={{ minWidth: "80px" }}>
@@ -626,7 +633,9 @@ const ConfirmBySupervisor = () => {
                               <tr
                                 key={index}
                                 style={{
-                                  background: pricelessThanZero ? "red" : "",
+                                  background: pricelessThanZero
+                                    ? "#ff0000a1"
+                                    : "",
                                 }}
                               >
                                 {status && (
@@ -640,14 +649,14 @@ const ConfirmBySupervisor = () => {
                                       );
                                     }}
                                     className="text-center"
-                                    style={
-                                      item?.isSelected
-                                        ? {
-                                            backgroundColor: "#aacae3",
-                                            minWidth: "30px",
-                                          }
-                                        : { minWidth: "30px" }
-                                    }
+                                    // style={
+                                    //   item?.isSelected
+                                    //     ? {
+                                    //         backgroundColor: "#aacae3",
+                                    //         minWidth: "30px",
+                                    //       }
+                                    //     : { minWidth: "30px" }
+                                    // }
                                   >
                                     <input
                                       type="checkbox"
@@ -716,58 +725,62 @@ const ConfirmBySupervisor = () => {
                                   )}
                                 </td>
                                 {/* rate  */}
-                                <td
-                                  className="text-right"
-                                  style={{ width: "100px" }}
-                                >
-                                  {status ? (
-                                    <InputField
-                                      name="transportRate"
-                                      placeholder="Transport Rate"
-                                      value={item?.transportRate || ""}
-                                      type="number"
-                                      min="0"
-                                      disabled={
-                                        values?.confirmationType?.value === 3
-                                      }
-                                      onChange={(e) => {
-                                        if (+e.target.value < 0) return;
-                                        rowDataHandler(
-                                          "transportRate",
-                                          index,
-                                          e?.target?.value
-                                        );
-                                      }}
-                                    />
-                                  ) : (
-                                    item?.transportRate || 0
-                                  )}
-                                </td>{" "}
+                                {values?.confirmationType?.value !== 3 && (
+                                  <td
+                                    className="text-right"
+                                    style={{ width: "100px" }}
+                                  >
+                                    {status ? (
+                                      <InputField
+                                        name="transportRate"
+                                        placeholder="Transport Rate"
+                                        value={item?.transportRate || ""}
+                                        type="number"
+                                        min="0"
+                                        disabled={
+                                          values?.confirmationType?.value === 3
+                                        }
+                                        onChange={(e) => {
+                                          if (+e.target.value < 0) return;
+                                          rowDataHandler(
+                                            "transportRate",
+                                            index,
+                                            e?.target?.value
+                                          );
+                                        }}
+                                      />
+                                    ) : (
+                                      item?.transportRate || 0
+                                    )}
+                                  </td>
+                                )}
                                 {/* 7 */}
-                                <td className="text-right">
-                                  {status ? (
-                                    <InputField
-                                      name="godownUnloadingRate"
-                                      placeholder="Unloading Rate"
-                                      value={item?.godownUnloadingRate || ""}
-                                      type="number"
-                                      min="0"
-                                      disabled={
-                                        values?.confirmationType?.value === 2
-                                      }
-                                      onChange={(e) => {
-                                        if (+e.target.value < 0) return;
-                                        rowDataHandler(
-                                          "godownUnloadingRate",
-                                          index,
-                                          e?.target?.value
-                                        );
-                                      }}
-                                    />
-                                  ) : (
-                                    item?.godownUnloadingRate
-                                  )}
-                                </td>
+                                {values?.confirmationType?.value !== 2 && (
+                                  <td className="text-right">
+                                    {status ? (
+                                      <InputField
+                                        name="godownUnloadingRate"
+                                        placeholder="Unloading Rate"
+                                        value={item?.godownUnloadingRate || ""}
+                                        type="number"
+                                        min="0"
+                                        disabled={
+                                          values?.confirmationType?.value === 2
+                                        }
+                                        onChange={(e) => {
+                                          if (+e.target.value < 0) return;
+                                          rowDataHandler(
+                                            "godownUnloadingRate",
+                                            index,
+                                            e?.target?.value
+                                          );
+                                        }}
+                                      />
+                                    ) : (
+                                      item?.godownUnloadingRate
+                                    )}
+                                  </td>
+                                )}
                                 <td
                                   className="text-right"
                                   style={{ width: "100px" }}
@@ -841,9 +854,11 @@ const ConfirmBySupervisor = () => {
                                     item?.date
                                   )}
                                 </td>{" "}
-                                <td style={{ width: "100px" }}>
-                                  {item?.supplierName}
-                                </td>
+                                {values?.confirmationType?.value !== 3 && (
+                                  <td style={{ width: "100px" }}>
+                                    {item?.supplierName}
+                                  </td>
+                                )}
                                 <td>{item?.deliveryCode}</td>
                                 <td>{item?.driverName}</td>
                                 <td>{item?.driverPhone}</td>
