@@ -22,6 +22,8 @@ import {
 } from "../helper";
 import TableGird from "./gird";
 import TopSheetTable from "./topSheetTable";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import G2GSalesDetailsTable from "./g2gSalesDetails";
 
 const initData = {
   fromDate: _firstDateofMonth(),
@@ -31,6 +33,7 @@ const initData = {
   shippointDDL: "",
   customerNameDDL: "",
   salesOrg: "",
+  businessPartner: "",
 };
 
 export default function CustomerStatementModifiedReportTable() {
@@ -41,6 +44,7 @@ export default function CustomerStatementModifiedReportTable() {
   const [customerNameDDL, setCustomerNameDDL] = useState([]);
   const [loading, setLoading] = useState(false);
   const [distributionChannelDDL, setDistributionChannelDDL] = useState([]);
+  const [G2GSalesGrid, getG2GSalesGrid, loader] = useAxiosGet();
 
   // get user profile data from store
   const {
@@ -77,6 +81,15 @@ export default function CustomerStatementModifiedReportTable() {
         setLoading
       );
     }
+    if (values?.reportType?.value === 3) {
+      getG2GSalesGrid(
+        `/tms/LigterLoadUnload/G2GSalesStatement?accountId=${accId}&businessUnitId=${buId}&shippointId=${values
+          ?.shippointDDL?.value || 0}&businessPartnerId=${values
+          ?.businessPartner?.value || 0}&fromDate=${values?.fromDate}&toDate=${
+          values?.toDate
+        }`
+      );
+    }
   };
 
   return (
@@ -102,6 +115,7 @@ export default function CustomerStatementModifiedReportTable() {
                             options={[
                               { value: 1, label: "Details" },
                               { value: 2, label: "Top Sheet" },
+                              { value: 3, label: "G2G Sales Details" },
                             ]}
                             value={values?.reportType}
                             label="Report Type"
@@ -115,23 +129,25 @@ export default function CustomerStatementModifiedReportTable() {
                           />
                         </div>
                         <FromDateToDateForm obj={{ values, setFieldValue }} />
-                        <div className="col-lg-3">
-                          <NewSelect
-                            name="salesOrg"
-                            options={salesOrgDDl || []}
-                            value={values?.salesOrg}
-                            label="Sales Org"
-                            onChange={(valueOption) => {
-                              setFieldValue("customerNameDDL", "");
-                              setFieldValue("distributionChannel", "");
-                              setFieldValue("salesOrg", valueOption);
-                              setRowDto([]);
-                            }}
-                            placeholder="Sales Org"
-                            errors={errors}
-                            touched={touched}
-                          />
-                        </div>
+                        {[1, 2].includes(values?.reportType?.value) && (
+                          <div className="col-lg-3">
+                            <NewSelect
+                              name="salesOrg"
+                              options={salesOrgDDl || []}
+                              value={values?.salesOrg}
+                              label="Sales Org"
+                              onChange={(valueOption) => {
+                                setFieldValue("customerNameDDL", "");
+                                setFieldValue("distributionChannel", "");
+                                setFieldValue("salesOrg", valueOption);
+                                setRowDto([]);
+                              }}
+                              placeholder="Sales Org"
+                              errors={errors}
+                              touched={touched}
+                            />
+                          </div>
+                        )}
                         <div className="col-lg-3">
                           <NewSelect
                             name="shippointDDL"
@@ -154,32 +170,37 @@ export default function CustomerStatementModifiedReportTable() {
                             }
                           />
                         </div>
-                        <div className="col-lg-3">
-                          <NewSelect
-                            name="distributionChannel"
-                            options={[
-                              { value: 0, label: "All" },
-                              ...distributionChannelDDL,
-                            ]}
-                            value={values?.distributionChannel}
-                            label="Distribution Channel"
-                            onChange={(valueOption) => {
-                              setFieldValue("customerNameDDL", "");
-                              setFieldValue("distributionChannel", valueOption);
-                              setRowDto([]);
-                              getCustomerNameDDL(
-                                accId,
-                                buId,
-                                values?.salesOrg?.value,
-                                valueOption?.value,
-                                setCustomerNameDDL
-                              );
-                            }}
-                            placeholder="Distribution Channel"
-                            errors={errors}
-                            touched={touched}
-                          />
-                        </div>
+                        {[1, 2].includes(values?.reportType?.value) && (
+                          <div className="col-lg-3">
+                            <NewSelect
+                              name="distributionChannel"
+                              options={[
+                                { value: 0, label: "All" },
+                                ...distributionChannelDDL,
+                              ]}
+                              value={values?.distributionChannel}
+                              label="Distribution Channel"
+                              onChange={(valueOption) => {
+                                setFieldValue("customerNameDDL", "");
+                                setFieldValue(
+                                  "distributionChannel",
+                                  valueOption
+                                );
+                                setRowDto([]);
+                                getCustomerNameDDL(
+                                  accId,
+                                  buId,
+                                  values?.salesOrg?.value,
+                                  valueOption?.value,
+                                  setCustomerNameDDL
+                                );
+                              }}
+                              placeholder="Distribution Channel"
+                              errors={errors}
+                              touched={touched}
+                            />
+                          </div>
+                        )}
                         {values?.reportType?.value === 1 && (
                           <div className="col-lg-3">
                             <NewSelect
@@ -198,17 +219,38 @@ export default function CustomerStatementModifiedReportTable() {
                             />
                           </div>
                         )}
+                        {values?.reportType?.value === 3 && (
+                          <div className="col-lg-3">
+                            <NewSelect
+                              name="businessPartner"
+                              options={[
+                                { value: 73244, label: "BADC" },
+                                { value: 73245, label: "BCIC" },
+                              ]}
+                              value={values?.businessPartner}
+                              label="Business Partner"
+                              onChange={(e) => {
+                                setFieldValue("businessPartner", e);
+                              }}
+                              placeholder="Business Partner"
+                            />
+                          </div>
+                        )}
 
                         <div className="mt-5">
                           <button
                             className="btn btn-primary"
                             onClick={() => getGridData(values)}
                             disabled={
-                              !values?.salesOrg ||
-                              !values?.shippointDDL ||
+                              ([1, 2].includes(values?.reportType?.value) &&
+                                !values?.salesOrg &&
+                                !values?.shippointDDL &&
+                                !values?.distributionChannel) ||
                               (values?.reportType?.value === 1 &&
                                 !values?.customerNameDDL) ||
-                              !values?.distributionChannel
+                              (values?.reportType?.value === 3 &&
+                                !values?.businessPartner) ||
+                              !values?.reportType
                             }
                           >
                             View
@@ -218,7 +260,7 @@ export default function CustomerStatementModifiedReportTable() {
                           <button
                             className="btn btn-primary"
                             onClick={() => {
-                              if (values.reportType.value === 2) {
+                              if ([2, 3].includes(values.reportType.value)) {
                                 excelRef.current.handleDownload();
                               } else {
                                 CreateCustomerStatementExcel(
@@ -233,15 +275,17 @@ export default function CustomerStatementModifiedReportTable() {
                                 );
                               }
                             }}
-                            disabled={rowDto?.length < 1}
+                            disabled={
+                              rowDto?.length < 1 && G2GSalesGrid?.length < 1
+                            }
                           >
                             Export Excel
                           </button>
                         </div>
                       </div>
                     </Form>
-                    {loading && <Loading />}
-                    {rowDto?.length > 0 && (
+                    {(loading || loader) && <Loading />}
+                    {(rowDto?.length > 0 || G2GSalesGrid?.length > 0) && (
                       <div className="my-5">
                         <div className="text-center my-2">
                           <h3>
@@ -272,6 +316,12 @@ export default function CustomerStatementModifiedReportTable() {
                         )}
                         {values?.reportType?.value === 2 && (
                           <TopSheetTable rowData={rowDto} excelRef={excelRef} />
+                        )}
+                        {values?.reportType?.value === 3 && (
+                          <G2GSalesDetailsTable
+                            rowData={G2GSalesGrid}
+                            excelRef={excelRef}
+                          />
                         )}
                       </div>
                     )}
