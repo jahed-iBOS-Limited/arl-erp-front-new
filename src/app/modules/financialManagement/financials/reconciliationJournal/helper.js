@@ -7,6 +7,7 @@ export const getType = () => {
   return [
     { value: 1, label: "Inventory, Overhead and COGS" },
     { value: 2, label: "Depreciation" },
+    { value: 3, label: "Income Tax Provision" },
   ];
 };
 
