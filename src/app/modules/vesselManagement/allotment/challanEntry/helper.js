@@ -1,6 +1,6 @@
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import * as Yup from 'yup';
+import axios from "axios";
+import { toast } from "react-toastify";
+import * as Yup from "yup";
 
 export const getShipToPartyDDL = async (
   accId,
@@ -92,7 +92,7 @@ export const StockOutFromInventoryApproval = async (payload, cb) => {
       `/tms/LigterLoadUnload/StockOutFromInventoryApproval`,
       payload
     );
-    toast.success('Approved');
+    toast.success("Approved");
     cb();
   } catch (error) {
     // toast.error(error?.response?.data?.message);
@@ -101,7 +101,7 @@ export const StockOutFromInventoryApproval = async (payload, cb) => {
 export const StockInToInventoryApproval = async (payload, cb) => {
   try {
     await axios.put(`tms/LigterLoadUnload/StockInToInventoryApproval`, payload);
-    toast.success('Approved');
+    toast.success("Approved");
     cb();
   } catch (error) {
     // toast.error(error?.response?.data?.message);
@@ -118,6 +118,26 @@ export const GetLighterChallanInfoById = async (deliveryId, setter, cb) => {
     }
   } catch (error) {}
 };
+export const getG2GMotherVesselLocalRevenueApi = async (
+  accId,
+  buId,
+  partnerId,
+  motherVesselId,
+  portId,
+  godownId,
+  cb
+) => {
+  try {
+    const res = await axios?.get(
+      `/tms/LigterLoadUnload/GetG2GMotherVesselLocalRevenue?AccountId=${accId}&BusinessUnitId=${buId}&BusinessPartnerId=${partnerId}&MotherVesselId=${motherVesselId}&PortId=${portId}&GodownId=${godownId}`
+    );
+    if (res?.status === 200) {
+      cb && cb(res?.data);
+    }
+  } catch (error) {
+    cb && cb('');
+  }
+};
 export const EditLighterChallanInfo = async (payload, cb) => {
   try {
     const res = await axios?.put(
@@ -125,7 +145,7 @@ export const EditLighterChallanInfo = async (payload, cb) => {
       payload
     );
     if (res?.status === 200) {
-      toast.success('Edit success');
+      toast.success("Edit success");
       cb && cb();
     }
   } catch (error) {
@@ -135,40 +155,40 @@ export const EditLighterChallanInfo = async (payload, cb) => {
 // Validation schema
 export const validationSchema = Yup.object().shape({
   shipPoint: Yup.object().shape({
-    label: Yup.string().required('Mother Vessel is required'),
-    value: Yup.string().required('Mother Vessel is required'),
+    label: Yup.string().required("Mother Vessel is required"),
+    value: Yup.string().required("Mother Vessel is required"),
   }),
   motherVessel: Yup.object().shape({
-    label: Yup.string().required('Mother Vessel is required'),
-    value: Yup.string().required('Mother Vessel is required'),
+    label: Yup.string().required("Mother Vessel is required"),
+    value: Yup.string().required("Mother Vessel is required"),
   }),
   // program: Yup.object().shape({
   //   label: Yup.string().required("Program is required"),
   //   value: Yup.string().required("Program is required"),
   // }),
   lighterVessel: Yup.object().shape({
-    label: Yup.string().required('Lighter Vessel is required'),
-    value: Yup.string().required('Lighter Vessel is required'),
+    label: Yup.string().required("Lighter Vessel is required"),
+    value: Yup.string().required("Lighter Vessel is required"),
   }),
   logisticBy: Yup.object().shape({
-    label: Yup.string().required('Logistic by is required'),
-    value: Yup.string().required('Logistic by is required'),
+    label: Yup.string().required("Logistic by is required"),
+    value: Yup.string().required("Logistic by is required"),
   }),
   supplier: Yup.object().shape({
-    label: Yup.string().required('Supplier is required'),
-    value: Yup.string().required('Supplier is required'),
+    label: Yup.string().required("Supplier is required"),
+    value: Yup.string().required("Supplier is required"),
   }),
   vehicle: Yup.object().shape({
-    label: Yup.string().required('Vehicle is required'),
-    value: Yup.string().required('Vehicle is required'),
+    label: Yup.string().required("Vehicle is required"),
+    value: Yup.string().required("Vehicle is required"),
   }),
-  driver: Yup.string().required('Driver Name is required'),
-  mobileNo: Yup.string().required('Mobile No is required'),
+  driver: Yup.string().required("Driver Name is required"),
+  mobileNo: Yup.string().required("Mobile No is required"),
   godown: Yup.object().shape({
-    label: Yup.string().required('Destination/Godown Name is required'),
-    value: Yup.string().required('Destination/Godown Name is required'),
+    label: Yup.string().required("Destination/Godown Name is required"),
+    value: Yup.string().required("Destination/Godown Name is required"),
   }),
-  address: Yup.string().required('Delivery address is required'),
-  deliveryDate: Yup.string().required('Delivery date is required'),
-  shippingChallanNo: Yup.string().required('Shipping challan no is required'),
+  address: Yup.string().required("Delivery address is required"),
+  deliveryDate: Yup.string().required("Delivery date is required"),
+  shippingChallanNo: Yup.string().required("Shipping challan no is required"),
 });

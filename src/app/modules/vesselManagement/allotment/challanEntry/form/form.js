@@ -18,11 +18,17 @@ import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import IViewModal from "../../../../_helper/_viewModal";
 import { BADCBCICForm } from "../../../common/components";
-import { validationSchema } from "../helper";
+import { getG2GMotherVesselLocalRevenueApi, validationSchema } from "../helper";
 import AddVehicleNameModal from "./addVehicleNameModal";
 import Loading from "../../../../_helper/_loading";
 
-const headers = ["SL", "Item Name", "Product Qty (Bag)", "Action"];
+const headers = [
+  "SL",
+  "Item Name",
+  "Product Qty (Bag)",
+  "Item Price",
+  "Action",
+];
 
 export default function _Form({
   buId,
@@ -99,6 +105,24 @@ export default function _Form({
       });
   };
 
+  const commonItemPriceSet = (values, setFieldValue) => {
+    const motherVesselId = values?.motherVessel?.value || 0;
+    const portId = values?.port?.value || 0;
+    const godownId = values?.godown?.value || 0;
+
+    const partnerId = state?.type === "badc" ? 73244 : 73245;
+    getG2GMotherVesselLocalRevenueApi(
+      accId,
+      buId,
+      partnerId,
+      motherVesselId,
+      portId,
+      godownId,
+      (data) => {
+        setFieldValue("itemPrice", data?.itemRate || 0);
+      }
+    );
+  };
   return (
     <>
       <Formik
@@ -206,6 +230,13 @@ export default function _Form({
                           label="Port"
                           onChange={(e) => {
                             onChangeHandler("port", values, e, setFieldValue);
+                            commonItemPriceSet(
+                              {
+                                ...values,
+                                port: e,
+                              },
+                              setFieldValue
+                            );
                           }}
                           placeholder="Port"
                           errors={errors}
@@ -224,6 +255,13 @@ export default function _Form({
                               "motherVessel",
                               values,
                               e,
+                              setFieldValue
+                            );
+                            commonItemPriceSet(
+                              {
+                                ...values,
+                                motherVessel: e,
+                              },
                               setFieldValue
                             );
                           }}
@@ -419,6 +457,13 @@ export default function _Form({
                               { ...values, godown: e },
                               setFieldValue
                             );
+                            commonItemPriceSet(
+                              {
+                                ...values,
+                                godown: e,
+                              },
+                              setFieldValue
+                            );
                           }}
                         />
                       </div>
@@ -598,7 +643,18 @@ export default function _Form({
                         />
                       </div>
 
-                      <div className="col-lg-4"></div>
+                      <div className="col-lg-2">
+                        <InputField
+                          label="Item Price"
+                          placeholder="Item Price"
+                          value={values?.itemPrice || 0}
+                          name="itemPrice"
+                          onChange={(e) => {}}
+                          type="number"
+                          disabled
+                        />
+                      </div>
+                      <div className="col-lg-2"></div>
                       <div className="col-lg-2">
                         <InputField
                           label="Empty Bag"
@@ -639,7 +695,14 @@ export default function _Form({
                               );
                             });
                           }}
-                          disabled={!values?.item || !values?.quantity || id}
+                          disabled={
+                            !values?.item ||
+                            !values?.quantity ||
+                            id ||
+                            (state?.type === "badc"
+                              ? !values?.motherVessel || !values?.port
+                              : !values?.godown)
+                          }
                         >
                           Add
                         </button>
@@ -693,7 +756,9 @@ export default function _Form({
                                     item?.quantity
                                   )}
                                 </td>
-
+                                <td className="text-right">
+                                  {item?.itemPrice}
+                                </td>
                                 {!id && (
                                   <td
                                     style={{ width: "80px" }}
