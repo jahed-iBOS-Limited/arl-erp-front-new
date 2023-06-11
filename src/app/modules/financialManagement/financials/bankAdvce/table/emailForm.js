@@ -7,6 +7,7 @@ import Loading from '../../../../_helper/_loading';
 import { sendEmailPostApi } from '../helper';
 import { generateExcel } from './excelReportGenarate';
 import { excelGenerator } from './excelGenerator';
+import { zakatAdvicePlanExcel } from '../planExcel/zakatAdvicePlanExcel';
 
 const validationSchema = Yup.object().shape({
    toMail: Yup.string().required('Email is required'),
@@ -24,9 +25,6 @@ export default function EmailViewForm({
    const [total, setTotal] = useState(0);
    const [totalInWords, setTotalInWords] = useState(0);
 
-
-   
-
    useEffect(() => {
       if (data.length > 0) {
          setTotal(
@@ -43,40 +41,60 @@ export default function EmailViewForm({
       }
    }, [total]);
 
-   const adviceName = landingValues?.advice?.label === "IBBL" ? "IBBL_ONLINE"  : landingValues?.advice?.label === "IBBL-BEFTN" ? "IBBL_BEFTN" : landingValues?.advice?.label
-   const dateFormat = landingValues?.dateTime?.split("/").join("_")
-   const fileName = `${selectedBusinessUnit?.buShortName}_${total ? total : 0}_${adviceName}_${dateFormat}`;
+   const adviceName =
+      landingValues?.advice?.label === 'IBBL'
+         ? 'IBBL_ONLINE'
+         : landingValues?.advice?.label === 'IBBL-BEFTN'
+         ? 'IBBL_BEFTN'
+         : landingValues?.advice?.label;
+   const dateFormat = landingValues?.dateTime?.split('/').join('_');
+   const fileName = `${selectedBusinessUnit?.buShortName}_${
+      total ? total : 0
+   }_${adviceName}_${dateFormat}`;
 
    function saveHandler(values, cb) {
       const promiseLanding = new Promise((resolve, reject) => {
-
-         if(landingValues?.advice?.info === 'ibblBEFTN' || landingValues?.advice?.info === 'ibbl'
-   || landingValues?.advice?.info === 'primeBEFTN' || landingValues?.advice?.info === 'prime'
-   || landingValues?.advice?.info === 'scb' || landingValues?.advice?.info === 'above36Character'
-   || landingValues?.advice?.info === 'below36Character' || landingValues?.advice?.info === 'import'){
-      generateExcel(
-         data,
-         landingValues,
-         total,
-         totalInWords,
-         selectedBusinessUnit,
-         false,
-         getBlobData => {
-            resolve(getBlobData);
+         if (landingValues?.adviceType?.value === 15) {
+            console.log("zakat email")
+            zakatAdvicePlanExcel(data, landingValues, fileName, getZakatBlobData => {
+               resolve(getZakatBlobData);
+            });
          }
-      );
-   }else{
-      excelGenerator(
-               landingValues,
-               data,
-               selectedBusinessUnit,
-               total,
-               totalInWords,
-               adviceBlobData => {
-                  resolve(adviceBlobData);
-               }
-            );
-   }
+         else{
+            if (
+               landingValues?.advice?.info === 'ibblBEFTN' ||
+               landingValues?.advice?.info === 'ibbl' ||
+               landingValues?.advice?.info === 'primeBEFTN' ||
+               landingValues?.advice?.info === 'prime' ||
+               landingValues?.advice?.info === 'scb' ||
+               landingValues?.advice?.info === 'above36Character' ||
+               landingValues?.advice?.info === 'below36Character' ||
+               landingValues?.advice?.info === 'import'
+            ) {
+               generateExcel(
+                  data,
+                  landingValues,
+                  total,
+                  totalInWords,
+                  selectedBusinessUnit,
+                  false,
+                  getBlobData => {
+                     resolve(getBlobData);
+                  }
+               );
+            } else {
+               excelGenerator(
+                  landingValues,
+                  data,
+                  selectedBusinessUnit,
+                  total,
+                  totalInWords,
+                  adviceBlobData => {
+                     resolve(adviceBlobData);
+                  }
+               );
+            }
+         }
          
       });
 
@@ -102,8 +120,6 @@ export default function EmailViewForm({
          console.log('error', error);
       }
    }
-
-   console.log("fileName", fileName)
 
    return (
       <Formik
