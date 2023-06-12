@@ -35,6 +35,8 @@ export const ShippointChange = async (
   DeliveryId,
   ShippointId,
   ShippointName,
+  WarehouseId,
+  WarehouseName,
   buiId,
   setLoading,
   cb
@@ -42,7 +44,7 @@ export const ShippointChange = async (
   setLoading(true);
   try {
     const res = await axios.put(
-      `/oms/ShipPoint/ShippointChange?DeliveryId=${DeliveryId}&ShippointId=${ShippointId}&ShippointName=${ShippointName}&BusinessUnitId=${buiId}`
+      `/oms/ShipPoint/ShippointChange?DeliveryId=${DeliveryId}&ShippointId=${ShippointId}&ShippointName=${ShippointName}&BusinessUnitId=${buiId}&WarehouseName=${WarehouseName}&WarehouseId=${WarehouseId}`
     );
     toast.success(res?.data?.message);
     setLoading(false);
