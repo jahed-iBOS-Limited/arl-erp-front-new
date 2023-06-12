@@ -38,10 +38,12 @@ const initData = {
   projectName: "",
   expenseFrom: _todayDate(),
   expenseTo: _dateFormatter(endOfMonth),
-  costCenter: "",
   quantity: "",
   vehicle: "",
   comments1: "",
+  costCenter: "",
+  costElement:"",
+  profitCenter: "",
   expenseDate: _todayDate(),
   transaction: "",
   expenseAmount: "",
@@ -108,9 +110,15 @@ export default function ExpenseRegisterCreateForm() {
         //obj row
         let objRow = rowDto?.map((item, i) => ({
           rowId: item.expenseRowId ? item.expenseRowId : 0,
+          costCenterId:item?.costCenter?.value || 0,
+          costCenterName:item?.costCenter?.label || "",
+          profitCenterId:item?.profitCenter?.value || 0,
+          profitCenterName:item?.profitCenter?.label || "",
+          costElementId:item?.costElement?.value || 0,
+          costElementName:item?.costElement?.label || "",
           dteExpenseDate: item.expenseDate,
           businessTransactionId: item?.transaction?.value,
-          businessTransactionName: item?.transaction?.label,
+          businessTransactionName: item?.transaction?.label, 
           numQuantity: +item.quantity,
           numRate: +item.expenseAmount / +item.quantity,
           numAmount: +item.expenseAmount || 0,
@@ -137,8 +145,8 @@ export default function ExpenseRegisterCreateForm() {
             dteToDate: values.expenseTo,
             projectId: values.projectName.value || 0,
             projectName: values.projectName.label || "",
-            costCenterId: values.costCenter.value || 0,
-            costCenterName: values.costCenter.label || "",
+            costCenterId:  0,
+            costCenterName:  "",
             instrumentId: values.paymentType.value,
             instrumentName: values.paymentType.label,
             disbursementCenterId: values?.disbursmentCenter?.value,
@@ -166,6 +174,12 @@ export default function ExpenseRegisterCreateForm() {
       } else {
         // obj row for expense register
         let objRow = rowDto?.map((item, i) => ({
+          costCenterId:item?.costCenter?.value || 0,
+          costCenterName:item?.costCenter?.label || "",
+          profitCenterId:item?.profitCenter?.value || 0,
+          profitCenterName:item?.profitCenter?.label || "",
+          costElementId:item?.costElement?.value || 0,
+          costElementName:item?.costElement?.label || "",
           dteExpenseDate: item.expenseDate,
           businessTransactionId: item.transaction.value,
           businessTransactionName: item.transaction.label,
@@ -198,8 +212,8 @@ export default function ExpenseRegisterCreateForm() {
             dteToDate: values.expenseTo,
             projectId: values.projectName.value || 0,
             projectName: values.projectName.label || "",
-            costCenterId: values.costCenter.value || 0,
-            costCenterName: values.costCenter.label || "",
+            costCenterId: 0,
+            costCenterName: "",
             instrumentId: values.paymentType.value,
             instrumentName: values.paymentType.label,
             disbursementCenterId: values.disbursmentCenter.value,
@@ -234,7 +248,7 @@ export default function ExpenseRegisterCreateForm() {
       setDisabled(false);
     }
   };
-  const setter = async (values) => {
+  const setter = async (values, cb) => {
     let fuelLogCash = 0;
     if (rowDto?.length === 0) {
       fuelLogCash = await getFuelLogCash(
@@ -248,6 +262,9 @@ export default function ExpenseRegisterCreateForm() {
 
     const duplicateCheck = rowDto?.some(
       (itm) =>
+        itm?.costCenter?.value === values?.costCenter?.value &&
+        itm?.profitCenter?.value === values?.profitCenter?.value &&
+        itm?.costElement?.value === values?.costElement?.value &&
         itm?.transaction?.value === values?.transaction?.value &&
         itm?.comments2 === values?.comments2 &&
         +itm?.expenseAmount === +values?.expenseAmount &&
@@ -281,6 +298,7 @@ export default function ExpenseRegisterCreateForm() {
           });
         }
         setRowDto(newRowDto);
+        cb && cb()
         setUploadImage("");
       } else {
         toast.warn(

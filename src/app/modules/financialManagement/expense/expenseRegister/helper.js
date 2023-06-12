@@ -290,6 +290,18 @@ export const getExpenseById = async (expId, setter, setRowDto, setLoding) => {
         return {
           ...item,
           expenseRowId: item.expenseRowId,
+          costCenter:{
+            label:item.costCenterName,
+            value:item.costCenterId,
+          },
+          profitCenter:{
+            label:item.profitCenterName,
+            value:item.profitCenterId,
+          },
+          costElement:{
+            label:item.costElementName,
+            value:item.costElementId,
+          },
           expenseDate: item.expenseDate,
           transaction: {
             value: item.businessTransactionId,
