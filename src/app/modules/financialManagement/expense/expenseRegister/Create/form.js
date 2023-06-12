@@ -28,12 +28,15 @@ import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
 import InputField from "./../../../../_helper/_inputField";
 import NewSelect from "./../../../../_helper/_select";
 import { YearDDL } from "./../../../../_helper/_yearDDL";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import Loading from "../../../../_helper/_loading";
+import { CostElementDDLApi } from "../../../../inventoryManagement/warehouseManagement/invTransaction/Form/issueInvantory/helper";
 // Validation schema for bank transfer
 const validationSchema = Yup.object().shape({
-  paymentType: Yup.object().shape({
-    label: Yup.string().required("Payment type is required"),
-    value: Yup.string().required("Payment type is required"),
-  }),
+  // paymentType: Yup.object().shape({
+  //   label: Yup.string().required("Payment type is required"),
+  //   value: Yup.string().required("Payment type is required"),
+  // }),
   expenseGroup: Yup.object().shape({
     label: Yup.string().required("Expense Group is required"),
     value: Yup.string().required("Expense Group is required"),
@@ -69,12 +72,19 @@ export default function _Form({
 }) {
   const [transaction, setTransaction] = useState([]);
   // payment type state
-  const [paymentType, setPaymentType] = useState([]);
+  const [paymentType, setPaymentType] = useState([]); 
   //
   //category state
   const [, setCategory] = useState([]);
   // cost center state
   const [costCenter, setCostCenter] = useState([]);
+  const [costElementDDL, setCostElementDDL] = useState([]);
+  const [
+    profitcenterDDL,
+    getProfitcenterDDL,
+    loadingOnGetProfitCenter,
+    setProfitcenterDDL,
+  ] = useAxiosGet();
   // disbursment state
   const [disbustmentCenter, setDisbustmentCenter] = useState([]);
   //vehicle state
@@ -151,6 +161,7 @@ export default function _Form({
 
   return (
     <>
+      {loadingOnGetProfitCenter && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={
@@ -172,7 +183,7 @@ export default function _Form({
               }
         }
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => {
+        onSubmit={(values, { resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
             setRowDto([]);
@@ -186,7 +197,6 @@ export default function _Form({
           errors,
           touched,
           setFieldValue,
-          isValid,
         }) => (
           <>
             <marquee
@@ -339,27 +349,7 @@ export default function _Form({
                         }
                       />
                     </div>
-                    <div className="col-lg-12 pr-1 pl mb-1">
-                      <label>Cost Center</label>
-                      <Select
-                        onChange={(valueOption) => {
-                          setFieldValue("costCenter", valueOption);
-                          setFieldValue("projectName", "");
-                        }}
-                        value={values?.costCenter || ""}
-                        isSearchable={true}
-                        options={costCenter || []}
-                        styles={customStyles}
-                        placeholder="Cost Center"
-                        name="costCenter"
-                        isDisabled={isEdit || values?.projectName}
-                      />
-                      <FormikError
-                        errors={errors}
-                        name="costCenter"
-                        touched={touched}
-                      />
-                    </div>
+
                     <div className="col-lg-12 pr-1 pl mb-1">
                       <NewSelect
                         name="expenseGroup"
@@ -413,25 +403,7 @@ export default function _Form({
                         touched={touched}
                       />
                     </div>
-                    <div className="col-lg-12 pr-1 pl mb-1">
-                      <label>Payment Type</label>
-                      <Select
-                        onChange={(valueOption) => {
-                          setFieldValue("paymentType", valueOption);
-                        }}
-                        value={values?.paymentType || ""}
-                        isSearchable={true}
-                        options={paymentType || []}
-                        styles={customStyles}
-                        name="paymentType"
-                        isDisabled={isEdit}
-                      />
-                      <FormikError
-                        errors={errors}
-                        name="paymentType"
-                        touched={touched}
-                      />
-                    </div>
+
                     <div className="col-lg-12 pr-1 pl mb-1">
                       <label>Vehicle No. (Optional)</label>
                       <Select
@@ -470,7 +442,71 @@ export default function _Form({
                         max={values?.expenseTo}
                       />
                     </div>
-
+                    <div className="col-lg-3">
+                      <label>Cost Center</label>
+                      <Select
+                        onChange={(valueOption) => {
+                          setFieldValue("costCenter", valueOption);
+                          setFieldValue("costElement", "");
+                          setFieldValue("profitCenter", "");
+                          setProfitcenterDDL([]);
+                          setCostElementDDL([]);
+                          if (valueOption) {
+                            CostElementDDLApi(
+                              profileData.accountId,
+                              selectedBusinessUnit.value,
+                              valueOption?.value,
+                              setCostElementDDL
+                            );
+                            getProfitcenterDDL(
+                              `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=${valueOption?.value}&businessUnitId=${selectedBusinessUnit.value}`,
+                              (data) => {
+                                if (data?.length) {
+                                  setFieldValue("profitCenter", data[0]);
+                                }
+                              }
+                            );
+                          }
+                        }}
+                        value={values?.costCenter || ""}
+                        isSearchable={true}
+                        options={costCenter || []}
+                        styles={customStyles}
+                        placeholder="Cost Center"
+                        name="costCenter"
+                        isDisabled={isEdit}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <label>Cost Element</label>
+                      <Select
+                        onChange={(valueOption) => {
+                          setFieldValue("costElement", valueOption);
+                        }}
+                        value={values?.costElement || ""}
+                        isSearchable={true}
+                        options={costElementDDL || []}
+                        styles={customStyles}
+                        placeholder="Cost Element"
+                        name="costElement"
+                        isDisabled={isEdit || !values?.costCenter}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <label>Profit Center</label>
+                      <Select
+                        onChange={(valueOption) => {
+                          setFieldValue("profitCenter", valueOption);
+                        }}
+                        value={values?.profitCenter || ""}
+                        isSearchable={true}
+                        options={profitcenterDDL || []}
+                        styles={customStyles}
+                        placeholder="Profit Center"
+                        name="Profit Center"
+                        isDisabled={isEdit || !values?.costCenter}
+                      />
+                    </div>
                     <div className="col-lg-3 pl pr-1">
                       <label>Select Expense Type</label>
                       <Select
@@ -552,11 +588,16 @@ export default function _Form({
                               : !values?.expenseDate ||
                                 !values?.transaction ||
                                 !values?.expenseAmount ||
-                                !values?.location
+                                !values?.location ||
+                                !values?.costCenter ||
+                                !values?.costElement ||
+                                !values?.profitCenter
                           }
                           className="btn btn-primary"
                           onClick={() => {
-                            setter(values);
+                            setter(values, () => {
+                              setFieldValue("expenseAmount", "");
+                            });
                             setFieldValue("driverExp", false);
                           }}
                         >
@@ -626,16 +667,17 @@ export default function _Form({
                         <thead className={rowDto.length < 1 && "d-none"}>
                           <tr>
                             <th style={{ width: "20px" }}>SL</th>
-                            <th style={{ width: "120px" }}>Expense Date</th>
-                            <th style={{ width: "100px" }}>Expense Group</th>
-                            <th style={{ width: "100px" }}>Expense Place</th>
-                            <th style={{ width: "200px" }}>Expense Amount</th>
-                            <th style={{ width: "200px" }}>
-                              Expense Description
-                            </th>
-                            <th style={{ width: "200px" }}>Driver Name</th>
-                            <th style={{ width: "100px" }}>Attachments</th>
-                            <th style={{ width: "50px" }}>Actions</th>
+                            <th>Expense Date</th>
+                            <th>Cost Center</th>
+                            <th>Cost Element</th>
+                            <th>Profit Center</th>
+                            <th>Expense Group</th>
+                            <th>Expense Place</th>
+                            <th>Expense Amount</th>
+                            <th>Expense Description</th>
+                            <th>Driver Name</th>
+                            <th>Attachments</th>
+                            <th>Actions</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -650,6 +692,9 @@ export default function _Form({
                                     {_dateFormatter(item?.expenseDate)}
                                   </div>
                                 </td>
+                                <td>{item?.costCenter?.label}</td>
+                                <td>{item?.costElement?.label}</td>
+                                <td>{item?.profitCenter?.label}</td>
                                 <td>
                                   <div className="text-left pl-2">
                                     {item?.transaction?.label}
