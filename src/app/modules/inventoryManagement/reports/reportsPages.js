@@ -20,6 +20,7 @@ import { LoanRegisterReport } from "./inventoryLoanRegister/LoanRegisterReport";
 import { ItemTransferTransit } from "./itemTransferTransit/Table/table";
 import SupplierWisePurchase from "./supplierWisePurchase";
 import CancledMRR from "./cancledMRR";
+import WHStockReportVat from "./whStockReportVat";
 
 export function ReportsPages() {
   return (
@@ -124,6 +125,10 @@ export function ReportsPages() {
       <ContentRoute
         from="/inventory-management/reports/CancledMRR"
         component={CancledMRR}
+      />
+      <ContentRoute
+        from="/inventory-management/reports/wh-stock-report-vat"
+        component={WHStockReportVat}
       />
     </Switch>
   );
