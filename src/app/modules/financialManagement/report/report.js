@@ -34,6 +34,7 @@ import ReportHeader from './trailBalance/table/tableHeader';
 import VatRebateReconciliationRDLCReport from './vatRebateReconsiliation/vatRebateReconsiliationRDLC';
 import ReceiveAndPaymentInfoReport from './receiceAndPaymentInfo';
 import CostVsRevenuePBR from './costVsRevenue';
+import GeneralDashboardPBR from './generalDashboard';
 
 export function ReportManagmentSystem() {
    const { userRole } = useSelector(state => state?.authData, shallowEqual);
@@ -223,6 +224,10 @@ export function ReportManagmentSystem() {
          <ContentRoute
             path="/financial-management/report/CostvsRevenueComparison"
             component={CostVsRevenuePBR}
+         />
+         <ContentRoute
+            path="/financial-management/report/GeneralDashboard"
+            component={GeneralDashboardPBR}
          />
       </Switch>
    );
