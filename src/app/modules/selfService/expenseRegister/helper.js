@@ -186,6 +186,7 @@ export const getSendToGLBank = async (accId, BuId, journalType, setter) => {
 
 //create expense register
 export const CreateExpenceRegister = async (data, cb, setDisabled) => {
+  console.log("data", data);
   setDisabled(true);
   try {
     const res = await Axios.post(`/fino/Expense/CreateExpenceRegister`, data);
@@ -287,6 +288,18 @@ export const getExpenseById = async (expId, setter, setRowDto, setLoding) => {
         return ({
           ...item,
           expenseRowId: item.expenseRowId,
+          costCenter:{
+            label:item.costCenterName,
+            value:item.costCenterId,
+          },
+          profitCenter:{
+            label:item.profitCenterName,
+            value:item.profitCenterId,
+          },
+          costElement:{
+            label:item.costElementName,
+            value:item.costElementId,
+          },
           expenseDate: item.expenseDate,
           transaction: {
             value: item.businessTransactionId,
