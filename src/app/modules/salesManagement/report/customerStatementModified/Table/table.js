@@ -33,7 +33,7 @@ const initData = {
   shippointDDL: "",
   customerNameDDL: "",
   salesOrg: "",
-  businessPartner: "",
+  businessPartner: { value: 0, label: "ALL" },
 };
 
 export default function CustomerStatementModifiedReportTable() {
@@ -224,6 +224,7 @@ export default function CustomerStatementModifiedReportTable() {
                             <NewSelect
                               name="businessPartner"
                               options={[
+                                { value: 0, label: "ALL" },
                                 { value: 73244, label: "BADC" },
                                 { value: 73245, label: "BCIC" },
                               ]}
