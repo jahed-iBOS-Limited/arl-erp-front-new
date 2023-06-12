@@ -207,6 +207,7 @@ export function TableRow() {
                     {/* <th style={{ width: "50px" }}>BOM Code</th> */}
                     <th style={{ width: "60px" }}>Lot Size</th>
                     <th style={{ width: "90px" }}>UoM</th>
+                    <th style={{ width: "90px" }}>Status</th>
                     <th style={{ width: "90px" }}>Action</th>
                   </tr>
                 </thead>
@@ -240,6 +241,12 @@ export function TableRow() {
                         </td>
                         <td>
                           <div className="text-left pl-2">{item?.uoMName}</div>
+                        </td>
+                        <td>
+                          <div style={{
+                            color: item?.isApproved ? "green" : "yellow",
+                            fontWeight:800
+                          }} className="text-center pl-2">{item?.isApproved ? "Approved" : "Pending"}</div>
                         </td>
                         <td>
                           <div className="d-flex justify-content-center">
