@@ -1,7 +1,7 @@
 import React from "react";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import ICustomTable from "../../../../_helper/_customTable";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
 
 const G2GSalesDetailsTable = ({ rowData, excelRef }) => {
   const headers = [
@@ -29,11 +29,26 @@ const G2GSalesDetailsTable = ({ rowData, excelRef }) => {
         sheet="G2G Sales Details (Top Sheet)"
         buttonText="Export Excel"
       />
+
+      <h3>
+        Total Amount:{" "}
+        {_fixedPoint(
+          rowData.reduce((total, cur) => {
+            return total + cur?.salesValue;
+          }, 0),
+          true
+        )}
+      </h3>
       <ICustomTable id="table-to-xlsx" ths={headers}>
         <>
           {rowData?.map((e, i) => {
             return (
-              <tr key={i}>
+              <tr
+                key={i}
+                style={{
+                  background: e.itemPrice <= 0 ? "#ff0000a1" : "",
+                }}
+              >
                 <td>{i + 1}</td>
                 <td>{e.motherVesselName}</td>
                 <td>{e.lighterVesselName}</td>

@@ -624,7 +624,8 @@ export default function _Form({
                           type="button"
                           onClick={() => {
                             getShipmentDetailInfo(
-                              `/oms/Shipment/ChallanWiseShipmentInfoDetails?accountId=${accId}&businessUnitId=${buId}&deliveryCode=${values?.pendingDelivery?.label}`,
+                              `/oms/Shipment/ChallanWiseTransportZoneRate?accountId=${accId}&businessUnitId=${buId}&deliveryId=${values?.pendingDelivery?.value}`,
+                              // `/oms/Shipment/ChallanWiseShipmentInfoDetails?accountId=${accId}&businessUnitId=${buId}&deliveryCode=${values?.pendingDelivery?.label}`
                               (resData) => {
                                 if (resData?.data?.length) {
                                   setShow(true);
@@ -636,7 +637,7 @@ export default function _Form({
                           }}
                           disabled={!values?.pendingDelivery}
                         >
-                          See Shipment Info
+                          See Slab Rates
                         </button>
                       </div>
                       <div className="col-lg-3 mt-5">
