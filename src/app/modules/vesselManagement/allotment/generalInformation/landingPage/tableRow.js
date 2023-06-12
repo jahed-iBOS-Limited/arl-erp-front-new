@@ -66,8 +66,12 @@ export function LandingTableRow() {
 
       const costURL = `/tms/LigterLoadUnload/GetGTOGProgramInfoForLocalCost?AccountId=${accId}&BusinessUnitId=${buId}&MotherVesselId=${values?.motherVessel?.value}`;
 
-      const URL = [2, 3].includes(statusId)
+      const revenueURL = `/tms/LigterLoadUnload/PreDataForMotherVesselRevenueGenerate?accountId=${accId}&businessUnitId=${buId}&motherVesselId=${values?.motherVessel?.value}`;
+
+      const URL = [2].includes(statusId)
         ? commissionURL
+        : [3].includes(statusId)
+        ? revenueURL
         : [4].includes(statusId)
         ? costURL
         : "";
