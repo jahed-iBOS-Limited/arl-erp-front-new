@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Form, Formik } from "formik";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { Card, CardBody, CardHeader, CardHeaderToolbar, ModalProgressBar } from "../../../../../_metronic/_partials/controls";
 
@@ -9,11 +9,12 @@ import InputField from "../../../_helper/_inputField";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 // import "./style.css";
 import ReactHtmlTableToExcel from "react-html-table-to-excel";
-import { _dateTimeFormatter } from "../../../_helper/_dateFormate";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
 import Loading from "../../../_helper/_loading";
 import { _monthFirstDate } from "../../../_helper/_monthFirstDate";
-import { _todayDate } from "../../../_helper/_todayDate";
+import NewSelect from "../../../_helper/_select";
 import { _timeFormatter } from "../../../_helper/_timeFormatter";
+import { _todayDate } from "../../../_helper/_todayDate";
 
 const initData = {
   fromDate: _monthFirstDate(),
@@ -21,13 +22,17 @@ const initData = {
 };
 
 function LoadingStatusReport() {
-  const [rowData, getRowData, rowLanding] = useAxiosGet();
+  const [rowData, getRowData, rowLanding, setRowData] = useAxiosGet();
+  const [channelDDL, getChannelDDL, channelDDLLoading] = useAxiosGet()
   // Get user profile data from store
-  const {selectedBusinessUnit } = useSelector((state) => {
-    return {
-      selectedBusinessUnit: state?.authData?.selectedBusinessUnit,
-    };
-  }, shallowEqual);
+  const {
+    profileData: { accountId: accId },
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => state?.authData, shallowEqual);
+
+  useEffect(() => {
+    getChannelDDL(`/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accId}&BUnitId=${buId}`)
+  }, [buId, accId]);
 
   const totalQTY = rowData?.reduce((acc, curr) => acc + curr?.numTotalDeliveryQuantity, 0);
 
@@ -35,7 +40,7 @@ function LoadingStatusReport() {
 
   return (
     <>
-      {rowLanding && <Loading />}
+      {(rowLanding || channelDDLLoading) && <Loading />}
       <Formik enableReinitialize={true} initialValues={initData}>
         {({ values, setFieldValue, touched, errors }) => (
           <Card>
@@ -71,6 +76,40 @@ function LoadingStatusReport() {
                   <div className="row global-form">
                     <div className="col-lg-12 row m-0 p-0">
 
+                    <div className="col-lg-3">
+                      <NewSelect
+                        label="Dis. Channel"
+                        options={[{value:0,label:"All"},...channelDDL] || []}
+                        value={values?.channel}
+                        name="channel"
+                        onChange={(valueOption) => {
+                          setFieldValue("channel", valueOption);
+                          setRowData([])
+                        }}
+                        placeholder="Channel"
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <NewSelect
+                        label="Status"
+                        options={[
+                          {value:"All",label:"All"},
+                          {value:"Loading",label:"Loading"},
+                          {value:"Completed",label:"Completed"}
+                        ] || []}
+                        value={values?.status}
+                        name="status"
+                        onChange={(valueOption) => {
+                          setFieldValue("status", valueOption);
+                          setRowData([])
+                        }}
+                        placeholder="Status"
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
                       <div className="col-lg-3">
                         <label>From Date</label>
                         <InputField
@@ -103,10 +142,12 @@ function LoadingStatusReport() {
                           style={{ marginTop: "17px" }}
                           disabled={
                             !values?.fromDate ||
-                            !values?.toDate
+                            !values?.toDate ||
+                            !values?.channel
+
                           }
                           onClick={() => {
-                           getRowData(`/tms/TMSReport/GetLoadingStatusReport?businessUnitId=${selectedBusinessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`)
+                           getRowData(`/tms/TMSReport/GetLoadingStatusReport?businessUnitId=${buId}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&statusType=${values?.status?.value || ""}&channelId=${values?.channel?.value || 0}`)
                             
                           }}
                           className="btn btn-primary"
@@ -160,10 +201,11 @@ function LoadingStatusReport() {
                                 <th>SD NO</th>
                                 <th>QTY (MT)</th>
                                 <th>Truck No</th>
-                                <th>Entry Date & Time</th>
-                                <th>In Time</th>
+                                <th>Entry Date</th>
+                                <th>Entry Time</th>
                                 <th>Loading Status</th>
-                                <th>Exit Date & Time</th>
+                                <th>Exit Date</th>
+                                <th>Exit Time</th>
                                 <th>Actual Time of Delivery</th>
                               </tr>
                             </thead>
@@ -187,7 +229,7 @@ function LoadingStatusReport() {
                                       {item?.strVehicleNumber}
                                     </td>
                                     <td className="text-center">
-                                      {item?.dteDate ? _dateTimeFormatter(item?.dteDate) : ""}
+                                      {item?.dteDate ? _dateFormatter(item?.dteDate) : ""}
                                     </td>
                                     <td className="text-center">
                                        {item?.tmInTime ? _timeFormatter(item?.tmInTime) : ""}
@@ -196,7 +238,10 @@ function LoadingStatusReport() {
                                       {item?.strLoadingStatus}
                                     </td>
                                     <td className="text-center">
-                                      {item?.dteCompleteDate ? _dateTimeFormatter(item?.dteCompleteDate) : ""}
+                                      {item?.dteOutDate ? _dateFormatter(item?.dteOutDate) : ""}
+                                    </td>
+                                    <td className="text-center">
+                                       {item?.tmOutTime ? _timeFormatter(item?.tmOutTime) : ""}
                                     </td>
                                     <td className="text-center">
                                       {item?.strActualDeliveryTime}
@@ -206,8 +251,8 @@ function LoadingStatusReport() {
                               ))}
                               <tr>
                                  <td colSpan="3" className="text-right" style={{fontWeight:"bold"}}>Total</td>
-                                 <td className="text-center bold" style={{fontWeight:"bold"}}>{totalQTY}</td>
-                                 <td colSpan="5"></td>
+                                 <td className="text-center bold" style={{fontWeight:"bold"}}>{totalQTY.toFixed(2)}</td>
+                                 <td colSpan="7"></td>
                               </tr>
                             </tbody>
                           </table>
