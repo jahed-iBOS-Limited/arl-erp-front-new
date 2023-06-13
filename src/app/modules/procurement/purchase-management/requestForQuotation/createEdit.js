@@ -15,6 +15,7 @@ import TextArea from "../../../_helper/TextArea";
 import { _todayDate } from "../../../_helper/_todayDate";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
+
 const initData = {
     sbu: "",
     plant: "",
@@ -201,8 +202,8 @@ export default function RFQCreateEdit() {
                     termsAndConditions: objHeader?.termsAndConditions,
                 };
                 if (objHeader?.referenceTypeName === "without reference") {
-                    getItemListDDL(`/procurement/RequestForQuotation/GetRFQItemWithoutRef?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${modifiedData?.plant?.value
-                        }&WarehouseId=${modifiedData?.warehouse?.value}`)
+                    getItemListDDL(`/procurement/RequestForQuotation/GetRFQItemWithoutRef?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${objHeader?.plantId
+                        }&WarehouseId=${objHeader?.warehouseId}`)
                 } else {
                     getItemListDDL(`/procurement/RequestForQuotation/GetRFQItemDDL?AccountId=${profileData?.accountId
                         }&BusinessUnitId=${selectedBusinessUnit?.value
@@ -229,6 +230,7 @@ export default function RFQCreateEdit() {
             }&BusinessUnitId=${selectedBusinessUnit?.value}`)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
     return (
         <Formik
             enableReinitialize={true}
