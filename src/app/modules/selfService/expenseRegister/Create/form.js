@@ -384,7 +384,6 @@ export default function _Form({
                         styles={customStyles}
                         placeholder="Cost Center"
                         name="costCenter"
-                        isDisabled={isEdit}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -399,7 +398,7 @@ export default function _Form({
                         styles={customStyles}
                         placeholder="Cost Element"
                         name="costElement"
-                        isDisabled={isEdit || !values?.costCenter}
+                        isDisabled={!values?.costCenter}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -414,7 +413,7 @@ export default function _Form({
                         styles={customStyles}
                         placeholder="Profit Center"
                         name="Profit Center"
-                        isDisabled={isEdit || !values?.costCenter}
+                        isDisabled={!values?.costCenter}
                       />
                     </div>
 
