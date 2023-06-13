@@ -212,7 +212,7 @@ function LoadingStatusReport() {
                             <tbody>
                               {rowData?.map((item, index) => (
                                  <>
-                                 <tr key={index}>
+                                 <tr key={index} style={{backgroundColor: item?.strLoadingStatus === "Loading" ? "#FFFAA0" : "Inherit"}}>
                                     <td className="text-center">
                                       {index + 1}
                                     </td>

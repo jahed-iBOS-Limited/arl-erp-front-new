@@ -7,7 +7,7 @@ import { shallowEqual, useSelector } from "react-redux";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
 const initData = {};
-export default function HistoryModal({ adjustmentJournalId }) {
+export default function HistoryModal({ adjustmentJournalId, landingItem }) {
     const [singleJournalData, getSingleJournalData, singleJournalDataLoader, setSingleJournalData] = useAxiosGet();
     const [journalHistoryData, getJournalHistoryData, journalHistoryDataLoader] = useAxiosGet();
 
@@ -19,8 +19,9 @@ export default function HistoryModal({ adjustmentJournalId }) {
         if (adjustmentJournalId) {
             getSingleJournalData(`/fino/AdjustmentJournal/GetAdjustmentJournalByIdForReport?adjustmentJournalId=${adjustmentJournalId}&accountingJournalTypeId=7&BusinessUnitId=${selectedBusinessUnit?.value}`,
                 (data) => {
+                    console.log("data", data)
                     setSingleJournalData(data?.[0]);
-                    getJournalHistoryData(`/fino/Accounting/GetAccountingJournalLOGHistory?accountingJournalId=${adjustmentJournalId}&accountingJournalTypeId=0`)
+                    getJournalHistoryData(`/fino/Accounting/GetAccountingJournalLOGHistory?accountingJournalId=${adjustmentJournalId}&accountingJournalTypeId=${landingItem?.intAccountingJournalTypeId || 0}`)
                 })
 
         }
@@ -90,7 +91,8 @@ export default function HistoryModal({ adjustmentJournalId }) {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="row cash_journal">
+                                {journalHistoryData?.length > 0 ? (
+                                    <div className="row cash_journal">
                                     <div className="col-lg-12 pr-0 pl-0">
                                         <table className="table table-striped table-bordered mt-0 bj-table bj-table-landing table-font-size-sm">
                                             <thead>
@@ -116,6 +118,9 @@ export default function HistoryModal({ adjustmentJournalId }) {
                                         </table>
                                     </div>
                                 </div>
+                                ): (
+                                    <h3 className="text-center">Data Not Found</h3>
+                                )}
                             </div>
                         </Form>
                     </IForm>
