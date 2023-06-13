@@ -240,7 +240,7 @@ const GridData = ({
             show={isHistoryModal}
             onHide={() => setIsHistoryModal(false)}
           >
-            <HistoryModal adjustmentJournalId={historyItem?.journlaId} />
+            <HistoryModal adjustmentJournalId={historyItem?.journlaId} landingItem={historyItem} />
           </IViewModal>
         </div>
       </div>
