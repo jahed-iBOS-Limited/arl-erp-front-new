@@ -158,10 +158,10 @@ export default function _Form({
     );
     return { lestDate, firstDate };
   };
-
+  const [loading, setLoading] = useState(false);
   return (
     <>
-      {loadingOnGetProfitCenter && <Loading />}
+      {(loadingOnGetProfitCenter || loading) && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={
@@ -452,6 +452,7 @@ export default function _Form({
                           setProfitcenterDDL([]);
                           setCostElementDDL([]);
                           if (valueOption) {
+                            setLoading(true)
                             CostElementDDLApi(
                               profileData.accountId,
                               selectedBusinessUnit.value,
@@ -466,6 +467,7 @@ export default function _Form({
                                 }
                               }
                             );
+                            setLoading(false)
                           }
                         }}
                         value={values?.costCenter || ""}
