@@ -13,12 +13,13 @@ import IDelete from "../../../_helper/_helperIcons/_delete";
 import { toast } from "react-toastify";
 import TextArea from "../../../_helper/TextArea";
 import { _todayDate } from "../../../_helper/_todayDate";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 const initData = {
     sbu: "",
     plant: "",
     warehouse: "",
     purchaseOrganization: "",
-    rfqType: { value: 1, label: 'Request for quotation' },
+    rfqType: { value: 1, label: 'Request for Quotation' },
     rfqTitle: "",
     currency: "",
     paymentTerms: "",
@@ -55,6 +56,7 @@ const validationSchema = Yup.object().shape({
 export default function RFQCreateEdit() {
     const [isRfqQty, setIsRfqQty] = useState(false);
     const [objProps, setObjprops] = useState({});
+    const [, saveData, saveDataLoader] = useAxiosPost();
     const { profileData, selectedBusinessUnit } = useSelector((state) => {
         return state.authData;
     }, shallowEqual);
@@ -99,6 +101,7 @@ export default function RFQCreateEdit() {
                 supplierRow: supplierList,
             }
             console.log("create payload", createpayload);
+            saveData(`/procurement/RequestForQuotation/CreateRequestForQuotation`, createpayload, cb, true)
         }
     };
 
@@ -137,6 +140,8 @@ export default function RFQCreateEdit() {
             onSubmit={(values, { setSubmitting, resetForm }) => {
                 saveHandler(values, () => {
                     resetForm(initData);
+                    setItemList([]);
+                    setSupplierList([]);
                 });
             }}
         >
@@ -147,10 +152,10 @@ export default function RFQCreateEdit() {
                 setFieldValue,
                 isValid,
                 errors,
-                touched,
+                touched, d
             }) => (
                 <>
-                    {(purchaseOrgListDDLloader || currencyDDLloader || referenceNoDDLloader || itemListDDLloader || supplierListDDLloader || sbuListDDLloader || plantListDDLloader || warehouseListDDLloader) && <Loading />}
+                    {(purchaseOrgListDDLloader || currencyDDLloader || referenceNoDDLloader || itemListDDLloader || supplierListDDLloader || sbuListDDLloader || plantListDDLloader || warehouseListDDLloader || saveDataLoader) && <Loading />}
                     <IForm title={
                         id ? "Edit Request For Quotation" : "Create Request For Quotation"
                     } getProps={setObjprops}>
@@ -205,7 +210,7 @@ export default function RFQCreateEdit() {
                                         name="rfqType"
                                         options={
                                             [
-                                                { value: 1, label: 'Request for quotation' },
+                                                { value: 1, label: 'Request for Quotation' },
                                                 { value: 2, label: 'Request for Information' },
                                                 { value: 3, label: 'Request for Proposal' }
                                             ]
