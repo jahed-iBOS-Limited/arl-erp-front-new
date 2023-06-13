@@ -20,6 +20,8 @@ import CSForm from './rfq/CS/addEditForm'
 import RFQForm from './rfq/Form/addEditForm'
 import QuotationForm from './rfq/QuotationEntry/addEditForm'
 import { QuationEntryReport } from './rfq/report/tableHeader'
+import RequestForQuotationLanding from './requestForQuotation'
+import RFQCreateEdit from './requestForQuotation/createEdit'
 
 export function PurchasePages() {
   const userRole = useSelector(
@@ -32,9 +34,9 @@ export function PurchasePages() {
 
   let purchaseOrderShippingPermission = null;
   for (let i = 0; i < userRole.length; i++) {
-   if (userRole[i]?.intFeatureId === 1123) {
-    purchaseOrderShippingPermission = userRole[i];
-   }
+    if (userRole[i]?.intFeatureId === 1123) {
+      purchaseOrderShippingPermission = userRole[i];
+    }
   }
 
   return (
@@ -70,7 +72,7 @@ export function PurchasePages() {
         from="/mngProcurement/purchase-management/purchase-request/report/:prId"
         component={
           //purchaseRequest?.isView ? 
-          PurchaseRequestReport 
+          PurchaseRequestReport
           //: NotPermittedPage
         }
       />
@@ -110,8 +112,8 @@ export function PurchasePages() {
         component={PurchaseOrder}
       />
 
-            {/* Purchase order Shipping Routes */}
-            <ContentRoute
+      {/* Purchase order Shipping Routes */}
+      <ContentRoute
         from="/mngProcurement/purchase-management/shippingpurchaseorder/report/:poId/:orId"
         component={
           purchaseOrderShippingPermission?.isView ? PurchaseOrderReportShipping : NotPermittedPage
@@ -146,14 +148,14 @@ export function PurchasePages() {
         from="/mngProcurement/purchase-management/rfq/view/:prId"
         component={QuationEntryReport}
       />
-      <ContentRoute
+      {/* <ContentRoute
         from="/mngProcurement/purchase-management/rfq/add"
         component={RFQForm}
-      />
-      <ContentRoute
+      /> */}
+      {/* <ContentRoute
         from="/mngProcurement/purchase-management/rfq/edit/:id"
         component={RFQForm}
-      />
+      /> */}
       <ContentRoute
         from="/mngProcurement/purchase-management/rfq/quotation/:id"
         component={QuotationForm}
@@ -162,9 +164,21 @@ export function PurchasePages() {
         from="/mngProcurement/purchase-management/rfq/cs/:id"
         component={CSForm}
       />
-      <ContentRoute
+      {/* <ContentRoute
         from="/mngProcurement/purchase-management/rfq"
         component={RFQ}
+      /> */}
+      <ContentRoute
+        from="/mngProcurement/purchase-management/rfq/edit/:id"
+        component={RFQCreateEdit}
+      />
+      <ContentRoute
+        from="/mngProcurement/purchase-management/rfq/create"
+        component={RFQCreateEdit}
+      />
+      <ContentRoute
+        from="/mngProcurement/purchase-management/rfq"
+        component={RequestForQuotationLanding}
       />
     </Switch>
   )
