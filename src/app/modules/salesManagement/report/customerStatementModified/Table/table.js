@@ -25,15 +25,19 @@ import TopSheetTable from "./topSheetTable";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import G2GSalesDetailsTable from "./g2gSalesDetails";
 
+const ALL = { value: 0, label: "All" };
+
 const initData = {
   fromDate: _firstDateofMonth(),
   fromTime: _todaysStartTime(),
   toDate: _todayDate(),
   toTime: _todaysEndTime(),
-  shippointDDL: "",
+  shippointDDL: ALL,
   customerNameDDL: "",
   salesOrg: "",
-  businessPartner: "",
+  businessPartner: ALL,
+  port: ALL,
+  motherVessel: ALL,
 };
 
 export default function CustomerStatementModifiedReportTable() {
@@ -45,6 +49,8 @@ export default function CustomerStatementModifiedReportTable() {
   const [loading, setLoading] = useState(false);
   const [distributionChannelDDL, setDistributionChannelDDL] = useState([]);
   const [G2GSalesGrid, getG2GSalesGrid, loader] = useAxiosGet();
+  const [portDDL, getPortDDL] = useAxiosGet();
+  const [motherVesselDDL, getMotherVesselDDL] = useAxiosGet();
 
   // get user profile data from store
   const {
@@ -57,10 +63,12 @@ export default function CustomerStatementModifiedReportTable() {
   }, shallowEqual);
 
   useEffect(() => {
+    getPortDDL(`/wms/FertilizerOperation/GetDomesticPortDDL`);
     if (accId && buId) {
       GetSalesOrganizationDDL_api(accId, buId, setSalesOrgDDl);
       getDistributionDDL(accId, buId, setDistributionChannelDDL);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
 
   const getGridData = (values) => {
@@ -87,9 +95,19 @@ export default function CustomerStatementModifiedReportTable() {
           ?.shippointDDL?.value || 0}&businessPartnerId=${values
           ?.businessPartner?.value || 0}&fromDate=${values?.fromDate}&toDate=${
           values?.toDate
-        }`
+        }&motherVesselId=${values?.motherVessel?.value || 0}`
       );
     }
+  };
+
+  const reportTypes = () => {
+    const reports = [
+      { value: 1, label: "Details" },
+      { value: 2, label: "Top Sheet" },
+    ];
+    return buId === 94
+      ? [...reports, { value: 3, label: "G2G Sales Details" }]
+      : reports;
   };
 
   return (
@@ -112,11 +130,7 @@ export default function CustomerStatementModifiedReportTable() {
                         <div className="col-lg-3">
                           <NewSelect
                             name="reportType"
-                            options={[
-                              { value: 1, label: "Details" },
-                              { value: 2, label: "Top Sheet" },
-                              { value: 3, label: "G2G Sales Details" },
-                            ]}
+                            options={reportTypes()}
                             value={values?.reportType}
                             label="Report Type"
                             onChange={(valueOption) => {
@@ -128,6 +142,42 @@ export default function CustomerStatementModifiedReportTable() {
                             touched={touched}
                           />
                         </div>
+                        {[3].includes(values?.reportType?.value) && (
+                          <>
+                            <div className="col-lg-3">
+                              <NewSelect
+                                name="port"
+                                options={[ALL, ...portDDL] || []}
+                                value={values?.port}
+                                label="Loading Port"
+                                onChange={(valueOption) => {
+                                  setFieldValue("port", valueOption);
+                                  setFieldValue("motherVessel", "");
+                                  getMotherVesselDDL(
+                                    `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}&PortId=${valueOption?.value ||
+                                      0}`
+                                  );
+                                }}
+                                placeholder="Loading Port"
+                              />
+                            </div>
+                            <div className="col-lg-3">
+                              <NewSelect
+                                name="motherVessel"
+                                options={[
+                                  { value: 0, label: "All" },
+                                  ...motherVesselDDL,
+                                ]}
+                                value={values?.motherVessel}
+                                label="Mother Vessel"
+                                onChange={(valueOption) => {
+                                  setFieldValue("motherVessel", valueOption);
+                                }}
+                                placeholder="Mother Vessel"
+                              />
+                            </div>
+                          </>
+                        )}
                         <FromDateToDateForm obj={{ values, setFieldValue }} />
                         {[1, 2].includes(values?.reportType?.value) && (
                           <div className="col-lg-3">
@@ -224,6 +274,7 @@ export default function CustomerStatementModifiedReportTable() {
                             <NewSelect
                               name="businessPartner"
                               options={[
+                                { value: 0, label: "ALL" },
                                 { value: 73244, label: "BADC" },
                                 { value: 73245, label: "BCIC" },
                               ]}
