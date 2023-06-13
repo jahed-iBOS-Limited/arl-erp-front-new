@@ -8,14 +8,13 @@ import ViewData from './ViewPrint';
 
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
+import { moneyInWord } from '../../../../_helper/_convertMoneyToWord';
 import Loading from '../../../../_helper/_loading';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import { SetFinancialsBankAdviceAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 import IConfirmModal from '../../../../chartering/_chartinghelper/_confirmModal';
-import { zakatAdvicePlanExcel } from '../planExcel/zakatAdvicePlanExcel';
 import EmailViewForm from './emailForm';
 import { generateExcel } from './excelReportGenarate';
-import { moneyInWord } from '../../../../_helper/_convertMoneyToWord';
 
 const InputFields = ({ obj }) => {
    const [isView, setIsView] = useState('');
@@ -286,12 +285,21 @@ const InputFields = ({ obj }) => {
                            };
                         })
                      );
-                     if (values?.adviceType?.value === 15) {
-                        const adviceName = values?.advice?.label === "IBBL" ? "IBBL_ONLINE"  : values?.advice?.label === "IBBL-BEFTN" ? "IBBL_BEFTN" : values?.advice?.label
-                        const dateFormat = values?.dateTime?.split("/").join("_")
-                        const fileName = `${selectedBusinessUnit?.buShortName}_${total ? total : 0}_${adviceName}_${dateFormat}`;
-                        zakatAdvicePlanExcel(data, values, fileName);
-                     } else {
+                     // if (values?.adviceType?.value === 15) {
+                     //    const adviceName = values?.advice?.label === "IBBL" ? "IBBL_ONLINE"  : values?.advice?.label === "IBBL-BEFTN" ? "IBBL_BEFTN" : values?.advice?.label
+                     //    const dateFormat = values?.dateTime?.split("/").join("_")
+                     //    const fileName = `${selectedBusinessUnit?.buShortName}_${total ? total : 0}_${adviceName}_${dateFormat}`;
+                     //    generateExcel(
+                     //       data,
+                     //       values,
+                     //       0,
+                     //       "",
+                     //       selectedBusinessUnit,
+                     //       false,
+                     //       null,
+                     //       fileName
+                     //    );
+                     // } else {
 
                         const adviceName = values?.advice?.label === "IBBL" ? "IBBL_ONLINE"  : values?.advice?.label === "IBBL-BEFTN" ? "IBBL_BEFTN" : values?.advice?.label
                         const dateFormat = values?.dateTime?.split("/").join("_")
@@ -307,7 +315,7 @@ const InputFields = ({ obj }) => {
                            null,
                            fileName
                         );
-                     }
+                     // }
                   }}
                   disabled={
                      !values?.dateTime ||
