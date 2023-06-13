@@ -170,19 +170,6 @@ export default function REBConsumptionForm({
                     type="number"
                   />
                 </div>
-                {(selectedBusinessUnit?.value === 171 ||
-                  selectedBusinessUnit?.value === 224) &&
-                values?.rebConsumptionDDL?.value === 1 ? (
-                  <div className="col-lg-3">
-                    <InputField
-                      disabled
-                      value={values?.previousPressureTwo}
-                      label="Previous KWH M2 (Meter Reading)"
-                      name="previousPressure"
-                      type="number"
-                    />
-                  </div>
-                ) : null}
                 <div className="col-lg-3">
                   <InputField
                     // disabled={location?.state}
@@ -213,7 +200,19 @@ export default function REBConsumptionForm({
                     }}
                   />
                 </div>
-
+                {(selectedBusinessUnit?.value === 171 ||
+                  selectedBusinessUnit?.value === 224) &&
+                values?.rebConsumptionDDL?.value === 1 ? (
+                  <div className="col-lg-3">
+                    <InputField
+                      disabled
+                      value={values?.previousPressureTwo}
+                      label="Previous KWH M2 (Meter Reading)"
+                      name="previousPressure"
+                      type="number"
+                    />
+                  </div>
+                ) : null}
                 {(selectedBusinessUnit?.value === 171 ||
                   selectedBusinessUnit?.value === 224) &&
                 values?.rebConsumptionDDL?.value === 1 ? (
