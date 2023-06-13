@@ -420,6 +420,7 @@ export default function SalesInvoiceForm() {
     if (values) {
       const rowData = [...rowDto];
       if (isCheck) {
+        rowData[index].availableStock = values?.availableStock || 0;
         rowData[index].rate = parseFloat(values?.label);
         rowData[index].mrp = values?.mrp;
         rowData[index].referenceId = values?.referenceId;
@@ -429,6 +430,7 @@ export default function SalesInvoiceForm() {
           parseFloat(values?.label) * rowData[index].quantity;
         setRowDto(rowData);
       } else {
+        rowData[index].availableStock = values?.availableStock || 0;
         rowData[index].rate = parseFloat(values?.label);
         rowData[index].mrp = values?.mrp;
         rowData[index].referenceId = values?.referenceId;
