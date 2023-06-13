@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import TextArea from "../../../_helper/TextArea";
 import { _todayDate } from "../../../_helper/_todayDate";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
 const initData = {
     sbu: "",
     plant: "",
@@ -38,14 +39,11 @@ const initData = {
     itemDescription: "",
     quantity: "",
     isAllItem: false,
-
     // supplier infos
     supplier: "",
     supplierContactNo: "",
     supplierEmail: "",
     isAllSupplier: false,
-
-
     termsAndConditions: "",
 };
 
@@ -54,6 +52,7 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function RFQCreateEdit() {
+    const { id } = useParams()
     const [isRfqQty, setIsRfqQty] = useState(false);
     const [objProps, setObjprops] = useState({});
     const [, saveData, saveDataLoader] = useAxiosPost();
@@ -61,48 +60,62 @@ export default function RFQCreateEdit() {
         return state.authData;
     }, shallowEqual);
 
-    const { id } = useParams()
-
     const saveHandler = (values, cb) => {
-        if (id) {
-
-        } else {
-            const createpayload = {
-                objHeader: {
-                    rfqdate: _todayDate(),
-                    accountId: profileData?.accountId,
-                    businessUnitId: selectedBusinessUnit?.value,
-                    businessUnitName: selectedBusinessUnit?.label,
-                    sbuname: values?.sbu?.label || "",
-                    sbuid: values?.sbu?.value || 0,
-                    purchaseOrganizationId: values?.purchaseOrganization?.value,
-                    purchaseOrganizationName: values?.purchaseOrganization?.label,
-                    plantId: values?.plant?.value || 0,
-                    plantName: values?.plant?.label || "",
-                    warehouseId: values?.warehouse?.value || 0,
-                    warehouseName: values?.warehouse?.label || "",
-                    requestTypeId: values?.rfqType?.value || 0,
-                    requestTypeName: values?.rfqType?.label || "",
-                    referenceTypeName: values?.referenceType?.value || "",
-                    currencyId: values?.currency?.value || 0,
-                    validTillDate: values?.validTillDate,
-                    actionBy: profileData?.userId,
-                    paymentTerms: values?.paymentTerms?.value || 0,
-                    isTransportCostInclude: values?.transportCost?.value === 1 ? true : false,
-                    isVatAitInclude: values?.vatOrAit?.value === 1 ? true : false,
-                    isTdsInclude: values?.tds?.value === 1 ? true : false,
-                    isVdsInclude: values?.vds?.value === 1 ? true : false,
-                    deliveryAddress: values?.deliveryAddress,
-                    deliveryDate: values?.deliveryDate,
-                    quotationEntryStart: values?.quotationEntryStart,
-                    rfqtitle: values?.rfqTitle
-                },
-                objRow: itemList,
-                supplierRow: supplierList,
-            }
-            console.log("create payload", createpayload);
-            saveData(`/procurement/RequestForQuotation/CreateRequestForQuotation`, createpayload, cb, true)
+        if (!values?.sbu) return toast.warn("Please select SBU")
+        if (!values?.plant) return toast.warn("Please select Plant")
+        if (!values?.warehouse) return toast.warn("Please select Warehouse")
+        if (!values?.purchaseOrganization) return toast.warn("Please select Purchase Organization")
+        if (!values?.rfqType) return toast.warn("Please select RFQ Type")
+        if (!values?.rfqTitle) return toast.warn("Please enter RFQ Title")
+        if (!values?.currency) return toast.warn("Please select Currency")
+        if (!values?.paymentTerms) return toast.warn("Please select Payment Terms")
+        if (!values?.transportCost) return toast.warn("Please select Transport Cost")
+        if (!values?.quotationEntryStart) return toast.warn("Please select Quotation Start Date-Time")
+        if (!values?.validTillDate) return toast.warn("Please select Quotation End Date-Time")
+        if (!values?.deliveryDate) return toast.warn("Please select Delivery Date")
+        if (!values?.deliveryAddress) return toast.warn("Please enter Delivery Address")
+        if (!values?.vatOrAit) return toast.warn("Please select VAT/AIT")
+        if (!values?.tds) return toast.warn("Please select TDS")
+        if (!values?.vds) return toast.warn("Please select VDS")
+        if (!values?.referenceType) return toast.warn("Please select Reference Type")
+        if (!itemList?.length) return toast.warn("Please add item")
+        if (!supplierList?.length) return toast.warn("Please add supplier")
+        const payload = {
+            objHeader: {
+                requestForQuotationId: id ? +id : 0,
+                rfqdate: _todayDate(),
+                accountId: profileData?.accountId,
+                businessUnitId: selectedBusinessUnit?.value,
+                businessUnitName: selectedBusinessUnit?.label,
+                sbuname: values?.sbu?.label || "",
+                sbuid: values?.sbu?.value || 0,
+                purchaseOrganizationId: values?.purchaseOrganization?.value,
+                purchaseOrganizationName: values?.purchaseOrganization?.label,
+                plantId: values?.plant?.value || 0,
+                plantName: values?.plant?.label || "",
+                warehouseId: values?.warehouse?.value || 0,
+                warehouseName: values?.warehouse?.label || "",
+                requestTypeId: values?.rfqType?.value || 0,
+                requestTypeName: values?.rfqType?.label || "",
+                referenceTypeName: values?.referenceType?.value || "",
+                currencyId: values?.currency?.value || 0,
+                validTillDate: values?.validTillDate,
+                actionBy: profileData?.userId,
+                paymentTerms: values?.paymentTerms?.value || "",
+                isTransportCostInclude: values?.transportCost?.value === 1 ? true : false,
+                isVatAitInclude: values?.vatOrAit?.value === 1 ? true : false,
+                isTdsInclude: values?.tds?.value === 1 ? true : false,
+                isVdsInclude: values?.vds?.value === 1 ? true : false,
+                deliveryAddress: values?.deliveryAddress,
+                deliveryDate: values?.deliveryDate,
+                quotationEntryStart: values?.quotationEntryStart,
+                rfqtitle: values?.rfqTitle,
+                termsAndConditions: values?.termsAndConditions,
+            },
+            objRow: itemList,
+            supplierRow: supplierList,
         }
+        saveData(id ? `/procurement/RequestForQuotation/EditRequestForQuotation` : `/procurement/RequestForQuotation/CreateRequestForQuotation`, payload, cb, true)
     };
 
     const [itemList, setItemList] = useState([]);
@@ -111,37 +124,123 @@ export default function RFQCreateEdit() {
     const [sbuListDDL, getSbuListDDL, sbuListDDLloader] = useAxiosGet();
     const [plantListDDL, getPlantListDDL, plantListDDLloader] = useAxiosGet();
     const [warehouseListDDL, getWarehouseListDDL, warehouseListDDLloader] = useAxiosGet();
-
     const [purchangeOrgListDDL, getPurchaseOrgListDDL, purchaseOrgListDDLloader] = useAxiosGet();
     const [currencyDDL, getCurrencyDDL, currencyDDLloader] = useAxiosGet();
     const [referenceNoDDL, getReferenceNoDDL, referenceNoDDLloader] = useAxiosGet();
     const [itemListDDL, getItemListDDL, itemListDDLloader, setItemListDDL] = useAxiosGet();
-
     const [supplierListDDL, getSupplierListDDL, supplierListDDLloader] = useAxiosGet();
 
+    const [modifiedData, setModifiedData] = useState({});
+    const [, getSingleData, singleDataLoader] = useAxiosGet();
+
+    useEffect(() => {
+        if (id) {
+            getSingleData(`/procurement/RequestForQuotation/GetRequestForQuotationById?RequestForQuotationId=${id}`, (data) => {
+                console.log("data", data);
+                const { objHeader, objRow, supplierRow } = data;
+                setItemList(objRow);
+                setSupplierList(supplierRow);
+                const viewData = {
+                    sbu: {
+                        value: objHeader?.sbuid,
+                        label: objHeader?.sbuname,
+                    },
+                    plant: {
+                        value: objHeader?.plantId,
+                        label: objHeader?.plantName,
+                    },
+                    warehouse: {
+                        value: objHeader?.warehouseId,
+                        label: objHeader?.warehouseName,
+                    },
+                    rfqType: {
+                        value: objHeader?.requestTypeId,
+                        label: objHeader?.requestTypeName,
+                    },
+                    purchaseOrganization: {
+                        value: objHeader?.purchaseOrganizationId,
+                        label: objHeader?.purchaseOrganizationName,
+                    },
+                    rfqTitle: objHeader?.rfqtitle,
+                    currency: {
+                        value: objHeader?.currencyId,
+                        label: objHeader?.currencyCode,
+                    },
+                    paymentTerms: {
+                        value: objHeader?.paymentTerms,
+                        label: objHeader?.paymentTerms,
+                    },
+                    transportCost: {
+                        value: objHeader?.isTransportCostInclude ? 1 : 2,
+                        label: objHeader?.isTransportCostInclude ? "Including" : "Excluding",
+                    },
+                    quotationEntryStart: objHeader?.quotationEntryStart,
+                    validTillDate: objHeader?.validTillDate,
+                    deliveryDate: _dateFormatter(objHeader?.deliveryDate),
+                    deliveryAddress: objHeader?.deliveryAddress,
+                    vatOrAit: {
+                        value: objHeader?.isVatAitInclude ? 1 : 2,
+                        label: objHeader?.isVatAitInclude ? "Including" : "Excluding",
+                    },
+                    tds: {
+                        value: objHeader?.isTdsInclude ? 1 : 2,
+                        label: objHeader?.isTdsInclude ? "Including" : "Excluding",
+                    },
+                    vds: {
+                        value: objHeader?.isVdsInclude ? 1 : 2,
+                        label: objHeader?.isVdsInclude ? "Including" : "Excluding",
+                    },
+                    referenceType: {
+                        value: objHeader?.referenceTypeName,
+                        label: objHeader?.referenceTypeName,
+                    },
+                    referenceNo: objHeader?.referenceTypeName === "with reference" ? {
+                        value: objRow[0]?.referenceId,
+                        label: objRow[0]?.referenceCode,
+                    } : "",
+                    termsAndConditions: objHeader?.termsAndConditions,
+                };
+                if (objHeader?.referenceTypeName === "without reference") {
+                    getItemListDDL(`/procurement/RequestForQuotation/GetRFQItemWithoutRef?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${modifiedData?.plant?.value
+                        }&WarehouseId=${modifiedData?.warehouse?.value}`)
+                } else {
+                    getItemListDDL(`/procurement/RequestForQuotation/GetRFQItemDDL?AccountId=${profileData?.accountId
+                        }&BusinessUnitId=${selectedBusinessUnit?.value
+                        }&SBUId=${objHeader?.sbuid
+                        }&PurchaseOrganizationId=${objHeader?.purchaseOrganizationId
+                        }&PlantId=${objHeader?.plantId
+                        }&WearHouseId=${objHeader?.warehouseId
+                        }&PurchaseRequestId=${objRow[0]?.referenceId}`)
+                }
+                getSupplierListDDL(`/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${profileData?.accountId
+                    }&UnitId=${selectedBusinessUnit?.value
+                    }&SBUId=${objHeader?.sbuid}`)
+                setModifiedData(viewData);
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     useEffect(() => {
         getPlantListDDL(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId
             }&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`)
         getSbuListDDL(`/costmgmt/SBU/GetSBUListDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Status=true`)
-        getSupplierListDDL(`/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=1&UnitId=4&SBUId=58`)
-        getReferenceNoDDL(`/procurement/RequestForQuotation/GetPRReferrenceNoDDL?AccountId=1&BusinessUnitId=4&SBUId=58&PurchaseOrganizationId=11&PlantId=79&WearHouseId=142`)
         getCurrencyDDL(`/domain/Purchase/GetBaseCurrencyList`)
         getPurchaseOrgListDDL(`/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${profileData?.accountId
             }&BusinessUnitId=${selectedBusinessUnit?.value}`)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-
     return (
         <Formik
             enableReinitialize={true}
-            initialValues={initData}
+            initialValues={
+                id ? modifiedData : initData
+            }
             validationSchema={validationSchema}
             onSubmit={(values, { setSubmitting, resetForm }) => {
                 saveHandler(values, () => {
-                    resetForm(initData);
-                    setItemList([]);
-                    setSupplierList([]);
+                    !id && resetForm(initData);
+                    !id && setItemList([]);
+                    !id && setSupplierList([]);
                 });
             }}
         >
@@ -155,7 +254,7 @@ export default function RFQCreateEdit() {
                 touched, d
             }) => (
                 <>
-                    {(purchaseOrgListDDLloader || currencyDDLloader || referenceNoDDLloader || itemListDDLloader || supplierListDDLloader || sbuListDDLloader || plantListDDLloader || warehouseListDDLloader || saveDataLoader) && <Loading />}
+                    {(purchaseOrgListDDLloader || currencyDDLloader || referenceNoDDLloader || itemListDDLloader || supplierListDDLloader || sbuListDDLloader || plantListDDLloader || warehouseListDDLloader || saveDataLoader || singleDataLoader) && <Loading />}
                     <IForm title={
                         id ? "Edit Request For Quotation" : "Create Request For Quotation"
                     } getProps={setObjprops}>
@@ -168,7 +267,19 @@ export default function RFQCreateEdit() {
                                         value={values?.sbu}
                                         label="SBU"
                                         onChange={(v) => {
-                                            setFieldValue("sbu", v);
+                                            if (v) {
+                                                setFieldValue("sbu", v);
+                                                setFieldValue("plant", "");
+                                                setFieldValue("warehouse", "");
+                                                getSupplierListDDL(`/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${profileData?.accountId
+                                                    }&UnitId=${selectedBusinessUnit?.value
+                                                    }&SBUId=${v?.value
+                                                    }`)
+                                            } else {
+                                                setFieldValue("sbu", "");
+                                                setFieldValue("plant", "");
+                                                setFieldValue("warehouse", "");
+                                            }
                                         }}
                                         placeholder="SBU"
                                         errors={errors}
@@ -182,9 +293,16 @@ export default function RFQCreateEdit() {
                                         value={values?.plant}
                                         label="Plant"
                                         onChange={(v) => {
-                                            setFieldValue("plant", v);
-                                            getWarehouseListDDL(`/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${v?.value
-                                                }`)
+                                            if (v) {
+                                                setFieldValue("plant", v);
+                                                setFieldValue("warehouse", "");
+                                                getWarehouseListDDL(`/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${v?.value
+                                                    }`)
+                                            } else {
+                                                setFieldValue("plant", "");
+                                                setFieldValue("warehouse", "");
+                                            }
+
                                         }}
                                         placeholder="Plant"
                                         errors={errors}
@@ -199,10 +317,12 @@ export default function RFQCreateEdit() {
                                         label="Warehouse"
                                         onChange={(v) => {
                                             setFieldValue("warehouse", v);
+                                            setFieldValue("referenceType", "");
                                         }}
                                         placeholder="Warehouse"
                                         errors={errors}
                                         touched={touched}
+                                        isDisabled={!values?.plant}
                                     />
                                 </div>
                                 <div className="col-lg-2">
@@ -280,11 +400,11 @@ export default function RFQCreateEdit() {
                                         name="paymentTerms"
                                         options={[
                                             {
-                                                value: 1,
+                                                value: "Cash",
                                                 label: "Cash",
                                             },
                                             {
-                                                value: 2,
+                                                value: "Bank",
                                                 label: "Bank",
                                             }
                                         ]}
@@ -329,6 +449,8 @@ export default function RFQCreateEdit() {
                                         type="datetime-local"
                                         onChange={(e) => {
                                             setFieldValue("quotationEntryStart", e.target.value);
+                                            setFieldValue("validTillDate", "");
+                                            setFieldValue("deliveryDate", "");
                                         }}
                                     />
                                 </div>
@@ -340,7 +462,9 @@ export default function RFQCreateEdit() {
                                         type="datetime-local"
                                         onChange={(e) => {
                                             setFieldValue("validTillDate", e.target.value);
+                                            setFieldValue("deliveryDate", "");
                                         }}
+                                        min={values?.quotationEntryStart}
                                     />
                                 </div>
                                 <div className="col-lg-2">
@@ -352,6 +476,7 @@ export default function RFQCreateEdit() {
                                         onChange={(e) => {
                                             setFieldValue("deliveryDate", e.target.value);
                                         }}
+                                        min={_dateFormatter(values?.validTillDate)}
                                     />
                                 </div>
                                 <div className="col-lg-2">
@@ -451,20 +576,32 @@ export default function RFQCreateEdit() {
                                         value={values?.referenceType}
                                         label="Reference Type"
                                         onChange={(v) => {
-                                            if (v?.value === "without reference") {
-                                                getItemListDDL(`/procurement/RequestForQuotation/GetRFQItemWithoutRef?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value
-                                                    }&PlantId=${values?.plant?.value
-                                                    }&WarehouseId=${values?.warehouse?.value
-                                                    }`)
+                                            if (v) {
+                                                if (v?.value === "without reference") {
+                                                    getItemListDDL(`/procurement/RequestForQuotation/GetRFQItemWithoutRef?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value
+                                                        }&PlantId=${values?.plant?.value
+                                                        }&WarehouseId=${values?.warehouse?.value
+                                                        }`)
+                                                } else {
+                                                    getReferenceNoDDL(`/procurement/RequestForQuotation/GetPRReferrenceNoDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&SBUId=${values?.sbu?.value
+                                                        }&PurchaseOrganizationId=${values?.purchaseOrganization?.value
+                                                        }&PlantId=${values?.plant?.value
+                                                        }&WearHouseId=${values?.warehouse?.value
+                                                        }`)
+                                                }
+                                                setFieldValue("referenceType", v);
+                                                setFieldValue("item", "");
+                                                setItemListDDL([])
+                                            } else {
+                                                setFieldValue("referenceType", "");
+                                                setFieldValue("item", "");
+                                                setItemListDDL([])
                                             }
-                                            setFieldValue("referenceType", v);
-                                            setFieldValue("item", "");
-                                            setItemListDDL([])
                                         }}
                                         placeholder="Reference Type"
                                         errors={errors}
                                         touched={touched}
-                                        isDisabled={!values?.plant || !values?.warehouse || !values?.purchaseOrganization}
+                                        isDisabled={!values?.plant || !values?.warehouse || !values?.purchaseOrganization || id}
                                     />
                                 </div>
 
@@ -606,16 +743,17 @@ export default function RFQCreateEdit() {
                                                     toast.warn("Item already added");
                                                 } else {
                                                     setItemList([...itemList, {
+                                                        rowId: 0,
                                                         itemId: values?.item?.value || 0,
                                                         itemCode: values?.item?.code || "",
                                                         itemName: values?.item?.label || "",
                                                         itemtypeName: values?.item?.itemtypeName || "",
                                                         uoMid: values?.item?.uoMId || 0,
                                                         uoMname: values?.item?.uoMName || "",
-                                                        reqquantity: values?.quantity || 0,
+                                                        reqquantity: +values?.quantity || 0,
                                                         referenceId: values?.referenceNo?.value || 0,
                                                         referenceCode: values?.referenceNo?.label || "",
-                                                        referenceQuantity: values?.item?.refQty || 0,
+                                                        referenceQuantity: +values?.item?.refQty || 0,
                                                         description: values?.itemDescription === "" ? values?.item?.description : values?.itemDescription,
                                                     }]);
                                                 }
@@ -675,15 +813,7 @@ export default function RFQCreateEdit() {
                                                             }}
                                                         />
                                                     </td>
-                                                    <td>
-                                                        <InputField
-                                                            value={item?.referenceQuantity}
-                                                            name="referenceQuantity"
-                                                            type="number"
-                                                            placeholder="Ref Quantity"
-                                                            disabled={true}
-                                                        />
-                                                    </td>
+                                                    <td className="text-center">{item?.referenceQuantity}</td>
                                                     <td>
                                                         <InputField
                                                             value={item?.reqquantity}
@@ -691,11 +821,11 @@ export default function RFQCreateEdit() {
                                                             type="number"
                                                             placeholder="Quantity"
                                                             onChange={(e) => {
-                                                                if (item?.reqquantity < 0) {
+                                                                if (e.target.value < 0) {
                                                                     return toast?.warn("Quantity cant be negative")
                                                                 } else {
                                                                     const temp = [...itemList];
-                                                                    temp[index].reqquantity = e.target.value;
+                                                                    temp[index].reqquantity = +e.target.value;
                                                                     setItemList(temp);
                                                                 }
                                                             }}
@@ -769,11 +899,13 @@ export default function RFQCreateEdit() {
                                             marginTop: "18px",
                                         }}
                                         onClick={() => {
-                                            const isDuplicate = supplierList.some((item) => item.supplierName === values?.supplier?.label);
+                                            const isDuplicate = supplierList.some((supplier) => supplier?.businessPartnerName === values?.supplier?.label);
                                             if (isDuplicate) {
                                                 toast.warn(`${values?.supplier?.label} already added`);
                                             } else {
                                                 setSupplierList([...supplierList, {
+                                                    partnerRFQId: 0,
+                                                    requestForQuotationId: id ? +id : 0,
                                                     businessPartnerId: values?.supplier?.value,
                                                     businessPartnerName: values?.supplier?.label,
                                                     businessPartnerAddress: values?.supplier?.supplierAddress,
@@ -865,6 +997,6 @@ export default function RFQCreateEdit() {
                     </IForm>
                 </>
             )}
-        </Formik>
+        </Formik >
     );
 }

@@ -152,10 +152,10 @@ export function PurchasePages() {
         from="/mngProcurement/purchase-management/rfq/add"
         component={RFQForm}
       /> */}
-      <ContentRoute
+      {/* <ContentRoute
         from="/mngProcurement/purchase-management/rfq/edit/:id"
         component={RFQForm}
-      />
+      /> */}
       <ContentRoute
         from="/mngProcurement/purchase-management/rfq/quotation/:id"
         component={QuotationForm}
@@ -168,6 +168,10 @@ export function PurchasePages() {
         from="/mngProcurement/purchase-management/rfq"
         component={RFQ}
       /> */}
+      <ContentRoute
+        from="/mngProcurement/purchase-management/rfq/edit/:id"
+        component={RFQCreateEdit}
+      />
       <ContentRoute
         from="/mngProcurement/purchase-management/rfq/create"
         component={RFQCreateEdit}
