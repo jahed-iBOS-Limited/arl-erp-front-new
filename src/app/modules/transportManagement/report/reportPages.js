@@ -22,6 +22,7 @@ import ShipmentCancel from "./shipmentCancel/landing";
 import SalesOrderSupport from "./salesOrderSupport/landing";
 import PermissionForModification from "./permissionForModification/_landing/_landing";
 import LoadingStatusReport from "./loadingStatusReport";
+import HourlyDeliveryStatusReport from "./hourlyDeliveryStatus";
 
 export function TransportReportPages() {
   return (
@@ -122,6 +123,10 @@ export function TransportReportPages() {
         <ContentRoute
           path="/transport-management/report/loadingStatusReport"
           component={LoadingStatusReport}
+        />
+        <ContentRoute
+          path="/transport-management/report/hourlyDeliveryStatusReport"
+          component={HourlyDeliveryStatusReport}
         />
       </Switch>
     </Suspense>

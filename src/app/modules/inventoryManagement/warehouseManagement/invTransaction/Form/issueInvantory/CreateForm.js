@@ -215,6 +215,15 @@ export default function CreateForm({
   };
 
   const saveHandler = async (values, cb) => {
+    if (!values?.costCenter) {
+      return toast.warn("Cost Center is required");
+    }
+    if (!values?.costElement) {
+      return toast.warn("Cost Element is required");
+    }
+    if (!values?.profitcenter) {
+      return toast.warn("Profit Center is required");
+    }
     if (rowDto.length === 0) {
       toast.error("Please Add Item");
     } else {
@@ -268,8 +277,8 @@ export default function CreateForm({
             costCenterName: values?.costCenter?.label
               ? values?.costCenter?.label.split(",")[0] || ""
               : "",
-            profitCenterId : values?.profitcenter?.value || 0,
-            profitCenterName : values?.profitcenter?.label || "",
+            profitCenterId: values?.profitcenter?.value || 0,
+            profitCenterName: values?.profitcenter?.label || "",
             projectId: values?.projName?.value || -1,
             projectCode: values?.projName?.code || "",
             projectName: values?.projName?.label || "",
@@ -329,7 +338,7 @@ export default function CreateForm({
   );
   const transTypeDDLObjectForProject = useMemo(() => {
     return transactionTypeDDL?.filter((itm) => itm?.value === 11)[0];
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [transTypeDDLNotIsProductionOrder]);
 
   const [projectDDL, getProjectDDL] = useAxiosGet();
@@ -390,7 +399,7 @@ export default function CreateForm({
                         label: data?.personalName,
                       });
                       onChangeForRefNo(data, values);
-                      setRowDto([]);   
+                      setRowDto([]);
                       setFieldValue("transType", "");
                       if (data?.intProjectId) {
                         setFieldValue(
@@ -412,7 +421,7 @@ export default function CreateForm({
                     touched={touched}
                   />
                 </div>
-                {values?.refNo?.isFromProductionOrder ? 
+                {values?.refNo?.isFromProductionOrder ?
                   <>
                     <div className="col-lg-2">
                       <ISelect
@@ -432,12 +441,12 @@ export default function CreateForm({
                       <ISelect
                         label="Select Transaction Type"
                         options={transTypeDDLNotIsProductionOrder}
-                        value={values?.transType }
+                        value={values?.transType}
                         name="transType"
-                        setFieldValue={setFieldValue }
-                        isDisabled={isProjectIdExist? true:values.refType === ""}
+                        setFieldValue={setFieldValue}
+                        isDisabled={isProjectIdExist ? true : values.refType === ""}
                         errors={errors}
-                        touched={touched}                       
+                        touched={touched}
                       />
                     </div>
                   </>
@@ -455,68 +464,68 @@ export default function CreateForm({
                   />
                 </div> */}
                 {values?.transType?.label !== "Issue For Project" && (
-                 <>
-                  <div className="col-lg-2">
-                    <ISelect
-                      label="Select Cost Center"
-                      options={costCenterDDL}
-                      value={values?.costCenter}
-                      name="costCenter"
-                      onChange={(valueOption) => {
-                        if(valueOption){
-                          setFieldValue("costCenter", valueOption);
-                          CostElementDDLApi(
-                            profileData.accountId,
-                            selectedBusinessUnit.value,
-                            valueOption?.value,
-                            setCostElementDDL
-                          );
-                          getProfitcenterDDL(`/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=${valueOption?.value}&businessUnitId=${selectedBusinessUnit.value}`, (data)=>{
-                              if(data?.length){
+                  <>
+                    <div className="col-lg-2">
+                      <ISelect
+                        label="Select Cost Center"
+                        options={costCenterDDL}
+                        value={values?.costCenter}
+                        name="costCenter"
+                        onChange={(valueOption) => {
+                          if (valueOption) {
+                            setFieldValue("costCenter", valueOption);
+                            CostElementDDLApi(
+                              profileData.accountId,
+                              selectedBusinessUnit.value,
+                              valueOption?.value,
+                              setCostElementDDL
+                            );
+                            getProfitcenterDDL(`/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=${valueOption?.value}&businessUnitId=${selectedBusinessUnit.value}`, (data) => {
+                              if (data?.length) {
                                 setFieldValue("profitcenter", data[0]);
                               }
-                          })
-                          setFieldValue("projName", "");
-                          setFieldValue("costElement", "");
-                        }else{
-                          setFieldValue("costCenter", "");
-                          setFieldValue("projName", "");
-                          setFieldValue("costElement", "");
-                          setFieldValue("profitcenter", "");
-                          setProfitcenterDDL([]);
-                        }
-                      }}
-                      //isDisabled={values?.projName !== ""}
-                      isDisabled={values?.transType?.value === 14}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                  <div className="col-lg-2">
-                  <ISelect
-                    label="Select Cost Element"
-                    options={coseElementDDL}
-                    value={values?.costElement}
-                    name="costElement"
-                    setFieldValue={setFieldValue}
-                    errors={errors}
-                    touched={touched}
-                    isDisabled={values?.transType?.value === 14}
-                  />
-                </div>
-                 <div className="col-lg-2">
-                  <ISelect
-                    label="Select Profit Center"
-                    options={profitcenterDDL || []}
-                    value={values?.profitcenter}
-                    name="profitcenter"
-                    setFieldValue={setFieldValue}
-                    errors={errors}
-                    touched={touched}
-                    isDisabled={values?.transType?.value === 14}
-                  />
-                </div>
-                 </>
+                            })
+                            setFieldValue("projName", "");
+                            setFieldValue("costElement", "");
+                          } else {
+                            setFieldValue("costCenter", "");
+                            setFieldValue("projName", "");
+                            setFieldValue("costElement", "");
+                            setFieldValue("profitcenter", "");
+                            setProfitcenterDDL([]);
+                          }
+                        }}
+                        //isDisabled={values?.projName !== ""}
+                        isDisabled={values?.transType?.value === 14}
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                    <div className="col-lg-2">
+                      <ISelect
+                        label="Select Cost Element"
+                        options={coseElementDDL}
+                        value={values?.costElement}
+                        name="costElement"
+                        setFieldValue={setFieldValue}
+                        errors={errors}
+                        touched={touched}
+                        isDisabled={values?.transType?.value === 14}
+                      />
+                    </div>
+                    <div className="col-lg-2">
+                      <ISelect
+                        label="Select Profit Center"
+                        options={profitcenterDDL || []}
+                        value={values?.profitcenter}
+                        name="profitcenter"
+                        setFieldValue={setFieldValue}
+                        errors={errors}
+                        touched={touched}
+                        isDisabled={values?.transType?.value === 14}
+                      />
+                    </div>
+                  </>
                 )}
                 {values?.transType?.label === "Issue For Project" && (
                   <div className="col-lg-2">
