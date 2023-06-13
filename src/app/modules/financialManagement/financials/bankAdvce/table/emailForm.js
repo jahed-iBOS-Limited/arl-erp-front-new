@@ -5,9 +5,8 @@ import * as Yup from 'yup';
 import { moneyInWord } from '../../../../_helper/_convertMoneyToWord';
 import Loading from '../../../../_helper/_loading';
 import { sendEmailPostApi } from '../helper';
-import { generateExcel } from './excelReportGenarate';
 import { excelGenerator } from './excelGenerator';
-import { zakatAdvicePlanExcel } from '../planExcel/zakatAdvicePlanExcel';
+import { generateExcel } from './excelReportGenarate';
 
 const validationSchema = Yup.object().shape({
    toMail: Yup.string().required('Email is required'),
@@ -54,13 +53,13 @@ export default function EmailViewForm({
 
    function saveHandler(values, cb) {
       const promiseLanding = new Promise((resolve, reject) => {
-         if (landingValues?.adviceType?.value === 15) {
-            console.log("zakat email")
-            zakatAdvicePlanExcel(data, landingValues, fileName, getZakatBlobData => {
-               resolve(getZakatBlobData);
-            });
-         }
-         else{
+         // if (landingValues?.adviceType?.value === 15) {
+         //    console.log("zakat email")
+         //    zakatAdvicePlanExcel(data, landingValues, fileName, getZakatBlobData => {
+         //       resolve(getZakatBlobData);
+         //    });
+         // }
+         // else{
             if (
                landingValues?.advice?.info === 'ibblBEFTN' ||
                landingValues?.advice?.info === 'ibbl' ||
@@ -94,7 +93,7 @@ export default function EmailViewForm({
                   }
                );
             }
-         }
+         // }
          
       });
 
