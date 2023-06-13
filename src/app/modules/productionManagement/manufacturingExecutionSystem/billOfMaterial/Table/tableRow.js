@@ -244,7 +244,7 @@ export function TableRow() {
                         </td>
                         <td>
                           <div style={{
-                            color: item?.isApproved ? "green" : "yellow",
+                            color: item?.isApproved ? "green" : "#ff9f1a",
                             fontWeight:800
                           }} className="text-center pl-2">{item?.isApproved ? "Approved" : "Pending"}</div>
                         </td>
