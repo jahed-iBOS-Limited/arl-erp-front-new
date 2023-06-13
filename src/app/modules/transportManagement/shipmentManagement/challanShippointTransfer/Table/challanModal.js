@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ISelect } from "../../../../_helper/_inputDropDown";
 import Loading from "../../../../_helper/_loading";
 import { ShippointChange } from "../helper";
@@ -10,6 +10,8 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from "./../../../../../../_metronic/_partials/controls";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { shallowEqual, useSelector } from "react-redux";
 
 export function ChallanModal({
   ShippointDDL,
@@ -17,7 +19,19 @@ export function ChallanModal({
   selectedBusinessUnit,
   cb,
 }) {
+  const {profileData} = useSelector((state) => {
+    return state.authData
+  }, shallowEqual)
   const [loading, setLoading] = useState(false);
+  const [warehouseDDL, getWarehouseDDL, , setWarehouseDDL] = useAxiosGet();
+
+  useEffect(() => {
+    if(ShippointDDL[0]?.value){
+      getWarehouseDDL(`/wms/ShipPointWarehouse/GetShipPointWarehouseDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&ShipPointId=${ShippointDDL[0]?.value}`)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[ShippointDDL])
+  
   return (
     <>
       <Formik
@@ -42,11 +56,14 @@ export function ChallanModal({
               <CardHeader title={"Challan Shippoint Transfer update"}>
                 <CardHeaderToolbar>
                   <button
+                  disabled={!values?.pgiShippoint?.value || !values?.warehouse?.value}
                     onClick={() => {
                       ShippointChange(
                         tableRowData?.intDeliveryId,
                         values?.pgiShippoint?.value,
                         values?.pgiShippoint?.label,
+                        values?.warehouse?.value,
+                        values?.warehouse?.label,
                         selectedBusinessUnit?.value,
                         setLoading,
                         cb
@@ -70,6 +87,25 @@ export function ChallanModal({
                               options={ShippointDDL}
                               value={values.pgiShippoint}
                               name="pgiShippoint"
+                              setFieldValue={setFieldValue}
+                              dependencyFunc={(id)=>{
+                               if(id){
+                                getWarehouseDDL(`/wms/ShipPointWarehouse/GetShipPointWarehouseDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&ShipPointId=${id}`)
+                               }else{
+                                setFieldValue("warehouse","");
+                                setWarehouseDDL([]);
+                               }
+                              }}
+                              errors={errors}
+                              touched={touched}
+                            />
+                          </div>
+                          <div className="col-lg-3">
+                            <ISelect
+                              label="Select Warehouse"
+                              options={warehouseDDL}
+                              value={values.warehouse}
+                              name="warehouse"
                               setFieldValue={setFieldValue}
                               errors={errors}
                               touched={touched}
