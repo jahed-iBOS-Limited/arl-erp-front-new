@@ -417,7 +417,7 @@ export default function _Form({
                       />
                     </div>
 
-                    <div className="col-lg-3 pl pr-1">
+                    {/* <div className="col-lg-3 pl pr-1">
                       <label>Select Expense Type</label>
                       <Select
                         onChange={(valueOption) => {
@@ -430,7 +430,7 @@ export default function _Form({
                         name="transaction"
                         placeholder="Expense Type"
                       />
-                    </div>
+                    </div> */}
 
                     {/* <div className="col-lg-3 pl-0 pr-1 mb-2 h-narration border-gray">
                       <IInput
@@ -491,12 +491,10 @@ export default function _Form({
                           disabled={
                             values?.driverExp
                               ? !values?.expenseDate ||
-                                !values?.transaction ||
                                 !values?.expenseAmount ||
                                 !values?.location ||
                                 !values?.userNmae
                               : !values?.expenseDate ||
-                                !values?.transaction ||
                                 !values?.expenseAmount ||
                                 !values?.location ||
                                 !values?.costCenter ||
@@ -576,7 +574,6 @@ export default function _Form({
                             <th>Cost Center</th>
                             <th>Cost Element</th>
                             <th>Profit Center</th>
-                            <th>Expense Group</th>
                             <th>Expense Place</th>
                             <th>Expense Amount</th>
                             <th>Expense Description</th>
@@ -597,12 +594,6 @@ export default function _Form({
                               <td>{item?.costCenter?.label}</td>
                               <td>{item?.costElement?.label}</td>
                               <td>{item?.profitCenter?.label}</td>
-                              <td>
-                                <div className="text-left pl-2">
-                                  {item?.transaction?.label}
-                                </div>
-                              </td>
-
                               <td>
                                 <div className="text-left pl-2">
                                   {item?.location}

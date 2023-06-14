@@ -4,7 +4,7 @@ import { ContentRoute } from "../../../../_metronic/layout";
 import CarrierAgentBridge from "./carrierAgentBridge/_landing/_landing";
 import ChallanEntryForm from "./challanEntry/form/addEditForm";
 import ChallanTable from "./challanEntry/landingPage/table";
-import ConfirmBySupervisor from "./confirmBySupervisor/landingPage/table";
+import ConfirmBySupervisor from "./confirmBySupervisor/landingPage/index";
 import G2GItemInfoCreateForm from "./g2gItemInfo/form/addEditForm";
 import G2GItemInfo from "./g2gItemInfo/landingPage/table";
 import GeneralLanding from "./generalInformation";
