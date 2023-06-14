@@ -15,6 +15,7 @@ import TextArea from "../../../_helper/TextArea";
 import { _todayDate } from "../../../_helper/_todayDate";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const initData = {
     sbu: "",
@@ -231,6 +232,108 @@ export default function RFQCreateEdit() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const handleAddSupplier = (values, setFieldValue) => {
+        if (!values?.supplier) {
+            return toast.warn("Please Select Supplier");
+        }
+        if (!values?.supplierContactNo) {
+            return toast.warn("Please Enter Supplier Contact No");
+        }
+        if (!values?.supplierEmail) {
+            return toast.warn("Please Enter Supplier Email");
+        }
+        const isDuplicate = supplierList.some((supplier) => supplier?.businessPartnerName === values?.supplier?.label);
+        if (isDuplicate) {
+            toast.warn(`${values?.supplier?.label} already added`);
+        } else {
+            const newSupplier = {
+                partnerRFQId: 0,
+                requestForQuotationId: id ? +id : 0,
+                businessPartnerId: values?.supplier?.value,
+                businessPartnerName: values?.supplier?.label,
+                businessPartnerAddress: values?.supplier?.supplierAddress,
+                email: values?.supplierEmail === "" ? values?.supplier?.supplierEmail : values?.supplierEmail,
+                contactNumber: values?.supplierContactNo === "" ? values?.supplier?.supplierContact : values?.supplierContactNo,
+                isEmailSend: false
+            };
+            setSupplierList([...supplierList, newSupplier]);
+        }
+        setFieldValue("supplier", "");
+        setFieldValue("supplierContactNo", "");
+        setFieldValue("supplierEmail", "");
+    };
+
+    const handleAddItem = (values, setFieldValue) => {
+        if (values.isAllItem) {
+            setItemList([]);
+            const temp = [...itemListDDL];
+            const newItems = temp.map((item) => ({
+                itemId: item?.value || 0,
+                itemCode: item?.code || "",
+                itemName: item?.label || "",
+                itemtypeName: item?.itemtypeName || "",
+                uoMid: item?.uoMId || 0,
+                uoMname: item?.uoMName || "",
+                reqquantity: 0,
+                referenceId: values?.referenceNo?.value || 0,
+                referenceCode: values?.referenceNo?.label || "",
+                referenceQuantity: item?.refQty || 0,
+                description: item?.description,
+            }));
+            setItemList(newItems);
+            setFieldValue("item", "");
+            setFieldValue("itemDescription", "");
+            setFieldValue("quantity", "");
+        } else {
+            if (!values?.item) {
+                return toast.warn("Please Select Item");
+            }
+            if (!values?.quantity) {
+                return toast.warn("Please Enter Quantity");
+            }
+            const isDuplicate = itemList.some((item) =>
+                item.itemName === values?.item?.label
+            );
+            if (isDuplicate) {
+                toast.warn("Item already added");
+            } else {
+                setItemList([...itemList, {
+                    rowId: 0,
+                    itemId: values?.item?.value || 0,
+                    itemCode: values?.item?.code || "",
+                    itemName: values?.item?.label || "",
+                    itemtypeName: values?.item?.itemtypeName || "",
+                    uoMid: values?.item?.uoMId || 0,
+                    uoMname: values?.item?.uoMName || "",
+                    reqquantity: +values?.quantity || 0,
+                    referenceId: values?.referenceNo?.value || 0,
+                    referenceCode: values?.referenceNo?.label || "",
+                    referenceQuantity: +values?.item?.refQty || 0,
+                    description: values?.itemDescription === "" ? values?.item?.description : values?.itemDescription,
+                }]);
+            }
+            setFieldValue("item", "");
+            setFieldValue("itemDescription", "");
+            setFieldValue("quantity", "");
+        }
+    };
+
+    const handleDescriptionChange = (e, index) => {
+        const temp = [...itemList];
+        temp[index] = { ...temp[index], description: e.target.value };
+        setItemList(temp);
+    };
+
+    const handleQuantityChange = (e, index) => {
+        if (e.target.value < 0) {
+            return toast?.warn("Quantity cant be negative")
+        } else {
+            const temp = [...itemList];
+            temp[index].reqquantity = +e.target.value;
+            setItemList(temp);
+        }
+    };
+
     return (
         <Formik
             enableReinitialize={true}
@@ -401,14 +504,8 @@ export default function RFQCreateEdit() {
                                     <NewSelect
                                         name="paymentTerms"
                                         options={[
-                                            {
-                                                value: "Cash",
-                                                label: "Cash",
-                                            },
-                                            {
-                                                value: "Bank",
-                                                label: "Bank",
-                                            }
+                                            { value: "Cash", label: "Cash", },
+                                            { value: "Bank", label: "Bank", }
                                         ]}
                                         value={values?.paymentTerms}
                                         label="Payment Terms"
@@ -424,14 +521,8 @@ export default function RFQCreateEdit() {
                                     <NewSelect
                                         name="transportCost"
                                         options={[
-                                            {
-                                                value: 1,
-                                                label: "Including",
-                                            },
-                                            {
-                                                value: 2,
-                                                label: "Excluding",
-                                            }
+                                            { value: 1, label: "Including", },
+                                            { value: 2, label: "Excluding", }
                                         ]}
                                         value={values?.transportCost}
                                         label="Transport Cost"
@@ -497,14 +588,8 @@ export default function RFQCreateEdit() {
                                     <NewSelect
                                         name="vatOrAit"
                                         options={[
-                                            {
-                                                value: 1,
-                                                label: "Including",
-                                            },
-                                            {
-                                                value: 2,
-                                                label: "Excluding",
-                                            }
+                                            { value: 1, label: "Including", },
+                                            { value: 2, label: "Excluding", }
                                         ]}
                                         value={values?.vatOrAit}
                                         label="VAT/AIT"
@@ -520,14 +605,8 @@ export default function RFQCreateEdit() {
                                     <NewSelect
                                         name="tds"
                                         options={[
-                                            {
-                                                value: 1,
-                                                label: "Including",
-                                            },
-                                            {
-                                                value: 2,
-                                                label: "Excluding",
-                                            }
+                                            { value: 1, label: "Including", },
+                                            { value: 2, label: "Excluding", }
                                         ]}
                                         value={values?.tds}
                                         label="TDS"
@@ -543,14 +622,8 @@ export default function RFQCreateEdit() {
                                     <NewSelect
                                         name="vds"
                                         options={[
-                                            {
-                                                value: 1,
-                                                label: "Including",
-                                            },
-                                            {
-                                                value: 2,
-                                                label: "Excluding",
-                                            }
+                                            { value: 1, label: "Including", },
+                                            { value: 2, label: "Excluding", }
                                         ]}
                                         value={values?.vds}
                                         label="VDS"
@@ -566,14 +639,8 @@ export default function RFQCreateEdit() {
                                     <NewSelect
                                         name="referenceType"
                                         options={[
-                                            {
-                                                value: "with reference",
-                                                label: "With reference"
-                                            },
-                                            {
-                                                value: "without reference",
-                                                label: "Without reference",
-                                            }
+                                            { value: "with reference", label: "With reference" },
+                                            { value: "without reference", label: "Without reference", }
                                         ]}
                                         value={values?.referenceType}
                                         label="Reference Type"
@@ -594,10 +661,12 @@ export default function RFQCreateEdit() {
                                                 setFieldValue("referenceType", v);
                                                 setFieldValue("item", "");
                                                 setItemListDDL([])
+                                                setItemList([]);
                                             } else {
                                                 setFieldValue("referenceType", "");
                                                 setFieldValue("item", "");
                                                 setItemListDDL([])
+                                                setItemList([]);
                                             }
                                         }}
                                         placeholder="Reference Type"
@@ -606,7 +675,6 @@ export default function RFQCreateEdit() {
                                         isDisabled={!values?.plant || !values?.warehouse || !values?.purchaseOrganization || id}
                                     />
                                 </div>
-
                             </div>
                             <h4 className="mt-2">Add Item</h4>
                             <div className="form-group  global-form row">
@@ -691,7 +759,7 @@ export default function RFQCreateEdit() {
                                                 id="rfqIsAllItem"
                                                 type="checkbox"
                                                 className="ml-2"
-                                                disabled={values?.referenceType?.value === "without reference"}
+                                                disabled={!values?.referenceType || values?.referenceType?.value === "without reference"}
                                                 value={values.isAllItem || ""}
                                                 checked={values.isAllItem}
                                                 name="isAllItem"
@@ -710,59 +778,64 @@ export default function RFQCreateEdit() {
                                         style={{
                                             marginTop: "18px",
                                         }}
+                                        // onClick={() => {
+                                        //     if (values.isAllItem) {
+                                        //         setItemList([]);
+                                        //         const temp = [...itemListDDL];
+                                        //         const newItems = temp.map((item) => ({
+                                        //             itemId: item?.value || 0,
+                                        //             itemCode: item?.code || "",
+                                        //             itemName: item?.label || "",
+                                        //             itemtypeName: item?.itemtypeName || "",
+                                        //             uoMid: item?.uoMId || 0,
+                                        //             uoMname: item?.uoMName || "",
+                                        //             reqquantity: 0,
+                                        //             referenceId: values?.referenceNo?.value || 0,
+                                        //             referenceCode: values?.referenceNo?.label || "",
+                                        //             referenceQuantity: item?.refQty || 0,
+                                        //             description: item?.description,
+                                        //         }));
+                                        //         setItemList(newItems);
+                                        //         setFieldValue("item", "");
+                                        //         setFieldValue("itemDescription", "");
+                                        //         setFieldValue("quantity", "");
+                                        //     } else {
+                                        //         if (!values?.item) {
+                                        //             return toast.warn("Please Select Item");
+                                        //         }
+                                        //         if (!values?.quantity) {
+                                        //             return toast.warn("Please Enter Quantity");
+                                        //         }
+                                        //         const isDuplicate = itemList.some((item) =>
+                                        //             item.itemName === values?.item?.label
+                                        //         );
+                                        //         if (isDuplicate) {
+                                        //             toast.warn("Item already added");
+                                        //         } else {
+                                        //             setItemList([...itemList, {
+                                        //                 rowId: 0,
+                                        //                 itemId: values?.item?.value || 0,
+                                        //                 itemCode: values?.item?.code || "",
+                                        //                 itemName: values?.item?.label || "",
+                                        //                 itemtypeName: values?.item?.itemtypeName || "",
+                                        //                 uoMid: values?.item?.uoMId || 0,
+                                        //                 uoMname: values?.item?.uoMName || "",
+                                        //                 reqquantity: +values?.quantity || 0,
+                                        //                 referenceId: values?.referenceNo?.value || 0,
+                                        //                 referenceCode: values?.referenceNo?.label || "",
+                                        //                 referenceQuantity: +values?.item?.refQty || 0,
+                                        //                 description: values?.itemDescription === "" ? values?.item?.description : values?.itemDescription,
+                                        //             }]);
+                                        //         }
+                                        //         setFieldValue("item", "");
+                                        //         setFieldValue("itemDescription", "");
+                                        //         setFieldValue("quantity", "");
+                                        //     }
+                                        // }}
                                         onClick={() => {
-                                            if (values.isAllItem) {
-                                                setItemList([]);
-                                                const temp = [...itemListDDL];
-                                                const newItems = temp.map((item) => ({
-                                                    itemId: item?.value || 0,
-                                                    itemCode: item?.code || "",
-                                                    itemName: item?.label || "",
-                                                    itemtypeName: item?.itemtypeName || "",
-                                                    uoMid: item?.uoMId || 0,
-                                                    uoMname: item?.uoMName || "",
-                                                    reqquantity: 0,
-                                                    referenceId: values?.referenceNo?.value || 0,
-                                                    referenceCode: values?.referenceNo?.label || "",
-                                                    referenceQuantity: item?.refQty || 0,
-                                                    description: item?.description,
-                                                }));
-                                                setItemList(newItems);
-                                                setFieldValue("item", "");
-                                                setFieldValue("itemDescription", "");
-                                                setFieldValue("quantity", "");
-                                            } else {
-                                                if (!values?.item) {
-                                                    return toast.warn("Please Select Item");
-                                                }
-                                                if (!values?.quantity) {
-                                                    return toast.warn("Please Enter Quantity");
-                                                }
-                                                const isDuplicate = itemList.some((item) =>
-                                                    item.itemName === values?.item?.label
-                                                );
-                                                if (isDuplicate) {
-                                                    toast.warn("Item already added");
-                                                } else {
-                                                    setItemList([...itemList, {
-                                                        rowId: 0,
-                                                        itemId: values?.item?.value || 0,
-                                                        itemCode: values?.item?.code || "",
-                                                        itemName: values?.item?.label || "",
-                                                        itemtypeName: values?.item?.itemtypeName || "",
-                                                        uoMid: values?.item?.uoMId || 0,
-                                                        uoMname: values?.item?.uoMName || "",
-                                                        reqquantity: +values?.quantity || 0,
-                                                        referenceId: values?.referenceNo?.value || 0,
-                                                        referenceCode: values?.referenceNo?.label || "",
-                                                        referenceQuantity: +values?.item?.refQty || 0,
-                                                        description: values?.itemDescription === "" ? values?.item?.description : values?.itemDescription,
-                                                    }]);
-                                                }
-                                                setFieldValue("item", "");
-                                                setFieldValue("itemDescription", "");
-                                                setFieldValue("quantity", "");
-                                            }
+                                            handleAddItem(values, setFieldValue)
+                                            setFieldValue("isAllItem", false);
+                                            setIsRfqQty(false);
                                         }}
                                     >
                                         Add Item
@@ -777,19 +850,38 @@ export default function RFQCreateEdit() {
                                             <th>Item Name</th>
                                             <th>Uom</th>
                                             <th>Description</th>
-                                            <th>Ref Quantity</th>
+                                            <th>PR Quantity</th>
                                             <th>
-                                                <input
-                                                    style={{ transform: 'translateY(3px)' }}
-                                                    type="checkbox"
-                                                    defaultChecked={isRfqQty}
-                                                    onChange={e => {
-                                                        itemList.forEach((item) => {
-                                                            item.reqquantity = item.referenceQuantity;
-                                                        })
-                                                        setItemList([...itemList]);
-                                                    }}
-                                                />
+                                                <OverlayTrigger
+                                                    placement="top"
+                                                    overlay={<Tooltip>
+                                                        {
+                                                            isRfqQty ? "Click to add quantity manually" : "Click to fill by PR quantity"
+                                                        }
+                                                    </Tooltip>}
+                                                >
+                                                    <input
+                                                        style={{ transform: 'translateY(3px)', marginRight: '5px' }}
+                                                        type="checkbox"
+                                                        defaultChecked={isRfqQty}
+                                                        onChange={(e) => {
+                                                            if (e.target.checked) {
+                                                                console.log("checked-true", e.target.checked);
+                                                                itemList.forEach((item) => {
+                                                                    item.reqquantity = item.referenceQuantity;
+                                                                })
+                                                                setItemList([...itemList]);
+                                                            } else {
+                                                                console.log("checked-false", e.target.checked);
+                                                                itemList.forEach((item) => {
+                                                                    item.reqquantity = 0;
+                                                                })
+                                                                setItemList([...itemList]);
+                                                            }
+                                                        }}
+                                                        disabled={itemList?.length === 0}
+                                                    />
+                                                </OverlayTrigger>
                                                 Quantity
                                             </th>
                                             <th>Action</th>
@@ -809,9 +901,10 @@ export default function RFQCreateEdit() {
                                                             type="text"
                                                             placeholder="Item Description"
                                                             onChange={(e) => {
-                                                                const temp = [...itemList];
-                                                                temp[index].description = e.target.value;
-                                                                setItemList(temp);
+                                                                handleDescriptionChange(e, index)
+                                                                // const temp = [...itemList];
+                                                                // temp[index].description = e.target.value;
+                                                                // setItemList(temp);
                                                             }}
                                                         />
                                                     </td>
@@ -823,13 +916,14 @@ export default function RFQCreateEdit() {
                                                             type="number"
                                                             placeholder="Quantity"
                                                             onChange={(e) => {
-                                                                if (e.target.value < 0) {
-                                                                    return toast?.warn("Quantity cant be negative")
-                                                                } else {
-                                                                    const temp = [...itemList];
-                                                                    temp[index].reqquantity = +e.target.value;
-                                                                    setItemList(temp);
-                                                                }
+                                                                handleQuantityChange(e, index)
+                                                                // if (e.target.value < 0) {
+                                                                //     return toast?.warn("Quantity cant be negative")
+                                                                // } else {
+                                                                //     const temp = [...itemList];
+                                                                //     temp[index].reqquantity = +e.target.value;
+                                                                //     setItemList(temp);
+                                                                // }
                                                             }}
                                                         />
                                                     </td>
@@ -900,27 +994,29 @@ export default function RFQCreateEdit() {
                                         style={{
                                             marginTop: "18px",
                                         }}
+                                        // onClick={() => {
+                                        //     const isDuplicate = supplierList.some((supplier) => supplier?.businessPartnerName === values?.supplier?.label);
+                                        //     if (isDuplicate) {
+                                        //         toast.warn(`${values?.supplier?.label} already added`);
+                                        //     } else {
+                                        //         setSupplierList([...supplierList, {
+                                        //             partnerRFQId: 0,
+                                        //             requestForQuotationId: id ? +id : 0,
+                                        //             businessPartnerId: values?.supplier?.value,
+                                        //             businessPartnerName: values?.supplier?.label,
+                                        //             businessPartnerAddress: values?.supplier?.supplierAddress,
+                                        //             email: values?.supplierEmail === "" ? values?.supplier?.supplierEmail : values?.supplierEmail,
+                                        //             contactNumber: values?.supplierContactNo === "" ? values?.supplier?.supplierContact : values?.supplierContactNo,
+                                        //             isEmailSend: false
+                                        //         }]);
+                                        //     }
+                                        //     setFieldValue("supplier", "");
+                                        //     setFieldValue("supplierContactNo", "");
+                                        //     setFieldValue("supplierEmail", "");
+                                        // }}
                                         onClick={() => {
-                                            const isDuplicate = supplierList.some((supplier) => supplier?.businessPartnerName === values?.supplier?.label);
-                                            if (isDuplicate) {
-                                                toast.warn(`${values?.supplier?.label} already added`);
-                                            } else {
-                                                setSupplierList([...supplierList, {
-                                                    partnerRFQId: 0,
-                                                    requestForQuotationId: id ? +id : 0,
-                                                    businessPartnerId: values?.supplier?.value,
-                                                    businessPartnerName: values?.supplier?.label,
-                                                    businessPartnerAddress: values?.supplier?.supplierAddress,
-                                                    email: values?.supplierEmail === "" ? values?.supplier?.supplierEmail : values?.supplierEmail,
-                                                    contactNumber: values?.supplierContactNo === "" ? values?.supplier?.supplierContact : values?.supplierContactNo,
-                                                    isEmailSend: false
-                                                }]);
-                                            }
-                                            setFieldValue("supplier", "");
-                                            setFieldValue("supplierContactNo", "");
-                                            setFieldValue("supplierEmail", "");
+                                            handleAddSupplier(values, setFieldValue)
                                         }}
-                                        disabled={!values?.supplier}
                                     >
                                         Add Supplier
                                     </button>
@@ -938,7 +1034,6 @@ export default function RFQCreateEdit() {
                                             <th>Email</th>
                                             <th>Action</th>
                                         </tr>
-
                                     </thead>
                                     <tbody>
                                         {
@@ -976,7 +1071,6 @@ export default function RFQCreateEdit() {
                                         onChange={(e) =>
                                             setFieldValue("termsAndConditions", e.target.value)
                                         }
-                                        max={1000}
                                         errors={errors}
                                         touched={touched}
                                     />
@@ -988,7 +1082,6 @@ export default function RFQCreateEdit() {
                                 ref={objProps?.btnRef}
                                 onSubmit={() => handleSubmit()}
                             ></button>
-
                             <button
                                 type="reset"
                                 style={{ display: "none" }}

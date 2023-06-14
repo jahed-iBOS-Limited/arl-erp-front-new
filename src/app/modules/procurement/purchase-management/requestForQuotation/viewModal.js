@@ -102,6 +102,7 @@ export default function RfqViewModal({ code, title }) {
                 setModifiedData(viewData);
             });
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     return (
         <Formik
@@ -451,10 +452,7 @@ export default function RfqViewModal({ code, title }) {
                                     </tbody>
                                 </table>
                             </div>
-                            {/* item table */}
                             <h4 className="mt-2">Supplier List</h4>
-
-                            {/* supplier table */}
                             <div className="mt-2">
                                 <table className="table table-striped table-bordered bj-table bj-table-landing">
                                     <thead>
@@ -465,7 +463,6 @@ export default function RfqViewModal({ code, title }) {
                                             <th>Contact No</th>
                                             <th>Email</th>
                                         </tr>
-
                                     </thead>
                                     <tbody>
                                         {
