@@ -497,14 +497,8 @@ export default function RFQCreateEdit() {
                                     <NewSelect
                                         name="vatOrAit"
                                         options={[
-                                            {
-                                                value: 1,
-                                                label: "Including",
-                                            },
-                                            {
-                                                value: 2,
-                                                label: "Excluding",
-                                            }
+                                            { value: 1, label: "Including", },
+                                            { value: 2, label: "Excluding", }
                                         ]}
                                         value={values?.vatOrAit}
                                         label="VAT/AIT"
@@ -520,14 +514,8 @@ export default function RFQCreateEdit() {
                                     <NewSelect
                                         name="tds"
                                         options={[
-                                            {
-                                                value: 1,
-                                                label: "Including",
-                                            },
-                                            {
-                                                value: 2,
-                                                label: "Excluding",
-                                            }
+                                            { value: 1, label: "Including", },
+                                            { value: 2, label: "Excluding", }
                                         ]}
                                         value={values?.tds}
                                         label="TDS"
@@ -543,14 +531,8 @@ export default function RFQCreateEdit() {
                                     <NewSelect
                                         name="vds"
                                         options={[
-                                            {
-                                                value: 1,
-                                                label: "Including",
-                                            },
-                                            {
-                                                value: 2,
-                                                label: "Excluding",
-                                            }
+                                            { value: 1, label: "Including", },
+                                            { value: 2, label: "Excluding", }
                                         ]}
                                         value={values?.vds}
                                         label="VDS"
@@ -566,14 +548,8 @@ export default function RFQCreateEdit() {
                                     <NewSelect
                                         name="referenceType"
                                         options={[
-                                            {
-                                                value: "with reference",
-                                                label: "With reference"
-                                            },
-                                            {
-                                                value: "without reference",
-                                                label: "Without reference",
-                                            }
+                                            { value: "with reference", label: "With reference" },
+                                            { value: "without reference", label: "Without reference", }
                                         ]}
                                         value={values?.referenceType}
                                         label="Reference Type"
@@ -606,7 +582,6 @@ export default function RFQCreateEdit() {
                                         isDisabled={!values?.plant || !values?.warehouse || !values?.purchaseOrganization || id}
                                     />
                                 </div>
-
                             </div>
                             <h4 className="mt-2">Add Item</h4>
                             <div className="form-group  global-form row">
@@ -938,7 +913,6 @@ export default function RFQCreateEdit() {
                                             <th>Email</th>
                                             <th>Action</th>
                                         </tr>
-
                                     </thead>
                                     <tbody>
                                         {
@@ -988,7 +962,6 @@ export default function RFQCreateEdit() {
                                 ref={objProps?.btnRef}
                                 onSubmit={() => handleSubmit()}
                             ></button>
-
                             <button
                                 type="reset"
                                 style={{ display: "none" }}
