@@ -19,7 +19,9 @@ import { rfqReportExcel } from "./helper";
 import IViewModal from "../../../_helper/_viewModal";
 import RfqViewModal from "./viewModal";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-
+// import LocalShippingOutlinedIcon from '@material-ui/icons/LocalShippingOutlined';
+import LocalShippingIcon from '@material-ui/icons/LocalShipping';
+import LocalAirportOutlinedIcon from '@material-ui/icons/LocalAirportOutlined';
 const initData = {
     purchaseOrganization: { value: 0, label: 'ALL' },
     rfqType: { value: 1, label: 'Request for Quotation' },
@@ -339,7 +341,30 @@ export default function RequestForQuotationLanding() {
                                         {landingData?.data?.map((item, index) => (
                                             <tr key={index}>
                                                 <td>{index + 1}</td>
-                                                <td>{item?.requestForQuotationCode}</td>
+                                                <td>
+                                                    {
+
+                                                        item?.purchaseOrganizationName === "Foreign Procurement" ?
+                                                            <span>
+                                                                <LocalAirportOutlinedIcon style={{
+                                                                    color: "#00FF00",
+                                                                    marginRight: "5px",
+                                                                    rotate: "90deg"
+                                                                }} />
+                                                                {item?.requestForQuotationCode}
+                                                            </span>
+                                                            :
+                                                            <span>
+                                                                <LocalShippingIcon style={{
+                                                                    color: "#000000",
+                                                                    marginRight: "5px",
+                                                                    fontSize: "15px"
+                                                                }} />
+
+                                                                {item?.requestForQuotationCode}
+                                                            </span>
+                                                    }
+                                                </td>
                                                 <td className="text-center">{_dateFormatter(item?.rfqdate)}</td>
                                                 <td>{item?.currencyCode}</td>
                                                 <td>{_dateTimeFormatter(item?.quotationEntryStart)}</td>

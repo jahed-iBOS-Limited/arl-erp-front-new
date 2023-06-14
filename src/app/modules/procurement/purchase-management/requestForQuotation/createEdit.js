@@ -16,6 +16,9 @@ import { _oneMonthLater, _todayDate } from "../../../_helper/_todayDate";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
+import IViewModal from "../../../_helper/_viewModal";
+import NewSupplierModal from "./newSupplierModal";
 
 const initData = {
     sbu: "",
@@ -52,6 +55,7 @@ const initData = {
 };
 
 export default function RFQCreateEdit() {
+    const [showAddSupplierModal, setShowAddSupplierModal] = useState(false);
     const { id } = useParams()
     const [isRfqQty, setIsRfqQty] = useState(false);
     const [objProps, setObjprops] = useState({});
@@ -758,7 +762,7 @@ export default function RFQCreateEdit() {
                             </div>
                             <h4 className="mt-2">Add Item</h4>
                             <div className="form-group  global-form row">
-                                <div className="col-lg-2">
+                                <div className="col-lg-3">
                                     <NewSelect
                                         name="referenceNo"
                                         options={referenceNoDDL || []}
@@ -785,7 +789,7 @@ export default function RFQCreateEdit() {
                                         isDisabled={!values?.plant || !values?.warehouse || values?.referenceType?.value === "without reference" || (id && values?.isSentToSupplier)}
                                     />
                                 </div>
-                                <div className="col-lg-2">
+                                <div className="col-lg-3">
                                     <NewSelect
                                         name="item"
                                         options={itemListDDL || []}
@@ -808,7 +812,7 @@ export default function RFQCreateEdit() {
                                         isDisabled={id && values?.isSentToSupplier}
                                     />
                                 </div>
-                                <div className="col-lg-2">
+                                <div className="col-lg-3">
                                     <InputField
                                         value={values?.itemDescription}
                                         label="Item Description"
@@ -821,7 +825,7 @@ export default function RFQCreateEdit() {
                                         disabled={id && values?.isSentToSupplier}
                                     />
                                 </div>
-                                <div className="col-lg-2">
+                                <div className="col-lg-3">
                                     <InputField
                                         value={values?.quantity}
                                         label="Quantity"
@@ -834,7 +838,7 @@ export default function RFQCreateEdit() {
                                         disabled={id && values?.isSentToSupplier}
                                     />
                                 </div>
-                                <div className="col-lg-2">
+                                <div className="col-lg-3">
                                     <label style={{ position: "absolute", top: "24px" }}>All Item</label>
                                     <Field
                                         name={values.isAllItem}
@@ -861,7 +865,7 @@ export default function RFQCreateEdit() {
                                         label="isAllItem"
                                     />
                                 </div>
-                                <div className="col-lg-2">
+                                <div className="col-lg-3">
                                     <button
                                         type="button"
                                         className="btn btn-primary"
@@ -979,7 +983,7 @@ export default function RFQCreateEdit() {
                             {/* item table */}
                             <h4 className="mt-2">Add Supplier to Send RFQ</h4>
                             <div className="form-group  global-form row">
-                                <div className="col-lg-2">
+                                <div className="col-lg-3 d-flex justify-content-center">
                                     <NewSelect
                                         name="supplier"
                                         options={supplierListDDL || []}
@@ -995,8 +999,27 @@ export default function RFQCreateEdit() {
                                         touched={touched}
                                         isDisabled={id && values?.isSentToSupplier}
                                     />
+                                    <span style={{
+                                        cursor: "pointer",
+                                        marginTop: "8px",
+                                    }}
+                                        onClick={
+                                            () => {
+                                                setShowAddSupplierModal(true);
+                                            }
+                                        }
+                                    >
+                                        <OverlayTrigger
+                                            placement="top"
+                                            overlay={<Tooltip>Add New Supplier</Tooltip>}
+                                        >
+                                            <AddCircleOutlineOutlinedIcon style={{
+                                                color: "#1976d2",
+                                            }} />
+                                        </OverlayTrigger>
+                                    </span>
                                 </div>
-                                <div className="col-lg-2">
+                                <div className="col-lg-3">
                                     <InputField
                                         value={values?.supplierContactNo}
                                         label="Contact No"
@@ -1009,7 +1032,7 @@ export default function RFQCreateEdit() {
                                         disabled={id && values?.isSentToSupplier}
                                     />
                                 </div>
-                                <div className="col-lg-2">
+                                <div className="col-lg-3">
                                     <InputField
                                         value={values?.supplierEmail}
                                         label="Email"
@@ -1022,12 +1045,13 @@ export default function RFQCreateEdit() {
                                         disabled={id && values?.isSentToSupplier}
                                     />
                                 </div>
-                                <div className="col-lg-2">
+                                <div className="col-lg-3 d-flex">
                                     <button
                                         type="button"
                                         className="btn btn-primary"
                                         style={{
                                             marginTop: "18px",
+                                            marginLeft: "5px"
                                         }}
                                         onClick={() => {
                                             handleAddSupplier(values, setFieldValue)
@@ -1106,33 +1130,17 @@ export default function RFQCreateEdit() {
                                 onSubmit={() => resetForm(initData)}
                             ></button>
                         </Form>
+                        <IViewModal
+                            show={showAddSupplierModal}
+                            onHide={() => {
+                                setShowAddSupplierModal(false);
+                            }}
+                        >
+                            <NewSupplierModal />
+                        </IViewModal>
                     </IForm>
                 </>
             )}
         </Formik >
     );
 }
-
-
-
-// const isDuplicate = itemList.some((item) =>
-            //     item.itemName === values?.item?.label
-            // );
-            // if (isDuplicate) {
-            //     toast.warn("Item already added");
-            // } else {
-            //     setItemList([...itemList, {
-            //         rowId: 0,
-            //         itemId: values?.item?.value || 0,
-            //         itemCode: values?.item?.code || "",
-            //         itemName: values?.item?.label || "",
-            //         itemtypeName: values?.item?.itemtypeName || "",
-            //         uoMid: values?.item?.uoMId || 0,
-            //         uoMname: values?.item?.uoMName || "",
-            //         reqquantity: +values?.quantity || 0,
-            //         referenceId: values?.referenceNo?.value || 0,
-            //         referenceCode: values?.referenceNo?.label || "",
-            //         referenceQuantity: +values?.item?.refQty || 0,
-            //         description: values?.itemDescription === "" ? values?.item?.description : values?.itemDescription,
-            //     }]);
-            // }
