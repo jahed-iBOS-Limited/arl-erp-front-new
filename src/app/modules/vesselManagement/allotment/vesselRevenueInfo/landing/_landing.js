@@ -168,7 +168,7 @@ const VesselRevenueLanding = () => {
       >
         {({ values, setFieldValue }) => (
           <>
-            <ICustomCard title="Vessel Carrier Info">
+            <ICustomCard title="Lighter Carrier Bill">
               {(loader || loading) && <Loading />}
 
               <form className="form form-label-right">

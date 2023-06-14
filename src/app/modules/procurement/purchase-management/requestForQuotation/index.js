@@ -21,12 +21,12 @@ import RfqViewModal from "./viewModal";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 
 const initData = {
-    purchaseOrganization: "",
+    purchaseOrganization: { value: 0, label: 'ALL' },
     rfqType: { value: 1, label: 'Request for Quotation' },
     sbu: "",
     plant: "",
     warehouse: "",
-    status: "",
+    status: { value: 0, label: 'All' },
     fromDate: _todayDate(),
     toDate: _todayDate(),
 };
@@ -52,18 +52,22 @@ export default function RequestForQuotationLanding() {
 
     // for excel
     const [, getExcelData, excelDataLoader] = useAxiosGet();
-
-    // send to supplier
+    // notify supplier
     const [, sendToSupplier, sendToSupplierLoader] = useAxiosPost();
 
     useEffect(() => {
-        getSbuListDDL(`/costmgmt/SBU/GetSBUListDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Status=true`)
+        getSbuListDDL(`/costmgmt/SBU/GetSBUListDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Status=true`, (data) => {
+            if (data && data[0]) {
+                initData.sbu = data[0];
+                getWarehouseListDDL(`/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${data[0]?.value
+                    }`)
+            }
+        })
         getPlantListDDL(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId
             }&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`)
 
         getPurchaseOrgListDDL(`/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${profileData?.accountId
-            }&BusinessUnitId=${selectedBusinessUnit?.value
-            }`)
+            }&BusinessUnitId=${selectedBusinessUnit?.value}`)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -139,7 +143,10 @@ export default function RequestForQuotationLanding() {
                                 <div className="col-lg-2">
                                     <NewSelect
                                         name="purchaseOrganization"
-                                        options={purchangeOrgListDDL || []}
+                                        options={[
+                                            { value: 0, label: 'ALL' },
+                                            ...purchangeOrgListDDL
+                                        ] || []}
                                         value={values?.purchaseOrganization}
                                         label="Purchase Organization"
                                         onChange={(v) => {
