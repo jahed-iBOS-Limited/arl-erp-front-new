@@ -72,6 +72,8 @@ export default function ShipmentForm({
   const [rowDto, setRowDto] = useState([]);
   const [routeListDDL, setRouteListDDL] = useState([]);
 
+  console.log(costlaborRateStatus, "cost from add edit form")
+
   // get user profile data from store
   const {
     profileData: { accountId: accId, userId },
@@ -574,6 +576,7 @@ export default function ShipmentForm({
         setCostlaborRateStatus={setCostlaborRateStatus}
         isSubsidyRunning={isSubsidyRunning}
         setDisabled={setDisabled}
+        deliveryeDatabydata={deliveryeDatabydata}
       />
     </IForm>
   );
