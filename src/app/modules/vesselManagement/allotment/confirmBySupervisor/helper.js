@@ -37,26 +37,9 @@ export const getLandingDataForConfirmation = async (
 
     const res = await axios.get(url);
 
-    // const truckBillData = res?.data?.data?.filter(
-    //   (item) => !item?.truckSupplierBillRegisterId
-    // );
-    // const unloadBillData = res?.data?.data?.filter(
-    //   (item) => !item?.unloadSupplierBillRegisterId
-    // );
-
-    // const billTypeId = values?.confirmationType?.value;
-
-    // const filteredData =
-    //   billTypeId === 2
-    //     ? truckBillData
-    //     : billTypeId === 3
-    //     ? unloadBillData
-    //     : res?.data?.data;
-
     const modifyData = {
       ...res?.data,
       data: res?.data?.data?.map((item) => ({
-        // data: filteredData?.map((item) => ({
         ...item,
         quantity: item?.rowList[0]?.quantity,
         numItemPrice: +item?.rowList?.[0]?.numItemPrice || 0,

@@ -136,6 +136,7 @@ export default function _Form({
   setCostlaborRateStatus,
   isSubsidyRunning,
   setDisabled,
+  deliveryeDatabydata,
 }) {
   const [loading, setLoading] = useState(false);
   const [loadingTwo, setLoadingTwo] = useState(false);
@@ -277,14 +278,20 @@ export default function _Form({
             {isSubsidyRunning && (
               <marquee
                 direction="left"
-                style={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
+                style={{
+                  fontSize: "15px",
+                  fontWeight: "bold",
+                  color: "red",
+                }}
               >
                 Transport subsidiary is running....
               </marquee>
             )}
             <Form className="form form-label-right">
               <div className="row mt-1">
-                <div className="col-lg-9 text-right"></div>
+                <div className="col-lg-9 text-center">
+                  <h4>Warehouse: {deliveryeDatabydata?.warehouseName}</h4>
+                </div>
                 {values?.Vehicle && (
                   <div
                     className="col-lg-3"
@@ -922,7 +929,7 @@ export default function _Form({
                 <ChallanItemsPreview rowData={previewItems} />
               </IViewModal>
               <IViewModal
-                title="Shipment Details Information"
+                title="Zone Cost Rates"
                 show={show}
                 onHide={() => setShow(false)}
               >
