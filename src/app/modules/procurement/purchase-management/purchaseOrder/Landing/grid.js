@@ -95,15 +95,15 @@ const GridData = ({
     <div style={{ marginTop: "-35px" }}>
       <div className="po_custom_search">
         <PaginationSearch
-          isDisabledFiled={
-            !values?.orderType ||
-            !values?.sbu ||
-            !values?.purchaseOrg ||
-            !values?.plant ||
-            !values?.warehouse ||
-            !values?.refType ||
-            data?.length <= 0
-          }
+          // isDisabledFiled={
+          //   !values?.orderType ||
+          //   !values?.sbu ||
+          //   !values?.purchaseOrg ||
+          //   !values?.plant ||
+          //   !values?.warehouse ||
+          //   !values?.refType ||
+          //   data?.length <= 0
+          // }
           placeholder="PO Name & Code Search"
           paginationSearchHandler={paginationSearchHandler}
         />
