@@ -9,7 +9,7 @@ import { shallowEqual, useSelector } from "react-redux";
 import InputField from "../../../_helper/_inputField";
 import IView from "../../../_helper/_helperIcons/_view";
 import IEdit from "../../../_helper/_helperIcons/_edit";
-import { _todayDate } from "../../../_helper/_todayDate";
+import { _threeMonthAgoDate, _todayDate } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import PaginationTable from "../../../_helper/_tablePagination";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
@@ -27,7 +27,7 @@ const initData = {
     plant: "",
     warehouse: "",
     status: { value: 0, label: 'All' },
-    fromDate: _todayDate(),
+    fromDate: _threeMonthAgoDate(),
     toDate: _todayDate(),
 };
 export default function RequestForQuotationLanding() {
@@ -288,6 +288,9 @@ export default function RequestForQuotationLanding() {
                                         disabled={
                                             !values?.purchaseOrganization ||
                                             !values?.rfqType ||
+                                            !values?.sbu ||
+                                            !values?.plant ||
+                                            !values?.warehouse ||
                                             !values?.status ||
                                             !values?.fromDate ||
                                             !values?.toDate
