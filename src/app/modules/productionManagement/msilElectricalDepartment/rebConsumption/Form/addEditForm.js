@@ -80,6 +80,10 @@ export default function REBConsumptionCreate() {
       previousPressure: location?.state?.intStartKwh,
       presentPressureTwo: location?.state?.intEndKwhm2 || "",
       previousPressureTwo: location?.state?.intStartKwhm2 || "",
+      presentPressureThree: location?.state?.intEndKwhm3 || "",
+      presentPressureFour: location?.state?.intEndKwhm4 || "",
+      previousPressureThree: location?.state?.intStartKwhm3 || "",
+      previousPressureFour: location?.state?.intStartKwhm4 || "",
       totalConsumption: location?.state?.intTotalRebconsumedUnitCal,
       totalConsumptionUnit: location?.state?.intMultiplyBy,
       tmReadingTime: location?.state?.tmReadingTime,
@@ -87,11 +91,14 @@ export default function REBConsumptionCreate() {
   }, [location]);
 
   const getMultipleBy = (id) => {
-    if (selectedBusinessUnit?.value === 4 && (+id === 5 || +id === 6)) {
+    if ([4].includes(selectedBusinessUnit?.value) && (+id === 5 || +id === 6)) {
       return 30000;
     }
 
-    if (+id === 3 || +id === 4) {
+    if (
+      [171, 244].includes(selectedBusinessUnit?.value) &&
+      (+id === 3 || +id === 4)
+    ) {
       return 13750;
     }
 
@@ -119,6 +126,8 @@ export default function REBConsumptionCreate() {
           stRebconsumptionTypeName: values?.rebConsumptionDDL?.label,
           intStartKwh: +values?.previousPressure,
           intStartKwhm2: +values?.previousPressureTwo || null,
+          intStartKwhm3: +values?.previousPressureThree || null,
+          intStartKwhm4: +values?.previousPressureFour || null,
           intBusinessUnitId: selectedBusinessUnit?.value,
           tmReadingTime:
             selectedBusinessUnit?.value === 171 ||
@@ -127,6 +136,8 @@ export default function REBConsumptionCreate() {
               : values?.tmReadingTime || "",
           intEndKwh: +values?.presentPressure,
           intEndKwhm2: +values?.presentPressureTwo || null,
+          intEndKwhm3: +values?.presentPressureThree || null,
+          intEndKwhm4: +values?.presentPressureFour || null,
           intTotalRebconsumedUnitCal: values?.totalConsumption,
           intMultiplyBy: getMultipleBy(values?.rebConsumptionDDL?.value),
           intInsertBy: profileData?.userId,
