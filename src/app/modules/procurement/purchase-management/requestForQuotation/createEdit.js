@@ -1,6 +1,5 @@
 import { Field, Form, Formik } from "formik";
 import React, { useState } from "react";
-import * as Yup from "yup";
 import Loading from "../../../_helper/_loading";
 import IForm from "../../../_helper/_form";
 import NewSelect from "../../../_helper/_select";
