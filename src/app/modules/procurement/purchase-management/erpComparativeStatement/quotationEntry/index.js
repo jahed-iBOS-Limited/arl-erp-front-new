@@ -1,105 +1,59 @@
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import NewSelect from "../../../_helper/_select";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+// import { useHistory } from "react-router-dom";
+import Loading from "../../../../_helper/_loading";
+import IForm from "../../../../_helper/_form";
+import NewSelect from "../../../../_helper/_select";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import InputField from "../../../../_helper/_inputField";
 import { shallowEqual, useSelector } from "react-redux";
-import InputField from "../../../_helper/_inputField";
-import IView from "../../../_helper/_helperIcons/_view";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import { _threeMonthAgoDate, _todayDate } from "../../../_helper/_todayDate";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { _dateFormatter, _dateTimeFormatter } from "../../../_helper/_dateFormate";
-import Chips from "../../../_helper/chips/Chips";
-import { rfqReportExcel } from "./helper";
-import IViewModal from "../../../_helper/_viewModal";
-import RfqViewModal from "./viewDetailsModal/viewModal";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { _threeMonthAgoDate, _todayDate } from "../../../../_helper/_todayDate";
+import PaginationTable from "../../../../_helper/_tablePagination";
+import PaginationSearch from "../../../../_helper/_search";
+import IView from "../../../../_helper/_helperIcons/_view";
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import LocalAirportOutlinedIcon from '@material-ui/icons/LocalAirportOutlined';
-import IConfirmModal from "../../../_helper/_confirmModal";
-import PaginationSearch from "../../../_helper/_search";
+import { _dateFormatter, _dateTimeFormatter } from "../../../../_helper/_dateFormate";
+import Chips from "../../../../_helper/chips/Chips";
 const initData = {
-    purchaseOrganization: { value: 0, label: 'ALL' },
-    rfqType: { value: 1, label: 'Request for Quotation' },
-    sbu: "",
+    purchaseOrganization: "",
     plant: "",
     warehouse: "",
+    rfqType: "",
     status: { value: 0, label: 'All' },
     fromDate: _threeMonthAgoDate(),
     toDate: _todayDate(),
 };
-export default function RequestForQuotationLanding() {
-    const [showModal, setShowModal] = useState(false);
-    const [showCode, setShowCode] = useState(null);
-    const [rfqCode, setRfqCode] = useState(null);
-    const [createdBy, setCreatedBy] = useState(null);
-    const [status, setStatus] = useState(null);
-    const [pageNo, setPageNo] = useState(0);
-    const [pageSize, setPageSize] = useState(15);
+export default function QuotationEntryLanding() {
+
+    const [landingData, getLandingData, landingDataLoader] = useAxiosGet();
+
     const { profileData, selectedBusinessUnit } = useSelector((state) => {
         return state.authData;
     }, shallowEqual);
-    const saveHandler = (values, cb) => { };
-    const history = useHistory();
+
     const [purchangeOrgListDDL, getPurchaseOrgListDDL, purchaseOrgListDDLloader] = useAxiosGet();
-    const [landingData, getLandingData, landingDataLoader] = useAxiosGet();
     const [plantListDDL, getPlantListDDL, plantListDDLloader] = useAxiosGet();
     const [warehouseListDDL, getWarehouseListDDL, warehouseListDDLloader] = useAxiosGet();
-    const [sbuListDDL, getSbuListDDL, sbuListDDLloader] = useAxiosGet();
-    const [, getExcelData, excelDataLoader] = useAxiosGet();
-    const [, sendToSupplier, sendToSupplierLoader] = useAxiosPost();
 
     useEffect(() => {
-        getSbuListDDL(`/costmgmt/SBU/GetSBUListDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Status=true`, (data) => {
-            if (data && data[0]) {
-                initData.sbu = data[0];
-                getWarehouseListDDL(`/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${data[0]?.value
-                    }`)
-            }
-        })
-        getPlantListDDL(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId
-            }&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`)
         getPurchaseOrgListDDL(`/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${profileData?.accountId
             }&BusinessUnitId=${selectedBusinessUnit?.value}`)
+
+        getPlantListDDL(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId
+            }&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+    const [objProps, setObjprops] = useState({});
+    const saveHandler = (values, cb) => { };
+    // const history = useHistory();
 
-    const getData = (values, pageNo, pageSize, searchValue) => {
-        getLandingData(`/procurement/RequestForQuotation/GetRequestForQuotationPasignation?AccountId=${profileData?.accountId
-            }&UnitId=${selectedBusinessUnit?.value
-            }&RequestTypeId=${values?.rfqType?.value}&SBUId=${values?.sbu?.value
-            }&PurchaseOrganizationId=${values?.purchaseOrganization?.value
-            }&PlantId=${values?.plant?.value}&WearHouseId=${values?.warehouse?.value
-            }&status=${values?.status?.label}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize
-            }&fromDate=${values?.fromDate}&toDate=${values?.toDate}&search=${searchValue}`
-        )
-    }
-
-    const sendNotificationToSupplier = (requestForQuotationId, cb) => {
-        const payload = {
-            requestForQuotationId: requestForQuotationId,
-            businessUnitId: selectedBusinessUnit?.value,
-        }
-        sendToSupplier(`/procurement/RequestForQuotation/SendRequestForQuotationToSupplier`, payload, cb, true)
+    const getData = (values, pageNo, pageSize) => { 
+        
     };
 
-    const notifySupplierHanlder = (requestForQuotationId, requestForQuotationCode, cb) => {
-        let confirmObject = {
-            title: "Are you sure?",
-            message: `Do you want to send mail for ${requestForQuotationCode}`,
-            closeOnClickOutside: false,
-            yesAlertFunc: () => {
-                sendNotificationToSupplier(requestForQuotationId, cb)
-            },
-            noAlertFunc: () => { },
-        };
-        IConfirmModal(confirmObject);
-    };
+    const [pageNo, setPageNo] = useState(0);
+    const [pageSize, setPageSize] = useState(15);
 
     const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
         getData(values, pageNo, pageSize, searchValue)
@@ -129,20 +83,21 @@ export default function RequestForQuotationLanding() {
                 touched,
             }) => (
                 <>
-                    {(purchaseOrgListDDLloader || landingDataLoader || plantListDDLloader || warehouseListDDLloader || sbuListDDLloader || excelDataLoader || sendToSupplierLoader) && <Loading />}
+                    {(purchaseOrgListDDLloader || plantListDDLloader || warehouseListDDLloader || landingDataLoader) && <Loading />}
                     <IForm
-                        title="Request for Quotation"
+                        title="Comparative Statement"
                         isHiddenReset
                         isHiddenBack
                         isHiddenSave
+                        getProps={setObjprops}
                         renderProps={() => {
                             return (
                                 <div>
                                     <button
-                                        type="button" col-lg-2
+                                        type="button"
                                         className="btn btn-primary"
                                         onClick={() => {
-                                            history.push("/mngProcurement/purchase-management/rfq/create");
+                                            console.log("create clicked");
                                         }}
                                     >
                                         Create
@@ -152,14 +107,11 @@ export default function RequestForQuotationLanding() {
                         }}
                     >
                         <Form>
-                            <div className="row global-form" >
-                                <div className="col-lg-2">
+                            <div className="form-group  global-form row">
+                                <div className="col-lg-3">
                                     <NewSelect
                                         name="purchaseOrganization"
-                                        options={[
-                                            { value: 0, label: 'ALL' },
-                                            ...purchangeOrgListDDL
-                                        ] || []}
+                                        options={purchangeOrgListDDL || []}
                                         value={values?.purchaseOrganization}
                                         label="Purchase Organization"
                                         onChange={(v) => {
@@ -170,7 +122,7 @@ export default function RequestForQuotationLanding() {
                                         touched={touched}
                                     />
                                 </div>
-                                <div className="col-lg-2">
+                                <div className="col-lg-3">
                                     <NewSelect
                                         name="rfqType"
                                         options={
@@ -188,24 +140,9 @@ export default function RequestForQuotationLanding() {
                                         placeholder="RFQ Type"
                                         errors={errors}
                                         touched={touched}
-                                        isDisabled={true}
                                     />
                                 </div>
-                                <div className="col-lg-2">
-                                    <NewSelect
-                                        name="sbu"
-                                        options={sbuListDDL || []}
-                                        value={values?.sbu}
-                                        label="SBU"
-                                        onChange={(v) => {
-                                            setFieldValue("sbu", v);
-                                        }}
-                                        placeholder="SBU"
-                                        errors={errors}
-                                        touched={touched}
-                                    />
-                                </div>
-                                <div className="col-lg-2">
+                                <div className="col-lg-3">
                                     <NewSelect
                                         name="plant"
                                         options={plantListDDL || []}
@@ -226,7 +163,7 @@ export default function RequestForQuotationLanding() {
                                         touched={touched}
                                     />
                                 </div>
-                                <div className="col-lg-2">
+                                <div className="col-lg-3">
                                     <NewSelect
                                         name="warehouse"
                                         options={warehouseListDDL || []}
@@ -241,7 +178,7 @@ export default function RequestForQuotationLanding() {
                                         isDisabled={!values?.plant}
                                     />
                                 </div>
-                                <div className="col-lg-2">
+                                <div className="col-lg-3">
                                     <NewSelect
                                         name="status"
                                         options={
@@ -263,7 +200,7 @@ export default function RequestForQuotationLanding() {
                                         touched={touched}
                                     />
                                 </div>
-                                <div className="col-lg-2">
+                                <div className="col-lg-3">
                                     <InputField
                                         label="From Date"
                                         value={values?.fromDate}
@@ -275,7 +212,7 @@ export default function RequestForQuotationLanding() {
                                         }}
                                     />
                                 </div>
-                                <div className="col-lg-2">
+                                <div className="col-lg-3">
                                     <InputField
                                         label="To Date"
                                         value={values?.toDate}
@@ -288,7 +225,7 @@ export default function RequestForQuotationLanding() {
                                         disabled={false}
                                     />
                                 </div>
-                                <div className="col-lg-4">
+                                <div className="col-lg-3">
                                     <button
                                         type="button"
                                         className="btn btn-primary"
@@ -296,62 +233,50 @@ export default function RequestForQuotationLanding() {
                                             marginTop: "18px",
                                         }}
                                         onClick={() => {
+                                            console.log("values", values);
                                             getData(values, pageNo, pageSize)
                                         }}
                                         disabled={
                                             !values?.purchaseOrganization ||
                                             !values?.rfqType ||
-                                            !values?.sbu ||
                                             !values?.plant ||
                                             !values?.warehouse ||
                                             !values?.status ||
                                             !values?.fromDate ||
                                             !values?.toDate
                                         }
+
                                     >
                                         View
                                     </button>
-                                    <button
-                                        className="btn btn-primary ml-2"
-                                        style={{ marginTop: "18px" }}
-                                        onClick={() => {
-                                            getExcelData(`/procurement/RequestForQuotation/GetRequestForQuotationPasignation?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value
-                                                }&RequestTypeId=${values?.rfqType?.value}&SBUId=${values?.sbu?.value
-                                                }&PurchaseOrganizationId=${values?.purchaseOrganization?.value
-                                                }&PlantId=${values?.plant?.value}&WearHouseId=${values?.warehouse?.value
-                                                }&status=${values?.status?.label
-                                                }&viewOrder=asc&PageNo=1&PageSize=${landingData?.totalCount
-                                                }&fromDate=${values?.fromDate}&toDate=${values?.toDate}`, (data) => {
-                                                    rfqReportExcel(data?.data)
-                                                })
-                                        }}
-                                        disabled={!landingData?.data?.length}
-                                        type="button"
-                                    >
-                                        Export Excel
-                                    </button>
                                 </div>
                             </div>
-
-                            <div className="mb-2">
+                            {/*  */}
+                            <div className="mb-2 mt-2">
                                 <PaginationSearch
                                     placeholder="Search RFQ No"
                                     paginationSearchHandler={paginationSearchHandler}
                                     values={values}
                                 />
                             </div>
+
                             <div>
-                                {landingData?.data?.length > 0 ? (<table className="table table-striped table-bordered bj-table bj-table-landing">
+                                <table className="table table-striped table-bordered bj-table bj-table-landing">
                                     <thead>
                                         <tr>
                                             <th>SL</th>
                                             <th>RFQ No</th>
                                             <th>RFQ Date</th>
+                                            <th>RFQ Type</th>
+                                            <th>RFQ Title</th>
+                                            <th>Plant</th>
+                                            <th>Warehouse</th>
                                             <th>Currency</th>
-                                            <th>RFQ Start Date-Time</th>
-                                            <th>RFQ End Date-Time</th>
-                                            <th>Status</th>
-                                            <th>Created By</th>
+                                            <th>Quotation Start Date-Time</th>
+                                            <th>Quotation End Date-Time</th>
+                                            <th>RFQ Status</th>
+                                            <th>Approval Status</th>
+                                            <th>Created by</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -400,43 +325,16 @@ export default function RequestForQuotationLanding() {
                                                 }</td>
                                                 <td>{item?.createdBy}</td>
                                                 <td className="text-center">
-                                                    <span
-                                                        onClick={() => {
-                                                            setShowCode(item?.requestForQuotationId)
-                                                            setRfqCode(item?.requestForQuotationCode)
-                                                            setStatus(item?.status)
-                                                            setCreatedBy(item?.createdBy)
-                                                            setShowModal(true);
-                                                        }}
-                                                        className="ml-2 mr-3"
-                                                    >
-                                                        <IView />
+                                                    <span className="ml-2 mr-3">
+                                                        <IView clickHandler={
+                                                            () => { }
+                                                        } />
                                                     </span>
-                                                    <span className="ml-1">
-                                                        <IEdit
-                                                            onClick={(e) => {
-                                                                history.push(
-                                                                    `/mngProcurement/purchase-management/rfq/edit/${item?.requestForQuotationId}`
-                                                                );
-                                                            }}
-                                                        />
-                                                    </span>
-                                                    {!item?.IsSentToSupplier === false ? (<OverlayTrigger overlay={<Tooltip id="cs-icon">{"Send To Supplier"}</Tooltip>}>
-                                                        <span className="ml-2 pointer"
-                                                            onClick={() => {
-                                                                notifySupplierHanlder(item?.requestForQuotationId, item?.requestForQuotationCode, () => {
-                                                                    getData(values, pageNo, pageSize)
-                                                                })
-                                                            }}
-                                                        >
-                                                            <i class="fas fa-paper-plane"></i>
-                                                        </span>
-                                                    </OverlayTrigger>) : null}
                                                 </td>
                                             </tr>
                                         ))}
                                     </tbody>
-                                </table>) : null}
+                                </table>
                                 {landingData?.data?.length > 0 ? (
                                     <PaginationTable
                                         count={landingData?.totalCount}
@@ -450,17 +348,20 @@ export default function RequestForQuotationLanding() {
                                         values={values}
                                     />) : null}
                             </div>
-                            <IViewModal
-                                show={showModal}
-                                onHide={() => {
-                                    setShowModal(false);
-                                    setShowCode(null);
-                                    setRfqCode(null);
-                                    setStatus(null);
-                                }}
-                            >
-                                <RfqViewModal code={showCode} title={`${rfqCode}`} status={status} createdBy={createdBy}/>
-                            </IViewModal>
+
+                            <button
+                                type="submit"
+                                style={{ display: "none" }}
+                                ref={objProps?.btnRef}
+                                onSubmit={() => handleSubmit()}
+                            ></button>
+
+                            <button
+                                type="reset"
+                                style={{ display: "none" }}
+                                ref={objProps?.resetBtnRef}
+                                onSubmit={() => resetForm(initData)}
+                            ></button>
                         </Form>
                     </IForm>
                 </>
