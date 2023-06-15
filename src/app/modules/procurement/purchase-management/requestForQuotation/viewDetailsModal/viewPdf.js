@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { shallowEqual, useSelector } from 'react-redux';
 import { _dateFormatter, _dateTimeFormatter } from '../../../../_helper/_dateFormate';
 
-const RfqViewPdf = ({ pdfData, itemList, supplierList, title, status }) => {
+const RfqViewPdf = ({ pdfData, itemList, supplierList, title, status, createdBy }) => {
     useEffect(() => {
         if (pdfData) {
             console.log("pdfData", pdfData)
@@ -17,9 +17,9 @@ const RfqViewPdf = ({ pdfData, itemList, supplierList, title, status }) => {
             <div className="businessUnitDetails text-center">
                 <h3>{selectedBusinessUnit?.label}</h3>
                 <h5>{selectedBusinessUnit?.businessUnitAddress}</h5>
-                <br /><br />
+                <br />
                 <h5>Request For Quotation</h5>
-                <br /><br />
+                <br />
             </div>
             <div className="rfqDetails" style={{
                 border: "3px solid #ddd",
@@ -28,7 +28,7 @@ const RfqViewPdf = ({ pdfData, itemList, supplierList, title, status }) => {
                 <div className="row">
                     {/* l1 */}
                     <div className="col-lg-4">
-                        <span className='font-weight-bold'> RFQ Title:</span> {pdfData?.rfqTitle}
+                        <span className='font-weight-bold'> RFQ Code:</span> {title}
                     </div>
                     <div className="col-lg-4">
                         <span className='font-weight-bold'>RFQ Type:</span> {pdfData?.rfqType?.label}
@@ -36,19 +36,23 @@ const RfqViewPdf = ({ pdfData, itemList, supplierList, title, status }) => {
                     <div className="col-lg-4">
                         <span className='font-weight-bold'>RFQ Date:</span> {pdfData?.deliveryDate}
                     </div>
+                </div >
+                <div className="row">
                     {/* l2 */}
                     <div className="col-lg-4">
-                        <span className='font-weight-bold'> RFQ Code:</span> {title}
+                        <span className='font-weight-bold'> RFQ Title:</span> {pdfData?.rfqTitle}
                     </div>
                     <div className="col-lg-4">
-                        <span className='font-weight-bold'>Quotation Start Date-Date:</span> {_dateTimeFormatter(pdfData?.quotationEntryStart)}
+                        <span className='font-weight-bold'>Quotation Start Date:</span> {_dateTimeFormatter(pdfData?.quotationEntryStart)}
                     </div>
                     <div className="col-lg-4">
-                        <span className='font-weight-bold'>Quotation End Date-Date:</span> {_dateTimeFormatter(pdfData?.validTillDate)}
+                        <span className='font-weight-bold'>Quotation End Date:</span> {_dateTimeFormatter(pdfData?.validTillDate)}
                     </div>
+                </div>
+                <div className="row">
                     {/* l3 */}
                     <div className="col-lg-4">
-                        <span className='font-weight-bold'> Purchase Organization:</span> {pdfData?.purchaseOrganization?.label}
+                        <span className='font-weight-bold'> Purchase Org:</span> {pdfData?.purchaseOrganization?.label}
                     </div>
                     <div className="col-lg-4">
                         <span className='font-weight-bold'>Plant:</span> {pdfData?.plant?.label}
@@ -56,6 +60,8 @@ const RfqViewPdf = ({ pdfData, itemList, supplierList, title, status }) => {
                     <div className="col-lg-4">
                         <span className='font-weight-bold'>Warehouse:</span> {pdfData?.warehouse?.label}
                     </div>
+                </div>
+                <div className="row">
                     {/* l4 */}
                     <div className="col-lg-4">
                         <span className='font-weight-bold'>VAT/AIT:</span> {pdfData?.vatOrAit?.label}
@@ -66,6 +72,8 @@ const RfqViewPdf = ({ pdfData, itemList, supplierList, title, status }) => {
                     <div className="col-lg-4">
                         <span className='font-weight-bold'>TDS:</span> {pdfData?.tds?.label}
                     </div>
+                </div>
+                <div className="row">
                     {/* l5 */}
                     <div className="col-lg-4">
                         <span className='font-weight-bold'>VDS:</span> {pdfData?.vds?.label}
@@ -74,24 +82,35 @@ const RfqViewPdf = ({ pdfData, itemList, supplierList, title, status }) => {
                         <span className='font-weight-bold'>Delivery Date:</span> {_dateFormatter(pdfData?.deliveryDate)}
                     </div>
                     <div className="col-lg-4">
-                        <span className='font-weight-bold'>Delivery Address:</span> {pdfData?.deliveryAddress}
+                        <span className='font-weight-bold'>Payment Terms:</span> {pdfData?.paymentTerms?.label}
                     </div>
+                </div>
+                <div className="row">
                     {/* l6 */}
                     <div className="col-lg-4">
-                        <span className='font-weight-bold'>Status:</span> {status}
+                        <span className='font-weight-bold'>Status:</span>
+                        <span style={{
+                            color: status === "Live" ? "#3699FF"
+                                : status === "Closed" ? "#F64E60"
+                                    : status === "Pending" ? "#FFA800"
+                                        : status === "Waiting" ? "#8950FC"
+                                            : "",
+                            fontWeight: "bold",
+                            marginLeft: "1px"
+                        }}>{status}</span>
                     </div>
                     <div className="col-lg-4">
                         <span className='font-weight-bold'>Currency:</span> {pdfData?.currency?.label}
                     </div>
                     <div className="col-lg-4">
-                        <span className='font-weight-bold'>Payment Terms:</span> {pdfData?.paymentTerms?.label}
+                        <span className='font-weight-bold'>Delivery Address:</span> {pdfData?.deliveryAddress}
                     </div>
-                </div >
+                </div>
             </div >
             <div className="itemDetails">
                 <h6 className="mt-2">Item Details: </h6>
                 <div className="mt-2">
-                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                    <table className="table table-bordered border-primary">
                         <thead>
                             <tr>
                                 <th style={{
@@ -126,7 +145,7 @@ const RfqViewPdf = ({ pdfData, itemList, supplierList, title, status }) => {
             <div className="supplierDetails">
                 <h6 className="mt-2">Supplier List</h6>
                 <div className="mt-2">
-                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                    <table className="table table-bordered border-primary">
                         <thead>
                             <tr>
                                 <th style={{
@@ -160,6 +179,16 @@ const RfqViewPdf = ({ pdfData, itemList, supplierList, title, status }) => {
                 <div className="row">
                     <div className="col-lg-12">
                         <p>{pdfData?.termsAndConditions}</p>
+                    </div>
+                </div>
+            </div>
+            <div className="footer-section">
+                <div className="row">
+                    <div className="col-lg-6">
+                        <b>Created By: {createdBy}</b>
+                    </div>
+                    <div className="col-lg-6 d-flex justify-content-end">
+                        <b>Print Date-Time: {_dateTimeFormatter(new Date())}</b>
                     </div>
                 </div>
             </div>

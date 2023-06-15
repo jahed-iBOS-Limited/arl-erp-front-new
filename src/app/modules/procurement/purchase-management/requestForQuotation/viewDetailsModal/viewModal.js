@@ -31,7 +31,7 @@ const initData = {
     referenceNo: "",
     termsAndConditions: "",
 };
-export default function RfqViewModal({ code, title, status }) {
+export default function RfqViewModal({ code, title, status, createdBy }) {
     const [, getViewData, viewDataLoader] = useAxiosGet();
     const [modifiedData, setModifiedData] = useState({});
     const [supplierList, setSupplierList] = useState([]);
@@ -556,7 +556,7 @@ export default function RfqViewModal({ code, title, status }) {
                                 marginTop: "20px",
                             }}
                         >
-                            <RfqViewPdf pdfData={values} itemList={itemList} supplierList={supplierList} title={title} status={status} />
+                            <RfqViewPdf pdfData={values} itemList={itemList} supplierList={supplierList} title={title} status={status} createdBy={createdBy}/>
                         </div>
                     </IForm>
                 </>
