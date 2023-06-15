@@ -35,6 +35,7 @@ import VatRebateReconciliationRDLCReport from './vatRebateReconsiliation/vatReba
 import ReceiveAndPaymentInfoReport from './receiceAndPaymentInfo';
 import CostVsRevenuePBR from './costVsRevenue';
 import GeneralDashboardPBR from './generalDashboard';
+import InventoryValuationRDLC from './InventoryValuation';
 
 export function ReportManagmentSystem() {
    const { userRole } = useSelector(state => state?.authData, shallowEqual);
@@ -46,6 +47,7 @@ export function ReportManagmentSystem() {
    // let employee = null;
    // let investmentPartner = null;
    let costOfProductionPermission = null;
+   let InventoryValuationRDLCpermission = null;
    //  let costVsRevenueComparisonPermission = null;
 
    for (let i = 0; i < userRole.length; i++) {
@@ -69,6 +71,9 @@ export function ReportManagmentSystem() {
       // }
       if (userRole[i]?.intFeatureId === 1216) {
          costOfProductionPermission = userRole[i];
+      }
+      if (userRole[i]?.intFeatureId === 1308) {
+         InventoryValuationRDLCpermission = userRole[i];
       }
       // if (userRole[i]?.intFeatureId === 1301) {
       //    costVsRevenueComparisonPermission = userRole[i];
@@ -228,6 +233,10 @@ export function ReportManagmentSystem() {
          <ContentRoute
             path="/financial-management/report/GeneralDashboard"
             component={GeneralDashboardPBR}
+         />
+         <ContentRoute
+            path="/financial-management/report/InventoryValuation"
+            component={InventoryValuationRDLCpermission?.isView ? InventoryValuationRDLC : NotPermittedPage}
          />
       </Switch>
    );
