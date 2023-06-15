@@ -16,7 +16,6 @@ import { useSelector } from "react-redux";
 import { shallowEqual } from "react-redux";
 import NewSelect from "../../../../_helper/_select";
 import { confirmAlert } from "react-confirm-alert";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const initData = {
   sbu: "",

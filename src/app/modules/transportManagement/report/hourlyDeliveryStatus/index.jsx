@@ -15,7 +15,7 @@ const initData = {
 };
 
 function HourlyDeliveryStatusReport() {
-  const [rowData, getRowData, rowLanding, setRowData] = useAxiosGet();
+  const [rowData, getRowData, rowLanding] = useAxiosGet();
 //   const [channelDDL, getChannelDDL, channelDDLLoading] = useAxiosGet()
   // Get user profile data from store
   const {
