@@ -17,11 +17,13 @@ import { _dateFormatter, _dateTimeFormatter } from "../../../_helper/_dateFormat
 import Chips from "../../../_helper/chips/Chips";
 import { rfqReportExcel } from "./helper";
 import IViewModal from "../../../_helper/_viewModal";
-import RfqViewModal from "./viewModal";
+import RfqViewModal from "./viewDetailsModal/viewModal";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 // import LocalShippingOutlinedIcon from '@material-ui/icons/LocalShippingOutlined';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import LocalAirportOutlinedIcon from '@material-ui/icons/LocalAirportOutlined';
+import IConfirmModal from "../../../_helper/_confirmModal";
+import PaginationSearch from "../../../_helper/_search";
 const initData = {
     purchaseOrganization: { value: 0, label: 'ALL' },
     rfqType: { value: 1, label: 'Request for Quotation' },
@@ -33,28 +35,23 @@ const initData = {
     toDate: _todayDate(),
 };
 export default function RequestForQuotationLanding() {
-
     const [showModal, setShowModal] = useState(false);
     const [showCode, setShowCode] = useState(null);
     const [rfqCode, setRfqCode] = useState(null);
+    const [status, setStatus] = useState(null);
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, setPageSize] = useState(15);
     const { profileData, selectedBusinessUnit } = useSelector((state) => {
         return state.authData;
     }, shallowEqual);
-
     const saveHandler = (values, cb) => { };
     const history = useHistory();
-
     const [purchangeOrgListDDL, getPurchaseOrgListDDL, purchaseOrgListDDLloader] = useAxiosGet();
     const [landingData, getLandingData, landingDataLoader] = useAxiosGet();
     const [plantListDDL, getPlantListDDL, plantListDDLloader] = useAxiosGet();
     const [warehouseListDDL, getWarehouseListDDL, warehouseListDDLloader] = useAxiosGet();
     const [sbuListDDL, getSbuListDDL, sbuListDDLloader] = useAxiosGet();
-
-    // for excel
     const [, getExcelData, excelDataLoader] = useAxiosGet();
-    // notify supplier
     const [, sendToSupplier, sendToSupplierLoader] = useAxiosPost();
 
     useEffect(() => {
@@ -67,29 +64,22 @@ export default function RequestForQuotationLanding() {
         })
         getPlantListDDL(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId
             }&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`)
-
         getPurchaseOrgListDDL(`/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${profileData?.accountId
             }&BusinessUnitId=${selectedBusinessUnit?.value}`)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const getData = (values, pageNo, pageSize) => {
+    const getData = (values, pageNo, pageSize, searchValue) => {
         getLandingData(`/procurement/RequestForQuotation/GetRequestForQuotationPasignation?AccountId=${profileData?.accountId
             }&UnitId=${selectedBusinessUnit?.value
             }&RequestTypeId=${values?.rfqType?.value}&SBUId=${values?.sbu?.value
             }&PurchaseOrganizationId=${values?.purchaseOrganization?.value
-            }&PlantId=${values?.plant?.value
-            }&WearHouseId=${values?.warehouse?.value
-            }&status=${values?.status?.label
-            }&viewOrder=asc&PageNo=${pageNo
-            }&PageSize=${pageSize
-            }&fromDate=${values?.fromDate
-            }&toDate=${values?.toDate}`
+            }&PlantId=${values?.plant?.value}&WearHouseId=${values?.warehouse?.value
+            }&status=${values?.status?.label}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize
+            }&fromDate=${values?.fromDate}&toDate=${values?.toDate}&search=${searchValue}`
         )
     }
-    const setPositionHandler = (pageNo, pageSize, values) => {
-        getData(values, pageNo, pageSize)
-    };
+
 
     const sendNotificationToSupplier = (requestForQuotationId, cb) => {
         const payload = {
@@ -98,6 +88,28 @@ export default function RequestForQuotationLanding() {
         }
         sendToSupplier(`/procurement/RequestForQuotation/SendRequestForQuotationToSupplier`, payload, cb, true)
     };
+
+    const notifySupplierHanlder = (requestForQuotationId, requestForQuotationCode, cb) => {
+        let confirmObject = {
+            title: "Are you sure?",
+            message: `Do you want to send mail for ${requestForQuotationCode}`,
+            closeOnClickOutside: false,
+            yesAlertFunc: () => {
+                sendNotificationToSupplier(requestForQuotationId, cb)
+            },
+            noAlertFunc: () => { },
+        };
+        IConfirmModal(confirmObject);
+    };
+
+    const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+        getData(values, pageNo, pageSize, searchValue)
+    };
+
+    const paginationSearchHandler = (searchValue, values) => {
+        setPositionHandler(pageNo, pageSize, values, searchValue);
+    };
+
     return (
         <Formik
             enableReinitialize={true}
@@ -322,6 +334,13 @@ export default function RequestForQuotationLanding() {
                                 </div>
                             </div>
 
+                            <div className="mb-2">
+                                <PaginationSearch
+                                    placeholder="Search RFQ No"
+                                    paginationSearchHandler={paginationSearchHandler}
+                                    values={values}
+                                />
+                            </div>
                             <div>
                                 {landingData?.data?.length > 0 ? (<table className="table table-striped table-bordered bj-table bj-table-landing">
                                     <thead>
@@ -343,13 +362,13 @@ export default function RequestForQuotationLanding() {
                                                 <td>{index + 1}</td>
                                                 <td>
                                                     {
-
                                                         item?.purchaseOrganizationName === "Foreign Procurement" ?
                                                             <span>
                                                                 <LocalAirportOutlinedIcon style={{
                                                                     color: "#00FF00",
                                                                     marginRight: "5px",
-                                                                    rotate: "90deg"
+                                                                    rotate: "90deg",
+                                                                    fontSize: "15px"
                                                                 }} />
                                                                 {item?.requestForQuotationCode}
                                                             </span>
@@ -367,8 +386,8 @@ export default function RequestForQuotationLanding() {
                                                 </td>
                                                 <td className="text-center">{_dateFormatter(item?.rfqdate)}</td>
                                                 <td>{item?.currencyCode}</td>
-                                                <td>{_dateTimeFormatter(item?.quotationEntryStart)}</td>
-                                                <td>{_dateTimeFormatter(item?.validTillDate)}</td>
+                                                <td className="text-center">{_dateTimeFormatter(item?.quotationEntryStart)}</td>
+                                                <td className="text-center">{_dateTimeFormatter(item?.validTillDate)}</td>
                                                 <td className="text-center">{
                                                     item?.status && item?.status === "Live" ? (
                                                         <Chips classes="badge-primary" status={item?.status} />
@@ -386,6 +405,7 @@ export default function RequestForQuotationLanding() {
                                                         onClick={() => {
                                                             setShowCode(item?.requestForQuotationId)
                                                             setRfqCode(item?.requestForQuotationCode)
+                                                            setStatus(item?.status)
                                                             setShowModal(true);
                                                         }}
                                                         className="ml-2 mr-3"
@@ -404,7 +424,7 @@ export default function RequestForQuotationLanding() {
                                                     <OverlayTrigger overlay={<Tooltip id="cs-icon">{"Send To Supplier"}</Tooltip>}>
                                                         <span className="ml-2 pointer"
                                                             onClick={() => {
-                                                                sendNotificationToSupplier(item?.requestForQuotationId, () => {
+                                                                notifySupplierHanlder(item?.requestForQuotationId, item?.requestForQuotationCode, () => {
                                                                     getData(values, pageNo, pageSize)
                                                                 })
                                                             }}
@@ -435,10 +455,11 @@ export default function RequestForQuotationLanding() {
                                 onHide={() => {
                                     setShowModal(false);
                                     setShowCode(null);
-                                    setRfqCode(null)
+                                    setRfqCode(null);
+                                    setStatus(null);
                                 }}
                             >
-                                <RfqViewModal code={showCode} title={`RFQ No: ${rfqCode}`} />
+                                <RfqViewModal code={showCode} title={`${rfqCode}`} status={status} />
                             </IViewModal>
                         </Form>
                     </IForm>

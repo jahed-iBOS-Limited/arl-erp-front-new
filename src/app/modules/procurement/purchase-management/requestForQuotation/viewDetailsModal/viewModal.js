@@ -1,12 +1,14 @@
 import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import NewSelect from "../../../_helper/_select";
-import InputField from "../../../_helper/_inputField";
-import TextArea from "../../../_helper/TextArea";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import React, { useEffect, useRef, useState } from "react";
+import Loading from "../../../../_helper/_loading";
+import IForm from "../../../../_helper/_form";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import NewSelect from "../../../../_helper/_select";
+import InputField from "../../../../_helper/_inputField";
+import TextArea from "../../../../_helper/TextArea";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import RfqViewPdf from "./viewPdf";
+import html2pdf from "html2pdf.js";
 
 const initData = {
     sbu: "",
@@ -29,7 +31,7 @@ const initData = {
     referenceNo: "",
     termsAndConditions: "",
 };
-export default function RfqViewModal({ code, title }) {
+export default function RfqViewModal({ code, title, status }) {
     const [, getViewData, viewDataLoader] = useAxiosGet();
     const [modifiedData, setModifiedData] = useState({});
     const [supplierList, setSupplierList] = useState([]);
@@ -39,7 +41,6 @@ export default function RfqViewModal({ code, title }) {
     useEffect(() => {
         if (code) {
             getViewData(`/procurement/RequestForQuotation/GetRequestForQuotationById?RequestForQuotationId=${code}`, (data) => {
-                console.log("data", data);
                 const { objHeader, objRow, supplierRow } = data;
                 setItemList(objRow);
                 setSupplierList(supplierRow);
@@ -104,6 +105,35 @@ export default function RfqViewModal({ code, title }) {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    const printRef = useRef();
+
+    const pdfExport = (fileName) => {
+        var element = document.getElementById("rfq-pdf-section");
+        var clonedElement = element.cloneNode(true);
+        clonedElement.classList.add("d-block");
+        var opt = {
+            margin: 20,
+            filename: `${fileName}.pdf`,
+            image: { type: "jpeg", quality: 0.98 },
+            html2canvas: {
+                scale: 5,
+                dpi: 300,
+                letterRendering: true,
+                padding: "50px",
+                scrollX: -window.scrollX,
+                scrollY: -window.scrollY,
+                windowWidth: document.documentElement.offsetWidth,
+                windowHeight: document.documentElement.offsetHeight,
+            },
+            jsPDF: { unit: "px", hotfixes: ["px_scaling"], orientation: "portrait" },
+        };
+        html2pdf()
+            .set(opt)
+            .from(clonedElement)
+            .save();
+    };
+
     return (
         <Formik
             enableReinitialize={true}
@@ -133,15 +163,20 @@ export default function RfqViewModal({ code, title }) {
                         renderProps={() => {
                             return (
                                 <div>
-                                    {/* <button
-                                        type="button"
+                                    <button
+                                        id="actionplan-pdf"
+                                        onClick={(e) =>
+                                            pdfExport(`${title}`, html2pdf)
+                                        }
                                         className="btn btn-primary"
-                                        onClick={() => {
-                                            console.log("Export PDF");
-                                        }}
+                                        type="button"
                                     >
+                                        <i
+                                            className="mr-1 fa fa-download pointer"
+                                            aria-hidden="true"
+                                        ></i>
                                         Export PDF
-                                    </button> */}
+                                    </button>
                                 </div>
                             );
                         }}
@@ -504,7 +539,6 @@ export default function RfqViewModal({ code, title }) {
                                 ref={objProps?.btnRef}
                                 onSubmit={() => handleSubmit()}
                             ></button>
-
                             <button
                                 type="reset"
                                 style={{ display: "none" }}
@@ -512,6 +546,18 @@ export default function RfqViewModal({ code, title }) {
                                 onSubmit={() => resetForm(initData)}
                             ></button>
                         </Form>
+                        {/* section for pdf */}
+                        <div
+                            id="rfq-pdf-section"
+                            className="d-none"
+                            componentRef={printRef}
+                            ref={printRef}
+                            style={{
+                                marginTop: "20px",
+                            }}
+                        >
+                            <RfqViewPdf pdfData={values} itemList={itemList} supplierList={supplierList} title={title} status={status} />
+                        </div>
                     </IForm>
                 </>
             )}
