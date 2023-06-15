@@ -79,7 +79,7 @@ export default function RfqViewModal({ code, title }) {
                     },
                     quotationEntryStart: objHeader?.quotationEntryStart,
                     validTillDate: objHeader?.validTillDate,
-                    deliveryDate: _dateFormatter    (objHeader?.deliveryDate),
+                    deliveryDate: _dateFormatter(objHeader?.deliveryDate),
                     deliveryAddress: objHeader?.deliveryAddress,
                     vatOrAit: {
                         value: objHeader?.isVatAitInclude ? 1 : 2,
@@ -102,6 +102,7 @@ export default function RfqViewModal({ code, title }) {
                 setModifiedData(viewData);
             });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     return (
         <Formik
@@ -428,6 +429,7 @@ export default function RfqViewModal({ code, title }) {
                                     <thead>
                                         <tr>
                                             <th>Sl</th>
+                                            {values?.referenceType?.value === "with reference" && <th>RFQ No</th>}
                                             <th>Item Name</th>
                                             <th>Uom</th>
                                             <th>Description</th>
@@ -440,21 +442,19 @@ export default function RfqViewModal({ code, title }) {
                                             itemList?.length > 0 && itemList?.map((item, index) => (
                                                 <tr key={index}>
                                                     <td>{index + 1}</td>
+                                                    {values?.referenceType?.value === "with reference" && <td className="text-center">{item?.referenceCode}</td>}
                                                     <td>{item?.itemName}</td>
                                                     <td>{item?.uoMname}</td>
                                                     <td>{item?.description}</td>
-                                                    <td>{item?.referenceQuantity}</td>
-                                                    <td>{item?.reqquantity}</td>
+                                                    <td className="text-center">{item?.referenceQuantity}</td>
+                                                    <td className="text-center">{item?.reqquantity}</td>
                                                 </tr>
                                             ))
                                         }
                                     </tbody>
                                 </table>
                             </div>
-                            {/* item table */}
                             <h4 className="mt-2">Supplier List</h4>
-
-                            {/* supplier table */}
                             <div className="mt-2">
                                 <table className="table table-striped table-bordered bj-table bj-table-landing">
                                     <thead>
@@ -465,7 +465,6 @@ export default function RfqViewModal({ code, title }) {
                                             <th>Contact No</th>
                                             <th>Email</th>
                                         </tr>
-
                                     </thead>
                                     <tbody>
                                         {

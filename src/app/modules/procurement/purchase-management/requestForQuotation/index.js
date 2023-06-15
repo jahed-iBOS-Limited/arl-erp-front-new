@@ -9,7 +9,7 @@ import { shallowEqual, useSelector } from "react-redux";
 import InputField from "../../../_helper/_inputField";
 import IView from "../../../_helper/_helperIcons/_view";
 import IEdit from "../../../_helper/_helperIcons/_edit";
-import { _todayDate } from "../../../_helper/_todayDate";
+import { _threeMonthAgoDate, _todayDate } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import PaginationTable from "../../../_helper/_tablePagination";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
@@ -19,15 +19,17 @@ import { rfqReportExcel } from "./helper";
 import IViewModal from "../../../_helper/_viewModal";
 import RfqViewModal from "./viewModal";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-
+// import LocalShippingOutlinedIcon from '@material-ui/icons/LocalShippingOutlined';
+import LocalShippingIcon from '@material-ui/icons/LocalShipping';
+import LocalAirportOutlinedIcon from '@material-ui/icons/LocalAirportOutlined';
 const initData = {
-    purchaseOrganization: "",
+    purchaseOrganization: { value: 0, label: 'ALL' },
     rfqType: { value: 1, label: 'Request for Quotation' },
     sbu: "",
     plant: "",
     warehouse: "",
-    status: "",
-    fromDate: _todayDate(),
+    status: { value: 0, label: 'All' },
+    fromDate: _threeMonthAgoDate(),
     toDate: _todayDate(),
 };
 export default function RequestForQuotationLanding() {
@@ -52,18 +54,22 @@ export default function RequestForQuotationLanding() {
 
     // for excel
     const [, getExcelData, excelDataLoader] = useAxiosGet();
-
-    // send to supplier
+    // notify supplier
     const [, sendToSupplier, sendToSupplierLoader] = useAxiosPost();
 
     useEffect(() => {
-        getSbuListDDL(`/costmgmt/SBU/GetSBUListDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Status=true`)
+        getSbuListDDL(`/costmgmt/SBU/GetSBUListDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Status=true`, (data) => {
+            if (data && data[0]) {
+                initData.sbu = data[0];
+                getWarehouseListDDL(`/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${data[0]?.value
+                    }`)
+            }
+        })
         getPlantListDDL(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId
             }&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`)
 
         getPurchaseOrgListDDL(`/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${profileData?.accountId
-            }&BusinessUnitId=${selectedBusinessUnit?.value
-            }`)
+            }&BusinessUnitId=${selectedBusinessUnit?.value}`)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -139,7 +145,10 @@ export default function RequestForQuotationLanding() {
                                 <div className="col-lg-2">
                                     <NewSelect
                                         name="purchaseOrganization"
-                                        options={purchangeOrgListDDL || []}
+                                        options={[
+                                            { value: 0, label: 'ALL' },
+                                            ...purchangeOrgListDDL
+                                        ] || []}
                                         value={values?.purchaseOrganization}
                                         label="Purchase Organization"
                                         onChange={(v) => {
@@ -281,6 +290,9 @@ export default function RequestForQuotationLanding() {
                                         disabled={
                                             !values?.purchaseOrganization ||
                                             !values?.rfqType ||
+                                            !values?.sbu ||
+                                            !values?.plant ||
+                                            !values?.warehouse ||
                                             !values?.status ||
                                             !values?.fromDate ||
                                             !values?.toDate
@@ -329,7 +341,30 @@ export default function RequestForQuotationLanding() {
                                         {landingData?.data?.map((item, index) => (
                                             <tr key={index}>
                                                 <td>{index + 1}</td>
-                                                <td>{item?.requestForQuotationCode}</td>
+                                                <td>
+                                                    {
+
+                                                        item?.purchaseOrganizationName === "Foreign Procurement" ?
+                                                            <span>
+                                                                <LocalAirportOutlinedIcon style={{
+                                                                    color: "#00FF00",
+                                                                    marginRight: "5px",
+                                                                    rotate: "90deg"
+                                                                }} />
+                                                                {item?.requestForQuotationCode}
+                                                            </span>
+                                                            :
+                                                            <span>
+                                                                <LocalShippingIcon style={{
+                                                                    color: "#000000",
+                                                                    marginRight: "5px",
+                                                                    fontSize: "15px"
+                                                                }} />
+
+                                                                {item?.requestForQuotationCode}
+                                                            </span>
+                                                    }
+                                                </td>
                                                 <td className="text-center">{_dateFormatter(item?.rfqdate)}</td>
                                                 <td>{item?.currencyCode}</td>
                                                 <td>{_dateTimeFormatter(item?.quotationEntryStart)}</td>

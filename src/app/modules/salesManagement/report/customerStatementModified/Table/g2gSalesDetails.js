@@ -2,10 +2,12 @@ import React from "react";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import ICustomTable from "../../../../_helper/_customTable";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
 const G2GSalesDetailsTable = ({ rowData, excelRef }) => {
   const headers = [
     "SL",
+    "Delivery Date",
     "Mother Vessel",
     "Lighter Vessel",
     "Challan No",
@@ -50,6 +52,7 @@ const G2GSalesDetailsTable = ({ rowData, excelRef }) => {
                 }}
               >
                 <td>{i + 1}</td>
+                <td>{_dateFormatter(e.deliveryDate)}</td>
                 <td>{e.motherVesselName}</td>
                 <td>{e.lighterVesselName}</td>
                 <td>{e.deliveryCode}</td>
@@ -68,7 +71,7 @@ const G2GSalesDetailsTable = ({ rowData, excelRef }) => {
             );
           })}
           <tr style={{ textAlign: "right", fontWeight: "bold" }}>
-            <td className="text-right" colSpan={8}>
+            <td className="text-right" colSpan={9}>
               Total
             </td>
             <td>

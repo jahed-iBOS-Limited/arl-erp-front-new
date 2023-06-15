@@ -215,14 +215,16 @@ export default function CreateForm({
   };
 
   const saveHandler = async (values, cb) => {
-    if (!values?.costCenter) {
-      return toast.warn("Cost Center is required");
-    }
-    if (!values?.costElement) {
-      return toast.warn("Cost Element is required");
-    }
-    if (!values?.profitcenter) {
-      return toast.warn("Profit Center is required");
+    if (values?.transType?.value !== 14 && values?.transType?.value !== 11) {
+      if (!values?.costCenter) {
+        return toast.warn("Cost Center is required");
+      }
+      if (!values?.costElement) {
+        return toast.warn("Cost Element is required");
+      }
+      if (!values?.profitcenter) {
+        return toast.warn("Profit Center is required");
+      }
     }
     if (rowDto.length === 0) {
       toast.error("Please Add Item");

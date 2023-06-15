@@ -98,8 +98,8 @@ export default function ExpenseRegisterCreateForm() {
           costElementId:item?.costElement?.value || 0,
           costElementName:item?.costElement?.label || "",
           dteExpenseDate: item.expenseDate,
-          businessTransactionId: item?.transaction?.value,
-          businessTransactionName: item?.transaction?.label,
+          businessTransactionId: item?.transaction?.value || 0,
+          businessTransactionName: item?.transaction?.label || "",
           numQuantity: +item.quantity,
           numRate: +item.expenseAmount / +item.quantity,
           numAmount: +item.expenseAmount,
@@ -235,7 +235,6 @@ export default function ExpenseRegisterCreateForm() {
         itm?.costCenter?.value === values?.costCenter?.value &&
         itm?.profitCenter?.value === values?.profitCenter?.value &&
         itm?.costElement?.value === values?.costElement?.value &&
-        itm?.transaction?.value === values?.transaction?.value &&
         itm?.comments2 === values?.comments2 &&
         +itm?.expenseAmount === +values?.expenseAmount &&
         itm?.location === values?.location &&
