@@ -10,10 +10,14 @@ import { useHistory } from "react-router-dom";
 import ICustomCard from "../../../../_helper/_customCard";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
 import { useSelector, shallowEqual } from "react-redux";
+import IView from "../../../../_helper/_helperIcons/_view";
+import IViewModal from "../../../../_helper/_viewModal";
+import Attachments from "./Attachments";
 
-export function CashJournalReportView({ journalCode, headerData }) {
+export function CashJournalReportView({ journalCode, headerData, clickRowData }) {
   const [loading, setLoading] = useState(false);
   const [cashJournalReport, setCashJournalReport] = useState([]);
+  const [isModal, setIsModal] = useState(false)
 
   useEffect(() => {
     getTaxAccountingJournal(journalCode, setCashJournalReport, setLoading);
@@ -70,8 +74,14 @@ export function CashJournalReportView({ journalCode, headerData }) {
                         {/* <div></div> */}
                       </div>
                       <div className="my-3 d-flex justify-content-between">
-                        <div>
-                          <span className="font-weight-bold mr-2"></span>{" "}
+                        <div style={{transform: "translateY(21px)"}}>
+                          <span className="font-weight-bold mr-2">
+                          Reference :  <IView 
+                                            title="View Attachment" 
+                                            clickHandler={() => {
+                                              setIsModal(true)
+                                            }} />
+                          </span>
                         </div>
                         <div>
                           <div>
@@ -186,6 +196,12 @@ export function CashJournalReportView({ journalCode, headerData }) {
           )}
         </Formik>
       </ICustomCard>
+      <IViewModal 
+        show={isModal}
+        onHide={() => setIsModal(false)}
+      >
+        <Attachments clickRowData={clickRowData} />
+      </IViewModal>
     </>
   );
 }
