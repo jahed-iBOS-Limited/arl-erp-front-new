@@ -46,6 +46,7 @@ export default function WarehouseApproveFrom({
   const [rates, getRates, loading] = useAxiosGet();
   const [open, setOpen] = useState(false);
   const [uploadedImages, setUploadedImage] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [, ghatBillFromWarehouseApprove, loader] = useAxiosPost();
   const {
     profileData: { accountId: accId, userId },

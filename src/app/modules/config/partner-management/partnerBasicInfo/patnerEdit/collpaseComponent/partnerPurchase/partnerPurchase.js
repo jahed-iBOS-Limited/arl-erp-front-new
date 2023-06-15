@@ -26,6 +26,7 @@ const initProduct = {
   itemName: "",
   sbu: "",
   shipPointName: "",
+  tdsSupplierType:""
 };
 
 export default function PartnerPurchase() {
@@ -77,6 +78,8 @@ export default function PartnerPurchase() {
           advanceGLId,
           advanceGLName,
           configId,
+          intTdssupplierTypeId,
+          strTdssupplierTypeName
         } = res?.data[0]?.objHeader;
         setSingleData({
           configId,
@@ -103,6 +106,10 @@ export default function PartnerPurchase() {
           advancedGeneralLedgerName: {
             value: advanceGLId || "",
             label: advanceGLName || "",
+          },
+          tdsSupplierType: {
+            value: intTdssupplierTypeId || "",
+            label: strTdssupplierTypeName || "",
           },
           itemCategory: "",
           itemName: "",
@@ -156,6 +163,7 @@ export default function PartnerPurchase() {
           actionBy,
           dteLastActionDateTime: "2020-08-31T04:49:29.981Z",
           isActive: true,
+          intTdssupplierTypeId: values?.tdsSupplierType?.value || 0,
         },
         //objRow: objRow,
         objdata: objdata,

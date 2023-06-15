@@ -68,8 +68,10 @@ export default function _Form({
   setUploadImage,
   location,
 }) {
+  // eslint-disable-next-line no-unused-vars
   const [transaction, setTransaction] = useState([]);
   // payment type state
+  // eslint-disable-next-line no-unused-vars
   const [paymentType, setPaymentType] = useState([]);
   //
   //category state
