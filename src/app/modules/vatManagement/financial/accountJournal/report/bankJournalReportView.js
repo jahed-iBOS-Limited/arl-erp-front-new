@@ -19,13 +19,17 @@ import { useSelector } from "react-redux";
 // import OthersBillView from "../../../invoiceManagementSystem/billregister/othersBillNew/view/othersBillView";
 // import ViewInternalTransportBill from "../../../invoiceManagementSystem/billregister/internalTransportBill/view/viewBillRegister";
 import { APIUrl } from "../../../../../App";
+import IView from "../../../../_helper/_helperIcons/_view";
+import IViewModal from "../../../../_helper/_viewModal";
+import Attachments from "./Attachments";
 // import { fontWeight } from "html2canvas/dist/types/css/property-descriptors/font-weight";
 
-export function BankJournalReportView({ journalCode, headerData }) {
+export function BankJournalReportView({ journalCode, headerData, clickRowData }) {
   const [loading, setLoading] = useState(false);
   const [bankJournalReport, setbankJournalReport] = useState([]);
   const [, setModalShow] = useState(false);
   const [headerObj, setHeaderObj] = useState("");
+  const [isModal, setIsModal] = useState(false)
 
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
@@ -135,6 +139,13 @@ export function BankJournalReportView({ journalCode, headerData }) {
                             <sapn className="font-weight-bold ml-1">
                               {_dateFormatter(headerObj?.instrumentDate)}
                             </sapn>
+                          </div>
+                          <div>
+                          Reference :  <IView 
+                                            title="View Attachment" 
+                                            clickHandler={() => {
+                                              setIsModal(true)
+                                            }} />
                           </div>
                         </div>
                         <div>
@@ -370,6 +381,12 @@ export function BankJournalReportView({ journalCode, headerData }) {
           )}
         </Formik>
       </ICustomCard>
+      <IViewModal 
+        show={isModal}
+        onHide={() => setIsModal(false)}
+      >
+        <Attachments clickRowData={clickRowData} />
+      </IViewModal>
     </>
   );
 }
