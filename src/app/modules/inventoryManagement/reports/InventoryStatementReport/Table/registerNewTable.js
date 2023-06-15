@@ -19,13 +19,13 @@ const RegisterNewTable = ({
                   <th style={{ minWidth: "100px" }}>Item Code</th>
                   <th style={{ minWidth: "80px" }}>UoM Name</th>
                   <th style={{ minWidth: "80px" }}>Open Qty</th>
-                  <th style={{ minWidth: "80px" }}>Open Value</th>
+                  {/* <th style={{ minWidth: "80px" }}>Open Value</th> */}
                   <th style={{ minWidth: "80px" }}>In Qty</th>
-                  <th style={{ minWidth: "80px" }}>In Value</th>
+                  {/* <th style={{ minWidth: "80px" }}>In Value</th> */}
                   <th style={{ minWidth: "80px" }}>Out Qty</th>
-                  <th style={{ minWidth: "80px" }}>Out Value</th>
+                  {/* <th style={{ minWidth: "80px" }}>Out Value</th> */}
                   <th style={{ minWidth: "80px" }}>Closing Qty</th>
-                  <th style={{ minWidth: "100px" }}>Closing Value</th>
+                  {/* <th style={{ minWidth: "100px" }}>Closing Value</th> */}
                   <th style={{ minWidth: "100px" }}>Rate</th>
                   <th style={{ minWidth: "50px" }}>Action</th>
                 </tr>
@@ -50,27 +50,27 @@ const RegisterNewTable = ({
                         <td className="text-right">
                           <span>{item?.numOpenQty}</span>
                         </td>
-                        <td className="text-right">
+                        {/* <td className="text-right">
                           <span>{item?.numOpenValue}</span>
-                        </td>
+                        </td> */}
                         <td className="text-right">
                           <span>{item?.numInQty}</span>
                         </td>
-                        <td className="text-right">
+                        {/* <td className="text-right">
                           <span>{item?.numInValue}</span>
-                        </td>
+                        </td> */}
                         <td className="text-right">
                           <span>{item?.numOutQty}</span>
                         </td>
-                        <td className="text-right">
+                        {/* <td className="text-right">
                           <span>{item?.numOutValue}</span>
-                        </td>
+                        </td> */}
                         <td className="text-right">
                           <span>{item?.numCloseQty}</span>
                         </td>
-                        <td className="text-right">
+                        {/* <td className="text-right">
                           <span>{item?.numClosingValue}</span>
-                        </td>
+                        </td> */}
                         <td className="text-right">
                           <span>{item?.numRate}</span>
                         </td>
