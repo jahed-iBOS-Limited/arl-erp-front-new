@@ -21,6 +21,7 @@ import { ItemTransferTransit } from "./itemTransferTransit/Table/table";
 import SupplierWisePurchase from "./supplierWisePurchase";
 import CancledMRR from "./cancledMRR";
 import WHStockReportVat from "./whStockReportVat";
+import WarehouseWiseStockReport from "./whStockReport";
 
 export function ReportsPages() {
   return (
@@ -129,6 +130,10 @@ export function ReportsPages() {
       <ContentRoute
         from="/inventory-management/reports/wh-stock-report-vat"
         component={WHStockReportVat}
+      />
+       <ContentRoute
+        from="/inventory-management/reports/WarehouseWiseStockReport"
+        component={WarehouseWiseStockReport}
       />
     </Switch>
   );
