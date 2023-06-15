@@ -4,6 +4,8 @@ import * as Yup from "yup";
 import Axios from "axios";
 import NewSelect from "./../../../../../../_helper/_select";
 import InputField from "../../../../../../_helper/_inputField";
+import useAxiosGet from "../../../../../../_helper/customHooks/useAxiosGet";
+import Loading from "../../../../../../_helper/_loading";
 
 // Validation schema
 const ProductEditSchema = Yup.object().shape({
@@ -30,6 +32,10 @@ const ProductEditSchema = Yup.object().shape({
   priceStructure: Yup.object().shape({
     label: Yup.string().required("Price structure is required"),
     value: Yup.string().required("Price structure is required"),
+  }),
+  tdsSupplierType: Yup.object().shape({
+    label: Yup.string().required("TDS Supplier Type is required"),
+    value: Yup.string().required("TDS Supplier Type is required"),
   }),
 });
 
@@ -58,6 +64,7 @@ export default function _Form({
   const [advancedGeneralLedgerList, setAdvancedGeneralLedgerList] = useState(
     []
   );
+  const [tdsSupplierType, getTdsSupplierType, tdsSupplierLoading] = useAxiosGet();
 
   const [gneralLedgerListOption, setgneralLedgerOption] = useState([]);
   // const [accuredGeneralLedgerOption, setAccuredGeneralLedgerOption] = useState(
@@ -85,7 +92,9 @@ export default function _Form({
         selectedBusinessUnit?.value,
         setgneralLedgerList
       );
+      getTdsSupplierType(`/partner/BusinessPartnerPurchaseInfo/GetTdssupplierTypesDDL`)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
 
   // useEffect(() => {
@@ -236,6 +245,7 @@ export default function _Form({
           isValid,
         }) => (
           <>
+          {tdsSupplierLoading && <Loading />}
             <Form className="form form-label-right">
               <div className="form-group global-form row">
                 <div className="col-lg-3">
@@ -313,6 +323,23 @@ export default function _Form({
                     touched={touched}
                     onChange={(valueOption) => {
                       setFieldValue("advancedGeneralLedgerName", valueOption);
+                    }}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    label="TDS Supplier Type"
+                    options={tdsSupplierType || []}
+                    value={values?.tdsSupplierType}
+                    name="tdsSupplierType"
+                    errors={errors}
+                    touched={touched}
+                    onChange={(valueOption) => {
+                      if(valueOption){
+                        setFieldValue("tdsSupplierType", valueOption);
+                      }else{
+                        setFieldValue("tdsSupplierType", "");
+                      }
                     }}
                   />
                 </div>
