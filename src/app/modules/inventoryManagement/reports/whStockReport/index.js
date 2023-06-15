@@ -7,6 +7,7 @@ import InputField from "../../../_helper/_inputField";
 import { _todayDate } from "../../../_helper/_todayDate";
 import { shallowEqual, useSelector } from "react-redux";
 import PaginationTable from "../../../_helper/_tablePagination";
+import Loading from "../../../_helper/_loading";
 const initData = {
   itemType: "",
   fromDate: _todayDate(),
@@ -18,7 +19,7 @@ export default function WarehouseWiseStockReport() {
   }, shallowEqual);
 
   const [itemTypeDDL, getItemTypeDDL] = useAxiosGet();
-  const [rowData, getRowData, Loading] = useAxiosGet();
+  const [rowData, getRowData, loading] = useAxiosGet();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
 
@@ -38,7 +39,11 @@ export default function WarehouseWiseStockReport() {
   };
 
   return (
-    <Formik enableReinitialize={true} initialValues={initData}>
+    <Formik
+      enableReinitialize={true}
+      initialValues={initData}
+      onSubmit={(values, { setSubmitting, resetForm }) => {}}
+    >
       {({
         handleSubmit,
         resetForm,
@@ -49,7 +54,7 @@ export default function WarehouseWiseStockReport() {
         touched,
       }) => (
         <>
-          {false && <Loading />}
+          {loading && <Loading />}
           <IForm
             title="Warehouse Wise Stock Report"
             isHiddenReset
@@ -114,27 +119,103 @@ export default function WarehouseWiseStockReport() {
 
               <div className="row">
                 <div className="col-md-12">
-                  {rowData?.data?.length > 0 && (
+                  {rowData?.length > 0 && (
                     <table className="table table-striped table-bordered bj-table bj-table-landing">
                       <thead>
                         <tr>
-                          <th>SL</th>
+                          <th>Sl</th>
+                          <th>Item Name</th>
+                          <th>Code</th>
+                          <th>Warehouse</th>
+                          <th>Uom</th>
+                          <th>Open Qty</th>
+                          <th>Open value</th>
+                          <th>In Qty</th>
+                          <th>In Value</th>
+                          <th>Closing Qty</th>
+                          <th>Closing Value</th>
+                          <th>Out Qty</th>
+                          <th>Out Value</th>
+                          <th>Rate</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {rowData?.data?.map((item, index) => (
+                        {rowData?.map((item, index) => (
                           <tr key={index}>
                             <td>
                               <div className="text-center">{index + 1}</div>
+                            </td>
+                            <td>
+                              <div className="text-center">
+                                {item?.strItemName}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-center">
+                                {item?.strItemCode}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-center">
+                                {item?.strWareHouseName}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-center">
+                                {item?.strBaseUOM}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-center">
+                                {item?.numOpenQty}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-center">
+                                {item?.numOpenValue}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-center">
+                                {item?.numInQty}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-center">
+                                {item?.numInValue}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-center">
+                                {item?.numCloseQty}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-center">
+                                {item?.numClosingValue}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-center">
+                                {item?.numOutQty}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-center">
+                                {item?.numOutValue}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-center">{item?.numRate}</div>
                             </td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
                   )}
-                  {rowData?.data?.length > 0 && (
+                  {rowData?.length > 0 && (
                     <PaginationTable
-                      count={rowData?.totalCount}
+                      count={rowData[0]?.totalRows}
                       setPositionHandler={setPositionHandler}
                       paginationState={{
                         pageNo,
