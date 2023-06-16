@@ -16,7 +16,7 @@ import LocalAirportOutlinedIcon from '@material-ui/icons/LocalAirportOutlined';
 import { _dateFormatter, _dateTimeFormatter } from "../../../../_helper/_dateFormate";
 import Chips from "../../../../_helper/chips/Chips";
 const initData = {
-    purchaseOrganization: "",
+    purchaseOrganization: { value: 0, label: 'ALL' },
     plant: "",
     warehouse: "",
     rfqType: "",
@@ -26,8 +26,7 @@ const initData = {
 };
 export default function QuotationEntryLanding() {
 
-    const [landingData, getLandingData, landingDataLoader] = useAxiosGet();
-
+    const [landingData, getLandingData, landingDataLoader, setLandingData] = useAxiosGet();
     const { profileData, selectedBusinessUnit } = useSelector((state) => {
         return state.authData;
     }, shallowEqual);
@@ -48,8 +47,8 @@ export default function QuotationEntryLanding() {
     const saveHandler = (values, cb) => { };
     // const history = useHistory();
 
-    const getData = (values, pageNo, pageSize) => { 
-        
+    const getData = (values, pageNo, pageSize) => {
+
     };
 
     const [pageNo, setPageNo] = useState(0);
@@ -93,7 +92,7 @@ export default function QuotationEntryLanding() {
                         renderProps={() => {
                             return (
                                 <div>
-                                    <button
+                                    {/* <button
                                         type="button"
                                         className="btn btn-primary"
                                         onClick={() => {
@@ -101,7 +100,7 @@ export default function QuotationEntryLanding() {
                                         }}
                                     >
                                         Create
-                                    </button>
+                                    </button> */}
                                 </div>
                             );
                         }}
@@ -111,11 +110,15 @@ export default function QuotationEntryLanding() {
                                 <div className="col-lg-3">
                                     <NewSelect
                                         name="purchaseOrganization"
-                                        options={purchangeOrgListDDL || []}
+                                        options={[
+                                            { value: 0, label: 'ALL' },
+                                            ...purchangeOrgListDDL
+                                        ] || []}
                                         value={values?.purchaseOrganization}
                                         label="Purchase Organization"
                                         onChange={(v) => {
                                             setFieldValue("purchaseOrganization", v);
+                                            setLandingData([]);
                                         }}
                                         placeholder="Purchase Organization"
                                         errors={errors}
@@ -136,6 +139,7 @@ export default function QuotationEntryLanding() {
                                         label="RFQ Type"
                                         onChange={(v) => {
                                             setFieldValue("rfqType", v);
+                                            setLandingData([]);
                                         }}
                                         placeholder="RFQ Type"
                                         errors={errors}
@@ -149,6 +153,7 @@ export default function QuotationEntryLanding() {
                                         value={values?.plant}
                                         label="Plant"
                                         onChange={(v) => {
+                                            setLandingData([]);
                                             if (v) {
                                                 setFieldValue("plant", v);
                                                 getWarehouseListDDL(`/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${v?.value
@@ -171,6 +176,7 @@ export default function QuotationEntryLanding() {
                                         label="Warehouse"
                                         onChange={(v) => {
                                             setFieldValue("warehouse", v);
+                                            setLandingData([]);
                                         }}
                                         placeholder="Warehouse"
                                         errors={errors}
@@ -194,6 +200,7 @@ export default function QuotationEntryLanding() {
                                         label="Status"
                                         onChange={(v) => {
                                             setFieldValue("status", v);
+                                            setLandingData([]);
                                         }}
                                         placeholder="Status"
                                         errors={errors}
@@ -209,6 +216,7 @@ export default function QuotationEntryLanding() {
                                         type="date"
                                         onChange={(e) => {
                                             setFieldValue("fromDate", e.target.value);
+                                            setLandingData([]);
                                         }}
                                     />
                                 </div>
@@ -221,6 +229,7 @@ export default function QuotationEntryLanding() {
                                         type="date"
                                         onChange={(e) => {
                                             setFieldValue("toDate", e.target.value);
+                                            setLandingData([]);
                                         }}
                                         disabled={false}
                                     />
@@ -234,18 +243,48 @@ export default function QuotationEntryLanding() {
                                         }}
                                         onClick={() => {
                                             console.log("values", values);
-                                            getData(values, pageNo, pageSize)
+                                            const dummyData = [{
+                                                purchaseOrganizationName: "Foreign Procurement",
+                                                requestForQuotationCode: "RFQ-2021-0001",
+                                                rfqdate: "2021-07-01T00:00:00",
+                                                rfqType: "Standard",
+                                                rfqTitle: "ARL stationery items",
+                                                plant: "ACCL Narayangonj",
+                                                warehouse: "ACCL Factory",
+                                                currencyCode: "USD",
+                                                startDateTime: "2021-07-01T00:00:00",
+                                                endDateTime: "2021-07-01T00:00:00",
+                                                rfqStatus: "Live",
+                                                approvalStatus: "Approved",
+                                                createdBy: "Wahed",
+                                            },
+                                            {
+                                                purchaseOrganizationName: "Local Procurement",
+                                                requestForQuotationCode: "RFQ-2021-0001",
+                                                rfqdate: "2021-07-01T00:00:00",
+                                                rfqType: "Standard",
+                                                rfqTitle: "ARL stationery items",
+                                                plant: "ACCL Narayangonj",
+                                                warehouse: "APFIL Factory",
+                                                currencyCode: "BDT",
+                                                startDateTime: "2021-07-01T00:00:00",
+                                                endDateTime: "2021-07-01T00:00:00",
+                                                rfqStatus: "Closed",
+                                                approvalStatus: "Pending",
+                                                createdBy: "Wahed",
+                                            }]
+                                            setLandingData(dummyData)
+                                            // getData(values, pageNo, pageSize)
                                         }}
-                                        disabled={
-                                            !values?.purchaseOrganization ||
-                                            !values?.rfqType ||
-                                            !values?.plant ||
-                                            !values?.warehouse ||
-                                            !values?.status ||
-                                            !values?.fromDate ||
-                                            !values?.toDate
-                                        }
-
+                                    // disabled={
+                                    //     !values?.purchaseOrganization ||
+                                    //     !values?.rfqType ||
+                                    //     !values?.plant ||
+                                    //     !values?.warehouse ||
+                                    //     !values?.status ||
+                                    //     !values?.fromDate ||
+                                    //     !values?.toDate
+                                    // }
                                     >
                                         View
                                     </button>
@@ -259,8 +298,8 @@ export default function QuotationEntryLanding() {
                                     values={values}
                                 />
                             </div>
-
                             <div>
+                                {console.log("landingData", landingData)}
                                 <table className="table table-striped table-bordered bj-table bj-table-landing">
                                     <thead>
                                         <tr>
@@ -281,7 +320,7 @@ export default function QuotationEntryLanding() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {landingData?.data?.map((item, index) => (
+                                        {landingData?.map((item, index) => (
                                             <tr key={index}>
                                                 <td>{index + 1}</td>
                                                 <td>
@@ -309,18 +348,29 @@ export default function QuotationEntryLanding() {
                                                     }
                                                 </td>
                                                 <td className="text-center">{_dateFormatter(item?.rfqdate)}</td>
+                                                <td>{item?.rfqType}</td>
+                                                <td>{item?.rfqTitle}</td>
+                                                <td>{item?.plant}</td>
+                                                <td>{item?.warehouse}</td>
                                                 <td>{item?.currencyCode}</td>
-                                                <td className="text-center">{_dateTimeFormatter(item?.quotationEntryStart)}</td>
-                                                <td className="text-center">{_dateTimeFormatter(item?.validTillDate)}</td>
+                                                <td className="text-center">{_dateTimeFormatter(item?.startDateTime)}</td>
+                                                <td className="text-center">{_dateTimeFormatter(item?.endDateTime)}</td>
                                                 <td className="text-center">{
-                                                    item?.status && item?.status === "Live" ? (
-                                                        <Chips classes="badge-primary" status={item?.status} />
-                                                    ) : item?.status === "Closed" ? (
-                                                        <Chips classes="badge-danger" status={item?.status} />
-                                                    ) : item?.status === "Pending" ? (
-                                                        <Chips classes="badge-warning" status={item?.status} />
-                                                    ) : item?.status === "Waiting" ? (
-                                                        <Chips classes="badge-info" status={item?.status} />
+                                                    item?.rfqStatus && item?.rfqStatus === "Live" ? (
+                                                        <Chips classes="badge-primary" status={item?.rfqStatus} />
+                                                    ) : item?.rfqStatus === "Closed" ? (
+                                                        <Chips classes="badge-danger" status={item?.rfqStatus} />
+                                                    ) : item?.rfqStatus === "Pending" ? (
+                                                        <Chips classes="badge-warning" status={item?.rfqStatus} />
+                                                    ) : item?.rfqStatus === "Waiting" ? (
+                                                        <Chips classes="badge-info" status={item?.rfqStatus} />
+                                                    ) : null
+                                                }</td>
+                                                <td className="text-center">{
+                                                    item?.approvalStatus && item?.approvalStatus === "Approved" ? (
+                                                        <Chips classes="badge-success" status={item?.approvalStatus} />
+                                                    ) : item?.approvalStatus === "Pending" ? (
+                                                        <Chips classes="badge-warning" status={item?.approvalStatus} />
                                                     ) : null
                                                 }</td>
                                                 <td>{item?.createdBy}</td>

@@ -32,7 +32,7 @@ export default function NewSupplierModal() {
             }) => (
                 <>
                     {false && <Loading />}
-                    <IForm title="Add New Supplier" getProps={setObjprops}>
+                    <IForm customTitle="Add New Supplier" getProps={setObjprops}>
                         <Form>
                             <div className="form-group  global-form row">
 
