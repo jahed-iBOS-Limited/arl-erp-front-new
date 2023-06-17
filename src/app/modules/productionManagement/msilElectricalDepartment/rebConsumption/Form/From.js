@@ -179,7 +179,7 @@ export default function REBConsumptionForm({
                   />
                 </div>
                 {[171, 144, 224].includes(selectedBusinessUnit?.value) &&
-                values?.rebConsumptionDDL?.value === 1 ? (
+                [1, 7].includes(values?.rebConsumptionDDL?.value) ? (
                   <div className="col-lg-3">
                     <InputField
                       disabled
@@ -191,7 +191,7 @@ export default function REBConsumptionForm({
                   </div>
                 ) : null}
                 {[171, 144, 224].includes(selectedBusinessUnit?.value) &&
-                values?.rebConsumptionDDL?.value === 1 ? (
+                [1, 7].includes(values?.rebConsumptionDDL?.value) ? (
                   <div className="col-lg-3">
                     <InputField
                       // disabled={location?.state}
