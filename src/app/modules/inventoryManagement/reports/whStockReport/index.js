@@ -8,7 +8,7 @@ import { _todayDate } from "../../../_helper/_todayDate";
 import { shallowEqual, useSelector } from "react-redux";
 import PaginationTable from "../../../_helper/_tablePagination";
 import Loading from "../../../_helper/_loading";
-import { generateSecondLevelList } from "./helper";
+import { excelDownload, generateSecondLevelList } from "./helper";
 const initData = {
   itemType: "",
   fromDate: _todayDate(),
@@ -22,6 +22,7 @@ export default function WarehouseWiseStockReport() {
 
   const [itemTypeDDL, getItemTypeDDL] = useAxiosGet();
   const [rowData, getRowData, loading, setRowData] = useAxiosGet();
+  const [excelData, getExcelData] = useAxiosGet();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
 
@@ -40,6 +41,9 @@ export default function WarehouseWiseStockReport() {
           secondLevelField: "children",
         });
         setRowData(newList);
+        getExcelData(
+          `/wms/WmsReport/GetWarehouseWiseStockReport?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&intItemTypeId=${values?.itemType?.value}&pageNo=${pageNo}&pageSize=${res[0]?.totalRows}`
+        );
       }
     );
   };
@@ -123,6 +127,16 @@ export default function WarehouseWiseStockReport() {
                     }}
                   >
                     View
+                  </button>
+                  <button
+                    className="btn btn-primary ml-5"
+                    type="button"
+                    disabled={!excelData?.length}
+                    onClick={() => {
+                      excelDownload(excelData);
+                    }}
+                  >
+                    Export Excel
                   </button>
                 </div>
               </div>
