@@ -28,6 +28,24 @@ export const setTotalConsumptionUnit = (
   setFieldValue,
   selectedBusinessUnit
 ) => {
+  if ([144].includes(selectedBusinessUnit?.value)) {
+    setFieldValue("totalConsumptionUnit", "");
+  }
+
+  if ([188, 189].includes(selectedBusinessUnit?.value)) {
+    setFieldValue(
+      "totalConsumptionUnit",
+      (+fieldValue - +values?.previousPressure) * 264.59
+    );
+  }
+
+  if ([188].includes(selectedBusinessUnit?.value)) {
+    setFieldValue(
+      "totalConsumptionUnit",
+      (+fieldValue - +values?.previousPressure) * 1058.33
+    );
+  }
+
   if (
     [171].includes(selectedBusinessUnit?.value) &&
     (values?.rebConsumptionDDL?.value === 3 ||

@@ -91,6 +91,10 @@ export default function REBConsumptionCreate() {
   }, [location]);
 
   const getMultipleBy = (id) => {
+    if ([1444].includes(selectedBusinessUnit?.value)) {
+      return 264.59;
+    }
+
     if ([4].includes(selectedBusinessUnit?.value) && (+id === 5 || +id === 6)) {
       return 30000;
     }
