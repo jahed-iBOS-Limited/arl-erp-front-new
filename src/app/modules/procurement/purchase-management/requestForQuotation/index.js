@@ -47,7 +47,7 @@ export default function RequestForQuotationLanding() {
     const saveHandler = (values, cb) => { };
     const history = useHistory();
     const [purchangeOrgListDDL, getPurchaseOrgListDDL, purchaseOrgListDDLloader] = useAxiosGet();
-    const [landingData, getLandingData, landingDataLoader] = useAxiosGet();
+    const [landingData, getLandingData, landingDataLoader, setLandingData] = useAxiosGet();
     const [plantListDDL, getPlantListDDL, plantListDDLloader] = useAxiosGet();
     const [warehouseListDDL, getWarehouseListDDL, warehouseListDDLloader] = useAxiosGet();
     const [sbuListDDL, getSbuListDDL, sbuListDDLloader] = useAxiosGet();
@@ -164,6 +164,7 @@ export default function RequestForQuotationLanding() {
                                         label="Purchase Organization"
                                         onChange={(v) => {
                                             setFieldValue("purchaseOrganization", v);
+                                            setLandingData([]);
                                         }}
                                         placeholder="Purchase Organization"
                                         errors={errors}
@@ -184,6 +185,7 @@ export default function RequestForQuotationLanding() {
                                         label="RFQ Type"
                                         onChange={(v) => {
                                             setFieldValue("rfqType", v);
+                                            setLandingData([]);
                                         }}
                                         placeholder="RFQ Type"
                                         errors={errors}
@@ -199,6 +201,7 @@ export default function RequestForQuotationLanding() {
                                         label="SBU"
                                         onChange={(v) => {
                                             setFieldValue("sbu", v);
+                                            setLandingData([]);
                                         }}
                                         placeholder="SBU"
                                         errors={errors}
@@ -214,6 +217,8 @@ export default function RequestForQuotationLanding() {
                                         onChange={(v) => {
                                             if (v) {
                                                 setFieldValue("plant", v);
+                                                setFieldValue("warehouse", "");
+                                                setLandingData([]);
                                                 getWarehouseListDDL(`/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${v?.value
                                                     }`)
                                             } else {
@@ -234,6 +239,7 @@ export default function RequestForQuotationLanding() {
                                         label="Warehouse"
                                         onChange={(v) => {
                                             setFieldValue("warehouse", v);
+                                            setLandingData([]);
                                         }}
                                         placeholder="Warehouse"
                                         errors={errors}
@@ -257,6 +263,7 @@ export default function RequestForQuotationLanding() {
                                         label="Status"
                                         onChange={(v) => {
                                             setFieldValue("status", v);
+                                            setLandingData([]);
                                         }}
                                         placeholder="Status"
                                         errors={errors}
@@ -272,6 +279,7 @@ export default function RequestForQuotationLanding() {
                                         type="date"
                                         onChange={(e) => {
                                             setFieldValue("fromDate", e.target.value);
+                                            setLandingData([]);
                                         }}
                                     />
                                 </div>
@@ -284,6 +292,7 @@ export default function RequestForQuotationLanding() {
                                         type="date"
                                         onChange={(e) => {
                                             setFieldValue("toDate", e.target.value);
+                                            setLandingData([]);
                                         }}
                                         disabled={false}
                                     />
