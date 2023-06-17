@@ -9,13 +9,16 @@ import findIndex from "../../../../_helper/_findIndex";
 import NotPermittedPage from "../../../../_helper/notPermitted/NotPermittedPage";
 import { getTaxAccountingJournal } from "./helper";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
+import IViewModal from "../../../../_helper/_viewModal";
+import Attachments from "./Attachments";
+import IView from "../../../../_helper/_helperIcons/_view";
 
-export function AdjustmentJournalReportView({ journalCode }) {
+export function AdjustmentJournalReportView({ journalCode, clickRowData }) {
   const [loading, setLoading] = useState(false);
   const [adjustmentReport, setAdjustmentReport] = useState([]);
   const [rowDto, setRowDto] = useState([]);
   const [headerObj, setHeaderObj] = useState("")
-
+  const [isModal, setIsModal] = useState(false)
 
   useEffect(() => {
     getTaxAccountingJournal( journalCode, setAdjustmentReport, setLoading);
@@ -122,8 +125,14 @@ export function AdjustmentJournalReportView({ journalCode }) {
                           {/* <div></div> */}
                         </div>
                         <div className="my-3 d-flex justify-content-between">
-                          <div>
-                            <span className="font-weight-bold mr-2"></span>{" "}
+                          <div style={{transform: "translateY(21px)"}}>
+                            <span className="font-weight-bold mr-2">
+                              Reference :  <IView 
+                                            title="View Attachment" 
+                                            clickHandler={() => {
+                                              setIsModal(true)
+                                            }} />
+                            </span>
                           </div>
                           <div>
                             <div>
@@ -252,6 +261,12 @@ export function AdjustmentJournalReportView({ journalCode }) {
           )}
         </Formik>
       </ICustomCard>
+      <IViewModal 
+        show={isModal}
+        onHide={() => setIsModal(false)}
+      >
+        <Attachments clickRowData={clickRowData} />
+      </IViewModal>
     </>
   );
 }
