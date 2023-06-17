@@ -8,6 +8,8 @@ import StevedoreLanding from "./stevedore/landing/landing";
 import CNFLanding from "./cnf/landing/landing";
 import LighterDestination from "./lighterDestination/landing/landing";
 import DirectAndDumpRateLanding from "./directAndDumpRate";
+import RateEnrolmentLanding from "./rateEnrolment/landing/landing";
+import RateEnrolmentForm from "./rateEnrolment/form/addEditForm";
 
 export default function ConfigPages() {
   return (
@@ -24,7 +26,7 @@ export default function ConfigPages() {
         path="/vessel-management/configuration/godown"
         component={GodownLanding}
       />
-       <ContentRoute
+      <ContentRoute
         path="/vessel-management/configuration/directndumprate"
         component={DirectAndDumpRateLanding}
       />
@@ -39,6 +41,15 @@ export default function ConfigPages() {
       <ContentRoute
         path="/vessel-management/configuration/lightercnf"
         component={CNFLanding}
+      />
+
+      <ContentRoute
+        path="/vessel-management/configuration/rateenrollment/config"
+        component={RateEnrolmentForm}
+      />
+      <ContentRoute
+        path="/vessel-management/configuration/rateenrollment"
+        component={RateEnrolmentLanding}
       />
     </Switch>
   );
