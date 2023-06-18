@@ -2,7 +2,7 @@ import React from "react";
 import NewSelect from "../_select";
 import { YearDDL } from "../_yearDDL";
 
-const monthDDL = [
+export const monthDDL = [
   { value: 1, label: "January" },
   { value: 2, label: "February" },
   { value: 3, label: "March" },
