@@ -189,9 +189,9 @@ const TableRow = () => {
                 className="global-form"
                 style={header}
               >
+                <h4>Reconcile</h4>
                 <div style={{width: "80%"}} className="row">
-                  <h4 className="col-md-1">Reconcile</h4>
-                  <div className="col-md">
+                  <div className="col-md-4">
                     <NewSelect
                       name="acDDL"
                       placeholder="Select A/C No"
@@ -251,7 +251,7 @@ const TableRow = () => {
                       }}
                     />
                   </div>
-                  <div className="col-md">
+                  <div className="col-md-2">
                     <NewSelect
                       name="typeDDL"
                       placeholder="Select Type "
@@ -368,7 +368,7 @@ const TableRow = () => {
                   style={{ padding: "0", margin: "0" }}
                 >
                   <div className="col-12">
-                    <div className="row d-flex align-items-center">
+                    <div className="row d-flex align-items-center p-1">
                       {/* <div className="col-lg-3">
                         <NewSelect
                           name="sbu"
@@ -406,10 +406,12 @@ const TableRow = () => {
                       </div> */}
 
                       {values.isManualReconsile && (
-                        <div className="col-lg-2">
+                        <div style={{display : "flex"}} className="col-lg-3">
+                          <label style={{width: "100px"}} className="mr-1">Reconcile Type</label>
                           <NewSelect
                             name="reconcileType"
-                            placeholder="Select Reconcile Type "
+                            placeholder="Select Reconcile Type"
+                            isHiddenLabel
                             value={values?.reconcileType}
                             onChange={(valueOption) => {
                               setFieldValue("reconcileType", valueOption);
@@ -433,8 +435,8 @@ const TableRow = () => {
                           />
                         </div>
                       )}
-                      <div style={{ width: "200px" }}>
-                        <label>Search</label>
+                      <div style={{ width: "200px", display: "flex" }}>
+                        <label className="mr-1">Search</label>
                         <InputField
                           value={values?.search}
                           name="search"
