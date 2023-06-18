@@ -22,6 +22,7 @@ import "../assetParking.css";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import Loading from "../../../../_helper/_loading";
 import { confirmAlert } from "react-confirm-alert";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const _WrrentyDate = () => {
   var today = new Date();
@@ -63,6 +64,7 @@ const initData = {
   itemCategory:"",
   lifeTimeYear: "",
   depRunRate: "",
+  profitCenter: "",
 };
 
 export default function AssetParkingCreateForm({
@@ -93,6 +95,7 @@ export default function AssetParkingCreateForm({
   const [uomList, setUOMList] = useState([]);
   const [brtaList, setbrtaList] = useState([]);
   const [categoryDDL, setCategoryDDL] = useState([])
+  const [profitCenterDDL, getProfitCenterDDL, profitCenterLoading, setProfitCenterDDL] = useAxiosGet() 
 
   useEffect(() => {
     getDepartmenttDDL(
@@ -126,6 +129,17 @@ export default function AssetParkingCreateForm({
       setSupplierList
     );
     getBrtaDDL(setbrtaList)
+
+    getProfitCenterDDL(`/fino/CostSheet/ProfitCenterDetails?UnitId=${selectedBusinessUnit?.value}`,
+    data => {
+      const newData = data?.map(itm => {
+         itm.value = itm?.profitCenterId;
+         itm.label = itm?.profitCenterName;
+         return itm;
+      });
+      setProfitCenterDDL(newData);
+   })
+
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   useEffect(() => {
@@ -209,6 +223,8 @@ export default function AssetParkingCreateForm({
         assetName: values?.assetName || "",
         assetCategoryId: values?.category?.value || 0,
         assetCategoryName: values?.category?.label || "",
+        profitCenterId: +values?.profitCenter?.value || 0,
+        profitCenterName: values?.profitCenter?.label || "",
       };
      // window.payload = payload
       saveAssetForData(payload, cb, setItemAttribute, setDisabled, setIsShowModal ,IConfirmModal);
@@ -228,7 +244,7 @@ export default function AssetParkingCreateForm({
         getProps={setObjprops}
         isDisabled={isDisabled}
       >
-        {isDisabled && <Loading />}
+        {(isDisabled || profitCenterLoading) && <Loading />}
         <Form
           {...objProps}
           initData={initData}
@@ -251,6 +267,7 @@ export default function AssetParkingCreateForm({
           profileData={profileData}
           brtaList={brtaList}
           categoryDDL={categoryDDL}
+          profitCenterDDL={profitCenterDDL}
         />
       </IForm>
     </div>
