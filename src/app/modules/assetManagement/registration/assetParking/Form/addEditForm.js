@@ -21,6 +21,7 @@ import "../assetParking.css";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import Loading from "../../../../_helper/_loading";
 import { confirmAlert } from "react-confirm-alert";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const _WrrentyDate = () => {
   var today = new Date();
@@ -74,8 +75,8 @@ export default function AssetParkingForm({ currentRowData,setIsShowModal }) {
   const [brtaList, setbrtaList] = useState([]);
   const [department, setDepartment] = useState([]);
   const [categoryDDL, setCategoryDDL] = useState([])
+  const [profitCenterDDL, getProfitCenterDDL, profitCenterLoading, setProfitCenterDDL] = useAxiosGet() 
 
-  console.log(assetDetais, "assetDetais");
   
    //save event Modal (code see)
    const IConfirmModal = (props) => {
@@ -109,6 +110,15 @@ export default function AssetParkingForm({ currentRowData,setIsShowModal }) {
       setDepartment
     );
     getBrtaDDL(setbrtaList)
+    getProfitCenterDDL(`/fino/CostSheet/ProfitCenterDetails?UnitId=${selectedBusinessUnit?.value}`,
+    data => {
+      const newData = data?.map(itm => {
+         itm.value = itm?.profitCenterId;
+         itm.label = itm?.profitCenterName;
+         return itm;
+      });
+      setProfitCenterDDL(newData);
+   })
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   useEffect(() => {
@@ -179,6 +189,8 @@ export default function AssetParkingForm({ currentRowData,setIsShowModal }) {
         assetCategoryName: values?.category?.label || "",
         depRate: +values?.depRunRate || 0,
         lifeTimeYear: +values?.lifeTimeYear || 0,
+        profitCenterId: +values?.profitCenter?.value || 0,
+        profitCenterName: values?.profitCenter?.label || "",
       };
       // console.log(payload,"payload")
       saveAssetData(payload, cb , setIsShowModal,setDisabled ,IConfirmModal);
@@ -198,7 +210,7 @@ export default function AssetParkingForm({ currentRowData,setIsShowModal }) {
         getProps={setObjprops}
         isDisabled={isDisabled}
       >
-        {/* {isDisabled && <Loading />} */}
+        {profitCenterLoading && <Loading />}
         <Form
           {...objProps}
           initData={initData}
@@ -216,6 +228,7 @@ export default function AssetParkingForm({ currentRowData,setIsShowModal }) {
           profileData={profileData}
           brtaList={brtaList}
           categoryDDL={categoryDDL}
+          profitCenterDDL={profitCenterDDL}
         />
       </IForm>
     </div>

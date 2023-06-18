@@ -69,7 +69,7 @@ export default function RequestForQuotationLanding() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const getData = (values, pageNo, pageSize, searchValue) => {
+    const getData = (values, pageNo, pageSize, searchValue="") => {
         getLandingData(`/procurement/RequestForQuotation/GetRequestForQuotationPasignation?AccountId=${profileData?.accountId
             }&UnitId=${selectedBusinessUnit?.value
             }&RequestTypeId=${values?.rfqType?.value}&SBUId=${values?.sbu?.value
@@ -430,7 +430,7 @@ export default function RequestForQuotationLanding() {
                                                             }}
                                                         />
                                                     </span>
-                                                    {!item?.IsSentToSupplier === false ? (<OverlayTrigger overlay={<Tooltip id="cs-icon">{"Send To Supplier"}</Tooltip>}>
+                                                    {item?.isSentToSupplier === false ? (<OverlayTrigger overlay={<Tooltip id="cs-icon">{"Send To Supplier"}</Tooltip>}>
                                                         <span className="ml-2 pointer"
                                                             onClick={() => {
                                                                 notifySupplierHanlder(item?.requestForQuotationId, item?.requestForQuotationCode, () => {
