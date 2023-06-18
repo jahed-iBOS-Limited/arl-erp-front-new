@@ -1,61 +1,37 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import { Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import {
   Card,
-  CardHeader,
-  CardHeaderToolbar,
-  CardBody,
+  CardBody
 } from "../../../../../../_metronic/_partials/controls";
-import { Formik } from "formik";
-import NewSelect from "../../../../_helper/_select";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import NewSelect from "../../../../_helper/_select";
 import {
-  // bankAccountDDL,
-  //  getManualReconcileLanding,
-  // getBankAccountByBranchDDL,
-  // getTransaction,
-  // getSBUDDL,
-  // getBankStatementLanding,
+  checkTwoFactorApproval,
+  getBankAccountNoDDL,
   getBankReconsileManualData,
   getBankStatementDataMatch,
-  postForceReconsile,
-  getBankAccountNoDDL,
-  getManualReconcileMatching,
-  checkTwoFactorApproval,
+  header,
+  postForceReconsile
 } from "../helpers";
-// import { getBankStatementLanding } from "../../BankStateMentCorrection/helpers";
-// import PaginationTable from "../../../../_helper/_tablePagination";
-// import { savecustomerBankRec } from "../../customerBankReceive/helper";
-import { _timeFormatter } from "../../../../_helper/_timeFormatter";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import { SetFinancialsManualReconcileAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import { downloadFile } from "../../../../_helper/downloadFile";
 import { Modal } from "react-bootstrap";
-// import { IInput } from "./../../../../_helper/_input";
-
-// const header = ["", "Tr Date", "Particulars", "Instrument No", "Dr Amount", "Cr Amount", "Balance", "Manual Reconciled", "Auto Reconciled", "Insertion Time"];
+import numberWithCommas from "../../../../_helper/_numberWithCommas";
+import { downloadFile } from "../../../../_helper/downloadFile";
+import { SetFinancialsManualReconcileAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 
 const TableRow = () => {
-  // const [gridData, setGridData] = useState();
   const [isloading, setIsLoading] = useState(false);
-  // ddl load
-  // const [backAccountDDL, setBankAccountDDL] = useState([]);
-  // const [sbuDDL, setSbuDDL] = useState([]);
   const [acDDL, setAcDDL] = useState([]);
-  // const [transactioDDl, setTransactioDDl] = useState([]);
-
-  // const [pageNo, setPageNo] = React.useState(0);
-  // const [pageSize, setPageSize] = React.useState(10000);
   const [bankReconsileManualData, setBankReconsileManualData] = React.useState(
     []
   );
   const [bankStatementDataMatch, setBankStatementDataMatch] = React.useState(
     []
   );
-  // const [pageSize, setPageSize] = React.useState(10000);
   const [reconcileModal, setReconcileModal] = useState({
     isOpen: false,
     item: null,
@@ -65,7 +41,6 @@ const TableRow = () => {
     return state.authData;
   }, shallowEqual);
 
-  const [selectedItem, setSelectedItem] = useState([]);
   useEffect(() => {
     getBankAccountNoDDL(
       profileData?.accountId,
@@ -87,7 +62,8 @@ const TableRow = () => {
       values?.transactionDate,
       values?.search,
       setBankReconsileManualData,
-      setIsLoading
+      setIsLoading,
+      values?.fromDate
     );
     getBankStatementDataMatch(
       selectedBusinessUnit?.value,
@@ -97,7 +73,8 @@ const TableRow = () => {
       values?.transactionDate,
       values?.search,
       setBankStatementDataMatch,
-      setIsLoading
+      setIsLoading,
+      values?.fromDate
     );
   };
 
@@ -111,6 +88,7 @@ const TableRow = () => {
     isManualReconsile: financialsManualReconcile?.isManualReconsile || false,
     transactionDate:
       financialsManualReconcile?.transactionDate || _dateFormatter(new Date()),
+    fromDate: financialsManualReconcile?.fromDate || "",
     acDDL: financialsManualReconcile?.acDDL || "",
     typeDDL: financialsManualReconcile?.typeDDL || "",
     search: financialsManualReconcile?.search || "",
@@ -202,15 +180,152 @@ const TableRow = () => {
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
-            {/* {console.log(values)} */}
             <Card>
-              <CardHeader title="Force Reconcile">
-                <CardHeaderToolbar>
+              <div
+                className="global-form"
+                style={header}
+              >
+                <h4>Reconcile</h4>
+                <div style={{width: "80%"}} className="row">
+                  <div className="col-md-4">
+                    <NewSelect
+                      name="acDDL"
+                      placeholder="Select A/C No"
+                      value={values?.acDDL}
+                      onChange={(valueOption) => {
+                        setFieldValue("acDDL", valueOption);
+                        setBankReconsileManualData([]);
+                        setBankStatementDataMatch([]);
+                        dispatch(
+                          SetFinancialsManualReconcileAction({
+                            ...values,
+                            acDDL: valueOption,
+                          })
+                        );
+                      }}
+                      options={acDDL}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-md">
+                    <label>From Date</label>
+                    <InputField
+                      value={values?.fromDate}
+                      name="fromDate"
+                      placeholder="From Date"
+                      type="date"
+                      onChange={(e) => {
+                        console.log("e", e.target.value)
+                        setBankReconsileManualData([]);
+                        setBankStatementDataMatch([]);
+                        dispatch(
+                          SetFinancialsManualReconcileAction({
+                            ...values,
+                            fromDate: e?.target?.value,
+                          })
+                        );
+                      }}
+                    />
+                  </div>
+                  <div className="col-md">
+                    <label>To Date</label>
+                    <InputField
+                      value={values?.transactionDate}
+                      name="transactionDate"
+                      placeholder="Transaction Date"
+                      type="date"
+                      onChange={(e) => {
+                        setBankReconsileManualData([]);
+                        setBankStatementDataMatch([]);
+                        dispatch(
+                          SetFinancialsManualReconcileAction({
+                            ...values,
+                            transactionDate: e?.target?.value,
+                          })
+                        );
+                      }}
+                    />
+                  </div>
+                  <div className="col-md-2">
+                    <NewSelect
+                      name="typeDDL"
+                      placeholder="Select Type "
+                      value={values?.typeDDL}
+                      onChange={(valueOption) => {
+                        setFieldValue("typeDDL", valueOption);
+                        setBankReconsileManualData([]);
+                        setBankStatementDataMatch([]);
+                        dispatch(
+                          SetFinancialsManualReconcileAction({
+                            ...values,
+                            typeDDL: valueOption,
+                          })
+                        );
+                      }}
+                      options={[
+                        {
+                          label: "Cheque issued but not presented in bank",
+                          value: 1,
+                        },
+                        {
+                          label:
+                            "Amount debited in bank book but not credited in bank statement",
+                          value: 2,
+                        },
+                      ]}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-md">
+                    <label style={{ display: "inherit" }}>
+                      <input
+                        type="radio"
+                        name="isManualReconsile"
+                        checked={values.isManualReconsile === false}
+                        className="mr-1 pointer"
+                        onChange={(e) => {
+                          setFieldValue("isManualReconsile", false);
+                          setBankReconsileManualData([]);
+                          setBankStatementDataMatch([]);
+                          dispatch(
+                            SetFinancialsManualReconcileAction({
+                              ...values,
+                              isManualReconsile: false,
+                            })
+                          );
+                        }}
+                      />
+                      Not Completed
+                    </label>
+                    <label style={{ display: "inherit" }}>
+                      <input
+                        type="radio"
+                        name="isManualReconsile"
+                        checked={values.isManualReconsile === true}
+                        className="mr-1 pointer"
+                        onChange={(e) => {
+                          setFieldValue("isManualReconsile", true);
+                          setBankReconsileManualData([]);
+                          setBankStatementDataMatch([]);
+                          dispatch(
+                            SetFinancialsManualReconcileAction({
+                              ...values,
+                              isManualReconsile: true,
+                            })
+                          );
+                        }}
+                      />
+                      Completed
+                    </label>
+                  </div>
+                </div>
+                <div>
                   <button
                     className="btn btn-sm btn-primary"
                     disabled={!(values?.acDDL?.value && values?.typeDDL)}
@@ -221,52 +336,9 @@ const TableRow = () => {
                   >
                     View
                   </button>
-                  {/* <button
-                    className="btn btn-sm btn-primary"
-                    disabled={
-                      !values?.acDDL?.value ||
-                      !values?.typeDDL ||
-                      !values?.isManualReconsile === false
-                    }
-                    onClick={(e) => {
-                      getManualReconcileMatching(
-                        selectedBusinessUnit?.value,
-                        values?.acDDL?.value,
-                        values?.typeDDL?.value,
-                        values?.isManualReconsile,
-                        values?.transactionDate,
-                        setBankReconsileManualData,
-                        setBankStatementDataMatch,
-                        setIsLoading
-                      );
-                    }}
-                  >
-                    Match
-                  </button> */}
+
                   <button
                     className="btn btn-sm btn-primary ml-3"
-                    // disabled={
-                    //   Math.abs(
-                    //     getItemCheckedTotal(
-                    //       bankReconsileManualData,
-                    //       "numAmount"
-                    //     )
-                    //   ) !==
-                    //     Math.abs(
-                    //       getItemCheckedTotal(
-                    //         bankStatementDataMatch,
-                    //         "monAmount"
-                    //       )
-                    //     ) ||
-                    //   getItemCheckedTotal(
-                    //     bankReconsileManualData,
-                    //     "numAmount"
-                    //   ) === 0 ||
-                    //   getItemCheckedTotal(
-                    //     bankStatementDataMatch,
-                    //     "monAmount"
-                    //   ) === 0
-                    // }
                     disabled={
                       bankReconsileManualData.every((item) => !item.checked) &&
                       bankStatementDataMatch.every((item) => !item.checked)
@@ -285,8 +357,9 @@ const TableRow = () => {
                   >
                     Save
                   </button>
-                </CardHeaderToolbar>
-              </CardHeader>
+                </div>
+              </div>
+
               <CardBody className="d-flex flex-column">
                 {isloading && <Loading />}
 
@@ -295,7 +368,7 @@ const TableRow = () => {
                   style={{ padding: "0", margin: "0" }}
                 >
                   <div className="col-12">
-                    <div className="row d-flex align-items-center">
+                    <div className="row d-flex align-items-center p-1">
                       {/* <div className="col-lg-3">
                         <NewSelect
                           name="sbu"
@@ -331,125 +404,14 @@ const TableRow = () => {
                           touched={touched}
                         />
                       </div> */}
-                      <div className="col-lg-3">
-                        <NewSelect
-                          name="acDDL"
-                          placeholder="Select A/C No"
-                          value={values?.acDDL}
-                          onChange={(valueOption) => {
-                            setFieldValue("acDDL", valueOption);
-                            setBankReconsileManualData([]);
-                            setBankStatementDataMatch([]);
-                            dispatch(
-                              SetFinancialsManualReconcileAction({
-                                ...values,
-                                acDDL: valueOption,
-                              })
-                            );
-                          }}
-                          // isSearchable={true}
-                          options={acDDL}
-                          errors={errors}
-                          touched={touched}
-                        />
-                      </div>
-                      <div className="col-lg-2">
-                        <label>Date</label>
-                        <InputField
-                          value={values?.transactionDate}
-                          name="transactionDate"
-                          placeholder="Transaction Date"
-                          type="date"
-                          onChange={(e) => {
-                            setBankReconsileManualData([]);
-                            setBankStatementDataMatch([]);
-                            dispatch(
-                              SetFinancialsManualReconcileAction({
-                                ...values,
-                                transactionDate: e?.target?.value,
-                              })
-                            );
-                          }}
-                        />
-                      </div>
-                      <div className="col-lg-2">
-                        <NewSelect
-                          name="typeDDL"
-                          placeholder="Select Type "
-                          value={values?.typeDDL}
-                          onChange={(valueOption) => {
-                            setFieldValue("typeDDL", valueOption);
-                            setBankReconsileManualData([]);
-                            setBankStatementDataMatch([]);
-                            dispatch(
-                              SetFinancialsManualReconcileAction({
-                                ...values,
-                                typeDDL: valueOption,
-                              })
-                            );
-                          }}
-                          options={[
-                            {
-                              label: "Cheque issued but not presented in bank",
-                              value: 1,
-                            },
-                            {
-                              label:
-                                "Amount debited in bank book but not credited in bank statement",
-                              value: 2,
-                            },
-                          ]}
-                          errors={errors}
-                          touched={touched}
-                        />
-                      </div>
-                      <div className="d-flex mt-4" style={{ width: "160px" }}>
-                        <label>
-                          <input
-                            type="radio"
-                            name="isManualReconsile"
-                            checked={values.isManualReconsile === false}
-                            className="mr-1 pointer"
-                            onChange={(e) => {
-                              setFieldValue("isManualReconsile", false);
-                              setBankReconsileManualData([]);
-                              setBankStatementDataMatch([]);
-                              dispatch(
-                                SetFinancialsManualReconcileAction({
-                                  ...values,
-                                  isManualReconsile: false,
-                                })
-                              );
-                            }}
-                          />
-                          Not Completed
-                        </label>
-                        <label className="ml-1">
-                          <input
-                            type="radio"
-                            name="isManualReconsile"
-                            checked={values.isManualReconsile === true}
-                            className="mr-1 pointer"
-                            onChange={(e) => {
-                              setFieldValue("isManualReconsile", true);
-                              setBankReconsileManualData([]);
-                              setBankStatementDataMatch([]);
-                              dispatch(
-                                SetFinancialsManualReconcileAction({
-                                  ...values,
-                                  isManualReconsile: true,
-                                })
-                              );
-                            }}
-                          />
-                          Completed
-                        </label>
-                      </div>
+
                       {values.isManualReconsile && (
-                        <div className="col-lg-2">
+                        <div style={{display : "flex"}} className="col-lg-3">
+                          <label style={{width: "100px"}} className="mr-1">Reconcile Type</label>
                           <NewSelect
                             name="reconcileType"
-                            placeholder="Select Reconcile Type "
+                            placeholder="Select Reconcile Type"
+                            isHiddenLabel
                             value={values?.reconcileType}
                             onChange={(valueOption) => {
                               setFieldValue("reconcileType", valueOption);
@@ -473,8 +435,8 @@ const TableRow = () => {
                           />
                         </div>
                       )}
-                      <div style={{ width: "200px" }}>
-                        <label>Search</label>
+                      <div style={{ width: "200px", display: "flex" }}>
+                        <label className="mr-1">Search</label>
                         <InputField
                           value={values?.search}
                           name="search"
@@ -700,19 +662,27 @@ const TableRow = () => {
                           // values?.typeDDL?.value,
                           // values?.isManualReconsile,
                           // values?.transactionDate,
+                          {
+
+                          
+                          let api = `/fino/BankBranch/GetBankStatementDataDownload?intUnitId=${
+                            selectedBusinessUnit?.value
+                          }&intBankAccId=${values?.acDDL?.value}&intType=${
+                            values?.typeDDL?.value
+                          }&isManualReconsile=${
+                            values?.isManualReconsile
+                          }&dteDate=${_dateFormatter(
+                            values?.transactionDate
+                          )}`
+                          if (values?.fromDate) {
+                            api += `&dteFromDate=${values?.fromDate}`
+                          }
                           downloadFile(
-                            `/fino/BankBranch/GetBankStatementDataDownload?intUnitId=${
-                              selectedBusinessUnit?.value
-                            }&intBankAccId=${values?.acDDL?.value}&intType=${
-                              values?.typeDDL?.value
-                            }&isManualReconsile=${
-                              values?.isManualReconsile
-                            }&dteDate=${_dateFormatter(
-                              values?.transactionDate
-                            )}`,
+                            api,
                             "Force Reconcile",
                             "xlsx"
                           )
+                        }
                         }
                       >
                         Download
