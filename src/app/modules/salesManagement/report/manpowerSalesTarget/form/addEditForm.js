@@ -107,7 +107,9 @@ export default function ManpowerSalesTargetForm() {
             intId: 0,
             accountId: accId,
             businessUnitId: buId,
-            targetMonthId: values?.month?.value,
+            targetMonthId: [4].includes(values?.type?.value)
+              ? values?.month?.value
+              : item?.value,
             targetYearId: values?.year?.value,
             channelId: 0,
             setupPKId: 0,
@@ -116,12 +118,14 @@ export default function ManpowerSalesTargetForm() {
             territoryTypeId: 0,
             territoryTypeName: "",
             employeeEnroll: 0,
-            targeQnt: +item?.targetQty,
+            targeQnt: [4].includes(values?.type?.value)
+              ? +item?.targetQty
+              : +item?.rate,
             targeAmount: 0,
             actionBy: userId,
-            typeId: values?.type?.value,
-            entryTypeName: values?.type?.label,
-            shippingPointId: item?.value,
+            typeId: values?.type?.value || 0,
+            entryTypeName: values?.type?.label || "",
+            shippingPointId: item?.value || 0,
           };
         });
 

@@ -12,9 +12,9 @@ import AttachFile from "../../../common/attachmentUpload";
 import { getGodownDDL } from "../../../common/helper";
 import { GetShipPointDDL } from "../../loadingInformation/helper";
 import {
-    GetDomesticPortDDL,
-    challanConfirm,
-    getLandingDataForConfirmation,
+  GetDomesticPortDDL,
+  challanConfirm,
+  getLandingDataForConfirmation,
 } from "../helper";
 import Form from "./form";
 import Table from "./table";
@@ -212,7 +212,10 @@ const ConfirmBySupervisor = () => {
                       isProcess: false,
                       deliveryId: item?.deliveryId || 0,
                       numItemPrice: +item?.numItemPrice || 0,
-                      salesRevenueAmount: +item?.salesRevenueAmount || 0,
+                      salesRevenueAmount:
+                        ((+item?.quantity * 50) / 1000) * +item?.numItemPrice ||
+                        0,
+                      // salesRevenueAmount: +item?.salesRevenueAmount || 0,
                     },
                   };
                 });
