@@ -88,7 +88,8 @@ export const getBankReconsileManualData = async (
   transactionDate,
   search,
   setter,
-  setLoading
+  setLoading,
+  fromDate
 ) => {
   try {
     setLoading(true);
@@ -97,6 +98,9 @@ export const getBankReconsileManualData = async (
     )}`;
     if (search) {
       api += `&search=${search}`;
+    }
+    if (fromDate) {
+      api += `&dteFromDate=${fromDate}`;
     }
     const res = await Axios.get(api);
     const data = res?.data.map((item) => {
@@ -120,7 +124,8 @@ export const getBankStatementDataMatch = async (
   transactionDate,
   search,
   setter,
-  setLoading
+  setLoading,
+  fromDate,
 ) => {
   try {
     setLoading(true);
@@ -129,6 +134,9 @@ export const getBankStatementDataMatch = async (
     )}`;
     if (search) {
       api += `&search=${search}`;
+    }
+    if (fromDate) {
+      api += `&dteFromDate=${fromDate}`;
     }
     const res = await Axios.get(api);
     const data = res?.data.map((item) => {
@@ -308,4 +316,13 @@ export const checkTwoFactorApproval = async (
     toast.warn(error?.response?.data?.message || "Please try again");
     // setDisabled(false);
   }
+};
+
+export const header = {
+  display: "flex",
+  padding: "2px 29px",
+  alignItems: "center",
+  justifyContent: "space-between",
+  background: "transparent",
+  margin: "0",
 };

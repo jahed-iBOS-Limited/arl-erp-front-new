@@ -3,11 +3,14 @@ import { Form, Formik } from "formik";
 import React from "react";
 import { useHistory } from "react-router";
 import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import YearMonthForm from "../../../../_helper/commonInputFieldsGroups/yearMonthForm";
+import YearMonthForm, {
+  monthDDL,
+} from "../../../../_helper/commonInputFieldsGroups/yearMonthForm";
 import ICustomCard from "../../../../_helper/_customCard";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import { getTargetEntryData } from "../helper";
+import SubsidyRateTable from "./subsidyRateTable";
 
 export default function _Form({
   itemList,
@@ -32,7 +35,46 @@ export default function _Form({
     { value: 2, label: "Customer Open Target" },
     { value: 3, label: "Retailer Open Target" },
     { value: 4, label: "ShipPoint Target" },
+    { value: 5, label: "Government Subsidy Rate" },
   ];
+
+  const rowDataSet = (values) => {
+    if ([1, 2, 3].includes(values?.type?.value)) {
+      getTargetEntryData(
+        buId,
+        [1, 3]?.includes(values?.type?.value) ? 8 : 6,
+        values?.channel?.value,
+        setRowData,
+        setLoading
+      );
+    } else if ([4].includes(values?.type?.value)) {
+      setRowData(
+        shipPointDDL?.map((item) => ({
+          ...item,
+          isSelected: false,
+          targetQty: "",
+        }))
+      );
+    } else if ([5].includes(values?.type?.value)) {
+      setRowData(
+        monthDDL?.map((item) => ({
+          ...item,
+          isSelected: false,
+          rate: "",
+        }))
+      );
+    }
+  };
+
+  const isDisabled = (values) => {
+    return (
+      ([1, 2, 3].includes(values?.type?.value) && !values?.channel) ||
+      (values?.type?.value !== 5 && !values?.month) ||
+      !values?.year ||
+      ([1, 3]?.includes(values?.type?.value) && !values?.zone) ||
+      ([4].includes(values?.type?.value) && !values?.item)
+    );
+  };
 
   return (
     <>
@@ -137,47 +179,31 @@ export default function _Form({
                       </>
                     )}
 
-                    <YearMonthForm obj={{ values, setFieldValue }} />
+                    <YearMonthForm
+                      obj={{
+                        values,
+                        setFieldValue,
+                        month: values?.type?.value !== 5,
+                      }}
+                    />
 
                     <div className="col-lg-3 mt-5">
                       <button
                         className="btn btn-primary"
                         type="button"
                         onClick={() => {
-                          if ([1, 2, 3].includes(values?.type?.value)) {
-                            getTargetEntryData(
-                              buId,
-                              [1, 3]?.includes(values?.type?.value) ? 8 : 6,
-                              values?.channel?.value,
-                              setRowData,
-                              setLoading
-                            );
-                          } else if ([4].includes(values?.type?.value)) {
-                            setRowData(
-                              shipPointDDL?.map((item) => ({
-                                ...item,
-                                isSelected: false,
-                                targetQty: "",
-                              }))
-                            );
-                          }
+                          rowDataSet(values);
                         }}
-                        disabled={
-                          ([1, 2, 3].includes(values?.type?.value) &&
-                            !values?.channel) ||
-                          !values?.month ||
-                          !values?.year ||
-                          ([1, 3]?.includes(values?.type?.value) &&
-                            !values?.zone) ||
-                          ([4].includes(values?.type?.value) && !values?.item)
-                        }
+                        disabled={isDisabled(values)}
                       >
                         View
                       </button>
                     </div>
                   </div>
                 </div>
-                {rowData?.length > 0 && (
+              </Form>
+              {rowData?.length > 0 &&
+                [1, 2, 3, 4].includes(values?.type?.value) && (
                   <table
                     className={
                       "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
@@ -261,7 +287,16 @@ export default function _Form({
                     ))}
                   </table>
                 )}
-              </Form>
+              {[5].includes(values?.type?.value) && (
+                <SubsidyRateTable
+                  obj={{
+                    allSelect,
+                    selectedAll,
+                    rowDataChange,
+                    rowData,
+                  }}
+                />
+              )}
             </ICustomCard>
           </>
         )}
