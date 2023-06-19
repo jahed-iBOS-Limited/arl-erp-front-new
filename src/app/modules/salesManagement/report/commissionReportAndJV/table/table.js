@@ -84,6 +84,9 @@ const initData = {
   transactionHead: "",
 };
 
+// Government subsidy ids for six business units - (bongo, batayon, arl traders, direct trading, daily trading, eureshia)
+const ids = [8, 9, 10, 11, 12, 13];
+
 const CommissionReportAndJVTable = () => {
   const [loading, setLoading] = useState(false);
   const [rowData, setRowData] = useState([]);
@@ -108,9 +111,11 @@ const CommissionReportAndJVTable = () => {
   }, [accId, buId]);
 
   const getData = (values) => {
-    if ([5, 3, 6, 7, 8].includes(values?.type?.value)) {
+    const typeId = ids.includes(values?.type?.value) ? 8 : values?.type?.value;
+    if ([5, 3, 6, 7, ...ids].includes(values?.type?.value)) {
       getTradeCommissionData(
-        values?.type?.value,
+        // values?.type?.value,
+        typeId,
         accId,
         buId,
         values?.channel?.value,
@@ -167,12 +172,15 @@ const CommissionReportAndJVTable = () => {
     totalAchievement = 0;
 
   const JVCrate = (values) => {
-    if ([5, 7, 8].includes(values?.type?.value)) {
+    if ([5, 7, ...ids].includes(values?.type?.value)) {
       const selectedItems = rowData?.filter((item) => item?.isSelected);
       const totalAmount = selectedItems?.reduce(
         (a, b) => a + +b?.commissiontaka,
         0
       );
+      const commissionTypeId = ids.includes(values?.type?.value)
+        ? 8
+        : values?.type?.value;
       const payload = {
         header: {
           accountId: accId,
@@ -186,7 +194,8 @@ const CommissionReportAndJVTable = () => {
           narration: values?.narration,
           totalAmmount: totalAmount,
           actionBy: userId,
-          commissionTypeId: values?.type?.value,
+          // commissionTypeId: values?.type?.value,
+          commissionTypeId: commissionTypeId,
           commissionTypeName: values?.type?.label,
         },
         row: selectedItems?.map((item) => ({
@@ -241,12 +250,15 @@ const CommissionReportAndJVTable = () => {
   const isDisabled = (values) => {
     return (
       loading ||
-      (![5, 8].includes(values?.type?.value) &&
+      (![5, ...ids].includes(values?.type?.value) &&
         !(values?.month?.value && values?.year?.value)) ||
       !values?.type ||
       (values?.type?.value === 5 && !values?.commissionRate)
     );
   };
+
+  // department ids for creating journal vouchers
+  const departmentIds = [299, 5, 3, 11, 357];
 
   return (
     <>
@@ -262,7 +274,7 @@ const CommissionReportAndJVTable = () => {
               <CardHeader title="Commission report and JV">
                 <CardHeaderToolbar>
                   <div className="d-flex justify-content-end">
-                    {[299, 5, 3, 11, 357].includes(departmentId) && (
+                    {departmentIds.includes(departmentId) && (
                       <>
                         <button
                           className="btn btn-primary "
@@ -299,14 +311,7 @@ const CommissionReportAndJVTable = () => {
                       <div className="col-md-3">
                         <NewSelect
                           name="type"
-                          options={
-                            reportTypes?.data
-                            //   [
-                            //   { value: 1, label: "Monthly sales commission" },
-                            //   { value: 3, label: "Cash Commission Report" },
-                            //   { value: 5, label: "Trade Commission" },
-                            // ]
-                          }
+                          options={reportTypes?.data}
                           value={values?.type}
                           label="Report Type"
                           onChange={(valueOption) => {
@@ -336,14 +341,14 @@ const CommissionReportAndJVTable = () => {
                         />
                       )}
 
-                      {[5, 3, 6, 7, 8].includes(values?.type?.value) && (
+                      {[5, 3, 6, 7, ...ids].includes(values?.type?.value) && (
                         <>
                           <RATForm
                             obj={{
                               setFieldValue,
                               values,
-                              region: ![8].includes(values?.type?.value),
-                              area: ![8].includes(values?.type?.value),
+                              region: !ids.includes(values?.type?.value),
+                              area: !ids.includes(values?.type?.value),
                               territory: false,
                             }}
                           />
@@ -382,7 +387,7 @@ const CommissionReportAndJVTable = () => {
                                   placeholder="Select SBU"
                                 />
                               </div>
-                              {values?.type?.value !== 8 && (
+                              {!ids.includes(values?.type?.value) && (
                                 <div className="col-md-3">
                                   <NewSelect
                                     name="transactionHead"
