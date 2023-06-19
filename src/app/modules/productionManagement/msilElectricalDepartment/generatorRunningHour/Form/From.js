@@ -93,7 +93,7 @@ export default function GeneratorRunningHourForm({
                                  if (valueOption) {
                                     if (selectedBusinessUnit?.value === 4) {
                                        getData(
-                                          `/mes/MSIL/GetPreviousGeneratorReading?BusinessUnitId=4&GeneratorName=${valueOption?.value}`,
+                                          `/mes/MSIL/GetPreviousGeneratorReading?BusinessUnitId=4&GeneratorName=${valueOption?.label}`,
                                           data => {
                                              setFieldValue(
                                                 'numPreviousReading',
