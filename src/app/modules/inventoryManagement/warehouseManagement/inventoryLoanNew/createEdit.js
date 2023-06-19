@@ -7,9 +7,7 @@ import InternalLoan from "./Components/InternalLoan";
 import ExternalLoan from "./Components/ExternalLoan";
 const initData = {};
 export default function InventoryLoanCreateEditNew() {
-    const [objProps, setObjprops] = useState({});
     const saveHandler = (values, cb) => {
-        console.log("values", values);
     };
 
     return (
@@ -33,7 +31,7 @@ export default function InventoryLoanCreateEditNew() {
             }) => (
                 <>
                     {false && <Loading />}
-                    <IForm isHiddenReset isHiddenBack isHiddenSave title={"Inventory Loan"} getProps={setObjprops}>
+                    <IForm isHiddenReset isHiddenBack isHiddenSave title={"Inventory Loan"}>
                         <Form>
                             <Tabs
                                 defaultActiveKey="internal-loan"
