@@ -40,14 +40,10 @@ export default function FuelConsumptionCreate() {
   const [objProps, setObjprops] = useState({});
   const [modifyData, setModifyData] = useState("");
   const [productDDL, getProductDDL] = useAxiosGet();
+  const [generatorNameDDL, getGeneratorNameDDL] = useAxiosGet([]);
   const [, saveData] = useAxiosPost();
   const params = useParams();
   const location = useLocation();
-
-  useEffect(() => {
-    getProductDDL(`/mes/MSIL/GetAllMSIL?PartName=MainItemOfRolling&BusinessUnitId=${selectedBusinessUnit.value}`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
@@ -58,6 +54,13 @@ export default function FuelConsumptionCreate() {
   }, shallowEqual);
 
   useEffect(() => {
+    getProductDDL(`/mes/MSIL/GetAllMSIL?PartName=MainItemOfRolling&BusinessUnitId=${selectedBusinessUnit.value}`);
+    getGeneratorNameDDL(`/mes/MSIL/GetAllMSIL?PartName=PowerPlantGeneratorNameDDL&BusinessUnitId=${selectedBusinessUnit?.value}`)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+
+  useEffect(() => {
     if (params?.id) {
       setModifyData({
         date: _dateFormatter(location?.state?.dteDate),
@@ -66,7 +69,7 @@ export default function FuelConsumptionCreate() {
           label: location?.state?.strShift,
         },
         generatorName: {
-          value: location?.state?.strGeneratorName,
+          value: location?.state?.intGeneratorId,
           label: location?.state?.strGeneratorName,
         },
         quantity: location?.state?.numQuantityLtr,
@@ -84,6 +87,7 @@ export default function FuelConsumptionCreate() {
           location.state?.intGeneratorFuelConsumptionId || 0,
         dteDate: _dateFormatter(values?.date),
         strShift: values?.shift?.value,
+        intGeneratorId: values?.generatorName?.label,
         strGeneratorName: values?.generatorName?.label,
         numQuantityLtr: values?.quantity,
         intInsertBy: profileData?.userId,
@@ -119,6 +123,7 @@ export default function FuelConsumptionCreate() {
         productDDL={productDDL}
         validationSchema={validationSchema}
         id={params?.id}
+        generatorNameDDL={generatorNameDDL}
       />
     </IForm>
   );
