@@ -49,6 +49,7 @@ const ReconciliationJournal = () => {
     toDate: financialsInventoryJournal?.toDate || _todayDate(),
     sbu: financialsInventoryJournal?.sbu || "",
     type: financialsInventoryJournal?.type || "",
+    closingType: financialsInventoryJournal?.closingType || "",
   };
 
   // ref
@@ -60,7 +61,7 @@ const ReconciliationJournal = () => {
   const [sbuDDL, setSbuDDL] = useState([]);
   const [typeDDL] = useState(getType());
   // eslint-disable-next-line no-unused-vars
- 
+
   // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(false);
   //storingData
@@ -122,6 +123,7 @@ const ReconciliationJournal = () => {
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       if (values?.type?.value === 1) {
         postInventoryJournal(
+          values?.closingType,
           profileData?.accountId,
           selectedBusinessUnit?.value,
           values?.sbu?.value,
@@ -179,14 +181,14 @@ const ReconciliationJournal = () => {
                   buttons: [
                     {
                       label: "OK",
-                      onClick: () => {},
+                      onClick: () => { },
                     },
                   ],
                 };
                 IConfirmModal(nestedConfirmObject);
               });
             },
-            noAlertFunc: () => {},
+            noAlertFunc: () => { },
           };
           IConfirmModal(confirmObject);
         }}
@@ -210,7 +212,9 @@ const ReconciliationJournal = () => {
                             0
                           )
                         )
-                      ) || jounalLedgerData?.length === 0
+                      ) || jounalLedgerData?.length === 0 || (
+                        values?.type?.value === 1 && !values?.closingType
+                      )
                     }
                   >
                     Create Journal
@@ -334,6 +338,40 @@ const ReconciliationJournal = () => {
                         Show
                       </button>
                     </div>
+                    {/* new changes from miraj bhai */}
+                    {
+                      values?.type?.value === 1 ? (
+                        <div className="col-lg-2">
+                          <NewSelect
+                            name="closingType"
+                            options={[
+                              {
+                                value: 1,
+                                label: "Monthly",
+                              },
+                              {
+                                value: 2,
+                                label: "Continuous",
+                              }
+                            ]}
+                            value={values?.closingType}
+                            label="Closing Type"
+                            onChange={(valueOption) => {
+                              setFieldValue("closingType", valueOption);
+                              dispatch(
+                                SetFinancialsInventoryJournalAction({
+                                  ...values,
+                                  closingType: valueOption,
+                                })
+                              );
+                            }}
+                            placeholder="Closing Type"
+                            errors={errors}
+                            touched={touched}
+                          />
+                        </div>
+                      ) : null
+                    }
                   </div>
                   <div></div>
                   <div className="row">
@@ -567,7 +605,7 @@ const ReconciliationJournal = () => {
                         setFileObject(newFileObjs);
                       }}
                       onClose={() => setOpen(false)}
-                      onSave={() => {}}
+                      onSave={() => { }}
                       showPreviews={true}
                       showFileNamesInPreview={true}
                     />

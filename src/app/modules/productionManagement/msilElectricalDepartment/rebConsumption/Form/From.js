@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
+import { setPreviousPressure, setTotalConsumptionUnit } from "./helper";
 
 export default function REBConsumptionForm({
   initData,
@@ -24,35 +25,6 @@ export default function REBConsumptionForm({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const setTotalConsumptionUnit = (fieldValue, values, setFieldValue) => {
-    if (
-      values?.rebConsumptionDDL?.value === 3 ||
-      values?.rebConsumptionDDL?.value === 4
-    ) {
-      setFieldValue(
-        "totalConsumptionUnit",
-        (+fieldValue +
-          (+values?.presentPressureTwo || 0) -
-          ((+values?.previousPressure || 0) +
-            (+values?.previousPressureTwo || 0))) *
-          13750 // 13750 given by user
-      );
-    }
-    if (
-      selectedBusinessUnit?.value === 4 &&
-      (values?.rebConsumptionDDL?.value === 5 ||
-        values?.rebConsumptionDDL?.value === 6)
-    ) {
-      setFieldValue(
-        "totalConsumptionUnit",
-        (+fieldValue +
-          (+values?.presentPressureTwo || 0) -
-          ((+values?.previousPressure || 0) +
-            (+values?.previousPressureTwo || 0))) *
-          30000 // 30000 given by user
-      );
-    }
-  };
   return (
     <>
       <Formik
@@ -88,15 +60,15 @@ export default function REBConsumptionForm({
                       setFieldValue("totalConsumption", "");
                       setFieldValue("totalConsumptionUnit", "");
                       setFieldValue("presentPressure", "");
+                      setFieldValue("presentPressureTwo", "");
+                      setFieldValue("presentPressureThree", "");
+                      setFieldValue("presentPressureFour", "");
                       setFieldValue("date", e.target.value);
                       if (values?.rebConsumptionDDL?.value) {
                         getPreviousPressureData(
                           `/mes/MSIL/GetPreviousEntryOfRebconsumption?UserDate=${e.target.value}&REBConsumptionTypeId=${values?.rebConsumptionDDL?.value}&BusinessUnitId=${selectedBusinessUnit?.value}`,
                           (data) => {
-                            setFieldValue(
-                              "previousPressure",
-                              data?.intPreviousKwh
-                            );
+                            setPreviousPressure(setFieldValue, data);
                           }
                         );
                       }
@@ -115,18 +87,14 @@ export default function REBConsumptionForm({
                         setFieldValue("totalConsumption", "");
                         setFieldValue("totalConsumptionUnit", "");
                         setFieldValue("presentPressure", "");
+                        setFieldValue("presentPressureTwo", "");
+                        setFieldValue("presentPressureThree", "");
+                        setFieldValue("presentPressureFour", "");
                         setFieldValue("rebConsumptionDDL", valueOption);
                         getPreviousPressureData(
                           `/mes/MSIL/GetPreviousEntryOfRebconsumption?UserDate=${values?.date}&REBConsumptionTypeId=${valueOption?.value}&BusinessUnitId=${selectedBusinessUnit?.value}`,
                           (data) => {
-                            setFieldValue(
-                              "previousPressure",
-                              data?.intPreviousKwh
-                            );
-                            setFieldValue(
-                              "previousPressureTwo",
-                              data?.intPreviousKwhm2
-                            );
+                            setPreviousPressure(setFieldValue, data);
                           }
                         );
                       } else {
@@ -134,9 +102,13 @@ export default function REBConsumptionForm({
                         setFieldValue("totalConsumptionUnit", "");
                         setFieldValue("presentPressure", "");
                         setFieldValue("presentPressureTwo", "");
+                        setFieldValue("presentPressureThree", "");
+                        setFieldValue("presentPressureFour", "");
                         setFieldValue("rebConsumptionDDL", "");
                         setFieldValue("previousPressure", "");
                         setFieldValue("previousPressureTwo", "");
+                        setFieldValue("previousPressureThree", "");
+                        setFieldValue("previousPressureFour", "");
                       }
                     }}
                     errors={errors}
@@ -178,44 +150,41 @@ export default function REBConsumptionForm({
                     name="presentPressure"
                     type="number"
                     onChange={(e) => {
-                      if (!e.target.value && !values?.presentPressureTwo) {
-                        setFieldValue("totalConsumption", "");
-                        setFieldValue("presentPressure", "");
-                        return;
-                      }
-                      if (+e.target.value < 0) return null;
-                      setFieldValue("presentPressure", e.target.value);
                       setFieldValue(
                         "totalConsumption",
-                        +e.target.value +
-                          (+values?.presentPressureTwo || 0) -
-                          ((+values?.previousPressure || 0) +
-                            (+values?.previousPressureTwo || 0))
+                        (+e.target.value || 0) +
+                          (+values.presentPressureTwo || 0) +
+                          (+values.presentPressureThree || 0) +
+                          (+values.presentPressureFour || 0) -
+                          ((+values.previousPressure || 0) +
+                            (+values.previousPressureTwo || 0) +
+                            (+values.previousPressureThree || 0) +
+                            (+values.previousPressureFour || 0))
                       );
+                      setFieldValue("presentPressure", e.target.value);
                       setTotalConsumptionUnit(
                         +e.target.value,
                         values,
-                        setFieldValue
+                        setFieldValue,
+                        selectedBusinessUnit
                       );
                     }}
                   />
                 </div>
-                {(selectedBusinessUnit?.value === 171 ||
-                  selectedBusinessUnit?.value === 224) &&
-                values?.rebConsumptionDDL?.value === 1 ? (
+                {[171, 144, 224].includes(selectedBusinessUnit?.value) &&
+                [1, 7, 10, 11].includes(values?.rebConsumptionDDL?.value) ? (
                   <div className="col-lg-3">
                     <InputField
                       disabled
                       value={values?.previousPressureTwo}
                       label="Previous KWH M2 (Meter Reading)"
-                      name="previousPressure"
+                      name="previousPressureTwo"
                       type="number"
                     />
                   </div>
                 ) : null}
-                {(selectedBusinessUnit?.value === 171 ||
-                  selectedBusinessUnit?.value === 224) &&
-                values?.rebConsumptionDDL?.value === 1 ? (
+                {[171, 144, 224].includes(selectedBusinessUnit?.value) &&
+                [1, 7, 10, 11].includes(values?.rebConsumptionDDL?.value) ? (
                   <div className="col-lg-3">
                     <InputField
                       // disabled={location?.state}
@@ -224,19 +193,17 @@ export default function REBConsumptionForm({
                       name="presentPressureTwo"
                       type="number"
                       onChange={(e) => {
-                        if (!e.target.value && !values?.presentPressure) {
-                          setFieldValue("totalConsumption", "");
-                          setFieldValue("presentPressureTwo", "");
-                          return;
-                        }
-                        if (+e.target.value < 0) return null;
                         setFieldValue("presentPressureTwo", e.target.value);
                         setFieldValue(
                           "totalConsumption",
-                          +e.target.value +
-                            (+values?.presentPressure || 0) -
-                            ((+values?.previousPressure || 0) +
-                              (+values?.previousPressureTwo || 0))
+                          (+values.presentPressure || 0) +
+                            (+e.target.value || 0) +
+                            (+values.presentPressureThree || 0) +
+                            (+values.presentPressureFour || 0) -
+                            ((+values.previousPressure || 0) +
+                              (+values.previousPressureTwo || 0) +
+                              (+values.previousPressureThree || 0) +
+                              (+values.previousPressureFour || 0))
                         );
                         if (
                           values?.rebConsumptionDDL?.value === 3 ||
@@ -254,6 +221,92 @@ export default function REBConsumptionForm({
                       }}
                     />
                   </div>
+                ) : null}
+
+                {[144].includes(selectedBusinessUnit?.value) ? (
+                  <>
+                    <div className="col-lg-3">
+                      <InputField
+                        disabled
+                        value={values?.previousPressureThree}
+                        label="Previous KWH M3 (Meter Reading)"
+                        name="previousPressureThree"
+                        type="number"
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <InputField
+                        // disabled={location?.state}
+                        value={values?.presentPressureThree}
+                        label="Present KWH M3 (Meter Reading)"
+                        name="presentPressureThree"
+                        type="number"
+                        onChange={(e) => {
+                          setFieldValue("presentPressureThree", e.target.value);
+                          setFieldValue(
+                            "totalConsumption",
+                            (+values.presentPressure || 0) +
+                              (+values.presentPressureTwo || 0) +
+                              (+e.target.value || 0) +
+                              (+values.presentPressureFour || 0) -
+                              ((+values.previousPressure || 0) +
+                                (+values.previousPressureTwo || 0) +
+                                (+values.previousPressureThree || 0) +
+                                (+values.previousPressureFour || 0))
+                          );
+                          setTotalConsumptionUnit(
+                            +e.target.value,
+                            values,
+                            setFieldValue,
+                            selectedBusinessUnit
+                          );
+                        }}
+                      />
+                    </div>
+                  </>
+                ) : null}
+
+                {[144].includes(selectedBusinessUnit?.value) ? (
+                  <>
+                    <div className="col-lg-3">
+                      <InputField
+                        disabled
+                        value={values?.previousPressureFour}
+                        label="Previous KWH M4 (Meter Reading)"
+                        name="previousPressureFour"
+                        type="number"
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <InputField
+                        // disabled={location?.state}
+                        value={values?.presentPressureFour}
+                        label="Present KWH M4 (Meter Reading)"
+                        name="presentPressureFour"
+                        type="number"
+                        onChange={(e) => {
+                          setFieldValue("presentPressureFour", e.target.value);
+                          setFieldValue(
+                            "totalConsumption",
+                            (+values.presentPressure || 0) +
+                              (+values.presentPressureTwo || 0) +
+                              (+values.presentPressureThree || 0) +
+                              (+e.target.value || 0) -
+                              ((+values.previousPressure || 0) +
+                                (+values.previousPressureTwo || 0) +
+                                (+values.previousPressureThree || 0) +
+                                (+values.previousPressureFour || 0))
+                          );
+                          setTotalConsumptionUnit(
+                            +e.target.value,
+                            values,
+                            setFieldValue,
+                            selectedBusinessUnit
+                          );
+                        }}
+                      />
+                    </div>
+                  </>
                 ) : null}
 
                 {/* Total Part */}
