@@ -31,6 +31,8 @@ import {
 } from "../helper";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
 
 const header = (buId) => {
   if (buId === 144) {
@@ -73,8 +75,8 @@ const initData = {
   month: "",
   year: "",
   commissionRate: "",
-  fromDate: "",
-  toDate: "",
+  fromDate: _firstDateofMonth(),
+  toDate: _todayDate(),
   sbu: "",
   channel: "",
   region: "",
@@ -106,14 +108,14 @@ const CommissionReportAndJVTable = () => {
   }, [accId, buId]);
 
   const getData = (values) => {
-    if ([5, 3, 6, 7].includes(values?.type?.value)) {
+    if ([5, 3, 6, 7, 8].includes(values?.type?.value)) {
       getTradeCommissionData(
         values?.type?.value,
         accId,
         buId,
         values?.channel?.value,
-        values?.region?.value,
-        values?.area?.value,
+        values?.region?.value || 0,
+        values?.area?.value || 0,
         values?.fromDate,
         values?.toDate,
         userId,
@@ -165,7 +167,7 @@ const CommissionReportAndJVTable = () => {
     totalAchievement = 0;
 
   const JVCrate = (values) => {
-    if ([5, 7].includes(values?.type?.value)) {
+    if ([5, 7, 8].includes(values?.type?.value)) {
       const selectedItems = rowData?.filter((item) => item?.isSelected);
       const totalAmount = selectedItems?.reduce(
         (a, b) => a + +b?.commissiontaka,
@@ -233,6 +235,16 @@ const CommissionReportAndJVTable = () => {
     setFieldValue(
       "toDate",
       _dateFormatter(new Date(values?.year?.value, values?.month?.value, 0))
+    );
+  };
+
+  const isDisabled = (values) => {
+    return (
+      loading ||
+      (![5, 8].includes(values?.type?.value) &&
+        !(values?.month?.value && values?.year?.value)) ||
+      !values?.type ||
+      (values?.type?.value === 5 && !values?.commissionRate)
     );
   };
 
@@ -324,10 +336,16 @@ const CommissionReportAndJVTable = () => {
                         />
                       )}
 
-                      {[5, 3, 6, 7].includes(values?.type?.value) && (
+                      {[5, 3, 6, 7, 8].includes(values?.type?.value) && (
                         <>
                           <RATForm
-                            obj={{ setFieldValue, values, territory: false }}
+                            obj={{
+                              setFieldValue,
+                              values,
+                              region: ![8].includes(values?.type?.value),
+                              area: ![8].includes(values?.type?.value),
+                              territory: false,
+                            }}
                           />
                           <FromDateToDateForm
                             obj={{
@@ -364,21 +382,23 @@ const CommissionReportAndJVTable = () => {
                                   placeholder="Select SBU"
                                 />
                               </div>
-                              <div className="col-md-3">
-                                <NewSelect
-                                  name="transactionHead"
-                                  options={transactionHeads?.data || []}
-                                  value={values?.transactionHead}
-                                  label="Transaction Head"
-                                  onChange={(valueOption) => {
-                                    setFieldValue(
-                                      "transactionHead",
-                                      valueOption
-                                    );
-                                  }}
-                                  placeholder="Select Transaction Head"
-                                />
-                              </div>
+                              {values?.type?.value !== 8 && (
+                                <div className="col-md-3">
+                                  <NewSelect
+                                    name="transactionHead"
+                                    options={transactionHeads?.data || []}
+                                    value={values?.transactionHead}
+                                    label="Transaction Head"
+                                    onChange={(valueOption) => {
+                                      setFieldValue(
+                                        "transactionHead",
+                                        valueOption
+                                      );
+                                    }}
+                                    placeholder="Select Transaction Head"
+                                  />
+                                </div>
+                              )}
 
                               <div className="col-lg-3">
                                 <label htmlFor="narration">Narration</label>
@@ -399,14 +419,7 @@ const CommissionReportAndJVTable = () => {
                           onClick={() => {
                             getData(values);
                           }}
-                          disabled={
-                            loading ||
-                            (values?.type?.value !== 5 &&
-                              !(values?.month?.value && values?.year?.value)) ||
-                            !values?.type ||
-                            (values?.type?.value === 5 &&
-                              !values?.commissionRate)
-                          }
+                          disabled={isDisabled(values)}
                         >
                           View
                         </button>

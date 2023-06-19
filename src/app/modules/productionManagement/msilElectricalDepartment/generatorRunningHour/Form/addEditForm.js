@@ -57,6 +57,7 @@ export default function GeneratorRunningHourCreate() {
    const location = useLocation();
    const [res, getData, loading, setRes, error] = useAxiosGet();
    const [rowData, setRowData] = useState([]);
+   const [generatorNameDDL, getGeneratorNameDDL, generatorLoading] = useAxiosGet([]);
 
    const { profileData } = useSelector(state => {
       return state.authData;
@@ -66,6 +67,10 @@ export default function GeneratorRunningHourCreate() {
       return state.authData.selectedBusinessUnit;
    }, shallowEqual);
 
+   useEffect(() => {
+      getGeneratorNameDDL(`/mes/MSIL/GetAllMSIL?PartName=PowerPlantGeneratorNameDDL&BusinessUnitId=${selectedBusinessUnit?.value}`)
+   // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [selectedBusinessUnit]);
 
 
    useEffect(() => {
@@ -76,7 +81,7 @@ export default function GeneratorRunningHourCreate() {
             label: location?.state?.strShift,
          },
          generatorName: {
-            value: location?.state?.strGeneratorName,
+            value: location?.state?.intPowerPlantGeneratorId,
             label: location?.state?.strGeneratorName,
          },
          runningLoad: location?.state?.intRunningLoad,
@@ -98,6 +103,7 @@ export default function GeneratorRunningHourCreate() {
             intGeneratorRunningHourId: +params?.id || 0,
             dteDate: values?.date,
             strShift: values?.shift?.label,
+            intPowerPlantGeneratorId: values?.generatorName?.value || 0,
             strGeneratorName: values?.generatorName?.label,
             tmStartTime: params?.id
                ? values?.startTime
@@ -177,6 +183,7 @@ export default function GeneratorRunningHourCreate() {
             setRowData={setRowData}
             addRowDataData={addRowDataData}
             removeHandler={removeHandler}
+            generatorNameDDL={generatorNameDDL}
          />
       </IForm>
    );

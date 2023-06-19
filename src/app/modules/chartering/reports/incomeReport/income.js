@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { Formik } from "formik";
-import ReactToPrint from "react-to-print";
+// import ReactToPrint from "react-to-print";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import Loading from "../../_chartinghelper/loading/_loading";
 import ICustomTable from "../../_chartinghelper/_customTable";
@@ -22,42 +22,45 @@ import NewSelect from "../../../_helper/_select";
 import InputField from "../../../_helper/_inputField";
 import IViewModal from "../../../_helper/_viewModal";
 import AdjustmentJournalCreateForm from "./journals/adjustmentJournal/addEditFrom";
-
-const headers = [
-  { name: "SL" },
-  { name: "Vessel Name" },
-  { name: "Voyage No" },
-  { name: "Voyage Type" },
-  { name: "Charterer Name" },
-  { name: "Commence Date" },
-  { name: "Completion Date" },
-  { name: "Duration" },
-  { name: "Cargo" },
-  { name: "Quantity" },
-  { name: "Rate" },
-  { name: "Freight" },
-  { name: "Hire per Day" },
-  { name: "Add Comm" },
-  { name: "Broker Comm" },
-  { name: "CVE" },
-  { name: "ILOHC" },
-  { name: "Revenue per Day" },
-  { name: "Total Revenue" },
-];
+import IButton from "../../../_helper/iButton";
 
 const getHeaders = (values, gridData) => {
-  if (gridData?.length && values?.fromDate && values?.toDate) {
-    return [
-      ...headers,
-      {
-        name: `Revenue in (${values?.fromDate + " To " + values?.toDate})`,
-      },
-      { name: `Final Revenue` },
-      { name: `Action` },
-    ];
-  } else {
-    return headers;
-  }
+  return [
+    { name: "SL", style: { minWidth: "30px" } },
+    { name: "Vessel Name", style: { minWidth: "130px" } },
+    { name: "Voyage No", style: { minWidth: "50px" } },
+    { name: "Voyage Type", style: { minWidth: "100px" } },
+    { name: "Charterer Name", style: { minWidth: "180px" } },
+    { name: "Commence Date", style: { minWidth: "120px" } },
+    { name: "Completion Date", style: { minWidth: "120px" } },
+    { name: "Duration", style: { minWidth: "70px" } },
+    { name: "Cargo", style: { minWidth: "100px" } },
+    { name: "Quantity", style: { minWidth: "70px" } },
+    { name: "Rate", style: { minWidth: "70px" } },
+    { name: "Freight", style: { minWidth: "80px" } },
+    { name: "Hire per Day", style: { minWidth: "70px" } },
+    { name: "Add Comm", style: { minWidth: "70px" } },
+    { name: "Broker Comm", style: { minWidth: "70px" } },
+    { name: "CVE", style: { minWidth: "70px" } },
+    { name: "ILOHC", style: { minWidth: "70px" } },
+    { name: "Revenue per Day", style: { minWidth: "90px" } },
+    { name: "Total Revenue", style: { minWidth: "100px" } },
+    {
+      name: `Revenue in (${values?.fromDate + " To " + values?.toDate})`,
+      style: { minWidth: "120px" },
+      isHide: !(gridData?.length && values?.fromDate && values?.toDate),
+    },
+    {
+      name: `Final Revenue`,
+      style: { minWidth: "100px" },
+      isHide: !(gridData?.length && values?.fromDate && values?.toDate),
+    },
+    {
+      name: `Action`,
+      style: { minWidth: "130px" },
+      isHide: !(gridData?.length && values?.fromDate && values?.toDate),
+    },
+  ];
 };
 
 const initData = {
@@ -80,6 +83,7 @@ export default function IncomeReport() {
   const [salesOrgList, setSalesOrgList] = useState([]);
   const [show, setShow] = useState(false);
   const [singleData, setSingleData] = useState({});
+  const [, postAllJV, isLoading] = useAxiosPost();
 
   const {
     profileData: { accountId: accId, userId },
@@ -139,7 +143,7 @@ export default function IncomeReport() {
       <Formik enableReinitialize={true} initialValues={initData}>
         {({ values, errors, touched, setFieldValue }) => (
           <>
-            {(loading || loader) && <Loading />}
+            {(loading || loader || isLoading) && <Loading />}
             <form className="marine-form-card">
               <div className="marine-form-card-content">
                 <div className="row">
@@ -248,7 +252,7 @@ export default function IncomeReport() {
                       sheet="Sheet-1"
                       buttonText="Export Excel"
                     />
-                    <ReactToPrint
+                    {/* <ReactToPrint
                       pageStyle={
                         "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
                       }
@@ -265,7 +269,7 @@ export default function IncomeReport() {
                         </button>
                       )}
                       content={() => printRef.current}
-                    />
+                    /> */}
                   </div>
                   <div className="col-lg-12"></div>
                   {gridData?.length > 0 && values?.fromDate && values?.toDate && (
@@ -317,6 +321,15 @@ export default function IncomeReport() {
                           }}
                         />
                       </div>
+                      <IButton
+                        onClick={() => {
+                          postAllJV(
+                            `https://imarine.ibos.io/domain/Report/CreateForceAutoJournal?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`
+                          );
+                        }}
+                      >
+                        Create bulk JV
+                      </IButton>
                     </>
                   )}
                 </div>
@@ -325,6 +338,7 @@ export default function IncomeReport() {
                 <ICustomTable
                   id="table-to-xlsx"
                   ths={getHeaders(values, gridData)}
+                  scrollable={true}
                 >
                   {gridData?.map((item, index) => (
                     <tr key={index}>
@@ -332,7 +346,7 @@ export default function IncomeReport() {
                         {index + 1}
                       </td>
                       <td>{item?.vesselName}</td>
-                      <td>{item?.voyageNo}</td>
+                      <td className="text-center">{item?.voyageNo}</td>
                       <td>{item?.voyageType}</td>
                       <td>{item?.chartererName}</td>
                       <td>
@@ -341,7 +355,7 @@ export default function IncomeReport() {
                       <td>
                         {moment(item?.endDate).format("DD-MMM-yyyy, HH:mm")}
                       </td>
-                      <td className="text-right">{item?.duration}</td>
+                      <td>{Number(item?.duration).toFixed(4)}</td>
                       <td>{item?.cargo}</td>
                       <td className="text-right">
                         {_fixedPoint(item?.cargoQty, true, 0)}
@@ -407,7 +421,7 @@ export default function IncomeReport() {
                               <button
                                 title={"Click to create Adjustment Journal"}
                                 disabled={
-                                  loading || loader || !values?.sbu
+                                  loading || loader || isLoading || !values?.sbu
                                   // ||
                                   // !values?.salesOrg
                                 }
