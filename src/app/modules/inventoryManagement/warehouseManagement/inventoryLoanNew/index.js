@@ -151,7 +151,7 @@ export default function InventoryLoanLandingNew() {
                                                 <th>Business Partner</th>
                                                 <th>Transaction Type</th>
                                                 <th>Warehouse</th>
-                                                <th>Trans Date</th>
+                                                <th>Transaction  Date</th>
                                                 <th>Item Name</th>
                                                 <th>Item Qty</th>
                                                 {/* <th>Action</th> */}
