@@ -41,7 +41,6 @@ export default function REBConsumption() {
     );
   };
 
-
   const timeFormatter = (time) => {
     if (time) {
       const timeArray = time.split(":");
@@ -54,13 +53,13 @@ export default function REBConsumption() {
         return `${hour}:${min} AM`;
       }
     }
-  }
+  };
 
   return (
     <Formik
       enableReinitialize={true}
       initialValues={rebConsumptionLanding}
-      onSubmit={(values, { setSubmitting, resetForm }) => { }}
+      onSubmit={(values, { setSubmitting, resetForm }) => {}}
     >
       {({
         handleSubmit,
@@ -85,7 +84,9 @@ export default function REBConsumption() {
                     type="button"
                     className="btn btn-primary"
                     onClick={() => {
-                      history.push("/production-management/msil-Electrical/REBConsumption/create");
+                      history.push(
+                        "/production-management/msil-Electrical/REBConsumption/create"
+                      );
                     }}
                   >
                     Create
@@ -177,9 +178,9 @@ export default function REBConsumption() {
                         <th>Present KWH (Meter Reading)</th>
                         <th>Total REB Consumption</th>
                         <th>Total REB Consumption Unit</th>
-                        {
-                          selectedBusinessUnit?.value === 4 ? <th>Time</th> : null
-                        }
+                        {selectedBusinessUnit?.value === 4 ? (
+                          <th>Time</th>
+                        ) : null}
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -194,21 +195,29 @@ export default function REBConsumption() {
                             <td>{item?.strShift}</td>
                             <td>{item?.stRebconsumptionTypeName}</td>
                             <td className="text-center">
-                              {item?.intStartKwh}
+                              {(item?.intStartKwh || 0) +
+                                (item?.intStartKwh2 || 0) +
+                                (item?.intStartKwh3 || 0) +
+                                (item?.intStartKwh4 || 0)}
                             </td>
-                            <td className="text-center">{item?.intEndKwh}</td>
+                            <td className="text-center">
+                              {(item?.intEndKwh || 0) +
+                                (item?.intEndKwh2 || 0) +
+                                (item?.intEndKwh3 || 0) +
+                                (item?.intEndKwh4 || 0)}
+                            </td>
                             <td className="text-center">
                               {item?.intTotalRebconsumedUnitCal}
                             </td>
                             <td className="text-center">
                               {item?.intTotalRebconsumpedAfterMultiplyCal}
                             </td>
-                            {
-                              selectedBusinessUnit?.value === 4 ? <td className="text-center">
+                            {selectedBusinessUnit?.value === 4 ? (
+                              <td className="text-center">
                                 {/* {convertTime(item?.tmReadingTime)} */}
                                 {timeFormatter(item?.tmReadingTime)}
-                              </td> : null
-                            }
+                              </td>
+                            ) : null}
                             <td className="text-center">
                               <IEdit
                                 onClick={() => {
