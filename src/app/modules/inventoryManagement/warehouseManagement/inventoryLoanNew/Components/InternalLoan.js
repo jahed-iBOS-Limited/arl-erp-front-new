@@ -99,6 +99,24 @@ export default function InternalLoan({ loanType }) {
             console.log("transactionType 1 => payload", payload);
         }
         else if (transactionType === 2) {
+            if (!values?.plant) {
+                return toast.warn("Plant is required")
+            }
+            if (!values?.warehouse) {
+                return toast.warn("Warehouse is required")
+            }
+            if (!values?.toBusinessUnit) {
+                return toast.warn("From Business Unit is required")
+            }
+            if (!values?.reference) {
+                return toast.warn("Reference is required")
+            }
+            if (!values?.partner) {
+                return toast.warn("Partner is required")
+            }
+            if (!values?.item) {
+                return toast.warn("Item is required")
+            }
             const payload = {
                 intAccountId: profileData?.accountId,
                 intBusinessUnitId: selectedBusinessUnit?.value,
@@ -270,7 +288,7 @@ export default function InternalLoan({ loanType }) {
                                                 businessUnitList?.filter((itm) => itm.value !== selectedBusinessUnit?.value) || []
                                             }
                                             value={values?.toBusinessUnit}
-                                            label="To BusinessUnit"
+                                            label="To Business Unit"
                                             onChange={(valueOption) => {
                                                 setFieldValue("toBusinessUnit", valueOption);
                                             }}
@@ -405,7 +423,7 @@ export default function InternalLoan({ loanType }) {
                                                 name="toBusinessUnit"
                                                 options={businessUnitList?.filter((itm) => itm.value !== selectedBusinessUnit?.value) || []}
                                                 value={values?.toBusinessUnit}
-                                                label="From BusinessUnit"
+                                                label="From Business Unit"
                                                 onChange={(valueOption) => {
                                                     if (valueOption) {
                                                         setFieldValue("toBusinessUnit", valueOption);
