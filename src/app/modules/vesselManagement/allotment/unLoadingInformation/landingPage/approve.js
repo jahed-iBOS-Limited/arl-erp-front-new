@@ -392,11 +392,7 @@ export default function WarehouseApproveFrom({
                 </form>
               </CardBody>
             </Card>
-            <AttachFile
-              open={open}
-              setOpen={setOpen}
-              setUploadedImage={setUploadedImage}
-            />
+            <AttachFile obj={{ open, setOpen, setUploadedImage }} />
           </>
         )}
       </Formik>
