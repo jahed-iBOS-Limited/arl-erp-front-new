@@ -368,11 +368,7 @@ export function LandingTableRow() {
               allSelect={allSelect}
               rowDataHandler={rowDataHandler}
             />
-            <AttachFile
-              open={open}
-              setOpen={setOpen}
-              setUploadedImage={setUploadedImage}
-            />
+            <AttachFile obj={{ open, setOpen, setUploadedImage }} />
           </>
         )}
       </Formik>
