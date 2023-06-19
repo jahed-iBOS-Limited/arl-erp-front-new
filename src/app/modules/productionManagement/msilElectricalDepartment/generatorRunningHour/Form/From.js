@@ -21,6 +21,7 @@ export default function GeneratorRunningHourForm({
    setRowData,
    addRowDataData,
    removeHandler,
+   generatorNameDDL
 }) {
    const [, getData] = useAxiosGet();
    const params = useParams();
@@ -85,38 +86,14 @@ export default function GeneratorRunningHourForm({
                         <div className="col-lg-4">
                            <NewSelect
                               name="generatorName"
-                              options={
-                                 selectedBusinessUnit?.value === 4
-                                    ? [
-                                       {
-                                          value: 'Rolls Royce (E1)',
-                                          label: 'Rolls Royce (E1)',
-                                       },
-                                       { value: 'Mwm(E2)', label: 'Mwm(E2)' },
-                                       {
-                                          value: 'Catterpillar A(E3)',
-                                          label: 'Catterpillar A(E3)',
-                                       },
-                                       {
-                                          value: 'Catterpillar H(E4)',
-                                          label: 'Catterpillar H(E4)',
-                                       },
-                                       { value: 'Mwm(E5)', label: 'Mwm(E5)' },
-                                       { value: 'Mwm(E6)', label: 'Mwm(E6)' },
-                                    ]
-                                    : [
-                                       { value: '800 KVA', label: '800 KVA' },
-                                       { value: '400 KVA', label: '400 KVA' },
-                                       { value: '165 KVA', label: '165 KVA' },
-                                    ]
-                              }
+                              options={generatorNameDDL || []}
                               value={values?.generatorName}
                               label="Generator Name"
                               onChange={valueOption => {
                                  if (valueOption) {
                                     if (selectedBusinessUnit?.value === 4) {
                                        getData(
-                                          `/mes/MSIL/GetPreviousGeneratorReading?BusinessUnitId=4&GeneratorName=${valueOption?.value}`,
+                                          `/mes/MSIL/GetPreviousGeneratorReading?BusinessUnitId=4&GeneratorName=${valueOption?.label}`,
                                           data => {
                                              setFieldValue(
                                                 'numPreviousReading',

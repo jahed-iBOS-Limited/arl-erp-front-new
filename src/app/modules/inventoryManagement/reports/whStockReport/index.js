@@ -154,8 +154,8 @@ export default function WarehouseWiseStockReport() {
                           <th>Uom</th>
                           <th>Open Qty</th>
                           <th>In Qty</th>
-                          <th>Closing Qty</th>
                           <th>Out Qty</th>
+                          <th>Closing Qty</th>
                           <th>Rate</th>
                         </tr>
                       </thead>
@@ -206,12 +206,12 @@ export default function WarehouseWiseStockReport() {
                               </td>
                               <td>
                                 <div className="text-center">
-                                  {item?.numCloseQty}
+                                  {item?.numOutQty}
                                 </div>
                               </td>
                               <td>
                                 <div className="text-center">
-                                  {item?.numOutQty}
+                                  {item?.numCloseQty}
                                 </div>
                               </td>
                               <td>
@@ -250,12 +250,12 @@ export default function WarehouseWiseStockReport() {
                                     </td>
                                     <td>
                                       <div className="text-center">
-                                        {child?.numCloseQty}
+                                        {child?.numOutQty}
                                       </div>
                                     </td>
                                     <td>
                                       <div className="text-center">
-                                        {child?.numOutQty}
+                                        {child?.numCloseQty}
                                       </div>
                                     </td>
                                     <td>
