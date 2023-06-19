@@ -94,7 +94,7 @@ export default function StevedoreBill() {
           actionby: userId,
           narration: values?.narration || "",
           challanNo: "",
-          deliveryId: 0,
+          deliveryId: item?.programId,
           quantity: item?.programQnt,
           ammount: item?.billAmount,
           billAmount: item?.billAmount || 0,
@@ -107,7 +107,7 @@ export default function StevedoreBill() {
           truckToDamRate: 0,
           bolgateToDamRate: 0,
           othersCostRate: 0,
-          directRate: 0,
+          directRate: item?.stevdorRate || 0,
           dumpDeliveryRate: 0,
           lighterToBolgateRate: 0,
         };

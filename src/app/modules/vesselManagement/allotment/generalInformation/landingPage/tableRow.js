@@ -108,13 +108,13 @@ export function LandingTableRow() {
             isSelected: false,
             commissionRate: 0.15,
             billAmount,
-            vatOnCnf: "",
-            incomeTaxOnCnf: "",
-            riverDueRate: "",
-            lcRate: "",
-            vatRate: "",
+            vatOnCnf: item?.vatonCnf,
+            incomeTaxOnCnf: item?.incomeTaxonCnf,
+            // riverDueRate: "",
+            lcRate: item?.lcrate,
+            vatRate: item?.vatrate,
             commission: "",
-            others: "",
+            others: item?.òthersAmount,
             total: "",
           };
         });
@@ -204,28 +204,35 @@ export function LandingTableRow() {
     );
   };
 
-  const cnfInfoUpdate = () => {
+  const cnfInfoUpdate = (values) => {
     const selectedItems = rowData?.filter((item) => item?.isSelected);
     if (selectedItems?.length < 1) {
       return toast.warn("Please select at least one row!");
     }
     const payload = selectedItems?.map((item) => {
+      const riverDueAmount = +item?.programQnt * +item?.riverDueRate;
+      const lcAmount = +item?.programQnt * +item?.lcRate;
+      const total = riverDueAmount + lcAmount;
+      const vatAmount = (total / 100) * +item?.vatRate;
+      // const commissionAmount = +item?.programQnt * +item?.commission;
+      const totalAmount = total + vatAmount;
       return {
-        ...item,
         programId: item?.programId,
         accountId: accId,
         businessUnitId: buId,
-        vatonCnf: item?.vatOnCnf,
-        incomeTaxonCnf: item?.incomeTaxOnCnf,
-        riverDueRate: 1,
-        lcrate: 1,
-        vatrate: 1,
-        totalVatamount: 1,
-        òthersAmount: 1,
-        totalAmount: 1,
+        vatonCnf: +item?.vatOnCnf,
+        incomeTaxonCnf: +item?.incomeTaxOnCnf,
+        riverDueRate: +item?.riverDueRate,
+        lcrate: +item?.lcRate,
+        vatrate: +item?.vatRate,
+        totalVatamount: vatAmount,
+        òthersAmount: +item?.others,
+        totalAmount: totalAmount,
       };
     });
-    updateCNFInfo(payload, setLoading, () => {});
+    updateCNFInfo(payload, setLoading, () => {
+      setLandingData(pageNo, pageSize, values);
+    });
   };
 
   const rowDataHandler = (name, index, value) => {
@@ -348,7 +355,7 @@ export function LandingTableRow() {
                       className="btn btn-info mt-5"
                       type="button"
                       onClick={() => {
-                        cnfInfoUpdate();
+                        cnfInfoUpdate(values);
                       }}
                     >
                       Save
