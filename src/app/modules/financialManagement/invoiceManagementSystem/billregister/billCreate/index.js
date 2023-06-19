@@ -19,6 +19,7 @@ import MotherVesselBill from "../motherVesselBill/Form/addEditForm";
 import GhatLoadUnloadBill from "../ghatLoadUnloadBill/Form/addEditForm";
 import StevedoreBill from "../stevedoreBill/Form/addEditForm";
 import SurveyorBill from "../surveyorBill/Form/addEditForm";
+import CNFBill from "../cnfBill/Form/addEditForm";
 
 function BillregisterCreate() {
   const { state: headerData } = useLocation();
@@ -59,8 +60,7 @@ function BillregisterCreate() {
       ) : billType === 22 ? (
         <GhatLoadUnloadBill />
       ) : billType === 25 ? (
-        // not worked yet
-        <StevedoreBill />
+        <CNFBill />
       ) : billType === 26 ? (
         <StevedoreBill />
       ) : billType === 27 ? (

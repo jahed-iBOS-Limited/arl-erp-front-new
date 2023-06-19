@@ -133,7 +133,7 @@ export default function StevedoreBill() {
   return (
     <div className="purchaseInvoice">
       <IForm
-        title="Stevedore Bill"
+        title="G2G Stevedore Bill"
         getProps={setObjprops}
         isDisabled={loader || loading}
       >

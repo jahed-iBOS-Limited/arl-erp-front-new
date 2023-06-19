@@ -23,7 +23,7 @@ const initData = {
   motherVessel: "",
 };
 
-export default function SurveyorBill() {
+export default function CNFBill() {
   const [portDDL, getPortDDL] = useAxiosGet();
   const [gridData, getGridData, loading, setGridData] = useAxiosGet();
   const [images, setImages] = useState([]);
@@ -49,7 +49,7 @@ export default function SurveyorBill() {
         const modifyData = resData?.map((item) => {
           return {
             ...item,
-            billAmount: item?.serveyorRate * item?.programQnt,
+            billAmount: item?.cnfrate * item?.programQnt,
             isSelected: false,
           };
         });
@@ -133,7 +133,7 @@ export default function SurveyorBill() {
   return (
     <div className="purchaseInvoice">
       <IForm
-        title="G2G Surveyor Bill"
+        title="G2G CNF Bill"
         getProps={setObjprops}
         isDisabled={loader || loading}
       >
