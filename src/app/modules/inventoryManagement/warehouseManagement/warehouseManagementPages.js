@@ -27,7 +27,7 @@ import { CancelInvReportView } from "./cancelInventory/report/tableHeader";
 import { IssueProduction } from "./issueForProduction/Landing/addEditForm";
 import { CreateIssueForProduction } from "./issueForProduction/Create/addEditForm";
 import findIndex from "./../../_helper/_findIndex";
-import InventoryLoadLanding from "./inventoryLoan/landing";
+// import InventoryLoadLanding from "./inventoryLoan/landing";
 import TargetVSProductionRequest from "./targetVSProductionRequest/landing";
 import TargetVSProductionRequestForm from "./targetVSProductionRequest/form/addEditForm";
 import LiftingEntry from "./liftingEntry/landing";
@@ -297,14 +297,14 @@ export function WarehouseManagementPages() {
         }
       /> */}
       {/* new inventory */}
-      
+
       <ContentRoute
         path="/inventory-management/warehouse-management/inventoryLoan/create"
-        component={InventoryLoanCreateEditNew}
+        component={inventoryLoan?.isCreate ? InventoryLoanCreateEditNew : NotPermittedPage}
       />
       <ContentRoute
         path="/inventory-management/warehouse-management/inventoryLoan"
-        component={InventoryLoanLandingNew}
+        component={inventoryLoan?.isView ? InventoryLoanLandingNew : NotPermittedPage}
       />
 
       <ContentRoute

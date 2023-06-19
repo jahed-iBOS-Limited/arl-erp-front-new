@@ -37,6 +37,7 @@ export default function InternalLoan({ loanType }) {
     const [plantDDL, getPlantDDL, plantDDLloader] = useAxiosGet();
     const [warehouseDDL, getWarehouseDDL, warehouseDDLloader] = useAxiosGet();
     const [partnerDDL, getpartnerDDl, partnerDDLloader] = useAxiosGet();
+    const [referenceDDl, getReferenceDDL, referenceDDLloader] = useAxiosGet();
 
     const saveHandler = (values, cb) => {
         if (transactionType === 1) {
@@ -83,6 +84,8 @@ export default function InternalLoan({ loanType }) {
                 dteTransDate: _todayDate(),
                 intItemId: values?.item?.value,
                 strItemName: values?.item?.label,
+                strItemCode: values?.item?.code,
+                strUomName: values?.uom?.label,
                 numItemQty: +values?.quantity,
                 numItemRate: 0,
                 numItemAmount: 0,
@@ -90,44 +93,50 @@ export default function InternalLoan({ loanType }) {
                 intActionBy: profileData?.userId,
                 intFromOrToBusinessUnitId: values?.toBusinessUnit?.value,
                 strFromOrToBusinessUnitName: values?.toBusinessUnit?.label,
+                intLoanId: 0,
             };
             saveData(`/wms/InventoryLoan/CreateInvItemloan`, payload, cb, true)
             console.log("transactionType 1 => payload", payload);
         }
         else if (transactionType === 2) {
             const payload = {
-                // intAccountId: profileData?.accountId,
-                // intBusinessUnitId: selectedBusinessUnit?.value,
-                // intPlantId: values?.plant?.value,
-                // intSbuId: values?.sbu?.value,
-                // intBusinessPartnerId: values?.partner?.value,
-                // strBusinessPartnerName: values?.partner?.label,
-                // intLoanTypeId: loanType,
-                // intLoanTypeName: loanType === 1 ? "Internal Loan" : "External Loan",
-                // intTransTypeId: transactionType,
-                // strTransTypeName: transactionType === 1 ? "Issue" : "Receive",
-                // intWareHouseId: values?.warehouse?.value,
-                // strWareHouseName: values?.warehouse?.label,
-                // intLcid: 0,
-                // strLcnumber: "",
-                // intShipmentId: 0,
-                // strShipmentName: "",
-                // strSurveyReportNo: "",
-                // intLighterVesselId: 0,
-                // strLighterVesselName: "",
-                // intMotherVesselId: 0,
-                // strMotherVesselName: "",
-                // intItemId: values?.item?.value,
-                // strItemName: values?.item?.label,
-                // numItemQty: +values?.quantity,
-                // numItemRate: 0,
-                // numItemAmount: 0,
-                // strNarration: values?.remarks,
-                // intActionBy: profileData?.userId,
-                // intFromOrToBusinessUnitId: values?.toBusinessUnit?.value,
-                // strFromOrToBusinessUnitName: values?.toBusinessUnit?.label,
+                intAccountId: profileData?.accountId,
+                intBusinessUnitId: selectedBusinessUnit?.value,
+                intPlantId: values?.plant?.value,
+                intSbuId: values?.sbu?.value,
+                intBusinessPartnerId: values?.partner?.value,
+                strBusinessPartnerName: values?.partner?.label,
+                intLoanTypeId: loanType,
+                intLoanTypeName: loanType === 1 ? "Internal Loan" : "External Loan",
+                intTransTypeId: transactionType,
+                strTransTypeName: transactionType === 1 ? "Issue" : "Receive",
+                intWareHouseId: values?.warehouse?.value,
+                strWareHouseName: values?.warehouse?.label,
+                intLcid: 0,
+                strLcnumber: "",
+                intShipmentId: 0,
+                strShipmentName: "",
+                strSurveyReportNo: "",
+                intLighterVesselId: 0,
+                strLighterVesselName: "",
+                intMotherVesselId: 0,
+                strMotherVesselName: "",
+                dteTransDate: _todayDate(),
+                intItemId: values?.item?.value,
+                strItemName: values?.item?.label,
+                strItemCode: values?.item?.code,
+                strUomName: values?.uom?.label,
+                numItemQty: +values?.quantity,
+                numItemRate: values?.reference?.itemRate,
+                numItemAmount: Math?.abs(values?.reference?.itemAmount),
+                strNarration: values?.remarks,
+                intActionBy: profileData?.userId,
+                intFromOrToBusinessUnitId: values?.toBusinessUnit?.value,
+                strFromOrToBusinessUnitName: values?.toBusinessUnit?.label,
+                intLoanId: values?.reference?.loanId,
 
             };
+            saveData(`/wms/InventoryLoan/CreateInvItemloan`, payload, cb, true)
             console.log("transactionType 2 => payload", payload);
         }
         else { }
@@ -168,7 +177,7 @@ export default function InternalLoan({ loanType }) {
                 touched,
             }) => (
                 <>
-                    {(plantDDLloader || warehouseDDLloader || saveDataLoader || sbuDDLloader || partnerDDLloader) && <Loading />}
+                    {(plantDDLloader || warehouseDDLloader || saveDataLoader || sbuDDLloader || partnerDDLloader || referenceDDLloader) && <Loading />}
                     <IForm title="Create Inventory Loan" getProps={setObjprops}>
                         <Form>
                             <>
@@ -205,38 +214,6 @@ export default function InternalLoan({ loanType }) {
                             </>
                             {transactionType === 1 ? (
                                 <div className="form-group  global-form row">
-                                    {/* <div className="col-lg-3">
-                                        <NewSelect
-                                            name="sbu"
-                                            options={sbuDDL || []}
-                                            value={values?.sbu}
-                                            label="Sbu"
-                                            onChange={(valueOption) => {
-                                                if (valueOption) {
-                                                    setFieldValue("sbu", valueOption);
-                                                } else {
-                                                    setFieldValue("sbu", "");
-                                                }
-                                            }}
-                                            errors={errors}
-                                            touched={touched}
-                                        />
-                                    </div> */}
-                                    <div className="col-lg-3">
-                                        <NewSelect
-                                            name="partner"
-                                            // options={[{ value: 0, label: "All" }, ...partnerDDL] || []}
-                                            options={partnerDDL || []}
-                                            value={values?.partner}
-                                            label="Business Partner"
-                                            onChange={(valueOption) => {
-                                                setFieldValue("partner", valueOption);
-                                            }}
-                                            placeholder="Business Partner"
-                                            errors={errors}
-                                            touched={touched}
-                                        />
-                                    </div>
                                     <div className="col-lg-3">
                                         <NewSelect
                                             name="plant"
@@ -297,6 +274,20 @@ export default function InternalLoan({ loanType }) {
                                             onChange={(valueOption) => {
                                                 setFieldValue("toBusinessUnit", valueOption);
                                             }}
+                                            errors={errors}
+                                            touched={touched}
+                                        />
+                                    </div>
+                                    <div className="col-lg-3">
+                                        <NewSelect
+                                            name="partner"
+                                            options={partnerDDL || []}
+                                            value={values?.partner}
+                                            label="To Business Partner"
+                                            onChange={(valueOption) => {
+                                                setFieldValue("partner", valueOption);
+                                            }}
+                                            placeholder="Business Partner"
                                             errors={errors}
                                             touched={touched}
                                         />
@@ -400,7 +391,6 @@ export default function InternalLoan({ loanType }) {
                                                     if (valueOption) {
                                                         setFieldValue("warehouse", valueOption);
                                                         setFieldValue("item", "");
-                                                        getWarehouseDDL(`/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${valueOption?.value}`)
                                                     } else {
                                                         setFieldValue("warehouse", "");
                                                         setFieldValue("item", "");
@@ -413,13 +403,18 @@ export default function InternalLoan({ loanType }) {
                                         <div className="col-lg-3">
                                             <NewSelect
                                                 name="toBusinessUnit"
-                                                options={
-                                                    businessUnitList?.filter((itm) => itm.value !== selectedBusinessUnit?.value) || []
-                                                }
+                                                options={businessUnitList?.filter((itm) => itm.value !== selectedBusinessUnit?.value) || []}
                                                 value={values?.toBusinessUnit}
                                                 label="From BusinessUnit"
                                                 onChange={(valueOption) => {
-                                                    setFieldValue("toBusinessUnit", valueOption);
+                                                    if (valueOption) {
+                                                        setFieldValue("toBusinessUnit", valueOption);
+                                                        getReferenceDDL(`/wms/InventoryLoan/GetItemLoanReferenceDDL?accountId=${profileData?.accountId
+                                                            }&fromBusinessUnitId=${valueOption?.value}&tobBusinessUnitId=${selectedBusinessUnit?.value}`)
+                                                    } else {
+                                                        setFieldValue("toBusinessUnit", "");
+                                                        setFieldValue("reference", "");
+                                                    }
                                                 }}
                                                 errors={errors}
                                                 touched={touched}
@@ -428,14 +423,59 @@ export default function InternalLoan({ loanType }) {
                                         <div className="col-lg-3">
                                             <NewSelect
                                                 name="reference"
-                                                options={[]}
+                                                options={referenceDDl || []}
                                                 value={values?.reference}
                                                 label="Reference"
                                                 onChange={(valueOption) => {
+                                                    console.log("valueOption", valueOption);
                                                     setFieldValue("reference", valueOption);
+                                                    setFieldValue("quantity", Math.abs(valueOption?.itemQty));
                                                 }}
                                                 errors={errors}
                                                 touched={touched}
+                                                isDisabled={!values?.toBusinessUnit}
+                                            />
+                                        </div>
+                                        <div className="col-lg-12">
+                                            {values?.reference && <p className="mt-5"><b>Item Name:</b> {values?.reference?.itemName} {" "} <b>Uom:</b> {values?.reference?.strUomName} <b>Quantity:</b> {Math.abs(values?.reference?.itemQty)} </p>}
+                                        </div>
+                                        <div className="col-lg-3">
+                                            <NewSelect
+                                                name="partner"
+                                                options={partnerDDL || []}
+                                                value={values?.partner}
+                                                label="From Business Partner"
+                                                onChange={(valueOption) => {
+                                                    setFieldValue("partner", valueOption);
+                                                }}
+                                                placeholder="Business Partner"
+                                                errors={errors}
+                                                touched={touched}
+                                            />
+                                        </div>
+                                        <div className="col-lg-3">
+                                            <label>Item Name</label>
+                                            <SearchAsyncSelect
+                                                selectedValue={values?.item}
+                                                handleChange={(valueOption) => {
+                                                    if (valueOption) {
+                                                        setFieldValue("item", valueOption);
+                                                        setFieldValue("uom", {
+                                                            value: valueOption?.uomId,
+                                                            label: valueOption?.uomName,
+                                                        });
+                                                    } else {
+                                                        setFieldValue("item", "");
+                                                        setFieldValue("uom", "");
+                                                    }
+                                                }}
+                                                loadOptions={(v) => {
+                                                    if (v?.length < 3) return [];
+                                                    return Axios.get(
+                                                        `/item/ItemSales/GetItemDDLForInventoryLoan?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}&WareHouseId=${values?.warehouse?.value || 0}&Search=${v}`
+                                                    ).then((res) => res?.data);
+                                                }}
+                                                disabled={true}
                                             />
                                         </div>
                                         <div className="col-lg-3">
@@ -460,11 +500,16 @@ export default function InternalLoan({ loanType }) {
                                                         <th>Item Name</th>
                                                         <th>UOM</th>
                                                         <th>Quantity</th>
-                                                        <th>From Warehouse</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-
+                                                    {values?.item ? (<tr>
+                                                        <td>1</td>
+                                                        <td className="text-center">{values?.item?.code}</td>
+                                                        <td>{values?.item?.label}</td>
+                                                        <td>{values?.item?.uomName}</td>
+                                                        <td>{values?.quantity || ""}</td>
+                                                    </tr>) : null}
                                                 </tbody>
                                             </table>
                                         </div>
