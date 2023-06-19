@@ -12,11 +12,11 @@ function TableGird({ rowDto, values, buId }) {
   const colSpanLen =
     values?.shippointDDL?.value === 0
       ? buId === 175
-        ? 8
-        : 7
+        ? 9
+        : 8
       : buId === 175
-      ? 7
-      : 6;
+      ? 8
+      : 7;
 
   return (
     <div className="react-bootstrap-table table-responsive">
@@ -28,6 +28,7 @@ function TableGird({ rowDto, values, buId }) {
             <th>SO Number</th>
             <th>Challan No</th>
             {buId === 175 && <th>Manual Challan No</th>}
+            <th>Product Code</th>
             <th>Product Name</th>
             {values?.shippointDDL?.value === 0 && <th>Shippoint</th>}
             <th>UoM</th>
@@ -59,11 +60,11 @@ function TableGird({ rowDto, values, buId }) {
                       colSpan={
                         values?.shippointDDL?.value === 0
                           ? buId === 175
-                            ? 12
-                            : 11
+                            ? 13
+                            : 12
                           : buId === 175
-                          ? 11
-                          : 10
+                          ? 12
+                          : 11
                       }
                       className="text-left"
                     >
@@ -80,6 +81,7 @@ function TableGird({ rowDto, values, buId }) {
                         <td>{itm?.so}</td>
                         <td>{itm.deliveryCode}</td>
                         {buId === 175 && <td>{itm.manualChallan}</td>}
+                        <td> {itm.itemCode}</td>
                         <td> {itm.itemName}</td>
                         {values?.shippointDDL?.label === "All" && (
                           <td>{itm.shipPointName}</td>
