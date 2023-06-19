@@ -11,6 +11,7 @@ export default function FuelConsumptionForm({
   productDDL,
   validationSchema,
   id,
+  generatorNameDDL,
 }) {
   return (
     <>
@@ -66,11 +67,7 @@ export default function FuelConsumptionForm({
                 <div className="col-lg-3">
                   <NewSelect
                     name="generatorName"
-                    options={[
-                      { value: "800 KVA", label: "800 KVA" },
-                      { value: "400 KVA", label: "400 KVA" },
-                      { value: "165 KVA", label: "165 KVA" },
-                    ]}
+                    options={generatorNameDDL}
                     value={values?.generatorName}
                     label="Generator Name"
                     onChange={(valueOption) => {

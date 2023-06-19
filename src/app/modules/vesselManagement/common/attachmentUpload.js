@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import { DropzoneDialogBase } from "material-ui-dropzone";
 import { empAttachment_action } from "../../humanCapitalManagement/humanResource/employeeInformation/helper";
 
-const AttachFile = ({
-  open,
-  setOpen,
-  filesLimit,
-  maxFileSize,
-  acceptedFiles,
-  setUploadedImage,
-}) => {
+const AttachFile = ({ obj }) => {
+  const {
+    open,
+    setOpen,
+    filesLimit,
+    maxFileSize,
+    acceptedFiles,
+    setUploadedImage,
+  } = obj;
   const [fileObjects, setFileObjects] = useState([]);
   return (
     <>

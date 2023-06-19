@@ -53,6 +53,7 @@ export function TableRow() {
     profitCenter: reportIncomestatement?.profitCenter || "",
     businessUnit: reportIncomestatement?.businessUnit || "",
     conversionRate: reportIncomestatement?.conversionRate || 1,
+    reportType: reportIncomestatement?.reportType || { value: 1, label: "Statistical" },
   };
 
   const dispatch = useDispatch();
@@ -266,7 +267,7 @@ export function TableRow() {
                       <NewSelect
                         isDisabled={
                           values?.businessUnit?.value === 0 ||
-                          !values?.businessUnit
+                            !values?.businessUnit
                             ? true
                             : false
                         }
@@ -342,6 +343,28 @@ export function TableRow() {
                         min={0}
                       />
                     </div>
+                    <div className="col-md-2">
+                      <NewSelect
+                        name="reportType"
+                        options={[
+                          { value: 1, label: "Statistical" },
+                          { value: 2, label: "GL Based" },
+                        ]}
+                        value={values?.reportType}
+                        label="Report Type"
+                        onChange={(valueOption) => {
+                          setShowRDLC(false);
+                          setIncomeStatement([]);
+                          dispatch(
+                            SetReportIncomestatementAction({
+                              ...values,
+                              reportType: valueOption,
+                            })
+                          );
+                        }}
+                        placeholder="Report Type"
+                      />
+                    </div>
                     <div className="col-md-3 mt-5 pt-1 d-flex">
                       <button
                         className="btn btn-primary"
@@ -361,7 +384,8 @@ export function TableRow() {
                             "IncomeStatement",
                             values?.enterpriseDivision?.value,
                             values?.conversionRate,
-                            values?.subDivision
+                            values?.subDivision,
+                            values?.reportType?.value
                           );
                         }}
                         disabled={
@@ -369,7 +393,8 @@ export function TableRow() {
                           !values?.businessUnit ||
                           !values?.enterpriseDivision ||
                           !values?.conversionRate ||
-                          values?.conversionRate <= 0
+                          values?.conversionRate <= 0 ||
+                          !values?.reportType
                         }
                       >
                         Show
@@ -459,7 +484,7 @@ export function TableRow() {
                                     <tr
                                       className={
                                         data?.intFSId === 0 ||
-                                        data?.intFSId === 20
+                                          data?.intFSId === 20
                                           ? "font-weight-bold"
                                           : ""
                                       }
@@ -479,12 +504,12 @@ export function TableRow() {
                                         style={{
                                           textDecoration:
                                             data?.intFSId === 0 ||
-                                            data?.intFSId === 20
+                                              data?.intFSId === 20
                                               ? ""
                                               : "underline",
                                           color:
                                             data?.intFSId === 0 ||
-                                            data?.intFSId === 20
+                                              data?.intFSId === 20
                                               ? ""
                                               : "blue",
                                         }}
@@ -511,7 +536,7 @@ export function TableRow() {
                                       <td className="text-right">
                                         {_formatMoney(
                                           data?.monLastPeriodAmount -
-                                            data?.monCurrentPeriodAmount
+                                          data?.monCurrentPeriodAmount
                                         )}
                                       </td>
                                     </tr>

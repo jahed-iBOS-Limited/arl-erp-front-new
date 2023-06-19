@@ -51,14 +51,15 @@ export const getIncomeStatement_api = async (
   partName = "",
   edLabel = "",
   conversionRate,
-  subDivision
+  subDivision,
+  reportType
 ) => {
   setLoading(true);
   try {
     const res = await Axios.get(
       `/fino/IncomeStatement/GetIncomeStatement?partName=${partName}&dteFromDate=${fromDate}&dteToDate=${toDate}&dteFromDateL=${fromDateL}&dteToDateL=${toDateL}&BusinessUnitGroup=${edLabel}&BusinessUnitId=${buId}&SBUID=${sbuId ||
         0}&intProfitCenId=${profitCenter?.value ||
-        0}&ConvertionRate=${conversionRate}&SubGroup=${subDivision?.value || 0}`
+        0}&ConvertionRate=${conversionRate}&SubGroup=${subDivision?.value || 0}&reportTypeId=${reportType}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
