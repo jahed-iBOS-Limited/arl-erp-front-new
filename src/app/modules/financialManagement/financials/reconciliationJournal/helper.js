@@ -128,6 +128,7 @@ export const getDepreciationJournal = async (
 };
 
 export const postInventoryJournal = async (
+  closingType,
   accountId,
   businessUnitId,
   sbuId,
@@ -141,7 +142,7 @@ export const postInventoryJournal = async (
   try {
     const api = `/wms/WmsReport/PostInventoryJournal?AccountId=${accountId}&BusinessUnitId=${businessUnitId}&SbuId=${sbuId}&fromDate=${_dateFormatter(
       fromDate
-    )}&toDate=${_dateFormatter(toDate)}&typeId=3&actionBy=${userId}`;
+    )}&toDate=${_dateFormatter(toDate)}&typeId=3&actionBy=${userId}&closingTypeId=${closingType}`;
     const res = await axios.post(api);
     setLoading(false);
     cb(res?.data?.message);
