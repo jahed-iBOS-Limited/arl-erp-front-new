@@ -27,7 +27,7 @@ import { CancelInvReportView } from "./cancelInventory/report/tableHeader";
 import { IssueProduction } from "./issueForProduction/Landing/addEditForm";
 import { CreateIssueForProduction } from "./issueForProduction/Create/addEditForm";
 import findIndex from "./../../_helper/_findIndex";
-import InventoryLoadLanding from "./inventoryLoan/landing";
+// import InventoryLoadLanding from "./inventoryLoan/landing";
 import TargetVSProductionRequest from "./targetVSProductionRequest/landing";
 import TargetVSProductionRequestForm from "./targetVSProductionRequest/form/addEditForm";
 import LiftingEntry from "./liftingEntry/landing";
@@ -48,6 +48,8 @@ import ItemWiseSerialEdit from "./itemWiseSerialUpdate/editItemWiseSerial";
 import MRRCancel from "./mrrCancel";
 import HologramBaseDeliveryLanding from "./hologramBaseDelivery/landing/form";
 import HologramBaseDeliveryForm from "./hologramBaseDelivery/form/addEditForm";
+import InventoryLoanLandingNew from "./inventoryLoanNew";
+import InventoryLoanCreateEditNew from "./inventoryLoanNew/createEdit";
 
 export function WarehouseManagementPages() {
   const { userRole, selectedBusinessUnit } = useSelector(
@@ -287,11 +289,22 @@ export function WarehouseManagementPages() {
         from="/inventory-management/warehouse-management/assetReceive"
         component={AssetReceiveLanding}
       />
-      <ContentRoute
+      {/* older inventory */}
+      {/* <ContentRoute
         path="/inventory-management/warehouse-management/inventoryLoan"
         component={
           inventoryLoan?.isView ? InventoryLoadLanding : NotPermittedPage
         }
+      /> */}
+      {/* new inventory */}
+
+      <ContentRoute
+        path="/inventory-management/warehouse-management/inventoryLoan/create"
+        component={inventoryLoan?.isCreate ? InventoryLoanCreateEditNew : NotPermittedPage}
+      />
+      <ContentRoute
+        path="/inventory-management/warehouse-management/inventoryLoan"
+        component={inventoryLoan?.isView ? InventoryLoanLandingNew : NotPermittedPage}
       />
 
       <ContentRoute
