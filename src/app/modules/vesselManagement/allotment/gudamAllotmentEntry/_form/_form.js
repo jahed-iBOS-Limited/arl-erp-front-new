@@ -39,7 +39,8 @@ const initData = {
   shipPoint: "",
   port: "",
   programNo: "",
-  revenueRate:"",
+  revenueRate: "",
+  revenueByTransport: "",
 };
 
 const GudamAllotmentForm = ({
@@ -102,6 +103,7 @@ const GudamAllotmentForm = ({
           label: singleItem?.yearId,
         },
         revenueRate: singleItem?.revenueRate || "",
+        revenueByTransport: singleItem?.revenueByTransport || "",
       };
     } else {
       return initData;
@@ -124,6 +126,7 @@ const GudamAllotmentForm = ({
         motherVesselName: values?.motherVessel?.label,
         motherVesselId: values?.motherVessel?.value,
         revenueRate: +values?.revenueRate || 0,
+        revenueByTransport: +values?.revenueByTransport || 0,
       };
       editGudamAllotment(payload, setIsLoading, () => {
         getData(tableValues, 0, 15);
@@ -165,6 +168,7 @@ const GudamAllotmentForm = ({
       motherVesselName: values?.motherVessel?.label,
       motherVesselId: values?.motherVessel?.value,
       revenueRate: +values?.revenueRate || 0,
+      revenueByTransport: +values?.revenueByTransport || 0,
     };
     setRows([...rows, newRow]);
   };
@@ -329,13 +333,23 @@ const GudamAllotmentForm = ({
                           disabled={false}
                         />
                       </div>
-                      
+
                       <div className="col-md-3">
                         <InputField
                           label="Revenue Rate (Tk.)"
                           placeholder="Revenue Rate (Tk.)"
                           value={values?.revenueRate}
                           name="revenueRate"
+                          type="number"
+                          disabled={false}
+                        />
+                      </div>
+                      <div className="col-md-3">
+                        <InputField
+                          label="Revenue by Transport"
+                          placeholder="Revenue by Transport"
+                          value={values?.revenueByTransport}
+                          name="revenueByTransport"
                           type="number"
                           disabled={false}
                         />
@@ -383,6 +397,7 @@ const GudamAllotmentForm = ({
                           // "Year",
                           "Allotment Qty",
                           "Revenue Rate (Tk.)",
+                          "Revenue by Transport",
                           "Action",
                         ]?.map((th, index) => {
                           return <th key={index}> {th} </th>;
@@ -409,6 +424,9 @@ const GudamAllotmentForm = ({
                               {_fixedPoint(item?.allotmentQuantity, true)}
                             </td>
                             <td className="text-right">{item?.revenueRate}</td>
+                            <td className="text-right">
+                              {item?.revenueByTransport}
+                            </td>
                             <td
                               style={{ width: "80px" }}
                               className="text-center"

@@ -36,6 +36,7 @@ const headers = [
   "Year",
   "Allotment Qty",
   "Revenue Rate (Tk)",
+  "Revenue by Transport",
   "Action",
 ];
 
@@ -79,10 +80,10 @@ const GudamAllotmentLanding = () => {
     const url =
       values?.reportType?.value === 1
         ? `/tms/LigterLoadUnload/GetLighterShipToPartnerAllotment?BusinessUnitId=${buId}&SoldtoPartnerID=${values
-          ?.organization?.value || 0}&MotherVesselId=${values?.motherVessel
+            ?.organization?.value || 0}&MotherVesselId=${values?.motherVessel
             ?.value || 0}&PageNo=1&PageSize=100${FromDate}${ToDate}`
         : `/tms/LigterLoadUnload/GetLighterShipToPartnerAllotmentTopsheet?BusinessUnitId=${buId}&SoldtoPartnerID=${values
-          ?.organization?.value || 0}&MotherVesselId=${values?.motherVessel
+            ?.organization?.value || 0}&MotherVesselId=${values?.motherVessel
             ?.value || 0}${FromDate}${ToDate}`;
     getRowData(url);
   };
@@ -110,7 +111,7 @@ const GudamAllotmentLanding = () => {
           getData(values, pageNo, pageSize);
         });
       },
-      noAlertFunc: () => { },
+      noAlertFunc: () => {},
     };
     IConfirmModal(objProps);
   };
@@ -122,7 +123,7 @@ const GudamAllotmentLanding = () => {
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        onSubmit={() => { }}
+        onSubmit={() => {}}
       >
         {({ values, setFieldValue }) => (
           <>
@@ -155,7 +156,9 @@ const GudamAllotmentLanding = () => {
                 </div> */}
                 <form className="form form-label-right">
                   <div className="global-form row">
-                    <FromDateToDateForm obj={{ values, setFieldValue, setRowData }} />
+                    <FromDateToDateForm
+                      obj={{ values, setFieldValue, setRowData }}
+                    />
                     <div className="col-lg-3">
                       <NewSelect
                         name="organization"
@@ -183,8 +186,10 @@ const GudamAllotmentLanding = () => {
                             setFieldValue("loadingPort", valueOption);
                             setFieldValue("motherVessel", "");
                             getMotherVesselDDL(
-                              `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${profileData?.accountId
-                              }&BusinessUnitId=${selectedBusinessUnit?.value
+                              `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${
+                                profileData?.accountId
+                              }&BusinessUnitId=${
+                                selectedBusinessUnit?.value
                               }&PortId=${valueOption?.value || 0}`
                             );
                           } else {
@@ -199,7 +204,10 @@ const GudamAllotmentLanding = () => {
                     <div className="col-lg-3">
                       <NewSelect
                         name="motherVessel"
-                        options={[{ value: 0, label: "All" }, ...motherVesselDDL]}
+                        options={[
+                          { value: 0, label: "All" },
+                          ...motherVesselDDL,
+                        ]}
                         value={values?.motherVessel}
                         label="Mother Vessel"
                         onChange={(valueOption) => {
@@ -222,7 +230,10 @@ const GudamAllotmentLanding = () => {
                             setFieldValue("reportType", valueOption);
                             setRowData([]);
                           } else {
-                            setFieldValue("reportType", { value: 1, label: "Details" });
+                            setFieldValue("reportType", {
+                              value: 1,
+                              label: "Details",
+                            });
                             setRowData([]);
                           }
                         }}
@@ -242,8 +253,7 @@ const GudamAllotmentLanding = () => {
                     </div>
                   </div>
 
-
-                  {(values?.reportType?.value === 1 ? (
+                  {values?.reportType?.value === 1 ? (
                     <table
                       id="table-to-xlsx"
                       className={
@@ -275,9 +285,14 @@ const GudamAllotmentLanding = () => {
                               <td>{getMonth(item?.monthId)}</td>
                               <td>{item?.yearId}</td>
                               <td className="text-right">
-                                {_fixedPoint(item?.allotmentQuantity, true)}  
+                                {_fixedPoint(item?.allotmentQuantity, true)}
                               </td>
-                              <td className="text-right">{item?.revenueRate}</td>
+                              <td className="text-right">
+                                {item?.revenueRate}
+                              </td>
+                              <td className="text-right">
+                                {item?.revenueByTransport}
+                              </td>
                               <td
                                 style={{ width: "80px" }}
                                 className="text-center"
@@ -306,7 +321,7 @@ const GudamAllotmentLanding = () => {
                           );
                         })}
                         <tr>
-                          <td colSpan={7} className="text-right">
+                          <td colSpan={8} className="text-right">
                             <b>Total</b>
                           </td>
                           <td className="text-right">
@@ -344,8 +359,12 @@ const GudamAllotmentLanding = () => {
                                 {index + 1}
                               </td>
                               <td>{item?.motherVesselName}</td>
-                              <td className="text-center">{item?.allotmentQuantity}</td>
-                              <td className="text-right">{item?.revenueRate}</td>
+                              <td className="text-center">
+                                {item?.allotmentQuantity}
+                              </td>
+                              <td className="text-right">
+                                {item?.revenueRate}
+                              </td>
                               <td>{item?.itemName}</td>
                               <td>{item?.soldToPartnerName}</td>
                             </tr>
@@ -353,10 +372,10 @@ const GudamAllotmentLanding = () => {
                         })}
                       </tbody>
                     </table>
-                  ))}
+                  )}
 
                   {rowData?.data?.length > 0 &&
-                    values?.reportType?.value === 1 ? (
+                  values?.reportType?.value === 1 ? (
                     <PaginationTable
                       count={rowData?.totalCount}
                       setPositionHandler={setPositionHandler}
