@@ -13,6 +13,7 @@ import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
 const initData = {
     sbu: "",
+    partner: "",
     plant: "",
     warehouse: "",
     toBusinessUnit: "",
@@ -31,11 +32,16 @@ export default function InternalLoan({ loanType }) {
     }, shallowEqual);
 
     const [, saveData, saveDataLoader] = useAxiosPost();
+    const [, getSbuDDL, sbuDDLloader] = useAxiosGet();
     const [plantDDL, getPlantDDL, plantDDLloader] = useAxiosGet();
     const [warehouseDDL, getWarehouseDDL, warehouseDDLloader] = useAxiosGet();
+    const [partnerDDL, getpartnerDDl, partnerDDLloader] = useAxiosGet();
 
     const saveHandler = (values, cb) => {
         if (transactionType === 1) {
+            if (!values?.partner) {
+                return toast.warn("Partner is required")
+            }
             if (!values?.plant) {
                 return toast.warn("Plant is required")
             }
@@ -73,9 +79,9 @@ export default function InternalLoan({ loanType }) {
                 intAccountId: profileData?.accountId,
                 intBusinessUnitId: selectedBusinessUnit?.value,
                 intPlantId: values?.plant?.value,
-                intSbuId: 0,
-                intBusinessPartnerId: 0,
-                strBusinessPartnerName: "",
+                intSbuId: values?.sbu?.value,
+                intBusinessPartnerId: values?.partner?.value,
+                strBusinessPartnerName: values?.partner?.label,
                 intLoanTypeId: loanType,
                 intLoanTypeName: loanType === 1 ? "Internal Loan" : "External Loan",
                 intTransTypeId: transactionType,
@@ -91,7 +97,6 @@ export default function InternalLoan({ loanType }) {
                 strLighterVesselName: "",
                 intMotherVesselId: 0,
                 strMotherVesselName: "",
-                // dteTransDate: getCurrentDateTime(),
                 intItemId: values?.item?.value,
                 strItemName: values?.item?.label,
                 numItemQty: +values?.quantity,
@@ -106,53 +111,52 @@ export default function InternalLoan({ loanType }) {
             console.log("transactionType 1 => payload", payload);
         }
         else if (transactionType === 2) {
-            // const payload ={
-            //     intAccountId: profileData?.accountId,
-            //     intBusinessUnitId: selectedBusinessUnit?.value,
-            //     intPlantId: values?.plant?.value,
-            //     intSbuId: 0,
-            //     intBusinessPartnerId: 0,
-            //     strBusinessPartnerName: "",
-            //     intLoanTypeId: loanType,
-            //     intLoanTypeName: loanType === 1 ? "Internal Loan" : "External Loan",
-            //     intTransTypeId: transactionType,
-            //     strTransTypeName: transactionType === 1 ? "Issue" : "Receive",
-            //     intWareHouseId: values?.warehouse?.value,
-            //     strWareHouseName: values?.warehouse?.label,
-            //     intLcid: 0,
-            //     strLcnumber: "",
-            //     intShipmentId: 0,
-            //     strShipmentName: "",
-            //     strSurveyReportNo: "",
-            //     intLighterVesselId: 0,
-            //     strLighterVesselName: "",
-            //     intMotherVesselId: 0,
-            //     strMotherVesselName: "",
-            //     dteTransDate: getCurrentDateTime(),
-            //     intReferenceId: values?.reference?.value,
-            //     strReferenceName: values?.reference?.label,
-            //     intItemId: values?.item?.value,
-            //     strItemName: values?.item?.label,
-            //     numItemQty: +values?.quantity,
-            //     numItemRate: 0,
-            //     numItemAmount: 0,
-            //     strNarration: values?.remarks,
-            //     intActionBy: profileData?.userId,
-            //     intFromOrToBusinessUnitId: values?.toBusinessUnit?.value,
-            //     strFromOrToBusinessUnitName: values?.toBusinessUnit?.label,
-            // }
+            const payload = {
+                intAccountId: profileData?.accountId,
+                intBusinessUnitId: selectedBusinessUnit?.value,
+                intPlantId: values?.plant?.value,
+                intSbuId: values?.sbu?.value,
+                intBusinessPartnerId: values?.partner?.value,
+                strBusinessPartnerName: values?.partner?.label,
+                intLoanTypeId: loanType,
+                intLoanTypeName: loanType === 1 ? "Internal Loan" : "External Loan",
+                intTransTypeId: transactionType,
+                strTransTypeName: transactionType === 1 ? "Issue" : "Receive",
+                intWareHouseId: values?.warehouse?.value,
+                strWareHouseName: values?.warehouse?.label,
+                intLcid: 0,
+                strLcnumber: "",
+                intShipmentId: 0,
+                strShipmentName: "",
+                strSurveyReportNo: "",
+                intLighterVesselId: 0,
+                strLighterVesselName: "",
+                intMotherVesselId: 0,
+                strMotherVesselName: "",
+                intItemId: values?.item?.value,
+                strItemName: values?.item?.label,
+                numItemQty: +values?.quantity,
+                numItemRate: 0,
+                numItemAmount: 0,
+                strNarration: values?.remarks,
+                intActionBy: profileData?.userId,
+                intFromOrToBusinessUnitId: values?.toBusinessUnit?.value,
+                strFromOrToBusinessUnitName: values?.toBusinessUnit?.label,
+            };
+            console.log("transactionType 2 => payload", payload);
         }
         else { }
     };
 
     useEffect(() => {
-        // getSbuDDL(`/costmgmt/SBU/GetSBUListDDL?AccountId=${profileData?.accountId
-        //     }&BusinessUnitId=${selectedBusinessUnit?.value
-        //     }&Status=true`, (data) => {
-        //         if (data && data[0]?.value) {
-        //             initData.sbu = data[0]
-        //         }
-        //     })
+        getpartnerDDl(`/partner/PManagementCommonDDL/GetBusinessPartnerbyIdDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PartnerTypeId=4`)
+        getSbuDDL(`/costmgmt/SBU/GetSBUListDDL?AccountId=${profileData?.accountId
+            }&BusinessUnitId=${selectedBusinessUnit?.value
+            }&Status=true`, (data) => {
+                if (data && data[0]?.value) {
+                    initData.sbu = data[0]
+                }
+            })
         getPlantDDL(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId
             }&AccId=1&BusinessUnitId=${selectedBusinessUnit?.value
             }&OrgUnitTypeId=7`)
@@ -179,7 +183,7 @@ export default function InternalLoan({ loanType }) {
                 touched,
             }) => (
                 <>
-                    {(plantDDLloader || warehouseDDLloader || saveDataLoader) && <Loading />}
+                    {(plantDDLloader || warehouseDDLloader || saveDataLoader || sbuDDLloader || partnerDDLloader) && <Loading />}
                     <IForm title="Create Inventory Loan" getProps={setObjprops}>
                         <Form>
                             <>
@@ -233,6 +237,21 @@ export default function InternalLoan({ loanType }) {
                                             touched={touched}
                                         />
                                     </div> */}
+                                    <div className="col-lg-3">
+                                        <NewSelect
+                                            name="partner"
+                                            // options={[{ value: 0, label: "All" }, ...partnerDDL] || []}
+                                            options={partnerDDL || []}
+                                            value={values?.partner}
+                                            label="Business Partner"
+                                            onChange={(valueOption) => {
+                                                setFieldValue("partner", valueOption);
+                                            }}
+                                            placeholder="Business Partner"
+                                            errors={errors}
+                                            touched={touched}
+                                        />
+                                    </div>
                                     <div className="col-lg-3">
                                         <NewSelect
                                             name="plant"
