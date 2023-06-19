@@ -155,11 +155,11 @@ export default function REBConsumptionForm({
                         (+e.target.value || 0) +
                           (+values.presentPressureTwo || 0) +
                           (+values.presentPressureThree || 0) +
-                          (+values.presentPressureFour || 0) +
-                          (+values.previousPressure || 0) +
-                          (+values.previousPressureTwo || 0) +
-                          (+values.previousPressureThree || 0) +
-                          (+values.previousPressureFour || 0)
+                          (+values.presentPressureFour || 0) -
+                          ((+values.previousPressure || 0) +
+                            (+values.previousPressureTwo || 0) +
+                            (+values.previousPressureThree || 0) +
+                            (+values.previousPressureFour || 0))
                       );
                       setFieldValue("presentPressure", e.target.value);
                       setTotalConsumptionUnit(
@@ -199,11 +199,11 @@ export default function REBConsumptionForm({
                           (+values.presentPressure || 0) +
                             (+e.target.value || 0) +
                             (+values.presentPressureThree || 0) +
-                            (+values.presentPressureFour || 0) +
-                            (+values.previousPressure || 0) +
-                            (+values.previousPressureTwo || 0) +
-                            (+values.previousPressureThree || 0) +
-                            (+values.previousPressureFour || 0)
+                            (+values.presentPressureFour || 0) -
+                            ((+values.previousPressure || 0) +
+                              (+values.previousPressureTwo || 0) +
+                              (+values.previousPressureThree || 0) +
+                              (+values.previousPressureFour || 0))
                         );
                         if (
                           values?.rebConsumptionDDL?.value === 3 ||
@@ -248,11 +248,11 @@ export default function REBConsumptionForm({
                             (+values.presentPressure || 0) +
                               (+values.presentPressureTwo || 0) +
                               (+e.target.value || 0) +
-                              (+values.presentPressureFour || 0) +
-                              (+values.previousPressure || 0) +
-                              (+values.previousPressureTwo || 0) +
-                              (+values.previousPressureThree || 0) +
-                              (+values.previousPressureFour || 0)
+                              (+values.presentPressureFour || 0) -
+                              ((+values.previousPressure || 0) +
+                                (+values.previousPressureTwo || 0) +
+                                (+values.previousPressureThree || 0) +
+                                (+values.previousPressureFour || 0))
                           );
                           setTotalConsumptionUnit(
                             +e.target.value,
@@ -291,11 +291,11 @@ export default function REBConsumptionForm({
                             (+values.presentPressure || 0) +
                               (+values.presentPressureTwo || 0) +
                               (+values.presentPressureThree || 0) +
-                              (+e.target.value || 0) +
-                              (+values.previousPressure || 0) +
-                              (+values.previousPressureTwo || 0) +
-                              (+values.previousPressureThree || 0) +
-                              (+values.previousPressureFour || 0)
+                              (+e.target.value || 0) -
+                              ((+values.previousPressure || 0) +
+                                (+values.previousPressureTwo || 0) +
+                                (+values.previousPressureThree || 0) +
+                                (+values.previousPressureFour || 0))
                           );
                           setTotalConsumptionUnit(
                             +e.target.value,
