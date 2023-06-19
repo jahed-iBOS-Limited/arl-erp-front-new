@@ -15,9 +15,14 @@ import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import AttachFile from "../../../common/attachmentUpload";
 import { getTotal } from "../../../common/helper";
 import { getMotherVesselDDL } from "../../tenderInformation/helper";
-import { GetDomesticPortDDL, GetLighterAllotmentPagination } from "../helper";
+import {
+  GetDomesticPortDDL,
+  GetLighterAllotmentPagination,
+  updateCNFInfo,
+} from "../helper";
 import CommissionRevenueCostTable from "./comRevCostTable";
 import GeneralInfoTable from "./generalInfoTable";
+import CNFTable from "./cnfTable";
 
 const initData = {
   status: "",
@@ -26,6 +31,14 @@ const initData = {
   narration: "",
   commissionRate: 0.15,
 };
+
+const statusDDL = [
+  { value: 1, label: "General Information" },
+  { value: 2, label: "Mother Vessel Commission" },
+  { value: 3, label: "Mother Vessel Revenue Generate" },
+  { value: 4, label: "Mother Vessel Cost Generate" },
+  { value: 5, label: "CNF Bill Configure" },
+];
 
 export function LandingTableRow() {
   const [gridData, setGridData] = useState({});
@@ -59,7 +72,7 @@ export function LandingTableRow() {
         _pageNo,
         _pageSize
       );
-    } else if ([2, 3, 4].includes(values?.status?.value)) {
+    } else if ([2, 3, 4, 5].includes(values?.status?.value)) {
       const statusId = values?.status?.value;
 
       const commissionURL = `/tms/LigterLoadUnload/PreDataForMotherVesselCommissionEntry?accountId=${accId}&businessUnitId=${buId}&motherVesselId=${values?.motherVessel?.value}`;
@@ -72,7 +85,7 @@ export function LandingTableRow() {
         ? commissionURL
         : [3].includes(statusId)
         ? revenueURL
-        : [4].includes(statusId)
+        : [4, 5].includes(statusId)
         ? costURL
         : "";
 
@@ -95,6 +108,14 @@ export function LandingTableRow() {
             isSelected: false,
             commissionRate: 0.15,
             billAmount,
+            vatOnCnf: "",
+            incomeTaxOnCnf: "",
+            riverDueRate: "",
+            lcRate: "",
+            vatRate: "",
+            commission: "",
+            others: "",
+            total: "",
           };
         });
         setRowData(modifyData);
@@ -183,6 +204,30 @@ export function LandingTableRow() {
     );
   };
 
+  const cnfInfoUpdate = () => {
+    const selectedItems = rowData?.filter((item) => item?.isSelected);
+    if (selectedItems?.length < 1) {
+      return toast.warn("Please select at least one row!");
+    }
+    const payload = selectedItems?.map((item) => {
+      return {
+        ...item,
+        programId: item?.programId,
+        accountId: accId,
+        businessUnitId: buId,
+        vatonCnf: item?.vatOnCnf,
+        incomeTaxonCnf: item?.incomeTaxOnCnf,
+        riverDueRate: 1,
+        lcrate: 1,
+        vatrate: 1,
+        totalVatamount: 1,
+        òthersAmount: 1,
+        totalAmount: 1,
+      };
+    });
+    updateCNFInfo(payload, setLoading, () => {});
+  };
+
   const rowDataHandler = (name, index, value) => {
     let _data = [...rowData];
     _data[index][name] = value;
@@ -218,12 +263,7 @@ export function LandingTableRow() {
                 <div className="col-lg-3">
                   <NewSelect
                     name="status"
-                    options={[
-                      { value: 1, label: "General Information" },
-                      { value: 2, label: "Mother Vessel Commission" },
-                      { value: 3, label: "Mother Vessel Revenue Generate" },
-                      { value: 4, label: "Mother Vessel Cost Generate" },
-                    ]}
+                    options={statusDDL}
                     value={values?.status}
                     label="Mother Vessel Status"
                     onChange={(valueOption) => {
@@ -290,7 +330,7 @@ export function LandingTableRow() {
                     </>
                   )}
 
-                <div className="col-lg-3">
+                <div className="col-lg-1">
                   <button
                     className="btn btn-primary mt-5"
                     type="button"
@@ -302,6 +342,19 @@ export function LandingTableRow() {
                     View
                   </button>
                 </div>
+                {[5].includes(values?.status?.value) && rowData?.length > 0 && (
+                  <div className="col-lg-1">
+                    <button
+                      className="btn btn-info mt-5"
+                      type="button"
+                      onClick={() => {
+                        cnfInfoUpdate();
+                      }}
+                    >
+                      Save
+                    </button>
+                  </div>
+                )}
               </div>
             </form>
             {rowData?.length > 0 &&
@@ -368,6 +421,17 @@ export function LandingTableRow() {
               allSelect={allSelect}
               rowDataHandler={rowDataHandler}
             />
+            {[5].includes(values?.status?.value) && (
+              <CNFTable
+                obj={{
+                  rowData,
+                  values,
+                  selectedAll,
+                  allSelect,
+                  rowDataHandler,
+                }}
+              />
+            )}
             <AttachFile obj={{ open, setOpen, setUploadedImage }} />
           </>
         )}

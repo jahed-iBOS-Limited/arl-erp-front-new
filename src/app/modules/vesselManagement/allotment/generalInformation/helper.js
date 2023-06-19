@@ -276,3 +276,21 @@ export const validationSchema = Yup.object().shape({
   }),
   allotmentDate: Yup.string().required("Allotment date is required"),
 });
+
+export const updateCNFInfo = async (payload, setLoading, cb) => {
+  setLoading(true);
+  try {
+    const res = await Axios.put(
+      `/tms/LigterLoadUnload/UpdateG2GProgramInfoRate`,
+      payload
+    );
+    if (res.status === 200) {
+      toast.success(res?.message || "Submitted successfully");
+      cb && cb();
+      setLoading(false);
+    }
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setLoading(false);
+  }
+};
