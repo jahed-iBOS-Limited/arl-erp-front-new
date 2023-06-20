@@ -13,9 +13,9 @@ import InputField from '../../../_helper/_inputField';
 import Loading from '../../../_helper/_loading';
 import NewSelect from '../../../_helper/_select';
 import {
-    _oneMonthLater,
-    _todayDate,
-    _todayDateTime12HFormet,
+   _oneMonthLater,
+   _todayDate,
+   _todayDateTime12HFormet,
 } from '../../../_helper/_todayDate';
 import IViewModal from '../../../_helper/_viewModal';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
@@ -26,18 +26,25 @@ const initData = {
    sbu: '',
    plant: '',
    warehouse: '',
-   purchaseOrganization: '',
-   rfqType: { value: 1, label: 'Request for Quotation' },
+   purchaseOrganization: {
+      value: 11,
+      label: "Local Procurement"
+   },
+   rfqType: { value: 1, label: 'Standard RFQ' },
    rfqTitle: '',
-   currency: '',
-   paymentTerms: '',
-   transportCost: '',
+   currency: {
+      value: 141,
+      label: 'Taka',
+      code: 'BDT',
+   },
+   paymentTerms: { value: 'Bank', label: 'Bank' },
+   transportCost: { value: 1, label: 'Including' },
    quotationEntryStart: '',
    validTillDate: '',
    deliveryAddress: '',
-   vatOrAit: '',
-   tds: '',
-   vds: '',
+   vatOrAit: { value: 1, label: 'Including' },
+   tds: { value: 1, label: 'Including' },
+   vds: { value: 1, label: 'Including' },
    referenceType: '',
    deliveryDate: '',
    referenceNo: '',
@@ -256,16 +263,12 @@ export default function RFQCreateEdit() {
                   getReferenceNoDDL(
                      `/procurement/RequestForQuotation/GetPRReferrenceNoDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&SBUId=${objHeader?.sbuid}&PurchaseOrganizationId=${objHeader?.purchaseOrganizationId}&PlantId=${objHeader?.plantId}&WearHouseId=${objHeader?.warehouseId}`
                   );
-                  // getItemListDDL(`/procurement/RequestForQuotation/GetRFQItemDDL?AccountId=${profileData?.accountId
-                  //     }&BusinessUnitId=${selectedBusinessUnit?.value
-                  //     }&SBUId=${objHeader?.sbuid
-                  //     }&PurchaseOrganizationId=${objHeader?.purchaseOrganizationId
-                  //     }&PlantId=${objHeader?.plantId
-                  //     }&WearHouseId=${objHeader?.warehouseId
-                  //     }&PurchaseRequestId=${objRow[0]?.referenceId}`)
                }
                getSupplierListDDL(
                   `/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=${objHeader?.sbuid}`
+               );
+               getPurchaseOrgListDDL(
+                  `/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
                );
                setModifiedData(viewData);
             }
@@ -294,7 +297,6 @@ export default function RFQCreateEdit() {
             `/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
          );
       }
-
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
 
@@ -579,16 +581,14 @@ export default function RFQCreateEdit() {
                                  !values?.plant ||
                                  (id && values?.isSentToSupplier)
                               }
-                              // isDisabled={id && values?.isSentToSupplier}
+                           // isDisabled={id && values?.isSentToSupplier}
                            />
                         </div>
                         <div className="col-lg-3">
                            <NewSelect
                               name="rfqType"
                               options={[
-                                 { value: 1, label: 'Request for Quotation' },
-                                 { value: 2, label: 'Request for Information' },
-                                 { value: 3, label: 'Request for Proposal' },
+                                 { value: 1, label: 'Standard RFQ' }
                               ]}
                               value={values?.rfqType}
                               label="RFQ Type"
@@ -608,21 +608,27 @@ export default function RFQCreateEdit() {
                               value={values?.purchaseOrganization}
                               label="Purchase Organization"
                               onChange={v => {
-                                 setFieldValue('currency', '');
-                                 setFieldValue('purchaseOrganization', v);
-                                 if (v?.value === 11) {
-                                    setFieldValue('currency', {
-                                       value: 141,
-                                       label: 'Taka',
-                                       code: 'BDT',
-                                    });
+                                 if (v) {
+                                    setFieldValue('currency', '');
+                                    setFieldValue('purchaseOrganization', v);
+                                    if (v?.value === 11) {
+                                       setFieldValue('currency', {
+                                          value: 141,
+                                          label: 'Taka',
+                                          code: 'BDT',
+                                       });
+                                    } else {
+                                       setFieldValue('currency', {
+                                          value: 155,
+                                          label: 'US Dollar',
+                                          code: 'USD',
+                                       });
+                                    }
                                  } else {
-                                    setFieldValue('currency', {
-                                       value: 155,
-                                       label: 'US Dollar',
-                                       code: 'USD',
-                                    });
+                                    setFieldValue('currency', '');
+                                    setFieldValue('purchaseOrganization', '');
                                  }
+
                               }}
                               placeholder="Purchase Organization"
                               errors={errors}
@@ -674,24 +680,6 @@ export default function RFQCreateEdit() {
                                  setFieldValue('paymentTerms', v);
                               }}
                               placeholder="Payment Terms"
-                              errors={errors}
-                              touched={touched}
-                              isDisabled={id && values?.isSentToSupplier}
-                           />
-                        </div>
-                        <div className="col-lg-3">
-                           <NewSelect
-                              name="transportCost"
-                              options={[
-                                 { value: 1, label: 'Including' },
-                                 { value: 2, label: 'Excluding' },
-                              ]}
-                              value={values?.transportCost}
-                              label="Transport Cost"
-                              onChange={v => {
-                                 setFieldValue('transportCost', v);
-                              }}
-                              placeholder="Transport Cost"
                               errors={errors}
                               touched={touched}
                               isDisabled={id && values?.isSentToSupplier}
@@ -773,6 +761,24 @@ export default function RFQCreateEdit() {
                                  );
                               }}
                               disabled={id && values?.isSentToSupplier}
+                           />
+                        </div>
+                        <div className="col-lg-3">
+                           <NewSelect
+                              name="transportCost"
+                              options={[
+                                 { value: 1, label: 'Including' },
+                                 { value: 2, label: 'Excluding' },
+                              ]}
+                              value={values?.transportCost}
+                              label="Transport Cost"
+                              onChange={v => {
+                                 setFieldValue('transportCost', v);
+                              }}
+                              placeholder="Transport Cost"
+                              errors={errors}
+                              touched={touched}
+                              isDisabled={id && values?.isSentToSupplier}
                            />
                         </div>
                         <div className="col-lg-3">
@@ -909,11 +915,12 @@ export default function RFQCreateEdit() {
                                  !values?.plant ||
                                  !values?.warehouse ||
                                  values?.referenceType?.value ===
-                                    'without reference' ||
+                                 'without reference' ||
                                  (id && values?.isSentToSupplier)
                               }
                            />
                         </div>
+                        <div className="col-lg-9"></div>
                         <div className="col-lg-3">
                            <NewSelect
                               name="item"
@@ -953,7 +960,7 @@ export default function RFQCreateEdit() {
                               disabled={id && values?.isSentToSupplier}
                            />
                         </div>
-                        <div className="col-lg-3">
+                        <div className="col-lg-2">
                            <InputField
                               value={values?.quantity}
                               label="Quantity"
@@ -966,7 +973,7 @@ export default function RFQCreateEdit() {
                               disabled={id && values?.isSentToSupplier}
                            />
                         </div>
-                        <div className="col-lg-3">
+                        <div className="col-lg-2">
                            <label style={{ position: 'absolute', top: '24px' }}>
                               All Item
                            </label>
@@ -985,7 +992,7 @@ export default function RFQCreateEdit() {
                                     disabled={
                                        !values?.referenceType ||
                                        values?.referenceType?.value ===
-                                          'without reference' ||
+                                       'without reference' ||
                                        (id && values?.isSentToSupplier)
                                     }
                                     value={values.isAllItem || ''}
@@ -1003,7 +1010,7 @@ export default function RFQCreateEdit() {
                               label="isAllItem"
                            />
                         </div>
-                        <div className="col-lg-3">
+                        <div className="col-lg-2">
                            <button
                               type="button"
                               className="btn btn-primary"
@@ -1070,7 +1077,7 @@ export default function RFQCreateEdit() {
                                              itemList?.length === 0 ||
                                              (id && values?.isSentToSupplier) ||
                                              values?.referenceType?.value ===
-                                                'without reference'
+                                             'without reference'
                                           }
                                        />
                                     </OverlayTrigger>
@@ -1086,10 +1093,10 @@ export default function RFQCreateEdit() {
                                        <td>{index + 1}</td>
                                        {values?.referenceType?.value ===
                                           'with reference' && (
-                                          <td className="text-center">
-                                             {item?.referenceCode}
-                                          </td>
-                                       )}
+                                             <td className="text-center">
+                                                {item?.referenceCode}
+                                             </td>
+                                          )}
                                        <td>{item?.itemName}</td>
                                        <td>{item?.uoMname}</td>
                                        <td>
@@ -1160,15 +1167,28 @@ export default function RFQCreateEdit() {
                               value={values?.supplier}
                               label="Supplier"
                               onChange={v => {
-                                 setFieldValue('supplier', v);
-                                 setFieldValue(
-                                    'supplierContactNo',
-                                    v?.supplierContact
-                                 );
-                                 setFieldValue(
-                                    'supplierEmail',
-                                    v?.supplierEmail
-                                 );
+                                 if (v) {
+                                    setFieldValue('supplier', v);
+                                    setFieldValue(
+                                       'supplierContactNo',
+                                       v?.supplierContact
+                                    );
+                                    setFieldValue(
+                                       'supplierEmail',
+                                       v?.supplierEmail
+                                    );
+                                 }else{
+                                    setFieldValue('supplier', '');
+                                    setFieldValue(
+                                       'supplierContactNo',
+                                       ''
+                                    );
+                                    setFieldValue(
+                                       'supplierEmail',
+                                       ''
+                                    );
+                                 }
+
                               }}
                               placeholder="Supplier"
                               errors={errors}
