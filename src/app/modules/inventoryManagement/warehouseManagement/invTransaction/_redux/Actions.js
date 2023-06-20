@@ -862,6 +862,15 @@ export const getSingleDataAction = (id) => (dispatch) => {
   });
 };
 
+export const getBusinessTransactionDDLAction = (id) => (dispatch) => {
+  return requestFromServer.getBusinessTransactionDDL(id).then((res) => {
+    const { status, data } = res;
+    if (status === 200 && data) {
+      dispatch(slice.setBusinessTransactionDDL(data));
+    }
+  });
+};
+
 export const getSingleDataForShowAction = (
   accId,
   buId,

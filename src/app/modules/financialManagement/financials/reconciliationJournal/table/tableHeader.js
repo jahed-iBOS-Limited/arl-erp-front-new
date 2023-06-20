@@ -1,39 +1,57 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useMemo } from "react";
-import { Formik, Form } from "formik";
-import NewSelect from "./../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import { Form, Formik } from "formik";
 import { DropzoneDialogBase } from "material-ui-dropzone";
+import React, { useEffect, useMemo, useState } from "react";
+import ReactHtmlTableToExcel from "react-html-table-to-excel";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import * as Yup from "yup";
+import IConfirmModal from "../../../../_helper/_confirmModal";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import { _formatMoney } from "../../../../_helper/_formatMoney";
+import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
+import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
+import numberWithCommas from "../../../../_helper/_numberWithCommas";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import { SetFinancialsInventoryJournalAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import {
-  getSbuDDL,
-  getInventoryJournalGenLedger,
-  getInventoryJournal,
-  postInventoryJournal,
-  getType,
   getDepreciationGenLedgerList,
   getDepreciationJournal,
-  postDepreciationJournal
+  getInventoryJournal,
+  getInventoryJournalGenLedger,
+  getSbuDDL,
+  getType,
+  postDepreciationJournal,
+  postInventoryJournal
 } from "../helper";
 import {
   Card,
+  CardBody,
   CardHeader,
   CardHeaderToolbar,
-  CardBody,
   ModalProgressBar,
 } from "./../../../../../../_metronic/_partials/controls";
-import ReactHtmlTableToExcel from "react-html-table-to-excel";
-import * as Yup from "yup";
-import { SetFinancialsInventoryJournalAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import Loading from "../../../../_helper/_loading";
+import NewSelect from "./../../../../_helper/_select";
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
+
+function getMonthFirstLastDate(fromDate) {
+  const date = new Date(fromDate);
+    const firstDate = new Date(date.getFullYear(), date.getMonth(), 1);
+    const lastDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    return {
+      firstDate: _dateFormatter(firstDate),
+      lastDate: _dateFormatter(lastDate)
+    };
+}
+
+// function getMonthLastDate(toDate) {
+//   const date = new Date(toDate);
+//     const lastDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+//     return _dateFormatter(lastDate);
+// }
+
 
 const ReconciliationJournal = () => {
   const { financialsInventoryJournal } = useSelector(
@@ -45,7 +63,7 @@ const ReconciliationJournal = () => {
   const initData = {
     transactionDate:
       financialsInventoryJournal?.transactionDate || _todayDate(),
-    fromDate: financialsInventoryJournal?.fromDate || _todayDate(),
+    fromDate: financialsInventoryJournal?.fromDate || _monthFirstDate(),
     toDate: financialsInventoryJournal?.toDate || _todayDate(),
     sbu: financialsInventoryJournal?.sbu || "",
     type: financialsInventoryJournal?.type || "",
@@ -276,13 +294,23 @@ const ReconciliationJournal = () => {
                           type="date"
                           onChange={(e) => {
                             setFieldValue("fromDate", e.target.value);
+                            // setFieldValue("closingType", "")
                             dispatch(
                               SetFinancialsInventoryJournalAction({
                                 ...values,
-                                fromDate: e.target.value,
+                                // fromDate: e.target.value,
+                                fromDate: values?.closingType?.value === 1 ? getMonthFirstLastDate(e.target.value)?.firstDate : e.target.value,
+                                toDate: getMonthFirstLastDate(e.target.value)?.lastDate,
+                                closingType: values?.closingType,
                               })
                             );
+                            setJounalLedgerData([]);
+                            setJournalData([])
                           }}
+                          min={values?.closingType?.value === 1 ? 
+                            getMonthFirstLastDate(values?.fromDate)?.firstDate : ""}
+                          max={values?.closingType?.value === 1 ? 
+                            getMonthFirstLastDate(values?.fromDate)?.lastDate : ""}
                         />
                       </div>
                     )}
@@ -296,13 +324,21 @@ const ReconciliationJournal = () => {
                           type="date"
                           onChange={(e) => {
                             setFieldValue("toDate", e.target.value);
+                            setFieldValue("closingType", "")
                             dispatch(
                               SetFinancialsInventoryJournalAction({
                                 ...values,
-                                toDate: e.target.value,
+                                // toDate: e.target.value,
+                                fromDate: values?.closingType?.value === 1 ? getMonthFirstLastDate(values?.fromDate)?.firstDate : values?.fromDate,
+                                toDate: values?.closingType?.value === 1 ? getMonthFirstLastDate(values?.fromDate)?.lastDate : e.target.value,
+                                closingType: values?.closingType,
                               })
                             );
+                            setJounalLedgerData([]);
+                            setJournalData([])
                           }}
+                          min={values?.fromDate}
+                          max={getMonthFirstLastDate(values?.fromDate)?.lastDate}
                         />
                       </div>
                     )}
@@ -315,7 +351,7 @@ const ReconciliationJournal = () => {
                           placeholder="Date"
                           type="date"
                           onChange={(e) => {
-                            setFieldValue("transactionDate", e.target.value);
+                            setFieldValue("transactionDate", e.target.value);            
                             dispatch(
                               SetFinancialsInventoryJournalAction({
                                 ...values,
@@ -357,13 +393,22 @@ const ReconciliationJournal = () => {
                             value={values?.closingType}
                             label="Closing Type"
                             onChange={(valueOption) => {
-                              setFieldValue("closingType", valueOption);
-                              dispatch(
-                                SetFinancialsInventoryJournalAction({
-                                  ...values,
-                                  closingType: valueOption,
-                                })
-                              );
+                              if(valueOption){
+                                setFieldValue("closingType", valueOption);
+                                dispatch(
+                                  SetFinancialsInventoryJournalAction({
+                                    ...values,
+                                    closingType: valueOption,
+                                    fromDate: valueOption?.value === 1 ? getMonthFirstLastDate(values?.fromDate)?.firstDate : values?.fromDate,
+                                    toDate: valueOption?.value === 1 ? getMonthFirstLastDate(values?.fromDate)?.lastDate : values?.toDate,
+                                  })
+                                );
+                                setJounalLedgerData([]);
+                                setJournalData([])
+                            }
+                              else{
+                                setFieldValue("closingType", "");
+                              }
                             }}
                             placeholder="Closing Type"
                             errors={errors}
