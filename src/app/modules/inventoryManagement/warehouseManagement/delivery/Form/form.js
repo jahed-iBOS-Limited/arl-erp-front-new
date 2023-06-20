@@ -194,6 +194,7 @@ export default function _Form({
                         label="Select Warehouse"
                         onChange={(valueOption) => {
                           setFieldValue("warehouse", valueOption);
+                          setFieldValue("itemLists", []);
                         }}
                         placeholder="Select Warehouse"
                         errors={errors}
@@ -335,6 +336,7 @@ export default function _Form({
                         onChange={(valueOption) => {
                           setFieldValue("salesOrder", valueOption);
                           setFieldValue("shipToParty", "");
+                          setFieldValue("itemLists", []);
                           dispatch(
                             GetDataBySalesOrderAction(
                               valueOption?.value,
