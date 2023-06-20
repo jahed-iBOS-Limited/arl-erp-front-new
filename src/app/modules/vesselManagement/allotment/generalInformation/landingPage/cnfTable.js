@@ -67,7 +67,7 @@ export default function CNFTable({ obj }) {
               const total = riverDueAmount + lcAmount;
               const vatAmount = (total / 100) * +item?.vatRate;
               const commissionAmount = +item?.programQnt * +item?.commission;
-              const totalAmount = total + vatAmount;
+              const totalAmount = total + vatAmount + +item?.others;
 
               return (
                 <tr key={index}>

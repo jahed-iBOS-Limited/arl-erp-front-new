@@ -135,7 +135,8 @@ export const getG2GMotherVesselLocalRevenueApi = async (
       cb && cb(res?.data);
     }
   } catch (error) {
-    cb && cb('');
+    toast.warn(error?.response?.data?.message);
+    cb && cb("");
   }
 };
 export const EditLighterChallanInfo = async (payload, cb) => {
