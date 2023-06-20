@@ -213,6 +213,18 @@ export const getShipmentByID = async (
       const vehicleInTime = moment(objHeader?.vehicleInDate).format("HH:mm:ss");
       const newObj = {
         ...objHeader,
+        profitCenter: {
+          value: objHeader?.profitCenterId,
+          label: objHeader?.profitCenterName,
+        },
+        costCenter: {
+          value: objHeader?.costCenterId,
+          label: objHeader?.costCenterName,
+        },
+        costElement: {
+          value: objHeader?.costElementId,
+          label: objHeader?.costElementName,
+        },
         shipmentDate: _dateFormatter(objHeader.shipmentDate),
         daQuantity: "",
         daAmount: "",
