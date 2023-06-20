@@ -190,13 +190,13 @@ export default function ShipmentCostForm() {
           };
         });
 
-        if (!values?.profitCenter) {
+        if (!values?.profitCenter?.value) {
           return toast.warn("Profit Center is required");
         }
-        if (!values?.costElement) {
+        if (!values?.costElement?.value) {
           return toast.warn("Cost Element is required");
         }
-        if (!values?.costCenter) {
+        if (!values?.costCenter?.value) {
           return toast.warn("Cost Center is required");
         }
 
