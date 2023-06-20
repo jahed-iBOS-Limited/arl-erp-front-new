@@ -213,18 +213,29 @@ export const getShipmentByID = async (
       const vehicleInTime = moment(objHeader?.vehicleInDate).format("HH:mm:ss");
       const newObj = {
         ...objHeader,
-        profitCenter: {
+        // if objHeader?.profitCenterId is null then set empty string otherwise set objHeader?.profitCenterId
+        profitCenter: objHeader?.profitCenterId ? {
           value: objHeader?.profitCenterId,
           label: objHeader?.profitCenterName,
-        },
-        costCenter: {
+        } : "",
+
+        costCenter: objHeader?.costCenterId ? {
           value: objHeader?.costCenterId,
           label: objHeader?.costCenterName,
-        },
-        costElement: {
+        } : "",
+        costElement: objHeader?.costElementId ? {
           value: objHeader?.costElementId,
           label: objHeader?.costElementName,
-        },
+        } : "",
+
+        // costCenter: {
+        //   value: objHeader?.costCenterId,
+        //   label: objHeader?.costCenterName,
+        // },
+        // costElement: {
+        //   value: objHeader?.costElementId,
+        //   label: objHeader?.costElementName,
+        // },
         shipmentDate: _dateFormatter(objHeader.shipmentDate),
         daQuantity: "",
         daAmount: "",
