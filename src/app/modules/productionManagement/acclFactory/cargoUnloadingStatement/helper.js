@@ -33,11 +33,11 @@ export const onCreateOrEditCargoUnloadingStatement = (
       rowFullFilled = false;
       item.quantityError = "Quantity should be greater than zero";
     }
-    if (!item?.poNo) {
+    if (!item?.poNo && viewType !== null) {
       rowFullFilled = false;
       item.poNoError = "PO Number is required";
     }
-    if (!item?.lcNo) {
+    if (!item?.lcNo && viewType !== null) {
       rowFullFilled = false;
       item.lcNoError = "LC Number is required";
     }
@@ -54,10 +54,10 @@ export const onCreateOrEditCargoUnloadingStatement = (
     rawMaterialId: item?.value,
     rawMaterialName: item?.label,
     quantity: +item?.quantity,
-    poid: item?.poNo?.value,
-    ponumber: item?.poNo?.label,
-    lcid: item?.lcNo?.value,
-    lcnumber: item?.lcNo?.label,
+    poid: item?.poNo?.value || 0,
+    ponumber: item?.poNo?.label || "",
+    lcid: item?.lcNo?.value || 0,
+    lcnumber: item?.lcNo?.label || "",
     uoMName: item?.uoM,
     uomId: item?.uoMId,
     isActive: true,
@@ -94,6 +94,12 @@ export const onCreateOrEditCargoUnloadingStatement = (
       intRawMaterialId: values?.rawMaterialName?.value || 0,
       strRawMaterialName: values?.rawMaterialName?.label || "",
       strRemarks: values?.remarks || "",
+      strUnloadType:
+        viewType === 1
+          ? "Own Lighter Vessel"
+          : viewType === 0
+          ? "Others"
+          : "Loan",
       isOwnLighterVessel: viewType,
       isActive: true,
       intCreatedBy: id ? 0 : profileData?.userId,
@@ -118,14 +124,15 @@ export const renitializeCargoUnloadingState = (
     (data) => {
       const { objHeader, objRow } = data;
       setModifyData({
-        lighterVessel: objHeader?.isOwnLighterVessel
-          ? objHeader?.intLighterVesselId && objHeader?.strLighterVesselName
-            ? {
-                value: objHeader?.intLighterVesselId,
-                label: objHeader?.strLighterVesselName,
-              }
-            : ""
-          : objHeader?.strLighterVesselName || "",
+        lighterVessel:
+          objHeader?.isOwnLighterVessel === 1
+            ? objHeader?.intLighterVesselId && objHeader?.strLighterVesselName
+              ? {
+                  value: objHeader?.intLighterVesselId,
+                  label: objHeader?.strLighterVesselName,
+                }
+              : ""
+            : objHeader?.strLighterVesselName || "",
         motherVessel: objHeader?.strVesselName || "",
         mobileNo: objHeader?.strMobileNumber || "",
         bnQyt: objHeader?.numBnquantity || "",
@@ -159,15 +166,19 @@ export const renitializeCargoUnloadingState = (
           value: item?.rawMaterialId,
           label: item?.rawMaterialName,
           quantity: `${item?.quantity || ""}`,
-          poNo: {
-            value: item?.poid,
-            label: item?.ponumber,
-          },
+          poNo: item?.ponumber
+            ? {
+                value: item?.poid,
+                label: item?.ponumber,
+              }
+            : "",
 
-          lcNo: {
-            value: item?.lcid,
-            label: item?.lcnumber,
-          },
+          lcNo: item?.lcnumber
+            ? {
+                value: item?.lcid,
+                label: item?.lcnumber,
+              }
+            : "",
 
           uoM: item?.uoMName,
           uoMId: item?.uomId,

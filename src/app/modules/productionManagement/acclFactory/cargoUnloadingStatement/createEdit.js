@@ -30,7 +30,7 @@ export default function CargoUnloadingStatementCreate() {
   const [, createHandler, loadingOnCreateOredit] = useAxiosPost();
   const [modifyData, setModifyData] = useState({});
   const [, getLcDDL, loadingOnGetLcDDL] = useAxiosGet();
-  const [viewType, setViewType] = useState(true);
+  const [viewType, setViewType] = useState(1);
   const [lighterVesselDDL, getLighterVesselDDL] = useAxiosGet();
   const [selectedRawMaterial, setSelectedRawMaterial] = useState([]);
   const { id } = useParams();
@@ -119,35 +119,49 @@ export default function CargoUnloadingStatementCreate() {
                       <input
                         type="radio"
                         name="viewType"
-                        checked={viewType === true}
+                        checked={viewType === 1}
                         className="mr-1 pointer"
                         style={{ position: "relative", top: "2px" }}
                         onChange={(valueOption) => {
-                          setViewType(true);
+                          setViewType(1);
                           setFieldValue("lighterVessel", "");
                         }}
                       />
                       Own Lighter Vessel
                     </label>
-                    <label>
+                    <label className="mr-3">
                       <input
                         type="radio"
                         name="viewType"
-                        checked={viewType === false}
+                        checked={viewType === 0}
                         className="mr-1 pointer"
                         style={{ position: "relative", top: "2px" }}
                         onChange={(e) => {
-                          setViewType(false);
+                          setViewType(0);
                           setFieldValue("lighterVessel", "");
                         }}
                       />
                       Others
                     </label>
+                    <label>
+                      <input
+                        type="radio"
+                        name="viewType"
+                        checked={viewType === null}
+                        className="mr-1 pointer"
+                        style={{ position: "relative", top: "2px" }}
+                        onChange={(e) => {
+                          setViewType(null);
+                          setFieldValue("lighterVessel", "");
+                        }}
+                      />
+                      Loan
+                    </label>
                   </div>
                 </>
                 <div className="form-group  global-form row">
                   <div className="col-lg-3">
-                    {viewType ? (
+                    {viewType === 1 ? (
                       <NewSelect
                         name="lighterVessel"
                         options={lighterVesselDDL || []}
@@ -389,8 +403,12 @@ export default function CargoUnloadingStatementCreate() {
                           <th>Raw Material</th>
                           <th style={{ width: "100px" }}>UoM</th>
                           <th style={{ width: "200px" }}>Quantity</th>
-                          <th style={{ width: "200px" }}>PO Number</th>
-                          <th style={{ width: "200px" }}>LC Number</th>
+                          {viewType !== null ? (
+                            <>
+                              <th style={{ width: "200px" }}>PO Number</th>
+                              <th style={{ width: "200px" }}>LC Number</th>
+                            </>
+                          ) : null}
                           <th style={{ width: "70px" }}>Action</th>
                         </tr>
                       </thead>
@@ -436,22 +454,43 @@ export default function CargoUnloadingStatementCreate() {
                                 </p>
                               )}
                             </td>
-                            <td>
-                              <SearchAsyncSelect
-                                selectedValue={item?.poNo}
-                                handleChange={(valueOption) => {
-                                  if (valueOption) {
-                                    getLcDDL(
-                                      `/mes/MSIL/GetLcDDL?intAccountId=${profileData?.accountId}&intBusinessUnitId=${selectedBusinessUnit?.value}&intPoId=${valueOption?.value}`,
-                                      (data) => {
+                            {viewType !== null ? (
+                              <>
+                                <td>
+                                  <SearchAsyncSelect
+                                    selectedValue={item?.poNo}
+                                    handleChange={(valueOption) => {
+                                      if (valueOption) {
+                                        getLcDDL(
+                                          `/mes/MSIL/GetLcDDL?intAccountId=${profileData?.accountId}&intBusinessUnitId=${selectedBusinessUnit?.value}&intPoId=${valueOption?.value}`,
+                                          (data) => {
+                                            const modifiedSelectedRawMaterial = selectedRawMaterial.map(
+                                              (nestedItem) =>
+                                                nestedItem?.value ===
+                                                item?.value
+                                                  ? {
+                                                      ...nestedItem,
+                                                      lcDDL: data,
+                                                      lcNo: "",
+                                                      poNo: valueOption,
+                                                      poNoError: null,
+                                                    }
+                                                  : nestedItem
+                                            );
+                                            setSelectedRawMaterial(
+                                              modifiedSelectedRawMaterial
+                                            );
+                                          }
+                                        );
+                                      } else {
                                         const modifiedSelectedRawMaterial = selectedRawMaterial.map(
                                           (nestedItem) =>
                                             nestedItem?.value === item?.value
                                               ? {
                                                   ...nestedItem,
-                                                  lcDDL: data,
+                                                  lcDDL: [],
                                                   lcNo: "",
-                                                  poNo: valueOption,
+                                                  poNo: "",
                                                   poNoError: null,
                                                 }
                                               : nestedItem
@@ -460,84 +499,68 @@ export default function CargoUnloadingStatementCreate() {
                                           modifiedSelectedRawMaterial
                                         );
                                       }
-                                    );
-                                  } else {
-                                    const modifiedSelectedRawMaterial = selectedRawMaterial.map(
-                                      (nestedItem) =>
-                                        nestedItem?.value === item?.value
-                                          ? {
-                                              ...nestedItem,
-                                              lcDDL: [],
-                                              lcNo: "",
-                                              poNo: "",
-                                              poNoError: null,
-                                            }
-                                          : nestedItem
-                                    );
-                                    setSelectedRawMaterial(
-                                      modifiedSelectedRawMaterial
-                                    );
-                                  }
-                                }}
-                                loadOptions={(v) =>
-                                  loadPoListForCargoUnloading(
-                                    v,
-                                    profileData,
-                                    selectedBusinessUnit
-                                  )
-                                }
-                              />
-                              {item?.poNoError && (
-                                <p
-                                  style={{
-                                    fontSize: "0.9rem",
-                                    fontWeight: 400,
-                                    width: "100%",
-                                    marginTop: "0",
-                                    marginBottom: "0",
-                                  }}
-                                  className="text-danger"
-                                >
-                                  {item?.poNoError}
-                                </p>
-                              )}
-                            </td>
-                            <td>
-                              <NewSelect
-                                name="lcNo"
-                                options={item?.lcDDL || []}
-                                value={item?.lcNo}
-                                onChange={(valueOption) => {
-                                  const modifiedSelectedRawMaterial = selectedRawMaterial.map(
-                                    (nestedItem) =>
-                                      nestedItem?.value === item?.value
-                                        ? {
-                                            ...nestedItem,
-                                            lcNo: valueOption,
-                                            lcNoError: null,
-                                          }
-                                        : nestedItem
-                                  );
-                                  setSelectedRawMaterial(
-                                    modifiedSelectedRawMaterial
-                                  );
-                                }}
-                              />
-                              {item?.lcNoError && (
-                                <p
-                                  style={{
-                                    fontSize: "0.9rem",
-                                    fontWeight: 400,
-                                    width: "100%",
-                                    marginTop: "0",
-                                    marginBottom: "0",
-                                  }}
-                                  className="text-danger"
-                                >
-                                  {item?.lcNoError}
-                                </p>
-                              )}
-                            </td>
+                                    }}
+                                    loadOptions={(v) =>
+                                      loadPoListForCargoUnloading(
+                                        v,
+                                        profileData,
+                                        selectedBusinessUnit
+                                      )
+                                    }
+                                  />
+                                  {item?.poNoError && (
+                                    <p
+                                      style={{
+                                        fontSize: "0.9rem",
+                                        fontWeight: 400,
+                                        width: "100%",
+                                        marginTop: "0",
+                                        marginBottom: "0",
+                                      }}
+                                      className="text-danger"
+                                    >
+                                      {item?.poNoError}
+                                    </p>
+                                  )}
+                                </td>
+                                <td>
+                                  <NewSelect
+                                    name="lcNo"
+                                    options={item?.lcDDL || []}
+                                    value={item?.lcNo}
+                                    onChange={(valueOption) => {
+                                      const modifiedSelectedRawMaterial = selectedRawMaterial.map(
+                                        (nestedItem) =>
+                                          nestedItem?.value === item?.value
+                                            ? {
+                                                ...nestedItem,
+                                                lcNo: valueOption,
+                                                lcNoError: null,
+                                              }
+                                            : nestedItem
+                                      );
+                                      setSelectedRawMaterial(
+                                        modifiedSelectedRawMaterial
+                                      );
+                                    }}
+                                  />
+                                  {item?.lcNoError && (
+                                    <p
+                                      style={{
+                                        fontSize: "0.9rem",
+                                        fontWeight: 400,
+                                        width: "100%",
+                                        marginTop: "0",
+                                        marginBottom: "0",
+                                      }}
+                                      className="text-danger"
+                                    >
+                                      {item?.lcNoError}
+                                    </p>
+                                  )}
+                                </td>
+                              </>
+                            ) : null}
                             <td
                               className="text-center"
                               style={{ width: "60px" }}

@@ -146,6 +146,9 @@ function CargoUnloadingStatement() {
                               <th style={{ minWidth: "120px" }}>
                                 Lighter Vessel Name
                               </th>
+                              <th style={{ minWidth: "120px" }}>
+                                Unload Type
+                              </th>
                               <th style={{ minWidth: "85px" }}>Recieve Date</th>
                               <th style={{ minWidth: "85px" }}>Recieve Time</th>
                               <th style={{ minWidth: "85px" }}>Start Date</th>
@@ -184,6 +187,7 @@ function CargoUnloadingStatement() {
                                 <tr key={index}>
                                   <td>{index + 1}</td>
                                   <td>{item?.strLighterVesselName}</td>
+                                  <td>{item?.strUnloadType}</td>
                                   <td className="text-center">
                                     {item?.dteReceiveDate ? _dateFormatter(item?.dteReceiveDate) :  "N/A"}
                                   </td>
