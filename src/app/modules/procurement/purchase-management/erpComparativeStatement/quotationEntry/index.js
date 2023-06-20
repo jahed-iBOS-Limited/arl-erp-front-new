@@ -24,7 +24,7 @@ const initData = {
     fromDate: _threeMonthAgoDate(),
     toDate: _todayDate(),
 };
-export default function QuotationEntryLanding() {
+export default function ErpComparativeStatementLanding() {
 
     const [landingData, getLandingData, landingDataLoader, setLandingData] = useAxiosGet();
     const { profileData, selectedBusinessUnit } = useSelector((state) => {
