@@ -137,7 +137,11 @@ export default function REBConsumptionForm({
                   <InputField
                     disabled
                     value={values?.previousPressure}
-                    label="Previous KWH M1 (Meter Reading)"
+                    label={
+                      selectedBusinessUnit?.value === 144
+                        ? "Previous KWH 11KV Boil (MR)"
+                        : "Previous KWH M1 (Meter Reading)"
+                    }
                     name="previousPressure"
                     type="number"
                   />
@@ -146,7 +150,11 @@ export default function REBConsumptionForm({
                   <InputField
                     // disabled={location?.state}
                     value={values?.presentPressure}
-                    label="Present KWH M1 (Meter Reading)"
+                    label={
+                      selectedBusinessUnit?.value === 144
+                        ? "Present KWH 11KV Boil (MR)"
+                        : "Present KWH M1 (Meter Reading)"
+                    }
                     name="presentPressure"
                     type="number"
                     onChange={(e) => {
@@ -177,7 +185,11 @@ export default function REBConsumptionForm({
                     <InputField
                       disabled
                       value={values?.previousPressureTwo}
-                      label="Previous KWH M2 (Meter Reading)"
+                      label={
+                        selectedBusinessUnit?.value === 144
+                          ? "Previous KWH 11KV Aromatic (MR)"
+                          : "Previous KWH M2 (Meter Reading)"
+                      }
                       name="previousPressureTwo"
                       type="number"
                     />
@@ -189,7 +201,11 @@ export default function REBConsumptionForm({
                     <InputField
                       // disabled={location?.state}
                       value={values?.presentPressureTwo}
-                      label="Present KWH M2 (Meter Reading)"
+                      label={
+                        selectedBusinessUnit?.value === 144
+                          ? "Present KWH 11KV Aromatic (MR)"
+                          : "Present KWH M2 (Meter Reading)"
+                      }
                       name="presentPressureTwo"
                       type="number"
                       onChange={(e) => {
@@ -229,7 +245,11 @@ export default function REBConsumptionForm({
                       <InputField
                         disabled
                         value={values?.previousPressureThree}
-                        label="Previous KWH M3 (Meter Reading)"
+                        label={
+                          selectedBusinessUnit?.value === 144
+                            ? "Previous KWH 0.4KV Aromatic_1 (MR)"
+                            : "Previous KWH M3 (Meter Reading)"
+                        }
                         name="previousPressureThree"
                         type="number"
                       />
@@ -238,7 +258,11 @@ export default function REBConsumptionForm({
                       <InputField
                         // disabled={location?.state}
                         value={values?.presentPressureThree}
-                        label="Present KWH M3 (Meter Reading)"
+                        label={
+                          selectedBusinessUnit?.value === 144
+                            ? "Present KWH 0.4KV Aromatic_1 (MR)"
+                            : "Present KWH M3 (Meter Reading)"
+                        }
                         name="presentPressureThree"
                         type="number"
                         onChange={(e) => {
@@ -272,7 +296,7 @@ export default function REBConsumptionForm({
                       <InputField
                         disabled
                         value={values?.previousPressureFour}
-                        label="Previous KWH M4 (Meter Reading)"
+                        label={selectedBusinessUnit?.value === 144 ? "Previous KWH 0.4KV Aromatic_2 (MR)" : "Previous KWH M4 (Meter Reading)"}
                         name="previousPressureFour"
                         type="number"
                       />
@@ -281,7 +305,7 @@ export default function REBConsumptionForm({
                       <InputField
                         // disabled={location?.state}
                         value={values?.presentPressureFour}
-                        label="Present KWH M4 (Meter Reading)"
+                        label={selectedBusinessUnit?.value === 144 ? "Present KWH 0.4KV Aromatic_2 (MR)" : "Present KWH M4 (Meter Reading)"}
                         name="presentPressureFour"
                         type="number"
                         onChange={(e) => {

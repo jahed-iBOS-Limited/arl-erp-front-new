@@ -25,7 +25,7 @@ import IConfirmModal from "../../../_helper/_confirmModal";
 import PaginationSearch from "../../../_helper/_search";
 const initData = {
     purchaseOrganization: { value: 0, label: 'ALL' },
-    rfqType: { value: 1, label: 'Request for Quotation' },
+    rfqType: { value: 1, label: 'Standard RFQ' },
     sbu: "",
     plant: "",
     warehouse: "",
@@ -176,7 +176,7 @@ export default function RequestForQuotationLanding() {
                                         name="rfqType"
                                         options={
                                             [
-                                                { value: 1, label: 'Request for Quotation' },
+                                                { value: 1, label: 'Standard RFQ' },
                                                 { value: 2, label: 'Request for Information' },
                                                 { value: 3, label: 'Request for Proposal' }
                                             ]
@@ -408,7 +408,7 @@ export default function RequestForQuotationLanding() {
                                                     ) : null
                                                 }</td>
                                                 <td>{item?.createdBy}</td>
-                                                <td className="text-center">
+                                                <td>
                                                     <span
                                                         onClick={() => {
                                                             setShowCode(item?.requestForQuotationId)
