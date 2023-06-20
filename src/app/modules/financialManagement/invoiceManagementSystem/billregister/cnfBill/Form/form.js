@@ -238,7 +238,13 @@ export default function _Form({
                       <th>Mother Vessel Name</th>
                       <th>CNF Name</th>
                       <th>Quantity</th>
-                      <th>Rate</th>
+                      <th>VAT on CNF</th>
+                      <th>Income Tax on CNF</th>
+                      <th>River Due Rate</th>
+                      <th>LC Rate</th>
+                      <th>VAT Rate</th>
+                      <th>VAT Amount</th>
+                      <th>Others</th>
                       <th>Bill Amount</th>
                     </tr>
                   </thead>
@@ -261,7 +267,21 @@ export default function _Form({
                         <td>{item?.motherVesselName}</td>
                         <td>{item?.cnfname}</td>
                         <td className="text-right">{item?.programQnt || 0}</td>
-                        <td className="text-right">{item?.cnfrate || 0}</td>
+                        <td className="text-right">{item?.vatonCnf || 0}</td>
+                        <td className="text-right">
+                          {item?.incomeTaxonCnf || 0}
+                        </td>
+                        <td className="text-right">
+                          {item?.riverDueRate || 0}
+                        </td>
+                        <td className="text-right">{item?.lcrate || 0}</td>
+                        <td className="text-right">{item?.vatrate || 0}</td>
+                        <td className="text-right">
+                          {item?.totalVatamount || 0}
+                        </td>
+                        <td className="text-right">
+                          {item?.òthersAmount || 0}
+                        </td>
 
                         <td style={{ width: "200px" }}>
                           <InputField
