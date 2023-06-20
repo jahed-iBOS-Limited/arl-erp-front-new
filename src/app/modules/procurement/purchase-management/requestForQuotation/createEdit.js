@@ -1037,7 +1037,7 @@ export default function RFQCreateEdit() {
                               <tr>
                                  <th>Sl</th>
                                  {values?.referenceType?.value ===
-                                    'with reference' && <th>RFQ No</th>}
+                                    'with reference' && <th>Reference No</th>}
                                  <th>Item Name</th>
                                  <th>Uom</th>
                                  <th>Description</th>
