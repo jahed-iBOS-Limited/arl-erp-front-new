@@ -10,25 +10,17 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from "../../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import FormikError from "../../../../_helper/_formikError";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import IViewModal from "../../../../_helper/_viewModal";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { BADCBCICForm } from "../../../common/components";
 import { getG2GMotherVesselLocalRevenueApi, validationSchema } from "../helper";
 import AddVehicleNameModal from "./addVehicleNameModal";
-import Loading from "../../../../_helper/_loading";
-
-const headers = [
-  "SL",
-  "Item Name",
-  "Product Qty (Bag)",
-  "Item Price",
-  "Action",
-];
+import RowSection from "./rowSection";
 
 export default function _Form({
   buId,
@@ -45,9 +37,9 @@ export default function _Form({
   setRowData,
   saveHandler,
   shipPointDDL,
+  setVehicleDDL,
   motherVesselDDL,
   onChangeHandler,
-  setVehicleDDL,
 }) {
   const [isShowModal, setIsShowModal] = useState(false);
   const [logisticId, setLogisticId] = useState(null);
@@ -120,6 +112,12 @@ export default function _Form({
       godownId,
       (data) => {
         setFieldValue("itemPrice", data?.itemRate || 0);
+        setFieldValue("localRevenueRate", data?.localRevenueRate || 0);
+        setFieldValue(
+          "internationalRevenueRate",
+          data?.internationalRevenueRate || 0
+        );
+        setFieldValue("transportRevenueRate", data?.transportRevenueRate || 0);
       }
     );
   };
@@ -230,13 +228,6 @@ export default function _Form({
                           label="Port"
                           onChange={(e) => {
                             onChangeHandler("port", values, e, setFieldValue);
-                            commonItemPriceSet(
-                              {
-                                ...values,
-                                port: e,
-                              },
-                              setFieldValue
-                            );
                           }}
                           placeholder="Port"
                           errors={errors}
@@ -257,13 +248,15 @@ export default function _Form({
                               e,
                               setFieldValue
                             );
-                            commonItemPriceSet(
-                              {
-                                ...values,
-                                motherVessel: e,
-                              },
-                              setFieldValue
-                            );
+                            if (values?.godown) {
+                              commonItemPriceSet(
+                                {
+                                  ...values,
+                                  motherVessel: e,
+                                },
+                                setFieldValue
+                              );
+                            }
                           }}
                           placeholder="Mother Vessel"
                           errors={errors}
@@ -271,26 +264,6 @@ export default function _Form({
                           isDisabled={disableHandler() || id}
                         />
                       </div>
-                      {/* <div className="col-lg-3">
-                        <NewSelect
-                          name="program"
-                          options={allotmentDDL}
-                          value={values?.program}
-                          label="Program"
-                          onChange={(e) => {
-                            onChangeHandler(
-                              "program",
-                              values,
-                              e,
-                              setFieldValue
-                            );
-                          }}
-                          placeholder="Program"
-                          errors={errors}
-                          touched={touched}
-                          isDisabled={disableHandler()}
-                        />
-                      </div> */}
                       <div className="col-lg-3">
                         <InputField
                           label="Program No"
@@ -457,13 +430,15 @@ export default function _Form({
                               { ...values, godown: e },
                               setFieldValue
                             );
-                            commonItemPriceSet(
-                              {
-                                ...values,
-                                godown: e,
-                              },
-                              setFieldValue
-                            );
+                            if (values?.motherVessel) {
+                              commonItemPriceSet(
+                                {
+                                  ...values,
+                                  godown: e,
+                                },
+                                setFieldValue
+                              );
+                            }
                           }}
                         />
                       </div>
@@ -534,22 +509,6 @@ export default function _Form({
                           placeholder="GoDown Unload Labour Rate"
                         />
                       </div>
-                      {/* {values?.deliveryType?.label && (
-                        <div className="col-lg-3">
-                          <InputField
-                            label={`${values?.deliveryType?.label} Labour Rate`}
-                            value={
-                              values?.deliveryType?.label === "Direct"
-                                ? values?.directRate
-                                : values?.dumpDeliveryRate
-                            }
-                            name="labourRate"
-                            type="number"
-                            disabled={true}
-                            placeholder={`${values?.deliveryType?.label} Labour Rate`}
-                          />
-                        </div>
-                      )} */}
                       {[1].includes(values?.logisticBy?.value) && (
                         <>
                           <div className="col-lg-3">
@@ -604,195 +563,23 @@ export default function _Form({
                     </div>
                   </div>
                 </Form>
-                <form className="form form-label-right">
-                  <div className="global-form">
-                    <div className="row">
-                      <div className="col-lg-2">
-                        <NewSelect
-                          name="item"
-                          options={itemList || []}
-                          value={values?.item}
-                          label="Item Name"
-                          placeholder="Item Name"
-                          errors={errors}
-                          touched={touched}
-                          isDisabled={true}
-                          onChange={(e) => {
-                            onChangeHandler("item", values, e, setFieldValue);
-                          }}
-                        />
-                      </div>
-
-                      <div className="col-lg-2">
-                        <InputField
-                          label="Product Quantity (Bag)"
-                          placeholder="Product Quantity (Bag)"
-                          value={values?.quantity || 0}
-                          name="quantity"
-                          onChange={(e) => {
-                            // setFieldValue("quantity", e?.target?.value);
-                            onChangeHandler(
-                              "quantity",
-                              values,
-                              e,
-                              setFieldValue
-                            );
-                          }}
-                          type="text"
-                          disabled={disableHandler() || id}
-                        />
-                      </div>
-
-                      <div className="col-lg-2">
-                        <InputField
-                          label="Item Price"
-                          placeholder="Item Price"
-                          value={values?.itemPrice || 0}
-                          name="itemPrice"
-                          onChange={(e) => {}}
-                          type="number"
-                          disabled
-                        />
-                      </div>
-                      <div className="col-lg-2"></div>
-                      <div className="col-lg-2">
-                        <InputField
-                          label="Empty Bag"
-                          placeholder="Empty Bag"
-                          value={values?.emptyBag || 0}
-                          name="emptyBag"
-                          type="text"
-                          disabled={disableHandler()}
-                          onChange={(e) => {
-                            onChangeHandler(
-                              "emptyBag",
-                              values,
-                              e,
-                              setFieldValue
-                            );
-                          }}
-                        />
-                      </div>
-                      <div className="col-lg-2 mt-5">
-                        <h5>
-                          Total Bag:{" "}
-                          {rowData?.reduce((a, b) => (a += +b?.quantity), 0)}
-                        </h5>
-                      </div>
-
-                      <div className="col-md-2 mt-5"></div>
-                      <div className="col-md-2 mt-5  text-right">
-                        <button
-                          className="btn btn-primary"
-                          type="button"
-                          onClick={() => {
-                            addRow(values, (rows) => {
-                              // setFieldValue("item", "");
-                              setFieldValue("quantity", "");
-                              setFieldValue(
-                                "emptyBag",
-                                rows?.reduce((a, b) => (a += b?.emptyBag), 0)
-                              );
-                            });
-                          }}
-                          disabled={
-                            !values?.item ||
-                            !values?.quantity ||
-                            id ||
-                            (state?.type === "badc"
-                              ? !values?.motherVessel || !values?.port
-                              : !values?.godown)
-                          }
-                        >
-                          Add
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-                <div className="row">
-                  <div className="col-md-6">
-                    {rowData?.length > 0 && (
-                      <table
-                        id="table-to-xlsx"
-                        className={
-                          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                        }
-                      >
-                        <thead>
-                          <tr className="cursor-pointer">
-                            {headers?.map((th, index) => {
-                              return <th key={index}> {th} </th>;
-                            })}
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {rowData?.map((item, index) => {
-                            return (
-                              <tr key={index}>
-                                <td
-                                  style={{ width: "40px" }}
-                                  className="text-center"
-                                >
-                                  {index + 1}
-                                </td>
-                                <td>{item?.itemName}</td>
-                                <td className="text-right" width="130px">
-                                  {id ? (
-                                    <InputField
-                                      placeholder="Product QTY (Bag)"
-                                      value={item?.quantity}
-                                      name="quantity"
-                                      onChange={(e) => {
-                                        const value = e?.target?.value;
-                                        const data = [...rowData];
-                                        data[index].quantity = value;
-                                        setRowData(data);
-                                      }}
-                                      type="number"
-                                      style={{ textAlign: "right" }}
-                                    />
-                                  ) : (
-                                    item?.quantity
-                                  )}
-                                </td>
-                                <td className="text-right">
-                                  {item?.itemPrice}
-                                </td>
-                                {!id && (
-                                  <td
-                                    style={{ width: "80px" }}
-                                    className="text-center"
-                                  >
-                                    {
-                                      <div className="d-flex justify-content-around">
-                                        <span
-                                          onClick={() => {
-                                            deleteRow(index, (rows) => {
-                                              setFieldValue(
-                                                "emptyBag",
-                                                rows?.reduce(
-                                                  (a, b) => (a += b?.emptyBag),
-                                                  0
-                                                )
-                                              );
-                                            });
-                                          }}
-                                        >
-                                          <IDelete />
-                                        </span>
-                                      </div>
-                                    }
-                                  </td>
-                                )}
-                              </tr>
-                            );
-                          })}
-                        </tbody>
-                      </table>
-                    )}
-                  </div>
-                </div>
+                <RowSection
+                  obj={{
+                    itemList,
+                    values,
+                    errors,
+                    touched,
+                    onChangeHandler,
+                    setFieldValue,
+                    disableHandler,
+                    id,
+                    rowData,
+                    addRow,
+                    state,
+                    setRowData,
+                    deleteRow,
+                  }}
+                />
               </CardBody>
             </Card>
           </>

@@ -215,7 +215,7 @@ export function LandingTableRow() {
       const total = riverDueAmount + lcAmount;
       const vatAmount = (total / 100) * +item?.vatRate;
       // const commissionAmount = +item?.programQnt * +item?.commission;
-      const totalAmount = total + vatAmount;
+      const totalAmount = total + vatAmount + +item?.others;
       return {
         programId: item?.programId,
         accountId: accId,
