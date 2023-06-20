@@ -90,7 +90,7 @@ export default function ShipmentCostForm() {
   const reportTypeComplete =
     location?.state?.values?.reportType?.label === "Complete";
 
-    const history = useHistory();
+  const history = useHistory();
   useEffect(() => {
     if (id) {
       GetFuelConstInfoById_api(id, setFuleCost);
@@ -189,6 +189,17 @@ export default function ShipmentCostForm() {
             id: 0,
           };
         });
+
+        if (!values?.profitCenter) {
+          return toast.warn("Profit Center is required");
+        }
+        if (!values?.costElement) {
+          return toast.warn("Cost Element is required");
+        }
+        if (!values?.costCenter) {
+          return toast.warn("Cost Center is required");
+        }
+
         const payload = {
           objHeader: {
             shipmentCostId: +id,
@@ -203,7 +214,10 @@ export default function ShipmentCostForm() {
             netPayable: +netPayable,
             downTripUnitId: +values?.businessUnitName?.value || 0,
             isClose: true,
-            vehicleInDate: vehicleInDate || ""
+            vehicleInDate: vehicleInDate || "",
+            costCenterId: +values?.costCenter?.value || 0,
+            profitCenterId: +values?.profitCenter?.value || 0,
+            costElementId: +values?.costElement?.value || 0,
           },
           objRowList: row,
           objCreateShipmentCostAttachment: attachmentGrid,
@@ -470,9 +484,9 @@ export default function ShipmentCostForm() {
         initData={
           id
             ? {
-                ...singleData,
-                downTripAllowns: downTripData?.downTripAllowance,
-              }
+              ...singleData,
+              downTripAllowns: downTripData?.downTripAllowance,
+            }
             : initData
         }
         saveHandler={saveHandler}
