@@ -24,6 +24,7 @@ import RequestForQuotationLanding from './requestForQuotation'
 import RFQCreateEdit from './requestForQuotation/createEdit'
 import ErpComparativeStatementLanding from './erpComparativeStatement/quotationEntry'
 import ErpQuotationEntryLanding from './erpQuotationEntry'
+import AddQuotationEntry from './erpQuotationEntry/entryForm/addQuotationEntry'
 
 export function PurchasePages() {
   const userRole = useSelector(
@@ -183,6 +184,10 @@ export function PurchasePages() {
         component={RequestForQuotationLanding}
       />
       
+      <ContentRoute
+        from="/mngProcurement/purchase-management/QuotationEntry/add"
+        component={AddQuotationEntry}
+      />
       <ContentRoute
         from="/mngProcurement/purchase-management/QuotationEntry"
         component={ErpQuotationEntryLanding}
