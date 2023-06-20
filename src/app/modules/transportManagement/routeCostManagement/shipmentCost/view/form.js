@@ -289,12 +289,48 @@ export default function _Form({
                             options={[]}
                             value={values?.businessUnitName}
                             label="Business Unit Name"
-                            onChange={(valueOption) => {}}
+                            onChange={(valueOption) => { }}
                             placeholder="Business Unit Name"
                             isDisabled={true}
                           />
                         </div>
                       )}
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="profitCenter"
+                          value={values?.profitCenter}
+                          label="Profit Center"
+                          onChange={(valueOption) => {
+                            
+                          }}
+                          placeholder="Profit Center"
+                          isDisabled={true}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="costCenter"
+                          value={values?.costCenter}
+                          label="Cost Center"
+                          onChange={(valueOption) => {
+                            
+                          }}
+                          placeholder="Cost Center"
+                          isDisabled={true}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="costElement"
+                          value={values?.costElement}
+                          label="Cost Element"
+                          onChange={(valueOption) => {
+                            
+                          }}
+                          placeholder="Cost Element"
+                          isDisabled={true}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
