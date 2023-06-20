@@ -49,7 +49,7 @@ export default function CNFBill() {
         const modifyData = resData?.map((item) => {
           return {
             ...item,
-            billAmount: item?.cnfrate * item?.programQnt,
+            billAmount: item?.totalAmount,
             isSelected: false,
           };
         });
