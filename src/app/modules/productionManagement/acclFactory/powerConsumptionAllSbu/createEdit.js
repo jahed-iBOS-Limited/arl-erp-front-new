@@ -292,7 +292,7 @@ const PowerConsumptionAllSbuCreate = () => {
                               label: "Akij Poly Fibre Industries Ltd",
                             },
                             { value: 17, label: "Akij Shipping Lines Ltd" },
-                            { value: 8, label: "Akij Poly Fibre Industries Ltd(Chiller)" },
+                            { value: 94, label: "Akij Poly Fibre Industries Ltd(Chiller)" },
                             {
                               value: 175,
                               label: "Akij Ready Mix Concrete Ltd",

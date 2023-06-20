@@ -61,6 +61,9 @@ const initData = {
   deliveryType: "",
   dumpDeliveryRate: "",
   directRate: "",
+  localRevenueRate: 0,
+  internationalRevenueRate: 0,
+  transportRevenueRate: 0,
 };
 
 export default function ChallanEntryForm() {
@@ -140,12 +143,15 @@ export default function ChallanEntryForm() {
         shipToPartnerContactNo: "",
         // transportRate: 0,
         emptyBag: +values?.emptyBag,
-        transportRate: values?.transportRate, 
+        transportRate: values?.transportRate,
         ghatLoadUnloadLabourRate:
           values?.deliveryType?.label === "Direct"
             ? values?.directRate
             : values?.dumpDeliveryRate,
         goDownUnloadLabourRate: values?.goDownUnloadLabourRate,
+        localRevenueRate: +values?.localRevenueRate,
+        internationalRevenueRate: +values?.internationalRevenueRate,
+        transportRevenueRate: +values?.transportRevenueRate,
       };
       setRowData([...rowData, newRow]);
       callBack([...rowData, newRow]);
@@ -511,8 +517,6 @@ export default function ChallanEntryForm() {
     }
   }, [id]);
 
- 
-
   return (
     <>
       {(loading || isLoading) && <Loading />}
@@ -537,11 +541,10 @@ export default function ChallanEntryForm() {
           getItemList={getItemList}
           shipPointDDL={shipPointDDL}
           setGodownDDL={setGodownDDL}
-          // allotmentDDL={allotmentDDL}
+          setVehicleDDL={setVehicleDDL}
           motherVesselDDL={motherVesselDDL}
           onChangeHandler={onChangeHandler}
           initData={id ? singleData : initData}
-          setVehicleDDL={setVehicleDDL}
         />
       </div>
     </>

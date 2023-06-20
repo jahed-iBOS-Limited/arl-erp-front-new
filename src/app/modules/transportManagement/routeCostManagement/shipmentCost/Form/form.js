@@ -23,6 +23,8 @@ import { useDispatch } from "react-redux";
 import { getDownlloadFileView_Action } from "./../../../../_helper/_redux/Actions";
 import AttachmentGrid from "./attachmentGrid";
 import IConfirmModal from "../../../../_helper/_confirmModal";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import Loading from "../../../../_helper/_loading";
 // Validation schema
 const validationSchema = Yup.object().shape({
   extraMillage: Yup.string()
@@ -105,12 +107,31 @@ export default function _Form({
   const [supplierListDDL, setSupplierListDDL] = useState([]);
   const [supplierFuelStationDDL, setSupplierFuelStationDDL] = useState([]);
   const history = useHistory();
+
+
+  const [profitCenterDDL, getProfitCenterDDL, profitCenterDDlloader, setProfitCenterDDL] = useAxiosGet();
+  const [costCenterDDL, getCostCenterDDL, costCenterDDlloader] = useAxiosGet();
+  const [costElementDDL, getCostElementDDL, costElementDDlloader] = useAxiosGet();
+
+
   const [total, setTotal] = useState({ totalStandardCost: 0, totalActual: 0 });
   const dispatch = useDispatch();
   useEffect(() => {
+    getProfitCenterDDL(`/fino/CostSheet/ProfitCenterDetails?UnitId=${selectedBusinessUnit?.value}`, (data) => {
+      if (data?.length > 0) {
+        const newData = data?.map((item) => ({
+          value: item?.profitCenterId,
+          label: item?.profitCenterName,
+        }));
+        setProfitCenterDDL(newData);
+      }
+    })
+    getCostCenterDDL(`/procurement/PurchaseOrder/GetCostCenter?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}`)
+
     if (profileData.accountId) {
       getComponentDDL(profileData.accountId, setComponentDDL);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData]);
 
   useEffect(() => {
@@ -210,7 +231,7 @@ export default function _Form({
                 setRowDto([]);
               });
             },
-            noAlertFunc: () => {},
+            noAlertFunc: () => { },
           };
           IConfirmModal(confirmObject);
         }}
@@ -273,6 +294,7 @@ export default function _Form({
             )}
           >
             <>
+              {(costElementDDlloader || costCenterDDlloader || profitCenterDDlloader) && <Loading />}
               <Form className="form form-label-right position-relative">
                 <p style={{ position: "absolute", top: "-46px", left: "45%" }}>
                   <b>Pay to Driver: </b>
@@ -567,6 +589,59 @@ export default function _Form({
                     </div>
                   </div>
 
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="profitCenter"
+                      options={profitCenterDDL}
+                      value={values?.profitCenter}
+                      label="Profit Center"
+                      onChange={(valueOption) => {
+                        setFieldValue("profitCenter", valueOption);
+                      }}
+                      placeholder="Profit Center"
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="costCenter"
+                      options={costCenterDDL}
+                      value={values?.costCenter}
+                      label="Cost Center"
+                      onChange={(valueOption) => {
+                        if (valueOption) {
+                          setFieldValue("costCenter", valueOption);
+                          setFieldValue("costElement", "");
+                          getCostElementDDL(`/procurement/PurchaseOrder/GetCostElementByCostCenter?AccountId=${profileData?.accountId
+                            }&UnitId=${selectedBusinessUnit?.value
+                            }&CostCenterId=${valueOption?.value}`)
+                        } else {
+                          setFieldValue("costCenter", "");
+                          setFieldValue("costElement", "");
+                        }
+
+                      }}
+                      placeholder="Cost Center"
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="costElement"
+                      options={costElementDDL}
+                      value={values?.costElement}
+                      label="Cost Element"
+                      onChange={(valueOption) => {
+                        setFieldValue("costElement", valueOption);
+                      }}
+                      placeholder="Cost Element"
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+
                   {/* Item Input */}
                   <div className="col-md-12">
                     <div className="row " style={{ paddingTop: "20px" }}>
@@ -829,28 +904,28 @@ export default function _Form({
                     </div>
                     {(values?.purchaseType === "Cash" ||
                       values?.purchaseType === "Both") && (
-                      <div className="col-lg-3">
-                        <label>Cash</label>
-                        <InputField
-                          value={values?.cash}
-                          name="cash"
-                          placeholder="Cash"
-                          type="text"
-                        />
-                      </div>
-                    )}
+                        <div className="col-lg-3">
+                          <label>Cash</label>
+                          <InputField
+                            value={values?.cash}
+                            name="cash"
+                            placeholder="Cash"
+                            type="text"
+                          />
+                        </div>
+                      )}
                     {(values?.purchaseType === "Credit" ||
                       values?.purchaseType === "Both") && (
-                      <div className="col-lg-3">
-                        <label>Credit</label>
-                        <InputField
-                          value={values?.credit}
-                          name="credit"
-                          placeholder="Credit"
-                          type="text"
-                        />
-                      </div>
-                    )}
+                        <div className="col-lg-3">
+                          <label>Credit</label>
+                          <InputField
+                            value={values?.credit}
+                            name="credit"
+                            placeholder="Credit"
+                            type="text"
+                          />
+                        </div>
+                      )}
                     <div className="col-lg-3">
                       <label>Fuel Memo No</label>
                       <InputField
@@ -879,7 +954,7 @@ export default function _Form({
                           if (
                             values?.purchaseType === "Both" &&
                             values?.fuelAmount !=
-                              +values?.credit + +values?.cash
+                            +values?.credit + +values?.cash
                           )
                             return toast.warn(
                               "Credit and cash should be equal to amount"
