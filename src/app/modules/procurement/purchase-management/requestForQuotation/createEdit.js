@@ -906,10 +906,12 @@ export default function RFQCreateEdit() {
                               onChange={v => {
                                  if (v) {
                                     setFieldValue('referenceNo', v);
+                                    setItemListDDL([]);
                                     getItemListDDL(`/procurement/RequestForQuotation/GetRFQItemDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&SBUId=${values?.sbu?.value}&PurchaseOrganizationId=${values?.purchaseOrganization?.value}&PlantId=${values?.plant?.value}&WearHouseId=${values?.warehouse?.value}&PurchaseRequestId=${v?.value}
                                             `);
                                  } else {
                                     setFieldValue('referenceNo', '');
+                                    setItemListDDL([]);
                                  }
                               }}
                               placeholder="Reference No"
