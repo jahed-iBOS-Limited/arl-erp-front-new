@@ -32,7 +32,7 @@ export default function NewSupplierModal() {
             }) => (
                 <>
                     {false && <Loading />}
-                    <IForm customTitle="Add New Supplier" getProps={setObjprops}>
+                    <IForm isHiddenBack isHiddenReset isHiddenSave customTitle="Add New Supplier" getProps={setObjprops}>
                         <Form>
                             <div className="form-group  global-form row">
 
@@ -61,7 +61,7 @@ export default function NewSupplierModal() {
                                 <div className="col-lg-3">
                                     <InputField
                                         value={values?.supplierEmail}
-                                        label="Date"
+                                        label="Email"
                                         name="supplierEmail"
                                         type="text"
                                         onChange={(e) => {
