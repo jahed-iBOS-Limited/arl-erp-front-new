@@ -557,12 +557,14 @@ export default function RFQCreateEdit() {
                                  if (v) {
                                     setFieldValue('plant', v);
                                     setFieldValue('warehouse', '');
+                                    setFieldValue('referenceType', '');
                                     getWarehouseListDDL(
                                        `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${v?.value}`
                                     );
                                  } else {
                                     setFieldValue('plant', '');
                                     setFieldValue('warehouse', '');
+                                    setFieldValue('referenceType', '');
                                  }
                               }}
                               placeholder="Plant"
@@ -588,7 +590,6 @@ export default function RFQCreateEdit() {
                                  !values?.plant ||
                                  (id && values?.isSentToSupplier)
                               }
-                           // isDisabled={id && values?.isSentToSupplier}
                            />
                         </div>
                         <div className="col-lg-3">
@@ -1027,6 +1028,8 @@ export default function RFQCreateEdit() {
                                  handleAddItem(values, setFieldValue);
                                  setFieldValue('isAllItem', false);
                                  setIsRfqQty(false);
+                                 setFieldValue('itemDescription', "");
+                                 setFieldValue('quantity', "");
                               }}
                               disabled={id && values?.isSentToSupplier}
                            >
@@ -1039,12 +1042,12 @@ export default function RFQCreateEdit() {
                            <thead>
                               <tr>
                                  <th>Sl</th>
-                                 {values?.referenceType?.value ===
-                                    'with reference' && <th>Reference No</th>}
+                                 {values?.referenceType?.value === 'with reference' && <th>Reference No</th>}
                                  <th>Item Name</th>
                                  <th>Uom</th>
                                  <th>Description</th>
-                                 <th>PR Quantity</th>
+                                 {/* <th>PR Quantity</th> */}
+                                 {values?.referenceType?.value === 'with reference' && <th>PR Quantity</th>}
                                  <th>
                                     <OverlayTrigger
                                        placement="top"
@@ -1122,9 +1125,10 @@ export default function RFQCreateEdit() {
                                              }
                                           />
                                        </td>
-                                       <td className="text-center">
-                                          {item?.referenceQuantity}
-                                       </td>
+                                       {values?.referenceType?.value ===
+                                          'with reference' && (<td className="text-center">
+                                             {item?.referenceQuantity}
+                                          </td>)}
                                        <td>
                                           <InputField
                                              value={item?.reqquantity}
@@ -1318,6 +1322,9 @@ export default function RFQCreateEdit() {
                         <div className="col-lg-12">
                            <label>Terms & Conditions</label>
                            <TextArea
+                              style={{
+                                 height: '100px',
+                              }}
                               value={values?.termsAndConditions}
                               name="termsAndConditions"
                               placeholder="Terms & Conditions"

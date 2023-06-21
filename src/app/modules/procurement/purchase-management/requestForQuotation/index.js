@@ -69,7 +69,7 @@ export default function RequestForQuotationLanding() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const getData = (values, pageNo, pageSize, searchValue="") => {
+    const getData = (values, pageNo, pageSize, searchValue = "") => {
         getLandingData(`/procurement/RequestForQuotation/GetRequestForQuotationPasignation?AccountId=${profileData?.accountId
             }&UnitId=${selectedBusinessUnit?.value
             }&RequestTypeId=${values?.rfqType?.value}&SBUId=${values?.sbu?.value
@@ -219,8 +219,7 @@ export default function RequestForQuotationLanding() {
                                                 setFieldValue("plant", v);
                                                 setFieldValue("warehouse", "");
                                                 setLandingData([]);
-                                                getWarehouseListDDL(`/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${v?.value
-                                                    }`)
+                                                getWarehouseListDDL(`/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${v?.value}`)
                                             } else {
                                                 setFieldValue("plant", "");
                                                 setFieldValue("warehouse", "");
@@ -347,6 +346,7 @@ export default function RequestForQuotationLanding() {
                                     placeholder="Search RFQ No"
                                     paginationSearchHandler={paginationSearchHandler}
                                     values={values}
+                                    isDisabledFiled={landingData?.data?.length > 0 ? false : true}
                                 />
                             </div>
                             <div>
@@ -468,7 +468,7 @@ export default function RequestForQuotationLanding() {
                                     setStatus(null);
                                 }}
                             >
-                                <RfqViewModal code={showCode} title={`${rfqCode}`} status={status} createdBy={createdBy}/>
+                                <RfqViewModal code={showCode} title={`${rfqCode}`} status={status} createdBy={createdBy} />
                             </IViewModal>
                         </Form>
                     </IForm>

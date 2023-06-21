@@ -32,6 +32,7 @@ import {
   ModalProgressBar,
 } from "./../../../../../../_metronic/_partials/controls";
 import NewSelect from "./../../../../_helper/_select";
+import { toast } from "react-toastify";
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -141,7 +142,7 @@ const ReconciliationJournal = () => {
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       if (values?.type?.value === 1) {
         postInventoryJournal(
-          values?.closingType,
+          values?.closingType?.value,
           profileData?.accountId,
           selectedBusinessUnit?.value,
           values?.sbu?.value,
@@ -184,6 +185,13 @@ const ReconciliationJournal = () => {
         initialValues={initData}
         validationSchema={validationSchema}
         onSubmit={(values, { resetForm }) => {
+          if(values?.type?.value === 1 && values?.closingType?.value === 2 && 
+            getMonthFirstLastDate(values?.fromDate)?.firstDate === values?.fromDate && 
+            getMonthFirstLastDate(values?.fromDate)?.lastDate === values?.toDate){
+            return toast.warn("You can't create journal for continuous closing type, when you select full month. please change from date or to date");
+          }
+
+
           let confirmObject = {
             title: `${values?.type?.label} Journal`,
             message: `Are you sure want to create ${values?.type?.label} Journal?`,
@@ -242,6 +250,9 @@ const ReconciliationJournal = () => {
               <CardBody>
                 <Form className="form form-label-right">
                   <div className="form-group row global-form align-items-end">
+                    <div className="col-lg-12">
+                      <p style={{color:"red"}}><b>*When creating a journal for Monthly Closing Type, you must select the first and last day of the month. However, if you select the first day of the month for continuous type, you cannot create the journal by selecting the last day of that month.</b></p>
+                    </div>
                     <div className="col-lg-2">
                       <NewSelect
                         name="sbu"
