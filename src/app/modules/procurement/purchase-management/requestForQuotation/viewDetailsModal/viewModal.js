@@ -520,6 +520,9 @@ export default function RfqViewModal({ code, title, status, createdBy }) {
                                 <div className="col-lg-12">
                                     <label>Terms & Conditions</label>
                                     <TextArea
+                                        style={{
+                                            height: '100px',
+                                        }}
                                         value={values?.termsAndConditions}
                                         name="termsAndConditions"
                                         placeholder="Terms & Conditions"
@@ -556,7 +559,7 @@ export default function RfqViewModal({ code, title, status, createdBy }) {
                                 marginTop: "20px",
                             }}
                         >
-                            <RfqViewPdf pdfData={values} itemList={itemList} supplierList={supplierList} title={title} status={status} createdBy={createdBy}/>
+                            <RfqViewPdf pdfData={values} itemList={itemList} supplierList={supplierList} title={title} status={status} createdBy={createdBy} />
                         </div>
                     </IForm>
                 </>
