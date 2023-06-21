@@ -1,5 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { radioStyle } from "./helper";
+import NewSelect from "../../_helper/_select";
+import {
+  GetDomesticPortDDL,
+  getMotherVesselDDL,
+} from "../allotment/confirmBySupervisor/helper";
+import { shallowEqual, useSelector } from "react-redux";
 
 export const BADCBCICForm = ({ values, setFieldValue, disabled, onChange }) => {
   return (
@@ -41,5 +47,57 @@ export const BADCBCICForm = ({ values, setFieldValue, disabled, onChange }) => {
         </label>
       </div>
     </div>
+  );
+};
+
+export const PortAndMotherVessel = ({ obj }) => {
+  const { values, setFieldValue, onChange, disabled } = obj;
+  const [portDDL, setPortDDL] = useState([]);
+  const [motherVesselDDL, setMotherVesselDDL] = useState([]);
+
+  // get user profile data from store
+  const {
+    profileData: { accountId: accId },
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => state?.authData, shallowEqual);
+
+  useEffect(() => {
+    GetDomesticPortDDL(setPortDDL);
+  }, [accId, buId]);
+
+  return (
+    <>
+      <div className="col-lg-3">
+        <NewSelect
+          name="port"
+          options={[{ value: 0, label: "All" }, ...portDDL]}
+          value={values?.port}
+          label="Port"
+          placeholder="Port"
+          onChange={(e) => {
+            setFieldValue("port", e);
+            setFieldValue("motherVessel", "");
+            getMotherVesselDDL(accId, buId, e?.value, setMotherVesselDDL);
+            onChange && onChange("port", { ...values, port: e });
+          }}
+          isDisabled={disabled?.port}
+        />
+      </div>
+      <div className="col-lg-3">
+        <NewSelect
+          name="motherVessel"
+          options={[{ value: 0, label: "All" }, ...motherVesselDDL] || []}
+          value={values?.motherVessel}
+          label="Mother Vessel"
+          placeholder="Mother Vessel"
+          onChange={(e) => {
+            setFieldValue("motherVessel", e);
+            onChange &&
+              onChange("motherVessel", { ...values, motherVessel: e });
+          }}
+          isDisabled={disabled?.motherVessel}
+        />
+      </div>
+    </>
   );
 };

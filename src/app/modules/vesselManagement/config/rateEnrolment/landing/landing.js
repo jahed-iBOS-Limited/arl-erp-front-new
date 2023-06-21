@@ -1,92 +1,36 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import ICustomCard from "../../../../_helper/_customCard";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
-import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import IViewModal from "../../../../_helper/_viewModal";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import Form from "../form/form";
-import { deleteMotherVessel } from "../helper";
 import { useHistory } from "react-router-dom";
+import ICustomCard from "../../../../_helper/_customCard";
+import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import Loading from "../../../../_helper/_loading";
+import YearMonthForm from "../../../../_helper/commonInputFieldsGroups/yearMonthForm";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import IButton from "../../../../_helper/iButton";
+import { PortAndMotherVessel } from "../../../common/components";
 
-const initData = { search: "" };
-
-const headers = [
-  "SL",
-  "Mother Vessel Name",
-  "Supplier Name",
-  "Freight Rate (USD)",
-  "Conversion Rate (BDT)",
-  "Program Count",
-  "Ports",
-  "Action",
-];
+const initData = {
+  port: "",
+  motherVessel: "",
+  year: "",
+};
 
 const RateEnrolmentLanding = () => {
   const history = useHistory();
-  const [pageNo, setPageNo] = useState(0);
-  const [pageSize, setPageSize] = useState(15);
   const [rowData, getRowData, isLoading] = useAxiosGet();
-  const [show, setShow] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [formType, setFormType] = useState("");
-  const [singleItem, setSingleItem] = useState({});
-  const [isDeleteHidden, deleteHiddenHandler] = useAxiosGet();
 
   // get user profile data from store
   const {
-    profileData: { accountId: accId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  const getData = (search, pageNo, pageSize) => {
-    const SearchTerm = search ? `SearchTerm=${search}&` : "";
-    const url = `/wms/FertilizerOperation/GetMotherVesselPagination?${SearchTerm}AccountId=${accId}&BusinessUnitId=${buId}&PageNo=${pageNo}&PageSize=${pageSize}`;
+  const getData = (values) => {
+    const url = `/tms/VehicleExpenseRegister/GetMOPCosting?businessUnitId=${buId}&mVesselId=${values
+      ?.motherVessel?.value || 0}&costingYear=${values?.year?.value}`;
 
     getRowData(url);
-  };
-
-  useEffect(() => {
-    getData("", pageNo, pageSize);
-    deleteHiddenHandler(
-      `/wms/FertilizerOperation/GetAllModificationPermission?UserEnroll=${profileData?.userId}&BusinessUnitId=${buId}&Type=YsnG2gconfiguration`
-    );
-  }, [accId, buId]);
-
-  // set PositionHandler
-  const setPositionHandler = (pageNo, pageSize) => {
-    getData("", pageNo, pageSize);
-  };
-
-  const paginationSearchHandler = (search) => {
-    getData(search, pageNo, pageSize);
-  };
-
-  // Get profile data from store
-  const profileData = useSelector((state) => {
-    return state.authData.profileData;
-  }, shallowEqual);
-
-  const deleteHandler = (id) => {
-    const { userId } = profileData;
-    const objProps = {
-      title: "Are You Sure?",
-      message: "Are you sure you want to delete this mother vessel?",
-      yesAlertFunc: () => {
-        deleteMotherVessel(id, userId, setLoading, () => {
-          getData("", pageNo, pageSize);
-        });
-      },
-      noAlertFunc: () => {},
-    };
-    IConfirmModal(objProps);
   };
 
   return (
@@ -96,7 +40,7 @@ const RateEnrolmentLanding = () => {
         initialValues={initData}
         onSubmit={() => {}}
       >
-        {({ values }) => (
+        {({ values, setFieldValue }) => (
           <>
             <ICustomCard
               title={"Rate Enrolment"}
@@ -106,113 +50,165 @@ const RateEnrolmentLanding = () => {
                 );
               }}
             >
-              {(isLoading || loading) && <Loading />}
-              <div className="col-lg-3 mt-5">
-                <PaginationSearch
-                  placeholder="Mother Vessel Name"
-                  paginationSearchHandler={paginationSearchHandler}
-                  values={values}
-                />
-              </div>
-              <form className="form form-label-right">
-                {rowData?.data?.length > 0 && (
-                  <table
-                    id="table-to-xlsx"
-                    className={
-                      "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                    }
-                  >
-                    <thead>
-                      <tr className="cursor-pointer">
-                        {headers?.map((th, index) => {
-                          return <th key={index}> {th} </th>;
-                        })}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowData?.data?.map((item, index) => {
-                        return (
-                          <tr key={index}>
-                            <td
-                              style={{ width: "40px" }}
-                              className="text-center"
-                            >
-                              {index + 1}
-                            </td>
-                            <td>{item?.mVesselName}</td>
-                            <td>{item?.supplierName}</td>
-                            <td className="text-right">{item?.freightRate}</td>
-                            <td className="text-right">
-                              {item?.freightRateDbt}
-                            </td>
-                            <td className="text-center">{item?.countPort}</td>
-                            <td>{item?.port}</td>
-                            <td
-                              style={{ width: "80px" }}
-                              className="text-center"
-                            >
-                              <div className="d-flex justify-content-around">
-                                {isDeleteHidden ? (
-                                  <span>
-                                    <IDelete
-                                      remover={deleteHandler}
-                                      id={item?.mVesselId}
-                                    />
-                                  </span>
-                                ) : null}
-                                <span
-                                  onClick={() => {
-                                    setSingleItem(item);
-                                    setFormType("view");
-                                    setShow(true);
-                                  }}
-                                >
-                                  <IView />
-                                </span>
-                                <span
-                                  onClick={() => {
-                                    setSingleItem(item);
-                                    setFormType("edit");
-                                    setShow(true);
-                                  }}
-                                >
-                                  <IEdit />
-                                </span>
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                )}
+              {isLoading && <Loading />}
 
-                {rowData?.data?.length > 0 && (
-                  <PaginationTable
-                    count={rowData?.totalCount}
-                    setPositionHandler={setPositionHandler}
-                    paginationState={{
-                      pageNo,
-                      setPageNo,
-                      pageSize,
-                      setPageSize,
-                    }}
-                    values={values}
-                  />
+              <form className="form form-label-right">
+                <div className="global-form">
+                  <div className="row">
+                    <PortAndMotherVessel obj={{ values, setFieldValue }} />
+                    <YearMonthForm
+                      obj={{ values, setFieldValue, month: false }}
+                    />
+                    <IButton
+                      onClick={() => {
+                        getData(values);
+                      }}
+                    />
+                  </div>
+                </div>
+                {rowData?.length > 0 && (
+                  <div className="loan-scrollable-table inventory-statement-report">
+                    <div
+                      style={{ maxHeight: "500px" }}
+                      className="scroll-table _table"
+                    >
+                      <table
+                        className={
+                          "table table-striped table-bordered bj-table bj-table-landing "
+                        }
+                      >
+                        <thead>
+                          <tr>
+                            <th style={{ minWidth: "30px" }} rowSpan={2}>
+                              SL
+                            </th>
+                            <th style={{ minWidth: "200px" }} rowSpan={2}>
+                              Description of Route
+                            </th>
+                            <th style={{ minWidth: "100px" }} rowSpan={2}>
+                              Distance (km)
+                            </th>
+                            <th style={{ minWidth: "500px" }} colSpan={5}>
+                              Rate per Kilo
+                            </th>
+                            <th style={{ minWidth: "100px" }} rowSpan={2}>
+                              Total Rate <br />
+                              17.30
+                            </th>
+                            <th style={{ minWidth: "100px" }} rowSpan={2}>
+                              Tax & Vat <br />
+                              17.50%
+                            </th>
+                            <th style={{ minWidth: "100px" }} rowSpan={2}>
+                              Invoice <br />
+                              10 tk
+                            </th>
+                            <th style={{ minWidth: "100px" }} rowSpan={2}>
+                              Labour Bill
+                            </th>
+                            <th style={{ minWidth: "100px" }} rowSpan={2}>
+                              Transport Cost
+                            </th>
+                            <th style={{ minWidth: "100px" }} rowSpan={2}>
+                              Additional Cost (ReBag + short)
+                            </th>
+                            <th style={{ minWidth: "100px" }} rowSpan={2}>
+                              Total Cost
+                            </th>
+                            <th style={{ minWidth: "100px" }} rowSpan={2}>
+                              Total Received
+                            </th>
+                            <th style={{ minWidth: "100px" }} rowSpan={2}>
+                              Quantity
+                            </th>
+                            <th style={{ minWidth: "100px" }} rowSpan={2}>
+                              Bill Amount
+                            </th>
+                            <th style={{ minWidth: "100px" }} rowSpan={2}>
+                              Cost Amount
+                            </th>
+                            <th style={{ minWidth: "100px" }} rowSpan={2}>
+                              Profit Amount
+                            </th>
+                          </tr>
+                          <tr>
+                            <th style={{ minWidth: "100px" }}>
+                              0-100 <br /> (10.00)
+                            </th>
+                            <th style={{ minWidth: "100px" }}>
+                              101-200 <br />
+                              (3.00)
+                            </th>
+                            <th style={{ minWidth: "100px" }}>
+                              201-300 <br />
+                              (1.50)
+                            </th>
+                            <th style={{ minWidth: "100px" }}>
+                              301-400 <br /> (1.50)
+                            </th>
+                            <th style={{ minWidth: "100px" }}>
+                              401-500 <br />
+                              (1.30)
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowData?.map((item, i) => {
+                            return (
+                              <tr key={i}>
+                                <td className="text-center">{i + 1}</td>
+                                <td>{item?.routeDescription}</td>
+                                <td>{item?.distance}</td>
+                                <td className="text-right">
+                                  {item?.costDistance1to100}
+                                </td>
+                                <td className="text-right">
+                                  {item?.costDistance101to200}
+                                </td>
+                                <td className="text-right">
+                                  {item?.costDistance201to300}
+                                </td>
+                                <td className="text-right">
+                                  {item?.costDistance301to400}
+                                </td>
+                                <td className="text-right">
+                                  {item?.costDistance401to500}
+                                </td>
+                                <td className="text-right">
+                                  {_fixedPoint(item?.totalDistanceCost, true)}
+                                </td>
+                                <td className="text-right">
+                                  {_fixedPoint(item?.taxVat, false, 2)}
+                                </td>
+                                <td className="text-right">{item?.invoice || ""}</td>
+                                <td className="text-right">{item?.labourBill}</td>
+                                <td className="text-right">{item?.transportationCost}</td>
+                                <td className="text-right">{item?.additionalCost}</td>
+                                <td className="text-right">
+                                  {_fixedPoint(item?.totalCost, true)}
+                                </td>
+                                <td className="text-right">
+                                  {_fixedPoint(item?.totalReceived, true)}
+                                </td>
+                                <td className="text-right">{item?.quantity}</td>
+                                <td className="text-right">
+                                  {_fixedPoint(item?.billAmount, true)}
+                                </td>
+                                <td className="text-right">
+                                  {_fixedPoint(item?.costAmount, true)}
+                                </td>
+                                <td className="text-right">
+                                  {_fixedPoint(item?.profitAmount, true)}
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 )}
               </form>
-              <IViewModal
-                // modelSize={formType === "create" ? "md" : "xl"}
-                show={show}
-                onHide={() => setShow(false)}
-              >
-                <Form
-                  setShow={setShow}
-                  getData={getData}
-                  formType={formType}
-                  item={singleItem}
-                />
-              </IViewModal>
             </ICustomCard>
           </>
         )}
