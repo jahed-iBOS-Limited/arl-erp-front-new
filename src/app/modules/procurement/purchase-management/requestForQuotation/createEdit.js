@@ -285,6 +285,9 @@ export default function RFQCreateEdit() {
    }, []);
    useEffect(() => {
       if (!id) {
+         getPlantListDDL(
+            `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
+         );
          getSbuListDDL(
             `/costmgmt/SBU/GetSBUListDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Status=true`,
             data => {
@@ -554,12 +557,14 @@ export default function RFQCreateEdit() {
                                  if (v) {
                                     setFieldValue('plant', v);
                                     setFieldValue('warehouse', '');
+                                    setFieldValue('referenceType', '');
                                     getWarehouseListDDL(
                                        `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${v?.value}`
                                     );
                                  } else {
                                     setFieldValue('plant', '');
                                     setFieldValue('warehouse', '');
+                                    setFieldValue('referenceType', '');
                                  }
                               }}
                               placeholder="Plant"
@@ -585,7 +590,6 @@ export default function RFQCreateEdit() {
                                  !values?.plant ||
                                  (id && values?.isSentToSupplier)
                               }
-                           // isDisabled={id && values?.isSentToSupplier}
                            />
                         </div>
                         <div className="col-lg-3">
@@ -1024,6 +1028,8 @@ export default function RFQCreateEdit() {
                                  handleAddItem(values, setFieldValue);
                                  setFieldValue('isAllItem', false);
                                  setIsRfqQty(false);
+                                 setFieldValue('itemDescription', "");
+                                 setFieldValue('quantity', "");
                               }}
                               disabled={id && values?.isSentToSupplier}
                            >

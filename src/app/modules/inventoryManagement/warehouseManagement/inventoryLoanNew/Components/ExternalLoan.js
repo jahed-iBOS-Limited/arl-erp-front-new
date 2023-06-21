@@ -1,8 +1,11 @@
 import React from 'react'
+import CreateInventoryLoanForm from '../../inventoryLoan/form/addEditForm'
 
-const ExternalLoan = () => {
+const ExternalLoan = ({ loanType }) => {
   return (
-    <div>ExternalLoan</div>
+    <>
+      <CreateInventoryLoanForm loanType={ loanType }/>
+    </>
   )
 }
 
