@@ -62,7 +62,7 @@ export function TransferTransitDetail({ currentItem }) {
                 name="toWarehouse"
               />
             </div>
-            <div className="col-lg-4">
+            {/* <div className="col-lg-4">
               <InputField
                 value={detailData?.objHeader?.receiveStatus}
                 label="Receive Status"
@@ -70,7 +70,7 @@ export function TransferTransitDetail({ currentItem }) {
                 disabled={true}
                 name="receiveStatus"
               />
-            </div>
+            </div> */}
           </div>
         </form>
         <div className="row">
