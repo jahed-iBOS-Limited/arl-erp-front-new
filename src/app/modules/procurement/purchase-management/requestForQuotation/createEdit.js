@@ -285,6 +285,9 @@ export default function RFQCreateEdit() {
    }, []);
    useEffect(() => {
       if (!id) {
+         getPlantListDDL(
+            `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
+         );
          getSbuListDDL(
             `/costmgmt/SBU/GetSBUListDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Status=true`,
             data => {
