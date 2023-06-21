@@ -833,7 +833,7 @@ export const getTripCost = async (
   try {
     setDisabled(true);
     const res = await Axios.get(
-      `/tms/ShipmentExpReport/GetTripCostNetAmount?AccountId=${accId}&BusinessUnitId=${buId}&shipPointId=${shipPointId}&fromDate=${fromDate}&toDate=${toDate}`
+      `/tms/ShipmentExpReport/GetTripCostNetAmountForBillRegister?AccountId=${accId}&BusinessUnitId=${buId}&shipPointId=${shipPointId}&fromDate=${fromDate}&toDate=${toDate}`
     );
     setDisabled(false);
     if (res?.data?.length === 0) return toast.warn("Data not found");
