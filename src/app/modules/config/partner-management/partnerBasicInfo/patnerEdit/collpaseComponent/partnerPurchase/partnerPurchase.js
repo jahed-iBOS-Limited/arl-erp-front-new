@@ -26,7 +26,8 @@ const initProduct = {
   itemName: "",
   sbu: "",
   shipPointName: "",
-  tdsSupplierType:""
+  tdsSupplierType:"",
+  natureofBusiness: "",
 };
 
 export default function PartnerPurchase() {
@@ -79,7 +80,9 @@ export default function PartnerPurchase() {
           advanceGLName,
           configId,
           intTdssupplierTypeId,
-          strTdssupplierTypeName
+          strTdssupplierTypeName,
+          IntVdssupplierTypeId,
+          strVdssupplierTypeName,
         } = res?.data[0]?.objHeader;
         setSingleData({
           configId,
@@ -107,10 +110,14 @@ export default function PartnerPurchase() {
             value: advanceGLId || "",
             label: advanceGLName || "",
           },
-          tdsSupplierType: {
+          tdsSupplierType:intTdssupplierTypeId && strTdssupplierTypeName ? {
             value: intTdssupplierTypeId || "",
             label: strTdssupplierTypeName || "",
-          },
+          } : "",
+          natureofBusiness: IntVdssupplierTypeId && strVdssupplierTypeName ? {
+            value:IntVdssupplierTypeId,
+            label:strVdssupplierTypeName
+          } : "",
           itemCategory: "",
           itemName: "",
         });
@@ -164,6 +171,7 @@ export default function PartnerPurchase() {
           dteLastActionDateTime: "2020-08-31T04:49:29.981Z",
           isActive: true,
           intTdssupplierTypeId: values?.tdsSupplierType?.value || 0,
+          IntVdsSupplierTypeId: values?.natureofBusiness?.value || 0,
         },
         //objRow: objRow,
         objdata: objdata,

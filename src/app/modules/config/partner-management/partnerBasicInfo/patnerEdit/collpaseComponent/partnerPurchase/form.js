@@ -33,10 +33,6 @@ const ProductEditSchema = Yup.object().shape({
     label: Yup.string().required("Price structure is required"),
     value: Yup.string().required("Price structure is required"),
   }),
-  tdsSupplierType: Yup.object().shape({
-    label: Yup.string().required("TDS Supplier Type is required"),
-    value: Yup.string().required("TDS Supplier Type is required"),
-  }),
 });
 
 export default function _Form({
@@ -65,6 +61,7 @@ export default function _Form({
     []
   );
   const [tdsSupplierType, getTdsSupplierType, tdsSupplierLoading] = useAxiosGet();
+  const [natureofBusinessDDL, getNatureofBusinessDDL] = useAxiosGet();
 
   const [gneralLedgerListOption, setgneralLedgerOption] = useState([]);
   // const [accuredGeneralLedgerOption, setAccuredGeneralLedgerOption] = useState(
@@ -79,6 +76,8 @@ export default function _Form({
 
   useEffect(() => {
     PriceDDL(accountId, selectedBusinessUnit.value);
+    getNatureofBusinessDDL(`/partner/BusinessPartnerPurchaseInfo/GetVdssupplierTypesDDL`)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBusinessUnit, accountId]);
 
   useEffect(() => {
@@ -328,7 +327,7 @@ export default function _Form({
                 </div>
                 <div className="col-lg-3">
                   <NewSelect
-                    label="TDS Supplier Type"
+                    label="Supplier Type"
                     options={tdsSupplierType || []}
                     value={values?.tdsSupplierType}
                     name="tdsSupplierType"
@@ -340,6 +339,19 @@ export default function _Form({
                       }else{
                         setFieldValue("tdsSupplierType", "");
                       }
+                    }}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    label="Nature of Business"
+                    options={natureofBusinessDDL || []}
+                    value={values?.natureofBusiness}
+                    name="natureofBusiness"
+                    errors={errors}
+                    touched={touched}
+                    onChange={(valueOption) => {
+                      setFieldValue("natureofBusiness", valueOption);
                     }}
                   />
                 </div>
