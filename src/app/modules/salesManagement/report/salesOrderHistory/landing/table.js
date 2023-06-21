@@ -92,42 +92,7 @@ export default function Table({ rowDto, printRef, values }) {
                 </tbody>
               </table>
             </div>
-          ) : values?.reportName?.value === 3 ? (<div className="table-responsive">
-            <table
-              ref={printRef}
-              className="table table-striped table-bordered global-table table-font-size-sm"
-            >
-              <thead>
-                <tr>
-                  <th>Sl</th>
-                  <th>Order Id</th>
-                  <th>Order Quantity</th>
-                  <th>Delivery Quantity</th>
-                  <th>Un Delivery Quantity</th>
-                  <th>Delivered Challan Quantity</th>
-                  <th>Reason</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {rowDto?.map((item, index) => (
-                  <tr key={index}>
-                    <td className="text-center">{index + 1}</td>
-                    <td className="text-center">{item?.rintSalesOrderId}</td>
-                    <td className="text-center">{item?.rnumOrderQuantity}</td>
-                    <td className="text-center">{item?.rnumDeliveredQuantity}</td>
-                    <td className="text-center">
-                      {item?.rnumUndeliveryQuantity}
-                    </td>
-                    <td className="text-center">
-                      {item?.numLedgerchalla}
-                    </td>
-                    <td>{item?.strReasson}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>) : (
+          ) :  (
             <>
               <ICustomTable ths={ths}>
                 {rowDto?.map((item, index) => {
