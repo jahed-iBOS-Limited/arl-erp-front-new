@@ -56,14 +56,12 @@ const RateEnrolmentForm = () => {
   };
 
   function splitNumber(number) {
-    const numSplits = Math.ceil(number / 100);
-
     const splits = [];
     let splitStart = 1;
 
-    for (let i = 0; i < numSplits; i++) {
+    for (let i = 0; i < 5; i++) {
       const splitEnd = Math.min(splitStart + 99, number);
-      splits.push(splitEnd + 1 - splitStart);
+      splits.push(Number(splitEnd + 1 - splitStart));
       splitStart = splitEnd + 1;
     }
 
@@ -99,27 +97,27 @@ const RateEnrolmentForm = () => {
         businessUnitId: buId,
         vehicleId: 0,
         routeDescription: item?.descriptionOfRoute,
-        distance: item?.distance,
-        distance1to100: distanceSlabs[0],
-        costDistance1to100: item?.from0To100,
-        distance101to200: distanceSlabs[1],
-        costDistance101to200: item?.from101To200,
-        distance201to300: distanceSlabs[2],
-        costDistance201to300: item?.from201To300,
-        distance301to400: distanceSlabs[3],
-        costDistance301to400: item?.from301To400,
-        distance401to500: distanceSlabs[4],
-        costDistance401to500: item?.from401To500,
+        distance: +item?.distance,
+        distance1to100: distanceSlabs[0] || 0,
+        costDistance1to100: item?.from0To100 || 0,
+        distance101to200: distanceSlabs[1] || 0,
+        costDistance101to200: item?.from101To200 || 0,
+        distance201to300: distanceSlabs[2] || 0,
+        costDistance201to300: item?.from201To300 || 0,
+        distance301to400: distanceSlabs[3] || 0,
+        costDistance301to400: item?.from301To400 || 0,
+        distance401to500: distanceSlabs[4] || 0,
+        costDistance401to500: item?.from401To500 || 0,
         totalDistanceCost: totalRate,
         taxVatpercentage: 17.5,
         taxVat: taxAndVat,
-        invoice: item?.invoice,
-        labourBill: item?.labourBill,
-        transportationCost: item?.transportCost,
-        additionalCost: item?.additionalCost,
+        invoice: +item?.invoice,
+        labourBill: +item?.labourBill,
+        transportationCost: +item?.transportCost,
+        additionalCost: +item?.additionalCost,
         totalCost: totalCost,
         totalReceived: totalReceived,
-        quantity: item?.quantity,
+        quantity: +item?.quantity,
         billAmount: billAmount,
         costAmonut: costAmount,
         profitAmont: profitAmount,
@@ -141,48 +139,17 @@ const RateEnrolmentForm = () => {
   const rowDataHandler = (name, index, value) => {
     let _data = [...rowData?.data];
     _data[index][name] = value;
-    if (name === "distance") {
-      let remain = 0;
-      if (value > 400) {
-        remain = value - 400;
-        _data[index].from0To100 = 100 * 10;
-        _data[index].from101To200 = 100 * 3;
-        _data[index].from201To300 = 100 * 1.5;
-        _data[index].from301To400 = 100 * 1.5;
-        _data[index].from401To500 = remain * 1.3;
-      } else if (value > 300) {
-        remain = value - 300;
-        _data[index].from0To100 = 100 * 10;
-        _data[index].from101To200 = 100 * 3;
-        _data[index].from201To300 = 100 * 1.5;
-        _data[index].from301To400 = remain * 1.5;
-        _data[index].from401To500 = "";
-      } else if (value > 200) {
-        remain = value - 200;
-        _data[index].from0To100 = 100 * 10;
-        _data[index].from101To200 = 100 * 3;
-        _data[index].from201To300 = remain * 1.5;
-        _data[index].from301To400 = "";
-        _data[index].from401To500 = "";
-      } else if (value > 100) {
-        remain = value - 100;
-        _data[index].from0To100 = 100 * 10;
-        _data[index].from101To200 = remain * 3;
-        _data[index].from201To300 = "";
-        _data[index].from301To400 = "";
-        _data[index].from401To500 = "";
-      } else {
-        _data[index].from0To100 = value * 10;
-        _data[index].from101To200 = "";
-        _data[index].from201To300 = "";
-        _data[index].from301To400 = "";
-        _data[index].from401To500 = "";
-      }
-    }
+    const distanceSlabs = splitNumber(value);
+    _data[index].from0To100 = distanceSlabs[0] * 10 || "";
+    _data[index].from101To200 = distanceSlabs[1] * 3 || "";
+    _data[index].from201To300 = distanceSlabs[2] * 1.5 || "";
+    _data[index].from301To400 = distanceSlabs[3] * 1.5 || "";
+    _data[index].from401To500 = distanceSlabs[4] * 1.3 || "";
+
     setRowData({ ...rowData, data: _data });
   };
 
-  const allSelect = (value, values) => {
+  const allSelect = (value) => {
     let _data = [...rowData?.data];
     const modify = {
       ...rowData,

@@ -6,6 +6,7 @@ import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import { useHistory } from "react-router-dom";
 
 const Form = ({ obj }) => {
   const {
@@ -19,6 +20,7 @@ const Form = ({ obj }) => {
     saveHandler,
     rowDataHandler,
   } = obj;
+  const history = useHistory();
 
   return (
     <>
@@ -31,6 +33,9 @@ const Form = ({ obj }) => {
           <>
             <ICustomCard
               title={"Rate Enrolment"}
+              backHandler={() => {
+                history.goBack();
+              }}
               saveHandler={() => {
                 saveHandler(values);
               }}
