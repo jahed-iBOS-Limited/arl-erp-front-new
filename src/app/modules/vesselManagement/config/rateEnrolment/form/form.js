@@ -7,6 +7,9 @@ import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import { useHistory } from "react-router-dom";
+import { PortAndMotherVessel } from "../../../common/components";
+import YearMonthForm from "../../../../_helper/commonInputFieldsGroups/yearMonthForm";
+import { toast } from "react-toastify";
 
 const Form = ({ obj }) => {
   const {
@@ -46,6 +49,25 @@ const Form = ({ obj }) => {
               <form className="form form-label-right">
                 <div className="global-form">
                   <div className="row">
+                    <PortAndMotherVessel
+                      obj={{
+                        values,
+                        setFieldValue,
+                        onChange: (fieldName, allValues) => {
+                          if (fieldName === "motherVessel") {
+                            if (allValues?.motherVessel?.value === 0) {
+                              toast.warn(
+                                "Please select a specific mother Vessel"
+                              );
+                              setFieldValue("motherVessel", "");
+                            }
+                          }
+                        },
+                      }}
+                    />
+                    <YearMonthForm
+                      obj={{ values, setFieldValue, month: false }}
+                    />
                     <div className="col-lg-3">
                       <NewSelect
                         name="businessPartner"

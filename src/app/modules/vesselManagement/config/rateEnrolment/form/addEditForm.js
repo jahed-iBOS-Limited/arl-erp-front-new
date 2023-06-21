@@ -8,6 +8,9 @@ import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
 const initData = {
   businessPartner: "",
+  port: "",
+  motherVessel: "",
+  year: "",
 };
 
 const RateEnrolmentForm = () => {
@@ -17,7 +20,7 @@ const RateEnrolmentForm = () => {
   // get user data from store
   const {
     profileData: { accountId: accId, userId },
-    selectedBusinessUnit: { value: buId },
+    selectedBusinessUnit: { value: buId, label: buName },
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const getData = (values, pageNo = 1, pageSize = 10000) => {
@@ -95,7 +98,9 @@ const RateEnrolmentForm = () => {
       return {
         id: 0,
         businessUnitId: buId,
-        vehicleId: 0,
+        businessUnitName: buName,
+        mvesselId: values?.motherVessel?.value || 0,
+        mvesselName: values?.motherVessel?.label || "",
         routeDescription: item?.descriptionOfRoute,
         distance: +item?.distance,
         distance1to100: distanceSlabs[0] || 0,
@@ -121,6 +126,7 @@ const RateEnrolmentForm = () => {
         billAmount: billAmount,
         costAmonut: costAmount,
         profitAmont: profitAmount,
+        costingYear: values?.year?.label,
         isActive: true,
         insertBy: userId,
         insertDateTime: new Date(),
@@ -139,12 +145,14 @@ const RateEnrolmentForm = () => {
   const rowDataHandler = (name, index, value) => {
     let _data = [...rowData?.data];
     _data[index][name] = value;
-    const distanceSlabs = splitNumber(value);
-    _data[index].from0To100 = distanceSlabs[0] * 10 || "";
-    _data[index].from101To200 = distanceSlabs[1] * 3 || "";
-    _data[index].from201To300 = distanceSlabs[2] * 1.5 || "";
-    _data[index].from301To400 = distanceSlabs[3] * 1.5 || "";
-    _data[index].from401To500 = distanceSlabs[4] * 1.3 || "";
+    if (name === "distance") {
+      const distanceSlabs = splitNumber(value);
+      _data[index].from0To100 = distanceSlabs[0] * 10 || "";
+      _data[index].from101To200 = distanceSlabs[1] * 3 || "";
+      _data[index].from201To300 = distanceSlabs[2] * 1.5 || "";
+      _data[index].from301To400 = distanceSlabs[3] * 1.5 || "";
+      _data[index].from401To500 = distanceSlabs[4] * 1.3 || "";
+    }
 
     setRowData({ ...rowData, data: _data });
   };
