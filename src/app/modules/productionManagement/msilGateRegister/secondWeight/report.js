@@ -137,7 +137,7 @@ function Report({ weightmentId }) {
                         <td
                           style={{ width: "300px", verticalAlign: "text-top" }}
                         >
-                          {_dateFormatter(reportData[0]?.printDate?.split("T"))}
+                          {_dateFormatter(reportData[0]?.lastWeightDate?.split("T"))}
                         </td>
                         <td style={{ verticalAlign: "text-top" }} class="bold">
                           Challan No

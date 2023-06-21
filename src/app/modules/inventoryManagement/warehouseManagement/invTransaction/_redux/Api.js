@@ -384,6 +384,11 @@ export function getSingleDDL(id) {
     `/wms/InventoryTransaction/GetInvTransectionById?TransectionId=${id}`
   );
 }
+export function getBusinessTransactionDDL(id) {
+  return axios.get(
+    `/fino/FinanceCommonDDL/ProjectManagementGlDDL?BusinessUnitId=${id}`
+  );
+}
 export function attachmentSave(data) {
   return axios.post("/domain/Document/UploadFile", data, {
     headers: {

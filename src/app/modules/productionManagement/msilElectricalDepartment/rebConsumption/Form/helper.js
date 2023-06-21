@@ -58,3 +58,27 @@ export const setPreviousPressure = (setFieldValue, data) => {
   setFieldValue("previousPressureThree", data?.intPreviousKwhm3 || "");
   setFieldValue("previousPressureFour", data?.intPreviousKwhm4 || "");
 };
+
+export const getMultipleBy = (buId, typeId) => {
+  if ([144].includes(buId) && [7].includes(typeId)) {
+    return 264.59;
+  }
+
+  if ([188].includes(buId) && [8].includes(typeId)) {
+    return 1058.33;
+  }
+
+  if ([189].includes(buId) && [9].includes(typeId)) {
+    return 529.167;
+  }
+
+  if ([4].includes(buId) && [5, 6].includes(typeId)) {
+    return 30000;
+  }
+
+  if ([171, 244].includes(buId) && [3, 4].includes(typeId)) {
+    return 13750;
+  }
+
+  return 1;
+};

@@ -11,6 +11,7 @@ import IForm from "../../../../_helper/_form";
 import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import REBConsumptionForm from "./From";
+import { getMultipleBy } from "./helper";
 
 const initData = {
   date: _todayDate(),
@@ -90,25 +91,6 @@ export default function REBConsumptionCreate() {
     });
   }, [location]);
 
-  const getMultipleBy = (id) => {
-    if ([1444].includes(selectedBusinessUnit?.value)) {
-      return 264.59;
-    }
-
-    if ([4].includes(selectedBusinessUnit?.value) && (+id === 5 || +id === 6)) {
-      return 30000;
-    }
-
-    if (
-      [171, 244].includes(selectedBusinessUnit?.value) &&
-      (+id === 3 || +id === 4)
-    ) {
-      return 13750;
-    }
-
-    return 1;
-  };
-
   const saveHandler = async (values, cb) => {
     if (values?.presentPressure < values?.previousPressure) {
       return toast.warn("Present KWH can not less than Previous KWH");
@@ -143,7 +125,10 @@ export default function REBConsumptionCreate() {
           intEndKwhm3: +values?.presentPressureThree || null,
           intEndKwhm4: +values?.presentPressureFour || null,
           intTotalRebconsumedUnitCal: values?.totalConsumption,
-          intMultiplyBy: getMultipleBy(values?.rebConsumptionDDL?.value),
+          intMultiplyBy: getMultipleBy(
+            selectedBusinessUnit?.value,
+            +values?.rebConsumptionDDL?.value
+          ),
           intInsertBy: profileData?.userId,
           dteInsertDateTime: _todayDate(),
         },

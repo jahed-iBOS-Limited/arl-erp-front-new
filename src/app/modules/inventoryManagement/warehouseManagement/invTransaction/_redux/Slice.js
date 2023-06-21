@@ -16,6 +16,7 @@ const initState = {
   projectNameDDL: [],
   gridData: [],
   singleData: [],
+  businessTransactionDDL: [],
 };
 
 export const invTransactionSlice = createSlice({
@@ -69,6 +70,10 @@ export const invTransactionSlice = createSlice({
     setSingleDDL: (state, action) => {
       const { payload } = action;
       state.singleData = payload;
+    },
+    setBusinessTransactionDDL: (state, action) => {
+      const { payload } = action;
+      state.businessTransactionDDL = payload;
     },
   },
 });

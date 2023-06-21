@@ -20,6 +20,7 @@ import {
   getLocationTypeDDLAction,
   getStockDDLAction,
   getItemforIssueInv,
+  getBusinessTransactionDDLAction,
 } from "../../_redux/Actions";
 import { toast } from "react-toastify";
 import { DropzoneDialogBase } from "material-ui-dropzone";
@@ -67,6 +68,7 @@ export default function CreateForm({
     costCenterDDL,
     stockDDL,
     locationTypeDDL,
+    businessTransactionDDL
   } = useSelector((state) => state?.invTransa);
 
   //dispatch action creators
@@ -101,6 +103,7 @@ export default function CreateForm({
         landingData?.warehouse?.value
       )
     );
+    dispatch(getBusinessTransactionDDLAction(selectedBusinessUnit.value))
 
     return () => {
       dispatch(slice.setItemDDL([]));
@@ -289,6 +292,8 @@ export default function CreateForm({
             documentId: "",
             businessPartnerName: values?.busiPartner?.label,
             gateEntryNo: values?.getEntryn || "",
+            businessTransactionId: values?.businessTransaction?.value || 0,
+            generalLedgerId: values?.businessTransaction?.intId || 0,
           },
           objRow: rowDataformet,
           objtransfer: {},
@@ -530,24 +535,41 @@ export default function CreateForm({
                   </>
                 )}
                 {values?.transType?.label === "Issue For Project" && (
-                  <div className="col-lg-2">
-                    <ISelect
-                      label="Select Project Name"
-                      options={projectDDL}
-                      value={values?.projName}
-                      name="projName"
-                      onChange={(valueOption) => {
-                        setFieldValue("costCenter", "");
-                        setFieldValue("projName", valueOption);
-                      }}
-                      // isDisabled={
-                      //  // values?.transType.value !== 11
-                      //  values?.costCenter !== ""
-                      // }
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
+                  <>
+                    <div className="col-lg-2">
+                      <ISelect
+                        label="Select Project Name"
+                        options={projectDDL}
+                        value={values?.projName}
+                        name="projName"
+                        onChange={(valueOption) => {
+                          setFieldValue("costCenter", "");
+                          setFieldValue("projName", valueOption);
+                        }}
+                        // isDisabled={
+                        //  // values?.transType.value !== 11
+                        //  values?.costCenter !== ""
+                        // }
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                    <div className="col-lg-2">
+                      <ISelect
+                        label="Business Transaction"
+                        options={businessTransactionDDL || []}
+                        value={values?.businessTransaction}
+                        name="businessTransaction"
+                        onChange={(valueOption) => {
+                          setFieldValue("costCenter", "");
+                          setFieldValue("businessTransaction", valueOption);
+                        }}
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                  </>
+                  
                 )}
                 {values?.refType?.label !== "Inventory Request" && (
                   <div className="col-lg-2">

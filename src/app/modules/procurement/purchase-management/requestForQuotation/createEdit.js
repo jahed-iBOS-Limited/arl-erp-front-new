@@ -264,6 +264,13 @@ export default function RFQCreateEdit() {
                      `/procurement/RequestForQuotation/GetPRReferrenceNoDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&SBUId=${objHeader?.sbuid}&PurchaseOrganizationId=${objHeader?.purchaseOrganizationId}&PlantId=${objHeader?.plantId}&WearHouseId=${objHeader?.warehouseId}`
                   );
                }
+               getPlantListDDL(
+                  `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
+               );
+               getWarehouseListDDL(
+                  `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${objHeader?.plantId
+                  }`
+               );
                getSupplierListDDL(
                   `/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=${objHeader?.sbuid}`
                );
@@ -902,10 +909,12 @@ export default function RFQCreateEdit() {
                               onChange={v => {
                                  if (v) {
                                     setFieldValue('referenceNo', v);
+                                    setItemListDDL([]);
                                     getItemListDDL(`/procurement/RequestForQuotation/GetRFQItemDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&SBUId=${values?.sbu?.value}&PurchaseOrganizationId=${values?.purchaseOrganization?.value}&PlantId=${values?.plant?.value}&WearHouseId=${values?.warehouse?.value}&PurchaseRequestId=${v?.value}
                                             `);
                                  } else {
                                     setFieldValue('referenceNo', '');
+                                    setItemListDDL([]);
                                  }
                               }}
                               placeholder="Reference No"
@@ -990,10 +999,7 @@ export default function RFQCreateEdit() {
                                     type="checkbox"
                                     className="ml-2"
                                     disabled={
-                                       !values?.referenceType ||
-                                       values?.referenceType?.value ===
-                                       'without reference' ||
-                                       (id && values?.isSentToSupplier)
+                                       !values?.referenceType || values?.referenceType?.value === 'without reference' || (id && values?.isSentToSupplier) || !itemListDDL?.length > 0
                                     }
                                     value={values.isAllItem || ''}
                                     checked={values.isAllItem}
@@ -1034,7 +1040,7 @@ export default function RFQCreateEdit() {
                               <tr>
                                  <th>Sl</th>
                                  {values?.referenceType?.value ===
-                                    'with reference' && <th>RFQ No</th>}
+                                    'with reference' && <th>Reference No</th>}
                                  <th>Item Name</th>
                                  <th>Uom</th>
                                  <th>Description</th>
@@ -1177,7 +1183,7 @@ export default function RFQCreateEdit() {
                                        'supplierEmail',
                                        v?.supplierEmail
                                     );
-                                 }else{
+                                 } else {
                                     setFieldValue('supplier', '');
                                     setFieldValue(
                                        'supplierContactNo',
