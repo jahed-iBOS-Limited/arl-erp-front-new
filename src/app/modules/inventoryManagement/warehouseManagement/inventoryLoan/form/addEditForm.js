@@ -31,7 +31,7 @@ const initData = {
   quantity: "",
 };
 
-export default function CreateInventoryLoanForm() {
+export default function CreateInventoryLoanForm({ loanType }) {
   // eslint-disable-next-line no-unused-vars
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
@@ -53,24 +53,24 @@ export default function CreateInventoryLoanForm() {
 
   useEffect(() => {
     getLoanSingleData(location?.state?.loanId, setLoanSingleData)
-  },[location?.state?.loanId])
+  }, [location?.state?.loanId])
 
   useEffect(() => {
     if (loanSingleData) {
       const newRowData = {
-        sbu:{value:loanSingleData?.sbuName, label:loanSingleData?.sbuName},
-        narration:loanSingleData?.narration,
+        sbu: { value: loanSingleData?.sbuName, label: loanSingleData?.sbuName },
+        narration: loanSingleData?.narration,
         createType: loanSingleData?.transTypeId,
-        issueFrom: loanSingleData?.wareHouseId ? { value: 1, label: "Warehouse" } : { value: 2, label: "Shipment"},
-        partner: {value:loanSingleData?.businessPartnerId, label:loanSingleData?.businessPartnerName},
-        shipPoint: {value:loanSingleData?.shipmentId, label:loanSingleData?.shipmentName},
-        lcNo: {value:loanSingleData?.lcid, label:loanSingleData?.lcnumber},
-        warehouse: {value:loanSingleData?.wareHouseId, label:loanSingleData?.wareHouseName},
+        issueFrom: loanSingleData?.wareHouseId ? { value: 1, label: "Warehouse" } : { value: 2, label: "Shipment" },
+        partner: { value: loanSingleData?.businessPartnerId, label: loanSingleData?.businessPartnerName },
+        shipPoint: { value: loanSingleData?.shipmentId, label: loanSingleData?.shipmentName },
+        lcNo: { value: loanSingleData?.lcid, label: loanSingleData?.lcnumber },
+        warehouse: { value: loanSingleData?.wareHouseId, label: loanSingleData?.wareHouseName },
         lighterVessel: loanSingleData?.lighterVesselName,
         motherVessel: loanSingleData?.motherVesselName,
         date: _dateFormatter(loanSingleData?.transDate),
         surveyReportNo: loanSingleData?.surveyReportNo,
-        item:{value:loanSingleData?.itemId, label:loanSingleData?.itemName},
+        item: { value: loanSingleData?.itemId, label: loanSingleData?.itemName },
         quantity: loanSingleData?.itemQty,
       };
       setModifySingleData(newRowData);
@@ -81,33 +81,41 @@ export default function CreateInventoryLoanForm() {
   const saveHandler = async (values, cb) => {
     if (!params?.id) {
       const payload = {
-        SbuId: values?.sbu?.value,
-        accountId: profileData?.accountId,
-        businessUnitId: selectedBusinessUnit?.value,
-        businessPartnerId: +values?.partner?.value || 0,
-        businessPartnerName: values?.partner?.label || " ",
-        transTypeId: values?.createType,
-        transTypeName: values?.createType === 1 ? "Issue" : "Receive",
-        wareHouseId: +values?.warehouse?.value || 0,
-        wareHouseName: values?.warehouse?.label || " ",
-        shipmentId: +values?.shipment?.value || 0,
-        shipmentName: values?.shipment?.label || " ",
-        lcid: +values?.lcNo?.value || 0,
-        lcnumber: +values?.lcNo?.label || " ",
-        surveyReportNo: values?.surveyReportNo || " ",
-        lighterVesselId: 0,
-        lighterVesselName: values?.lighterVessel || " ",
-        motherVesselId: 0,
-        motherVesselName: values?.motherVessel || " ",
-        transDate: values?.date || _todayDate(),
-        itemId: +values?.item?.value || 0,
-        itemName: values?.item?.label || " ",
-        itemQty: +values?.quantity || 0,
-        itemRate: 0,
-        narration:values?.narration,
-        actionBy: profileData?.userId,
+        intSbuId: values?.sbu?.value,
+        intAccountId: profileData?.accountId,
+        intBusinessUnitId: selectedBusinessUnit?.value,
+        intBusinessPartnerId: +values?.partner?.value || 0,
+        strBusinessPartnerName: values?.partner?.label,
+        intPlantId: values?.plant?.value,
+        intLoanTypeId: loanType,
+        intLoanTypeName: loanType === 1 ? "Internal Loan" : "External Loan",
+        intTransTypeId: values?.createType,
+        strTransTypeName: values?.createType === 1 ? "Issue" : "Receive",
+        intWareHouseId: +values?.warehouse?.value || 0,
+        strWareHouseName: values?.warehouse?.label || " ",
+        intLcid: +values?.lcNo?.value || 0,
+        strLcnumber: +values?.lcNo?.label || " ",
+        intShipmentId: +values?.shipment?.value || 0,
+        strShipmentName: values?.shipment?.label || "",
+        strSurveyReportNo: values?.surveyReportNo || "",
+        intLighterVesselId: 0,
+        strLighterVesselName: values?.lighterVessel || "",
+        intMotherVesselId: 0,
+        strMotherVesselName: values?.motherVessel || "",
+        dteTransDate: values?.date || _todayDate(),
+        intItemId: +values?.item?.value || 0,
+        strItemName: values?.item?.label || " ",
+        strItemCode: values?.item?.code,
+        strUomName: values?.uom?.label,
+        numItemQty: +values?.quantity || 0,
+        numItemRate: 0,
+        numItemAmount: Math?.abs(values?.reference?.itemAmount),
+        strNarration: values?.narration,
+        intActionBy: profileData?.userId,
+        intFromOrToBusinessUnitId: values?.toBusinessUnit?.value,
+        strFromOrToBusinessUnitName: values?.toBusinessUnit?.label,
+        intLoanId: values?.reference?.loanId,
       };
-      console.log("Save Inventory ", payload);
       saveInventoryLoanCreate(payload, setDisabled, cb);
     }
   };
@@ -134,8 +142,8 @@ export default function CreateInventoryLoanForm() {
         prId={2}
         type={params?.type}
         location={location}
-        modifySingleData ={modifySingleData}
-        loanSingleData ={loanSingleData}
+        modifySingleData={modifySingleData}
+        loanSingleData={loanSingleData}
       />
     </IForm>
   );
