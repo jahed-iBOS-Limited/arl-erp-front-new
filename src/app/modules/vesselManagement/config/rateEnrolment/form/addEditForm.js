@@ -3,6 +3,8 @@ import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import Form from "./form";
+import { toast } from "react-toastify";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
 const initData = {
   businessPartner: "",
@@ -10,10 +12,11 @@ const initData = {
 
 const RateEnrolmentForm = () => {
   const [rowData, getRowData, loading, setRowData] = useAxiosGet([]);
+  const [, postData, loader] = useAxiosPost();
 
   // get user data from store
   const {
-    profileData: { accountId: accId },
+    profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
@@ -52,7 +55,88 @@ const RateEnrolmentForm = () => {
     });
   };
 
-  const saveHandler = (values) => {};
+  function splitNumber(number) {
+    const numSplits = Math.ceil(number / 100);
+
+    const splits = [];
+    let splitStart = 1;
+
+    for (let i = 0; i < numSplits; i++) {
+      const splitEnd = Math.min(splitStart + 99, number);
+      splits.push(splitEnd + 1 - splitStart);
+      splitStart = splitEnd + 1;
+    }
+
+    return splits;
+  }
+
+  const saveHandler = (values) => {
+    const selectedItems = rowData?.data?.filter((item) => item?.isSelected);
+    if (selectedItems?.length < 1) {
+      return toast.warn("Please select at least one item");
+    }
+    const payload = selectedItems?.map((item) => {
+      const totalRate =
+        item?.from0To100 +
+        item?.from101To200 +
+        item?.from201To300 +
+        item?.from301To400 +
+        item?.from401To500;
+      const taxAndVat = totalRate * 0.175;
+      const totalCost =
+        taxAndVat + +item?.invoice + +item?.labourBill + +item?.transportCost;
+      // +item?.additionalCost;
+
+      const billAmount = totalRate * +item?.quantity;
+      const totalReceived = totalRate - totalCost;
+      const costAmount = totalCost * +item?.quantity;
+      const profitAmount = billAmount - costAmount;
+
+      const distanceSlabs = splitNumber(item?.distance);
+
+      return {
+        id: 0,
+        businessUnitId: buId,
+        vehicleId: 0,
+        routeDescription: item?.descriptionOfRoute,
+        distance: item?.distance,
+        distance1to100: distanceSlabs[0],
+        costDistance1to100: item?.from0To100,
+        distance101to200: distanceSlabs[1],
+        costDistance101to200: item?.from101To200,
+        distance201to300: distanceSlabs[2],
+        costDistance201to300: item?.from201To300,
+        distance301to400: distanceSlabs[3],
+        costDistance301to400: item?.from301To400,
+        distance401to500: distanceSlabs[4],
+        costDistance401to500: item?.from401To500,
+        totalDistanceCost: totalRate,
+        taxVatpercentage: 17.5,
+        taxVat: taxAndVat,
+        invoice: item?.invoice,
+        labourBill: item?.labourBill,
+        transportationCost: item?.transportCost,
+        additionalCost: item?.additionalCost,
+        totalCost: totalCost,
+        totalReceived: totalReceived,
+        quantity: item?.quantity,
+        billAmount: billAmount,
+        costAmonut: costAmount,
+        profitAmont: profitAmount,
+        isActive: true,
+        insertBy: userId,
+        insertDateTime: new Date(),
+        updateBy: userId,
+        updateDateTime: new Date(),
+      };
+    });
+    postData(
+      `/tms/VehicleExpenseRegister/CreateMOPCosting`,
+      payload,
+      () => {},
+      true
+    );
+  };
 
   const rowDataHandler = (name, index, value) => {
     let _data = [...rowData?.data];
@@ -124,14 +208,15 @@ const RateEnrolmentForm = () => {
     <>
       <Form
         obj={{
-          saveHandler,
+          loader,
           loading,
           rowData,
-          initData,
           getData,
-          rowDataHandler,
+          initData,
           allSelect,
           selectedAll,
+          saveHandler,
+          rowDataHandler,
         }}
       />
     </>
