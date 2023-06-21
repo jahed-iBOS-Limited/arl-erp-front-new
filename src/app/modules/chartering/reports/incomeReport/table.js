@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import ExpenseReport from "./expense";
 import IncomeReport from "./income";
+import JVListTable from "./journals/jvList";
 
 export default function ReportTabs() {
   const [tabs, setTabs] = useState([
     { id: 1, title: "Income Report", isActive: true },
     { id: 2, title: "Expense Report", isActive: false },
+    { id: 3, title: "JV List", isActive: false },
   ]);
 
   const changeStatus = (id) => {
@@ -46,6 +48,7 @@ export default function ReportTabs() {
       </div>
       {tabs[0]?.isActive && <IncomeReport />}
       {tabs[1]?.isActive && <ExpenseReport />}
+      {tabs[2]?.isActive && <JVListTable />}
     </div>
   );
 }

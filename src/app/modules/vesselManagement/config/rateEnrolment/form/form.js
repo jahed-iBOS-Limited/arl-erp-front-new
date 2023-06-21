@@ -6,18 +6,24 @@ import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import { useHistory } from "react-router-dom";
+import { PortAndMotherVessel } from "../../../common/components";
+import YearMonthForm from "../../../../_helper/commonInputFieldsGroups/yearMonthForm";
+import { toast } from "react-toastify";
 
 const Form = ({ obj }) => {
   const {
-    saveHandler,
+    loader,
     loading,
     rowData,
-    initData,
     getData,
-    rowDataHandler,
+    initData,
     allSelect,
     selectedAll,
+    saveHandler,
+    rowDataHandler,
   } = obj;
+  const history = useHistory();
 
   return (
     <>
@@ -30,16 +36,38 @@ const Form = ({ obj }) => {
           <>
             <ICustomCard
               title={"Rate Enrolment"}
+              backHandler={() => {
+                history.goBack();
+              }}
               saveHandler={() => {
                 saveHandler(values);
               }}
-              saveDisabled={loading || rowData?.length < 1}
+              saveDisabled={loading || loader || rowData?.length < 1}
             >
-              {loading && <Loading />}
+              {(loading || loader) && <Loading />}
 
               <form className="form form-label-right">
                 <div className="global-form">
                   <div className="row">
+                    <PortAndMotherVessel
+                      obj={{
+                        values,
+                        setFieldValue,
+                        onChange: (fieldName, allValues) => {
+                          if (fieldName === "motherVessel") {
+                            if (allValues?.motherVessel?.value === 0) {
+                              toast.warn(
+                                "Please select a specific mother Vessel"
+                              );
+                              setFieldValue("motherVessel", "");
+                            }
+                          }
+                        },
+                      }}
+                    />
+                    <YearMonthForm
+                      obj={{ values, setFieldValue, month: false }}
+                    />
                     <div className="col-lg-3">
                       <NewSelect
                         name="businessPartner"
@@ -78,7 +106,7 @@ const Form = ({ obj }) => {
                       <thead>
                         <tr>
                           <th
-                            rowSpan={3}
+                            rowSpan={2}
                             onClick={() => allSelect(!selectedAll(), values)}
                             style={{ minWidth: "30px" }}
                           >
@@ -89,71 +117,77 @@ const Form = ({ obj }) => {
                               onChange={() => {}}
                             />
                           </th>
-                          <th style={{ minWidth: "30px" }} rowSpan={3}>
+                          <th style={{ minWidth: "30px" }} rowSpan={2}>
                             SL
                           </th>
-                          <th style={{ minWidth: "200px" }} rowSpan={3}>
+                          <th style={{ minWidth: "200px" }} rowSpan={2}>
                             Description of Route
                           </th>
-                          <th style={{ minWidth: "100px" }} rowSpan={3}>
+                          <th style={{ minWidth: "100px" }} rowSpan={2}>
                             Distance (km)
                           </th>
                           <th style={{ minWidth: "500px" }} colSpan={5}>
                             Rate per Kilo
                           </th>
-                          <th style={{ minWidth: "100px" }}>Total Rate</th>
-                          <th style={{ minWidth: "100px" }}>Tax & Vat</th>
-                          <th style={{ minWidth: "100px" }}>Invoice</th>
-                          <th style={{ minWidth: "100px" }} rowSpan={3}>
+                          <th style={{ minWidth: "100px" }} rowSpan={2}>
+                            Total Rate <br />
+                            17.30
+                          </th>
+                          <th style={{ minWidth: "100px" }} rowSpan={2}>
+                            Tax & Vat <br />
+                            17.50%
+                          </th>
+                          <th style={{ minWidth: "100px" }} rowSpan={2}>
+                            Invoice <br />
+                            10 tk
+                          </th>
+                          <th style={{ minWidth: "100px" }} rowSpan={2}>
                             Labour Bill
                           </th>
-                          <th style={{ minWidth: "100px" }} rowSpan={3}>
+                          <th style={{ minWidth: "100px" }} rowSpan={2}>
                             Transport Cost
                           </th>
-                          <th style={{ minWidth: "100px" }} rowSpan={3}>
+                          <th style={{ minWidth: "100px" }} rowSpan={2}>
                             Additional Cost (ReBag + short)
                           </th>
-                          <th style={{ minWidth: "100px" }} rowSpan={3}>
+                          <th style={{ minWidth: "100px" }} rowSpan={2}>
                             Total Cost
                           </th>
-                          <th style={{ minWidth: "100px" }} rowSpan={3}>
+                          <th style={{ minWidth: "100px" }} rowSpan={2}>
                             Total Received
                           </th>
-                          <th style={{ minWidth: "100px" }} rowSpan={3}>
+                          <th style={{ minWidth: "100px" }} rowSpan={2}>
                             Quantity
                           </th>
-                          <th style={{ minWidth: "100px" }} rowSpan={3}>
+                          <th style={{ minWidth: "100px" }} rowSpan={2}>
                             Bill Amount
                           </th>
-                          <th style={{ minWidth: "100px" }} rowSpan={3}>
+                          <th style={{ minWidth: "100px" }} rowSpan={2}>
                             Cost Amount
                           </th>
-                          <th style={{ minWidth: "100px" }} rowSpan={3}>
+                          <th style={{ minWidth: "100px" }} rowSpan={2}>
                             Profit Amount
                           </th>
                         </tr>
                         <tr>
-                          <th style={{ minWidth: "100px" }}>0-100</th>
-                          <th style={{ minWidth: "100px" }}>101-200</th>
-                          <th style={{ minWidth: "100px" }}>201-300</th>
-                          <th style={{ minWidth: "100px" }}>301-400</th>
-                          <th style={{ minWidth: "100px" }}>401-500</th>
-                          <th style={{ minWidth: "100px" }} rowSpan={2}>
-                            17.30
+                          <th style={{ minWidth: "100px" }}>
+                            0-100 <br /> (10.00)
                           </th>
-                          <th style={{ minWidth: "100px" }} rowSpan={2}>
-                            17.50%
+                          <th style={{ minWidth: "100px" }}>
+                            101-200 <br />
+                            (3.00)
                           </th>
-                          <th style={{ minWidth: "100px" }} rowSpan={2}>
-                            10 tk
+                          <th style={{ minWidth: "100px" }}>
+                            201-300 <br />
+                            (1.50)
                           </th>
-                        </tr>
-                        <tr>
-                          <th style={{ minWidth: "100px" }}>10.00</th>
-                          <th style={{ minWidth: "100px" }}>3.00</th>
-                          <th style={{ minWidth: "100px" }}>1.50</th>
-                          <th style={{ minWidth: "100px" }}>1.50</th>
-                          <th style={{ minWidth: "100px" }}>1.30</th>
+                          <th style={{ minWidth: "100px" }}>
+                            301-400 <br /> (1.50)
+                          </th>
+                          <th style={{ minWidth: "100px" }}>
+                            401-500 <br />
+                            (1.30)
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
