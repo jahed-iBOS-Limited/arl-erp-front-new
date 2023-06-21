@@ -87,7 +87,7 @@ export default function FuelConsumptionCreate() {
           location.state?.intGeneratorFuelConsumptionId || 0,
         dteDate: _dateFormatter(values?.date),
         strShift: values?.shift?.value,
-        intGeneratorId: values?.generatorName?.label,
+        intGeneratorId: values?.generatorName?.value,
         strGeneratorName: values?.generatorName?.label,
         numQuantityLtr: values?.quantity,
         intInsertBy: profileData?.userId,
