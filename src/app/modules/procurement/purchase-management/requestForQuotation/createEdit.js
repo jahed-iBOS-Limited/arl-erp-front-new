@@ -1042,12 +1042,12 @@ export default function RFQCreateEdit() {
                            <thead>
                               <tr>
                                  <th>Sl</th>
-                                 {values?.referenceType?.value ===
-                                    'with reference' && <th>Reference No</th>}
+                                 {values?.referenceType?.value === 'with reference' && <th>Reference No</th>}
                                  <th>Item Name</th>
                                  <th>Uom</th>
                                  <th>Description</th>
-                                 <th>PR Quantity</th>
+                                 {/* <th>PR Quantity</th> */}
+                                 {values?.referenceType?.value === 'with reference' && <th>PR Quantity</th>}
                                  <th>
                                     <OverlayTrigger
                                        placement="top"
@@ -1125,9 +1125,10 @@ export default function RFQCreateEdit() {
                                              }
                                           />
                                        </td>
-                                       <td className="text-center">
-                                          {item?.referenceQuantity}
-                                       </td>
+                                       {values?.referenceType?.value ===
+                                          'with reference' && (<td className="text-center">
+                                             {item?.referenceQuantity}
+                                          </td>)}
                                        <td>
                                           <InputField
                                              value={item?.reqquantity}
@@ -1321,6 +1322,9 @@ export default function RFQCreateEdit() {
                         <div className="col-lg-12">
                            <label>Terms & Conditions</label>
                            <TextArea
+                              style={{
+                                 height: '100px',
+                              }}
                               value={values?.termsAndConditions}
                               name="termsAndConditions"
                               placeholder="Terms & Conditions"
