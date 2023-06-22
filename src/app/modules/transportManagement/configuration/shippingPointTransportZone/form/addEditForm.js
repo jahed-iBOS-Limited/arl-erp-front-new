@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/no-distracting-elements */
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
@@ -5,121 +6,241 @@ import { useLocation, useParams, useHistory } from "react-router-dom";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import Form from "./form";
+import FormTwo from "./formTwo";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import { toast } from "react-toastify";
 
 const initData = {
   shippingPoint: "",
   route: "",
   wareHouse: "",
   transportZone: "",
+  // these are for second form (FormTwo)
+  employee: "",
+  bank: "",
+  branch: "",
+  bankAccountName: "",
+  bankAccountNumber: "",
+  routingNumber: "",
 };
 
 export default function ShippingPointTransportZoneForm() {
+  // ___________ common states _____________
   const { id } = useParams();
-  const { location: state } = useLocation();
+  const { state } = useLocation();
   const history = useHistory();
   const [shipPointDDL, getShipPointDDL, shipPointDDLLoader] = useAxiosGet();
-  const [
-    TransportZoneDDL,
-    getTransportZoneDDL,
-    TransportZoneDDLLoader,
-  ] = useAxiosGet();
+  const [, saveData, savingLoader] = useAxiosPost();
+
+  // _________ first form states _____________
+  const [zoneDDL, getZoneDDL, zoneDDLLoader] = useAxiosGet();
   const [routeDDL, getRouteDDL, routeDDLLoader] = useAxiosGet();
   const [wareHouseDDL, getWareHouseDDL, wareHouseDDLLoader] = useAxiosGet();
-  const [, saveData, saveDataLoader] = useAxiosPost();
   const [modifyData, setModifyData] = useState({});
 
+  // _________ second form states _____________
+  const [rows, setRows] = useState([]);
+  const [employees, getEmployees, empLoader] = useAxiosGet([]);
+  const [banks, getBanks, bankLoader] = useAxiosGet([]);
+  const [branches, getBranches, branchLoader, setBranches] = useAxiosGet([]);
+
+  // ___________ logged in user's information _____________
   const {
     profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
+  // ======== This section contains the functions that used in first form named "Form" =========
+
   const saveHandler = (values, cb) => {
-    const payload = {
-      intAutoId: id ? +id : 0,
-      intBusinessUnitId: buId,
-      intAccountId: accId,
-      intShipPointId: values?.shippingPoint?.value,
-      intWhid: values?.wareHouse?.value,
-      intTransportZoneId: values?.transportZone?.value,
-      intRouteId: values?.route?.value,
-      userId: id ? userId : null,
-    };
-    saveData(
-      id
-        ? `/oms/POSDamageEntry/EditWareHouseZone`
-        : `/oms/POSDamageEntry/CreateWareHouseZone`,
-      payload,
-      cb,
-      true
-    );
+    if ([1].includes(state?.type.value)) {
+      const payload = {
+        intAutoId: id ? +id : 0,
+        intBusinessUnitId: buId,
+        intAccountId: accId,
+        intShipPointId: values?.shippingPoint?.value,
+        intWhid: values?.wareHouse?.value,
+        intTransportZoneId: values?.transportZone?.value,
+        intRouteId: values?.route?.value,
+        userId: id ? userId : null,
+      };
+      saveData(
+        id
+          ? `/oms/POSDamageEntry/EditWareHouseZone`
+          : `/oms/POSDamageEntry/CreateWareHouseZone`,
+        payload,
+        cb,
+        true
+      );
+    }
   };
   useEffect(() => {
+    // this DDL (shipPoint DDL) is common for both form
     getShipPointDDL(
       `/wms/ShipPoint/GetShipPointDDL?accountId=${accId}&businessUnitId=${buId}`
     );
-    getTransportZoneDDL(
-      `/tms/TransportZone/GetTransportZoneDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    if (state) {
-      getWareHouseDDL(
-        `/wms/ShipPoint/GetTransportShipPointWareHouseDDL?accountId=${accId}&businessUnitId=${buId}&ShipPointid=${state?.intShipPointId}`
-      );
-      getRouteDDL(
-        `/wms/ShipPoint/GetTransportZoneRouteDDL?accountId=${accId}&businessUnitId=${buId}&TransportZoneId=${state?.intTransportZoneId}`
-      );
-      setModifyData({
-        shippingPoint: {
-          value: state?.intShipPointId,
-          label: state?.shipPointName,
-        },
-        route: {
-          value: state?.intRouteId,
-          label: state?.routeName,
-        },
-        wareHouse: {
-          value: state?.intWhid,
-          label: state?.wareHouseName,
-        },
-        transportZone: {
-          value: state?.intTransportZoneId,
-          label: state?.transPortZoneName,
-        },
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accId, buId, state]);
 
-  const title = id
-    ? "Edit Shipping Point Transport Zone"
-    : "Create Shipping Point Transport Zone";
+    if ([1].includes(state?.type?.value)) {
+      getZoneDDL(
+        `/tms/TransportZone/GetTransportZoneDDL?AccountId=${accId}&BusinessUnitId=${buId}`
+      );
+      if (id) {
+        getWareHouseDDL(
+          `/wms/ShipPoint/GetTransportShipPointWareHouseDDL?accountId=${accId}&businessUnitId=${buId}&ShipPointid=${state?.intShipPointId}`
+        );
+        getRouteDDL(
+          `/wms/ShipPoint/GetTransportZoneRouteDDL?accountId=${accId}&businessUnitId=${buId}&TransportZoneId=${state?.intTransportZoneId}`
+        );
+        //  __ data setting for filling up the editing form __
+        setModifyData({
+          shippingPoint: {
+            value: state?.intShipPointId,
+            label: state?.shipPointName,
+          },
+          route: {
+            value: state?.intRouteId,
+            label: state?.routeName,
+          },
+          wareHouse: {
+            value: state?.intWhid,
+            label: state?.wareHouseName,
+          },
+          transportZone: {
+            value: state?.intTransportZoneId,
+            label: state?.transPortZoneName,
+          },
+        });
+      }
+    }
+  }, [accId, buId, state]);
 
   const loading =
     shipPointDDLLoader ||
-    TransportZoneDDLLoader ||
+    zoneDDLLoader ||
     routeDDLLoader ||
     wareHouseDDLLoader ||
-    saveDataLoader;
+    savingLoader;
+
+  // ========== This section contains the functions that used in second form named "FormTwo" ==========
+
+  useEffect(() => {
+    getEmployees(
+      `/domain/EmployeeBasicInformation/GetEmployeeDDL?AccountId=${accId}&BusinessUnitId=${buId}`
+    );
+    getBanks(`/costmgmt/BankAccount/GETBankDDl`);
+  }, [accId, buId]);
+
+  const saveHandlerTwo = (cb) => {
+    if (rows?.length < 1) {
+      return toast.warn("Please add at least one row!");
+    }
+    if ([2].includes(state?.type?.value)) {
+      saveData(
+        `/partner/BusinessPartnerBasicInfo/CreateShipPointAndBankAccountInfo`,
+        rows,
+        () => {
+          cb();
+        },
+        true
+      );
+    }
+  };
+
+  const addHandler = (values, cb) => {
+    const exist = rows.find(
+      (row) =>
+        row?.enroll === values?.employee?.value ||
+        row?.bankAccountNumber === values?.bankAccountNumber
+    );
+    if (exist) {
+      return toast.warn("Duplicate bank account or Employee is ont allowed!");
+    }
+    try {
+      const newRow = {
+        enroll: values?.employee?.value,
+        employee: values?.employee?.label,
+        shippingPointId: values?.shippingPoint?.value,
+        shippingPointName: values?.shippingPoint?.label,
+        bankId: values?.bank?.value,
+        bankName: values?.bank?.label,
+        branchId: values?.branch?.value,
+        branchName: values?.branch?.label,
+        bankAccountNumber: values?.bankAccountNumber,
+        routingNumber: values?.routingNumber,
+        insertBy: userId,
+        insertionDate: _todayDate(),
+        accountName: values?.bankAccountName,
+        businessUnitId: buId,
+      };
+      setRows([...rows, newRow]);
+      cb && cb();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const remover = (index) => {
+    const newRows = [...rows];
+    newRows.splice(index, 1);
+    setRows(newRows);
+  };
+
+  const loadingTwo =
+    shipPointDDLLoader ||
+    empLoader ||
+    bankLoader ||
+    branchLoader ||
+    savingLoader;
+
+  // title is common
+  const title = `${id ? "Edit" : "Create"} ${state?.type?.label}`;
 
   return (
     <>
-      <Form
-        obj={{
-          id,
-          buId,
-          accId,
-          title,
-          history,
-          loading,
-          routeDDL,
-          getRouteDDL,
-          saveHandler,
-          shipPointDDL,
-          wareHouseDDL,
-          getWareHouseDDL,
-          TransportZoneDDL,
-          initData: id ? modifyData : initData,
-        }}
-      />
+      {[1]?.includes(state?.type?.value) ? (
+        //  "Shipping Point Transport Zone"
+        <Form
+          obj={{
+            id,
+            buId,
+            accId,
+            title,
+            history,
+            loading,
+            zoneDDL,
+            routeDDL,
+            getRouteDDL,
+            saveHandler,
+            shipPointDDL,
+            wareHouseDDL,
+            getWareHouseDDL,
+            initData: id ? modifyData : initData,
+          }}
+        />
+      ) : [2].includes(state?.type?.value) ? (
+        // "Shipping Point Bank Configure"
+        <FormTwo
+          obj={{
+            id,
+            rows,
+            title,
+            banks,
+            remover,
+            history,
+            branches,
+            employees,
+            addHandler,
+            getBranches,
+            setBranches,
+            shipPointDDL,
+            loading: loadingTwo,
+            saveHandler: saveHandlerTwo,
+            initData: id ? modifyData : initData,
+          }}
+        />
+      ) : (
+        ""
+      )}
     </>
   );
 }

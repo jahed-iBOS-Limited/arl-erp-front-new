@@ -18,3 +18,22 @@ export const validationSchema = Yup.object().shape({
     label: Yup.string().required("Transport zone is required"),
   }),
 });
+
+export const validationSchemaTwo = Yup.object().shape({
+  employee: Yup.object().shape({
+    value: Yup.string().required("Employee is required"),
+    label: Yup.string().required("Employee is required"),
+  }),
+  shippingPoint: Yup.object().shape({
+    value: Yup.string().required("Ship Point is required"),
+    label: Yup.string().required("Ship Point is required"),
+  }),
+  bank: Yup.object().shape({
+    value: Yup.string().required("Bank is required"),
+    label: Yup.string().required("Bank is required"),
+  }),
+  branch: Yup.object().shape({
+    value: Yup.string().required("Branch is required"),
+    label: Yup.string().required("Branch is required"),
+  }),
+});

@@ -6,14 +6,14 @@ import PaginationTable from "../../../../_helper/_tablePagination";
 
 export default function Table({ obj }) {
   const {
-    rowData,
-    confirmToCancel,
     values,
     pageNo,
-    setPageNo,
+    rowData,
     pageSize,
+    setPageNo,
     setPageSize,
-    setPositionHandler,
+    confirmToCancel,
+    paginationHandler,
   } = obj;
   const history = useHistory();
   return (
@@ -58,7 +58,7 @@ export default function Table({ obj }) {
         {rowData?.wareHouseZones?.length > 0 && (
           <PaginationTable
             count={rowData?.wareHouseZones?.length}
-            setPositionHandler={setPositionHandler}
+            setPositionHandler={paginationHandler}
             paginationState={{
               pageNo,
               setPageNo,

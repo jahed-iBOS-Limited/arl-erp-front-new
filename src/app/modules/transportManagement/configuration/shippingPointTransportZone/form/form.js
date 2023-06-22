@@ -13,6 +13,7 @@ export default function Form({ obj }) {
     accId,
     title,
     history,
+    zoneDDL,
     loading,
     routeDDL,
     initData,
@@ -21,7 +22,6 @@ export default function Form({ obj }) {
     shipPointDDL,
     wareHouseDDL,
     getWareHouseDDL,
-    TransportZoneDDL,
   } = obj;
 
   return (
@@ -29,15 +29,24 @@ export default function Form({ obj }) {
       enableReinitialize={true}
       validationSchema={validationSchema}
       initialValues={initData}
-      onSubmit={() => {}}
+      onSubmit={(values, { resetForm }) => {
+        saveHandler(values, () => {
+          resetForm(initData);
+        });
+      }}
     >
-      {({ values, setFieldValue, errors, touched, resetForm }) => (
+      {({
+        values,
+        setFieldValue,
+        errors,
+        touched,
+        resetForm,
+        handleSubmit,
+      }) => (
         <ICustomCard
           title={title}
           saveHandler={() => {
-            saveHandler(values, () => {
-              resetForm(initData);
-            });
+            handleSubmit();
           }}
           resetHandler={
             !id
@@ -84,7 +93,7 @@ export default function Form({ obj }) {
               <div className="col-lg-3">
                 <NewSelect
                   name="transportZone"
-                  options={TransportZoneDDL}
+                  options={zoneDDL}
                   value={values?.transportZone}
                   label="Transport Zone"
                   onChange={(valueOption) => {
