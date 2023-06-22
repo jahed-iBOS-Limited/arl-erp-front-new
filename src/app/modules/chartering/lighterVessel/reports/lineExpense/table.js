@@ -44,19 +44,23 @@ export default function LineExpenseReport() {
 
   const printRef = useRef();
 
-  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+  const {
+    profileData,
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
 
   useEffect(() => {
     getLineExpense(
+      buId,
       _firstDateofMonth(),
       setGridData,
       setLoading,
       setTotalJVAmount,
       setGrandTotal
     );
-  }, [profileData, selectedBusinessUnit]);
+  }, [profileData, buId]);
 
   return (
     <>
@@ -68,7 +72,7 @@ export default function LineExpenseReport() {
           CreateJournalVoucher(
             "lineExp",
             profileData?.accountId,
-            selectedBusinessUnit?.value,
+            buId,
             new Date(values?.date).getMonth(),
             new Date(values?.date).getFullYear(),
             values?.narration,
@@ -122,6 +126,7 @@ export default function LineExpenseReport() {
                       onChange={(e) => {
                         setFieldValue("date", e.target.value);
                         getLineExpense(
+                          buId,
                           e?.target?.value,
                           setGridData,
                           setLoading,
