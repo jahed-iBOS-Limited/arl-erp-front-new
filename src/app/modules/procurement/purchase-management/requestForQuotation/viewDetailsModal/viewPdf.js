@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { shallowEqual, useSelector } from 'react-redux';
 import { _dateFormatter, _dateTimeFormatter } from '../../../../_helper/_dateFormate';
-
+import './viewPdf.css';
 const RfqViewPdf = ({ pdfData, itemList, supplierList, title, status, createdBy }) => {
     useEffect(() => {
         if (pdfData) {
@@ -11,7 +11,6 @@ const RfqViewPdf = ({ pdfData, itemList, supplierList, title, status, createdBy 
     const { selectedBusinessUnit } = useSelector((state) => {
         return state.authData;
     }, shallowEqual);
-
     return (
         <div className="rfq-pdf">
             <div className="businessUnitDetails text-center">
@@ -110,7 +109,8 @@ const RfqViewPdf = ({ pdfData, itemList, supplierList, title, status, createdBy 
             <div className="itemDetails">
                 <h6 className="mt-2">Item Details: </h6>
                 <div className="mt-2">
-                    <table className="table table-bordered border-primary">
+                    {/* <table className="table table-bordered border-primary"> */}
+                    <table className="table table-striped table-bordered advice-table table-font-size-sm table-element">
                         <thead>
                             <tr>
                                 <th style={{
@@ -142,10 +142,11 @@ const RfqViewPdf = ({ pdfData, itemList, supplierList, title, status, createdBy 
                     </table>
                 </div>
             </div>
-            <div className="supplierDetails">
+            <div className="supplierDetails table-element">
                 <h6 className="mt-2">Supplier List</h6>
                 <div className="mt-2">
-                    <table className="table table-bordered border-primary">
+                    {/* <table className="table table-bordered border-primary"> */}
+                    <table className="table table-striped table-bordered advice-table table-font-size-sm table-element">
                         <thead>
                             <tr>
                                 <th style={{
