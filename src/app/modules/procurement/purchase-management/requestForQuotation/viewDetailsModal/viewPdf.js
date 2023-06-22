@@ -109,18 +109,17 @@ const RfqViewPdf = ({ pdfData, itemList, supplierList, title, status, createdBy 
             <div className="itemDetails">
                 <h6 className="mt-2">Item Details: </h6>
                 <div className="mt-2">
-                    {/* <table className="table table-bordered border-primary"> */}
-                    <table className="table table-striped table-bordered advice-table table-font-size-sm table-element">
+                    <table className="table table-bordered border-primary">
                         <thead>
                             <tr>
                                 <th style={{
                                     width: "30px",
                                 }}>Sl</th>
-                                {pdfData?.referenceType?.value === "with reference" && <th>RFQ No</th>}
+                                {pdfData?.referenceType?.value === "with reference" && <th>Reference No</th>}
                                 <th>Item Name</th>
                                 <th>Uom</th>
                                 <th>Description</th>
-                                <th>Ref Quantity</th>
+                                <th>PR Quantity</th>
                                 <th>Quantity</th>
                             </tr>
                         </thead>
@@ -142,17 +141,13 @@ const RfqViewPdf = ({ pdfData, itemList, supplierList, title, status, createdBy 
                     </table>
                 </div>
             </div>
-            <div className="supplierDetails table-element">
+            <div className="supplierDetails">
                 <h6 className="mt-2">Supplier List</h6>
                 <div className="mt-2">
-                    {/* <table className="table table-bordered border-primary"> */}
-                    <table className="table table-striped table-bordered advice-table table-font-size-sm table-element">
+                    <table className="table table-bordered border-primary">
                         <thead>
                             <tr>
-                                <th style={{
-                                    width: "30px",
-                                }
-                                }>Sl</th>
+                                <th style={{ width: "30px" }}>Sl</th>
                                 <th>Supplier Name</th>
                                 <th>Supplier Address</th>
                                 <th>Contact No</th>
