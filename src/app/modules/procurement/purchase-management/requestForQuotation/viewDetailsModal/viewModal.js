@@ -468,7 +468,7 @@ export default function RfqViewModal({ code, title, status, createdBy }) {
                                             <th>Item Name</th>
                                             <th>Uom</th>
                                             <th>Description</th>
-                                            <th>Ref Quantity</th>
+                                            {values?.referenceType?.value === "with reference" && <th>Ref Quantity</th>}
                                             <th>Quantity</th>
                                         </tr>
                                     </thead>
@@ -481,7 +481,7 @@ export default function RfqViewModal({ code, title, status, createdBy }) {
                                                     <td>{item?.itemName}</td>
                                                     <td>{item?.uoMname}</td>
                                                     <td>{item?.description}</td>
-                                                    <td className="text-center">{item?.referenceQuantity}</td>
+                                                    {values?.referenceType?.value === "with reference" && <td className="text-center">{item?.referenceQuantity}</td>}
                                                     <td className="text-center">{item?.reqquantity}</td>
                                                 </tr>
                                             ))

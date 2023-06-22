@@ -119,6 +119,7 @@ export const getDieselStatementTwo = async (
 };
 
 export const getLineExpense = async (
+  buId,
   date,
   setter,
   setLoading,
@@ -128,7 +129,7 @@ export const getLineExpense = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/LighterVesselTrip/LighterVesselTripLineExp?TripDate=${date}`
+      `https://imarine.ibos.io/domain/LighterVesselTrip/LighterVesselTripLineExp?TripDate=${date}&BusinessUnitId=${buId}`
     );
 
     const totalJVAmount = res?.data?.reduce(
