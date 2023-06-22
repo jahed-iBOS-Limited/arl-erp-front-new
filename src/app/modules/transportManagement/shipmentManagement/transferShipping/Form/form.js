@@ -40,12 +40,12 @@ const validationSchema = Yup.object().shape({
     label: Yup.string().required("Pending Delivery is required"),
     value: Yup.string().required("Pending Delivery is required"),
   }),
-  laborSupplierName: Yup.object()
-    .shape({
-      label: Yup.string().required("Labor Supplier Name is required"),
-      value: Yup.string().required("Labor Supplier Name is required"),
-    })
-    .typeError("Labor Supplier Name is required"),
+  // laborSupplierName: Yup.object()
+  //   .shape({
+  //     label: Yup.string().required("Labor Supplier Name is required"),
+  //     value: Yup.string().required("Labor Supplier Name is required"),
+  //   })
+  //   .typeError("Labor Supplier Name is required"),
   supplierName: Yup.object().when("Vehicle", (Vehicle, Schema) => {
     if (Vehicle?.isRental)
       return Schema.required("Vehicle Supplier Name is required");
@@ -78,12 +78,12 @@ const validationSchemaEdit = Yup.object().shape({
   estimatedTimeofArrival: Yup.date().required(
     "Estimated Time of Arrival required"
   ),
-  laborSupplierName: Yup.object()
-    .shape({
-      label: Yup.string().required("Labor Supplier Name is required"),
-      value: Yup.string().required("Labor Supplier Name is required"),
-    })
-    .typeError("Labor Supplier Name is required"),
+  // laborSupplierName: Yup.object()
+  //   .shape({
+  //     label: Yup.string().required("Labor Supplier Name is required"),
+  //     value: Yup.string().required("Labor Supplier Name is required"),
+  //   })
+  //   .typeError("Labor Supplier Name is required"),
   // planedLoadingTime: Yup.date().required("Planned Loading Time required"),
 });
 export default function _Form({
@@ -177,7 +177,7 @@ export default function _Form({
         options: routeListDDL || [],
         value: initData.route,
         isDisabled: !routeListDDL?.length,
-        dependencyFunc: (currentValue, values, setter) => { },
+        dependencyFunc: (currentValue, values, setter) => {},
       },
       {
         label: "Loading Point",
@@ -217,13 +217,13 @@ export default function _Form({
           isEdit
             ? initData
             : {
-              ...initData,
-              shipPoint: {
-                value: headerData?.pgiShippoint?.value,
-                label: headerData?.pgiShippoint?.label,
-              },
-              lastDistance: 0,
-            }
+                ...initData,
+                shipPoint: {
+                  value: headerData?.pgiShippoint?.value,
+                  label: headerData?.pgiShippoint?.label,
+                },
+                lastDistance: 0,
+              }
         }
         validationSchema={isEdit ? validationSchemaEdit : validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -341,36 +341,58 @@ export default function _Form({
                                               selectedBusinessUnit?.value,
                                               setFieldValue
                                             );
-                                            getVehicleEntryDDL(`/wms/ItemPlantWarehouse/GetVehicleEntryDDL?accountId=${accountId}&businessUnitId=${selectedBusinessUnit?.value}&EntryCode=${data[0]?.strEntryCode}`,
+                                            getVehicleEntryDDL(
+                                              `/wms/ItemPlantWarehouse/GetVehicleEntryDDL?accountId=${accountId}&businessUnitId=${selectedBusinessUnit?.value}&EntryCode=${data[0]?.strEntryCode}`,
                                               (data) => {
                                                 const find = vehicleDDL?.find(
                                                   (i) =>
-                                                    i.veichleId === data[0]?.vehicleId
+                                                    i.veichleId ===
+                                                    data[0]?.vehicleId
                                                 );
                                                 if (find) {
-                                                  setFieldValue("laborSupplierName", "");
+                                                  setFieldValue(
+                                                    "laborSupplierName",
+                                                    ""
+                                                  );
                                                   vehicleSingeDataView(
                                                     find?.label,
                                                     accountId,
                                                     selectedBusinessUnit?.value,
                                                     setFieldValue
                                                   );
-                                                  setFieldValue("Vehicle", find || "");
-                                                  setFieldValue("supplierName", "");
-                                                  setFieldValue("laborSupplierName", "");
-                                                  const controlsModify = [...controls];
+                                                  setFieldValue(
+                                                    "Vehicle",
+                                                    find || ""
+                                                  );
+                                                  setFieldValue(
+                                                    "supplierName",
+                                                    ""
+                                                  );
+                                                  setFieldValue(
+                                                    "laborSupplierName",
+                                                    ""
+                                                  );
+                                                  const controlsModify = [
+                                                    ...controls,
+                                                  ];
                                                   controlsModify[2].isDisabled = true;
                                                   setControls(controlsModify);
                                                 }
                                                 // setFieldValue("Vehicle", { value: data[0]?.value, label: data[0]?.vehicleCode });
-                                                const controlsModify = [...controls];
+                                                const controlsModify = [
+                                                  ...controls,
+                                                ];
                                                 controlsModify[2].isDisabled = true;
                                                 setControls(controlsModify);
                                               }
-                                            )
+                                            );
                                           } else {
-                                            document.getElementById("cardNoInput").disabled = false;
-                                            document.getElementById("cardNoInput").focus();
+                                            document.getElementById(
+                                              "cardNoInput"
+                                            ).disabled = false;
+                                            document
+                                              .getElementById("cardNoInput")
+                                              .focus();
                                             setFieldValue("strCardNo", "");
                                             toast.warn("Card Number Not Found");
                                           }
@@ -378,7 +400,9 @@ export default function _Form({
                                       );
                                     }
                                   }}
-                                  onChange={(e) => { setFieldValue("strCardNo", e.target.value); }}
+                                  onChange={(e) => {
+                                    setFieldValue("strCardNo", e.target.value);
+                                  }}
                                 />
                               </div>
                               <span
@@ -394,17 +418,24 @@ export default function _Form({
                                   document.getElementById(
                                     "cardNoInput"
                                   ).disabled = false;
-                                  document.getElementById("cardNoInput").focus();
+                                  document
+                                    .getElementById("cardNoInput")
+                                    .focus();
                                   resetForm(initData);
                                   setFieldValue("strCardNo", "");
                                 }}
                               >
-                                <i style={{
-                                  color: "blue",
-                                }} className="fa fa-refresh" aria-hidden="true"></i>
+                                <i
+                                  style={{
+                                    color: "blue",
+                                  }}
+                                  className="fa fa-refresh"
+                                  aria-hidden="true"
+                                ></i>
                               </span>
                             </div>
-                          )) : (
+                          )
+                        ) : (
                           <div className="col-lg-3">
                             <ISelect
                               label={itm.label}
@@ -524,7 +555,8 @@ export default function _Form({
                               if (v.length < 3) return [];
                               return axios
                                 .get(
-                                  `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accountId}&UnitId=${selectedBusinessUnit?.value
+                                  `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accountId}&UnitId=${
+                                    selectedBusinessUnit?.value
                                   }&SBUId=${0}`
                                 )
                                 .then((res) => {
@@ -534,7 +566,7 @@ export default function _Form({
                                   return updateList;
                                 });
                             }}
-                          // isDisabled={isEdit}
+                            // isDisabled={isEdit}
                           />
                           <FormikError
                             errors={errors}
@@ -543,37 +575,57 @@ export default function _Form({
                           />
                         </div>
                       )}
-                      <div className="col-lg-3">
-                        <label>Labor Supplier Name</label>
-                        <SearchAsyncSelect
-                          selectedValue={values.laborSupplierName || ""}
-                          handleChange={(valueOption) => {
-                            setFieldValue("laborSupplierName", valueOption);
-                            // setFieldValue("item", "");
-                            // setFieldValue("referenceNo", "");
-                          }}
-                          loadOptions={(v) => {
-                            if (v.length < 3) return [];
-                            return axios
-                              .get(
-                                `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accountId}&UnitId=${selectedBusinessUnit?.value
-                                }&SBUId=${0}`
-                              )
-                              .then((res) => {
-                                const updateList = res?.data.map((item) => ({
-                                  ...item,
-                                }));
-                                return updateList;
-                              });
-                          }}
-                        // isDisabled={isEdit}
-                        />
-                        <FormikError
-                          errors={errors}
-                          name="laborSupplierName"
-                          touched={touched}
-                        />
+                      <div style={{ marginTop: "18px" }}>
+                        <label>
+                          <input
+                            type="checkbox"
+                            onChange={() => {
+                              setFieldValue(
+                                "isRequiredLbrSplrName",
+                                !values?.isRequiredLbrSplrName
+                              );
+                            }}
+                            checked={values?.isRequiredLbrSplrName}
+                          />
+                          <span style={{ marginLeft: "5px" }}>
+                            is Required Labor Supplier Name
+                          </span>
+                        </label>
                       </div>
+                      {values?.isRequiredLbrSplrName ? (
+                        <div className="col-lg-3">
+                          <label>Labor Supplier Name</label>
+                          <SearchAsyncSelect
+                            selectedValue={values.laborSupplierName || ""}
+                            handleChange={(valueOption) => {
+                              setFieldValue("laborSupplierName", valueOption);
+                              // setFieldValue("item", "");
+                              // setFieldValue("referenceNo", "");
+                            }}
+                            loadOptions={(v) => {
+                              if (v.length < 3) return [];
+                              return axios
+                                .get(
+                                  `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accountId}&UnitId=${
+                                    selectedBusinessUnit?.value
+                                  }&SBUId=${0}`
+                                )
+                                .then((res) => {
+                                  const updateList = res?.data.map((item) => ({
+                                    ...item,
+                                  }));
+                                  return updateList;
+                                });
+                            }}
+                            // isDisabled={isEdit}
+                          />
+                          <FormikError
+                            errors={errors}
+                            name="laborSupplierName"
+                            touched={touched}
+                          />
+                        </div>
+                      ) : null}
                       <div className="col-lg-12"></div>
                       <div
                         className={
@@ -586,7 +638,7 @@ export default function _Form({
                             Vehicle Capacity : &nbsp;
                             {rowDto?.length
                               ? values?.unloadVehicleWeight ||
-                              vehicleSingleData?.weight
+                                vehicleSingleData?.weight
                               : 0}
                             &nbsp; Ton,
                           </b>
@@ -594,8 +646,8 @@ export default function _Form({
                             {/* Volume Capacity : */}
                             {rowDto?.length
                               ? values.itemTotalNetWeight ||
-                              // deliveryItemVolumeInfo.netWeight
-                              vehicleSingleData?.volume
+                                // deliveryItemVolumeInfo.netWeight
+                                vehicleSingleData?.volume
                               : 0}
                             &nbsp; CFT
                           </b>
@@ -605,12 +657,12 @@ export default function _Form({
                             Product Actual : &nbsp;
                             {rowDto?.length
                               ? values?.unloadVehicleVolume ||
-                              // vehicleSingleData?.volume
-                              rowDto
-                                .map((itm) => itm?.itemTotalGrowssWeight)
-                                .reduce((sum, curr) => {
-                                  return (sum += curr);
-                                }, 0)
+                                // vehicleSingleData?.volume
+                                rowDto
+                                  .map((itm) => itm?.itemTotalGrowssWeight)
+                                  .reduce((sum, curr) => {
+                                    return (sum += curr);
+                                  }, 0)
                               : 0}
                             &nbsp; Ton,
                           </b>
