@@ -113,7 +113,7 @@ export default function RfqViewModal({ code, title, status, createdBy }) {
         var clonedElement = element.cloneNode(true);
         clonedElement.classList.add("d-block");
         var opt = {
-            margin: 20,
+            margin: 30,
             filename: `${fileName}.pdf`,
             image: { type: "jpeg", quality: 0.98 },
             html2canvas: {
@@ -456,7 +456,6 @@ export default function RfqViewModal({ code, title, status, createdBy }) {
                                         isDisabled={true}
                                     />
                                 </div>
-
                             </div>
                             <h4 className="mt-2">Item List</h4>
                             <div className="mt-2">
@@ -464,11 +463,11 @@ export default function RfqViewModal({ code, title, status, createdBy }) {
                                     <thead>
                                         <tr>
                                             <th>Sl</th>
-                                            {values?.referenceType?.value === "with reference" && <th>RFQ No</th>}
+                                            {values?.referenceType?.value === "with reference" && <th>Reference No</th>}
                                             <th>Item Name</th>
                                             <th>Uom</th>
                                             <th>Description</th>
-                                            {values?.referenceType?.value === "with reference" && <th>Ref Quantity</th>}
+                                            {values?.referenceType?.value === "with reference" && <th>PR Quantity</th>}
                                             <th>Quantity</th>
                                         </tr>
                                     </thead>
