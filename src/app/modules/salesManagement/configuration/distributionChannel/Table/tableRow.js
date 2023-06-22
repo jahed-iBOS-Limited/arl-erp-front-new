@@ -75,6 +75,10 @@ export function TableRow() {
       text: "SBU",
     },
     {
+      dataField: "salesOrderValidityDays",
+      text: "SO Validity Days",
+    },
+    {
       dataField: "distributionChannelId",
       text: "Actions",
       formatter: TableAction,

@@ -346,6 +346,8 @@ export default function SalesOrderForm({
             isWaterProof: values?.isWaterProof?.value,
             isPump: values?.isPumpCharge?.value,
             isUnloadLabourByCompany: values?.isUnloadLabourByCompany?.value,
+            salesOrderValidityDays: collectionDays?.salesOrderValidityDays,
+            salesOrderExpiredDate: "2023-06-22T14:08:10.512Z",
             // collectionDays: values?.collectionDays || 0,
           },
           objRow: newRowDto,
@@ -435,6 +437,8 @@ export default function SalesOrderForm({
             isPump: values?.isPumpCharge?.value,
             collectionDays: values?.collectionDays || 0,
             isUnloadLabourByCompany: values?.isUnloadLabourByCompany?.value,
+            salesOrderValidityDays: collectionDays?.salesOrderValidityDays,
+            salesOrderExpiredDate: "2023-06-22T14:08:10.512Z",
           },
           objRow: newRowDto,
         };

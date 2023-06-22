@@ -17,6 +17,7 @@ const initData = {
   distributionChannelCode: "",
   distributionChannelName: "",
   SBU: "",
+  salesOrderValidityDays: "",
 };
 
 export default function DistributionChannelForm({
@@ -77,6 +78,7 @@ export default function DistributionChannelForm({
           accountId: profileData.accountId,
           distributionChannelName: values.distributionChannelName,
           businessUnitId: selectedBusinessUnit.value,
+          salesOrderValidityDays: +values?.salesOrderValidityDays,
         };
         dispatch(saveEditedDistributionChannel(payload, setDisabled));
       } else {
@@ -89,6 +91,7 @@ export default function DistributionChannelForm({
           sbuid: values.SBU.value,
           sbuname: values.SBU.label,
           actionBy: profileData.userId,
+          salesOrderValidityDays: +values?.salesOrderValidityDays,
         };
         dispatch(saveDistributionChannel({ data: payload, cb }, setDisabled));
       }

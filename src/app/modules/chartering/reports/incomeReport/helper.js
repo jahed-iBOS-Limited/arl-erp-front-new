@@ -1,6 +1,5 @@
 import axios from "axios";
 import { toast } from "react-toastify";
-import { _fixedPoint } from "../../../_helper/_fixedPoint";
 
 export const getIncomeReport = async (
   accId,
@@ -27,13 +26,14 @@ export const getIncomeReport = async (
             return {
               ...elem,
               jvDisable: false,
-              finalRevenue: _fixedPoint(
-                elem?.incomeInDateRange +
-                  elem?.addrComm +
-                  elem?.brockComm -
-                  (elem?.cve + elem?.ilohc),
-                false
-              ),
+              finalRevenue: elem?.netRevinue,
+              // _fixedPoint(
+              //   elem?.incomeInDateRange +
+              //     elem?.addrComm +
+              //     elem?.brockComm -
+              //     (elem?.cve + elem?.ilohc),
+              //   false
+              // ),
             };
           })
       );

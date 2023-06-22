@@ -26,13 +26,15 @@ import findIndex from "../../_helper/_findIndex";
 import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
 import { ZoneCostRateLanding } from "./zoneCostRate/landing";
 import ZoneCostRateForm from "./zoneCostRate/create/addForm";
-import { ShippmentTerritory } from "./shippmentTerritory/landing"
+import { ShippmentTerritory } from "./shippmentTerritory/landing";
 import ShippmentTerritoryForm from "./shippmentTerritory/create/addForm";
-import { ShipmentCostRatePermitLanding } from './shipmentCostRatePermit/landing/grid';
-import ShipmentCostRatePermitForm from './shipmentCostRatePermit/create/addForm';
+import { ShipmentCostRatePermitLanding } from "./shipmentCostRatePermit/landing/grid";
+import ShipmentCostRatePermitForm from "./shipmentCostRatePermit/create/addForm";
 import VehicleUserTagging from "./vehicleUserTagging";
-import ShippingPointTransportZoneLanding from "./shippingPointTransportZone";
-import ShippingPointTransportZoneLandingCreateEdit from "./shippingPointTransportZone/createEdit";
+// import ShippingPointTransportZoneLanding from "./shippingPointTransportZone";
+// import ShippingPointTransportZoneLandingCreateEdit from "./shippingPointTransportZone/createEdit";
+import ShippingPointTransportZoneLanding from "./shippingPointTransportZone/landing/form";
+import ShippingPointTransportZoneForm from "./shippingPointTransportZone/form/addEditForm";
 
 export function ConfigurationPages() {
   const userRole = useSelector(
@@ -222,11 +224,11 @@ export function ConfigurationPages() {
 
       <ContentRoute
         path="/transport-management/configuration/shippingpointtransportzone/edit/:id"
-        component={ShippingPointTransportZoneLandingCreateEdit}
+        component={ShippingPointTransportZoneForm}
       />
       <ContentRoute
         path="/transport-management/configuration/shippingpointtransportzone/create"
-        component={ShippingPointTransportZoneLandingCreateEdit}
+        component={ShippingPointTransportZoneForm}
       />
       <ContentRoute
         path="/transport-management/configuration/shippingpointtransportzone"
@@ -296,7 +298,6 @@ export function ConfigurationPages() {
         path="/transport-management/configuration/vehicleusertagging"
         component={VehicleUserTagging}
       />
-
     </Switch>
   );
 }
