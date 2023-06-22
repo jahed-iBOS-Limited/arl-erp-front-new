@@ -22,6 +22,7 @@ import {
   editSalesTarget,
   getManpowerSalesTargetLandingData,
 } from "../helper";
+import SubsidyTable from "./subsidyTable";
 
 const headerOne = [
   "SL",
@@ -52,6 +53,7 @@ const initData = {
 
 const types = [
   { value: 4, label: "ShipPint Target" },
+  { value: 5, label: "Government Subsidy" },
   { value: 1, label: "Others" },
 ];
 
@@ -85,6 +87,13 @@ const ManpowerSalesTargetTable = () => {
     } else if (typeId === 4) {
       getRowData(
         `/oms/Complains/GetGhatTargetEntry?AccountId=${accId}&BusinessUnitId=${buId}&TypeId=${values?.type?.value}&Month=${values?.month?.value}&Year=${values?.year?.value}&PageNo=${pageNo}&PageSize=${pageSize}`,
+        (resData) => {
+          setRowData(resData?.data);
+        }
+      );
+    } else if (typeId === 5) {
+      getRowData(
+        `/oms/Complains/GetGhatTargetRate?accountId=${accId}&businessUnitId=${buId}&typeId=5&year=${values?.year?.value}`,
         (resData) => {
           setRowData(resData?.data);
         }
@@ -167,148 +176,169 @@ const ManpowerSalesTargetTable = () => {
                       />
                     </div>
 
-                    <YearMonthForm obj={{ values, setFieldValue }} />
+                    <YearMonthForm
+                      obj={{
+                        values,
+                        setFieldValue,
+                        month: ![5].includes(values?.type?.value),
+                      }}
+                    />
                     <IButton
                       onClick={() => {
                         getData(values, pageNo, pageSize);
                       }}
-                      disabled={!(values?.month && values?.year)}
+                      disabled={
+                        ([1, 4].includes(values?.type?.value) &&
+                          !values?.month) ||
+                        !values?.year
+                      }
                     />
                   </div>
                 </div>
-                {rowData?.data?.length > 0 && (
-                  <table
-                    className={
-                      "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                    }
-                  >
-                    <thead>
-                      <tr className="cursor-pointer">
-                        {getHeaders(values)?.map((item) => (
-                          <th key={item}>{item}</th>
-                        ))}
-                      </tr>
-                    </thead>
-                    {rowData?.data?.map((item, index) => {
-                      totalTarget += item?.targeQnt;
-                      return (
-                        <tr key={index}>
-                          <td className="text-center">{index + 1}</td>
-                          {[1].includes(values?.type?.value) && (
-                            <>
-                              <td>{item?.channelName}</td>
-                              <td>{item?.employeeName}</td>
-                              <td>{item?.employeeEnroll}</td>
-                              <td>{item?.regionName}</td>
-                              <td>{item?.areaName}</td>
-                              <td>{item?.territoryName}</td>
-                              <td>{item?.setupPkName}</td>
-                            </>
-                          )}
-                          <td>{getMonth(item?.targetMonthId)}</td>
-                          <td>{item?.targetYearId}</td>
-                          {[4].includes(values?.type?.value) && (
-                            <td>{item?.shipPointName}</td>
-                          )}
-                          <td className="text-right" style={{ width: "130px" }}>
-                            {item?.isEdit ? (
-                              <InputField
-                                value={item?.targeQnt}
-                                name="targeQnt"
-                                type="number"
-                                onChange={(e) => {
-                                  rowDataHandler(
-                                    "targeQnt",
-                                    index,
-                                    e?.target?.value
-                                  );
-                                }}
-                              />
-                            ) : (
-                              _fixedPoint(item?.targeQnt, true, 0)
-                            )}
-                          </td>
-                          <td className="text-center" style={{ width: "80px" }}>
-                            <div className="d-flex justify-content-around">
-                              {!item?.isEdit ? (
-                                <span
-                                  className="cursor-pointer"
-                                  onClick={() => {
-                                    rowDataHandler("isEdit", index, true);
-                                  }}
-                                >
-                                  <IEdit />
-                                </span>
-                              ) : (
-                                <>
-                                  <span
-                                    className="cursor-pointer mr-2"
-                                    onClick={() => {
-                                      rowDataHandler("isEdit", index, false);
-                                      rowDataHandler(
-                                        "targeQnt",
-                                        index,
-                                        item?.tempTargetQuantity
-                                      );
-                                    }}
-                                  >
-                                    <ICon title="Cancel">
-                                      <i class="fas fa-times-circle"></i>
-                                    </ICon>
-                                  </span>
-                                  <span
-                                    onClick={() => {
-                                      editTarget(values, item, index);
-                                    }}
-                                  >
-                                    <IApproval title="Done" />
-                                  </span>
-                                </>
-                              )}
-                              {[1].includes(values?.type?.value) && (
-                                <span>
-                                  <IDelete
-                                    remover={(id) => {
-                                      rowDataDelete(id, values);
-                                    }}
-                                    id={item?.intId}
-                                  />
-                                </span>
-                              )}
-                            </div>
-                          </td>
+                {rowData?.data?.length > 0 &&
+                  [1, 4].includes(values?.type?.value) && (
+                    <table
+                      className={
+                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                      }
+                    >
+                      <thead>
+                        <tr className="cursor-pointer">
+                          {getHeaders(values)?.map((item) => (
+                            <th key={item}>{item}</th>
+                          ))}
                         </tr>
-                      );
-                    })}
-                    <tr>
-                      <td
-                        colSpan={[1].includes(values?.type?.value) ? 10 : 4}
-                        className="text-right"
-                      >
-                        <b>Total</b>
-                      </td>
-                      <td className="text-right">
-                        <b>{totalTarget}</b>
-                      </td>
-                      <td></td>
-                    </tr>
-                  </table>
-                )}
+                      </thead>
+                      {rowData?.data?.map((item, index) => {
+                        totalTarget += item?.targeQnt;
+                        return (
+                          <tr key={index}>
+                            <td className="text-center">{index + 1}</td>
+                            {[1].includes(values?.type?.value) && (
+                              <>
+                                <td>{item?.channelName}</td>
+                                <td>{item?.employeeName}</td>
+                                <td>{item?.employeeEnroll}</td>
+                                <td>{item?.regionName}</td>
+                                <td>{item?.areaName}</td>
+                                <td>{item?.territoryName}</td>
+                                <td>{item?.setupPkName}</td>
+                              </>
+                            )}
+                            <td>{getMonth(item?.targetMonthId)}</td>
+                            <td>{item?.targetYearId}</td>
+                            {[4].includes(values?.type?.value) && (
+                              <td>{item?.shipPointName}</td>
+                            )}
+                            <td
+                              className="text-right"
+                              style={{ width: "130px" }}
+                            >
+                              {item?.isEdit ? (
+                                <InputField
+                                  value={item?.targeQnt}
+                                  name="targeQnt"
+                                  type="number"
+                                  onChange={(e) => {
+                                    rowDataHandler(
+                                      "targeQnt",
+                                      index,
+                                      e?.target?.value
+                                    );
+                                  }}
+                                />
+                              ) : (
+                                _fixedPoint(item?.targeQnt, true, 0)
+                              )}
+                            </td>
+                            <td
+                              className="text-center"
+                              style={{ width: "80px" }}
+                            >
+                              <div className="d-flex justify-content-around">
+                                {!item?.isEdit ? (
+                                  <span
+                                    className="cursor-pointer"
+                                    onClick={() => {
+                                      rowDataHandler("isEdit", index, true);
+                                    }}
+                                  >
+                                    <IEdit />
+                                  </span>
+                                ) : (
+                                  <>
+                                    <span
+                                      className="cursor-pointer mr-2"
+                                      onClick={() => {
+                                        rowDataHandler("isEdit", index, false);
+                                        rowDataHandler(
+                                          "targeQnt",
+                                          index,
+                                          item?.tempTargetQuantity
+                                        );
+                                      }}
+                                    >
+                                      <ICon title="Cancel">
+                                        <i class="fas fa-times-circle"></i>
+                                      </ICon>
+                                    </span>
+                                    <span
+                                      onClick={() => {
+                                        editTarget(values, item, index);
+                                      }}
+                                    >
+                                      <IApproval title="Done" />
+                                    </span>
+                                  </>
+                                )}
+                                {[1].includes(values?.type?.value) && (
+                                  <span>
+                                    <IDelete
+                                      remover={(id) => {
+                                        rowDataDelete(id, values);
+                                      }}
+                                      id={item?.intId}
+                                    />
+                                  </span>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                      <tr>
+                        <td
+                          colSpan={[1].includes(values?.type?.value) ? 10 : 4}
+                          className="text-right"
+                        >
+                          <b>Total</b>
+                        </td>
+                        <td className="text-right">
+                          <b>{totalTarget}</b>
+                        </td>
+                        <td></td>
+                      </tr>
+                    </table>
+                  )}
               </form>
-              {rowData?.data?.length > 0 && (
-                <PaginationTable
-                  count={rowData?.totalCount}
-                  setPositionHandler={(pageNo, pageSize) => {
-                    getData(values, pageNo, pageSize);
-                  }}
-                  paginationState={{
-                    pageNo,
-                    setPageNo,
-                    pageSize,
-                    setPageSize,
-                  }}
-                />
+              {[5].includes(values?.type?.value) && (
+                <SubsidyTable obj={{ rowData }} />
               )}
+              {rowData?.data?.length > 0 &&
+                [1, 4].includes(values?.type?.value) && (
+                  <PaginationTable
+                    count={rowData?.totalCount}
+                    setPositionHandler={(pageNo, pageSize) => {
+                      getData(values, pageNo, pageSize);
+                    }}
+                    paginationState={{
+                      pageNo,
+                      setPageNo,
+                      pageSize,
+                      setPageSize,
+                    }}
+                  />
+                )}
             </ICard>
           </>
         )}
