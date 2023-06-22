@@ -196,7 +196,7 @@ export default function InternalLoan({ loanType }) {
             }) => (
                 <>
                     {(plantDDLloader || warehouseDDLloader || saveDataLoader || sbuDDLloader || partnerDDLloader || referenceDDLloader) && <Loading />}
-                    <IForm title="Create Inventory Loan" getProps={setObjprops}>
+                    <IForm title="Create Internal Loan" getProps={setObjprops}>
                         <Form>
                             <>
                                 <div className="col-lg-4 mb-2 mt-5">

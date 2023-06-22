@@ -124,7 +124,7 @@ export default function CreateInventoryLoanForm({ loanType }) {
 
   return (
     <IForm
-      title={loanSingleData?.loanId ? "Inventory Loan View" : "Inventory Loan Create"}
+      title={loanSingleData?.loanId ? "Inventory Loan View" : "Create External Loan"}
       getProps={setObjprops}
       isDisabled={isDisabled}
       isHiddenSave={params?.type === "viewType" || loanSingleData?.loanId}
