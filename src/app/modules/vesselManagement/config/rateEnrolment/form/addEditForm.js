@@ -13,6 +13,19 @@ const initData = {
   year: "",
 };
 
+export function splitNumber(number) {
+  const splits = [];
+  let splitStart = 1;
+
+  for (let i = 0; i < 5; i++) {
+    const splitEnd = Math.min(splitStart + 99, number);
+    splits.push(Number(splitEnd + 1 - splitStart));
+    splitStart = splitEnd + 1;
+  }
+
+  return splits;
+}
+
 const RateEnrolmentForm = () => {
   const [rowData, getRowData, loading, setRowData] = useAxiosGet([]);
   const [, postData, loader] = useAxiosPost();
@@ -57,19 +70,6 @@ const RateEnrolmentForm = () => {
       });
     });
   };
-
-  function splitNumber(number) {
-    const splits = [];
-    let splitStart = 1;
-
-    for (let i = 0; i < 5; i++) {
-      const splitEnd = Math.min(splitStart + 99, number);
-      splits.push(Number(splitEnd + 1 - splitStart));
-      splitStart = splitEnd + 1;
-    }
-
-    return splits;
-  }
 
   const saveHandler = (values) => {
     const selectedItems = rowData?.data?.filter((item) => item?.isSelected);
