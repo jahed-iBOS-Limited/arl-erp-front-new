@@ -88,6 +88,16 @@ export default function From({
                     disabled={isEdit}
                   />
                 </div>
+                <div className="col-lg-4">
+                  <Field
+                    value={values?.salesOrderValidityDays}
+                    name="salesOrderValidityDays"
+                    component={Input}
+                    placeholder="SO Validity Days"
+                    label="SO Validity Days"
+                    // disabled={isEdit}
+                  />
+                </div>
               </div>
               <button
                 type="submit"
