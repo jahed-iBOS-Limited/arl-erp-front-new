@@ -784,6 +784,12 @@ export default function _Form({
                         )}
                       </div>
                     </>
+                    <div className="col-lg-3 mt-5">
+                      <h5>
+                        SO Validity Days:{" "}
+                        {collectionDays?.salesOrderValidityDays}
+                      </h5>
+                    </div>
                   </div>
                 </div>
                 {/* End Left */}

@@ -82,6 +82,7 @@ const GridData = ({
                   <th style={{ width: "70px" }}>Partial Shipment</th>
                   <th style={{ width: "45px" }}>Order Total</th>
                   <th style={{ width: "60px" }}>Approval Status</th>
+                  <th style={{ width: "60px" }}>SO will Expired in</th>
                   <th style={{ width: "85px" }}>Actions</th>
                 </tr>
               </thead>
@@ -109,6 +110,9 @@ const GridData = ({
                     <td className="text-center">
                       {" "}
                       {td?.approved ? "Approved" : "UnApprove"}{" "}
+                    </td>
+                    <td className="text-center">
+                      {td?.salesOrderValidityDays}
                     </td>
                     <td>
                       <div className="d-flex align-items-center">
