@@ -75,7 +75,7 @@ export default function RequestForQuotationLanding() {
             }&RequestTypeId=${values?.rfqType?.value}&SBUId=${values?.sbu?.value
             }&PurchaseOrganizationId=${values?.purchaseOrganization?.value
             }&PlantId=${values?.plant?.value}&WearHouseId=${values?.warehouse?.value
-            }&status=${values?.status?.label}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize
+            }&status=${values?.status?.label}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize
             }&fromDate=${values?.fromDate}&toDate=${values?.toDate}&search=${searchValue}`
         )
     }
@@ -398,13 +398,24 @@ export default function RequestForQuotationLanding() {
                                                 <td className="text-center">{_dateTimeFormatter(item?.validTillDate)}</td>
                                                 <td className="text-center">{
                                                     item?.status && item?.status === "Live" ? (
-                                                        <Chips classes="badge-primary" status={item?.status} />
+                                                        <Chips classes="badge-danger" status={item?.status} style={{
+                                                            backgroundColor: "#A52A2A",
+                                                            color: "#ffffff",
+                                                            height: "17px", width: "50px"
+                                                        }} />
                                                     ) : item?.status === "Closed" ? (
-                                                        <Chips classes="badge-danger" status={item?.status} />
+                                                        <Chips classes="badge-dark" status={item?.status} style={{
+                                                            height: "17px", width: "50px"
+                                                        }} />
                                                     ) : item?.status === "Pending" ? (
-                                                        <Chips classes="badge-warning" status={item?.status} />
+                                                        <Chips classes="badge-warning" status={item?.status} style={{
+                                                            height: "17px", width: "50px"
+                                                        }} />
                                                     ) : item?.status === "Waiting" ? (
-                                                        <Chips classes="badge-info" status={item?.status} />
+                                                        <Chips classes="badge-info" status={item?.status} style={{
+                                                            height: "17px", width: "50px",
+                                                            backgroundColor: "#2ecc71"
+                                                        }} />
                                                     ) : null
                                                 }</td>
                                                 <td>{item?.createdBy}</td>
