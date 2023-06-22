@@ -55,6 +55,7 @@ const initData = {
   laborSupplierName: "",
   gateEntryCode:"",
   strCardNo:"",
+  isRequiredLbrSplrName : true,
 };
 
 export default function TransferShipmentForm({
@@ -224,6 +225,9 @@ export default function TransferShipmentForm({
   };
 
   const saveHandler = async (values, cb) => {
+    if(values?.isRequiredLbrSplrName && !values?.laborSupplierName){
+      return toast.warn("Labor Supplier Name is required")
+    }
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       if (rowDto?.length === 0) {
         toast.warning("Please add atleast one");
@@ -294,7 +298,7 @@ export default function TransferShipmentForm({
             isLaborImpart: true,
             transportZoneId: values?.transportZone?.value,
             laborSupplierId: values?.laborSupplierName?.value || 0,
-            laborSupplierName: values?.laborSupplierName?.label || 0,
+            laborSupplierName: values?.laborSupplierName?.label || "",
             vehicleEntryId: values?.gateEntryCode?.value || 0,
             vehicleEntryCode: values?.gateEntryCode?.label || "",
           },
@@ -379,7 +383,7 @@ export default function TransferShipmentForm({
               +values?.lastDestinationKmCustomerId || 0,
             isLaborImpart: true,
             laborSupplierId: values?.laborSupplierName?.value || 0,
-            laborSupplierName: values?.laborSupplierName?.label || 0,
+            laborSupplierName: values?.laborSupplierName?.label || "",
             transportZoneId: values?.transportZone?.value || 0,
             vehicleEntryId: values?.gateEntryCode?.value || 0,
             vehicleEntryCode: values?.gateEntryCode?.label || "",

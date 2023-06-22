@@ -28,10 +28,11 @@ const initData = {
 export default function InternalLoan({ loanType }) {
     const [objProps, setObjprops] = useState({});
     const [transactionType, setTransactionType] = useState(1);
-    const { profileData, selectedBusinessUnit, businessUnitList } = useSelector((state) => {
+    const { profileData, selectedBusinessUnit } = useSelector((state) => {
         return state.authData;
     }, shallowEqual);
 
+    const [businessUnitDDL, getBusinessUnitDDL, businessUnitDDLloader] = useAxiosGet()
     const [, saveData, saveDataLoader] = useAxiosPost();
     const [, getSbuDDL, sbuDDLloader] = useAxiosGet();
     const [plantDDL, getPlantDDL, plantDDLloader] = useAxiosGet();
@@ -172,6 +173,7 @@ export default function InternalLoan({ loanType }) {
         getPlantDDL(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId
             }&AccId=1&BusinessUnitId=${selectedBusinessUnit?.value
             }&OrgUnitTypeId=7`)
+        getBusinessUnitDDL(`/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${profileData?.accountId}`)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -195,7 +197,7 @@ export default function InternalLoan({ loanType }) {
                 touched,
             }) => (
                 <>
-                    {(plantDDLloader || warehouseDDLloader || saveDataLoader || sbuDDLloader || partnerDDLloader || referenceDDLloader) && <Loading />}
+                    {(plantDDLloader || warehouseDDLloader || saveDataLoader || sbuDDLloader || partnerDDLloader || referenceDDLloader || businessUnitDDLloader) && <Loading />}
                     <IForm title="Create Internal Loan" getProps={setObjprops}>
                         <Form>
                             <>
@@ -284,9 +286,7 @@ export default function InternalLoan({ loanType }) {
                                     <div className="col-lg-3">
                                         <NewSelect
                                             name="toBusinessUnit"
-                                            options={
-                                                businessUnitList?.filter((itm) => itm.value !== selectedBusinessUnit?.value) || []
-                                            }
+                                            options={businessUnitDDL?.filter((itm) => itm.value !== selectedBusinessUnit?.value) || []}
                                             value={values?.toBusinessUnit}
                                             label="To Business Unit"
                                             onChange={(valueOption) => {
@@ -421,7 +421,7 @@ export default function InternalLoan({ loanType }) {
                                         <div className="col-lg-3">
                                             <NewSelect
                                                 name="toBusinessUnit"
-                                                options={businessUnitList?.filter((itm) => itm.value !== selectedBusinessUnit?.value) || []}
+                                                options={businessUnitDDL?.filter((itm) => itm.value !== selectedBusinessUnit?.value) || []}
                                                 value={values?.toBusinessUnit}
                                                 label="From Business Unit"
                                                 onChange={(valueOption) => {

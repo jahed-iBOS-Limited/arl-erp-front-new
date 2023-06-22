@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { shallowEqual, useSelector } from 'react-redux';
 import { _dateFormatter, _dateTimeFormatter } from '../../../../_helper/_dateFormate';
-
+import './viewPdf.css';
 const RfqViewPdf = ({ pdfData, itemList, supplierList, title, status, createdBy }) => {
     useEffect(() => {
         if (pdfData) {
@@ -11,7 +11,6 @@ const RfqViewPdf = ({ pdfData, itemList, supplierList, title, status, createdBy 
     const { selectedBusinessUnit } = useSelector((state) => {
         return state.authData;
     }, shallowEqual);
-
     return (
         <div className="rfq-pdf">
             <div className="businessUnitDetails text-center">
@@ -116,11 +115,11 @@ const RfqViewPdf = ({ pdfData, itemList, supplierList, title, status, createdBy 
                                 <th style={{
                                     width: "30px",
                                 }}>Sl</th>
-                                {pdfData?.referenceType?.value === "with reference" && <th>RFQ No</th>}
+                                {pdfData?.referenceType?.value === "with reference" && <th>Reference No</th>}
                                 <th>Item Name</th>
                                 <th>Uom</th>
                                 <th>Description</th>
-                                <th>Ref Quantity</th>
+                                <th>PR Quantity</th>
                                 <th>Quantity</th>
                             </tr>
                         </thead>
@@ -148,10 +147,7 @@ const RfqViewPdf = ({ pdfData, itemList, supplierList, title, status, createdBy 
                     <table className="table table-bordered border-primary">
                         <thead>
                             <tr>
-                                <th style={{
-                                    width: "30px",
-                                }
-                                }>Sl</th>
+                                <th style={{ width: "30px" }}>Sl</th>
                                 <th>Supplier Name</th>
                                 <th>Supplier Address</th>
                                 <th>Contact No</th>
