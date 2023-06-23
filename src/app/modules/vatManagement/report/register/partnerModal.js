@@ -351,6 +351,7 @@ const PartnerModal = ({ tableItem, landingValues }) => {
                               accountingJournalTypeId:
                                 clickRowData?.journalTypeId,
                             }}
+                            clickRowData={clickRowData}
                           />
                         )}
                         {[4, 5, 6].includes(
@@ -362,6 +363,7 @@ const PartnerModal = ({ tableItem, landingValues }) => {
                               accountingJournalTypeId:
                                 clickRowData?.journalTypeId,
                             }}
+                            clickRowData={clickRowData}
                           />
                         )}
                       </>
@@ -369,6 +371,7 @@ const PartnerModal = ({ tableItem, landingValues }) => {
                       <>
                         <AdjustmentJournalReportView
                           journalCode={clickRowData?.strAccountingJournalCode}
+                          clickRowData={clickRowData}
                         />
                       </>
                     )}
