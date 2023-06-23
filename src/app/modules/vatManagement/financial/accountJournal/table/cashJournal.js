@@ -141,6 +141,7 @@ export default function CashJournalTable({
                headerData={{
                   accountingJournalTypeId: values?.journalType?.value,
                }}
+               clickRowData={{journalTypeId : row?.intAccountingJournalTypeId, strAccountingJournalCode : row?.strAccountingJournalCode}}
             />
          </IViewModal>
       </div>

@@ -145,6 +145,7 @@ export default function BankJournalTable({
                headerData={{
                   accountingJournalTypeId: values?.journalType?.value,
                }}
+               clickRowData={{journalTypeId : row?.intAccountingJournalTypeId, strAccountingJournalCode : row?.strAccountingJournalCode}}
             />
          </IViewModal>
       </div>
