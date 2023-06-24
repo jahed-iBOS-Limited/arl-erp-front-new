@@ -177,9 +177,11 @@ export default function RequestForQuotationLanding() {
                                         options={
                                             [
                                                 { value: 1, label: 'Standard RFQ' },
-                                                { value: 2, label: 'Request for Information' },
-                                                { value: 3, label: 'Request for Proposal' }
-                                            ]
+                                                { value: 2, label: 'Open Tendering' },
+                                                { value: 3, label: 'Limited Tendering' },
+                                                { value: 4, label: 'Single Stage Tendering'},
+                                                { value: 5, label: 'Two Stage Tendering'},
+                                             ]
                                         }
                                         value={values?.rfqType}
                                         label="RFQ Type"
@@ -190,7 +192,7 @@ export default function RequestForQuotationLanding() {
                                         placeholder="RFQ Type"
                                         errors={errors}
                                         touched={touched}
-                                        isDisabled={true}
+                                        // isDisabled={true}
                                     />
                                 </div>
                                 <div className="col-lg-2">
