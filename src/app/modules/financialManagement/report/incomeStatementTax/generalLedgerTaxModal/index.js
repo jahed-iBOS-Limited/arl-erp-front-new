@@ -32,7 +32,7 @@ const GeneralLedgerTaxModalForIncomeStatement = ({
   useEffect(() => {
     if (incomeStatementRow?.intFSId) {
       getGeneralLedgerInfo(
-        `/fino/IncomeStatement/GetIncomeStatement?partName=GeneralLedgerTax&dteFromDate=${values?.fromDate}&dteFromDateL=${values?.fromDate}&dteToDate=${values?.todate}&dteToDateL=${values?.todate}&BusinessUnitGroup=${values?.enterpriseDivision?.value}&BusinessUnitId=${values?.businessUnit?.value}&fsComponentId=${incomeStatementRow?.intFSId}&ConvertionRate=${values?.conversionRate}&SubGroup=${values?.subDivision?.value || 0}`,
+        `/fino/IncomeStatement/GetIncomeStatementTaxMgt?partName=GeneralLedgerTax&dteFromDate=${values?.fromDate}&dteFromDateL=${values?.fromDate}&dteToDate=${values?.todate}&dteToDateL=${values?.todate}&BusinessUnitGroup=${values?.enterpriseDivision?.value}&BusinessUnitId=${values?.businessUnit?.value}&fsComponentId=${incomeStatementRow?.intFSId}&ConvertionRate=${values?.conversionRate}&SubGroup=${values?.subDivision?.value || 0}`,
         (data) => {
           setTotalAmount(
             data?.reduce((value, row) => (value += row?.numAmount), 0) || 0

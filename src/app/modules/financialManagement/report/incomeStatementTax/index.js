@@ -573,10 +573,26 @@ export default function IncomeStatementTaxLanding() {
                                           {_formatMoney(data?.monCurrentPeriodAmountTax)}
                                       </td> */}
                                       <td className="text-right">
-                                        {_formatMoney(
-                                          data?.monCurrentPeriodAmount -
-                                          data?.monCurrentPeriodAmountTax
-                                        )}
+                                       {/* {
+                                        +data?.monCurrentPeriodAmount > 0 ? 
+                                      _formatMoney(+data?.monCurrentPeriodAmount - Math.abs(data?.monCurrentPeriodAmountTax))
+                                       :  _formatMoney(+data?.monCurrentPeriodAmount + Math.abs(data?.monCurrentPeriodAmountTax))   
+                                    } */}
+
+                                    {
+                                       (data?.monCurrentPeriodAmount < 0 && data?.monCurrentPeriodAmountTax < 0) ?
+                                       (
+                                         data?.monCurrentPeriodAmount > data?.monCurrentPeriodAmountTax ? (
+                                          _formatMoney(Math.abs(data?.monCurrentPeriodAmount) - Math.abs(data?.monCurrentPeriodAmountTax))
+                                         ) : 
+                                         _formatMoney((Math.abs(data?.monCurrentPeriodAmountTax) - Math.abs(data?.monCurrentPeriodAmount))) 
+                                       ) :  (
+                                          _formatMoney(+data?.monCurrentPeriodAmount - Math.abs(data?.monCurrentPeriodAmountTax))
+                                       )
+
+                                       
+                                    }
+                                       
                                       </td>
                                     </tr>
                                     
