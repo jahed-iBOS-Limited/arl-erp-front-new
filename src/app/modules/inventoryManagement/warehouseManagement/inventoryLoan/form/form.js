@@ -3,7 +3,6 @@ import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import {
   getBusinessPartnerDDL,
-  getItemDDL,
   getSBUListDDL_api,
   getShipmentDDL,
   getWarehouseDDL,
@@ -12,6 +11,7 @@ import {
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import NewSelect from "../../../../_helper/_select";
 import InputField from "../../../../_helper/_inputField";
+import FormikError from "../../../../_helper/_formikError";
 
 export default function _Form({
   initData,
@@ -21,13 +21,12 @@ export default function _Form({
   profileData,
   selectedBusinessUnit,
   modifySingleData,
-  loanSingleData
+  loanSingleData,
 }) {
   const [shipmentDDL, setShipmentDDL] = useState([]);
   const [warehouseDDL, setWarehouseDDL] = useState([]);
   const [partnerDDL, setPartnerDDL] = useState([]);
-  const [itemDDL, setItemDDL] = useState([]);
-  const [sbuDDL, setsbuDDL] = useState([])
+  const [sbuDDL, setsbuDDL] = useState([]);
   const polcList = (v) => {
     if (v?.length < 3) return [];
     return Axios.get(
@@ -45,20 +44,21 @@ export default function _Form({
       profileData?.accountId,
       selectedBusinessUnit?.value,
       setsbuDDL
-    )
+    );
     getWarehouseDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
       setWarehouseDDL
     );
-    getItemDDL(profileData?.accountId, selectedBusinessUnit?.value, setItemDDL);
   }, [profileData, selectedBusinessUnit]);
 
   return (
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={loanSingleData?.loanId ? modifySingleData :{ ...initData }}
+        initialValues={
+          loanSingleData?.loanId ? modifySingleData : { ...initData }
+        }
         validationSchema={SaveInventoryLoanValidationSchema}
         onSubmit={(values, { resetForm }) => {
           saveHandler(values, () => {
@@ -107,7 +107,7 @@ export default function _Form({
                 </div>
 
                 <div className="row">
-                <div className="col-lg-3">
+                  <div className="col-lg-3">
                     <NewSelect
                       name="sbu"
                       options={sbuDDL}
@@ -275,17 +275,28 @@ export default function _Form({
                   </div>
 
                   <div className="col-lg-3">
-                    <NewSelect
-                      name="item"
-                      options={itemDDL}
-                      value={values?.item}
-                      isDisabled={loanSingleData?.loanId}
-                      label="Item Name"
-                      onChange={(valueOption) => {
+                    <label>Item Name</label>
+                    <SearchAsyncSelect
+                      selectedValue={values?.item}
+                      handleChange={(valueOption) => {
                         setFieldValue("item", valueOption);
                       }}
-                      placeholder="Item Name"
+                      loadOptions={(v) => {
+                        if (v?.length < 3) return [];
+                        return Axios.get(
+                          `/item/ItemSales/GetItemDDLForInventoryLoan?AccountId=${
+                            profileData?.accountId
+                          }&BUnitId=${
+                            selectedBusinessUnit?.value
+                          }&WareHouseId=${values?.warehouse?.value ||
+                            0}&Search=${v}`
+                        ).then((res) => res?.data);
+                      }}
+                      disabled={loanSingleData?.loanId}
+                    />
+                     <FormikError
                       errors={errors}
+                      name="item"
                       touched={touched}
                     />
                   </div>
