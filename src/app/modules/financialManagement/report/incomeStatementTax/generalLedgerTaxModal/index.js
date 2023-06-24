@@ -8,7 +8,7 @@ import ICustomCard from "../../../../_helper/_customCard";
 import Loading from "../../../../_helper/_loading";
 import IViewModal from "../../../../_helper/_viewModal";
 
-const GeneralLedgerModalForIncomeStatement = ({
+const GeneralLedgerTaxModalForIncomeStatement = ({
   values,
   businessUnitList,
   incomeStatementRow,
@@ -43,7 +43,7 @@ const GeneralLedgerModalForIncomeStatement = ({
   }, [incomeStatementRow?.intFSId]);
 
   const [generalLedgerRow, setGeneralLedgerRow] = useState(null);
-  const [showSubGeneralLedgerModal, setShowSubGeneralLedgerModal] = useState(
+  const [showSubGeneralLedgerTaxModal, setShowSubGeneralLedgerTaxModal] = useState(
     false
   );
 
@@ -142,7 +142,7 @@ const GeneralLedgerModalForIncomeStatement = ({
                               <td
                                 onClick={() => {
                                   setGeneralLedgerRow(item);
-                                  setShowSubGeneralLedgerModal(true);
+                                  setShowSubGeneralLedgerTaxModal(true);
                                 }}
                                 style={{
                                   textDecoration: "underline",
@@ -191,9 +191,9 @@ const GeneralLedgerModalForIncomeStatement = ({
         </div>
       </ICustomCard>
       <IViewModal
-        show={showSubGeneralLedgerModal}
+        show={showSubGeneralLedgerTaxModal}
         onHide={() => {
-          setShowSubGeneralLedgerModal(false);
+         setShowSubGeneralLedgerTaxModal(false);
           setGeneralLedgerRow(null);
         }}
       >
@@ -211,5 +211,5 @@ const GeneralLedgerModalForIncomeStatement = ({
   );
 };
 
-export default GeneralLedgerModalForIncomeStatement;
+export default GeneralLedgerTaxModalForIncomeStatement;
 

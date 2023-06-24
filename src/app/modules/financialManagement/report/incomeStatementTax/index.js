@@ -16,7 +16,8 @@ import { getProfitCenterDDL } from "../profitCenterReport/Form/helper";
 import { getBusinessDDLByED, getEnterpriseDivisionDDL, getIncomeStatement_api } from "./helper";
 import printIcon from "../../../../modules/_helper/images/print-icon.png";
 import IViewModal from "../../../_helper/_viewModal";
-import GeneralLedgerModalForIncomeStatement from "./generalLedgerTaxModal";
+import GeneralLedgerTaxModalForIncomeStatement from "./generalLedgerTaxModal";
+import GeneralLedgerModalForIncomeStatement from "../incomestatement/generalLedgerModal";
 
 
 
@@ -90,6 +91,7 @@ export default function IncomeStatementTaxLanding() {
   const printRef = useRef();
 
   const [showGeneralLedgerModal, setShowGeneralLedgerModal] = useState(false);
+  const [showGeneralLedgerTaxModal, setShowGeneralLedgerTaxModal] = useState(false);
   const [incomeStatementRow, setIncomeStatementRow] = useState(null);
 
   const {
@@ -555,7 +557,7 @@ export default function IncomeStatementTaxLanding() {
                                                 data?.intFSId === 20
                                               )
                                             ) {
-                                              setShowGeneralLedgerModal(true);
+                                             setShowGeneralLedgerTaxModal(true);
                                               setIncomeStatementRow(data);
                                             }
                                           }}
@@ -607,6 +609,20 @@ export default function IncomeStatementTaxLanding() {
               }}
             >
               <GeneralLedgerModalForIncomeStatement
+                values={values}
+                businessUnitList={businessUnitList}
+                incomeStatementRow={incomeStatementRow}
+                profileData={{ ...restProfileData, accountId }}
+              />
+            </IViewModal>
+            <IViewModal
+              show={showGeneralLedgerTaxModal}
+              onHide={() => {
+               setShowGeneralLedgerTaxModal(false);
+                setIncomeStatementRow(null);
+              }}
+            >
+              <GeneralLedgerTaxModalForIncomeStatement
                 values={values}
                 businessUnitList={businessUnitList}
                 incomeStatementRow={incomeStatementRow}
