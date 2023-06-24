@@ -24,7 +24,7 @@ const VoucherModalForIncomeStatement = ({
   useEffect(() => {
     if (subGeneralLedgerRow?.intsubglid) {
       getVoucherInfo(
-        `/fino/IncomeStatement/GetIncomeStatement?partName=VoucherListTax&dteFromDate=${values?.fromDate}&dteFromDateL=${values?.fromDate}&dteToDate=${values?.todate}&dteToDateL=${values?.todate}&BusinessUnitGroup=${values?.enterpriseDivision?.value}&BusinessUnitId=${values?.businessUnit?.value}&GLId=${subGeneralLedgerRow?.glId}&SUBGLId=${subGeneralLedgerRow?.intsubglid}&ConvertionRate=${values?.conversionRate}&SubGroup=${values?.subDivision?.value||0}`,
+        `/fino/IncomeStatement/GetIncomeStatementTaxMgt?partName=VoucherListTax&dteFromDate=${values?.fromDate}&dteFromDateL=${values?.fromDate}&dteToDate=${values?.todate}&dteToDateL=${values?.todate}&BusinessUnitGroup=${values?.enterpriseDivision?.value}&BusinessUnitId=${values?.businessUnit?.value}&GLId=${subGeneralLedgerRow?.glId}&SUBGLId=${subGeneralLedgerRow?.intsubglid}&ConvertionRate=${values?.conversionRate}&SubGroup=${values?.subDivision?.value||0}`,
         (data) => {
           setTotalAmount(
             data?.reduce((value, row) => (value += row?.numAmount), 0) || 0
