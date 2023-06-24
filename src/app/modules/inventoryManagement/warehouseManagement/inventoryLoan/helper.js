@@ -71,18 +71,6 @@ export const getLandingPaginationData = async (
   }
 };
 
-export const getItemDDL = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/item/ItemSales/GetItemSalesDDL?AccountId=${accId}&BUnitId=${buId}`
-    );
-
-    setter(res?.data);
-  } catch (error) {
-    setter([]);
-  }
-};
-
 export const getShipmentDDL = async (
   accountId,
   businessUnitId,
