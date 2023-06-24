@@ -36,6 +36,7 @@ import ReceiveAndPaymentInfoReport from './receiceAndPaymentInfo';
 import CostVsRevenuePBR from './costVsRevenue';
 import GeneralDashboardPBR from './generalDashboard';
 import InventoryValuationRDLC from './InventoryValuation';
+import IncomeStatementTaxLanding from './incomeStatementTax';
 
 export function ReportManagmentSystem() {
    const { userRole } = useSelector(state => state?.authData, shallowEqual);
@@ -99,6 +100,11 @@ export function ReportManagmentSystem() {
          <ContentRoute
             path="/financial-management/report/incomestatement"
             component={Incomestatement}
+         />
+         {/* BalanceReport report */}
+         <ContentRoute
+            path="/financial-management/report/TaxIncomeStatement"
+            component={IncomeStatementTaxLanding}
          />
          {/* BalanceReport report */}
          <ContentRoute

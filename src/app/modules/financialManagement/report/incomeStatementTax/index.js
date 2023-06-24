@@ -1,39 +1,29 @@
-import { Formik, Form } from "formik";
-import React, { useEffect, useState, useRef } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import InputField from "./../../../../_helper/_inputField";
-import NewSelect from "./../../../../_helper/_select";
-import ReactToPrint from "react-to-print";
-import {
-  ModalProgressBar,
-  Card,
-  CardBody,
-  CardHeader,
-  CardHeaderToolbar,
-} from "./../../../../../../_metronic/_partials/controls";
-import {
-  getBusinessDDLByED,
-  getEnterpriseDivisionDDL,
-  getIncomeStatement_api,
-} from "../helper";
-import { _formatMoney } from "./../../../../_helper/_formatMoney";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import { SetReportIncomestatementAction } from "./../../../../_helper/reduxForLocalStorage/Actions";
-import { getProfitCenterDDL } from "../../profitCenterReport/Form/helper";
-import Loading from "../../../../_helper/_loading";
-// import { getBusinessUnitDDL } from "../../cashRegisterReport/Form/helper";
-import IViewModal from "../../../../_helper/_viewModal";
-import GeneralLedgerModalForIncomeStatement from "../generalLedgerModal";
-import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { Form, Formik } from "formik";
 import moment from "moment";
-import StatisticalDetails from "../statisticalDetails/statisticalDetailsModal";
+import React, { useEffect, useRef, useState } from "react";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import ReactToPrint from "react-to-print";
+import { Card, CardBody, CardHeader, CardHeaderToolbar, ModalProgressBar } from "../../../../../_metronic/_partials/controls";
+import { _formatMoney } from "../../../_helper/_formatMoney";
+import InputField from "../../../_helper/_inputField";
+import Loading from "../../../_helper/_loading";
+import NewSelect from "../../../_helper/_select";
+import { _todayDate } from "../../../_helper/_todayDate";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { SetReportIncomestatementAction } from "../../../_helper/reduxForLocalStorage/Actions";
+import { getProfitCenterDDL } from "../profitCenterReport/Form/helper";
+import { getBusinessDDLByED, getEnterpriseDivisionDDL, getIncomeStatement_api } from "./helper";
+import printIcon from "../../../../modules/_helper/images/print-icon.png";
+import IViewModal from "../../../_helper/_viewModal";
+import GeneralLedgerTaxModalForIncomeStatement from "./generalLedgerTaxModal";
+import GeneralLedgerModalForIncomeStatement from "../incomestatement/generalLedgerModal";
+
+
 
 const html2pdf = require("html2pdf.js");
 
-export function TableRow() {
+export default function IncomeStatementTaxLanding() {
   const {
     localStorage: { reportIncomestatement },
     authData: {
@@ -101,6 +91,7 @@ export function TableRow() {
   const printRef = useRef();
 
   const [showGeneralLedgerModal, setShowGeneralLedgerModal] = useState(false);
+  const [showGeneralLedgerTaxModal, setShowGeneralLedgerTaxModal] = useState(false);
   const [incomeStatementRow, setIncomeStatementRow] = useState(null);
 
   const {
@@ -108,20 +99,17 @@ export function TableRow() {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state.authData, shallowEqual);
 
-  const [showRDLC, setShowRDLC] = useState(false);
-  const groupId = "218e3d7e-f3ea-4f66-8150-bb16eb6fc606";
-  const reportId = "bbd2a18f-8600-4ed8-bb55-1948a80e1605";
-  const parameterValues = (values) => {
-    const agingParameters = [
-      { name: "ConvertionRate", value: `${values?.conversionRate}` },
-      { name: "fdate", value: `${values?.fromDate}` },
-      { name: "tdate", value: `${values?.todate}` },
-    ];
-    return agingParameters;
-  };
-
-  const [statisticalDetailsModal, setStatisticalDetailsModal] = useState(false);
-
+//   const [showRDLC, // setShowRDLC] = useState(false);
+//   const groupId = "218e3d7e-f3ea-4f66-8150-bb16eb6fc606";
+//   const reportId = "bbd2a18f-8600-4ed8-bb55-1948a80e1605";
+//   const parameterValues = (values) => {
+//     const agingParameters = [
+//       { name: "ConvertionRate", value: `${values?.conversionRate}` },
+//       { name: "fdate", value: `${values?.fromDate}` },
+//       { name: "tdate", value: `${values?.todate}` },
+//     ];
+//     return agingParameters;
+//   };
   return (
     <>
       {(loading || loadingOnGetSubDivisionDDL) && <Loading />}
@@ -130,7 +118,7 @@ export function TableRow() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Income Statement Report"}>
+              <CardHeader title={"Income Statement Tax Report"}>
                 <CardHeaderToolbar>
                   <ReactHTMLTableToExcel
                     id="test-table-xls-button-att-reports"
@@ -179,7 +167,7 @@ export function TableRow() {
                         value={values?.enterpriseDivision}
                         label="Enterprise Division"
                         onChange={(valueOption) => {
-                          setShowRDLC(false);
+                          // setShowRDLC(false);
                           setIncomeStatement([]);
                           dispatch(
                             SetReportIncomestatementAction({
@@ -206,7 +194,7 @@ export function TableRow() {
                         value={values?.subDivision}
                         label="Sub Division"
                         onChange={(valueOption) => {
-                          setShowRDLC(false);
+                          // setShowRDLC(false);
                           setIncomeStatement([]);
                           dispatch(
                             SetReportIncomestatementAction({
@@ -237,7 +225,7 @@ export function TableRow() {
                         value={values?.businessUnit}
                         label="Business Unit"
                         onChange={(valueOption) => {
-                          setShowRDLC(false);
+                          // setShowRDLC(false);
                           setIncomeStatement([]);
                           dispatch(
                             SetReportIncomestatementAction({
@@ -280,7 +268,7 @@ export function TableRow() {
                         value={values?.profitCenter}
                         label="Profit Center"
                         onChange={(valueOption) => {
-                          setShowRDLC(false);
+                          // setShowRDLC(false);
                           setIncomeStatement([]);
                           dispatch(
                             SetReportIncomestatementAction({
@@ -300,7 +288,7 @@ export function TableRow() {
                         placeholder="From Date"
                         type="date"
                         onChange={(e) => {
-                          setShowRDLC(false);
+                          // setShowRDLC(false);
                           dispatch(
                             SetReportIncomestatementAction({
                               ...values,
@@ -318,7 +306,7 @@ export function TableRow() {
                         placeholder="To date"
                         type="date"
                         onChange={(e) => {
-                          setShowRDLC(false);
+                          // setShowRDLC(false);
                           dispatch(
                             SetReportIncomestatementAction({
                               ...values,
@@ -336,7 +324,7 @@ export function TableRow() {
                         placeholder="Conversion Rate"
                         type="text"
                         onChange={(e) => {
-                          setShowRDLC(false);
+                          // setShowRDLC(false);
                           dispatch(
                             SetReportIncomestatementAction({
                               ...values,
@@ -357,33 +345,24 @@ export function TableRow() {
                         value={values?.reportType}
                         label="Report Type"
                         onChange={(valueOption) => {
-                          if (valueOption) {
-                            setShowRDLC(false);
-                            setIncomeStatement([]);
-                            dispatch(
-                              SetReportIncomestatementAction({
-                                ...values,
-                                reportType: valueOption,
-                              })
-                            );
-                          } else {
-                            dispatch(
-                              SetReportIncomestatementAction({
-                                ...values,
-                                reportType: '',
-                              })
-                            );
-                          }
+                          // setShowRDLC(false);
+                          setIncomeStatement([]);
+                          dispatch(
+                            SetReportIncomestatementAction({
+                              ...values,
+                              reportType: valueOption,
+                            })
+                          );
                         }}
                         placeholder="Report Type"
                       />
                     </div>
-                    <div className="col-md-4 mt-5 pt-1 d-flex">
+                    <div className="col-md-3 mt-5 pt-1 d-flex">
                       <button
                         className="btn btn-primary"
                         type="button"
                         onClick={() => {
-                          setShowRDLC(false);
+                          // setShowRDLC(false);
                           getIncomeStatement_api(
                             values?.fromDate,
                             values?.todate,
@@ -412,11 +391,11 @@ export function TableRow() {
                       >
                         Show
                       </button>
-                      <button
+                      {/* <button
                         className="ml-3 btn btn-primary"
                         type="button"
                         onClick={() => {
-                          setShowRDLC(true);
+                          // setShowRDLC(true);
                         }}
                         disabled={
                           !values?.profitCenter ||
@@ -427,30 +406,11 @@ export function TableRow() {
                         }
                       >
                         Details
-                      </button>
-
-                      {/* new button added as per miraj bhai's instruction */}
-                      <button
-                        className="ml-3 btn btn-primary"
-                        type="button"
-                        onClick={() => {
-                          setStatisticalDetailsModal(true);
-                        }}
-                        disabled={
-                          !values?.businessUnit ||
-                          values?.businessUnit?.label?.trim() === 'All' ||
-                          !values?.fromDate ||
-                          !values?.todate ||
-                          values?.reportType?.value === 2
-                        }
-                      >
-                        Statistical Details
-                      </button>
-
+                      </button> */}
                     </div>
                   </div>
 
-                  {showRDLC ? (
+                  {/* {showRDLC ? (
                     <div>
                       <PowerBIReport
                         reportId={reportId}
@@ -459,7 +419,7 @@ export function TableRow() {
                         parameterPanel={false}
                       />
                     </div>
-                  ) : (
+                  ) : ( */}
                     <div className="row" id="pdf-section" ref={printRef}>
                       {incomeStatement.length > 0 && (
                         <div className="col-lg-12">
@@ -505,6 +465,14 @@ export function TableRow() {
                                     <span>
                                       Actual <br />
                                       {/* {`${values?.lastPeriodFrom} to ${values?.lastPeriodTo}`} */}
+                                    </span>
+                                  </th>
+                                  <th
+                                    style={{ width: "250px" }}
+                                    className="incTableThPadding"
+                                  >
+                                    <span>
+                                      Actual Tax                                     
                                     </span>
                                   </th>
                                   <th style={{ width: "250px" }}>Variance</th>
@@ -565,10 +533,49 @@ export function TableRow() {
                                           )}
                                         </span>
                                       </td>
+
+                                      <td
+                                        className="text-right pointer"
+                                        style={{
+                                          textDecoration:
+                                            data?.intFSId === 0 ||
+                                              data?.intFSId === 20
+                                              ? ""
+                                              : "underline",
+                                          color:
+                                            data?.intFSId === 0 ||
+                                              data?.intFSId === 20
+                                              ? ""
+                                              : "blue",
+                                        }}
+                                      >
+                                        <span
+                                          onClick={() => {
+                                            if (
+                                              !(
+                                                data?.intFSId === 0 ||
+                                                data?.intFSId === 20
+                                              )
+                                            ) {
+                                             setShowGeneralLedgerTaxModal(true);
+                                              setIncomeStatementRow(data);
+                                            }
+                                          }}
+                                        >
+                                          {" "}
+                                          {_formatMoney(
+                                            data?.monCurrentPeriodAmountTax
+                                          )}
+                                        </span>
+                                      </td>
+
+                                      {/* <td className="text-right">
+                                          {_formatMoney(data?.monCurrentPeriodAmountTax)}
+                                      </td> */}
                                       <td className="text-right">
                                         {_formatMoney(
-                                          data?.monLastPeriodAmount -
-                                          data?.monCurrentPeriodAmount
+                                          data?.monCurrentPeriodAmount -
+                                          data?.monCurrentPeriodAmountTax
                                         )}
                                       </td>
                                     </tr>
@@ -576,13 +583,13 @@ export function TableRow() {
                                   </>
                                 ))}
                                 <tr>
-                                  <td
-                                    className="text-center d-none"
-                                    colSpan={4}
-                                  >{`System Generated Report - ${moment().format(
-                                    "LLLL"
-                                  )}`}</td>
-                                </tr>
+                                    <td
+                                      className="text-center d-none"
+                                      colSpan={4}
+                                    >{`System Generated Report - ${moment().format(
+                                      "LLLL"
+                                    )}`}</td>
+                                 </tr>
                               </tbody>
                             </table>
                             <div></div>
@@ -590,7 +597,7 @@ export function TableRow() {
                         </div>
                       )}
                     </div>
-                  )}
+                  {/* )} */}
                 </Form>
               </CardBody>
             </Card>
@@ -608,14 +615,19 @@ export function TableRow() {
                 profileData={{ ...restProfileData, accountId }}
               />
             </IViewModal>
-
             <IViewModal
-              show={statisticalDetailsModal}
+              show={showGeneralLedgerTaxModal}
               onHide={() => {
-                setStatisticalDetailsModal(false)
+               setShowGeneralLedgerTaxModal(false);
+                setIncomeStatementRow(null);
               }}
             >
-              <StatisticalDetails formValues={values} />
+              <GeneralLedgerTaxModalForIncomeStatement
+                values={values}
+                businessUnitList={businessUnitList}
+                incomeStatementRow={incomeStatementRow}
+                profileData={{ ...restProfileData, accountId }}
+              />
             </IViewModal>
           </>
         )}
