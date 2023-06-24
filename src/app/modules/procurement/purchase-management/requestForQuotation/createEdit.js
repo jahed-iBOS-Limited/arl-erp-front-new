@@ -48,6 +48,10 @@ const initData = {
    referenceType: '',
    deliveryDate: '',
    referenceNo: '',
+   isShowBiddingRank: {
+      value: false,
+      label: 'Hidden',
+   },
    // item infos
    item: '',
    itemDescription: '',
@@ -77,28 +81,21 @@ export default function RFQCreateEdit() {
       if (!values?.sbu) return toast.warn('Please select SBU');
       if (!values?.plant) return toast.warn('Please select Plant');
       if (!values?.warehouse) return toast.warn('Please select Warehouse');
-      if (!values?.purchaseOrganization)
-         return toast.warn('Please select Purchase Organization');
+      if (!values?.purchaseOrganization) return toast.warn('Please select Purchase Organization');
       if (!values?.rfqType) return toast.warn('Please select RFQ Type');
       if (!values?.rfqTitle) return toast.warn('Please enter RFQ Title');
       if (!values?.currency) return toast.warn('Please select Currency');
-      if (!values?.paymentTerms)
-         return toast.warn('Please select Payment Terms');
-      if (!values?.transportCost)
-         return toast.warn('Please select Transport Cost');
-      if (!values?.quotationEntryStart)
-         return toast.warn('Please select Quotation Start Date-Time');
-      if (!values?.validTillDate)
-         return toast.warn('Please select Quotation End Date-Time');
-      if (!values?.deliveryDate)
-         return toast.warn('Please select Delivery Date');
-      if (!values?.deliveryAddress)
-         return toast.warn('Please enter Delivery Address');
+      if (!values?.paymentTerms) return toast.warn('Please select Payment Terms');
+      if (!values?.transportCost) return toast.warn('Please select Transport Cost');
+      if (!values?.quotationEntryStart) return toast.warn('Please select Quotation Start Date-Time');
+      if (!values?.validTillDate) return toast.warn('Please select Quotation End Date-Time');
+      if (!values?.deliveryDate) return toast.warn('Please select Delivery Date');
+      if (!values?.deliveryAddress) return toast.warn('Please enter Delivery Address');
       if (!values?.vatOrAit) return toast.warn('Please select VAT/AIT');
       if (!values?.tds) return toast.warn('Please select TDS');
       if (!values?.vds) return toast.warn('Please select VDS');
-      if (!values?.referenceType)
-         return toast.warn('Please select Reference Type');
+      if (!values?.isShowBiddingRank) return toast.warn('Please select Bidding Rank');
+      if (!values?.referenceType) return toast.warn('Please select Reference Type');
       if (!itemList?.length) return toast.warn('Please add item');
       if (!supplierList?.length) return toast.warn('Please add supplier');
       const payload = {
@@ -132,6 +129,7 @@ export default function RFQCreateEdit() {
             deliveryDate: values?.deliveryDate,
             quotationEntryStart: values?.quotationEntryStart,
             rfqtitle: values?.rfqTitle,
+            isShowBiddingRank: values?.isShowBiddingRank?.value,
             termsAndConditions: values?.termsAndConditions,
          },
          objRow: itemList,
@@ -149,38 +147,14 @@ export default function RFQCreateEdit() {
 
    const [itemList, setItemList] = useState([]);
    const [supplierList, setSupplierList] = useState([]);
-
    const [sbuListDDL, getSbuListDDL, sbuListDDLloader] = useAxiosGet();
    const [plantListDDL, getPlantListDDL, plantListDDLloader] = useAxiosGet();
-   const [
-      warehouseListDDL,
-      getWarehouseListDDL,
-      warehouseListDDLloader,
-   ] = useAxiosGet();
-   const [
-      purchangeOrgListDDL,
-      getPurchaseOrgListDDL,
-      purchaseOrgListDDLloader,
-   ] = useAxiosGet();
+   const [warehouseListDDL, getWarehouseListDDL, warehouseListDDLloader] = useAxiosGet();
+   const [purchangeOrgListDDL, getPurchaseOrgListDDL, purchaseOrgListDDLloader] = useAxiosGet();
    const [currencyDDL, getCurrencyDDL, currencyDDLloader] = useAxiosGet();
-   const [
-      referenceNoDDL,
-      getReferenceNoDDL,
-      referenceNoDDLloader,
-   ] = useAxiosGet();
-   const [
-      itemListDDL,
-      getItemListDDL,
-      itemListDDLloader,
-      setItemListDDL,
-   ] = useAxiosGet();
-   const [
-      supplierListDDL,
-      getSupplierListDDL,
-      supplierListDDLloader,
-      setSupplierListDDL,
-   ] = useAxiosGet();
-
+   const [referenceNoDDL, getReferenceNoDDL, referenceNoDDLloader, setReferenceNoDDL] = useAxiosGet();
+   const [itemListDDL, getItemListDDL, itemListDDLloader, setItemListDDL] = useAxiosGet();
+   const [supplierListDDL, getSupplierListDDL, supplierListDDLloader, setSupplierListDDL,] = useAxiosGet();
    const [modifiedData, setModifiedData] = useState({});
    const [, getSingleData, singleDataLoader] = useAxiosGet();
 
@@ -250,6 +224,10 @@ export default function RFQCreateEdit() {
                   referenceType: {
                      value: objHeader?.referenceTypeName,
                      label: objHeader?.referenceTypeName,
+                  },
+                  isShowBiddingRank: {
+                     value: objHeader?.isShowBiddingRank,
+                     label: objHeader?.isShowBiddingRank ? 'Show' : 'Hidden',
                   },
                   referenceNo: '',
                   termsAndConditions: objHeader?.termsAndConditions,
@@ -426,7 +404,7 @@ export default function RFQCreateEdit() {
             );
             if (isDuplicate) {
                toast.warn(
-                  `${values?.item?.label} already added under ${values?.referenceNo?.label}`
+                  `${values?.item?.label} already added for ${values?.referenceNo?.label}`
                );
             } else {
                setItemList([
@@ -482,6 +460,7 @@ export default function RFQCreateEdit() {
                !id && resetForm(initData);
                !id && setItemList([]);
                !id && setSupplierList([]);
+               setIsRfqQty(false);
             });
          }}
       >
@@ -524,6 +503,10 @@ export default function RFQCreateEdit() {
                               label="SBU"
                               onChange={v => {
                                  if (v) {
+                                    setFieldValue('referenceNo', '');
+                                    setIsRfqQty(false);
+                                    setItemList([]);
+                                    setItemListDDL([]);
                                     setFieldValue('sbu', v);
                                     setFieldValue('plant', '');
                                     setFieldValue('warehouse', '');
@@ -531,11 +514,14 @@ export default function RFQCreateEdit() {
                                        `/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=${v?.value}`
                                     );
                                  } else {
+                                    setFieldValue('referenceNo', '');
+                                    setIsRfqQty(false);
+                                    setItemList([]);
+                                    setItemListDDL([]);
                                     setSupplierListDDL([]);
                                     setFieldValue('sbu', '');
                                     setFieldValue('plant', '');
                                     setFieldValue('warehouse', '');
-
                                     setFieldValue('supplier', '');
                                     setFieldValue('supplierContactNo', '');
                                     setFieldValue('supplierEmail', '');
@@ -555,6 +541,11 @@ export default function RFQCreateEdit() {
                               label="Plant"
                               onChange={v => {
                                  if (v) {
+                                    setFieldValue('referenceNo', '');
+                                    setFieldValue('isAllItem', false);
+                                    setIsRfqQty(false);
+                                    setItemList([]);
+                                    setItemListDDL([]);
                                     setFieldValue('plant', v);
                                     setFieldValue('warehouse', '');
                                     setFieldValue('referenceType', '');
@@ -562,6 +553,11 @@ export default function RFQCreateEdit() {
                                        `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${v?.value}`
                                     );
                                  } else {
+                                    setFieldValue('referenceNo', '');
+                                    setFieldValue('isAllItem', false);
+                                    setIsRfqQty(false);
+                                    setItemList([]);
+                                    setItemListDDL([]);
                                     setFieldValue('plant', '');
                                     setFieldValue('warehouse', '');
                                     setFieldValue('referenceType', '');
@@ -580,6 +576,11 @@ export default function RFQCreateEdit() {
                               value={values?.warehouse}
                               label="Warehouse"
                               onChange={v => {
+                                 setFieldValue('referenceNo', '');
+                                 setIsRfqQty(false);
+                                 setFieldValue('isAllItem', false);
+                                 setItemList([]);
+                                 setItemListDDL([]);
                                  setFieldValue('warehouse', v);
                                  setFieldValue('referenceType', '');
                               }}
@@ -596,17 +597,27 @@ export default function RFQCreateEdit() {
                            <NewSelect
                               name="rfqType"
                               options={[
-                                 { value: 1, label: 'Standard RFQ' }
+                                 { value: 1, label: 'Standard RFQ' },
+                                 { value: 2, label: 'Open Tendering' },
+                                 { value: 3, label: 'Limited Tendering' },
+                                 { value: 4, label: 'Single Stage Tendering' },
+                                 { value: 5, label: 'Two Stage Tendering' },
                               ]}
                               value={values?.rfqType}
                               label="RFQ Type"
                               onChange={v => {
-                                 setFieldValue('rfqType', v);
+                                 if (v) {
+                                    setFieldValue('referenceNo', '');
+                                    setFieldValue('rfqType', v);
+                                 } else {
+                                    setFieldValue('referenceNo', '');
+                                    setFieldValue('rfqType', '');
+                                 }
                               }}
                               placeholder="RFQ Type"
                               errors={errors}
                               touched={touched}
-                              isDisabled={true}
+                           // isDisabled={true}
                            />
                         </div>
                         <div className="col-lg-3">
@@ -617,6 +628,13 @@ export default function RFQCreateEdit() {
                               label="Purchase Organization"
                               onChange={v => {
                                  if (v) {
+                                    setItemList([]);
+                                    setItemListDDL([]);
+                                    setIsRfqQty(false);
+                                    setFieldValue('isAllItem', false);
+                                    setReferenceNoDDL([]);
+                                    setFieldValue('referenceType', '');
+                                    setFieldValue('referenceNo', '');
                                     setFieldValue('currency', '');
                                     setFieldValue('purchaseOrganization', v);
                                     if (v?.value === 11) {
@@ -633,8 +651,15 @@ export default function RFQCreateEdit() {
                                        });
                                     }
                                  } else {
+                                    setItemList([]);
+                                    setItemListDDL([]);
+                                    setIsRfqQty(false);
+                                    setFieldValue('isAllItem', false);
+                                    setReferenceNoDDL([]);
                                     setFieldValue('currency', '');
                                     setFieldValue('purchaseOrganization', '');
+                                    setFieldValue('referenceType', '');
+                                    setFieldValue('referenceNo', '');
                                  }
 
                               }}
@@ -725,15 +750,8 @@ export default function RFQCreateEdit() {
                               type="datetime-local"
                               onChange={e => {
                                  if (e.target.value) {
-                                    setFieldValue(
-                                       'validTillDate',
-                                       e.target.value
-                                    );
-                                    setFieldValue(
-                                       'deliveryDate',
-                                       _oneMonthLater(
-                                          e.target.value.split('T')[0]
-                                       )
+                                    setFieldValue('validTillDate', e.target.value);
+                                    setFieldValue('deliveryDate', _oneMonthLater(e.target.value.split('T')[0])
                                     );
                                  } else {
                                     setFieldValue('validTillDate', '');
@@ -763,10 +781,7 @@ export default function RFQCreateEdit() {
                               type="text"
                               placeholder="Delivery Address"
                               onChange={e => {
-                                 setFieldValue(
-                                    'deliveryAddress',
-                                    e.target.value
-                                 );
+                                 setFieldValue('deliveryAddress', e.target.value);
                               }}
                               disabled={id && values?.isSentToSupplier}
                            />
@@ -781,7 +796,12 @@ export default function RFQCreateEdit() {
                               value={values?.transportCost}
                               label="Transport Cost"
                               onChange={v => {
-                                 setFieldValue('transportCost', v);
+                                 if (v) {
+                                    setFieldValue('transportCost', v);
+                                 } else {
+                                    setFieldValue('transportCost', '');
+                                 }
+
                               }}
                               placeholder="Transport Cost"
                               errors={errors}
@@ -799,7 +819,11 @@ export default function RFQCreateEdit() {
                               value={values?.vatOrAit}
                               label="VAT/AIT"
                               onChange={v => {
-                                 setFieldValue('vatOrAit', v);
+                                 if (v) {
+                                    setFieldValue('vatOrAit', v);
+                                 } else {
+                                    setFieldValue('vatOrAit', '');
+                                 }
                               }}
                               placeholder="VAT/AIT"
                               errors={errors}
@@ -817,7 +841,11 @@ export default function RFQCreateEdit() {
                               value={values?.tds}
                               label="TDS"
                               onChange={v => {
-                                 setFieldValue('tds', v);
+                                 if (v) {
+                                    setFieldValue('tds', v);
+                                 } else {
+                                    setFieldValue('tds', '');
+                                 }
                               }}
                               placeholder="TDS"
                               errors={errors}
@@ -835,7 +863,11 @@ export default function RFQCreateEdit() {
                               value={values?.vds}
                               label="VDS"
                               onChange={v => {
-                                 setFieldValue('vds', v);
+                                 if (v) {
+                                    setFieldValue('vds', v);
+                                 } else {
+                                    setFieldValue('vds', '');
+                                 }
                               }}
                               placeholder="VDS"
                               errors={errors}
@@ -860,6 +892,15 @@ export default function RFQCreateEdit() {
                               label="Reference Type"
                               onChange={v => {
                                  if (v) {
+                                    setFieldValue('referenceType', v);
+                                    setReferenceNoDDL([]);
+                                    setFieldValue('referenceNo', '');
+                                    setFieldValue('item', '');
+                                    setFieldValue('itemDescription', '');
+                                    setItemListDDL([]);
+                                    setItemList([]);
+                                    setItemListDDL([]);
+                                    setFieldValue('isAllItem', false);
                                     if (v?.value === 'without reference') {
                                        getItemListDDL(
                                           `/procurement/RequestForQuotation/GetRFQItemWithoutRef?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${values?.plant?.value}&WarehouseId=${values?.warehouse?.value}`
@@ -869,20 +910,15 @@ export default function RFQCreateEdit() {
                                           `/procurement/RequestForQuotation/GetPRReferrenceNoDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&SBUId=${values?.sbu?.value}&PurchaseOrganizationId=${values?.purchaseOrganization?.value}&PlantId=${values?.plant?.value}&WearHouseId=${values?.warehouse?.value}`
                                        );
                                     }
-                                    setFieldValue('referenceType', v);
-                                    setFieldValue('referenceNo', '');
-                                    setFieldValue('item', '');
-                                    setFieldValue('itemDescription', '');
-                                    setItemListDDL([]);
-                                    setItemList([]);
-                                    setFieldValue('isAllItem', false);
                                  } else {
+                                    setReferenceNoDDL([]);
                                     setFieldValue('referenceType', '');
                                     setFieldValue('referenceNo', '');
                                     setFieldValue('item', '');
                                     setFieldValue('itemDescription', '');
                                     setItemListDDL([]);
                                     setItemList([]);
+                                    setItemListDDL([]);
                                     setFieldValue('isAllItem', false);
                                  }
                               }}
@@ -896,6 +932,34 @@ export default function RFQCreateEdit() {
                                  id ||
                                  itemList?.length > 0
                               }
+                           />
+                        </div>
+                        <div className="col-lg-3">
+                           <NewSelect
+                              name="isShowBiddingRank"
+                              options={[
+                                 {
+                                    value: true,
+                                    label: 'Show',
+                                 },
+                                 {
+                                    value: false,
+                                    label: 'Hidden',
+                                 }
+                              ]}
+                              value={values?.isShowBiddingRank}
+                              label="Bidding Rank"
+                              onChange={v => {
+                                 if (v) {
+                                    setFieldValue('isShowBiddingRank', v);
+                                 } else {
+                                    setFieldValue('isShowBiddingRank', '');
+                                 }
+                              }}
+                              placeholder="Bidding Rank"
+                              errors={errors}
+                              touched={touched}
+
                            />
                         </div>
                      </div>
@@ -1012,10 +1076,7 @@ export default function RFQCreateEdit() {
                                     checked={values.isAllItem}
                                     name="isAllItem"
                                     onChange={e => {
-                                       setFieldValue(
-                                          'isAllItem',
-                                          e.target.checked
-                                       );
+                                       setFieldValue('isAllItem', e.target.checked);
                                        setFieldValue('item', '');
                                     }}
                                  />
@@ -1034,6 +1095,7 @@ export default function RFQCreateEdit() {
                                  handleAddItem(values, setFieldValue);
                                  setFieldValue('isAllItem', false);
                                  setIsRfqQty(false);
+                                 setFieldValue('isAllItem', false);
                                  setFieldValue('itemDescription', "");
                                  setFieldValue('quantity', "");
                               }}
@@ -1052,7 +1114,6 @@ export default function RFQCreateEdit() {
                                  <th>Item Name</th>
                                  <th>Uom</th>
                                  <th>Description</th>
-                                 {/* <th>PR Quantity</th> */}
                                  {values?.referenceType?.value === 'with reference' && <th>PR Quantity</th>}
                                  <th>
                                     <OverlayTrigger
@@ -1075,6 +1136,7 @@ export default function RFQCreateEdit() {
                                           onChange={e => {
                                              if (e.target.checked) {
                                                 setIsRfqQty(true);
+                                                setFieldValue('isAllItem', false);
                                                 itemList.forEach(item => {
                                                    item.reqquantity =
                                                       item.referenceQuantity;
@@ -1082,6 +1144,7 @@ export default function RFQCreateEdit() {
                                                 setItemList([...itemList]);
                                              } else {
                                                 setIsRfqQty(false);
+                                                setFieldValue('isAllItem', false);
                                                 itemList.forEach(item => {
                                                    item.reqquantity = 0;
                                                 });
