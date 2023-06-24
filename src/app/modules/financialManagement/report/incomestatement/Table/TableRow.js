@@ -29,6 +29,7 @@ import GeneralLedgerModalForIncomeStatement from "../generalLedgerModal";
 import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import moment from "moment";
+import StatisticalDetails from "../statisticalDetails/statisticalDetailsModal";
 
 const html2pdf = require("html2pdf.js");
 
@@ -118,6 +119,9 @@ export function TableRow() {
     ];
     return agingParameters;
   };
+
+  const [statisticalDetailsModal, setStatisticalDetailsModal] = useState(false);
+
   return (
     <>
       {(loading || loadingOnGetSubDivisionDDL) && <Loading />}
@@ -353,19 +357,28 @@ export function TableRow() {
                         value={values?.reportType}
                         label="Report Type"
                         onChange={(valueOption) => {
-                          setShowRDLC(false);
-                          setIncomeStatement([]);
-                          dispatch(
-                            SetReportIncomestatementAction({
-                              ...values,
-                              reportType: valueOption,
-                            })
-                          );
+                          if (valueOption) {
+                            setShowRDLC(false);
+                            setIncomeStatement([]);
+                            dispatch(
+                              SetReportIncomestatementAction({
+                                ...values,
+                                reportType: valueOption,
+                              })
+                            );
+                          } else {
+                            dispatch(
+                              SetReportIncomestatementAction({
+                                ...values,
+                                reportType: '',
+                              })
+                            );
+                          }
                         }}
                         placeholder="Report Type"
                       />
                     </div>
-                    <div className="col-md-3 mt-5 pt-1 d-flex">
+                    <div className="col-md-4 mt-5 pt-1 d-flex">
                       <button
                         className="btn btn-primary"
                         type="button"
@@ -415,6 +428,25 @@ export function TableRow() {
                       >
                         Details
                       </button>
+
+                      {/* new button added as per miraj bhai's instruction */}
+                      <button
+                        className="ml-3 btn btn-primary"
+                        type="button"
+                        onClick={() => {
+                          setStatisticalDetailsModal(true);
+                        }}
+                        disabled={
+                          !values?.businessUnit ||
+                          values?.businessUnit?.label?.trim() === 'All' ||
+                          !values?.fromDate ||
+                          !values?.todate ||
+                          values?.reportType?.value === 2
+                        }
+                      >
+                        Statistical Details
+                      </button>
+
                     </div>
                   </div>
 
@@ -575,6 +607,15 @@ export function TableRow() {
                 incomeStatementRow={incomeStatementRow}
                 profileData={{ ...restProfileData, accountId }}
               />
+            </IViewModal>
+
+            <IViewModal
+              show={statisticalDetailsModal}
+              onHide={() => {
+                setStatisticalDetailsModal(false)
+              }}
+            >
+              <StatisticalDetails formValues={values} />
             </IViewModal>
           </>
         )}
