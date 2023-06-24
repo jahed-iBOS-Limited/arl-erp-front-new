@@ -121,7 +121,7 @@ export function TableRow() {
   };
 
   const [statisticalDetailsModal, setStatisticalDetailsModal] = useState(false);
-  
+
   return (
     <>
       {(loading || loadingOnGetSubDivisionDDL) && <Loading />}
@@ -357,19 +357,28 @@ export function TableRow() {
                         value={values?.reportType}
                         label="Report Type"
                         onChange={(valueOption) => {
-                          setShowRDLC(false);
-                          setIncomeStatement([]);
-                          dispatch(
-                            SetReportIncomestatementAction({
-                              ...values,
-                              reportType: valueOption,
-                            })
-                          );
+                          if (valueOption) {
+                            setShowRDLC(false);
+                            setIncomeStatement([]);
+                            dispatch(
+                              SetReportIncomestatementAction({
+                                ...values,
+                                reportType: valueOption,
+                              })
+                            );
+                          } else {
+                            dispatch(
+                              SetReportIncomestatementAction({
+                                ...values,
+                                reportType: '',
+                              })
+                            );
+                          }
                         }}
                         placeholder="Report Type"
                       />
                     </div>
-                    <div className="col-md-3 mt-5 pt-1 d-flex">
+                    <div className="col-md-4 mt-5 pt-1 d-flex">
                       <button
                         className="btn btn-primary"
                         type="button"
@@ -605,7 +614,7 @@ export function TableRow() {
                 setStatisticalDetailsModal(false)
               }}
             >
-              <StatisticalDetails />
+              <StatisticalDetails formValues={values} />
             </IViewModal>
           </>
         )}
