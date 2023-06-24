@@ -15,6 +15,7 @@ import LoanRegisterCreate from "./fundManagement/loanRegister/create/LoanRegiste
 import LoanRegisterLanding from "./fundManagement/loanRegister/landing/LoanRegisterLanding";
 import RepayCreate from "./fundManagement/loanRegister/repay/Repay";
 import LoanRegisterView from "./fundManagement/loanRegister/view/loanRegisterView";
+import BankGuaranteeLanding from "../report/bankGuarantee/landing";
 
 export function Banking() {
   return (
@@ -105,6 +106,10 @@ export function Banking() {
        <ContentRoute
         path="/financial-management/banking/PlanVsActCashflow"
         component={PlanActCashFlow}
+      />
+       <ContentRoute
+        path="/financial-management/banking/BankGuarantee"
+        component={BankGuaranteeLanding}
       />
     </Switch>
   );
