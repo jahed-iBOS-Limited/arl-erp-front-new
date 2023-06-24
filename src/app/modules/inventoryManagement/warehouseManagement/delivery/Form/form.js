@@ -336,7 +336,6 @@ export default function _Form({
                         onChange={(valueOption) => {
                           setFieldValue("salesOrder", valueOption);
                           setFieldValue("shipToParty", "");
-                          setFieldValue("itemLists", []);
                           dispatch(
                             GetDataBySalesOrderAction(
                               valueOption?.value,
