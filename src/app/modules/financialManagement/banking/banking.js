@@ -3,7 +3,6 @@ import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute } from "../../../../_metronic/layout";
 import FundPositionReport from "../report/fundPositionReport/landing";
 import PlanActCashFlow from "../report/planActCashFlow";
-import DeletableReport from "../report/planActCashFlow/deletableReport";
 import ProjectedCashFlowLanding from "../report/projectedCashFlow";
 import ProjectedCashFlowCreateEdit from "../report/projectedCashFlow/createEdit";
 import ChequeRegister from "./chequeRegister/index";
@@ -102,10 +101,6 @@ export function Banking() {
       <ContentRoute
         path="/financial-management/banking/ProjectedCashflow"
         component={ProjectedCashFlowLanding}
-      />
-       <ContentRoute
-        path="/financial-management/banking/PlanVsActCashflow/test"
-        component={DeletableReport}
       />
        <ContentRoute
         path="/financial-management/banking/PlanVsActCashflow"
