@@ -141,7 +141,7 @@ export function BasicInfornationTable() {
 
   const download = (selectedBusinessUnit, itemType, itemCategory, itemSubCategory, search, plant, warehouse, accountId) => {
     setLoading(true);
-    const url = `/wms/WmsReport/GetItemPurchaseListExcel?BusinessunitId=${selectedBusinessUnit}&ItemType=${itemType}&ItemCategory=${itemCategory}&ItemSubCategory=${itemSubCategory}&searchTerm=${search}&AccountId=${accountId}&Status=true&plantId=${plant}&warehouseId=${warehouse}&isDownload=true`;
+    const url = `/wms/WmsReport/GetItemPurchaseListExcel?BusinessunitId=${selectedBusinessUnit}&ItemType=${itemType}&ItemCategory=${itemCategory}&ItemSubCategory=${itemSubCategory}&searchTerm=${""}&AccountId=${accountId}&Status=true&plantId=${plant}&warehouseId=${warehouse}&isDownload=true`;
     axios({
       url: url,
       method: "GET",
