@@ -8,20 +8,20 @@ import NewSelect from "../../../../_helper/_select";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import BankGuaranteeTable from "./bankGuaranteeTable";
 import DepositRegisterTable from "./depositRegisterTable";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 const initData = {
   type: { value: 1, label: "Bank Guarantee" },
 };
 export default function BankGuaranteeLanding() {
-  const { selectedBusinessUnit } = useSelector((state) => {
+  const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
-
   const history = useHistory();
-
   const [rowData, getRowData, loading, setRowData] = useAxiosGet();
+  const [, closeHandler] = useAxiosPost();
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -115,6 +115,8 @@ export default function BankGuaranteeLanding() {
                     setPageSize={setPageSize}
                     setPositionHandler={setPositionHandler}
                     history={history}
+                    closeHandler={closeHandler}
+                    profileData={profileData}
                   />
                 ) : (
                   <DepositRegisterTable
@@ -126,6 +128,8 @@ export default function BankGuaranteeLanding() {
                     setPageSize={setPageSize}
                     setPositionHandler={setPositionHandler}
                     history={history}
+                    closeHandler={closeHandler}
+                    profileData={profileData}
                   />
                 )}
               </div>

@@ -4,6 +4,8 @@ import { useDispatch } from "react-redux";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import PaginationTable from "../../../../_helper/_tablePagination";
+import IClose from "../../../../_helper/_helperIcons/_close";
+import IConfirmModal from "../../../../_helper/_confirmModal";
 
 export default function DepositRegisterTable({
   rowData,
@@ -14,6 +16,8 @@ export default function DepositRegisterTable({
   setPageSize,
   setPositionHandler,
   history,
+  closeHandler,
+  profileData,
 }) {
   const dispatch = useDispatch();
 
@@ -34,7 +38,6 @@ export default function DepositRegisterTable({
             <th>Purpose</th>
             <th>Responsible person to return</th>
             <th>Note</th>
-            <th>Attachment</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -53,40 +56,70 @@ export default function DepositRegisterTable({
               <td>{item?.strPurpose}</td>
               <td>{item?.strResponsiblePerson}</td>
               <td>{item?.strRemarks}</td>
-              <td className="text-center">
-                <OverlayTrigger
-                  overlay={<Tooltip id="cs-icon">View Attachment</Tooltip>}
-                >
-                  <span
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      dispatch(
-                        getDownlloadFileView_Action(item?.strAttachment || "")
-                      );
-                    }}
-                    className="ml-2"
-                  >
-                    <i
-                      style={{ fontSize: "16px" }}
-                      className={`fas fa-paperclip`}
-                      aria-hidden="true"
-                    ></i>
-                  </span>
-                </OverlayTrigger>
-              </td>
               <td>
-                <div>
+                <div className="d-flex justify-content-between">
+                  <span style={{ cursor: "pointer" }}>
+                    <OverlayTrigger
+                      overlay={<Tooltip id="cs-icon">View Attachment</Tooltip>}
+                    >
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          dispatch(
+                            getDownlloadFileView_Action(
+                              item?.strAttachment || ""
+                            )
+                          );
+                        }}
+                        className="ml-2"
+                      >
+                        <i
+                          style={{ fontSize: "16px" }}
+                          className={`fas fa-paperclip`}
+                          aria-hidden="true"
+                        ></i>
+                      </span>
+                    </OverlayTrigger>
+                  </span>
+                  {["Issue", "Renewed"]?.includes(item?.strStatus) ? (
+                    <span
+                      onClick={() => {
+                        history.push({
+                          pathname: `/financial-management/banking/BankGuarantee/renew/${values?.type?.value}`,
+                          state: item,
+                        });
+                      }}
+                      style={{ cursor: "pointer" }}
+                      className="text-primary"
+                    >
+                      Renew
+                    </span>
+                  ) : null}
                   <span
                     onClick={() => {
-                      history.push({
-                        pathname: `/financial-management/banking/BankGuarantee/renew/${values?.type?.value}`,
-                        state: item,
+                      IConfirmModal({
+                        title: "Close Action",
+                        closeOnClickOutside: false,
+                        message: "Do you want to Close ?",
+                        yesAlertFunc: () => {
+                          closeHandler(
+                            `/fino/CommonFino/CreateBankGuaranteeSecurityRegister`,
+                            {
+                              strPartName: "close",
+                              intId: item?.intId,
+                              intActionBy: profileData?.userId,
+                            },
+                            () => {
+                              setPositionHandler(pageNo, pageSize, values);
+                            },
+                            true
+                          );
+                        },
+                        noAlertFunc: () => {},
                       });
                     }}
-                    style={{ cursor: "pointer" }}
-                    className="text-primary"
                   >
-                    Renew
+                    <IClose />
                   </span>
                 </div>
               </td>

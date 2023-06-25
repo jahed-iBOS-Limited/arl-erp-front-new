@@ -1,6 +1,8 @@
 import React from "react";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import PaginationTable from "../../../../_helper/_tablePagination";
+import IConfirmModal from "../../../../_helper/_confirmModal";
+import IClose from "../../../../_helper/_helperIcons/_close";
 
 export default function BankGuaranteeTable({
   rowData,
@@ -11,6 +13,8 @@ export default function BankGuaranteeTable({
   setPageSize,
   setPositionHandler,
   history,
+  closeHandler,
+  profileData,
 }) {
   return (
     <div>
@@ -52,18 +56,46 @@ export default function BankGuaranteeTable({
               <td>{item?.strStatus}</td>
               <td>{item?.strMarginRef}</td>
               <td>
-                <div>
+                <div className="d-flex justify-content-between">
+                  {["Issue", "Renewed"]?.includes(item?.strStatus) ? (
+                    <span
+                      onClick={() => {
+                        history.push({
+                          pathname: `/financial-management/banking/BankGuarantee/renew/${values?.type?.value}`,
+                          state: item,
+                        });
+                      }}
+                      style={{ cursor: "pointer" }}
+                      className="text-primary"
+                    >
+                      Renew
+                    </span>
+                  ) : null}
                   <span
                     onClick={() => {
-                      history.push({
-                        pathname: `/financial-management/banking/BankGuarantee/renew/${values?.type?.value}`,
-                        state: item,
+                      IConfirmModal({
+                        title: "Close Action",
+                        closeOnClickOutside: false,
+                        message: "Do you want to Close ?",
+                        yesAlertFunc: () => {
+                          closeHandler(
+                            `/fino/CommonFino/CreateBankGuaranteeSecurityRegister`,
+                            {
+                              strPartName: "close",
+                              intId: item?.intId,
+                              intActionBy: profileData?.userId,
+                            },
+                            () => {
+                              setPositionHandler(pageNo, pageSize, values);
+                            },
+                            true
+                          );
+                        },
+                        noAlertFunc: () => {},
                       });
                     }}
-                    style={{ cursor: "pointer" }}
-                    className="text-primary"
                   >
-                    Renew
+                    <IClose />
                   </span>
                 </div>
               </td>
