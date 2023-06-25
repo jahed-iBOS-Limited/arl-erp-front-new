@@ -8,7 +8,7 @@ import { _dateFormatter, _dateTimeFormatter } from "../../../../_helper/_dateFor
 import ReactToPrint from "react-to-print";
 import './rfqModalForView.css';
 const initData = {};
-export default function RfqModalForView({ id, title, status, createdBy }) {
+export default function RfqModalForView({ rfqId, rfqCode, rfqStatus, rfqCreatedBy }) {
     const saveHandler = (values, cb) => { };
     const [rfqData, getRfqData, rfqDataLoader] = useAxiosGet()
     const { selectedBusinessUnit } = useSelector((state) => {
@@ -17,11 +17,11 @@ export default function RfqModalForView({ id, title, status, createdBy }) {
     const printRef = useRef();
 
     useEffect(() => {
-        if (id) {
-            getRfqData(`/procurement/RequestForQuotation/GetRequestForQuotationById?RequestForQuotationId=${id}`)
+        if (rfqId) {
+            getRfqData(`/procurement/RequestForQuotation/GetRequestForQuotationById?RequestForQuotationId=${rfqId}`)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id]);
+    }, [rfqId]);
 
     return (
         <Formik
@@ -45,7 +45,7 @@ export default function RfqModalForView({ id, title, status, createdBy }) {
                 <>
                     {false && <Loading />}
                     <IForm
-                        title={title}
+                        rfqCode={rfqCode}
                         isHiddenReset
                         isHiddenBack
                         isHiddenSave
@@ -91,7 +91,7 @@ export default function RfqModalForView({ id, title, status, createdBy }) {
                                         }}>
                                             <div className="rfq-grid-container">
                                                 <div>
-                                                    <span className='font-weight-bold'> RFQ Code:</span> {title}
+                                                    <span className='font-weight-bold'> RFQ Code:</span> {rfqCode}
                                                 </div>
                                                 <div>
                                                     <span className='font-weight-bold'>RFQ Type:</span> {rfqData?.objHeader?.requestTypeName}
@@ -149,12 +149,12 @@ export default function RfqModalForView({ id, title, status, createdBy }) {
                                                     <span className='font-weight-bold'>Status:</span>
                                                     <span
                                                         style={{
-                                                            color: status === "Live" ? "#3699FF" : status === "Closed" ? "#F64E60" : status === "Pending" ? "#FFA800" : status === "Waiting" ? "#8950FC" : "",
+                                                            color: rfqStatus === "Live" ? "#3699FF" : rfqStatus === "Closed" ? "#F64E60" : rfqStatus === "Pending" ? "#FFA800" : rfqStatus === "Waiting" ? "#8950FC" : "",
                                                             fontWeight: "bold",
                                                             marginLeft: "1px"
                                                         }}
                                                     >
-                                                        {status}
+                                                        {rfqStatus}
                                                     </span>
                                                 </div>
                                                 <div>
@@ -239,7 +239,7 @@ export default function RfqModalForView({ id, title, status, createdBy }) {
                                         <div className="footer-section">
                                             <div className="row">
                                                 <div className="col-lg-6">
-                                                    <b>Created By: {createdBy}</b>
+                                                    <b>Created By: {rfqCreatedBy}</b>
                                                 </div>
                                                 <div className="col-lg-6 d-flex justify-content-end">
                                                     <b>Print Date-Time: {_dateTimeFormatter(new Date())}</b>
