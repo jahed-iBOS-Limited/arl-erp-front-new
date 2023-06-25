@@ -64,6 +64,7 @@ export const getLandingDataForConfirmation = async (
         carrierRate: item?.rowList[0]?.carrierAgentRate,
         goDownLabourAmount: item?.rowList[0]?.goDownLabourAmount,
         transportAmount: item?.rowList[0]?.transportAmount,
+        quantityTon: item?.rowList[0]?.quantityTon,
       })),
     };
     setter(modifyData);

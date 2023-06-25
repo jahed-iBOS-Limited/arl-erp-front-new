@@ -3,6 +3,7 @@ import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import PaginationTable from "../../../../_helper/_tablePagination";
+import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 
 const Table = ({ obj }) => {
   const {
@@ -88,6 +89,9 @@ const Table = ({ obj }) => {
                     <th style={{ minWidth: "100px" }}>Insert By</th>
                     {[2, 3].includes(values?.confirmationType?.value) && (
                       <th style={{ minWidth: "80px" }}>Price</th>
+                    )}
+                    {[2, 3].includes(values?.confirmationType?.value) && (
+                      <th style={{ minWidth: "80px" }}>Total Revenue</th>
                     )}
                     {/* <th style={{ minWidth: "150px" }}>Remark</th> */}
                   </tr>
@@ -317,6 +321,15 @@ const Table = ({ obj }) => {
                         {[2, 3].includes(values?.confirmationType?.value) && (
                           <td style={{ width: "100px" }} className="text-right">
                             {item?.numItemPrice}
+                          </td>
+                        )}
+                        {[2, 3].includes(values?.confirmationType?.value) && (
+                          <td style={{ width: "100px" }} className="text-right">
+                            {_fixedPoint(
+                              item?.numItemPrice * item?.quantityTon,
+                              true,
+                              2
+                            )}
                           </td>
                         )}
                       </tr>
