@@ -22,6 +22,7 @@ import SupplierWisePurchase from "./supplierWisePurchase";
 import CancledMRR from "./cancledMRR";
 import WHStockReportVat from "./whStockReportVat";
 import WarehouseWiseStockReport from "./whStockReport";
+import InventoryStatementRDLC from "./inventoryStatementRDLC";
 
 export function ReportsPages() {
   return (
@@ -119,7 +120,7 @@ export function ReportsPages() {
         from="/inventory-management/reports/itemTransferTransit"
         component={ItemTransferTransit}
       />
-       <ContentRoute
+      <ContentRoute
         from="/inventory-management/reports/SupplierwisePurchase"
         component={SupplierWisePurchase}
       />
@@ -131,9 +132,13 @@ export function ReportsPages() {
         from="/inventory-management/reports/wh-stock-report-vat"
         component={WHStockReportVat}
       />
-       <ContentRoute
+      <ContentRoute
         from="/inventory-management/reports/WarehouseWiseStockReport"
         component={WarehouseWiseStockReport}
+      />
+      <ContentRoute
+        from="/inventory-management/reports/InventoryStatement_RDLC"
+        component={InventoryStatementRDLC}
       />
     </Switch>
   );
