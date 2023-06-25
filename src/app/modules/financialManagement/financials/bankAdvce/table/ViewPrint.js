@@ -94,7 +94,17 @@ const ViewData = ({ adviceReportData, values }) => {
               const adviceName = values?.advice?.label === "IBBL" ? "IBBL_ONLINE"  : values?.advice?.label === "IBBL-BEFTN" ? "IBBL_BEFTN" : values?.advice?.label
               const dateFormat = values?.dateTime?.split("/").join("_")
               const fileName = `${selectedBusinessUnit?.buShortName}_${total ? total : 0}_${adviceName}_${dateFormat}`;
-              zakatAdvicePlanExcel(adviceReportData, values, fileName);
+              // zakatAdvicePlanExcel(adviceReportData, values, fileName);
+              generateExcel(
+                adviceReportData,
+                values,
+                0,
+                "",              
+                selectedBusinessUnit,
+                false,  
+                null,
+                fileName           
+             )
            }else{
             generateExcel(
               adviceReportData,
