@@ -78,7 +78,7 @@ export default function BankGuaranteeLanding() {
                     name="Type"
                     options={[
                       { value: 1, label: "Bank Guarantee" },
-                      { value: 2, label: "Deposit Register" },
+                      { value: 2, label: "Security Deposit Register" },
                     ]}
                     value={values?.type}
                     label="Type"

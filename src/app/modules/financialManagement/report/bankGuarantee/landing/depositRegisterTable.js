@@ -38,7 +38,7 @@ export default function DepositRegisterTable({
             <th>Purpose</th>
             <th>Responsible person to return</th>
             <th>Note</th>
-            <th>Action</th>
+            <th style={{minWidth:"70px"}}>Action</th>
           </tr>
         </thead>
         <tbody>
