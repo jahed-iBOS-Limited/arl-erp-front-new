@@ -1,6 +1,17 @@
 import React from "react";
+import PaginationTable from "../../../../_helper/_tablePagination";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
-export default function BankGuaranteeTable({ rowData }) {
+export default function BankGuaranteeTable({
+  rowData,
+  values,
+  pageNo,
+  setPageNo,
+  pageSize,
+  setPageSize,
+  setPositionHandler,
+  history,
+}) {
   return (
     <div>
       <table className="table table-striped table-bordered bj-table bj-table-landing">
@@ -22,25 +33,58 @@ export default function BankGuaranteeTable({ rowData }) {
           </tr>
         </thead>
         <tbody>
-          {rowData.map((item, i) => (
+          {rowData?.data?.map((item, i) => (
             <tr key={i}>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
+              <td>{i + 1}</td>
+              <td>{item?.strSbu}</td>
+              <td>{item?.strBankName}</td>
+              <td>{item?.strBankGuaranteeNumber}</td>
+              <td>{item?.strBeneficiaryName}</td>
+              <td className="text-center">
+                {_dateFormatter(item?.dteIssueDate)}
+              </td>
+              <td className="text-center">
+                {_dateFormatter(item?.dteEndingDate)}
+              </td>
+              <td>{item?.intTdays}</td>
+              <td>{item?.strCurrency}</td>
+              <td>{item?.numAmount}</td>
+              <td>{item?.strStatus}</td>
+              <td>{item?.strMarginRef}</td>
+              <td>
+                <div>
+                  <span
+                    onClick={() => {
+                      history.push({
+                        pathname: `/financial-management/banking/BankGuarantee/renew/${values?.type?.value}`,
+                        state: item,
+                      });
+                    }}
+                    style={{ cursor: "pointer" }}
+                    className="text-primary"
+                  >
+                    Renew
+                  </span>
+                </div>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {rowData?.data?.length > 0 && (
+        <PaginationTable
+          count={rowData?.totalCount}
+          setPositionHandler={setPositionHandler}
+          paginationState={{
+            pageNo,
+            setPageNo,
+            pageSize,
+            setPageSize,
+          }}
+          values={values}
+        />
+      )}
     </div>
   );
 }

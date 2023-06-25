@@ -7,7 +7,6 @@ export const initData = {
   endingDate: "",
   tDays: "",
   currency: "",
-  bgAmount: "",
   marginRef: "",
 
   //   =========
@@ -28,11 +27,12 @@ export const makePayload = ({
   selectedBusinessUnit,
   typeId,
   userId,
+  location,
 }) => {
   return {
     strPartName: entryType || "",
     intSl: 0,
-    intId: 0,
+    intId: location?.state?.intId || 0,
     strCode: "",
     intBusinessUnitId: selectedBusinessUnit?.value || 0,
     strBusinessUnit: selectedBusinessUnit?.label || "",

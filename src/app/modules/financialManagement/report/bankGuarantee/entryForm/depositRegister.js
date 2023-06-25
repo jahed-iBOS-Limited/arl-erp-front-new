@@ -66,7 +66,7 @@ export default function DepositRegister({
       <div className="col-lg-3">
         <NewSelect
           name="securityType"
-          options={[{ value: "Pay order", label: "Pay order" }]}
+          options={[{ value: "Pay Order", label: "Pay Order" }]}
           value={values?.securityType}
           label="Security Type"
           onChange={(valueOption) => {

@@ -1,6 +1,6 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import * as Yup from "yup";
 import IForm from "../../../../_helper/_form";
 import Loading from "../../../../_helper/_loading";
@@ -11,6 +11,7 @@ import "../style.css";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { shallowEqual, useSelector } from "react-redux";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { dateFormatterForInput } from "../../../../productionManagement/msilProduction/meltingProduction/helper";
 
 const validationSchema = Yup.object().shape({
   item: Yup.object()
@@ -26,12 +27,9 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function BankGuaranteeEntry() {
-  const { profileData, selectedBusinessUnit, employeeId } = useSelector(
-    (state) => {
-      return state.authData;
-    },
-    shallowEqual
-  );
+  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
 
   const [objProps, setObjprops] = useState({});
   const { entryType, typeId } = useParams();
@@ -40,6 +38,55 @@ export default function BankGuaranteeEntry() {
   const [bankAccDDL, getBankAccDDL] = useAxiosGet();
   const [sbuDDL, getSbuDDL] = useAxiosGet();
   const [, createHandler, saveLoading] = useAxiosPost();
+  const location = useLocation();
+  const [modifyData, setModifyData] = useState({});
+
+  console.log("location", location);
+
+  useEffect(() => {
+    if (location?.state?.intId && entryType !== "create") {
+      setModifyData({
+        sbu: {
+          value: location?.state?.intSbuId,
+          label: location?.state?.strSbu,
+        },
+        bank: {
+          value: location?.state?.intBankId,
+          label: location?.state?.strBankName,
+        },
+        bankGuaranteeNumber: location?.state?.strBankGuaranteeNumber,
+        beneficiary: {
+          value: location?.state?.intBankAccountId,
+          label: location?.state?.strBeneficiaryLabel,
+          accountName: location?.state?.strBeneficiaryName,
+          bankAccNo: location?.state?.strBeneficiaryNumber,
+        },
+        issuingDate: dateFormatterForInput(location?.state?.dteIssueDate),
+        endingDate: dateFormatterForInput(location?.state?.dteEndingDate),
+        tDays: location?.state?.intTdays,
+        currency: {
+          value: location?.state?.intCurrencyId,
+          label: location?.state?.strCurrency,
+        },
+        marginRef: location?.state?.strMarginRef,
+        securityType: {
+          value: location?.state?.strSecurityType,
+          label: location?.state?.strSecurityType,
+        },
+        retirementDate: dateFormatterForInput(location?.state?.dteEndingDate),
+        amount: location?.state?.numAmount,
+        inFavOf: location?.state?.strInFavOf,
+        purpose: location?.state?.strPurpose,
+        responsiblePerson: {
+          value: location?.state?.intResponsiblePersonId,
+          label: location?.state?.strResponsiblePerson,
+        },
+        note: location?.state?.strRemarks,
+      });
+
+      setAttachmentFile(location?.state?.strAttachment || "");
+    }
+  }, [location]);
 
   useEffect(() => {
     getBankDDL(`/hcm/HCMDDL/GetBankDDL`);
@@ -62,13 +109,21 @@ export default function BankGuaranteeEntry() {
         selectedBusinessUnit,
         typeId,
         userId: profileData?.userId,
-      })
+        location
+      }),
+      entryType === "create"
+        ? () => {
+            cb();
+            setAttachmentFile("");
+          }
+        : null,
+      true
     );
   };
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={initData}
+      initialValues={entryType === "create" ? initData : modifyData}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {

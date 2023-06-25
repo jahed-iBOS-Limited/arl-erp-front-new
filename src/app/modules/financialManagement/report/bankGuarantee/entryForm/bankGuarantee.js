@@ -120,12 +120,12 @@ export default function BankGuarantee({
       </div>
       <div className="col-lg-3">
         <InputField
-          value={values?.bgAmount}
+          value={values?.amount}
           label="BG Amount"
-          name="bgAmount"
+          name="amount"
           type="number"
           onChange={(e) => {
-            setFieldValue("bgAmount", e.target.value);
+            setFieldValue("amount", e.target.value);
           }}
         />
       </div>

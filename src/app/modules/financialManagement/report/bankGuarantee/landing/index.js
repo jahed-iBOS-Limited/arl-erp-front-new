@@ -7,12 +7,28 @@ import NewSelect from "../../../../_helper/_select";
 import BankGuaranteeTable from "./bankGuaranteeTable";
 import DepositRegisterTable from "./depositRegisterTable";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { shallowEqual, useSelector } from "react-redux";
 const initData = {
   type: { value: 1, label: "Bank Guarantee" },
 };
 export default function BankGuaranteeLanding() {
+  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
+
+  const [pageNo, setPageNo] = React.useState(0);
+  const [pageSize, setPageSize] = React.useState(15);
+
   const history = useHistory();
+
   const [rowData, getRowData, loading, setRowData] = useAxiosGet();
+
+  //setPositionHandler
+  const setPositionHandler = (pageNo, pageSize, values) => {
+    getRowData(
+      `/fino/CommonFino/GetBankGuaranteeSecurityRegister?businessUnitId=${selectedBusinessUnit?.value}&type=${values?.type?.label}&pageNo=${pageNo}&pageSize=${pageSize}`
+    );
+  };
   return (
     <Formik
       enableReinitialize={true}
@@ -43,9 +59,10 @@ export default function BankGuaranteeLanding() {
                     type="button"
                     className="btn btn-primary"
                     onClick={() => {
-                      history.push(
-                        `/financial-management/banking/BankGuarantee/create/${values?.type?.value}`
-                      );
+                      history.push({
+                        pathname: `/financial-management/banking/BankGuarantee/create/${values?.type?.value}`,
+                        state: {},
+                      });
                     }}
                   >
                     Create
@@ -64,7 +81,7 @@ export default function BankGuaranteeLanding() {
                       { value: 2, label: "Deposit Register" },
                     ]}
                     value={values?.type}
-                    label="Business Unit"
+                    label="Type"
                     onChange={(valueOption) => {
                       setFieldValue("type", valueOption);
                       setRowData([]);
@@ -80,9 +97,7 @@ export default function BankGuaranteeLanding() {
                     type="button"
                     disabled={!values?.type}
                     onClick={() => {
-                      getRowData(
-                        `/fino/CommonFino/GetBankGuaranteeSecurityRegister?businessUnitId=4&type=${values?.type?.label}`
-                      );
+                      setPositionHandler(pageNo, pageSize, values);
                     }}
                   >
                     View
@@ -91,9 +106,27 @@ export default function BankGuaranteeLanding() {
               </div>
               <div className="mt-5">
                 {[1].includes(values?.type?.value) ? (
-                  <BankGuaranteeTable rowData={rowData} />
+                  <BankGuaranteeTable
+                    rowData={rowData}
+                    values={values}
+                    pageNo={pageNo}
+                    setPageNo={setPageNo}
+                    pageSize={pageSize}
+                    setPageSize={setPageSize}
+                    setPositionHandler={setPositionHandler}
+                    history={history}
+                  />
                 ) : (
-                  <DepositRegisterTable rowData={rowData} />
+                  <DepositRegisterTable
+                    rowData={rowData}
+                    values={values}
+                    pageNo={pageNo}
+                    setPageNo={setPageNo}
+                    pageSize={pageSize}
+                    setPageSize={setPageSize}
+                    setPositionHandler={setPositionHandler}
+                    history={history}
+                  />
                 )}
               </div>
             </Form>
