@@ -27,6 +27,10 @@ const initData = {
     tds: "",
     vds: "",
     referenceType: "",
+    isRankVisible: {
+        value: false,
+        label: 'Hidden',
+    },
     deliveryDate: "",
     referenceNo: "",
     termsAndConditions: "",
@@ -38,6 +42,7 @@ export default function RfqViewModal({ code, title, status, createdBy }) {
     const [itemList, setItemList] = useState([]);
     const saveHandler = (values, cb) => { };
     const [objProps, setObjprops] = useState({});
+
     useEffect(() => {
         if (code) {
             getViewData(`/procurement/RequestForQuotation/GetRequestForQuotationById?RequestForQuotationId=${code}`, (data) => {
@@ -97,6 +102,10 @@ export default function RfqViewModal({ code, title, status, createdBy }) {
                     referenceType: {
                         value: objHeader?.referenceTypeName,
                         label: objHeader?.referenceTypeName,
+                    },
+                    isRankVisible: {
+                        value: objHeader?.isRankVisible,
+                        label: objHeader?.isRankVisible ? 'Show' : 'Hidden',
                     },
                     termsAndConditions: objHeader?.termsAndConditions,
                 };
@@ -266,6 +275,7 @@ export default function RfqViewModal({ code, title, status, createdBy }) {
                                         onChange={(e) => {
                                             setFieldValue("rfqTitle", e.target.value);
                                         }}
+                                        disabled={true}
                                     />
                                 </div>
                                 <div className="col-lg-2">
@@ -451,6 +461,34 @@ export default function RfqViewModal({ code, title, status, createdBy }) {
                                         value={values?.referenceType}
                                         label="Reference Type"
                                         placeholder="Reference Type"
+                                        errors={errors}
+                                        touched={touched}
+                                        isDisabled={true}
+                                    />
+                                </div>
+                                <div className="col-lg-2">
+                                    <NewSelect
+                                        name="isRankVisible"
+                                        options={[
+                                            {
+                                                value: true,
+                                                label: 'Show',
+                                            },
+                                            {
+                                                value: false,
+                                                label: 'Hidden',
+                                            }
+                                        ]}
+                                        value={values?.isRankVisible}
+                                        label="Bidding Rank"
+                                        onChange={v => {
+                                            if (v) {
+                                                setFieldValue('isRankVisible', v);
+                                            } else {
+                                                setFieldValue('isRankVisible', '');
+                                            }
+                                        }}
+                                        placeholder="Bidding Rank"
                                         errors={errors}
                                         touched={touched}
                                         isDisabled={true}

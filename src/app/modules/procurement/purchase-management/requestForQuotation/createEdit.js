@@ -973,6 +973,7 @@ export default function RFQCreateEdit() {
                               label="Reference No"
                               onChange={v => {
                                  if (v) {
+                                    setFieldValue('isAllItem', false);
                                     setFieldValue('referenceNo', v);
                                     setFieldValue('item', '');
                                     setFieldValue('itemDescription', '');
@@ -981,6 +982,7 @@ export default function RFQCreateEdit() {
                                     getItemListDDL(`/procurement/RequestForQuotation/GetRFQItemDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&SBUId=${values?.sbu?.value}&PurchaseOrganizationId=${values?.purchaseOrganization?.value}&PlantId=${values?.plant?.value}&WearHouseId=${values?.warehouse?.value}&PurchaseRequestId=${v?.value}
                                             `);
                                  } else {
+                                    setFieldValue('isAllItem', false);
                                     setFieldValue('referenceNo', '');
                                     setFieldValue('item', '');
                                     setFieldValue('itemDescription', '');
@@ -1215,10 +1217,7 @@ export default function RFQCreateEdit() {
                                        <td className="text-center">
                                           <span
                                              onClick={() => {
-                                                if (
-                                                   id &&
-                                                   values?.isSentToSupplier
-                                                ) {
+                                                if (id && values?.isSentToSupplier) {
                                                    return toast.warn(
                                                       "You can't delete item after sending RFQ"
                                                    );
@@ -1248,26 +1247,13 @@ export default function RFQCreateEdit() {
                               onChange={v => {
                                  if (v) {
                                     setFieldValue('supplier', v);
-                                    setFieldValue(
-                                       'supplierContactNo',
-                                       v?.supplierContact
-                                    );
-                                    setFieldValue(
-                                       'supplierEmail',
-                                       v?.supplierEmail
-                                    );
+                                    setFieldValue('supplierContactNo',v?.supplierContact);
+                                    setFieldValue('supplierEmail',v?.supplierEmail);
                                  } else {
                                     setFieldValue('supplier', '');
-                                    setFieldValue(
-                                       'supplierContactNo',
-                                       ''
-                                    );
-                                    setFieldValue(
-                                       'supplierEmail',
-                                       ''
-                                    );
+                                    setFieldValue('supplierContactNo','');
+                                    setFieldValue('supplierEmail','');
                                  }
-
                               }}
                               placeholder="Supplier"
                               errors={errors}
