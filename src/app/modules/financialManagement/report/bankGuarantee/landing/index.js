@@ -32,7 +32,7 @@ export default function BankGuaranteeLanding() {
         <>
           {loading && <Loading />}
           <IForm
-            title="Bank Guarantee"
+            title="BANK GUARANTEE"
             isHiddenReset
             isHiddenBack
             isHiddenSave
@@ -43,7 +43,9 @@ export default function BankGuaranteeLanding() {
                     type="button"
                     className="btn btn-primary"
                     onClick={() => {
-                      history.push("route here");
+                      history.push(
+                        `/financial-management/banking/BankGuarantee/create/${values?.type?.value}`
+                      );
                     }}
                   >
                     Create
