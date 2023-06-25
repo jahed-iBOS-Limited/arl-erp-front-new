@@ -374,6 +374,7 @@ export default function RFQCreateEdit() {
                   );
                   if (!isDuplicate) {
                      rowList.push({
+                        rowId: 0,
                         itemId: item?.value || 0,
                         itemCode: item?.code || '',
                         itemName: item?.label || '',
