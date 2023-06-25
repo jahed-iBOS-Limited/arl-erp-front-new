@@ -440,8 +440,7 @@ export function TableRow() {
                           !values?.businessUnit ||
                           values?.businessUnit?.label?.trim() === 'All' ||
                           !values?.fromDate ||
-                          !values?.todate ||
-                          values?.reportType?.value === 2
+                          !values?.todate
                         }
                       >
                         Statistical Details
