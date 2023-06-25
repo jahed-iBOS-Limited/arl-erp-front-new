@@ -1,0 +1,37 @@
+.rfq-grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+}
+.rfq-table tbody tr td {
+  font-size: 11px !important;
+}
+.rfq-item-details {
+  margin-top: 15px;
+}
+.rfq-supplier-details {
+  margin-top: 15px;
+}
+
+@media print {
+  .rfq-grid-container div {
+    font-size: 15px !important;
+  }
+  .termsAndConditions p {
+    font-size: 15px !important;
+  }
+  .rfq-table tbody tr td {
+    font-size: 12px !important;
+  }
+  @page :footer {
+    display: none;
+  }
+  @page {
+    size: auto portrait;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    margin-left: 20px;
+    margin-right: 20px;
+    counter-increment: page;
+  }
+}
