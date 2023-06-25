@@ -1,7 +1,8 @@
 import React from 'react';
 import numberWithCommas from '../../../../_helper/_numberWithCommas';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
-const COGSTable = ({ journalData }) => {
+const COGSTable = ({ journalData, landingValues, isDayBased }) => {
    return (
       <>
          <table
@@ -11,11 +12,21 @@ const COGSTable = ({ journalData }) => {
             <thead className="bg-secondary">
                <tr>
                   <th>SL</th>
+                  {isDayBased === 1 && (
+                     <th>Transaction Date</th>
+                  )}
                   <th>Item Code</th>
                   <th>Item Name</th>
-                  <th>Profit Center</th>
+                  {landingValues?.transactionType?.value === 1 && (
+                     <th>Profit Center</th>
+                  )}
                   <th>Quantity</th>
-                  <th>Avg. COGS</th>
+                  {landingValues?.transactionType?.value === 1 ? (
+                     <th>Avg. COGS</th>
+                  ) : (
+                     <th>Rate</th>
+                  )}
+                  
                   <th>Amount</th>
                </tr>
             </thead>
@@ -24,20 +35,33 @@ const COGSTable = ({ journalData }) => {
                   {journalData?.map((item, index) => (
                      <tr key={index}>
                         <td className="text-center">{index + 1}</td>
+                        {isDayBased === 1 && (
+                           <td>{item?.dteTransactionDate ? _dateFormatter(item?.dteTransactionDate) : ""}</td>
+                        )}
                         <td className="text-center">{item?.strItemCode}</td>
                         <td>{item?.strItemName}</td>
-                        <td>{item?.strProfitCenterName}</td>
+                        {landingValues?.transactionType?.value === 1 && (
+                           <td>{item?.strProfitCenterName}</td>
+                        )}
+                        
                         <td className="text-right">{item?.numQty}</td>
-                        <td className="text-right">
-                           {item?.numAvgCOGS.toFixed(2)}
-                        </td>
+                        {landingValues?.transactionType?.value === 1 ? (
+                           <td className="text-right">
+                              {item?.numAvgCOGS.toFixed(2)}
+                           </td>
+                        ) : (
+                           <td className="text-right">
+                              {item?.numRate.toFixed(2)}
+                           </td>
+                        )}
+                        
                         <td className="text-right">
                            {item?.numValue.toFixed(2)}
                         </td>
                      </tr>
                   ))}
                   <tr>
-                     <td colSpan="4" className="text-right font-weight-bold">
+                     <td colSpan={(landingValues?.transactionType?.value === 1 || isDayBased === 1) ? "4" : "3"} className="text-right font-weight-bold">
                         Total
                      </td>
                      <td className="text-right font-weight-bold">
