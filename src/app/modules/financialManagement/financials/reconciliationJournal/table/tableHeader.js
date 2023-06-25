@@ -4,6 +4,7 @@ import { DropzoneDialogBase } from "material-ui-dropzone";
 import React, { useEffect, useMemo, useState } from "react";
 import ReactHtmlTableToExcel from "react-html-table-to-excel";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
 import IConfirmModal from "../../../../_helper/_confirmModal";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
@@ -11,7 +12,6 @@ import { _formatMoney } from "../../../../_helper/_formatMoney";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import { SetFinancialsInventoryJournalAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import {
@@ -32,7 +32,8 @@ import {
   ModalProgressBar,
 } from "./../../../../../../_metronic/_partials/controls";
 import NewSelect from "./../../../../_helper/_select";
-import { toast } from "react-toastify";
+import COGSTable from "./cogsTable";
+import DepreciationTable from "./depreciationTable";
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -498,7 +499,17 @@ const ReconciliationJournal = () => {
                       />
                     </div>
                   ) : null}
-                  <table
+                  {values?.type?.value === 1 && (
+                    <COGSTable 
+                      journalData={journalData}
+                    />
+                  )}
+                  {values?.type?.value === 2 && (
+                    <DepreciationTable 
+                      journalData={journalData}
+                    />
+                  )}
+                  {/* <table
                     id={values?.type?.value === 1 ? "cogs" : "depreciation"}
                     className="table table-striped table-bordered global-table mt-0 table-font-size-sm mt-5"
                   >
@@ -647,7 +658,7 @@ const ReconciliationJournal = () => {
                         </>
                       )}
                     </tbody>
-                  </table>
+                  </table> */}
                   <>
                     <DropzoneDialogBase
                       filesLimit={1}
