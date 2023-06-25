@@ -48,7 +48,7 @@ const initData = {
    referenceType: '',
    deliveryDate: '',
    referenceNo: '',
-   isShowBiddingRank: {
+   isRankVisible: {
       value: false,
       label: 'Hidden',
    },
@@ -94,7 +94,7 @@ export default function RFQCreateEdit() {
       if (!values?.vatOrAit) return toast.warn('Please select VAT/AIT');
       if (!values?.tds) return toast.warn('Please select TDS');
       if (!values?.vds) return toast.warn('Please select VDS');
-      if (!values?.isShowBiddingRank) return toast.warn('Please select Bidding Rank');
+      if (!values?.isRankVisible) return toast.warn('Please select Bidding Rank');
       if (!values?.referenceType) return toast.warn('Please select Reference Type');
       if (!itemList?.length) return toast.warn('Please add item');
       if (!supplierList?.length) return toast.warn('Please add supplier');
@@ -129,7 +129,7 @@ export default function RFQCreateEdit() {
             deliveryDate: values?.deliveryDate,
             quotationEntryStart: values?.quotationEntryStart,
             rfqtitle: values?.rfqTitle,
-            isShowBiddingRank: values?.isShowBiddingRank?.value,
+            isRankVisible: values?.isRankVisible?.value,
             termsAndConditions: values?.termsAndConditions,
          },
          objRow: itemList,
@@ -225,9 +225,9 @@ export default function RFQCreateEdit() {
                      value: objHeader?.referenceTypeName,
                      label: objHeader?.referenceTypeName,
                   },
-                  isShowBiddingRank: {
-                     value: objHeader?.isShowBiddingRank,
-                     label: objHeader?.isShowBiddingRank ? 'Show' : 'Hidden',
+                  isRankVisible: {
+                     value: objHeader?.isRankVisible,
+                     label: objHeader?.isRankVisible ? 'Show' : 'Hidden',
                   },
                   referenceNo: '',
                   termsAndConditions: objHeader?.termsAndConditions,
@@ -936,7 +936,7 @@ export default function RFQCreateEdit() {
                         </div>
                         <div className="col-lg-3">
                            <NewSelect
-                              name="isShowBiddingRank"
+                              name="isRankVisible"
                               options={[
                                  {
                                     value: true,
@@ -947,13 +947,13 @@ export default function RFQCreateEdit() {
                                     label: 'Hidden',
                                  }
                               ]}
-                              value={values?.isShowBiddingRank}
+                              value={values?.isRankVisible}
                               label="Bidding Rank"
                               onChange={v => {
                                  if (v) {
-                                    setFieldValue('isShowBiddingRank', v);
+                                    setFieldValue('isRankVisible', v);
                                  } else {
-                                    setFieldValue('isShowBiddingRank', '');
+                                    setFieldValue('isRankVisible', '');
                                  }
                               }}
                               placeholder="Bidding Rank"
@@ -973,6 +973,7 @@ export default function RFQCreateEdit() {
                               label="Reference No"
                               onChange={v => {
                                  if (v) {
+                                    setFieldValue('isAllItem', false);
                                     setFieldValue('referenceNo', v);
                                     setFieldValue('item', '');
                                     setFieldValue('itemDescription', '');
@@ -981,6 +982,7 @@ export default function RFQCreateEdit() {
                                     getItemListDDL(`/procurement/RequestForQuotation/GetRFQItemDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&SBUId=${values?.sbu?.value}&PurchaseOrganizationId=${values?.purchaseOrganization?.value}&PlantId=${values?.plant?.value}&WearHouseId=${values?.warehouse?.value}&PurchaseRequestId=${v?.value}
                                             `);
                                  } else {
+                                    setFieldValue('isAllItem', false);
                                     setFieldValue('referenceNo', '');
                                     setFieldValue('item', '');
                                     setFieldValue('itemDescription', '');
@@ -1215,10 +1217,7 @@ export default function RFQCreateEdit() {
                                        <td className="text-center">
                                           <span
                                              onClick={() => {
-                                                if (
-                                                   id &&
-                                                   values?.isSentToSupplier
-                                                ) {
+                                                if (id && values?.isSentToSupplier) {
                                                    return toast.warn(
                                                       "You can't delete item after sending RFQ"
                                                    );
@@ -1248,26 +1247,13 @@ export default function RFQCreateEdit() {
                               onChange={v => {
                                  if (v) {
                                     setFieldValue('supplier', v);
-                                    setFieldValue(
-                                       'supplierContactNo',
-                                       v?.supplierContact
-                                    );
-                                    setFieldValue(
-                                       'supplierEmail',
-                                       v?.supplierEmail
-                                    );
+                                    setFieldValue('supplierContactNo',v?.supplierContact);
+                                    setFieldValue('supplierEmail',v?.supplierEmail);
                                  } else {
                                     setFieldValue('supplier', '');
-                                    setFieldValue(
-                                       'supplierContactNo',
-                                       ''
-                                    );
-                                    setFieldValue(
-                                       'supplierEmail',
-                                       ''
-                                    );
+                                    setFieldValue('supplierContactNo','');
+                                    setFieldValue('supplierEmail','');
                                  }
-
                               }}
                               placeholder="Supplier"
                               errors={errors}
