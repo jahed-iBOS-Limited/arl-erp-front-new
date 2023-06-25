@@ -41,7 +41,7 @@ export default function InventoryStatementRDLC() {
         const agingParameters = [
             { name: "intUnit", value: `${selectedBusinessUnit?.value}` },
             { name: "dteFromDate", value: `${values?.fromDate}` },
-            { name: "dteToDate", value: `${values?.todate}` },
+            { name: "dteToDate", value: `${values?.toDate}` },
             { name: "intWarehouseId", value: `${values?.warehouse?.value}` },
             { name: "intItemTypeId", value: `${values?.itemType?.value}` },
         ];
