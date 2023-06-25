@@ -138,6 +138,7 @@ export default function AdjustmentJournalTable({
          <IViewModal show={open} onHide={() => setOpen(false)}>
             <AdjustmentJournalReportView
                journalCode={row?.strAccountingJournalCode}
+               clickRowData={{journalTypeId : row?.intAccountingJournalTypeId, strAccountingJournalCode : row?.strAccountingJournalCode}}
             />
          </IViewModal>
       </div>

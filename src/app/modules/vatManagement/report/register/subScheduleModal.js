@@ -329,7 +329,7 @@ const SubScheduleModal = ({ tableItem, landingValues }) => {
                           />
                         )}
                         {[4, 5, 6].includes(
-                          clickRowData?.journalType?.value
+                          clickRowData?.journalTypeId
                         ) && (
                           <BankJournalReportView
                             journalCode={clickRowData?.strAccountingJournalCode}
