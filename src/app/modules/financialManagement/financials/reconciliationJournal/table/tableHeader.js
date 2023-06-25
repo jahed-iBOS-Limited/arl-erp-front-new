@@ -33,6 +33,8 @@ import {
 } from "./../../../../../../_metronic/_partials/controls";
 import NewSelect from "./../../../../_helper/_select";
 import { toast } from "react-toastify";
+import COGSTable from "./cogsTable";
+import DepreciationTable from "./depreciationTable";
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -498,7 +500,17 @@ const ReconciliationJournal = () => {
                       />
                     </div>
                   ) : null}
-                  <table
+                  {values?.type?.value === 1 && (
+                    <COGSTable 
+                      journalData={journalData}
+                    />
+                  )}
+                  {values?.type?.value === 2 && (
+                    <DepreciationTable 
+                      journalData={journalData}
+                    />
+                  )}
+                  {/* <table
                     id={values?.type?.value === 1 ? "cogs" : "depreciation"}
                     className="table table-striped table-bordered global-table mt-0 table-font-size-sm mt-5"
                   >
@@ -647,7 +659,7 @@ const ReconciliationJournal = () => {
                         </>
                       )}
                     </tbody>
-                  </table>
+                  </table> */}
                   <>
                     <DropzoneDialogBase
                       filesLimit={1}
