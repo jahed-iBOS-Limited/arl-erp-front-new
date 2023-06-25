@@ -17,12 +17,12 @@ import { _dateFormatter, _dateTimeFormatter } from "../../../_helper/_dateFormat
 import Chips from "../../../_helper/chips/Chips";
 import { rfqReportExcel } from "./helper";
 import IViewModal from "../../../_helper/_viewModal";
-import RfqViewModal from "./viewDetailsModal/viewModal";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import LocalAirportOutlinedIcon from '@material-ui/icons/LocalAirportOutlined';
 import IConfirmModal from "../../../_helper/_confirmModal";
 import PaginationSearch from "../../../_helper/_search";
+import RfqModalForView from "./viewDetailsModal/rfqModalForView";
 const initData = {
     purchaseOrganization: { value: 0, label: 'ALL' },
     rfqType: { value: 1, label: 'Standard RFQ' },
@@ -35,7 +35,7 @@ const initData = {
 };
 export default function RequestForQuotationLanding() {
     const [showModal, setShowModal] = useState(false);
-    const [showCode, setShowCode] = useState(null);
+    const [id, setId] = useState(null);
     const [rfqCode, setRfqCode] = useState(null);
     const [createdBy, setCreatedBy] = useState(null);
     const [status, setStatus] = useState(null);
@@ -179,9 +179,9 @@ export default function RequestForQuotationLanding() {
                                                 { value: 1, label: 'Standard RFQ' },
                                                 { value: 2, label: 'Open Tendering' },
                                                 { value: 3, label: 'Limited Tendering' },
-                                                { value: 4, label: 'Single Stage Tendering'},
-                                                { value: 5, label: 'Two Stage Tendering'},
-                                             ]
+                                                { value: 4, label: 'Single Stage Tendering' },
+                                                { value: 5, label: 'Two Stage Tendering' },
+                                            ]
                                         }
                                         value={values?.rfqType}
                                         label="RFQ Type"
@@ -192,7 +192,7 @@ export default function RequestForQuotationLanding() {
                                         placeholder="RFQ Type"
                                         errors={errors}
                                         touched={touched}
-                                        // isDisabled={true}
+                                    // isDisabled={true}
                                     />
                                 </div>
                                 <div className="col-lg-2">
@@ -424,7 +424,7 @@ export default function RequestForQuotationLanding() {
                                                 <td>
                                                     <span
                                                         onClick={() => {
-                                                            setShowCode(item?.requestForQuotationId)
+                                                            setId(item?.requestForQuotationId)
                                                             setRfqCode(item?.requestForQuotationCode)
                                                             setStatus(item?.status)
                                                             setCreatedBy(item?.createdBy)
@@ -476,12 +476,12 @@ export default function RequestForQuotationLanding() {
                                 show={showModal}
                                 onHide={() => {
                                     setShowModal(false);
-                                    setShowCode(null);
+                                    setId(null);
                                     setRfqCode(null);
                                     setStatus(null);
                                 }}
                             >
-                                <RfqViewModal code={showCode} title={`${rfqCode}`} status={status} createdBy={createdBy} />
+                                <RfqModalForView rfqId={id} rfqCode={`${rfqCode}`} rfqStatus={status} rfqCreatedBy={createdBy} />
                             </IViewModal>
                         </Form>
                     </IForm>
