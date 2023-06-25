@@ -6,10 +6,11 @@ import IForm from "../../../../_helper/_form";
 import Loading from "../../../../_helper/_loading";
 import BankGuarantee from "./bankGuarantee";
 import DepositRegister from "./depositRegister";
-import { initData } from "../helper";
+import { initData, makePayload } from "../helper";
 import "../style.css";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { shallowEqual, useSelector } from "react-redux";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
 const validationSchema = Yup.object().shape({
   item: Yup.object()
@@ -25,17 +26,20 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function BankGuaranteeEntry() {
-  const { profileData, selectedBusinessUnit } = useSelector((state) => {
-    return state.authData;
-  }, shallowEqual);
+  const { profileData, selectedBusinessUnit, employeeId } = useSelector(
+    (state) => {
+      return state.authData;
+    },
+    shallowEqual
+  );
 
   const [objProps, setObjprops] = useState({});
   const { entryType, typeId } = useParams();
   const [attachmentFile, setAttachmentFile] = useState("");
   const [bankDDL, getBankDDL] = useAxiosGet();
-  const [branchDDL, getBranchDDL, , setBranchDDL] = useAxiosGet();
   const [bankAccDDL, getBankAccDDL] = useAxiosGet();
   const [sbuDDL, getSbuDDL] = useAxiosGet();
+  const [, createHandler, saveLoading] = useAxiosPost();
 
   useEffect(() => {
     getBankDDL(`/hcm/HCMDDL/GetBankDDL`);
@@ -49,13 +53,23 @@ export default function BankGuaranteeEntry() {
   }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = (values, cb) => {
-    alert("Working...");
+    createHandler(
+      `/fino/CommonFino/CreateBankGuaranteeSecurityRegister`,
+      makePayload({
+        values,
+        entryType,
+        attachmentFile,
+        selectedBusinessUnit,
+        typeId,
+        userId: profileData?.userId,
+      })
+    );
   };
   return (
     <Formik
       enableReinitialize={true}
       initialValues={initData}
-      validationSchema={validationSchema}
+      // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
@@ -72,7 +86,7 @@ export default function BankGuaranteeEntry() {
         touched,
       }) => (
         <>
-          {false && <Loading />}
+          {saveLoading && <Loading />}
           <IForm
             title={`${entryType?.toUpperCase()} ${
               +typeId === 1
@@ -91,10 +105,7 @@ export default function BankGuaranteeEntry() {
                   errors={errors}
                   touched={touched}
                   bankDDL={bankDDL}
-                  branchDDL={branchDDL}
                   bankAccDDL={bankAccDDL}
-                  getBranchDDL={getBranchDDL}
-                  setBranchDDL={setBranchDDL}
                   sbuDDL={sbuDDL}
                 />
               ) : [2].includes(+typeId) ? (
@@ -104,10 +115,7 @@ export default function BankGuaranteeEntry() {
                   errors={errors}
                   touched={touched}
                   bankDDL={bankDDL}
-                  branchDDL={branchDDL}
                   bankAccDDL={bankAccDDL}
-                  getBranchDDL={getBranchDDL}
-                  setBranchDDL={setBranchDDL}
                   attachmentFile={attachmentFile}
                   setAttachmentFile={setAttachmentFile}
                   accId={profileData?.accountId}

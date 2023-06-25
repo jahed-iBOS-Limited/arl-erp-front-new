@@ -13,10 +13,7 @@ export default function DepositRegister({
   attachmentFile,
   setAttachmentFile,
   bankDDL,
-  branchDDL,
   bankAccDDL,
-  getBranchDDL,
-  setBranchDDL,
   accId,
   sbuDDL,
 }) {
@@ -47,29 +44,7 @@ export default function DepositRegister({
           value={values?.bank}
           label="Bank"
           onChange={(valueOption) => {
-            if (valueOption) {
-              setFieldValue("bank", valueOption);
-              getBranchDDL(
-                `/costmgmt/BankAccount/GETBankBranchDDl?BankId=${valueOption?.value}&CountryId=18`
-              );
-            } else {
-              setFieldValue("bank", "");
-              setFieldValue("branch", "");
-              setBranchDDL([]);
-            }
-          }}
-          errors={errors}
-          touched={touched}
-        />
-      </div>
-      <div className="col-lg-3">
-        <NewSelect
-          name="branch"
-          options={branchDDL}
-          value={values?.branch}
-          label="Branch"
-          onChange={(valueOption) => {
-            setFieldValue("branch", valueOption);
+            setFieldValue("bank", valueOption);
           }}
           errors={errors}
           touched={touched}
