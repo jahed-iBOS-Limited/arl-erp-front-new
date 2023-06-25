@@ -1,19 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import NewSelect from "../../../../_helper/_select";
 import InputField from "../../../../_helper/_inputField";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 export default function BankGuarantee({
   values,
   setFieldValue,
   errors,
   touched,
+  bankDDL,
+  branchDDL,
+  bankAccDDL,
+  getBranchDDL,
+  setBranchDDL,
+  sbuDDL,
 }) {
+  const [currencyDDL, getCurrencyDDL] = useAxiosGet();
+
+  useEffect(() => {
+    getCurrencyDDL(`/domain/Purchase/GetBaseCurrencyList`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className="form-group  global-form row">
       <div className="col-lg-3">
         <NewSelect
           name="sbu"
-          options={[]}
+          options={sbuDDL}
           value={values?.sbu}
           label="SBU"
           onChange={(valueOption) => {
@@ -26,11 +40,46 @@ export default function BankGuarantee({
       <div className="col-lg-3">
         <NewSelect
           name="bank"
-          options={[]}
+          options={bankDDL}
           value={values?.bank}
           label="Bank"
           onChange={(valueOption) => {
-            setFieldValue("bank", valueOption);
+            if (valueOption) {
+              setFieldValue("bank", valueOption);
+              getBranchDDL(
+                `/costmgmt/BankAccount/GETBankBranchDDl?BankId=${valueOption?.value}&CountryId=18`
+              );
+            } else {
+              setFieldValue("bank", "");
+              setFieldValue("branch", "");
+              setBranchDDL([]);
+            }
+          }}
+          errors={errors}
+          touched={touched}
+        />
+      </div>
+      <div className="col-lg-3">
+        <NewSelect
+          name="branch"
+          options={branchDDL}
+          value={values?.branch}
+          label="Branch"
+          onChange={(valueOption) => {
+            setFieldValue("branch", valueOption);
+          }}
+          errors={errors}
+          touched={touched}
+        />
+      </div>
+      <div className="col-lg-3">
+        <NewSelect
+          name="beneficiary"
+          options={bankAccDDL}
+          value={values?.beneficiary}
+          label="Beneficiary"
+          onChange={(valueOption) => {
+            setFieldValue("beneficiary", valueOption);
           }}
           errors={errors}
           touched={touched}
@@ -41,20 +90,9 @@ export default function BankGuarantee({
           value={values?.bankGuaranteeNumber}
           label="Bank Guarantee Number"
           name="bankGuaranteeNumber"
-          type="number"
+          type="text"
           onChange={(e) => {
             setFieldValue("bankGuaranteeNumber", e.target.value);
-          }}
-        />
-      </div>
-      <div className="col-lg-3">
-        <InputField
-          value={values?.beneficiary}
-          label="Beneficiary"
-          name="beneficiary"
-          type="number"
-          onChange={(e) => {
-            setFieldValue("beneficiary", e.target.value);
           }}
         />
       </div>
@@ -94,7 +132,7 @@ export default function BankGuarantee({
       <div className="col-lg-3">
         <NewSelect
           name="currency"
-          options={[]}
+          options={currencyDDL}
           value={values?.currency}
           label="Currency"
           onChange={(valueOption) => {
@@ -113,19 +151,6 @@ export default function BankGuarantee({
           onChange={(e) => {
             setFieldValue("bgAmount", e.target.value);
           }}
-        />
-      </div>
-      <div className="col-lg-3">
-        <NewSelect
-          name="status"
-          options={[]}
-          value={values?.status}
-          label="Status"
-          onChange={(valueOption) => {
-            setFieldValue("status", valueOption);
-          }}
-          errors={errors}
-          touched={touched}
         />
       </div>
       <div className="col-lg-3">

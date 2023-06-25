@@ -1,6 +1,7 @@
 export const initData = {
   sbu: "",
   bank: "",
+  branch: "",
   bankGuaranteeNumber: "",
   beneficiary: "",
   issuingDate: "",
@@ -8,12 +9,10 @@ export const initData = {
   tDays: "",
   currency: "",
   bgAmount: "",
-  status: "",
   marginRef: "",
 
   //   =========
   securityType: "",
-  no: "",
   retirementDate: "",
   amount: "",
   inFavOf: "",

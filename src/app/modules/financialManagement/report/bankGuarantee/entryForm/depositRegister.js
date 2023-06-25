@@ -3,6 +3,8 @@ import NewSelect from "../../../../_helper/_select";
 import InputField from "../../../../_helper/_inputField";
 import { attachmentUpload } from "../../../../_helper/attachmentUpload";
 import placeholderImg from "../../../../_helper/images/placeholderImg.png";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import axios from "axios";
 export default function DepositRegister({
   values,
   setFieldValue,
@@ -10,6 +12,13 @@ export default function DepositRegister({
   touched,
   attachmentFile,
   setAttachmentFile,
+  bankDDL,
+  branchDDL,
+  bankAccDDL,
+  getBranchDDL,
+  setBranchDDL,
+  accId,
+  sbuDDL,
 }) {
   const inputAttachFile = useRef(null);
   const onButtonAttachmentClick = () => {
@@ -21,7 +30,7 @@ export default function DepositRegister({
       <div className="col-lg-3">
         <NewSelect
           name="sbu"
-          options={[]}
+          options={sbuDDL}
           value={values?.sbu}
           label="SBU"
           onChange={(valueOption) => {
@@ -34,11 +43,46 @@ export default function DepositRegister({
       <div className="col-lg-3">
         <NewSelect
           name="bank"
-          options={[]}
+          options={bankDDL}
           value={values?.bank}
           label="Bank"
           onChange={(valueOption) => {
-            setFieldValue("bank", valueOption);
+            if (valueOption) {
+              setFieldValue("bank", valueOption);
+              getBranchDDL(
+                `/costmgmt/BankAccount/GETBankBranchDDl?BankId=${valueOption?.value}&CountryId=18`
+              );
+            } else {
+              setFieldValue("bank", "");
+              setFieldValue("branch", "");
+              setBranchDDL([]);
+            }
+          }}
+          errors={errors}
+          touched={touched}
+        />
+      </div>
+      <div className="col-lg-3">
+        <NewSelect
+          name="branch"
+          options={branchDDL}
+          value={values?.branch}
+          label="Branch"
+          onChange={(valueOption) => {
+            setFieldValue("branch", valueOption);
+          }}
+          errors={errors}
+          touched={touched}
+        />
+      </div>
+      <div className="col-lg-3">
+        <NewSelect
+          name="beneficiary"
+          options={bankAccDDL}
+          value={values?.beneficiary}
+          label="Beneficiary"
+          onChange={(valueOption) => {
+            setFieldValue("beneficiary", valueOption);
           }}
           errors={errors}
           touched={touched}
@@ -47,7 +91,7 @@ export default function DepositRegister({
       <div className="col-lg-3">
         <NewSelect
           name="securityType"
-          options={[]}
+          options={[{ value: "Pay order", label: "Pay order" }]}
           value={values?.securityType}
           label="Security Type"
           onChange={(valueOption) => {
@@ -55,17 +99,6 @@ export default function DepositRegister({
           }}
           errors={errors}
           touched={touched}
-        />
-      </div>
-      <div className="col-lg-3">
-        <InputField
-          value={values?.no}
-          label="No"
-          name="no"
-          type="number"
-          onChange={(e) => {
-            setFieldValue("no", e.target.value);
-          }}
         />
       </div>
       <div className="col-lg-3">
@@ -124,16 +157,22 @@ export default function DepositRegister({
         />
       </div>
       <div className="col-lg-3">
-        <NewSelect
-          name="responsiblePerson"
-          options={[]}
-          value={values?.responsiblePerson}
-          label="Responsible Person"
-          onChange={(valueOption) => {
+        <label>Responsible Person</label>
+        <SearchAsyncSelect
+          selectedValue={values?.responsiblePerson}
+          handleChange={(valueOption) => {
             setFieldValue("responsiblePerson", valueOption);
           }}
-          errors={errors}
-          touched={touched}
+          isDisabled={false}
+          loadOptions={(v) => {
+            const searchValue = v.trim();
+            if (searchValue?.length < 3) return [];
+            return axios
+              .get(
+                `/hcm/HCMDDL/GetEmployeeDDLSearch?AccountId=${accId}&Search=${searchValue}`
+              )
+              .then((res) => res?.data);
+          }}
         />
       </div>
       <div className="col-lg-3">

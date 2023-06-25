@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import * as Yup from "yup";
 import IForm from "../../../../_helper/_form";
@@ -8,6 +8,8 @@ import BankGuarantee from "./bankGuarantee";
 import DepositRegister from "./depositRegister";
 import { initData } from "../helper";
 import "../style.css";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { shallowEqual, useSelector } from "react-redux";
 
 const validationSchema = Yup.object().shape({
   item: Yup.object()
@@ -23,11 +25,28 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function BankGuaranteeEntry() {
+  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
+
   const [objProps, setObjprops] = useState({});
   const { entryType, typeId } = useParams();
   const [attachmentFile, setAttachmentFile] = useState("");
+  const [bankDDL, getBankDDL] = useAxiosGet();
+  const [branchDDL, getBranchDDL, , setBranchDDL] = useAxiosGet();
+  const [bankAccDDL, getBankAccDDL] = useAxiosGet();
+  const [sbuDDL, getSbuDDL] = useAxiosGet();
 
-  console.log("entryType", entryType);
+  useEffect(() => {
+    getBankDDL(`/hcm/HCMDDL/GetBankDDL`);
+    getBankAccDDL(
+      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}`
+    );
+    getSbuDDL(
+      `/fino/Disbursement/GetSbuDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = (values, cb) => {
     alert("Working...");
@@ -55,7 +74,13 @@ export default function BankGuaranteeEntry() {
         <>
           {false && <Loading />}
           <IForm
-            title={`${entryType?.toUpperCase()} BANK GUARANTEE`}
+            title={`${entryType?.toUpperCase()} ${
+              +typeId === 1
+                ? "BANK GUARANTEE"
+                : +typeId === 2
+                ? "DEPOSIT REGISTER"
+                : ""
+            }`}
             getProps={setObjprops}
           >
             <div className="bank-guarantee-entry">
@@ -65,6 +90,12 @@ export default function BankGuaranteeEntry() {
                   setFieldValue={setFieldValue}
                   errors={errors}
                   touched={touched}
+                  bankDDL={bankDDL}
+                  branchDDL={branchDDL}
+                  bankAccDDL={bankAccDDL}
+                  getBranchDDL={getBranchDDL}
+                  setBranchDDL={setBranchDDL}
+                  sbuDDL={sbuDDL}
                 />
               ) : [2].includes(+typeId) ? (
                 <DepositRegister
@@ -72,8 +103,15 @@ export default function BankGuaranteeEntry() {
                   setFieldValue={setFieldValue}
                   errors={errors}
                   touched={touched}
+                  bankDDL={bankDDL}
+                  branchDDL={branchDDL}
+                  bankAccDDL={bankAccDDL}
+                  getBranchDDL={getBranchDDL}
+                  setBranchDDL={setBranchDDL}
                   attachmentFile={attachmentFile}
                   setAttachmentFile={setAttachmentFile}
+                  accId={profileData?.accountId}
+                  sbuDDL={sbuDDL}
                 />
               ) : null}
             </div>
