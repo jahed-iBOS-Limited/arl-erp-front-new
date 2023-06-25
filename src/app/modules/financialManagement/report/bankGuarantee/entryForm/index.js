@@ -1,21 +1,13 @@
 import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import * as Yup from "yup";
-import Loading from "../../../../_helper/_loading";
-import IForm from "../../../../_helper/_form";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useHistory } from "react-router-dom";
+import * as Yup from "yup";
+import IForm from "../../../../_helper/_form";
+import Loading from "../../../../_helper/_loading";
 import BankGuarantee from "./bankGuarantee";
 import DepositRegister from "./depositRegister";
-
-const initData = {
-  item: "",
-  remarks: "",
-  amount: "",
-  date: "",
-};
+import { initData } from "../helper";
+import "../style.css";
 
 const validationSchema = Yup.object().shape({
   item: Yup.object()
@@ -33,6 +25,7 @@ const validationSchema = Yup.object().shape({
 export default function BankGuaranteeEntry() {
   const [objProps, setObjprops] = useState({});
   const { entryType, typeId } = useParams();
+  const [attachmentFile, setAttachmentFile] = useState("");
 
   console.log("entryType", entryType);
 
@@ -65,11 +58,23 @@ export default function BankGuaranteeEntry() {
             title={`${entryType?.toUpperCase()} BANK GUARANTEE`}
             getProps={setObjprops}
           >
-            <div>
+            <div className="bank-guarantee-entry">
               {[1].includes(+typeId) ? (
-                <BankGuarantee />
+                <BankGuarantee
+                  values={values}
+                  setFieldValue={setFieldValue}
+                  errors={errors}
+                  touched={touched}
+                />
               ) : [2].includes(+typeId) ? (
-                <DepositRegister />
+                <DepositRegister
+                  values={values}
+                  setFieldValue={setFieldValue}
+                  errors={errors}
+                  touched={touched}
+                  attachmentFile={attachmentFile}
+                  setAttachmentFile={setAttachmentFile}
+                />
               ) : null}
             </div>
             <Form>

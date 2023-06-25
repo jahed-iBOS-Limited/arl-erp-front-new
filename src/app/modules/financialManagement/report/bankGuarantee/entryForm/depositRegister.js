@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useRef } from "react";
 import NewSelect from "../../../../_helper/_select";
 import InputField from "../../../../_helper/_inputField";
+import { attachmentUpload } from "../../../../_helper/attachmentUpload";
+import placeholderImg from "../../../../_helper/images/placeholderImg.png";
 export default function DepositRegister({
   values,
   setFieldValue,
   errors,
   touched,
+  attachmentFile,
+  setAttachmentFile,
 }) {
+  const inputAttachFile = useRef(null);
+  const onButtonAttachmentClick = () => {
+    inputAttachFile.current.click();
+  };
+
   return (
     <div className="form-group  global-form row">
       <div className="col-lg-3">
@@ -137,6 +146,63 @@ export default function DepositRegister({
             setFieldValue("note", e.target.value);
           }}
         />
+      </div>
+      <div className="col-lg-3">
+        <label>Attachment </label>
+        <div
+          className={
+            attachmentFile ? "image-upload-box with-img" : "image-upload-box"
+          }
+          onClick={onButtonAttachmentClick}
+          style={{
+            cursor: "pointer",
+            position: "relative",
+            height: "35px",
+          }}
+        >
+          <input
+            onChange={(e) => {
+              if (e.target.files?.[0]) {
+                attachmentUpload(e.target.files)
+                  .then((data) => {
+                    setAttachmentFile(data?.[0]?.id);
+                  })
+                  .catch((error) => {
+                    setAttachmentFile("");
+                  });
+              }
+            }}
+            type="file"
+            ref={inputAttachFile}
+            id="file"
+            style={{ display: "none" }}
+          />
+          <div>
+            {!attachmentFile && (
+              <img
+                style={{ maxWidth: "50px" }}
+                src={placeholderImg}
+                className="img-fluid"
+                alt="Upload or drag documents"
+              />
+            )}
+          </div>
+          {attachmentFile && (
+            <div className="d-flex align-items-center">
+              <p
+                style={{
+                  fontSize: "12px",
+                  fontWeight: "500",
+                  color: "#0072E5",
+                  cursor: "pointer",
+                  margin: "0px",
+                }}
+              >
+                {attachmentFile}
+              </p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
