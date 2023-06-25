@@ -19,6 +19,7 @@ import {
   getDepreciationJournal,
   getInventoryJournal,
   getInventoryJournalGenLedger,
+  getReconcilationJournelData,
   getSbuDDL,
   getType,
   postDepreciationJournal,
@@ -87,6 +88,7 @@ const ReconciliationJournal = () => {
   //storingData
   const [jounalLedgerData, setJounalLedgerData] = useState([]);
   const [journalData, setJournalData] = useState([]);
+  const [isDayBased, setIsDayBased] = useState(0);
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
@@ -109,15 +111,15 @@ const ReconciliationJournal = () => {
         setJounalLedgerData,
         setLoading
       );
-      getInventoryJournal(
-        profileData?.accountId,
-        selectedBusinessUnit?.value,
-        values?.sbu?.value,
-        values?.fromDate,
-        values?.toDate,
-        setJournalData,
-        setLoading
-      );
+      // getInventoryJournal(
+      //   profileData?.accountId,
+      //   selectedBusinessUnit?.value,
+      //   values?.sbu?.value,
+      //   values?.fromDate,
+      //   values?.toDate,
+      //   setJournalData,
+      //   setLoading
+      // );
     } else if (values?.type?.value === 2) {
       getDepreciationGenLedgerList(
         profileData?.accountId,
@@ -137,6 +139,31 @@ const ReconciliationJournal = () => {
       );
     }
   };
+
+  const detailsData = (values, isBaseTypeId) => {
+    if (values?.type?.value === 1 && values?.transactionType?.value === 1) {
+      getInventoryJournal(
+        profileData?.accountId,
+        selectedBusinessUnit?.value,
+        values?.sbu?.value,
+        values?.fromDate,
+        values?.toDate,
+        setJournalData,
+        setLoading
+      );
+    }
+    if(values?.type?.value === 1 && values?.transactionType?.value !== 1){
+      getReconcilationJournelData(
+        selectedBusinessUnit?.value,
+        values?.fromDate,
+        values?.toDate,
+        values?.transactionType?.value,
+        isBaseTypeId,
+        setJournalData,
+        setLoading
+      )
+    }
+  }
 
   const saveHandler = async (values, cb) => {
     // setLoading(true);
@@ -476,32 +503,103 @@ const ReconciliationJournal = () => {
                       </table>
                     </div>
                   </div>
-                  {values?.type?.value === 1 ? (
-                    <div className="text-center">
-                      <h3 className="mt-2">Breakdown Of COGS</h3>
-                    </div>
-                  ) : null}
-                  {journalData?.length > 0 ? (
+                  {values?.type?.value === 2 && (
                     <div className="d-flex justify-content-end mt-2">
                       <ReactHtmlTableToExcel
                         id="test-table-xls-button"
                         className="download-table-xls-button btn btn-primary ml-2"
-                        table={
-                          values?.type?.value === 1 ? "cogs" : "depreciation"
-                        }
-                        filename={
-                          values?.type?.value === 1
-                            ? "Breakdown Of COGS"
-                            : "Depreciation"
-                        }
+                        table={"depreciation"}
+                        filename={"Depreciation"}
                         sheet="Sheet-1"
                         buttonText="Export Excel"
                       />
+                  </div>
+                  )}
+                  {/* {values?.type?.value === 1 ? (
+                    <div className="text-center">
+                      <h3 className="mt-2">Breakdown Of COGS</h3>
                     </div>
+                  ) : null} */}
+                  {(values?.type?.value === 1 && jounalLedgerData?.length > 0) &&(
+                   
+                    <>
+                    <div className="row mt-3">
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="transactionType"
+                          options={[
+                            {value: 1, label: "Breakdown Of COGS"},
+                            {value: 9, label: "Issue for Cost Center"},
+                            {value: 10, label: "Issue For Maintenance"},
+                            {value: 14, label: "Issue For Shop Floor"},
+                            {value: 12, label: "Issue for Delivery"},
+                            {value: 25, label: "Inventory Adjustment"},
+                            {value: 59, label: "Receive from Shop Floor"},
+                          ]}
+                          value={values?.transactionType}
+                          label="Transaction Type"
+                          onChange={(valueOption) => {
+                            setFieldValue("transactionType", valueOption);
+                            // setJounalLedgerData([]);
+                            setJournalData([]);
+
+                          }}
+                          placeholder="Transaction Type"
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+                      <div className="col-lg-2 mt-5">
+                        <button
+                          className="btn btn-primary mr-2"
+                          type="button"
+                          onClick={() => {
+                            console.log("error",errors)
+                            detailsData(values, 0);
+                            setIsDayBased(0)
+                          }}
+                        >
+                          Summary
+                        </button>
+                      </div>
+                      <div className="col-lg-2 mt-5">
+                        <button
+                          className="btn btn-primary mr-2"
+                          type="button"
+                          onClick={() => {
+                            detailsData(values, 1);
+                            setIsDayBased(1)
+                          }}
+                        >
+                          Details
+                        </button>
+                      </div>
+                    </div>
+                    </>
+                  )}
+                  {(journalData?.length > 0 && values?.type?.value === 1) ? (
+                    <>
+                      <div className="text-center">
+                        <h3 className="mt-2">{values?.transactionType?.label || ""}</h3>
+                      </div>
+
+                      <div className="d-flex justify-content-end mt-2">
+                        <ReactHtmlTableToExcel
+                          id="test-table-xls-button"
+                          className="download-table-xls-button btn btn-primary ml-2"
+                          table={ "cogs"}
+                          filename={values?.transactionType?.label || "reconsilationJournel"}
+                          sheet="Sheet-1"
+                          buttonText="Export Excel"
+                        />
+                      </div>
+                    </>
                   ) : null}
-                  {values?.type?.value === 1 && (
+                  {(values?.type?.value === 1 && jounalLedgerData?.length > 0) && (
                     <COGSTable 
                       journalData={journalData}
+                      landingValues={values}
+                      isDayBased={isDayBased}
                     />
                   )}
                   {values?.type?.value === 2 && (
@@ -509,156 +607,6 @@ const ReconciliationJournal = () => {
                       journalData={journalData}
                     />
                   )}
-                  {/* <table
-                    id={values?.type?.value === 1 ? "cogs" : "depreciation"}
-                    className="table table-striped table-bordered global-table mt-0 table-font-size-sm mt-5"
-                  >
-                    <thead className="bg-secondary">
-                      {values?.type?.value === 1 && (
-                        <tr>
-                          <th>SL</th>
-                          <th>Item Code</th>
-                          <th>Item Name</th>
-                          <th>Profit Center</th>
-                          <th>Quantity</th>
-                          <th>Avg. COGS</th>
-                          <th>Amount</th>
-                        </tr>
-                      )}
-                      {values?.type?.value === 2 && (
-                        <tr>
-                          <th>SL</th>
-                          <th>Asset Code</th>
-                          <th>Asset Description</th>
-                          <th>Salvage Value</th>
-                          <th>Asset Value</th>
-                          <th style={{ width: "100px" }}>Depriciation Rate</th>
-                          <th>Accumulate Depriciation</th>
-                          <th>Net value</th>
-                          <th>Last Depriciation Run Date</th>
-                          <th style={{ width: "100px" }}>
-                            Depriciation Amount
-                          </th>
-                        </tr>
-                      )}
-                    </thead>
-                    <tbody>
-                      {values?.type?.value === 1 && (
-                        <>
-                          {journalData?.map((item, index) => (
-                            <tr key={index}>
-                              <td className="text-center">{index + 1}</td>
-                              <td className="text-center">
-                                {item?.strItemCode}
-                              </td>
-                              <td>{item?.strItemName}</td>
-                              <td>{item?.strProfitCenterName}</td>
-                              <td className="text-right">{item?.numQty}</td>
-                              <td className="text-right">
-                                {item?.numAvgCOGS.toFixed(2)}
-                              </td>
-                              <td className="text-right">
-                                {item?.numValue.toFixed(2)}
-                              </td>
-                            </tr>
-                          ))}
-                          <tr>
-                            <td
-                              colSpan="4"
-                              className="text-right font-weight-bold"
-                            >
-                              Total
-                            </td>
-                            <td className="text-right font-weight-bold">
-                              {numberWithCommas(
-                                journalData
-                                  ?.reduce((acc, item) => acc + item.numQty, 0)
-                                  .toFixed(2)
-                              )}
-                            </td>
-                            <td></td>
-                            <td className="text-right font-weight-bold">
-                              {numberWithCommas(
-                                journalData
-                                  ?.reduce(
-                                    (acc, item) => acc + item.numValue,
-                                    0
-                                  )
-                                  .toFixed(2)
-                              )}
-                            </td>
-                          </tr>
-                        </>
-                      )}
-                      {values?.type?.value === 2 && (
-                        <>
-                          {journalData?.map((item, index) => (
-                            <tr key={index}>
-                              <td className="text-center">{index + 1}</td>
-                              <td className="text-center">
-                                {item?.strAssetCode}
-                              </td>
-                              <td className="text-center">
-                                {item?.strAssetDescription}
-                              </td>
-                              <td className="text-right">
-                                {item?.numSalvageValue}
-                              </td>
-                              <td className="text-right">
-                                {numberWithCommas(
-                                  Math.round(item?.numAcquisitionValue)
-                                )}
-                              </td>
-                              <td className="text-right">
-                                {item?.numDepRate || 0}
-                              </td>
-                              <td className="text-right">
-                                {numberWithCommas(
-                                  Math.round(item?.numTotalDepValue)
-                                )}
-                              </td>
-                              <td className="text-right">
-                                {numberWithCommas(
-                                  Math.round(item?.numNetValue)
-                                )}
-                              </td>
-                              <td className="text-center">
-                                {_dateFormatter(item?.dteDepRunDate)}
-                              </td>
-                              <td className="text-right">
-                                {numberWithCommas(
-                                  Math.round(item?.numDepAmount)
-                                )}
-                              </td>
-                            </tr>
-                          ))}
-                          <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td className="text-right font-weight-bold">
-                              Total
-                            </td>
-                            <td className="text-right font-weight-bold">
-                              {numberWithCommas(
-                                Math.round(
-                                  journalData?.reduce(
-                                    (acc, item) => acc + item.numDepAmount,
-                                    0
-                                  )
-                                )
-                              )}
-                            </td>
-                          </tr>
-                        </>
-                      )}
-                    </tbody>
-                  </table> */}
                   <>
                     <DropzoneDialogBase
                       filesLimit={1}
