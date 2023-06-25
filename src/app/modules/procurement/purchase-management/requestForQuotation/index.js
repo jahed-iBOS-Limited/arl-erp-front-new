@@ -481,8 +481,7 @@ export default function RequestForQuotationLanding() {
                                     setStatus(null);
                                 }}
                             >
-                                {/* <RfqViewModal code={id} title={`${rfqCode}`} status={status} createdBy={createdBy} /> */}
-                                <RfqModalForView id={id} title={`${rfqCode}`} status={status} createdBy={createdBy} />
+                                <RfqModalForView rfqId={id} rfqCode={`${rfqCode}`} rfqStatus={status} rfqCreatedBy={createdBy} />
                             </IViewModal>
                         </Form>
                     </IForm>
