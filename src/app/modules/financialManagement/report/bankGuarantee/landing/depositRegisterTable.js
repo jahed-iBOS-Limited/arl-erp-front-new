@@ -1,9 +1,9 @@
 import React from "react";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDispatch } from "react-redux";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import PaginationTable from "../../../../_helper/_tablePagination";
 
 export default function DepositRegisterTable({
   rowData,

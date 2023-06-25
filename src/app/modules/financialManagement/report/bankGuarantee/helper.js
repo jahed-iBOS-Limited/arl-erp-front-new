@@ -1,3 +1,5 @@
+import { dateFormatterForInput } from "../../../productionManagement/msilProduction/meltingProduction/helper";
+
 export const initData = {
   sbu: "",
   bank: "",
@@ -67,5 +69,46 @@ export const makePayload = ({
     isLatestVersion: true,
     intActionBy: userId || 0,
     strStatus: "",
+  };
+};
+
+export const getModifyData = ({ location }) => {
+  return {
+    sbu: {
+      value: location?.state?.intSbuId,
+      label: location?.state?.strSbu,
+    },
+    bank: {
+      value: location?.state?.intBankId,
+      label: location?.state?.strBankName,
+    },
+    bankGuaranteeNumber: location?.state?.strBankGuaranteeNumber,
+    beneficiary: {
+      value: location?.state?.intBankAccountId,
+      label: location?.state?.strBeneficiaryLabel,
+      accountName: location?.state?.strBeneficiaryName,
+      bankAccNo: location?.state?.strBeneficiaryNumber,
+    },
+    issuingDate: dateFormatterForInput(location?.state?.dteIssueDate),
+    endingDate: dateFormatterForInput(location?.state?.dteEndingDate),
+    tDays: location?.state?.intTdays,
+    currency: {
+      value: location?.state?.intCurrencyId,
+      label: location?.state?.strCurrency,
+    },
+    marginRef: location?.state?.strMarginRef,
+    securityType: {
+      value: location?.state?.strSecurityType,
+      label: location?.state?.strSecurityType,
+    },
+    retirementDate: dateFormatterForInput(location?.state?.dteEndingDate),
+    amount: location?.state?.numAmount,
+    inFavOf: location?.state?.strInFavOf,
+    purpose: location?.state?.strPurpose,
+    responsiblePerson: {
+      value: location?.state?.intResponsiblePersonId,
+      label: location?.state?.strResponsiblePerson,
+    },
+    note: location?.state?.strRemarks,
   };
 };

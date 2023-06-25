@@ -1,17 +1,16 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { shallowEqual, useSelector } from "react-redux";
+import { useLocation, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import IForm from "../../../../_helper/_form";
 import Loading from "../../../../_helper/_loading";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { getModifyData, initData, makePayload } from "../helper";
+import "../style.css";
 import BankGuarantee from "./bankGuarantee";
 import DepositRegister from "./depositRegister";
-import { initData, makePayload } from "../helper";
-import "../style.css";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { dateFormatterForInput } from "../../../../productionManagement/msilProduction/meltingProduction/helper";
 
 const validationSchema = Yup.object().shape({
   item: Yup.object()
@@ -41,51 +40,13 @@ export default function BankGuaranteeEntry() {
   const location = useLocation();
   const [modifyData, setModifyData] = useState({});
 
-  console.log("location", location);
-
   useEffect(() => {
     if (location?.state?.intId && entryType !== "create") {
-      setModifyData({
-        sbu: {
-          value: location?.state?.intSbuId,
-          label: location?.state?.strSbu,
-        },
-        bank: {
-          value: location?.state?.intBankId,
-          label: location?.state?.strBankName,
-        },
-        bankGuaranteeNumber: location?.state?.strBankGuaranteeNumber,
-        beneficiary: {
-          value: location?.state?.intBankAccountId,
-          label: location?.state?.strBeneficiaryLabel,
-          accountName: location?.state?.strBeneficiaryName,
-          bankAccNo: location?.state?.strBeneficiaryNumber,
-        },
-        issuingDate: dateFormatterForInput(location?.state?.dteIssueDate),
-        endingDate: dateFormatterForInput(location?.state?.dteEndingDate),
-        tDays: location?.state?.intTdays,
-        currency: {
-          value: location?.state?.intCurrencyId,
-          label: location?.state?.strCurrency,
-        },
-        marginRef: location?.state?.strMarginRef,
-        securityType: {
-          value: location?.state?.strSecurityType,
-          label: location?.state?.strSecurityType,
-        },
-        retirementDate: dateFormatterForInput(location?.state?.dteEndingDate),
-        amount: location?.state?.numAmount,
-        inFavOf: location?.state?.strInFavOf,
-        purpose: location?.state?.strPurpose,
-        responsiblePerson: {
-          value: location?.state?.intResponsiblePersonId,
-          label: location?.state?.strResponsiblePerson,
-        },
-        note: location?.state?.strRemarks,
-      });
+      setModifyData(getModifyData({ location }));
 
       setAttachmentFile(location?.state?.strAttachment || "");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
   useEffect(() => {
@@ -109,7 +70,7 @@ export default function BankGuaranteeEntry() {
         selectedBusinessUnit,
         typeId,
         userId: profileData?.userId,
-        location
+        location,
       }),
       entryType === "create"
         ? () => {

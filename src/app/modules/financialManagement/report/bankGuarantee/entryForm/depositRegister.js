@@ -1,10 +1,10 @@
+import axios from "axios";
 import React, { useRef } from "react";
-import NewSelect from "../../../../_helper/_select";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import InputField from "../../../../_helper/_inputField";
+import NewSelect from "../../../../_helper/_select";
 import { attachmentUpload } from "../../../../_helper/attachmentUpload";
 import placeholderImg from "../../../../_helper/images/placeholderImg.png";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import axios from "axios";
 export default function DepositRegister({
   values,
   setFieldValue,

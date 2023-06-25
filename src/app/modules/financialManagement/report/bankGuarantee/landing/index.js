@@ -1,18 +1,18 @@
 import { Form, Formik } from "formik";
 import React from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
 import IForm from "../../../../_helper/_form";
+import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import BankGuaranteeTable from "./bankGuaranteeTable";
 import DepositRegisterTable from "./depositRegisterTable";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
 const initData = {
   type: { value: 1, label: "Bank Guarantee" },
 };
 export default function BankGuaranteeLanding() {
-  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+  const { selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
