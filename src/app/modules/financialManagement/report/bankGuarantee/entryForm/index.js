@@ -1,7 +1,7 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import IForm from "../../../../_helper/_form";
 import Loading from "../../../../_helper/_loading";
@@ -39,6 +39,7 @@ export default function BankGuaranteeEntry() {
   const [, createHandler, saveLoading] = useAxiosPost();
   const location = useLocation();
   const [modifyData, setModifyData] = useState({});
+  const history = useHistory();
 
   useEffect(() => {
     if (location?.state?.intId && entryType !== "create") {
@@ -76,6 +77,7 @@ export default function BankGuaranteeEntry() {
         ? () => {
             cb();
             setAttachmentFile("");
+            history.push(`/financial-management/banking/BankGuarantee`);
           }
         : null,
       true
