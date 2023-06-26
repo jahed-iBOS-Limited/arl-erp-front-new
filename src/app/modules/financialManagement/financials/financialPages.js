@@ -31,6 +31,7 @@ import BulkJVLanding from "./bulkJV/table/tableHeader";
 import TransferJournalToTax from "./transferJournalToTax";
 import BankLimit from "./bankLimit/table/tableRow";
 import CreateBankLimit from "./bankLimit/form";
+import ProductionCost from "./productionCosting";
 // import DepreciationJournal from "./depreciationJournal/table/tableHeader"
 
 export function FinalcialPages() {
@@ -44,6 +45,8 @@ export function FinalcialPages() {
   const adjustmentJournal = userRole[findIndex(userRole, "Adjustment Journal")];
   const busisnessTransaction =
     userRole[findIndex(userRole, "Business Transaction")];
+
+  const productionCostPermission = userRole[findIndex(userRole, "Production Costing")];
 
   return (
     <Switch>
@@ -208,13 +211,17 @@ export function FinalcialPages() {
         path="/financial-management/financials/transfer-journal-tax"
         component={TransferJournalToTax}
       />
-       <ContentRoute
+      <ContentRoute
         path="/financial-management/financials/limitBank/create"
         component={CreateBankLimit}
       />
       <ContentRoute
         path="/financial-management/financials/limitBank"
         component={BankLimit}
+      />
+      <ContentRoute
+        path="/financial-management/financials/ProductionCosting"
+        component={productionCostPermission?.isView ? ProductionCost : NotPermittedPage}
       />
     </Switch>
   );
