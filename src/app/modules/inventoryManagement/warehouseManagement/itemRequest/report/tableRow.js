@@ -118,10 +118,10 @@ export function ItemReqViewTableRow({ IrId }) {
                             ? "Pending"
                             : "Approved"}
                         </sapn>
-                        Purpose:
+                        {/* Purpose:
                         <sapn className="font-weight-bold mr-2 ml-1">
                           {itemReqReport?.objHeader?.purpose}
-                        </sapn>
+                        </sapn> */}
                       </div>
                       <table
                         className="table table-striped table-bordered global-table"
