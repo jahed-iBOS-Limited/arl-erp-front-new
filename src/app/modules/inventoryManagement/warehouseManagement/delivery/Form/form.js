@@ -11,7 +11,14 @@ import { useSelector } from "react-redux";
 import { shallowEqual } from "react-redux";
 import InputField from "./../../../../_helper/_inputField";
 import { toast } from "react-toastify";
-import { bagType, carType, deliveryMode, mode } from "../utils";
+import {
+  GetShipmentTypeApi,
+  bagType,
+  carType,
+  deliveryMode,
+  mode,
+} from "../utils";
+import FormikInput from "../../../../chartering/_chartinghelper/common/formikInput";
 // Validation schema
 export const validationSchema = Yup.object().shape({
   warehouse: Yup.object().shape({
@@ -22,6 +29,13 @@ export const validationSchema = Yup.object().shape({
     label: Yup.string().required("Sold To Party is required"),
     value: Yup.string().required("Sold To Party is required"),
   }),
+  shipmentType: Yup.object().shape({
+    label: Yup.string().required("Shipment Type is required"),
+    value: Yup.string().required("Shipment Type is required"),
+  }),
+  requestTime: Yup.string().required(
+    "Shipment Schedule Date & Time is required"
+  ),
   // shipToParty: Yup.object().shape({
   //   label: Yup.string().required("Ship To Party is required"),
   //   value: Yup.string().required("Ship To Party is required"),
@@ -86,10 +100,18 @@ export default function _Form({
   }, shallowEqual);
 
   const dispatch = useDispatch();
+  const [shipmentTypeDDl, setShipmentTypeDDl] = React.useState([]);
 
   const totalAmountCalFunc = (array, name) => {
-    const totalQty = array?.reduce((acc, cur) => acc + +cur?.[name], 0);
-    return totalQty;
+    if (name === "vatAmount" || name === "amount") {
+      const totalQty = array?.reduce((acc, cur) => {
+        return acc + +cur?.[name] + (+cur?.extraRate || 0);
+      }, 0);
+      return Number(totalQty.toFixed(2));
+    } else {
+      const totalQty = array?.reduce((acc, cur) => acc + +cur?.[name], 0);
+      return Number(totalQty.toFixed(2));
+    }
   };
   //M/S The Successors businessUnit
   const isTransportRate = selectedBusinessUnit?.value === 94;
@@ -169,52 +191,63 @@ export default function _Form({
         }) => (
           <>
             {setBtnDisabled(isAvailableBalance(values?.itemLists))}
-            <Form className="form form-label-right">
-              <div className="row">
+            <Form className='form form-label-right'>
+              <div className='row'>
                 {values?.warehouse && (
                   <div
-                    className="col-lg-12 text-center  h-75"
+                    className='col-lg-12 text-center  h-75'
                     style={{ backgroundColor: "yellow" }}
                   >
                     <h5
                       style={{ fontSize: "30px", marginBottom: "0px" }}
-                      className="text-middle py-2"
+                      className='text-middle py-2'
                     >
                       Selected Warehouse: {values?.warehouse?.label}
                     </h5>
                   </div>
                 )}
-                <div className="col-lg-12">
-                  <div className="row bank-journal bank-journal-custom bj-left pb-2">
-                    <div className="col-lg-3 mb-1">
+                <div className='col-lg-12'>
+                  <div className='row bank-journal bank-journal-custom bj-left pb-2'>
+                    <div className='col-lg-3 mb-1'>
                       <NewSelect
-                        name="warehouse"
+                        name='warehouse'
                         options={warehouseDDL}
                         value={values?.warehouse}
-                        label="Select Warehouse"
+                        label='Select Warehouse'
                         onChange={(valueOption) => {
                           setFieldValue("warehouse", valueOption);
                           setFieldValue("itemLists", []);
                         }}
-                        placeholder="Select Warehouse"
+                        placeholder='Select Warehouse'
                         errors={errors}
                         touched={touched}
                         isDisabled={isEdit}
                       />
                     </div>
-                    <div className="col-lg-3 mb-1">
+                    <div className='col-lg-3 mb-1'>
                       <NewSelect
-                        name="soldToParty"
+                        name='soldToParty'
                         options={soldToPartnerDDL}
                         value={values?.soldToParty}
-                        label="Select Sold To Party"
+                        label='Select Sold To Party'
                         onChange={(valueOption) => {
                           setFieldValue("soldToParty", valueOption);
                           setFieldValue("shipToParty", "");
                           setFieldValue("salesOrder", "");
+                          setFieldValue("shipmentType", "");
                           shipToPartyDispatcher(valueOption?.value);
+                          GetShipmentTypeApi(
+                            profileData?.accountId,
+                            selectedBusinessUnit.value,
+                            valueOption?.terriToryId,
+                            setShipmentTypeDDl,
+                            setDisabled,
+                            (resData) => {
+                              setFieldValue("shipmentType", resData?.[0] || "");
+                            }
+                          );
                         }}
-                        placeholder="Select Sold To Party"
+                        placeholder='Select Sold To Party'
                         errors={errors}
                         touched={touched}
                         isDisabled={
@@ -222,117 +255,152 @@ export default function _Form({
                         }
                       />
                     </div>
-                    <div className="col-lg-3 mb-1">
+                    <div className='col-lg-3 mb-1'>
                       <NewSelect
-                        name="deliveryType"
+                        name='deliveryType'
                         options={deliveryTypeDDL}
                         value={values?.deliveryType}
-                        label="Select Delivery Type"
+                        label='Select Delivery Type'
                         onChange={(valueOption) => {
                           setFieldValue("deliveryType", valueOption);
                         }}
-                        placeholder="Delivery Type"
+                        placeholder='Delivery Type'
                         errors={errors}
                         touched={touched}
                         isDisabled={isEdit}
                       />
                     </div>
-                    <div className="col-lg-3">
+                    <div className='col-lg-3'>
                       <label>Delivery Date</label>
                       <InputField
                         value={values?.deliveryDate}
-                        name="deliveryDate"
-                        placeholder="Delivery Date"
-                        type="date"
+                        name='deliveryDate'
+                        placeholder='Delivery Date'
+                        type='date'
                         disabled={isEdit}
                       />
                     </div>
-                    <div className="col-lg-3">
+                    <div className='col-lg-3'>
                       <NewSelect
-                        name="mode"
+                        name='mode'
                         options={mode}
                         value={values?.mode}
-                        label="Select Mode"
+                        label='Select Mode'
                         onChange={(valueOption) => {
                           setFieldValue("mode", valueOption);
                         }}
-                        placeholder="Select Mode"
+                        placeholder='Select Mode'
                         errors={errors}
                         touched={touched}
                         isDisabled={isEdit}
                       />
                     </div>
-                    <div className="col-lg-3">
+                    <div className='col-lg-3'>
                       <NewSelect
-                        name="carType"
+                        name='carType'
                         options={carType}
                         value={values?.carType}
-                        label="Select Car Type"
+                        label='Select Car Type'
                         onChange={(valueOption) => {
                           setFieldValue("carType", valueOption);
                         }}
-                        placeholder="Select Car Type"
+                        placeholder='Select Car Type'
                         errors={errors}
                         touched={touched}
                         isDisabled={isEdit}
                       />
                     </div>
                     {selectedBusinessUnit?.value === 4 && (
-                      <div className="col-lg-3">
+                      <div className='col-lg-3'>
                         <NewSelect
-                          name="bagType"
+                          name='bagType'
                           options={bagType}
                           value={values?.bagType}
-                          label="Select Bag Type"
+                          label='Select Bag Type'
                           onChange={(valueOption) => {
                             setFieldValue("bagType", valueOption);
                           }}
-                          placeholder="Select Bag Type"
+                          placeholder='Select Bag Type'
                           errors={errors}
                           touched={touched}
                           isDisabled={isEdit}
                         />
                       </div>
                     )}
-                    <div className="col-lg-3">
+                    <div className='col-lg-3'>
                       <NewSelect
-                        name="deliveryMode"
+                        name='deliveryMode'
                         options={deliveryMode}
                         value={values?.deliveryMode}
-                        label="Select Delivery Mode"
+                        label='Select Delivery Mode'
                         onChange={(valueOption) => {
                           setFieldValue("deliveryMode", valueOption);
                         }}
-                        placeholder="Select Delivery Mode"
+                        placeholder='Select Delivery Mode'
                         errors={errors}
                         touched={touched}
                         isDisabled={isEdit}
                       />
                     </div>
-                    <div className="col-lg-3">
+                    <div className='col-lg-3'>
                       <NewSelect
-                        name="category"
+                        name='category'
                         options={categoryDDL}
                         value={values?.category}
-                        label="Category"
+                        label='Category'
                         onChange={(valueOption) => {
                           setFieldValue("category", valueOption);
                         }}
-                        placeholder="Select Category"
+                        placeholder='Select Category'
                         errors={errors}
                         touched={touched}
                         isDisabled={isEdit}
                       />
                     </div>
-                    <div className="col-lg-12">
-                      <hr className="mt-2 mb-1" />
+                    {[4].includes(selectedBusinessUnit?.value) && (
+                      <>
+                        <div className='col-lg-3'>
+                          <NewSelect
+                            name='shipmentType'
+                            options={shipmentTypeDDl}
+                            value={values?.shipmentType}
+                            label='Select Shipment Type'
+                            onChange={(valueOption) => {
+                              setFieldValue("shipmentType", valueOption);
+                            }}
+                            placeholder='Select Shipment Type'
+                            errors={errors}
+                            touched={touched}
+                            isDisabled={
+                              values?.itemLists?.length > 0 ? true : isEdit
+                            }
+                            isClearable={false}
+                          />
+                        </div>
+                        {!isEdit && (
+                          <div className='col-lg-3'>
+                            <label>Shipment Schedule Date & Time</label>
+                            <FormikInput
+                              value={values?.requestTime}
+                              name='requestTime'
+                              type='datetime-local'
+                              errors={errors}
+                              touched={touched}
+                            />
+                          </div>
+                        )}
+                      </>
+                    )}
+
+                    <div className='col-lg-12'>
+                      <hr className='mt-2 mb-1' />
                     </div>
-                    <div className="col-lg-3 mb-1">
+                    <div className='col-lg-3 mb-1'>
                       <NewSelect
-                        name="salesOrder"
+                        name='salesOrder'
                         options={salesOrderDDL}
                         value={values?.salesOrder}
-                        label="Select Order No"
+                        label='Select Order No'
                         onChange={(valueOption) => {
                           setFieldValue("salesOrder", valueOption);
                           setFieldValue("shipToParty", "");
@@ -352,22 +420,22 @@ export default function _Form({
                             )
                           );
                         }}
-                        placeholder="Select Order No"
+                        placeholder='Select Order No'
                         errors={errors}
                         touched={touched}
                         isDisabled={!values?.warehouse?.value || isEdit}
                       />
                     </div>
-                    <div className="col-lg-3 mb-1">
+                    <div className='col-lg-3 mb-1'>
                       <NewSelect
-                        name="shipToParty"
+                        name='shipToParty'
                         options={shipToPartner}
                         value={values?.shipToParty}
-                        label="Select Ship To Party"
+                        label='Select Ship To Party'
                         onChange={(valueOption) => {
                           setFieldValue("shipToParty", valueOption);
                         }}
-                        placeholder="Select Ship To Party"
+                        placeholder='Select Ship To Party'
                         errors={errors}
                         touched={touched}
                         isDisabled={
@@ -379,11 +447,11 @@ export default function _Form({
                     </div>
 
                     <>
-                      <div className="col-lg-1 d-flex align-items-center">
+                      <div className='col-lg-1 d-flex align-items-center'>
                         <button
-                          className="btn btn-primary"
+                          className='btn btn-primary'
                           style={{ marginTop: "11px" }}
-                          type="button"
+                          type='button'
                           onClick={() => addBtnHandler(values, setValues)}
                           disabled={
                             values?.warehouse &&
@@ -399,7 +467,7 @@ export default function _Form({
                         </button>
                       </div>
 
-                      <div className="col-lg-5 delivery_Information">
+                      <div className='col-lg-5 delivery_Information'>
                         {partnerBalance && (
                           <ul>
                             <li>
@@ -427,7 +495,7 @@ export default function _Form({
                             </li>
                             <li>
                               <div>
-                                <b className="">Delivery Amount: </b>
+                                <b className=''>Delivery Amount: </b>
                                 <span
                                   className={
                                     isAvailableBalance(values?.itemLists)
@@ -472,305 +540,331 @@ export default function _Form({
               </div>
 
               {/* table */}
-              <div className="row cash_journal bank-journal bank-journal-custom">
-                <div className="col-lg-12 pr-0 pl-0">
+              <div className='row cash_journal bank-journal bank-journal-custom'>
+                <div className='col-lg-12 pr-0 pl-0'>
                   {values?.itemLists?.length > 0 && (
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                      <thead>
-                        <tr>
-                          <th style={{ width: "75px" }}>Item Code</th>
-                          <th style={{ width: "120px" }}>Specification</th>
-                          <th style={{ width: "120px" }}>Ship to Party</th>
-                          <th style={{ width: "120px" }}>Address</th>
-                          <th style={{ width: "120px" }}>Item</th>
-                          <th style={{ width: "120px" }}>Select Location</th>
-                          <th style={{ width: "20px" }}>Price</th>
-                          {isTransportRate && (
-                            <th style={{ width: "20px" }}>Transport Rate</th>
-                          )}
-                          <th style={{ width: "20px" }}>Available Stock</th>
-                          <th style={{ width: "20px" }}>Order Qty</th>
-                          <th style={{ width: "20px" }}>Pending Qty</th>
-                          <th style={{ width: "120px" }}>Delivery Qty</th>
-                          <th style={{ width: "10px" }}>Offers</th>
-                          {!isEdit && <th style={{ width: "50px" }}>Action</th>}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {values?.itemLists.map((itm, index) => {
-                          let _numItemPrice = itm?.isVatPrice
-                            ? itm?.vatItemPrice
-                            : itm?.numItemPrice;
-                          return (
-                            <>
-                              <tr key={index}>
-                                <td>
-                                  <div className="pl-2">{itm.itemCode}</div>
-                                </td>
-                                <td>
-                                  <div className="pl-2">
-                                    {itm.specification}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="pl-2">{itm.shipToParty}</div>
-                                </td>
-                                <td>
-                                  <div className="pl-2">
-                                    {itm.shipToPartnerAddress}
-                                  </div>
-                                </td>
-                                <td style={{ width: "90px" }}>
-                                  <div className="pl-2">{itm.itemName}</div>
-                                </td>
-                                <td
-                                  style={{
-                                    width: "75px",
-                                    verticalAlign: "middle",
-                                  }}
-                                  className="locationRowFild"
-                                >
-                                  <NewSelect
-                                    name={`itemLists.${index}.selectLocation`}
-                                    options={itm?.objLocation}
-                                    value={
-                                      values?.itemLists[index]
-                                        ?.selectLocation || ""
-                                    }
-                                    onChange={(valueOption) => {
-                                      setFieldValue(
-                                        `itemLists.${index}.selectLocation`,
-                                        valueOption || ""
-                                      );
-                                    }}
-                                    errors={errors}
-                                    touched={touched}
-                                    isDisabled={isEdit}
-                                  />
-                                </td>
-                                <td style={{ width: "20px" }}>
-                                  <div className="text-right pr-2">
-                                    {_numItemPrice}
-                                  </div>
-                                </td>
-                                {isTransportRate && (
-                                  <td
-                                    style={{ width: "20px" }}
-                                    className="text-right"
-                                  >
-                                    {itm.transportRate || 0}
+                    <div className='table-responsive'>
+                      <table className='table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table'>
+                        <thead>
+                          <tr>
+                            <th style={{ width: "75px" }}>Item Code</th>
+                            <th style={{ width: "120px" }}>Specification</th>
+                            <th style={{ width: "120px" }}>Ship to Party</th>
+                            <th style={{ width: "120px" }}>Address</th>
+                            <th style={{ width: "120px" }}>Item</th>
+                            <th style={{ width: "120px" }}>Select Location</th>
+                            <th style={{ width: "20px" }}>Price</th>
+                            {[4].includes(selectedBusinessUnit?.value) && (
+                              <>
+                                <th style={{ width: "20px" }}>Extra Rate</th>
+                              </>
+                            )}
+                            {isTransportRate && (
+                              <th style={{ width: "20px" }}>Transport Rate</th>
+                            )}
+                            <th style={{ width: "20px" }}>Available Stock</th>
+                            <th style={{ width: "20px" }}>Order Qty</th>
+                            <th style={{ width: "20px" }}>Pending Qty</th>
+                            <th style={{ width: "120px" }}>Delivery Qty</th>
+                            <th style={{ width: "10px" }}>Offers</th>
+                            {!isEdit && (
+                              <th style={{ width: "50px" }}>Action</th>
+                            )}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {values?.itemLists.map((itm, index) => {
+                            let _numItemPrice = itm?.isVatPrice
+                              ? itm?.vatItemPrice
+                              : itm?.numItemPrice;
+                            return (
+                              <>
+                                <tr key={index}>
+                                  <td>
+                                    <div className='pl-2'>{itm.itemCode}</div>
                                   </td>
-                                )}
-                                 <td style={{ width: "20px" }}>
-                                  <div className="text-right pr-2">
-                                    {itm?.availableStock}
-                                  </div>
-                                </td>
-                                <td style={{ width: "20px" }}>
-                                  <div className="text-right pr-2">
-                                    {itm.numOrderQuantity}
-                                  </div>
-                                </td>
-                                <td style={{ width: "20px" }}>
-                                  <div className="text-right pr-2">
-                                    {itm.pendingQty}
-                                  </div>
-                                </td>
-                                <td
-                                  style={{
-                                    width: "150px",
-                                    verticalAlign: "middle",
-                                  }}
-                                >
-                                  <div className="px-2">
-                                    <InputField
+                                  <td>
+                                    <div className='pl-2'>
+                                      {itm.specification}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className='pl-2'>
+                                      {itm.shipToParty}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className='pl-2'>
+                                      {itm.shipToPartnerAddress}
+                                    </div>
+                                  </td>
+                                  <td style={{ width: "90px" }}>
+                                    <div className='pl-2'>{itm.itemName}</div>
+                                  </td>
+                                  <td
+                                    style={{
+                                      width: "75px",
+                                      verticalAlign: "middle",
+                                    }}
+                                    className='locationRowFild'
+                                  >
+                                    <NewSelect
+                                      name={`itemLists.${index}.selectLocation`}
+                                      options={itm?.objLocation}
                                       value={
-                                        values?.itemLists[index]?.deliveryQty ||
-                                        ""
+                                        values?.itemLists[index]
+                                          ?.selectLocation || ""
                                       }
-                                      name={`itemLists.${index}.deliveryQty`}
-                                      placeholder="Delivery Qty"
-                                      type="number"
-                                      step="any"
-                                      onChange={(e) => {
+                                      onChange={(valueOption) => {
                                         setFieldValue(
-                                          `itemLists.${index}.deliveryQty`,
-                                          e.target.value || ""
-                                        );
-                                        setFieldValue(
-                                          `itemLists.${index}.amount`,
-                                          (
-                                            values?.itemLists[index]
-                                              ?.numItemPrice * e.target.value
-                                          ).toFixed(2)
-                                        );
-                                        setFieldValue(
-                                          `itemLists.${index}.vatAmount`,
-                                          (
-                                            values?.itemLists[index]
-                                              ?.vatItemPrice * e.target.value
-                                          ).toFixed(2)
-                                        );
-
-                                        // ======offer item qty change logic=====
-                                        const modifid = values?.itemLists[
-                                          index
-                                        ]?.offerItemList?.map((itm) => {
-                                          let calNumber =
-                                            (+itm?.offerRatio || 0) *
-                                            (+e.target.value || 0);
-                                          let acculNumber = 0;
-                                          const decimalPoint = Number(
-                                            `.${calNumber
-                                              .toString()
-                                              .split(".")[1] || 0}`
-                                          );
-                                          if (decimalPoint >= 0.95) {
-                                            acculNumber = Math.round(calNumber);
-                                          } else {
-                                            acculNumber = Math.floor(calNumber);
-                                          }
-                                          return {
-                                            ...itm,
-                                            deliveryQty: acculNumber,
-                                            isItemShow:
-                                              acculNumber > 0 ? true : false,
-                                          };
-                                        });
-                                        setFieldValue(
-                                          `itemLists.${index}.offerItemList`,
-                                          modifid
+                                          `itemLists.${index}.selectLocation`,
+                                          valueOption || ""
                                         );
                                       }}
                                       errors={errors}
                                       touched={touched}
-                                      max={
-                                        isEdit
-                                          ? itm?.maxDeliveryQty
-                                          : itm?.pendingQty
-                                      }
+                                      isDisabled={isEdit}
                                     />
-                                  </div>
-                                </td>
-                                <td style={{ width: "10px" }}>
-                                  <div className="pl-2">
-                                    {itm.freeItem ? "Yes" : "No"}
-                                  </div>
-                                </td>
-                                {!isEdit && (
-                                  <td className="text-center">
-                                    <i
-                                      className="fa fa-trash"
-                                      onClick={() =>
-                                        remover(index, setValues, values)
-                                      }
-                                    ></i>
                                   </td>
-                                )}
-                              </tr>
-                              {/* offer item show */}
-                              {itm?.offerItemList?.length > 0 ? (
-                                <>
-                                  {itm?.offerItemList
-                                    ?.filter((itm) => itm?.isItemShow)
-                                    ?.map((OfferItm) => (
-                                      <tr key={index}>
-                                        <td>
-                                          <div className="pl-2">
-                                            {OfferItm?.itemCode}
-                                          </div>
-                                        </td>
-                                        <td>
-                                          <div className="pl-2">
-                                            {OfferItm?.specification}
-                                          </div>
-                                        </td>
-                                        <td>
-                                          <div className="pl-2">
-                                            {OfferItm?.shipToParty}
-                                          </div>
-                                        </td>
-                                        <td>
-                                          <div className="pl-2">
-                                            {OfferItm?.shipToPartnerAddress}
-                                          </div>
-                                        </td>
-                                        <td style={{ width: "90px" }}>
-                                          <div className="pl-2">
-                                            {OfferItm?.itemName}
-                                          </div>
-                                        </td>
-                                        <td
-                                          style={{
-                                            width: "75px",
-                                            verticalAlign: "middle",
-                                          }}
-                                          className="locationRowFild"
-                                        >
-                                          {OfferItm?.selectLocation?.label}
-                                        </td>
-                                        <td style={{ width: "20px" }}>
-                                          <div className="text-right pr-2">
-                                            {_numItemPrice}
-                                          </div>
-                                        </td>
-                                        {isTransportRate && (
-                                          <td
-                                            style={{ width: "20px" }}
-                                            className="text-right"
-                                          >
-                                            {OfferItm?.transportRate || 0}
-                                          </td>
-                                        )}
-                                        <td style={{ width: "20px" }}>
-                                          <div className="text-right pr-2">
-                                            {OfferItm?.numOrderQuantity}
-                                          </div>
-                                        </td>
-                                        <td style={{ width: "20px" }}>
-                                          <div className="text-right pr-2">
-                                            {OfferItm?.pendingQty}
-                                          </div>
-                                        </td>
-                                        <td
-                                          style={{
-                                            width: "150px",
-                                            verticalAlign: "middle",
-                                          }}
-                                        >
-                                          <div className="px-2">
-                                            {OfferItm?.deliveryQty}
-                                          </div>
-                                        </td>
-                                        <td style={{ width: "10px" }}>
-                                          <div className="pl-2">Yes</div>
-                                        </td>
+                                  <td style={{ width: "20px" }}>
+                                    <div className='text-right pr-2'>
+                                      {_numItemPrice}
+                                    </div>
+                                  </td>
+                                  {[4].includes(
+                                    selectedBusinessUnit?.value
+                                  ) && (
+                                    <>
+                                      <td style={{ width: "20px" }}>
+                                        <div className='text-right pr-2'>
+                                          {itm?.extraRate || 0}
+                                        </div>
+                                      </td>
+                                    </>
+                                  )}
+                                  {isTransportRate && (
+                                    <td
+                                      style={{ width: "20px" }}
+                                      className='text-right'
+                                    >
+                                      {itm.transportRate || 0}
+                                    </td>
+                                  )}
+                                  <td style={{ width: "20px" }}>
+                                    <div className='text-right pr-2'>
+                                      {itm?.availableStock}
+                                    </div>
+                                  </td>
+                                  <td style={{ width: "20px" }}>
+                                    <div className='text-right pr-2'>
+                                      {itm.numOrderQuantity}
+                                    </div>
+                                  </td>
+                                  <td style={{ width: "20px" }}>
+                                    <div className='text-right pr-2'>
+                                      {itm.pendingQty}
+                                    </div>
+                                  </td>
+                                  <td
+                                    style={{
+                                      width: "150px",
+                                      verticalAlign: "middle",
+                                    }}
+                                  >
+                                    <div className='px-2'>
+                                      <InputField
+                                        value={
+                                          values?.itemLists[index]
+                                            ?.deliveryQty || ""
+                                        }
+                                        name={`itemLists.${index}.deliveryQty`}
+                                        placeholder='Delivery Qty'
+                                        type='number'
+                                        step='any'
+                                        onChange={(e) => {
+                                          setFieldValue(
+                                            `itemLists.${index}.deliveryQty`,
+                                            e.target.value || ""
+                                          );
+                                          setFieldValue(
+                                            `itemLists.${index}.amount`,
+                                            (
+                                              values?.itemLists[index]
+                                                ?.numItemPrice * e.target.value
+                                            ).toFixed(2)
+                                          );
+                                          setFieldValue(
+                                            `itemLists.${index}.vatAmount`,
+                                            (
+                                              values?.itemLists[index]
+                                                ?.vatItemPrice * e.target.value
+                                            ).toFixed(2)
+                                          );
 
-                                        {!isEdit && (
-                                          <td className="text-center"></td>
-                                        )}
-                                      </tr>
-                                    ))}
-                                </>
-                              ) : null}
-                            </>
-                          );
-                        })}
-                      </tbody>
-                    </table>
+                                          // ======offer item qty change logic=====
+                                          const modifid = values?.itemLists[
+                                            index
+                                          ]?.offerItemList?.map((itm) => {
+                                            let calNumber =
+                                              (+itm?.offerRatio || 0) *
+                                              (+e.target.value || 0);
+                                            let acculNumber = 0;
+                                            const decimalPoint = Number(
+                                              `.${calNumber
+                                                .toString()
+                                                .split(".")[1] || 0}`
+                                            );
+                                            if (decimalPoint >= 0.95) {
+                                              acculNumber = Math.round(
+                                                calNumber
+                                              );
+                                            } else {
+                                              acculNumber = Math.floor(
+                                                calNumber
+                                              );
+                                            }
+                                            return {
+                                              ...itm,
+                                              deliveryQty: acculNumber,
+                                              isItemShow:
+                                                acculNumber > 0 ? true : false,
+                                            };
+                                          });
+                                          setFieldValue(
+                                            `itemLists.${index}.offerItemList`,
+                                            modifid
+                                          );
+                                        }}
+                                        errors={errors}
+                                        touched={touched}
+                                        max={
+                                          isEdit
+                                            ? itm?.maxDeliveryQty
+                                            : itm?.pendingQty
+                                        }
+                                      />
+                                    </div>
+                                  </td>
+                                  <td style={{ width: "10px" }}>
+                                    <div className='pl-2'>
+                                      {itm.freeItem ? "Yes" : "No"}
+                                    </div>
+                                  </td>
+                                  {!isEdit && (
+                                    <td className='text-center'>
+                                      <i
+                                        className='fa fa-trash'
+                                        onClick={() =>
+                                          remover(index, setValues, values)
+                                        }
+                                      ></i>
+                                    </td>
+                                  )}
+                                </tr>
+                                {/* offer item show */}
+                                {itm?.offerItemList?.length > 0 ? (
+                                  <>
+                                    {itm?.offerItemList
+                                      ?.filter((itm) => itm?.isItemShow)
+                                      ?.map((OfferItm) => (
+                                        <tr key={index}>
+                                          <td>
+                                            <div className='pl-2'>
+                                              {OfferItm?.itemCode}
+                                            </div>
+                                          </td>
+                                          <td>
+                                            <div className='pl-2'>
+                                              {OfferItm?.specification}
+                                            </div>
+                                          </td>
+                                          <td>
+                                            <div className='pl-2'>
+                                              {OfferItm?.shipToParty}
+                                            </div>
+                                          </td>
+                                          <td>
+                                            <div className='pl-2'>
+                                              {OfferItm?.shipToPartnerAddress}
+                                            </div>
+                                          </td>
+                                          <td style={{ width: "90px" }}>
+                                            <div className='pl-2'>
+                                              {OfferItm?.itemName}
+                                            </div>
+                                          </td>
+                                          <td
+                                            style={{
+                                              width: "75px",
+                                              verticalAlign: "middle",
+                                            }}
+                                            className='locationRowFild'
+                                          >
+                                            {OfferItm?.selectLocation?.label}
+                                          </td>
+                                          <td style={{ width: "20px" }}>
+                                            <div className='text-right pr-2'>
+                                              {_numItemPrice}
+                                            </div>
+                                          </td>
+                                          {isTransportRate && (
+                                            <td
+                                              style={{ width: "20px" }}
+                                              className='text-right'
+                                            >
+                                              {OfferItm?.transportRate || 0}
+                                            </td>
+                                          )}
+                                          <td style={{ width: "20px" }}>
+                                            <div className='text-right pr-2'>
+                                              {OfferItm?.numOrderQuantity}
+                                            </div>
+                                          </td>
+                                          <td style={{ width: "20px" }}>
+                                            <div className='text-right pr-2'>
+                                              {OfferItm?.pendingQty}
+                                            </div>
+                                          </td>
+                                          <td
+                                            style={{
+                                              width: "150px",
+                                              verticalAlign: "middle",
+                                            }}
+                                          >
+                                            <div className='px-2'>
+                                              {OfferItm?.deliveryQty}
+                                            </div>
+                                          </td>
+                                          <td style={{ width: "10px" }}>
+                                            <div className='pl-2'>Yes</div>
+                                          </td>
+
+                                          {!isEdit && (
+                                            <td className='text-center'></td>
+                                          )}
+                                        </tr>
+                                      ))}
+                                  </>
+                                ) : null}
+                              </>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
                   )}
                 </div>
               </div>
 
               <button
-                type="submit"
+                type='submit'
                 style={{ display: "none" }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
-                type="reset"
+                type='reset'
                 style={{ display: "none" }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
