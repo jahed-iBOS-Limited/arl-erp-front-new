@@ -116,6 +116,7 @@ export function TableRow() {
       { name: "ConvertionRate", value: `${values?.conversionRate}` },
       { name: "fdate", value: `${values?.fromDate}` },
       { name: "tdate", value: `${values?.todate}` },
+      { name: "intType", value: `${values?.reportType?.value || 0}` },
     ];
     return agingParameters;
   };

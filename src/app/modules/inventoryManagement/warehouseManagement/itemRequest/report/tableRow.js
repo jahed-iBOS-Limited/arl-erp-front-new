@@ -118,10 +118,10 @@ export function ItemReqViewTableRow({ IrId }) {
                             ? "Pending"
                             : "Approved"}
                         </sapn>
-                        Purpose:
+                        {/* Purpose:
                         <sapn className="font-weight-bold mr-2 ml-1">
                           {itemReqReport?.objHeader?.purpose}
-                        </sapn>
+                        </sapn> */}
                       </div>
                       <table
                         className="table table-striped table-bordered global-table"
@@ -135,7 +135,7 @@ export function ItemReqViewTableRow({ IrId }) {
                             <th>Uom</th>
                             <th>Quantity</th>
                             <th>Issue Quantity</th>
-                            {/* <th>Purpose</th> */}
+                            <th>Purpose</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -160,7 +160,7 @@ export function ItemReqViewTableRow({ IrId }) {
                                     : data?.issueQty.toFixed(2)
                                   : "N/A"}
                               </td>
-                              {/* <td>{data?.remarks}</td> */}
+                              <td>{data?.remarks}</td>
                             </tr>
                           ))}
                         </tbody>

@@ -453,7 +453,7 @@ export default function IncomeStatementTaxLanding() {
                                     className="incTableThPadding"
                                   >
                                     <span>
-                                      Budget
+                                     Financial Budget
                                       <br />
                                       {/* {`${values?.fromDate} to ${values?.todate}`} */}
                                     </span>
@@ -465,6 +465,14 @@ export default function IncomeStatementTaxLanding() {
                                     <span>
                                       Actual <br />
                                       {/* {`${values?.lastPeriodFrom} to ${values?.lastPeriodTo}`} */}
+                                    </span>
+                                  </th>
+                                  <th
+                                    style={{ width: "250px" }}
+                                    className="incTableThPadding"
+                                  >
+                                    <span>
+                                      Budget Tax                                     
                                     </span>
                                   </th>
                                   <th
@@ -532,6 +540,12 @@ export default function IncomeStatementTaxLanding() {
                                             data?.monCurrentPeriodAmount
                                           )}
                                         </span>
+                                      </td>
+
+                                      <td className="text-right">
+                                        {_formatMoney(
+                                          data?.monLastPeriodAmountTax
+                                        )}
                                       </td>
 
                                       <td

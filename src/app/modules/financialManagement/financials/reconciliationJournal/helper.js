@@ -182,3 +182,24 @@ export const getSbuDDL = async (accId, buId, setter) => {
     }
   } catch (error) {}
 };
+
+export const getReconcilationJournelData = async (
+  businessUnitId,
+  fromDate,
+  toDate,
+  intTypeId,
+  isDayBased,
+  setter,
+  setLoading
+) => {
+  setLoading(true);
+  try {
+    const api = `/fino/Report/GetInventoryJournalSubSection?intBusinessUnitId=${businessUnitId}&dteFromDate=${fromDate}&dteToDate=${toDate}&intType=${intTypeId}&isDayBased=${isDayBased}`;
+
+    const res = await axios.get(api);
+    setLoading(false);
+    setter(res?.data);
+  } catch (err) {
+    setLoading(false);
+  }
+};
