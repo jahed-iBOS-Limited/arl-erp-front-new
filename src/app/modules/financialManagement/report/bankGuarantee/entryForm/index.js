@@ -108,7 +108,7 @@ export default function BankGuaranteeEntry() {
               +typeId === 1
                 ? "BANK GUARANTEE"
                 : +typeId === 2
-                ? "DEPOSIT REGISTER"
+                ? "SECURITY DEPOSIT REGISTER"
                 : ""
             }`}
             getProps={setObjprops}

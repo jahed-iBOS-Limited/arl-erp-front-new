@@ -1,6 +1,6 @@
 import { Form, Formik } from "formik";
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import IForm from "../../../../_helper/_form";
 import Loading from "../../../../_helper/_loading";
@@ -9,12 +9,15 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import BankGuaranteeTable from "./bankGuaranteeTable";
 import DepositRegisterTable from "./depositRegisterTable";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-const initData = {
-  type: { value: 1, label: "Bank Guarantee" },
-};
+import { setBankGuaranteeStoreAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+
 export default function BankGuaranteeLanding() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
+  }, shallowEqual);
+
+  const { bankGuarantee } = useSelector((state) => {
+    return state.localStorage;
   }, shallowEqual);
 
   const [pageNo, setPageNo] = React.useState(0);
@@ -22,6 +25,14 @@ export default function BankGuaranteeLanding() {
   const history = useHistory();
   const [rowData, getRowData, loading, setRowData] = useAxiosGet();
   const [, closeHandler] = useAxiosPost();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    getRowData(
+      `/fino/CommonFino/GetBankGuaranteeSecurityRegister?businessUnitId=${selectedBusinessUnit?.value}&type=${bankGuarantee?.type?.label}&pageNo=${pageNo}&pageSize=${pageSize}`
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bankGuarantee]);
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -29,10 +40,11 @@ export default function BankGuaranteeLanding() {
       `/fino/CommonFino/GetBankGuaranteeSecurityRegister?businessUnitId=${selectedBusinessUnit?.value}&type=${values?.type?.label}&pageNo=${pageNo}&pageSize=${pageSize}`
     );
   };
+
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={initData}
+      initialValues={bankGuarantee}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {}}
     >
@@ -97,7 +109,12 @@ export default function BankGuaranteeLanding() {
                     type="button"
                     disabled={!values?.type}
                     onClick={() => {
-                      setPositionHandler(pageNo, pageSize, values);
+                      dispatch(
+                        setBankGuaranteeStoreAction({
+                          type: values.type,
+                        })
+                      );
+                      // setPositionHandler(pageNo, pageSize, values);
                     }}
                   >
                     View
