@@ -243,7 +243,7 @@ function DeliveryScheduleplanReport() {
                                 );
                               })}
                               <tr>
-                                <td className='text-right' colSpan='6'>
+                                <td className='text-right' colSpan='7'>
                                   <b>Total:</b>
                                 </td>
                                 <td className='text-center'>
@@ -254,7 +254,7 @@ function DeliveryScheduleplanReport() {
                                     )}
                                   </b>
                                 </td>
-                                <td colSpan='5'></td>
+                                <td colSpan='4'></td>
                               </tr>
                             </tbody>
                           </table>

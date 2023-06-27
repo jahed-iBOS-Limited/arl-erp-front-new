@@ -14,8 +14,6 @@ import { FormatSix } from "../pdf/format-06";
 import { FormatSeven } from "../pdf/format-07";
 import { generateExcel } from "./excelReportGenarate";
 import { getPdfFormatNumber } from "./pdfFormatNumber";
-import { zakatAdvicePlanExcel } from "../planExcel/zakatAdvicePlanExcel";
-// import { isIBBLZakat } from "./utils";
 const ViewData = ({ adviceReportData, values }) => {
   const [fontSize, setFontSize] = useState(9);
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
