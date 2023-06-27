@@ -16,6 +16,8 @@ export const getLandingDataForConfirmation = async (
   const search = searchTerm ? `&SearchTerm=${searchTerm}` : "";
   try {
     const confirmationTypeId = values?.confirmationType?.value;
+    const soldToPartnerId =
+      values?.type === "badc" ? 73244 : values?.type === "bcic" ? 73245 : 0;
 
     const commonURL = `/tms/LigterLoadUnload/GetLighterChallanInfoConfirmation?Type=${
       values?.confirmationStatus?.value
@@ -23,7 +25,7 @@ export const getLandingDataForConfirmation = async (
       ?.value || 0}&ShipToPartnerId=${values?.shipToPartner?.value ||
       0}&MotherVesselId=${
       values?.motherVessel?.value
-    }&PageNo=${pageNo}&PageSize=${pageSize}${search}`;
+    }&PageNo=${pageNo}&PageSize=${pageSize}${search}&SoldToPartnerId=${soldToPartnerId}`;
 
     const URLForGodownUnloadBill = `/tms/LigterLoadUnload/GetGodownLabourBillInfo?Type=${
       values?.confirmationStatus?.value
@@ -31,7 +33,7 @@ export const getLandingDataForConfirmation = async (
       ?.value || 0}&ShipToPartnerId=${values?.shipToPartner?.value ||
       0}&MotherVesselId=${
       values?.motherVessel?.value
-    }&PageNo=${pageNo}&PageSize=${pageSize}${search}`;
+    }&PageNo=${pageNo}&PageSize=${pageSize}${search}&SoldToPartnerId=${soldToPartnerId}`;
 
     const url = confirmationTypeId === 3 ? URLForGodownUnloadBill : commonURL;
 
