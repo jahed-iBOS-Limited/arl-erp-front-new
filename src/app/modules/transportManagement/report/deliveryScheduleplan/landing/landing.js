@@ -238,7 +238,7 @@ function DeliveryScheduleplanReport() {
                                     </td> */}
                                     <td>{item?.leadTimeHr}</td>
                                     <td>{item?.spendTimeHr}</td>
-                                    <td>{Number(item?.pendingTimeHr || 0).toFixed(2)}</td>
+                                    <td>{item?.pendingTimeHr}</td>
                                   </tr>
                                 );
                               })}
