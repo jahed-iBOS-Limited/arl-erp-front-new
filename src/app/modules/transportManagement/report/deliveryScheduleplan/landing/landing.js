@@ -95,7 +95,10 @@ function DeliveryScheduleplanReport() {
                     <div className='col-lg-3'>
                       <NewSelect
                         name='shipmentType'
-                        options={shipmentTypeDDl}
+                        options={[
+                          { value: 0, label: "All" },
+                          ...shipmentTypeDDl,
+                        ]}
                         value={values?.shipmentType}
                         label='Select Shipment Type'
                         onChange={(valueOption) => {
@@ -198,6 +201,7 @@ function DeliveryScheduleplanReport() {
                                 <th>Quantity</th>
                                 <th>Delivery Schedule Date</th>
                                 <th>Delivery Approximate Time</th>
+                                <th>Pending Time </th>
                               </tr>
                             </thead>
                             <tbody>
@@ -229,6 +233,7 @@ function DeliveryScheduleplanReport() {
                                           item?.deliveryApproximateTime
                                         ).format("DD-MM-YYYY hh:mm: A")}
                                     </td>
+                                    <td>{Number(item?.pendingTimeHr || 0).toFixed(2)}</td>
                                   </tr>
                                 );
                               })}
@@ -244,7 +249,7 @@ function DeliveryScheduleplanReport() {
                                     )}
                                   </b>
                                 </td>
-                                <td colSpan='2'></td>
+                                <td colSpan='3'></td>
                               </tr>
                             </tbody>
                           </table>

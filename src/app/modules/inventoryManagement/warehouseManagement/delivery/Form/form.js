@@ -236,6 +236,7 @@ export default function _Form({
                           setFieldValue("salesOrder", "");
                           setFieldValue("shipmentType", "");
                           shipToPartyDispatcher(valueOption?.value);
+                          setShipmentTypeDDl([])
                           GetShipmentTypeApi(
                             profileData?.accountId,
                             selectedBusinessUnit.value,
