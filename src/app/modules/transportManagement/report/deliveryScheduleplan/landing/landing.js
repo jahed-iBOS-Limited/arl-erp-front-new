@@ -201,7 +201,9 @@ function DeliveryScheduleplanReport() {
                                 <th>Quantity</th>
                                 <th>Delivery Schedule Date</th>
                                 <th>Delivery Approximate Time</th>
-                                <th>Pending Time </th>
+                                <th>Lead Time</th>
+                                <th>Spand Time</th>
+                                <th>Rest of Time </th>
                               </tr>
                             </thead>
                             <tbody>
@@ -233,6 +235,8 @@ function DeliveryScheduleplanReport() {
                                           item?.deliveryApproximateTime
                                         ).format("DD-MM-YYYY hh:mm: A")}
                                     </td>
+                                    <td>{item?.leadTimeHr}</td>
+                                    <td>{item?.spendTimeHr}</td>
                                     <td>{Number(item?.pendingTimeHr || 0).toFixed(2)}</td>
                                   </tr>
                                 );
@@ -249,7 +253,7 @@ function DeliveryScheduleplanReport() {
                                     )}
                                   </b>
                                 </td>
-                                <td colSpan='3'></td>
+                                <td colSpan='5'></td>
                               </tr>
                             </tbody>
                           </table>
