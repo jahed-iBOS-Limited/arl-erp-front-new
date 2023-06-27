@@ -57,7 +57,7 @@ function DeliveryScheduleplanReport() {
         enableReinitialize={true}
         initialValues={{
           ...initData,
-          shipmentType: shipmentTypeDDl?.[0] || "",
+          shipmentType: { value: 0, label: "All" },
         }}
       >
         {({ values, setFieldValue, touched, errors }) => (
@@ -199,8 +199,9 @@ function DeliveryScheduleplanReport() {
                                 <th>Ship To Party</th>
                                 <th>Address</th>
                                 <th>Quantity</th>
-                                <th>Delivery Schedule Date</th>
-                                <th>Delivery Approximate Time</th>
+                                <th>Challan Date</th>
+                                {/* <th>Delivery Schedule Date</th>
+                                <th>Delivery Approximate Time</th> */}
                                 <th>Lead Time</th>
                                 <th>Spand Time</th>
                                 <th>Rest of Time </th>
@@ -224,17 +225,17 @@ function DeliveryScheduleplanReport() {
                                       {item?.quantity}
                                     </td>
                                     <td>
-                                      {item?.deliveryScheduleDate &&
+                                      {item?.challanDateTime &&
                                         moment(
-                                          item?.deliveryScheduleDate
+                                          item?.challanDateTime
                                         ).format("DD-MM-YYYY hh:mm: A")}
                                     </td>
-                                    <td>
+                                    {/* <td>
                                       {item?.deliveryApproximateTime &&
                                         moment(
                                           item?.deliveryApproximateTime
                                         ).format("DD-MM-YYYY hh:mm: A")}
-                                    </td>
+                                    </td> */}
                                     <td>{item?.leadTimeHr}</td>
                                     <td>{item?.spendTimeHr}</td>
                                     <td>{Number(item?.pendingTimeHr || 0).toFixed(2)}</td>
@@ -242,7 +243,7 @@ function DeliveryScheduleplanReport() {
                                 );
                               })}
                               <tr>
-                                <td className='text-right' colSpan='7'>
+                                <td className='text-right' colSpan='6'>
                                   <b>Total:</b>
                                 </td>
                                 <td className='text-center'>
