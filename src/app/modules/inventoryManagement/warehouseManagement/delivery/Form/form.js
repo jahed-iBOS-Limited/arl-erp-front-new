@@ -29,21 +29,27 @@ export const validationSchema = Yup.object().shape({
     label: Yup.string().required("Sold To Party is required"),
     value: Yup.string().required("Sold To Party is required"),
   }),
-  shipmentType: Yup.object().shape({
-    label: Yup.string().required("Shipment Type is required"),
-    value: Yup.string().required("Shipment Type is required"),
+  // shipmentType: Yup.object().shape({
+  //   label: Yup.string().required("Shipment Type is required"),
+  //   value: Yup.string().required("Shipment Type is required"),
+  // }),
+  // requestTime: Yup.string().required(
+  //   "Shipment Schedule Date & Time is required"
+  // ),
+  requestTime: Yup.string().when("businessUnitId", (businessUnitId) => {
+    if (+businessUnitId === 4) {
+      return Yup.string().required("Shipment Schedule Date & Time is required");
+    }
   }),
-  requestTime: Yup.string().required(
-    "Shipment Schedule Date & Time is required"
-  ),
-  // shipToParty: Yup.object().shape({
-  //   label: Yup.string().required("Ship To Party is required"),
-  //   value: Yup.string().required("Ship To Party is required"),
-  // }),
-  // salesOrder: Yup.object().shape({
-  //   label: Yup.string().required("Order No is required"),
-  //   value: Yup.string().required("Order No is required"),
-  // }),
+  shipmentType: Yup.object().when("businessUnitId", (businessUnitId) => {
+    if (+businessUnitId === 4) {
+      return Yup.object().shape({
+        label: Yup.string().required("Shipment Type is required"),
+        value: Yup.string().required("Shipment Type is required"),
+      });
+    }
+  }),
+
   deliveryType: Yup.object().shape({
     label: Yup.string().required("Delivery Type is required"),
     value: Yup.string().required("Delivery Type is required"),
@@ -236,17 +242,22 @@ export default function _Form({
                           setFieldValue("salesOrder", "");
                           setFieldValue("shipmentType", "");
                           shipToPartyDispatcher(valueOption?.value);
-                          setShipmentTypeDDl([])
-                          GetShipmentTypeApi(
-                            profileData?.accountId,
-                            selectedBusinessUnit.value,
-                            valueOption?.terriToryId,
-                            setShipmentTypeDDl,
-                            setDisabled,
-                            (resData) => {
-                              setFieldValue("shipmentType", resData?.[0] || "");
-                            }
-                          );
+                          setShipmentTypeDDl([]);
+                          if ([4].includes(selectedBusinessUnit?.value)) {
+                            GetShipmentTypeApi(
+                              profileData?.accountId,
+                              selectedBusinessUnit.value,
+                              valueOption?.terriToryId,
+                              setShipmentTypeDDl,
+                              setDisabled,
+                              (resData) => {
+                                setFieldValue(
+                                  "shipmentType",
+                                  resData?.[0] || ""
+                                );
+                              }
+                            );
+                          }
                         }}
                         placeholder='Select Sold To Party'
                         errors={errors}

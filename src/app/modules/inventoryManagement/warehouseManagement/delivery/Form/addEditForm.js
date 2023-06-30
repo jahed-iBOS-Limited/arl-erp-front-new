@@ -471,6 +471,7 @@ export default function DeliveryForm({
               ? headerData?.soldToParty
               : "",
             itemLists: pendingDeliveryReportitemList || [],
+            businessUnitId: selectedBusinessUnit?.value
           }
         }
         saveHandler={saveHandler}
