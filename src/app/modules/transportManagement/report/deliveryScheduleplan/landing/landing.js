@@ -1,30 +1,45 @@
-import React, { useState, useRef } from "react";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { Formik, Form } from "formik";
-import Loading from "../../../../_helper/_loading";
-import InputField from "../../../../_helper/_inputField";
-import { GetShipmentTypeApi, getDeliverySchedulePlan } from "../helper";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import { Paper, Tab, Tabs, makeStyles } from "@material-ui/core";
+import { Form, Formik } from "formik";
+import moment from "moment";
+import React, { useRef, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
+import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
 import {
   Card,
+  CardBody,
   CardHeader,
   CardHeaderToolbar,
-  CardBody,
 } from "../../../../../../_metronic/_partials/controls/Card";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
 import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
-import NewSelect from "../../../../_helper/_select";
-import moment from "moment";
-
+import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import printIcon from "../../../../_helper/images/print-icon.png";
+import { GetShipmentTypeApi, getDeliverySchedulePlan } from "../helper";
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
 
+const useStyles = makeStyles({
+  root: {
+    flexGrow: 1,
+    padding: "5px",
+    margin: "5px",
+    border: "none",
+    display: "flex",
+  },
+  tab: {
+    padding: "0px !important",
+    margin: "0px !important",
+    minWidth: "105px",
+  },
+});
+
 function DeliveryScheduleplanReport() {
+  const classes = useStyles();
+  const [shipmentType, setShipmentType] = React.useState(0);
   const [loading, setLoading] = useState(false);
   const [gridData, setGridData] = useState([]);
   const [shipmentTypeDDl, setShipmentTypeDDl] = React.useState([]);
@@ -49,6 +64,18 @@ function DeliveryScheduleplanReport() {
       );
     }
   }, [profileData, selectedBusinessUnit]);
+  const handleChange = ( newValue, values) => {
+    setShipmentType(newValue);
+    getDeliverySchedulePlan(
+      profileData?.accountId,
+      selectedBusinessUnit?.value,
+      values?.fromDate,
+      values?.toDate,
+      shipmentTypeDDl?.[newValue]?.value || 0,
+      setGridData,
+      setLoading
+    );
+  };
 
   return (
     <>
@@ -57,7 +84,6 @@ function DeliveryScheduleplanReport() {
         enableReinitialize={true}
         initialValues={{
           ...initData,
-          shipmentType: { value: 0, label: "All" },
         }}
       >
         {({ values, setFieldValue, touched, errors }) => (
@@ -91,79 +117,84 @@ function DeliveryScheduleplanReport() {
             <CardBody>
               <>
                 <Form>
-                  <div className='row global-form'>
-                    <div className='col-lg-3'>
-                      <NewSelect
-                        name='shipmentType'
-                        options={[
-                          { value: 0, label: "All" },
-                          ...shipmentTypeDDl,
-                        ]}
-                        value={values?.shipmentType}
-                        label='Select Shipment Type'
-                        onChange={(valueOption) => {
-                          setFieldValue("shipmentType", valueOption);
-                        }}
-                        placeholder='Select Shipment Type'
-                        errors={errors}
-                        touched={touched}
-                        isClearable={false}
-                      />
-                    </div>
+                  <div className='row global-form p-0 m-0'>
+                    <div className='col-lg-12 p-0 m-0'>
+                      <Paper square className={classes.root}>
+                        <div>
+                          <Tabs
+                            value={shipmentType}
+                            indicatorColor='primary'
+                            textColor='primary'
+                            onChange={(e, value) =>{
+                              handleChange(value, values)
+                            }}
+                            aria-label='disabled tabs example'
+                          >
+                            {shipmentTypeDDl?.map((itm, idx) => {
+                              return (
+                                <Tab
+                                  label={itm?.label}
+                                  className={classes.tab}
+                                />
+                              );
+                            })}
+                          </Tabs>
+                        </div>
 
-                    <div className='col-lg-3'>
-                      <label>From Date</label>
-                      <InputField
-                        value={values?.fromDate}
-                        name='fromDate'
-                        placeholder='From Date'
-                        type='date'
-                        onChange={(e) => {
-                          setGridData([]);
-                          setFieldValue("fromDate", e.target.value);
-                        }}
-                      />
-                    </div>
+                        <div className='col-lg-2'>
+                          <label>From Date</label>
+                          <InputField
+                            value={values?.fromDate}
+                            name='fromDate'
+                            placeholder='From Date'
+                            type='date'
+                            onChange={(e) => {
+                              setGridData([]);
+                              setFieldValue("fromDate", e.target.value);
+                            }}
+                          />
+                        </div>
 
-                    <div className='col-lg-3'>
-                      <label>To Date</label>
-                      <InputField
-                        value={values?.toDate}
-                        name='toDate'
-                        placeholder='To Date'
-                        type='date'
-                        onChange={(e) => {
-                          setFieldValue("toDate", e.target.value);
-                          setGridData([]);
-                        }}
-                      />
-                    </div>
+                        <div className='col-lg-2'>
+                          <label>To Date</label>
+                          <InputField
+                            value={values?.toDate}
+                            name='toDate'
+                            placeholder='To Date'
+                            type='date'
+                            onChange={(e) => {
+                              setFieldValue("toDate", e.target.value);
+                              setGridData([]);
+                            }}
+                          />
+                        </div>
 
-                    <div className='col-lg-3'>
-                      <button
-                        type='button'
-                        style={{ marginTop: "17px" }}
-                        disabled={
-                          !values?.fromDate ||
-                          !values?.toDate ||
-                          !values?.shipmentType
-                        }
-                        onClick={() => {
-                          setGridData([]);
-                          getDeliverySchedulePlan(
-                            profileData?.accountId,
-                            selectedBusinessUnit?.value,
-                            values?.fromDate,
-                            values?.toDate,
-                            values?.shipmentType?.value,
-                            setGridData,
-                            setLoading
-                          );
-                        }}
-                        className='btn btn-primary'
-                      >
-                        Show
-                      </button>
+                        <div className='col'>
+                          <button
+                            type='button'
+                            style={{ marginTop: "17px" }}
+                            disabled={
+                              !values?.fromDate ||
+                              !values?.toDate 
+                            }
+                            onClick={() => {
+                              setGridData([]);
+                              getDeliverySchedulePlan(
+                                profileData?.accountId,
+                                selectedBusinessUnit?.value,
+                                values?.fromDate,
+                                values?.toDate,
+                                shipmentTypeDDl?.[shipmentType]?.value || 0,
+                                setGridData,
+                                setLoading
+                              );
+                            }}
+                            className='btn btn-primary'
+                          >
+                            Show
+                          </button>
+                        </div>
+                      </Paper>
                     </div>
                   </div>
 
@@ -200,8 +231,6 @@ function DeliveryScheduleplanReport() {
                                 <th>Address</th>
                                 <th>Quantity</th>
                                 <th>Challan Date</th>
-                                {/* <th>Delivery Schedule Date</th>
-                                <th>Delivery Approximate Time</th> */}
                                 <th>Lead Time</th>
                                 <th>Spand Time</th>
                                 <th>Rest of Time </th>
@@ -226,16 +255,10 @@ function DeliveryScheduleplanReport() {
                                     </td>
                                     <td>
                                       {item?.challanDateTime &&
-                                        moment(
-                                          item?.challanDateTime
-                                        ).format("DD-MM-YYYY hh:mm: A")}
+                                        moment(item?.challanDateTime).format(
+                                          "DD-MM-YYYY hh:mm: A"
+                                        )}
                                     </td>
-                                    {/* <td>
-                                      {item?.deliveryApproximateTime &&
-                                        moment(
-                                          item?.deliveryApproximateTime
-                                        ).format("DD-MM-YYYY hh:mm: A")}
-                                    </td> */}
                                     <td>{item?.leadTimeHr}</td>
                                     <td>{item?.spendTimeHr}</td>
                                     <td>{item?.pendingTimeHr}</td>

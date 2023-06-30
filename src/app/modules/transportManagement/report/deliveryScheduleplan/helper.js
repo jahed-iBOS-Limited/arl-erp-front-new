@@ -41,7 +41,7 @@ export const GetShipmentTypeApi = async (
       label: item?.shipmentType,
       extraRate: item?.extraRate || 0,
     }));
-    setter(dataModify || []);
+    setter([{ value: 0, label: "All" }, ...dataModify] || []);
     setLoading(false);
   } catch (error) {
     setter([]);
