@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import IForm from "../../../../_helper/_form";
@@ -10,6 +10,8 @@ import BankGuaranteeTable from "./bankGuaranteeTable";
 import DepositRegisterTable from "./depositRegisterTable";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import { setBankGuaranteeStoreAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import IViewModal from "../../../../_helper/_viewModal";
+import BankGuaranteeView from "../view/view";
 
 export default function BankGuaranteeLanding() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -26,10 +28,15 @@ export default function BankGuaranteeLanding() {
   const [rowData, getRowData, loading, setRowData] = useAxiosGet();
   const [, closeHandler] = useAxiosPost();
   const dispatch = useDispatch();
+  const [isShowModal, setIsShowModal] = useState(false);
+  const [item, setItem] = useState({});
 
   useEffect(() => {
     getRowData(
-      `/fino/CommonFino/GetBankGuaranteeSecurityRegister?businessUnitId=${selectedBusinessUnit?.value}&type=${bankGuarantee?.type?.label || ""}&pageNo=${pageNo}&pageSize=${pageSize}`
+      `/fino/CommonFino/GetBankGuaranteeSecurityRegister?businessUnitId=${
+        selectedBusinessUnit?.value
+      }&type=${bankGuarantee?.type?.label ||
+        ""}&pageNo=${pageNo}&pageSize=${pageSize}`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bankGuarantee]);
@@ -134,6 +141,8 @@ export default function BankGuaranteeLanding() {
                     history={history}
                     closeHandler={closeHandler}
                     profileData={profileData}
+                    setIsShowModal={setIsShowModal}
+                    setItem={setItem}
                   />
                 ) : (
                   <DepositRegisterTable
@@ -147,8 +156,22 @@ export default function BankGuaranteeLanding() {
                     history={history}
                     closeHandler={closeHandler}
                     profileData={profileData}
+                    setIsShowModal={setIsShowModal}
+                    setItem={setItem}
                   />
                 )}
+              </div>
+              <div>
+                <IViewModal
+                  show={isShowModal}
+                  onHide={() => setIsShowModal(false)}
+                  modelSize="xl"
+                >
+                  <BankGuaranteeView
+                    landingItem={item}
+                    selectedBusinessUnit={selectedBusinessUnit}
+                  />
+                </IViewModal>
               </div>
             </Form>
           </IForm>

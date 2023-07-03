@@ -78,6 +78,17 @@ export default function DepositRegister({
         />
       </div>
       <div className="col-lg-3">
+        <InputField
+          value={values?.beneficiaryTitle}
+          label="Beneficiary Name"
+          name="beneficiaryTitle"
+          type="text"
+          onChange={(e) => {
+            setFieldValue("beneficiaryTitle", e.target.value);
+          }}
+        />
+      </div>
+      <div className="col-lg-3">
         <NewSelect
           name="securityType"
           options={[{ value: "Pay Order", label: "Pay Order" }]}

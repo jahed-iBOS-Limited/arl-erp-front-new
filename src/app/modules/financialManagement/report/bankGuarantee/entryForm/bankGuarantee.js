@@ -76,6 +76,17 @@ export default function BankGuarantee({
       </div>
       <div className="col-lg-3">
         <InputField
+          value={values?.beneficiaryTitle}
+          label="Beneficiary Name"
+          name="beneficiaryTitle"
+          type="text"
+          onChange={(e) => {
+            setFieldValue("beneficiaryTitle", e.target.value);
+          }}
+        />
+      </div>
+      <div className="col-lg-3">
+        <InputField
           value={values?.bankGuaranteeNumber}
           label="Bank Guarantee Number"
           name="bankGuaranteeNumber"
