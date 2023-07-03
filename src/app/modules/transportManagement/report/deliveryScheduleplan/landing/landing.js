@@ -248,6 +248,7 @@ function DeliveryScheduleplanReport() {
                               <tr>
                                 <th>SL</th>
                                 <th>Delivery Code </th>
+                                <th>Ship Point</th>
                                 <th>Area</th>
                                 <th>Territory</th>
                                 <th>Sold To Party</th>
@@ -269,6 +270,7 @@ function DeliveryScheduleplanReport() {
                                       {index + 1}
                                     </td>
                                     <td>{item?.deliveryCode}</td>
+                                    <td>{item?.shipPointName}</td>
                                     <td>{item?.area}</td>
                                     <td>{item?.territory}</td>
                                     <td>{item?.soldToPartnerName}</td>
