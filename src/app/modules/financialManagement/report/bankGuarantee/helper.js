@@ -44,7 +44,7 @@ export const makePayload = ({
       +typeId === 1
         ? "Bank Guarantee"
         : +typeId === 2
-        ? "Deposit Register"
+        ? "Security Deposit Register"
         : "",
     strSecurityType: values?.securityType?.label || "",
     intBankId: +values?.bank?.value || 0,

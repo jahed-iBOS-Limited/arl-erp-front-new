@@ -17,6 +17,7 @@ import RepayCreate from "./fundManagement/loanRegister/repay/Repay";
 import LoanRegisterView from "./fundManagement/loanRegister/view/loanRegisterView";
 import BankGuaranteeLanding from "../report/bankGuarantee/landing";
 import BankGuaranteeEntry from "../report/bankGuarantee/entryForm";
+import FundRegisterLanding from "../report/fundRegister";
 
 export function Banking() {
   return (
@@ -115,6 +116,10 @@ export function Banking() {
        <ContentRoute
         path="/financial-management/banking/BankGuarantee"
         component={BankGuaranteeLanding}
+      />
+       <ContentRoute
+        path="/financial-management/banking/FundRegister"
+        component={FundRegisterLanding}
       />
     </Switch>
   );
