@@ -14,8 +14,12 @@ export default function DepositRegister({
   setAttachmentFile,
   bankDDL,
   bankAccDDL,
+  getBankAccDDL,
+  setBankAccDDL,
   accId,
   sbuDDL,
+  profileData,
+  selectedBusinessUnit,
 }) {
   const inputAttachFile = useRef(null);
   const onButtonAttachmentClick = () => {
@@ -44,7 +48,17 @@ export default function DepositRegister({
           value={values?.bank}
           label="Bank"
           onChange={(valueOption) => {
-            setFieldValue("bank", valueOption);
+            if (valueOption) {
+              setFieldValue("bank", valueOption);
+              setFieldValue("beneficiary", "");
+              getBankAccDDL(
+                `/costmgmt/BankAccount/GetBankAccountDDLByBankId?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}&BankId=${valueOption?.value}`
+              );
+            } else {
+              setFieldValue("bank", "");
+              setFieldValue("beneficiary", "");
+              setBankAccDDL([]);
+            }
           }}
           errors={errors}
           touched={touched}

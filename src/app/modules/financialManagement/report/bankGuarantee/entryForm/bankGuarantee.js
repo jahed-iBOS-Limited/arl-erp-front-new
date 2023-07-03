@@ -10,8 +10,11 @@ export default function BankGuarantee({
   touched,
   bankDDL,
   bankAccDDL,
-  getBranchDDL,
+  getBankAccDDL,
+  setBankAccDDL,
   sbuDDL,
+  profileData,
+  selectedBusinessUnit,
 }) {
   const [currencyDDL, getCurrencyDDL] = useAxiosGet();
 
@@ -42,7 +45,17 @@ export default function BankGuarantee({
           value={values?.bank}
           label="Bank"
           onChange={(valueOption) => {
-            setFieldValue("bank", valueOption);
+            if (valueOption) {
+              setFieldValue("bank", valueOption);
+              setFieldValue("beneficiary", "");
+              getBankAccDDL(
+                `/costmgmt/BankAccount/GetBankAccountDDLByBankId?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}&BankId=${valueOption?.value}`
+              );
+            } else {
+              setFieldValue("bank", "");
+              setFieldValue("beneficiary", "");
+              setBankAccDDL([]);
+            }
           }}
           errors={errors}
           touched={touched}

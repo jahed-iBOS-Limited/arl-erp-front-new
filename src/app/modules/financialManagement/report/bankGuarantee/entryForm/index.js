@@ -34,7 +34,7 @@ export default function BankGuaranteeEntry() {
   const { entryType, typeId } = useParams();
   const [attachmentFile, setAttachmentFile] = useState("");
   const [bankDDL, getBankDDL] = useAxiosGet();
-  const [bankAccDDL, getBankAccDDL] = useAxiosGet();
+  const [bankAccDDL, getBankAccDDL, , setBankAccDDL] = useAxiosGet();
   const [sbuDDL, getSbuDDL] = useAxiosGet();
   const [, createHandler, saveLoading] = useAxiosPost();
   const location = useLocation();
@@ -52,9 +52,6 @@ export default function BankGuaranteeEntry() {
 
   useEffect(() => {
     getBankDDL(`/hcm/HCMDDL/GetBankDDL`);
-    getBankAccDDL(
-      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}`
-    );
     getSbuDDL(
       `/fino/Disbursement/GetSbuDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
@@ -124,7 +121,11 @@ export default function BankGuaranteeEntry() {
                   touched={touched}
                   bankDDL={bankDDL}
                   bankAccDDL={bankAccDDL}
+                  getBankAccDDL={getBankAccDDL}
+                  setBankAccDDL={setBankAccDDL}
                   sbuDDL={sbuDDL}
+                  profileData={profileData}
+                  selectedBusinessUnit={selectedBusinessUnit}
                 />
               ) : [2].includes(+typeId) ? (
                 <DepositRegister
@@ -134,10 +135,14 @@ export default function BankGuaranteeEntry() {
                   touched={touched}
                   bankDDL={bankDDL}
                   bankAccDDL={bankAccDDL}
+                  getBankAccDDL={getBankAccDDL}
+                  setBankAccDDL={setBankAccDDL}
                   attachmentFile={attachmentFile}
                   setAttachmentFile={setAttachmentFile}
                   accId={profileData?.accountId}
                   sbuDDL={sbuDDL}
+                  profileData={profileData}
+                  selectedBusinessUnit={selectedBusinessUnit}
                 />
               ) : null}
             </div>
