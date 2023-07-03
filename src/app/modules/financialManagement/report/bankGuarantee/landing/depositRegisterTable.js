@@ -50,7 +50,7 @@ export default function DepositRegisterTable({
               <td>{item?.strSbu}</td>
               <td>{item?.strBankName}</td>
               <td>{item?.strSecurityType}</td>
-              <td>{item?.strBeneficiaryNumber}</td>
+              <td>{item?.strBeneficiaryTitle}</td>
               <td>{_dateFormatter(item?.dteIssueDate)}</td>
               <td>{_dateFormatter(item?.dteEndingDate)}</td>
               <td>{item?.numAmount}</td>

@@ -46,7 +46,7 @@ export default function BankGuaranteeTable({
               <td>{item?.strSbu}</td>
               <td>{item?.strBankName}</td>
               <td>{item?.strBankGuaranteeNumber}</td>
-              <td>{item?.strBeneficiaryName}</td>
+              <td>{item?.strBeneficiaryTitle}</td>
               <td className="text-center">
                 {_dateFormatter(item?.dteIssueDate)}
               </td>
