@@ -30,6 +30,9 @@ import { SetUndeliveryValuesEmpty_Action } from "./../../../../salesManagement/o
 import { useLocation } from "react-router";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import Loading from "./../../../../_helper/_loading";
+import moment from "moment";
+import IConfirmModal from "../../../../_helper/_confirmModal";
+import { GetDeliveryApprroximateDateTimeApi } from "../utils";
 
 const initData = {
   id: undefined,
@@ -48,6 +51,8 @@ const initData = {
   category: "",
   deliveryDate: _todayDate(),
   itemLists: [],
+  shipmentType: "",
+  requestTime: `${moment().format("YYYY-MM-DD HH:mm:ss")}`,
 };
 
 export default function DeliveryForm({
@@ -146,6 +151,9 @@ export default function DeliveryForm({
 
   const saveHandler = async (values, cb) => {
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
+      let requestDeliveryDate = moment(values?.requestTime).format(
+        "YYYY-MM-DDTHH:mm:ss"
+      );
       let list = [];
       if (values?.itemLists?.length > 0) {
         values.itemLists.forEach((allItm) => {
@@ -176,8 +184,16 @@ export default function DeliveryForm({
           salesOrder: itm?.salesOrder,
           specification: itm?.specification || "",
           vatAmount: itm?.vatAmount || 0,
+          shipmentExtraAmount:
+            (+itm?.extraRate || 0) * (+itm?.deliveryQty || 0),
+          shipmentExtraRate: +itm?.extraRate || 0,
+        
         };
       });
+
+      if (rowData?.length === 0) {
+        return toast.warning("You must have to add at least one item");
+      }
 
       if (id) {
         const payload = {
@@ -190,14 +206,11 @@ export default function DeliveryForm({
             shipPointId: singleData?.objDeliveryHeaderLandingDTO?.shipPointId,
             actionBy: profileData.userId,
             lastActionDateTime: _todayDate(),
+            territoryId: values?.soldToParty?.terriToryId || 0
           },
           rowData: rowData,
         };
-        if (rowData?.length > 0) {
-          dispatch(saveEditedDelivery(payload, setDisabled, history));
-        } else {
-          toast.warning("You must have to add at least one item");
-        }
+        dispatch(saveEditedDelivery(payload, setDisabled, history));
       } else {
         const payload = {
           objHeader: {
@@ -211,6 +224,10 @@ export default function DeliveryForm({
             actionBy: profileData.userId,
             warehouseId: values.warehouse.value,
             businessUnitId: selectedBusinessUnit?.value,
+            shipmentTypeId: values?.shipmentType?.value || 0,
+            shipmentType: values?.shipmentType?.label || "",
+            requestDeliveryDate: requestDeliveryDate,
+            territoryId: values?.soldToParty?.terriToryId || 0
           },
           objRow: rowData,
           objShipRequest: {
@@ -220,12 +237,50 @@ export default function DeliveryForm({
             bagType: values?.bagType?.label || "",
             category: values?.category?.label,
             deliveryMode: values?.deliveryMode?.label,
-            strRequestNo: rowData[rowData.length - 1].salesOrder,
+            strRequestNo: rowData?.[rowData?.length - 1]?.salesOrder,
             vehicleNo: "",
           },
         };
 
-        if (rowData?.length > 0) {
+        if ([4].includes(selectedBusinessUnit?.value)) {
+          const totalQty = rowData?.reduce(
+            (acc, cur) => (acc += +cur?.quantity || 0),
+            0
+          );
+          GetDeliveryApprroximateDateTimeApi(
+            selectedBusinessUnit?.value,
+            headerData?.shipPoint?.value,
+            requestDeliveryDate,
+            totalQty,
+            values?.soldToParty?.terriToryId,
+            values?.shipmentType?.value,
+            setDisabled,
+            (apprroximateDate) => {
+              let confirmObject = {
+                title: "Notice",
+                message: `Your Approximate Delivery Will be \n
+                From ${moment().format("YYYY-MM-DD hh:mm A")} \n
+                To ResponseTime ${moment(apprroximateDate).format(
+                  "YYYY-MM-DD hh:mm A"
+                )}`,
+                yesAlertFunc: async () => {
+                  dispatch(
+                    saveCreateDelivery({
+                      data: payload,
+                      cb,
+                      responseDataCB,
+                      setDisabled,
+                    })
+                  );
+                },
+                noAlertFunc: () => {
+                  "";
+                },
+              };
+              IConfirmModal(confirmObject);
+            }
+          );
+        } else {
           dispatch(
             saveCreateDelivery({
               data: payload,
@@ -234,8 +289,6 @@ export default function DeliveryForm({
               setDisabled,
             })
           );
-        } else {
-          toast.warning("You must have to add at least one item");
         }
       }
     } else {
@@ -302,6 +355,7 @@ export default function DeliveryForm({
             vatAmount:
               ele?.objRowData?.vatItemPrice * ele?.objRowData?.pendingQty,
             isItemShow: true,
+            extraRate: +values?.shipmentType?.extraRate || 0,
           };
           if (ele?.objRowData?.isTradeFreeItem) {
             const itemFindIdx = modifiedSalesOrderList?.findIndex(
@@ -320,7 +374,6 @@ export default function DeliveryForm({
           }
         });
       }
-
 
       if (
         isUniq("salesOrderId", values?.salesOrder?.value, values?.itemLists)
@@ -421,6 +474,7 @@ export default function DeliveryForm({
               ? headerData?.soldToParty
               : "",
             itemLists: pendingDeliveryReportitemList || [],
+            businessUnitId: selectedBusinessUnit?.value
           }
         }
         saveHandler={saveHandler}

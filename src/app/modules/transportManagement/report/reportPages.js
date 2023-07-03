@@ -23,6 +23,7 @@ import SalesOrderSupport from "./salesOrderSupport/landing";
 import PermissionForModification from "./permissionForModification/_landing/_landing";
 import LoadingStatusReport from "./loadingStatusReport";
 import HourlyDeliveryStatusReport from "./hourlyDeliveryStatus";
+import DeliveryScheduleplanReport from "./deliveryScheduleplan/landing/landing";
 
 export function TransportReportPages() {
   return (
@@ -65,6 +66,10 @@ export function TransportReportPages() {
         <ContentRoute
           path="/transport-management/report/tripCostReport"
           component={TripCostReportReport}
+        />
+        <ContentRoute
+          path="/transport-management/report/deliveryscheduleplan"
+          component={DeliveryScheduleplanReport}
         />
         <ContentRoute
           path="/transport-management/report/shipmentCostReportModified"

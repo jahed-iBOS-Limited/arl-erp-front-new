@@ -1,17 +1,15 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import NewSelect from "../../../_helper/_select";
 import { shallowEqual, useSelector } from "react-redux";
-import InputField from "../../../_helper/_inputField";
-import PaginationSearch from "../../../_helper/_search";
-import PaginationTable from "../../../_helper/_tablePagination";
-import IView from "../../../_helper/_helperIcons/_view";
-import { _threeMonthAgoDate, _todayDate } from "../../../_helper/_todayDate";
 import { toast } from "react-toastify";
+import IForm from "../../../_helper/_form";
+import InputField from "../../../_helper/_inputField";
+import Loading from "../../../_helper/_loading";
+import PaginationSearch from "../../../_helper/_search";
+import NewSelect from "../../../_helper/_select";
+import PaginationTable from "../../../_helper/_tablePagination";
+import { _threeMonthAgoDate, _todayDate } from "../../../_helper/_todayDate";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 
 const initData = {
   purchaseOrganization: { value: 0, label: 'ALL' },
@@ -34,9 +32,8 @@ export default function ErpQuotationEntryLanding() {
   const [purchangeOrgListDDL, getPurchaseOrgListDDL, purchaseOrgListDDLloader] = useAxiosGet();
   const [plantListDDL, getPlantListDDL, plantListDDLloader] = useAxiosGet();
   const [warehouseListDDL, getWarehouseListDDL, warehouseListDDLloader] = useAxiosGet();
-  const [landingData, getLandingData, landingDataLoader, setLandingData] = useAxiosGet();
-  const history = useHistory();
-
+  const [landingData, , landingDataLoader, setLandingData] = useAxiosGet();
+ 
   useEffect(() => {
     getPurchaseOrgListDDL(`/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${profileData?.accountId
       }&BusinessUnitId=${selectedBusinessUnit?.value}`)
