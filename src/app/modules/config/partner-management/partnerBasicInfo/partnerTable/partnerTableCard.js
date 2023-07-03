@@ -205,7 +205,7 @@ export function PartnerTable({ saveHandler }) {
           commonGridFunc(values, pageNo, pageSize);
         });
       },
-      noAlertFunc: () => {},
+      noAlertFunc: () => { },
     };
     IConfirmModal(confirmObject);
   };
@@ -470,7 +470,8 @@ export function PartnerTable({ saveHandler }) {
                             />
                           </OverlayTrigger>
                         </div>
-                        {(tableData?.businessPartnerTypeName === "Supplier" ||
+                        {/* changes as per miraj bhai's suggestion */}
+                        {/* {(tableData?.businessPartnerTypeName === "Supplier" ||
                           tableData?.businessPartnerTypeName ===
                             "Customer") && (
                           <div class="order-md-2 p-1">
@@ -500,7 +501,34 @@ export function PartnerTable({ saveHandler }) {
                               />
                             </OverlayTrigger>
                           </div>
-                        )}
+                        )} */}
+                        <div class="order-md-2 p-1">
+                          <OverlayTrigger
+                            overlay={
+                              <Tooltip id="cs-icon">
+                                {"Partner Bank Information"}
+                              </Tooltip>
+                            }
+                          >
+                            <input
+                              type="checkbox"
+                              value={tableData?.partnerBankInformation}
+                              checked={
+                                tableData?.businessPartnerBankInformationStatus
+                              }
+                              name="BankInformation"
+                              onClick={() =>
+                                history.push({
+                                  pathname: `/config/partner-management/partner-basic-info/edit/${tableData?.businessPartnerId}`,
+                                  state: {
+                                    ...tableData,
+                                    checkBox: "BankInformation",
+                                  },
+                                })
+                              }
+                            />
+                          </OverlayTrigger>
+                        </div>
                         {tableData?.businessPartnerTypeName === "Supplier" && (
                           <div class="order-md-3 p-1">
                             <OverlayTrigger
@@ -532,35 +560,35 @@ export function PartnerTable({ saveHandler }) {
                         )}
                         {(tableData?.businessPartnerTypeName === "Customer" ||
                           tableData?.businessPartnerTypeName ===
-                            "Customer's Ship To Party" ||
+                          "Customer's Ship To Party" ||
                           tableData?.businessPartnerTypeName ===
-                            "Employee") && (
-                          <div class="order-md-4 p-1">
-                            <OverlayTrigger
-                              overlay={
-                                <Tooltip id="cs-icon">
-                                  {"Partner Sales Information"}
-                                </Tooltip>
-                              }
-                            >
-                              <input
-                                type="checkbox"
-                                value={tableData?.partnerSalesInformation}
-                                checked={tableData?.businessPartnerSalesStatus}
-                                name="SalesInformation"
-                                onClick={() =>
-                                  history.push({
-                                    pathname: `/config/partner-management/partner-basic-info/edit/${tableData?.businessPartnerId}`,
-                                    state: {
-                                      ...tableData,
-                                      checkBox: "SalesInformation",
-                                    },
-                                  })
+                          "Employee") && (
+                            <div class="order-md-4 p-1">
+                              <OverlayTrigger
+                                overlay={
+                                  <Tooltip id="cs-icon">
+                                    {"Partner Sales Information"}
+                                  </Tooltip>
                                 }
-                              />
-                            </OverlayTrigger>
-                          </div>
-                        )}
+                              >
+                                <input
+                                  type="checkbox"
+                                  value={tableData?.partnerSalesInformation}
+                                  checked={tableData?.businessPartnerSalesStatus}
+                                  name="SalesInformation"
+                                  onClick={() =>
+                                    history.push({
+                                      pathname: `/config/partner-management/partner-basic-info/edit/${tableData?.businessPartnerId}`,
+                                      state: {
+                                        ...tableData,
+                                        checkBox: "SalesInformation",
+                                      },
+                                    })
+                                  }
+                                />
+                              </OverlayTrigger>
+                            </div>
+                          )}
                       </div>
                     </td>
                     <td className="text-center">

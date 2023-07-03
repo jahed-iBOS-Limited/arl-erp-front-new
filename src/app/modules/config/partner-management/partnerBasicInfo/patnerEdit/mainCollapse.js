@@ -92,7 +92,8 @@ export default function MainCollapsePanel() {
           </ExpansionPanelDetails>
         </ExpansionPanel>
         {/* Partner Bank Information */}
-        {(state?.businessPartnerTypeName === "Supplier" ||
+        {/* changes as per miraj bhai's suggestion */}
+        {/* {(state?.businessPartnerTypeName === "Supplier" ||
           state?.businessPartnerTypeName === "Customer") && (
           <ExpansionPanel
             expanded={expanded === "panel2"}
@@ -113,7 +114,26 @@ export default function MainCollapsePanel() {
               </div>
             </ExpansionPanelDetails>
           </ExpansionPanel>
-        )}
+        )} */}
+        <ExpansionPanel
+          expanded={expanded === "panel2"}
+          onChange={handleChange("panel2")}
+        >
+          <ExpansionPanelSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1bh-content"
+            id="panel1bh-header"
+          >
+            <Typography className={classes.heading}>
+              Partner Bank Information
+            </Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <div>
+              <PartnerBank />
+            </div>
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
 
         {/* Partner Purchase Information  */}
         {state?.businessPartnerTypeName === "Supplier" && (
@@ -139,24 +159,24 @@ export default function MainCollapsePanel() {
         {(state?.businessPartnerTypeName === "Customer" ||
           state?.businessPartnerTypeName === "Customer's Ship To Party" ||
           state?.businessPartnerTypeName === "Employee") && (
-          <ExpansionPanel
-            expanded={expanded === "panel4"}
-            onChange={handleChange("panel4")}
-          >
-            <ExpansionPanelSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel3bh-content"
-              id="panel3bh-header"
+            <ExpansionPanel
+              expanded={expanded === "panel4"}
+              onChange={handleChange("panel4")}
             >
-              <Typography className={classes.heading}>
-                Partner Sales Information
-              </Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-              <PartnerSales />
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
-        )}
+              <ExpansionPanelSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel3bh-content"
+                id="panel3bh-header"
+              >
+                <Typography className={classes.heading}>
+                  Partner Sales Information
+                </Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <PartnerSales />
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+          )}
       </div>
     </ICustomCard>
   );
