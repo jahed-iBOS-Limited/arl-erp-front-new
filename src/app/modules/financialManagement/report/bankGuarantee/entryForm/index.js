@@ -46,6 +46,9 @@ export default function BankGuaranteeEntry() {
       setModifyData(getModifyData({ location }));
 
       setAttachmentFile(location?.state?.strAttachment || "");
+      getBankAccDDL(
+        `/costmgmt/BankAccount/GetBankAccountDDLByBankId?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}&BankId=${location?.state?.intBankId}`
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);

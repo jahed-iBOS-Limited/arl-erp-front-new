@@ -38,7 +38,7 @@ export default function DepositRegisterTable({
             <th>Purpose</th>
             <th>Responsible person to return</th>
             <th>Note</th>
-            <th style={{minWidth:"70px"}}>Action</th>
+            <th style={{ minWidth: "70px" }}>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -58,29 +58,33 @@ export default function DepositRegisterTable({
               <td>{item?.strRemarks}</td>
               <td>
                 <div className="d-flex justify-content-between">
-                  <span style={{ cursor: "pointer" }}>
-                    <OverlayTrigger
-                      overlay={<Tooltip id="cs-icon">View Attachment</Tooltip>}
-                    >
-                      <span
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          dispatch(
-                            getDownlloadFileView_Action(
-                              item?.strAttachment || ""
-                            )
-                          );
-                        }}
-                        className="ml-2"
+                  {item?.strAttachment ? (
+                    <span style={{ cursor: "pointer" }}>
+                      <OverlayTrigger
+                        overlay={
+                          <Tooltip id="cs-icon">View Attachment</Tooltip>
+                        }
                       >
-                        <i
-                          style={{ fontSize: "16px" }}
-                          className={`fas fa-paperclip`}
-                          aria-hidden="true"
-                        ></i>
-                      </span>
-                    </OverlayTrigger>
-                  </span>
+                        <span
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            dispatch(
+                              getDownlloadFileView_Action(
+                                item?.strAttachment || ""
+                              )
+                            );
+                          }}
+                          className="ml-2"
+                        >
+                          <i
+                            style={{ fontSize: "16px" }}
+                            className={`fas fa-paperclip`}
+                            aria-hidden="true"
+                          ></i>
+                        </span>
+                      </OverlayTrigger>
+                    </span>
+                  ) : null}
                   {["Issue", "Renewed"]?.includes(item?.strStatus) ? (
                     <span
                       onClick={() => {
