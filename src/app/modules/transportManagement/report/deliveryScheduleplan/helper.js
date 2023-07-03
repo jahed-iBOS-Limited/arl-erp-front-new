@@ -7,13 +7,14 @@ export const getDeliverySchedulePlan = async (
   fromDate,
   toDate,
   shipmentType,
+  shippointId,
   setter,
   setLoading
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `/wms/Delivery/GetDeliverySchedulePlan?accountId=${accId}&businessUnitId=${buId}&fromDate=${fromDate}&toDtae=${toDate}&shipmentType=${shipmentType}`
+      `/wms/Delivery/GetDeliverySchedulePlan?accountId=${accId}&businessUnitId=${buId}&fromDate=${fromDate}&toDtae=${toDate}&shipmentType=${shipmentType}&shippointId=${shippointId}`
     );
     setter(res?.data);
     setLoading(false);
