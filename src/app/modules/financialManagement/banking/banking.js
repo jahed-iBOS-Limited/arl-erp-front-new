@@ -3,7 +3,6 @@ import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute } from "../../../../_metronic/layout";
 import FundPositionReport from "../report/fundPositionReport/landing";
 import PlanActCashFlow from "../report/planActCashFlow";
-import DeletableReport from "../report/planActCashFlow/deletableReport";
 import ProjectedCashFlowLanding from "../report/projectedCashFlow";
 import ProjectedCashFlowCreateEdit from "../report/projectedCashFlow/createEdit";
 import ChequeRegister from "./chequeRegister/index";
@@ -16,6 +15,9 @@ import LoanRegisterCreate from "./fundManagement/loanRegister/create/LoanRegiste
 import LoanRegisterLanding from "./fundManagement/loanRegister/landing/LoanRegisterLanding";
 import RepayCreate from "./fundManagement/loanRegister/repay/Repay";
 import LoanRegisterView from "./fundManagement/loanRegister/view/loanRegisterView";
+import BankGuaranteeLanding from "../report/bankGuarantee/landing";
+import BankGuaranteeEntry from "../report/bankGuarantee/entryForm";
+import FundRegisterLanding from "../report/fundRegister";
 
 export function Banking() {
   return (
@@ -104,12 +106,20 @@ export function Banking() {
         component={ProjectedCashFlowLanding}
       />
        <ContentRoute
-        path="/financial-management/banking/PlanVsActCashflow/test"
-        component={DeletableReport}
-      />
-       <ContentRoute
         path="/financial-management/banking/PlanVsActCashflow"
         component={PlanActCashFlow}
+      />
+      <ContentRoute
+        path="/financial-management/banking/BankGuarantee/:entryType/:typeId"
+        component={BankGuaranteeEntry}
+      />
+       <ContentRoute
+        path="/financial-management/banking/BankGuarantee"
+        component={BankGuaranteeLanding}
+      />
+       <ContentRoute
+        path="/financial-management/banking/FundRegister"
+        component={FundRegisterLanding}
       />
     </Switch>
   );
