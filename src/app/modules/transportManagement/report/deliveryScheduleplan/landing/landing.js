@@ -76,6 +76,7 @@ function DeliveryScheduleplanReport() {
       values?.fromDate,
       values?.toDate,
       shipmentTypeDDl?.[newValue]?.value || 0,
+      values?.shipPoint?.value,
       setGridData,
       setLoading
     );
