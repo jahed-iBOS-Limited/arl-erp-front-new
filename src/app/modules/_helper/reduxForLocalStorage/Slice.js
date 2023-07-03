@@ -634,6 +634,9 @@ const initState = {
     businessUnit: "",
     workPlace: "",
   },
+  bankGuarantee:{
+    type: { value: 1, label: "Bank Guarantee" },
+  }
 };
 
 export const localStorageSlice = createSlice({
@@ -1120,6 +1123,10 @@ export const localStorageSlice = createSlice({
     setProfileOverviewStore: (state, action) => {
       const { payload } = action;
       state.profileOverview = payload;
+    },
+    setBankGuaranteeStore: (state, action) => {
+      const { payload } = action;
+      state.bankGuarantee = payload;
     },
   },
 });
