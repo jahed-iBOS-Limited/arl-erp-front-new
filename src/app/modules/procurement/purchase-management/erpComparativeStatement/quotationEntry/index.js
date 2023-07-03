@@ -26,7 +26,7 @@ const initData = {
 };
 export default function ErpComparativeStatementLanding() {
 
-    const [landingData, getLandingData, landingDataLoader, setLandingData] = useAxiosGet();
+    const [landingData, landingDataLoader, setLandingData] = useAxiosGet();
     const { profileData, selectedBusinessUnit } = useSelector((state) => {
         return state.authData;
     }, shallowEqual);
