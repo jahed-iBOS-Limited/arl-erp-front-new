@@ -256,7 +256,7 @@ function DeliveryScheduleplanReport() {
                                 <th>Quantity</th>
                                 <th>Challan Date</th>
                                 <th>Lead Time</th>
-                                <th>Spand Time</th>
+                                <th>Spend Time</th>
                                 <th>Rest of Time </th>
                               </tr>
                             </thead>
