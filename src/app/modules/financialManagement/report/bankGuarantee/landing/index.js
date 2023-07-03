@@ -17,7 +17,7 @@ export default function BankGuaranteeLanding() {
   }, shallowEqual);
 
   const { bankGuarantee } = useSelector((state) => {
-    return state.localStorage;
+    return state.localStorage || {};
   }, shallowEqual);
 
   const [pageNo, setPageNo] = React.useState(0);
@@ -29,7 +29,7 @@ export default function BankGuaranteeLanding() {
 
   useEffect(() => {
     getRowData(
-      `/fino/CommonFino/GetBankGuaranteeSecurityRegister?businessUnitId=${selectedBusinessUnit?.value}&type=${bankGuarantee?.type?.label}&pageNo=${pageNo}&pageSize=${pageSize}`
+      `/fino/CommonFino/GetBankGuaranteeSecurityRegister?businessUnitId=${selectedBusinessUnit?.value}&type=${bankGuarantee?.type?.label || ""}&pageNo=${pageNo}&pageSize=${pageSize}`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bankGuarantee]);
