@@ -187,6 +187,7 @@ export default function DeliveryForm({
           shipmentExtraAmount:
             (+itm?.extraRate || 0) * (+itm?.deliveryQty || 0),
           shipmentExtraRate: +itm?.extraRate || 0,
+        
         };
       });
 
@@ -205,6 +206,7 @@ export default function DeliveryForm({
             shipPointId: singleData?.objDeliveryHeaderLandingDTO?.shipPointId,
             actionBy: profileData.userId,
             lastActionDateTime: _todayDate(),
+            territoryId: values?.soldToParty?.terriToryId || 0
           },
           rowData: rowData,
         };
@@ -225,6 +227,7 @@ export default function DeliveryForm({
             shipmentTypeId: values?.shipmentType?.value || 0,
             shipmentType: values?.shipmentType?.label || "",
             requestDeliveryDate: requestDeliveryDate,
+            territoryId: values?.soldToParty?.terriToryId || 0
           },
           objRow: rowData,
           objShipRequest: {

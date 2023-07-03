@@ -271,6 +271,7 @@ export const getDeliveryById = (id) => (dispatch) => {
             ? {
                 value: item?.objDeliveryHeaderLandingDTO?.soldToPartnerId,
                 label: item?.objDeliveryHeaderLandingDTO?.soldToPartnerName,
+                territoryId: item?.objDeliveryHeaderLandingDTO?.territoryId
               }
             : "",
           shipToParty: item?.objDeliveryHeaderLandingDTO?.shipToPartnerId
