@@ -17,9 +17,11 @@ import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import printIcon from "../../../../_helper/images/print-icon.png";
 import { GetShipmentTypeApi, getDeliverySchedulePlan } from "../helper";
+import NewSelect from "./../../../../_helper/_select";
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
+  shipPoint: { value: 0, label: "All" },
 };
 
 const useStyles = makeStyles({
@@ -50,7 +52,9 @@ function DeliveryScheduleplanReport() {
       selectedBusinessUnit: state?.authData?.selectedBusinessUnit,
     };
   }, shallowEqual);
-
+  const shippointDDL = useSelector((state) => {
+    return state.commonDDL.shippointDDL;
+  }, shallowEqual);
   const printRef = useRef();
 
   React.useEffect(() => {
@@ -64,7 +68,7 @@ function DeliveryScheduleplanReport() {
       );
     }
   }, [profileData, selectedBusinessUnit]);
-  const handleChange = ( newValue, values) => {
+  const handleChange = (newValue, values) => {
     setShipmentType(newValue);
     getDeliverySchedulePlan(
       profileData?.accountId,
@@ -72,6 +76,7 @@ function DeliveryScheduleplanReport() {
       values?.fromDate,
       values?.toDate,
       shipmentTypeDDl?.[newValue]?.value || 0,
+      values?.shipPoint?.value,
       setGridData,
       setLoading
     );
@@ -118,6 +123,23 @@ function DeliveryScheduleplanReport() {
               <>
                 <Form>
                   <div className='row global-form p-0 m-0'>
+                    <div className='col-lg-3'>
+                      <NewSelect
+                        name='shipPoint'
+                        options={
+                          [{ value: 0, label: "All" }, ...shippointDDL] || []
+                        }
+                        value={values?.shipPoint}
+                        label='Ship Point'
+                        onChange={(valueOption) => {
+                          setFieldValue("shipPoint", valueOption);
+                          setGridData([]);
+                        }}
+                        placeholder='Ship Point'
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
                     <div className='col-lg-12 p-0 m-0'>
                       <Paper square className={classes.root}>
                         <div>
@@ -125,8 +147,8 @@ function DeliveryScheduleplanReport() {
                             value={shipmentType}
                             indicatorColor='primary'
                             textColor='primary'
-                            onChange={(e, value) =>{
-                              handleChange(value, values)
+                            onChange={(e, value) => {
+                              handleChange(value, values);
                             }}
                             aria-label='disabled tabs example'
                           >
@@ -175,7 +197,8 @@ function DeliveryScheduleplanReport() {
                             style={{ marginTop: "17px" }}
                             disabled={
                               !values?.fromDate ||
-                              !values?.toDate 
+                              !values?.toDate ||
+                              !values?.shipPoint
                             }
                             onClick={() => {
                               setGridData([]);
@@ -185,6 +208,7 @@ function DeliveryScheduleplanReport() {
                                 values?.fromDate,
                                 values?.toDate,
                                 shipmentTypeDDl?.[shipmentType]?.value || 0,
+                                values?.shipPoint?.value,
                                 setGridData,
                                 setLoading
                               );
@@ -232,7 +256,7 @@ function DeliveryScheduleplanReport() {
                                 <th>Quantity</th>
                                 <th>Challan Date</th>
                                 <th>Lead Time</th>
-                                <th>Spand Time</th>
+                                <th>Spend Time</th>
                                 <th>Rest of Time </th>
                               </tr>
                             </thead>
