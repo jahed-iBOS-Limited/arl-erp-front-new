@@ -18,6 +18,8 @@ export default function DepositRegisterTable({
   history,
   closeHandler,
   profileData,
+  setIsShowModal,
+  setItem,
 }) {
   const dispatch = useDispatch();
 
@@ -58,6 +60,27 @@ export default function DepositRegisterTable({
               <td>{item?.strRemarks}</td>
               <td>
                 <div className="d-flex justify-content-between">
+                <span style={{ cursor: "pointer" }}>
+                      <OverlayTrigger
+                        overlay={
+                          <Tooltip id="cs-icon">History</Tooltip>
+                        }
+                      >
+                        <span
+                          onClick={(e) => {
+                           setIsShowModal(true);
+                           setItem(item)
+                          }}
+                          className="ml-2"
+                        >
+                          <i
+                            style={{ fontSize: "16px" }}
+                            className={`fa fa-history`}
+                            aria-hidden="true"
+                          ></i>
+                        </span>
+                      </OverlayTrigger>
+                    </span>
                   {item?.strAttachment ? (
                     <span style={{ cursor: "pointer" }}>
                       <OverlayTrigger
