@@ -62,7 +62,7 @@ export default function _Form({
           saveHandler(values, () => {
             resetForm(initData);
             history.push(
-              "/performance-management/individual-kpi/individual-kpi-achievement"
+              "/self-service/kpi-target-entry"
             );
 
             getPmsReportAction(
