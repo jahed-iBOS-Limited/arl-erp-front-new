@@ -8,15 +8,16 @@ export const getDeliverySchedulePlan = async (
   toDate,
   shipmentType,
   shippointId,
+  isCompleted,
   setter,
   setLoading
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `/wms/Delivery/GetDeliverySchedulePlan?accountId=${accId}&businessUnitId=${buId}&fromDate=${fromDate}&toDtae=${toDate}&shipmentType=${shipmentType}&shippointId=${shippointId}`
+      `/wms/Delivery/GetDeliverySchedulePlan?accountId=${accId}&businessUnitId=${buId}&fromDate=${fromDate}&toDtae=${toDate}&shipmentType=${shipmentType}&shippointId=${shippointId}&isCompleted=${isCompleted}`
     );
-    setter(res?.data);
+    setter(res?.data?.map((item) => ({ ...item, itemCheck: false })));
     setLoading(false);
   } catch (error) {
     setter([]);
@@ -47,6 +48,21 @@ export const GetShipmentTypeApi = async (
   } catch (error) {
     setter([]);
     toast.warn(error?.response?.data?.message);
+    setLoading(false);
+  }
+};
+export const CreateTransportScheduleTypeApi = async (data, setLoading, cb) => {
+  setLoading(true);
+  try {
+    const res = await axios.post(
+      `/oms/SalesOrganization/CreateTransportScheduleType`,
+      data
+    );
+    cb();
+    toast.success(res?.data?.message);
+    setLoading(false);
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
     setLoading(false);
   }
 };

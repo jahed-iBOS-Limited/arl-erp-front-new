@@ -17,12 +17,21 @@ import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import printIcon from "../../../../_helper/images/print-icon.png";
-import { GetShipmentTypeApi, getDeliverySchedulePlan } from "../helper";
+import {
+  CreateTransportScheduleTypeApi,
+  GetShipmentTypeApi,
+  getDeliverySchedulePlan,
+} from "../helper";
 import NewSelect from "./../../../../_helper/_select";
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
   shipPoint: { value: 0, label: "All" },
+  trackingType: {
+    value: 1,
+    label: "Tracking Pending",
+  },
+  logisticBy: "",
 };
 
 const useStyles = makeStyles({
@@ -78,10 +87,41 @@ function DeliveryScheduleplanReport() {
       values?.toDate,
       shipmentTypeDDl?.[newValue]?.value || 0,
       values?.shipPoint?.value,
+      values?.trackingType?.value === 2 ? true : false,
       setGridData,
       setLoading
     );
   };
+
+  // one item select
+  const itemSlectedHandler = (index) => {
+    const copyRowDto = [...gridData];
+    copyRowDto[index].itemCheck = !copyRowDto[index].itemCheck;
+    setGridData(copyRowDto);
+  };
+  // All item select
+  const allGridCheck = (value) => {
+    const modifyGridData = gridData?.map((itm) => ({
+      ...itm,
+      itemCheck: value,
+    }));
+    setGridData(modifyGridData);
+  };
+
+
+  const commonGridApi = (values) => {
+    getDeliverySchedulePlan(
+      profileData?.accountId,
+      selectedBusinessUnit?.value,
+      values?.fromDate,
+      values?.toDate,
+      shipmentTypeDDl?.[shipmentType]?.value || 0,
+      values?.shipPoint?.value,
+      values?.trackingType?.value === 2 ? true : false,
+      setGridData,
+      setLoading
+    );
+  }
 
   return (
     <>
@@ -98,25 +138,27 @@ function DeliveryScheduleplanReport() {
             <CardHeader title={"Delivery Schedule Plan Report"}>
               <CardHeaderToolbar>
                 {gridData?.length > 0 && (
-                  <ReactToPrint
-                    trigger={() => (
-                      <button
-                        type='button'
-                        className='btn btn-primary px-4 py-1'
-                      >
-                        <img
-                          style={{
-                            width: "25px",
-                            paddingRight: "5px",
-                          }}
-                          src={printIcon}
-                          alt='print-icon'
-                        />
-                        Print
-                      </button>
-                    )}
-                    content={() => printRef.current}
-                  />
+                  <>
+                    <ReactToPrint
+                      trigger={() => (
+                        <button
+                          type='button'
+                          className='btn btn-primary px-4 py-1'
+                        >
+                          <img
+                            style={{
+                              width: "25px",
+                              paddingRight: "5px",
+                            }}
+                            src={printIcon}
+                            alt='print-icon'
+                          />
+                          Print
+                        </button>
+                      )}
+                      content={() => printRef.current}
+                    />
+                  </>
                 )}
               </CardHeaderToolbar>
             </CardHeader>
@@ -139,8 +181,54 @@ function DeliveryScheduleplanReport() {
                         placeholder='Ship Point'
                         errors={errors}
                         touched={touched}
+                        isClearable={false}
                       />
                     </div>
+
+                    <div className='col-lg-3'>
+                      <NewSelect
+                        name='trackingType'
+                        options={[
+                          { value: 1, label: "Tracking Pending" },
+                          { value: 2, label: "Tracking Complete" },
+                        ]}
+                        value={values?.trackingType}
+                        label='Tracking Type'
+                        onChange={(valueOption) => {
+                          setGridData([]);
+                          setFieldValue("trackingType", valueOption);
+                          setFieldValue("logisticBy", "");
+                        }}
+                        placeholder='Tracking Type'
+                        errors={errors}
+                        touched={touched}
+                        isClearable={false}
+                      />
+                    </div>
+                    <div className='col-lg-3'></div>
+                    {values?.trackingType?.value === 1 && (
+                      <>
+                        <div className='col-lg-3'>
+                          <NewSelect
+                            name='logisticBy'
+                            options={[
+                              { value: 1, label: "Company" },
+                              { value: 2, label: "Supplier" },
+                            ]}
+                            value={values?.logisticBy}
+                            label='Logistic By'
+                            onChange={(valueOption) => {
+                              setFieldValue("logisticBy", valueOption);
+                            }}
+                            placeholder='Logistic By'
+                            errors={errors}
+                            touched={touched}
+                            isClearable={false}
+                          />
+                        </div>
+                      </>
+                    )}
+
                     <div className='col-lg-12 p-0 m-0'>
                       <Paper square className={classes.root}>
                         <div>
@@ -203,21 +291,51 @@ function DeliveryScheduleplanReport() {
                             }
                             onClick={() => {
                               setGridData([]);
-                              getDeliverySchedulePlan(
-                                profileData?.accountId,
-                                selectedBusinessUnit?.value,
-                                values?.fromDate,
-                                values?.toDate,
-                                shipmentTypeDDl?.[shipmentType]?.value || 0,
-                                values?.shipPoint?.value,
-                                setGridData,
-                                setLoading
-                              );
+                              commonGridApi(values)
                             }}
                             className='btn btn-primary'
                           >
                             Show
                           </button>
+                          {values?.trackingType?.value === 1 && (
+                            <>
+                              {" "}
+                              <button
+                                disabled={
+                                  !values?.logisticBy?.value ||
+                                  !gridData?.some((i) => i.itemCheck)
+                                }
+                                type='button'
+                                style={{ marginTop: "17px" }}
+                                className='btn btn-primary'
+                                onClick={() => {
+                                  const payload = gridData
+                                    ?.filter((i) => i?.itemCheck)
+                                    .map((itm) => ({
+                                      deliveryId: itm?.intDeliveryId || itm?.deliveryId || 0,
+                                      poviderTypeId: values?.logisticBy?.value,
+                                      providerTypeName:
+                                        values?.logisticBy?.label,
+                                      scheduleDate:
+                                        itm?.deliveryScheduleDate || new Date(),
+                                    }));
+
+                                    console.log(payload)
+                                  CreateTransportScheduleTypeApi(
+                                    payload,
+                                    setLoading,
+                                    () => {
+                                      setGridData([]);
+                                      commonGridApi(values)
+                                      setFieldValue("logisticBy", "")
+                                    }
+                                  );
+                                }}
+                              >
+                                Save
+                              </button>
+                            </>
+                          )}
                         </div>
                       </Paper>
                     </div>
@@ -258,8 +376,27 @@ function DeliveryScheduleplanReport() {
                           <table className='table table-striped table-bordered global-table'>
                             <thead>
                               <tr>
+                                {values?.trackingType?.value === 1 && (
+                                  <th
+                                    style={{ minWidth: "25px" }}
+                                    className='printSectionNone'
+                                  >
+                                    <input
+                                      type='checkbox'
+                                      id='parent'
+                                      onChange={(event) => {
+                                        allGridCheck(event.target.checked);
+                                      }}
+                                    />
+                                  </th>
+                                )}
                                 <th>SL</th>
                                 <th>Delivery Code </th>
+                                <th>Logistic By</th>
+                                {shipmentTypeDDl?.[shipmentType]?.value ===
+                                0 ? (
+                                  <th>Shipment Type</th>
+                                ) : null}
                                 <th>Ship Point</th>
                                 <th>Area</th>
                                 <th>Territory</th>
@@ -272,17 +409,38 @@ function DeliveryScheduleplanReport() {
                                 <th>Lead Time</th>
                                 <th>Spend Time</th>
                                 <th>Rest of Time </th>
+                                <th>Shipment Status</th>
                               </tr>
                             </thead>
                             <tbody>
                               {gridData?.map((item, index) => {
                                 return (
                                   <tr key={index}>
+                                    {values?.trackingType?.value === 1 && (
+                                      <td className='printSectionNone'>
+                                        <input
+                                          id='itemCheck'
+                                          type='checkbox'
+                                          value={item.itemCheck}
+                                          checked={item.itemCheck}
+                                          name={item.itemCheck}
+                                          onChange={(e) => {
+                                            itemSlectedHandler(index);
+                                          }}
+                                        />
+                                      </td>
+                                    )}
+
                                     <td className='text-center'>
                                       {" "}
                                       {index + 1}
                                     </td>
                                     <td>{item?.deliveryCode}</td>
+                                    <td>{item?.providerTypeName}</td>
+                                    {shipmentTypeDDl?.[shipmentType]?.value ===
+                                    0 ? (
+                                      <td>{item?.shipmentType}</td>
+                                    ) : null}
                                     <td>{item?.shipPointName}</td>
                                     <td>{item?.area}</td>
                                     <td>{item?.territory}</td>
@@ -307,11 +465,21 @@ function DeliveryScheduleplanReport() {
                                     <td>{item?.leadTimeHr}</td>
                                     <td>{item?.spendTimeHr}</td>
                                     <td>{item?.pendingTimeHr}</td>
+                                    <td>{item?.shipmentStatus || ''}</td>
                                   </tr>
                                 );
                               })}
                               <tr>
-                                <td className='text-right' colSpan='8'>
+                                {values?.trackingType?.value === 1 && <td></td>}
+
+                                <td
+                                  className='text-right'
+                                  colSpan={
+                                    shipmentTypeDDl?.[shipmentType]?.value === 0
+                                      ? 10
+                                      : 9
+                                  }
+                                >
                                   <b>Total:</b>
                                 </td>
                                 <td className='text-center'>
@@ -324,7 +492,7 @@ function DeliveryScheduleplanReport() {
                                     )}
                                   </b>
                                 </td>
-                                <td colSpan='5'></td>
+                                <td colSpan='6'></td>
                               </tr>
                             </tbody>
                           </table>
