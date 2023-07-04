@@ -103,7 +103,7 @@ function DeliveryScheduleplanReport() {
   const allGridCheck = (value) => {
     const modifyGridData = gridData?.map((itm) => ({
       ...itm,
-      itemCheck: value,
+      itemCheck: itm?.shipmentStatus ? false: value,
     }));
     setGridData(modifyGridData);
   };
@@ -424,6 +424,7 @@ function DeliveryScheduleplanReport() {
                                           value={item.itemCheck}
                                           checked={item.itemCheck}
                                           name={item.itemCheck}
+                                          disabled={item?.shipmentStatus}
                                           onChange={(e) => {
                                             itemSlectedHandler(index);
                                           }}
