@@ -27,13 +27,13 @@ export default function BankGuaranteeTable({
             <th>SL</th>
             <th>SBU</th>
             <th>Bank</th>
-            <th>Bank Guarantee Number</th>
-            <th>Beneficiary</th>
+            <th>BG Number</th>
+            <th>Beneficiary Name</th>
             <th>Issuing Date</th>
             <th>Ending Date</th>
             <th>T Days</th>
             <th>Currency</th>
-            <th> BG Amounts</th>
+            <th>BG Amounts</th>
             <th>Margin Ref.</th>
             <th>Status</th>
             <th style={{ minWidth: "70px" }}>Action</th>

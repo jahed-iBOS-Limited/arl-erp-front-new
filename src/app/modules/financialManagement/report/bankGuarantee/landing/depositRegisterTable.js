@@ -32,7 +32,7 @@ export default function DepositRegisterTable({
             <th>SBU</th>
             <th>Bank</th>
             <th>Security Type</th>
-            <th>Beneficiary</th>
+            <th>Beneficiary Name</th>
             <th>Issue Date</th>
             <th>Retirement Date</th>
             <th>Amount</th>
