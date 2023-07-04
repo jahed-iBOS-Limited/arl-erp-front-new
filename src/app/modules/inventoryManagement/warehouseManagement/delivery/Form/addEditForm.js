@@ -151,9 +151,15 @@ export default function DeliveryForm({
 
   const saveHandler = async (values, cb) => {
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
-      let requestDeliveryDate = moment(values?.requestTime).format(
-        "YYYY-MM-DDTHH:mm:ss"
-      );
+      let requestDeliveryDate = "";
+      //curent date compare with request date
+      if (moment(values?.requestTime).isBefore(moment())) {
+        requestDeliveryDate = moment().format("YYYY-MM-DDTHH:mm:ss");
+      } else {
+        requestDeliveryDate = moment(values?.requestTime).format(
+          "YYYY-MM-DDTHH:mm:ss"
+        );
+      }
       let list = [];
       if (values?.itemLists?.length > 0) {
         values.itemLists.forEach((allItm) => {
@@ -187,7 +193,6 @@ export default function DeliveryForm({
           shipmentExtraAmount:
             (+itm?.extraRate || 0) * (+itm?.deliveryQty || 0),
           shipmentExtraRate: +itm?.extraRate || 0,
-        
         };
       });
 
@@ -206,7 +211,7 @@ export default function DeliveryForm({
             shipPointId: singleData?.objDeliveryHeaderLandingDTO?.shipPointId,
             actionBy: profileData.userId,
             lastActionDateTime: _todayDate(),
-            territoryId: values?.soldToParty?.terriToryId || 0
+            territoryId: values?.soldToParty?.terriToryId || 0,
           },
           rowData: rowData,
         };
@@ -227,7 +232,7 @@ export default function DeliveryForm({
             shipmentTypeId: values?.shipmentType?.value || 0,
             shipmentType: values?.shipmentType?.label || "",
             requestDeliveryDate: requestDeliveryDate,
-            territoryId: values?.soldToParty?.terriToryId || 0
+            territoryId: values?.soldToParty?.terriToryId || 0,
           },
           objRow: rowData,
           objShipRequest: {
@@ -259,9 +264,9 @@ export default function DeliveryForm({
               let confirmObject = {
                 title: "Notice",
                 message: `Your Approximate Delivery Will be \n
-                From ${moment().format("YYYY-MM-DD hh:mm A")} \n
+                From ${moment().format("DD-MM-YYYY hh:mm A")} \n
                 To ResponseTime ${moment(apprroximateDate).format(
-                  "YYYY-MM-DD hh:mm A"
+                  "DD-MM-YYYY hh:mm A"
                 )}`,
                 yesAlertFunc: async () => {
                   dispatch(
@@ -474,7 +479,7 @@ export default function DeliveryForm({
               ? headerData?.soldToParty
               : "",
             itemLists: pendingDeliveryReportitemList || [],
-            businessUnitId: selectedBusinessUnit?.value
+            businessUnitId: selectedBusinessUnit?.value,
           }
         }
         saveHandler={saveHandler}
