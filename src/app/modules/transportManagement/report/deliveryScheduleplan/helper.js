@@ -1,4 +1,5 @@
 import axios from "axios";
+import moment from "moment";
 import { toast } from "react-toastify";
 
 export const getDeliverySchedulePlan = async (
@@ -17,7 +18,12 @@ export const getDeliverySchedulePlan = async (
     const res = await axios.get(
       `/wms/Delivery/GetDeliverySchedulePlan?accountId=${accId}&businessUnitId=${buId}&fromDate=${fromDate}&toDtae=${toDate}&shipmentType=${shipmentType}&shippointId=${shippointId}&isCompleted=${isCompleted}`
     );
-    setter(res?.data?.map((item) => ({ ...item, itemCheck: false })));
+    setter(
+      res?.data?.map((item) => ({
+        ...item,
+        itemCheck: false,
+      }))
+    );
     setLoading(false);
   } catch (error) {
     setter([]);
