@@ -410,6 +410,14 @@ const LCSummaryDetails = ({fundLimitDetails}) => {
                                        </td>
                                     </tr>
                                     <tr>
+                                       <td>Maturity Date</td>
+                                       <td>
+                                          {_dateFormatter(
+                                             costSummary?.maturityDate
+                                          )}
+                                       </td>
+                                    </tr>
+                                    <tr>
                                        <td>LC Opening Charge</td>
                                        <td className="text-right">
                                           {costSummary?.lcOpeningCharge}
