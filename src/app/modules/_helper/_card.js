@@ -33,6 +33,8 @@ export default function ICard({
   excelFileNameWillbe,
   documentTitle,
   disableCreateBtn,
+  createBtnText,
+  createBtnClass,
 }) {
   const [isShowModal, setisShowModal] = useState(false);
   return (
@@ -67,12 +69,14 @@ export default function ICard({
               {(isCreteBtn || createHandler) && (
                 <button
                   type="button"
-                  className="btn btn-primary"
+                  className={`btn ${
+                    createBtnClass ? createBtnClass : "btn-primary"
+                  }`}
                   style={{ marginRight: "3px" }}
                   onClick={createHandler}
                   disabled={disableCreateBtn}
                 >
-                  Create
+                  {`${createBtnText ? createBtnText : "Create"}`}
                 </button>
               )}
               <button
