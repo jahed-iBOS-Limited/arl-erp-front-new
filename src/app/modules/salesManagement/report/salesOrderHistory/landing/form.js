@@ -51,7 +51,6 @@ export default function SalesOrderHistoryLanding() {
   // get user profile data from store
   const {
     profileData: { accountId: accId },
-    profileData: { userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state.authData, shallowEqual);
 

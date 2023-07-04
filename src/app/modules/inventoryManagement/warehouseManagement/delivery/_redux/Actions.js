@@ -30,7 +30,7 @@ export const GetWarehouseDDLAction = (accId, buId, shipPointId) => (
   return requestFromServer
     .GetWarehouseDDL(accId, buId, shipPointId)
     .then((res) => {
-      const {  data } = res;
+      const { data } = res;
       dispatch(slice.SetWarehouseDDL(data));
     });
 };
@@ -211,6 +211,7 @@ export const getDeliveryById = (id) => (dispatch) => {
               shipToPartnerAddress:
                 res?.data?.objDeliveryHeaderLandingDTO?.shipToPartnerAddress ||
                 "",
+
               deliveryQty: +ele?.quantity || 0,
               salesOrderId: ele?.salesOrderId || 0,
               salesOrder: ele?.salesOrderCode || "",
@@ -223,12 +224,12 @@ export const getDeliveryById = (id) => (dispatch) => {
               },
               vatAmount: (ele?.vatItemPrice || 0) * (+ele?.quantity || 0),
               isItemShow: true,
-
               maxDeliveryQty: +ele?.quantity + ele?.pendingQty,
               uomId: ele?.uomid,
               uomName: ele?.uom,
               freeItem: ele?.isFreeItem,
-              numItemPrice: +ele?.itemPrice,
+              numItemPrice: +ele?.itemPrice - (+ele?.shipmentExtraRate || 0),
+              extraRate: +ele?.shipmentExtraRate || 0,
               numOrderQuantity: +ele?.orderQuantity,
               objLocation: [
                 {
@@ -257,38 +258,6 @@ export const getDeliveryById = (id) => (dispatch) => {
           });
         }
 
-        console.log(modifiedSalesOrderList);
-
-        // let singleRowData = res?.data?.objListDeliveryRowDetailsDTO?.map(
-        //   (itm, index) => {
-        //     return {
-        //       ...itm,
-        //       warehouse: itm?.warehouseName,
-        //       shipToPartnerAddress:
-        //         res?.data?.objDeliveryHeaderLandingDTO?.shipToPartnerAddress,
-        //       shipToParty:
-        //         res?.data?.objDeliveryHeaderLandingDTO?.shipToPartnerName,
-        //       deliveryQty: +itm.quantity,
-        //       maxDeliveryQty: +itm?.quantity + itm?.pendingQty,
-        //       uomId: itm?.uomid,
-        //       uomName: itm?.uom,
-        //       freeItem: itm?.isFreeItem,
-        //       selectLocation: {
-        //         value: itm?.locationId,
-        //         label: itm?.locationName,
-        //       },
-        //       numItemPrice: +itm?.itemPrice,
-        //       numOrderQuantity: +itm?.orderQuantity,
-        //       amount: +itm?.itemPrice * +itm?.quantity,
-        //       objLocation: [
-        //         {
-        //           value: itm?.locationId,
-        //           label: itm?.locationName,
-        //         },
-        //       ],
-        //     };
-        //   }
-        // );
         const data = {
           ...item,
           shipPoint: item?.objDeliveryHeaderLandingDTO?.shipPointId
@@ -302,6 +271,7 @@ export const getDeliveryById = (id) => (dispatch) => {
             ? {
                 value: item?.objDeliveryHeaderLandingDTO?.soldToPartnerId,
                 label: item?.objDeliveryHeaderLandingDTO?.soldToPartnerName,
+                territoryId: item?.objDeliveryHeaderLandingDTO?.territoryId
               }
             : "",
           shipToParty: item?.objDeliveryHeaderLandingDTO?.shipToPartnerId
@@ -334,6 +304,13 @@ export const getDeliveryById = (id) => (dispatch) => {
             "",
           deliveryDate: item?.objDeliveryHeaderLandingDTO?.deliveryDate
             ? _dateFormatter(item?.objDeliveryHeaderLandingDTO?.deliveryDate)
+            : "",
+          shipmentType: item?.objDeliveryHeaderLandingDTO?.shipmentTypeId
+            ? {
+                value: item?.objDeliveryHeaderLandingDTO?.shipmentTypeId,
+                label: item?.objDeliveryHeaderLandingDTO?.shipmentType,
+                extraRate: modifiedSalesOrderList?.[0]?.extraRate || 0,
+              }
             : "",
           itemLists: modifiedSalesOrderList,
         };

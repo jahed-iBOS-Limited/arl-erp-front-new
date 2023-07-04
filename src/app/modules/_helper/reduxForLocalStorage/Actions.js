@@ -427,3 +427,7 @@ export const setShippingBillregisterLandingAction = (data) => (dispatch) => {
 export const setProfileOverviewStoreAction = (data) => (dispatch) => {
   dispatch(slice.setProfileOverviewStore(data));
 };
+
+export const setBankGuaranteeStoreAction = (data) => (dispatch) => {
+  dispatch(slice.setBankGuaranteeStore(data));
+};

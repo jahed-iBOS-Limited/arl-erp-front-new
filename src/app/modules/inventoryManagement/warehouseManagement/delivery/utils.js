@@ -50,3 +50,55 @@ export const printCount = async (accId, buId, id) => {
     console.log(error);
   }
 };
+
+export const GetShipmentTypeApi = async (
+  accId,
+  buId,
+  territoryId,
+  setter,
+  setLoading,
+  cb
+) => {
+  setLoading(true);
+  try {
+    const res = await axios.get(
+      `/wms/DeliveryRequisition/GetShipmentType?AccountId=${accId}&BusinessUnitId=${buId}&TerritoryId=${territoryId}`
+    );
+
+    const dataModify = res?.data?.map((item) => ({
+      value: item?.shipmentTypeId,
+      label: item?.shipmentType,
+      extraRate: item?.extraRate || 0,
+    }));
+    setter(dataModify || []);
+    cb(dataModify);
+    setLoading(false);
+  } catch (error) {
+    setter([]);
+    toast.warn(error?.response?.data?.message);
+    setLoading(false);
+  }
+};
+
+export const GetDeliveryApprroximateDateTimeApi = async (
+  buId,
+  shippointId,
+  requestTime,
+  requestQty,
+  territoryId,
+  shipmentTypeId,
+  setLoading,
+  cb
+) => {
+  setLoading(true);
+  try {
+    const res = await axios.get(
+      `/wms/Delivery/GetDeliveryApprroximateDateTime?BusinessUnitId=${buId}&ShippointId=${shippointId}&RequestTime=${requestTime}&RequestQty=${requestQty}&TerritoryId=${territoryId}&ShipmentTypeId=${shipmentTypeId}`
+    );
+    cb(res?.data || "");
+    setLoading(false);
+  } catch (error) {
+    toast.warn(error?.response?.data?.message);
+    setLoading(false);
+  }
+};
