@@ -135,8 +135,8 @@ export default function GateEntryCreate() {
         supplierName: isCustomer(location)
           ? ""
           : hadScalable(location)
-            ? getFieldValue(location)
-            : location.state?.strSupplierName,
+          ? getFieldValue(location)
+          : location.state?.strSupplierName,
         supCusNameFWR:
           location?.state?.intClientTypeId === 4
             ? location.state?.strSupplierName || ""
@@ -145,12 +145,12 @@ export default function GateEntryCreate() {
         mobileNo: location?.state?.strDriverMobileNo,
         vehicleNo:
           location?.state?.intClientTypeId === 1 ||
-            location?.state?.intClientTypeId === 4
+          location?.state?.intClientTypeId === 4
             ? location?.state?.strTruckNumber
             : {
-              value: location?.state?.intVehicleId,
-              label: location?.state?.strTruckNumber,
-            },
+                value: location?.state?.intVehicleId,
+                label: location?.state?.strTruckNumber,
+              },
         inTime: location?.state?.tmInTime,
         invoiceNo: location?.state?.strInvoiceNumber,
         shiftIncharge: {
@@ -174,9 +174,9 @@ export default function GateEntryCreate() {
         clientType:
           location?.state?.intClientTypeId && location?.state?.strClientTypeName
             ? {
-              value: location?.state?.intClientTypeId,
-              label: location?.state?.strClientTypeName,
-            }
+                value: location?.state?.intClientTypeId,
+                label: location?.state?.strClientTypeName,
+              }
             : "",
         vatChallanNo: location?.state?.strVatChallanNo || "",
         strCardNumber: location?.state?.strCardNumber || "",
@@ -196,8 +196,10 @@ export default function GateEntryCreate() {
           location?.state?.intClientTypeId === 4
             ? location?.state?.numQuantity || ""
             : "",
-        supplierItemQuantity: location?.state?.intClientTypeId === 1
-          ? location?.state?.numQuantity || "" : "",
+        supplierItemQuantity:
+          location?.state?.intClientTypeId === 1
+            ? location?.state?.numQuantity || ""
+            : "",
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -239,8 +241,8 @@ export default function GateEntryCreate() {
           values?.clientType?.value === 4
             ? values?.supCusNameFWR || ""
             : values?.clientType?.value === 1 && isScalable
-              ? values?.supplierName?.label
-              : values?.supplierName || "",
+            ? values?.supplierName?.label
+            : values?.supplierName || "",
         intVehicleId:
           values?.clientType?.value === 1 || values?.clientType?.value === 4
             ? 0
@@ -264,10 +266,10 @@ export default function GateEntryCreate() {
           values?.clientType?.value === 4
             ? values?.itemNameFWR || ""
             : values?.clientType?.value === 1
-              ? values?.itemName?.label
-              : values?.clientType?.value === 3
-                ? values?.gatePassItemName
-                : "",
+            ? values?.itemName?.label
+            : values?.clientType?.value === 3
+            ? values?.gatePassItemName
+            : "",
         intUoMid: 0,
         strUoMname: values?.uom || "",
         isScalable: isScalable,
@@ -283,17 +285,17 @@ export default function GateEntryCreate() {
           values?.clientType?.value === 4
             ? +values?.quantityFWR || 0
             : values?.clientType?.value === 1
-              ? +values?.supplierItemQuantity || 0
-              : 0,
+            ? +values?.supplierItemQuantity || 0
+            : 0,
       },
       id
         ? ""
         : (data) => {
-          setEntryCode(data?.code);
-          cb();
-          setIsShowModel(true);
-          document.getElementById("cardNoInput").disabled = false;
-        },
+            setEntryCode(data?.code);
+            cb();
+            setIsShowModel(true);
+            document.getElementById("cardNoInput").disabled = false;
+          },
       true
     );
   };
@@ -313,12 +315,12 @@ export default function GateEntryCreate() {
             id
               ? modifyData
               : {
-                ...initData,
-                clientType:
-                  selectedBusinessUnit.value === 171
-                    ? { value: 1, label: "Supplier" }
-                    : { value: 2, label: "Customer" },
-              }
+                  ...initData,
+                  clientType:
+                    selectedBusinessUnit.value === 171
+                      ? { value: 1, label: "Supplier" }
+                      : { value: 2, label: "Customer" },
+                }
           }
           onSubmit={(values, { setSubmitting, resetForm }) => {
             saveHandler(values, () => {
@@ -617,6 +619,34 @@ export default function GateEntryCreate() {
                         />
                       </div>
                     ) : null}
+                    {values?.clientType?.value === 2 ||
+                    values?.clientType?.value === 3 ? (
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="vehicleNo"
+                          options={vehicleDDL || []}
+                          value={values?.vehicleNo}
+                          label="গাড়ীর নাম্বার"
+                          onChange={(valueOption) => {
+                            if (valueOption) {
+                              setFieldValue("vehicleNo", valueOption);
+                              setFieldValue(
+                                "nameOfDriver",
+                                valueOption?.strDriverName || ""
+                              );
+                              setFieldValue(
+                                "mobileNo",
+                                valueOption?.strDriverContact || ""
+                              );
+                            } else {
+                              setFieldValue("vehicleNo", "");
+                              setFieldValue("nameOfDriver", "");
+                              setFieldValue("mobileNo", "");
+                            }
+                          }}
+                        />
+                      </div>
+                    ) : null}
                     <div className="col-lg-3">
                       <InputField
                         value={values?.nameOfDriver}
@@ -633,22 +663,8 @@ export default function GateEntryCreate() {
                         type="text"
                       />
                     </div>
-                    {values?.clientType?.value === 2 ||
-                      values?.clientType?.value === 3 ? (
-                      <div className="col-lg-3">
-                        <NewSelect
-                          name="vehicleNo"
-                          options={vehicleDDL || []}
-                          value={values?.vehicleNo}
-                          label="গাড়ীর নাম্বার"
-                          onChange={(valueOption) => {
-                            setFieldValue("vehicleNo", valueOption);
-                          }}
-                        />
-                      </div>
-                    ) : null}
                     {values?.clientType?.value === 1 ||
-                      values?.clientType?.value === 4 ? (
+                    values?.clientType?.value === 4 ? (
                       <div className="col-lg-3">
                         <InputField
                           value={values?.vehicleNo}
@@ -706,7 +722,10 @@ export default function GateEntryCreate() {
                             type="number"
                             onChange={(e) => {
                               if (+e.target.value < 0) return;
-                              setFieldValue("supplierItemQuantity", e.target.value);
+                              setFieldValue(
+                                "supplierItemQuantity",
+                                e.target.value
+                              );
                             }}
                           />
                         </div>
