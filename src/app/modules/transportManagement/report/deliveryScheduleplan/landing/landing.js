@@ -5,6 +5,7 @@ import React, { useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import ReactToPrint from "react-to-print";
 import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
+import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
 import {
   Card,
   CardBody,
@@ -241,6 +242,17 @@ function DeliveryScheduleplanReport() {
                           </h5>
                         </div>
                       </div>
+                      <div className='text-right'>
+                        Total Qty.:{" "}
+                        <b>
+                          {_fixedPoint(
+                            gridData?.reduce(
+                              (acc, curr) => acc + curr?.quantity,
+                              0
+                            )
+                          )}
+                        </b>
+                      </div>
                       <div className='loan-scrollable-tafble'>
                         <div className='scroll-table _tafble'>
                           <table className='table table-striped table-bordered global-table'>
@@ -288,9 +300,9 @@ function DeliveryScheduleplanReport() {
                                     </td>
                                     <td>
                                       {item?.deliveryScheduleDate &&
-                                        moment(item?.deliveryScheduleDate).format(
-                                          "DD-MM-YYYY hh:mm: A"
-                                        )}
+                                        moment(
+                                          item?.deliveryScheduleDate
+                                        ).format("DD-MM-YYYY hh:mm: A")}
                                     </td>
                                     <td>{item?.leadTimeHr}</td>
                                     <td>{item?.spendTimeHr}</td>
@@ -304,9 +316,11 @@ function DeliveryScheduleplanReport() {
                                 </td>
                                 <td className='text-center'>
                                   <b>
-                                    {gridData?.reduce(
-                                      (acc, curr) => acc + curr?.quantity,
-                                      0
+                                    {_fixedPoint(
+                                      gridData?.reduce(
+                                        (acc, curr) => acc + curr?.quantity,
+                                        0
+                                      )
                                     )}
                                   </b>
                                 </td>
