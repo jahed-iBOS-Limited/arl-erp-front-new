@@ -27,15 +27,15 @@ export default function BankGuaranteeTable({
             <th>SL</th>
             <th>SBU</th>
             <th>Bank</th>
-            <th>Bank Guarantee Number</th>
-            <th>Beneficiary</th>
+            <th>BG Number</th>
+            <th>Beneficiary Name</th>
             <th>Issuing Date</th>
             <th>Ending Date</th>
             <th>T Days</th>
             <th>Currency</th>
-            <th> BG Amounts</th>
-            <th> Status</th>
+            <th>BG Amounts</th>
             <th>Margin Ref.</th>
+            <th>Status</th>
             <th style={{ minWidth: "70px" }}>Action</th>
           </tr>
         </thead>
@@ -56,11 +56,11 @@ export default function BankGuaranteeTable({
               <td>{item?.intTdays}</td>
               <td>{item?.strCurrency}</td>
               <td>{item?.numAmount}</td>
-              <td>{item?.strStatus}</td>
               <td>{item?.strMarginRef}</td>
+              <td>{item?.strStatus}</td>
               <td>
                 <div className="d-flex justify-content-between">
-                  <span style={{ cursor: "pointer" }}>
+                  <span style={{ cursor: "pointer", padding: "2px" }}>
                     <OverlayTrigger
                       overlay={<Tooltip id="cs-icon">History</Tooltip>}
                     >
@@ -72,7 +72,7 @@ export default function BankGuaranteeTable({
                         className="ml-2"
                       >
                         <i
-                          style={{ fontSize: "16px" }}
+                          style={{ fontSize: "12px" }}
                           className={`fa fa-history`}
                           aria-hidden="true"
                         ></i>
@@ -87,38 +87,41 @@ export default function BankGuaranteeTable({
                           state: item,
                         });
                       }}
-                      style={{ cursor: "pointer" }}
+                      style={{ cursor: "pointer", padding: "2px" }}
                       className="text-primary"
                     >
                       Renew
                     </span>
                   ) : null}
-                  <span
-                    onClick={() => {
-                      IConfirmModal({
-                        title: "Close Action",
-                        closeOnClickOutside: false,
-                        message: "Do you want to Close ?",
-                        yesAlertFunc: () => {
-                          closeHandler(
-                            `/fino/CommonFino/CreateBankGuaranteeSecurityRegister`,
-                            {
-                              strPartName: "close",
-                              intId: item?.intId,
-                              intActionBy: profileData?.userId,
-                            },
-                            () => {
-                              setPositionHandler(pageNo, pageSize, values);
-                            },
-                            true
-                          );
-                        },
-                        noAlertFunc: () => {},
-                      });
-                    }}
-                  >
-                    <IClose />
-                  </span>
+                  {item?.strStatus !== "Closed" ? (
+                    <span
+                      style={{ cursor: "pointer", padding: "2px" }}
+                      onClick={() => {
+                        IConfirmModal({
+                          title: "Close Action",
+                          closeOnClickOutside: false,
+                          message: "Do you want to Close ?",
+                          yesAlertFunc: () => {
+                            closeHandler(
+                              `/fino/CommonFino/CreateBankGuaranteeSecurityRegister`,
+                              {
+                                strPartName: "close",
+                                intId: item?.intId,
+                                intActionBy: profileData?.userId,
+                              },
+                              () => {
+                                setPositionHandler(pageNo, pageSize, values);
+                              },
+                              true
+                            );
+                          },
+                          noAlertFunc: () => {},
+                        });
+                      }}
+                    >
+                      <IClose />
+                    </span>
+                  ) : null}
                 </div>
               </td>
             </tr>
