@@ -7,9 +7,15 @@ import {
 } from "../allotment/confirmBySupervisor/helper";
 import { shallowEqual, useSelector } from "react-redux";
 
-export const BADCBCICForm = ({ values, setFieldValue, disabled, onChange }) => {
+export const BADCBCICForm = ({
+  values,
+  setFieldValue,
+  disabled,
+  onChange,
+  colSize,
+}) => {
   return (
-    <div className="col-12 mt-3 d-flex">
+    <div className={`${colSize ? colSize : "col-12"}  mt-3 d-flex`}>
       <div className="d-flex align-items-center mr-5">
         <input
           style={radioStyle}
@@ -95,7 +101,7 @@ export const PortAndMotherVessel = ({ obj }) => {
             onChange &&
               onChange("motherVessel", { ...values, motherVessel: e });
           }}
-          isDisabled={disabled?.motherVessel}
+          isDisabled={disabled?.motherVessel || !values?.port}
         />
       </div>
     </>
