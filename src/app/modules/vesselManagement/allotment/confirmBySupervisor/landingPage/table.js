@@ -3,22 +3,23 @@ import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import PaginationTable from "../../../../_helper/_tablePagination";
+import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 
 const Table = ({ obj }) => {
   const {
-    rowData,
     status,
+    values,
+    pageNo,
+    rowData,
+    pageSize,
+    godownDDL,
+    setPageNo,
     allSelect,
     selectedAll,
-    values,
-    rowDataHandler,
-    godownDDL,
     loadOptions,
-    setPositionHandler,
-    pageNo,
-    setPageNo,
-    pageSize,
     setPageSize,
+    rowDataHandler,
+    setPositionHandler,
   } = obj;
 
   return (
@@ -45,9 +46,10 @@ const Table = ({ obj }) => {
                     )}
                     <th style={{ minWidth: "30px" }}>SL</th>
                     <th style={{ minWidth: "100px" }}>Sales Order No</th>
-                    <th style={{ minWidth: "90px" }}>Ghat Name</th>
+                    <th style={{ minWidth: "180px" }}>Mother Vessel</th>
+                    <th style={{ minWidth: "190px" }}>Ghat Name</th>
                     <th style={{ minWidth: "90px" }}>Vehicle No</th> {/* 4 */}
-                    <th style={{ minWidth: "70px" }}>Delivery Address</th>
+                    <th style={{ minWidth: "90px" }}>Delivery Address</th>
                     <th style={{ minWidth: "100px" }}>Quantity</th>
                     {values?.confirmationType?.value !== 3 && (
                       <th style={{ minWidth: "100px" }}>
@@ -62,6 +64,12 @@ const Table = ({ obj }) => {
                     )}
                     {/* <th style={{ minWidth: "100px" }}>Carrier Rate</th> */}
                     <th style={{ minWidth: "100px" }}>Bill Amount</th>
+                    {[2, 3].includes(values?.confirmationType?.value) && (
+                      <th style={{ minWidth: "80px" }}>Price</th>
+                    )}
+                    {[2, 3].includes(values?.confirmationType?.value) && (
+                      <th style={{ minWidth: "80px" }}>Total Revenue</th>
+                    )}
                     <th style={{ minWidth: "200px" }}>Ship to Partner</th>
                     <th style={{ minWidth: "160px" }}>{`${
                       values?.confirmationType?.value === 1
@@ -86,9 +94,6 @@ const Table = ({ obj }) => {
                       </th>
                     )}
                     <th style={{ minWidth: "100px" }}>Insert By</th>
-                    {[2, 3].includes(values?.confirmationType?.value) && (
-                      <th style={{ minWidth: "80px" }}>Price</th>
-                    )}
                     {/* <th style={{ minWidth: "150px" }}>Remark</th> */}
                   </tr>
                 </thead>
@@ -153,6 +158,7 @@ const Table = ({ obj }) => {
                             item?.salesOrder
                           )}
                         </td>
+                        <td>{item?.motherVesselName}</td>
                         <td>{item?.shipPointName}</td>
                         <td>{item?.vehicleRegNo}</td>
                         <td>{item?.address}</td>
@@ -256,6 +262,20 @@ const Table = ({ obj }) => {
                             (item?.quantity || 0) * (item?.transportRate || 0)
                           )}
                         </td>
+                        {[2, 3].includes(values?.confirmationType?.value) && (
+                          <td style={{ width: "100px" }} className="text-right">
+                            {item?.numItemPrice}
+                          </td>
+                        )}
+                        {[2, 3].includes(values?.confirmationType?.value) && (
+                          <td style={{ width: "100px" }} className="text-right">
+                            {_fixedPoint(
+                              item?.numItemPrice * item?.quantityTon,
+                              true,
+                              2
+                            )}
+                          </td>
+                        )}
                         <td style={{ width: "150px" }}>
                           {status ? (
                             <NewSelect
@@ -314,11 +334,6 @@ const Table = ({ obj }) => {
                           </td>
                         )}
                         <td style={{ width: "100px" }}>{item?.actionByName}</td>
-                        {[2, 3].includes(values?.confirmationType?.value) && (
-                          <td style={{ width: "100px" }} className="text-right">
-                            {item?.numItemPrice}
-                          </td>
-                        )}
                       </tr>
                     );
                   })}

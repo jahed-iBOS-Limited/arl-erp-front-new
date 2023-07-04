@@ -5,6 +5,7 @@ import React, { useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import ReactToPrint from "react-to-print";
 import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
+import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
 import {
   Card,
   CardBody,
@@ -241,6 +242,17 @@ function DeliveryScheduleplanReport() {
                           </h5>
                         </div>
                       </div>
+                      <div className='text-right'>
+                        Total Qty.:{" "}
+                        <b>
+                          {_fixedPoint(
+                            gridData?.reduce(
+                              (acc, curr) => acc + curr?.quantity,
+                              0
+                            )
+                          )}
+                        </b>
+                      </div>
                       <div className='loan-scrollable-tafble'>
                         <div className='scroll-table _tafble'>
                           <table className='table table-striped table-bordered global-table'>
@@ -248,13 +260,15 @@ function DeliveryScheduleplanReport() {
                               <tr>
                                 <th>SL</th>
                                 <th>Delivery Code </th>
+                                <th>Ship Point</th>
                                 <th>Area</th>
                                 <th>Territory</th>
                                 <th>Sold To Party</th>
                                 <th>Ship To Party</th>
                                 <th>Address</th>
                                 <th>Quantity</th>
-                                <th>Challan Date</th>
+                                <th>Create Date</th>
+                                <th>Delivery Date</th>
                                 <th>Lead Time</th>
                                 <th>Spend Time</th>
                                 <th>Rest of Time </th>
@@ -269,6 +283,7 @@ function DeliveryScheduleplanReport() {
                                       {index + 1}
                                     </td>
                                     <td>{item?.deliveryCode}</td>
+                                    <td>{item?.shipPointName}</td>
                                     <td>{item?.area}</td>
                                     <td>{item?.territory}</td>
                                     <td>{item?.soldToPartnerName}</td>
@@ -283,6 +298,12 @@ function DeliveryScheduleplanReport() {
                                           "DD-MM-YYYY hh:mm: A"
                                         )}
                                     </td>
+                                    <td>
+                                      {item?.deliveryScheduleDate &&
+                                        moment(
+                                          item?.deliveryScheduleDate
+                                        ).format("DD-MM-YYYY hh:mm: A")}
+                                    </td>
                                     <td>{item?.leadTimeHr}</td>
                                     <td>{item?.spendTimeHr}</td>
                                     <td>{item?.pendingTimeHr}</td>
@@ -290,18 +311,20 @@ function DeliveryScheduleplanReport() {
                                 );
                               })}
                               <tr>
-                                <td className='text-right' colSpan='7'>
+                                <td className='text-right' colSpan='8'>
                                   <b>Total:</b>
                                 </td>
                                 <td className='text-center'>
                                   <b>
-                                    {gridData?.reduce(
-                                      (acc, curr) => acc + curr?.quantity,
-                                      0
+                                    {_fixedPoint(
+                                      gridData?.reduce(
+                                        (acc, curr) => acc + curr?.quantity,
+                                        0
+                                      )
                                     )}
                                   </b>
                                 </td>
-                                <td colSpan='4'></td>
+                                <td colSpan='5'></td>
                               </tr>
                             </tbody>
                           </table>

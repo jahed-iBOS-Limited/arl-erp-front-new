@@ -42,7 +42,7 @@ const GridData = ({
   }, shallowEqual);
   const [clickRowData, setClickRowData] = React.useState("");
   const [permitted, getPermission] = useAxiosGet();
-  const [, getAddressChangingPermission] = useAxiosGet();
+  const [, getAddressChangingPermission, loader] = useAxiosGet();
 
   useEffect(() => {
     getPermission(
@@ -57,10 +57,12 @@ const GridData = ({
   };
   const [isTransferModel, setIsTransferModel] = React.useState(false);
 
+  const isLoading = loading || loader
+
   return (
     <>
       {/* Table Start */}
-      {loading && <Loading />}
+      {isLoading && <Loading />}
       <div className="row ">
         <div className="col-lg-12 mt-2 table-responsive">
           <PaginationSearch

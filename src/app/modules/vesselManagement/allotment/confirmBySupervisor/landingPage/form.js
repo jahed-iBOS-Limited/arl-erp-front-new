@@ -1,11 +1,9 @@
 import React from "react";
-import TextArea from "../../../../_helper/TextArea";
 import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { BADCBCICForm } from "../../../common/components";
-import { getMotherVesselDDL } from "../helper";
 import PaginationSearch from "../../../../_helper/_search";
-import { getTotal } from "../../../common/helper";
+import NewSelect from "../../../../_helper/_select";
+import IButton from "../../../../_helper/iButton";
+import { BADCBCICForm, PortAndMotherVessel } from "../../../common/components";
 
 const confirmationTypes = [
   { value: 1, label: "Receive Confirmation" },
@@ -16,24 +14,22 @@ const confirmationTypes = [
 const Form = ({ obj }) => {
   const {
     values,
-    setFieldValue,
-    onChangeHandler,
-    rowData,
-    setRowData,
+    pageNo,
     status,
+    rowData,
     getData,
     setOpen,
-    shipPointDDL,
-    godownDDL,
-    portDDL,
-    accId,
-    buId,
-    setMotherVesselDDL,
-    motherVesselDDL,
-    pageNo,
     pageSize,
+    totalQty,
+    totalBill,
+    godownDDL,
+    setRowData,
+    isDisabled,
+    shipPointDDL,
+    totalRevenue,
+    setFieldValue,
+    onChangeHandler,
     paginationSearchHandler,
-    saveHandler,
   } = obj;
   return (
     <>
@@ -41,6 +37,7 @@ const Form = ({ obj }) => {
         <div className="global-form">
           <div className="row">
             <BADCBCICForm
+              colSize={"col-lg-3"}
               values={values}
               setFieldValue={setFieldValue}
               onChange={onChangeHandler}
@@ -66,6 +63,7 @@ const Form = ({ obj }) => {
                 label="ShipPoint"
                 onChange={(e) => {
                   setFieldValue("shipPoint", e);
+                  setRowData([]);
                 }}
                 placeholder="ShipPoint"
               />
@@ -79,35 +77,21 @@ const Form = ({ obj }) => {
                 placeholder="Ship to Partner"
                 onChange={(e) => {
                   setFieldValue("shipToPartner", e);
+                  setRowData([]);
                 }}
               />
             </div>
-            <div className="col-lg-3">
-              <NewSelect
-                name="port"
-                options={[{ value: 0, label: "All" }, ...portDDL]}
-                value={values?.port}
-                label="Port"
-                placeholder="Port"
-                onChange={(e) => {
-                  setFieldValue("port", e);
-                  setFieldValue("motherVessel", "");
-                  getMotherVesselDDL(accId, buId, e?.value, setMotherVesselDDL);
-                }}
-              />
-            </div>
-            <div className="col-lg-3">
-              <NewSelect
-                name="motherVessel"
-                options={[{ value: 0, label: "All" }, ...motherVesselDDL] || []}
-                value={values?.motherVessel}
-                label="Mother Vessel"
-                placeholder="Mother Vessel"
-                onChange={(e) => {
-                  setFieldValue("motherVessel", e);
-                }}
-              />
-            </div>
+
+            <PortAndMotherVessel
+              obj={{
+                values,
+                setFieldValue,
+                onChange: () => {
+                  setRowData([]);
+                },
+              }}
+            />
+
             <div className="col-lg-3">
               <NewSelect
                 name="confirmationStatus"
@@ -115,12 +99,7 @@ const Form = ({ obj }) => {
                   { value: 1, label: "Pending" },
                   { value: 2, label: "Approve" },
                 ]}
-                value={
-                  values?.confirmationStatus || {
-                    value: 1,
-                    label: "Pending",
-                  }
-                }
+                value={values?.confirmationStatus}
                 label="Confirmation Status"
                 onChange={(e) => {
                   setFieldValue("confirmationStatus", e);
@@ -152,91 +131,57 @@ const Form = ({ obj }) => {
                     />
                   </div>
                   <div className="col-lg-6">
-                    <label>Remarks</label>
-                    <TextArea
+                    <InputField
+                      label="Remarks"
                       placeholder="Remarks"
                       value={values?.remarks}
                       name="remarks"
-                      rows={3}
+                      type="text"
                     />
                   </div>
-                  <div className="col-lg-2">
-                    <button
-                      className="btn btn-primary mr-2 mt-5"
-                      type="button"
-                      onClick={() => setOpen(true)}
-                    >
-                      Attachment
-                    </button>
-                  </div>
+                  <IButton colSize={"col-lg-2"} onClick={() => setOpen(true)}>
+                    Attachment
+                  </IButton>
                 </>
               )}
 
-            <div className="col-12 text-right">
-              <button
-                className="btn btn-primary btn-sm mt-2"
-                type="button"
-                onClick={() => {
-                  getData(values, pageNo, pageSize);
-                }}
-              >
-                View
-              </button>
-            </div>
+            <IButton
+              colSize={"col-lg-1"}
+              onClick={() => {
+                getData(values, pageNo, pageSize);
+              }}
+              disabled={isDisabled(values)}
+            />
           </div>
         </div>
       </form>
-      <div className="mt-5">
-        <PaginationSearch
-          placeholder="Delivery Code/Sales Order/ShipPoint"
-          paginationSearchHandler={paginationSearchHandler}
-          values={values}
-        />
-      </div>
-      {rowData?.data?.length > 0 && status && (
-        <div className="row my-3">
-          <div className="col-lg-4">
-            <h3>
-              Total Quantity:{" "}
-              {getTotal(rowData?.data, "quantity", "isSelected")}
-            </h3>
-          </div>
-          <div className="col-lg-4">
-            <h3>
-              Total Bill:{" "}
-              {rowData?.data
-                ?.filter((item) => item?.isSelected)
-                ?.reduce(
-                  (x, y) =>
-                    (x +=
-                      (values?.confirmationType?.value === 2
-                        ? +y?.transportRate
-                        : values?.confirmationType?.value === 3
-                        ? +y?.godownUnloadingRate
-                        : 0) * +y?.quantity),
-                  0
-                )}
-            </h3>
-          </div>
 
-          <div className="col-lg-4 text-right">
-            <button
-              className="btn btn-success"
-              type="button"
-              onClick={() => {
-                saveHandler(values);
-              }}
-              disabled={
-                !values?.remarks ||
-                !values?.billRef ||
-                rowData?.data?.filter((item) => item?.isSelected)?.length < 1
-              }
-            >
-              Approve
-            </button>
-          </div>
+      {/* this section is appearing in the middle of the form and table */}
+      <div className="row mb-3">
+        <div className="col-lg-4">
+          <PaginationSearch
+            placeholder="Delivery Code/Sales Order/ShipPoint"
+            paginationSearchHandler={paginationSearchHandler}
+            values={values}
+          />
         </div>
-      )}
+
+        {rowData?.data?.length > 0 && status && (
+          <div className="col-lg-8">
+            <div className="row">
+              <div className="col-lg-4">
+                <h3>Total Quantity: {totalQty}</h3>
+              </div>
+              <div className="col-lg-4">
+                <h3>Total Bill: {totalBill(values)}</h3>
+              </div>
+              <div className="col-lg-4">
+                <h3>Total Revenue: {totalRevenue}</h3>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </>
   );
 };
