@@ -255,7 +255,7 @@ function DeliveryScheduleplanReport() {
                                 <th>Ship To Party</th>
                                 <th>Address</th>
                                 <th>Quantity</th>
-                                <th>Challan Date</th>
+                                <th>Delivery Date</th>
                                 <th>Lead Time</th>
                                 <th>Spend Time</th>
                                 <th>Rest of Time </th>
@@ -292,7 +292,7 @@ function DeliveryScheduleplanReport() {
                                 );
                               })}
                               <tr>
-                                <td className='text-right' colSpan='7'>
+                                <td className='text-right' colSpan='8'>
                                   <b>Total:</b>
                                 </td>
                                 <td className='text-center'>
