@@ -62,7 +62,7 @@ export default function DepositRegisterTable({
               <td>{item?.strStatus}</td>
               <td>
                 <div className="d-flex justify-content-between">
-                  <span style={{ cursor: "pointer" }}>
+                  <span style={{ cursor: "pointer", padding: "2px" }}>
                     <OverlayTrigger
                       overlay={<Tooltip id="cs-icon">History</Tooltip>}
                     >
@@ -71,10 +71,10 @@ export default function DepositRegisterTable({
                           setIsShowModal(true);
                           setItem(item);
                         }}
-                        className="ml-2"
+                        className=""
                       >
                         <i
-                          style={{ fontSize: "16px" }}
+                          style={{ fontSize: "12px" }}
                           className={`fa fa-history`}
                           aria-hidden="true"
                         ></i>
@@ -82,7 +82,7 @@ export default function DepositRegisterTable({
                     </OverlayTrigger>
                   </span>
                   {item?.strAttachment ? (
-                    <span style={{ cursor: "pointer" }}>
+                    <span style={{ cursor: "pointer", padding: "2px" }}>
                       <OverlayTrigger
                         overlay={
                           <Tooltip id="cs-icon">View Attachment</Tooltip>
@@ -97,10 +97,10 @@ export default function DepositRegisterTable({
                               )
                             );
                           }}
-                          className="ml-2"
+                          className=""
                         >
                           <i
-                            style={{ fontSize: "16px" }}
+                            style={{ fontSize: "12px" }}
                             className={`fas fa-paperclip`}
                             aria-hidden="true"
                           ></i>
@@ -116,7 +116,7 @@ export default function DepositRegisterTable({
                           state: item,
                         });
                       }}
-                      style={{ cursor: "pointer" }}
+                      style={{ cursor: "pointer", padding: "2px" }}
                       className="text-primary"
                     >
                       Renew
@@ -124,6 +124,7 @@ export default function DepositRegisterTable({
                   ) : null}
                   {item?.strStatus !== "Closed" ? (
                     <span
+                      style={{ cursor: "pointer", padding: "2px" }}
                       onClick={() => {
                         IConfirmModal({
                           title: "Close Action",

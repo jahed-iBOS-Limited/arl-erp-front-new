@@ -60,7 +60,7 @@ export default function BankGuaranteeTable({
               <td>{item?.strStatus}</td>
               <td>
                 <div className="d-flex justify-content-between">
-                  <span style={{ cursor: "pointer" }}>
+                  <span style={{ cursor: "pointer", padding: "2px" }}>
                     <OverlayTrigger
                       overlay={<Tooltip id="cs-icon">History</Tooltip>}
                     >
@@ -72,7 +72,7 @@ export default function BankGuaranteeTable({
                         className="ml-2"
                       >
                         <i
-                          style={{ fontSize: "16px" }}
+                          style={{ fontSize: "12px" }}
                           className={`fa fa-history`}
                           aria-hidden="true"
                         ></i>
@@ -87,7 +87,7 @@ export default function BankGuaranteeTable({
                           state: item,
                         });
                       }}
-                      style={{ cursor: "pointer" }}
+                      style={{ cursor: "pointer", padding: "2px" }}
                       className="text-primary"
                     >
                       Renew
@@ -95,6 +95,7 @@ export default function BankGuaranteeTable({
                   ) : null}
                   {item?.strStatus !== "Closed" ? (
                     <span
+                      style={{ cursor: "pointer", padding: "2px" }}
                       onClick={() => {
                         IConfirmModal({
                           title: "Close Action",
