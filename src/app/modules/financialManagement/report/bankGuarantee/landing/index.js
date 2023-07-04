@@ -163,6 +163,7 @@ export default function BankGuaranteeLanding() {
               </div>
               <div>
                 <IViewModal
+                  title={"Bank Guarantee History"}
                   show={isShowModal}
                   onHide={() => setIsShowModal(false)}
                   modelSize="xl"
