@@ -255,7 +255,7 @@ function DeliveryScheduleplanReport() {
                                 <th>Ship To Party</th>
                                 <th>Address</th>
                                 <th>Quantity</th>
-                                {/* <th>Chalan Date</th> */}
+                                <th>Create Date</th>
                                 <th>Delivery Date</th>
                                 <th>Lead Time</th>
                                 <th>Spend Time</th>
@@ -280,12 +280,12 @@ function DeliveryScheduleplanReport() {
                                     <td className='text-center'>
                                       {item?.quantity}
                                     </td>
-                                    {/* <td>
+                                    <td>
                                       {item?.challanDateTime &&
                                         moment(item?.challanDateTime).format(
                                           "DD-MM-YYYY hh:mm: A"
                                         )}
-                                    </td> */}
+                                    </td>
                                     <td>
                                       {item?.deliveryScheduleDate &&
                                         moment(item?.deliveryScheduleDate).format(
@@ -310,7 +310,7 @@ function DeliveryScheduleplanReport() {
                                     )}
                                   </b>
                                 </td>
-                                <td colSpan='4'></td>
+                                <td colSpan='5'></td>
                               </tr>
                             </tbody>
                           </table>
