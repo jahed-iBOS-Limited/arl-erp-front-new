@@ -103,11 +103,10 @@ function DeliveryScheduleplanReport() {
   const allGridCheck = (value) => {
     const modifyGridData = gridData?.map((itm) => ({
       ...itm,
-      itemCheck: itm?.shipmentStatus ? false: value,
+      itemCheck: itm?.shipmentStatus ? false : value,
     }));
     setGridData(modifyGridData);
   };
-
 
   const commonGridApi = (values) => {
     getDeliverySchedulePlan(
@@ -121,7 +120,7 @@ function DeliveryScheduleplanReport() {
       setGridData,
       setLoading
     );
-  }
+  };
 
   return (
     <>
@@ -291,7 +290,7 @@ function DeliveryScheduleplanReport() {
                             }
                             onClick={() => {
                               setGridData([]);
-                              commonGridApi(values)
+                              commonGridApi(values);
                             }}
                             className='btn btn-primary'
                           >
@@ -312,7 +311,10 @@ function DeliveryScheduleplanReport() {
                                   const payload = gridData
                                     ?.filter((i) => i?.itemCheck)
                                     .map((itm) => ({
-                                      deliveryId: itm?.intDeliveryId || itm?.deliveryId || 0,
+                                      deliveryId:
+                                        itm?.intDeliveryId ||
+                                        itm?.deliveryId ||
+                                        0,
                                       poviderTypeId: values?.logisticBy?.value,
                                       providerTypeName:
                                         values?.logisticBy?.label,
@@ -320,14 +322,14 @@ function DeliveryScheduleplanReport() {
                                         itm?.deliveryScheduleDate || new Date(),
                                     }));
 
-                                    console.log(payload)
+                                  console.log(payload);
                                   CreateTransportScheduleTypeApi(
                                     payload,
                                     setLoading,
                                     () => {
                                       setGridData([]);
-                                      commonGridApi(values)
-                                      setFieldValue("logisticBy", "")
+                                      commonGridApi(values);
+                                      setFieldValue("logisticBy", "");
                                     }
                                   );
                                 }}
@@ -414,8 +416,51 @@ function DeliveryScheduleplanReport() {
                             </thead>
                             <tbody>
                               {gridData?.map((item, index) => {
+                                // deliveryScheduleDate today date check momentjs
+                                const todayDate = moment(new Date()).format(
+                                  "DD-MM-YYYY"
+                                );
+                                const deliveryScheduleDate = moment(
+                                  item?.deliveryScheduleDate
+                                ).format("DD-MM-YYYY");
+                                const isToday =
+                                  todayDate === deliveryScheduleDate;
+
+                                // next day deliveryScheduleDate check momentjs
+                                const nextDayDate = moment().add(1, "days").format("YYYY-MM-DD");
+                                const nextDayDeliveryScheduleDate = moment(
+                                  item?.deliveryScheduleDate
+                                ).format("YYYY-MM-DD");
+                                console.log(new Date(nextDayDate))
+                                console.log(new Date(nextDayDeliveryScheduleDate))
+                                const isNextDay =
+                                  new Date(nextDayDate) <=
+                                  new Date(nextDayDeliveryScheduleDate);
+
+                                // yesterday deliveryScheduleDate check momentjs
+                                const yesterdayDate = moment()
+                                  .subtract(1, "days").format("YYYY-MM-DD");
+                                const yesterdayDeliveryScheduleDate = moment(
+                                  item?.deliveryScheduleDate
+                                ).format("YYYY-MM-DD");
+
+                                const isYesterday =
+                                  new Date(yesterdayDate) >=
+                                  new Date(yesterdayDeliveryScheduleDate);
+
                                 return (
-                                  <tr key={index}>
+                                  <tr
+                                    key={index}
+                                    style={{
+                                      background: isYesterday
+                                        ? "#f64e60"
+                                        : isToday
+                                        ? "#32e732"
+                                        : isNextDay
+                                        ? "yellow"
+                                        : "",
+                                    }}
+                                  >
                                     {values?.trackingType?.value === 1 && (
                                       <td className='printSectionNone'>
                                         <input
@@ -466,7 +511,7 @@ function DeliveryScheduleplanReport() {
                                     <td>{item?.leadTimeHr}</td>
                                     <td>{item?.spendTimeHr}</td>
                                     <td>{item?.pendingTimeHr}</td>
-                                    <td>{item?.shipmentStatus || ''}</td>
+                                    <td>{item?.shipmentStatus || ""}</td>
                                   </tr>
                                 );
                               })}
