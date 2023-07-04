@@ -34,8 +34,8 @@ export default function BankGuaranteeTable({
             <th>T Days</th>
             <th>Currency</th>
             <th> BG Amounts</th>
-            <th> Status</th>
             <th>Margin Ref.</th>
+            <th>Status</th>
             <th style={{ minWidth: "70px" }}>Action</th>
           </tr>
         </thead>
@@ -56,8 +56,8 @@ export default function BankGuaranteeTable({
               <td>{item?.intTdays}</td>
               <td>{item?.strCurrency}</td>
               <td>{item?.numAmount}</td>
-              <td>{item?.strStatus}</td>
               <td>{item?.strMarginRef}</td>
+              <td>{item?.strStatus}</td>
               <td>
                 <div className="d-flex justify-content-between">
                   <span style={{ cursor: "pointer" }}>
@@ -93,32 +93,34 @@ export default function BankGuaranteeTable({
                       Renew
                     </span>
                   ) : null}
-                  <span
-                    onClick={() => {
-                      IConfirmModal({
-                        title: "Close Action",
-                        closeOnClickOutside: false,
-                        message: "Do you want to Close ?",
-                        yesAlertFunc: () => {
-                          closeHandler(
-                            `/fino/CommonFino/CreateBankGuaranteeSecurityRegister`,
-                            {
-                              strPartName: "close",
-                              intId: item?.intId,
-                              intActionBy: profileData?.userId,
-                            },
-                            () => {
-                              setPositionHandler(pageNo, pageSize, values);
-                            },
-                            true
-                          );
-                        },
-                        noAlertFunc: () => {},
-                      });
-                    }}
-                  >
-                    <IClose />
-                  </span>
+                  {item?.strStatus !== "Closed" ? (
+                    <span
+                      onClick={() => {
+                        IConfirmModal({
+                          title: "Close Action",
+                          closeOnClickOutside: false,
+                          message: "Do you want to Close ?",
+                          yesAlertFunc: () => {
+                            closeHandler(
+                              `/fino/CommonFino/CreateBankGuaranteeSecurityRegister`,
+                              {
+                                strPartName: "close",
+                                intId: item?.intId,
+                                intActionBy: profileData?.userId,
+                              },
+                              () => {
+                                setPositionHandler(pageNo, pageSize, values);
+                              },
+                              true
+                            );
+                          },
+                          noAlertFunc: () => {},
+                        });
+                      }}
+                    >
+                      <IClose />
+                    </span>
+                  ) : null}
                 </div>
               </td>
             </tr>

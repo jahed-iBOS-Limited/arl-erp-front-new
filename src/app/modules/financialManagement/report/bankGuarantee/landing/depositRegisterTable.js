@@ -40,6 +40,7 @@ export default function DepositRegisterTable({
             <th>Purpose</th>
             <th>Responsible person to return</th>
             <th>Note</th>
+            <th>Status</th>
             <th style={{ minWidth: "70px" }}>Action</th>
           </tr>
         </thead>
@@ -58,29 +59,28 @@ export default function DepositRegisterTable({
               <td>{item?.strPurpose}</td>
               <td>{item?.strResponsiblePerson}</td>
               <td>{item?.strRemarks}</td>
+              <td>{item?.strStatus}</td>
               <td>
                 <div className="d-flex justify-content-between">
-                <span style={{ cursor: "pointer" }}>
-                      <OverlayTrigger
-                        overlay={
-                          <Tooltip id="cs-icon">History</Tooltip>
-                        }
+                  <span style={{ cursor: "pointer" }}>
+                    <OverlayTrigger
+                      overlay={<Tooltip id="cs-icon">History</Tooltip>}
+                    >
+                      <span
+                        onClick={(e) => {
+                          setIsShowModal(true);
+                          setItem(item);
+                        }}
+                        className="ml-2"
                       >
-                        <span
-                          onClick={(e) => {
-                           setIsShowModal(true);
-                           setItem(item)
-                          }}
-                          className="ml-2"
-                        >
-                          <i
-                            style={{ fontSize: "16px" }}
-                            className={`fa fa-history`}
-                            aria-hidden="true"
-                          ></i>
-                        </span>
-                      </OverlayTrigger>
-                    </span>
+                        <i
+                          style={{ fontSize: "16px" }}
+                          className={`fa fa-history`}
+                          aria-hidden="true"
+                        ></i>
+                      </span>
+                    </OverlayTrigger>
+                  </span>
                   {item?.strAttachment ? (
                     <span style={{ cursor: "pointer" }}>
                       <OverlayTrigger
@@ -122,32 +122,34 @@ export default function DepositRegisterTable({
                       Renew
                     </span>
                   ) : null}
-                  <span
-                    onClick={() => {
-                      IConfirmModal({
-                        title: "Close Action",
-                        closeOnClickOutside: false,
-                        message: "Do you want to Close ?",
-                        yesAlertFunc: () => {
-                          closeHandler(
-                            `/fino/CommonFino/CreateBankGuaranteeSecurityRegister`,
-                            {
-                              strPartName: "close",
-                              intId: item?.intId,
-                              intActionBy: profileData?.userId,
-                            },
-                            () => {
-                              setPositionHandler(pageNo, pageSize, values);
-                            },
-                            true
-                          );
-                        },
-                        noAlertFunc: () => {},
-                      });
-                    }}
-                  >
-                    <IClose />
-                  </span>
+                  {item?.strStatus !== "Closed" ? (
+                    <span
+                      onClick={() => {
+                        IConfirmModal({
+                          title: "Close Action",
+                          closeOnClickOutside: false,
+                          message: "Do you want to Close ?",
+                          yesAlertFunc: () => {
+                            closeHandler(
+                              `/fino/CommonFino/CreateBankGuaranteeSecurityRegister`,
+                              {
+                                strPartName: "close",
+                                intId: item?.intId,
+                                intActionBy: profileData?.userId,
+                              },
+                              () => {
+                                setPositionHandler(pageNo, pageSize, values);
+                              },
+                              true
+                            );
+                          },
+                          noAlertFunc: () => {},
+                        });
+                      }}
+                    >
+                      <IClose />
+                    </span>
+                  ) : null}
                 </div>
               </td>
             </tr>
