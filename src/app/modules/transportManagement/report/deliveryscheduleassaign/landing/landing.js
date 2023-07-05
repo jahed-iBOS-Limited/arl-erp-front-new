@@ -17,15 +17,16 @@ import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import printIcon from "../../../../_helper/images/print-icon.png";
 import {
-  CreateTransportScheduleTypeApi,
+  saveAssignDeliveryVehicleSupplier,
   GetShipmentTypeApi,
   commonfilterGridData,
-  getDeliverySchedulePlan,
+  getAssignedDeliveryVehicleProvider,
 } from "../helper";
 import NewSelect from "../../../../_helper/_select";
 import RATForm from "./ratForm";
 import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
 import "./style.scss";
+import { toast } from "react-toastify";
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
@@ -90,7 +91,7 @@ function DeliveryScheduleAssignReport() {
   }, [profileData, selectedBusinessUnit]);
   const handleChange = (newValue, values) => {
     setShipmentType(newValue);
-    getDeliverySchedulePlan(
+    getAssignedDeliveryVehicleProvider(
       profileData?.accountId,
       selectedBusinessUnit?.value,
       values?.fromDate,
@@ -123,7 +124,7 @@ function DeliveryScheduleAssignReport() {
   };
 
   const commonGridApi = (values) => {
-    getDeliverySchedulePlan(
+    getAssignedDeliveryVehicleProvider(
       profileData?.accountId,
       selectedBusinessUnit?.value,
       values?.fromDate,
@@ -305,23 +306,38 @@ function DeliveryScheduleAssignReport() {
                                   style={{ marginTop: "17px" }}
                                   className='btn btn-primary ml-2'
                                   onClick={() => {
-                                    const payload = gridData
-                                      ?.filter((i) => i?.itemCheck)
-                                      .map((itm) => ({
-                                        deliveryId:
-                                          itm?.intDeliveryId ||
-                                          itm?.deliveryId ||
-                                          0,
-                                        poviderTypeId:
-                                          values?.logisticBy?.value,
-                                        providerTypeName:
-                                          values?.logisticBy?.label,
-                                        scheduleDate:
-                                          itm?.deliveryScheduleDate ||
-                                          new Date(),
-                                      }));
+                                    const selectedItem = gridData?.filter(
+                                      (i) => i?.itemCheck
+                                    );
 
-                                    CreateTransportScheduleTypeApi(
+                                    const emptyItem = selectedItem?.find(
+                                      (i) => !i?.vehicleId && !i?.supplierId
+                                    );
+
+                                    if (emptyItem) {
+                                      toast.warn(
+                                        `Please select ${
+                                          values?.logisticByFilter?.value === 1
+                                            ? "Vehicle"
+                                            : "Suppler"
+                                        } for ${emptyItem?.deliveryCode}`
+                                      );
+                                      return;
+                                    }
+
+                                    const payload = selectedItem.map((itm) => ({
+                                      deliveryId:
+                                        itm?.intDeliveryId ||
+                                        itm?.deliveryId ||
+                                        0,
+                                      supplierId: itm?.supplierId || 0,
+                                      territoryId: itm?.territoryId || 0,
+                                      vehicleId: itm?.vehicleId || 0,
+                                      vehicleName: itm?.vehicleName || "",
+                                      actionBy: profileData?.userId,
+                                    }));
+
+                                    saveAssignDeliveryVehicleSupplier(
                                       payload,
                                       setLoading,
                                       () => {
@@ -522,13 +538,13 @@ function DeliveryScheduleAssignReport() {
                                     <th>Address</th>
                                     {values?.logisticByFilter?.value === 1 ? (
                                       <th style={{ minWidth: "130px" }}>
-                                        Supplier
+                                        Vehicle
                                       </th>
                                     ) : values?.logisticByFilter?.value ===
                                       2 ? (
                                       <th style={{ minWidth: "130px" }}>
                                         {" "}
-                                        Company{" "}
+                                        Supplier
                                       </th>
                                     ) : null}
                                     <th>Quantity</th>
@@ -634,66 +650,86 @@ function DeliveryScheduleAssignReport() {
                                         {values?.logisticByFilter?.value ===
                                         1 ? (
                                           <td>
-                                            <NewSelect
-                                              name='supplier'
-                                              options={item?.supplierList || []}
-                                              value={
-                                                item?.supplierId
-                                                  ? {
-                                                      value: item?.supplierId,
-                                                      label: item?.supplierName,
-                                                    }
-                                                  : ""
-                                              }
-                                              onChange={(valueOption) => {
-                                                const copyGridData = [
-                                                  ...gridData,
-                                                ];
-                                                copyGridData[index].supplierId =
-                                                  valueOption?.value;
-                                                copyGridData[
-                                                  index
-                                                ].supplierName =
-                                                  valueOption?.label;
-                                                setGridData(copyGridData);
-                                              }}
-                                              placeholder='Select Supplier'
-                                              errors={errors}
-                                              touched={touched}
-                                              isHiddenLabel
-                                            />
+                                            {values?.trackingType?.value ===
+                                            1 ? (
+                                              <NewSelect
+                                                isHiddenLabel
+                                                name='vihicle'
+                                                options={
+                                                  item?.vihicleList || []
+                                                }
+                                                value={
+                                                  item?.vehicleId
+                                                    ? {
+                                                        value: item?.vehicleId,
+                                                        label:
+                                                          item?.vehicleName,
+                                                      }
+                                                    : ""
+                                                }
+                                                onChange={(valueOption) => {
+                                                  const copyGridData = [
+                                                    ...gridData,
+                                                  ];
+                                                  copyGridData[
+                                                    index
+                                                  ].vehicleId =
+                                                    valueOption?.value;
+                                                  copyGridData[
+                                                    index
+                                                  ].vehicleName =
+                                                    valueOption?.label;
+                                                  setGridData(copyGridData);
+                                                }}
+                                                placeholder='Select Vihicle'
+                                                errors={errors}
+                                                touched={touched}
+                                              />
+                                            ) : (
+                                              item?.vehicleName
+                                            )}
                                           </td>
                                         ) : values?.logisticByFilter?.value ===
                                           2 ? (
                                           <td>
-                                            <NewSelect
-                                              isHiddenLabel
-                                              name='vihicle'
-                                              options={item?.vihicleList || []}
-                                              value={
-                                                item?.vihicleId
-                                                  ? {
-                                                      value: item?.vihicleId,
-                                                      label: item?.vihicleName,
-                                                    }
-                                                  : ""
-                                              }
-                                              onChange={(valueOption) => {
-                                                const copyGridData = [
-                                                  ...gridData,
-                                                ];
-                                                copyGridData[index].vihicleId =
-                                                  valueOption?.value;
-                                                copyGridData[
-                                                  index
-                                                ].vihicleName =
-                                                  valueOption?.label;
-                                                setGridData(copyGridData);
-                                              }}
-                                              placeholder='Select Vihicle'
-                                              errors={errors}
-                                              touched={touched}
-                                            />{" "}
+                                            {values?.trackingType?.value ===
+                                            1 ? (
+                                              <NewSelect
+                                                name='supplier'
+                                                options={
+                                                  item?.supplierList || []
+                                                }
+                                                value={
+                                                  item?.supplierId
+                                                    ? {
+                                                        value: item?.supplierId,
+                                                        label:
+                                                          item?.supplierName,
+                                                      }
+                                                    : ""
+                                                }
+                                                onChange={(valueOption) => {
+                                                  const copyGridData = [
+                                                    ...gridData,
+                                                  ];
+                                                  copyGridData[
+                                                    index
+                                                  ].supplierId =
+                                                    valueOption?.value;
+                                                  copyGridData[
+                                                    index
+                                                  ].supplierName =
+                                                    valueOption?.label;
+                                                  setGridData(copyGridData);
+                                                }}
+                                                placeholder='Select Supplier'
+                                                errors={errors}
+                                                touched={touched}
+                                                isHiddenLabel
+                                              />
+                                            ) : (
+                                              item?.supplierName
+                                            )}
                                           </td>
                                         ) : null}
 
