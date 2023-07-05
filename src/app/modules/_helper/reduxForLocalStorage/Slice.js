@@ -378,6 +378,7 @@ const initState = {
     narration: "",
     transactionDate: _todayDate(),
     customerSupplierStatus: "customer",
+    partnerBankAccount : ""
   },
   shopFloorInventoryTransaction: {
     plant: "",

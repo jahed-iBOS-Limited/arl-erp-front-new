@@ -286,6 +286,7 @@ export const singleDataById = async (id, type, setter) => {
 
         const data = {
           objHeader: {
+            partnerBankAccount: "",
             transactionDate: _dateFormatter(item?.objHeader?.voucherDate),
             bankJournalCode: item?.objHeader?.bankJournalCode,
             bankAcc: {
@@ -355,6 +356,13 @@ export const singleDataById = async (id, type, setter) => {
         const item = res?.data?.[0];
         // const objRow = item.objRow.filter((itm) => itm.amount > 0);
         const ObjMap = item?.objRow?.map((itm) => ({
+          partnerBankAccount : {
+            bankId : itm?.partnerBankId,
+            bankBranchId : itm?.partnerBankBranchId,
+            bankAccountNo : itm?.partnerBankAccountNo,
+            bankName : itm?.partnerBankAccountName,
+            routingNo : itm?.partnerBankRoutingNumber,
+          },
           ...itm,
           rowId: itm?.rowId,
           transaction: {
