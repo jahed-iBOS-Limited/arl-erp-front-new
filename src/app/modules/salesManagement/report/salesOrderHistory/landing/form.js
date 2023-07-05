@@ -81,9 +81,9 @@ export default function SalesOrderHistoryLanding() {
     } else if ([3, 4, 5, 6].includes(typeId)) {
       getSalesOrderData(
         `/oms/SalesInformation/GetSalesOrderPendingInformation?intsoldtopartnerid=${values
-          ?.customer?.value || 0}&intbusinessunitid=${buId}&SalesOrderCode=${
-          values?.salesOrderCodeInput
-        }&intpartid=${typeId}`
+          ?.customer?.value ||
+          0}&intbusinessunitid=${buId}&SalesOrderCode=${values?.salesOrderCodeInput ||
+          "'"}&intpartid=${typeId}`
       );
     }
   };
