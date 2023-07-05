@@ -10,6 +10,8 @@ import LighterDestination from "./lighterDestination/landing/landing";
 import DirectAndDumpRateLanding from "./directAndDumpRate";
 import RateEnrolmentLanding from "./rateEnrolment/landing/landing";
 import RateEnrolmentForm from "./rateEnrolment/form/addEditForm";
+import ServiceChargeAndIncomeElementForm from "./serviceChargeIncomeElement/form/addEditForm";
+import ServiceChargeAndIncomeElementLanding from "./serviceChargeIncomeElement/landing/landing";
 
 export default function ConfigPages() {
   return (
@@ -50,6 +52,14 @@ export default function ConfigPages() {
       <ContentRoute
         path="/vessel-management/configuration/rateenrollment"
         component={RateEnrolmentLanding}
+      />
+      <ContentRoute
+        path="/vessel-management/configuration/ServiceChargeAndIncomeElement/config"
+        component={ServiceChargeAndIncomeElementForm}
+      />
+      <ContentRoute
+        path="/vessel-management/configuration/ServiceChargeAndIncomeElement"
+        component={ServiceChargeAndIncomeElementLanding}
       />
     </Switch>
   );
