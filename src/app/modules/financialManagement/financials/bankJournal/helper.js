@@ -357,11 +357,11 @@ export const singleDataById = async (id, type, setter) => {
         // const objRow = item.objRow.filter((itm) => itm.amount > 0);
         const ObjMap = item?.objRow?.map((itm) => ({
           partnerBankAccount : {
-            bankId : item?.partnerBankId,
-            bankBranchId : item?.partnerBankBranchId,
-            bankAccountNo : item?.partnerBankAccountNo,
-            bankName : item?.partnerBankAccountName,
-            routingNo : item?.partnerBankRoutingNumber,
+            bankId : itm?.partnerBankId,
+            bankBranchId : itm?.partnerBankBranchId,
+            bankAccountNo : itm?.partnerBankAccountNo,
+            bankName : itm?.partnerBankAccountName,
+            routingNo : itm?.partnerBankRoutingNumber,
           },
           ...itm,
           rowId: itm?.rowId,

@@ -101,11 +101,11 @@ export default function BankJournalEditForm({
         costRevenueId: item?.revenueCenter?.value || item?.costCenter?.value || 0,
         elementName: item?.revenueElement?.label || item?.costElement?.label || "",
         elementId: item?.revenueElement?.value || item?.costElement?.value || 0,
-        partnerBankId: item?.partnerBankAccount?.bankId,
-        partnerBankBranchId: item?.partnerBankAccount?.bankBranchId,
-        partnerBankAccountNo: item?.partnerBankAccount?.bankAccountNo,
-        partnerBankAccountName: item?.partnerBankAccount?.bankName,
-        partnerBankRoutingNumber: item?.partnerBankAccount?.routingNo
+        partnerBankId: item?.partnerBankAccount?.bankId || 0,
+        partnerBankBranchId: item?.partnerBankAccount?.bankBranchId || 0,
+        partnerBankAccountNo: item?.partnerBankAccount?.bankAccountNo || "",
+        partnerBankAccountName: item?.partnerBankAccount?.bankName || "",
+        partnerBankRoutingNumber: item?.partnerBankAccount?.routingNo || ""
       }));
 
       let objForRow = {
@@ -254,6 +254,8 @@ export default function BankJournalEditForm({
     data[index][name] = value;
     setRowDto(data);
   };
+
+  console.log("rowDto",rowDto)
 
   return (
     <IForm
