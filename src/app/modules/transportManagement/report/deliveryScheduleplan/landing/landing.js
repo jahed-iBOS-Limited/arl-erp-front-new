@@ -642,7 +642,7 @@ function DeliveryScheduleplanReport() {
                                       shipmentTypeDDl?.[shipmentType]?.value ===
                                       0
                                         ? 11
-                                        : 8
+                                        : 10
                                     }
                                   >
                                     <b>Total:</b>
