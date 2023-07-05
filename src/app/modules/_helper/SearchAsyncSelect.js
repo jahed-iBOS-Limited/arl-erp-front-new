@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import AsyncSelect from "react-select/async";
 import { components } from "react-select";
 import useDebounce from "./customHooks/useDebounce";
-
+import { Overlay, Tooltip } from "react-bootstrap";
 // { value, onChange, loadOptionsAction, inputValue, setInputValue }
 
 const SearchAsyncSelect = ({
@@ -15,11 +15,13 @@ const SearchAsyncSelect = ({
   placeholder,
   isSearchIcon,
   paddingRight,
-  isDebounce
+  isDebounce,
+  isHiddenToolTip
 }) => {
   const [inputValue, setValue] = useState("");
   // const [selectedValue, setSelectedValue] = useState(null);
-
+  const [show, setShow] = useState(false);
+  const target = useRef(null);
   // handle input change event
   const handleInputChange = (value) => {
     setValue(value);
@@ -90,11 +92,28 @@ const SearchAsyncSelect = ({
     }),
   };
 
-
-  const debounce = useDebounce()
+  const debounce = useDebounce();
 
   return (
-    <div className='newSelectWrapper'>
+    <div
+      className='newSelectWrapper'
+      ref={target}
+      onMouseEnter={() => setShow(true)}
+      onMouseLeave={() => setShow(false)}
+    >
+      {!isHiddenToolTip && (
+        <Overlay
+          target={target.current}
+          show={selectedValue?.value && show}
+          placement='top-start'
+        >
+          {(props) => (
+            <Tooltip id='overlay-example' {...props}>
+              {selectedValue?.label}
+            </Tooltip>
+          )}
+        </Overlay>
+      )}
       <AsyncSelect
         // cacheOptions // For implementing item req / purchase req search this option need to be disabled
         menuPosition='fixed'
@@ -109,11 +128,11 @@ const SearchAsyncSelect = ({
           if (isDebounce) {
             return new Promise((resolve, reject) => {
               debounce(() => {
-                loadOptions(inputValue, resolve, reject)
-              }, 500)
-            })
+                loadOptions(inputValue, resolve, reject);
+              }, 500);
+            });
           } else {
-            return loadOptions(inputValue)
+            return loadOptions(inputValue);
           }
         }}
         onInputChange={handleInputChange}
