@@ -356,6 +356,13 @@ export const singleDataById = async (id, type, setter) => {
         const item = res?.data?.[0];
         // const objRow = item.objRow.filter((itm) => itm.amount > 0);
         const ObjMap = item?.objRow?.map((itm) => ({
+          partnerBankAccount : {
+            bankId : item?.partnerBankId,
+            bankBranchId : item?.partnerBankBranchId,
+            bankAccountNo : item?.partnerBankAccountNo,
+            bankName : item?.partnerBankAccountName,
+            routingNo : item?.partnerBankRoutingNumber,
+          },
           ...itm,
           rowId: itm?.rowId,
           transaction: {
