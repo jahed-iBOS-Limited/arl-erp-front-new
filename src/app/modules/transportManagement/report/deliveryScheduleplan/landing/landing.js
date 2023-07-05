@@ -12,7 +12,6 @@ import {
   CardHeader,
   CardHeaderToolbar,
 } from "../../../../../../_metronic/_partials/controls/Card";
-import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
@@ -20,9 +19,11 @@ import printIcon from "../../../../_helper/images/print-icon.png";
 import {
   CreateTransportScheduleTypeApi,
   GetShipmentTypeApi,
+  commonfilterGridData,
   getDeliverySchedulePlan,
 } from "../helper";
 import NewSelect from "./../../../../_helper/_select";
+import RATForm from "./ratForm";
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
@@ -32,6 +33,12 @@ const initData = {
     label: "Tracking Pending",
   },
   logisticBy: "",
+  channel: "",
+  region: "",
+  area: "",
+  territory: "",
+  isMoreFiter: false,
+  logisticByFilter: { value: 0, label: "All" },
 };
 
 const useStyles = makeStyles({
@@ -54,6 +61,7 @@ function DeliveryScheduleplanReport() {
   const [shipmentType, setShipmentType] = React.useState(0);
   const [loading, setLoading] = useState(false);
   const [gridData, setGridData] = useState([]);
+  const [gridDataWithOutFilter, setGridDataWithOutFilter] = useState([]);
   const [shipmentTypeDDl, setShipmentTypeDDl] = React.useState([]);
   // Get user profile data from store
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -88,8 +96,12 @@ function DeliveryScheduleplanReport() {
       shipmentTypeDDl?.[newValue]?.value || 0,
       values?.shipPoint?.value,
       values?.trackingType?.value === 2 ? true : false,
-      setGridData,
-      setLoading
+      setLoading,
+      (restData) => {
+        const filterData = commonfilterGridData(values, restData);
+        setGridData(filterData);
+        setGridDataWithOutFilter(restData);
+      }
     );
   };
 
@@ -117,11 +129,19 @@ function DeliveryScheduleplanReport() {
       shipmentTypeDDl?.[shipmentType]?.value || 0,
       values?.shipPoint?.value,
       values?.trackingType?.value === 2 ? true : false,
-      setGridData,
-      setLoading
+      setLoading,
+      (restData) => {
+        const filterData = commonfilterGridData(values, restData);
+        setGridData(filterData);
+        setGridDataWithOutFilter(restData);
+      }
     );
   };
 
+  const filterGridDataFunc = (values, allGridData) => {
+    const filterData = commonfilterGridData(values, allGridData);
+    setGridData(filterData);
+  };
   return (
     <>
       {loading && <Loading />}
@@ -164,7 +184,7 @@ function DeliveryScheduleplanReport() {
             <CardBody>
               <>
                 <Form>
-                  <div className='row global-form p-0 m-0'>
+                  <div className='row global-form p-0 m-0 pb-1'>
                     <div className='col-lg-3'>
                       <NewSelect
                         name='shipPoint'
@@ -197,6 +217,15 @@ function DeliveryScheduleplanReport() {
                           setGridData([]);
                           setFieldValue("trackingType", valueOption);
                           setFieldValue("logisticBy", "");
+                          setFieldValue("isMoreFiter", false);
+                          setFieldValue("channel", "");
+                          setFieldValue("region", "");
+                          setFieldValue("area", "");
+                          setFieldValue("territory", "");
+                          setFieldValue("logisticByFilter", {
+                            value: 0,
+                            label: "All",
+                          });
                         }}
                         placeholder='Tracking Type'
                         errors={errors}
@@ -204,26 +233,98 @@ function DeliveryScheduleplanReport() {
                         isClearable={false}
                       />
                     </div>
-                    <div className='col-lg-3'></div>
-                    {values?.trackingType?.value === 1 && (
+                    {values?.trackingType?.value === 2 && (
                       <>
                         <div className='col-lg-3'>
                           <NewSelect
-                            name='logisticBy'
+                            name='logisticByFilter'
                             options={[
+                              { value: 0, label: "All" },
                               { value: 1, label: "Company" },
                               { value: 2, label: "Supplier" },
                             ]}
-                            value={values?.logisticBy}
+                            value={values?.logisticByFilter}
                             label='Logistic By'
                             onChange={(valueOption) => {
-                              setFieldValue("logisticBy", valueOption);
+                              setFieldValue("logisticByFilter", valueOption);
+                              filterGridDataFunc(
+                                {
+                                  ...values,
+                                  logisticByFilter: valueOption,
+                                },
+                                gridDataWithOutFilter
+                              );
                             }}
                             placeholder='Logistic By'
                             errors={errors}
                             touched={touched}
-                            isClearable={false}
                           />
+                        </div>
+                      </>
+                    )}
+                    <div className='col-lg-2'></div>
+                    {values?.trackingType?.value === 1 && (
+                      <>
+                        <div className='col-lg-4'>
+                          <div className='d-flex'>
+                            <NewSelect
+                              name='logisticBy'
+                              options={[
+                                { value: 1, label: "Company" },
+                                { value: 2, label: "Supplier" },
+                              ]}
+                              value={values?.logisticBy}
+                              label='Logistic By'
+                              onChange={(valueOption) => {
+                                setFieldValue("logisticBy", valueOption);
+                              }}
+                              placeholder='Logistic By'
+                              errors={errors}
+                              touched={touched}
+                              isClearable={false}
+                              isDisabled={!gridData?.some((i) => i.itemCheck)}
+                            />
+                            <button
+                              disabled={
+                                !values?.logisticBy?.value ||
+                                !gridData?.some((i) => i.itemCheck)
+                              }
+                              type='button'
+                              style={{ marginTop: "17px" }}
+                              className='btn btn-primary ml-2'
+                              onClick={() => {
+                                const payload = gridData
+                                  ?.filter((i) => i?.itemCheck)
+                                  .map((itm) => ({
+                                    deliveryId:
+                                      itm?.intDeliveryId ||
+                                      itm?.deliveryId ||
+                                      0,
+                                    poviderTypeId: values?.logisticBy?.value,
+                                    providerTypeName: values?.logisticBy?.label,
+                                    scheduleDate:
+                                      itm?.deliveryScheduleDate || new Date(),
+                                  }));
+
+                                CreateTransportScheduleTypeApi(
+                                  payload,
+                                  setLoading,
+                                  () => {
+                                    setGridData([]);
+                                    commonGridApi(values);
+                                    setFieldValue("logisticBy", "");
+                                    setFieldValue("isMoreFiter", false);
+                                    setFieldValue("channel", "");
+                                    setFieldValue("region", "");
+                                    setFieldValue("area", "");
+                                    setFieldValue("territory", "");
+                                  }
+                                );
+                              }}
+                            >
+                              Save
+                            </button>
+                          </div>
                         </div>
                       </>
                     )}
@@ -280,73 +381,84 @@ function DeliveryScheduleplanReport() {
                         </div>
 
                         <div className='col'>
-                          <button
-                            type='button'
-                            style={{ marginTop: "17px" }}
-                            disabled={
-                              !values?.fromDate ||
-                              !values?.toDate ||
-                              !values?.shipPoint
-                            }
-                            onClick={() => {
-                              setGridData([]);
-                              commonGridApi(values);
-                            }}
-                            className='btn btn-primary'
-                          >
-                            Show
-                          </button>
-                          {values?.trackingType?.value === 1 && (
-                            <>
-                              {" "}
-                              <button
-                                disabled={
-                                  !values?.logisticBy?.value ||
-                                  !gridData?.some((i) => i.itemCheck)
-                                }
-                                type='button'
-                                style={{ marginTop: "17px" }}
-                                className='btn btn-primary'
-                                onClick={() => {
-                                  const payload = gridData
-                                    ?.filter((i) => i?.itemCheck)
-                                    .map((itm) => ({
-                                      deliveryId:
-                                        itm?.intDeliveryId ||
-                                        itm?.deliveryId ||
-                                        0,
-                                      poviderTypeId: values?.logisticBy?.value,
-                                      providerTypeName:
-                                        values?.logisticBy?.label,
-                                      scheduleDate:
-                                        itm?.deliveryScheduleDate || new Date(),
-                                    }));
+                          <div className='d-flex justify-content-between align-items-center'>
+                            <button
+                              type='button'
+                              style={{ marginTop: "17px" }}
+                              disabled={
+                                !values?.fromDate ||
+                                !values?.toDate ||
+                                !values?.shipPoint
+                              }
+                              onClick={() => {
+                                setGridData([]);
+                                commonGridApi(values);
+                                setFieldValue("isMoreFiter", false);
+                                setFieldValue("channel", "");
+                                setFieldValue("region", "");
+                                setFieldValue("area", "");
+                                setFieldValue("territory", "");
+                              }}
+                              className='btn btn-primary'
+                            >
+                              Show
+                            </button>
+                            <div className='d-flex justify-content-center align-items-center'>
+                              <label className='mr-1' for='isMoreFiter'>
+                                More Filter
+                              </label>
+                              <input
+                                id='isMoreFiter'
+                                value={values?.isMoreFiter}
+                                name='isMoreFiter'
+                                checked={values?.isMoreFiter}
+                                onChange={(e) => {
+                                  setFieldValue(
+                                    "isMoreFiter",
+                                    e.target.checked
+                                  );
+                                  setFieldValue("channel", "");
+                                  setFieldValue("region", "");
+                                  setFieldValue("area", "");
+                                  setFieldValue("territory", "");
 
-                                  console.log(payload);
-                                  CreateTransportScheduleTypeApi(
-                                    payload,
-                                    setLoading,
-                                    () => {
-                                      setGridData([]);
-                                      commonGridApi(values);
-                                      setFieldValue("logisticBy", "");
-                                    }
+                                  filterGridDataFunc(
+                                    {
+                                      ...values,
+                                      channel: "",
+                                      region: "",
+                                      area: "",
+                                      territory: "",
+                                    },
+                                    gridDataWithOutFilter
                                   );
                                 }}
-                              >
-                                Save
-                              </button>
-                            </>
-                          )}
+                                type='checkbox'
+                                className='mt-1'
+                              />
+                            </div>
+                          </div>
                         </div>
                       </Paper>
                     </div>
+                    {values?.isMoreFiter && (
+                      <>
+                        <RATForm
+                          obj={{
+                            values,
+                            setFieldValue,
+                            onChange: (values) =>
+                              filterGridDataFunc(values, gridDataWithOutFilter),
+                          }}
+                        />
+                      </>
+                    )}
                   </div>
 
                   {/* Table Start */}
                   {gridData?.length > 0 && (
                     <div ref={printRef}>
-                      <div className='text-center my-2'>
+                      {/* <div className='text-center my-2'>
                         <h3>
                           <b> {selectedBusinessUnit?.label} </b>
                         </h3>
@@ -361,7 +473,7 @@ function DeliveryScheduleplanReport() {
                             To: {dateFormatWithMonthName(values?.toDate)}
                           </h5>
                         </div>
-                      </div>
+                      </div> */}
                       <div className='text-right'>
                         Total Qty.:{" "}
                         <b>
@@ -375,173 +487,181 @@ function DeliveryScheduleplanReport() {
                       </div>
                       <div className='loan-scrollable-tafble'>
                         <div className='scroll-table _tafble'>
-                          <table className='table table-striped table-bordered global-table'>
-                            <thead>
-                              <tr>
-                                {values?.trackingType?.value === 1 && (
-                                  <th
-                                    style={{ minWidth: "25px" }}
-                                    className='printSectionNone'
-                                  >
-                                    <input
-                                      type='checkbox'
-                                      id='parent'
-                                      onChange={(event) => {
-                                        allGridCheck(event.target.checked);
+                          <div className='table-responsive'>
+                            <table className='table table-striped table-bordered global-table'>
+                              <thead>
+                                <tr>
+                                  {values?.trackingType?.value === 1 && (
+                                    <th
+                                      style={{ minWidth: "25px" }}
+                                      className='printSectionNone'
+                                    >
+                                      <input
+                                        type='checkbox'
+                                        id='parent'
+                                        onChange={(event) => {
+                                          allGridCheck(event.target.checked);
+                                        }}
+                                      />
+                                    </th>
+                                  )}
+                                  <th>SL</th>
+                                  <th>Delivery Code </th>
+                                  <th>Logistic By</th>
+                                  {shipmentTypeDDl?.[shipmentType]?.value ===
+                                  0 ? (
+                                    <th>Shipment Type</th>
+                                  ) : null}
+                                  <th>Ship Point</th>
+                                  <th>Region</th>
+                                  <th>Area</th>
+                                  <th>Territory</th>
+                                  <th>Sold To Party</th>
+                                  <th>Ship To Party</th>
+                                  <th>Address</th>
+                                  <th>Quantity</th>
+                                  <th style={{minWidth: '65px'}}>Create Date</th>
+                                  <th style={{minWidth: '65px'}}>Delivery Date</th>
+                                  <th >Lead Time</th>
+                                  <th style={{minWidth: '70px'}}>Spend Time</th>
+                                  <th style={{minWidth: '70px'}}>Rest of Time </th>
+                                  <th>Shipment Status</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {gridData?.map((item, index) => {
+                                  // deliveryScheduleDate today date check momentjs
+                                  const todayDate = moment(new Date()).format(
+                                    "DD-MM-YYYY"
+                                  );
+                                  const deliveryScheduleDate = moment(
+                                    item?.deliveryScheduleDate
+                                  ).format("DD-MM-YYYY");
+                                  const isToday =
+                                    todayDate === deliveryScheduleDate;
+
+                                  // next day deliveryScheduleDate check momentjs
+                                  const nextDayDate = moment()
+                                    .add(1, "days")
+                                    .format("YYYY-MM-DD");
+                                  const nextDayDeliveryScheduleDate = moment(
+                                    item?.deliveryScheduleDate
+                                  ).format("YYYY-MM-DD");
+                                  const isNextDay =
+                                    new Date(nextDayDate) <=
+                                    new Date(nextDayDeliveryScheduleDate);
+
+                                  // yesterday deliveryScheduleDate check momentjs
+                                  const yesterdayDate = moment()
+                                    .subtract(1, "days")
+                                    .format("YYYY-MM-DD");
+                                  const yesterdayDeliveryScheduleDate = moment(
+                                    item?.deliveryScheduleDate
+                                  ).format("YYYY-MM-DD");
+
+                                  const isYesterday =
+                                    new Date(yesterdayDate) >=
+                                    new Date(yesterdayDeliveryScheduleDate);
+
+                                  return (
+                                    <tr
+                                      key={index}
+                                      style={{
+                                        background: isYesterday
+                                          ? "#ff8a98"
+                                          : isToday
+                                          ? "#e1f0ff"
+                                          : isNextDay
+                                          ? "#ffff00"
+                                          : "",
                                       }}
-                                    />
-                                  </th>
-                                )}
-                                <th>SL</th>
-                                <th>Delivery Code </th>
-                                <th>Logistic By</th>
-                                {shipmentTypeDDl?.[shipmentType]?.value ===
-                                0 ? (
-                                  <th>Shipment Type</th>
-                                ) : null}
-                                <th>Ship Point</th>
-                                <th>Area</th>
-                                <th>Territory</th>
-                                <th>Sold To Party</th>
-                                <th>Ship To Party</th>
-                                <th>Address</th>
-                                <th>Quantity</th>
-                                <th>Create Date</th>
-                                <th>Delivery Date</th>
-                                <th>Lead Time</th>
-                                <th>Spend Time</th>
-                                <th>Rest of Time </th>
-                                <th>Shipment Status</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {gridData?.map((item, index) => {
-                                // deliveryScheduleDate today date check momentjs
-                                const todayDate = moment(new Date()).format(
-                                  "DD-MM-YYYY"
-                                );
-                                const deliveryScheduleDate = moment(
-                                  item?.deliveryScheduleDate
-                                ).format("DD-MM-YYYY");
-                                const isToday =
-                                  todayDate === deliveryScheduleDate;
+                                    >
+                                      {values?.trackingType?.value === 1 && (
+                                        <td className='printSectionNone'>
+                                          <input
+                                            id='itemCheck'
+                                            type='checkbox'
+                                            value={item.itemCheck}
+                                            checked={item.itemCheck}
+                                            name={item.itemCheck}
+                                            disabled={item?.shipmentStatus}
+                                            onChange={(e) => {
+                                              itemSlectedHandler(index);
+                                            }}
+                                          />
+                                        </td>
+                                      )}
 
-                                // next day deliveryScheduleDate check momentjs
-                                const nextDayDate = moment().add(1, "days").format("YYYY-MM-DD");
-                                const nextDayDeliveryScheduleDate = moment(
-                                  item?.deliveryScheduleDate
-                                ).format("YYYY-MM-DD");
-                                console.log(new Date(nextDayDate))
-                                console.log(new Date(nextDayDeliveryScheduleDate))
-                                const isNextDay =
-                                  new Date(nextDayDate) <=
-                                  new Date(nextDayDeliveryScheduleDate);
-
-                                // yesterday deliveryScheduleDate check momentjs
-                                const yesterdayDate = moment()
-                                  .subtract(1, "days").format("YYYY-MM-DD");
-                                const yesterdayDeliveryScheduleDate = moment(
-                                  item?.deliveryScheduleDate
-                                ).format("YYYY-MM-DD");
-
-                                const isYesterday =
-                                  new Date(yesterdayDate) >=
-                                  new Date(yesterdayDeliveryScheduleDate);
-
-                                return (
-                                  <tr
-                                    key={index}
-                                    style={{
-                                      background: isYesterday
-                                        ? "#f64e60"
-                                        : isToday
-                                        ? "#32e732"
-                                        : isNextDay
-                                        ? "yellow"
-                                        : "",
-                                    }}
-                                  >
-                                    {values?.trackingType?.value === 1 && (
-                                      <td className='printSectionNone'>
-                                        <input
-                                          id='itemCheck'
-                                          type='checkbox'
-                                          value={item.itemCheck}
-                                          checked={item.itemCheck}
-                                          name={item.itemCheck}
-                                          disabled={item?.shipmentStatus}
-                                          onChange={(e) => {
-                                            itemSlectedHandler(index);
-                                          }}
-                                        />
+                                      <td className='text-center'>
+                                        {" "}
+                                        {index + 1}
                                       </td>
-                                    )}
+                                      <td>{item?.deliveryCode}</td>
+                                      <td>{item?.providerTypeName}</td>
+                                      {shipmentTypeDDl?.[shipmentType]
+                                        ?.value === 0 ? (
+                                        <td>{item?.shipmentType}</td>
+                                      ) : null}
+                                      <td>{item?.shipPointName}</td>
+                                      <td>{item?.region}</td>
+                                      <td>{item?.area}</td>
+                                      <td>{item?.territory}</td>
+                                      <td>{item?.soldToPartnerName}</td>
+                                      <td>{item?.shipToPartnerName}</td>
+                                      <td>{item?.shipToPartnerAddress}</td>
+                                      <td className='text-center'>
+                                        {item?.quantity}
+                                      </td>
+                                      <td>
+                                        {item?.challanDateTime &&
+                                          moment(item?.challanDateTime).format(
+                                            "DD-MM-YYYY hh:mm: A"
+                                          )}
+                                      </td>
+                                      <td>
+                                        {item?.deliveryScheduleDate &&
+                                          moment(
+                                            item?.deliveryScheduleDate
+                                          ).format("DD-MM-YYYY hh:mm: A")}
+                                      </td>
+                                      <td>{item?.leadTimeHr}</td>
+                                      <td>{item?.spendTimeHr}</td>
+                                      <td>{item?.pendingTimeHr}</td>
+                                      <td>{item?.shipmentStatus || ""}</td>
+                                    </tr>
+                                  );
+                                })}
+                                <tr>
+                                  {values?.trackingType?.value === 1 && (
+                                    <td></td>
+                                  )}
 
-                                    <td className='text-center'>
-                                      {" "}
-                                      {index + 1}
-                                    </td>
-                                    <td>{item?.deliveryCode}</td>
-                                    <td>{item?.providerTypeName}</td>
-                                    {shipmentTypeDDl?.[shipmentType]?.value ===
-                                    0 ? (
-                                      <td>{item?.shipmentType}</td>
-                                    ) : null}
-                                    <td>{item?.shipPointName}</td>
-                                    <td>{item?.area}</td>
-                                    <td>{item?.territory}</td>
-                                    <td>{item?.soldToPartnerName}</td>
-                                    <td>{item?.shipToPartnerName}</td>
-                                    <td>{item?.shipToPartnerAddress}</td>
-                                    <td className='text-center'>
-                                      {item?.quantity}
-                                    </td>
-                                    <td>
-                                      {item?.challanDateTime &&
-                                        moment(item?.challanDateTime).format(
-                                          "DD-MM-YYYY hh:mm: A"
-                                        )}
-                                    </td>
-                                    <td>
-                                      {item?.deliveryScheduleDate &&
-                                        moment(
-                                          item?.deliveryScheduleDate
-                                        ).format("DD-MM-YYYY hh:mm: A")}
-                                    </td>
-                                    <td>{item?.leadTimeHr}</td>
-                                    <td>{item?.spendTimeHr}</td>
-                                    <td>{item?.pendingTimeHr}</td>
-                                    <td>{item?.shipmentStatus || ""}</td>
-                                  </tr>
-                                );
-                              })}
-                              <tr>
-                                {values?.trackingType?.value === 1 && <td></td>}
-
-                                <td
-                                  className='text-right'
-                                  colSpan={
-                                    shipmentTypeDDl?.[shipmentType]?.value === 0
-                                      ? 10
-                                      : 9
-                                  }
-                                >
-                                  <b>Total:</b>
-                                </td>
-                                <td className='text-center'>
-                                  <b>
-                                    {_fixedPoint(
-                                      gridData?.reduce(
-                                        (acc, curr) => acc + curr?.quantity,
-                                        0
-                                      )
-                                    )}
-                                  </b>
-                                </td>
-                                <td colSpan='6'></td>
-                              </tr>
-                            </tbody>
-                          </table>
+                                  <td
+                                    className='text-right'
+                                    colSpan={
+                                      shipmentTypeDDl?.[shipmentType]?.value ===
+                                      0
+                                        ? 11
+                                        : 8
+                                    }
+                                  >
+                                    <b>Total:</b>
+                                  </td>
+                                  <td className='text-center'>
+                                    <b>
+                                      {_fixedPoint(
+                                        gridData?.reduce(
+                                          (acc, curr) => acc + curr?.quantity,
+                                          0
+                                        )
+                                      )}
+                                    </b>
+                                  </td>
+                                  <td colSpan='6'></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </div>
