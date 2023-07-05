@@ -5,7 +5,7 @@ import React, { useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import ReactToPrint from "react-to-print";
 import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
+import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import {
   Card,
   CardBody,
@@ -17,15 +17,16 @@ import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import printIcon from "../../../../_helper/images/print-icon.png";
 import {
-  CreateTransportScheduleTypeApi,
+  saveAssignDeliveryVehicleSupplier,
   GetShipmentTypeApi,
   commonfilterGridData,
-  getDeliverySchedulePlan,
+  getAssignedDeliveryVehicleProvider,
 } from "../helper";
-import NewSelect from "./../../../../_helper/_select";
+import NewSelect from "../../../../_helper/_select";
 import RATForm from "./ratForm";
 import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
 import "./style.scss";
+import { toast } from "react-toastify";
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
@@ -58,7 +59,7 @@ const useStyles = makeStyles({
   },
 });
 
-function DeliveryScheduleplanReport() {
+function DeliveryScheduleAssignReport() {
   const classes = useStyles();
   const [shipmentType, setShipmentType] = React.useState(0);
   const [loading, setLoading] = useState(false);
@@ -90,7 +91,7 @@ function DeliveryScheduleplanReport() {
   }, [profileData, selectedBusinessUnit]);
   const handleChange = (newValue, values) => {
     setShipmentType(newValue);
-    getDeliverySchedulePlan(
+    getAssignedDeliveryVehicleProvider(
       profileData?.accountId,
       selectedBusinessUnit?.value,
       values?.fromDate,
@@ -123,7 +124,7 @@ function DeliveryScheduleplanReport() {
   };
 
   const commonGridApi = (values) => {
-    getDeliverySchedulePlan(
+    getAssignedDeliveryVehicleProvider(
       profileData?.accountId,
       selectedBusinessUnit?.value,
       values?.fromDate,
@@ -147,7 +148,7 @@ function DeliveryScheduleplanReport() {
   return (
     <>
       {loading && <Loading />}
-      <div >
+      <div>
         <Formik
           enableReinitialize={true}
           initialValues={{
@@ -157,7 +158,7 @@ function DeliveryScheduleplanReport() {
           {({ values, setFieldValue, touched, errors }) => (
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Delivery Schedule Plan Report"}>
+              <CardHeader title={"Delivery Schedule Assign Report"}>
                 <CardHeaderToolbar>
                   {gridData?.length > 0 && (
                     <>
@@ -211,8 +212,8 @@ function DeliveryScheduleplanReport() {
                         <NewSelect
                           name='trackingType'
                           options={[
-                            { value: 1, label: "Tracking Pending" },
-                            { value: 2, label: "Tracking Complete" },
+                            { value: 1, label: "Assign Pending" },
+                            { value: 2, label: "Assign Complete" },
                           ]}
                           value={values?.trackingType}
                           label='Tracking Type'
@@ -225,10 +226,18 @@ function DeliveryScheduleplanReport() {
                             setFieldValue("region", "");
                             setFieldValue("area", "");
                             setFieldValue("territory", "");
-                            setFieldValue("logisticByFilter", {
-                              value: 0,
-                              label: "All",
-                            });
+                            setFieldValue("logisticByFilter", "");
+                            if (valueOption?.value === 1) {
+                              setFieldValue("logisticByFilter", {
+                                value: 0,
+                                label: "All",
+                              });
+                            } else {
+                              setFieldValue("logisticByFilter", {
+                                value: 1,
+                                label: "Company",
+                              });
+                            }
                           }}
                           placeholder='Tracking Type'
                           errors={errors}
@@ -236,102 +245,121 @@ function DeliveryScheduleplanReport() {
                           isClearable={false}
                         />
                       </div>
-                      {values?.trackingType?.value === 2 && (
-                        <>
-                          <div className='col-lg-3'>
-                            <NewSelect
-                              name='logisticByFilter'
-                              options={[
-                                { value: 0, label: "All" },
-                                { value: 1, label: "Company" },
-                                { value: 2, label: "Supplier" },
-                              ]}
-                              value={values?.logisticByFilter}
-                              label='Logistic By'
-                              onChange={(valueOption) => {
-                                setFieldValue("logisticByFilter", valueOption);
-                                filterGridDataFunc(
-                                  {
-                                    ...values,
-                                    logisticByFilter: valueOption,
-                                  },
-                                  gridDataWithOutFilter
-                                );
+
+                      <div className='col-lg-3'>
+                        <NewSelect
+                          name='logisticByFilter'
+                          options={[
+                            ...(values?.trackingType?.value === 1
+                              ? [{ value: 0, label: "All" }]
+                              : []),
+                            { value: 1, label: "Company" },
+                            { value: 2, label: "Supplier" },
+                          ]}
+                          value={values?.logisticByFilter}
+                          label='Logistic By'
+                          onChange={(valueOption) => {
+                            setFieldValue("logisticByFilter", valueOption);
+                            filterGridDataFunc(
+                              {
+                                ...values,
+                                logisticByFilter: valueOption,
+                              },
+                              gridDataWithOutFilter
+                            );
+                          }}
+                          placeholder='Logistic By'
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+
+                      <>
+                        <div className='col-lg-3'>
+                          <div className='d-flex justify-content-between'>
+                            <button
+                              type='button'
+                              style={{ marginTop: "17px" }}
+                              disabled={
+                                !values?.fromDate ||
+                                !values?.toDate ||
+                                !values?.shipPoint
+                              }
+                              onClick={() => {
+                                setGridData([]);
+                                commonGridApi(values);
+                                setFieldValue("isMoreFiter", false);
+                                setFieldValue("channel", "");
+                                setFieldValue("region", "");
+                                setFieldValue("area", "");
+                                setFieldValue("territory", "");
                               }}
-                              placeholder='Logistic By'
-                              errors={errors}
-                              touched={touched}
-                            />
-                          </div>
-                        </>
-                      )}
-                      <div className='col-lg-2'></div>
-                      {values?.trackingType?.value === 1 && (
-                        <>
-                          <div className='col-lg-4'>
-                            <div className='d-flex'>
-                              <NewSelect
-                                name='logisticBy'
-                                options={[
-                                  { value: 1, label: "Company" },
-                                  { value: 2, label: "Supplier" },
-                                ]}
-                                value={values?.logisticBy}
-                                label='Logistic By'
-                                onChange={(valueOption) => {
-                                  setFieldValue("logisticBy", valueOption);
-                                }}
-                                placeholder='Logistic By'
-                                errors={errors}
-                                touched={touched}
-                                isClearable={false}
-                                isDisabled={!gridData?.some((i) => i.itemCheck)}
-                              />
-                              <button
-                                disabled={
-                                  !values?.logisticBy?.value ||
-                                  !gridData?.some((i) => i.itemCheck)
-                                }
-                                type='button'
-                                style={{ marginTop: "17px" }}
-                                className='btn btn-primary ml-2'
-                                onClick={() => {
-                                  const payload = gridData
-                                    ?.filter((i) => i?.itemCheck)
-                                    .map((itm) => ({
+                              className='btn btn-primary'
+                            >
+                              Show
+                            </button>
+                            {values?.trackingType?.value === 1 && (
+                              <>
+                                <button
+                                  disabled={!gridData?.some((i) => i.itemCheck)}
+                                  type='button'
+                                  style={{ marginTop: "17px" }}
+                                  className='btn btn-primary ml-2'
+                                  onClick={() => {
+                                    const selectedItem = gridData?.filter(
+                                      (i) => i?.itemCheck
+                                    );
+
+                                    const emptyItem = selectedItem?.find(
+                                      (i) => !i?.vehicleId && !i?.supplierId
+                                    );
+
+                                    if (emptyItem) {
+                                      toast.warn(
+                                        `Please select ${
+                                          values?.logisticByFilter?.value === 1
+                                            ? "Vehicle"
+                                            : "Suppler"
+                                        } for ${emptyItem?.deliveryCode}`
+                                      );
+                                      return;
+                                    }
+
+                                    const payload = selectedItem.map((itm) => ({
                                       deliveryId:
                                         itm?.intDeliveryId ||
                                         itm?.deliveryId ||
                                         0,
-                                      poviderTypeId: values?.logisticBy?.value,
-                                      providerTypeName:
-                                        values?.logisticBy?.label,
-                                      scheduleDate:
-                                        itm?.deliveryScheduleDate || new Date(),
+                                      supplierId: itm?.supplierId || 0,
+                                      territoryId: itm?.territoryId || 0,
+                                      vehicleId: itm?.vehicleId || 0,
+                                      vehicleName: itm?.vehicleName || "",
+                                      actionBy: profileData?.userId,
                                     }));
 
-                                  CreateTransportScheduleTypeApi(
-                                    payload,
-                                    setLoading,
-                                    () => {
-                                      setGridData([]);
-                                      commonGridApi(values);
-                                      setFieldValue("logisticBy", "");
-                                      setFieldValue("isMoreFiter", false);
-                                      setFieldValue("channel", "");
-                                      setFieldValue("region", "");
-                                      setFieldValue("area", "");
-                                      setFieldValue("territory", "");
-                                    }
-                                  );
-                                }}
-                              >
-                                Save
-                              </button>
-                            </div>
+                                    saveAssignDeliveryVehicleSupplier(
+                                      payload,
+                                      setLoading,
+                                      () => {
+                                        setGridData([]);
+                                        commonGridApi(values);
+                                        setFieldValue("logisticBy", "");
+                                        setFieldValue("isMoreFiter", false);
+                                        setFieldValue("channel", "");
+                                        setFieldValue("region", "");
+                                        setFieldValue("area", "");
+                                        setFieldValue("territory", "");
+                                      }
+                                    );
+                                  }}
+                                >
+                                  Save
+                                </button>
+                              </>
+                            )}
                           </div>
-                        </>
-                      )}
+                        </div>
+                      </>
 
                       <div className='col-lg-12 p-0 m-0'>
                         <Paper square className={classes.root}>
@@ -384,63 +412,39 @@ function DeliveryScheduleplanReport() {
                             />
                           </div>
 
-                          <div className='col'>
-                            <div className='d-flex justify-content-between align-items-center'>
-                              <button
-                                type='button'
-                                style={{ marginTop: "17px" }}
-                                disabled={
-                                  !values?.fromDate ||
-                                  !values?.toDate ||
-                                  !values?.shipPoint
-                                }
-                                onClick={() => {
-                                  setGridData([]);
-                                  commonGridApi(values);
-                                  setFieldValue("isMoreFiter", false);
+                          <div className='col d-flex align-items-center'>
+                            <div className='d-flex justify-content-center align-items-center'>
+                              <label className='mr-1' for='isMoreFiter'>
+                                More Filter
+                              </label>
+                              <input
+                                id='isMoreFiter'
+                                value={values?.isMoreFiter}
+                                name='isMoreFiter'
+                                checked={values?.isMoreFiter}
+                                onChange={(e) => {
+                                  setFieldValue(
+                                    "isMoreFiter",
+                                    e.target.checked
+                                  );
                                   setFieldValue("channel", "");
                                   setFieldValue("region", "");
                                   setFieldValue("area", "");
                                   setFieldValue("territory", "");
+                                  filterGridDataFunc(
+                                    {
+                                      ...values,
+                                      channel: "",
+                                      region: "",
+                                      area: "",
+                                      territory: "",
+                                    },
+                                    gridDataWithOutFilter
+                                  );
                                 }}
-                                className='btn btn-primary'
-                              >
-                                Show
-                              </button>
-                              <div className='d-flex justify-content-center align-items-center'>
-                                <label className='mr-1' for='isMoreFiter'>
-                                  More Filter
-                                </label>
-                                <input
-                                  id='isMoreFiter'
-                                  value={values?.isMoreFiter}
-                                  name='isMoreFiter'
-                                  checked={values?.isMoreFiter}
-                                  onChange={(e) => {
-                                    setFieldValue(
-                                      "isMoreFiter",
-                                      e.target.checked
-                                    );
-                                    setFieldValue("channel", "");
-                                    setFieldValue("region", "");
-                                    setFieldValue("area", "");
-                                    setFieldValue("territory", "");
-
-                                    filterGridDataFunc(
-                                      {
-                                        ...values,
-                                        channel: "",
-                                        region: "",
-                                        area: "",
-                                        territory: "",
-                                      },
-                                      gridDataWithOutFilter
-                                    );
-                                  }}
-                                  type='checkbox'
-                                  className='mt-1'
-                                />
-                              </div>
+                                type='checkbox'
+                                className='mt-1'
+                              />
                             </div>
                           </div>
                         </Paper>
@@ -464,13 +468,16 @@ function DeliveryScheduleplanReport() {
 
                     {/* Table Start */}
                     {gridData?.length > 0 && (
-                      <div ref={printRef} className="deliveryScheduleplanPrintSection">
+                      <div
+                        ref={printRef}
+                        className='deliveryScheduleplanPrintSection'
+                      >
                         <div className='text-center my-2 headerInfo'>
                           <h3>
                             <b> {selectedBusinessUnit?.label} </b>
                           </h3>
 
-                          <h4>Delivery Schedule Plan Report</h4>
+                          <h4>Delivery Schedule Assign Report</h4>
                           <div className='d-flex justify-content-center'>
                             <h5>
                               For The Month:
@@ -498,20 +505,23 @@ function DeliveryScheduleplanReport() {
                               <table className='table table-striped table-bordered global-table'>
                                 <thead>
                                   <tr>
-                                    {values?.trackingType?.value === 1 && (
-                                      <th
-                                        style={{ minWidth: "25px" }}
-                                        className='printSectionNone'
-                                      >
-                                        <input
-                                          type='checkbox'
-                                          id='parent'
-                                          onChange={(event) => {
-                                            allGridCheck(event.target.checked);
-                                          }}
-                                        />
-                                      </th>
-                                    )}
+                                    {values?.trackingType?.value === 1 &&
+                                      values?.logisticByFilter?.value !== 0 && (
+                                        <th
+                                          style={{ minWidth: "25px" }}
+                                          className='printSectionNone'
+                                        >
+                                          <input
+                                            type='checkbox'
+                                            id='parent'
+                                            onChange={(event) => {
+                                              allGridCheck(
+                                                event.target.checked
+                                              );
+                                            }}
+                                          />
+                                        </th>
+                                      )}
                                     <th>SL</th>
                                     <th>Delivery Code </th>
                                     <th>Logistic By</th>
@@ -526,6 +536,17 @@ function DeliveryScheduleplanReport() {
                                     <th>Sold To Party</th>
                                     <th>Ship To Party</th>
                                     <th>Address</th>
+                                    {values?.logisticByFilter?.value === 1 ? (
+                                      <th style={{ minWidth: "130px" }}>
+                                        Vehicle
+                                      </th>
+                                    ) : values?.logisticByFilter?.value ===
+                                      2 ? (
+                                      <th style={{ minWidth: "130px" }}>
+                                        {" "}
+                                        Supplier
+                                      </th>
+                                    ) : null}
                                     <th>Quantity</th>
                                     <th style={{ minWidth: "65px" }}>
                                       Create Date
@@ -591,21 +612,23 @@ function DeliveryScheduleplanReport() {
                                             : "",
                                         }}
                                       >
-                                        {values?.trackingType?.value === 1 && (
-                                          <td className='printSectionNone'>
-                                            <input
-                                              id='itemCheck'
-                                              type='checkbox'
-                                              value={item.itemCheck}
-                                              checked={item.itemCheck}
-                                              name={item.itemCheck}
-                                              disabled={item?.shipmentStatus}
-                                              onChange={(e) => {
-                                                itemSlectedHandler(index);
-                                              }}
-                                            />
-                                          </td>
-                                        )}
+                                        {values?.trackingType?.value === 1 &&
+                                          values?.logisticByFilter?.value !==
+                                            0 && (
+                                            <td className='printSectionNone'>
+                                              <input
+                                                id='itemCheck'
+                                                type='checkbox'
+                                                value={item.itemCheck}
+                                                checked={item.itemCheck}
+                                                name={item.itemCheck}
+                                                disabled={item?.shipmentStatus}
+                                                onChange={(e) => {
+                                                  itemSlectedHandler(index);
+                                                }}
+                                              />
+                                            </td>
+                                          )}
 
                                         <td className='text-center'>
                                           {" "}
@@ -624,6 +647,92 @@ function DeliveryScheduleplanReport() {
                                         <td>{item?.soldToPartnerName}</td>
                                         <td>{item?.shipToPartnerName}</td>
                                         <td>{item?.shipToPartnerAddress}</td>
+                                        {values?.logisticByFilter?.value ===
+                                        1 ? (
+                                          <td>
+                                            {values?.trackingType?.value ===
+                                            1 ? (
+                                              <NewSelect
+                                                isHiddenLabel
+                                                name='vihicle'
+                                                options={
+                                                  item?.vihicleList || []
+                                                }
+                                                value={
+                                                  item?.vehicleId
+                                                    ? {
+                                                        value: item?.vehicleId,
+                                                        label:
+                                                          item?.vehicleName,
+                                                      }
+                                                    : ""
+                                                }
+                                                onChange={(valueOption) => {
+                                                  const copyGridData = [
+                                                    ...gridData,
+                                                  ];
+                                                  copyGridData[
+                                                    index
+                                                  ].vehicleId =
+                                                    valueOption?.value;
+                                                  copyGridData[
+                                                    index
+                                                  ].vehicleName =
+                                                    valueOption?.label;
+                                                  setGridData(copyGridData);
+                                                }}
+                                                placeholder='Select Vihicle'
+                                                errors={errors}
+                                                touched={touched}
+                                              />
+                                            ) : (
+                                              item?.vehicleName
+                                            )}
+                                          </td>
+                                        ) : values?.logisticByFilter?.value ===
+                                          2 ? (
+                                          <td>
+                                            {values?.trackingType?.value ===
+                                            1 ? (
+                                              <NewSelect
+                                                name='supplier'
+                                                options={
+                                                  item?.supplierList || []
+                                                }
+                                                value={
+                                                  item?.supplierId
+                                                    ? {
+                                                        value: item?.supplierId,
+                                                        label:
+                                                          item?.supplierName,
+                                                      }
+                                                    : ""
+                                                }
+                                                onChange={(valueOption) => {
+                                                  const copyGridData = [
+                                                    ...gridData,
+                                                  ];
+                                                  copyGridData[
+                                                    index
+                                                  ].supplierId =
+                                                    valueOption?.value;
+                                                  copyGridData[
+                                                    index
+                                                  ].supplierName =
+                                                    valueOption?.label;
+                                                  setGridData(copyGridData);
+                                                }}
+                                                placeholder='Select Supplier'
+                                                errors={errors}
+                                                touched={touched}
+                                                isHiddenLabel
+                                              />
+                                            ) : (
+                                              item?.supplierName
+                                            )}
+                                          </td>
+                                        ) : null}
+
                                         <td className='text-center'>
                                           {item?.quantity}
                                         </td>
@@ -646,34 +755,6 @@ function DeliveryScheduleplanReport() {
                                       </tr>
                                     );
                                   })}
-                                  <tr>
-                                    {values?.trackingType?.value === 1 && (
-                                      <td></td>
-                                    )}
-
-                                    <td
-                                      className='text-right'
-                                      colSpan={
-                                        shipmentTypeDDl?.[shipmentType]
-                                          ?.value === 0
-                                          ? 11
-                                          : 10
-                                      }
-                                    >
-                                      <b>Total:</b>
-                                    </td>
-                                    <td className='text-center'>
-                                      <b>
-                                        {_fixedPoint(
-                                          gridData?.reduce(
-                                            (acc, curr) => acc + curr?.quantity,
-                                            0
-                                          )
-                                        )}
-                                      </b>
-                                    </td>
-                                    <td colSpan='6'></td>
-                                  </tr>
                                 </tbody>
                               </table>
                             </div>
@@ -692,4 +773,4 @@ function DeliveryScheduleplanReport() {
   );
 }
 
-export default DeliveryScheduleplanReport;
+export default DeliveryScheduleAssignReport;

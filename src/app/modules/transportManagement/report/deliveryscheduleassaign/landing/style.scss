@@ -1,0 +1,13 @@
+.deliveryScheduleplanPrintSection {
+  .headerInfo {
+    display: none;
+  }
+  @media print {
+    .headerInfo {
+      display: block !important;
+    }
+    .table-responsive {
+        overflow-x: unset !important;
+      }
+  }
+}

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
-export const getDeliverySchedulePlan = async (
+export const getAssignedDeliveryVehicleProvider = async (
   accId,
   buId,
   fromDate,
@@ -15,7 +15,7 @@ export const getDeliverySchedulePlan = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `/wms/Delivery/GetDeliverySchedulePlan?accountId=${accId}&businessUnitId=${buId}&fromDate=${fromDate}&toDtae=${toDate}&shipmentType=${shipmentType}&shippointId=${shippointId}&isCompleted=${isCompleted}`
+      `/wms/Delivery/GetAssignedDeliveryVehicleProvider?accountId=${accId}&businessUnitId=${buId}&fromDate=${fromDate}&toDtae=${toDate}&shipmentType=${shipmentType}&shippointId=${shippointId}&isCompleted=${isCompleted}`
     );
     const modifid = res?.data?.map((item) => ({
       ...item,
@@ -55,11 +55,11 @@ export const GetShipmentTypeApi = async (
     setLoading(false);
   }
 };
-export const CreateTransportScheduleTypeApi = async (data, setLoading, cb) => {
+export const saveAssignDeliveryVehicleSupplier = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      `/oms/SalesOrganization/CreateTransportScheduleType`,
+      `/wms/Delivery/AssignDeliveryVehicleSupplier`,
       data
     );
     cb();
@@ -72,7 +72,6 @@ export const CreateTransportScheduleTypeApi = async (data, setLoading, cb) => {
 };
 
 export const commonfilterGridData = (values, allGridData) => {
-  
   // filter grid data by region, area, territory but is field not mendatory
   const filterGridData = allGridData?.filter((itm) => {
     itm.itemCheck = false;
@@ -87,9 +86,7 @@ export const commonfilterGridData = (values, allGridData) => {
         ? true
         : itm?.territory === values?.territory?.label;
 
-    // this is for logistic by filter trackingType type complete
     let logisticByFilter =
-      values?.trackingType?.value === 1 ||
       values?.logisticByFilter?.label === "All"
         ? true
         : itm?.providerTypeName === values?.logisticByFilter?.label;
@@ -104,7 +101,6 @@ export const commonfilterGridData = (values, allGridData) => {
     } else if (values?.region?.label) {
       return regionFilter && logisticByFilter;
     } else {
-      console.log(logisticByFilter);
       return logisticByFilter;
     }
   });
