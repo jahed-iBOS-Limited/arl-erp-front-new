@@ -32,11 +32,11 @@ export const SaveInventoryLoanValidationSchema = Yup.object().shape({
     }
   }),
 
-  shipPoint: Yup.object().when("issueFrom", (issueFrom) => {
+  shipment: Yup.object().when("issueFrom", (issueFrom) => {
     if (+issueFrom?.value === 2) {
       return Yup.object().shape({
-        value: Yup.string().required("Ship point is required"),
-        label: Yup.string().required("Ship point is required"),
+        value: Yup.string().required("Shipment is required"),
+        label: Yup.string().required("Shipment is required"),
       });
     } else {
       return Yup.string();
@@ -110,7 +110,7 @@ export const getSBUListDDL_api = async (accId, buId, setter) => {
       setter(res?.data);
     }
   } catch (error) {
-    
+
   }
 };
 
@@ -119,7 +119,7 @@ export const getWarehouseDDL = async (accId, buId, setter) => {
     const res = await Axios.get(
       `/wms/Warehouse/GetWarehouseFromPlantWarehouseDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
-      setter(res?.data)
+    setter(res?.data)
   } catch (err) {
     setter([]);
   }
@@ -133,13 +133,19 @@ export const saveInventoryLoanCreate = async (payload, setLoading, cb) => {
       payload
     );
     if (res.status === 200 && res?.data) {
+      console.log("res1", res);
       toast.success(res.data?.message, { toastId: 1234 });
       setLoading(false);
       cb();
+    } else {
+      console.log("res", res);
+      toast.warning(res?.message, { toastId: 1234 });
+      setLoading(false);
     }
   } catch (err) {
+    console.log("err", err);
     setLoading(false);
-    toast.warning(err?.message || err?.response?.data?.message, {
+    toast.warning(err?.message || err?.response?.message, {
       toastId: 12355,
     });
   }
