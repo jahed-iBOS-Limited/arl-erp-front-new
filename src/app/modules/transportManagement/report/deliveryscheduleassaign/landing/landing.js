@@ -6,6 +6,7 @@ import { shallowEqual, useSelector } from "react-redux";
 import ReactToPrint from "react-to-print";
 import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import Axios from "axios";
 import {
   Card,
   CardBody,
@@ -27,6 +28,7 @@ import RATForm from "./ratForm";
 import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
 import "./style.scss";
 import { toast } from "react-toastify";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
@@ -538,12 +540,24 @@ function DeliveryScheduleAssignReport() {
                                     <th>Ship To Party</th>
                                     <th>Address</th>
                                     {values?.logisticByFilter?.value === 1 ? (
-                                      <th style={{ minWidth: "130px" }}>
+                                      <th
+                                        style={
+                                          values?.trackingType?.value === 1
+                                            ? { minWidth: "130px" }
+                                            : {}
+                                        }
+                                      >
                                         Vehicle
                                       </th>
                                     ) : values?.logisticByFilter?.value ===
                                       2 ? (
-                                      <th style={{ minWidth: "130px" }}>
+                                      <th
+                                        style={
+                                          values?.trackingType?.value === 1
+                                            ? { minWidth: "130px" }
+                                            : {}
+                                        }
+                                      >
                                         {" "}
                                         Supplier
                                       </th>
@@ -653,13 +667,8 @@ function DeliveryScheduleAssignReport() {
                                           <td>
                                             {values?.trackingType?.value ===
                                             1 ? (
-                                              <NewSelect
-                                                isHiddenLabel
-                                                name='vihicle'
-                                                options={
-                                                  item?.vihicleList || []
-                                                }
-                                                value={
+                                              <SearchAsyncSelect
+                                                selectedValue={
                                                   item?.vehicleId
                                                     ? {
                                                         value: item?.vehicleId,
@@ -668,7 +677,7 @@ function DeliveryScheduleAssignReport() {
                                                       }
                                                     : ""
                                                 }
-                                                onChange={(valueOption) => {
+                                                handleChange={(valueOption) => {
                                                   const copyGridData = [
                                                     ...gridData,
                                                   ];
@@ -682,9 +691,15 @@ function DeliveryScheduleAssignReport() {
                                                     valueOption?.label;
                                                   setGridData(copyGridData);
                                                 }}
-                                                placeholder='Select Vihicle'
-                                                errors={errors}
-                                                touched={touched}
+                                                loadOptions={(v) => {
+                                                  if (v?.length < 2) return [];
+                                                  return Axios.get(
+                                                    `/wms/Delivery/GetVehicleByShippointDDL?businessUnitId=${selectedBusinessUnit?.value}&shippointId=${values?.shipPoint?.value}&searchTerm=${v}`
+                                                  ).then((res) => {
+                                                    return res?.data || [];
+                                                  });
+                                                }}
+                                                placeholder='Select Vehicle'
                                               />
                                             ) : (
                                               item?.vehicleName
@@ -695,12 +710,8 @@ function DeliveryScheduleAssignReport() {
                                           <td>
                                             {values?.trackingType?.value ===
                                             1 ? (
-                                              <NewSelect
-                                                name='supplier'
-                                                options={
-                                                  item?.supplierList || []
-                                                }
-                                                value={
+                                              <SearchAsyncSelect
+                                                selectedValue={
                                                   item?.supplierId
                                                     ? {
                                                         value: item?.supplierId,
@@ -709,7 +720,7 @@ function DeliveryScheduleAssignReport() {
                                                       }
                                                     : ""
                                                 }
-                                                onChange={(valueOption) => {
+                                                handleChange={(valueOption) => {
                                                   const copyGridData = [
                                                     ...gridData,
                                                   ];
@@ -723,10 +734,15 @@ function DeliveryScheduleAssignReport() {
                                                     valueOption?.label;
                                                   setGridData(copyGridData);
                                                 }}
-                                                placeholder='Select Supplier'
-                                                errors={errors}
-                                                touched={touched}
-                                                isHiddenLabel
+                                                loadOptions={(v) => {
+                                                  if (v?.length < 2) return [];
+                                                  return Axios.get(
+                                                    `/wms/Delivery/GetSupplierByShipPointDDl?businessUnitId=${selectedBusinessUnit?.value}&shippointId=${values?.shipPoint?.value}&searchTerm=${v}`
+                                                  ).then((res) => {
+                                                    return res?.data || [];
+                                                  });
+                                                }}
+                                                placeholder='Select Vehicle'
                                               />
                                             ) : (
                                               item?.supplierName

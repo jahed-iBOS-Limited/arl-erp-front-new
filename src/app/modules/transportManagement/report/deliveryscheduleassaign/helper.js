@@ -55,7 +55,11 @@ export const GetShipmentTypeApi = async (
     setLoading(false);
   }
 };
-export const saveAssignDeliveryVehicleSupplier = async (data, setLoading, cb) => {
+export const saveAssignDeliveryVehicleSupplier = async (
+  data,
+  setLoading,
+  cb
+) => {
   setLoading(true);
   try {
     const res = await axios.post(
