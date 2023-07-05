@@ -361,8 +361,8 @@ export default function _Form({
                             touched={touched}
                           />
                         </div>
-
-                        {(jorunalType === 5 && ["Supplier", "Customer", "Investment Partner"]?.includes(values?.partnerType?.label)) && <div style={{ marginBottom: "12px" }} className="col-lg-12 pl pr">
+                          {/* ["Supplier", "Customer", "Investment Partner"] */}
+                        {(jorunalType === 5 && ["Investment Partner"]?.includes(values?.partnerType?.label)) && <div style={{ marginBottom: "12px" }} className="col-lg-12 pl pr">
                           <label>Partner Bank Account</label>
                           <Select
                             onChange={(valueOption) => {
