@@ -357,6 +357,7 @@ export default function _Form({
                               }
 
                               setFieldValue("transaction", valueOption);
+                              setFieldValue("partnerBankAccount", "");
 
                               getPartnerBank(`/partner/BusinessPartnerBankInfo/GetBusinessPartnerBankInfoByAccountIdBusinessUnitId?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&BusinessPartnerId=${valueOption?.value}&Status=true`, (data) => {
                                 let newBankAcc = data?.length > 0 ? data.map(item => ({
