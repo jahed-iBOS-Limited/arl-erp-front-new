@@ -31,7 +31,7 @@ export default function ProjectedCashFlowCreateEdit() {
   const [objProps, setObjprops] = useState({});
   const [, saveData] = useAxiosPost();
   const [cashList, setCashList] = useState([]);
-  const [previousList, getPreviousList, lodar] = useAxiosGet();
+  const [previousList, getPreviousList, lodar, setPreviousList] = useAxiosGet();
   const [, inactiveSave] = useAxiosPost();
   const [viewType, setViewType] = useState(1);
   const [shipmentDDL, getShipment] = useAxiosGet();
@@ -56,7 +56,7 @@ export default function ProjectedCashFlowCreateEdit() {
       return toast.warn("Please add at least one Expense/Payment");
     saveData(
       `/fino/FundManagement/CreateFundProjectedExpense?partName=FundProjectedExpenseCreate&intId=${
-        viewType === 1 ? 0 : 1
+        viewType === 1 ? 0 : viewType === 2 ? 1 : 2
       }`,
       cashList?.map((item) => ({
         intBusinessUnitId: selectedBusinessUnit?.value,
@@ -129,7 +129,7 @@ export default function ProjectedCashFlowCreateEdit() {
 
   const disabledHandler = (values) => {
     if (
-      viewType === 1 &&
+      (viewType === 1 || viewType === 3) &&
       (!values?.paymentName || !values?.amount || !values?.date)
     ) {
       return true;
@@ -191,6 +191,20 @@ export default function ProjectedCashFlowCreateEdit() {
                           }}
                         />
                         Expense
+                      </label>
+                      <label className="mr-3">
+                        <input
+                          type="radio"
+                          name="viewType"
+                          checked={viewType === 3}
+                          className="mr-1 pointer"
+                          style={{ position: "relative", top: "2px" }}
+                          onChange={(valueOption) => {
+                            setViewType(3);
+                            setCashList([]);
+                          }}
+                        />
+                        Income
                       </label>
                       <label>
                         <input
@@ -263,11 +277,11 @@ export default function ProjectedCashFlowCreateEdit() {
                         ) : (
                           ""
                         )}
-                        {viewType === 1 ? (
+                        {(viewType === 1 || viewType === 3) ? (
                           <div className="col-lg-6">
                             <InputField
                               value={values?.paymentName}
-                              label="Expense/Payment Name"
+                              label={viewType === 1 ? "Expense/Payment Name" : viewType === 3 ? "Income Name" : ""}
                               name="paymentName"
                               type="text"
                             />
