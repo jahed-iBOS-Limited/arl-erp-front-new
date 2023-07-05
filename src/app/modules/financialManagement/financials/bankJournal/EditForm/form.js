@@ -183,6 +183,19 @@ export default function _Form({
       .catch((err) => []);
   };
 
+  useEffect(() => {
+    if(initData?.transaction?.value){
+      getPartnerBank(`/partner/BusinessPartnerBankInfo/GetBusinessPartnerBankInfoByAccountIdBusinessUnitId?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&BusinessPartnerId=${initData?.transaction?.value}&Status=true`, (data) => {
+        let newBankAcc = data?.length > 0 ? data.map(item => ({
+          ...item,
+          value : item?.bankId,
+          label : `${item?.bankShortName}: ${item?.bankAccountNo}`,
+        })) : []
+        setPartnerBank(newBankAcc)
+      })
+    }
+  },[initData])
+
   return (
     <>
       <Formik
