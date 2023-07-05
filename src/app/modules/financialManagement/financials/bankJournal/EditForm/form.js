@@ -17,6 +17,7 @@ import {
   getBankAc, getCostCenterDDL, getCostElementByCostCenterDDL, getInstrumentType, getPartnerTypeDDL, getProfitCenterDDL, getRevenueCenterListDDL, getRevenueElementListDDL, getSendToGLBank
 } from "../helper";
 import { confirmAlert } from "react-confirm-alert";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 // Validation schema for bank receive
 const ReceivevalidationSchema = Yup.object().shape({
@@ -100,6 +101,7 @@ export default function _Form({
   const [revenueCenterDDL, setRevenueCenterDDL] = useState([])
   const [revenueElementDDL, setRevenueElementDDL] = useState([])
   const [profitCenterDDL, setProfitCenterDDL] = useState([])
+  const [partnerBank, getPartnerBank, partnerBankLoading, setPartnerBank] = useAxiosGet();
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
@@ -297,6 +299,7 @@ export default function _Form({
                               setPartnerType(valueOption);
                               setFieldValue("transaction", "");
                               setFieldValue("receiveFrom", "");
+                              setFieldValue("partnerBankAccount", "");
                             }}
                             options={partnerTypeDDL}
                             value={values?.partnerType}
@@ -338,6 +341,16 @@ export default function _Form({
                                 setFieldValue("paidTo", valueOption?.label);
                               }
                               setFieldValue("transaction", valueOption);
+
+                              getPartnerBank(`/partner/BusinessPartnerBankInfo/GetBusinessPartnerBankInfoByAccountIdBusinessUnitId?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&BusinessPartnerId=${valueOption?.value}&Status=true`, (data) => {
+                                let newBankAcc = data?.length > 0 ? data.map(item => ({
+                                  ...item,
+                                  value : item?.bankId,
+                                  label : `${item?.bankShortName}: ${item?.bankAccountNo}`,
+                                })) : []
+                                setPartnerBank(newBankAcc)
+                              })
+
                             }}
                             loadOptions={loadTransactionList}
                             isDisabled={!values?.partnerType}
@@ -348,6 +361,21 @@ export default function _Form({
                             touched={touched}
                           />
                         </div>
+
+                        {(jorunalType === 5 && ["Supplier", "Customer", "Investment Partner"]?.includes(values?.partnerType?.label)) && <div style={{ marginBottom: "12px" }} className="col-lg-12 pl pr">
+                          <label>Partner Bank Account</label>
+                          <Select
+                            onChange={(valueOption) => {
+                              setFieldValue("partnerBankAccount", valueOption);
+                            }}
+                            // isDisabled={!values?.transaction}
+                            options={partnerBank}
+                            value={values?.partnerBankAccount}
+                            isSearchable={true}
+                            styles={customStyles}
+                            placeholder="Partner Bank Account"
+                          />
+                        </div>}
 
                         <div className="col-lg-12 pl pr">
                           <label>General Ledger</label>

@@ -286,6 +286,7 @@ export const singleDataById = async (id, type, setter) => {
 
         const data = {
           objHeader: {
+            partnerBankAccount: "",
             transactionDate: _dateFormatter(item?.objHeader?.voucherDate),
             bankJournalCode: item?.objHeader?.bankJournalCode,
             bankAcc: {

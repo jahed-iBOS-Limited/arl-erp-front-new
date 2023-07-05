@@ -156,6 +156,11 @@ export default function BankJournalCreateForm() {
           costRevenueId: item?.revenueCenter?.value || item?.costCenter?.value || 0,
           elementName: item?.revenueElement?.label || item?.costElement?.label || "",
           elementId: item?.revenueElement?.value || item?.costElement?.value || 0,
+          partnerBankId: item?.partnerBankAccount?.bankId,
+          partnerBankBranchId: item?.partnerBankAccount?.bankBranchId,
+          partnerBankAccountNo: item?.partnerBankAccount?.bankAccountNo,
+          partnerBankAccountName: item?.partnerBankAccount?.bankName,
+          partnerBankRoutingNumber: item?.partnerBankAccount?.routingNo
         }));
 
         let transferRow = [
@@ -304,6 +309,8 @@ export default function BankJournalCreateForm() {
     data[index][name] = value;
     setRowDto(data);
   };
+
+  console.log("rowDto",rowDto)
 
 
   return (
