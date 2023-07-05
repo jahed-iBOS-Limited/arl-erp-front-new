@@ -26,26 +26,34 @@ export default function CommonTable({ salesOrderData, printRef }) {
           </thead>
 
           <tbody>
-            {salesOrderData?.map((item, index) => (
-              <tr key={index}>
-                <td className="text-center">{index + 1}</td>
-                <td>{item?.strsoldtopartner}</td>
-                <td className="text-center">{item?.strChannelName}</td>
-                <td className="text-center">{item?.strshippointname}</td>
-                <td>{item?.strsalesordercode}</td>
-                <td className="text-center">{item?.numrequestquantity}</td>
-                <td>{item?.numorderquantity}</td>
-                <td className="text-center">{item?.numDeliveredQuantity}</td>
-                <td>{item?.numUndeliveryQuantity}</td>
-                <td className="text-center">
-                  {item?.numActualDeliveredQuantity}
-                </td>
-                <td className="text-center">
-                  {item?.numActualUndeliveryQuantity}
-                </td>
-                <td className="text-center">{item?.actualUndelvAmount}</td>
-              </tr>
-            ))}
+            {salesOrderData?.map((item, index) => {
+              const minusValue =
+                item?.numUndeliveryQuantity < 0 ||
+                item?.numActualUndeliveryQuantity < 0;
+              return (
+                <tr
+                  key={index}
+                  style={minusValue ? { backgroundColor: "#ffff0085" } : {}}
+                >
+                  <td className="text-center">{index + 1}</td>
+                  <td>{item?.strsoldtopartner}</td>
+                  <td className="text-center">{item?.strChannelName}</td>
+                  <td className="text-center">{item?.strshippointname}</td>
+                  <td>{item?.strsalesordercode}</td>
+                  <td className="text-center">{item?.numrequestquantity}</td>
+                  <td>{item?.numorderquantity}</td>
+                  <td className="text-center">{item?.numDeliveredQuantity}</td>
+                  <td>{item?.numUndeliveryQuantity}</td>
+                  <td className="text-center">
+                    {item?.numActualDeliveredQuantity}
+                  </td>
+                  <td className="text-center">
+                    {item?.numActualUndeliveryQuantity}
+                  </td>
+                  <td className="text-center">{item?.actualUndelvAmount}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
