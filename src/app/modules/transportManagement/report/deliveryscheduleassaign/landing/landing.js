@@ -331,6 +331,7 @@ function DeliveryScheduleAssignReport() {
                                         itm?.deliveryId ||
                                         0,
                                       supplierId: itm?.supplierId || 0,
+                                      supplierName: itm?.supplierName || "",
                                       territoryId: itm?.territoryId || 0,
                                       vehicleId: itm?.vehicleId || 0,
                                       vehicleName: itm?.vehicleName || "",
