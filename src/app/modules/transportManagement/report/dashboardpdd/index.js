@@ -15,7 +15,13 @@ import CategoryWiseCard from "./categoryWiseCard";
 import IViewModal from "../../../_helper/_viewModal";
 import WarehouseWiseStockReport from "../../../inventoryManagement/reports/whStockReport";
 import DepoPendingChart from "./DepoPendingChart";
-import { getDashBoardPDDReportApi, getDashBoardPDDReportVehicleApi } from "./helper";
+import {
+  getDashBoardPDDDepotPendingReportApi,
+  getDashBoardPDDOnTimeDeliveryReportApi,
+  getDashBoardPDDReportApi,
+  getDashBoardPDDReportVehicleApi,
+  getDashBoardPDDReporttransferOutQntApi,
+} from "./helper";
 const initData = {
   shipPoint: { value: 0, label: "All" },
 };
@@ -32,6 +38,10 @@ function Dashboardpdd() {
   const [DCDeliveredQty, setDCDeliveredQty] = useState("");
   const [VehicleAvailable, setVehicleAvailable] = useState("");
   const [DCVehicleOut, setDCVehicleOut] = useState("");
+  const [DCTransferOutQty, setDCTransferOutQty] = useState("");
+  const [DCPendingQty, setDCPendingQty] = useState("");
+  const [OnTimeDelivery, setOnTimeDelivery] = useState("");
+  const [DCDepotPending, setDCDepotPending] = useState("");
 
   // Get user profile data from store
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -99,15 +109,46 @@ function Dashboardpdd() {
       setDCVehicleOut,
       setLoading
     );
+    // Transfer Out Qty
+    getDashBoardPDDReporttransferOutQntApi(
+      selectedBusinessUnit?.value,
+      values?.shipPoint?.value,
+      7,
+      setDCTransferOutQty,
+      setLoading
+    );
+    // DC Pending Qty
+    getDashBoardPDDReportApi(
+      selectedBusinessUnit?.value,
+      values?.shipPoint?.value,
+      8,
+      setDCPendingQty,
+      setLoading
+    );
 
-
+    // On Time Delivery
+    getDashBoardPDDOnTimeDeliveryReportApi(
+      selectedBusinessUnit?.value,
+      values?.shipPoint?.value,
+      9,
+      setOnTimeDelivery,
+      setLoading
+    );
   };
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       commonGetApi(initData);
+      //Depot Pending
+      getDashBoardPDDDepotPendingReportApi(
+        selectedBusinessUnit?.value,
+        0,
+        10,
+        setDCDepotPending,
+        setLoading
+      );
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
 
   return (
@@ -143,7 +184,7 @@ function Dashboardpdd() {
                             commonGetApi({
                               ...values,
                               shipPoint: valueOption,
-                            })
+                            });
                           }}
                           placeholder='Ship Point'
                           errors={errors}
@@ -279,25 +320,21 @@ function Dashboardpdd() {
                             className='DashboardpddBox__Seven'
                             customOnClick={(item) => {}}
                             categoryWiseCardObj={{
-                              title: "Transfer  Qty",
+                              title: "Transfer Out Qty",
                               categoryList: [
                                 {
-                                  value: 100,
+                                  value: DCTransferOutQty?.transferOutQnt,
                                 },
                               ],
                             }}
                           />
                           <CategoryWiseCard
-                            className='DashboardpddBox__Eight'
+                            className='DashboardpddBox__Eight cursor-pointer'
                             categoryWiseCardObj={{
                               title: "Inventory  Stock",
-                              categoryList: [
-                                {
-                                  value: 100,
-                                },
-                              ],
+                              categoryList: [],
                             }}
-                            customOnClick={(item) => {
+                            customCardOnClick={(item) => {
                               setIsModalOpen({
                                 ...isModalOpen,
                                 isInventoryStockModalOpen: true,
@@ -310,15 +347,21 @@ function Dashboardpdd() {
                               title: "DC Pending Qty",
                               categoryList: [
                                 {
-                                  value: 100,
+                                  title: "Regular",
+                                  value: DCPendingQty?.Regular,
+                                },
+                                {
+                                  title: "Special",
+                                  value: DCPendingQty?.Special,
+                                },
+                                {
+                                  title: "Express",
+                                  value: DCPendingQty?.Express,
                                 },
                               ],
                             }}
                             customOnClick={(item) => {
-                              setIsModalOpen({
-                                ...isModalOpen,
-                                isInventoryStockModalOpen: true,
-                              });
+                             
                             }}
                           />
                           <CategoryWiseCard
@@ -327,15 +370,10 @@ function Dashboardpdd() {
                               title: "On Time Delivery",
                               categoryList: [
                                 {
-                                  value: 100,
+                                  value: `${OnTimeDelivery?.onTimeDelivery ||
+                                    0}%`,
                                 },
                               ],
-                            }}
-                            customOnClick={(item) => {
-                              setIsModalOpen({
-                                ...isModalOpen,
-                                isInventoryStockModalOpen: true,
-                              });
                             }}
                           />
                         </div>
@@ -343,7 +381,7 @@ function Dashboardpdd() {
 
                       {/* DepoPending Chart  */}
                       <div className='col-lg-12'>
-                        <DepoPendingChart />
+                        <DepoPendingChart DCDepotPending={DCDepotPending} />
                       </div>
                     </div>
 
