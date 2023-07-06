@@ -9,6 +9,7 @@ export const getDashBoardPDDReportApi = async (
   setter,
   setLoading
 ) => {
+  setter('');
   setLoading(true);
   try {
     const res = await axios.get(
@@ -36,7 +37,6 @@ export const getDashBoardPDDReportApi = async (
     });
     setLoading(false);
   } catch (error) {
-    setter([]);
     setLoading(false);
   }
 };
@@ -49,6 +49,7 @@ export const getDashBoardPDDOnTimeDeliveryReportApi = async (
   setLoading
 ) => {
   setLoading(true);
+  setter('');
   try {
     const res = await axios.get(
       `/oms/SalesInformation/GetDashBoardPDDReport?rpttypeId=${rpttypeId}&shipmentType=0&businessUnitId=${buId}&shipPointId=${shipPointId}&fromDate=${_todayDate()}&toDate=${_todayDate()}`
@@ -74,7 +75,6 @@ export const getDashBoardPDDOnTimeDeliveryReportApi = async (
     });
     setLoading(false);
   } catch (error) {
-    setter([]);
     setLoading(false);
   }
 };
@@ -87,6 +87,7 @@ export const getDashBoardPDDReporttransferOutQntApi = async (
   setLoading
 ) => {
   setLoading(true);
+  setter('');
   try {
     const res = await axios.get(
       `/oms/SalesInformation/GetDashBoardPDDReport?rpttypeId=${rpttypeId}&shipmentType=0&businessUnitId=${buId}&shipPointId=${shipPointId}&fromDate=${_todayDate()}&toDate=${_todayDate()}`
@@ -102,7 +103,6 @@ export const getDashBoardPDDReporttransferOutQntApi = async (
     });
     setLoading(false);
   } catch (error) {
-    setter([]);
     setLoading(false);
   }
 };
@@ -115,6 +115,7 @@ export const getDashBoardPDDReportVehicleApi = async (
   setLoading
 ) => {
   setLoading(true);
+  setter('');
   try {
     const res = await axios.get(
       `/oms/SalesInformation/GetDashBoardPDDReport?rpttypeId=${rpttypeId}&shipmentType=0&businessUnitId=${buId}&shipPointId=${shipPointId}&fromDate=${_todayDate()}&toDate=${_todayDate()}`
@@ -142,7 +143,6 @@ export const getDashBoardPDDReportVehicleApi = async (
     });
     setLoading(false);
   } catch (error) {
-    setter([]);
     setLoading(false);
   }
 };
@@ -156,6 +156,7 @@ export const getDashBoardPDDDepotPendingReportApi = async (
   setter,
   setLoading
 ) => {
+  setter('');
   setLoading(true);
   try {
     const res = await axios.get(
@@ -172,7 +173,6 @@ export const getDashBoardPDDDepotPendingReportApi = async (
     });
     setLoading(false);
   } catch (error) {
-    setter([]);
     setLoading(false);
   }
 };
