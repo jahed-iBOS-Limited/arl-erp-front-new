@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Form, Formik } from "formik";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
@@ -16,9 +16,10 @@ import { _formatMoney } from "../../../../../_helper/_formatMoney";
 import IEdit from "../../../../../_helper/_helperIcons/_edit";
 import IView from "../../../../../_helper/_helperIcons/_view";
 import Loading from "../../../../../_helper/_loading";
+import NewSelect from "../../../../../_helper/_select";
 import PaginationTable from "../../../../../_helper/_tablePagination";
 import IViewModal from "../../../../../_helper/_viewModal";
-import { getFundLimitLandingData } from "../../helper";
+import { getBusinessUnitDDL, getFundLimitLandingData } from "../../helper";
 import FundLimitDetailsModal from "../view/FundLimitDetailsModal";
 // import { ExcelRenderer } from "react-excel-renderer";
 
@@ -38,17 +39,13 @@ const validationSchema = Yup.object().shape({});
 const FundLimitLanding = () => {
   const history = useHistory();
 
-  const initData = {};
-
-  // ref
-  // eslint-disable-next-line no-unused-vars
-  const printRef = useRef();
+  const initData = {
+    businessUnit: "",
+  };
 
   // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(false);
-  //storingData
-  // const [fileData, setFileData] = useState([]);
-  // const [filteredFileData, setFilteredFileData] = useState([]);
+  const [businessUnitDDL, setBusinessUnitDDL] = useState([]);
   const [fundLimitData, setFundLimitData] = useState([]);
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
@@ -63,10 +60,11 @@ const FundLimitLanding = () => {
   };
 
   //setPositionHandler
-  const setPositionHandler = (pageNo, pageSize) => {
+  const setPositionHandler = (pageNo, pageSize, values) => {
+    console.log("values", values)
     getFundLimitLandingData(
       profileData?.accountId,
-      selectedBusinessUnit?.value,
+      values?.businessUnit?.value,
       pageNo,
       pageSize,
       setFundLimitData,
@@ -75,6 +73,7 @@ const FundLimitLanding = () => {
   };
 
   useEffect(() => {
+    getBusinessUnitDDL(profileData?.accountId, setBusinessUnitDDL);
     getFundLimitLandingData(
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -105,7 +104,9 @@ const FundLimitLanding = () => {
       {loading && <Loading />}
       <Formik
         enableReinitialize={true}
-        initialValues={initData}
+        initialValues={{
+          ...initData,
+          businessUnit: selectedBusinessUnit,}}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, (code) => {});
@@ -128,7 +129,7 @@ const FundLimitLanding = () => {
                   <button
                     className="btn btn-primary ml-2"
                     type="submit"
-                    disabled={false}
+                    disabled={(values?.businessUnit?.value === 0 || !values?.businessUnit) ? true : false}
                     onClick={() => {
                       history.push({
                         pathname: `${window.location.pathname}/create`,
@@ -144,28 +145,28 @@ const FundLimitLanding = () => {
               </CardHeader>
               <CardBody>
                 <Form className="form form-label-right">
-                  {/* <div className="form-group row global-form align-items-end">
-                    <div className="col-lg-2">
+                  <div className="form-group row global-form align-items-end">
+                    <div className="col-lg-3">
                       <NewSelect
-                        name="sbu"
-                        options={sbuDDL || []}
-                        value={values?.sbu}
-                        label="SBU"
+                        name="businessUnit"
+                        options={[{value:0, label:"All"},...businessUnitDDL] || []}
+                        value={values?.businessUnit}
+                        label="BusinessUnit"
                         onChange={(valueOption) => {
-                          setFieldValue("sbu", valueOption);
-                          dispatch(
-                            SetFinancialsInventoryJournalAction({
-                              ...values,
-                              sbu: valueOption,
-                            })
-                          );
+                          if(valueOption){
+                            setFieldValue("businessUnit", valueOption);
+                            setFundLimitData([]);
+                          }else{
+                            setFundLimitData([]);
+                            setFieldValue("businessUnit", "");
+                          }                          
                         }}
-                        placeholder="SBU"
+                        placeholder="BusinessUnit"
                         errors={errors}
                         touched={touched}
                       />
                     </div>
-                    <div className="col-lg-2">
+                    {/* <div className="col-lg-2">
                       <NewSelect
                         name="type"
                         options={typeDDL || []}
@@ -246,27 +247,37 @@ const FundLimitLanding = () => {
                           }}
                         />
                       </div>
-                    )}
+                    )} */}
 
                     <div className="col-lg-2">
                       <button
                         className="btn btn-primary mr-2"
                         type="button"
                         onClick={(e) => {
-                          setDataToRow(values);
+                          getFundLimitLandingData(
+                            profileData?.accountId,
+                            values?.businessUnit?.value,
+                            pageNo,
+                            pageSize,
+                            setFundLimitData,
+                            setLoading
+                          );
                         }}
+                        disabled={!values?.businessUnit}
                       >
                         Show
                       </button>
                     </div>
-                  </div> */}
+                  </div>
                   <div></div>
-                  <div className="row">
+                  {fundLimitData?.data?.length > 0 && (
+                    <div className="row">
                     <div className="col-12">
                       <table className="table table-striped table-bordered global-table mt-0 table-font-size-sm mt-5">
                         <thead className="bg-secondary">
                           <tr>
                             <th>SL</th>
+                            <th>BusinessUnit Name</th>
                             <th>Bank Name</th>
                             <th>Facilities</th>
                             <th>Limit Amount</th>
@@ -280,6 +291,7 @@ const FundLimitLanding = () => {
                           {fundLimitData?.data?.map((item, index) => (
                             <tr key={index}>
                               <td className="text-center">{index + 1}</td>
+                              <td className="">{item?.businessUnitName}</td>
                               <td className="">{item?.bankName}</td>
                               <td className="">{item?.facilityName}</td>
 
@@ -311,6 +323,7 @@ const FundLimitLanding = () => {
                                   onClick={() =>
                                     history.push({
                                       pathname: `/financial-management/banking/fund-limit/edit/${item?.bankLoanLimitId}`,
+                                      landingRowData: item,
                                     })
                                   }
                                 >
@@ -321,6 +334,7 @@ const FundLimitLanding = () => {
                           ))}
 
                           <tr>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td style={{ textAlign: "right" }}>
@@ -344,6 +358,7 @@ const FundLimitLanding = () => {
                       </table>
                     </div>
                   </div>
+                  )}
                 </Form>
               </CardBody>
             </Card>
@@ -359,6 +374,7 @@ const FundLimitLanding = () => {
                 count={fundLimitData?.totalCount}
                 setPositionHandler={setPositionHandler}
                 paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
+                values={values}
               />
             )}
           </div>

@@ -31,7 +31,7 @@ export default function ProjectedCashFlowCreateEdit() {
   const [objProps, setObjprops] = useState({});
   const [, saveData] = useAxiosPost();
   const [cashList, setCashList] = useState([]);
-  const [previousList, getPreviousList, lodar, setPreviousList] = useAxiosGet();
+  const [previousList, getPreviousList, lodar] = useAxiosGet();
   const [, inactiveSave] = useAxiosPost();
   const [viewType, setViewType] = useState(1);
   const [shipmentDDL, getShipment] = useAxiosGet();
