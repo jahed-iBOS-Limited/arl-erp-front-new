@@ -1,7 +1,7 @@
 import { Paper, Tab, Tabs, makeStyles } from "@material-ui/core";
 import { Form, Formik } from "formik";
 import moment from "moment";
-import React, { useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import ReactToPrint from "react-to-print";
 import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
@@ -144,10 +144,16 @@ function DeliveryScheduleplanReport() {
     const filterData = commonfilterGridData(values, allGridData);
     setGridData(filterData);
   };
+
+  const totalSelectQty = useMemo(() => {
+    return gridData
+      ?.filter((itm) => itm?.itemCheck)
+      ?.reduce((acc, curr) => acc + curr?.quantity, 0);
+  }, [gridData]);
   return (
     <>
       {loading && <Loading />}
-      <div >
+      <div>
         <Formik
           enableReinitialize={true}
           initialValues={{
@@ -464,7 +470,10 @@ function DeliveryScheduleplanReport() {
 
                     {/* Table Start */}
                     {gridData?.length > 0 && (
-                      <div ref={printRef} className="deliveryScheduleplanPrintSection">
+                      <div
+                        ref={printRef}
+                        className='deliveryScheduleplanPrintSection'
+                      >
                         <div className='text-center my-2 headerInfo'>
                           <h3>
                             <b> {selectedBusinessUnit?.label} </b>
@@ -492,6 +501,14 @@ function DeliveryScheduleplanReport() {
                             )}
                           </b>
                         </div>
+                        {totalSelectQty > 0 && (
+                          <>
+                            <div className='text-right'>
+                              Select Total Qty.: <b>{totalSelectQty}</b>
+                            </div>
+                          </>
+                        )}
+
                         <div className='loan-scrollable-tafble'>
                           <div className='scroll-table _tafble'>
                             <div className='table-responsive'>
@@ -527,6 +544,12 @@ function DeliveryScheduleplanReport() {
                                     <th>Ship To Party</th>
                                     <th>Address</th>
                                     <th>Quantity</th>
+                                    {values?.trackingType?.value === 2 && (
+                                      <>
+                                        <th>Schedule Assign</th>
+                                      </>
+                                    )}
+
                                     <th style={{ minWidth: "65px" }}>
                                       Create Date
                                     </th>
@@ -627,6 +650,16 @@ function DeliveryScheduleplanReport() {
                                         <td className='text-center'>
                                           {item?.quantity}
                                         </td>
+                                        {values?.trackingType?.value === 2 && (
+                                          <>
+                                            <td>
+                                              {item?.scheduleAssign ||
+                                                item?.vehicleName ||
+                                                item?.supplierName}
+                                            </td>
+                                          </>
+                                        )}
+
                                         <td>
                                           {item?.challanDateTime &&
                                             moment(
@@ -646,34 +679,6 @@ function DeliveryScheduleplanReport() {
                                       </tr>
                                     );
                                   })}
-                                  <tr>
-                                    {values?.trackingType?.value === 1 && (
-                                      <td></td>
-                                    )}
-
-                                    <td
-                                      className='text-right'
-                                      colSpan={
-                                        shipmentTypeDDl?.[shipmentType]
-                                          ?.value === 0
-                                          ? 11
-                                          : 10
-                                      }
-                                    >
-                                      <b>Total:</b>
-                                    </td>
-                                    <td className='text-center'>
-                                      <b>
-                                        {_fixedPoint(
-                                          gridData?.reduce(
-                                            (acc, curr) => acc + curr?.quantity,
-                                            0
-                                          )
-                                        )}
-                                      </b>
-                                    </td>
-                                    <td colSpan='6'></td>
-                                  </tr>
                                 </tbody>
                               </table>
                             </div>
