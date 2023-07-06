@@ -45,7 +45,7 @@ const validationSchema = Yup.object().shape({
    principleAmount: Yup.number().required('Principle Amount is required'),
    marginPercent: Yup.number().required('Margin Percent is required'),
    marginAmount: Yup.number().required('Margin Amount is required'),
-   narration: Yup.string().required('Margin Amount is required'),
+   narration: Yup.string().required('Narration is required'),
   //  balance: Yup.number().required('Balance is required'),
    maturityDate: Yup.date().required('Maturity Date is required'),
 });
