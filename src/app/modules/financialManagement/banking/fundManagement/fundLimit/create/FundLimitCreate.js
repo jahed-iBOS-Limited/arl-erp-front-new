@@ -5,6 +5,7 @@ import IForm from "../../../../../_helper/_form";
 import Loading from "../../../../../_helper/_loading";
 import { _todayDate } from "../../../../../_helper/_todayDate";
 import { createFundLimit } from "../../helper";
+import { useLocation } from "react-router-dom";
 import LimitForm from "./Form";
 
 const initData = {
@@ -15,7 +16,6 @@ const initData = {
 };
 
 export default function FundLimitCreate({
-  history,
   match: {
     params: { id },
   },
@@ -26,6 +26,11 @@ export default function FundLimitCreate({
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
+
+  const { state, landingRowData } = useLocation();
+
+  console.log("state", state)
+  console.log("landingRowData", landingRowData)
 
   const saveHandler = async (values, cb) => {
     if (!values?.bank) {
@@ -41,7 +46,7 @@ export default function FundLimitCreate({
     const payloadForCreateAndEdit = {
       bankLoanLimitId: +id || 0,
       accountId: profileData?.accountId,
-      businessUnitId: selectedBusinessUnit?.value || 0,
+      businessUnitId: +id ? landingRowData?.businessUnitId : state?.businessUnit?.value,
       bankId: values?.bank?.value,
       facilityId: values?.facility?.value,
       numLimit: +values?.limit || 0,
