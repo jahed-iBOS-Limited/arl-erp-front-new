@@ -31,7 +31,7 @@ export default function CashMarginLanding() {
    //setPositionHandler
    const setPositionHandler = (pageNo, pageSize, values) => {
       getRowData(
-         `/fino/FundManagement/GetFundCashMarginPagination?businessUnitId=${selectedBusinessUnit?.value}&viewOrder=asc&pageNo=${pageNo}&pageSize=${pageSize}}`
+         `/fino/FundManagement/GetFundCashMarginPagination?businessUnitId=${selectedBusinessUnit?.value}&viewOrder=asc&pageNo=${pageNo}&pageSize=${pageSize}`
       );
    };
 
