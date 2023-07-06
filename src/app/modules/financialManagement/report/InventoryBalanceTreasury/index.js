@@ -47,6 +47,7 @@ function InventoryBalanceTreasury() {
                     label="Business Unit"
                     onChange={(valueOption) => {
                       setFieldValue("businessUnit", valueOption);
+                      setShowReport(false);
                     }}
                     errors={errors}
                     touched={touched}
@@ -63,6 +64,7 @@ function InventoryBalanceTreasury() {
                     label="Report Type"
                     onChange={(valueOption) => {
                       setFieldValue("reportType", valueOption);
+                      setShowReport(false);
                     }}
                     errors={errors}
                     touched={touched}
@@ -76,6 +78,7 @@ function InventoryBalanceTreasury() {
                     label="Item Type"
                     onChange={(valueOption) => {
                       setFieldValue("itemType", valueOption);
+                      setShowReport(false);
                     }}
                     errors={errors}
                     touched={touched}
