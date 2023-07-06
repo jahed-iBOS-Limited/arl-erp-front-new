@@ -14,7 +14,7 @@ function CategoryWiseCard({ categoryWiseCardObj, customOnClick, className }) {
               });
             }}>
               <div className='itemTitle'>{item?.title}</div>
-              <div className='ItemValue'>{item?.value}</div>
+              <div className='itemValue'>{item?.value}</div>
             </div>
           );
         })}

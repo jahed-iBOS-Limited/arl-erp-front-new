@@ -14,6 +14,7 @@ import "./style.scss";
 import CategoryWiseCard from "./categoryWiseCard";
 import IViewModal from "../../../_helper/_viewModal";
 import WarehouseWiseStockReport from "../../../inventoryManagement/reports/whStockReport";
+import DepoPendingChart from "./DepoPendingChart";
 const initData = {
   shipPoint: { value: 0, label: "All" },
 };
@@ -86,7 +87,7 @@ function Dashboardpdd() {
                             className='DashboardpddBox__One'
                             customOnClick={(item) => {}}
                             categoryWiseCardObj={{
-                              title: "DC Prosessing",
+                              title: "DC Pending",
                               categoryList: [
                                 {
                                   title: "Regular",
@@ -103,6 +104,7 @@ function Dashboardpdd() {
                               ],
                             }}
                           />
+
                           <CategoryWiseCard
                             className='DashboardpddBox__Two'
                             customOnClick={(item) => {}}
@@ -128,7 +130,7 @@ function Dashboardpdd() {
                             className='DashboardpddBox__Three'
                             customOnClick={(item) => {}}
                             categoryWiseCardObj={{
-                              title: "Delivered Qty",
+                              title: "DC Prosessing",
                               categoryList: [
                                 {
                                   title: "Regular",
@@ -149,6 +151,27 @@ function Dashboardpdd() {
                             className='DashboardpddBox__Four'
                             customOnClick={(item) => {}}
                             categoryWiseCardObj={{
+                              title: "Delivered Qty",
+                              categoryList: [
+                                {
+                                  title: "Regular",
+                                  value: 100,
+                                },
+                                {
+                                  title: "Special",
+                                  value: 200,
+                                },
+                                {
+                                  title: "Express",
+                                  value: 300,
+                                },
+                              ],
+                            }}
+                          />
+                          <CategoryWiseCard
+                            className='DashboardpddBox__Five'
+                            customOnClick={(item) => {}}
+                            categoryWiseCardObj={{
                               title: "Vehicle  Available",
                               categoryList: [
                                 {
@@ -163,19 +186,6 @@ function Dashboardpdd() {
                             }}
                           />
                           <CategoryWiseCard
-                            className='DashboardpddBox__Five'
-                            customOnClick={(item) => {}}
-                            categoryWiseCardObj={{
-                              title: "Transport  Qty",
-                              categoryList: [
-                                {
-                                  value: 100,
-                                },
-                              ],
-                            }}
-                          />
-
-                          <CategoryWiseCard
                             className='DashboardpddBox__Six'
                             customOnClick={(item) => {}}
                             categoryWiseCardObj={{
@@ -189,6 +199,18 @@ function Dashboardpdd() {
                           />
                           <CategoryWiseCard
                             className='DashboardpddBox__Seven'
+                            customOnClick={(item) => {}}
+                            categoryWiseCardObj={{
+                              title: "Transport  Qty",
+                              categoryList: [
+                                {
+                                  value: 100,
+                                },
+                              ],
+                            }}
+                          />
+                          <CategoryWiseCard
+                            className='DashboardpddBox__Eight'
                             categoryWiseCardObj={{
                               title: "Inventory  Stock",
                               categoryList: [
@@ -204,8 +226,48 @@ function Dashboardpdd() {
                               });
                             }}
                           />
+                          <CategoryWiseCard
+                            className='DashboardpddBox__Nine'
+                            categoryWiseCardObj={{
+                              title: "DC Pending Qty",
+                              categoryList: [
+                                {
+                                  value: 100,
+                                },
+                              ],
+                            }}
+                            customOnClick={(item) => {
+                              setIsModalOpen({
+                                ...isModalOpen,
+                                isInventoryStockModalOpen: true,
+                              });
+                            }}
+                          />
+                          <CategoryWiseCard
+                            className='DashboardpddBox__Ten'
+                            categoryWiseCardObj={{
+                              title: "On Time Delivery",
+                              categoryList: [
+                                {
+                                  value: 100,
+                                },
+                              ],
+                            }}
+                            customOnClick={(item) => {
+                              setIsModalOpen({
+                                ...isModalOpen,
+                                isInventoryStockModalOpen: true,
+                              });
+                            }}
+                          />
                         </div>
                       </div>
+
+                      {/* DepoPending Chart  */}
+                      <div className="col-lg-12">
+                      <DepoPendingChart/>
+                      </div>
+                      
                     </div>
 
                     {/* Inventory  Stock Model */}
