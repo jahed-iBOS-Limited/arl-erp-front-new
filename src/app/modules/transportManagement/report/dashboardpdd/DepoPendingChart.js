@@ -1,11 +1,11 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 
-const DepoPendingChart = () => {
+const DepoPendingChart = ({DCDepotPending}) => {
   const series = [
     {
-      name: "Dipo Pending",
-      data: [2.3, 3.1, 4.0, 10.1, 4.0, 3.6, 3.2, 2.3, 1.4, 0.8, 0.5, 0.2],
+      name: "Depot Pending",
+      data: DCDepotPending?.data,
     },
   ];
 
@@ -51,20 +51,7 @@ const DepoPendingChart = () => {
         // rotateAlways: true,
         rotate: -45,
       },
-      categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
+      categories: DCDepotPending?.categories || [],
       tickPlacement: "on",
     },
     fill: {
@@ -96,7 +83,7 @@ const DepoPendingChart = () => {
   return (
     <div className='DepoPendingChart'>
       <p className=''>
-        <h6>Dipo Pending</h6>
+        <h6>Depot Pending</h6>
       </p>
       <div id='chart'>
         <ReactApexChart

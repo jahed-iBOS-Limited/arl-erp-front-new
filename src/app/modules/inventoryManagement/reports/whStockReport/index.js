@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import IForm from "./../../../_helper/_form";
@@ -10,7 +11,7 @@ import PaginationTable from "../../../_helper/_tablePagination";
 import Loading from "../../../_helper/_loading";
 import { excelDownload, generateSecondLevelList } from "./helper";
 const initData = {
-  itemType: "",
+  itemType: {value: 0, label: "All"},
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -51,6 +52,12 @@ export default function WarehouseWiseStockReport() {
   const setPositionHandler = (pageNo, pageSize, values) => {
     getLandingData(values, pageNo, pageSize);
   };
+
+  useEffect(() => {
+    if(profileData?.accountId && selectedBusinessUnit?.value) {
+      getLandingData(initData, pageNo, pageSize);
+    }
+  }, [profileData, selectedBusinessUnit])
 
   return (
     <Formik
