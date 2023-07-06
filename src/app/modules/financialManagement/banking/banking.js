@@ -18,6 +18,7 @@ import LoanRegisterView from "./fundManagement/loanRegister/view/loanRegisterVie
 import BankGuaranteeLanding from "../report/bankGuarantee/landing";
 import BankGuaranteeEntry from "../report/bankGuarantee/entryForm";
 import FundRegisterLanding from "../report/fundRegister";
+import InventoryBalanceTreasury from "../report/InventoryBalanceTreasury";
 
 export function Banking() {
   return (
@@ -120,6 +121,10 @@ export function Banking() {
        <ContentRoute
         path="/financial-management/banking/FundRegister"
         component={FundRegisterLanding}
+      />
+       <ContentRoute
+        path="/financial-management/banking/InventoryBalanceTreasury"
+        component={InventoryBalanceTreasury}
       />
     </Switch>
   );
