@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { ModalProgressBar } from "../../../../../_metronic/_partials/controls";
 import {
@@ -15,6 +15,7 @@ import CategoryWiseCard from "./categoryWiseCard";
 import IViewModal from "../../../_helper/_viewModal";
 import WarehouseWiseStockReport from "../../../inventoryManagement/reports/whStockReport";
 import DepoPendingChart from "./DepoPendingChart";
+import { getDashBoardPDDReportApi, getDashBoardPDDReportVehicleApi } from "./helper";
 const initData = {
   shipPoint: { value: 0, label: "All" },
 };
@@ -24,6 +25,13 @@ function Dashboardpdd() {
   const [isModalOpen, setIsModalOpen] = useState({
     isInventoryStockModalOpen: false,
   });
+
+  const [DCPending, setDCPending] = useState("");
+  const [DCDeliverd, setDCDeliverd] = useState("");
+  const [DCProsessing, setDCProsessing] = useState("");
+  const [DCDeliveredQty, setDCDeliveredQty] = useState("");
+  const [VehicleAvailable, setVehicleAvailable] = useState("");
+  const [DCVehicleOut, setDCVehicleOut] = useState("");
 
   // Get user profile data from store
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -39,6 +47,67 @@ function Dashboardpdd() {
   React.useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
     }
+  }, [profileData, selectedBusinessUnit]);
+
+  const commonGetApi = (values) => {
+    // DC Pending
+    getDashBoardPDDReportApi(
+      selectedBusinessUnit?.value,
+      values?.shipPoint?.value,
+      1,
+      setDCPending,
+      setLoading
+    );
+    // DC Deliverd
+    getDashBoardPDDReportApi(
+      selectedBusinessUnit?.value,
+      values?.shipPoint?.value,
+      2,
+      setDCDeliverd,
+      setLoading
+    );
+    // DC Prosessing
+    getDashBoardPDDReportApi(
+      selectedBusinessUnit?.value,
+      values?.shipPoint?.value,
+      3,
+      setDCProsessing,
+      setLoading
+    );
+    // Delivered Qty
+    getDashBoardPDDReportApi(
+      selectedBusinessUnit?.value,
+      values?.shipPoint?.value,
+      4,
+      setDCDeliveredQty,
+      setLoading
+    );
+
+    // Vehicle Available
+    getDashBoardPDDReportVehicleApi(
+      selectedBusinessUnit?.value,
+      values?.shipPoint?.value,
+      5,
+      setVehicleAvailable,
+      setLoading
+    );
+    // Vehicle Out
+    getDashBoardPDDReportVehicleApi(
+      selectedBusinessUnit?.value,
+      values?.shipPoint?.value,
+      6,
+      setDCVehicleOut,
+      setLoading
+    );
+
+
+  };
+
+  useEffect(() => {
+    if (profileData?.accountId && selectedBusinessUnit?.value) {
+      commonGetApi(initData);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
 
   return (
@@ -71,6 +140,10 @@ function Dashboardpdd() {
                           label='Ship Point'
                           onChange={(valueOption) => {
                             setFieldValue("shipPoint", valueOption);
+                            commonGetApi({
+                              ...values,
+                              shipPoint: valueOption,
+                            })
                           }}
                           placeholder='Ship Point'
                           errors={errors}
@@ -91,15 +164,15 @@ function Dashboardpdd() {
                               categoryList: [
                                 {
                                   title: "Regular",
-                                  value: 100,
+                                  value: DCPending?.Regular,
                                 },
                                 {
                                   title: "Special",
-                                  value: 200,
+                                  value: DCPending?.Special,
                                 },
                                 {
                                   title: "Express",
-                                  value: 300,
+                                  value: DCPending?.Express,
                                 },
                               ],
                             }}
@@ -113,15 +186,15 @@ function Dashboardpdd() {
                               categoryList: [
                                 {
                                   title: "Regular",
-                                  value: 100,
+                                  value: DCDeliverd?.Regular,
                                 },
                                 {
                                   title: "Special",
-                                  value: 200,
+                                  value: DCDeliverd?.Special,
                                 },
                                 {
                                   title: "Express",
-                                  value: 300,
+                                  value: DCDeliverd?.Express,
                                 },
                               ],
                             }}
@@ -134,15 +207,15 @@ function Dashboardpdd() {
                               categoryList: [
                                 {
                                   title: "Regular",
-                                  value: 100,
+                                  value: DCProsessing?.Regular,
                                 },
                                 {
                                   title: "Special",
-                                  value: 200,
+                                  value: DCProsessing?.Special,
                                 },
                                 {
                                   title: "Express",
-                                  value: 300,
+                                  value: DCProsessing?.Express,
                                 },
                               ],
                             }}
@@ -155,15 +228,15 @@ function Dashboardpdd() {
                               categoryList: [
                                 {
                                   title: "Regular",
-                                  value: 100,
+                                  value: DCDeliveredQty?.Regular,
                                 },
                                 {
                                   title: "Special",
-                                  value: 200,
+                                  value: DCDeliveredQty?.Special,
                                 },
                                 {
                                   title: "Express",
-                                  value: 300,
+                                  value: DCDeliveredQty?.Express,
                                 },
                               ],
                             }}
@@ -176,11 +249,11 @@ function Dashboardpdd() {
                               categoryList: [
                                 {
                                   title: "Company",
-                                  value: 100,
+                                  value: VehicleAvailable?.Company,
                                 },
                                 {
                                   title: "Supplier",
-                                  value: 100,
+                                  value: VehicleAvailable?.Supplier,
                                 },
                               ],
                             }}
@@ -192,7 +265,12 @@ function Dashboardpdd() {
                               title: "Vehicle  Out",
                               categoryList: [
                                 {
-                                  value: 100,
+                                  title: "Company",
+                                  value: DCVehicleOut?.Company,
+                                },
+                                {
+                                  title: "Supplier",
+                                  value: DCVehicleOut?.Supplier,
                                 },
                               ],
                             }}
@@ -201,7 +279,7 @@ function Dashboardpdd() {
                             className='DashboardpddBox__Seven'
                             customOnClick={(item) => {}}
                             categoryWiseCardObj={{
-                              title: "Transport  Qty",
+                              title: "Transfer  Qty",
                               categoryList: [
                                 {
                                   value: 100,
@@ -264,10 +342,9 @@ function Dashboardpdd() {
                       </div>
 
                       {/* DepoPending Chart  */}
-                      <div className="col-lg-12">
-                      <DepoPendingChart/>
+                      <div className='col-lg-12'>
+                        <DepoPendingChart />
                       </div>
-                      
                     </div>
 
                     {/* Inventory  Stock Model */}
