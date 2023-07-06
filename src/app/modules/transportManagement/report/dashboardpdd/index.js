@@ -16,6 +16,7 @@ import IViewModal from "../../../_helper/_viewModal";
 import WarehouseWiseStockReport from "../../../inventoryManagement/reports/whStockReport";
 import DepoPendingChart from "./DepoPendingChart";
 import {
+  getDashBoardPDDDCPendingQtyReportApi,
   getDashBoardPDDDepotPendingReportApi,
   getDashBoardPDDOnTimeDeliveryReportApi,
   getDashBoardPDDReportApi,
@@ -118,7 +119,7 @@ function Dashboardpdd() {
       setLoading
     );
     // DC Pending Qty
-    getDashBoardPDDReportApi(
+    getDashBoardPDDDCPendingQtyReportApi(
       selectedBusinessUnit?.value,
       values?.shipPoint?.value,
       8,

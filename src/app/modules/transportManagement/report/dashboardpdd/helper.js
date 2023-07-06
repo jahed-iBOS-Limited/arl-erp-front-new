@@ -9,7 +9,7 @@ export const getDashBoardPDDReportApi = async (
   setter,
   setLoading
 ) => {
-  setter('');
+  setter("");
   setLoading(true);
   try {
     const res = await axios.get(
@@ -19,17 +19,65 @@ export const getDashBoardPDDReportApi = async (
     // Regular Sum
     let RegularSum = res?.data
       ?.filter((item) => item?.shipmentType === "Regular")
-      ?.reduce((acc, curr) => acc + (+curr?.totalDC || +curr?.numQuantity || 0 ), 0);
+      ?.reduce(
+        (acc, curr) => acc + (+curr?.totalDC || +curr?.numQuantity || 0),
+        0
+      );
 
     // Special Sum
     let SpecialSum = res?.data
       ?.filter((item) => item?.shipmentType === "Special")
-      ?.reduce((acc, curr) => acc + (+curr?.totalDC|| +curr?.numQuantity || 0), 0);
+      ?.reduce(
+        (acc, curr) => acc + (+curr?.totalDC || +curr?.numQuantity || 0),
+        0
+      );
 
     //Express  sum
     let ExpressSum = res?.data
       ?.filter((item) => item?.shipmentType === "Express")
-      ?.reduce((acc, curr) => acc + (+curr?.totalDC|| +curr?.numQuantity || 0), 0);
+      ?.reduce(
+        (acc, curr) => acc + (+curr?.totalDC || +curr?.numQuantity || 0),
+        0
+      );
+    setter({
+      Regular: RegularSum || 0,
+      Special: SpecialSum || 0,
+      Express: ExpressSum || 0,
+    });
+    setLoading(false);
+  } catch (error) {
+    setLoading(false);
+  }
+};
+
+export const getDashBoardPDDDCPendingQtyReportApi = async (
+  buId,
+  shipPointId,
+  rpttypeId,
+  setter,
+  setLoading
+) => {
+  setter("");
+  setLoading(true);
+  try {
+    const res = await axios.get(
+      `/oms/SalesInformation/GetDashBoardPDDReport?rpttypeId=${rpttypeId}&shipmentType=0&businessUnitId=${buId}&shipPointId=${shipPointId}&fromDate=${_todayDate()}&toDate=${_todayDate()}`
+    );
+
+    // Regular Sum
+    let RegularSum = res?.data
+      ?.filter((item) => item?.shipmentType === "Regular")
+      ?.reduce((acc, curr) => acc + (+curr?.numQuantity || 0), 0);
+
+    // Special Sum
+    let SpecialSum = res?.data
+      ?.filter((item) => item?.shipmentType === "Special")
+      ?.reduce((acc, curr) => acc + (+curr?.numQuantity || 0), 0);
+
+    //Express  sum
+    let ExpressSum = res?.data
+      ?.filter((item) => item?.shipmentType === "Express")
+      ?.reduce((acc, curr) => acc + (+curr?.numQuantity || 0), 0);
     setter({
       Regular: RegularSum || 0,
       Special: SpecialSum || 0,
@@ -49,7 +97,7 @@ export const getDashBoardPDDOnTimeDeliveryReportApi = async (
   setLoading
 ) => {
   setLoading(true);
-  setter('');
+  setter("");
   try {
     const res = await axios.get(
       `/oms/SalesInformation/GetDashBoardPDDReport?rpttypeId=${rpttypeId}&shipmentType=0&businessUnitId=${buId}&shipPointId=${shipPointId}&fromDate=${_todayDate()}&toDate=${_todayDate()}`
@@ -87,7 +135,7 @@ export const getDashBoardPDDReporttransferOutQntApi = async (
   setLoading
 ) => {
   setLoading(true);
-  setter('');
+  setter("");
   try {
     const res = await axios.get(
       `/oms/SalesInformation/GetDashBoardPDDReport?rpttypeId=${rpttypeId}&shipmentType=0&businessUnitId=${buId}&shipPointId=${shipPointId}&fromDate=${_todayDate()}&toDate=${_todayDate()}`
@@ -115,7 +163,7 @@ export const getDashBoardPDDReportVehicleApi = async (
   setLoading
 ) => {
   setLoading(true);
-  setter('');
+  setter("");
   try {
     const res = await axios.get(
       `/oms/SalesInformation/GetDashBoardPDDReport?rpttypeId=${rpttypeId}&shipmentType=0&businessUnitId=${buId}&shipPointId=${shipPointId}&fromDate=${_todayDate()}&toDate=${_todayDate()}`
@@ -147,8 +195,6 @@ export const getDashBoardPDDReportVehicleApi = async (
   }
 };
 
-
-
 export const getDashBoardPDDDepotPendingReportApi = async (
   buId,
   shipPointId,
@@ -156,7 +202,7 @@ export const getDashBoardPDDDepotPendingReportApi = async (
   setter,
   setLoading
 ) => {
-  setter('');
+  setter("");
   setLoading(true);
   try {
     const res = await axios.get(
