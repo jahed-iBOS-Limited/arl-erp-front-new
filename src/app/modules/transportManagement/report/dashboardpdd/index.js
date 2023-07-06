@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { ModalProgressBar } from "../../../../../_metronic/_partials/controls";
 import {
@@ -15,6 +15,13 @@ import CategoryWiseCard from "./categoryWiseCard";
 import IViewModal from "../../../_helper/_viewModal";
 import WarehouseWiseStockReport from "../../../inventoryManagement/reports/whStockReport";
 import DepoPendingChart from "./DepoPendingChart";
+import {
+  getDashBoardPDDDepotPendingReportApi,
+  getDashBoardPDDOnTimeDeliveryReportApi,
+  getDashBoardPDDReportApi,
+  getDashBoardPDDReportVehicleApi,
+  getDashBoardPDDReporttransferOutQntApi,
+} from "./helper";
 const initData = {
   shipPoint: { value: 0, label: "All" },
 };
@@ -24,6 +31,17 @@ function Dashboardpdd() {
   const [isModalOpen, setIsModalOpen] = useState({
     isInventoryStockModalOpen: false,
   });
+
+  const [DCPending, setDCPending] = useState("");
+  const [DCDeliverd, setDCDeliverd] = useState("");
+  const [DCProsessing, setDCProsessing] = useState("");
+  const [DCDeliveredQty, setDCDeliveredQty] = useState("");
+  const [VehicleAvailable, setVehicleAvailable] = useState("");
+  const [DCVehicleOut, setDCVehicleOut] = useState("");
+  const [DCTransferOutQty, setDCTransferOutQty] = useState("");
+  const [DCPendingQty, setDCPendingQty] = useState("");
+  const [OnTimeDelivery, setOnTimeDelivery] = useState("");
+  const [DCDepotPending, setDCDepotPending] = useState("");
 
   // Get user profile data from store
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -39,6 +57,98 @@ function Dashboardpdd() {
   React.useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
     }
+  }, [profileData, selectedBusinessUnit]);
+
+  const commonGetApi = (values) => {
+    // DC Pending
+    getDashBoardPDDReportApi(
+      selectedBusinessUnit?.value,
+      values?.shipPoint?.value,
+      1,
+      setDCPending,
+      setLoading
+    );
+    // DC Deliverd
+    getDashBoardPDDReportApi(
+      selectedBusinessUnit?.value,
+      values?.shipPoint?.value,
+      2,
+      setDCDeliverd,
+      setLoading
+    );
+    // DC Prosessing
+    getDashBoardPDDReportApi(
+      selectedBusinessUnit?.value,
+      values?.shipPoint?.value,
+      3,
+      setDCProsessing,
+      setLoading
+    );
+    // Delivered Qty
+    getDashBoardPDDReportApi(
+      selectedBusinessUnit?.value,
+      values?.shipPoint?.value,
+      4,
+      setDCDeliveredQty,
+      setLoading
+    );
+
+    // Vehicle Available
+    getDashBoardPDDReportVehicleApi(
+      selectedBusinessUnit?.value,
+      values?.shipPoint?.value,
+      5,
+      setVehicleAvailable,
+      setLoading
+    );
+    // Vehicle Out
+    getDashBoardPDDReportVehicleApi(
+      selectedBusinessUnit?.value,
+      values?.shipPoint?.value,
+      6,
+      setDCVehicleOut,
+      setLoading
+    );
+    // Transfer Out Qty
+    getDashBoardPDDReporttransferOutQntApi(
+      selectedBusinessUnit?.value,
+      values?.shipPoint?.value,
+      7,
+      setDCTransferOutQty,
+      setLoading
+    );
+    // DC Pending Qty
+    getDashBoardPDDReportApi(
+      selectedBusinessUnit?.value,
+      values?.shipPoint?.value,
+      8,
+      setDCPendingQty,
+      setLoading
+    );
+
+    // On Time Delivery
+    getDashBoardPDDOnTimeDeliveryReportApi(
+      selectedBusinessUnit?.value,
+      values?.shipPoint?.value,
+      9,
+      setOnTimeDelivery,
+      setLoading
+    );
+  };
+
+  useEffect(() => {
+    if (profileData?.accountId && selectedBusinessUnit?.value) {
+      commonGetApi(initData);
+      //Depot Pending
+      getDashBoardPDDDepotPendingReportApi(
+        selectedBusinessUnit?.value,
+        0,
+        10,
+        setDCDepotPending,
+        setLoading
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
 
   return (
@@ -71,6 +181,10 @@ function Dashboardpdd() {
                           label='Ship Point'
                           onChange={(valueOption) => {
                             setFieldValue("shipPoint", valueOption);
+                            commonGetApi({
+                              ...values,
+                              shipPoint: valueOption,
+                            });
                           }}
                           placeholder='Ship Point'
                           errors={errors}
@@ -91,15 +205,15 @@ function Dashboardpdd() {
                               categoryList: [
                                 {
                                   title: "Regular",
-                                  value: 100,
+                                  value: DCPending?.Regular,
                                 },
                                 {
                                   title: "Special",
-                                  value: 200,
+                                  value: DCPending?.Special,
                                 },
                                 {
                                   title: "Express",
-                                  value: 300,
+                                  value: DCPending?.Express,
                                 },
                               ],
                             }}
@@ -113,15 +227,15 @@ function Dashboardpdd() {
                               categoryList: [
                                 {
                                   title: "Regular",
-                                  value: 100,
+                                  value: DCDeliverd?.Regular,
                                 },
                                 {
                                   title: "Special",
-                                  value: 200,
+                                  value: DCDeliverd?.Special,
                                 },
                                 {
                                   title: "Express",
-                                  value: 300,
+                                  value: DCDeliverd?.Express,
                                 },
                               ],
                             }}
@@ -134,15 +248,15 @@ function Dashboardpdd() {
                               categoryList: [
                                 {
                                   title: "Regular",
-                                  value: 100,
+                                  value: DCProsessing?.Regular,
                                 },
                                 {
                                   title: "Special",
-                                  value: 200,
+                                  value: DCProsessing?.Special,
                                 },
                                 {
                                   title: "Express",
-                                  value: 300,
+                                  value: DCProsessing?.Express,
                                 },
                               ],
                             }}
@@ -155,15 +269,15 @@ function Dashboardpdd() {
                               categoryList: [
                                 {
                                   title: "Regular",
-                                  value: 100,
+                                  value: DCDeliveredQty?.Regular,
                                 },
                                 {
                                   title: "Special",
-                                  value: 200,
+                                  value: DCDeliveredQty?.Special,
                                 },
                                 {
                                   title: "Express",
-                                  value: 300,
+                                  value: DCDeliveredQty?.Express,
                                 },
                               ],
                             }}
@@ -176,11 +290,11 @@ function Dashboardpdd() {
                               categoryList: [
                                 {
                                   title: "Company",
-                                  value: 100,
+                                  value: VehicleAvailable?.Company,
                                 },
                                 {
                                   title: "Supplier",
-                                  value: 100,
+                                  value: VehicleAvailable?.Supplier,
                                 },
                               ],
                             }}
@@ -192,7 +306,12 @@ function Dashboardpdd() {
                               title: "Vehicle  Out",
                               categoryList: [
                                 {
-                                  value: 100,
+                                  title: "Company",
+                                  value: DCVehicleOut?.Company,
+                                },
+                                {
+                                  title: "Supplier",
+                                  value: DCVehicleOut?.Supplier,
                                 },
                               ],
                             }}
@@ -201,25 +320,21 @@ function Dashboardpdd() {
                             className='DashboardpddBox__Seven'
                             customOnClick={(item) => {}}
                             categoryWiseCardObj={{
-                              title: "Transport  Qty",
+                              title: "Transfer Out Qty",
                               categoryList: [
                                 {
-                                  value: 100,
+                                  value: DCTransferOutQty?.transferOutQnt,
                                 },
                               ],
                             }}
                           />
                           <CategoryWiseCard
-                            className='DashboardpddBox__Eight'
+                            className='DashboardpddBox__Eight cursor-pointer'
                             categoryWiseCardObj={{
                               title: "Inventory  Stock",
-                              categoryList: [
-                                {
-                                  value: 100,
-                                },
-                              ],
+                              categoryList: [],
                             }}
-                            customOnClick={(item) => {
+                            customCardOnClick={(item) => {
                               setIsModalOpen({
                                 ...isModalOpen,
                                 isInventoryStockModalOpen: true,
@@ -232,15 +347,21 @@ function Dashboardpdd() {
                               title: "DC Pending Qty",
                               categoryList: [
                                 {
-                                  value: 100,
+                                  title: "Regular",
+                                  value: DCPendingQty?.Regular,
+                                },
+                                {
+                                  title: "Special",
+                                  value: DCPendingQty?.Special,
+                                },
+                                {
+                                  title: "Express",
+                                  value: DCPendingQty?.Express,
                                 },
                               ],
                             }}
                             customOnClick={(item) => {
-                              setIsModalOpen({
-                                ...isModalOpen,
-                                isInventoryStockModalOpen: true,
-                              });
+                             
                             }}
                           />
                           <CategoryWiseCard
@@ -249,25 +370,19 @@ function Dashboardpdd() {
                               title: "On Time Delivery",
                               categoryList: [
                                 {
-                                  value: 100,
+                                  value: `${OnTimeDelivery?.onTimeDelivery ||
+                                    0}%`,
                                 },
                               ],
-                            }}
-                            customOnClick={(item) => {
-                              setIsModalOpen({
-                                ...isModalOpen,
-                                isInventoryStockModalOpen: true,
-                              });
                             }}
                           />
                         </div>
                       </div>
 
                       {/* DepoPending Chart  */}
-                      <div className="col-lg-12">
-                      <DepoPendingChart/>
+                      <div className='col-lg-12'>
+                        <DepoPendingChart DCDepotPending={DCDepotPending} />
                       </div>
-                      
                     </div>
 
                     {/* Inventory  Stock Model */}
