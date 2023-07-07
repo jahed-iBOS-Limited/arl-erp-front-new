@@ -18,7 +18,13 @@ import LoanRegisterView from "./fundManagement/loanRegister/view/loanRegisterVie
 import BankGuaranteeLanding from "../report/bankGuarantee/landing";
 import BankGuaranteeEntry from "../report/bankGuarantee/entryForm";
 import FundRegisterLanding from "../report/fundRegister";
+<<<<<<< HEAD
 import InventoryBalanceTreasury from "../report/InventoryBalanceTreasury";
+=======
+import CashMarginLanding from "./cashMargin";
+import CreateCashMargin from "./cashMargin/createCashMargin";
+import ViewEditCashMargin from "./cashMargin/editViewCashMargin";
+>>>>>>> 381233481ba83c8393db27268b97fff135070000
 
 export function Banking() {
   return (
@@ -117,6 +123,19 @@ export function Banking() {
        <ContentRoute
         path="/financial-management/banking/BankGuarantee"
         component={BankGuaranteeLanding}
+      />
+       
+       <ContentRoute
+        path={`/financial-management/banking/CashMargin/:actionType/:id`}
+        component={ViewEditCashMargin}
+      />
+       <ContentRoute
+        path="/financial-management/banking/CashMargin/:actionType"
+        component={CreateCashMargin}
+      />
+       <ContentRoute
+        path="/financial-management/banking/CashMargin"
+        component={CashMarginLanding}
       />
        <ContentRoute
         path="/financial-management/banking/FundRegister"
