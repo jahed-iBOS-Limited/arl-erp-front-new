@@ -23,6 +23,7 @@ import CancledMRR from "./cancledMRR";
 import WHStockReportVat from "./whStockReportVat";
 import WarehouseWiseStockReport from "./whStockReport";
 import InventoryStatementRDLC from "./inventoryStatementRDLC";
+import GLWiseBalance from "./GLWiseBalance";
 
 export function ReportsPages() {
   return (
@@ -135,6 +136,10 @@ export function ReportsPages() {
       <ContentRoute
         from="/inventory-management/reports/WarehouseWiseStockReport"
         component={WarehouseWiseStockReport}
+      />
+       <ContentRoute
+        from="/inventory-management/reports/GLWiseBalance"
+        component={GLWiseBalance}
       />
       <ContentRoute
         from="/inventory-management/reports/InventoryStatement_RDLC"
