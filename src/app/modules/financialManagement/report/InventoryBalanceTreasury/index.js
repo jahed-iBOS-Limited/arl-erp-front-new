@@ -26,7 +26,7 @@ function InventoryBalanceTreasury() {
   }, []);
 
   const groupId = "e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a";
-  const reportId = "bb2df915-a2f8-47d8-a39d-906a547bb852";
+  const reportId = "9fe6b313-c031-41cb-ac5c-b4c8a8d156f4";
 
   const parameterValues = (values) => {
     return [
