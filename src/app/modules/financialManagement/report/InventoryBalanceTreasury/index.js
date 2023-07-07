@@ -2,9 +2,9 @@ import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import ICard from "../../../_helper/_card";
 import InputField from "../../../_helper/_inputField";
+import NewSelect from "../../../_helper/_select";
 import { _todayDate } from "../../../_helper/_todayDate";
 import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import NewSelect from "../../../_helper/_select";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 
 const initData = {
@@ -25,11 +25,16 @@ function InventoryBalanceTreasury() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const groupId = "218e3d7e-f3ea-4f66-8150-bb16eb6fc606";
-  const reportId = "1c58a47c-1783-438c-ac3c-f718a2bbb13a";
+  const groupId = "e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a";
+  const reportId = "bb2df915-a2f8-47d8-a39d-906a547bb852";
 
   const parameterValues = (values) => {
-    return [{ name: "dteDate", value: `${values?.date}` }];
+    return [
+      { name: "dteToDate", value: `${values?.date}` },
+      { name: "intUnit", value: `${values?.businessUnit?.value}` },
+      { name: "intItemTypeId", value: `${values?.itemType?.value}` },
+      { name: "reportType", value: `${values?.reportType?.value}` },
+    ];
   };
 
   return (
@@ -99,6 +104,12 @@ function InventoryBalanceTreasury() {
                 <div className="mt-5 ml-5">
                   <button
                     type="button"
+                    disabled={
+                      !values?.date ||
+                      !values?.businessUnit ||
+                      !values?.itemType ||
+                      !values?.reportType
+                    }
                     onClick={() => {
                       setShowReport(true);
                     }}
