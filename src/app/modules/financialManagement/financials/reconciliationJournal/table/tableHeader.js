@@ -22,8 +22,10 @@ import {
   getReconcilationJournelData,
   getSbuDDL,
   getType,
+  getYearClosing,
   postDepreciationJournal,
-  postInventoryJournal
+  postInventoryJournal,
+  saveYearClosing
 } from "../helper";
 import {
   Card,
@@ -35,26 +37,20 @@ import {
 import NewSelect from "./../../../../_helper/_select";
 import COGSTable from "./cogsTable";
 import DepreciationTable from "./depreciationTable";
+import YearClosingTable from "./yearClosingTable";
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
 
 function getMonthFirstLastDate(fromDate) {
   const date = new Date(fromDate);
-    const firstDate = new Date(date.getFullYear(), date.getMonth(), 1);
-    const lastDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-    return {
-      firstDate: _dateFormatter(firstDate),
-      lastDate: _dateFormatter(lastDate)
-    };
+  const firstDate = new Date(date.getFullYear(), date.getMonth(), 1);
+  const lastDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+  return {
+    firstDate: _dateFormatter(firstDate),
+    lastDate: _dateFormatter(lastDate)
+  };
 }
-
-// function getMonthLastDate(toDate) {
-//   const date = new Date(toDate);
-//     const lastDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-//     return _dateFormatter(lastDate);
-// }
-
 
 const ReconciliationJournal = () => {
   const { financialsInventoryJournal } = useSelector(
@@ -62,6 +58,13 @@ const ReconciliationJournal = () => {
   );
 
   const dispatch = useDispatch();
+
+  const getLastDateOfJuneOfCurrentYear = () => {
+    var date = new Date();
+    var lastDay = new Date(date.getFullYear(), 6, 0);
+    return _dateFormatter(lastDay);
+  };
+
 
   const initData = {
     transactionDate:
@@ -71,6 +74,7 @@ const ReconciliationJournal = () => {
     sbu: financialsInventoryJournal?.sbu || "",
     type: financialsInventoryJournal?.type || "",
     closingType: financialsInventoryJournal?.closingType || "",
+    closingDate: getLastDateOfJuneOfCurrentYear(),
   };
 
   // ref
@@ -88,6 +92,7 @@ const ReconciliationJournal = () => {
   //storingData
   const [jounalLedgerData, setJounalLedgerData] = useState([]);
   const [journalData, setJournalData] = useState([]);
+  const [closingData, setClosingData] = useState([]);
   const [isDayBased, setIsDayBased] = useState(0);
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -111,16 +116,8 @@ const ReconciliationJournal = () => {
         setJounalLedgerData,
         setLoading
       );
-      // getInventoryJournal(
-      //   profileData?.accountId,
-      //   selectedBusinessUnit?.value,
-      //   values?.sbu?.value,
-      //   values?.fromDate,
-      //   values?.toDate,
-      //   setJournalData,
-      //   setLoading
-      // );
-    } else if (values?.type?.value === 2) {
+    }
+    else if (values?.type?.value === 2) {
       getDepreciationGenLedgerList(
         profileData?.accountId,
         selectedBusinessUnit?.value,
@@ -137,6 +134,16 @@ const ReconciliationJournal = () => {
         setJournalData,
         setLoading
       );
+    } else if (values?.type?.value === 4) {
+      // type 1 for view data
+      getYearClosing(
+        profileData?.userId,
+        selectedBusinessUnit?.value,
+        1,
+        values?.closingDate,
+        setClosingData,
+        setLoading
+      )
     }
   };
 
@@ -152,7 +159,7 @@ const ReconciliationJournal = () => {
         setLoading
       );
     }
-    if(values?.type?.value === 1 && values?.transactionType?.value !== 1){
+    if (values?.type?.value === 1 && values?.transactionType?.value !== 1) {
       getReconcilationJournelData(
         selectedBusinessUnit?.value,
         values?.fromDate,
@@ -192,7 +199,17 @@ const ReconciliationJournal = () => {
           cb
         )
       }
-
+      // else if (values?.type?.value === 4) {
+      //   postClosingYearJournal(
+      //     profileData?.accountId,
+      //     selectedBusinessUnit?.value,
+      //     values?.sbu?.value,
+      //     values?.closingDate,
+      //     profileData?.userId,
+      //     setLoading,
+      //     cb
+      //   )
+      // }
     } else {
       setLoading(false);
     }
@@ -206,6 +223,7 @@ const ReconciliationJournal = () => {
       return 0;
     }
   }, [jounalLedgerData]);
+
   return (
     <>
       <Formik
@@ -213,9 +231,9 @@ const ReconciliationJournal = () => {
         initialValues={initData}
         validationSchema={validationSchema}
         onSubmit={(values, { resetForm }) => {
-          if(values?.type?.value === 1 && values?.closingType?.value === 2 && 
-            getMonthFirstLastDate(values?.fromDate)?.firstDate === values?.fromDate && 
-            getMonthFirstLastDate(values?.fromDate)?.lastDate === values?.toDate){
+          if (values?.type?.value === 1 && values?.closingType?.value === 2 &&
+            getMonthFirstLastDate(values?.fromDate)?.firstDate === values?.fromDate &&
+            getMonthFirstLastDate(values?.fromDate)?.lastDate === values?.toDate) {
             return toast.warn("You can't create journal for continuous closing type, when you select full month. please change from date or to date");
           }
 
@@ -254,7 +272,7 @@ const ReconciliationJournal = () => {
               {true && <ModalProgressBar />}
               <CardHeader title={"Reconciliation Journal"}>
                 <CardHeaderToolbar>
-                  <button
+                  {values?.type?.value !== 4 && (<button
                     onClick={handleSubmit}
                     className="btn btn-primary ml-2"
                     type="submit"
@@ -272,15 +290,37 @@ const ReconciliationJournal = () => {
                     }
                   >
                     Create Journal
-                  </button>
+                  </button>)}
+                  {
+                    values?.type?.value === 4 && (
+                      <button
+                        onClick={
+                          // typeId 2 for save 
+                          () => {
+                            saveYearClosing(
+                              profileData?.userId,
+                              selectedBusinessUnit?.value,
+                              2,
+                              values?.closingDate,
+                              setLoading
+                            )
+                          }
+                        }
+                        className="btn btn-primary ml-2"
+                        type="button"
+                      >
+                        Create Journal
+                      </button>
+                    )
+                  }
                 </CardHeaderToolbar>
               </CardHeader>
               <CardBody>
                 <Form className="form form-label-right">
                   <div className="form-group row global-form align-items-end">
-                    <div className="col-lg-12">
-                      <p style={{color:"red"}}><b>*When creating a journal for Monthly Closing Type, you must select the first and last day of the month. However, if you select the first day of the month for continuous type, you cannot create the journal by selecting the last day of that month.</b></p>
-                    </div>
+                    {values?.type?.value === 1 && (<div className="col-lg-12">
+                      <p style={{ color: "red" }}><b>*When creating a journal for Monthly Closing Type, you must select the first and last day of the month. However, if you select the first day of the month for continuous type, you cannot create the journal by selecting the last day of that month.</b></p>
+                    </div>)}
                     <div className="col-lg-2">
                       <NewSelect
                         name="sbu"
@@ -333,11 +373,9 @@ const ReconciliationJournal = () => {
                           type="date"
                           onChange={(e) => {
                             setFieldValue("fromDate", e.target.value);
-                            // setFieldValue("closingType", "")
                             dispatch(
                               SetFinancialsInventoryJournalAction({
                                 ...values,
-                                // fromDate: e.target.value,
                                 fromDate: values?.closingType?.value === 1 ? getMonthFirstLastDate(e.target.value)?.firstDate : e.target.value,
                                 toDate: getMonthFirstLastDate(e.target.value)?.lastDate,
                                 closingType: values?.closingType,
@@ -346,9 +384,9 @@ const ReconciliationJournal = () => {
                             setJounalLedgerData([]);
                             setJournalData([])
                           }}
-                          min={values?.closingType?.value === 1 ? 
+                          min={values?.closingType?.value === 1 ?
                             getMonthFirstLastDate(values?.fromDate)?.firstDate : ""}
-                          max={values?.closingType?.value === 1 ? 
+                          max={values?.closingType?.value === 1 ?
                             getMonthFirstLastDate(values?.fromDate)?.lastDate : ""}
                         />
                       </div>
@@ -367,7 +405,6 @@ const ReconciliationJournal = () => {
                             dispatch(
                               SetFinancialsInventoryJournalAction({
                                 ...values,
-                                // toDate: e.target.value,
                                 fromDate: values?.closingType?.value === 1 ? getMonthFirstLastDate(values?.fromDate)?.firstDate : values?.fromDate,
                                 toDate: values?.closingType?.value === 1 ? getMonthFirstLastDate(values?.fromDate)?.lastDate : e.target.value,
                                 closingType: values?.closingType,
@@ -390,7 +427,7 @@ const ReconciliationJournal = () => {
                           placeholder="Date"
                           type="date"
                           onChange={(e) => {
-                            setFieldValue("transactionDate", e.target.value);            
+                            setFieldValue("transactionDate", e.target.value);
                             dispatch(
                               SetFinancialsInventoryJournalAction({
                                 ...values,
@@ -401,7 +438,20 @@ const ReconciliationJournal = () => {
                         />
                       </div>
                     )}
+                    {
+                      values?.type?.value === 4 && (
+                        <InputField
+                          value={values?.closingDate}
+                          name="closingDate"
+                          placeholder="Date"
+                          type="date"
+                          onChange={(e) => {
 
+                          }}
+                          disabled={true}
+                        />
+                      )
+                    }
                     <div className="col-lg-2">
                       <button
                         className="btn btn-primary mr-2"
@@ -432,7 +482,7 @@ const ReconciliationJournal = () => {
                             value={values?.closingType}
                             label="Closing Type"
                             onChange={(valueOption) => {
-                              if(valueOption){
+                              if (valueOption) {
                                 setFieldValue("closingType", valueOption);
                                 dispatch(
                                   SetFinancialsInventoryJournalAction({
@@ -444,8 +494,8 @@ const ReconciliationJournal = () => {
                                 );
                                 setJounalLedgerData([]);
                                 setJournalData([])
-                            }
-                              else{
+                              }
+                              else {
                                 setFieldValue("closingType", "");
                               }
                             }}
@@ -458,7 +508,7 @@ const ReconciliationJournal = () => {
                     }
                   </div>
                   <div></div>
-                  <div className="row">
+                  {values?.type?.value !== 4 && (<div className="row">
                     <div className="col-12">
                       <table className="table table-striped table-bordered global-table mt-0 table-font-size-sm mt-5">
                         <thead className="bg-secondary">
@@ -502,7 +552,7 @@ const ReconciliationJournal = () => {
                         </tbody>
                       </table>
                     </div>
-                  </div>
+                  </div>)}
                   {values?.type?.value === 2 && (
                     <div className="d-flex justify-content-end mt-2">
                       <ReactHtmlTableToExcel
@@ -513,68 +563,62 @@ const ReconciliationJournal = () => {
                         sheet="Sheet-1"
                         buttonText="Export Excel"
                       />
-                  </div>
+                    </div>
                   )}
-                  {/* {values?.type?.value === 1 ? (
-                    <div className="text-center">
-                      <h3 className="mt-2">Breakdown Of COGS</h3>
-                    </div>
-                  ) : null} */}
-                  {(values?.type?.value === 1 && jounalLedgerData?.length > 0) &&(
-                   
+                  {(values?.type?.value === 1 && jounalLedgerData?.length > 0) && (
                     <>
-                    <div className="row mt-3">
-                      <div className="col-lg-3">
-                        <NewSelect
-                          name="transactionType"
-                          options={[
-                            {value: 1, label: "Breakdown Of COGS"},
-                            {value: 9, label: "Issue for Cost Center"},
-                            {value: 10, label: "Issue For Maintenance"},
-                            {value: 14, label: "Issue For Shop Floor"},
-                            {value: 12, label: "Issue for Delivery"},
-                            {value: 25, label: "Inventory Adjustment"},
-                            {value: 59, label: "Receive from Shop Floor"},
-                          ]}
-                          value={values?.transactionType}
-                          label="Transaction Type"
-                          onChange={(valueOption) => {
-                            setFieldValue("transactionType", valueOption);
-                            // setJounalLedgerData([]);
-                            setJournalData([]);
+                      <div className="row mt-3">
+                        <div className="col-lg-3">
+                          <NewSelect
+                            name="transactionType"
+                            options={[
+                              { value: 1, label: "Breakdown Of COGS" },
+                              { value: 9, label: "Issue for Cost Center" },
+                              { value: 10, label: "Issue For Maintenance" },
+                              { value: 14, label: "Issue For Shop Floor" },
+                              { value: 12, label: "Issue for Delivery" },
+                              { value: 25, label: "Inventory Adjustment" },
+                              { value: 59, label: "Receive from Shop Floor" },
+                            ]}
+                            value={values?.transactionType}
+                            label="Transaction Type"
+                            onChange={(valueOption) => {
+                              setFieldValue("transactionType", valueOption);
+                              // setJounalLedgerData([]);
+                              setJournalData([]);
 
-                          }}
-                          placeholder="Transaction Type"
-                          errors={errors}
-                          touched={touched}
-                        />
+                            }}
+                            placeholder="Transaction Type"
+                            errors={errors}
+                            touched={touched}
+                          />
+                        </div>
+                        <div className="col-lg-2 mt-5">
+                          <button
+                            className="btn btn-primary mr-2"
+                            type="button"
+                            onClick={() => {
+                              console.log("error", errors)
+                              detailsData(values, 0);
+                              setIsDayBased(0)
+                            }}
+                          >
+                            Summary
+                          </button>
+                        </div>
+                        <div className="col-lg-2 mt-5">
+                          <button
+                            className="btn btn-primary mr-2"
+                            type="button"
+                            onClick={() => {
+                              detailsData(values, 1);
+                              setIsDayBased(1)
+                            }}
+                          >
+                            Details
+                          </button>
+                        </div>
                       </div>
-                      <div className="col-lg-2 mt-5">
-                        <button
-                          className="btn btn-primary mr-2"
-                          type="button"
-                          onClick={() => {
-                            console.log("error",errors)
-                            detailsData(values, 0);
-                            setIsDayBased(0)
-                          }}
-                        >
-                          Summary
-                        </button>
-                      </div>
-                      <div className="col-lg-2 mt-5">
-                        <button
-                          className="btn btn-primary mr-2"
-                          type="button"
-                          onClick={() => {
-                            detailsData(values, 1);
-                            setIsDayBased(1)
-                          }}
-                        >
-                          Details
-                        </button>
-                      </div>
-                    </div>
                     </>
                   )}
                   {(journalData?.length > 0 && values?.type?.value === 1) ? (
@@ -587,7 +631,7 @@ const ReconciliationJournal = () => {
                         <ReactHtmlTableToExcel
                           id="test-table-xls-button"
                           className="download-table-xls-button btn btn-primary ml-2"
-                          table={ "cogs"}
+                          table={"cogs"}
                           filename={values?.transactionType?.label || "reconsilationJournel"}
                           sheet="Sheet-1"
                           buttonText="Export Excel"
@@ -596,17 +640,24 @@ const ReconciliationJournal = () => {
                     </>
                   ) : null}
                   {(values?.type?.value === 1 && jounalLedgerData?.length > 0) && (
-                    <COGSTable 
+                    <COGSTable
                       journalData={journalData}
                       landingValues={values}
                       isDayBased={isDayBased}
                     />
                   )}
                   {values?.type?.value === 2 && (
-                    <DepreciationTable 
+                    <DepreciationTable
                       journalData={journalData}
                     />
                   )}
+                  {
+                    values?.type?.value === 4 && (
+                      <YearClosingTable
+                        closingData={closingData}
+                      />
+                    )
+                  }
                   <>
                     <DropzoneDialogBase
                       filesLimit={1}
