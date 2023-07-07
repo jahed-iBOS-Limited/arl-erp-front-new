@@ -8,6 +8,7 @@ export const getType = () => {
     { value: 1, label: "Inventory, Overhead and COGS" },
     { value: 2, label: "Depreciation" },
     { value: 3, label: "Income Tax Provision" },
+    { value: 4, label: "Year Closing" },
   ];
 };
 
@@ -56,6 +57,49 @@ export const getInventoryJournalGenLedger = async (
     const res = await axios.get(api);
     setLoading(false);
     setter(res?.data);
+  } catch (err) {
+    setLoading(false);
+  }
+};
+
+export const getYearClosing = async (
+  userId,
+  businessUnitId,
+  typeId,
+  closingDate,
+  setClosingData,
+  setLoading,
+) => {
+  console.log("setLoading", setLoading);
+  setLoading(true);
+  try {
+    const api = `/fino/Account/AccountClosingYearlyGetAndPosting?businessUnitId=${businessUnitId}&closingDate=${closingDate}&actionBy=${userId}&typeId=${typeId}`;
+    const res = await axios.post(api);
+    setClosingData(res?.data);
+    setLoading(false);
+  } catch (err) {
+    setLoading(false);
+  }
+};
+
+export const saveYearClosing = async (
+  userId,
+  businessUnitId,
+  typeId,
+  closingDate,
+  setLoading,
+) => {
+  setLoading(true);
+  try {
+    const api = `/fino/Account/AccountClosingYearlyGetAndPosting?businessUnitId=${businessUnitId}&closingDate=${closingDate}&actionBy=${userId}&typeId=${typeId}`;
+    const res = await axios.post(api);
+    setLoading(false);
+    if (res?.status === 200) {
+      toast.success(res?.data);
+    }
+    else {
+      toast.warn(res?.data);
+    }
   } catch (err) {
     setLoading(false);
   }
@@ -166,7 +210,28 @@ export const postDepreciationJournal = async (
     )}&typeId=3&actionBy=${userId}`;
     const res = await axios.post(api);
     setLoading(false);
-    cb(res?.data?.message);   
+    cb(res?.data?.message);
+  } catch (err) {
+    setLoading(false);
+  }
+};
+
+export const postClosingYearJournal = async (
+  accountId,
+  businessUnitId,
+  sbuId,
+  closingDate,
+  userId,
+  setLoading,
+  cb
+) => {
+  setLoading(true);
+  try {
+    // add post api here
+    const api = ``;
+    const res = await axios.post(api);
+    setLoading(false);
+    cb(res?.data?.message);
   } catch (err) {
     setLoading(false);
   }
@@ -180,7 +245,7 @@ export const getSbuDDL = async (accId, buId, setter) => {
     if (res.status === 200) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getReconcilationJournelData = async (
