@@ -14,6 +14,7 @@ import { FormatSix } from "../pdf/format-06";
 import { FormatSeven } from "../pdf/format-07";
 import { generateExcel } from "./excelReportGenarate";
 import { getPdfFormatNumber } from "./pdfFormatNumber";
+import { FormatEight } from "../pdf/format-08";
 const ViewData = ({ adviceReportData, values }) => {
   const [fontSize, setFontSize] = useState(9);
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -261,6 +262,17 @@ const ViewData = ({ adviceReportData, values }) => {
                     values?.advice?.value
                   ) === 7 && (
                     <FormatSeven
+                      fontSize={fontSize}
+                      APIUrl={APIUrl}
+                      selectedBusinessUnit={selectedBusinessUnit}
+                      values={values}
+                      adviceReportData={adviceReportData}
+                      total={total}
+                      totalInWords={totalInWords}
+                    />
+                  )}
+                  {values?.advice?.label === "RTGS" && (
+                    <FormatEight
                       fontSize={fontSize}
                       APIUrl={APIUrl}
                       selectedBusinessUnit={selectedBusinessUnit}
