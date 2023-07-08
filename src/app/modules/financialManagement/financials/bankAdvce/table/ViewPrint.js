@@ -97,7 +97,7 @@ const ViewData = ({ adviceReportData, values }) => {
         </button>
         <ReactToPrint
           pageStyle={
-            `@media print{body { -webkit-print-color-adjust: exact;}@page {size: ${(values?.advice?.label === "IBBL" || values?.advice?.label === "JAMUNA-BEFTN" || values?.advice?.label === "RTGS") ? "portrait !important"  : values?.advice?.label === "IBBL-BEFTN" ? "landscape !important" : "landscape !important"};margin:${["IBBL", "JAMUNA-BEFTN"].includes(values?.advice?.label) ?"144px 0 !important" : 0} }}`
+            `@media print{body { -webkit-print-color-adjust: exact;}@page {size: ${(values?.advice?.label === "IBBL" || values?.advice?.label === "JAMUNA-BEFTN" || values?.advice?.label === "RTGS") ? "portrait !important"  : values?.advice?.label === "IBBL-BEFTN" ? "landscape !important" : "landscape !important"};margin:${values?.advice?.label === "RTGS" ? "0 !important" : ["IBBL", "JAMUNA-BEFTN"].includes(values?.advice?.label) ?"144px 0 !important" : 0} }}`
           }
           trigger={() => (
             <button
