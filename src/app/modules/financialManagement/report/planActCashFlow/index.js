@@ -12,28 +12,38 @@ import Loading from "../../../_helper/_loading";
 import { getPrevThreeMonth } from "./helper";
 import "./style.css";
 import useAxiosGet from "./../../../_helper/customHooks/useAxiosGet";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { shallowEqual } from "react-redux";
 import { _formatMoney } from "../../../_helper/_formatMoney";
+import NewSelect from "../../../_helper/_select";
+import InputField from "../../../_helper/_inputField";
+import { _todayDate } from "../../../_helper/_todayDate";
 
 const currentYear = new Date()
   .getFullYear()
   .toString()
   .slice(-2);
 
+const initData = {
+  type: { value: 1, label: "Quaterly" },
+  fromDate: _todayDate(),
+  toDate: _todayDate(),
+};
+
+
 function PlanActCashFlow() {
-  const [rowDato, getRowData, loader] = useAxiosGet();
+  const [rowDato, getRowData, loader, setRowData] = useAxiosGet();
 
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
-  useEffect(() => {
-    getRowData(
-      `/fino/FundManagement/GetFundPlanVsActualCashflow?BusinessUnitId=${selectedBusinessUnit?.value}`
-    );
-  }, []);
+  // useEffect(() => {
+  //   getRowData(
+  //     `/fino/FundManagement/GetFundPlanVsActualCashflow?BusinessUnitId=${selectedBusinessUnit?.value}`
+  //   );
+  // }, []);
 
   const totalObj = useMemo(() => {
     let obj = {
@@ -57,18 +67,6 @@ function PlanActCashFlow() {
 
     return obj;
   }, [rowDato]);
-
-  // const getTarget = () => {
-  //   const target = rowDato?.reduce(
-  //     (acc, item) =>
-  //       acc +
-  //       item?.numTgtMonthOne +
-  //       item?.numTgtMonthTwo +
-  //       item?.numTgtMonthThree,
-  //     0
-  //   );
-  //   return target || 0;
-  // };
 
   const getTarget = (item) => {
     const totalRowTarget =
@@ -98,35 +96,89 @@ function PlanActCashFlow() {
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={{}}
-        // validationSchema={{}}
-        onSubmit={() => {}}
+        initialValues={initData}
+        onSubmit={() => { }}
       >
-        {({ values }) => (
+        {({ values, setFieldValue }) => (
           <>
             <Card>
               {true && <ModalProgressBar />}
               <CardHeader title={"Plan Vs Act. Cashflow"}>
-                <CardHeaderToolbar>
-                  {/* <button
-                    onClick={() => {
-                      history.push({
-                        pathname: `/financial-management/invoicemanagement-system/salesInvoice/create`,
-                        state: values,
-                      });
-                    }}
-                    className="btn btn-primary ml-2"
-                    type="button"
-                  >
-                    Create
-                  </button> */}
-                </CardHeaderToolbar>
+                <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>
                 {loader && <Loading />}
+                <div className="row global-form">
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="type"
+                      options={[
+                        { value: 1, label: "Quaterly" },
+                        { value: 2, label: "Date Wise" }]
+                      }
+                      value={values?.type}
+                      label="Type"
+                      onChange={(valueOption) => {
+                        setRowData([]);
+                        setFieldValue("type", valueOption);
+                      }}
+                      placeholder="Type"
+                    />
+                  </div>
+                  {
+                    values?.type?.value === 2 && (
+                      <>
+                        <div className="col-lg-3">
+                          <InputField
+                            label="From Date"
+                            value={values?.fromDate}
+                            name="fromDate"
+                            placeholder="Date"
+                            type='date'
+                            onChange={(e) => {
+                              setRowData([]);
+                              setFieldValue("fromDate", e.target.value);
+                            }}
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <InputField
+                            label="To Date"
+                            value={values?.toDate}
+                            name="toDate"
+                            placeholder="Date"
+                            type='date'
+                            onChange={(e) => {
+                              setRowData([]);
+                              setFieldValue("toDate", e.target.value);
+                            }}
+                          />
+                        </div>
+                      </>
+                    )
+                  }
+                  <div style={{ marginTop: "17px" }} className="col-lg">
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={() => {
+                        values?.type?.value === 1 ?
+                          getRowData(`/fino/FundManagement/GetFundPlanVsActualCashflow?BusinessUnitId=${selectedBusinessUnit?.value}&TypeId=${values?.type?.value}`)
+                          : getRowData(`/fino/FundManagement/GetFundPlanVsActualCashflow?BusinessUnitId=${selectedBusinessUnit?.value}&TypeId=${values?.type?.value
+                            }&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`)
+                      }}
+                      disabled={
+                        values?.type?.value === 2 && (!values?.fromDate || !values?.toDate)
+                      }
+                    >
+                      View
+                    </button>
+                  </div>
+                </div>
+
                 <div className="plan-act-cashFlow-wrapper loan-scrollable-table  mt-5">
                   <div className="scroll-table _table">
-                    <table className="table table-bordered bj-table bj-table-landing">
+                    {values?.type?.value === 1 ? (<table className="table table-bordered bj-table bj-table-landing">
                       <thead>
                         <tr>
                           <th
@@ -206,7 +258,7 @@ function PlanActCashFlow() {
                               <td className="text-center">
                                 {_formatMoney(
                                   (item?.numTgtMonthOne || 0) -
-                                    (item?.numActMonthOne || 0),
+                                  (item?.numActMonthOne || 0),
                                   0
                                 )}
                               </td>
@@ -220,7 +272,7 @@ function PlanActCashFlow() {
                               <td className="text-center">
                                 {_formatMoney(
                                   (item?.numTgtMonthTwo || 0) -
-                                    (item?.numActMonthTwo || 0),
+                                  (item?.numActMonthTwo || 0),
                                   0
                                 )}
                               </td>
@@ -234,7 +286,7 @@ function PlanActCashFlow() {
                               <td className="text-center">
                                 {_formatMoney(
                                   (item?.numTgtMonthThree || 0) -
-                                    (item?.numActMonthThree || 0),
+                                  (item?.numActMonthThree || 0),
                                   0
                                 )}
                               </td>
@@ -266,7 +318,7 @@ function PlanActCashFlow() {
                           <td className="text-center">
                             {_formatMoney(
                               (totalObj?.totalTgtForMonthOne || 0) -
-                                (totalObj?.totalActForMonthOne || 0),
+                              (totalObj?.totalActForMonthOne || 0),
                               0
                             )}
                           </td>
@@ -279,7 +331,7 @@ function PlanActCashFlow() {
                           <td className="text-center">
                             {_formatMoney(
                               (totalObj?.totalTgtForMonthTwo || 0) -
-                                (totalObj?.totalActForMonthTwo || 0),
+                              (totalObj?.totalActForMonthTwo || 0),
                               0
                             )}
                           </td>
@@ -292,7 +344,7 @@ function PlanActCashFlow() {
                           <td className="text-center">
                             {_formatMoney(
                               (totalObj?.totalTgtForMonthThree || 0) -
-                                (totalObj?.totalActForMonthThree || 0),
+                              (totalObj?.totalActForMonthThree || 0),
                               0
                             )}
                           </td>
@@ -323,17 +375,69 @@ function PlanActCashFlow() {
                                 totalObj?.totalTgtForMonthTwo,
                                 totalObj?.totalTgtForMonthThree
                               ) -
-                                finalTotalActual(
-                                  totalObj?.totalActForMonthOne,
-                                  totalObj?.totalActForMonthTwo,
-                                  totalObj?.totalActForMonthThree
-                                ),
+                              finalTotalActual(
+                                totalObj?.totalActForMonthOne,
+                                totalObj?.totalActForMonthTwo,
+                                totalObj?.totalActForMonthThree
+                              ),
                               0
                             )}
                           </td>
                         </tr>
                       </tbody>
-                    </table>
+                    </table>) : (
+                      <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th>Description</th>
+                            <th>Target</th>
+                            <th>Actual</th>
+                            <th>Variance</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowDato?.length > 0 &&
+                            rowDato?.map((item, index) => (
+                              <tr>
+                                <td className="text-left">
+                                  {item?.strDescription}
+                                </td>
+                                <td className="text-center">
+                                  {_formatMoney(item?.numTgtMonthOne, 0)}
+                                </td>
+                                <td className="text-center">
+                                  {_formatMoney(item?.numActMonthOne, 0)}
+                                </td>
+                                <td className="text-center">
+                                  {_formatMoney(
+                                    (item?.numTgtMonthOne || 0) -
+                                    (item?.numActMonthOne || 0),
+                                    0
+                                  )}
+                                </td>
+                              </tr>
+                            ))}
+                          <tr>
+                            <td className="cash-background text-left">
+                              Closing Cash in Hand
+                            </td>
+                            <td className="text-center">
+                              {_formatMoney(totalObj?.totalTgtForMonthOne, 0)}
+                            </td>
+                            <td className="text-center">
+                              {_formatMoney(totalObj?.totalActForMonthOne, 0)}
+                            </td>
+                            <td className="text-center">
+                              {_formatMoney(
+                                (totalObj?.totalTgtForMonthOne || 0) -
+                                (totalObj?.totalActForMonthOne || 0),
+                                0
+                              )}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    )}
                   </div>
                 </div>
               </CardBody>
