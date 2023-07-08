@@ -8,20 +8,25 @@ import ICustomCard from "../../../../_helper/_customCard";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import Table from "./table";
+import { PortAndMotherVessel } from "../../../common/components";
+import { toast } from "react-toastify";
 
 const Form = ({ obj }) => {
   const {
+    loader,
     buId,
     accId,
-    loader,
-    loading,
-    rowData,
-    getData,
     initData,
-    // allSelect,
-    // selectedAll,
+    allSelect,
+    selectedAll,
+    rowDataHandler,
+    allSelect2,
+    selectedAll2,
+    rowDataHandler2,
     saveHandler,
-    // rowDataHandler,
+    costs,
+    revenues,
+    shipPointDDL,
   } = obj;
   const history = useHistory();
 
@@ -45,15 +50,16 @@ const Form = ({ obj }) => {
               saveHandler={() => {
                 saveHandler(values);
               }}
-              saveDisabled={loading || loader || rowData?.length < 1}
+              saveDisabled={loader}
             >
-              {(loading || loader) && <Loading />}
+              {loader && <Loading />}
 
               <form className="form form-label-right">
                 <div className="global-form">
                   <div className="row">
-                    {/* <PortAndMotherVessel
+                    <PortAndMotherVessel
                       obj={{
+                        port: false,
                         values,
                         setFieldValue,
                         onChange: (fieldName, allValues) => {
@@ -67,8 +73,19 @@ const Form = ({ obj }) => {
                           }
                         },
                       }}
-                    /> */}
-
+                    />
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="warehouse"
+                        options={shipPointDDL || []}
+                        value={values?.warehouse}
+                        label="Warehouse"
+                        onChange={(e) => {
+                          setFieldValue("warehouse", e);
+                        }}
+                        placeholder="Warehouse"
+                      />
+                    </div>
                     <div className="col-lg-3">
                       <NewSelect
                         name="businessPartner"
@@ -80,9 +97,6 @@ const Form = ({ obj }) => {
                         label="Business Partner"
                         onChange={(e) => {
                           setFieldValue("businessPartner", e);
-                          if (e) {
-                            getData({ ...values, businessPartner: e });
-                          }
                         }}
                         placeholder="Business Partner"
                         errors={errors}
@@ -112,7 +126,18 @@ const Form = ({ obj }) => {
                   </div>
                 </div>
               </form>
-              <Table />
+              <Table
+                obj={{
+                  costs,
+                  revenues,
+                  allSelect,
+                  selectedAll,
+                  rowDataHandler,
+                  allSelect2,
+                  selectedAll2,
+                  rowDataHandler2,
+                }}
+              />
             </ICustomCard>
           </>
         )}

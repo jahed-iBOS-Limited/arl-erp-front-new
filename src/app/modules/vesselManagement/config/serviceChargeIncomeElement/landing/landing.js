@@ -4,15 +4,19 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import ICustomCard from "../../../../_helper/_customCard";
 import Loading from "../../../../_helper/_loading";
-import YearMonthForm from "../../../../_helper/commonInputFieldsGroups/yearMonthForm";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import IButton from "../../../../_helper/iButton";
-import { PortAndMotherVessel } from "../../../common/components";
+import { shallowEqual, useSelector } from "react-redux";
+import IView from "../../../../_helper/_helperIcons/_view";
 
 const initData = {
   port: "",
   motherVessel: "",
   year: "",
+  fromDate: _todayDate(),
+  toDate: _todayDate(),
 };
 
 const ServiceChargeAndIncomeElementLanding = () => {
@@ -20,13 +24,12 @@ const ServiceChargeAndIncomeElementLanding = () => {
   const [rowData, getRowData, isLoading] = useAxiosGet();
 
   // get user profile data from store
-  // const {
-  //   profileData: { userId },
-  //   selectedBusinessUnit: { value: buId, label: buName },
-  // } = useSelector((state) => state?.authData, shallowEqual);
+  const {
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => state?.authData, shallowEqual);
 
   const getData = (values) => {
-    const url = ``;
+    const url = `/costmgmt/CostElement/GetServiceChargeAndIncomeElementLanding?BusinessUnitId=${buId}&Date${values?.fromDate}&Date=${values?.toDate}`;
 
     getRowData(url, (resData) => {});
   };
@@ -53,10 +56,16 @@ const ServiceChargeAndIncomeElementLanding = () => {
               <form className="form form-label-right">
                 <div className="global-form">
                   <div className="row">
-                    <PortAndMotherVessel obj={{ values, setFieldValue }} />
+                    <FromDateToDateForm
+                      obj={{
+                        values,
+                        setFieldValue,
+                      }}
+                    />
+                    {/* <PortAndMotherVessel obj={{ values, setFieldValue }} />
                     <YearMonthForm
                       obj={{ values, setFieldValue, month: false }}
-                    />
+                    /> */}
                     <IButton
                       onClick={() => {
                         getData(values);
@@ -64,37 +73,59 @@ const ServiceChargeAndIncomeElementLanding = () => {
                     />
                   </div>
                 </div>
-                {rowData?.length > 0 && (
-                  <div className="loan-scrollable-table inventory-statement-report">
-                    <div
-                      style={{ maxHeight: "500px" }}
-                      className="scroll-table _table"
-                    >
-                      <table
-                        className={
-                          "table table-striped table-bordered bj-table bj-table-landing "
-                        }
-                      >
-                        <thead>
-                          <tr>
-                            <th style={{ minWidth: "30px" }} rowSpan={2}>
-                              SL
-                            </th>
+
+                <div className="react-bootstrap-table table-responsive">
+                  <table
+                    className={
+                      "table table-striped table-bordered global-table "
+                    }
+                  >
+                    <thead>
+                      <tr>
+                        <th style={{ minWidth: "30px" }} rowSpan={2}>
+                          SL
+                        </th>
+                        <th>Warehouse</th>
+                        <th>Item</th>
+                        <th style={{ minWidth: "70px" }}>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {/* 
+
+"rateId": 8,
+    "tenderId": 0,
+    "itemId": 8574,
+    "uomid": 0,
+    "wareHouseId": 45,
+    "businessUnitId": 0,
+    "date": "0001-01-01T00:00:00",
+    "lastActionBy": 0,
+    "isActive": null,
+    "serverDatetime": "0001-01-01T00:00:00",
+    "lastActionDatetime": "0001-01-01T00:00:00",
+    "itemName": null,
+    "wareHouseName": null,
+    "serviceRows": null
+*/}
+
+                      {rowData?.map((item, i) => {
+                        return (
+                          <tr key={i}>
+                            <td className="text-center">{i + 1}</td>
+                            <td className="text-center">
+                              {item?.warehouseName}
+                            </td>
+                            <td className="text-center">{item?.itemName}</td>
+                            <td className="text-right">
+                              <IView />
+                            </td>
                           </tr>
-                        </thead>
-                        <tbody>
-                          {rowData?.map((item, i) => {
-                            return (
-                              <tr key={i}>
-                                <td className="text-center">{i + 1}</td>
-                              </tr>
-                            );
-                          })}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                )}
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
               </form>
             </ICustomCard>
           </>
