@@ -33,6 +33,13 @@ table.global-table.advice-table tbody:first-of-type > tr > td:first-child {
 .advice-table-wrapper h6 {
   color: #000 !important;
 }
+.advice-table-wrapper.rtgs h1{
+  color : rgb(0 128 87) !important;
+}
+.advice-table-wrapper.rtgs .rtgs-address{
+  color : rgba(0, 128, 0, .5) !important;
+  font-size: 12px;
+}
 
 .global-table.advice-table td,
 .global-table.advice-table th {
