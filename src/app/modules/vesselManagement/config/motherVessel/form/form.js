@@ -35,6 +35,8 @@ const initData = {
   freightRateDollar: "",
   freightRateTaka: "",
   localRevenueRate: "",
+  freightCostRate: "",
+  freightCostRateBdt: "",
 };
 
 const THeaders = [
@@ -99,6 +101,9 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
             freightRateDollar: HI?.freightRate,
             freightRateTaka: HI?.freightRateDbt,
             amount: HI?.amount,
+
+            freightCostRate: HI?.freightCostRate,
+            freightCostRateBdt: HI?.freightCostRateBdt,
           });
         }
       );
@@ -178,6 +183,9 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
         userId: userId,
         mVesselId: values?.mVesselId || 0,
         amount: values?.amount,
+
+        freightCostRate: values?.freightCostRate,
+        freightCostRateBdt: values?.freightCostRateBdt,
       },
       motherVesselDetails: rowData,
     };
@@ -322,6 +330,24 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
                           disabled={true}
                         />
                       </div>
+                      <div className="col-lg-3">
+                        <InputField
+                          label="Freight Cost Rate"
+                          placeholder="Freight Cost Rate"
+                          value={values?.freightCostRate}
+                          name="freightCostRate"
+                          type="number"
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <InputField
+                          label="Freight Cost Rate (BDT)"
+                          placeholder="Freight Cost Rate (BDT)"
+                          value={values?.freightCostRateBdt}
+                          name="freightCostRateBdt"
+                          type="number"
+                        />
+                      </div>
                     </div>
                     <div className="row">
                       <div className="col-lg-3">
@@ -450,6 +476,8 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
                               supplier: values?.supplier,
                               freightRateDollar: values?.freightRateDollar,
                               freightRateTaka: values?.freightRateTaka,
+                              freightCostRate: values?.freightCostRate,
+                              freightCostRateBdt: values?.freightCostRateBdt,
                             });
                           });
                         }}
