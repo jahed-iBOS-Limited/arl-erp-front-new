@@ -14,6 +14,7 @@ import { FormatSix } from "../pdf/format-06";
 import { FormatSeven } from "../pdf/format-07";
 import { generateExcel } from "./excelReportGenarate";
 import { getPdfFormatNumber } from "./pdfFormatNumber";
+import { FormatEight } from "../pdf/format-08";
 const ViewData = ({ adviceReportData, values }) => {
   const [fontSize, setFontSize] = useState(9);
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -42,28 +43,6 @@ const ViewData = ({ adviceReportData, values }) => {
     }
   }, [total]);
 
-  // const isPotrate = (values) => {
-  //   if (values?.adviceType?.value === 1) {
-  //     if (["ibbl", "jamunaBEFTN", "prime", "nrbcblBEFTN"].includes(values?.advice?.info)) {
-  //       return true;
-  //     }
-  //     return false;
-  //   } else if (values?.adviceType?.value === 5) {
-  //     return true;
-  //   }
-  // };
-
-  // const isPotrate = (values) => {
-  //   if (values?.adviceType?.value === 5) {
-  //     return true
-  //   }
-  //   else if (["ibbl", "jamunaBEFTN", "prime", "nrbcblBEFTN"].includes(values?.advice?.info)) {
-  //       return true;
-  //   }else{
-  //     return false;
-  //   }   
-  // };
-
   const adviceName = values?.advice?.label === "IBBL" ? "IBBL_ONLINE"  : values?.advice?.label === "IBBL-BEFTN" ? "IBBL_BEFTN" : values?.advice?.label
   const dateFormat = values?.dateTime?.split("/").join("_")
   const fileName = `${selectedBusinessUnit?.buShortName}_${total ? total : 0}_${adviceName}_${dateFormat}`;
@@ -87,12 +66,10 @@ const ViewData = ({ adviceReportData, values }) => {
           style={{ height: "30px" }}
           className="btn btn-primary btn-sm m-0 mx-2 py-2 px-2"
           onClick={(e) => {
-            console.log("fileName", )
             if (values?.adviceType?.value === 15) {
               const adviceName = values?.advice?.label === "IBBL" ? "IBBL_ONLINE"  : values?.advice?.label === "IBBL-BEFTN" ? "IBBL_BEFTN" : values?.advice?.label
               const dateFormat = values?.dateTime?.split("/").join("_")
               const fileName = `${selectedBusinessUnit?.buShortName}_${total ? total : 0}_${adviceName}_${dateFormat}`;
-              // zakatAdvicePlanExcel(adviceReportData, values, fileName);
               generateExcel(
                 adviceReportData,
                 values,
@@ -114,20 +91,12 @@ const ViewData = ({ adviceReportData, values }) => {
               null,
               fileName           
            );}
-            // excelGenerator(
-            //   values,
-            //   adviceReportData,
-            //   selectedBusinessUnit,
-            //   total,
-            //   totalInWords
-            // );
           }}
         >
           Export Excel
         </button>
         <ReactToPrint
           pageStyle={
-            // isPotrate(values) &&
             `@media print{body { -webkit-print-color-adjust: exact;}@page {size: ${(values?.advice?.label === "IBBL" || values?.advice?.label === "JAMUNA-BEFTN") ? "portrait !important"  : values?.advice?.label === "IBBL-BEFTN" ? "landscape !important" : "landscape !important"};margin:${["IBBL", "JAMUNA-BEFTN"].includes(values?.advice?.label) ?"144px 0 !important" : 0} }}`
           }
           trigger={() => (
@@ -261,6 +230,17 @@ const ViewData = ({ adviceReportData, values }) => {
                     values?.advice?.value
                   ) === 7 && (
                     <FormatSeven
+                      fontSize={fontSize}
+                      APIUrl={APIUrl}
+                      selectedBusinessUnit={selectedBusinessUnit}
+                      values={values}
+                      adviceReportData={adviceReportData}
+                      total={total}
+                      totalInWords={totalInWords}
+                    />
+                  )}
+                  {values?.advice?.label === "RTGS" && (
+                    <FormatEight
                       fontSize={fontSize}
                       APIUrl={APIUrl}
                       selectedBusinessUnit={selectedBusinessUnit}

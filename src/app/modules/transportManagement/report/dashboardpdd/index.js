@@ -152,10 +152,22 @@ function Dashboardpdd() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
 
+  function calculateTotals(options) {
+    let total = 0;
+
+    for (const key in options) {
+      if (options.hasOwnProperty(key)) {
+        total += options[key];
+      }
+    }
+
+    return total;
+  }
+
   return (
     <>
       {loading && <Loading />}
-      <div className='Dashboardpdd'>
+      <div className="Dashboardpdd">
         <Formik
           enableReinitialize={true}
           initialValues={{
@@ -171,15 +183,15 @@ function Dashboardpdd() {
               <CardBody>
                 <>
                   <Form>
-                    <div className='row global-form p-0 m-0 pb-1'>
-                      <div className='col-lg-3'>
+                    <div className="row global-form p-0 m-0 pb-1">
+                      <div className="col-lg-3">
                         <NewSelect
-                          name='shipPoint'
+                          name="shipPoint"
                           options={
                             [{ value: 0, label: "All" }, ...shippointDDL] || []
                           }
                           value={values?.shipPoint}
-                          label='Ship Point'
+                          label="Ship Point"
                           onChange={(valueOption) => {
                             setFieldValue("shipPoint", valueOption);
                             commonGetApi({
@@ -187,7 +199,7 @@ function Dashboardpdd() {
                               shipPoint: valueOption,
                             });
                           }}
-                          placeholder='Ship Point'
+                          placeholder="Ship Point"
                           errors={errors}
                           touched={touched}
                           isClearable={false}
@@ -195,14 +207,16 @@ function Dashboardpdd() {
                       </div>
                     </div>
 
-                    <div className='row'>
-                      <div className='col-lg-12'>
-                        <div className='DashboardpddBox'>
+                    <div className="row">
+                      <div className="col-lg-12">
+                        <div className="DashboardpddBox">
                           <CategoryWiseCard
-                            className='DashboardpddBox__One'
+                            className="DashboardpddBox__One"
                             customOnClick={(item) => {}}
                             categoryWiseCardObj={{
-                              title: "DC Pending",
+                              title: `DC Pending - ${calculateTotals(
+                                DCPending
+                              )}`,
                               categoryList: [
                                 {
                                   title: "Regular",
@@ -221,10 +235,12 @@ function Dashboardpdd() {
                           />
 
                           <CategoryWiseCard
-                            className='DashboardpddBox__Two'
+                            className="DashboardpddBox__Two"
                             customOnClick={(item) => {}}
                             categoryWiseCardObj={{
-                              title: "DC Delivered",
+                              title: `DC Delivered - ${calculateTotals(
+                                DCDeliverd
+                              )}`,
                               categoryList: [
                                 {
                                   title: "Regular",
@@ -242,10 +258,12 @@ function Dashboardpdd() {
                             }}
                           />
                           <CategoryWiseCard
-                            className='DashboardpddBox__Three'
+                            className="DashboardpddBox__Three"
                             customOnClick={(item) => {}}
                             categoryWiseCardObj={{
-                              title: "DC Prosessing",
+                              title: `DC Prosessing - ${calculateTotals(
+                                DCProsessing
+                              )}`,
                               categoryList: [
                                 {
                                   title: "Regular",
@@ -263,10 +281,12 @@ function Dashboardpdd() {
                             }}
                           />
                           <CategoryWiseCard
-                            className='DashboardpddBox__Four'
+                            className="DashboardpddBox__Four"
                             customOnClick={(item) => {}}
                             categoryWiseCardObj={{
-                              title: "Delivered Qty",
+                              title: `Delivered Qty - ${calculateTotals(
+                                DCDeliveredQty
+                              )}`,
                               categoryList: [
                                 {
                                   title: "Regular",
@@ -284,10 +304,12 @@ function Dashboardpdd() {
                             }}
                           />
                           <CategoryWiseCard
-                            className='DashboardpddBox__Five'
+                            className="DashboardpddBox__Five"
                             customOnClick={(item) => {}}
                             categoryWiseCardObj={{
-                              title: "Vehicle  Available",
+                              title: `Vehicle  Available - ${calculateTotals(
+                                VehicleAvailable
+                              )}`,
                               categoryList: [
                                 {
                                   title: "Company",
@@ -301,10 +323,12 @@ function Dashboardpdd() {
                             }}
                           />
                           <CategoryWiseCard
-                            className='DashboardpddBox__Six'
+                            className="DashboardpddBox__Six"
                             customOnClick={(item) => {}}
                             categoryWiseCardObj={{
-                              title: "Vehicle  Out",
+                              title: `Vehicle  Out - ${calculateTotals(
+                                DCVehicleOut
+                              )}`,
                               categoryList: [
                                 {
                                   title: "Company",
@@ -318,7 +342,7 @@ function Dashboardpdd() {
                             }}
                           />
                           <CategoryWiseCard
-                            className='DashboardpddBox__Seven'
+                            className="DashboardpddBox__Seven"
                             customOnClick={(item) => {}}
                             categoryWiseCardObj={{
                               title: "Transfer Out Qty",
@@ -330,7 +354,7 @@ function Dashboardpdd() {
                             }}
                           />
                           <CategoryWiseCard
-                            className='DashboardpddBox__Eight cursor-pointer'
+                            className="DashboardpddBox__Eight cursor-pointer"
                             categoryWiseCardObj={{
                               title: "Inventory  Stock",
                               categoryList: [],
@@ -343,9 +367,11 @@ function Dashboardpdd() {
                             }}
                           />
                           <CategoryWiseCard
-                            className='DashboardpddBox__Nine'
+                            className="DashboardpddBox__Nine"
                             categoryWiseCardObj={{
-                              title: "DC Pending Qty",
+                              title: `DC Pending Qty - ${calculateTotals(
+                                DCPendingQty
+                              )}`,
                               categoryList: [
                                 {
                                   title: "Regular",
@@ -361,12 +387,10 @@ function Dashboardpdd() {
                                 },
                               ],
                             }}
-                            customOnClick={(item) => {
-                             
-                            }}
+                            customOnClick={(item) => {}}
                           />
                           <CategoryWiseCard
-                            className='DashboardpddBox__Ten'
+                            className="DashboardpddBox__Ten"
                             categoryWiseCardObj={{
                               title: "On Time Delivery",
                               categoryList: [
@@ -381,7 +405,7 @@ function Dashboardpdd() {
                       </div>
 
                       {/* DepoPending Chart  */}
-                      <div className='col-lg-12'>
+                      <div className="col-lg-12">
                         <DepoPendingChart DCDepotPending={DCDepotPending} />
                       </div>
                     </div>
