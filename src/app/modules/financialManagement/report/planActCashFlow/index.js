@@ -168,7 +168,9 @@ function PlanActCashFlow() {
                             }&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`)
                       }}
                       disabled={
-                        values?.type?.value === 2 && (!values?.fromDate || !values?.toDate)
+                        !values?.type || (
+                          values?.type?.value === 2 && (!values?.fromDate || !values?.toDate)
+                        )
                       }
                     >
                       View
