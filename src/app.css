@@ -1508,6 +1508,9 @@ a.menu-link:hover svg {
 
 /* @media Print */
 @media print {
+  .page-break {
+    page-break-after: always;
+  }
   .bsc-print-section {
     padding: 0 10px !important;
   }
