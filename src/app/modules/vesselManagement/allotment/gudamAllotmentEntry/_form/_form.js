@@ -41,6 +41,7 @@ const initData = {
   programNo: "",
   revenueRate: "",
   revenueByTransport: "",
+  isNearShipPoint: "",
 };
 
 const GudamAllotmentForm = ({
@@ -169,6 +170,7 @@ const GudamAllotmentForm = ({
       motherVesselId: values?.motherVessel?.value,
       revenueRate: +values?.revenueRate || 0,
       revenueByTransport: +values?.revenueByTransport || 0,
+      isNearShipPoint: values?.isNearShipPoint,
     };
     setRows([...rows, newRow]);
   };
@@ -353,6 +355,20 @@ const GudamAllotmentForm = ({
                           type="number"
                           disabled={false}
                         />
+                      </div>
+                      <div className="col-md-3 mt-5">
+                        <input
+                          type="checkbox"
+                          value={values?.isNearShipPoint}
+                          checked={values?.isNearShipPoint}
+                          onChange={(e) => {
+                            setFieldValue(
+                              "isNearShipPoint",
+                              e?.target?.checked
+                            );
+                          }}
+                        />{" "}
+                        <label htmlFor="isNearShipPoint">Near shipPoint</label>
                       </div>
                       {formType !== "edit" && (
                         <div className="col-12 text-right mt-5">
