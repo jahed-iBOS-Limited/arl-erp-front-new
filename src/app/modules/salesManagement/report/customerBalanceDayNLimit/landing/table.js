@@ -203,7 +203,7 @@ export default function CustomerBalanceDaysNLimit() {
                               name="viewType"
                               options={[
                                 { value: 1, label: "Details" },
-                                { value: 3, label: "Top Sheet" },
+                                { value: 5, label: "Top Sheet" },
                               ]}
                               value={values?.viewType}
                               label="View Type"
