@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { radioStyle } from "./helper";
 import NewSelect from "../../_helper/_select";
@@ -57,7 +58,7 @@ export const BADCBCICForm = ({
 };
 
 export const PortAndMotherVessel = ({ obj }) => {
-  const { values, setFieldValue, onChange, disabled } = obj;
+  const { values, setFieldValue, onChange, disabled, port, motherVessel } = obj;
   const [portDDL, setPortDDL] = useState([]);
   const [motherVesselDDL, setMotherVesselDDL] = useState([]);
 
@@ -69,41 +70,50 @@ export const PortAndMotherVessel = ({ obj }) => {
 
   useEffect(() => {
     GetDomesticPortDDL(setPortDDL);
+    if (port === false) {
+      getMotherVesselDDL(accId, buId, 0, setMotherVesselDDL);
+    }
   }, [accId, buId]);
 
   return (
     <>
-      <div className="col-lg-3">
-        <NewSelect
-          name="port"
-          options={[{ value: 0, label: "All" }, ...portDDL]}
-          value={values?.port}
-          label="Port"
-          placeholder="Port"
-          onChange={(e) => {
-            setFieldValue("port", e);
-            setFieldValue("motherVessel", "");
-            getMotherVesselDDL(accId, buId, e?.value, setMotherVesselDDL);
-            onChange && onChange("port", { ...values, port: e });
-          }}
-          isDisabled={disabled?.port}
-        />
-      </div>
-      <div className="col-lg-3">
-        <NewSelect
-          name="motherVessel"
-          options={[{ value: 0, label: "All" }, ...motherVesselDDL] || []}
-          value={values?.motherVessel}
-          label="Mother Vessel"
-          placeholder="Mother Vessel"
-          onChange={(e) => {
-            setFieldValue("motherVessel", e);
-            onChange &&
-              onChange("motherVessel", { ...values, motherVessel: e });
-          }}
-          isDisabled={disabled?.motherVessel || !values?.port}
-        />
-      </div>
+      {port !== false && (
+        <div className="col-lg-3">
+          <NewSelect
+            name="port"
+            options={[{ value: 0, label: "All" }, ...portDDL]}
+            value={values?.port}
+            label="Port"
+            placeholder="Port"
+            onChange={(e) => {
+              setFieldValue("port", e);
+              setFieldValue("motherVessel", "");
+              getMotherVesselDDL(accId, buId, e?.value, setMotherVesselDDL);
+              onChange && onChange("port", { ...values, port: e });
+            }}
+            isDisabled={disabled?.port}
+          />
+        </div>
+      )}
+      {motherVessel !== false && (
+        <div className="col-lg-3">
+          <NewSelect
+            name="motherVessel"
+            options={[{ value: 0, label: "All" }, ...motherVesselDDL] || []}
+            value={values?.motherVessel}
+            label="Mother Vessel"
+            placeholder="Mother Vessel"
+            onChange={(e) => {
+              setFieldValue("motherVessel", e);
+              onChange &&
+                onChange("motherVessel", { ...values, motherVessel: e });
+            }}
+            isDisabled={
+              disabled?.motherVessel || (port !== false && !values?.port)
+            }
+          />
+        </div>
+      )}
     </>
   );
 };
