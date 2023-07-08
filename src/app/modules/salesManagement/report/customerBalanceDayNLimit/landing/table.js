@@ -2,7 +2,6 @@ import axios from "axios";
 import { Form, Formik } from "formik";
 import React, { useEffect, useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import * as Yup from "yup";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import ICard from "../../../../_helper/_card";
 import ICustomTable from "../../../../_helper/_customTable";
@@ -11,54 +10,26 @@ import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import { _todayDate } from "../../../../_helper/_todayDate";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { getDistributionChannelDDL, getUserLoginInfo } from "../helper";
 import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import {
-  groupId,
-  parameterValues,
-  parameterValuesTwo,
-  reportId,
-} from "./helper";
-
-// Table Header
-const dayThs = [
-  "Sl",
-  "Partner Code",
-  "Partner Name",
-  "Ledger Balance",
-  "Credit Days",
-  "Permanent Credit Limit",
-  "Short Time Credit Limit",
-  "Total Credit Limit",
-  "Sales Amount",
-  "Deposit Amount",
-  "Limit Base Overdue",
-  "Days Base Overdue",
-  "Region",
-  "Area",
-  "Territory",
-  "Last Delivery Date",
-  "Last Payment Date",
-  "Product Delivery Gap",
-  "Payment Gap",
-  // "Delivery Date Difference",
-  // "Collection Date Difference",
-];
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import IButton from "../../../../_helper/iButton";
+import { getDistributionChannelDDL, getUserLoginInfo } from "../helper";
+import { dayThs, getReportId, groupId, parameterValues } from "./helper";
 
 // Validation schema
-const validationSchema = Yup.object().shape({
-  date: Yup.date().required("From Date is required"),
-  distributionChannel: Yup.object().shape({
-    label: Yup.string().required("Distribution Channel is required"),
-    value: Yup.string().required("Distribution Channel is required"),
-  }),
-});
+// const validationSchema = Yup.object().shape({
+//   date: Yup.date().required("From Date is required"),
+//   distributionChannel: Yup.object().shape({
+//     label: Yup.string().required("Distribution Channel is required"),
+//     value: Yup.string().required("Distribution Channel is required"),
+//   }),
+// });
 
 const initData = {
   date: _todayDate(),
   distributionChannel: "",
   reportType: { value: 1, label: "Days And Amount Base Balance" },
+  viewType: "",
 };
 
 export default function CustomerBalanceDaysNLimit() {
@@ -72,35 +43,21 @@ export default function CustomerBalanceDaysNLimit() {
   const [rowData, getRowData, isLoading] = useAxiosGet();
   const [isShow, setIsShow] = useState(false);
 
-  // get user profile data from store
-  const profileData = useSelector((state) => {
-    return state.authData.profileData;
-  }, shallowEqual);
-
-  // get selected business unit from store
-  const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit;
-  }, shallowEqual);
+  // get user data from store
+  const {
+    profileData: { accountId: accId, employeeId },
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => state?.authData, shallowEqual);
 
   useEffect(() => {
-    if (profileData?.accountId && selectedBusinessUnit?.value) {
-      getDistributionChannelDDL(
-        profileData?.accountId,
-        selectedBusinessUnit?.value,
-        setDistributionChannelDDL
-      );
+    if (accId && buId) {
+      getDistributionChannelDDL(accId, buId, setDistributionChannelDDL);
     }
-    getUserLoginInfo(
-      profileData?.accountId,
-      selectedBusinessUnit?.value,
-      profileData?.employeeId,
-      setLoading,
-      (resData) => {
-        setData(resData);
-      }
-    );
+    getUserLoginInfo(accId, buId, employeeId, setLoading, (resData) => {
+      setData(resData);
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profileData?.accountId, selectedBusinessUnit?.value]);
+  }, [accId, buId]);
 
   useEffect(() => {
     if (rowData?.length > 0) {
@@ -108,12 +65,12 @@ export default function CustomerBalanceDaysNLimit() {
     }
   }, [rowData]);
 
-  const viewHandler = async (values, setter) => {
+  const viewHandler = async (values) => {
     setRowDto([]);
     const channelId = values?.distributionChannel?.value;
-    const buId = selectedBusinessUnit?.value;
+
     const customerId = values?.customer?.value || 0;
-    const empId = profileData?.employeeId;
+    const empId = employeeId;
     const RATId =
       data?.empLevelId === 7
         ? +data?.empTerritoryId
@@ -131,7 +88,7 @@ export default function CustomerBalanceDaysNLimit() {
     if (v?.length < 3) return [];
     return axios
       .get(
-        `/partner/PManagementCommonDDL/GetCustomerNameDDLByChannelId?SearchTerm=${v}&AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&ChannelId=${channelId}`
+        `/partner/PManagementCommonDDL/GetCustomerNameDDLByChannelId?SearchTerm=${v}&AccountId=${accId}&BusinessUnitId=${buId}&ChannelId=${channelId}`
       )
       .then((res) => res?.data);
   };
@@ -150,36 +107,43 @@ export default function CustomerBalanceDaysNLimit() {
       : { fontWeight: 900 };
   };
 
+  const disableHandler = (values) => {
+    return (
+      ([1, 2, 3].includes(values?.reportType?.value) &&
+        !values?.distributionChannel) ||
+      !values?.reportType ||
+      ([4].includes(values?.reportType?.value) && !values?.viewType)
+    );
+  };
+
   return (
     <Formik>
       <>
         <ICard
           printTitle="Print"
-          title=""
+          title="CUSTOMER BALANCE DAYS & LIMIT"
           isExcelBtn={true}
-          isPrint={true}
-          isShowPrintBtn={true}
+          // isPrint={true}
+          // isShowPrintBtn={true}
           componentRef={printRef}
           pageStyle="@page { size: 10in 15in !important; margin: 0mm; } @media print { body { -webkit-print-color-adjust: exact;} }"
         >
           <div ref={printRef}>
             <div className="mx-auto">
-              <div className="text-center my-2">
+              {/* <div className="text-center my-2">
                 <h3>
                   <b>CUSTOMER BALANCE DAYS & LIMIT</b>
                 </h3>
                 <h4>
                   <b>{selectedBusinessUnit?.label}</b>
                 </h4>
-              </div>
+              </div> */}
 
               <Formik
                 enableReinitialize={true}
                 initialValues={initData}
-                validationSchema={validationSchema}
-                onSubmit={(values) => {
-                  viewHandler(values, setRowDto);
-                }}
+                // validationSchema={validationSchema}
+                onSubmit={() => {}}
               >
                 {({ values, errors, touched, setFieldValue }) => (
                   <>
@@ -193,8 +157,18 @@ export default function CustomerBalanceDaysNLimit() {
                                 value: 1,
                                 label: "Days And Amount Base Balance",
                               },
-                              { value: 2, label: "Regular Irregular Party" },
-                              { value: 3, label: "Sister Concern Overdue" },
+                              {
+                                value: 4,
+                                label: "Receivable Report",
+                              },
+                              {
+                                value: 2,
+                                label: "Regular Irregular Party",
+                              },
+                              {
+                                value: 3,
+                                label: "Sister Concern Overdue",
+                              },
                             ]}
                             value={values?.reportType}
                             label="Report Type"
@@ -209,7 +183,11 @@ export default function CustomerBalanceDaysNLimit() {
                         <div className="col-lg-3">
                           <InputField
                             value={values?.date}
-                            label="Date"
+                            label={`${
+                              values?.reportType?.value === 4
+                                ? "Transaction"
+                                : ""
+                            } Date`}
                             name="date"
                             type="date"
                             onChange={(e) => {
@@ -219,42 +197,84 @@ export default function CustomerBalanceDaysNLimit() {
                             }}
                           />
                         </div>
-                        <div className="col-lg-3">
-                          <NewSelect
-                            name="distributionChannel"
-                            options={[
-                              { value: 0, label: "All" },
-                              ...distributionChannelDDL,
-                            ]}
-                            value={values?.distributionChannel}
-                            label="Distribution Channel"
-                            onChange={(valueOption) => {
-                              setIsShow(false);
-                              setFieldValue("distributionChannel", valueOption);
-                              setChannelId(valueOption?.value);
-                              setRowDto([]);
-                            }}
-                            placeholder="Distribution Channel"
-                            errors={errors}
-                            touched={touched}
-                          />
-                        </div>
-                        <div className="col-lg-3">
-                          <div>
-                            <label>Customer</label>
-                            <SearchAsyncSelect
-                              selectedValue={values?.customer}
-                              handleChange={(valueOption) => {
+                        {[4].includes(values?.reportType?.value) && (
+                          <div className="col-lg-3">
+                            <NewSelect
+                              name="viewType"
+                              options={[
+                                { value: 1, label: "Details" },
+                                { value: 5, label: "Top Sheet" },
+                              ]}
+                              value={values?.viewType}
+                              label="View Type"
+                              onChange={(valueOption) => {
                                 setIsShow(false);
-                                setFieldValue("customer", valueOption);
-                                setRowDto([]);
+                                setFieldValue("viewType", valueOption);
                               }}
-                              placeholder="Search Customer"
-                              loadOptions={loadCustomerList}
+                              placeholder="View Type"
+                              errors={errors}
+                              touched={touched}
                             />
                           </div>
-                        </div>
-                        <div className="col d-flex justify-content-end align-content-center mt-2">
+                        )}
+
+                        {[1, 2, 3].includes(values?.reportType?.value) && (
+                          <>
+                            <div className="col-lg-3">
+                              <NewSelect
+                                name="distributionChannel"
+                                options={[
+                                  {
+                                    value: 0,
+                                    label: "All",
+                                  },
+                                  ...distributionChannelDDL,
+                                ]}
+                                value={values?.distributionChannel}
+                                label="Distribution Channel"
+                                onChange={(valueOption) => {
+                                  setIsShow(false);
+                                  setFieldValue(
+                                    "distributionChannel",
+                                    valueOption
+                                  );
+                                  setChannelId(valueOption?.value);
+                                  setRowDto([]);
+                                }}
+                                placeholder="Distribution Channel"
+                                errors={errors}
+                                touched={touched}
+                              />
+                            </div>
+                            <div className="col-lg-3">
+                              <label>Customer</label>
+                              <SearchAsyncSelect
+                                selectedValue={values?.customer}
+                                handleChange={(valueOption) => {
+                                  setIsShow(false);
+                                  setFieldValue("customer", valueOption);
+                                  setRowDto([]);
+                                }}
+                                placeholder="Search Customer"
+                                loadOptions={loadCustomerList}
+                              />
+                            </div>
+                          </>
+                        )}
+
+                        <IButton
+                          onClick={() => {
+                            if ([1].includes(values?.reportType?.value)) {
+                              viewHandler(values);
+                            } else if (
+                              [2, 3, 4].includes(values?.reportType?.value)
+                            ) {
+                              setIsShow(true);
+                            }
+                          }}
+                          disabled={disableHandler(values)}
+                        />
+                        {/* <div className="col d-flex justify-content-end align-content-center mt-2">
                           <button
                             type="submit"
                             className="btn btn-primary mt-5"
@@ -276,11 +296,11 @@ export default function CustomerBalanceDaysNLimit() {
                               Show PowerBI Report
                             </button>
                           ) : null}
-                        </div>
+                        </div> */}
                       </div>
 
                       {(isLoading || loading) && <Loading />}
-                      {values?.reportType?.value === 1 ? (
+                      {values?.reportType?.value === 1 && (
                         <div>
                           <ICustomTable
                             ths={dayThs}
@@ -352,22 +372,24 @@ export default function CustomerBalanceDaysNLimit() {
                             })}
                           </ICustomTable>
                         </div>
-                      ) : values?.reportType?.value === 2 && isShow ? (
-                        <div>
+                      )}
+
+                      {isShow &&
+                        [2, 3, 4].includes(values?.reportType?.value) && (
                           <PowerBIReport
-                            reportId={reportId?.first}
-                            groupId={groupId?.first}
+                            reportId={getReportId(values)}
+                            groupId={groupId}
                             parameterValues={parameterValues(
                               values,
-                              selectedBusinessUnit,
-                              profileData
+                              buId,
+                              employeeId
                             )}
                             parameterPanel={false}
                           />
-                        </div>
-                      ) : values?.reportType?.value === 3 && isShow ? (
-                        <div>
-                          <PowerBIReport
+                        )}
+
+                      <div>
+                        {/* <PowerBIReport
                             reportId={reportId?.second}
                             groupId={groupId?.second}
                             parameterValues={parameterValuesTwo(
@@ -375,9 +397,8 @@ export default function CustomerBalanceDaysNLimit() {
                               selectedBusinessUnit
                             )}
                             parameterPanel={false}
-                          />
-                        </div>
-                      ) : null}
+                          /> */}
+                      </div>
                     </Form>
                   </>
                 )}
