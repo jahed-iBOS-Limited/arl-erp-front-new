@@ -152,6 +152,17 @@ function Dashboardpdd() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
 
+  useEffect(() => {
+    const refreshDataInterval = setInterval(() => {
+      commonGetApi(initData);
+    }, 120000); // 120000 milliseconds = 2 minutes
+
+    return () => {
+      clearInterval(refreshDataInterval); // Clear the interval on component unmount
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   function calculateTotals(options) {
     let total = 0;
 
@@ -177,8 +188,8 @@ function Dashboardpdd() {
           {({ values, setFieldValue, touched, errors }) => (
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"DashBoard PDD"}>
-                <CardHeaderToolbar></CardHeaderToolbar>
+              <CardHeader title={"Dash Board Live"}>
+                <CardHeaderToolbar />
               </CardHeader>
               <CardBody>
                 <>
