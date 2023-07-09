@@ -1,27 +1,61 @@
 import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import IForm from "../../../_helper/_form";
-import Loading from "../../../_helper/_loading";
 import InputField from "../../../_helper/_inputField";
+import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 import { _todayDate } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import PaginationTable from "../../../_helper/_tablePagination";
+import { generateExcel } from "./helper";
 const initData = {
   date: _todayDate(),
   reportType: "",
   businessUnit: "",
+  plant: "",
+  warehouse: "",
 };
 export default function GLWiseBalance() {
+  const {
+    authData: { profileData },
+  } = useSelector((store) => store, shallowEqual);
+
   const [buDDL, getBuDDL] = useAxiosGet();
   const [rowDto, getRowDto, loading] = useAxiosGet();
+  const [excelData, getExcelData] = useAxiosGet();
+  const [plantDDL, getPlantDDL, , setPlantDDL] = useAxiosGet();
+  const [wareHouseDDL, getWareHouseDDL, , setWareHouseDDL] = useAxiosGet();
+  const [pageNo, setPageNo] = useState(0);
+  const [pageSize, setPageSize] = useState(15);
 
   useEffect(() => {
     getBuDDL(`/hcm/HCMDDL/GetBusinessunitDDL`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const saveHandler = (values, cb) => {};
-  const history = useHistory();
+
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+    getRowDto(
+      `/fino/Report/GetGlWiseInventoryReport?intBusinessUnitId=${
+        values?.businessUnit?.value
+      }&dteToDate=${values?.date}&intItemTypeId=0&intWarehouseId=${values
+        ?.warehouse?.value ||
+        0}&pageNo=${pageNo}&pageSize=${pageSize}&reportType=${
+        values?.reportType?.value
+      }`,
+      (data) => {
+        getExcelData(
+          `/fino/Report/GetGlWiseInventoryReport?intBusinessUnitId=${
+            values?.businessUnit?.value
+          }&dteToDate=${values?.date}&intItemTypeId=0&intWarehouseId=${values
+            ?.warehouse?.value || 0}&pageNo=${pageNo}&pageSize=${
+            data?.[0]?.totalRows
+          }&reportType=${values?.reportType?.value}`
+        );
+      }
+    );
+  };
   return (
     <Formik
       enableReinitialize={true}
@@ -59,8 +93,65 @@ export default function GLWiseBalance() {
                     value={values?.businessUnit}
                     label="Business Unit"
                     onChange={(valueOption) => {
-                      setFieldValue("businessUnit", valueOption);
+                      if (valueOption) {
+                        setFieldValue("businessUnit", valueOption);
+                        setFieldValue("plant", "");
+                        setFieldValue("warehouse", "");
+                        getPlantDDL(
+                          `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${
+                            profileData?.userId
+                          }&AccId=${profileData?.accountId}&BusinessUnitId=${
+                            valueOption?.value
+                          }&OrgUnitTypeId=${7}`
+                        );
+                      } else {
+                        setFieldValue("businessUnit", "");
+                        setFieldValue("plant", "");
+                        setFieldValue("warehouse", "");
+                        setPlantDDL([]);
+                        setWareHouseDDL([]);
+                      }
                     }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="plant"
+                    options={plantDDL || []}
+                    value={values?.plant}
+                    label="Plant"
+                    onChange={(valueOption) => {
+                      if (valueOption) {
+                        setFieldValue("plant", valueOption);
+                        setFieldValue("warehouse", "");
+                        getWareHouseDDL(
+                          `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${values?.businessUnit?.value}&PlantId=${valueOption?.value}&OrgUnitTypeId=8`
+                        );
+                      } else {
+                        setFieldValue("plant", valueOption);
+                        setFieldValue("warehouse", "");
+                        setWareHouseDDL([]);
+                      }
+                    }}
+                    placeholder="Plant"
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="warehouse"
+                    options={
+                      [{ value: 0, label: "All" }, ...wareHouseDDL] || []
+                    }
+                    value={values?.warehouse}
+                    label="WareHouse"
+                    onChange={(valueOption) => {
+                      setFieldValue("warehouse", valueOption);
+                    }}
+                    placeholder="WareHouse"
                     errors={errors}
                     touched={touched}
                   />
@@ -101,15 +192,27 @@ export default function GLWiseBalance() {
                       !values?.reportType
                     }
                     onClick={() => {
-                      getRowDto(
-                        `/fino/Report/GetGlWiseInventoryReport?intBusinessUnitId=${values?.businessUnit?.value}&dteToDate=${values?.date}&reportType=${values?.reportType?.value}`
-                      );
+                      setPositionHandler(pageNo, pageSize, values, "");
                     }}
                     className="btn btn-primary"
                   >
                     View
                   </button>
                 </div>
+                {excelData?.length > 0 ? (
+                  <div className="mt-5 ml-5">
+                    <button
+                      type="button"
+                      disabled={!excelData?.length}
+                      onClick={() => {
+                        generateExcel(excelData);
+                      }}
+                      className="btn btn-primary"
+                    >
+                      Excel Export
+                    </button>
+                  </div>
+                ) : null}
               </div>
               <div className="">
                 <table className="table table-striped table-bordered global-table">
@@ -139,6 +242,20 @@ export default function GLWiseBalance() {
                       ))}
                   </tbody>
                 </table>
+
+                {rowDto?.length > 0 && (
+                  <PaginationTable
+                    count={rowDto?.[0]?.totalRows}
+                    setPositionHandler={setPositionHandler}
+                    paginationState={{
+                      pageNo,
+                      setPageNo,
+                      pageSize,
+                      setPageSize,
+                    }}
+                    values={values}
+                  />
+                )}
               </div>
             </Form>
           </IForm>
