@@ -56,7 +56,7 @@ export const parameterValues = (values, buId, employeeId) => {
     { name: "RATId", value: "0" },
   ];
   const receivableReport = [
-    { name: "intunit", value: buId?.toString() },
+    { name: "intunit", value: values?.businessUnit?.value?.toString() },
     {
       name: "TransactionDate",
       value: values?.date,

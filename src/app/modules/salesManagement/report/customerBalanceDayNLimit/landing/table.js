@@ -16,20 +16,12 @@ import IButton from "../../../../_helper/iButton";
 import { getDistributionChannelDDL, getUserLoginInfo } from "../helper";
 import { dayThs, getReportId, groupId, parameterValues } from "./helper";
 
-// Validation schema
-// const validationSchema = Yup.object().shape({
-//   date: Yup.date().required("From Date is required"),
-//   distributionChannel: Yup.object().shape({
-//     label: Yup.string().required("Distribution Channel is required"),
-//     value: Yup.string().required("Distribution Channel is required"),
-//   }),
-// });
-
 const initData = {
   date: _todayDate(),
   distributionChannel: "",
   reportType: { value: 1, label: "Days And Amount Base Balance" },
   viewType: "",
+  businessUnit: { value: 0, label: "All" },
 };
 
 export default function CustomerBalanceDaysNLimit() {
@@ -41,6 +33,7 @@ export default function CustomerBalanceDaysNLimit() {
   const [channelId, setChannelId] = useState(0);
   const [data, setData] = useState([]);
   const [rowData, getRowData, isLoading] = useAxiosGet();
+  const [buDDL, getBuDDL] = useAxiosGet();
   const [isShow, setIsShow] = useState(false);
 
   // get user data from store
@@ -56,6 +49,7 @@ export default function CustomerBalanceDaysNLimit() {
     getUserLoginInfo(accId, buId, employeeId, setLoading, (resData) => {
       setData(resData);
     });
+    getBuDDL(`/hcm/HCMDDL/GetBusinessunitDDL`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
 
@@ -142,7 +136,6 @@ export default function CustomerBalanceDaysNLimit() {
               <Formik
                 enableReinitialize={true}
                 initialValues={initData}
-                // validationSchema={validationSchema}
                 onSubmit={() => {}}
               >
                 {({ values, errors, touched, setFieldValue }) => (
@@ -180,6 +173,43 @@ export default function CustomerBalanceDaysNLimit() {
                             touched={touched}
                           />
                         </div>
+                        {[4].includes(values?.reportType?.value) && (
+                          <>
+                            <div className="col-lg-3">
+                              <NewSelect
+                                name="businessUnit"
+                                options={[{ value: 0, label: "All" }, ...buDDL]}
+                                value={values?.businessUnit}
+                                label="Business Unit"
+                                onChange={(valueOption) => {
+                                  setIsShow(false);
+                                  setFieldValue("businessUnit", valueOption);
+                                }}
+                                placeholder="Business Unit"
+                                errors={errors}
+                                touched={touched}
+                              />
+                            </div>
+                            <div className="col-lg-3">
+                              <NewSelect
+                                name="viewType"
+                                options={[
+                                  { value: 1, label: "Details" },
+                                  { value: 5, label: "Top Sheet" },
+                                ]}
+                                value={values?.viewType}
+                                label="View Type"
+                                onChange={(valueOption) => {
+                                  setIsShow(false);
+                                  setFieldValue("viewType", valueOption);
+                                }}
+                                placeholder="View Type"
+                                errors={errors}
+                                touched={touched}
+                              />
+                            </div>
+                          </>
+                        )}
                         <div className="col-lg-3">
                           <InputField
                             value={values?.date}
@@ -197,26 +227,6 @@ export default function CustomerBalanceDaysNLimit() {
                             }}
                           />
                         </div>
-                        {[4].includes(values?.reportType?.value) && (
-                          <div className="col-lg-3">
-                            <NewSelect
-                              name="viewType"
-                              options={[
-                                { value: 1, label: "Details" },
-                                { value: 5, label: "Top Sheet" },
-                              ]}
-                              value={values?.viewType}
-                              label="View Type"
-                              onChange={(valueOption) => {
-                                setIsShow(false);
-                                setFieldValue("viewType", valueOption);
-                              }}
-                              placeholder="View Type"
-                              errors={errors}
-                              touched={touched}
-                            />
-                          </div>
-                        )}
 
                         {[1, 2, 3].includes(values?.reportType?.value) && (
                           <>
@@ -274,29 +284,6 @@ export default function CustomerBalanceDaysNLimit() {
                           }}
                           disabled={disableHandler(values)}
                         />
-                        {/* <div className="col d-flex justify-content-end align-content-center mt-2">
-                          <button
-                            type="submit"
-                            className="btn btn-primary mt-5"
-                            style={{ marginLeft: "13px" }}
-                            disabled={values?.reportType?.value !== 1}
-                          >
-                            View
-                          </button>
-                          {values?.reportType?.value === 2 ||
-                          values?.reportType?.value === 3 ? (
-                            <button
-                              type="button"
-                              className="btn btn-primary mt-5"
-                              style={{ marginLeft: "13px" }}
-                              onClick={() => {
-                                setIsShow(true);
-                              }}
-                            >
-                              Show PowerBI Report
-                            </button>
-                          ) : null}
-                        </div> */}
                       </div>
 
                       {(isLoading || loading) && <Loading />}
