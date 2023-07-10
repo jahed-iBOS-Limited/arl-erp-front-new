@@ -19,6 +19,7 @@ import { _formatMoney } from "./../../../../_helper/_formatMoney";
 import { getBankAccDDLAction } from "../../bankReconciliation/helper";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import {SetFinancialManagementReportAutoReconcileAction} from "../../../../_helper/reduxForLocalStorage/Actions"
+import { fromDateFromApi } from "../../../../_helper/_formDateFromApi";
 
 // const html2pdf = require("html2pdf.js");
 
@@ -36,6 +37,8 @@ export function TableRow() {
 
   const [bankAccDDL, setBankAccDDL] = useState([]);
   const [rowDate, setRowData] = useState([]);
+  const [fromDateFApi, setFromDateFApi] = useState("");
+
   // get user profile data from store
   const storeData = useSelector((state) => {
     return {
@@ -46,6 +49,7 @@ export function TableRow() {
   const { profileData, selectedBusinessUnit } = storeData;
 
   useEffect(() => {
+    fromDateFromApi(selectedBusinessUnit?.value, setFromDateFApi);
     getBankAccDDLAction(
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -80,7 +84,7 @@ export function TableRow() {
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={initData}
+        initialValues={{...initData, fromDate:fromDateFApi}}
         //validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
