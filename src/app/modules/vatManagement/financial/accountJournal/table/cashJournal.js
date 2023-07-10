@@ -94,6 +94,7 @@ export default function CashJournalTable({
                                  history.push(
                                     `/mngVat/tax-financial/account-journalCreate/cashJournalEdit/${item?.strAccountingJournalCode}`,
                                     {
+                                       ...values,
                                        accountingJournalTypeId:
                                           values?.journalType?.value,
                                     }
