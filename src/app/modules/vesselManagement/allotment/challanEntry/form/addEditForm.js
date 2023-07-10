@@ -267,6 +267,10 @@ export default function ChallanEntryForm() {
       case "motherVessel":
         setFieldValue("motherVessel", currentValue);
         setFieldValue("programNo", currentValue?.programNo);
+         setFieldValue("item", {
+           value: currentValue?.intProductId,
+           label: currentValue?.strProductName,
+         });
         if (currentValue) {
           getLightersForChallan(
             values?.shipPoint?.value,
@@ -279,10 +283,10 @@ export default function ChallanEntryForm() {
 
       case "lighterVessel":
         setFieldValue("lighterVessel", currentValue);
-        setFieldValue("item", {
-          value: currentValue?.itemId,
-          label: currentValue?.itemName,
-        });
+        // setFieldValue("item", {
+        //   value: currentValue?.itemId,
+        //   label: currentValue?.itemName,
+        // });
         // if (currentValue) {
         //   getItemList(
         //     `/tms/LigterLoadUnload/GetItemFromAllotmentDDL?AllotmentNo=${values?.program?.value}&LighterVesselId=${currentValue?.value}`

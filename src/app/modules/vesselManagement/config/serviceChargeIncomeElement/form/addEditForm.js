@@ -13,6 +13,7 @@ const initData = {
   motherVessel: "",
   item: "",
   warehouse: "",
+  programNo: "",
 };
 
 const costElements = [
