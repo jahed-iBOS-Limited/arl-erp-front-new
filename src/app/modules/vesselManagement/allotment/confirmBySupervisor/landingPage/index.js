@@ -19,7 +19,7 @@ import Table from "./table";
 const ALL = { value: 0, label: "All" };
 
 const initData = {
-  confirmationType: { value: 2, label: "Supervisor Confirmation (Truck Bill)" },
+  confirmationType: { value: 2, label: "Supervisor Confirmation" },
   type: "badc",
   shipPoint: ALL,
   shipToPartner: ALL,
@@ -333,23 +333,29 @@ const ConfirmBySupervisor = () => {
   const totalQty = getTotal(rowData?.data, "quantity", "isSelected");
 
   const totalBill = (values) => {
-    return rowData?.data
-      ?.filter((item) => item?.isSelected)
-      ?.reduce(
-        (x, y) =>
-          (x +=
-            (values?.confirmationType?.value === 2
-              ? +y?.transportRate
-              : values?.confirmationType?.value === 3
-              ? +y?.godownUnloadingRate
-              : 0) * +y?.quantity),
-        0
-      );
+    return _fixedPoint(
+      rowData?.data
+        ?.filter((item) => item?.isSelected)
+        ?.reduce(
+          (x, y) =>
+            (x +=
+              (values?.confirmationType?.value === 2
+                ? +y?.transportRate
+                : values?.confirmationType?.value === 3
+                ? +y?.godownUnloadingRate
+                : 0) * +y?.quantity),
+          0
+        ),
+      true
+    );
   };
 
-  const totalRevenue = rowData?.data
-    ?.filter((item) => item?.isSelected)
-    ?.reduce((x, y) => (x += y?.numItemPrice * y?.quantityTon), 0);
+  const totalRevenue = _fixedPoint(
+    rowData?.data
+      ?.filter((item) => item?.isSelected)
+      ?.reduce((x, y) => (x += y?.numItemPrice * y?.quantityTon), 0),
+    true
+  );
 
   return (
     <>
@@ -372,23 +378,23 @@ const ConfirmBySupervisor = () => {
               {loading && <Loading />}
               <Form
                 obj={{
-                  values,
-                  pageNo,
-                  status,
-                  rowData,
-                  getData,
-                  setOpen,
-                  pageSize,
-                  totalQty,
+                  paginationSearchHandler,
+                  onChangeHandler,
+                  setFieldValue,
+                  shipPointDDL,
+                  totalRevenue,
+                  isDisabled,
+                  setRowData,
                   godownDDL,
                   totalBill,
-                  setRowData,
-                  isDisabled,
-                  totalRevenue,
-                  shipPointDDL,
-                  setFieldValue,
-                  onChangeHandler,
-                  paginationSearchHandler,
+                  totalQty,
+                  pageSize,
+                  setOpen,
+                  getData,
+                  rowData,
+                  status,
+                  pageNo,
+                  values,
                 }}
               />
 

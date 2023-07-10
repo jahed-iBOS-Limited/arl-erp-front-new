@@ -48,21 +48,27 @@ const Table = ({ obj }) => {
                     <th style={{ minWidth: "100px" }}>Sales Order No</th>
                     <th style={{ minWidth: "180px" }}>Mother Vessel</th>
                     <th style={{ minWidth: "190px" }}>Ghat Name</th>
-                    <th style={{ minWidth: "90px" }}>Vehicle No</th> {/* 4 */}
+                    <th style={{ minWidth: "90px" }}>Vehicle No</th>
                     <th style={{ minWidth: "90px" }}>Delivery Address</th>
                     <th style={{ minWidth: "100px" }}>Quantity</th>
-                    {values?.confirmationType?.value !== 3 && (
+
+                    <th style={{ minWidth: "100px" }}>
+                      Transport Rate (per bag)
+                    </th>
+
+                    <th style={{ minWidth: "100px" }}>
+                      Godown Unloading Rate (per bag)
+                    </th>
+                    {/* {values?.confirmationType?.value !== 3 && (
                       <th style={{ minWidth: "100px" }}>
                         Transport Rate (per bag)
                       </th>
-                    )}{" "}
-                    {/* 7 */}
+                    )}
                     {values?.confirmationType?.value !== 2 && (
                       <th style={{ minWidth: "100px" }}>
                         Godown Unloading Rate (per bag)
                       </th>
-                    )}
-                    {/* <th style={{ minWidth: "100px" }}>Carrier Rate</th> */}
+                    )} */}
                     <th style={{ minWidth: "100px" }}>Bill Amount</th>
                     {[2, 3].includes(values?.confirmationType?.value) && (
                       <th style={{ minWidth: "80px" }}>Price</th>
@@ -76,25 +82,25 @@ const Table = ({ obj }) => {
                         ? "Receive"
                         : "Challan"
                     } Date`}</th>
-                    {values?.confirmationType?.value !== 3 && (
+
+                    <th style={{ minWidth: "180px" }}>Transport Supplier</th>
+
+                    {/* {values?.confirmationType?.value !== 3 && (
                       <th style={{ minWidth: "180px" }}>Transport Supplier</th>
-                    )}
+                    )} */}
                     <th style={{ minWidth: "100px" }}>DO No</th>
                     <th style={{ minWidth: "90px" }}>Driver Name</th>
                     <th style={{ minWidth: "80px" }}>Driver Mobile No</th>
-                    {/* <th style={{ minWidth: "100px" }}>
-                              Direct/Dump Labour Rate
-                            </th> */}
-                    {/* <th style={{ minWidth: "200px" }}>
-                              Ghat Labour Supplier
-                            </th> */}
-                    {values?.confirmationType?.value !== 2 && (
+
+                    <th style={{ minWidth: "200px" }}>
+                      Godown Labour Supplier
+                    </th>
+                    {/* {values?.confirmationType?.value !== 2 && (
                       <th style={{ minWidth: "200px" }}>
                         Godown Labour Supplier
                       </th>
-                    )}
+                    )} */}
                     <th style={{ minWidth: "100px" }}>Insert By</th>
-                    {/* <th style={{ minWidth: "150px" }}>Remark</th> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -187,7 +193,51 @@ const Table = ({ obj }) => {
                             item?.quantity
                           )}
                         </td>
-                        {values?.confirmationType?.value !== 3 && (
+                        <td className="text-right" style={{ width: "100px" }}>
+                          {status ? (
+                            <InputField
+                              name="transportRate"
+                              placeholder="Transport Rate"
+                              value={item?.transportRate || ""}
+                              type="number"
+                              min="0"
+                              disabled={values?.confirmationType?.value === 3}
+                              onChange={(e) => {
+                                if (+e.target.value < 0) return;
+                                rowDataHandler(
+                                  "transportRate",
+                                  index,
+                                  e?.target?.value
+                                );
+                              }}
+                            />
+                          ) : (
+                            item?.transportRate || 0
+                          )}
+                        </td>
+                        <td className="text-right">
+                          {status ? (
+                            <InputField
+                              name="godownUnloadingRate"
+                              placeholder="Unloading Rate"
+                              value={item?.godownUnloadingRate || ""}
+                              type="number"
+                              min="0"
+                              disabled={values?.confirmationType?.value === 2}
+                              onChange={(e) => {
+                                if (+e.target.value < 0) return;
+                                rowDataHandler(
+                                  "godownUnloadingRate",
+                                  index,
+                                  e?.target?.value
+                                );
+                              }}
+                            />
+                          ) : (
+                            item?.godownUnloadingRate
+                          )}
+                        </td>
+                        {/* {values?.confirmationType?.value !== 3 && (
                           <td className="text-right" style={{ width: "100px" }}>
                             {status ? (
                               <InputField
@@ -234,7 +284,7 @@ const Table = ({ obj }) => {
                               item?.godownUnloadingRate
                             )}
                           </td>
-                        )}
+                        )} */}
                         <td className="text-right" style={{ width: "100px" }}>
                           {status ? (
                             <InputField
@@ -306,15 +356,33 @@ const Table = ({ obj }) => {
                             item?.date
                           )}
                         </td>{" "}
-                        {values?.confirmationType?.value !== 3 && (
+                        <td style={{ width: "100px" }}>{item?.supplierName}</td>
+                        {/* {values?.confirmationType?.value !== 3 && (
                           <td style={{ width: "100px" }}>
                             {item?.supplierName}
                           </td>
-                        )}
+                        )} */}
                         <td>{item?.deliveryCode}</td>
                         <td>{item?.driverName}</td>
                         <td>{item?.driverPhone}</td>
-                        {values?.confirmationType?.value !== 2 && (
+                        <td style={{ width: "150px" }}>
+                          {status ? (
+                            <SearchAsyncSelect
+                              selectedValue={item?.godownLabourSupplier}
+                              handleChange={(valueOption) => {
+                                rowDataHandler(
+                                  "godownLabourSupplier",
+                                  index,
+                                  valueOption
+                                );
+                              }}
+                              loadOptions={loadOptions}
+                            />
+                          ) : (
+                            item?.godownLabourSupplierName
+                          )}
+                        </td>
+                        {/* {values?.confirmationType?.value !== 2 && (
                           <td style={{ width: "150px" }}>
                             {status ? (
                               <SearchAsyncSelect
@@ -332,7 +400,7 @@ const Table = ({ obj }) => {
                               item?.godownLabourSupplierName
                             )}
                           </td>
-                        )}
+                        )} */}
                         <td style={{ width: "100px" }}>{item?.actionByName}</td>
                       </tr>
                     );
