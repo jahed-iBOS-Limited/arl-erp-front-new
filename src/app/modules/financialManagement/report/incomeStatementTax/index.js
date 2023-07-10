@@ -18,6 +18,7 @@ import printIcon from "../../../../modules/_helper/images/print-icon.png";
 import IViewModal from "../../../_helper/_viewModal";
 import GeneralLedgerTaxModalForIncomeStatement from "./generalLedgerTaxModal";
 import GeneralLedgerModalForIncomeStatement from "../incomestatement/generalLedgerModal";
+import { fromDateFromApi } from "../../../_helper/_formDateFromApi";
 
 
 
@@ -29,6 +30,7 @@ export default function IncomeStatementTaxLanding() {
     authData: {
       profileData: { accountId, ...restProfileData },
       businessUnitList,
+      selectedBusinessUnit,
     },
   } = useSelector((state) => state, shallowEqual);
 
@@ -58,9 +60,13 @@ export default function IncomeStatementTaxLanding() {
   const [profitCenterDDL, setProfitCenterDDL] = useState([]);
   const [incomeStatement, setIncomeStatement] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [fromDateFApi, setFromDateFApi] = useState("");
+
   // get user profile data from store
 
   useEffect(() => {
+    fromDateFromApi(selectedBusinessUnit?.value, setFromDateFApi)
+
     getEnterpriseDivisionDDL(accountId, setEnterpriseDivisionDDL);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -113,7 +119,7 @@ export default function IncomeStatementTaxLanding() {
   return (
     <>
       {(loading || loadingOnGetSubDivisionDDL) && <Loading />}
-      <Formik enableReinitialize={true} initialValues={initData}>
+      <Formik enableReinitialize={true} initialValues={{...initData, fromDate: fromDateFApi}}>
         {({ values }) => (
           <>
             <Card>
