@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Formik } from "formik";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import {
   Card,
@@ -14,6 +14,7 @@ import { _formatMoney } from "../../../_helper/_formatMoney";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import { _todayDate } from "../../../_helper/_todayDate";
+import { fromDateFromApi } from "../../../_helper/_formDateFromApi";
 
 const initData = {
   fromDate: _todayDate(),
@@ -21,15 +22,22 @@ const initData = {
 };
 function MaterialPriceVariance() {
   const [rowDto, getRowDto] = useAxiosGet();
+  const [fromDateFApi, setFromDateFApi] = useState("");
+
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
+
+  useEffect(()=>{
+    fromDateFromApi(selectedBusinessUnit?.value, setFromDateFApi)
+
+  },[selectedBusinessUnit])
 
   return (
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={initData}
+        initialValues={{...initData, fromDate: fromDateFApi}}
         // validationSchema={{}}
         onSubmit={() => {}}
       >
