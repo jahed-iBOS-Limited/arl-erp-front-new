@@ -1,16 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import ICustomCard from "../../../../_helper/_customCard";
+import IView from "../../../../_helper/_helperIcons/_view";
 import Loading from "../../../../_helper/_loading";
+import PaginationTable from "../../../../_helper/_tablePagination";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import IViewModal from "../../../../_helper/_viewModal";
 import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import IButton from "../../../../_helper/iButton";
-import { shallowEqual, useSelector } from "react-redux";
-import IView from "../../../../_helper/_helperIcons/_view";
-import PaginationTable from "../../../../_helper/_tablePagination";
+import DetailsTable from "./detailsTable";
 
 const initData = {
   port: "",
@@ -25,6 +27,9 @@ const ServiceChargeAndIncomeElementLanding = () => {
   const [rowData, getRowData, isLoading] = useAxiosGet();
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(15);
+  const [costs, setCosts] = useState([]);
+  const [revenues, setRevenues] = useState([]);
+  const [show, setShow] = useState(false);
 
   // get user profile data from store
   const {
@@ -38,9 +43,24 @@ const ServiceChargeAndIncomeElementLanding = () => {
     getRowData(url, (resData) => {});
   };
 
+  useEffect(() => {
+    getData(initData, pageNo, pageSize);
+  }, [buId]);
+
   // set PositionHandler
   const setPositionHandler = (pageNo, pageSize, values) => {
     getData(values, pageNo, pageSize);
+  };
+
+  const rowSetter = (singleRow) => {
+    const costList = singleRow?.serviceRows?.filter(
+      (item) => item?.typeId === 1
+    );
+    const revenueList = singleRow?.serviceRows?.filter(
+      (item) => item?.typeId === 2
+    );
+    setCosts(costList);
+    setRevenues(revenueList);
   };
 
   return (
@@ -71,10 +91,7 @@ const ServiceChargeAndIncomeElementLanding = () => {
                         setFieldValue,
                       }}
                     />
-                    {/* <PortAndMotherVessel obj={{ values, setFieldValue }} />
-                    <YearMonthForm
-                      obj={{ values, setFieldValue, month: false }}
-                    /> */}
+
                     <IButton
                       onClick={() => {
                         getData(values, pageNo, pageSize);
@@ -89,34 +106,31 @@ const ServiceChargeAndIncomeElementLanding = () => {
                 >
                   <thead>
                     <tr>
-                      <th
-                        style={{
-                          minWidth: "30px",
-                        }}
-                        rowSpan={2}
-                      >
+                      <th style={{ minWidth: "30px" }} rowSpan={2}>
                         SL
                       </th>
                       <th>Warehouse</th>
                       <th>Item</th>
-                      <th
-                        style={{
-                          minWidth: "70px",
-                        }}
-                      >
-                        Actions
-                      </th>
+                      <th style={{ minWidth: "70px" }}>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {rowData?.data?.map((item, i) => {
                       return (
                         <tr key={i}>
-                          <td className="text-center">{i + 1}</td>
+                          <td className="text-center" style={{ width: "30px" }}>
+                            {i + 1}
+                          </td>
                           <td className="text-center">{item?.warehouseName}</td>
                           <td className="text-center">{item?.itemName}</td>
-                          <td className="text-right">
-                            <IView />
+                          <td className="text-center" style={{ width: "50px" }}>
+                            <IView
+                              title={"View cost & income elements rate"}
+                              clickHandler={() => {
+                                rowSetter(item);
+                                setShow(true);
+                              }}
+                            />
                           </td>
                         </tr>
                       );
@@ -138,6 +152,13 @@ const ServiceChargeAndIncomeElementLanding = () => {
                 />
               )}
             </ICustomCard>
+            <IViewModal
+              title={"Details"}
+              show={show}
+              onHide={() => setShow(false)}
+            >
+              <DetailsTable obj={{ costs, revenues }} />
+            </IViewModal>
           </>
         )}
       </Formik>
