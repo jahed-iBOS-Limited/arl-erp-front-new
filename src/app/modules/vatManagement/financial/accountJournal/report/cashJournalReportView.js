@@ -87,15 +87,15 @@ export function CashJournalReportView({ journalCode, headerData, clickRowData })
                           <div>
                             Voucher No.
                             <sapn className="font-weight-bold ml-1">
-                              {cashJournalReport?.objHeader?.journalCode}
+                              {cashJournalReport?.[0]?.journalCode}
                             </sapn>
                           </div>
                           <div>
                             Voucher Date :
                             <sapn className="font-weight-bold ml-1">
-                              {_dateFormatter(
-                                cashJournalReport?.objHeader?.journalDate
-                              )}
+                              {cashJournalReport ? _dateFormatter(
+                                cashJournalReport?.[0]?.transactionDate
+                              ) : ""}
                             </sapn>
                           </div>
                         </div>
@@ -112,7 +112,7 @@ export function CashJournalReportView({ journalCode, headerData, clickRowData })
                           </tr>
                         </thead>
                         <tbody>
-                          {cashJournalReport?.objRow?.map((data, i) => {
+                          {cashJournalReport?.map((data, i) => {
                             debitAmount += Math.abs(data.debit);
                             creditAmount += Math.abs(data?.credit);
                             return (
@@ -162,7 +162,7 @@ export function CashJournalReportView({ journalCode, headerData, clickRowData })
                         </div>
                         <div className="d-flex">
                           <p className="font-weight-bold mr-2">Narration : </p>
-                          <p>{cashJournalReport?.objHeader?.narration}</p>
+                          <p>{cashJournalReport?.[0]?.narration}</p>
                         </div>
                       </div>
                       <div className="row d-flex justify-content-around align-items-center my-15">

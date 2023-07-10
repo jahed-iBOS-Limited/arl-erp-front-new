@@ -45,7 +45,10 @@ const RowDtoTable = ({
               {rowDto?.map((item, index) => (
                 <tr key={index}>
                   <td className="text-center align-middle"> {index + 1} </td>
-                  <td className="text-center align-middle"> {item?.itemCode} </td>
+                  <td className="text-center align-middle">
+                    {" "}
+                    {item?.itemCode}{" "}
+                  </td>
                   <td className="">{item?.itemName}</td>
                   <td className="">{item?.uoMname}</td>
                   <td className="text-center align-middle">
@@ -93,7 +96,7 @@ const RowDtoTable = ({
                     className="disabled-feedback disable-border"
                   >
                     {selectedBusinessUnit?.value === 4 ||
-                      selectedBusinessUnit?.value === 144 ? (
+                    selectedBusinessUnit?.value === 144 ? (
                       <IInput
                         value={rowDto[index]?.quantity}
                         name="quantity"
@@ -101,8 +104,13 @@ const RowDtoTable = ({
                         placeholder="Quantity"
                         required
                         onChange={(e) => {
-                          if (+e.target.value > +item?.availableStock) {
-                            return toast.warn("Quantity can't be greater than available stock")
+                          if (
+                            ![4, 175].includes(selectedBusinessUnit?.value) &&
+                            +e.target.value > +item?.availableStock
+                          ) {
+                            return toast.warn(
+                              "Quantity can't be greater than available stock"
+                            );
                           } else {
                             rowDtoHandler("quantity", e.target.value, index);
                           }
@@ -119,7 +127,9 @@ const RowDtoTable = ({
                         onChange={(e) => {
                           if (+e.target.value > +item?.availableStock) {
                             rowDtoHandler("quantity", 0, index);
-                            return toast.warn("Quantity can't be greater than available stock")
+                            return toast.warn(
+                              "Quantity can't be greater than available stock"
+                            );
                           } else {
                             rowDtoHandler("quantity", e.target.value, index);
                           }

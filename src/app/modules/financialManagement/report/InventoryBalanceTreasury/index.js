@@ -6,18 +6,26 @@ import NewSelect from "../../../_helper/_select";
 import { _todayDate } from "../../../_helper/_todayDate";
 import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { shallowEqual, useSelector } from "react-redux";
 
 const initData = {
   date: _todayDate(),
   itemType: "",
   reportType: "",
   businessUnit: "",
+  plant: "",
+  warehouse: "",
 };
 
 function InventoryBalanceTreasury() {
+  const {
+    authData: { profileData },
+  } = useSelector((store) => store, shallowEqual);
   const [showReport, setShowReport] = useState(false);
   const [itemTypeList, getItemTypeList] = useAxiosGet();
   const [buDDL, getBuDDL] = useAxiosGet();
+  const [plantDDL, getPlantDDL, , setPlantDDL] = useAxiosGet();
+  const [wareHouseDDL, getWareHouseDDL, , setWareHouseDDL] = useAxiosGet();
 
   useEffect(() => {
     getItemTypeList(`/wms/WmsReport/GetItemTypeListDDL`);
@@ -34,6 +42,7 @@ function InventoryBalanceTreasury() {
       { name: "intUnit", value: `${values?.businessUnit?.value}` },
       { name: "intItemTypeId", value: `${values?.itemType?.value}` },
       { name: "reportType", value: `${values?.reportType?.value}` },
+      { name: "intWarehouseId", value: `${values?.warehouse?.value || 0}` },
     ];
   };
 
@@ -51,9 +60,69 @@ function InventoryBalanceTreasury() {
                     value={values?.businessUnit}
                     label="Business Unit"
                     onChange={(valueOption) => {
-                      setFieldValue("businessUnit", valueOption);
-                      setShowReport(false);
+                      if (valueOption) {
+                        setFieldValue("businessUnit", valueOption);
+                        setFieldValue("plant", "");
+                        setFieldValue("warehouse", "");
+                        setShowReport(false);
+
+                        getPlantDDL(
+                          `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${
+                            profileData?.userId
+                          }&AccId=${profileData?.accountId}&BusinessUnitId=${
+                            valueOption?.value
+                          }&OrgUnitTypeId=${7}`
+                        );
+                      } else {
+                        setShowReport(false);
+
+                        setFieldValue("businessUnit", "");
+                        setFieldValue("plant", "");
+                        setFieldValue("warehouse", "");
+                        setPlantDDL([]);
+                        setWareHouseDDL([]);
+                      }
                     }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="plant"
+                    options={plantDDL || []}
+                    value={values?.plant}
+                    label="Plant"
+                    onChange={(valueOption) => {
+                      if (valueOption) {
+                        setFieldValue("plant", valueOption);
+                        setFieldValue("warehouse", "");
+                        getWareHouseDDL(
+                          `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${values?.businessUnit?.value}&PlantId=${valueOption?.value}&OrgUnitTypeId=8`
+                        );
+                      } else {
+                        setFieldValue("plant", valueOption);
+                        setFieldValue("warehouse", "");
+                        setWareHouseDDL([]);
+                      }
+                    }}
+                    placeholder="Plant"
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="warehouse"
+                    options={
+                      [{ value: 0, label: "All" }, ...wareHouseDDL] || []
+                    }
+                    value={values?.warehouse}
+                    label="WareHouse"
+                    onChange={(valueOption) => {
+                      setFieldValue("warehouse", valueOption);
+                    }}
+                    placeholder="WareHouse"
                     errors={errors}
                     touched={touched}
                   />
