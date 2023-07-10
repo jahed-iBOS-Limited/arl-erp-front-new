@@ -24,6 +24,13 @@ const initData = {
   businessUnit: { value: 0, label: "All" },
 };
 
+const reportTypes = [
+  { value: 1, label: "Days And Amount Base Balance" },
+  // { value: 4, label: "Receivable Report" },
+  { value: 2, label: "Regular Irregular Party" },
+  { value: 3, label: "Sister Concern Overdue" },
+];
+
 export default function CustomerBalanceDaysNLimit() {
   const printRef = useRef();
 
@@ -145,24 +152,7 @@ export default function CustomerBalanceDaysNLimit() {
                         <div className="col-lg-3">
                           <NewSelect
                             name="reportType"
-                            options={[
-                              {
-                                value: 1,
-                                label: "Days And Amount Base Balance",
-                              },
-                              {
-                                value: 4,
-                                label: "Receivable Report",
-                              },
-                              {
-                                value: 2,
-                                label: "Regular Irregular Party",
-                              },
-                              {
-                                value: 3,
-                                label: "Sister Concern Overdue",
-                              },
-                            ]}
+                            options={reportTypes}
                             value={values?.reportType}
                             label="Report Type"
                             onChange={(valueOption) => {

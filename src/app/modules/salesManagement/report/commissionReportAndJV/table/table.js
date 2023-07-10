@@ -33,6 +33,8 @@ import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
+import IButton from "../../../../_helper/iButton";
+import AttachFile from "../../../../vesselManagement/common/attachmentUpload";
 
 const header = (buId) => {
   if (buId === 144) {
@@ -82,6 +84,7 @@ const initData = {
   region: "",
   area: "",
   transactionHead: "",
+  narration: "",
 };
 
 // Government subsidy ids for six business units - (bongo, batayon, arl traders, direct trading, daily trading, eureshia)
@@ -93,6 +96,8 @@ const CommissionReportAndJVTable = () => {
   const [sbuDDL, setSbuDDL] = useState([]);
   const [reportTypes, getReportTypes] = useAxiosGet([]);
   const [transactionHeads, getTransactionHeads] = useAxiosGet([]);
+  const [open, setOpen] = useState(false);
+  const [uploadedImage, setUploadedImage] = useState([]);
 
   // get user profile data from store
   const {
@@ -166,10 +171,10 @@ const CommissionReportAndJVTable = () => {
       : false;
   };
 
-  let totalQty = 0,
-    totalCommission = 0,
-    totalTargetQty = 0,
-    totalAchievement = 0;
+  // let totalQty = 0,
+  //   totalCommission = 0,
+  //   totalTargetQty = 0,
+  //   totalAchievement = 0;
 
   const JVCrate = (values) => {
     if ([5, 7, ...ids].includes(values?.type?.value)) {
@@ -205,7 +210,7 @@ const CommissionReportAndJVTable = () => {
           isProcess: false,
         })),
         img: {
-          imageId: "",
+          imageId: uploadedImage[0]?.id,
         },
       };
 
@@ -406,18 +411,32 @@ const CommissionReportAndJVTable = () => {
                               )}
 
                               <div className="col-lg-3">
-                                <label htmlFor="narration">Narration</label>
+                                <label>Narration</label>
                                 <TextArea
                                   name="narration"
                                   placeholder="Narration"
                                   value={values?.narration}
+                                  type="text"
                                 />
                               </div>
+                              <IButton
+                                colSize={"col-lg-3"}
+                                onClick={() => setOpen(true)}
+                              >
+                                Attach File
+                              </IButton>
+                              <AttachFile
+                                obj={{
+                                  open,
+                                  setOpen,
+                                  setUploadedImage,
+                                }}
+                              />
                             </>
                           )}
                         </>
                       )}
-                      <div className="col-12 text-right mt-5">
+                      <div className="col-lg-3 text-right mt-5">
                         <button
                           className="btn btn-primary"
                           type="button"
@@ -467,131 +486,132 @@ const CommissionReportAndJVTable = () => {
                       </div>
                     </div>
                   </div>
-                  {rowData?.length > 0 && (
-                    <table
-                      className={
-                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                      }
-                    >
-                      <thead>
-                        <tr
-                          onClick={() => allSelect(!selectedAll())}
-                          className="cursor-pointer"
-                        >
-                          <th style={{ width: "40px" }}>
-                            <input
-                              type="checkbox"
-                              value={selectedAll()}
-                              checked={selectedAll()}
-                              onChange={() => {}}
-                            />
-                          </th>
-                          {header(buId).map((th, index) => {
-                            return <th key={index}> {th} </th>;
-                          })}
-                          {values?.type?.value === 5 && (
-                            <>
-                              {/* <th>Narration</th> */}
-                              <th>Action</th>
-                            </>
-                          )}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowData?.map((item, index) => {
-                          totalQty += item?.deliveryQty;
-                          totalCommission += item?.commissiontaka;
-                          totalTargetQty += item?.targetQty;
-                          totalAchievement += item?.achievement;
+                </form>
+                {rowData?.length > 0 && (
+                  <table
+                    className={
+                      "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                    }
+                  >
+                    <thead>
+                      <tr
+                        onClick={() => allSelect(!selectedAll())}
+                        className="cursor-pointer"
+                      >
+                        <th style={{ width: "40px" }}>
+                          <input
+                            type="checkbox"
+                            value={selectedAll()}
+                            checked={selectedAll()}
+                            onChange={() => {}}
+                          />
+                        </th>
+                        {header(buId).map((th, index) => {
+                          return <th key={index}> {th} </th>;
+                        })}
+                        {values?.type?.value === 5 && (
+                          <>
+                            {/* <th>Narration</th> */}
+                            <th>Action</th>
+                          </>
+                        )}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rowData?.map((item, index) => {
+                        // totalQty += item?.deliveryQty;
+                        // totalCommission += item?.commissiontaka;
+                        // totalTargetQty += item?.targetQty;
+                        // totalAchievement += item?.achievement;
 
-                          return (
-                            <tr className="cursor-pointer" key={index}>
-                              <td
-                                onClick={() => {
-                                  rowDataHandler(
-                                    index,
-                                    "isSelected",
-                                    !item.isSelected
-                                  );
-                                }}
-                                className="text-center"
-                                style={
-                                  item?.isSelected
-                                    ? {
-                                        backgroundColor: "#aacae3",
-                                        width: "40px",
-                                      }
-                                    : { width: "40px" }
-                                }
-                              >
-                                <input
-                                  type="checkbox"
-                                  value={item?.isSelected}
-                                  checked={item?.isSelected}
-                                  onChange={() => {}}
+                        return (
+                          <tr className="cursor-pointer" key={index}>
+                            <td
+                              onClick={() => {
+                                rowDataHandler(
+                                  index,
+                                  "isSelected",
+                                  !item.isSelected
+                                );
+                              }}
+                              className="text-center"
+                              style={
+                                item?.isSelected
+                                  ? {
+                                      backgroundColor: "#aacae3",
+                                      width: "40px",
+                                    }
+                                  : { width: "40px" }
+                              }
+                            >
+                              <input
+                                type="checkbox"
+                                value={item?.isSelected}
+                                checked={item?.isSelected}
+                                onChange={() => {}}
+                              />
+                            </td>
+                            <td
+                              style={{ width: "40px" }}
+                              className="text-center"
+                            >
+                              {index + 1}
+                            </td>
+                            <td>{item?.customerId}</td>
+                            <td>{item?.customerCode}</td>
+                            <td>{item?.customerName}</td>
+                            <td>{item?.customerAddress}</td>
+                            {buId !== 144 && (
+                              <>
+                                <td>{item?.partyStatus}</td>
+                                <td>{item?.paymentType}</td>
+                              </>
+                            )}
+
+                            <td>{item?.region}</td>
+                            <td>{item?.area}</td>
+                            <td>{item?.territory}</td>
+                            <td className="text-right">
+                              {_fixedPoint(item?.targetQty, true)}
+                            </td>
+                            <td className="text-right">
+                              {_fixedPoint(item?.deliveryQty, true)}
+                            </td>
+                            <td className="text-right">
+                              {_fixedPoint(item?.achievement, true)}
+                            </td>
+
+                            <td
+                              className="text-right"
+                              style={{ width: "150px" }}
+                            >
+                              {item?.isEdit ? (
+                                <InputField
+                                  name="commissiontaka"
+                                  value={item?.commissiontaka}
+                                  type="number"
+                                  onChange={(e) => {
+                                    if (item?.constCom < e?.target?.value) {
+                                      toast.warn(
+                                        "You can't increase the value!"
+                                      );
+                                    } else {
+                                      rowDataHandler(
+                                        index,
+                                        "commissiontaka",
+                                        +e?.target?.value
+                                      );
+                                    }
+                                  }}
                                 />
-                              </td>
-                              <td
-                                style={{ width: "40px" }}
-                                className="text-center"
-                              >
-                                {index + 1}
-                              </td>
-                              <td>{item?.customerId}</td>
-                              <td>{item?.customerCode}</td>
-                              <td>{item?.customerName}</td>
-                              <td>{item?.customerAddress}</td>
-                              {buId !== 144 && (
-                                <>
-                                  <td>{item?.partyStatus}</td>
-                                  <td>{item?.paymentType}</td>
-                                </>
+                              ) : (
+                                _fixedPoint(item?.commissiontaka, true)
                               )}
+                            </td>
 
-                              <td>{item?.region}</td>
-                              <td>{item?.area}</td>
-                              <td>{item?.territory}</td>
-                              <td className="text-right">
-                                {_fixedPoint(item?.targetQty, true)}
-                              </td>
-                              <td className="text-right">
-                                {_fixedPoint(item?.deliveryQty, true)}
-                              </td>
-                              <td className="text-right">
-                                {_fixedPoint(item?.achievement, true)}
-                              </td>
-
-                              <td
-                                className="text-right"
-                                style={{ width: "150px" }}
-                              >
-                                {item?.isEdit ? (
-                                  <InputField
-                                    name="commissiontaka"
-                                    value={item?.commissiontaka}
-                                    type="number"
-                                    onChange={(e) => {
-                                      if (item?.constCom < e?.target?.value) {
-                                        toast.warn(
-                                          "You can't increase the value!"
-                                        );
-                                      } else {
-                                        rowDataHandler(
-                                          index,
-                                          "commissiontaka",
-                                          +e?.target?.value
-                                        );
-                                      }
-                                    }}
-                                  />
-                                ) : (
-                                  _fixedPoint(item?.commissiontaka, true)
-                                )}
-                              </td>
-
-                              {values?.type?.value === 5 && (
-                                <>
-                                  {/* <td style={{ width: "100px" }}>
+                            {values?.type?.value === 5 && (
+                              <>
+                                {/* <td style={{ width: "100px" }}>
                                     <TextArea
                                       name="rowNarration"
                                       value={item?.rowNarration}
@@ -605,72 +625,95 @@ const CommissionReportAndJVTable = () => {
                                       }}
                                     />
                                   </td> */}
-                                  <td style={{ width: "40px" }}>
-                                    <div className="d-flex justify-content-around">
-                                      {!item?.isEdit ? (
+                                <td style={{ width: "40px" }}>
+                                  <div className="d-flex justify-content-around">
+                                    {!item?.isEdit ? (
+                                      <span
+                                        onClick={() => {
+                                          rowDataHandler(index, "isEdit", true);
+                                        }}
+                                      >
+                                        <IEdit title="Edit Commission Amount" />
+                                      </span>
+                                    ) : (
+                                      <>
                                         <span
                                           onClick={() => {
-                                            rowDataHandler(
+                                            editCommission(index, item, "done");
+                                          }}
+                                        >
+                                          <IApproval title="Done" />
+                                        </span>
+                                        <span
+                                          onClick={() => {
+                                            editCommission(
                                               index,
-                                              "isEdit",
-                                              true
+                                              item,
+                                              "cancel"
                                             );
                                           }}
                                         >
-                                          <IEdit title="Edit Commission Amount" />
+                                          <ICon title="Cancel">
+                                            <i class="fas fa-times-circle"></i>{" "}
+                                          </ICon>
                                         </span>
-                                      ) : (
-                                        <>
-                                          <span
-                                            onClick={() => {
-                                              editCommission(
-                                                index,
-                                                item,
-                                                "done"
-                                              );
-                                            }}
-                                          >
-                                            <IApproval title="Done" />
-                                          </span>
-                                          <span
-                                            onClick={() => {
-                                              editCommission(
-                                                index,
-                                                item,
-                                                "cancel"
-                                              );
-                                            }}
-                                          >
-                                            <ICon title="Cancel">
-                                              <i class="fas fa-times-circle"></i>{" "}
-                                            </ICon>
-                                          </span>
-                                        </>
-                                      )}
-                                    </div>
-                                  </td>
-                                </>
-                              )}
-                            </tr>
-                          );
-                        })}
-                        <tr style={{ textAlign: "right", fontWeight: "bold" }}>
-                          <td
-                            colSpan={buId === 144 ? 9 : 11}
-                            className="text-right"
-                          >
-                            Total
-                          </td>
-                          <td>{_fixedPoint(totalTargetQty, true)}</td>
-                          <td>{_fixedPoint(totalQty, true)}</td>
-                          <td>{_fixedPoint(totalAchievement, true)}</td>
-                          <td>{_fixedPoint(totalCommission, true)}</td>
-                          {values?.type?.value === 5 && <td></td>}
-                        </tr>
-                      </tbody>
-                    </table>
-                  )}
-                </form>
+                                      </>
+                                    )}
+                                  </div>
+                                </td>
+                              </>
+                            )}
+                          </tr>
+                        );
+                      })}
+                      <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+                        <td
+                          colSpan={buId === 144 ? 9 : 11}
+                          className="text-right"
+                        >
+                          Total
+                        </td>
+                        <td>
+                          {_fixedPoint(
+                            rowData?.reduce(
+                              (acc, cur) => acc + cur?.targetQty,
+                              0
+                            ),
+                            true
+                          )}
+                        </td>
+                        <td>
+                          {_fixedPoint(
+                            rowData?.reduce(
+                              (acc, cur) => acc + cur?.deliveryQty,
+                              0
+                            ),
+                            true
+                          )}
+                        </td>
+                        <td>
+                          {_fixedPoint(
+                            rowData?.reduce(
+                              (acc, cur) => acc + cur?.achievement,
+                              0
+                            ),
+                            true
+                          )}
+                        </td>
+                        <td>
+                          {_fixedPoint(
+                            rowData?.reduce(
+                              (acc, cur) => acc + cur?.commissiontaka,
+                              0
+                            ),
+                            true
+                          )}
+                        </td>
+                        {values?.type?.value === 5 && <td></td>}
+                      </tr>
+                    </tbody>
+                  </table>
+                )}
               </CardBody>
             </Card>
           </>

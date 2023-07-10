@@ -4,12 +4,14 @@ import { empAttachment_action } from "../../humanCapitalManagement/humanResource
 
 const AttachFile = ({ obj }) => {
   const {
+    // these 3 are required
     open,
     setOpen,
+    setUploadedImage,
+    // these are optional
     filesLimit,
     maxFileSize,
     acceptedFiles,
-    setUploadedImage,
   } = obj;
   const [fileObjects, setFileObjects] = useState([]);
   return (
