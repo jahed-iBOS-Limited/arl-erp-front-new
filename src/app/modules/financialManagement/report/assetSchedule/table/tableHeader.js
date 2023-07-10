@@ -10,6 +10,7 @@ import ILoader from "../../../../_helper/loader/_loader";
 import numberWithCommas from "./../../../../_helper/_numberWithCommas";
 import ReactToPrint from "react-to-print";
 import { getBusinessUnitYearConfigData } from "../helper";
+import { fromDateFromApi } from "../../../../_helper/_formDateFromApi";
 
 const AssetSchedule = () => {
   const printRef = useRef();
@@ -31,7 +32,12 @@ const AssetSchedule = () => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
+  const [fromDateFApi, setFromDateFApi] = useState("");
+
+
   useEffect(() => {
+    fromDateFromApi(selectedBusinessUnit?.value, setFromDateFApi)
+
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       getBusinessUnitYearConfigData(profileData?.accountId, selectedBusinessUnit?.value, setInitData);
     }
@@ -50,7 +56,7 @@ const AssetSchedule = () => {
     <ICard title="Asset Schedule" componentRef={printRef}>
       <Formik
         enableReinitialize={true}
-        initialValues={initData}
+        initialValues={{...initData, fromDate: fromDateFApi}}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           setDate({
             fromDate: values?.fromDate,

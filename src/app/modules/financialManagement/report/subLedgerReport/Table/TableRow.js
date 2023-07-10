@@ -17,6 +17,7 @@ import { CreatePartnerLedgerExcel, GetAccountingJournal_api, GetSubLedgerDDL_api
 import { _dateFormatter } from "./../../../../_helper/_dateFormate";
 import numberWithCommas from "../../../../_helper/_numberWithCommas";
 import { SetReportSubLedgerReportAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import { fromDateFromApi } from "../../../../_helper/_formDateFromApi";
 
 export function TableRow() {
   const { reportSubLedgerReport } = useSelector((state) => state?.localStorage);
@@ -31,6 +32,8 @@ export function TableRow() {
   const printRef = useRef();
   const [glLedger, setGlLedger] = useState([]);
   const [subLedgerReportData, setSubLedgerReportData] = useState([]);
+  const [fromDateFApi, setFromDateFApi] = useState("");
+
 
   const [totalAmount, setTotalAmount] = useState(0);
   let netTotal = 0;
@@ -48,6 +51,7 @@ export function TableRow() {
   useEffect(() => {
     if (profileData.accountId && selectedBusinessUnit.value) {
       GetSubLedgerDDL_api(selectedBusinessUnit.value, setGlLedger);
+      fromDateFromApi(selectedBusinessUnit?.value, setFromDateFApi)
     }
   }, [profileData, selectedBusinessUnit]);
 
@@ -62,7 +66,7 @@ export function TableRow() {
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={initData}
+        initialValues={{...initData, fromDate:fromDateFApi}}
         onSubmit={(values, { setSubmitting, resetForm }) => { }}
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
