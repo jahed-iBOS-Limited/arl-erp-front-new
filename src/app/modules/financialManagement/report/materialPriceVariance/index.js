@@ -37,7 +37,7 @@ function MaterialPriceVariance() {
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={{...initData, fromDate: fromDateFApi}}
+        initialValues={{...initData, fromDate:fromDateFApi}}
         // validationSchema={{}}
         onSubmit={() => {}}
       >
