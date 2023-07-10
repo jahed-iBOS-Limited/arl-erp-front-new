@@ -6,6 +6,7 @@ import { _todayDate } from "../../../../_helper/_todayDate";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import { GetShipPointDDL } from "../../../allotment/loadingInformation/helper";
 import Form from "./form";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const initData = {
   businessPartner: "",
@@ -13,59 +14,12 @@ const initData = {
   motherVessel: "",
   item: "",
   warehouse: "",
+  programNo: "",
 };
 
-const costElements = [
-  "Mother Vessel Freight",
-  "Lighter Vessel Freight",
-  "Survey",
-  "Stevedore",
-  "Scot",
-  "H. Labour",
-  "BIWTA",
-  "Bagging Swing  Weight & Unloading",
-  "Direct Loading",
-  "Dumping",
-  "Loading at Godown/Dump",
-  "Daily Labour",
-  "Ghat Rent",
-  "Godown Rent",
-  "Transportation",
-  "Unloading Labour Cost",
-  "HR And Administration cost",
-  "Commission on Revenue",
-  "Finance Cost",
-  "Vat On Revenue",
-];
-
-const costList = costElements?.map((item, i) => ({
-  elementId: i + 1,
-  element: item,
-  isSelected: false,
-  rate: "",
-  typeId: 1,
-  typeName: "Cost Element",
-}));
-
-const revenueElements = [
-  "Prilled Urea AFCCL",
-  "Prilled Urea GPFPLC",
-  "Prilled Urea MOHIN",
-  "Prilled Urea TAPAKHOLA",
-];
-
-const revenueList = revenueElements?.map((item, i) => ({
-  elementId: i + 21,
-  element: item,
-  isSelected: false,
-  rate: "",
-  typeId: 2,
-  typeName: "Revenue Element",
-}));
-
 const ServiceChargeAndIncomeElementForm = () => {
-  const [costs, setCosts] = useState(costList);
-  const [revenues, setRevenues] = useState(revenueList);
+  const [costs, getCosts, costLoader, setCosts] = useAxiosGet();
+  const [revenues, getRevenues, revenueLoader, setRevenues] = useAxiosGet();
   const [shipPointDDL, setShipPointDDL] = useState([]);
   const [, postData, saveLoader] = useAxiosPost();
 
@@ -77,6 +31,34 @@ const ServiceChargeAndIncomeElementForm = () => {
 
   useEffect(() => {
     GetShipPointDDL(accId, buId, setShipPointDDL);
+    getCosts(
+      `/costmgmt/CostElement/GetG2GServiceElement?typeId=1`,
+      (resData) => {
+        const modify = resData?.map((item) => ({
+          elementId: item?.serviceElemenId,
+          element: item?.serviceElementName,
+          isSelected: false,
+          rate: "",
+          typeId: 1,
+          typeName: "Cost",
+        }));
+        setCosts(modify);
+      }
+    );
+    getRevenues(
+      `/costmgmt/CostElement/GetG2GServiceElement?typeId=2`,
+      (resData) => {
+        const modify = resData?.map((item) => ({
+          elementId: item?.serviceElemenId,
+          element: item?.serviceElementName,
+          isSelected: false,
+          rate: "",
+          typeId: 2,
+          typeName: "Revenue",
+        }));
+        setRevenues(modify);
+      }
+    );
   }, [accId, buId]);
 
   const saveHandler = (values) => {
@@ -89,7 +71,7 @@ const ServiceChargeAndIncomeElementForm = () => {
 
     const payload = {
       rateId: 0,
-      tenderId: 0,
+      programNumber: values?.programNo,
       itemId: values?.item?.value,
       uomid: 0,
       wareHouseId: values?.warehouse?.value,
@@ -97,8 +79,6 @@ const ServiceChargeAndIncomeElementForm = () => {
       date: _todayDate(),
       lastActionBy: userId,
       isActive: true,
-      serverDatetime: "2023-07-06T08:41:10.688Z",
-      lastActionDatetime: "2023-07-06T08:41:10.688Z",
       serviceRows: selectedRows?.map((item) => ({
         rowId: 0,
         rateId: 0,
@@ -108,8 +88,6 @@ const ServiceChargeAndIncomeElementForm = () => {
         typeName: item?.typeName,
         rate: +item?.rate,
         isActive: true,
-        serverDatetime: "2023-07-06T08:41:10.688Z",
-        lastActionDatetime: "2023-07-06T08:41:10.688Z",
       })),
     };
 
@@ -171,7 +149,7 @@ const ServiceChargeAndIncomeElementForm = () => {
       : false;
   };
 
-  const loader = saveLoader;
+  const loader = saveLoader || costLoader || revenueLoader;
 
   return (
     <>

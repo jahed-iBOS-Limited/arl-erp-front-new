@@ -22,6 +22,7 @@ import InventoryBalanceTreasury from "../report/InventoryBalanceTreasury";
 import CashMarginLanding from "./cashMargin";
 import CreateCashMargin from "./cashMargin/createCashMargin";
 import ViewEditCashMargin from "./cashMargin/editViewCashMargin";
+import ReceivableTreasuryReport from "./receivableTreasury/table";
 
 export function Banking() {
   return (
@@ -109,7 +110,7 @@ export function Banking() {
         path="/financial-management/banking/ProjectedCashflow"
         component={ProjectedCashFlowLanding}
       />
-       <ContentRoute
+      <ContentRoute
         path="/financial-management/banking/PlanVsActCashflow"
         component={PlanActCashFlow}
       />
@@ -117,30 +118,34 @@ export function Banking() {
         path="/financial-management/banking/BankGuarantee/:entryType/:typeId"
         component={BankGuaranteeEntry}
       />
-       <ContentRoute
+      <ContentRoute
         path="/financial-management/banking/BankGuarantee"
         component={BankGuaranteeLanding}
       />
-       
-       <ContentRoute
+
+      <ContentRoute
         path={`/financial-management/banking/CashMargin/:actionType/:id`}
         component={ViewEditCashMargin}
       />
-       <ContentRoute
+      <ContentRoute
         path="/financial-management/banking/CashMargin/:actionType"
         component={CreateCashMargin}
       />
-       <ContentRoute
+      <ContentRoute
         path="/financial-management/banking/CashMargin"
         component={CashMarginLanding}
       />
-       <ContentRoute
+      <ContentRoute
         path="/financial-management/banking/FundRegister"
         component={FundRegisterLanding}
       />
-       <ContentRoute
+      <ContentRoute
         path="/financial-management/banking/InventoryBalanceTreasury"
         component={InventoryBalanceTreasury}
+      />
+      <ContentRoute
+        path="/financial-management/banking/receivabletreasury"
+        component={ReceivableTreasuryReport}
       />
     </Switch>
   );
