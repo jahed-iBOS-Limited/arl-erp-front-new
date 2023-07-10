@@ -10,7 +10,7 @@ import PaginationTable from "../../../../_helper/_tablePagination";
 import PartnerTerritoryInfoForm from "../form/addEditForm";
 import IViewModal from "../../../../_helper/_viewModal";
 import ICard from "../../../../_helper/_card";
-import { getPartnerTerritoryInformation } from "../helper";
+import { findDuplicateItems, getPartnerTerritoryInformation } from "../helper";
 import PaginationSearch from "../../../../_helper/_search";
 import { PartnerTerritoryUpdate } from "./territoryUpdate";
 
@@ -42,7 +42,7 @@ export function PartnerTerritoryInformation() {
     );
   }, [profileData, selectedBusinessUnit]);
 
-  const getGridData = (values, searchValue) => {
+  const getGridData = (values, _pageNo, _pageSize, searchValue = "") => {
     getPartnerTerritoryInformation(
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -50,8 +50,8 @@ export function PartnerTerritoryInformation() {
       values?.status?.value,
       profileData?.userId,
       searchValue || "",
-      pageNo,
-      pageSize,
+      _pageNo,
+      _pageSize,
       setGridData,
       setLoading
     );
@@ -59,22 +59,18 @@ export function PartnerTerritoryInformation() {
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize, values) => {
-    getPartnerTerritoryInformation(
-      profileData?.accountId,
-      selectedBusinessUnit?.value,
-      values?.channel?.value,
-      profileData?.userId,
-      "",
-      pageNo,
-      pageSize,
-      setGridData,
-      setLoading
-    );
+    getGridData(values, pageNo, pageSize);
   };
 
   const paginationSearchHandler = (searchValue, values) => {
-    getGridData(values, searchValue);
+    getGridData(values, pageNo, pageSize, searchValue);
   };
+
+  const duplicates = findDuplicateItems(
+    gridData?.data?.length ? gridData?.data : []
+  );
+
+  console.log(duplicates, "duplicates");
 
   return (
     <>
@@ -83,7 +79,7 @@ export function PartnerTerritoryInformation() {
           initialValues={initData}
           enableReinitialize={true}
           onSubmit={(values) => {
-            getGridData(values);
+            getGridData(values, pageNo, pageSize, "");
           }}
         >
           {({ values, setFieldValue, handleSubmit }) => (
@@ -165,7 +161,14 @@ export function PartnerTerritoryInformation() {
                   </thead>
                   <tbody>
                     {gridData?.data?.map((item, index) => (
-                      <tr key={index}>
+                      <tr
+                        key={index}
+                        style={
+                          duplicates.includes(item?.businessPartnerId)
+                            ? { backgroundColor: "#fcdc34a3" }
+                            : {}
+                        }
+                      >
                         <td> {item?.sl}</td>
                         <td>{item?.partnerName}</td>
                         <td>{item?.businessPartnerAddress}</td>
