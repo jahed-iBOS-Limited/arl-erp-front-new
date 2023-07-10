@@ -1,13 +1,13 @@
 import { Formik } from 'formik';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import ICard from '../../../_helper/_card';
+import { _formatMoney } from '../../../_helper/_formatMoney';
 import InputField from '../../../_helper/_inputField';
 import NewSelect from '../../../_helper/_select';
 import { _todayDate } from '../../../_helper/_todayDate';
-import PowerBIReport from '../../../_helper/commonInputFieldsGroups/PowerBIReport';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
-import { shallowEqual, useSelector } from 'react-redux';
-import { _formatMoney } from '../../../_helper/_formatMoney';
+import Loading from '../../../_helper/_loading';
 
 const initData = {
    fromDate: _todayDate(),
@@ -18,6 +18,7 @@ const initData = {
 
 function PayableReport() {
    const {
+      // eslint-disable-next-line no-unused-vars
       authData: { profileData },
    } = useSelector(store => store, shallowEqual);
    const [buDDL, getBuDDL] = useAxiosGet();
@@ -32,7 +33,9 @@ function PayableReport() {
       <>
          <Formik enableReinitialize={true} initialValues={initData}>
             {({ values, setFieldValue, errors, touched }) => (
-               <ICard title="Payable Treasury">
+               
+               <ICard title="Payable Treasury Report">
+                  {loading && <Loading />}
                   <form className="form form-label-right">
                      <div className="form-group row global-form">
                         <div className="col-lg-3">
