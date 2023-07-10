@@ -1,4 +1,5 @@
 import Axios from "axios";
+import { _todayDate } from "../../../../_helper/_todayDate";
 
 export const getTaxAccountingJournalByCode = async (accountingJournalCode, setter) => {
   try {
@@ -63,94 +64,63 @@ export const getAdjustmentJournalByCode = async (accountingJournalCode, setter) 
   }
 };
 
-// export const getCashJournalByCode = async (accountingJournalCode, journalTypeId, setter) => {
-//   try {
-//     const res = await Axios.get(`/fino/CommonFino/GetTaxAccountingJournal?accountingJournalCode=${accountingJournalCode}`);
-//     if (res.status === 200 && res?.data) {
-//       const item = res.data;
-//       const modifyRowDto = item?.objRow?.map((itm) => {
-//         return {
-//           ...itm,
-//           transactionDate: _todayDate(),
-//           transaction: itm?.subGLId
-//             ? {
-//                 value: itm?.subGLId,
-//                 label: itm?.subGLName,
-//                 code: itm?.subGlCode,
-//               }
-//             : "",
-//           gl: itm?.generalLedgerId
-//             ? {
-//                 value: itm?.generalLedgerId,
-//                 label: itm?.generalLedgerName,
-//                 code: itm?.generalLedgerCode,
-//               }
-//             : "",
-//           credit: itm?.credit,
-//           debit: itm?.debit,
-//           amount: [1].includes(journalTypeId) ? Math.abs(itm?.credit) : [2].includes(journalTypeId) ? itm?.debit : "",
-//           narration: itm?.narration,
-//           headerNarration: itm?.narration,
-//           partner: itm?.businessPartnerId
-//             ? {
-//                 value: itm?.businessPartnerId,
-//                 label: itm?.businessPartnerName,
-//                 code: itm?.businessPartnerCode,
-//               }
-//             : "",
-//           partnerType: itm?.subGLTypeId
-//             ? {
-//                 value: itm?.subGLTypeId,
-//                 label: itm?.subGLTypeName,
-//                 reffPrtTypeId: itm?.subGLTypeId,
-//               }
-//             : "",
-//         };
-//       });
-//       const data = {
-//         objHeader: {
-//           sbu: { value: item?.objHeader?.sbuId, label: item?.objHeader?.sbuName }||"",
-//           gl: "",
-//           costCenter: "",
-//           cashGLPlus: item?.objHeader?.generalLedgerId
-//             ? {
-//                 value: item?.objHeader?.generalLedgerId,
-//                 label: item?.objHeader?.generalLedgerName,
-//                 generalLedgerCode: item?.objHeader?.generalLedgerCode,
-//               }
-//             : "",
-//           partnerType: item?.objHeader?.businessPartnerTypeId
-//             ? {
-//                 value: item?.objHeader?.businessPartnerTypeId,
-//                 label: item?.objHeader?.businessPartnerTypeName,
-//               }
-//             : "",
-//           partner: item?.objHeader?.businessPartnerId
-//             ? {
-//                 value: item?.objHeader?.businessPartnerId,
-//                 label: item?.objHeader?.businessPartnerName,
-//                 businessPartnerCode: item?.objHeader?.businessPartnerCode || "",
-//               }
-//             : "",
-//           headerNarration: item?.objHeader?.narration || "",
-//           receiveFrom: item?.objHeader?.receiveFrom || "",
-//           narration: item?.objHeader?.narration,
-//           profitCenter: "",
-//           transaction: item?.objHeader?.businessPartnerId
-//             ? { value: item?.objHeader?.businessPartnerId, label: item?.objHeader?.businessPartnerName, code: item?.objHeader?.businessPartnerCode || "" }
-//             : "",
-//           amount: "",
-//           paidTo: "",
-//           trasferTo: "",
-//           gLBankAc: "",
-//           cashJournalId: item?.objHeader?.cashJournalId || "",
-//           transactionDate: _dateFormatter(item?.objHeader?.journalDate),
-//         },
-//         objRow: modifyRowDto,
-//       };
-//       setter(data);
-//     }
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+export const getCashJournalByCode = async (accountingJournalCode, setter) => {
+  try {
+    const res = await Axios.get(`/fino/CommonFino/GetTaxAccountingJournal?accountingJournalCode=${accountingJournalCode}`);
+    if (res.status === 200 && res?.data) {
+      const item = res.data;
+      const modifyRowDto = item?.map((itm, indx) => {
+        return {
+          ...itm,
+          transactionDate: _todayDate(),
+          transaction: itm?.subGLId
+            ? {
+                value: itm?.subGLId,
+                label: itm?.subGLName,
+                code: itm?.subGlCode,
+              }
+            : "",
+            cashGLPlus: itm?.generalLedgerId ? {
+              value: itm?.generalLedgerId,
+              label: itm?.generalLedgerName,
+              code: itm?.generalLedgerCode,
+            } : "",
+          gl: itm?.generalLedgerId
+            ? {
+                value: itm?.generalLedgerId,
+                label: itm?.generalLedgerName,
+                code: itm?.generalLedgerCode,
+              }
+            : "",
+          credit: itm?.credit,
+          debit: itm?.debit,
+          amount: Math.abs(itm?.numAmount),
+          narration: itm?.narration,
+          headerNarration: itm?.narration,
+          partner: itm?.businessPartnerId
+            ? {
+                value: itm?.businessPartnerId,
+                label: itm?.businessPartnerName,
+                code: itm?.businessPartnerCode,
+              }
+            : "",
+          partnerType: itm?.subGLTypeId
+            ? {
+                value: itm?.subGLTypeId,
+                label: itm?.subGLTypeName,
+                reffPrtTypeId: itm?.subGLTypeId,
+              }
+            : "",
+            headerGLName: item?.[0]?.generalLedgerName,
+            headerGLId: item?.[0]?.generalLedgerId,
+            headerGLCode: item?.[0]?.generalLedgerCode,
+            headerGLTransaction: item?.[0]?.generalLedgerCode,
+        };
+      });
+      
+      setter(modifyRowDto);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
