@@ -25,7 +25,7 @@ const initData = {
 const ServiceChargeAndIncomeElementLanding = () => {
   const history = useHistory();
   const [rowData, getRowData, isLoading] = useAxiosGet();
-  const [pageNo, setPageNo] = useState(1);
+  const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [costs, setCosts] = useState([]);
   const [revenues, setRevenues] = useState([]);
