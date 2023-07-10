@@ -25,6 +25,7 @@ import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
 import NewSelect from "../../../../_helper/_select";
+import { fromDateFromApi } from "../../../../_helper/_formDateFromApi";
 
 const initData = {
   fromDate: _firstDateofMonth(),
@@ -48,8 +49,12 @@ export function PartnerLedger() {
   const [channelDDL, setChannelDDL] = useState([]);
   const [rowDto, setRowDto] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [fromDateFApi, setFromDateFApi] = useState("");
+
 
   useEffect(() => {
+    fromDateFromApi(selectedBusinessUnit?.value, setFromDateFApi)
+
     getSbuDDLAction(
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -85,7 +90,7 @@ export function PartnerLedger() {
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={{ ...initData, ...registerReport }}
+        initialValues={{ ...initData, ...registerReport, fromDate: fromDateFApi }}
         onSubmit={() => {}}
       >
         {({ errors, touched, setFieldValue, values }) => (
