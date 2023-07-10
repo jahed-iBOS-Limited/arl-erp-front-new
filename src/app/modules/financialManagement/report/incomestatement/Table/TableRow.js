@@ -30,6 +30,7 @@ import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIRe
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import moment from "moment";
 import StatisticalDetails from "../statisticalDetails/statisticalDetailsModal";
+import { fromDateFromApi } from "../../../../_helper/_formDateFromApi";
 
 const html2pdf = require("html2pdf.js");
 
@@ -39,6 +40,7 @@ export function TableRow() {
     authData: {
       profileData: { accountId, ...restProfileData },
       businessUnitList,
+      selectedBusinessUnit,
     },
   } = useSelector((state) => state, shallowEqual);
 
@@ -68,10 +70,14 @@ export function TableRow() {
   const [profitCenterDDL, setProfitCenterDDL] = useState([]);
   const [incomeStatement, setIncomeStatement] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [fromDateFApi, setFromDateFApi] = useState("");
+
   // get user profile data from store
 
   useEffect(() => {
     getEnterpriseDivisionDDL(accountId, setEnterpriseDivisionDDL);
+    fromDateFromApi(selectedBusinessUnit?.value, setFromDateFApi)
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -126,7 +132,7 @@ export function TableRow() {
   return (
     <>
       {(loading || loadingOnGetSubDivisionDDL) && <Loading />}
-      <Formik enableReinitialize={true} initialValues={initData}>
+      <Formik enableReinitialize={true} initialValues={{...initData, fromDate:fromDateFApi}}>
         {({ values }) => (
           <>
             <Card>
