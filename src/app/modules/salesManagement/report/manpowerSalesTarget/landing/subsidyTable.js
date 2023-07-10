@@ -1,6 +1,5 @@
 import React from "react";
 import ICustomTable from "../../../../_helper/_customTable";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
 
 const headers = ["SL", "Month", "Rate", "Action"];
 
@@ -17,7 +16,7 @@ export default function SubsidyTable({ obj }) {
             <td>{row?.targetMonthName}</td>
             <td className="text-right">{row?.targeQnt}</td>
             <td className="text-center">
-              <IEdit />
+              {/* <IEdit /> */}
             </td>
           </tr>
         ))}

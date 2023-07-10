@@ -52,7 +52,7 @@ const initData = {
 };
 
 const types = [
-  { value: 4, label: "ShipPint Target" },
+  { value: 4, label: "ShipPoint Target" },
   { value: 5, label: "Government Subsidy" },
   { value: 1, label: "Others" },
 ];

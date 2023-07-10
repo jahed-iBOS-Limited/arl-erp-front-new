@@ -10,6 +10,7 @@ import NewSelect from "../../../../_helper/_select";
 import Table from "./table";
 import { PortAndMotherVessel } from "../../../common/components";
 import { toast } from "react-toastify";
+import InputField from "../../../../_helper/_inputField";
 
 const Form = ({ obj }) => {
   const {
@@ -69,11 +70,26 @@ const Form = ({ obj }) => {
                                 "Please select a specific mother Vessel"
                               );
                               setFieldValue("motherVessel", "");
+                            } else {
+                              setFieldValue(
+                                "programNo",
+                                allValues?.motherVessel?.programNo
+                              );
                             }
                           }
                         },
                       }}
                     />
+                    <div className="col-lg-3">
+                      <InputField
+                        label="Tender no"
+                        placeholder="Tender no"
+                        type="text"
+                        name="programNo"
+                        value={values?.programNo}
+                        disabled
+                      />
+                    </div>
                     <div className="col-lg-3">
                       <NewSelect
                         name="warehouse"
