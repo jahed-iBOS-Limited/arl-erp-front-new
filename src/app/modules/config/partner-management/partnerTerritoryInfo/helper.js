@@ -114,3 +114,18 @@ export const updateTerritory = async (payload, setLoading, cb) => {
     setLoading(false);
   }
 };
+
+export function findDuplicateItems(array) {
+  const duplicates = [];
+  const uniqueItems = new Set();
+
+  for (const item of array) {
+    if (uniqueItems.has(item?.businessPartnerId)) {
+      duplicates.push(item);
+    } else {
+      uniqueItems.add(item?.businessPartnerId);
+    }
+  }
+
+  return duplicates?.map((item) => item?.businessPartnerId);
+}
