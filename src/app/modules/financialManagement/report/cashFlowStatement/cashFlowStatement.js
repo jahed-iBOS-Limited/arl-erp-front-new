@@ -23,10 +23,12 @@ import { getCashFlowStatement } from "./helper";
 import { getBusinessDDLByED, getEnterpriseDivisionDDL } from "../incomestatement/helper";
 import NewSelect from "../../../_helper/_select";
 import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
+import { fromDateFromApi } from "../../../_helper/_formDateFromApi";
 export function CashFlowStatement() {
   const {
     authData: {
       profileData: { accountId, accountName },
+      selectedBusinessUnit,
 
     },
     localStorage: { registerReport, financialManagementReportCashFlowStatement },
@@ -49,7 +51,10 @@ export function CashFlowStatement() {
   const [loading, setLoading] = useState(false);
   const [enterpriseDivisionDDL, setEnterpriseDivisionDDL] = useState([]);
   const [businessUnitDDL, setBusinessUnitDDL] = useState([]);
+  const [fromDateFApi, setFromDateFApi] = useState("");
+
   useEffect(() => {
+    fromDateFromApi(selectedBusinessUnit?.value, setFromDateFApi)
     getEnterpriseDivisionDDL(accountId, (enterpriseDivisionData) => {
       setEnterpriseDivisionDDL(enterpriseDivisionData);
       let initialEntepriceDivision = initData?.enterpriseDivision;
@@ -100,7 +105,7 @@ export function CashFlowStatement() {
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={{ ...initData, ...registerReport }}
+        initialValues={{ ...initData, ...registerReport, fromDate:fromDateFApi }}
       >
         {({ setFieldValue, values }) => (
           <>
