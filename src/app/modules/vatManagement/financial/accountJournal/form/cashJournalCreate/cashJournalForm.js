@@ -71,23 +71,96 @@ export default function CashJournalForm({
 
   const saveHandler = async (values, cb) => {
     // dispatch(setBankJournalCreateAction(values));
-    console.log("values", values);
-    console.log("rowDto", rowDto);
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       if (rowDto?.length === 0) {
         toast.warn("Please add transaction");
       } else {
-        saveAccountingJournal({
-          profileData,
-          selectedBusinessUnit,
-          location,
-          values,
-          rowDto,
-          cb,
-          setRowDto,
-          setDisabled,
-          IConfirmModal,
+
+         const objRow = rowDto.map((item) => {
+          return {
+            journalId: 0,
+            journalCode: "",
+            subGLTypeId: item?.partnerType?.reffPrtTypeId || 0,
+            subGLTypeName: item?.partnerType?.label || "",
+            generalLedgerId: +item?.gl?.value || 0,
+            generalLedgerCode: item?.gl?.code || "",
+            generalLedgerName: item?.gl?.label || "",
+            subGLId: +item?.transaction?.value || 0,
+            subGlCode: item?.transaction?.code || "",
+            subGLName: item?.transaction?.label || "",
+            narration: item?.narration || "",
+            accountId: +profileData?.accountId,
+            businessUnitId: +selectedBusinessUnit?.value,
+            sbuId: location?.state?.sbu?.value,
+            accountingJournalTypeId: location?.state?.accountingJournalTypeId,
+            accountingJournalId: 0,
+            accountingJournalCode: "",
+            transactionId: item?.transactionId || 0,
+            transactionDate: values?.transactionDate || _todayDate(),
+            bankSortName:  "",
+            instrumentTypeID: 0,
+            instrumentTypeName:"",
+            instrumentNo:  "",
+            instrumentDate:null,
+            paytoName: "",
+            actionBy: +profileData?.userId,
+            isTransfer: false,
+            numAmount: +item?.amount,
+            debit: location?.state?.accountingJournalTypeId !== 1 ?  +item?.amount : 0,
+            credit: location?.state?.accountingJournalTypeId === 1 ?  1 * -+item?.amount : 0,
+          };
         });
+
+        objRow.unshift({
+          subGLTypeId: 5,
+          subGLTypeName: "Others",
+          journalId: 0,
+          journalCode: "",
+          generalLedgerId: +values?.cashGLPlus?.value || 0,
+          generalLedgerCode: values?.cashGLPlus?.generalLedgerCode || "",
+          generalLedgerName: values?.cashGLPlus?.label || "",
+          subGLId: 0,
+          subGlCode: "",
+          subGLName: "",
+          narration: values?.narration,
+          accountId: +profileData?.accountId,
+          businessUnitId: +selectedBusinessUnit?.value,
+          sbuId: location?.state?.sbu?.value,
+          accountingJournalTypeId: location?.state?.accountingJournalTypeId,
+          accountingJournalId: 0,
+          accountingJournalCode: "",
+          transactionDate: values?.transactionDate || _todayDate(),
+          bankSortName: values?.bankAcc?.label.split(":")[0] || "",
+          instrumentTypeID: values?.instrumentType?.value || 0,
+          instrumentTypeName: values?.instrumentType?.label || "",
+          instrumentNo: values?.instrumentNo || "",
+          instrumentDate: values?.instrumentDate || _todayDate(),
+          paytoName: values?.paidTo || "",
+          actionBy: +profileData?.userId,
+          isTransfer: false,
+          numAmount: +netAmount,
+          debit: location?.state?.accountingJournalTypeId === 1 ? +netAmount : 0,
+          credit: location?.state?.accountingJournalTypeId !== 1 ? 1 * -+netAmount : 0, 
+        })
+        saveAccountingJournal({
+          payload: {row:objRow},
+          setDisabled,
+          cb,
+          IConfirmModal
+         });
+
+        // saveAccountingJournal({
+        //   profileData,
+        //   selectedBusinessUnit,
+        //   location,
+        //   values,
+        //   // rowDto,
+        //   payload:{row:rowDto},
+        //   cb,
+        //   setRowDto,
+        //   setDisabled,
+        //   IConfirmModal,
+        // });
       }
     } else {
       setDisabled(false);
