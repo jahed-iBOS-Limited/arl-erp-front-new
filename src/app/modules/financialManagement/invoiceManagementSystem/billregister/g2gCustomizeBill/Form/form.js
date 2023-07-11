@@ -1,6 +1,5 @@
 import Axios from "axios";
 import { Form, Formik } from "formik";
-import { DropzoneDialogBase } from "material-ui-dropzone";
 import React from "react";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
@@ -12,6 +11,7 @@ import IView from "../../../../../_helper/_helperIcons/_view";
 import InputField from "../../../../../_helper/_inputField";
 import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
 import PaginationSearch from "../../../../../_helper/_search";
+import AttachFile from "../../../../../_helper/commonInputFieldsGroups/attachemntUpload";
 
 const validationSchema = Yup.object().shape({
   supplier: Yup.object()
@@ -23,18 +23,17 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function _Form({
-  initData,
+  buId,
+  accId,
   btnRef,
-  saveHandler,
+  getData,
+  initData,
   gridData,
-  selectedBusinessUnit,
-  setFileObjects,
-  fileObjects,
+  headerData,
+  saveHandler,
   setGridData,
   resetBtnRef,
-  profileData,
-  headerData,
-  getData,
+  setUploadedImage,
 }) {
   const [open, setOpen] = React.useState(false);
   const dispatch = useDispatch();
@@ -48,7 +47,6 @@ export default function _Form({
           saveHandler(values, () => {
             resetForm(initData);
             setGridData([]);
-            setFileObjects([]);
           });
         }}
       >
@@ -59,7 +57,6 @@ export default function _Form({
           errors,
           touched,
           setFieldValue,
-          isValid,
         }) => (
           <>
             <Form className="form form-label-right">
@@ -77,11 +74,8 @@ export default function _Form({
                         loadOptions={(v) => {
                           if (v.length < 3) return [];
                           return Axios.get(
-                            `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${
-                              profileData?.accountId
-                            }&UnitId=${
-                              selectedBusinessUnit?.value
-                            }&SBUId=${headerData?.sbu?.value || 0}`
+                            `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accId}&UnitId=${buId}&SBUId=${headerData
+                              ?.sbu?.value || 0}`
                           ).then((res) => {
                             const updateList = res?.data.map((item) => ({
                               ...item,
@@ -333,7 +327,7 @@ export default function _Form({
                 </table>
               </div>
             </div>
-            <DropzoneDialogBase
+            {/* <DropzoneDialogBase
               filesLimit={5}
               acceptedFiles={["image/*"]}
               fileObjects={fileObjects}
@@ -356,7 +350,8 @@ export default function _Form({
               }}
               showPreviews={true}
               showFileNamesInPreview={true}
-            />
+            /> */}
+            <AttachFile obj={{ open, setOpen, setUploadedImage }} />
           </>
         )}
       </Formik>

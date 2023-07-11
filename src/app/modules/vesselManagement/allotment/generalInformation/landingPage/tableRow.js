@@ -11,8 +11,7 @@ import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import AttachFile from "../../../common/attachmentUpload";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost"; 
 import { getTotal } from "../../../common/helper";
 import { getMotherVesselDDL } from "../../tenderInformation/helper";
 import {
@@ -23,6 +22,7 @@ import {
 import CommissionRevenueCostTable from "./comRevCostTable";
 import GeneralInfoTable from "./generalInfoTable";
 import CNFTable from "./cnfTable";
+import AttachFile from "../../../../_helper/commonInputFieldsGroups/attachemntUpload";
 
 const initData = {
   status: "",

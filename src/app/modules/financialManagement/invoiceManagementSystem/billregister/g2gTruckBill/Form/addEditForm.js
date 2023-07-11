@@ -3,7 +3,6 @@ import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import { shallowEqual, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
-import { _fixedPoint } from "../../../../../_helper/_fixedPoint";
 import IForm from "../../../../../_helper/_form";
 import Loading from "../../../../../_helper/_loading";
 import { _todayDate } from "../../../../../_helper/_todayDate";
@@ -22,20 +21,19 @@ const initData = {
   fromDate: _todayDate(),
 };
 
-export default function G2GCustomizeBill() {
+export default function G2GTruckBill() {
   const [isDisabled, setDisabled] = useState(false);
   const [uploadedImage, setUploadedImage] = useState([]);
+  const [gridData, setGridData] = useState([]);
+
+  const { state: headerData } = useLocation();
+  const billType = headerData?.billType?.value;
+
   // get user profile data from store
   const {
     profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId, label: buName },
-  } = useSelector((state) => {
-    return state?.authData;
-  }, shallowEqual);
-
-  const [gridData, setGridData] = useState([]);
-  const { state: headerData } = useLocation();
-  const billType = headerData?.billType?.value;
+  } = useSelector((state) => state?.authData, shallowEqual);
 
   const getData = (values, searchTerm) => {
     getG2GBillData(
@@ -58,19 +56,17 @@ export default function G2GCustomizeBill() {
       if (selectedRow.length === 0) {
         toast.warning("Please select at least one");
       } else {
+        const totalAmount = selectedRow?.reduce(
+          (total, cur) => (total += +cur?.transportAmount),
+          0
+        );
         const rows = selectedRow?.map((item) => ({
-          challanNo: "string",
+          challanNo: item?.deliveryCode,
           deliveryId: item?.deliveryId || 0,
           quantity: +item?.quantity || 0,
-          ammount: _fixedPoint(
-            +item?.quantity * +item?.transportRate || 0,
-            false
-          ),
-          billAmount: _fixedPoint(
-            +item?.quantity * +item?.transportRate || 0,
-            false
-          ),
-          shipmentCode: "string",
+          ammount: +item?.transportAmount,
+          billAmount: +item?.transportAmount,
+          shipmentCode: item?.deliveryCode,
           motherVesselId: 0,
           lighterVesselId: 0,
           numFreightRateUSD: 0,
@@ -98,8 +94,8 @@ export default function G2GCustomizeBill() {
             billDate: values?.billDate,
             paymentDueDate: values?.paymentDueDate,
             narration: values?.narration,
-            billAmount: 0,
-            plantId: 0,
+            billAmount: totalAmount,
+            plantId: headerData?.plant?.value || 0,
             warehouseId: 0,
             actionBy: userId,
           },

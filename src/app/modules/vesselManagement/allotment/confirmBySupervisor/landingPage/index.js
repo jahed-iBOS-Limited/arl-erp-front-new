@@ -8,13 +8,13 @@ import ICard from "../../../../_helper/_card";
 import IConfirmModal from "../../../../_helper/_confirmModal";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import AttachFile from "../../../common/attachmentUpload";
+import { _todayDate } from "../../../../_helper/_todayDate"; 
 import { getGodownDDL, getTotal } from "../../../common/helper";
 import { GetShipPointDDL } from "../../loadingInformation/helper";
 import { challanConfirm, getLandingDataForConfirmation } from "../helper";
 import Form from "./form";
 import Table from "./table";
+import AttachFile from "../../../../_helper/commonInputFieldsGroups/attachemntUpload";
 
 const ALL = { value: 0, label: "All" };
 
