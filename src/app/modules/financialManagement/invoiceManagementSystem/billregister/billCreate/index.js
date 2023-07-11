@@ -20,6 +20,7 @@ import StevedoreBill from "../stevedoreBill/Form/addEditForm";
 import SurveyorBill from "../surveyorBill/Form/addEditForm";
 import CNFBill from "../cnfBill/Form/addEditForm";
 import G2GTruckBill from "../g2gTruckBill/Form/addEditForm";
+import G2GGodownUnloadBill from "../g2gGodownUnloadBill/Form/addEditForm";
 
 function BillregisterCreate() {
   const { state: headerData } = useLocation();
@@ -58,6 +59,8 @@ function BillregisterCreate() {
         <PumpFoodingBillForm />
       ) : billType === 19 ? (
         <MotherVesselBill />
+      ) : billType === 21 ? (
+        <G2GGodownUnloadBill />
       ) : billType === 22 ? (
         <GhatLoadUnloadBill />
       ) : billType === 25 ? (

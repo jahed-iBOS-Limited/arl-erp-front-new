@@ -22,7 +22,7 @@ const initData = {
   fromDate: _todayDate(),
 };
 
-export default function G2GTruckBill() {
+export default function G2GGodownUnloadBill() {
   const [isDisabled, setDisabled] = useState(false);
   const [uploadedImage, setUploadedImage] = useState([]);
   // get user profile data from store
@@ -42,7 +42,7 @@ export default function G2GTruckBill() {
       values?.supplier?.value || 0,
       values?.fromDate,
       values?.toDate,
-      1,
+      2,
       setGridData,
       setDisabled,
       searchTerm || ""
@@ -120,7 +120,7 @@ export default function G2GTruckBill() {
   return (
     <div className="purchaseInvoice">
       <IForm
-        title="G2G Truck Bill"
+        title="G2G Godown Unload Bill"
         getProps={setObjprops}
         isDisabled={isDisabled}
       >

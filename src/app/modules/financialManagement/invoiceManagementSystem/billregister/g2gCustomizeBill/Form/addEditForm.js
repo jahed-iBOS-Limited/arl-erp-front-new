@@ -3,13 +3,13 @@ import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import { shallowEqual, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
+import { _fixedPoint } from "../../../../../_helper/_fixedPoint";
 import IForm from "../../../../../_helper/_form";
 import Loading from "../../../../../_helper/_loading";
 import { _todayDate } from "../../../../../_helper/_todayDate";
 import IWarningModal from "../../../../../_helper/_warningModal";
-import { createG2GCustomizeBill, getG2GCustomizeData } from "../../helper";
+import { createG2GCustomizeBill, getG2GBillData } from "../../helper";
 import Form from "./form";
-import { _fixedPoint } from "../../../../../_helper/_fixedPoint";
 
 const initData = {
   supplier: "",
@@ -38,12 +38,13 @@ export default function G2GCustomizeBill() {
   const billType = headerData?.billType?.value;
 
   const getData = (values, searchTerm) => {
-    getG2GCustomizeData(
+    getG2GBillData(
       accId,
       buId,
       values?.supplier?.value || 0,
       values?.fromDate,
       values?.toDate,
+      1,
       setGridData,
       setDisabled,
       searchTerm || ""

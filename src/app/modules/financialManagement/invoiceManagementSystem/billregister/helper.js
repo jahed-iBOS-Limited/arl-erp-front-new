@@ -727,12 +727,13 @@ export const getChallanDDL = async (
     setter([]);
   }
 };
-export const getG2GCustomizeData = async (
+export const getG2GBillData = async (
   accId,
   buId,
   supplierID,
   fromDate,
   toDate,
+  typeId,
   setter,
   setDisabled,
   searchTerm
@@ -741,7 +742,7 @@ export const getG2GCustomizeData = async (
   try {
     setDisabled(true);
     const res = await Axios.get(
-      `/tms/LigterLoadUnload/GetTruckAndGodownLabourBill?typeId=2&accountId=${accId}&businessUnitId=${buId}&supplierId=${supplierID}&fromDate=${fromDate}&toDate=${toDate}`
+      `/tms/LigterLoadUnload/GetTruckAndGodownLabourBill?typeId=${typeId}&accountId=${accId}&businessUnitId=${buId}&supplierId=${supplierID}&fromDate=${fromDate}&toDate=${toDate}`
       // `/tms/LigterLoadUnload/PreDataForCustomizeBillG2G?AccountId=${accId}&BusinessUnitId=${buId}&SupplierId=${supplierID}&FromDate=${fromDate}&ToDate=${toDate}${search}`
     );
     setter(
