@@ -213,14 +213,14 @@ export default function _Form({
               >
                 <div>
                   <PaginationSearch
-                    placeholder="Mother vesselShipPoint/Lighter Vessel/Ship to Party"
+                    placeholder="Search"
                     paginationSearchHandler={(search) =>
                       getData(values, search)
                     }
                   />
                 </div>
                 <p>
-                  Total Qty (bag):{" "}
+                  Total Qty:{" "}
                   {_fixedPoint(
                     gridData?.reduce(
                       (a, b) =>
@@ -236,7 +236,7 @@ export default function _Form({
                     gridData?.reduce(
                       (a, b) =>
                         Number(a) +
-                        (b.checked ? Number(b.totalShipingValue || 0) : 0),
+                        (b.checked ? Number(b.goDownLabourAmount || 0) : 0),
                       0
                     ),
                     true
@@ -272,13 +272,11 @@ export default function _Form({
                       <th>Ship Point Name</th>
                       <th>Delivery Code</th>
                       <th>Supplier Name</th>
-                      <th>Lighter Vessel Name</th>
                       <th>Mother Vessel Name</th>
-                      <th>Vehicle Reg No.</th>
                       <th>Ship To Partner</th>
                       <th>Delivery Date</th>
-                      <th>Quantity(Ton)</th>
-                      <th>Quantity(Bag)</th>
+                      <th>Quantity</th>
+                      <th>Rate</th>
                       <th>Bill Amount</th>
                     </tr>
                   </thead>
@@ -302,21 +300,21 @@ export default function _Form({
                         <td>{item?.shipPointName}</td>
                         <td>{item?.deliveryCode}</td>
                         <td>{item?.supplierName}</td>
-                        <td>{item?.lighterVesselName}</td>
                         <td>{item?.motherVesselName}</td>
-                        <td>{item?.vehicleRegNo}</td>
                         <td>{item?.shipToPartnerName}</td>
                         <td>{_dateFormatter(item?.deliveryDate)}</td>
-                        <td className="text-right">{item?.quantityTon}</td>
                         <td className="text-right">{item?.quantity}</td>
+                        <td className="text-right">
+                          {item?.godownUnloadLabourRate}
+                        </td>
                         <td style={{ width: "100px" }}>
                           <InputField
-                            value={item?.totalShipingValue}
-                            name="totalShipingValue"
+                            value={item?.goDownLabourAmount}
+                            name="goDownLabourAmount"
                             placeholder="Total Amount"
                             type="number"
                             onChange={(e) => {
-                              item.totalShipingValue = e.target.value;
+                              item.goDownLabourAmount = e.target.value;
                               setGridData([...gridData]);
                             }}
                           />
@@ -327,30 +325,7 @@ export default function _Form({
                 </table>
               </div>
             </div>
-            {/* <DropzoneDialogBase
-              filesLimit={5}
-              acceptedFiles={["image/*"]}
-              fileObjects={fileObjects}
-              cancelButtonText={"cancel"}
-              submitButtonText={"submit"}
-              maxFileSize={100000000000000}
-              open={open}
-              onAdd={(newFileObjs) => {
-                setFileObjects([].concat(newFileObjs));
-              }}
-              onDelete={(deleteFileObj) => {
-                const newData = fileObjects.filter(
-                  (item) => item.file.name !== deleteFileObj.file.name
-                );
-                setFileObjects(newData);
-              }}
-              onClose={() => setOpen(false)}
-              onSave={() => {
-                setOpen(false);
-              }}
-              showPreviews={true}
-              showFileNamesInPreview={true}
-            /> */}
+
             <AttachFile obj={{ open, setOpen, setUploadedImage }} />
           </>
         )}
