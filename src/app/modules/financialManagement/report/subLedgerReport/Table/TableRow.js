@@ -1,33 +1,42 @@
-import { Formik, Form } from "formik";
-import React, { useEffect, useState, useRef } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import { Form, Formik } from "formik";
+import React, { useEffect, useRef, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import ReactToPrint from "react-to-print";
+import { fromDateFromApiNew } from "../../../../_helper/_formDateFromApi";
+import numberWithCommas from "../../../../_helper/_numberWithCommas";
+import printIcon from "../../../../_helper/images/print-icon.png";
+import { SetReportSubLedgerReportAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import { CreatePartnerLedgerExcel, GetAccountingJournal_api, GetSubLedgerDDL_api } from "../helper";
 import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from "./../../../../../../_metronic/_partials/controls";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { _todayDate } from "./../../../../_helper/_todayDate";
+import { _dateFormatter } from "./../../../../_helper/_dateFormate";
 import InputField from "./../../../../_helper/_inputField";
 import NewSelect from "./../../../../_helper/_select";
-import { CreatePartnerLedgerExcel, GetAccountingJournal_api, GetSubLedgerDDL_api } from "../helper";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import { SetReportSubLedgerReportAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import { fromDateFromApi } from "../../../../_helper/_formDateFromApi";
+import { _todayDate } from "./../../../../_helper/_todayDate";
 
-export function TableRow() {
-  const { reportSubLedgerReport } = useSelector((state) => state?.localStorage);
+const initDataFuction = (reportSubLedgerReport) => {
   const initData = {
     id: undefined,
     glLedger: reportSubLedgerReport?.glLedger || "",
-    fromDate: reportSubLedgerReport?.fromDate || _todayDate(),
-    todate: reportSubLedgerReport?.todate || _todayDate(),
+    fromDate: "",
+    todate:  _todayDate(),
   };
+
+  return initData;
+};
+
+
+export function TableRow() {
+  const { reportSubLedgerReport } = useSelector((state) => state?.localStorage);
+  
   const dispatch = useDispatch();
+  const formikRef = React.useRef(null);
+
 
   const printRef = useRef();
   const [glLedger, setGlLedger] = useState([]);
@@ -50,14 +59,16 @@ export function TableRow() {
   useEffect(() => {
     if (profileData.accountId && selectedBusinessUnit.value) {
       GetSubLedgerDDL_api(selectedBusinessUnit.value, setGlLedger);
-      fromDateFromApi(selectedBusinessUnit?.value, null, (date)=>{
-        dispatch(
-          SetReportSubLedgerReportAction({
-           ...reportSubLedgerReport,
-            toDate: date || "",
-          })
-        );
-      })
+      fromDateFromApiNew(selectedBusinessUnit?.value, (date) => {
+        if (formikRef.current) {
+          const apiFormDate = date ? _dateFormatter(date) : "";
+          const modifyInitData = initDataFuction(reportSubLedgerReport);
+          formikRef.current.setValues({
+            ...modifyInitData,
+            fromDate: apiFormDate,
+          });
+        }
+      });
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
@@ -73,7 +84,8 @@ export function TableRow() {
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={initData}
+        initialValues={{}} 
+        innerRef={formikRef}
         onSubmit={(values, { setSubmitting, resetForm }) => { }}
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
@@ -111,13 +123,13 @@ export function TableRow() {
                         label="Ganeral Ledger"
                         onChange={(valueOption) => {
                           setFieldValue("glLedger", valueOption);
-                          dispatch(
-                            SetReportSubLedgerReportAction({
-                              glLedger: valueOption,
-                              fromDate: values?.fromDate,
-                              toDate: values?.toDate,
-                            })
-                          );
+                          // dispatch(
+                          //   SetReportSubLedgerReportAction({
+                          //     glLedger: valueOption,
+                          //     fromDate: values?.fromDate,
+                          //     toDate: values?.toDate,
+                          //   })
+                          // );
                         }}
                         placeholder="Ganeral Ledger"
                         errors={errors}
@@ -132,13 +144,14 @@ export function TableRow() {
                         placeholder="From Date"
                         type="date"
                         onChange={(e) => {
-                          dispatch(
-                            SetReportSubLedgerReportAction({
-                              glLedger: values?.glLedger,
-                              fromDate: e?.target?.value,
-                              toDate: values?.toDate,
-                            })
-                          );
+                          setFieldValue("fromDate", e.target.value);
+                          // dispatch(
+                          //   SetReportSubLedgerReportAction({
+                          //     glLedger: values?.glLedger,
+                          //     fromDate: e?.target?.value,
+                          //     toDate: values?.toDate,
+                          //   })
+                          // );
                         }}
                       />
                     </div>
@@ -150,13 +163,14 @@ export function TableRow() {
                         placeholder="To date"
                         type="date"
                         onChange={(e) => {
-                          dispatch(
-                            SetReportSubLedgerReportAction({
-                              glLedger: values?.glLedger,
-                              fromDate: values?.fromDate,
-                              todate: e?.target?.value,
-                            })
-                          );
+                          setFieldValue("todate", e.target.value);
+                          // dispatch(
+                          //   SetReportSubLedgerReportAction({
+                          //     glLedger: values?.glLedger,
+                          //     fromDate: values?.fromDate,
+                          //     todate: e?.target?.value,
+                          //   })
+                          // );
                         }}
                       />
                     </div>
@@ -165,6 +179,11 @@ export function TableRow() {
                         className="btn btn-primary"
                         type="button"
                         onClick={() => {
+                          dispatch(
+                            SetReportSubLedgerReportAction({
+                              ...values,
+                            })
+                          );
                           GetAccountingJournal_api(
                             profileData.accountId,
                             selectedBusinessUnit.value,
