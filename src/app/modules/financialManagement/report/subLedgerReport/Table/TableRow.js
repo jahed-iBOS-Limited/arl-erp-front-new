@@ -32,7 +32,6 @@ export function TableRow() {
   const printRef = useRef();
   const [glLedger, setGlLedger] = useState([]);
   const [subLedgerReportData, setSubLedgerReportData] = useState([]);
-  const [fromDateFApi, setFromDateFApi] = useState("");
 
 
   const [totalAmount, setTotalAmount] = useState(0);
@@ -51,8 +50,16 @@ export function TableRow() {
   useEffect(() => {
     if (profileData.accountId && selectedBusinessUnit.value) {
       GetSubLedgerDDL_api(selectedBusinessUnit.value, setGlLedger);
-      fromDateFromApi(selectedBusinessUnit?.value, setFromDateFApi)
+      fromDateFromApi(selectedBusinessUnit?.value, null, (date)=>{
+        dispatch(
+          SetReportSubLedgerReportAction({
+           ...reportSubLedgerReport,
+            toDate: date || "",
+          })
+        );
+      })
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
 
   const debitTotal = subLedgerReportData.reduce((total, data) => {
@@ -66,7 +73,7 @@ export function TableRow() {
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={{...initData, fromDate:fromDateFApi}}
+        initialValues={initData}
         onSubmit={(values, { setSubmitting, resetForm }) => { }}
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
