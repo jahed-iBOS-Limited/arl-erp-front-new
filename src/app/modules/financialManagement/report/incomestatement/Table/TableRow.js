@@ -70,13 +70,19 @@ export function TableRow() {
   const [profitCenterDDL, setProfitCenterDDL] = useState([]);
   const [incomeStatement, setIncomeStatement] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [fromDateFApi, setFromDateFApi] = useState("");
 
   // get user profile data from store
 
   useEffect(() => {
     getEnterpriseDivisionDDL(accountId, setEnterpriseDivisionDDL);
-    fromDateFromApi(selectedBusinessUnit?.value, setFromDateFApi)
+    fromDateFromApi(selectedBusinessUnit?.value, null, (date)=>{
+      dispatch(
+        SetReportIncomestatementAction({
+          ...reportIncomestatement,
+          fromDate: date || "",
+        })
+      );
+    })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -132,7 +138,7 @@ export function TableRow() {
   return (
     <>
       {(loading || loadingOnGetSubDivisionDDL) && <Loading />}
-      <Formik enableReinitialize={true} initialValues={{...initData, fromDate:fromDateFApi}}>
+      <Formik enableReinitialize={true} initialValues={initData}>
         {({ values }) => (
           <>
             <Card>

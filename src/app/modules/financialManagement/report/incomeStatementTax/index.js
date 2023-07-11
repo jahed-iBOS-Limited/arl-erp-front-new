@@ -60,12 +60,18 @@ export default function IncomeStatementTaxLanding() {
   const [profitCenterDDL, setProfitCenterDDL] = useState([]);
   const [incomeStatement, setIncomeStatement] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [fromDateFApi, setFromDateFApi] = useState("");
 
   // get user profile data from store
 
   useEffect(() => {
-    fromDateFromApi(selectedBusinessUnit?.value, setFromDateFApi)
+    fromDateFromApi(selectedBusinessUnit?.value, null, (date)=>{
+      dispatch(
+        SetReportIncomestatementAction({
+          ...reportIncomestatement,
+          fromDate: date || "",
+        })
+      );
+    })
 
     getEnterpriseDivisionDDL(accountId, setEnterpriseDivisionDDL);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -119,7 +125,7 @@ export default function IncomeStatementTaxLanding() {
   return (
     <>
       {(loading || loadingOnGetSubDivisionDDL) && <Loading />}
-      <Formik enableReinitialize={true} initialValues={{...initData, fromDate: fromDateFApi}}>
+      <Formik enableReinitialize={true} initialValues={initData}>
         {({ values }) => (
           <>
             <Card>
