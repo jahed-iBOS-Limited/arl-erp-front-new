@@ -29,33 +29,30 @@ const ServiceChargeAndIncomeElementForm = () => {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
+  const dataModify = (data) => {
+    return data?.map((item) => ({
+      elementId: item?.autoId,
+      element: item?.serviceElementName,
+      isSelected: false,
+      rate: "",
+      typeId: item?.serviceTypeId,
+      typeName: item?.serviceTypeName,
+    }));
+  };
+
   useEffect(() => {
     GetShipPointDDL(accId, buId, setShipPointDDL);
     getCosts(
       `/costmgmt/CostElement/GetG2GServiceElement?typeId=1`,
       (resData) => {
-        const modify = resData?.map((item) => ({
-          elementId: item?.serviceElemenId,
-          element: item?.serviceElementName,
-          isSelected: false,
-          rate: "",
-          typeId: 1,
-          typeName: "Cost",
-        }));
+        const modify = dataModify(resData);
         setCosts(modify);
       }
     );
     getRevenues(
       `/costmgmt/CostElement/GetG2GServiceElement?typeId=2`,
       (resData) => {
-        const modify = resData?.map((item) => ({
-          elementId: item?.serviceElemenId,
-          element: item?.serviceElementName,
-          isSelected: false,
-          rate: "",
-          typeId: 2,
-          typeName: "Revenue",
-        }));
+        const modify = dataModify(resData);
         setRevenues(modify);
       }
     );

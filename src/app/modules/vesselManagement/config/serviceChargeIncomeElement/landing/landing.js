@@ -13,12 +13,13 @@ import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/date
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import IButton from "../../../../_helper/iButton";
 import DetailsTable from "./detailsTable";
+import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
 
 const initData = {
   port: "",
   motherVessel: "",
   year: "",
-  fromDate: _todayDate(),
+  fromDate: _firstDateofMonth(),
   toDate: _todayDate(),
 };
 
