@@ -20,38 +20,68 @@ import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import { _todayDate } from "../../../_helper/_todayDate";
 import { getCashFlowStatement } from "./helper";
-import { getBusinessDDLByED, getEnterpriseDivisionDDL } from "../incomestatement/helper";
+import {
+  getBusinessDDLByED,
+  getEnterpriseDivisionDDL,
+} from "../incomestatement/helper";
 import NewSelect from "../../../_helper/_select";
 import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
-export function CashFlowStatement() {
-  const {
-    authData: {
-      profileData: { accountId, accountName },
+import {
+  fromDateFromApiNew,
+} from "../../../_helper/_formDateFromApi";
 
-    },
-    localStorage: { registerReport, financialManagementReportCashFlowStatement },
-  } = useSelector((store) => store, shallowEqual);
-  const dispatch = useDispatch();
-
+const initDataFuction = (financialManagementReportCashFlowStatement) => {
   const initData = {
     enterpriseDivision:
       financialManagementReportCashFlowStatement?.enterpriseDivision || "",
     businessUnit:
       financialManagementReportCashFlowStatement?.businessUnit || "",
-    convertionRate: financialManagementReportCashFlowStatement?.convertionRate || 1,
-    fromDate:
-      financialManagementReportCashFlowStatement?.fromDate ||
-      _firstDateofMonth(),
-    toDate: financialManagementReportCashFlowStatement?.toDate || _todayDate(),
+    convertionRate:
+      financialManagementReportCashFlowStatement?.convertionRate || 1,
+    fromDate: "",
+    toDate:  _todayDate(),
   };
+
+  return initData;
+};
+export function CashFlowStatement() {
+  const {
+    authData: {
+      profileData: { accountId, accountName },
+      selectedBusinessUnit,
+    },
+    localStorage: {
+      registerReport,
+      financialManagementReportCashFlowStatement,
+    },
+  } = useSelector((store) => store, shallowEqual);
+  const dispatch = useDispatch();
 
   const [rowDto, setRowDto] = useState([]);
   const [loading, setLoading] = useState(false);
   const [enterpriseDivisionDDL, setEnterpriseDivisionDDL] = useState([]);
   const [businessUnitDDL, setBusinessUnitDDL] = useState([]);
+  const formikRef = React.useRef(null);
+
   useEffect(() => {
+    fromDateFromApiNew(selectedBusinessUnit?.value, (date) => {
+      if (formikRef.current) {
+        const apiFormDate = date ? _dateFormatter(date) : "";
+        const modifyInitData = initDataFuction(
+          financialManagementReportCashFlowStatement
+        );
+        formikRef.current.setValues({
+          ...modifyInitData,
+          ...registerReport,
+          fromDate: apiFormDate,
+        });
+      }
+    });
     getEnterpriseDivisionDDL(accountId, (enterpriseDivisionData) => {
       setEnterpriseDivisionDDL(enterpriseDivisionData);
+      let initData = initDataFuction(
+        financialManagementReportCashFlowStatement
+      );
       let initialEntepriceDivision = initData?.enterpriseDivision;
       if (!initData?.enterpriseDivision) {
         initialEntepriceDivision = enterpriseDivisionData?.[0];
@@ -98,10 +128,7 @@ export function CashFlowStatement() {
   };
   return (
     <>
-      <Formik
-        enableReinitialize={true}
-        initialValues={{ ...initData, ...registerReport }}
-      >
+      <Formik enableReinitialize={true} initialValues={{}} innerRef={formikRef}>
         {({ setFieldValue, values }) => (
           <>
             <Card>
@@ -124,15 +151,15 @@ export function CashFlowStatement() {
                           setRowDto([]);
                           setFieldValue("enterpriseDivision", valueOption);
                           setFieldValue("businessUnit", "");
-                          dispatch(
-                            SetFinancialManagementReportCashFlowStatementAction(
-                              {
-                                ...values,
-                                enterpriseDivision: valueOption,
-                                businessUnit: "",
-                              }
-                            )
-                          );
+                          // dispatch(
+                          //   SetFinancialManagementReportCashFlowStatementAction(
+                          //     {
+                          //       ...values,
+                          //       enterpriseDivision: valueOption,
+                          //       businessUnit: "",
+                          //     }
+                          //   )
+                          // );
                           if (valueOption?.value) {
                             getBusinessDDLByED(
                               accountId,
@@ -154,14 +181,14 @@ export function CashFlowStatement() {
                           setShowRDLC(false);
                           setRowDto([]);
                           setFieldValue("businessUnit", valueOption);
-                          dispatch(
-                            SetFinancialManagementReportCashFlowStatementAction(
-                              {
-                                ...values,
-                                businessUnit: valueOption,
-                              }
-                            )
-                          );
+                          // dispatch(
+                          //   SetFinancialManagementReportCashFlowStatementAction(
+                          //     {
+                          //       ...values,
+                          //       businessUnit: valueOption,
+                          //     }
+                          //   )
+                          // );
                         }}
                         placeholder="Business Unit"
                         isDisabled={!values?.enterpriseDivision}
@@ -177,14 +204,14 @@ export function CashFlowStatement() {
                         onChange={(e) => {
                           setShowRDLC(false);
                           setFieldValue("convertionRate", e.target.value);
-                          dispatch(
-                            SetFinancialManagementReportCashFlowStatementAction(
-                              {
-                                ...values,
-                                convertionRate: e.target.value,
-                              }
-                            )
-                          );
+                          // dispatch(
+                          //   SetFinancialManagementReportCashFlowStatementAction(
+                          //     {
+                          //       ...values,
+                          //       convertionRate: e.target.value,
+                          //     }
+                          //   )
+                          // );
                         }}
                       />
                     </div>
@@ -198,14 +225,14 @@ export function CashFlowStatement() {
                         onChange={(e) => {
                           setShowRDLC(false);
                           setFieldValue("fromDate", e.target.value);
-                          dispatch(
-                            SetFinancialManagementReportCashFlowStatementAction(
-                              {
-                                ...values,
-                                fromDate: e.target.value,
-                              }
-                            )
-                          );
+                          // dispatch(
+                          //   SetFinancialManagementReportCashFlowStatementAction(
+                          //     {
+                          //       ...values,
+                          //       fromDate: e.target.value,
+                          //     }
+                          //   )
+                          // );
                         }}
                       />
                     </div>
@@ -219,14 +246,14 @@ export function CashFlowStatement() {
                         onChange={(e) => {
                           setShowRDLC(false);
                           setFieldValue("toDate", e.target.value);
-                          dispatch(
-                            SetFinancialManagementReportCashFlowStatementAction(
-                              {
-                                ...values,
-                                toDate: e.target.value,
-                              }
-                            )
-                          );
+                          // dispatch(
+                          //   SetFinancialManagementReportCashFlowStatementAction(
+                          //     {
+                          //       ...values,
+                          //       toDate: e.target.value,
+                          //     }
+                          //   )
+                          // );
                         }}
                       />
                     </div>
@@ -237,9 +264,17 @@ export function CashFlowStatement() {
                           !values?.enterpriseDivision ||
                           !values?.businessUnit ||
                           !values?.fromDate ||
-                          !values?.toDate || values?.convertionRate < 1
+                          !values?.toDate ||
+                          values?.convertionRate < 1
                         }
                         onClick={() => {
+                          dispatch(
+                            SetFinancialManagementReportCashFlowStatementAction(
+                              {
+                                ...values,
+                              }
+                            )
+                          );
                           setShowRDLC(false);
                           getCashFlowStatement(
                             values?.businessUnit?.value,
@@ -262,7 +297,8 @@ export function CashFlowStatement() {
                           !values?.enterpriseDivision ||
                           !values?.businessUnit ||
                           !values?.fromDate ||
-                          !values?.toDate || values?.convertionRate < 1
+                          !values?.toDate ||
+                          values?.convertionRate < 1
                         }
                         onClick={() => {
                           setShowRDLC(true);
@@ -289,238 +325,239 @@ export function CashFlowStatement() {
                       )}
                     </div>
                   </div>
-                  {
-                    showRDLC ? (
-                      <div>
-                        <PowerBIReport
-                          reportId={reportId}
-                          groupId={groupId}
-                          parameterValues={parameterValues(values)}
-                          parameterPanel={false}
-                        />
-                      </div>
-                    ) : (
-                      <>
-                        {rowDto?.length > 0 && (
-                          <div
-                            className="d-flex flex-column align-items-center"
-                            ref={printRef}
+                  {showRDLC ? (
+                    <div>
+                      <PowerBIReport
+                        reportId={reportId}
+                        groupId={groupId}
+                        parameterValues={parameterValues(values)}
+                        parameterPanel={false}
+                      />
+                    </div>
+                  ) : (
+                    <>
+                      {rowDto?.length > 0 && (
+                        <div
+                          className="d-flex flex-column align-items-center"
+                          ref={printRef}
+                        >
+                          <div className="text-center">
+                            <h2 className="mb-0" style={{ fontWeight: "bold" }}>
+                              {values?.businessUnit?.value > 0
+                                ? values?.businessUnit?.label
+                                : accountName}
+                            </h2>
+                            <h4 className="text-primary">
+                              Cash Flow Statement
+                            </h4>
+                            <p className="mt-4" style={{ fontWeight: "bold" }}>
+                              {`For the period of: ${_dateFormatter(
+                                values?.fromDate
+                              )}  to  ${_dateFormatter(values?.toDate)}`}{" "}
+                            </p>
+                          </div>
+
+                          <table
+                            style={{ width: "75%" }}
+                            className="cashFlowStatement"
                           >
-                            <div className="text-center">
-                              <h2 className="mb-0" style={{ fontWeight: "bold" }}>
-                                {values?.businessUnit?.value > 0
-                                  ? values?.businessUnit?.label
-                                  : accountName}
-                              </h2>
-                              <h4 className="text-primary">Cash Flow Statement</h4>
-                              <p className="mt-4" style={{ fontWeight: "bold" }}>
-                                {`For the period of: ${_dateFormatter(
-                                  values?.fromDate
-                                )}  to  ${_dateFormatter(values?.toDate)}`}{" "}
-                              </p>
-                            </div>
-
-                            <table
-                              style={{ width: "75%" }}
-                              className="cashFlowStatement"
-                            >
-                              <tr>
-                                <td className="pr-5 text-right">
-                                  Opening Cash & Cash Equivalent
-                                </td>
-                                <td
-                                  style={{
-                                    border: "1px solid black",
-                                    textAlign: "center",
-                                  }}
-                                >
-                                  {_formatMoney(rowDto[0]["numPlannedOpening"])}
-                                </td>
-                                <td
-                                  style={{
-                                    border: "1px solid black",
-                                    textAlign: "center",
-                                  }}
-                                >
-                                  {_formatMoney(rowDto[0]["numOpening"])}
-                                </td>
-                                <td
-                                  style={{
-                                    border: "1px solid black",
-                                    textAlign: "center",
-                                  }}
-                                >
-                                  {_formatMoney(
-                                    rowDto[0]["numPlannedOpening"] -
+                            <tr>
+                              <td className="pr-5 text-right">
+                                Opening Cash & Cash Equivalent
+                              </td>
+                              <td
+                                style={{
+                                  border: "1px solid black",
+                                  textAlign: "center",
+                                }}
+                              >
+                                {_formatMoney(rowDto[0]["numPlannedOpening"])}
+                              </td>
+                              <td
+                                style={{
+                                  border: "1px solid black",
+                                  textAlign: "center",
+                                }}
+                              >
+                                {_formatMoney(rowDto[0]["numOpening"])}
+                              </td>
+                              <td
+                                style={{
+                                  border: "1px solid black",
+                                  textAlign: "center",
+                                }}
+                              >
+                                {_formatMoney(
+                                  rowDto[0]["numPlannedOpening"] -
                                     rowDto[0]["numOpening"]
-                                  )}
-                                </td>
-                              </tr>
-                              <tr>
-                                <td style={{ height: "15px" }}></td>
-                                <td
-                                  className="text-center"
-                                  style={{ height: "15px" }}
-                                >
-                                  Budget
-                                </td>
-                                <td
-                                  className="text-center"
-                                  style={{ height: "15px" }}
-                                >
-                                  Actual
-                                </td>
-                                <td
-                                  className="text-center"
-                                  style={{ height: "15px" }}
-                                >
-                                  Variance
-                                </td>
-                              </tr>
-                              {rowDto?.map((item, index) => {
-                                switch (item.intFSId) {
-                                  case 9999:
+                                )}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td style={{ height: "15px" }}></td>
+                              <td
+                                className="text-center"
+                                style={{ height: "15px" }}
+                              >
+                                Budget
+                              </td>
+                              <td
+                                className="text-center"
+                                style={{ height: "15px" }}
+                              >
+                                Actual
+                              </td>
+                              <td
+                                className="text-center"
+                                style={{ height: "15px" }}
+                              >
+                                Variance
+                              </td>
+                            </tr>
+                            {rowDto?.map((item, index) => {
+                              switch (item.intFSId) {
+                                case 9999:
+                                  return (
+                                    <tr style={{ background: "#e6ecff" }}>
+                                      <td colSpan="4">{item?.strName}</td>
+                                    </tr>
+                                  );
+                                case 0:
+                                  if (item.strName.startsWith("Net")) {
                                     return (
-                                      <tr style={{ background: "#e6ecff" }}>
-                                        <td colSpan="4">{item?.strName}</td>
-                                      </tr>
-                                    );
-                                  case 0:
-                                    if (item.strName.startsWith("Net")) {
-                                      return (
-                                        <tr style={{ background: "#f0f0f5" }}>
-                                          <td>{item?.strName}</td>
-                                          <td
-                                            className="text-right"
-                                            style={{ width: "120px" }}
-                                          >
-                                            {_formatMoney(item?.numPlannedAmount)}
-                                          </td>
-                                          <td
-                                            className="text-right"
-                                            style={{ width: "120px" }}
-                                          >
-                                            {_formatMoney(item?.numAmount)}
-                                          </td>
-                                          <td
-                                            className="text-right"
-                                            style={{ width: "120px" }}
-                                          >
-                                            {_formatMoney(
-                                              item?.numPlannedAmount - item?.numAmount
-                                            )}
-                                          </td>
-                                        </tr>
-                                      );
-                                    } else if (index === rowDto.length - 1) {
-                                      return (
-                                        <tr style={{ background: "#e6ecff" }}>
-                                          <td>{item?.strName}</td>
-                                          <td
-                                            className="text-right"
-                                            style={{ width: "120px" }}
-                                          >
-                                            {_formatMoney(item?.numPlannedAmount)}
-                                          </td>
-                                          <td
-                                            className="text-right"
-                                            style={{ width: "120px" }}
-                                          >
-                                            {_formatMoney(item?.numAmount)}
-                                          </td>
-                                          <td
-                                            className="text-right"
-                                            style={{ width: "120px" }}
-                                          >
-                                            {_formatMoney(
-                                              item?.numPlannedAmount - item?.numAmount
-                                            )}
-                                          </td>
-                                        </tr>
-                                      );
-                                    }
-                                    return (
-                                      <tr>
-                                        <td colSpan="4">{item?.strName}</td>
-                                      </tr>
-                                    );
-                                  case null:
-                                    return (
-                                      <tr>
+                                      <tr style={{ background: "#f0f0f5" }}>
+                                        <td>{item?.strName}</td>
                                         <td
-                                          colSpan="4"
-                                          style={{ height: "15px" }}
-                                        ></td>
-                                      </tr>
-                                    );
-
-                                  default:
-                                    return (
-                                      <tr>
-                                        <td
-                                          style={{
-                                            padding: "0 0 0 5px",
-                                            fontWeight: "normal",
-                                          }}
-                                        >
-                                          {item?.strName}
-                                        </td>
-                                        <td
-                                          className="pr-1"
-                                          style={{
-                                            border: "1px solid black",
-                                            textAlign: "right",
-                                            width: "120px",
-                                            padding: "0",
-                                            fontWeight: "normal",
-                                          }}
+                                          className="text-right"
+                                          style={{ width: "120px" }}
                                         >
                                           {_formatMoney(item?.numPlannedAmount)}
                                         </td>
                                         <td
-                                          className="pr-1"
-                                          style={{
-                                            border: "1px solid black",
-                                            textAlign: "right",
-                                            width: "120px",
-                                            padding: "0",
-                                            fontWeight: "normal",
-                                          }}
+                                          className="text-right"
+                                          style={{ width: "120px" }}
                                         >
                                           {_formatMoney(item?.numAmount)}
                                         </td>
                                         <td
-                                          className="pr-1"
-                                          style={{
-                                            border: "1px solid black",
-                                            textAlign: "right",
-                                            width: "120px",
-                                            padding: "0",
-                                            fontWeight: "normal",
-                                          }}
+                                          className="text-right"
+                                          style={{ width: "120px" }}
                                         >
                                           {_formatMoney(
-                                            item?.numPlannedAmount - item?.numAmount
+                                            item?.numPlannedAmount -
+                                              item?.numAmount
                                           )}
                                         </td>
                                       </tr>
                                     );
-                                }
-                              })}
-                            </table>
-                          </div>
-                        )}
+                                  } else if (index === rowDto.length - 1) {
+                                    return (
+                                      <tr style={{ background: "#e6ecff" }}>
+                                        <td>{item?.strName}</td>
+                                        <td
+                                          className="text-right"
+                                          style={{ width: "120px" }}
+                                        >
+                                          {_formatMoney(item?.numPlannedAmount)}
+                                        </td>
+                                        <td
+                                          className="text-right"
+                                          style={{ width: "120px" }}
+                                        >
+                                          {_formatMoney(item?.numAmount)}
+                                        </td>
+                                        <td
+                                          className="text-right"
+                                          style={{ width: "120px" }}
+                                        >
+                                          {_formatMoney(
+                                            item?.numPlannedAmount -
+                                              item?.numAmount
+                                          )}
+                                        </td>
+                                      </tr>
+                                    );
+                                  }
+                                  return (
+                                    <tr>
+                                      <td colSpan="4">{item?.strName}</td>
+                                    </tr>
+                                  );
+                                case null:
+                                  return (
+                                    <tr>
+                                      <td
+                                        colSpan="4"
+                                        style={{ height: "15px" }}
+                                      ></td>
+                                    </tr>
+                                  );
 
-                      </>
-                    )
-                  }
-
+                                default:
+                                  return (
+                                    <tr>
+                                      <td
+                                        style={{
+                                          padding: "0 0 0 5px",
+                                          fontWeight: "normal",
+                                        }}
+                                      >
+                                        {item?.strName}
+                                      </td>
+                                      <td
+                                        className="pr-1"
+                                        style={{
+                                          border: "1px solid black",
+                                          textAlign: "right",
+                                          width: "120px",
+                                          padding: "0",
+                                          fontWeight: "normal",
+                                        }}
+                                      >
+                                        {_formatMoney(item?.numPlannedAmount)}
+                                      </td>
+                                      <td
+                                        className="pr-1"
+                                        style={{
+                                          border: "1px solid black",
+                                          textAlign: "right",
+                                          width: "120px",
+                                          padding: "0",
+                                          fontWeight: "normal",
+                                        }}
+                                      >
+                                        {_formatMoney(item?.numAmount)}
+                                      </td>
+                                      <td
+                                        className="pr-1"
+                                        style={{
+                                          border: "1px solid black",
+                                          textAlign: "right",
+                                          width: "120px",
+                                          padding: "0",
+                                          fontWeight: "normal",
+                                        }}
+                                      >
+                                        {_formatMoney(
+                                          item?.numPlannedAmount -
+                                            item?.numAmount
+                                        )}
+                                      </td>
+                                    </tr>
+                                  );
+                              }
+                            })}
+                          </table>
+                        </div>
+                      )}
+                    </>
+                  )}
                 </Form>
               </CardBody>
             </Card>
           </>
         )}
-      </Formik >
+      </Formik>
     </>
   );
 }

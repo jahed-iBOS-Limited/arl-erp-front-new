@@ -10,15 +10,17 @@ import { _todayDate } from "../../../../_helper/_todayDate";
 import ILoader from "../../../../_helper/loader/_loader";
 import { getBusinessUnitYearConfigData, getTrailBalanceReport } from "../helper";
 import numberWithCommas from "./../../../../_helper/_numberWithCommas";
+import { fromDateFromApi } from "../../../../_helper/_formDateFromApi";
 
 const ReportHeader = () => {
   const printRef = useRef();
   const [trailBalanceReportData, setTrailBalanceReportData] = useState([]);
   const [date, setDate] = useState({});
+  const [fromDateFApi, setFromDateFApi] = useState("");
   const [loading, setLoading] = useState(false);
   const [initData, setInitData] = useState({
     balanceType: "3",
-    fromDate: "2021-01-07",
+    fromDate: "",
     toDate: _todayDate(),
   });
 
@@ -38,6 +40,8 @@ const ReportHeader = () => {
         selectedBusinessUnit?.value,
         setInitData
       );
+      
+      fromDateFromApi(selectedBusinessUnit?.value, setFromDateFApi)
     }
   }, [profileData, selectedBusinessUnit]);
   const debitTotal = trailBalanceReportData.reduce((total, data) => {
@@ -60,7 +64,7 @@ const ReportHeader = () => {
     >
       <Formik
         enableReinitialize={true}
-        initialValues={initData}
+        initialValues={{ ...initData, fromDate: fromDateFApi }}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           // saveHandler(values, () => {
           //   resetForm(initData);

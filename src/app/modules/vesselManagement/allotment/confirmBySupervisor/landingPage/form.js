@@ -7,29 +7,30 @@ import { BADCBCICForm, PortAndMotherVessel } from "../../../common/components";
 
 const confirmationTypes = [
   { value: 1, label: "Receive Confirmation" },
-  { value: 2, label: "Supervisor Confirmation (Truck Bill)" },
-  { value: 3, label: "Supervisor Confirmation (Godown Unload Bill)" },
+  { value: 2, label: "Supervisor Confirmation" },
+  // { value: 2, label: "Supervisor Confirmation (Truck Bill)" },
+  // { value: 3, label: "Supervisor Confirmation (Godown Unload Bill)" },
 ];
 
 const Form = ({ obj }) => {
   const {
-    values,
-    pageNo,
-    status,
-    rowData,
-    getData,
-    setOpen,
-    pageSize,
-    totalQty,
-    totalBill,
-    godownDDL,
-    setRowData,
-    isDisabled,
+    paginationSearchHandler,
+    onChangeHandler,
+    setFieldValue,
     shipPointDDL,
     totalRevenue,
-    setFieldValue,
-    onChangeHandler,
-    paginationSearchHandler,
+    isDisabled,
+    setRowData,
+    godownDDL,
+    totalBill,
+    totalQty,
+    pageSize,
+    setOpen,
+    getData,
+    rowData,
+    status,
+    pageNo,
+    values,
   } = obj;
   return (
     <>

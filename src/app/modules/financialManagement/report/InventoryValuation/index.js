@@ -64,7 +64,7 @@ export default function InventoryValuationRDLC() {
                                 <div className="col-lg-2">
                                     <InputField
                                         value={values?.fromDate}
-                                        label="Date"
+                                        label="From Date"
                                         name="fromDate"
                                         type="date"
                                         onChange={(e) => {

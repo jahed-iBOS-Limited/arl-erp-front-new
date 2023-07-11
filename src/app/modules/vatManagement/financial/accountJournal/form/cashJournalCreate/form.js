@@ -233,9 +233,9 @@ export default function _Form({
                     {headerData?.accountingJournalTypeId === 3 ? (
                       <>
                         <div className="col-lg-6 pr pl-1 mb-2">
-                          <label>Select Trasfer To</label>
+                          <label>Select Transfer To</label>
                           <Select
-                            label="Select Trasfer To"
+                            label="Select Transfer To"
                             options={
                               [
                                 { value: 2, label: "Cash" },

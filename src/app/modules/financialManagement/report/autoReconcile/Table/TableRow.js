@@ -18,24 +18,34 @@ import { _formatMoney } from "./../../../../_helper/_formatMoney";
 // import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { getBankAccDDLAction } from "../../bankReconciliation/helper";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import {SetFinancialManagementReportAutoReconcileAction} from "../../../../_helper/reduxForLocalStorage/Actions"
+import { SetFinancialManagementReportAutoReconcileAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import {
+  fromDateFromApiNew,
+} from "../../../../_helper/_formDateFromApi";
 
 // const html2pdf = require("html2pdf.js");
 
-export function TableRow() {
-
-  const {financialManagementReportAutoReconcile} = useSelector(state=>state?.localStorage)
-
+const initDataFuction = (financialManagementReportAutoReconcile) => {
   const initData = {
     fromDate: financialManagementReportAutoReconcile?.fromDate || _todayDate(),
-    toDate:financialManagementReportAutoReconcile?.toDate || _todayDate(),
-    bankAccount: financialManagementReportAutoReconcile?.bankAccount ||"",
+    toDate: financialManagementReportAutoReconcile?.toDate || _todayDate(),
+    bankAccount: financialManagementReportAutoReconcile?.bankAccount || "",
   };
 
-  const dispatch = useDispatch()
+  return initData;
+};
+
+export function TableRow() {
+  const { financialManagementReportAutoReconcile } = useSelector(
+    (state) => state?.localStorage
+  );
+
+  const dispatch = useDispatch();
+  const formikRef = React.useRef(null);
 
   const [bankAccDDL, setBankAccDDL] = useState([]);
   const [rowDate, setRowData] = useState([]);
+
   // get user profile data from store
   const storeData = useSelector((state) => {
     return {
@@ -46,11 +56,24 @@ export function TableRow() {
   const { profileData, selectedBusinessUnit } = storeData;
 
   useEffect(() => {
+    fromDateFromApiNew(selectedBusinessUnit?.value, (date) => {
+      if (formikRef.current) {
+        const apiFormDate = date ? _dateFormatter(date) : "";
+        const modifyInitData = initDataFuction(
+          financialManagementReportAutoReconcile
+        );
+        formikRef.current.setValues({
+          ...modifyInitData,
+          fromDate: apiFormDate,
+        });
+      }
+    });
     getBankAccDDLAction(
       profileData?.accountId,
       selectedBusinessUnit?.value,
       setBankAccDDL
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBusinessUnit, profileData]);
   // const pdfExport = (fileName) => {
   //   var element = document.getElementById("pdf-section");
@@ -80,7 +103,8 @@ export function TableRow() {
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={initData}
+        initialValues={{}}
+        innerRef={formikRef}
         //validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
@@ -140,10 +164,12 @@ export function TableRow() {
                         label="Bank Account"
                         onChange={(valueOption) => {
                           setFieldValue("bankAccount", valueOption);
-                          dispatch(SetFinancialManagementReportAutoReconcileAction({
-                            ...values,
-                            bankAccount:valueOption
-                          }))
+                          // dispatch(
+                          //   SetFinancialManagementReportAutoReconcileAction({
+                          //     ...values,
+                          //     bankAccount: valueOption,
+                          //   })
+                          // );
                         }}
                         placeholder="Bank Account"
                         errors={errors}
@@ -157,12 +183,14 @@ export function TableRow() {
                         name="fromDate"
                         placeholder="From Date"
                         type="date"
-                        onChange={e=>{
-                          setFieldValue("fromDate",e.target.value)
-                          dispatch(SetFinancialManagementReportAutoReconcileAction({
-                            ...values,
-                            fromDate:e.target.value
-                          }))
+                        onChange={(e) => {
+                          setFieldValue("fromDate", e.target.value);
+                          // dispatch(
+                          //   SetFinancialManagementReportAutoReconcileAction({
+                          //     ...values,
+                          //     fromDate: e.target.value,
+                          //   })
+                          // );
                         }}
                       />
                     </div>
@@ -173,12 +201,14 @@ export function TableRow() {
                         name="toDate"
                         placeholder="To date"
                         type="date"
-                        onChange={e=>{
-                          setFieldValue("toDate",e.target.value)
-                          dispatch(SetFinancialManagementReportAutoReconcileAction({
-                            ...values,
-                            toDate:e.target.value
-                          }))
+                        onChange={(e) => {
+                          setFieldValue("toDate", e.target.value);
+                          // dispatch(
+                          //   SetFinancialManagementReportAutoReconcileAction({
+                          //     ...values,
+                          //     toDate: e.target.value,
+                          //   })
+                          // );
                         }}
                       />
                     </div>
@@ -189,12 +219,14 @@ export function TableRow() {
                         name="search"
                         placeholder="Search"
                         type="text"
-                        onChange={e=>{
-                          setFieldValue("search",e.target.value)
-                          dispatch(SetFinancialManagementReportAutoReconcileAction({
-                            ...values,
-                            search:e.target.value
-                          }))
+                        onChange={(e) => {
+                          setFieldValue("search", e.target.value);
+                          // dispatch(
+                          //   SetFinancialManagementReportAutoReconcileAction({
+                          //     ...values,
+                          //     search: e.target.value,
+                          //   })
+                          // );
                         }}
                       />
                     </div>
@@ -203,6 +235,11 @@ export function TableRow() {
                         className="btn btn-primary"
                         type="button"
                         onClick={() => {
+                          dispatch(
+                            SetFinancialManagementReportAutoReconcileAction({
+                              ...values,
+                            })
+                          );
                           getAutoReconcileList(
                             selectedBusinessUnit?.value,
                             values?.bankAccount?.value,
@@ -233,8 +270,8 @@ export function TableRow() {
                           >
                             <thead>
                               <tr>
-                                <th style={{ width: "50px" }}>SL</th> 
-                                <th style={{ width: "150px" }}>Partner Name</th> 
+                                <th style={{ width: "50px" }}>SL</th>
+                                <th style={{ width: "150px" }}>Partner Name</th>
                                 <th style={{ width: "150px" }}>Voucher Code</th>
                                 <th style={{ width: "50px" }}>Type</th>
                                 <th style={{ width: "80px" }}>Issue Date</th>
@@ -246,14 +283,14 @@ export function TableRow() {
                             <tbody>
                               {rowDate?.map((item, index) => (
                                 <tr>
-                                  <td className="text-center">{index+1}</td>
+                                  <td className="text-center">{index + 1}</td>
                                   <td>{item?.partnerName}</td>
                                   <td>{item?.voucherCode}</td>
                                   <td>{item?.type}</td>
-                                  <td>{ _dateFormatter(item?.issueDate)}</td>
+                                  <td>{_dateFormatter(item?.issueDate)}</td>
                                   <td>{item?.refNo}</td>
                                   <td>{item?.particulars}</td>
-                                  <td>{ _formatMoney(item?.amount)}</td>
+                                  <td>{_formatMoney(item?.amount)}</td>
                                 </tr>
                               ))}
                             </tbody>

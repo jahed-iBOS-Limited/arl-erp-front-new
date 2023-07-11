@@ -26,17 +26,17 @@ const ReceiveAndPaymentsTable = ({
             </tr>
           </thead>
           <tbody>
-          {!journalCode && rowDto?.length > 0 && (
+          {rowDto?.length > 0 && (
               <tr>
                 <td>#</td>
                 <td>
                   <div className="text-left pl-2">
-                    {values?.cashGLPlus?.label}
+                    { values?.cashGLPlus?.label ? values?.cashGLPlus?.label : rowDto?.[0]?.headerGLName || ""}
                   </div>
                 </td>
                 <td>
                   <div className="text-left pl-2">
-                    {values?.cashGLPlus?.generalLedgerCode}
+                    {rowDto?.[0]?.headerGLTransaction || values?.cashGLPlus?.generalLedgerCode}
                   </div>
                 </td>
                 <td>
@@ -49,11 +49,11 @@ const ReceiveAndPaymentsTable = ({
                     <div className="text-right pr-2">{netAmount}</div>
                   )}
                 </td>
-                <td>
+                { !journalCode&&  <td>
                   <div className="pl-2">
-                    {values?.headerNarration || rowDto?.[0]?.narration || "N/A"}
+                    {journalCode ? rowDto?.[0]?.narration : values?.headerNarration || rowDto?.[0]?.narration || "N/A"}
                   </div>
-                </td>
+                </td>}
                 <td className="text-center">N/A</td>
               </tr>
             )}
