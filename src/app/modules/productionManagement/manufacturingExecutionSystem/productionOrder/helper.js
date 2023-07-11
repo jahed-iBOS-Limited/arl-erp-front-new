@@ -11,7 +11,7 @@ export const GetPlantDDL = async (userId, accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getShopFloorDDL = async (accId, buId, pId, setter) => {
@@ -22,7 +22,7 @@ export const getShopFloorDDL = async (accId, buId, pId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 // itemName ddl
@@ -42,7 +42,7 @@ export const getItemNameDDL = async (accId, buId, plantId, sid, setter) => {
         })
       );
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 // GetWorkCenterDDL ddl
 export const getRoutingToWorkCenterDDL = async (
@@ -59,7 +59,7 @@ export const getRoutingToWorkCenterDDL = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 // BOM Name DDL
 export const getRoutingToBOMDDL = async (
@@ -76,7 +76,7 @@ export const getRoutingToBOMDDL = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 // prt number ddl
 export const getPTRNumberDDL = async (accId, buId, plantId, setter) => {
@@ -87,7 +87,7 @@ export const getPTRNumberDDL = async (accId, buId, plantId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 // create productionOrder
 export const createProductionOrder = async (
@@ -176,7 +176,7 @@ export const getItemTransferInPagination = async (
       const newResData = res?.data?.data?.map((item) => {
         return {
           ...item,
-          isItemRequestFalse: item?.isItemRequest ? false : true,
+          isItemRequestFalse: item?.isDeleteEnable,
           isItemRequestCheck: false,
         };
       });
@@ -233,7 +233,7 @@ export const getProductionOrderById = async (productionOrderId, setter) => {
       };
       setter(newData);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 // edit production order
 
@@ -280,7 +280,7 @@ export const getProductionOrderSFGById = async (
       }));
       setter(newData);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 // create sub-po
 export const createSFGProductionOrder = async (data) => {
@@ -356,7 +356,7 @@ export const isSOUseOnProductionOrder = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getSubOrderQty = async (bomId, orderQty) => {
@@ -367,7 +367,7 @@ export const getSubOrderQty = async (bomId, orderQty) => {
     if (res.status === 200 && res?.data) {
       console.log(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const createItemRequest = async (
@@ -402,7 +402,7 @@ export const getSBUDDL_Api = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getPlantDDL_api = async (userId, accId, buId, setter) => {
@@ -413,7 +413,7 @@ export const getPlantDDL_api = async (userId, accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getWarehouseDDL_api = async (
@@ -430,7 +430,7 @@ export const getWarehouseDDL_api = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 export const saveItemRequest_api = async (
   data,
@@ -479,7 +479,7 @@ export const createItemRequestNew = async (data, cb, IConfirmModal, setDisabled)
       data
     );
     //toast.success(res?.message || "Submitted successfully");
-    console.log("res",res)
+    console.log("res", res)
     cb();
     setDisabled(false);
     const obj = {
@@ -507,5 +507,5 @@ export const getBoMDetailsByBoMId = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
