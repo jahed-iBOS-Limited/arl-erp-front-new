@@ -220,7 +220,7 @@ export default function _Form({
                   />
                 </div>
                 <p>
-                  Total Qty (bag):{" "}
+                  Total Qty:{" "}
                   {_fixedPoint(
                     gridData?.reduce(
                       (a, b) =>
@@ -236,7 +236,7 @@ export default function _Form({
                     gridData?.reduce(
                       (a, b) =>
                         Number(a) +
-                        (b.checked ? Number(b.totalShipingValue || 0) : 0),
+                        (b.checked ? Number(b.transportAmount || 0) : 0),
                       0
                     ),
                     true
