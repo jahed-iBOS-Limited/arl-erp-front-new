@@ -4,7 +4,13 @@ import React, { useEffect, useRef, useState } from "react";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import ReactToPrint from "react-to-print";
-import { Card, CardBody, CardHeader, CardHeaderToolbar, ModalProgressBar } from "../../../../../_metronic/_partials/controls";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  CardHeaderToolbar,
+  ModalProgressBar,
+} from "../../../../../_metronic/_partials/controls";
 import { _formatMoney } from "../../../_helper/_formatMoney";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
@@ -13,14 +19,39 @@ import { _todayDate } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { SetReportIncomestatementAction } from "../../../_helper/reduxForLocalStorage/Actions";
 import { getProfitCenterDDL } from "../profitCenterReport/Form/helper";
-import { getBusinessDDLByED, getEnterpriseDivisionDDL, getIncomeStatement_api } from "./helper";
+import {
+  getBusinessDDLByED,
+  getEnterpriseDivisionDDL,
+  getIncomeStatement_api,
+} from "./helper";
 import printIcon from "../../../../modules/_helper/images/print-icon.png";
 import IViewModal from "../../../_helper/_viewModal";
 import GeneralLedgerTaxModalForIncomeStatement from "./generalLedgerTaxModal";
 import GeneralLedgerModalForIncomeStatement from "../incomestatement/generalLedgerModal";
-import { fromDateFromApi } from "../../../_helper/_formDateFromApi";
+import { fromDateFromApiNew } from "../../../_helper/_formDateFromApi";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
 
+const initDataFuction = (reportIncomestatement) => {
+  const initData = {
+    id: undefined,
+    fromDate: "",
+    todate: _todayDate(),
+    lastPeriodFrom: _todayDate(),
+    lastPeriodTo: _todayDate(),
+    enterpriseDivision: reportIncomestatement?.enterpriseDivision || "",
+    subDivision: reportIncomestatement?.subDivision || "",
+    SBU: reportIncomestatement?.SBU || "",
+    profitCenter: reportIncomestatement?.profitCenter || "",
+    businessUnit: reportIncomestatement?.businessUnit || "",
+    conversionRate: reportIncomestatement?.conversionRate || 1,
+    reportType: reportIncomestatement?.reportType || {
+      value: 1,
+      label: "Statistical",
+    },
+  };
 
+  return initData;
+};
 
 const html2pdf = require("html2pdf.js");
 
@@ -34,21 +65,6 @@ export default function IncomeStatementTaxLanding() {
     },
   } = useSelector((state) => state, shallowEqual);
 
-  const initData = {
-    id: undefined,
-    fromDate: reportIncomestatement?.fromDate || _todayDate(),
-    todate: reportIncomestatement?.todate || _todayDate(),
-    lastPeriodFrom: _todayDate(),
-    lastPeriodTo: _todayDate(),
-    enterpriseDivision: reportIncomestatement?.enterpriseDivision || "",
-    subDivision: reportIncomestatement?.subDivision || "",
-    SBU: reportIncomestatement?.SBU || "",
-    profitCenter: reportIncomestatement?.profitCenter || "",
-    businessUnit: reportIncomestatement?.businessUnit || "",
-    conversionRate: reportIncomestatement?.conversionRate || 1,
-    reportType: reportIncomestatement?.reportType || { value: 1, label: "Statistical" },
-  };
-
   const dispatch = useDispatch();
   const [enterpriseDivisionDDL, setEnterpriseDivisionDDL] = useState([]);
   const [
@@ -60,18 +76,21 @@ export default function IncomeStatementTaxLanding() {
   const [profitCenterDDL, setProfitCenterDDL] = useState([]);
   const [incomeStatement, setIncomeStatement] = useState([]);
   const [loading, setLoading] = useState(false);
+  const formikRef = React.useRef(null);
 
   // get user profile data from store
 
   useEffect(() => {
-    fromDateFromApi(selectedBusinessUnit?.value, null, (date)=>{
-      dispatch(
-        SetReportIncomestatementAction({
-          ...reportIncomestatement,
-          fromDate: date || "",
-        })
-      );
-    })
+    fromDateFromApiNew(selectedBusinessUnit?.value, (date) => {
+      if (formikRef.current) {
+        const apiFormDate = date ? _dateFormatter(date) : "";
+        const modifyInitData = initDataFuction(reportIncomestatement);
+        formikRef.current.setValues({
+          ...modifyInitData,
+          fromDate: apiFormDate,
+        });
+      }
+    });
 
     getEnterpriseDivisionDDL(accountId, setEnterpriseDivisionDDL);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -103,7 +122,9 @@ export default function IncomeStatementTaxLanding() {
   const printRef = useRef();
 
   const [showGeneralLedgerModal, setShowGeneralLedgerModal] = useState(false);
-  const [showGeneralLedgerTaxModal, setShowGeneralLedgerTaxModal] = useState(false);
+  const [showGeneralLedgerTaxModal, setShowGeneralLedgerTaxModal] = useState(
+    false
+  );
   const [incomeStatementRow, setIncomeStatementRow] = useState(null);
 
   const {
@@ -111,22 +132,22 @@ export default function IncomeStatementTaxLanding() {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state.authData, shallowEqual);
 
-//   const [showRDLC, // setShowRDLC] = useState(false);
-//   const groupId = "218e3d7e-f3ea-4f66-8150-bb16eb6fc606";
-//   const reportId = "bbd2a18f-8600-4ed8-bb55-1948a80e1605";
-//   const parameterValues = (values) => {
-//     const agingParameters = [
-//       { name: "ConvertionRate", value: `${values?.conversionRate}` },
-//       { name: "fdate", value: `${values?.fromDate}` },
-//       { name: "tdate", value: `${values?.todate}` },
-//     ];
-//     return agingParameters;
-//   };
+  //   const [showRDLC, // setShowRDLC] = useState(false);
+  //   const groupId = "218e3d7e-f3ea-4f66-8150-bb16eb6fc606";
+  //   const reportId = "bbd2a18f-8600-4ed8-bb55-1948a80e1605";
+  //   const parameterValues = (values) => {
+  //     const agingParameters = [
+  //       { name: "ConvertionRate", value: `${values?.conversionRate}` },
+  //       { name: "fdate", value: `${values?.fromDate}` },
+  //       { name: "tdate", value: `${values?.todate}` },
+  //     ];
+  //     return agingParameters;
+  //   };
   return (
     <>
       {(loading || loadingOnGetSubDivisionDDL) && <Loading />}
-      <Formik enableReinitialize={true} initialValues={initData}>
-        {({ values }) => (
+      <Formik enableReinitialize={true} initialValues={{}} innerRef={formikRef}>
+        {({ values, setFieldValue }) => (
           <>
             <Card>
               {true && <ModalProgressBar />}
@@ -179,17 +200,21 @@ export default function IncomeStatementTaxLanding() {
                         value={values?.enterpriseDivision}
                         label="Enterprise Division"
                         onChange={(valueOption) => {
+                          setFieldValue("enterpriseDivision", valueOption);
+                          setFieldValue("subDivision", "");
+                          setFieldValue("businessUnit", "");
+                          setFieldValue("profitCenter", "");
                           // setShowRDLC(false);
                           setIncomeStatement([]);
-                          dispatch(
-                            SetReportIncomestatementAction({
-                              ...values,
-                              enterpriseDivision: valueOption,
-                              subDivision: "",
-                              businessUnit: "",
-                              profitCenter: "",
-                            })
-                          );
+                          // dispatch(
+                          //   SetReportIncomestatementAction({
+                          //     ...values,
+                          //     enterpriseDivision: valueOption,
+                          //     subDivision: "",
+                          //     businessUnit: "",
+                          //     profitCenter: "",
+                          //   })
+                          // );
                           if (valueOption?.value) {
                             getSubDivisionDDL(
                               `/hcm/HCMDDL/GetBusinessUnitSubGroup?AccountId=${accountId}&BusinessUnitGroup=${valueOption?.label}`
@@ -206,16 +231,19 @@ export default function IncomeStatementTaxLanding() {
                         value={values?.subDivision}
                         label="Sub Division"
                         onChange={(valueOption) => {
+                          setFieldValue("subDivision", valueOption);
+                          setFieldValue("businessUnit", "");
+                          setFieldValue("profitCenter", "");
                           // setShowRDLC(false);
                           setIncomeStatement([]);
-                          dispatch(
-                            SetReportIncomestatementAction({
-                              ...values,
-                              subDivision: valueOption,
-                              businessUnit: "",
-                              profitCenter: "",
-                            })
-                          );
+                          // dispatch(
+                          //   SetReportIncomestatementAction({
+                          //     ...values,
+                          //     subDivision: valueOption,
+                          //     businessUnit: "",
+                          //     profitCenter: "",
+                          //   })
+                          // );
 
                           if (valueOption) {
                             getBusinessDDLByED(
@@ -237,28 +265,35 @@ export default function IncomeStatementTaxLanding() {
                         value={values?.businessUnit}
                         label="Business Unit"
                         onChange={(valueOption) => {
+                          setFieldValue("businessUnit", valueOption);
+                          setFieldValue("profitCenter", "");
                           // setShowRDLC(false);
                           setIncomeStatement([]);
-                          dispatch(
-                            SetReportIncomestatementAction({
-                              ...values,
-                              businessUnit: valueOption,
-                              profitCenter: "",
-                            })
-                          );
+                          // dispatch(
+                          //   SetReportIncomestatementAction({
+                          //     ...values,
+                          //     businessUnit: valueOption,
+                          //     profitCenter: "",
+                          //   })
+                          // );
                           if (valueOption?.value >= 0) {
                             getProfitCenterDDL(
                               valueOption?.value,
                               (profitCenterDDLData) => {
-                                setProfitCenterDDL(profitCenterDDLData);
-                                dispatch(
-                                  SetReportIncomestatementAction({
-                                    ...values,
-                                    businessUnit: valueOption,
-                                    profitCenter:
-                                      profitCenterDDLData?.[0] || "",
-                                  })
+                                setFieldValue("businessUnit", valueOption);
+                                setFieldValue(
+                                  "profitCenter",
+                                  profitCenterDDLData?.[0] || ""
                                 );
+                                setProfitCenterDDL(profitCenterDDLData);
+                                // dispatch(
+                                //   SetReportIncomestatementAction({
+                                //     ...values,
+                                //     businessUnit: valueOption,
+                                //     profitCenter:
+                                //       profitCenterDDLData?.[0] || "",
+                                //   })
+                                // );
                               }
                             );
                           }
@@ -271,7 +306,7 @@ export default function IncomeStatementTaxLanding() {
                       <NewSelect
                         isDisabled={
                           values?.businessUnit?.value === 0 ||
-                            !values?.businessUnit
+                          !values?.businessUnit
                             ? true
                             : false
                         }
@@ -280,14 +315,15 @@ export default function IncomeStatementTaxLanding() {
                         value={values?.profitCenter}
                         label="Profit Center"
                         onChange={(valueOption) => {
+                          setFieldValue("profitCenter", valueOption);
                           // setShowRDLC(false);
                           setIncomeStatement([]);
-                          dispatch(
-                            SetReportIncomestatementAction({
-                              ...values,
-                              profitCenter: valueOption,
-                            })
-                          );
+                          // dispatch(
+                          //   SetReportIncomestatementAction({
+                          //     ...values,
+                          //     profitCenter: valueOption,
+                          //   })
+                          // );
                         }}
                         placeholder="Profit Center"
                       />
@@ -300,13 +336,14 @@ export default function IncomeStatementTaxLanding() {
                         placeholder="From Date"
                         type="date"
                         onChange={(e) => {
+                          setFieldValue("fromDate", e.target.value);
                           // setShowRDLC(false);
-                          dispatch(
-                            SetReportIncomestatementAction({
-                              ...values,
-                              fromDate: e?.target?.value,
-                            })
-                          );
+                          // dispatch(
+                          //   SetReportIncomestatementAction({
+                          //     ...values,
+                          //     fromDate: e?.target?.value,
+                          //   })
+                          // );
                         }}
                       />
                     </div>
@@ -318,13 +355,14 @@ export default function IncomeStatementTaxLanding() {
                         placeholder="To date"
                         type="date"
                         onChange={(e) => {
+                          setFieldValue("todate", e.target.value);
                           // setShowRDLC(false);
-                          dispatch(
-                            SetReportIncomestatementAction({
-                              ...values,
-                              todate: e?.target?.value,
-                            })
-                          );
+                          // dispatch(
+                          //   SetReportIncomestatementAction({
+                          //     ...values,
+                          //     todate: e?.target?.value,
+                          //   })
+                          // );
                         }}
                       />
                     </div>
@@ -336,13 +374,14 @@ export default function IncomeStatementTaxLanding() {
                         placeholder="Conversion Rate"
                         type="text"
                         onChange={(e) => {
+                          setFieldValue("conversionRate", e.target.value);
                           // setShowRDLC(false);
-                          dispatch(
-                            SetReportIncomestatementAction({
-                              ...values,
-                              conversionRate: e?.target?.value,
-                            })
-                          );
+                          // dispatch(
+                          //   SetReportIncomestatementAction({
+                          //     ...values,
+                          //     conversionRate: e?.target?.value,
+                          //   })
+                          // );
                         }}
                         min={0}
                       />
@@ -357,14 +396,15 @@ export default function IncomeStatementTaxLanding() {
                         value={values?.reportType}
                         label="Report Type"
                         onChange={(valueOption) => {
+                          setFieldValue("reportType", valueOption);
                           // setShowRDLC(false);
                           setIncomeStatement([]);
-                          dispatch(
-                            SetReportIncomestatementAction({
-                              ...values,
-                              reportType: valueOption,
-                            })
-                          );
+                          // dispatch(
+                          //   SetReportIncomestatementAction({
+                          //     ...values,
+                          //     reportType: valueOption,
+                          //   })
+                          // );
                         }}
                         placeholder="Report Type"
                       />
@@ -374,6 +414,11 @@ export default function IncomeStatementTaxLanding() {
                         className="btn btn-primary"
                         type="button"
                         onClick={() => {
+                          dispatch(
+                            SetReportIncomestatementAction({
+                              ...values,
+                            })
+                          );
                           // setShowRDLC(false);
                           getIncomeStatement_api(
                             values?.fromDate,
@@ -432,201 +477,204 @@ export default function IncomeStatementTaxLanding() {
                       />
                     </div>
                   ) : ( */}
-                    <div className="row" id="pdf-section" ref={printRef}>
-                      {incomeStatement.length > 0 && (
-                        <div className="col-lg-12">
-                          <div className="titleContent text-center">
-                            <h3>
-                              {values?.businessUnit?.value > 0
-                                ? values?.businessUnit?.label
-                                : restProfileData?.accountName}
-                            </h3>
-                            <h5>Comprehensive Income Statement</h5>
-                            <p className="m-0">
-                              <strong>
-                                {`For the period from ${values?.fromDate} to ${values?.todate}`}
-                              </strong>
-                            </p>
-                          </div>
-                          <div className="print_wrapper">
-                            <table
-                              id="table-to-xlsx"
-                              className="table table-striped table-bordered mt-3 global-table table-font-size-sm"
-                            >
-                              <thead>
-                                <tr>
-                                  <th style={{ width: "500px" }}>
-                                    Particulars
-                                  </th>
-                                  <th style={{ width: "200px" }}>Note SL</th>
+                  <div className="row" id="pdf-section" ref={printRef}>
+                    {incomeStatement.length > 0 && (
+                      <div className="col-lg-12">
+                        <div className="titleContent text-center">
+                          <h3>
+                            {values?.businessUnit?.value > 0
+                              ? values?.businessUnit?.label
+                              : restProfileData?.accountName}
+                          </h3>
+                          <h5>Comprehensive Income Statement</h5>
+                          <p className="m-0">
+                            <strong>
+                              {`For the period from ${values?.fromDate} to ${values?.todate}`}
+                            </strong>
+                          </p>
+                        </div>
+                        <div className="print_wrapper">
+                          <table
+                            id="table-to-xlsx"
+                            className="table table-striped table-bordered mt-3 global-table table-font-size-sm"
+                          >
+                            <thead>
+                              <tr>
+                                <th style={{ width: "500px" }}>Particulars</th>
+                                <th style={{ width: "200px" }}>Note SL</th>
 
-                                  <th
-                                    style={{ width: "250px" }}
-                                    className="incTableThPadding"
+                                <th
+                                  style={{ width: "250px" }}
+                                  className="incTableThPadding"
+                                >
+                                  <span>
+                                    Tax Budget
+                                    <br />
+                                    {/* {`${values?.fromDate} to ${values?.todate}`} */}
+                                  </span>
+                                </th>
+                                <th
+                                  style={{ width: "250px" }}
+                                  className="incTableThPadding"
+                                >
+                                  <span>
+                                    Actual <br />
+                                    {/* {`${values?.lastPeriodFrom} to ${values?.lastPeriodTo}`} */}
+                                  </span>
+                                </th>
+                                <th
+                                  style={{ width: "250px" }}
+                                  className="incTableThPadding"
+                                >
+                                  <span>Actual Tax</span>
+                                </th>
+                                <th style={{ width: "250px" }}>Variance</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {incomeStatement?.map((data, index) => (
+                                <>
+                                  <tr
+                                    className={
+                                      data?.intFSId === 0 ||
+                                      data?.intFSId === 20
+                                        ? "font-weight-bold"
+                                        : ""
+                                    }
                                   >
-                                    <span>
-                                     Tax Budget
-                                      <br />
-                                      {/* {`${values?.fromDate} to ${values?.todate}`} */}
-                                    </span>
-                                  </th>
-                                  <th
-                                    style={{ width: "250px" }}
-                                    className="incTableThPadding"
-                                  >
-                                    <span>
-                                      Actual <br />
-                                      {/* {`${values?.lastPeriodFrom} to ${values?.lastPeriodTo}`} */}
-                                    </span>
-                                  </th>
-                                  <th
-                                    style={{ width: "250px" }}
-                                    className="incTableThPadding"
-                                  >
-                                    <span>
-                                      Actual Tax                                     
-                                    </span>
-                                  </th>
-                                  <th style={{ width: "250px" }}>Variance</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {incomeStatement?.map((data, index) => (
-                                  <>
-                                    <tr
-                                      className={
-                                        data?.intFSId === 0 ||
+                                    <td className="text-left">
+                                      {data?.strFSComponentName}
+                                    </td>
+                                    <td></td>
+
+                                    <td className="text-right">
+                                      {_formatMoney(data?.monLastPeriodAmount)}
+                                    </td>
+                                    <td
+                                      className="text-right pointer"
+                                      style={{
+                                        textDecoration:
+                                          data?.intFSId === 0 ||
                                           data?.intFSId === 20
-                                          ? "font-weight-bold"
-                                          : ""
-                                      }
+                                            ? ""
+                                            : "underline",
+                                        color:
+                                          data?.intFSId === 0 ||
+                                          data?.intFSId === 20
+                                            ? ""
+                                            : "blue",
+                                      }}
                                     >
-                                      <td className="text-left">
-                                        {data?.strFSComponentName}
-                                      </td>
-                                      <td></td>
-
-                                      <td className="text-right">
+                                      <span
+                                        onClick={() => {
+                                          if (
+                                            !(
+                                              data?.intFSId === 0 ||
+                                              data?.intFSId === 20
+                                            )
+                                          ) {
+                                            setShowGeneralLedgerModal(true);
+                                            setIncomeStatementRow(data);
+                                          }
+                                        }}
+                                      >
+                                        {" "}
                                         {_formatMoney(
-                                          data?.monLastPeriodAmount
+                                          data?.monCurrentPeriodAmount
                                         )}
-                                      </td>
-                                      <td
-                                        className="text-right pointer"
-                                        style={{
-                                          textDecoration:
-                                            data?.intFSId === 0 ||
+                                      </span>
+                                    </td>
+
+                                    <td
+                                      className="text-right pointer"
+                                      style={{
+                                        textDecoration:
+                                          data?.intFSId === 0 ||
+                                          data?.intFSId === 20
+                                            ? ""
+                                            : "underline",
+                                        color:
+                                          data?.intFSId === 0 ||
+                                          data?.intFSId === 20
+                                            ? ""
+                                            : "blue",
+                                      }}
+                                    >
+                                      <span
+                                        onClick={() => {
+                                          if (
+                                            !(
+                                              data?.intFSId === 0 ||
                                               data?.intFSId === 20
-                                              ? ""
-                                              : "underline",
-                                          color:
-                                            data?.intFSId === 0 ||
-                                              data?.intFSId === 20
-                                              ? ""
-                                              : "blue",
+                                            )
+                                          ) {
+                                            setShowGeneralLedgerTaxModal(true);
+                                            setIncomeStatementRow(data);
+                                          }
                                         }}
                                       >
-                                        <span
-                                          onClick={() => {
-                                            if (
-                                              !(
-                                                data?.intFSId === 0 ||
-                                                data?.intFSId === 20
-                                              )
-                                            ) {
-                                              setShowGeneralLedgerModal(true);
-                                              setIncomeStatementRow(data);
-                                            }
-                                          }}
-                                        >
-                                          {" "}
-                                          {_formatMoney(
-                                            data?.monCurrentPeriodAmount
-                                          )}
-                                        </span>
-                                      </td>
+                                        {" "}
+                                        {_formatMoney(
+                                          data?.monCurrentPeriodAmountTax
+                                        )}
+                                      </span>
+                                    </td>
 
-                                      
-
-                                      <td
-                                        className="text-right pointer"
-                                        style={{
-                                          textDecoration:
-                                            data?.intFSId === 0 ||
-                                              data?.intFSId === 20
-                                              ? ""
-                                              : "underline",
-                                          color:
-                                            data?.intFSId === 0 ||
-                                              data?.intFSId === 20
-                                              ? ""
-                                              : "blue",
-                                        }}
-                                      >
-                                        <span
-                                          onClick={() => {
-                                            if (
-                                              !(
-                                                data?.intFSId === 0 ||
-                                                data?.intFSId === 20
-                                              )
-                                            ) {
-                                             setShowGeneralLedgerTaxModal(true);
-                                              setIncomeStatementRow(data);
-                                            }
-                                          }}
-                                        >
-                                          {" "}
-                                          {_formatMoney(
-                                            data?.monCurrentPeriodAmountTax
-                                          )}
-                                        </span>
-                                      </td>
-
-                                      {/* <td className="text-right">
+                                    {/* <td className="text-right">
                                           {_formatMoney(data?.monCurrentPeriodAmountTax)}
                                       </td> */}
-                                      <td className="text-right">
-                                       {/* {
+                                    <td className="text-right">
+                                      {/* {
                                         +data?.monCurrentPeriodAmount > 0 ? 
                                       _formatMoney(+data?.monCurrentPeriodAmount - Math.abs(data?.monCurrentPeriodAmountTax))
                                        :  _formatMoney(+data?.monCurrentPeriodAmount + Math.abs(data?.monCurrentPeriodAmountTax))   
                                     } */}
 
-                                    {
-                                       (data?.monCurrentPeriodAmount < 0 && data?.monCurrentPeriodAmountTax < 0) ?
-                                       (
-                                         data?.monCurrentPeriodAmount > data?.monCurrentPeriodAmountTax ? (
-                                          _formatMoney(Math.abs(data?.monCurrentPeriodAmount) - Math.abs(data?.monCurrentPeriodAmountTax))
-                                         ) : 
-                                         _formatMoney((Math.abs(data?.monCurrentPeriodAmountTax) - Math.abs(data?.monCurrentPeriodAmount))) 
-                                       ) :  (
-                                          _formatMoney(+data?.monCurrentPeriodAmount - Math.abs(data?.monCurrentPeriodAmountTax))
-                                       )
-
-                                       
-                                    }
-                                       
-                                      </td>
-                                    </tr>
-                                    
-                                  </>
-                                ))}
-                                <tr>
-                                    <td
-                                      className="text-center d-none"
-                                      colSpan={4}
-                                    >{`System Generated Report - ${moment().format(
-                                      "LLLL"
-                                    )}`}</td>
-                                 </tr>
-                              </tbody>
-                            </table>
-                            <div></div>
-                          </div>
+                                      {data?.monCurrentPeriodAmount < 0 &&
+                                      data?.monCurrentPeriodAmountTax < 0
+                                        ? data?.monCurrentPeriodAmount >
+                                          data?.monCurrentPeriodAmountTax
+                                          ? _formatMoney(
+                                              Math.abs(
+                                                data?.monCurrentPeriodAmount
+                                              ) -
+                                                Math.abs(
+                                                  data?.monCurrentPeriodAmountTax
+                                                )
+                                            )
+                                          : _formatMoney(
+                                              Math.abs(
+                                                data?.monCurrentPeriodAmountTax
+                                              ) -
+                                                Math.abs(
+                                                  data?.monCurrentPeriodAmount
+                                                )
+                                            )
+                                        : _formatMoney(
+                                            +data?.monCurrentPeriodAmount -
+                                              Math.abs(
+                                                data?.monCurrentPeriodAmountTax
+                                              )
+                                          )}
+                                    </td>
+                                  </tr>
+                                </>
+                              ))}
+                              <tr>
+                                <td
+                                  className="text-center d-none"
+                                  colSpan={4}
+                                >{`System Generated Report - ${moment().format(
+                                  "LLLL"
+                                )}`}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <div></div>
                         </div>
-                      )}
-                    </div>
+                      </div>
+                    )}
+                  </div>
                   {/* )} */}
                 </Form>
               </CardBody>
@@ -648,7 +696,7 @@ export default function IncomeStatementTaxLanding() {
             <IViewModal
               show={showGeneralLedgerTaxModal}
               onHide={() => {
-               setShowGeneralLedgerTaxModal(false);
+                setShowGeneralLedgerTaxModal(false);
                 setIncomeStatementRow(null);
               }}
             >

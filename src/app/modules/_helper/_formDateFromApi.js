@@ -11,3 +11,14 @@ export async function fromDateFromApi(businessUnitId, setter, cb) {
     setter && setter("");
   }
 }
+
+export async function fromDateFromApiNew(businessUnitId, cb) {
+  try {
+    const res = await axios.get(
+      `/fino/Account/GetYearStartDateByUnitId?businessUnitId=${businessUnitId}`
+    );
+    cb && cb(res?.data || "");
+  } catch (error) {
+    cb && cb("");
+  }
+}
