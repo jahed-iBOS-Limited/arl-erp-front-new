@@ -7,8 +7,8 @@ import IView from "../../../../../_helper/_helperIcons/_view";
 import InputField from "../../../../../_helper/_inputField";
 import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
 import NewSelect from "../../../../../_helper/_select";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
-import AttachFile from "../../../../../vesselManagement/common/attachmentUpload";
+import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet"; 
+import AttachFile from "../../../../../_helper/commonInputFieldsGroups/attachemntUpload";
 
 const validationSchema = Yup.object().shape({
   billNo: Yup.string().required("Bill No is Required"),

@@ -12,13 +12,13 @@ import NewSelect from "../../../../_helper/_select";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import IButton from "../../../../_helper/iButton";
-import AttachFile from "../../../common/attachmentUpload";
+import IButton from "../../../../_helper/iButton"; 
 import {
   GetDomesticPortDDL,
   // GetLighterAllotmentPagination,
   getMotherVesselDDL,
 } from "../../generalInformation/helper";
+import AttachFile from "../../../../_helper/commonInputFieldsGroups/attachemntUpload";
 
 const initData = {
   port: "",

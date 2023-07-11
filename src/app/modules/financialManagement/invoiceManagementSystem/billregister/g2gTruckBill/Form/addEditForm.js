@@ -22,16 +22,14 @@ const initData = {
   fromDate: _todayDate(),
 };
 
-export default function G2GCustomizeBill() {
+export default function G2GTruckBill() {
   const [isDisabled, setDisabled] = useState(false);
   const [uploadedImage, setUploadedImage] = useState([]);
   // get user profile data from store
   const {
     profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId, label: buName },
-  } = useSelector((state) => {
-    return state?.authData;
-  }, shallowEqual);
+  } = useSelector((state) => state?.authData, shallowEqual);
 
   const [gridData, setGridData] = useState([]);
   const { state: headerData } = useLocation();

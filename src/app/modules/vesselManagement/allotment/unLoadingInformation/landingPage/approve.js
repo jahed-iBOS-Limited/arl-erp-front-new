@@ -17,10 +17,10 @@ import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import AttachFile from "../../../common/attachmentUpload";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost"; 
 import TextArea from "../../../../_helper/TextArea";
 import { StockInToInventoryApproval } from "../../challanEntry/helper";
+import AttachFile from "../../../../_helper/commonInputFieldsGroups/attachemntUpload";
 
 const initData = {
   supplier: "",
