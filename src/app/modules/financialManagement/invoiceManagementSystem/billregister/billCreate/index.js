@@ -12,7 +12,6 @@ import FairPriceShopForm from "../fairPriceInvoice/Form/addEditForm";
 import InternalTransportBillForm from "./../internalTransportBill/Form/addEditForm";
 import OthersBillCreateForm from "../othersBillNew/Form/addEditForm";
 import RenewalBillForm from "../RenewalBill/table";
-import G2GCustomizeBill from "../g2gCustomizeBill/Form/addEditForm";
 import G2GCarrierBill from "../g2gCarrierBill/Form/addEditForm";
 import PumpFoodingBillForm from "../pumpFoodingBill/Form/addEditForm";
 import MotherVesselBill from "../motherVesselBill/Form/addEditForm";
@@ -20,6 +19,8 @@ import GhatLoadUnloadBill from "../ghatLoadUnloadBill/Form/addEditForm";
 import StevedoreBill from "../stevedoreBill/Form/addEditForm";
 import SurveyorBill from "../surveyorBill/Form/addEditForm";
 import CNFBill from "../cnfBill/Form/addEditForm";
+import G2GTruckBill from "../g2gTruckBill/Form/addEditForm";
+import G2GGodownUnloadBill from "../g2gGodownUnloadBill/Form/addEditForm";
 
 function BillregisterCreate() {
   const { state: headerData } = useLocation();
@@ -50,13 +51,16 @@ function BillregisterCreate() {
       ) : billType === 14 ? (
         <RenewalBillForm headerData={headerData} />
       ) : billType === 16 ? (
-        <G2GCustomizeBill />
-      ) : billType === 17 ? (
+        <G2GTruckBill />
+      ) : // <G2GCustomizeBill />
+      billType === 17 ? (
         <G2GCarrierBill />
       ) : billType === 18 ? (
         <PumpFoodingBillForm />
       ) : billType === 19 ? (
         <MotherVesselBill />
+      ) : billType === 21 ? (
+        <G2GGodownUnloadBill />
       ) : billType === 22 ? (
         <GhatLoadUnloadBill />
       ) : billType === 25 ? (

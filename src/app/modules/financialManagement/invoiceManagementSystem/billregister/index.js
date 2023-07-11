@@ -127,11 +127,9 @@ function BillregisterLanding() {
     );
   };
 
-  
   const paginationSearchHandler = (searchValue, values) => {
     setPositionHandler(pageNo, pageSize, values, searchValue);
   };
-
 
   return (
     <>
@@ -285,14 +283,14 @@ function BillregisterLanding() {
                     </div>
                   </div>
                   <div>
-                  <div className="po_custom_search">
-        <PaginationSearch
-          isDisabledFiled={false}
-          placeholder="Partner & Register Code Search"
-          paginationSearchHandler={paginationSearchHandler}
-          values={values}
-        />
-      </div>
+                    <div className="po_custom_search">
+                      <PaginationSearch
+                        isDisabledFiled={false}
+                        placeholder="Partner & Register Code Search"
+                        paginationSearchHandler={paginationSearchHandler}
+                        values={values}
+                      />
+                    </div>
                   </div>
                   {/* <div className="row global-form global-form-custom py-6"></div> */}
                   <GridData

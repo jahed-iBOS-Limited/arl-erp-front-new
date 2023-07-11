@@ -628,7 +628,8 @@ export const getBillRegisterPagination_api = async (
     const res = await Axios.get(
       `/fino/BillRegister/BillRegisterPagination?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&ViewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}&SBUId=${sbu}&TypeId=${typeId}&fromDate=${
         values?.fromDate
-      }&toDate=${values?.toDate}&CostCenterId=${costCenterId || 0}&Search=${searchValue}`
+      }&toDate=${values?.toDate}&CostCenterId=${costCenterId ||
+        0}&Search=${searchValue}`
     );
     setDisabled(false);
     if (res.status === 200 && res?.data) {
@@ -726,21 +727,23 @@ export const getChallanDDL = async (
     setter([]);
   }
 };
-export const getG2GCustomizeData = async (
+export const getG2GBillData = async (
   accId,
   buId,
   supplierID,
   fromDate,
   toDate,
+  typeId,
   setter,
   setDisabled,
   searchTerm
 ) => {
-  const search = searchTerm ? `&SearchTerm=${searchTerm}` : "";
+  // const search = searchTerm ? `&SearchTerm=${searchTerm}` : "";
   try {
     setDisabled(true);
     const res = await Axios.get(
-      `/tms/LigterLoadUnload/PreDataForCustomizeBillG2G?AccountId=${accId}&BusinessUnitId=${buId}&SupplierId=${supplierID}&FromDate=${fromDate}&ToDate=${toDate}${search}`
+      `/tms/LigterLoadUnload/GetTruckAndGodownLabourBill?typeId=${typeId}&accountId=${accId}&businessUnitId=${buId}&supplierId=${supplierID}&fromDate=${fromDate}&toDate=${toDate}`
+      // `/tms/LigterLoadUnload/PreDataForCustomizeBillG2G?AccountId=${accId}&BusinessUnitId=${buId}&SupplierId=${supplierID}&FromDate=${fromDate}&ToDate=${toDate}${search}`
     );
     setter(
       res?.data?.map((item) => ({

@@ -34,7 +34,7 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
 import IButton from "../../../../_helper/iButton";
-import AttachFile from "../../../../vesselManagement/common/attachmentUpload";
+import AttachFile from "../../../../_helper/commonInputFieldsGroups/attachemntUpload";
 
 const header = (buId) => {
   if (buId === 144) {

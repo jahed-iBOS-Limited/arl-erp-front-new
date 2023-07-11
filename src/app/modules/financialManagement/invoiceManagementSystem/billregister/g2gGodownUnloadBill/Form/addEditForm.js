@@ -3,7 +3,6 @@ import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import { shallowEqual, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
-import { _fixedPoint } from "../../../../../_helper/_fixedPoint";
 import IForm from "../../../../../_helper/_form";
 import Loading from "../../../../../_helper/_loading";
 import { _todayDate } from "../../../../../_helper/_todayDate";
@@ -22,16 +21,14 @@ const initData = {
   fromDate: _todayDate(),
 };
 
-export default function G2GCustomizeBill() {
+export default function G2GGodownUnloadBill() {
   const [isDisabled, setDisabled] = useState(false);
   const [uploadedImage, setUploadedImage] = useState([]);
   // get user profile data from store
   const {
     profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId, label: buName },
-  } = useSelector((state) => {
-    return state?.authData;
-  }, shallowEqual);
+  } = useSelector((state) => state?.authData, shallowEqual);
 
   const [gridData, setGridData] = useState([]);
   const { state: headerData } = useLocation();
@@ -44,7 +41,7 @@ export default function G2GCustomizeBill() {
       values?.supplier?.value || 0,
       values?.fromDate,
       values?.toDate,
-      1,
+      2,
       setGridData,
       setDisabled,
       searchTerm || ""
@@ -58,19 +55,17 @@ export default function G2GCustomizeBill() {
       if (selectedRow.length === 0) {
         toast.warning("Please select at least one");
       } else {
+        const totalAmount = selectedRow?.reduce(
+          (total, cur) => (total += +cur?.goDownLabourAmount),
+          0
+        );
         const rows = selectedRow?.map((item) => ({
-          challanNo: "string",
+          challanNo: item?.deliveryCode,
           deliveryId: item?.deliveryId || 0,
           quantity: +item?.quantity || 0,
-          ammount: _fixedPoint(
-            +item?.quantity * +item?.transportRate || 0,
-            false
-          ),
-          billAmount: _fixedPoint(
-            +item?.quantity * +item?.transportRate || 0,
-            false
-          ),
-          shipmentCode: "string",
+          ammount: +item?.goDownLabourAmount,
+          billAmount: +item?.goDownLabourAmount,
+          shipmentCode: item?.deliveryCode,
           motherVesselId: 0,
           lighterVesselId: 0,
           numFreightRateUSD: 0,
@@ -82,7 +77,7 @@ export default function G2GCustomizeBill() {
           truckToDamRate: 0,
           lighterToBolgateRate: 0,
           bolgateToDamRate: 0,
-          othersCostRate: +item?.transportRate,
+          othersCostRate: +item?.godownUnloadLabourRate,
         }));
 
         const payload = {
@@ -98,8 +93,8 @@ export default function G2GCustomizeBill() {
             billDate: values?.billDate,
             paymentDueDate: values?.paymentDueDate,
             narration: values?.narration,
-            billAmount: 0,
-            plantId: 0,
+            billAmount: totalAmount,
+            plantId: headerData?.plant?.value || 0,
             warehouseId: 0,
             actionBy: userId,
           },
@@ -122,7 +117,7 @@ export default function G2GCustomizeBill() {
   return (
     <div className="purchaseInvoice">
       <IForm
-        title="G2G Truck Bill"
+        title="G2G Godown Unload Bill"
         getProps={setObjprops}
         isDisabled={isDisabled}
       >

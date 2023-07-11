@@ -1,34 +1,41 @@
+import Axios from "axios";
 import { Form, Formik } from "formik";
 import React from "react";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
+import SearchAsyncSelect from "../../../../../_helper/SearchAsyncSelect";
+import { _dateFormatter } from "../../../../../_helper/_dateFormate";
 import { _fixedPoint } from "../../../../../_helper/_fixedPoint";
+import FormikError from "../../../../../_helper/_formikError";
 import IView from "../../../../../_helper/_helperIcons/_view";
 import InputField from "../../../../../_helper/_inputField";
 import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
-import NewSelect from "../../../../../_helper/_select";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet"; 
+import PaginationSearch from "../../../../../_helper/_search";
 import AttachFile from "../../../../../_helper/commonInputFieldsGroups/attachemntUpload";
 
 const validationSchema = Yup.object().shape({
+  supplier: Yup.object()
+    .nullable()
+    .required("Supplier is Required"),
   billNo: Yup.string().required("Bill No is Required"),
   billDate: Yup.date().required("Bill Date is Required"),
   paymentDueDate: Yup.date().required("Payment Date is Required"),
 });
 
 export default function _Form({
-  initData,
+  buId,
+  accId,
   btnRef,
-  saveHandler,
+  getData,
+  initData,
   gridData,
+  headerData,
+  saveHandler,
   setGridData,
   resetBtnRef,
-  getData,
-  portDDL,
-  setImages,
+  setUploadedImage,
 }) {
   const [open, setOpen] = React.useState(false);
-  const [motherVesselDDL, getMotherVesselDDL] = useAxiosGet();
   const dispatch = useDispatch();
   return (
     <>
@@ -36,62 +43,82 @@ export default function _Form({
         enableReinitialize={true}
         initialValues={initData}
         validationSchema={validationSchema}
-        onSubmit={(values, { resetForm }) => {
+        onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
             setGridData([]);
-            setImages([]);
           });
         }}
       >
-        {({ handleSubmit, resetForm, values, setFieldValue }) => (
+        {({
+          handleSubmit,
+          resetForm,
+          values,
+          errors,
+          touched,
+          setFieldValue,
+        }) => (
           <>
             <Form className="form form-label-right">
               <div className="row global-form">
                 <div className="col-12">
                   <div className="row align-items-end">
-                    <div className="col-lg-3">
-                      <NewSelect
-                        label="Port"
-                        placeholder="Port"
-                        value={values?.port}
-                        name="port"
-                        options={portDDL || []}
-                        onChange={(e) => {
-                          if (e) {
-                            setFieldValue("port", e);
-                            setFieldValue("motherVessel", "");
-                            getMotherVesselDDL(
-                              `/wms/FertilizerOperation/GetMotherVesselProgramInfo?PortId=${e.value}`
-                            );
-                          }
+                    <div className="col-3">
+                      <label>Supplier</label>
+                      <SearchAsyncSelect
+                        selectedValue={values.supplier}
+                        handleChange={(valueOption) => {
+                          setGridData([]);
+                          setFieldValue("supplier", valueOption);
                         }}
-                        isDisabled={false}
+                        loadOptions={(v) => {
+                          if (v.length < 3) return [];
+                          return Axios.get(
+                            `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accId}&UnitId=${buId}&SBUId=${headerData
+                              ?.sbu?.value || 0}`
+                          ).then((res) => {
+                            const updateList = res?.data.map((item) => ({
+                              ...item,
+                            }));
+                            return updateList;
+                          });
+                        }}
+                      />
+                      <FormikError
+                        errors={errors}
+                        name="supplier"
+                        touched={touched}
                       />
                     </div>
-                    <div className="col-lg-3">
-                      <NewSelect
-                        label="Mother Vessel Name"
-                        placeholder="Mother Vessel Name"
-                        value={values?.motherVessel}
-                        name="motherVessel"
-                        options={motherVesselDDL || []}
-                        onChange={(e) => {
-                          setFieldValue("motherVessel", e);
-                        }}
-                        isDisabled={false}
+                    <div className="col-lg-2">
+                      <label>From Date</label>
+                      <InputField
+                        value={values?.fromDate}
+                        placeholder="From Date"
+                        name="fromDate"
+                        type="date"
+                        touched={touched}
                       />
                     </div>
-
+                    <div className="col-lg-2">
+                      <label>To Date</label>
+                      <InputField
+                        value={values?.toDate}
+                        placeholder="To Date"
+                        name="toDate"
+                        type="date"
+                        touched={touched}
+                      />
+                    </div>
                     <div className="col-auto mr-auto">
                       <button
                         className="btn btn-primary"
                         type="button"
                         onClick={() => {
                           setGridData([]);
-                          getData(values);
+                          getData(values, "");
                         }}
-                        disabled={!values?.motherVessel}
+                        disabled={!values?.supplier}
                       >
                         Show
                       </button>
@@ -108,7 +135,7 @@ export default function _Form({
                     </div>
                     <div className="col-3">
                       <InputField
-                        value={values?.billDate}
+                        value={_dateFormatter(values?.billDate)}
                         label="Bill Date"
                         type="date"
                         name="billDate"
@@ -117,7 +144,7 @@ export default function _Form({
                     </div>
                     <div className="col-3">
                       <InputField
-                        value={values?.paymentDueDate}
+                        value={_dateFormatter(values?.paymentDueDate)}
                         label="Payment Due Date"
                         type="date"
                         name="paymentDueDate"
@@ -176,7 +203,6 @@ export default function _Form({
                 onSubmit={() => resetForm(initData)}
               ></button>
             </Form>
-
             <div className="row mt-1 ">
               <div
                 className="col d-flex justify-content-between"
@@ -185,13 +211,20 @@ export default function _Form({
                   fontWeight: "bold",
                 }}
               >
+                <div>
+                  <PaginationSearch
+                    placeholder="Search"
+                    paginationSearchHandler={(search) =>
+                      getData(values, search)
+                    }
+                  />
+                </div>
                 <p>
                   Total Qty:{" "}
                   {_fixedPoint(
                     gridData?.reduce(
                       (a, b) =>
-                        Number(a) +
-                        (b?.isSelected ? Number(b?.programQnt || 0) : 0),
+                        Number(a) + (b.checked ? Number(b.quantity || 0) : 0),
                       0
                     ),
                     true
@@ -203,13 +236,14 @@ export default function _Form({
                     gridData?.reduce(
                       (a, b) =>
                         Number(a) +
-                        (b?.isSelected ? Number(b?.billAmount || 0) : 0),
+                        (b.checked ? Number(b.goDownLabourAmount || 0) : 0),
                       0
                     ),
                     true
                   )}
                 </p>
               </div>
+
               <div className="table-responsive">
                 <table className="table table-striped table-bordered global-table">
                   <thead className="bg-secondary">
@@ -219,7 +253,7 @@ export default function _Form({
                           type="checkbox"
                           checked={
                             gridData?.length > 0
-                              ? gridData?.every((item) => item?.isSelected)
+                              ? gridData?.every((item) => item?.checked)
                               : false
                           }
                           onChange={(e) => {
@@ -227,7 +261,7 @@ export default function _Form({
                               gridData?.map((item) => {
                                 return {
                                   ...item,
-                                  isSelected: e?.target?.checked,
+                                  checked: e?.target?.checked,
                                 };
                               })
                             );
@@ -235,8 +269,12 @@ export default function _Form({
                         />
                       </th>
                       <th>SL</th>
+                      <th>Ship Point Name</th>
+                      <th>Delivery Code</th>
+                      <th>Supplier Name</th>
                       <th>Mother Vessel Name</th>
-                      <th>Stevedore Name</th>
+                      <th>Ship To Partner</th>
+                      <th>Delivery Date</th>
                       <th>Quantity</th>
                       <th>Rate</th>
                       <th>Bill Amount</th>
@@ -248,9 +286,10 @@ export default function _Form({
                         <td className="text-center align-middle">
                           <input
                             type="checkbox"
-                            checked={item?.isSelected}
+                            // value = {item?.checked ? true:false}
+                            checked={item?.checked}
                             onChange={(e) => {
-                              item["isSelected"] = e.target.checked;
+                              item["checked"] = e.target.checked;
                               setGridData([...gridData]);
                             }}
                           />
@@ -258,19 +297,24 @@ export default function _Form({
                         <td className="text-center align-middle">
                           {index + 1}
                         </td>
+                        <td>{item?.shipPointName}</td>
+                        <td>{item?.deliveryCode}</td>
+                        <td>{item?.supplierName}</td>
                         <td>{item?.motherVesselName}</td>
-                        <td>{item?.stevdoreName}</td>
-                        <td className="text-right">{item?.programQnt || 0}</td>
-                        <td className="text-right">{item?.stevdorRate || 0}</td>
-
-                        <td style={{ width: "200px" }}>
+                        <td>{item?.shipToPartnerName}</td>
+                        <td>{_dateFormatter(item?.deliveryDate)}</td>
+                        <td className="text-right">{item?.quantity}</td>
+                        <td className="text-right">
+                          {item?.godownUnloadLabourRate}
+                        </td>
+                        <td style={{ width: "100px" }}>
                           <InputField
-                            value={item?.billAmount}
-                            name="billAmount"
+                            value={item?.goDownLabourAmount}
+                            name="goDownLabourAmount"
                             placeholder="Total Amount"
                             type="number"
                             onChange={(e) => {
-                              item.billAmount = e?.target?.value;
+                              item.goDownLabourAmount = e.target.value;
                               setGridData([...gridData]);
                             }}
                           />
@@ -282,13 +326,7 @@ export default function _Form({
               </div>
             </div>
 
-            <AttachFile
-              obj={{
-                open,
-                setOpen,
-                setUploadedImage: setImages,
-              }}
-            />
+            <AttachFile obj={{ open, setOpen, setUploadedImage }} />
           </>
         )}
       </Formik>
