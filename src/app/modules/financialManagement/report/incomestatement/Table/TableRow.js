@@ -30,20 +30,14 @@ import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIRe
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import moment from "moment";
 import StatisticalDetails from "../statisticalDetails/statisticalDetailsModal";
-import { fromDateFromApi } from "../../../../_helper/_formDateFromApi";
+import {
+  fromDateFromApiNew,
+} from "../../../../_helper/_formDateFromApi";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
 const html2pdf = require("html2pdf.js");
 
-export function TableRow() {
-  const {
-    localStorage: { reportIncomestatement },
-    authData: {
-      profileData: { accountId, ...restProfileData },
-      businessUnitList,
-      selectedBusinessUnit,
-    },
-  } = useSelector((state) => state, shallowEqual);
-
+const initDataFuction = (reportIncomestatement) => {
   const initData = {
     id: undefined,
     fromDate: reportIncomestatement?.fromDate || _todayDate(),
@@ -56,8 +50,24 @@ export function TableRow() {
     profitCenter: reportIncomestatement?.profitCenter || "",
     businessUnit: reportIncomestatement?.businessUnit || "",
     conversionRate: reportIncomestatement?.conversionRate || 1,
-    reportType: reportIncomestatement?.reportType || { value: 1, label: "Statistical" },
+    reportType: reportIncomestatement?.reportType || {
+      value: 1,
+      label: "Statistical",
+    },
   };
+
+  return initData;
+};
+
+export function TableRow() {
+  const {
+    localStorage: { reportIncomestatement },
+    authData: {
+      profileData: { accountId, ...restProfileData },
+      businessUnitList,
+      selectedBusinessUnit,
+    },
+  } = useSelector((state) => state, shallowEqual);
 
   const dispatch = useDispatch();
   const [enterpriseDivisionDDL, setEnterpriseDivisionDDL] = useState([]);
@@ -70,19 +80,22 @@ export function TableRow() {
   const [profitCenterDDL, setProfitCenterDDL] = useState([]);
   const [incomeStatement, setIncomeStatement] = useState([]);
   const [loading, setLoading] = useState(false);
+  const formikRef = React.useRef(null);
 
   // get user profile data from store
 
   useEffect(() => {
     getEnterpriseDivisionDDL(accountId, setEnterpriseDivisionDDL);
-    fromDateFromApi(selectedBusinessUnit?.value, null, (date)=>{
-      dispatch(
-        SetReportIncomestatementAction({
-          ...reportIncomestatement,
-          fromDate: date || "",
-        })
-      );
-    })
+    fromDateFromApiNew(selectedBusinessUnit?.value, (date) => {
+      if (formikRef.current) {
+        const apiFormDate = date ? _dateFormatter(date) : "";
+        const modifyInitData = initDataFuction(reportIncomestatement);
+        formikRef.current.setValues({
+          ...modifyInitData,
+          fromDate: apiFormDate,
+        });
+      }
+    });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -138,8 +151,8 @@ export function TableRow() {
   return (
     <>
       {(loading || loadingOnGetSubDivisionDDL) && <Loading />}
-      <Formik enableReinitialize={true} initialValues={initData}>
-        {({ values }) => (
+      <Formik enableReinitialize={true} initialValues={{}} innerRef={formikRef}>
+        {({ values, setFieldValue }) => (
           <>
             <Card>
               {true && <ModalProgressBar />}
@@ -192,17 +205,21 @@ export function TableRow() {
                         value={values?.enterpriseDivision}
                         label="Enterprise Division"
                         onChange={(valueOption) => {
+                          setFieldValue("enterpriseDivision", valueOption);
+                          setFieldValue("subDivision", "");
+                          setFieldValue("businessUnit", "");
+                          setFieldValue("profitCenter", "");
                           setShowRDLC(false);
                           setIncomeStatement([]);
-                          dispatch(
-                            SetReportIncomestatementAction({
-                              ...values,
-                              enterpriseDivision: valueOption,
-                              subDivision: "",
-                              businessUnit: "",
-                              profitCenter: "",
-                            })
-                          );
+                          // dispatch(
+                          //   SetReportIncomestatementAction({
+                          //     ...values,
+                          //     enterpriseDivision: valueOption,
+                          //     subDivision: "",
+                          //     businessUnit: "",
+                          //     profitCenter: "",
+                          //   })
+                          // );
                           if (valueOption?.value) {
                             getSubDivisionDDL(
                               `/hcm/HCMDDL/GetBusinessUnitSubGroup?AccountId=${accountId}&BusinessUnitGroup=${valueOption?.label}`
@@ -219,16 +236,19 @@ export function TableRow() {
                         value={values?.subDivision}
                         label="Sub Division"
                         onChange={(valueOption) => {
+                          setFieldValue("subDivision", valueOption);
+                          setFieldValue("businessUnit", "");
+                          setFieldValue("profitCenter", "");
                           setShowRDLC(false);
                           setIncomeStatement([]);
-                          dispatch(
-                            SetReportIncomestatementAction({
-                              ...values,
-                              subDivision: valueOption,
-                              businessUnit: "",
-                              profitCenter: "",
-                            })
-                          );
+                          // dispatch(
+                          //   SetReportIncomestatementAction({
+                          //     ...values,
+                          //     subDivision: valueOption,
+                          //     businessUnit: "",
+                          //     profitCenter: "",
+                          //   })
+                          // );
 
                           if (valueOption) {
                             getBusinessDDLByED(
@@ -250,28 +270,35 @@ export function TableRow() {
                         value={values?.businessUnit}
                         label="Business Unit"
                         onChange={(valueOption) => {
+                          setFieldValue("businessUnit", valueOption);
+                          setFieldValue("profitCenter", "");
                           setShowRDLC(false);
                           setIncomeStatement([]);
-                          dispatch(
-                            SetReportIncomestatementAction({
-                              ...values,
-                              businessUnit: valueOption,
-                              profitCenter: "",
-                            })
-                          );
+                          // dispatch(
+                          //   SetReportIncomestatementAction({
+                          //     ...values,
+                          //     businessUnit: valueOption,
+                          //     profitCenter: "",
+                          //   })
+                          // );
                           if (valueOption?.value >= 0) {
                             getProfitCenterDDL(
                               valueOption?.value,
                               (profitCenterDDLData) => {
                                 setProfitCenterDDL(profitCenterDDLData);
-                                dispatch(
-                                  SetReportIncomestatementAction({
-                                    ...values,
-                                    businessUnit: valueOption,
-                                    profitCenter:
-                                      profitCenterDDLData?.[0] || "",
-                                  })
+                                setFieldValue("businessUnit", valueOption);
+                                setFieldValue(
+                                  "profitCenter",
+                                  profitCenterDDLData?.[0] || ""
                                 );
+                                // dispatch(
+                                //   SetReportIncomestatementAction({
+                                //     ...values,
+                                //     businessUnit: valueOption,
+                                //     profitCenter:
+                                //       profitCenterDDLData?.[0] || "",
+                                //   })
+                                // );
                               }
                             );
                           }
@@ -284,7 +311,7 @@ export function TableRow() {
                       <NewSelect
                         isDisabled={
                           values?.businessUnit?.value === 0 ||
-                            !values?.businessUnit
+                          !values?.businessUnit
                             ? true
                             : false
                         }
@@ -293,14 +320,15 @@ export function TableRow() {
                         value={values?.profitCenter}
                         label="Profit Center"
                         onChange={(valueOption) => {
+                          setFieldValue("profitCenter", valueOption);
                           setShowRDLC(false);
                           setIncomeStatement([]);
-                          dispatch(
-                            SetReportIncomestatementAction({
-                              ...values,
-                              profitCenter: valueOption,
-                            })
-                          );
+                          // dispatch(
+                          //   SetReportIncomestatementAction({
+                          //     ...values,
+                          //     profitCenter: valueOption,
+                          //   })
+                          // );
                         }}
                         placeholder="Profit Center"
                       />
@@ -313,13 +341,14 @@ export function TableRow() {
                         placeholder="From Date"
                         type="date"
                         onChange={(e) => {
+                          setFieldValue("fromDate", e.target.value);
                           setShowRDLC(false);
-                          dispatch(
-                            SetReportIncomestatementAction({
-                              ...values,
-                              fromDate: e?.target?.value,
-                            })
-                          );
+                          // dispatch(
+                          //   SetReportIncomestatementAction({
+                          //     ...values,
+                          //     fromDate: e?.target?.value,
+                          //   })
+                          // );
                         }}
                       />
                     </div>
@@ -331,13 +360,14 @@ export function TableRow() {
                         placeholder="To date"
                         type="date"
                         onChange={(e) => {
+                          setFieldValue("todate", e.target.value);
                           setShowRDLC(false);
-                          dispatch(
-                            SetReportIncomestatementAction({
-                              ...values,
-                              todate: e?.target?.value,
-                            })
-                          );
+                          // dispatch(
+                          //   SetReportIncomestatementAction({
+                          //     ...values,
+                          //     todate: e?.target?.value,
+                          //   })
+                          // );
                         }}
                       />
                     </div>
@@ -349,13 +379,14 @@ export function TableRow() {
                         placeholder="Conversion Rate"
                         type="text"
                         onChange={(e) => {
+                          setFieldValue("conversionRate", e.target.value);
                           setShowRDLC(false);
-                          dispatch(
-                            SetReportIncomestatementAction({
-                              ...values,
-                              conversionRate: e?.target?.value,
-                            })
-                          );
+                          // dispatch(
+                          //   SetReportIncomestatementAction({
+                          //     ...values,
+                          //     conversionRate: e?.target?.value,
+                          //   })
+                          // );
                         }}
                         min={0}
                       />
@@ -371,21 +402,23 @@ export function TableRow() {
                         label="Report Type"
                         onChange={(valueOption) => {
                           if (valueOption) {
+                            setFieldValue("reportType", valueOption);
                             setShowRDLC(false);
                             setIncomeStatement([]);
-                            dispatch(
-                              SetReportIncomestatementAction({
-                                ...values,
-                                reportType: valueOption,
-                              })
-                            );
+                            // dispatch(
+                            //   SetReportIncomestatementAction({
+                            //     ...values,
+                            //     reportType: valueOption,
+                            //   })
+                            // );
                           } else {
-                            dispatch(
-                              SetReportIncomestatementAction({
-                                ...values,
-                                reportType: '',
-                              })
-                            );
+                            setFieldValue("reportType", "");
+                            // dispatch(
+                            //   SetReportIncomestatementAction({
+                            //     ...values,
+                            //     reportType: "",
+                            //   })
+                            // );
                           }
                         }}
                         placeholder="Report Type"
@@ -397,6 +430,11 @@ export function TableRow() {
                         type="button"
                         onClick={() => {
                           setShowRDLC(false);
+                          dispatch(
+                            SetReportIncomestatementAction({
+                              ...values,
+                            })
+                          );
                           getIncomeStatement_api(
                             values?.fromDate,
                             values?.todate,
@@ -451,14 +489,13 @@ export function TableRow() {
                         }}
                         disabled={
                           !values?.businessUnit ||
-                          values?.businessUnit?.label?.trim() === 'All' ||
+                          values?.businessUnit?.label?.trim() === "All" ||
                           !values?.fromDate ||
                           !values?.todate
                         }
                       >
                         Statistical Details
                       </button>
-
                     </div>
                   </div>
 
@@ -528,7 +565,7 @@ export function TableRow() {
                                     <tr
                                       className={
                                         data?.intFSId === 0 ||
-                                          data?.intFSId === 20
+                                        data?.intFSId === 20
                                           ? "font-weight-bold"
                                           : ""
                                       }
@@ -548,12 +585,12 @@ export function TableRow() {
                                         style={{
                                           textDecoration:
                                             data?.intFSId === 0 ||
-                                              data?.intFSId === 20
+                                            data?.intFSId === 20
                                               ? ""
                                               : "underline",
                                           color:
                                             data?.intFSId === 0 ||
-                                              data?.intFSId === 20
+                                            data?.intFSId === 20
                                               ? ""
                                               : "blue",
                                         }}
@@ -580,11 +617,10 @@ export function TableRow() {
                                       <td className="text-right">
                                         {_formatMoney(
                                           data?.monLastPeriodAmount -
-                                          data?.monCurrentPeriodAmount
+                                            data?.monCurrentPeriodAmount
                                         )}
                                       </td>
                                     </tr>
-                                    
                                   </>
                                 ))}
                                 <tr>
@@ -624,7 +660,7 @@ export function TableRow() {
             <IViewModal
               show={statisticalDetailsModal}
               onHide={() => {
-                setStatisticalDetailsModal(false)
+                setStatisticalDetailsModal(false);
               }}
             >
               <StatisticalDetails formValues={values} />
