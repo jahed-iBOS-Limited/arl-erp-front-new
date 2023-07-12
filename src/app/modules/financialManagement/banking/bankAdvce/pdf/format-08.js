@@ -678,7 +678,7 @@ export const FormatEight = ({
                         ...(fontSize && { fontSize }),
                       }}
                     >
-                      <b>{amounts?.[index]}</b>
+                      <b>{amounts?.[index]} Taka Only</b>
                     </div>
                   </td>
                 </tr>

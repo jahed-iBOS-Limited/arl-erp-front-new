@@ -1,4 +1,5 @@
 export const getPdfFormatNumber = (adviceType, advice) => {
+  console.log("format",adviceType, advice)
   switch ([adviceType, advice].join("-")) {
     case "1-1":
     case "1-8":

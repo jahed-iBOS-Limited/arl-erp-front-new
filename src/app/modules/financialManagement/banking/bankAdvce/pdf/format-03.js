@@ -439,8 +439,7 @@ const FormatThree = ({
             <td></td>
             <td></td>
             <td></td>
-            {values?.advice?.info === "scb" && (
-              <td
+            <td
                 style={{
                   border: "1px solid #000",
                   textAlign: "center",
@@ -448,7 +447,6 @@ const FormatThree = ({
               >
                 {/* {values?.bankAccountNo?.bankAccNo} */}
               </td>
-            )}
           </tr>
         </tbody>
       </table>
