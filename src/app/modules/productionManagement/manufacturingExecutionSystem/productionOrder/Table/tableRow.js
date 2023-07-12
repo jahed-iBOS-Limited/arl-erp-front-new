@@ -62,17 +62,7 @@ export function TableRow() {
   const [isShowProductionModal, setIsShowProductionModal] = useState(false);
   const [productionOrderId, setProductionOrderId] = useState(null);
   const [warehouseDDL, getWarehouseDDL, warehouseDDLloader] = useAxiosGet();
-  // const [status, setStatus] = useState();
-  // const [landingTableRow, setLandingTableRow] = useState({});
   const history = useHistory();
-
-  // role management
-  // const userRole = useSelector(
-  //   (state) => state?.authData?.userRole,
-  //   shallowEqual
-  // );
-  // const productionOrder = userRole[findIndex(userRole, "Production Order")];
-
   const dispatch = useDispatch();
 
   //paginationState
@@ -155,7 +145,7 @@ export function TableRow() {
         selectedPlant?.value,
         setShopFloorDDL
       );
-      getWarehouseDDL(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId
+    getWarehouseDDL(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId
       }&AccId=${profileData?.accountId
       }&BusinessUnitId=${selectedBusinessUnit?.value
       }&PlantId=${selectedPlant?.value
@@ -288,10 +278,10 @@ export function TableRow() {
                         setShopFloorDDL
                       );
                       getWarehouseDDL(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId
-                      }&AccId=${profileData?.accountId
-                      }&BusinessUnitId=${selectedBusinessUnit?.value
-                      }&PlantId=${valueOption?.value
-                      }&OrgUnitTypeId=8`)
+                        }&AccId=${profileData?.accountId
+                        }&BusinessUnitId=${selectedBusinessUnit?.value
+                        }&PlantId=${valueOption?.value
+                        }&OrgUnitTypeId=8`)
                       dispatch(
                         SetManufacturePOTableLandingAction({
                           plant: valueOption,
@@ -627,7 +617,7 @@ export function TableRow() {
                               )}
                               <button
                                 className="btn p-0"
-                                disabled={item?.isItemRequestFalse}
+                                disabled={!item?.isDeleteEnable}
                                 onClick={() => {
                                   postData(
                                     // `/mes/ProductionOrder/DeleteProductionOrder?ProductionOrderId=${item?.productionOrderId}`,
