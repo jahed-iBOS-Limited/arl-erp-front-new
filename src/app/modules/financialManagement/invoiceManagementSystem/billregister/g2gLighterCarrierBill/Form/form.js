@@ -1,22 +1,21 @@
-import Axios from "axios";
 import { Form, Formik } from "formik";
 import React from "react";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
-import SearchAsyncSelect from "../../../../../_helper/SearchAsyncSelect";
 import { _dateFormatter } from "../../../../../_helper/_dateFormate";
 import { _fixedPoint } from "../../../../../_helper/_fixedPoint";
-import FormikError from "../../../../../_helper/_formikError";
 import IView from "../../../../../_helper/_helperIcons/_view";
 import InputField from "../../../../../_helper/_inputField";
 import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
 import PaginationSearch from "../../../../../_helper/_search";
+import NewSelect from "../../../../../_helper/_select";
 import AttachFile from "../../../../../_helper/commonInputFieldsGroups/attachemntUpload";
+import FromDateToDateForm from "../../../../../_helper/commonInputFieldsGroups/dateForm";
+import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
+import { PortAndMotherVessel } from "../../../../../vesselManagement/common/components";
+import IButton from "../../../../../_helper/iButton";
 
 const validationSchema = Yup.object().shape({
-  supplier: Yup.object()
-    .nullable()
-    .required("Supplier is Required"),
   billNo: Yup.string().required("Bill No is Required"),
   billDate: Yup.date().required("Bill Date is Required"),
   paymentDueDate: Yup.date().required("Payment Date is Required"),
@@ -24,18 +23,17 @@ const validationSchema = Yup.object().shape({
 
 export default function _Form({
   buId,
-  accId,
   btnRef,
   getData,
   initData,
   gridData,
-  headerData,
   saveHandler,
   setGridData,
   resetBtnRef,
   setUploadedImage,
 }) {
   const [open, setOpen] = React.useState(false);
+  const [lighterCarrierDDL, getLighterCarrierDDL] = useAxiosGet();
   const dispatch = useDispatch();
   return (
     <>
@@ -63,130 +61,116 @@ export default function _Form({
               <div className="row global-form">
                 <div className="col-12">
                   <div className="row align-items-end">
-                    <div className="col-3">
-                      <label>Supplier</label>
-                      <SearchAsyncSelect
-                        selectedValue={values.supplier}
-                        handleChange={(valueOption) => {
-                          setGridData([]);
-                          setFieldValue("supplier", valueOption);
+                    <PortAndMotherVessel
+                      obj={{
+                        values,
+                        setFieldValue,
+                        onChange: (fieldName, allValues) => {
+                          if (fieldName === "port") {
+                            getLighterCarrierDDL(
+                              `/wms/FertilizerOperation/GetLighterCarrierDDL?BusinessUnitId=${buId}&PortId=${allValues?.port?.value}`
+                            );
+                          }
+                        },
+                      }}
+                    />
+                    <div className="col-lg-3">
+                      <NewSelect
+                        label="Carrier Name"
+                        placeholder="Carrier Name"
+                        value={values?.carrierName}
+                        name="carrierName"
+                        options={
+                          lighterCarrierDDL?.map((itm) => ({
+                            ...itm,
+                            value: itm?.carrierId,
+                            label: itm?.carrierName,
+                          })) || []
+                        }
+                        onChange={(e) => {
+                          setFieldValue("carrierName", e);
                         }}
-                        loadOptions={(v) => {
-                          if (v.length < 3) return [];
-                          return Axios.get(
-                            `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accId}&UnitId=${buId}&SBUId=${headerData
-                              ?.sbu?.value || 0}`
-                          ).then((res) => {
-                            const updateList = res?.data.map((item) => ({
-                              ...item,
-                            }));
-                            return updateList;
-                          });
-                        }}
-                      />
-                      <FormikError
-                        errors={errors}
-                        name="supplier"
-                        touched={touched}
+                        isDisabled={false}
                       />
                     </div>
-                    <div className="col-lg-2">
-                      <label>From Date</label>
-                      <InputField
-                        value={values?.fromDate}
-                        placeholder="From Date"
-                        name="fromDate"
-                        type="date"
-                        touched={touched}
-                      />
-                    </div>
-                    <div className="col-lg-2">
-                      <label>To Date</label>
-                      <InputField
-                        value={values?.toDate}
-                        placeholder="To Date"
-                        name="toDate"
-                        type="date"
-                        touched={touched}
-                      />
-                    </div>
-                    <div className="col-auto mr-auto">
-                      <button
-                        className="btn btn-primary"
-                        type="button"
-                        onClick={() => {
-                          setGridData([]);
-                          getData(values, "");
-                        }}
-                        disabled={!values?.supplier}
-                      >
-                        Show
-                      </button>
-                    </div>
+
+                    <FromDateToDateForm obj={{ values, setFieldValue }} />
+                    <IButton
+                      colSize={"col-lg-3"}
+                      onClick={() => {
+                        setGridData([]);
+                        getData(values, "");
+                      }}
+                      disabled={!values?.motherVessel || !values?.carrierName}
+                    />
                   </div>
-                  <div className="row">
-                    <div className="col-3">
-                      <InputField
-                        value={values?.billNo}
-                        label="Bill No"
-                        name="billNo"
-                        placeholder="Bill No"
-                      />
-                    </div>
-                    <div className="col-3">
-                      <InputField
-                        value={_dateFormatter(values?.billDate)}
-                        label="Bill Date"
-                        type="date"
-                        name="billDate"
-                        placeholder="Bill Date"
-                      />
-                    </div>
-                    <div className="col-3">
-                      <InputField
-                        value={_dateFormatter(values?.paymentDueDate)}
-                        label="Payment Due Date"
-                        type="date"
-                        name="paymentDueDate"
-                        placeholder="Payment Due Date"
-                      />
-                    </div>
-                  </div>
-                  <div className="row align-items-end">
-                    <div className="col-9">
-                      <InputField
-                        value={values?.narration}
-                        label="Narration No"
-                        name="narration"
-                        placeholder="Narration"
-                      />
-                    </div>
-                    <div className="col-3">
-                      <div className="row align-items-end">
-                        <div className="col-5">
-                          <button
-                            className="btn btn-primary"
-                            type="button"
-                            onClick={() => setOpen(true)}
-                          >
-                            Attachment
-                          </button>
-                          {values?.attachmentId && (
-                            <IView
-                              classes="purchaseInvoiceAttachIcon"
-                              clickHandler={() => {
-                                dispatch(
-                                  getDownlloadFileView_Action(
-                                    values?.attachmentId
-                                  )
-                                );
-                              }}
-                            />
-                          )}
+                  {gridData?.length > 0 && (
+                    <>
+                      <div className="row">
+                        <div className="col-3">
+                          <InputField
+                            value={values?.billNo}
+                            label="Bill No"
+                            name="billNo"
+                            placeholder="Bill No"
+                          />
+                        </div>
+                        <div className="col-3">
+                          <InputField
+                            value={_dateFormatter(values?.billDate)}
+                            label="Bill Date"
+                            type="date"
+                            name="billDate"
+                            placeholder="Bill Date"
+                          />
+                        </div>
+                        <div className="col-3">
+                          <InputField
+                            value={_dateFormatter(values?.paymentDueDate)}
+                            label="Payment Due Date"
+                            type="date"
+                            name="paymentDueDate"
+                            placeholder="Payment Due Date"
+                          />
                         </div>
                       </div>
-                    </div>
-                  </div>
+                      <div className="row align-items-end">
+                        <div className="col-9">
+                          <InputField
+                            value={values?.narration}
+                            label="Narration No"
+                            name="narration"
+                            placeholder="Narration"
+                          />
+                        </div>
+                        <div className="col-3">
+                          <div className="row align-items-end">
+                            <div className="col-5">
+                              <button
+                                className="btn btn-primary"
+                                type="button"
+                                onClick={() => setOpen(true)}
+                              >
+                                Attachment
+                              </button>
+                              {values?.attachmentId && (
+                                <IView
+                                  classes="purchaseInvoiceAttachIcon"
+                                  clickHandler={() => {
+                                    dispatch(
+                                      getDownlloadFileView_Action(
+                                        values?.attachmentId
+                                      )
+                                    );
+                                  }}
+                                />
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
 
@@ -224,7 +208,8 @@ export default function _Form({
                   {_fixedPoint(
                     gridData?.reduce(
                       (a, b) =>
-                        Number(a) + (b.checked ? Number(b.quantity || 0) : 0),
+                        Number(a) +
+                        (b.checked ? Number(b.surveyQuantity || 0) : 0),
                       0
                     ),
                     true
@@ -236,7 +221,7 @@ export default function _Form({
                     gridData?.reduce(
                       (a, b) =>
                         Number(a) +
-                        (b.checked ? Number(b.transportAmount || 0) : 0),
+                        (b.checked ? Number(b.carrierTotalAmount || 0) : 0),
                       0
                     ),
                     true
@@ -272,12 +257,10 @@ export default function _Form({
                         />
                       </th>
                       <th>SL</th>
-                      <th>Ship Point Name</th>
-                      <th>Delivery Code</th>
-                      <th>Supplier Name</th>
-                      <th>Mother Vessel Name</th>
-                      <th>Ship To Partner</th>
-                      <th>Delivery Date</th>
+                      <th>Mother Vessel</th>
+                      <th>Lighter Vessel</th>
+                      <th>Lighter Destination</th>
+                      <th>Carrier Agent Name</th>
                       <th>Quantity</th>
                       <th>Rate</th>
                       <th>Bill Amount</th>
@@ -308,22 +291,21 @@ export default function _Form({
                         <td className="text-center align-middle">
                           {index + 1}
                         </td>
-                        <td>{item?.shipPointName}</td>
-                        <td>{item?.deliveryCode}</td>
-                        <td>{item?.supplierName}</td>
                         <td>{item?.motherVesselName}</td>
-                        <td>{item?.shipToPartnerName}</td>
-                        <td>{_dateFormatter(item?.deliveryDate)}</td>
-                        <td className="text-right">{item?.quantity}</td>
-                        <td className="text-right">{item?.transportRate}</td>
+                        <td>{item?.lighterVesselName}</td>
+                        <td>{item?.lighterDestinationName}</td>
+                        <td>{item?.carrierAgentName}</td>
+
+                        <td className="text-right">{item?.surveyQuantity}</td>
+                        <td className="text-right">{item?.carrierRate}</td>
                         <td style={{ width: "100px" }}>
                           <InputField
-                            value={item?.transportAmount}
-                            name="transportAmount"
+                            value={item?.carrierTotalAmount}
+                            name="carrierTotalAmount"
                             placeholder="Total Amount"
                             type="number"
                             onChange={(e) => {
-                              item.transportAmount = e.target.value;
+                              item.carrierTotalAmount = e.target.value;
                               setGridData([...gridData]);
                             }}
                           />
