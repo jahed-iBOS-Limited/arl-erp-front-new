@@ -59,7 +59,7 @@ export default function CreateInventoryLoanForm({ loanType }) {
         strWareHouseName: values?.warehouse?.label || "",
         intLcid: +values?.lcNo?.value || 0,
         strLcnumber: +values?.lcNo?.label || "",
-        intShipmentId: +values?.shipment?.value || 0,
+        intShipmentId: +values?.shipment?.lcId || 0,
         strShipmentName: values?.shipment?.label || "",
         strSurveyReportNo: values?.surveyReportNo || "",
         intLighterVesselId: 0,
