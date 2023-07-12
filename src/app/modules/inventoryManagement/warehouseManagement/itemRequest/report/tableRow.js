@@ -30,9 +30,10 @@ export function ItemReqViewTableRow({ IrId }) {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
-
   useEffect(() => {
-    getReportItemReq(IrId, setiIemReqReport);
+    if (IrId) {
+      getReportItemReq(IrId, setiIemReqReport);
+    }
   }, [IrId]);
 
   const printRef = useRef();
@@ -70,7 +71,7 @@ export function ItemReqViewTableRow({ IrId }) {
           enableReinitialize={true}
           initialValues={initData}
           validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => {}}
+          onSubmit={(values, { setSubmitting, resetForm }) => { }}
         >
           {({ handleSubmit, resetForm, values, errors, touched, isValid }) => (
             <>
@@ -135,6 +136,7 @@ export function ItemReqViewTableRow({ IrId }) {
                             <th>Uom</th>
                             <th>Quantity</th>
                             <th>Issue Quantity</th>
+                            <th>Current Stock</th>
                             <th>Purpose</th>
                           </tr>
                         </thead>
@@ -160,6 +162,7 @@ export function ItemReqViewTableRow({ IrId }) {
                                     : data?.issueQty.toFixed(2)
                                   : "N/A"}
                               </td>
+                              <td className="text-right">{data?.stockQuantity}</td>
                               <td>{data?.remarks}</td>
                             </tr>
                           ))}
