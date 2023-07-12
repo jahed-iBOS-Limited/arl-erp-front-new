@@ -168,10 +168,12 @@ function PayableReport() {
                               <tr>
                                     <th style={{ width: '50px' }}>SL</th>
                                     <th>Transaction</th>
-                                    <th>Openning</th>
+                                    {/* <th>Openning</th>
                                     <th>Debit</th>
-                                    <th>Credit</th>
-                                    <th>Balance</th>
+                                    <th>Credit</th> */}
+                                    <th>Standard</th>
+                                    <th>Actual</th>
+                                    <th>Variance</th>
                                  </tr>
                               </thead>
                               <tbody>
@@ -183,7 +185,7 @@ function PayableReport() {
                                        <td className="text-left">
                                           {item?.TransactionName}
                                        </td>
-                                       <td className="text-right">
+                                       {/* <td className="text-right">
                                           {item?.numOppening ? _formatMoney(item?.numOppening) : ""}
                                        </td>
                                        <td className="text-right">
@@ -191,9 +193,15 @@ function PayableReport() {
                                        </td>
                                        <td className="text-right">
                                           {item?.numCredit ? _formatMoney(item?.numCredit) : ""}
+                                       </td> */}
+                                       <td className="text-right">
+                                          {item?.standerdValue ? _formatMoney(item?.standerdValue) : ""}
                                        </td>
                                        <td className="text-right">
-                                          {item?.numAmount ? _formatMoney(item?.numAmount) : ""}
+                                          {item?.actualValue ? _formatMoney(item?.actualValue) : ""}
+                                       </td>
+                                       <td className="text-right">
+                                          {item?.variance ? _formatMoney(item?.variance) : ""}
                                        </td>
                                     </tr>
                                  ))}
