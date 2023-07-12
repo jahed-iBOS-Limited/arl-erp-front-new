@@ -24,6 +24,7 @@ import CreateCashMargin from "./cashMargin/createCashMargin";
 import ViewEditCashMargin from "./cashMargin/editViewCashMargin";
 import ReceivableTreasuryReport from "./receivableTreasury/table";
 import PayableReport from "../report/payableReport";
+import BankAdvice from "./bankAdvce/table/BankAdvice";
 
 export function Banking() {
   return (
@@ -151,6 +152,10 @@ export function Banking() {
       <ContentRoute
         path="/financial-management/banking/payabletreasury"
         component={PayableReport}
+      />
+      <ContentRoute
+        path="/financial-management/banking/BankAdviceForBanking"
+        component={BankAdvice}
       />
     </Switch>
   );
