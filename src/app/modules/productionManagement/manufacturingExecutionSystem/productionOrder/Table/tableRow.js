@@ -627,7 +627,7 @@ export function TableRow() {
                               )}
                               <button
                                 className="btn p-0"
-                                disabled={item?.isItemRequestFalse}
+                                disabled={!item?.isItemRequestFalse}
                                 onClick={() => {
                                   postData(
                                     // `/mes/ProductionOrder/DeleteProductionOrder?ProductionOrderId=${item?.productionOrderId}`,
