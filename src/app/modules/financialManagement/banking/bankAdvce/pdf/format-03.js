@@ -72,7 +72,7 @@ const FormatThree = ({
             fontSize: "10px",
           }}
         >
-          Subject :Payment Instruction by BEFTN
+          Subject :Payment Instruction by fund transfer
         </p>
         <p
           style={{ fontSize: "10px" }}

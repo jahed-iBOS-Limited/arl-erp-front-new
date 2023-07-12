@@ -202,7 +202,7 @@ const InputFields = ({ obj }) => {
                className="d-flex align-items-center justify-content-end"
                style={{ marginTop: '8px' }}
             >
-               <button
+               {/* <button
                   type="button"
                   onClick={() => setIsShowModal(true)}
                   className="btn btn-primary back-btn mr-2"
@@ -215,7 +215,7 @@ const InputFields = ({ obj }) => {
                   }
                >
                   Send To Bank
-               </button>
+               </button> */}
                <button
                   type="button"
                   className="btn btn-primary mr-2"

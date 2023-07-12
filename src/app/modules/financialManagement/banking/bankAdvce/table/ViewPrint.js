@@ -73,39 +73,16 @@ const ViewData = ({ adviceReportData, values }) => {
           style={{ height: "30px" }}
           className="btn btn-primary btn-sm m-0 mx-2 py-2 px-2"
           onClick={(e) => {
-            if (values?.adviceType?.value === 15) {
-              const adviceName =
-                values?.advice?.label === "IBBL"
-                  ? "IBBL_ONLINE"
-                  : values?.advice?.label === "IBBL-BEFTN"
-                  ? "IBBL_BEFTN"
-                  : values?.advice?.label;
-              const dateFormat = values?.dateTime?.split("/").join("_");
-              const fileName = `${selectedBusinessUnit?.buShortName}_${
-                total ? total : 0
-              }_${adviceName}_${dateFormat}`;
-              generateExcel(
-                adviceReportData,
-                values,
-                0,
-                "",
-                selectedBusinessUnit,
-                false,
-                null,
-                fileName
-              );
-            } else {
-              generateExcel(
-                adviceReportData,
-                values,
-                0,
-                "",
-                selectedBusinessUnit,
-                false,
-                null,
-                fileName
-              );
-            }
+            generateExcel(
+              adviceReportData,
+              values,
+              0,
+              "",
+              selectedBusinessUnit,
+              false,
+              null,
+              fileName
+            );
           }}
         >
           Export Excel
