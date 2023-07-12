@@ -36,39 +36,46 @@ import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth"
 import IButton from "../../../../_helper/iButton";
 import AttachFile from "../../../../_helper/commonInputFieldsGroups/attachemntUpload";
 
-const header = (buId) => {
+const header = (buId, values) => {
+  const typeId = values?.type?.value;
+  const H_one = [
+    "SL",
+    "Customer ID",
+    "Customer Code",
+    "Customer Name",
+    "Address",
+    "Region",
+    "Area",
+    "Territory",
+    "Target Qty",
+    "Delivery Quantity",
+    "Achievement",
+    "Commission",
+  ];
+
+  const H_two = [
+    "SL",
+    "Customer ID",
+    "Customer Code",
+    "Customer Name",
+    "Address",
+    "Party Status",
+    "Payment Type",
+    "Region",
+    "Area",
+    "Territory",
+    "Target Qty",
+    "Delivery Quantity",
+    "Achievement",
+    "Commission",
+  ];
+
   if (buId === 144) {
-    return [
-      "SL",
-      "Customer ID",
-      "Customer Code",
-      "Customer Name",
-      "Address",
-      "Region",
-      "Area",
-      "Territory",
-      "Target Qty",
-      "Delivery Quantity",
-      "Achievement",
-      "Commission",
-    ];
-  } else {
-    return [
-      "SL",
-      "Customer ID",
-      "Customer Code",
-      "Customer Name",
-      "Address",
-      "Party Status",
-      "Payment Type",
-      "Region",
-      "Area",
-      "Territory",
-      "Target Qty",
-      "Delivery Quantity",
-      "Achievement",
-      "Commission",
-    ];
+    return H_one;
+  } else if (typeId !== 8) {
+    return H_two;
+  } else if (typeId === 8) {
+    return H_two.toSpliced(13, 0, "Commission Rate"); // here will work after namaz
   }
 };
 
@@ -506,7 +513,7 @@ const CommissionReportAndJVTable = () => {
                             onChange={() => {}}
                           />
                         </th>
-                        {header(buId).map((th, index) => {
+                        {header(buId, values).map((th, index) => {
                           return <th key={index}> {th} </th>;
                         })}
                         {values?.type?.value === 5 && (
@@ -575,11 +582,16 @@ const CommissionReportAndJVTable = () => {
                               {_fixedPoint(item?.targetQty, true)}
                             </td>
                             <td className="text-right">
-                              {_fixedPoint(item?.deliveryQty, true)}
+                              {_fixedPoint(item?.deliveryQty, true, 4)}
                             </td>
                             <td className="text-right">
                               {_fixedPoint(item?.achievement, true)}
                             </td>
+                            {values?.type?.value === 8 && (
+                              <td className="text-right">
+                                {_fixedPoint(item?.commissionRate, true, 4)}
+                              </td>
+                            )}
 
                             <td
                               className="text-right"
@@ -605,7 +617,7 @@ const CommissionReportAndJVTable = () => {
                                   }}
                                 />
                               ) : (
-                                _fixedPoint(item?.commissiontaka, true)
+                                _fixedPoint(item?.commissiontaka, true, 4)
                               )}
                             </td>
 
@@ -700,6 +712,7 @@ const CommissionReportAndJVTable = () => {
                             true
                           )}
                         </td>
+                        {values?.type?.value === 8 && <td></td>}
                         <td>
                           {_fixedPoint(
                             rowData?.reduce(

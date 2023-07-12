@@ -1,26 +1,26 @@
 import React from "react";
-import HeaderForm from "./Table/form";
 import { useLocation } from "react-router-dom";
-import SupplerInvoiceForm from "./../supplerInvoice/Form/addEditForm";
-import SupplierAdvance from "./../supplierAdvance/supplierAdvance";
-import { CommercialPayment } from "../commercialPayment/form/addEditForm";
-import TransportBillForm from "../transportBill/Form/addEditForm";
-import SalesCommissionForm from "../salesCommission/form/addEditFrom";
-import FuelBillForm from "../fuelBill/Form/addEditForm";
-import LabourBillForm from "./../labourBill/Form/addEditForm";
-import FairPriceShopForm from "../fairPriceInvoice/Form/addEditForm";
-import InternalTransportBillForm from "./../internalTransportBill/Form/addEditForm";
-import OthersBillCreateForm from "../othersBillNew/Form/addEditForm";
 import RenewalBillForm from "../RenewalBill/table";
-import G2GCarrierBill from "../g2gCarrierBill/Form/addEditForm";
-import PumpFoodingBillForm from "../pumpFoodingBill/Form/addEditForm";
-import MotherVesselBill from "../motherVesselBill/Form/addEditForm";
+import CNFBill from "../cnfBill/Form/addEditForm";
+import { CommercialPayment } from "../commercialPayment/form/addEditForm";
+import FairPriceShopForm from "../fairPriceInvoice/Form/addEditForm";
+import FuelBillForm from "../fuelBill/Form/addEditForm";
+import G2GGodownUnloadBill from "../g2gGodownUnloadBill/Form/addEditForm";
+import G2GLighterCarrierBill from "../g2gLighterCarrierBill/Form/addEditForm";
+import G2GTruckBill from "../g2gTruckBill/Form/addEditForm";
 import GhatLoadUnloadBill from "../ghatLoadUnloadBill/Form/addEditForm";
+import MotherVesselBill from "../motherVesselBill/Form/addEditForm";
+import OthersBillCreateForm from "../othersBillNew/Form/addEditForm";
+import PumpFoodingBillForm from "../pumpFoodingBill/Form/addEditForm";
+import SalesCommissionForm from "../salesCommission/form/addEditFrom";
 import StevedoreBill from "../stevedoreBill/Form/addEditForm";
 import SurveyorBill from "../surveyorBill/Form/addEditForm";
-import CNFBill from "../cnfBill/Form/addEditForm";
-import G2GTruckBill from "../g2gTruckBill/Form/addEditForm";
-import G2GGodownUnloadBill from "../g2gGodownUnloadBill/Form/addEditForm";
+import TransportBillForm from "../transportBill/Form/addEditForm";
+import InternalTransportBillForm from "./../internalTransportBill/Form/addEditForm";
+import LabourBillForm from "./../labourBill/Form/addEditForm";
+import SupplerInvoiceForm from "./../supplerInvoice/Form/addEditForm";
+import SupplierAdvance from "./../supplierAdvance/supplierAdvance";
+import HeaderForm from "./Table/form";
 
 function BillregisterCreate() {
   const { state: headerData } = useLocation();
@@ -54,8 +54,9 @@ function BillregisterCreate() {
         <G2GTruckBill />
       ) : // <G2GCustomizeBill />
       billType === 17 ? (
-        <G2GCarrierBill />
-      ) : billType === 18 ? (
+        <G2GLighterCarrierBill />
+      ) : // <G2GCarrierBill />
+      billType === 18 ? (
         <PumpFoodingBillForm />
       ) : billType === 19 ? (
         <MotherVesselBill />
