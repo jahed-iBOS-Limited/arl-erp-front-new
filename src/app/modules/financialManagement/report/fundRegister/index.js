@@ -37,7 +37,7 @@ function FundRegisterLanding() {
     ];
   };
   useEffect(() => {
-    getBusinessUnitDDL(`/hcm/HCMReport/GetOnboardedBusinessUnitList?accountId=${profileData?.accountId}`)
+    getBusinessUnitDDL(`/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${profileData?.accountId}`)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
