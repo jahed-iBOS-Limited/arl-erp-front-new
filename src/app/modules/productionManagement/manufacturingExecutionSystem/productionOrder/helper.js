@@ -176,7 +176,8 @@ export const getItemTransferInPagination = async (
       const newResData = res?.data?.data?.map((item) => {
         return {
           ...item,
-          isItemRequestFalse: item?.isDeleteEnable,
+          isItemRequestFalse: item?.isItemRequest ? false : true,
+          isDeleteEnable: item?.isDeleteEnable,
           isItemRequestCheck: false,
         };
       });
