@@ -43,9 +43,16 @@ const ViewData = ({ adviceReportData, values }) => {
     }
   }, [total]);
 
-  const adviceName = values?.advice?.label === "IBBL" ? "IBBL_ONLINE"  : values?.advice?.label === "IBBL-BEFTN" ? "IBBL_BEFTN" : values?.advice?.label
-  const dateFormat = values?.dateTime?.split("/").join("_")
-  const fileName = `${selectedBusinessUnit?.buShortName}_${total ? total : 0}_${adviceName}_${dateFormat}`;
+  const adviceName =
+    values?.advice?.label === "IBBL"
+      ? "IBBL_ONLINE"
+      : values?.advice?.label === "IBBL-BEFTN"
+      ? "IBBL_BEFTN"
+      : values?.advice?.label;
+  const dateFormat = values?.dateTime?.split("/").join("_");
+  const fileName = `${selectedBusinessUnit?.buShortName}_${
+    total ? total : 0
+  }_${adviceName}_${dateFormat}`;
 
   return (
     <>
@@ -66,39 +73,36 @@ const ViewData = ({ adviceReportData, values }) => {
           style={{ height: "30px" }}
           className="btn btn-primary btn-sm m-0 mx-2 py-2 px-2"
           onClick={(e) => {
-            if (values?.adviceType?.value === 15) {
-              const adviceName = values?.advice?.label === "IBBL" ? "IBBL_ONLINE"  : values?.advice?.label === "IBBL-BEFTN" ? "IBBL_BEFTN" : values?.advice?.label
-              const dateFormat = values?.dateTime?.split("/").join("_")
-              const fileName = `${selectedBusinessUnit?.buShortName}_${total ? total : 0}_${adviceName}_${dateFormat}`;
-              generateExcel(
-                adviceReportData,
-                values,
-                0,
-                "",              
-                selectedBusinessUnit,
-                false,  
-                null,
-                fileName           
-             )
-           }else{
             generateExcel(
               adviceReportData,
               values,
               0,
-              "",              
+              "",
               selectedBusinessUnit,
-              false,  
+              false,
               null,
-              fileName           
-           );}
+              fileName
+            );
           }}
         >
           Export Excel
         </button>
         <ReactToPrint
-          pageStyle={
-            `@media print{body { -webkit-print-color-adjust: exact;}@page {size: ${(values?.advice?.label === "IBBL" || values?.advice?.label === "JAMUNA-BEFTN" || values?.advice?.label === "RTGS") ? "portrait !important"  : values?.advice?.label === "IBBL-BEFTN" ? "landscape !important" : "landscape !important"};margin:${values?.advice?.label === "RTGS" ? "0 !important" : ["IBBL", "JAMUNA-BEFTN"].includes(values?.advice?.label) ?"144px 0 !important" : 0} }}`
-          }
+          pageStyle={`@media print{body { -webkit-print-color-adjust: exact;}@page {size: ${
+            values?.advice?.label === "IBBL" ||
+            values?.advice?.label === "JAMUNA-BEFTN" ||
+            values?.advice?.label === "RTGS"
+              ? "portrait !important"
+              : values?.advice?.label === "IBBL-BEFTN"
+              ? "landscape !important"
+              : "landscape !important"
+          };margin:${
+            values?.advice?.label === "RTGS"
+              ? "0 !important"
+              : ["IBBL", "JAMUNA-BEFTN"].includes(values?.advice?.label)
+              ? "144px 0 !important"
+              : 0
+          } }}`}
           trigger={() => (
             <button
               className="btn btn-primary btn-sm d-flex align-items-center "
@@ -141,7 +145,7 @@ const ViewData = ({ adviceReportData, values }) => {
                   ref={printRef}
                   style={{ margin: "0 60px" }}
                 >
-                  {getPdfFormatNumber(
+                  {/* {getPdfFormatNumber(
                     values?.adviceType?.value,
                     values?.advice?.value
                   ) === 1 && (
@@ -238,10 +242,40 @@ const ViewData = ({ adviceReportData, values }) => {
                       total={total}
                       totalInWords={totalInWords}
                     />
-                  )}
-                  {values?.advice?.label === "RTGS" && (
+                  )} */}
+                  {values?.advice?.label === "RTGS" ? (
                     <FormatEight
                       fontSize={fontSize + 3}
+                      APIUrl={APIUrl}
+                      selectedBusinessUnit={selectedBusinessUnit}
+                      values={values}
+                      adviceReportData={adviceReportData}
+                      total={total}
+                      totalInWords={totalInWords}
+                    />
+                  ) : values?.advice?.label === "IBBL" ? (
+                    <FormatOne
+                      fontSize={fontSize}
+                      APIUrl={APIUrl}
+                      selectedBusinessUnit={selectedBusinessUnit}
+                      values={values}
+                      adviceReportData={adviceReportData}
+                      total={total}
+                      totalInWords={totalInWords}
+                    />
+                  ) : values?.advice?.label === "IBBL-BEFTN" ? (
+                    <FormatTwo
+                      fontSize={fontSize}
+                      APIUrl={APIUrl}
+                      selectedBusinessUnit={selectedBusinessUnit}
+                      values={values}
+                      adviceReportData={adviceReportData}
+                      total={total}
+                      totalInWords={totalInWords}
+                    />
+                  ) : (
+                    <FormatThree
+                      fontSize={fontSize}
                       APIUrl={APIUrl}
                       selectedBusinessUnit={selectedBusinessUnit}
                       values={values}
@@ -261,4 +295,3 @@ const ViewData = ({ adviceReportData, values }) => {
 };
 
 export default ViewData;
-

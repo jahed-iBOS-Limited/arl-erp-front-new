@@ -678,7 +678,7 @@ export const FormatEight = ({
                         ...(fontSize && { fontSize }),
                       }}
                     >
-                      <b>{amounts?.[index]}</b>
+                      <b>{amounts?.[index]} Taka Only</b>
                     </div>
                   </td>
                 </tr>
@@ -697,9 +697,6 @@ export const FormatEight = ({
             <p>Yours Faithfully,</p>
             <p className="font-weight-bold" style={{ fontSize: "14px" }}>
               For {values?.bankAccountNo?.accountName}
-            </p>
-            <p className="font-weight-bold" style={{ fontSize: "14px" }}>
-              A/C No : {values?.bankAccountNo?.bankAccNo}
             </p>
             <div className="font-weight-bold " style={{ marginTop: "60px" }}>
               <div className="d-flex">
@@ -721,6 +718,9 @@ export const FormatEight = ({
                 </h6>
               </div>
             </div>
+            <p className="font-weight-bold" style={{ fontSize: "14px" }}>
+              A/C No : {values?.bankAccountNo?.bankAccNo}
+            </p>
             <div style={{ marginTop: "150px" }}>
               <b className="rtgs-address">
                 {values?.bankAccountNo?.accountName}

@@ -7,9 +7,9 @@ import IForm from "../../../../../_helper/_form";
 import Loading from "../../../../../_helper/_loading";
 import { _todayDate } from "../../../../../_helper/_todayDate";
 import IWarningModal from "../../../../../_helper/_warningModal";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
 import { createG2GCustomizeBill } from "../../helper";
 import Form from "./form";
+import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
 
 const initData = {
   supplier: "",
@@ -22,76 +22,68 @@ const initData = {
   fromDate: _todayDate(),
   port: "",
   motherVessel: "",
+  carrierName: "",
 };
 
-export default function GhatLoadUnloadBill() {
+export default function G2GLighterCarrierBill() {
   const [isDisabled, setDisabled] = useState(false);
-  const [gridData, getGridData, loading, setGridData] = useAxiosGet();
   const [uploadedImage, setUploadedImage] = useState([]);
+  const [gridData, getGridData, loader, setGridData] = useAxiosGet([]);
 
   const { state: headerData } = useLocation();
   const billType = headerData?.billType?.value;
 
+  // get user profile data from store
   const {
     profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId, label: buName },
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const getData = (values, searchTerm) => {
-    const search = searchTerm ? `&searchTerm=${searchTerm}` : "";
+    const search = searchTerm ? `&SearchTerm=${searchTerm}` : "";
     getGridData(
-      `/tms/LigterLoadUnload/GetShipPointLighterUnloadLabourBill?accountId=${accId}&businessUnitId=${buId}&supplierId=${values?.supplier?.value || 0}&fromDate=${values?.fromDate}&todate=${values?.toDate}${search}`,
-      (resData) => {
-        const modifyData = resData?.map((item) => {
-          return {
-            ...item,
-            isSelected: false,
-            billAmount: +item?.totalRate * +item?.unLoadQuantity,
-          };
-        });
-        setGridData(modifyData);
-      }
+      `/tms/LigterLoadUnload/PreDataForLighterVesselCarrierBillG2G?AccountId=${accId}&BusinessUnitId=${buId}&MotherVesselId=${values?.motherVessel?.value}&CarrierAgentId=${values?.carrierName?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}${search}`
     );
   };
 
   const saveHandler = async (values, cb) => {
     try {
-      const selectedRow = gridData?.filter((item) => item?.isSelected);
+      const selectedRow = gridData?.filter((item) => item?.checked);
 
       if (selectedRow.length === 0) {
         toast.warning("Please select at least one");
       } else {
         const totalAmount = selectedRow?.reduce(
-          (total, cur) => (total += +cur?.billAmount),
+          (total, cur) => (total += +cur?.carrierTotalAmount),
           0
         );
         const rows = selectedRow?.map((item) => ({
           challanNo: item?.deliveryCode,
           deliveryId: item?.deliveryId || 0,
-          quantity: +item?.unLoadQuantity || 0,
-          ammount: +item?.billAmount,
-          billAmount: +item?.billAmount,
+          quantity: +item?.surveyQuantity || 0,
+          ammount: +item?.carrierTotalAmount,
+          billAmount: +item?.carrierTotalAmount,
           shipmentCode: item?.deliveryCode,
-          motherVesselId: item?.motherVesselId,
-          lighterVesselId: item?.lighterVesselId,
+          motherVesselId: 0,
+          lighterVesselId: 0,
           numFreightRateUSD: 0,
           numFreightRateBDT: 0,
           numCommissionRateBDT: 0,
-          directRate: item?.directRate,
-          dumpDeliveryRate: item?.dumpDeliveryRate,
-          damToTruckRate: item?.damToTruckRate,
-          truckToDamRate: item?.truckToDamRate,
-          lighterToBolgateRate: item?.lighterToBolgateRate,
-          bolgateToDamRate: item?.bolgateToDamRate,
-          othersCostRate: +item?.totalRate,
+          directRate: 0,
+          dumpDeliveryRate: 0,
+          damToTruckRate: 0,
+          truckToDamRate: 0,
+          lighterToBolgateRate: 0,
+          bolgateToDamRate: 0,
+          othersCostRate: +item?.carrierRate,
         }));
 
         const payload = {
           gtogHead: {
             billTypeId: billType || 0,
             accountId: accId,
-            supplierId: values?.supplier?.value,
-            supplierName: values?.supplier?.label,
+            supplierId: values?.carrierName?.value,
+            supplierName: values?.carrierName?.label,
             sbuId: headerData?.sbu?.value || 0,
             unitId: buId,
             unitName: buName,
@@ -119,23 +111,23 @@ export default function GhatLoadUnloadBill() {
     }
   };
 
+  const loading = loader || isDisabled;
+
   const [objProps, setObjprops] = useState({});
   return (
     <div className="purchaseInvoice">
       <IForm
-        title="Ghat Load Unload Bill"
+        title="G2G Lighter Carrier Bill"
         getProps={setObjprops}
-        isDisabled={isDisabled || loading}
+        isDisabled={loading}
       >
-        {(isDisabled || loading) && <Loading />}
+        {loading && <Loading />}
         <Form
           {...objProps}
           buId={buId}
-          accId={accId}
           getData={getData}
           gridData={gridData}
           initData={initData}
-          headerData={headerData}
           setGridData={setGridData}
           saveHandler={saveHandler}
           setUploadedImage={setUploadedImage}

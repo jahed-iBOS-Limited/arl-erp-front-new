@@ -28,6 +28,8 @@ const initData = {
   surveyorRate: "",
   cnfRate: "",
   steveDoreRate: "",
+  hatchLabour: "",
+  hatchLabourRate: "",
 };
 
 export default function TenderInformationCreateForm() {
@@ -79,6 +81,9 @@ export default function TenderInformationCreateForm() {
         stevdorRate,
         serveyorRate,
         organizationId,
+        hatchLabourId,
+        hatchLabour,
+        hatchLabourRate,
       } = state;
       const singleInfo = {
         motherVessel: {
@@ -114,9 +119,14 @@ export default function TenderInformationCreateForm() {
         cnfRate: cnfrate,
         steveDoreRate: stevdorRate,
         surveyorRate: serveyorRate,
+        hatchLabourRate: hatchLabourRate,
         port: {
           label: portName || "",
           value: portId || 0,
+        },
+        hatchLabour: {
+          label: hatchLabour || "",
+          value: hatchLabourId || 0,
         },
       };
       setSingleData(singleInfo);
@@ -153,6 +163,9 @@ export default function TenderInformationCreateForm() {
       serveyorRate: values?.surveyorRate,
       organizationId: values?.type === "badc" ? 73244 : 73245,
       organizationName: values?.type === "badc" ? "BADC" : "BCIC",
+      hatchLabourId: values?.hatchLabour?.value,
+      hatchLabour: values?.hatchLabour?.label,
+      hatchLabourRate: values?.hatchLabourRate,
     };
     if (id) {
       payload.programId = +id;

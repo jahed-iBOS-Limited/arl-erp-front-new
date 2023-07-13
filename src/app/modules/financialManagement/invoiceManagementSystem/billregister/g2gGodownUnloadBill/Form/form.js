@@ -261,7 +261,7 @@ export default function _Form({
                               gridData?.map((item) => {
                                 return {
                                   ...item,
-                                  checked: e?.target?.checked,
+                                  checked: item?.godownUnloadLabourRate <= 0 ? false : e?.target?.checked,
                                 };
                               })
                             );
@@ -282,7 +282,14 @@ export default function _Form({
                   </thead>
                   <tbody>
                     {gridData?.map((item, index) => (
-                      <tr key={index}>
+                      <tr
+                        key={index}
+                        style={
+                          item?.godownUnloadLabourRate <= 0
+                            ? { backgroundColor: "#ff000082" }
+                            : {}
+                        }
+                      >
                         <td className="text-center align-middle">
                           <input
                             type="checkbox"
@@ -292,6 +299,7 @@ export default function _Form({
                               item["checked"] = e.target.checked;
                               setGridData([...gridData]);
                             }}
+                            disabled={item?.godownUnloadLabourRate <= 0}
                           />
                         </td>
                         <td className="text-center align-middle">
@@ -299,7 +307,7 @@ export default function _Form({
                         </td>
                         <td>{item?.shipPointName}</td>
                         <td>{item?.deliveryCode}</td>
-                        <td>{item?.supplierName}</td>
+                        <td>{item?.godownLabourSupplier}</td>
                         <td>{item?.motherVesselName}</td>
                         <td>{item?.shipToPartnerName}</td>
                         <td>{_dateFormatter(item?.deliveryDate)}</td>

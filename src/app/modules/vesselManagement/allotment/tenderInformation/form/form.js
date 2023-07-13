@@ -255,36 +255,7 @@ export default function _Form({
                     type="text"
                   />
                 </div>
-                {/* <div className="col-lg-3">
-                  <NewSelect
-                    name="cnf"
-                    options={lighterCNFDDL || []}
-                    value={values?.cnf}
-                    label="CNF"
-                    onChange={(valueOption) => {
-                      setFieldValue("cnf", valueOption);
-                    }}
-                    placeholder="CNF"
-                    errors={errors}
-                    touched={touched}
-                    isDisabled={type}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="steveDore"
-                    options={lighterStevedoreDDL || []}
-                    value={values?.steveDore}
-                    label="Steve Dore"
-                    onChange={(valueOption) => {
-                      setFieldValue("steveDore", valueOption);
-                    }}
-                    placeholder="Steve Dore"
-                    errors={errors}
-                    touched={touched}
-                    isDisabled={type}
-                  />
-                </div> */}
+
                 <div className="col-lg-3">
                   <label>CNF</label>
                   <SearchAsyncSelect
@@ -342,6 +313,26 @@ export default function _Form({
                     name="surveyorRate"
                     placeholder="Surveyor Rate"
                     label="Surveyor Rate"
+                    type="number"
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <label>Hatch Labour</label>
+                  <SearchAsyncSelect
+                    selectedValue={values?.hatchLabour}
+                    handleChange={(valueOption) => {
+                      setFieldValue("hatchLabour", valueOption);
+                    }}
+                    placeholder={"Search Hatch Labour"}
+                    loadOptions={loadOptions}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.hatchLabourRate}
+                    name="hatchLabourRate"
+                    placeholder="Hatch Labour Rate"
+                    label="Hatch Labour Rate"
                     type="number"
                   />
                 </div>

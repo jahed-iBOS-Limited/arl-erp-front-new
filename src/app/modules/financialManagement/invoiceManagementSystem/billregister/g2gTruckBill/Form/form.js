@@ -261,7 +261,10 @@ export default function _Form({
                               gridData?.map((item) => {
                                 return {
                                   ...item,
-                                  checked: e?.target?.checked,
+                                  checked:
+                                    item?.transportRate <= 0
+                                      ? false
+                                      : e?.target?.checked,
                                 };
                               })
                             );
@@ -282,7 +285,14 @@ export default function _Form({
                   </thead>
                   <tbody>
                     {gridData?.map((item, index) => (
-                      <tr key={index}>
+                      <tr
+                        key={index}
+                        style={
+                          item?.transportRate <= 0
+                            ? { backgroundColor: "#ff000082" }
+                            : {}
+                        }
+                      >
                         <td className="text-center align-middle">
                           <input
                             type="checkbox"
@@ -292,6 +302,7 @@ export default function _Form({
                               item["checked"] = e.target.checked;
                               setGridData([...gridData]);
                             }}
+                            disabled={item?.transportRate <= 0}
                           />
                         </td>
                         <td className="text-center align-middle">
