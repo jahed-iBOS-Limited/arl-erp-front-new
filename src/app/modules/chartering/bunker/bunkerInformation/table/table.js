@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import { useHistory } from "react-router";
 import { Formik } from "formik";
@@ -12,11 +12,7 @@ import IView from "../../../_chartinghelper/icons/_view";
 import PaginationTable from "../../../_chartinghelper/_tablePagination";
 import { getBunkerInformationLandingData } from "../helper";
 import IEdit from "../../../_chartinghelper/icons/_edit";
-
-const initData = {
-  vesselName: "",
-  voyageNo: "",
-};
+import { CharteringContext } from "../../../charteringContext";
 
 const headers = [
   { name: "SL" },
@@ -40,29 +36,21 @@ export default function BunkerInfoTable() {
   const [voyageNoDDL, setVoyageNoDDL] = useState([]);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
+  const [charteringState, setCharteringState] = useContext(CharteringContext);
+
+  const initData = charteringState?.bunkerInformationLandingFormData;
+
+  // the function to update the context value
+  const updateCharteringState = (newState) => {
+    setCharteringState((prevState) => ({
+      ...prevState,
+      bunkerInformationLandingFormData: newState,
+    }));
+  };
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
-
-  useEffect(() => {
-    getVesselDDL(
-      profileData?.accountId,
-      selectedBusinessUnit?.value,
-      setVesselDDL
-    );
-    getBunkerInformationLandingData(
-      profileData?.accountId,
-      selectedBusinessUnit?.value,
-      0,
-      0,
-      pageNo,
-      pageSize,
-      "",
-      setGridData,
-      setLoading
-    );
-  }, [profileData, selectedBusinessUnit]);
 
   const getGridData = (values, PageNo, PageSize) => {
     getBunkerInformationLandingData(
@@ -77,6 +65,31 @@ export default function BunkerInfoTable() {
       setLoading
     );
   };
+
+  const getVoyageDDL = (values) => {
+    getVoyageDDLNew({
+      accId: profileData?.accountId,
+      buId: selectedBusinessUnit?.value,
+      id: values?.vesselName?.value,
+      setter: setVoyageNoDDL,
+      setLoading: setLoading,
+      hireType: 0,
+      isComplete: 0,
+      voyageTypeId: 0,
+    });
+  };
+
+  useEffect(() => {
+    getVesselDDL(
+      profileData?.accountId,
+      selectedBusinessUnit?.value,
+      setVesselDDL
+    );
+    if (initData?.vesselName) {
+      getVoyageDDL(initData);
+    }
+    getGridData(initData, pageNo, pageSize);
+  }, [profileData, selectedBusinessUnit]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
     getGridData(values, pageNo, pageSize);
@@ -98,11 +111,12 @@ export default function BunkerInfoTable() {
                   <button
                     type="button"
                     className={"btn btn-primary px-3 py-2"}
-                    onClick={() =>
+                    onClick={() => {
+                      updateCharteringState(values);
                       history.push(
                         "/chartering/bunker/bunkerInformation/create"
-                      )
-                    }
+                      );
+                    }}
                     disabled={false}
                   >
                     Create
@@ -122,19 +136,14 @@ export default function BunkerInfoTable() {
                       label="Vessel Name"
                       onChange={(valueOption) => {
                         setFieldValue("vesselName", valueOption);
-                        setFieldValue("voyageNo", "");
+
                         setVoyageNoDDL([]);
+                        updateCharteringState({
+                          voyageNo: "",
+                          vesselName: valueOption,
+                        });
                         if (valueOption) {
-                          getVoyageDDLNew({
-                            accId: profileData?.accountId,
-                            buId: selectedBusinessUnit?.value,
-                            id: valueOption?.value,
-                            setter: setVoyageNoDDL,
-                            setLoading: setLoading,
-                            hireType: 0,
-                            isComplete: 0,
-                            voyageTypeId: 0,
-                          });
+                          getVoyageDDL({ ...values, vesselName: valueOption });
                         }
                         getGridData({ ...values, vesselName: valueOption });
                       }}
@@ -153,6 +162,10 @@ export default function BunkerInfoTable() {
                       label="Voyage No"
                       onChange={(valueOption) => {
                         setFieldValue("voyageNo", valueOption);
+                        updateCharteringState({
+                          ...values,
+                          voyageNo: valueOption,
+                        });
                         getGridData({ ...values, voyageNo: valueOption });
                       }}
                       isDisabled={!values?.vesselName}
