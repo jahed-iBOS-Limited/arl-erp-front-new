@@ -1,6 +1,5 @@
 import Axios from "axios";
 import { Form, Formik } from "formik";
-import { DropzoneDialogBase } from "material-ui-dropzone";
 import React from "react";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
@@ -12,8 +11,10 @@ import IView from "../../../../../_helper/_helperIcons/_view";
 import InputField from "../../../../../_helper/_inputField";
 import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
 import PaginationSearch from "../../../../../_helper/_search";
-import NewSelect from "../../../../../_helper/_select";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
+import AttachFile from "../../../../../_helper/commonInputFieldsGroups/attachemntUpload";
+import { PortAndMotherVessel } from "../../../../../vesselManagement/common/components";
+import IButton from "../../../../../_helper/iButton";
+import FromDateToDateForm from "../../../../../_helper/commonInputFieldsGroups/dateForm";
 
 const validationSchema = Yup.object().shape({
   supplier: Yup.object()
@@ -25,22 +26,19 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function _Form({
-  accId,
   buId,
-  initData,
+  accId,
   btnRef,
-  saveHandler,
+  getData,
+  initData,
   gridData,
-  setFileObjects,
-  fileObjects,
+  headerData,
+  saveHandler,
   setGridData,
   resetBtnRef,
-  headerData,
-  getData,
-  portDDL,
+  setUploadedImage,
 }) {
   const [open, setOpen] = React.useState(false);
-  const [motherVesselDDL, getMotherVesselDDL] = useAxiosGet();
   const dispatch = useDispatch();
   return (
     <>
@@ -52,7 +50,6 @@ export default function _Form({
           saveHandler(values, () => {
             resetForm(initData);
             setGridData([]);
-            setFileObjects([]);
           });
         }}
       >
@@ -69,38 +66,7 @@ export default function _Form({
               <div className="row global-form">
                 <div className="col-12">
                   <div className="row align-items-end">
-                    <div className="col-lg-3">
-                      <NewSelect
-                        label="Port"
-                        placeholder="Port"
-                        value={values?.port}
-                        name="port"
-                        options={portDDL || []}
-                        onChange={(e) => {
-                          if (e) {
-                            setFieldValue("port", e);
-                            setFieldValue("motherVessel", "");
-                            getMotherVesselDDL(
-                              `/wms/FertilizerOperation/GetMotherVesselProgramInfo?PortId=${e.value}`
-                            );
-                          }
-                        }}
-                        isDisabled={false}
-                      />
-                    </div>
-                    <div className="col-lg-3">
-                      <NewSelect
-                        label="Mother Vessel Name"
-                        placeholder="Mother Vessel Name"
-                        value={values?.motherVessel}
-                        name="motherVessel"
-                        options={motherVesselDDL || []}
-                        onChange={(e) => {
-                          setFieldValue("motherVessel", e);
-                        }}
-                        isDisabled={false}
-                      />
-                    </div>
+                    <PortAndMotherVessel obj={{ values, setFieldValue }} />
                     <div className="col-3">
                       <label>Supplier</label>
                       <SearchAsyncSelect
@@ -128,20 +94,16 @@ export default function _Form({
                         touched={touched}
                       />
                     </div>
+                    <FromDateToDateForm obj={{ values, setFieldValue }} />
 
-                    <div className="col-auto mr-auto">
-                      <button
-                        className="btn btn-primary"
-                        type="button"
-                        onClick={() => {
-                          setGridData([]);
-                          getData(values, "");
-                        }}
-                        disabled={!values?.motherVessel}
-                      >
-                        Show
-                      </button>
-                    </div>
+                    <IButton
+                      colSize={"col-lg-3"}
+                      onClick={() => {
+                        setGridData([]);
+                        getData(values, "");
+                      }}
+                      disabled={!values?.motherVessel}
+                    />
                   </div>
                   <div className="row">
                     <div className="col-3">
@@ -245,7 +207,7 @@ export default function _Form({
                     gridData?.reduce(
                       (a, b) =>
                         Number(a) +
-                        (b?.isSelected ? Number(b?.decProgramQnt || 0) : 0),
+                        (b?.isSelected ? Number(b?.unLoadQuantity || 0) : 0),
                       0
                     ),
                     true
@@ -257,7 +219,7 @@ export default function _Form({
                     gridData?.reduce(
                       (a, b) =>
                         Number(a) +
-                        (b?.isSelected ? Number(b?.numBillAmount || 0) : 0),
+                        (b?.isSelected ? Number(b?.billAmount || 0) : 0),
                       0
                     ),
                     true
@@ -289,11 +251,12 @@ export default function _Form({
                         />
                       </th>
                       <th>SL</th>
-                      <th>Mother Vessel Name</th>
-                      <th>Program No</th>
-                      <th>Program Quantity</th>
-                      <th>Freight Rate (USD)</th>
-                      <th>Freight Rate (BDT)</th>
+                      <th>ShipPoint</th>
+                      <th>Mother Vessel</th>
+                      <th>Lighter Vessel</th>
+                      <th>Labour Supplier</th>
+                      <th>Unloaded Quantity</th>
+                      <th>Total Rate</th>
                       <th>Bill Amount</th>
                     </tr>
                   </thead>
@@ -313,26 +276,23 @@ export default function _Form({
                         <td className="text-center align-middle">
                           {index + 1}
                         </td>
-                        <td>{item?.strMotherVesselName}</td>
-                        <td>{item?.strProgramNo}</td>
+                        <td>{item?.shipPointName}</td>
+                        <td>{item?.motherVesselName}</td>
+                        <td>{item?.lighterVesselName}</td>
+                        <td>{item?.ghatLabourSupplierName}</td>
                         <td className="text-right">
-                          {item?.decProgramQnt || 0}
+                          {item?.unLoadQuantity || 0}
                         </td>
-                        <td className="text-right">
-                          {item?.numFreightRate || 0}
-                        </td>
-                        <td className="text-right">
-                          {item?.numFreightRateDbt || 0}
-                        </td>
+                        <td className="text-right">{item?.totalRate || 0}</td>
 
                         <td style={{ width: "200px" }}>
                           <InputField
-                            value={item?.numBillAmount}
-                            name="numBillAmount"
+                            value={item?.billAmount}
+                            name="billAmount"
                             placeholder="Total Amount"
                             type="number"
                             onChange={(e) => {
-                              item.numBillAmount = e?.target?.value;
+                              item.billAmount = e?.target?.value;
                               setGridData([...gridData]);
                             }}
                           />
@@ -343,30 +303,7 @@ export default function _Form({
                 </table>
               </div>
             </div>
-            <DropzoneDialogBase
-              filesLimit={5}
-              acceptedFiles={["image/*"]}
-              fileObjects={fileObjects}
-              cancelButtonText={"cancel"}
-              submitButtonText={"submit"}
-              maxFileSize={100000000000000}
-              open={open}
-              onAdd={(newFileObjs) => {
-                setFileObjects([].concat(newFileObjs));
-              }}
-              onDelete={(deleteFileObj) => {
-                const newData = fileObjects.filter(
-                  (item) => item.file.name !== deleteFileObj.file.name
-                );
-                setFileObjects(newData);
-              }}
-              onClose={() => setOpen(false)}
-              onSave={() => {
-                setOpen(false);
-              }}
-              showPreviews={true}
-              showFileNamesInPreview={true}
-            />
+            <AttachFile obj={{ open, setOpen, setUploadedImage }} />
           </>
         )}
       </Formik>
