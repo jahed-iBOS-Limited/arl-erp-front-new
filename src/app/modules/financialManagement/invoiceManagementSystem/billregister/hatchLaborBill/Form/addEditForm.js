@@ -19,15 +19,15 @@ const initData = {
   billAmount: "",
   toDate: _todayDate(),
   fromDate: _todayDate(),
-  port: "",
+  port: { value: 1, label: "Chittagong " },
   motherVessel: "",
 };
 
 export default function HatchLaborBill() {
-  const [portDDL, getPortDDL] = useAxiosGet();
   const [gridData, getGridData, loading, setGridData] = useAxiosGet();
   const [images, setImages] = useState([]);
   const [, billPost, loader] = useAxiosPost();
+  const [vesselDDL, getVesselDDL] = useAxiosGet();
 
   const { state: headerData } = useLocation();
   const billType = headerData?.billType?.value;
@@ -38,7 +38,9 @@ export default function HatchLaborBill() {
   } = useSelector((state) => state?.authData, shallowEqual);
 
   useEffect(() => {
-    getPortDDL(`/wms/FertilizerOperation/GetDomesticPortDDL`);
+    getVesselDDL(
+      `/wms/FertilizerOperation/GetMotherVesselProgramInfo?PortId=${1}`
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
 
@@ -46,12 +48,12 @@ export default function HatchLaborBill() {
     getGridData(
       `/tms/LigterLoadUnload/GetGTOGProgramInfoForBillRegister?AccountId=${accId}&BusinessUnitId=${buId}&MotherVesselId=${
         values?.motherVessel?.value
-      }&BillType=${billType}&Port=${values?.port?.value || 0}`,
+      }&BillType=${billType}&PortId=${values?.port?.value || 0}`,
       (resData) => {
         const modifyData = resData?.map((item) => {
           return {
             ...item,
-            billAmount: item?.stevdorRate * item?.programQnt,
+            billAmount: item?.hatchLabourRate * item?.programQnt,
             isSelected: false,
           };
         });
@@ -150,8 +152,8 @@ export default function HatchLaborBill() {
           gridData={gridData}
           setGridData={setGridData}
           getData={getData}
-          portDDL={portDDL}
           setImages={setImages}
+          vesselDDL={vesselDDL}
         />
       </IForm>
     </div>

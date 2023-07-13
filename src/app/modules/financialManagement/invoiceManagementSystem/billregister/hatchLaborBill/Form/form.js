@@ -9,8 +9,8 @@ import FormikError from "../../../../../_helper/_formikError";
 import IView from "../../../../../_helper/_helperIcons/_view";
 import InputField from "../../../../../_helper/_inputField";
 import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
+import NewSelect from "../../../../../_helper/_select";
 import AttachFile from "../../../../../_helper/commonInputFieldsGroups/attachemntUpload";
-import { PortAndMotherVessel } from "../../../../../vesselManagement/common/components";
 
 const validationSchema = Yup.object().shape({
   billNo: Yup.string().required("Bill No is Required"),
@@ -30,8 +30,10 @@ export default function _Form({
   resetBtnRef,
   getData,
   setImages,
+  vesselDDL,
 }) {
   const [open, setOpen] = React.useState(false);
+
   const dispatch = useDispatch();
   return (
     <>
@@ -60,23 +62,20 @@ export default function _Form({
               <div className="row global-form">
                 <div className="col-12">
                   <div className="row align-items-end">
-                    {/* <div className="col-lg-3">
+                    <div className="col-lg-3">
                       <NewSelect
                         label="Port"
                         placeholder="Port"
                         value={values?.port}
                         name="port"
-                        options={portDDL || []}
+                        options={[]}
                         onChange={(e) => {
                           if (e) {
                             setFieldValue("port", e);
                             setFieldValue("motherVessel", "");
-                            getMotherVesselDDL(
-                              `/wms/FertilizerOperation/GetMotherVesselProgramInfo?PortId=${e.value}`
-                            );
                           }
                         }}
-                        isDisabled={false}
+                        isDisabled={true}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -85,14 +84,14 @@ export default function _Form({
                         placeholder="Mother Vessel Name"
                         value={values?.motherVessel}
                         name="motherVessel"
-                        options={motherVesselDDL || []}
+                        options={vesselDDL || []}
                         onChange={(e) => {
                           setFieldValue("motherVessel", e);
                         }}
                         isDisabled={false}
                       />
-                    </div> */}
-                    <PortAndMotherVessel obj={{ values, setFieldValue }} />
+                    </div>
+
                     <div className="col-3">
                       <label>Supplier</label>
                       <SearchAsyncSelect
@@ -228,24 +227,28 @@ export default function _Form({
                 <p>
                   Total Qty:{" "}
                   {_fixedPoint(
-                    gridData?.reduce(
-                      (a, b) =>
-                        Number(a) +
-                        (b?.isSelected ? Number(b?.programQnt || 0) : 0),
-                      0
-                    ),
+                    gridData
+                      ?.filter((item) => item?.hatchLabourRate > 0)
+                      ?.reduce(
+                        (a, b) =>
+                          Number(a) +
+                          (b?.isSelected ? Number(b?.programQnt || 0) : 0),
+                        0
+                      ),
                     true
                   )}
                 </p>
                 <p>
                   Total Amount:{" "}
                   {_fixedPoint(
-                    gridData?.reduce(
-                      (a, b) =>
-                        Number(a) +
-                        (b?.isSelected ? Number(b?.billAmount || 0) : 0),
-                      0
-                    ),
+                    gridData
+                      ?.filter((item) => item?.hatchLabourRate > 0)
+                      ?.reduce(
+                        (a, b) =>
+                          Number(a) +
+                          (b?.isSelected ? Number(b?.billAmount || 0) : 0),
+                        0
+                      ),
                     true
                   )}
                 </p>
@@ -259,7 +262,11 @@ export default function _Form({
                           type="checkbox"
                           checked={
                             gridData?.length > 0
-                              ? gridData?.every((item) => item?.isSelected)
+                              ? gridData
+                                  ?.filter(
+                                    (element) => element?.hatchLabourRate > 0
+                                  )
+                                  .every((item) => item?.isSelected)?.length
                               : false
                           }
                           onChange={(e) => {
@@ -267,7 +274,10 @@ export default function _Form({
                               gridData?.map((item) => {
                                 return {
                                   ...item,
-                                  isSelected: e?.target?.checked,
+                                  isSelected:
+                                    item?.hatchLabourRate > 0
+                                      ? e?.target?.checked
+                                      : false,
                                 };
                               })
                             );
@@ -290,9 +300,13 @@ export default function _Form({
                             type="checkbox"
                             checked={item?.isSelected}
                             onChange={(e) => {
-                              item["isSelected"] = e.target.checked;
+                              item["isSelected"] =
+                                item?.hatchLabourRate > 0
+                                  ? e.target.checked
+                                  : false;
                               setGridData([...gridData]);
                             }}
+                            disabled={item?.hatchLabourRate <= 0}
                           />
                         </td>
                         <td className="text-center align-middle">
