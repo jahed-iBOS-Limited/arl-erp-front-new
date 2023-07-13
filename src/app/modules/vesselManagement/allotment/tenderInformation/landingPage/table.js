@@ -135,6 +135,8 @@ export default function TenderInformationLandingTable() {
                         <th>Steve Dore Rate</th>
                         <th>Surveyor</th>
                         <th>Surveyor Rate</th>
+                        <th>Hatch Labour</th>
+                        <th>Hatch Labour Rate</th>
                         <th>Lot No</th>
                         <th>Program Quantity</th>
                         <th>Weight</th>
@@ -155,6 +157,10 @@ export default function TenderInformationLandingTable() {
                             <td className="text-right">{item?.stevdorRate}</td>
                             <td>{item?.serveyorName}</td>
                             <td className="text-right">{item?.serveyorRate}</td>
+                            <td>{item?.hatchLabour}</td>
+                            <td className="text-right">
+                              {item?.hatchLabourRate}
+                            </td>
                             <td>{item?.lotNo}</td>
                             <td className="text-right">
                               {_fixedPoint(item?.programQnt, true)}
