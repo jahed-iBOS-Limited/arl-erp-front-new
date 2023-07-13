@@ -34,14 +34,14 @@ function PayableReport() {
          <Formik enableReinitialize={true} initialValues={initData}>
             {({ values, setFieldValue, errors, touched }) => (
                
-               <ICard title="Payable Treasury Report">
+               <ICard title="Payable Variance Report">
                   {loading && <Loading />}
                   <form className="form form-label-right">
                      <div className="form-group row global-form">
                         <div className="col-lg-3">
                            <NewSelect
                               name="businessUnit"
-                              options={buDDL || []}
+                              options={[{value:0,label:"All"},...buDDL] || []}
                               value={values?.businessUnit}
                               label="Business Unit"
                               onChange={valueOption => {
@@ -58,7 +58,7 @@ function PayableReport() {
                            />
                         </div>
                         
-                        <div className="col-lg-2">
+                        {/* <div className="col-lg-2">
                            <InputField
                               value={values?.fromDate}
                               label="From Date"
@@ -69,11 +69,11 @@ function PayableReport() {
                                  setRowDto([]);
                               }}
                            />
-                        </div>
+                        </div> */}
                         <div className="col-lg-2">
                            <InputField
                               value={values?.toDate}
-                              label="To Date"
+                              label="Date"
                               type="date"
                               name="toDate"
                               onChange={e => {
@@ -109,7 +109,7 @@ function PayableReport() {
                                  !values?.toDate
                               }
                               onClick={() => {
-                                 getRowDto(`/fino/Report/GetPayableTresuryReport?intBusinessUnitId=${values?.businessUnit?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}&reportType=${values?.reportType?.value}`)
+                                 getRowDto(`/fino/Report/GetPayableTresuryReport?intBusinessUnitId=${values?.businessUnit?.value}&dteFromDate=${values?.toDate}&dteToDate=${values?.toDate}&reportType=${values?.reportType?.value}`)
                               }}
                               className="btn btn-primary"
                            >
