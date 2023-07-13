@@ -2,6 +2,11 @@ import { createContext } from "react";
 import { _firstDateofMonth } from "../_helper/_firstDateOfCurrentMonth";
 import { _todayDate } from "./_chartinghelper/_todayDate";
 
+const commonFields = {
+  vesselName: "",
+  voyageNo: "",
+};
+
 export const CharteringState = {
   transactionTimeChartererLandingInitData: {
     filterBy: "",
@@ -30,6 +35,12 @@ export const CharteringState = {
     fromDate: _firstDateofMonth(),
     toDate: _todayDate(),
   },
+  voyageLandingFormData: {
+    status: { value: 0, label: "All" },
+    ...commonFields,
+  },
+  bunkerCostLandingFormData: commonFields,
+  bunkerInformationLandingFormData: commonFields,
 };
 
 export const CharteringContext = createContext(CharteringState);

@@ -102,6 +102,15 @@ export default function Form({
     }
   };
 
+  const BODDisableHandler = (values) => {
+    const result =
+      (values?.hireTypeId === 1 && values?.voyageNo?.label !== "1") ||
+      viewType ||
+      !values?.voyageNo;
+
+    return result;
+  };
+
   return (
     <>
       <Formik
@@ -259,6 +268,7 @@ export default function Form({
                           voyageType: valueOption?.voyageTypeName,
                           voyageNo: valueOption,
                           hireType: valueOption?.hireTypeName,
+                          hireTypeId: valueOption?.hireTypeId,
                         });
                       }}
                       isDisabled={viewType || !values?.vesselName}
@@ -307,6 +317,12 @@ export default function Form({
                       Is Complete
                     </label>
                   </div>
+                  {/*  
+                  
+                  _____ BOD ___________ 
+                  
+                  
+                  */}
                   <div className="col-lg-12 mt-3">
                     <h6>BOD</h6>
                   </div>
@@ -319,7 +335,7 @@ export default function Form({
                       type="number"
                       errors={errors}
                       touched={touched}
-                      disabled={values?.voyageNo?.label !== "1" || viewType}
+                      disabled={BODDisableHandler(values)}
                     />
                   </div>
                   <div className="col-lg-2">
@@ -331,7 +347,8 @@ export default function Form({
                       type="number"
                       errors={errors}
                       touched={touched}
-                      disabled={values?.voyageNo?.label !== "1" || viewType}
+                      // disabled={values?.voyageNo?.label !== "1" || viewType}
+                      disabled={BODDisableHandler(values)}
                     />
                   </div>
                   <div className="col-lg-2">
@@ -343,7 +360,8 @@ export default function Form({
                       type="number"
                       errors={errors}
                       touched={touched}
-                      disabled={values?.voyageNo?.label !== "1" || viewType}
+                      // disabled={values?.voyageNo?.label !== "1" || viewType}
+                      disabled={BODDisableHandler(values)}
                     />
                   </div>
                   {/* 
