@@ -315,35 +315,33 @@ export default function BunkerInfoForm() {
     setIsCalculated(true);
   };
 
+  const modifiedSingleData = {
+    ...singleData,
+    vesselName: {
+      value: singleData?.vesselId,
+      label: singleData?.vesselName,
+    },
+    voyageNo: {
+      value: singleData?.voyageNoId,
+      label: singleData?.voyageNo,
+    },
+    voyageType: singleData?.voyageTypeName,
+    voyageTypeId: singleData?.voyageTypeId,
+    bunkerSaleLsmgoRate: itemRates?.lsmgoPrice,
+    bunkerSaleLsfo1Rate: itemRates?.lsifoPrice,
+    bunkerSaleLsfo2Rate: itemRates?.lsifoPrice,
+    bunkerPurchaseLsmgoRate: itemRates?.lsmgoPrice,
+    bunkerPurchaseLsfo1Rate: itemRates?.lsifoPrice,
+    bunkerPurchaseLsfo2Rate: itemRates?.lsifoPrice,
+    hireType: singleData?.hireTypeName,
+    isComplete: singleData?.complete,
+  };
+
   return (
     <>
       {loading && <Loading />}
       <Form
-        initData={
-          id
-            ? {
-                ...singleData,
-                vesselName: {
-                  value: singleData?.vesselId,
-                  label: singleData?.vesselName,
-                },
-                voyageNo: {
-                  value: singleData?.voyageNoId,
-                  label: singleData?.voyageNo,
-                },
-                voyageType: singleData?.voyageTypeName,
-                voyageTypeId: singleData?.voyageTypeId,
-                bunkerSaleLsmgoRate: itemRates?.lsmgoPrice,
-                bunkerSaleLsfo1Rate: itemRates?.lsifoPrice,
-                bunkerSaleLsfo2Rate: itemRates?.lsifoPrice,
-                bunkerPurchaseLsmgoRate: itemRates?.lsmgoPrice,
-                bunkerPurchaseLsfo1Rate: itemRates?.lsifoPrice,
-                bunkerPurchaseLsfo2Rate: itemRates?.lsifoPrice,
-                hireType: singleData?.hireTypeName,
-                isComplete: singleData?.complete,
-              }
-            : initData
-        }
+        initData={id ? modifiedSingleData : initData}
         saveHandler={saveHandler}
         viewType={type}
         charterType={charterType}

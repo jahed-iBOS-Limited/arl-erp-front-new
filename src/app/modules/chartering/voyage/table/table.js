@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Formik } from "formik";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router";
@@ -18,13 +18,7 @@ import PaginationTable from "../../_chartinghelper/_tablePagination";
 import IViewModal from "../../_chartinghelper/_viewModal";
 import { getVoyageCompletionChecklist, getVoyageLandingData } from "../helper";
 import CompleteConfirmation from "./completeConfirmation";
-
-const initData = {
-  filterBy: "",
-  fromDate: "",
-  toDate: "",
-  status: { value: 0, label: "All" },
-};
+import { CharteringContext } from "../../charteringContext";
 
 const headers = [
   { name: "SL" },
@@ -41,7 +35,7 @@ const headers = [
 
 export default function VoyageTable() {
   const [pageNo, setPageNo] = React.useState(0);
-  const [pageSize, setPageSize] = React.useState(15);
+  const [pageSize, setPageSize] = React.useState(50);
   const [gridData, setGridData] = useState([]);
   const [vesselDDL, setVesselDDL] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -51,23 +45,21 @@ export default function VoyageTable() {
   const [checkList, setCheckList] = useState({});
   const [singleRow, setSingleRow] = useState({});
   const [open, setOpen] = useState(false);
+  const [charteringState, setCharteringState] = useContext(CharteringContext);
+
+  const initData = charteringState?.voyageLandingFormData;
+
+  // the function to update the context value
+  const updateCharteringState = (newState) => {
+    setCharteringState((prevState) => ({
+      ...prevState,
+      voyageLandingFormData: newState,
+    }));
+  };
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
-
-  useEffect(() => {
-    getVesselDDL(
-      profileData?.accountId,
-      selectedBusinessUnit?.value,
-      setVesselDDL
-    );
-    viewGridData({
-      status: { value: 0, label: "All" },
-      vesselName: "",
-      voyageNo: "",
-    });
-  }, [profileData, selectedBusinessUnit]);
 
   const viewGridData = (values) => {
     getVoyageLandingData(
@@ -83,6 +75,31 @@ export default function VoyageTable() {
     );
   };
 
+  const getVoyageDDL = (values) => {
+    getVoyageDDLNew({
+      accId: profileData?.accountId,
+      buId: selectedBusinessUnit?.value,
+      id: values?.vesselName?.value,
+      setter: setVoyageNoDDL,
+      setLoading: setLoading,
+      hireType: 0,
+      isComplete: 0,
+      voyageTypeId: 0,
+    });
+  };
+
+  useEffect(() => {
+    getVesselDDL(
+      profileData?.accountId,
+      selectedBusinessUnit?.value,
+      setVesselDDL
+    );
+    if (initData?.vesselName) {
+      getVoyageDDL(initData);
+    }
+    viewGridData(initData);
+  }, [profileData, selectedBusinessUnit]);
+
   const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
     getVoyageLandingData(
       profileData?.accountId,
@@ -96,19 +113,6 @@ export default function VoyageTable() {
       values?.status?.value
     );
   };
-
-  // const changeStatus = (id, status, values) => {
-  //   IConfirmModal({
-  //     title: "Complete Voyage",
-  //     message: "Are you sure you want to complete this voyage?",
-  //     yesAlertFunc: () => {
-  //       activeInactiveVoyage(id, status, setLoading, () => {
-  //         viewGridData(values);
-  //       });
-  //     },
-  //     noAlertFunc: () => {},
-  //   });
-  // };
 
   const percentageMaker = (item) => {
     let total = 0;
@@ -150,18 +154,9 @@ export default function VoyageTable() {
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        // validationSchema={{}}
         onSubmit={(values) => {}}
       >
-        {({
-          handleSubmit,
-          resetForm,
-          values,
-          errors,
-          touched,
-          setFieldValue,
-          isValid,
-        }) => (
+        {({ values, errors, touched, setFieldValue }) => (
           <>
             {loading && <Loading />}
             <form className="marine-form-card">
@@ -171,7 +166,10 @@ export default function VoyageTable() {
                   <button
                     type="button"
                     className={"btn btn-primary px-3 py-2"}
-                    onClick={() => history.push("/chartering/voyage/create")}
+                    onClick={() => {
+                      updateCharteringState(values);
+                      history.push("/chartering/voyage/create");
+                    }}
                   >
                     Create
                   </button>
@@ -190,21 +188,16 @@ export default function VoyageTable() {
                       label="Vessel Name"
                       onChange={(valueOption) => {
                         setGridData([]);
-                        setFieldValue("voyageNo", "");
+
                         setVoyageNoDDL([]);
                         setFieldValue("vesselName", valueOption);
                         if (valueOption) {
-                          getVoyageDDLNew({
-                            accId: profileData?.accountId,
-                            buId: selectedBusinessUnit?.value,
-                            id: valueOption?.value,
-                            setter: setVoyageNoDDL,
-                            setLoading: setLoading,
-                            hireType: 0,
-                            isComplete: 0,
-                            voyageTypeId: 0,
-                          });
+                          getVoyageDDL({ ...values, vesselName: valueOption });
                         }
+                        updateCharteringState({
+                          voyageNo: "",
+                          vesselName: valueOption,
+                        });
 
                         viewGridData({
                           ...values,
@@ -229,6 +222,10 @@ export default function VoyageTable() {
                       onChange={(valueOption) => {
                         setGridData([]);
                         setFieldValue("voyageNo", valueOption);
+                        updateCharteringState({
+                          ...values,
+                          voyageNo: valueOption,
+                        });
                         viewGridData({
                           ...values,
                           voyageNo: valueOption,
@@ -256,6 +253,10 @@ export default function VoyageTable() {
                       onChange={(valueOption) => {
                         setGridData([]);
                         setFieldValue("status", valueOption);
+                        updateCharteringState({
+                          ...values,
+                          status: valueOption,
+                        });
                         viewGridData({
                           ...values,
                           status: valueOption,
