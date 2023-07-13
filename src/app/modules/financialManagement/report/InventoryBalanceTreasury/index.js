@@ -50,7 +50,7 @@ function InventoryBalanceTreasury() {
     <>
       <Formik enableReinitialize={true} initialValues={initData}>
         {({ values, setFieldValue, errors, touched }) => (
-          <ICard title="Inventory Balance Treasury">
+          <ICard title="Inventory Balance Variance Report">
             <form className="form form-label-right">
               <div className="form-group row global-form">
                 <div className="col-lg-3">
