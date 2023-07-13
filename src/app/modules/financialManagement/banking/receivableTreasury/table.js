@@ -38,7 +38,7 @@ const ReceivableTreasuryReport = () => {
     <>
       <Formik enableReinitialize={true} initialValues={initData}>
         {({ values, setFieldValue }) => (
-          <ICustomCard title="Receivable Treasury Report">
+          <ICustomCard title="Receivable Variance Report">
             <form className="form form-label-right">
               <div className="form-group row global-form">
                 <div className="col-lg-3">
