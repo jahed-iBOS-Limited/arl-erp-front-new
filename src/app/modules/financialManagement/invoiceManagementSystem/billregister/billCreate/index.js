@@ -21,6 +21,7 @@ import LabourBillForm from "./../labourBill/Form/addEditForm";
 import SupplerInvoiceForm from "./../supplerInvoice/Form/addEditForm";
 import SupplierAdvance from "./../supplierAdvance/supplierAdvance";
 import HeaderForm from "./Table/form";
+import HatchLaborBill from "../hatchLaborBill/Form/addEditForm";
 
 function BillregisterCreate() {
   const { state: headerData } = useLocation();
@@ -70,6 +71,8 @@ function BillregisterCreate() {
         <StevedoreBill />
       ) : billType === 27 ? (
         <SurveyorBill />
+      ) : billType === 28 ? (
+        <HatchLaborBill />
       ) : (
         <HeaderForm />
       )}
