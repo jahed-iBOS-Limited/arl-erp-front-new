@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import { shallowEqual, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
 import IForm from "../../../../../_helper/_form";
 import Loading from "../../../../../_helper/_loading";
 import { _todayDate } from "../../../../../_helper/_todayDate";
 import IWarningModal from "../../../../../_helper/_warningModal";
-import { compressfile } from "../../../../../_helper/compressfile";
 import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
-import { createG2GCustomizeBill, uploadAtt } from "../../helper";
+import { createG2GCustomizeBill } from "../../helper";
 import Form from "./form";
 
 const initData = {
@@ -28,11 +26,8 @@ const initData = {
 
 export default function GhatLoadUnloadBill() {
   const [isDisabled, setDisabled] = useState(false);
-  const [fileObjects, setFileObjects] = useState([]);
-  // const [gridData, setGridData] = useState([]);
-  const [supplierDDL, setSupplierDDL] = useState([]);
-  const [portDDL, getPortDDL] = useAxiosGet();
   const [gridData, getGridData, loading, setGridData] = useAxiosGet();
+  const [uploadedImage, setUploadedImage] = useState([]);
 
   const { state: headerData } = useLocation();
   const billType = headerData?.billType?.value;
@@ -42,22 +37,16 @@ export default function GhatLoadUnloadBill() {
     selectedBusinessUnit: { value: buId, label: buName },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  useEffect(() => {
-    getPortDDL(`/wms/FertilizerOperation/GetDomesticPortDDL`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accId, buId]);
-
   const getData = (values, searchTerm) => {
-    const supplierId = values?.supplier?.value
-      ? `&SupplierId=${values?.supplier?.value}`
-      : "";
+    const search = searchTerm ? `&searchTerm=${searchTerm}` : "";
     getGridData(
-      `/tms/LigterLoadUnload/GetGTOProgramMotherVessel?MotherVesselId=${values?.motherVessel?.value}${supplierId}&AccountId=${accId}&BusinessUnitId=${buId}`,
+      `/tms/LigterLoadUnload/GetShipPointLighterUnloadLabourBill?accountId=${accId}&businessUnitId=${buId}&supplierId=${values?.supplier?.value || 0}&fromDate=${values?.fromDate}&todate=${values?.toDate}${search}`,
       (resData) => {
         const modifyData = resData?.map((item) => {
           return {
             ...item,
             isSelected: false,
+            billAmount: +item?.totalRate * +item?.unLoadQuantity,
           };
         });
         setGridData(modifyData);
@@ -67,75 +56,69 @@ export default function GhatLoadUnloadBill() {
 
   const saveHandler = async (values, cb) => {
     try {
-      const modifiedRow = gridData
-        ?.filter((item) => item?.isSelected)
-        ?.map((item) => {
-          return {
-            challanNo: item?.strDeliveryCode || "",
-            deliveryId: item?.intMotherVesselId || 0,
-            quantity: +item?.decProgramQnt || 0,
-            ammount: +item?.numBillAmount,
-            billAmount: +item?.numBillAmount,
-            shipmentCode: item?.strDeliveryCode || "",
-          };
-        });
-      if (modifiedRow.length === 0) {
+      const selectedRow = gridData?.filter((item) => item?.isSelected);
+
+      if (selectedRow.length === 0) {
         toast.warning("Please select at least one");
       } else {
-        // if (
-        //   gridData
-        //     ?.filter((item) => item?.isSelected)
-        //     ?.some((item) => item.totalShipingValue >= 0)
-        // ) {
-        //   return toast.warn("Bill Amount is not valid");
-        // }
-        if (fileObjects?.length < 1) {
-          return toast.warn("Attachment must be added");
-        }
-        let images = [];
-        setDisabled(true);
-        const compressedFile = await compressfile(
-          fileObjects?.map((f) => f.file)
+        const totalAmount = selectedRow?.reduce(
+          (total, cur) => (total += +cur?.billAmount),
+          0
         );
-        const uploadedImage = await uploadAtt(compressedFile);
-        setDisabled(false);
-        if (uploadedImage.data?.length > 0) {
-          images = uploadedImage?.data?.map((data) => {
-            return {
-              imageId: data?.id,
-            };
-          });
-        }
-        const obj = {
+        const rows = selectedRow?.map((item) => ({
+          challanNo: item?.deliveryCode,
+          deliveryId: item?.deliveryId || 0,
+          quantity: +item?.unLoadQuantity || 0,
+          ammount: +item?.billAmount,
+          billAmount: +item?.billAmount,
+          shipmentCode: item?.deliveryCode,
+          motherVesselId: item?.motherVesselId,
+          lighterVesselId: item?.lighterVesselId,
+          numFreightRateUSD: 0,
+          numFreightRateBDT: 0,
+          numCommissionRateBDT: 0,
+          directRate: item?.directRate,
+          dumpDeliveryRate: item?.dumpDeliveryRate,
+          damToTruckRate: item?.damToTruckRate,
+          truckToDamRate: item?.truckToDamRate,
+          lighterToBolgateRate: item?.lighterToBolgateRate,
+          bolgateToDamRate: item?.bolgateToDamRate,
+          othersCostRate: +item?.totalRate,
+        }));
+
+        const payload = {
           gtogHead: {
+            billTypeId: billType || 0,
             accountId: accId,
-            supplierId: values?.supplier?.value || 0,
-            supplierName: values?.supplier?.label || "",
+            supplierId: values?.supplier?.value,
+            supplierName: values?.supplier?.label,
+            sbuId: headerData?.sbu?.value || 0,
             unitId: buId,
             unitName: buName,
             billNo: values?.billNo,
-            billDate: _dateFormatter(values?.billDate),
-            paymentDueDate: _dateFormatter(values?.paymentDueDate),
+            billDate: values?.billDate,
+            paymentDueDate: values?.paymentDueDate,
             narration: values?.narration,
-            billAmount: gridData
-              ?.filter((item) => item?.isSelected)
-              ?.reduce((a, b) => Number(a) + Number(b.numBillAmount), 0),
-            plantId: headerData?.plant?.value,
+            billAmount: totalAmount,
+            plantId: headerData?.plant?.value || 0,
             warehouseId: 0,
             actionBy: userId,
-            sbuId: headerData?.sbu?.value || 0,
-            billTypeId: billType || 0,
           },
-          gtogRow: modifiedRow,
-          image: images,
+          gtogRow: rows,
+          image: [
+            {
+              imageId: uploadedImage[0]?.id,
+            },
+          ],
         };
 
-        createG2GCustomizeBill(obj, cb, IWarningModal, setDisabled);
+        createG2GCustomizeBill(payload, cb, IWarningModal, setDisabled);
       }
     } catch (error) {
       setDisabled(false);
     }
   };
+
   const [objProps, setObjprops] = useState({});
   return (
     <div className="purchaseInvoice">
@@ -147,20 +130,15 @@ export default function GhatLoadUnloadBill() {
         {(isDisabled || loading) && <Loading />}
         <Form
           {...objProps}
-          initData={initData}
-          saveHandler={saveHandler}
-          accId={accId}
           buId={buId}
-          gridData={gridData}
-          setGridData={setGridData}
-          setFileObjects={setFileObjects}
-          fileObjects={fileObjects}
-          headerData={headerData}
-          supplierDDL={supplierDDL}
-          setSupplierDDL={setSupplierDDL}
-          setDisabled={setDisabled}
+          accId={accId}
           getData={getData}
-          portDDL={portDDL}
+          gridData={gridData}
+          initData={initData}
+          headerData={headerData}
+          setGridData={setGridData}
+          saveHandler={saveHandler}
+          setUploadedImage={setUploadedImage}
         />
       </IForm>
     </div>
