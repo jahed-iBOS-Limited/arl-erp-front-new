@@ -33,7 +33,7 @@ function FundRegisterLanding() {
     return [
       { name: "ReportType", value: `${values?.type?.value || 0}` },
       { name: "businessUnitId", value: `${values?.busisnessUnit?.value || 0}` },
-      // { name: "dteDate", value: `${values?.date}` }
+      { name: "dteDate", value: `${values?.date || _todayDate()}` }
     ];
   };
   useEffect(() => {
