@@ -698,9 +698,6 @@ export const FormatEight = ({
             <p className="font-weight-bold" style={{ fontSize: "14px" }}>
               For {values?.bankAccountNo?.accountName}
             </p>
-            <p className="font-weight-bold" style={{ fontSize: "14px" }}>
-              A/C No : {values?.bankAccountNo?.bankAccNo}
-            </p>
             <div className="font-weight-bold " style={{ marginTop: "60px" }}>
               <div className="d-flex">
                 <h6
@@ -721,6 +718,9 @@ export const FormatEight = ({
                 </h6>
               </div>
             </div>
+            <p className="font-weight-bold" style={{ fontSize: "14px" }}>
+              A/C No : {values?.bankAccountNo?.bankAccNo}
+            </p>
             <div style={{ marginTop: "150px" }}>
               <b className="rtgs-address">
                 {values?.bankAccountNo?.accountName}
