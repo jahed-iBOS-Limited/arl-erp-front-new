@@ -18,10 +18,11 @@ import { PortAndMotherVessel } from "../../../common/components";
 import NewSelect from "../../../../_helper/_select";
 import { GetShipPointDDL } from "../../../allotment/loadingInformation/helper";
 
+const ALL = { value: 0, label: "All" };
 const initData = {
   port: "",
-  motherVessel: "",
-  warehouse: "",
+  motherVessel: ALL,
+  warehouse: ALL,
   fromDate: _firstDateofMonth(),
   toDate: _todayDate(),
 };
@@ -38,7 +39,7 @@ const ServiceChargeAndIncomeElementLanding = () => {
 
   // get user profile data from store
   const {
-    profileData: { accountId: accId },
+    profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
@@ -46,12 +47,12 @@ const ServiceChargeAndIncomeElementLanding = () => {
     const url = `/costmgmt/CostElement/GetServiceChargeAndIncomeElementLanding?businessUnitId=${buId}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&PageNo=${_pageNo}&PageSize=${_pageSize}&motherVesselId=${values?.motherVessel?.value}&warehouseId=${values?.warehouse?.value}
 `;
 
-    getRowData(url, (resData) => {});
+    getRowData(url);
   };
 
   useEffect(() => {
     GetShipPointDDL(accId, buId, setShipPointDDL);
-    // getData(initData, pageNo, pageSize);
+    getData(initData, pageNo, pageSize);
   }, [buId]);
 
   // set PositionHandler
@@ -173,9 +174,14 @@ const ServiceChargeAndIncomeElementLanding = () => {
             <IViewModal
               title={"Details"}
               show={show}
-              onHide={() => setShow(false)}
+              onHide={() => {
+                getData(values, pageNo, pageSize);
+                setShow(false);
+              }}
             >
-              <DetailsTable obj={{ costs, revenues, setCosts, setRevenues }} />
+              <DetailsTable
+                obj={{ costs, revenues, setCosts, setRevenues, userId }}
+              />
             </IViewModal>
           </>
         )}
