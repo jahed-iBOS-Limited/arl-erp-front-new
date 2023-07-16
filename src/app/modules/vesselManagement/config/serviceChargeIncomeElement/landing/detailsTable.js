@@ -1,11 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import InputField from "../../../../_helper/_inputField";
+import { rateApprove } from "../helper";
+import Loading from "../../../../_helper/_loading";
 
 const DetailsTable = ({ obj }) => {
-  const { costs, revenues, setCosts, setRevenues } = obj;
+  const { costs, revenues, setCosts, setRevenues, userId } = obj;
+  const [loading, setLoading] = useState(false);
+
+  const approveRate = (item, i) => {
+    const payload = [
+      {
+        rowId: item?.rowId,
+        rateId: item?.rateId,
+        rate: item?.rate,
+        updateBy: userId,
+      },
+    ];
+    rateApprove(payload, setLoading, () => {
+      if (item?.typeId === 1) {
+        costs[i].isApprove = true;
+        setCosts([...costs]);
+      } else if (item?.typeId === 2) {
+        revenues[0].isApprove = true;
+        setRevenues([...revenues]);
+      }
+    });
+  };
 
   return (
     <>
+      {loading && <Loading />}
       <div className="row">
         <div className="col-lg-6">
           <div className="react-bootstrap-table table-responsive">
@@ -17,6 +41,7 @@ const DetailsTable = ({ obj }) => {
                   <th style={{ minWidth: "30px" }}>SL</th>
                   <th>Cost Element</th>
                   <th>Rate (BDT)</th>
+                  <th>Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -28,16 +53,35 @@ const DetailsTable = ({ obj }) => {
                       </td>
                       <td>{item?.serviceElementName}</td>
                       <td>
-                        <InputField
-                          name="rate"
-                          value={item?.rate}
-                          placeholder="Rate"
-                          type="number"
-                          onChange={(e) => {
-                            item.item = e.target.value;
-                            setCosts([...costs]);
-                          }}
-                        />
+                        {item?.isApprove ? (
+                          item?.rate
+                        ) : (
+                          <InputField
+                            name="rate"
+                            value={item?.rate}
+                            placeholder="Rate"
+                            type="number"
+                            onChange={(e) => {
+                              item.rate = e.target.value;
+                              setCosts([...costs]);
+                            }}
+                          />
+                        )}
+                      </td>
+                      <td className="text-center">
+                        {item?.isApprove ? (
+                          "Approved"
+                        ) : (
+                          <button
+                            className="btn btn-info btn-sm"
+                            type="button"
+                            onClick={() => {
+                              approveRate(item, i);
+                            }}
+                          >
+                            Approve
+                          </button>
+                        )}
                       </td>
                     </tr>
                   );
@@ -55,7 +99,7 @@ const DetailsTable = ({ obj }) => {
                 <tr>
                   <th>SL</th>
                   <th>Revenue Element</th>
-                  <th>Rate (BDT)</th>
+                  <th>Rate (BDT)</th> <th>Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -65,18 +109,35 @@ const DetailsTable = ({ obj }) => {
                       <td className="text-center">{i + 1}</td>
                       <td>{item?.serviceElementName}</td>
                       <td>
-                        <td>
+                        {item?.isApprove ? (
+                          item?.rate
+                        ) : (
                           <InputField
                             name="rate"
                             value={item?.rate}
                             placeholder="Rate"
                             type="number"
                             onChange={(e) => {
-                              item.item = e.target.value;
+                              item.rate = e.target.value;
                               setRevenues([...revenues]);
                             }}
                           />
-                        </td>
+                        )}
+                      </td>
+                      <td className="text-center">
+                        {item?.isApprove ? (
+                          "Approved"
+                        ) : (
+                          <button
+                            className="btn btn-info btn-sm"
+                            type="button"
+                            onClick={() => {
+                              approveRate(item, i);
+                            }}
+                          >
+                            Approve
+                          </button>
+                        )}
                       </td>
                     </tr>
                   );
