@@ -48,7 +48,9 @@ export default function HatchLaborBill() {
     getGridData(
       `/tms/LigterLoadUnload/GetGTOGProgramInfoForBillRegister?AccountId=${accId}&BusinessUnitId=${buId}&MotherVesselId=${
         values?.motherVessel?.value
-      }&BillType=${billType}&PortId=${values?.port?.value || 0}`,
+      }&BillType=${billType}&PortId=${values?.port?.value || 0}&SupplierId=${
+        values?.supplier?.value
+      }`,
       (resData) => {
         const modifyData = resData?.map((item) => {
           return {
@@ -75,8 +77,8 @@ export default function HatchLaborBill() {
       gtogHead: {
         billTypeId: billType,
         accountId: accId,
-        supplierId: 0,
-        supplierName: "",
+        supplierId: values?.supplier?.value,
+        supplierName: values?.supplier?.label,
         sbuId: 68,
         unitId: buId,
         unitName: buName,

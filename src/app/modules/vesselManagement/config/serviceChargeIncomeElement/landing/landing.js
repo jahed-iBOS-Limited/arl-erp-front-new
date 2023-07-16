@@ -14,11 +14,14 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import IButton from "../../../../_helper/iButton";
 import DetailsTable from "./detailsTable";
 import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
+import { PortAndMotherVessel } from "../../../common/components";
+import NewSelect from "../../../../_helper/_select";
+import { GetShipPointDDL } from "../../../allotment/loadingInformation/helper";
 
 const initData = {
   port: "",
   motherVessel: "",
-  year: "",
+  warehouse: "",
   fromDate: _firstDateofMonth(),
   toDate: _todayDate(),
 };
@@ -31,21 +34,24 @@ const ServiceChargeAndIncomeElementLanding = () => {
   const [costs, setCosts] = useState([]);
   const [revenues, setRevenues] = useState([]);
   const [show, setShow] = useState(false);
+  const [shipPointDDL, setShipPointDDL] = useState([]);
 
   // get user profile data from store
   const {
+    profileData: { accountId: accId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const getData = (values, _pageNo, _pageSize) => {
-    const url = `/costmgmt/CostElement/GetServiceChargeAndIncomeElementLanding?businessUnitId=${buId}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&PageNo=${_pageNo}&PageSize=${_pageSize}
+    const url = `/costmgmt/CostElement/GetServiceChargeAndIncomeElementLanding?businessUnitId=${buId}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&PageNo=${_pageNo}&PageSize=${_pageSize}&motherVesselId=${values?.motherVessel?.value}&warehouseId=${values?.warehouse?.value}
 `;
 
     getRowData(url, (resData) => {});
   };
 
   useEffect(() => {
-    getData(initData, pageNo, pageSize);
+    GetShipPointDDL(accId, buId, setShipPointDDL);
+    // getData(initData, pageNo, pageSize);
   }, [buId]);
 
   // set PositionHandler
@@ -86,17 +92,28 @@ const ServiceChargeAndIncomeElementLanding = () => {
               <form className="form form-label-right">
                 <div className="global-form">
                   <div className="row">
-                    <FromDateToDateForm
-                      obj={{
-                        values,
-                        setFieldValue,
-                      }}
-                    />
+                    <PortAndMotherVessel obj={{ values, setFieldValue }} />
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="warehouse"
+                        options={
+                          [{ value: 0, label: "All" }, ...shipPointDDL] || []
+                        }
+                        value={values?.warehouse}
+                        label="Warehouse"
+                        onChange={(e) => {
+                          setFieldValue("warehouse", e);
+                        }}
+                        placeholder="Warehouse"
+                      />
+                    </div>
+                    <FromDateToDateForm obj={{ values, setFieldValue }} />
 
                     <IButton
                       onClick={() => {
                         getData(values, pageNo, pageSize);
                       }}
+                      disabled={!values?.motherVessel || !values?.warehouse}
                     />
                   </div>
                 </div>
@@ -122,7 +139,7 @@ const ServiceChargeAndIncomeElementLanding = () => {
                           <td className="text-center" style={{ width: "30px" }}>
                             {i + 1}
                           </td>
-                          <td className="text-center">{item?.warehouseName}</td>
+                          <td className="text-center">{item?.wareHouseName}</td>
                           <td className="text-center">{item?.itemName}</td>
                           <td className="text-center" style={{ width: "50px" }}>
                             <IView
@@ -158,7 +175,7 @@ const ServiceChargeAndIncomeElementLanding = () => {
               show={show}
               onHide={() => setShow(false)}
             >
-              <DetailsTable obj={{ costs, revenues }} />
+              <DetailsTable obj={{ costs, revenues, setCosts, setRevenues }} />
             </IViewModal>
           </>
         )}
