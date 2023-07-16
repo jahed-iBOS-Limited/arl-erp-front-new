@@ -5,7 +5,6 @@ import {
   getBusinessPartnerDDL,
   getSBUListDDL_api,
   getShipmentDDL,
-  getWarehouseDDL,
   SaveInventoryLoanValidationSchema,
 } from "../helper";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
@@ -21,13 +20,15 @@ export default function _Form({
   saveHandler,
   resetBtnRef,
   profileData,
-  selectedBusinessUnit
+  selectedBusinessUnit,
 }) {
   const [shipmentDDL, setShipmentDDL] = useState([]);
-  const [warehouseDDL, setWarehouseDDL] = useState([]);
   const [partnerDDL, setPartnerDDL] = useState([]);
   const [sbuDDL, setsbuDDL] = useState([]);
-  const [, getItemRate, itemRateLoader] = useAxiosGet()
+  const [, getItemRate, itemRateLoader] = useAxiosGet();
+  const [plantDDL, getPlantDDL] = useAxiosGet();
+  const [warehouseDDL, getWarehouseDDL, , setWarehouseDDL] = useAxiosGet();
+
   const polcList = (v) => {
     if (v?.length < 3) return [];
     return Axios.get(
@@ -46,11 +47,11 @@ export default function _Form({
       selectedBusinessUnit?.value,
       setsbuDDL
     );
-    getWarehouseDDL(
-      profileData?.accountId,
-      selectedBusinessUnit?.value,
-      setWarehouseDDL
+    getPlantDDL(
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=1&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
     );
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
 
   return (
@@ -121,7 +122,11 @@ export default function _Form({
                       name="partner"
                       options={partnerDDL}
                       value={values?.partner}
-                      label="Business Partner"
+                      label={
+                        values?.createType === 1
+                          ? `To Business Partner`
+                          : `From Business Partner`
+                      }
                       onChange={(valueOption) => {
                         setFieldValue("partner", valueOption);
                       }}
@@ -130,83 +135,110 @@ export default function _Form({
                       touched={touched}
                     />
                   </div>
-                  {/* Create Type For Issue */}
+
                   {values?.createType === 1 ? (
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="issueFrom"
+                        options={[
+                          { value: 1, label: "Warehouse" },
+                          { value: 2, label: "Shipment" },
+                        ]}
+                        value={values?.issueFrom}
+                        label="Issue From"
+                        onChange={(valueOption) => {
+                          setFieldValue("issueFrom", valueOption);
+                        }}
+                        placeholder="Issue From"
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                  ) : null}
+                   <div className="col-lg-3">
+                      <NewSelect
+                        name="plant"
+                        options={plantDDL || []}
+                        value={values?.plant}
+                        label="Plant"
+                        onChange={(valueOption) => {
+                          if (valueOption) {
+                            setFieldValue("plant", valueOption);
+                            setFieldValue("warehouse", "");
+                            getWarehouseDDL(
+                              `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${valueOption?.value}`
+                            );
+                          } else {
+                            setFieldValue("plant", "");
+                            setFieldValue("warehouse", "");
+                            setWarehouseDDL([]);
+                          }
+                        }}
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                  {values?.issueFrom?.value !== 2 ? (
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="warehouse"
+                        options={warehouseDDL}
+                        value={values?.warehouse}
+                        label={
+                          values?.createType === 1
+                            ? `From Warehouse`
+                            : `Warehouse`
+                        }
+                        onChange={(valueOption) => {
+                          setFieldValue("item", "");
+                          setFieldValue("lcNo", "");
+                          setFieldValue("shipment", "");
+                          setFieldValue("warehouse", valueOption);
+                        }}
+                        placeholder="Warehouse"
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                  ) : null}
+                  {values?.createType === 1 &&
+                  values?.issueFrom?.value === 2 ? (
                     <>
                       <div className="col-lg-3">
-                        <NewSelect
-                          name="issueFrom"
-                          options={[
-                            { value: 1, label: "Warehouse" },
-                            { value: 2, label: "Shipment" },
-                          ]}
-                          value={values?.issueFrom}
-                          label="Issue From"
-                          onChange={(valueOption) => {
-                            setFieldValue("issueFrom", valueOption);
+                        <label>LC No</label>
+                        <SearchAsyncSelect
+                          selectedValue={values?.lcNo}
+                          isSearchIcon={true}
+                          handleChange={(valueOption) => {
+                            setFieldValue("lcNo", valueOption);
+                            getShipmentDDL(
+                              profileData?.accountId,
+                              selectedBusinessUnit?.value,
+                              valueOption?.label,
+                              setShipmentDDL
+                            );
                           }}
-                          placeholder="Issue From"
+                          loadOptions={polcList}
+                          placeholder="Search by LC No"
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="shipment"
+                          options={shipmentDDL}
+                          value={values?.shipment}
+                          label="Shipment"
+                          onChange={(valueOption) => {
+                            setFieldValue("shipment", valueOption);
+                          }}
+                          placeholder="Shipment"
                           errors={errors}
                           touched={touched}
                         />
                       </div>
-                      {values?.issueFrom?.value === 1 ? (
-                        <div className="col-lg-3">
-                          <NewSelect
-                            name="warehouse"
-                            options={warehouseDDL}
-                            value={values?.warehouse}
-                            label="Warehouse"
-                            onChange={(valueOption) => {
-                              setFieldValue("item", "");
-                              setFieldValue("lcNo", "");
-                              setFieldValue("shipment", "");
-                              setFieldValue("warehouse", valueOption);
-                            }}
-                            placeholder="Warehouse"
-                            errors={errors}
-                            touched={touched}
-                          />
-                        </div>
-                      ) : null}
-                      {values?.issueFrom?.value === 2 ? (
-                        <>
-                          <div className="col-lg-3">
-                            <label>LC No</label>
-                            <SearchAsyncSelect
-                              selectedValue={values?.lcNo}
-                              isSearchIcon={true}
-                              handleChange={(valueOption) => {
-                                setFieldValue("lcNo", valueOption);
-                                getShipmentDDL(
-                                  profileData?.accountId,
-                                  selectedBusinessUnit?.value,
-                                  valueOption?.label,
-                                  setShipmentDDL
-                                );
-                              }}
-                              loadOptions={polcList}
-                              placeholder="Search by LC No"
-                            />
-                          </div>
-                          <div className="col-lg-3">
-                            <NewSelect
-                              name="shipment"
-                              options={shipmentDDL}
-                              value={values?.shipment}
-                              label="Shipment"
-                              onChange={(valueOption) => {
-                                setFieldValue("shipment", valueOption);
-                              }}
-                              placeholder="Shipment"
-                              errors={errors}
-                              touched={touched}
-                            />
-                          </div>
-                        </>
-                      ) : null}
                     </>
                   ) : null}
+
                   <div className="col-lg-3">
                     <label>Lighter Vessel</label>
                     <InputField
@@ -259,18 +291,25 @@ export default function _Form({
                       handleChange={(valueOption) => {
                         setFieldValue("item", valueOption);
                         if (valueOption) {
-                          getItemRate(`/wms/InventoryTransaction/sprRuningRate?businessUnitId=${selectedBusinessUnit?.value}&whId=${values?.warehouse?.value || 0
-                            }&itemId=${valueOption?.value
-                            }`, (data) => setFieldValue("itemRate", data))
+                          getItemRate(
+                            `/wms/InventoryTransaction/sprRuningRate?businessUnitId=${
+                              selectedBusinessUnit?.value
+                            }&whId=${values?.warehouse?.value || 0}&itemId=${
+                              valueOption?.value
+                            }`,
+                            (data) => setFieldValue("itemRate", data)
+                          );
                         }
                       }}
                       loadOptions={(v) => {
                         if (v?.length < 3) return [];
                         return Axios.get(
-                          `/item/ItemSales/GetItemDDLForInventoryLoan?AccountId=${profileData?.accountId
-                          }&BUnitId=${selectedBusinessUnit?.value
+                          `/item/ItemSales/GetItemDDLForInventoryLoan?AccountId=${
+                            profileData?.accountId
+                          }&BUnitId=${
+                            selectedBusinessUnit?.value
                           }&WareHouseId=${values?.warehouse?.value ||
-                          0}&Search=${v}`
+                            0}&Search=${v}`
                         ).then((res) => res?.data);
                       }}
                     />
