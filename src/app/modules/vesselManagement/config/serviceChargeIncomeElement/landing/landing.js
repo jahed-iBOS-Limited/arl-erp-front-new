@@ -51,7 +51,7 @@ const ServiceChargeAndIncomeElementLanding = () => {
 
   useEffect(() => {
     GetShipPointDDL(accId, buId, setShipPointDDL);
-    getData(initData, pageNo, pageSize);
+    // getData(initData, pageNo, pageSize);
   }, [buId]);
 
   // set PositionHandler
@@ -96,7 +96,9 @@ const ServiceChargeAndIncomeElementLanding = () => {
                     <div className="col-lg-3">
                       <NewSelect
                         name="warehouse"
-                        options={shipPointDDL || []}
+                        options={
+                          [{ value: 0, label: "All" }, ...shipPointDDL] || []
+                        }
                         value={values?.warehouse}
                         label="Warehouse"
                         onChange={(e) => {
@@ -111,6 +113,7 @@ const ServiceChargeAndIncomeElementLanding = () => {
                       onClick={() => {
                         getData(values, pageNo, pageSize);
                       }}
+                      disabled={!values?.motherVessel || !values?.warehouse}
                     />
                   </div>
                 </div>
@@ -172,7 +175,7 @@ const ServiceChargeAndIncomeElementLanding = () => {
               show={show}
               onHide={() => setShow(false)}
             >
-              <DetailsTable obj={{ costs, revenues }} />
+              <DetailsTable obj={{ costs, revenues, setCosts, setRevenues }} />
             </IViewModal>
           </>
         )}

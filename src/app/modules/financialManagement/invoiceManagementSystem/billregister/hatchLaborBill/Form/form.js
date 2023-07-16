@@ -130,7 +130,7 @@ export default function _Form({
                           setGridData([]);
                           getData(values);
                         }}
-                        disabled={!values?.motherVessel}
+                        disabled={!values?.motherVessel || !values?.supplier}
                       >
                         Show
                       </button>
