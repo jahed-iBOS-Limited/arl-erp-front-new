@@ -67,6 +67,8 @@ const ServiceChargeAndIncomeElementForm = () => {
     }
 
     const payload = {
+      isMultipleSave: values?.warehouse?.value === 0 ? true : false,
+      motherVesselId: values?.motherVessel?.value,
       rateId: 0,
       programNumber: values?.programNo,
       itemId: values?.item?.value,
