@@ -5,7 +5,6 @@ import {
   getBusinessPartnerDDL,
   getSBUListDDL_api,
   getShipmentDDL,
-  getWarehouseDDL,
   SaveInventoryLoanValidationSchema,
 } from "../helper";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
@@ -156,8 +155,7 @@ export default function _Form({
                       />
                     </div>
                   ) : null}
-                  {values?.issueFrom?.value !== 2 ? (
-                    <div className="col-lg-3">
+                   <div className="col-lg-3">
                       <NewSelect
                         name="plant"
                         options={plantDDL || []}
@@ -180,7 +178,6 @@ export default function _Form({
                         touched={touched}
                       />
                     </div>
-                  ) : null}
                   {values?.issueFrom?.value !== 2 ? (
                     <div className="col-lg-3">
                       <NewSelect
