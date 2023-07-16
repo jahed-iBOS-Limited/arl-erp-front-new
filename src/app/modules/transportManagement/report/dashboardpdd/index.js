@@ -155,6 +155,13 @@ function Dashboardpdd() {
   useEffect(() => {
     const refreshDataInterval = setInterval(() => {
       commonGetApi(initData);
+      getDashBoardPDDDepotPendingReportApi(
+        selectedBusinessUnit?.value,
+        0,
+        10,
+        setDCDepotPending,
+        setLoading
+      );
     }, 120000); // 120000 milliseconds = 2 minutes
 
     return () => {
@@ -244,7 +251,52 @@ function Dashboardpdd() {
                               ],
                             }}
                           />
-
+                          <CategoryWiseCard
+                            className="DashboardpddBox__Nine"
+                            categoryWiseCardObj={{
+                              title: `DC Pending Qty - ${calculateTotals(
+                                DCPendingQty
+                              )}`,
+                              categoryList: [
+                                {
+                                  title: "Regular",
+                                  value: DCPendingQty?.Regular,
+                                },
+                                {
+                                  title: "Special",
+                                  value: DCPendingQty?.Special,
+                                },
+                                {
+                                  title: "Express",
+                                  value: DCPendingQty?.Express,
+                                },
+                              ],
+                            }}
+                            customOnClick={(item) => {}}
+                          />
+                          <CategoryWiseCard
+                            className="DashboardpddBox__Three"
+                            customOnClick={(item) => {}}
+                            categoryWiseCardObj={{
+                              title: `DC Processing - ${calculateTotals(
+                                DCProsessing
+                              )}`,
+                              categoryList: [
+                                {
+                                  title: "Regular",
+                                  value: DCProsessing?.Regular,
+                                },
+                                {
+                                  title: "Special",
+                                  value: DCProsessing?.Special,
+                                },
+                                {
+                                  title: "Express",
+                                  value: DCProsessing?.Express,
+                                },
+                              ],
+                            }}
+                          />
                           <CategoryWiseCard
                             className="DashboardpddBox__Two"
                             customOnClick={(item) => {}}
@@ -268,29 +320,7 @@ function Dashboardpdd() {
                               ],
                             }}
                           />
-                          <CategoryWiseCard
-                            className="DashboardpddBox__Three"
-                            customOnClick={(item) => {}}
-                            categoryWiseCardObj={{
-                              title: `DC Prosessing - ${calculateTotals(
-                                DCProsessing
-                              )}`,
-                              categoryList: [
-                                {
-                                  title: "Regular",
-                                  value: DCProsessing?.Regular,
-                                },
-                                {
-                                  title: "Special",
-                                  value: DCProsessing?.Special,
-                                },
-                                {
-                                  title: "Express",
-                                  value: DCProsessing?.Express,
-                                },
-                              ],
-                            }}
-                          />
+
                           <CategoryWiseCard
                             className="DashboardpddBox__Four"
                             customOnClick={(item) => {}}
@@ -377,29 +407,7 @@ function Dashboardpdd() {
                               });
                             }}
                           />
-                          <CategoryWiseCard
-                            className="DashboardpddBox__Nine"
-                            categoryWiseCardObj={{
-                              title: `DC Pending Qty - ${calculateTotals(
-                                DCPendingQty
-                              )}`,
-                              categoryList: [
-                                {
-                                  title: "Regular",
-                                  value: DCPendingQty?.Regular,
-                                },
-                                {
-                                  title: "Special",
-                                  value: DCPendingQty?.Special,
-                                },
-                                {
-                                  title: "Express",
-                                  value: DCPendingQty?.Express,
-                                },
-                              ],
-                            }}
-                            customOnClick={(item) => {}}
-                          />
+
                           <CategoryWiseCard
                             className="DashboardpddBox__Ten"
                             categoryWiseCardObj={{
