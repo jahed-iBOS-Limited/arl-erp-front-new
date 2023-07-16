@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import { shallowEqual, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -24,7 +24,6 @@ const initData = {
 };
 
 export default function SurveyorBill() {
-  const [portDDL, getPortDDL] = useAxiosGet();
   const [gridData, getGridData, loading, setGridData] = useAxiosGet();
   const [images, setImages] = useState([]);
   const [, billPost, loader] = useAxiosPost();
@@ -37,14 +36,9 @@ export default function SurveyorBill() {
     selectedBusinessUnit: { value: buId, label: buName },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  useEffect(() => {
-    getPortDDL(`/wms/FertilizerOperation/GetDomesticPortDDL`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accId, buId]);
-
   const getData = (values) => {
     getGridData(
-      `/tms/LigterLoadUnload/GetGTOGProgramInfoForBillRegister?AccountId=${accId}&BusinessUnitId=${buId}&MotherVesselId=${values?.motherVessel?.value}&BillType=${billType}`,
+      `/tms/LigterLoadUnload/GetGTOGProgramInfoForBillRegister?AccountId=${accId}&BusinessUnitId=${buId}&MotherVesselId=${values?.motherVessel?.value}&BillType=${billType}&SupplierId=${values?.supplier?.value}`,
       (resData) => {
         const modifyData = resData?.map((item) => {
           return {
@@ -71,8 +65,8 @@ export default function SurveyorBill() {
       gtogHead: {
         billTypeId: billType,
         accountId: accId,
-        supplierId: 0,
-        supplierName: "",
+        supplierId: values?.supplier?.value,
+        supplierName: values?.supplier?.label,
         sbuId: 68,
         unitId: buId,
         unitName: buName,
@@ -147,8 +141,8 @@ export default function SurveyorBill() {
           gridData={gridData}
           setGridData={setGridData}
           getData={getData}
-          portDDL={portDDL}
           setImages={setImages}
+          headerData={headerData}
         />
       </IForm>
     </div>

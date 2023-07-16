@@ -1,14 +1,16 @@
+import axios from "axios";
 import { Form, Formik } from "formik";
 import React from "react";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
+import SearchAsyncSelect from "../../../../../_helper/SearchAsyncSelect";
 import { _fixedPoint } from "../../../../../_helper/_fixedPoint";
+import FormikError from "../../../../../_helper/_formikError";
 import IView from "../../../../../_helper/_helperIcons/_view";
 import InputField from "../../../../../_helper/_inputField";
 import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
-import NewSelect from "../../../../../_helper/_select";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet"; 
 import AttachFile from "../../../../../_helper/commonInputFieldsGroups/attachemntUpload";
+import { PortAndMotherVessel } from "../../../../../vesselManagement/common/components";
 
 const validationSchema = Yup.object().shape({
   billNo: Yup.string().required("Bill No is Required"),
@@ -17,6 +19,9 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function _Form({
+  accId,
+  buId,
+  headerData,
   initData,
   btnRef,
   saveHandler,
@@ -24,11 +29,9 @@ export default function _Form({
   setGridData,
   resetBtnRef,
   getData,
-  portDDL,
   setImages,
 }) {
   const [open, setOpen] = React.useState(false);
-  const [motherVesselDDL, getMotherVesselDDL] = useAxiosGet();
   const dispatch = useDispatch();
   return (
     <>
@@ -44,42 +47,48 @@ export default function _Form({
           });
         }}
       >
-        {({ handleSubmit, resetForm, values, setFieldValue }) => (
+        {({
+          handleSubmit,
+          resetForm,
+          values,
+          setFieldValue,
+          errors,
+          touched,
+        }) => (
           <>
             <Form className="form form-label-right">
               <div className="row global-form">
                 <div className="col-12">
                   <div className="row align-items-end">
-                    <div className="col-lg-3">
-                      <NewSelect
-                        label="Port"
-                        placeholder="Port"
-                        value={values?.port}
-                        name="port"
-                        options={portDDL || []}
-                        onChange={(e) => {
-                          if (e) {
-                            setFieldValue("port", e);
-                            setFieldValue("motherVessel", "");
-                            getMotherVesselDDL(
-                              `/wms/FertilizerOperation/GetMotherVesselProgramInfo?PortId=${e.value}`
-                            );
-                          }
+                    <PortAndMotherVessel obj={{ values, setFieldValue }} />
+
+                    <div className="col-3">
+                      <label>Supplier</label>
+                      <SearchAsyncSelect
+                        selectedValue={values.supplier}
+                        handleChange={(valueOption) => {
+                          setGridData([]);
+                          setFieldValue("supplier", valueOption);
                         }}
-                        isDisabled={false}
+                        loadOptions={(v) => {
+                          if (v.length < 3) return [];
+                          return axios
+                            .get(
+                              `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accId}&UnitId=${buId}&SBUId=${headerData
+                                ?.sbu?.value || 0}`
+                            )
+                            .then((res) => {
+                              const updateList = res?.data.map((item) => ({
+                                ...item,
+                              }));
+                              return updateList;
+                            });
+                        }}
                       />
-                    </div>
-                    <div className="col-lg-3">
-                      <NewSelect
-                        label="Mother Vessel Name"
-                        placeholder="Mother Vessel Name"
-                        value={values?.motherVessel}
-                        name="motherVessel"
-                        options={motherVesselDDL || []}
-                        onChange={(e) => {
-                          setFieldValue("motherVessel", e);
-                        }}
-                        isDisabled={false}
+                      <FormikError
+                        errors={errors}
+                        name="supplier"
+                        touched={touched}
                       />
                     </div>
 
@@ -91,7 +100,7 @@ export default function _Form({
                           setGridData([]);
                           getData(values);
                         }}
-                        disabled={!values?.motherVessel}
+                        disabled={!values?.motherVessel || !values?.supplier}
                       >
                         Show
                       </button>
