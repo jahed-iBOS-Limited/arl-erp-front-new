@@ -1,7 +1,8 @@
 import React from "react";
+import InputField from "../../../../_helper/_inputField";
 
 const DetailsTable = ({ obj }) => {
-  const { costs, revenues } = obj;
+  const { costs, revenues, setCosts, setRevenues } = obj;
 
   return (
     <>
@@ -26,7 +27,18 @@ const DetailsTable = ({ obj }) => {
                         {i + 1}
                       </td>
                       <td>{item?.serviceElementName}</td>
-                      <td>{item?.rate}</td>
+                      <td>
+                        <InputField
+                          name="rate"
+                          value={item?.rate}
+                          placeholder="Rate"
+                          type="number"
+                          onChange={(e) => {
+                            item.item = e.target.value;
+                            setCosts([...costs]);
+                          }}
+                        />
+                      </td>
                     </tr>
                   );
                 })}
@@ -52,7 +64,20 @@ const DetailsTable = ({ obj }) => {
                     <tr>
                       <td className="text-center">{i + 1}</td>
                       <td>{item?.serviceElementName}</td>
-                      <td>{item?.rate}</td>
+                      <td>
+                        <td>
+                          <InputField
+                            name="rate"
+                            value={item?.rate}
+                            placeholder="Rate"
+                            type="number"
+                            onChange={(e) => {
+                              item.item = e.target.value;
+                              setRevenues([...revenues]);
+                            }}
+                          />
+                        </td>
+                      </td>
                     </tr>
                   );
                 })}
