@@ -47,7 +47,7 @@ export default function CreateInventoryLoanForm({ loanType }) {
       const payload = {
         intAccountId: profileData?.accountId,
         intBusinessUnitId: selectedBusinessUnit?.value,
-        intPlantId: 0,
+        intPlantId: +values?.plant?.value || 0,
         intSbuId: values?.sbu?.value,
         intBusinessPartnerId: +values?.partner?.value,
         strBusinessPartnerName: values?.partner?.label,
@@ -76,8 +76,8 @@ export default function CreateInventoryLoanForm({ loanType }) {
         numItemAmount: (+values?.itemRate * +values?.quantity) || 0,
         strNarration: values?.narration,
         intActionBy: profileData?.userId,
-        intFromOrToBusinessUnitId: selectedBusinessUnit?.value,
-        strFromOrToBusinessUnitName: selectedBusinessUnit?.label,
+        intFromOrToBusinessUnitId: values?.partner?.value,
+        strFromOrToBusinessUnitName: values?.partner?.label,
         intLoanId: 0,
       };
       saveData(`/wms/InventoryLoan/CreateInvItemloan`, payload, cb, true)
