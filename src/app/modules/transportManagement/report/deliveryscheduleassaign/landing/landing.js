@@ -1,35 +1,34 @@
 import { Paper, Tab, Tabs, makeStyles } from "@material-ui/core";
+import Axios from "axios";
 import { Form, Formik } from "formik";
 import moment from "moment";
 import React, { useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import ReactToPrint from "react-to-print";
+import { toast } from "react-toastify";
 import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import Axios from "axios";
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
 } from "../../../../../../_metronic/_partials/controls/Card";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
+import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import printIcon from "../../../../_helper/images/print-icon.png";
 import {
-  saveAssignDeliveryVehicleSupplier,
   GetShipmentTypeApi,
   commonfilterGridData,
   getAssignedDeliveryVehicleProvider,
+  saveAssignDeliveryVehicleSupplier,
 } from "../helper";
-import NewSelect from "../../../../_helper/_select";
 import RATForm from "./ratForm";
-import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
 import "./style.scss";
-import { toast } from "react-toastify";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
@@ -69,7 +68,7 @@ function DeliveryScheduleAssignReport() {
   const [gridData, setGridData] = useState([]);
   const [gridDataWithOutFilter, setGridDataWithOutFilter] = useState([]);
   const [shipmentTypeDDl, setShipmentTypeDDl] = React.useState([]);
-  const [, postData, loader] = useAxiosPost();
+   
   // Get user profile data from store
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return {
@@ -150,27 +149,6 @@ function DeliveryScheduleAssignReport() {
     setGridData(filterData);
   };
 
-  const smsSender = (selectedItems, cb) => {
-    const payload = selectedItems?.map((itm) => ({
-      businessUnitId: selectedBusinessUnit?.value,
-      deliveryId: itm?.intDeliveryId || itm?.deliveryId || 0,
-      supplierId: itm?.supplierId || 0,
-      supplierName: itm?.supplierName || "",
-      territoryId: itm?.territoryId || 0,
-      vehicleId: itm?.vehicleId || 0,
-      vehicleName: itm?.vehicleName || "",
-      actionBy: profileData?.userId,
-    }));
-    postData(
-      `/wms/Delivery/AssignDeliveryVehicleSupplier`,
-      payload,
-      () => {
-        cb();
-      },
-      true
-    );
-  };
-
   const saveHandler = (values, setFieldValue) => {
     const selectedItem = gridData?.filter((i) => i?.itemCheck);
 
@@ -188,6 +166,7 @@ function DeliveryScheduleAssignReport() {
     }
 
     const payload = selectedItem.map((itm) => ({
+      businessUnitId: selectedBusinessUnit?.value,
       deliveryId: itm?.intDeliveryId || itm?.deliveryId || 0,
       supplierId: itm?.supplierId || 0,
       supplierName: itm?.supplierName || "",
@@ -195,27 +174,34 @@ function DeliveryScheduleAssignReport() {
       vehicleId: itm?.vehicleId || 0,
       vehicleName: itm?.vehicleName || "",
       actionBy: profileData?.userId,
+
+      deliverySummeryId: 0,
+      deliveryCode: "string",
+      salesOrderNumber: "string",
+      qnt: 0,
+      customerName: "string",
+      delvAddress: 0,
+      delvDate: _todayDate(),
+      process: false,
     }));
 
     saveAssignDeliveryVehicleSupplier(payload, setLoading, () => {
-      smsSender(selectedItem, () => {
-        setGridData([]);
-        commonGridApi(values);
-        setFieldValue("logisticBy", "");
-        setFieldValue("isMoreFiter", false);
-        setFieldValue("channel", "");
-        setFieldValue("region", "");
-        setFieldValue("area", "");
-        setFieldValue("territory", "");
-      });
+      setGridData([]);
+      commonGridApi(values);
+      setFieldValue("logisticBy", "");
+      setFieldValue("isMoreFiter", false);
+      setFieldValue("channel", "");
+      setFieldValue("region", "");
+      setFieldValue("area", "");
+      setFieldValue("territory", "");
     });
   };
 
-  const isLoading = loader || loading;
+ 
 
   return (
     <>
-      {isLoading && <Loading />}
+      {loading && <Loading />}
       <div>
         <Formik
           enableReinitialize={true}
