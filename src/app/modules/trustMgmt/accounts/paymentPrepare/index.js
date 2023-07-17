@@ -21,6 +21,8 @@ const initData = {
   fromDate: "",
   toDate: "",
   businessUnit: "",
+  bankAccount: "",
+  instrumentType: "",
 };
 
 const PaymentPrepare = () => {
@@ -29,6 +31,8 @@ const PaymentPrepare = () => {
   const [data, getApproveData, getLoading, setData] = useAxiosPost();
   const [voucherBtn, setVoucherBtn] = useState(true);
   const [filterData, setFilterData] = useState("");
+  const [bankAccountDDL, getBankAccountDDL] = useAxiosGet();
+  const [instrumentTypeDDL, getInstrumentTypeDDL] = useAxiosGet();
 
   // ddl
   const [unitNameDDL, getUnitNameDDL] = useAxiosGet();
@@ -46,6 +50,10 @@ const PaymentPrepare = () => {
 
   useEffect(() => {
     getUnitNameDDL(generateAPI("UnitDDL"));
+    getBankAccountDDL(
+      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}`
+    );
+    getInstrumentTypeDDL(`/costmgmt/Instrument/GetInstrumentTypeDDL`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -215,24 +223,55 @@ const PaymentPrepare = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="row cash_journal">
+                    <div className="row mt-5">
+                      <div className="col-lg-4"></div>
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="bankAccount"
+                          options={bankAccountDDL || []}
+                          value={values?.bankAccount}
+                          label="Select Bank AC"
+                          onChange={(valueOption) => {
+                            setFieldValue("bankAccount", valueOption);
+                          }}
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="instrumentType"
+                          options={instrumentTypeDDL || []}
+                          value={values?.instrumentType}
+                          label="Instrument Type"
+                          onChange={(valueOption) => {
+                            setFieldValue("instrumentType", valueOption);
+                          }}
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+                      <div className="col-lg-2 mt-1">
+                        <button
+                          type="button"
+                          className="btn btn-primary"
+                          style={{ fontSize: "12px", marginTop: "15px" }}
+                          disabled={voucherBtn}
+                          onClick={() => {
+                            voucherSubmitlHandler();
+                          }}
+                        >
+                          All Voucher Prepare
+                        </button>
+                      </div>
+                    </div>
+                    <div>
+                      <h6 style={{ marginBottom: 0, marginTop: "15px" }}>
+                        Daily Donation Application For Prepare Voucher:
+                      </h6>
+                    </div>
+                    <div className="row">
                       <div className="col-lg-12">
-                        <div className="d-flex justify-content-between align-items-center">
-                          <h6 style={{ marginBottom: 0, marginTop: "15px" }}>
-                            Daily Donation Application For Prepare Voucher:
-                          </h6>
-                          <button
-                            type="button"
-                            className="btn btn-primary"
-                            style={{ fontSize: "12px", marginTop: "15px" }}
-                            disabled={voucherBtn}
-                            onClick={() => {
-                              voucherSubmitlHandler();
-                            }}
-                          >
-                            All Voucher Prepare
-                          </button>
-                        </div>
                         <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                           <thead>
                             <tr>
