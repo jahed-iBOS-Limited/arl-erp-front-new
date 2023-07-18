@@ -534,6 +534,7 @@ function DeliveryScheduleAssignReport() {
                                       )}
                                     <th>SL</th>
                                     <th>Delivery Code </th>
+                                    <th>Sales Order</th>
                                     <th>Logistic By</th>
                                     {shipmentTypeDDl?.[shipmentType]?.value ===
                                     0 ? (
@@ -657,6 +658,7 @@ function DeliveryScheduleAssignReport() {
                                           {index + 1}
                                         </td>
                                         <td>{item?.deliveryCode}</td>
+                                        <td>{item?.salesOrderCode}</td>
                                         <td>{item?.providerTypeName}</td>
                                         {shipmentTypeDDl?.[shipmentType]
                                           ?.value === 0 ? (

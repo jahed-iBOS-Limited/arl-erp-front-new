@@ -75,10 +75,7 @@ export function TransportReportPages() {
           path="/transport-management/report/deliveryscheduleassaign"
           component={DeliveryScheduleAssignReport}
         />
-        <ContentRoute
-          path="/transport-management/report/deliveryscheduleassaign"
-          component={DeliveryScheduleAssignReport}
-        />
+       
         <ContentRoute
           path="/transport-management/report/dashboardpdd"
           component={Dashboardpdd}
