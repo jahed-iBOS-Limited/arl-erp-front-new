@@ -51,7 +51,7 @@ const PaymentPrepare = () => {
   useEffect(() => {
     getUnitNameDDL(generateAPI("UnitDDL"));
     getBankAccountDDL(
-      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}`
+      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId}&BusinssUnitId=${4}`
     );
     getInstrumentTypeDDL(`/costmgmt/Instrument/GetInstrumentTypeDDL`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
