@@ -54,7 +54,7 @@ export default function _Form({
           isValid,
         }) => (
           <>
-            {console.log(errors)}
+            
             <Form className="form form-label-right">
               <div className="global-form">
                 <div className="row">

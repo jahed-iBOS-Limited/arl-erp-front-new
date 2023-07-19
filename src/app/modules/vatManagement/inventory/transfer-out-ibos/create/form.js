@@ -72,7 +72,7 @@ export default function _Form({
           isValid,
         }) => (
           <>
-          {console.log(errors)}
+          
           {console.log(values)}
             {/* {disableHandler(!isValid)} */}
             <Form className="form from-label-right global-form">
