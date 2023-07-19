@@ -110,3 +110,22 @@ export const commonfilterGridData = (values, allGridData) => {
   });
   return filterGridData;
 };
+export const updateAssingnedVehicleProvider = async (
+  data,
+  setLoading,
+  cb
+) => {
+  setLoading(true);
+  try {
+    const res = await axios.post(
+      `/wms/Delivery/UpdateAssingnedVehicleProvider`,
+      data
+    );
+    cb();
+    toast.success(res?.data?.message);
+    setLoading(false);
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setLoading(false);
+  }
+};

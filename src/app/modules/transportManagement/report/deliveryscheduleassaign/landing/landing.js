@@ -29,6 +29,8 @@ import {
 } from "../helper";
 import RATForm from "./ratForm";
 import "./style.scss";
+import IViewModal from "../../../../_helper/_viewModal";
+import LogisticByUpdateModal from "./logisticByUpdateModal";
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
@@ -210,7 +212,7 @@ function DeliveryScheduleAssignReport() {
           {({ values, setFieldValue, touched, errors }) => (
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Delivery Schedule Assign Report"}>
+              <CardHeader title={"Logistic By Update"}>
                 <CardHeaderToolbar>
                   {gridData?.length > 0 && (
                     <>
@@ -485,6 +487,7 @@ function DeliveryScheduleAssignReport() {
                       shipmentType={shipmentType}
                       allGridCheck={allGridCheck}
                       itemSlectedHandler={itemSlectedHandler}
+                      commonGridApi={commonGridApi}
                     />
                   </Form>
                 </>
@@ -509,17 +512,27 @@ function Table({
   allGridCheck,
   itemSlectedHandler,
   printRef,
+  commonGridApi
 }) {
-  const margeCountCunc = (index, salesOrderCode) => {
+  const [clickRowData, setClickRowData] = useState({});
+  const [isLogisticByUpdateModal, setIsLogisticByUpdateModal] = useState(false);
+
+  const orderCodeMargeCount = (index, salesOrderCode, quantity) => {
     let count = 1;
+    let totalQty = quantity;
+
     for (let i = index + 1; i <= gridData?.length; i++) {
       if (salesOrderCode === gridData[i]?.salesOrderCode) {
         count++;
+        totalQty += gridData[i]?.quantity;
       } else {
         break;
       }
     }
-    return count;
+    return {
+      count,
+      totalQty,
+    };
   };
 
   return (
@@ -608,12 +621,14 @@ function Table({
                         </th>
                       ) : null}
                       <th>Quantity</th>
+                      <th>Total Qty</th>
                       <th style={{ minWidth: "65px" }}>Create Date</th>
                       <th style={{ minWidth: "65px" }}>Delivery Date</th>
                       <th>Lead Time</th>
                       <th style={{ minWidth: "70px" }}>Spend Time</th>
                       <th style={{ minWidth: "70px" }}>Rest of Time </th>
                       <th>Shipment Status</th>
+                      {values?.trackingType?.value === 2 && <th>Action</th>}
                     </tr>
                   </thead>
                   <tbody>
@@ -653,8 +668,15 @@ function Table({
                       const forwardSalesOrderCode =
                         gridData?.[index + 1]?.salesOrderCode;
                       let rowSpan = 1;
+                      let totalQty = item?.quantity;
                       if (forwardSalesOrderCode === item?.salesOrderCode) {
-                        rowSpan = margeCountCunc(index, item?.salesOrderCode);
+                        const margeResult = orderCodeMargeCount(
+                          index,
+                          item?.salesOrderCode,
+                          item?.quantity
+                        );
+                        rowSpan = margeResult.count;
+                        totalQty = margeResult.totalQty;
                       }
 
                       return (
@@ -691,7 +713,12 @@ function Table({
                           <td>{item?.deliveryCode}</td>
 
                           {prvSalesOrderCode !== item?.salesOrderCode && (
-                            <td rowSpan={rowSpan}>{item?.salesOrderCode}</td>
+                            <td
+                              rowSpan={rowSpan}
+                              style={rowSpan > 1 ? { fontWeight: "bold" } : {}}
+                            >
+                              {item?.salesOrderCode}
+                            </td>
                           )}
 
                           <td>{item?.providerTypeName}</td>
@@ -705,6 +732,7 @@ function Table({
                           <td>{item?.soldToPartnerName}</td>
                           <td>{item?.shipToPartnerName}</td>
                           <td>{item?.shipToPartnerAddress}</td>
+
                           {values?.logisticByFilter?.value === 1 ? (
                             <td>
                               {values?.trackingType?.value === 1 ? (
@@ -767,7 +795,7 @@ function Table({
                                       return res?.data || [];
                                     });
                                   }}
-                                  placeholder='Select Vehicle'
+                                  placeholder='Select Supplier'
                                 />
                               ) : (
                                 item?.supplierName
@@ -776,6 +804,13 @@ function Table({
                           ) : null}
 
                           <td className='text-center'>{item?.quantity}</td>
+
+                          {prvSalesOrderCode !== item?.salesOrderCode && (
+                            <td className='text-center' rowSpan={rowSpan}>
+                              {totalQty}
+                            </td>
+                          )}
+
                           <td>
                             {item?.challanDateTime &&
                               moment(item?.challanDateTime).format(
@@ -792,6 +827,30 @@ function Table({
                           <td>{item?.spendTimeHr}</td>
                           <td>{item?.pendingTimeHr}</td>
                           <td>{item?.shipmentStatus || ""}</td>
+
+                          {values?.trackingType?.value === 2 && (
+                            <td>
+                              {!item?.shipmentStatus && (
+                                <button
+                                  type='button'
+                                  style={{
+                                    padding: '1px 6px',
+                                    margin: '0',
+                                  }}
+                                  className='btn btn-primary'
+                                  onClick={() => {
+                                    setIsLogisticByUpdateModal(true);
+                                    setClickRowData({
+                                      ...item,
+                                      ...values
+                                    });
+                                  }}
+                                >
+                                  Update
+                                </button>
+                              )}
+                            </td>
+                          )}
                         </tr>
                       );
                     })}
@@ -801,6 +860,23 @@ function Table({
             </div>
           </div>
         </div>
+      )}
+
+      {isLogisticByUpdateModal && (
+        <IViewModal
+          show={isLogisticByUpdateModal}
+          onHide={() => {
+            setIsLogisticByUpdateModal(false);
+            setClickRowData({});
+          }}
+        >
+          <LogisticByUpdateModal clickRowData={clickRowData}  landingCB={() => {
+            setIsLogisticByUpdateModal(false);
+            setClickRowData({});
+            commonGridApi(values)
+
+          }}/>
+        </IViewModal>
       )}
     </>
   );
