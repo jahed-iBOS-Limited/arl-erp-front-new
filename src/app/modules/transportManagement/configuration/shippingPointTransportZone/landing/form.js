@@ -12,15 +12,26 @@ import NewSelect from "../../../../_helper/_select";
 import IButton from "../../../../_helper/iButton";
 import { BankInfoTable } from "./bankInfoTable";
 import PaginationSearch from "../../../../_helper/_search";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import Axios from "axios";
+import FormikError from "../../../../_helper/_formikError";
+import IViewModal from "../../../../_helper/_viewModal";
+import SupplierAndShippingPointModal from "./supplierAndShippingPointModal";
+import SupplierAndShippingPointTable from "./supplierAndShippingPointTable";
 
 const initData = {
   shipPoint: "",
   type: "",
+  supplier: {
+    value: 0,
+    label: "All",
+  },
 };
 
 const types = [
   { value: 1, label: "Shipping Point Transport Zone" },
   { value: 2, label: "Shipping Point Bank Configure" },
+  { value: 3, label: "Supplier & Shipping Point" },
 ];
 
 export default function ShippingPointTransportZoneLanding() {
@@ -29,11 +40,21 @@ export default function ShippingPointTransportZoneLanding() {
   // _____ pagination states _____
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
+  const [
+    supplierAndShippingPointModal,
+    setSupplierAndShippingPointModal,
+  ] = useState(false);
 
   // _____ general states _____
   const [rowData, getRowData, loader, setRowData] = useAxiosGet();
   const [shipPointDDL, getShipPointDDL] = useAxiosGet();
   const [, deleteRow, deleteLoader] = useAxiosGet();
+  const [
+    landingSupplierByShippoint,
+    getLandingSupplierByShippoint,
+    supplierByShippointLoding,
+    setLandingSupplierByShippoint,
+  ] = useAxiosGet();
 
   // ___________ logged in user's information _____________
   const {
@@ -100,7 +121,17 @@ export default function ShippingPointTransportZoneLanding() {
     IConfirmModal(confirmObject);
   };
 
-  const loading = loader || deleteLoader;
+  const loading = loader || deleteLoader || supplierByShippointLoding;
+
+  const commonSupplierByShippointGridDataFunc = (
+    values,
+    _pageNo = 0,
+    _pageSize = 15,
+    searchTerm = ""
+  ) => {
+    const url = `/wms/ShipPointWarehouse/GetSupplierByShippointPagination?unitId=${buId}&supplierId=${values?.supplier?.value}&PageNo=${_pageNo}&PageSize=${_pageSize}`;
+    getLandingSupplierByShippoint(url);
+  };
 
   return (
     <Formik
@@ -115,38 +146,44 @@ export default function ShippingPointTransportZoneLanding() {
             if (!values?.type) {
               toast.warning("Please select a type!");
             } else {
-              history.push({
-                pathname:
-                  "/transport-management/configuration/shippingpointtransportzone/create",
-                state: values,
-              });
+              if ([3].includes(values?.type?.value)) {
+                //Supplier And ShippingPoint Modal open
+                setSupplierAndShippingPointModal(true);
+              } else {
+                history.push({
+                  pathname:
+                    "/transport-management/configuration/shippingpointtransportzone/create",
+                  state: values,
+                });
+              }
             }
           }}
         >
           {loading && <Loading />}
 
-          <div className="row global-form">
-            <div className="col-lg-3">
+          <div className='row global-form'>
+            <div className='col-lg-3'>
               <NewSelect
-                name="type"
+                name='type'
                 options={types}
                 value={values?.type}
-                label="Type"
+                label='Type'
                 onChange={(valueOption) => {
                   setFieldValue("type", valueOption);
                   setRowData([]);
+                  setLandingSupplierByShippoint([]);
                 }}
                 errors={errors}
                 touched={touched}
               />
             </div>
             {[1].includes(values?.type?.value) && (
-              <div className="col-lg-3">
+              <div className='col-lg-3'>
                 <NewSelect
-                  name="shipPoint"
+                  name='shipPoint'
                   options={shipPointDDL || []}
                   value={values?.shipPoint}
-                  label="Ship Point"
+                  label='Ship Point'
                   onChange={(valueOption) => {
                     setFieldValue("shipPoint", valueOption);
                     setRowData([]);
@@ -156,9 +193,54 @@ export default function ShippingPointTransportZoneLanding() {
                 />
               </div>
             )}
+
+            {[3].includes(values?.type?.value) && (
+              <>
+                <div className='col-lg-3'>
+                  <label>Select Supplier</label>
+                  <SearchAsyncSelect
+                    selectedValue={values?.supplier}
+                    handleChange={(valueOption) => {
+                      setFieldValue("supplier", valueOption);
+                      setLandingSupplierByShippoint([]);
+                    }}
+                    loadOptions={async (v) => {
+                      if (v?.length < 3) return [{ value: 0, label: "All" }];
+                      return Axios.get(
+                        `/wms/Delivery/GetSupplierByShipPointDDl?businessUnitId=${buId}&shippointId=${0}&searchTerm=${v}`
+                      ).then((res) => {
+                        const data = res?.data || [];
+                        return [
+                          {
+                            value: 0,
+                            label: "All",
+                          },
+                          ...data,
+                        ];
+                      });
+                    }}
+                    placeholder='Select Supplier'
+                  />
+                  <FormikError
+                    errors={errors}
+                    name='supplier'
+                    touched={touched}
+                  />
+                </div>
+              </>
+            )}
             <IButton
+              colSize={"col"}
               onClick={() => {
-                landingData(values, pageNo, pageSize);
+                if ([3].includes(values?.type?.value)) {
+                  commonSupplierByShippointGridDataFunc(
+                    values,
+                    pageNo,
+                    pageSize
+                  );
+                } else {
+                  landingData(values, pageNo, pageSize);
+                }
               }}
               disabled={
                 !values?.type ||
@@ -167,9 +249,9 @@ export default function ShippingPointTransportZoneLanding() {
             />
           </div>
           {[2].includes(values?.type?.value) && (
-            <div className="mt-5">
+            <div className='mt-5'>
               <PaginationSearch
-                placeholder="ShipPint Name"
+                placeholder='ShipPint Name'
                 paginationSearchHandler={searchHandler}
                 values={values}
               />
@@ -202,6 +284,49 @@ export default function ShippingPointTransportZoneLanding() {
             />
           ) : (
             ""
+          )}
+          {/* SupplierAndShippingPointTable */}
+          {[3].includes(values?.type?.value) && (
+            <>
+              <SupplierAndShippingPointTable
+                landingCB={() => {
+                  commonSupplierByShippointGridDataFunc(
+                    values,
+                    pageNo,
+                    pageSize
+                  );
+                }}
+                landingSupplierByShippoint={landingSupplierByShippoint}
+                setLandingSupplierByShippoint={setLandingSupplierByShippoint}
+                paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
+                setPositionHandler={(pageNo, pageSize) => {
+                  commonSupplierByShippointGridDataFunc(
+                    values,
+                    pageNo,
+                    pageSize
+                  );
+                }}
+                shipPointDDL={shipPointDDL}
+              />
+            </>
+          )}
+
+          {supplierAndShippingPointModal && (
+            <>
+              <IViewModal
+                show={supplierAndShippingPointModal}
+                onHide={() => {
+                  setSupplierAndShippingPointModal(false);
+                }}
+              >
+                <SupplierAndShippingPointModal
+                  landingCB={() => {
+                    setSupplierAndShippingPointModal(false);
+                  }}
+                  shipPointDDL={shipPointDDL}
+                />
+              </IViewModal>
+            </>
           )}
         </ICustomCard>
       )}

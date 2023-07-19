@@ -1,4 +1,6 @@
 import * as Yup from "yup";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 export const validationSchema = Yup.object().shape({
   shippingPoint: Yup.object().shape({
@@ -37,3 +39,18 @@ export const validationSchemaTwo = Yup.object().shape({
     label: Yup.string().required("Branch is required"),
   }),
 });
+export const createAndUpdateSupplierByShippoint = async (data, setLoading, cb) => {
+  setLoading(true);
+  try {
+    const res = await axios.post(
+      `/wms/ShipPointWarehouse/CreateAndUpdateSupplierByShippoint`,
+      data
+    );
+    cb();
+    toast.success(res?.data?.message);
+    setLoading(false);
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setLoading(false);
+  }
+};

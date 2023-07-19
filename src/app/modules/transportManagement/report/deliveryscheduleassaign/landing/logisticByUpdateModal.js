@@ -94,7 +94,7 @@ function LogisticByUpdateModal({ clickRowData, landingCB }) {
         >
           {({ values, setFieldValue, touched, errors, handleSubmit }) => (
             <Card>
-              {console.log(errors)}
+              
               {true && <ModalProgressBar />}
               <CardHeader title={"Delivery Schedule Assign Report"}>
                 <CardHeaderToolbar>

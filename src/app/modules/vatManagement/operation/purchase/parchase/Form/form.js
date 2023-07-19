@@ -274,7 +274,7 @@ export default function _Form({
           isValid,
         }) => (
           <>
-          {console.log(errors)}
+          
             {values?.tradeType?.label === "Local Purchase" &&
               totalVDSAmountFunc()}
             <Form className="form form-label-right">
