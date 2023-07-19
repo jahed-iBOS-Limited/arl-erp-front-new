@@ -66,7 +66,7 @@ export default function _Form({
           isValid,
         }) => (
           <>
-            {console.log(errors)}
+            
             <Form className="form form-label-right">
               <div className="form-group row global-form">
                 <div className="col-lg-3">
