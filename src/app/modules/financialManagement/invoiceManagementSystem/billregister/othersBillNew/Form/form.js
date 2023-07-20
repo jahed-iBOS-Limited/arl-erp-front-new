@@ -133,7 +133,7 @@ export default function _Form({
           setFieldTouched,
         }) => (
           <>
-            {console.log(errors)}
+            
             <Form className="form form-label-right">
               <div className="row global-form">
                 <div className="col-lg-3">

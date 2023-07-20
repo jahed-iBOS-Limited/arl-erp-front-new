@@ -70,7 +70,7 @@ export default function _Form({
           setValues,
         }) => (
           <>
-            {/* {console.log(errors)} */}
+            {/*  */}
             <Form className="form form-label-right">
               {vehicleDDLloader && <Loading />}
               <div className="global-form">
