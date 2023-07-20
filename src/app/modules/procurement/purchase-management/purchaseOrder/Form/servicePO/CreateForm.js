@@ -27,6 +27,7 @@ import useAxiosGet from "../../customHooks/useAxiosGet";
 import { getProfitCenterList } from "../assetStandardPo/helper";
 import Loading from "../../../../../_helper/_loading";
 import { toast } from "react-toastify";
+import AttachmentUploaderNew from "../../../../../_helper/attachmentUploaderNew";
 
 export default function CreateForm({
   btnRef,
@@ -48,6 +49,8 @@ export default function CreateForm({
   const [loading, setLoading] = useState(false);
   const [profitCenterList, setProfitCenterList] = useState([]);
   const [profitCenterListTwo, setProfitCenterListTwo] = useState([]);
+  const [attachmentList, setAttachmentList] = useState([]);
+
 
   // const location = useLocation();
 
@@ -246,8 +249,9 @@ export default function CreateForm({
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, rowDto, () => {
+          saveHandler({...values, attachmentList}, rowDto, () => {
             resetForm(initData);
+            setAttachmentList([]);
             setRowDto([]);
           });
         }}
@@ -540,6 +544,13 @@ export default function CreateForm({
                       errors={errors}
                       touched={touched}
                     />
+                  </div>
+                  <div className="col-lg-2 mt-5">
+                    <AttachmentUploaderNew CBAttachmentRes={(attachmentData)=>{
+                      if(Array.isArray(attachmentData)){
+                        setAttachmentList(attachmentData);
+                      }
+                    }}/>
                   </div>
                   <div className="col-lg-2">
                     <div
