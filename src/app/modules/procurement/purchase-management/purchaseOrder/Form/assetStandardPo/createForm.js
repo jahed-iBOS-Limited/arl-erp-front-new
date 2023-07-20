@@ -25,6 +25,7 @@ import useAxiosGet from "../../customHooks/useAxiosGet";
 import NewSelect from "../../../../../_helper/_select";
 import { getCostCenterDDL, getCostElementDDL } from "../servicePO/helper";
 import Loading from "../../../../../_helper/_loading";
+import AttachmentUploaderNew from "../../../../../_helper/attachmentUploaderNew";
 
 // This form is also used for standard PO
 
@@ -44,6 +45,8 @@ export default function AssetStandardPOCreateForm({
   const [costElementList, setCostElementList] = useState([]);
   const [profitCenterList, setProfitCenterList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [attachmentList, setAttachmentList] = useState([]);
+
 
   // redux store data
   const storeData = useSelector((state) => {
@@ -277,8 +280,9 @@ export default function AssetStandardPOCreateForm({
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, rowDto, () => {
+          saveHandler({...values, attachmentList}, rowDto, () => {
             resetForm(initData);
+            setAttachmentList([]);
             setRowDto([]);
           });
         }}
@@ -494,6 +498,13 @@ export default function AssetStandardPOCreateForm({
                       errors={errors}
                       touched={touched}
                     />
+                  </div>
+                  <div className="col-lg-3">
+                    <AttachmentUploaderNew CBAttachmentRes={(attachmentData)=>{
+                      if(Array.isArray(attachmentData)){
+                        setAttachmentList(attachmentData);
+                      }
+                    }}/>
                   </div>
                   {values.isTransfer && (
                     <>
