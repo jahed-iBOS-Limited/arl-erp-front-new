@@ -53,9 +53,9 @@ export default function AttachmentUploaderNew({ CBAttachmentRes }) {
               } else {
                 uploadAttachment(compressedFile)
                   .then((res) => {
-                    if (res?.data?.length) {
+                    if (res?.length) {
                       setOpen(false);
-                      CBAttachmentRes && CBAttachmentRes(res?.data);
+                      CBAttachmentRes && CBAttachmentRes(res);
                     } else {
                       CBAttachmentRes && CBAttachmentRes([]);
                     }
