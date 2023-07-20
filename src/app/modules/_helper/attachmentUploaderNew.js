@@ -56,6 +56,8 @@ export default function AttachmentUploaderNew({ CBAttachmentRes }) {
                     if (res?.data?.length) {
                       setOpen(false);
                       CBAttachmentRes && CBAttachmentRes(res?.data);
+                    } else {
+                      CBAttachmentRes && CBAttachmentRes([]);
                     }
                   })
                   .catch((error) => {
