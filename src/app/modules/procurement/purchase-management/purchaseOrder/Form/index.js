@@ -230,6 +230,9 @@ export function POFormByOrderType() {
             profitCenterId: values?.profitCenter?.value || 0,
           },
           objRowListDTO,
+          objImageListDTO:  values?.attachmentList?.map((attachment) => ({
+            imageId: attachment?.id || "",
+         })) 
         };
         dispatch(
           savePurchaseOrderForAssetStandardService({
