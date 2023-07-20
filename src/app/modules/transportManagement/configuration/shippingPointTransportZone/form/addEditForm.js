@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable jsx-a11y/no-distracting-elements */
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useLocation, useParams, useHistory } from "react-router-dom";
@@ -130,7 +129,7 @@ export default function ShippingPointTransportZoneForm() {
     getBanks(`/costmgmt/BankAccount/GETBankDDl`);
   }, [accId, buId]);
 
-  const saveHandlerTwo = (cb) => {
+  const saveHandlerTwo = (values,cb) => {
     if (rows?.length < 1) {
       return toast.warn("Please add at least one row!");
     }
