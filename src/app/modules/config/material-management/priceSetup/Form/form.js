@@ -5,6 +5,8 @@ import Select from "react-select";
 import customStyles from "../../../../selectCustomStyle";
 import { ISelect } from "../../../../_helper/_inputDropDown";
 import ICalendar from "../../../../_helper/_inputCalender";
+import { useDispatch } from "react-redux";
+import { getItemByChannelIdAciton } from "../_redux/Actions";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -32,10 +34,15 @@ export default function _Form({
   remover,
   setPrice,
   setAll,
+  selectedBusinessUnit,
+  setAppsItemRateAll,
+  accountId,
+  setDisabled,
+  setRowDto
 }) {
+  const dispatch = useDispatch();
   return (
     <>
-
       <Formik
         enableReinitialize={true}
         initialValues={initData}
@@ -43,6 +50,7 @@ export default function _Form({
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
+            setRowDto([])
           });
         }}
       >
@@ -56,16 +64,16 @@ export default function _Form({
           isValid,
         }) => (
           <>
-            <Form className="form form-label-right">
-              <div className="form-group row global-form">
-                <div className="col-lg-3">
+            <Form className='form form-label-right'>
+              <div className='form-group row global-form'>
+                <div className='col-lg-3'>
                   <label>Select Condition Type</label>
                   <Select
                     styles={customStyles}
                     value={values?.conditionType}
                     options={conditionDDL}
-                    label="Select Condition Type"
-                    name="conditionType"
+                    label='Select Condition Type'
+                    name='conditionType'
                     onChange={(valueOption) => {
                       setFieldValue("conditionTypeRef", {
                         value: "",
@@ -83,7 +91,7 @@ export default function _Form({
                       width: "100%",
                       marginTop: "0.25rem",
                     }}
-                    className="text-danger"
+                    className='text-danger'
                   >
                     {errors && errors.conditionType && touched.conditionType
                       ? errors.conditionType.value
@@ -91,71 +99,114 @@ export default function _Form({
                   </p>
                 </div>
 
-                <div className="col-lg-3">
+                <div className='col-lg-3'>
                   <ISelect
                     value={values?.conditionTypeRef}
                     options={conditionTypeRefDDL}
-                    label="Select Condition Type Ref"
-                    name="conditionTypeRef"
+                    label='Select Condition Type Ref'
+                    name='conditionTypeRef'
                     setFieldValue={setFieldValue}
                     errors={errors}
                     touched={touched}
                     isDisabled={!values.conditionType?.value}
+                    onChange={(valueOption) => {
+                      setFieldValue("appsItemRate", false);
+                      setFieldValue("conditionTypeRef", valueOption);
+                    }}
                   />
                 </div>
 
-                <div className="col-lg-3">
+                <div className='col-lg-3'>
                   <ICalendar
-                    label="Start Date"
-                    name="startDate"
-                    type="date"
+                    label='Start Date'
+                    name='startDate'
+                    type='date'
                     errors={errors}
                     touched={touched}
                     value={values.startDate}
                   />
                 </div>
-                <div className="col-lg-3">
+                <div className='col-lg-3'>
                   <ICalendar
-                    label="End Date"
+                    label='End Date'
                     min={values.startDate}
                     value={values.endDate}
-                    name="endDate"
-                    type="date"
+                    name='endDate'
+                    type='date'
                     errors={errors}
                     touched={touched}
                   />
                 </div>
               </div>
 
-              <div className="row mt-1 global-form">
-                <div className="col-lg-3">
+              <div className='row mt-1 global-form'>
+                <div className='col-lg-3'>
                   <ISelect
                     value={values?.item}
                     options={itemSalesDDL}
-                    label="Select Item List"
-                    name="item"
+                    label='Select Item List'
+                    name='item'
                     setFieldValue={setFieldValue}
                     errors={errors}
                     touched={touched}
                     // isDisabled={!values.item?.value}
                   />
                 </div>
-                <div className="col-lg-1 text-center">
-                  <label className="text-center ml-5">All Item</label> <br />
-                  <input
-                    type="checkbox"
-                    className="form-check-input ml-3"
-                    name="isAllItem"
-                    onChange={(e) =>
-                      setFieldValue("isAllItem", e.target.checked)
-                    }
-                  />
+                <div className='col-lg-3 text-center d-flex justify-content-around'>
+                  <div>
+                    <label className='text-center ml-5'>All Item</label> <br />
+                    <input
+                      type='checkbox'
+                      className='form-check-input ml-3'
+                      name='isAllItem'
+                      onChange={(e) => {
+                        setFieldValue("isAllItem", e.target.checked);
+                        setFieldValue(
+                          "appsItemRate",
+                          e.target.checked ? false : values.appsItemRate
+                        );
+                      }}
+                      checked={values?.isAllItem}
+                    />
+                  </div>
+                  {[224, 144, 171].includes(selectedBusinessUnit?.value) && (
+                    <>
+                      <div>
+                        <label className='text-center ml-5'>
+                          Apps Item Rate
+                        </label>{" "}
+                        <br />
+                        <input
+                          type='checkbox'
+                          className='form-check-input ml-3'
+                          name='appsItemRate'
+                          onChange={(e) => {
+                            setFieldValue("appsItemRate", e.target.checked);
+                            setFieldValue("isAllItem", false);
+                            dispatch(
+                              getItemByChannelIdAciton(
+                                accountId,
+                                selectedBusinessUnit?.value,
+                                setDisabled,
+                                values?.conditionTypeRef?.value
+                              )
+                            );
+                          }}
+                          checked={values?.appsItemRate}
+                          disabled={!values?.conditionTypeRef?.value}
+                        />
+                      </div>
+                    </>
+                  )}
                 </div>
-                <div className="col-lg-2 text-right">
+                <div className='col-lg-2'>
                   <button
                     onClick={() => {
                       if (values.isAllItem) {
                         setAll(values);
+                      } else if (values.appsItemRate) {
+                        setAppsItemRateAll(values);
+                        setFieldValue("appsItemRate", false);
                       } else {
                         const obj = {
                           ...values,
@@ -166,9 +217,13 @@ export default function _Form({
                         setter(obj);
                       }
                     }}
-                    disabled={!values.isAllItem && !values.item?.value}
-                    type="button"
-                    className="btn btn-primary mt-2"
+                    disabled={
+                      !values.isAllItem &&
+                      !values.item?.value &&
+                      !values.appsItemRate
+                    }
+                    type='button'
+                    className='btn btn-primary mt-2'
                   >
                     ADD
                   </button>
@@ -177,36 +232,72 @@ export default function _Form({
 
               <div>
                 {rowDto.length ? (
-                  <table className="table table-striped table-bordered global-table">
+                  <table className='table table-striped table-bordered global-table'>
                     <thead>
                       <tr>
                         <th>SL</th>
                         {/* <th>Item Code</th> */}
                         <th>Item Name</th>
                         <th>Price</th>
+                        {[224, 144, 171].includes(
+                          selectedBusinessUnit?.value
+                        ) && (
+                          <>
+                            <th>Max price addition</th>
+                            <th>Min price deduction</th>
+                          </>
+                        )}
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
                       {rowDto.map((itm, idx) => (
-                        <tr key={itm.itemId}>
+                        <tr key={itm?.itemId}>
                           <td>{idx + 1}</td>
-                          <td>{itm.itemName}</td>
+                          <td>{itm?.itemName}</td>
                           <td>
                             <input
-                              type="number"
-                              value={itm.price}
-                              onChange={(e) => setPrice(idx, e.target.value)}
-                              min="0"
-                              step="any"
+                              type='number'
+                              value={itm?.price}
+                              onChange={(e) => setPrice(idx, e.target.value, "price")}
+                              min='0'
+                              step='any'
                             />
                           </td>
-                          <td className="text-center">
+                          {[224, 144, 171].includes(
+                            selectedBusinessUnit?.value
+                          ) && (
+                            <>
+                              <td>
+                                <input
+                                  type='number'
+                                  value={itm?.maxPriceAddition}
+                                  onChange={(e) =>
+                                    setPrice(idx, e.target.value, "maxPriceAddition")
+                                  }
+                                  min='0'
+                                  step='any'
+                                />
+                              </td>
+                              <td>
+                                <input
+                                  type='number'
+                                  value={itm?.minPriceDeduction}
+                                  onChange={(e) =>
+                                    setPrice(idx, e.target.value, "minPriceDeduction")
+                                  }
+                                  min='0'
+                                  step='any'
+                                />
+                              </td>
+                            </>
+                          )}
+                          <td className='text-center'>
                             <span>
                               <i
-                                onClick={() => remover(itm.itemId)}
-                                className="fa fa-trash deleteBtn"
-                                aria-hidden="true"
+                                onClick={() => remover(itm?.itemId)}
+                                className='fa fa-trash deleteBtn'
+                                aria-hidden='true'
                               ></i>
                             </span>
                           </td>
@@ -220,17 +311,20 @@ export default function _Form({
               </div>
 
               <button
-                type="submit"
+                type='submit'
                 style={{ display: "none" }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
-                type="reset"
+                type='reset'
                 style={{ display: "none" }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
+                onClick={() => {
+                  setRowDto([]);
+                }}
               ></button>
             </Form>
           </>

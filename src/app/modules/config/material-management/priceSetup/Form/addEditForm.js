@@ -12,9 +12,18 @@ import {
 } from "../_redux/Actions";
 import IForm from "../../../../_helper/_form";
 import { isUniq } from "../../../../_helper/uniqChecker";
+import Loading from "../../../../_helper/_loading";
+import { toast } from "react-toastify";
 
 const initData = {
   id: undefined,
+  appsItemRate: false,
+  conditionType: "",
+  conditionTypeRef: "",
+  startDate: "",
+  endDate: "",
+  item: "",
+  isAllItem: false,
 };
 
 export default function PriceSetupForm({
@@ -43,6 +52,7 @@ export default function PriceSetupForm({
     partnerDDL,
     distributionChannelDDL,
     singleData,
+    itemByChanneList,
   } = useSelector((state) => state?.priceSetup, shallowEqual);
 
   const dispatch = useDispatch();
@@ -110,6 +120,9 @@ export default function PriceSetupForm({
           actionBy: profileData.userId,
           businessUnitId: selectedBusinessUnit.value,
           accountId: profileData.accountId,
+          price: +itm?.price || 0,
+          maxPriceAddition: +itm?.maxPriceAddition || 0,
+          minPriceDeduction: +itm?.minPriceDeduction || 0,
         };
       });
 
@@ -135,25 +148,39 @@ export default function PriceSetupForm({
     });
     setRowDto([...allDto]);
   };
+  const setAppsItemRateAll = (values) => {
+    if (itemByChanneList?.length === 0) return toast.warn("No item found");
+    const allDto = itemByChanneList.map((itm) => {
+      return {
+        ...values,
+        itemId: itm.itemId,
+        itemName: itm.itemName,
+      };
+    });
+    setRowDto([...allDto]);
+  };
 
   const remover = (payload) => {
     const filterArr = rowDto.filter((itm) => itm.itemId !== payload);
     setRowDto(filterArr);
   };
 
-  const setPrice = (sl, value) => {
-    const cloneArr = rowDto;
-    cloneArr[sl].price = +value;
+  const setPrice = (sl, value, name) => {
+    const cloneArr = [...rowDto];
+    cloneArr[sl][name] = value;
     setRowDto([...cloneArr]);
   };
   const [objProps, setObjprops] = useState({});
 
+  console.log(rowDto, "rowDto")
+
   return (
     <IForm
-      title="Create Price Setup"
+      title='Create Price Setup'
       getProps={setObjprops}
       isDisabled={isDisabled}
     >
+      {isDisabled && <Loading />}
       <Form
         {...objProps}
         initData={singleData || initData}
@@ -170,6 +197,9 @@ export default function PriceSetupForm({
         remover={remover}
         setPrice={setPrice}
         setAll={setAll}
+        setAppsItemRateAll={setAppsItemRateAll}
+        setDisabled={setDisabled}
+        setRowDto={setRowDto}
       />
     </IForm>
   );
