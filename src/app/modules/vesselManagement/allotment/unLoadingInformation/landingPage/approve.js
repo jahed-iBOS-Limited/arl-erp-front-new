@@ -17,7 +17,7 @@ import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost"; 
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import TextArea from "../../../../_helper/TextArea";
 import { StockInToInventoryApproval } from "../../challanEntry/helper";
 import AttachFile from "../../../../_helper/commonInputFieldsGroups/attachemntUpload";
@@ -32,6 +32,25 @@ const initData = {
   lighterToBolgateRate: "",
   truckToDamRate: "",
   othersCostRate: "",
+  decTruckToDamOutSideRate: "",
+  decBiwtarate: "",
+  decShipSweepingRate: "",
+  decScaleRate: "",
+  decDailyLaboureRate: "",
+
+  dumpDeliveryQty: "",
+  directQty: "",
+  bolgateToDamQty: "",
+  damToTruckQty: "",
+  lighterToBolgateQty: "",
+  truckToDamQty: "",
+  othersCostQty: "",
+  decTruckToDamOutSideQty: "",
+  decBiwtaQty: "",
+  decShipSweepingQty: "",
+  decScaleQty: "",
+  decDailyLaboureQty: "",
+
   totalBillAmount: "",
 };
 
@@ -120,6 +139,41 @@ export default function WarehouseApproveFrom({
         lighterToBolgateRate: +values?.lighterToBolgateRate,
         bolgateToDamRate: +values?.bolgateToDamRate,
         othersCostRate: +values?.othersCostRate,
+
+        // voyageNo: 0,
+        // motherVesselId: 0,
+        // lighterVesselId: 0,
+        supplierId: values?.supplier?.value,
+        supplierName: values?.supplier?.label,
+        shipPointId: singleItem?.shipPointId,
+        actionBy: userId,
+        // quantity: 0,
+        dumpQnt: values?.dumpDeliveryQty,
+        dumpRate: values?.dumpDeliveryRate,
+        directQnt: values?.directQty,
+        // directRate: 0,
+        bolgateToDumpQnt: values?.bolgateToDamQty,
+        bolgateToDumpRate: values?.bolgateToDamRate,
+        dumpToTruckQnt: values?.damToTruckQty,
+        dumpToTruckRate: values?.damToTruckRate,
+        lighterToBolgateQnt: values?.lighterToBolgateQty,
+        // lighterToBolgateRate: 0,
+        truckToDumpOutsideQnt: values?.decTruckToDamOutSideQty,
+        truckToDumpOutsideRate: values?.decTruckToDamOutSideRate,
+        biwtarate: values?.decBiwtarate,
+        shipSweepingRate: values?.decShipSweepingRate,
+        scaleRate: values?.decScaleRate,
+        dailyLaboureRate: values?.decDailyLaboureRate,
+        truckToDamQnt: values?.truckToDamQty,
+        // truckToDamRate: values?.,
+        othersCostQnt: values?.othersCostQty,
+        // othersCostRate: values?.,
+
+        // all quantity
+        biwtaqnt: +values?.unloadedQty,
+        shipSweepingQnt: +values?.unloadedQty,
+        decScaleQnt: +values?.unloadedQty,
+        dailyLaboureQnt: +values?.unloadedQty,
       },
 
       image: {
@@ -127,44 +181,45 @@ export default function WarehouseApproveFrom({
       },
     };
 
-    // ghatBillFromWarehouseApprove(
-    //   `tms/LigterLoadUnload/StockInToInventoryApproval`,
-    //   // `/wms/GTOGTransport/PostGTOGTransportBillEntry`,
-    //   payload,
-    //   () => {
-    //     setShow(false);
-    //     getData(preValues, pageNo, pageSize);
-    //   },
-    //   true
-    // );
-
-    // const payload = {
-    //   voyageNo: singleItem?.voyageNo,
-    //   lighterVesselId: singleItem?.lighterVesselId,
-    //   actionBy: userId,
-    //   motherVesselId: singleItem?.motherVesselId,
-    //   ghatLabourSupplierId: values?.supplier?.value,
-    //   ghatLabourSupplierName: values?.supplier?.label,
-    //   ghatLabourRate: 0,
-    // };
     StockInToInventoryApproval(payload, () => {
       setShow(false);
       getData(preValues, pageNo, pageSize);
     });
   };
 
-  const setTotalAmount = (values, setFieldValue) => {
-    const totalRates =
+  const setTotals = (values, setFieldValue) => {
+    const totalRate =
       +values?.directRate +
       +values?.dumpDeliveryRate +
       +values?.bolgateToDamRate +
       +values?.damToTruckRate +
       +values?.lighterToBolgateRate +
       +values?.truckToDamRate +
+      +values?.decTruckToDamOutSideRate +
+      +values?.decBiwtarate +
+      +values?.decShipSweepingRate +
+      +values?.decScaleRate +
+      +values?.decDailyLaboureRate +
       +values?.othersCostRate;
-    const totalAmount = +values?.unloadedQty * +totalRates;
+    const totalQty =
+      +values?.directQty +
+      +values?.dumpDeliveryQty +
+      +values?.bolgateToDamQty +
+      +values?.damToTruckQty +
+      +values?.lighterToBolgateQty +
+      +values?.truckToDamQty +
+      +values?.decTruckToDamOutSideQty +
+      +values?.decBiwtaQty +
+      +values?.decShipSweepingQty +
+      +values?.decScaleQty +
+      +values?.decDailyLaboureQty +
+      +values?.othersCostQty;
+    const totalAmount = +values?.unloadedQty * +totalRate;
     setFieldValue("totalBillAmount", totalAmount);
+    setFieldValue("totalQty", totalQty);
   };
+
+  console.log(singleItem, "single item");
 
   return (
     <>
@@ -176,7 +231,7 @@ export default function WarehouseApproveFrom({
             value: rates?.supplierId,
             label: rates?.supplierName,
           },
-          unloadedQty: _fixedPoint(singleItem?.receiveQnt, true, 0),
+          unloadedQty: _fixedPoint(singleItem?.receiveQnt, true, 2),
           directRate: rates?.directRate,
           dumpDeliveryRate: rates?.dumpDeliveryRate,
           bolgateToDamRate: rates?.bolgateToDamRate,
@@ -184,6 +239,11 @@ export default function WarehouseApproveFrom({
           lighterToBolgateRate: rates?.lighterToBolgateRate,
           truckToDamRate: rates?.truckToDamRate,
           othersCostRate: rates?.othersCostRate,
+          decTruckToDamOutSideRate: rates?.decTruckToDamOutSideRate,
+          decBiwtarate: rates?.decBiwtarate,
+          decShipSweepingRate: rates?.decShipSweepingRate,
+          decScaleRate: rates?.decScaleRate,
+          decDailyLaboureRate: rates?.decDailyLaboureRate,
         }}
         onSubmit={() => {}}
       >
@@ -249,13 +309,30 @@ export default function WarehouseApproveFrom({
                           type="number"
                           onChange={(e) => {
                             setFieldValue("dumpDeliveryRate", e?.target?.value);
-                            setTotalAmount(
+                            setTotals(
                               { ...values, dumpDeliveryRate: e?.target?.value },
                               setFieldValue
                             );
                           }}
                         />
                       </div>
+                      <div className="col-lg-3">
+                        <InputField
+                          label="Damp Qty"
+                          placeholder="Damp Qty"
+                          value={values?.dumpDeliveryQty}
+                          name="dumpDeliveryQty"
+                          type="number"
+                          onChange={(e) => {
+                            setFieldValue("dumpDeliveryQty", e?.target?.value);
+                            setTotals(
+                              { ...values, dumpDeliveryQty: e?.target?.value },
+                              setFieldValue
+                            );
+                          }}
+                        />
+                      </div>
+
                       <div className="col-lg-3">
                         <InputField
                           label="Direct Rate"
@@ -265,8 +342,24 @@ export default function WarehouseApproveFrom({
                           type="number"
                           onChange={(e) => {
                             setFieldValue("directRate", e?.target?.value);
-                            setTotalAmount(
+                            setTotals(
                               { ...values, directRate: e?.target?.value },
+                              setFieldValue
+                            );
+                          }}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <InputField
+                          label="Direct Qty"
+                          placeholder="Direct Qty"
+                          value={values?.directQty}
+                          name="directQty"
+                          type="number"
+                          onChange={(e) => {
+                            setFieldValue("directQty", e?.target?.value);
+                            setTotals(
+                              { ...values, directQty: e?.target?.value },
                               setFieldValue
                             );
                           }}
@@ -281,8 +374,24 @@ export default function WarehouseApproveFrom({
                           type="number"
                           onChange={(e) => {
                             setFieldValue("bolgateToDamRate", e?.target?.value);
-                            setTotalAmount(
+                            setTotals(
                               { ...values, bolgateToDamRate: e?.target?.value },
+                              setFieldValue
+                            );
+                          }}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <InputField
+                          label="Bolgate to Dam Qty"
+                          placeholder="Bolgate to Dam Qty"
+                          value={values?.bolgateToDamQty}
+                          name="bolgateToDamQty"
+                          type="number"
+                          onChange={(e) => {
+                            setFieldValue("bolgateToDamQty", e?.target?.value);
+                            setTotals(
+                              { ...values, bolgateToDamQty: e?.target?.value },
                               setFieldValue
                             );
                           }}
@@ -297,8 +406,24 @@ export default function WarehouseApproveFrom({
                           type="number"
                           onChange={(e) => {
                             setFieldValue("damToTruckRate", e?.target?.value);
-                            setTotalAmount(
+                            setTotals(
                               { ...values, damToTruckRate: e?.target?.value },
+                              setFieldValue
+                            );
+                          }}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <InputField
+                          label="Dam to Truck Qty"
+                          placeholder="Dam to Truck Qty"
+                          value={values?.damToTruckQty}
+                          name="damToTruckQty"
+                          type="number"
+                          onChange={(e) => {
+                            setFieldValue("damToTruckQty", e?.target?.value);
+                            setTotals(
+                              { ...values, damToTruckQty: e?.target?.value },
                               setFieldValue
                             );
                           }}
@@ -316,10 +441,32 @@ export default function WarehouseApproveFrom({
                               "lighterToBolgateRate",
                               e?.target?.value
                             );
-                            setTotalAmount(
+                            setTotals(
                               {
                                 ...values,
                                 lighterToBolgateRate: e?.target?.value,
+                              },
+                              setFieldValue
+                            );
+                          }}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <InputField
+                          label="Lighter to Bolgate Qty"
+                          placeholder="Lighter to Bolgate Qty"
+                          value={values?.lighterToBolgateQty}
+                          name="lighterToBolgateQty"
+                          type="number"
+                          onChange={(e) => {
+                            setFieldValue(
+                              "lighterToBolgateQty",
+                              e?.target?.value
+                            );
+                            setTotals(
+                              {
+                                ...values,
+                                lighterToBolgateQty: e?.target?.value,
                               },
                               setFieldValue
                             );
@@ -335,8 +482,147 @@ export default function WarehouseApproveFrom({
                           type="number"
                           onChange={(e) => {
                             setFieldValue("truckToDamRate", e?.target?.value);
-                            setTotalAmount(
+                            setTotals(
                               { ...values, truckToDamRate: e?.target?.value },
+                              setFieldValue
+                            );
+                          }}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <InputField
+                          label="Truck to Dam Qty"
+                          placeholder="Truck to Dam Qty"
+                          value={values?.truckToDamQty}
+                          name="truckToDamQty"
+                          type="number"
+                          onChange={(e) => {
+                            setFieldValue("truckToDamQty", e?.target?.value);
+                            setTotals(
+                              { ...values, truckToDamQty: e?.target?.value },
+                              setFieldValue
+                            );
+                          }}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <InputField
+                          value={values?.decTruckToDamOutSideRate}
+                          name="decTruckToDamOutSideRate"
+                          label="Truck To Dam Outside Rate"
+                          placeholder="Truck To Dam Outside Rate"
+                          type="number"
+                          onChange={(e) => {
+                            setFieldValue(
+                              "decTruckToDamOutSideRate",
+                              e.target.value
+                            );
+                            setTotals(
+                              {
+                                ...values,
+                                decTruckToDamOutSideRate: e?.target?.value,
+                              },
+                              setFieldValue
+                            );
+                          }}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <InputField
+                          value={values?.decTruckToDamOutSideQty}
+                          label="Truck To Dam Outside Qty"
+                          placeholder="Truck To Dam Outside Qty"
+                          name="decTruckToDamOutSideQty"
+                          type="number"
+                          onChange={(e) => {
+                            setFieldValue(
+                              "decTruckToDamOutSideQty",
+                              e.target.value
+                            );
+                            setTotals(
+                              {
+                                ...values,
+                                decTruckToDamOutSideQty: e?.target?.value,
+                              },
+                              setFieldValue
+                            );
+                          }}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <InputField
+                          value={values?.decBiwtarate}
+                          label="BIWTA Rate"
+                          placeholder="BIWTA Rate"
+                          name="decBiwtarate"
+                          type="number"
+                          onChange={(e) => {
+                            setFieldValue("decBiwtarate", e.target.value);
+                            setTotals(
+                              { ...values, decBiwtarate: e?.target?.value },
+                              setFieldValue
+                            );
+                          }}
+                        />
+                      </div>
+
+                      <div className="col-lg-3">
+                        <InputField
+                          value={values?.decShipSweepingRate}
+                          label="Ship Sweeping Rate"
+                          placeholder="Ship Sweeping Rate"
+                          name="decShipSweepingRate"
+                          type="number"
+                          onChange={(e) => {
+                            setFieldValue(
+                              "decShipSweepingRate",
+                              e.target.value
+                            );
+                            setTotals(
+                              {
+                                ...values,
+                                decShipSweepingRate: e?.target?.value,
+                              },
+                              setFieldValue
+                            );
+                          }}
+                        />
+                      </div>
+
+                      <div className="col-lg-3">
+                        <InputField
+                          value={values?.decScaleRate}
+                          label="Scale Rate"
+                          placeholder="Scale Rate"
+                          name="decScaleRate"
+                          type="number"
+                          onChange={(e) => {
+                            setFieldValue("decScaleRate", e.target.value);
+                            setTotals(
+                              { ...values, decScaleRate: e?.target?.value },
+                              setFieldValue
+                            );
+                          }}
+                        />
+                      </div>
+
+                      <div className="col-lg-3">
+                        <InputField
+                          value={values?.decDailyLaboureRate}
+                          label="Daily Labor Rate"
+                          placeholder="Daily Labor Rate"
+                          name="decDailyLaboureRate"
+                          type="number"
+                          onChange={(e) => {
+                            setFieldValue(
+                              "decDailyLaboureRate",
+                              e.target.value
+                            );
+                            setTotals(
+                              {
+                                ...values,
+                                decDailyLaboureRate: e?.target?.value,
+                              },
                               setFieldValue
                             );
                           }}
@@ -351,7 +637,7 @@ export default function WarehouseApproveFrom({
                           type="number"
                           onChange={(e) => {
                             setFieldValue("othersCostRate", e?.target?.value);
-                            setTotalAmount(
+                            setTotals(
                               { ...values, othersCostRate: e?.target?.value },
                               setFieldValue
                             );
