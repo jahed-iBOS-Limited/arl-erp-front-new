@@ -20,6 +20,7 @@ import { ShippingViewReport1 } from "../report/shippingreport1";
 import { PurchaseOrderViewTableRow } from "../report/tableRow";
 import { ShippingViewReport2 } from "../report/shippingReport2";
 import { ShippingViewReport3 } from "../report/shippingReport3";
+import AttachmentView from "./attachmentView";
 const GridData = ({
   history,
   POorderType,
@@ -57,6 +58,8 @@ const GridData = ({
 
   const [currentItem, setCurrentItem] = useState("");
   const [isShowModal, setIsShowModal] = useState(false);
+  const [showAttachmentModal, setShowAttachmentModal] = useState(false);
+  const [singleData, setSingleData] = useState({})
   const [reverseModalShowState, setReverseModalShowState] = useState({
     isShow: false,
     data: null,
@@ -254,6 +257,30 @@ const GridData = ({
                       }}
                     />
                   )}
+                  {td?.isAttatchmentFound && (
+                    <button
+                      onClick={() => {
+                        setShowAttachmentModal(true);
+                        setSingleData(td);
+                      }}
+                      style={{
+                        border: "none",
+                        background: "none",
+                        cursor: "pointer",
+                        padding: 0,
+                      }}
+                    >
+                      <OverlayTrigger
+                        overlay={
+                          <Tooltip id="cs-icon">
+                            {"Attachment"}
+                          </Tooltip>
+                        }
+                      >
+                        <i class="far fa-file-image"></i>
+                      </OverlayTrigger>
+                    </button>
+                  )}
                 </div>
               </td>
             </tr>
@@ -425,6 +452,14 @@ const GridData = ({
           orId={POorderType}
           isHiddenBackBtn={true}
         />
+      </IViewModal>
+
+      <IViewModal
+        title="View Attachment"
+        show={showAttachmentModal}
+        onHide={() => setShowAttachmentModal(false)}
+      >
+        <AttachmentView singleData={singleData} orderTypeId={POorderType} />
       </IViewModal>
 
       {data?.length > 0 && (
