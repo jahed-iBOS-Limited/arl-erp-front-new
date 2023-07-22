@@ -11,6 +11,11 @@ export const initData = {
   decBolgateToDamRate: "",
   decOthersCostRate: "",
   supplier: "",
+  decTruckToDamOutSideRate: 0,
+  decBiwtarate: 0,
+  decShipSweepingRate: 0,
+  decScaleRate: 0,
+  decDailyLaboureRate: 0,
 };
 
 export const saveHandler = (rowDto, createEditHandler, cb) => {
@@ -57,7 +62,13 @@ export const addHandler = ({ values, rowDto, setRowDto, userId, buId }) => {
     dteLastActionTime: "2023-05-20T06:55:44.132Z",
     dteServerDatetime: "2023-05-20T06:55:44.132Z",
     isActive: true,
-    intBusinessUnitId:buId,
+    intBusinessUnitId: buId,
+
+    decTruckToDamOutSideRate: values?.decTruckToDamOutSideRate,
+    decBiwtarate: values?.decBiwtarate,
+    decShipSweepingRate: values?.decShipSweepingRate,
+    decScaleRate: values?.decScaleRate,
+    decDailyLaboureRate: values?.decDailyLaboureRate,
   };
 
   setRowDto((prev) => {

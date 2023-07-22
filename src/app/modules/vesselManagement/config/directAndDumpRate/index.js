@@ -87,6 +87,11 @@ export default function DirectAndDumpRateLanding() {
                         <th>Truck To Dam Rate (per bag)</th>
                         <th>Lighter To Bolgate Rate (per bag)</th>
                         <th>Bolgate To DamRate (per bag)</th>
+                        <th>Truck To Dam Outside Rate (per bag)</th>
+                        <th>BIWTA Rate (per bag)</th>
+                        <th>Ship Sweeping Rate (per bag)</th>
+                        <th>Scale Rate (per bag)</th>
+                        <th>Daily Labor Rate (per bag)</th>
                         <th>Others Cost Rate (per bag)</th>
                         <th>Action</th>
                       </tr>
@@ -113,6 +118,17 @@ export default function DirectAndDumpRateLanding() {
                           </td>
                           <td className="text-center">
                             {item?.decBolgateToDamRate}
+                          </td>
+                          <td className="text-center">
+                            {item?.decTruckToDamOutSideRate}
+                          </td>
+                          <td className="text-center">{item?.decBiwtarate}</td>
+                          <td className="text-center">
+                            {item?.decShipSweepingRate}
+                          </td>
+                          <td className="text-center">{item?.decScaleRate}</td>
+                          <td className="text-center">
+                            {item?.decDailyLaboureRate}
                           </td>
                           <td className="text-center">
                             {item?.decOthersCostRate}
