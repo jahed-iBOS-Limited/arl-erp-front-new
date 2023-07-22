@@ -304,7 +304,10 @@ const LighterVesselCreateForm = ({
                             disabled={
                               !values?.motherVessel ||
                               !values?.lighterVesselName ||
-                              !values?.port
+                              !values?.port ||
+                              values?.carrierRate <= 0 ||
+                              !values?.carrierName ||
+                              !values?.capacity
                             }
                           >
                             Add
