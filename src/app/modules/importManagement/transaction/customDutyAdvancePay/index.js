@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
@@ -42,13 +42,13 @@ const { profileData, selectedBusinessUnit } = useSelector((state) => {
    const [gridData, getGridData, gridLoading] = useAxiosGet([]);
 
    const getLandingData = (poId, shipmentId) => {
-      getGridData(`/imp/CustomDuty/GetAllCustomDutyAdvancePayment?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&poId=${poId}&shipmentId=${shipmentId}&PageNo=${pageNo}&PageSize=${pageSize}`)
+      getGridData(`/imp/CustomDuty/GetAllCustomDutyAdvancePayment?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&poId=${poId || 0}&shipmentId=${shipmentId || 0}&PageNo=${pageNo}&PageSize=${pageSize}`)
     };
 
-// useEffect(() => {
-//    getLandingData()
-// // eslint-disable-next-line react-hooks/exhaustive-deps
-// }, [profileData, selectedBusinessUnit]);
+useEffect(() => {
+   getLandingData()
+// eslint-disable-next-line react-hooks/exhaustive-deps
+}, [profileData, selectedBusinessUnit]);
 
    // Get PO List DDL
   const polcList = (v) => {

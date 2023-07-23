@@ -620,6 +620,7 @@ function Table({
                           Supplier
                         </th>
                       ) : null}
+                      <th style={{ minWidth: "100px" }}>Item Name</th>
                       <th>Quantity</th>
                       <th>Total Qty</th>
                       <th style={{ minWidth: "65px" }}>Create Date</th>
@@ -803,6 +804,7 @@ function Table({
                             </td>
                           ) : null}
 
+                          <td className='text-center'>{item?.itemName}</td>
                           <td className='text-center'>{item?.quantity}</td>
 
                           {prvSalesOrderCode !== item?.salesOrderCode && (
