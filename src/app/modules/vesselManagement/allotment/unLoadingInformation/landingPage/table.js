@@ -297,7 +297,7 @@ const UnLoadingInformationTable = () => {
                                         // );
                                         setSingleData(item);
                                         setShow(true);
-                                        getData(values, pageNo, pageSize);
+                                        // getData(values, pageNo, pageSize);
                                       }}
                                     />
                                   </span>

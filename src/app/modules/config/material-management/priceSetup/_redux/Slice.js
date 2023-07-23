@@ -11,7 +11,8 @@ const initState = {
   territoryDDL: [],
   partnerDDL: [],
   distributionChannelDDL: [],
-  itemSalesDDL:[]
+  itemSalesDDL:[],
+  itemByChanneList:[]
 };
 
 export const priceSetupSlice = createSlice({
@@ -26,6 +27,10 @@ export const priceSetupSlice = createSlice({
     SetGridData: (state, action) => {
       const { payload } = action;
       state.gridData = payload;
+    },
+    setItemByChanneList: (state, action) => {
+      const { payload } = action;
+      state.itemByChanneList = payload;
     },
 
     setALlInitDDL: (state, action) => {
