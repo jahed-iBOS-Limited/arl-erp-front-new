@@ -27,6 +27,7 @@ export default function FormTwo({ obj }) {
     getBranches,
     setBranches,
     saveHandler,
+    setBankInfo,
     shipPointDDL,
   } = obj;
 
@@ -37,9 +38,7 @@ export default function FormTwo({ obj }) {
       validationSchema={validationSchemaTwo}
       onSubmit={(values, { setFieldValue }) => {
         addHandler(values, () => {
-          setFieldValue("routingNumber", "");
-          setFieldValue("bankAccountName", "");
-          setFieldValue("bankAccountNumber", "");
+          setBankInfo("", setFieldValue);
         });
       }}
     >
@@ -83,8 +82,10 @@ export default function FormTwo({ obj }) {
                   onChange={(valueOption) => {
                     if (valueOption) {
                       setFieldValue("employee", valueOption);
+                      setBankInfo(valueOption, setFieldValue);
                     } else {
                       setFieldValue("employee", "");
+                      setBankInfo("", setFieldValue);
                     }
                   }}
                   errors={errors}
@@ -135,7 +136,8 @@ export default function FormTwo({ obj }) {
                   }}
                   errors={errors}
                   touched={touched}
-                  isDisabled={id}
+                  isDisabled={true}
+                  // isDisabled={id}
                 />
               </div>
               <div className="col-lg-3">
@@ -154,7 +156,8 @@ export default function FormTwo({ obj }) {
                   }}
                   errors={errors}
                   touched={touched}
-                  isDisabled={id}
+                  isDisabled={true}
+                  // isDisabled={id}
                 />
               </div>
               <div className="col-lg-3">
@@ -163,7 +166,8 @@ export default function FormTwo({ obj }) {
                   value={values?.bankAccountName}
                   label="Bank Account Name"
                   placeholder="Bank Account Name"
-                  disabled={id}
+                  disabled={true}
+                  // disabled={id}
                 />
               </div>
               <div className="col-lg-3">
@@ -172,7 +176,8 @@ export default function FormTwo({ obj }) {
                   value={values?.bankAccountNumber}
                   label="Bank Account Number"
                   placeholder="Bank Account Number"
-                  disabled={id}
+                  disabled={true}
+                  // disabled={id}
                 />
               </div>
               <div className="col-lg-3">
@@ -181,7 +186,8 @@ export default function FormTwo({ obj }) {
                   value={values?.routingNumber}
                   label="Routing Number"
                   placeholder="Routing Number"
-                  disabled={id}
+                  disabled={true}
+                  // disabled={id}
                 />
               </div>
               <IButton
@@ -191,7 +197,9 @@ export default function FormTwo({ obj }) {
                 disabled={
                   !values?.routingNumber ||
                   !values?.bankAccountName ||
-                  !values?.bankAccountNumber
+                  !values?.bankAccountNumber ||
+                  !values?.bank ||
+                  !values?.branch
                 }
               >
                 + Add
