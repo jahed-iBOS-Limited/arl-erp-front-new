@@ -14,6 +14,7 @@ import IForm from "../../../../_helper/_form";
 import { isUniq } from "../../../../_helper/uniqChecker";
 import Loading from "../../../../_helper/_loading";
 import { toast } from "react-toastify";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
 const initData = {
   id: undefined,
@@ -23,6 +24,8 @@ const initData = {
   startDate: "",
   endDate: "",
   item: "",
+  minPrice: "",
+  maxPrice: "",
   isAllItem: false,
 };
 
@@ -36,12 +39,15 @@ export default function PriceSetupForm({
   const [query, setQuery] = useState(null);
   const [DDL, setDDL] = useState([]);
   const [rowDto, setRowDto] = useState([]);
+  const [, postData, loading] = useAxiosPost();
 
   // get user data from store
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
     shallowEqual
   );
+
+  const is3BUnit = [224, 144, 171].includes(selectedBusinessUnit?.value);
 
   // get DDLs from store
   const {
@@ -110,23 +116,51 @@ export default function PriceSetupForm({
 
   const saveHandler = async (values, cb) => {
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
-      const payload = rowDto.map((itm) => {
-        return {
-          ...itm,
-          conditionTypeId: itm.conditionType.value,
-          conditionTypeName: itm.conditionType.label,
-          conditionReffId: itm.conditionTypeRef.value,
-          // itemId: itm.item.value,
-          actionBy: profileData.userId,
-          businessUnitId: selectedBusinessUnit.value,
-          accountId: profileData.accountId,
-          price: +itm?.price || 0,
-          maxPriceAddition: +itm?.maxPriceAddition || 0,
-          minPriceDeduction: +itm?.minPriceDeduction || 0,
+      if (is3BUnit) {
+        const payload = {
+          rowString: rowDto
+            ?.filter((item) => item?.price > 0)
+            .map((element) => ({
+              conditionTypeId: values?.conditionType?.value,
+              conditionTypeName: values?.conditionType?.label,
+              conditionReffId: values?.conditionTypeRef?.value,
+              itemId: element?.itemId,
+              price: +element?.price,
+              startDate: values?.startDate,
+              endDate: values?.endDate,
+              partnercode: "1234",
+              maximumIncrease: +element?.maxPriceAddition,
+              minimumDecrease: +element?.minPriceDeduction,
+            })),
         };
-      });
 
-      dispatch(savePriceSetup({ data: payload, cb, setDisabled }));
+        postData(
+          `/oms/SalesInformation/ProductPriceEntryChannelBase?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&insertby=${profileData?.userId}`,
+          payload,
+          () => {
+            setRowDto([]);
+          },
+          true
+        );
+      } else {
+        const payload = rowDto.map((itm) => {
+          return {
+            ...itm,
+            conditionTypeId: itm.conditionType.value,
+            conditionTypeName: itm.conditionType.label,
+            conditionReffId: itm.conditionTypeRef.value,
+            // itemId: itm.item.value,
+            actionBy: profileData.userId,
+            businessUnitId: selectedBusinessUnit.value,
+            accountId: profileData.accountId,
+            price: +itm?.price || 0,
+            maxPriceAddition: +itm?.maxPriceAddition || 0,
+            minPriceDeduction: +itm?.minPriceDeduction || 0,
+          };
+        });
+
+        dispatch(savePriceSetup({ data: payload, cb, setDisabled }));
+      }
     } else {
       setDisabled(false);
     }
@@ -165,22 +199,26 @@ export default function PriceSetupForm({
     setRowDto(filterArr);
   };
 
-  const setPrice = (sl, value, name) => {
+  const setPrice = (sl, value, name, values) => {
     const cloneArr = [...rowDto];
     cloneArr[sl][name] = value;
+    if (name === "price") {
+      cloneArr[sl]["minPriceDeduction"] = +value - +values?.minPrice;
+      cloneArr[sl]["maxPriceAddition"] = +value + +values?.maxPrice;
+    }
     setRowDto([...cloneArr]);
   };
   const [objProps, setObjprops] = useState({});
 
-  console.log(rowDto, "rowDto")
+  const loader = isDisabled || loading;
 
   return (
     <IForm
-      title='Create Price Setup'
+      title="Create Price Setup"
       getProps={setObjprops}
-      isDisabled={isDisabled}
+      isDisabled={loader}
     >
-      {isDisabled && <Loading />}
+      {loader && <Loading />}
       <Form
         {...objProps}
         initData={singleData || initData}
@@ -200,6 +238,7 @@ export default function PriceSetupForm({
         setAppsItemRateAll={setAppsItemRateAll}
         setDisabled={setDisabled}
         setRowDto={setRowDto}
+        is3BUnit={is3BUnit}
       />
     </IForm>
   );
