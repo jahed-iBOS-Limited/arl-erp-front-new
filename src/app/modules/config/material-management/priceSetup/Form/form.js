@@ -7,6 +7,7 @@ import { ISelect } from "../../../../_helper/_inputDropDown";
 import ICalendar from "../../../../_helper/_inputCalender";
 import { useDispatch } from "react-redux";
 import { getItemByChannelIdAciton } from "../_redux/Actions";
+import InputField from "../../../../_helper/_inputField";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -38,19 +39,21 @@ export default function _Form({
   setAppsItemRateAll,
   accountId,
   setDisabled,
-  setRowDto
+  setRowDto,
+  is3BUnit,
 }) {
   const dispatch = useDispatch();
+
   return (
     <>
       <Formik
         enableReinitialize={true}
         initialValues={initData}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => {
+        onSubmit={(values, { resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
-            setRowDto([])
+            setRowDto([]);
           });
         }}
       >
@@ -61,19 +64,18 @@ export default function _Form({
           errors,
           touched,
           setFieldValue,
-          isValid,
         }) => (
           <>
-            <Form className='form form-label-right'>
-              <div className='form-group row global-form'>
-                <div className='col-lg-3'>
+            <Form className="form form-label-right">
+              <div className="form-group row global-form">
+                <div className="col-lg-3">
                   <label>Select Condition Type</label>
                   <Select
                     styles={customStyles}
                     value={values?.conditionType}
                     options={conditionDDL}
-                    label='Select Condition Type'
-                    name='conditionType'
+                    label="Select Condition Type"
+                    name="conditionType"
                     onChange={(valueOption) => {
                       setFieldValue("conditionTypeRef", {
                         value: "",
@@ -91,7 +93,7 @@ export default function _Form({
                       width: "100%",
                       marginTop: "0.25rem",
                     }}
-                    className='text-danger'
+                    className="text-danger"
                   >
                     {errors && errors.conditionType && touched.conditionType
                       ? errors.conditionType.value
@@ -99,12 +101,12 @@ export default function _Form({
                   </p>
                 </div>
 
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <ISelect
                     value={values?.conditionTypeRef}
                     options={conditionTypeRefDDL}
-                    label='Select Condition Type Ref'
-                    name='conditionTypeRef'
+                    label="Select Condition Type Ref"
+                    name="conditionTypeRef"
                     setFieldValue={setFieldValue}
                     errors={errors}
                     touched={touched}
@@ -116,49 +118,69 @@ export default function _Form({
                   />
                 </div>
 
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <ICalendar
-                    label='Start Date'
-                    name='startDate'
-                    type='date'
+                    label="Start Date"
+                    name="startDate"
+                    type="date"
                     errors={errors}
                     touched={touched}
                     value={values.startDate}
                   />
                 </div>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <ICalendar
-                    label='End Date'
+                    label="End Date"
                     min={values.startDate}
                     value={values.endDate}
-                    name='endDate'
-                    type='date'
+                    name="endDate"
+                    type="date"
                     errors={errors}
                     touched={touched}
                   />
                 </div>
               </div>
 
-              <div className='row mt-1 global-form'>
-                <div className='col-lg-3'>
+              <div className="row mt-1 global-form">
+                <div className="col-lg-3">
                   <ISelect
                     value={values?.item}
                     options={itemSalesDDL}
-                    label='Select Item List'
-                    name='item'
+                    label="Select Item List"
+                    name="item"
                     setFieldValue={setFieldValue}
                     errors={errors}
                     touched={touched}
                     // isDisabled={!values.item?.value}
                   />
                 </div>
-                <div className='col-lg-3 text-center d-flex justify-content-around'>
+                {is3BUnit && (
+                  <>
+                    <div className="col-lg-3">
+                      <InputField
+                        value={values?.minPrice}
+                        placeHolder="Min Price"
+                        label="Min Price"
+                        name="minPrice"
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <InputField
+                        value={values?.maxPrice}
+                        placeHolder="Max Price"
+                        label="Max Price"
+                        name="maxPrice"
+                      />
+                    </div>
+                  </>
+                )}
+                <div className="col-lg-3 text-center d-flex justify-content-around">
                   <div>
-                    <label className='text-center ml-5'>All Item</label> <br />
+                    <label className="text-center ml-5">All Item</label> <br />
                     <input
-                      type='checkbox'
-                      className='form-check-input ml-3'
-                      name='isAllItem'
+                      type="checkbox"
+                      className="form-check-input ml-3"
+                      name="isAllItem"
                       onChange={(e) => {
                         setFieldValue("isAllItem", e.target.checked);
                         setFieldValue(
@@ -172,14 +194,14 @@ export default function _Form({
                   {[224, 144, 171].includes(selectedBusinessUnit?.value) && (
                     <>
                       <div>
-                        <label className='text-center ml-5'>
+                        <label className="text-center ml-5">
                           Apps Item Rate
                         </label>{" "}
                         <br />
                         <input
-                          type='checkbox'
-                          className='form-check-input ml-3'
-                          name='appsItemRate'
+                          type="checkbox"
+                          className="form-check-input ml-3"
+                          name="appsItemRate"
                           onChange={(e) => {
                             setFieldValue("appsItemRate", e.target.checked);
                             setFieldValue("isAllItem", false);
@@ -199,7 +221,7 @@ export default function _Form({
                     </>
                   )}
                 </div>
-                <div className='col-lg-2'>
+                <div className="col-lg-12 text-right">
                   <button
                     onClick={() => {
                       if (values.isAllItem) {
@@ -222,8 +244,8 @@ export default function _Form({
                       !values.item?.value &&
                       !values.appsItemRate
                     }
-                    type='button'
-                    className='btn btn-primary mt-2'
+                    type="button"
+                    className="btn btn-primary mt-2"
                   >
                     ADD
                   </button>
@@ -232,7 +254,7 @@ export default function _Form({
 
               <div>
                 {rowDto.length ? (
-                  <table className='table table-striped table-bordered global-table'>
+                  <table className="table table-striped table-bordered global-table">
                     <thead>
                       <tr>
                         <th>SL</th>
@@ -257,11 +279,13 @@ export default function _Form({
                           <td>{itm?.itemName}</td>
                           <td>
                             <input
-                              type='number'
+                              type="number"
                               value={itm?.price}
-                              onChange={(e) => setPrice(idx, e.target.value, "price")}
-                              min='0'
-                              step='any'
+                              onChange={(e) =>
+                                setPrice(idx, e.target.value, "price", values)
+                              }
+                              min="0"
+                              step="any"
                             />
                           </td>
                           {[224, 144, 171].includes(
@@ -270,34 +294,42 @@ export default function _Form({
                             <>
                               <td>
                                 <input
-                                  type='number'
+                                  type="number"
                                   value={itm?.maxPriceAddition}
                                   onChange={(e) =>
-                                    setPrice(idx, e.target.value, "maxPriceAddition")
+                                    setPrice(
+                                      idx,
+                                      e.target.value,
+                                      "maxPriceAddition"
+                                    )
                                   }
-                                  min='0'
-                                  step='any'
+                                  min="0"
+                                  step="any"
                                 />
                               </td>
                               <td>
                                 <input
-                                  type='number'
+                                  type="number"
                                   value={itm?.minPriceDeduction}
                                   onChange={(e) =>
-                                    setPrice(idx, e.target.value, "minPriceDeduction")
+                                    setPrice(
+                                      idx,
+                                      e.target.value,
+                                      "minPriceDeduction"
+                                    )
                                   }
-                                  min='0'
-                                  step='any'
+                                  min="0"
+                                  step="any"
                                 />
                               </td>
                             </>
                           )}
-                          <td className='text-center'>
+                          <td className="text-center">
                             <span>
                               <i
                                 onClick={() => remover(itm?.itemId)}
-                                className='fa fa-trash deleteBtn'
-                                aria-hidden='true'
+                                className="fa fa-trash deleteBtn"
+                                aria-hidden="true"
                               ></i>
                             </span>
                           </td>
@@ -311,14 +343,14 @@ export default function _Form({
               </div>
 
               <button
-                type='submit'
+                type="submit"
                 style={{ display: "none" }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
-                type='reset'
+                type="reset"
                 style={{ display: "none" }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
