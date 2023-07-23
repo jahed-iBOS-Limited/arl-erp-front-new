@@ -5,6 +5,9 @@ import Select from "react-select";
 import customStyles from "../../../../selectCustomStyle";
 import { ISelect } from "../../../../_helper/_inputDropDown";
 import ICalendar from "../../../../_helper/_inputCalender";
+import { useDispatch } from "react-redux";
+import { getItemByChannelIdAciton } from "../_redux/Actions";
+import InputField from "../../../../_helper/_inputField";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -32,17 +35,25 @@ export default function _Form({
   remover,
   setPrice,
   setAll,
+  selectedBusinessUnit,
+  setAppsItemRateAll,
+  accountId,
+  setDisabled,
+  setRowDto,
+  is3BUnit,
 }) {
+  const dispatch = useDispatch();
+
   return (
     <>
-
       <Formik
         enableReinitialize={true}
         initialValues={initData}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => {
+        onSubmit={(values, { resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
+            setRowDto([]);
           });
         }}
       >
@@ -53,7 +64,6 @@ export default function _Form({
           errors,
           touched,
           setFieldValue,
-          isValid,
         }) => (
           <>
             <Form className="form form-label-right">
@@ -101,6 +111,10 @@ export default function _Form({
                     errors={errors}
                     touched={touched}
                     isDisabled={!values.conditionType?.value}
+                    onChange={(valueOption) => {
+                      setFieldValue("appsItemRate", false);
+                      setFieldValue("conditionTypeRef", valueOption);
+                    }}
                   />
                 </div>
 
@@ -140,22 +154,81 @@ export default function _Form({
                     // isDisabled={!values.item?.value}
                   />
                 </div>
-                <div className="col-lg-1 text-center">
-                  <label className="text-center ml-5">All Item</label> <br />
-                  <input
-                    type="checkbox"
-                    className="form-check-input ml-3"
-                    name="isAllItem"
-                    onChange={(e) =>
-                      setFieldValue("isAllItem", e.target.checked)
-                    }
-                  />
+                {is3BUnit && (
+                  <>
+                    <div className="col-lg-3">
+                      <InputField
+                        value={values?.minPrice}
+                        placeHolder="Min Price"
+                        label="Min Price"
+                        name="minPrice"
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <InputField
+                        value={values?.maxPrice}
+                        placeHolder="Max Price"
+                        label="Max Price"
+                        name="maxPrice"
+                      />
+                    </div>
+                  </>
+                )}
+                <div className="col-lg-3 text-center d-flex justify-content-around">
+                  <div>
+                    <label className="text-center ml-5">All Item</label> <br />
+                    <input
+                      type="checkbox"
+                      className="form-check-input ml-3"
+                      name="isAllItem"
+                      onChange={(e) => {
+                        setFieldValue("isAllItem", e.target.checked);
+                        setFieldValue(
+                          "appsItemRate",
+                          e.target.checked ? false : values.appsItemRate
+                        );
+                      }}
+                      checked={values?.isAllItem}
+                    />
+                  </div>
+                  {[224, 144, 171].includes(selectedBusinessUnit?.value) && (
+                    <>
+                      <div>
+                        <label className="text-center ml-5">
+                          Apps Item Rate
+                        </label>{" "}
+                        <br />
+                        <input
+                          type="checkbox"
+                          className="form-check-input ml-3"
+                          name="appsItemRate"
+                          onChange={(e) => {
+                            setFieldValue("appsItemRate", e.target.checked);
+                            setFieldValue("isAllItem", false);
+                            dispatch(
+                              getItemByChannelIdAciton(
+                                accountId,
+                                selectedBusinessUnit?.value,
+                                setDisabled,
+                                values?.conditionTypeRef?.value
+                              )
+                            );
+                          }}
+                          checked={values?.appsItemRate}
+                          disabled={!values?.conditionTypeRef?.value}
+                        />
+                      </div>
+                    </>
+                  )}
                 </div>
-                <div className="col-lg-2 text-right">
+                <div className="col-lg-12 text-right">
                   <button
                     onClick={() => {
                       if (values.isAllItem) {
                         setAll(values);
+                      } else if (values.appsItemRate) {
+                        setAppsItemRateAll(values);
+                        setFieldValue("appsItemRate", false);
                       } else {
                         const obj = {
                           ...values,
@@ -166,7 +239,11 @@ export default function _Form({
                         setter(obj);
                       }
                     }}
-                    disabled={!values.isAllItem && !values.item?.value}
+                    disabled={
+                      !values.isAllItem &&
+                      !values.item?.value &&
+                      !values.appsItemRate
+                    }
                     type="button"
                     className="btn btn-primary mt-2"
                   >
@@ -184,27 +261,73 @@ export default function _Form({
                         {/* <th>Item Code</th> */}
                         <th>Item Name</th>
                         <th>Price</th>
+                        {[224, 144, 171].includes(
+                          selectedBusinessUnit?.value
+                        ) && (
+                          <>
+                            <th>Max price addition</th>
+                            <th>Min price deduction</th>
+                          </>
+                        )}
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
                       {rowDto.map((itm, idx) => (
-                        <tr key={itm.itemId}>
+                        <tr key={itm?.itemId}>
                           <td>{idx + 1}</td>
-                          <td>{itm.itemName}</td>
+                          <td>{itm?.itemName}</td>
                           <td>
                             <input
                               type="number"
-                              value={itm.price}
-                              onChange={(e) => setPrice(idx, e.target.value)}
+                              value={itm?.price}
+                              onChange={(e) =>
+                                setPrice(idx, e.target.value, "price", values)
+                              }
                               min="0"
                               step="any"
                             />
                           </td>
+                          {[224, 144, 171].includes(
+                            selectedBusinessUnit?.value
+                          ) && (
+                            <>
+                              <td>
+                                <input
+                                  type="number"
+                                  value={itm?.maxPriceAddition}
+                                  onChange={(e) =>
+                                    setPrice(
+                                      idx,
+                                      e.target.value,
+                                      "maxPriceAddition"
+                                    )
+                                  }
+                                  min="0"
+                                  step="any"
+                                />
+                              </td>
+                              <td>
+                                <input
+                                  type="number"
+                                  value={itm?.minPriceDeduction}
+                                  onChange={(e) =>
+                                    setPrice(
+                                      idx,
+                                      e.target.value,
+                                      "minPriceDeduction"
+                                    )
+                                  }
+                                  min="0"
+                                  step="any"
+                                />
+                              </td>
+                            </>
+                          )}
                           <td className="text-center">
                             <span>
                               <i
-                                onClick={() => remover(itm.itemId)}
+                                onClick={() => remover(itm?.itemId)}
                                 className="fa fa-trash deleteBtn"
                                 aria-hidden="true"
                               ></i>
@@ -231,6 +354,9 @@ export default function _Form({
                 style={{ display: "none" }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
+                onClick={() => {
+                  setRowDto([]);
+                }}
               ></button>
             </Form>
           </>
