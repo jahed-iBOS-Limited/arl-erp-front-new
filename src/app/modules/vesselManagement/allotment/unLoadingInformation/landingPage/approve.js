@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
 import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import {
   Card,
@@ -15,12 +15,8 @@ import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import FormikError from "../../../../_helper/_formikError";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import TextArea from "../../../../_helper/TextArea";
 import { StockInToInventoryApproval } from "../../challanEntry/helper";
-import AttachFile from "../../../../_helper/commonInputFieldsGroups/attachemntUpload";
 
 const initData = {
   supplier: "",
@@ -63,13 +59,9 @@ export default function WarehouseApproveFrom({
   setShow,
 }) {
   const [rates, getRates, loading] = useAxiosGet();
-  const [open, setOpen] = useState(false);
-  const [uploadedImages, setUploadedImage] = useState([]);
-  // eslint-disable-next-line no-unused-vars
-  const [, ghatBillFromWarehouseApprove, loader] = useAxiosPost();
   const {
     profileData: { accountId: accId, userId },
-    selectedBusinessUnit: { value: buId, label: buName },
+    selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const loadOptions = async (v) => {
@@ -102,83 +94,40 @@ export default function WarehouseApproveFrom({
 
   const approveSubmitHandler = (values) => {
     const payload = {
-      gtogHead: {
-        billTypeId: 22,
-        accountId: accId,
-        supplierId: values?.supplier?.value,
-        supplierName: values?.supplier?.label,
-        sbuId: 68,
-        unitId: buId,
-        unitName: buName,
-        billNo: "billNo",
-        billDate: _todayDate(),
-        paymentDueDate: _todayDate(),
-        narration: values?.narration,
-        billAmount: +values?.totalBillAmount,
-        plantId: 0,
-        warehouseId: rates?.shippointId,
-        actionBy: userId,
-      },
-      gtogRow: {
-        voyageNo: singleItem?.voyageNo,
-        challanNo: "string",
-        deliveryId: singleItem?.rowId,
-        quantity: +values?.unloadedQty,
-        ammount: +values?.totalBillAmount,
-        billAmount: +values?.totalBillAmount,
-        shipmentCode: "string",
-        motherVesselId: singleItem?.motherVesselId,
-        lighterVesselId: singleItem?.lighterVesselId,
-        numFreightRateUSD: 0,
-        numFreightRateBDT: 0,
-        numCommissionRateBDT: 0,
-        directRate: +values?.directRate,
-        dumpDeliveryRate: +values?.dumpDeliveryRate,
-        damToTruckRate: +values?.damToTruckRate,
-        truckToDamRate: +values?.truckToDamRate,
-        lighterToBolgateRate: +values?.lighterToBolgateRate,
-        bolgateToDamRate: +values?.bolgateToDamRate,
-        othersCostRate: +values?.othersCostRate,
+      voyageNo: singleItem?.voyageNo,
+      motherVesselId: singleItem?.motherVesselId,
+      lighterVesselId: singleItem?.lighterVesselId,
+      supplierId: values?.supplier?.value,
+      supplierName: values?.supplier?.label,
+      shipPointId: singleItem?.shipPointId,
+      actionBy: userId,
+      quantity: +values?.unloadedQty,
+      dumpQnt: +values?.dumpDeliveryQty,
+      dumpRate: +values?.dumpDeliveryRate,
+      directQnt: +values?.directQty,
+      directRate: +values?.directRate,
+      bolgateToDumpQnt: +values?.bolgateToDamQty,
+      bolgateToDumpRate: +values?.bolgateToDamRate,
+      dumpToTruckQnt: +values?.damToTruckQty,
+      dumpToTruckRate: +values?.damToTruckRate,
+      lighterToBolgateQnt: +values?.lighterToBolgateQty,
+      lighterToBolgateRate: +values?.lighterToBolgateRate,
+      truckToDumpOutsideQnt: +values?.decTruckToDamOutSideQty,
+      truckToDumpOutsideRate: +values?.decTruckToDamOutSideRate,
+      biwtarate: +values?.decBiwtarate,
+      shipSweepingRate: +values?.decShipSweepingRate,
+      scaleRate: +values?.decScaleRate,
+      dailyLaboureRate: +values?.decDailyLaboureRate,
+      truckToDamQnt: +values?.truckToDamQty,
+      truckToDamRate: +values?.truckToDamRate,
+      othersCostQnt: +values?.othersCostQty,
+      othersCostRate: +values?.othersCostRate,
 
-        // voyageNo: 0,
-        // motherVesselId: 0,
-        // lighterVesselId: 0,
-        supplierId: values?.supplier?.value,
-        supplierName: values?.supplier?.label,
-        shipPointId: singleItem?.shipPointId,
-        actionBy: userId,
-        // quantity: 0,
-        dumpQnt: values?.dumpDeliveryQty,
-        dumpRate: values?.dumpDeliveryRate,
-        directQnt: values?.directQty,
-        // directRate: 0,
-        bolgateToDumpQnt: values?.bolgateToDamQty,
-        bolgateToDumpRate: values?.bolgateToDamRate,
-        dumpToTruckQnt: values?.damToTruckQty,
-        dumpToTruckRate: values?.damToTruckRate,
-        lighterToBolgateQnt: values?.lighterToBolgateQty,
-        // lighterToBolgateRate: 0,
-        truckToDumpOutsideQnt: values?.decTruckToDamOutSideQty,
-        truckToDumpOutsideRate: values?.decTruckToDamOutSideRate,
-        biwtarate: values?.decBiwtarate,
-        shipSweepingRate: values?.decShipSweepingRate,
-        scaleRate: values?.decScaleRate,
-        dailyLaboureRate: values?.decDailyLaboureRate,
-        truckToDamQnt: values?.truckToDamQty,
-        // truckToDamRate: values?.,
-        othersCostQnt: values?.othersCostQty,
-        // othersCostRate: values?.,
-
-        // all quantity
-        biwtaqnt: +values?.unloadedQty,
-        shipSweepingQnt: +values?.unloadedQty,
-        decScaleQnt: +values?.unloadedQty,
-        dailyLaboureQnt: +values?.unloadedQty,
-      },
-
-      image: {
-        imageId: uploadedImages[0]?.id,
-      },
+      // all quantity
+      biwtaqnt: +values?.unloadedQty,
+      shipSweepingQnt: 1,
+      decScaleQnt: 1,
+      dailyLaboureQnt: 1,
     };
 
     StockInToInventoryApproval(payload, () => {
@@ -201,25 +150,10 @@ export default function WarehouseApproveFrom({
       +values?.decScaleRate +
       +values?.decDailyLaboureRate +
       +values?.othersCostRate;
-    const totalQty =
-      +values?.directQty +
-      +values?.dumpDeliveryQty +
-      +values?.bolgateToDamQty +
-      +values?.damToTruckQty +
-      +values?.lighterToBolgateQty +
-      +values?.truckToDamQty +
-      +values?.decTruckToDamOutSideQty +
-      +values?.decBiwtaQty +
-      +values?.decShipSweepingQty +
-      +values?.decScaleQty +
-      +values?.decDailyLaboureQty +
-      +values?.othersCostQty;
+
     const totalAmount = +values?.unloadedQty * +totalRate;
     setFieldValue("totalBillAmount", totalAmount);
-    setFieldValue("totalQty", totalQty);
   };
-
-  console.log(singleItem, "single item");
 
   return (
     <>
@@ -249,7 +183,7 @@ export default function WarehouseApproveFrom({
       >
         {({ values, errors, touched, setFieldValue }) => (
           <>
-            {(loading || loader) && <Loading />}
+            {loading && <Loading />}
             <Card>
               <ModalProgressBar />
               <CardHeader
@@ -569,8 +503,8 @@ export default function WarehouseApproveFrom({
                       <div className="col-lg-3">
                         <InputField
                           value={values?.decShipSweepingRate}
-                          label="Ship Sweeping Rate"
-                          placeholder="Ship Sweeping Rate"
+                          label="Ship Sweeping Amount"
+                          placeholder="Ship Sweeping Amount"
                           name="decShipSweepingRate"
                           type="number"
                           onChange={(e) => {
@@ -592,8 +526,8 @@ export default function WarehouseApproveFrom({
                       <div className="col-lg-3">
                         <InputField
                           value={values?.decScaleRate}
-                          label="Scale Rate"
-                          placeholder="Scale Rate"
+                          label="Scale Amount"
+                          placeholder="Scale Amount"
                           name="decScaleRate"
                           type="number"
                           onChange={(e) => {
@@ -609,8 +543,8 @@ export default function WarehouseApproveFrom({
                       <div className="col-lg-3">
                         <InputField
                           value={values?.decDailyLaboureRate}
-                          label="Daily Labor Rate"
-                          placeholder="Daily Labor Rate"
+                          label="Daily Labor Amount"
+                          placeholder="Daily Labor Amount"
                           name="decDailyLaboureRate"
                           type="number"
                           onChange={(e) => {
@@ -645,7 +579,7 @@ export default function WarehouseApproveFrom({
                         />
                       </div>
 
-                      <div className="col-lg-3">
+                      {/* <div className="col-lg-3">
                         <InputField
                           label="Total Bill Amount"
                           placeholder="Total Bill Amount"
@@ -654,8 +588,8 @@ export default function WarehouseApproveFrom({
                           type="number"
                           disabled={true}
                         />
-                      </div>
-                      <div className="col-lg-3">
+                      </div> */}
+                      {/* <div className="col-lg-3">
                         <label>Narration</label>
                         <TextArea
                           placeholder="Narration"
@@ -663,8 +597,8 @@ export default function WarehouseApproveFrom({
                           name="narration"
                           rows={3}
                         />
-                      </div>
-                      <div className="col-lg-2">
+                      </div> */}
+                      {/* <div className="col-lg-2">
                         <button
                           className="btn btn-primary mr-2 mt-5"
                           type="button"
@@ -672,13 +606,13 @@ export default function WarehouseApproveFrom({
                         >
                           Attachment
                         </button>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </form>
               </CardBody>
             </Card>
-            <AttachFile obj={{ open, setOpen, setUploadedImage }} />
+            {/* <AttachFile obj={{ open, setOpen, setUploadedImage }} /> */}
           </>
         )}
       </Formik>
