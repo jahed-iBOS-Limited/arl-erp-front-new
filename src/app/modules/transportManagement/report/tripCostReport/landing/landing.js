@@ -35,7 +35,8 @@ const initData = {
 
 const reportTypes = [
   { value: 1, label: "Trip Cost Report" },
-  { value: 2, label: "Vehicle Efficiency Details" },
+  { value: 2, label: "Per Bag Cost Details" },
+  { value: 3, label: "Vehicle Efficiency Details" },
 ];
 
 function TripCostReportReport() {

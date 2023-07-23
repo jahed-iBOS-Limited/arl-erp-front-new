@@ -30,14 +30,14 @@ export const validationSchemaTwo = Yup.object().shape({
     value: Yup.string().required("Ship Point is required"),
     label: Yup.string().required("Ship Point is required"),
   }),
-  bank: Yup.object().shape({
-    value: Yup.string().required("Bank is required"),
-    label: Yup.string().required("Bank is required"),
-  }),
-  branch: Yup.object().shape({
-    value: Yup.string().required("Branch is required"),
-    label: Yup.string().required("Branch is required"),
-  }),
+  // bank: Yup.object().shape({
+  //   value: Yup.string().required("Bank is required"),
+  //   label: Yup.string().required("Bank is required"),
+  // }),
+  // branch: Yup.object().shape({
+  //   value: Yup.string().required("Branch is required"),
+  //   label: Yup.string().required("Branch is required"),
+  // }),
 });
 export const createAndUpdateSupplierByShippoint = async (data, setLoading, cb) => {
   setLoading(true);

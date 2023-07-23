@@ -48,6 +48,11 @@ function getItemSalesDDL(accId, buId) {
     `/item/ItemSales/GetItemSalesDDL?AccountId=${accId}&BUnitId=${buId}`
   );
 }
+export function getItemByChannelId(accId, buId, channelId) {
+  return axios.get(
+    `/item/ItemSales/GetItemByChannelId?AccountId=${accId}&BUnitId=${buId}&DistributionChannelId=${channelId}&SalesOrgId=6`
+  );
+}
 
 // Save created data
 export function saveCreateData(data) {

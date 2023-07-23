@@ -46,7 +46,6 @@ export const savePriceSetup = (payload) => () => {
       }
     })
     .catch((err) => {
-     
       toast.error(err?.response?.data?.message);
       payload.setDisabled(false);
     });
@@ -81,7 +80,25 @@ export const getPriceSetupGridData = (
     })
     .catch((err) => {
       setDisabled(false);
-     
+    });
+};
+// action for get grid data
+export const getItemByChannelIdAciton = (
+  accId,
+  buId,
+  setDisabled,
+  channelId
+) => (dispatch) => {
+  dispatch(slice.setItemByChanneList([]));
+  setDisabled(true);
+  requestFromServer
+    .getItemByChannelId(accId, buId, channelId)
+    .then((res) => {
+      dispatch(slice.setItemByChanneList(res.data));
+      setDisabled(false);
+    })
+    .catch((err) => {
+      setDisabled(false);
     });
 };
 
@@ -102,9 +119,7 @@ export const getPriceSetupById = (id) => (dispatch) => {
         dispatch(slice.SetDataById(data));
       }
     })
-    .catch((err) => {
-     
-    });
+    .catch((err) => {});
 };
 // set single store empty
 export const setPriceSetupEmpty = () => async (dispatch) => {
