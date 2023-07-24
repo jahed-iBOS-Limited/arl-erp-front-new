@@ -63,7 +63,7 @@ export const inventoryStatement_api = async ({
   } else if (type?.value === 4) {
     api = `/wms/WmsReport/InventoryStatementStokeCoverage?businessUnitId=${buId}&whld=${warehouseId}&numAverageDay=${avgDays}${typeIdQuery}${categoryIdQuery}${itemSubIdQuery}&pageNo=${pageNo}&pageSize=${pageSize}${searchPath}`;
   } else if (type?.value === 5) {
-    api = `/procurement/Report/GetInventoryStatement?businessUnitId=${buId}&fromDate=${fromDate}&toDate=${toDate}&intItemTypeId=${itemtypeId}&itemId=0&warehouseId=${warehouseId}&pageNo=${pageNo}&pageSize=${pageSize}${searchForInvNew}`
+    api = `/procurement/Report/GetInventoryStatement?businessUnitId=${buId}&intPlantId=${plantId}&fromDate=${fromDate}&toDate=${toDate}&intItemTypeId=${itemtypeId}&itemId=0&warehouseId=${warehouseId}&pageNo=${pageNo}&pageSize=${pageSize}${searchForInvNew}`
   } else {
     api = `/wms/WmsReport/InventoryRegister?AccountId=${accId}&BusinessUnitId=${buId}&warehouseId=${warehouseId}&plantId=${plantId}&fromDate=${fromDate}&toDate=${toDate}&type=${type?.value}&Itemtype=${itemtypeId}&ItemCategory=${itemcatId}&itemSubCategory=${itemSubId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc${searchPath}`;
   }
