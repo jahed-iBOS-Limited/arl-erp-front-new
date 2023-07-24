@@ -9,13 +9,14 @@ import NewSelect from "../../../_helper/_select";
 import InputField from "./../../../_helper/_inputField";
 import { _todayDate } from "./../../../_helper/_todayDate";
 import { GetExpenseReport_api } from "./helper";
-import Table from "./table";
-import TableTwo from "./tableTwo";
+import Table from "./tables/table";
+import TableTwo from "./tables/tableTwo";
 import { YearDDL } from "./../../../_helper/_yearDDL";
 import { _dateFormatter } from "./../../../_helper/_dateFormate";
 import moment from "moment";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import TableThree from "./tableThree";
+import TableThree from "./tables/tableThree";
+import TableFour from "./tables/tableFour";
 
 const monthDDL = [
   { value: 1, label: "January" },
@@ -31,6 +32,22 @@ const monthDDL = [
   { value: 11, label: "November" },
   { value: 12, label: "December" },
 ];
+
+const reportTypes = [
+  { value: 1, label: "All Unit" },
+  { value: 2, label: "Single Unit" },
+  { value: 14, label: "Expense Top Sheet (HR)" },
+  { value: 3, label: "Specific Employee" },
+  { value: 4, label: "Specific Employee Details" },
+  { value: 5, label: "Bill Submit Pending" },
+  { value: 6, label: "Supervisor Aprv Pending" },
+  { value: 7, label: "Line Manager Aprv Pending" },
+  { value: 8, label: "Bill Register  Pending" },
+  { value: 9, label: "Bill Register  By Code" },
+  { value: 10, label: "Status Check" },
+  { value: 12, label: "Comparison Report" },
+];
+
 const startOfMonth = moment(_todayDate())
   .startOf("month")
   .format();
@@ -129,19 +146,7 @@ const ExpenceReport = () => {
                   <div className="col-lg-3">
                     <NewSelect
                       name="reportType"
-                      options={[
-                        { value: 1, label: "All Unit" },
-                        { value: 2, label: "Single Unit" },
-                        { value: 3, label: "Specific Employee" },
-                        { value: 4, label: "Specific Employee Details" },
-                        { value: 5, label: "Bill Submit Pending" },
-                        { value: 6, label: "Supervisor Aprv Pending" },
-                        { value: 7, label: "Line Manager Aprv Pending" },
-                        { value: 8, label: "Bill Register  Pending" },
-                        { value: 9, label: "Bill Register  By Code" },
-                        { value: 10, label: "Status Check" },
-                        { value: 12, label: "Comparison Report" },
-                      ]}
+                      options={reportTypes}
                       value={values?.reportType}
                       label="Report Type"
                       onChange={(valueOption) => {
@@ -170,7 +175,7 @@ const ExpenceReport = () => {
                       />
                     </div>
                   )}
-                  {[1, 2, 3, 4, 12].includes(values?.reportType?.value) && (
+                  {[1, 2, 3, 4, 12, 14].includes(values?.reportType?.value) && (
                     <div className="col-lg-3">
                       <NewSelect
                         name="status"
@@ -373,6 +378,14 @@ const ExpenceReport = () => {
             )}
             {[10].includes(values?.reportType?.value) && (
               <TableThree gridData={gridData} />
+            )}
+            {[14].includes(values?.reportType?.value) && (
+              <TableFour
+                gridData={gridData}
+                values={values}
+                userId={profileData?.userId}
+                girdDataFunc={girdDataFunc}
+              />
             )}
           </ICard>
         )}
