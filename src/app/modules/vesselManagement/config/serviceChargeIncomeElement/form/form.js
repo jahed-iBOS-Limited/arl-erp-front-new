@@ -3,14 +3,14 @@ import axios from "axios";
 import { Formik } from "formik";
 import React from "react";
 import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import ICustomCard from "../../../../_helper/_customCard";
+import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
-import Table from "./table";
 import { PortAndMotherVessel } from "../../../common/components";
-import { toast } from "react-toastify";
-import InputField from "../../../../_helper/_inputField";
+import Table from "./table";
 
 const Form = ({ obj }) => {
   const {
@@ -42,15 +42,9 @@ const Form = ({ obj }) => {
           <>
             <ICustomCard
               title={"Service Charge and Income Element Configuration"}
-              backHandler={() => {
-                history.goBack();
-              }}
-              resetHandler={() => {
-                resetForm();
-              }}
-              saveHandler={() => {
-                saveHandler(values);
-              }}
+              backHandler={() => history.goBack()}
+              resetHandler={() => resetForm()}
+              saveHandler={() => saveHandler(values)}
               saveDisabled={loader}
             >
               {loader && <Loading />}
@@ -75,6 +69,10 @@ const Form = ({ obj }) => {
                                 "programNo",
                                 allValues?.motherVessel?.programNo
                               );
+                              setFieldValue("item", {
+                                value: allValues?.motherVessel?.itemId,
+                                label: allValues?.motherVessel?.itemName,
+                              });
                             }
                           }
                         },
@@ -93,7 +91,9 @@ const Form = ({ obj }) => {
                     <div className="col-lg-3">
                       <NewSelect
                         name="warehouse"
-                        options={[{value: 0, label: "All"}, ...shipPointDDL] || []}
+                        options={
+                          [{ value: 0, label: "All" }, ...shipPointDDL] || []
+                        }
                         value={values?.warehouse}
                         label="Warehouse"
                         onChange={(e) => {
