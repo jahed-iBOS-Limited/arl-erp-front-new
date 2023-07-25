@@ -67,13 +67,21 @@ const PaymentPrepare = () => {
     return `/hcm/TrustManagement/GetTrustAllLanding?PartName=${partName}&PaymentStatusId=${paymentStatusId}&UnitId=${unitId}&FromDate=${fromDate}&ToDate=${toDate}`;
   };
 
-  const voucherSubmitlHandler = () => {
+  const voucherSubmitlHandler = (values, setFieldValue) => {
     const checkedData = rowDto.filter((itm) => itm.itemCheck);
     const payload = [];
     checkedData.forEach((itm) =>
       payload.push({
         paymentScheduleId: itm?.PaymentScheduleId,
-        UserId: profileData?.userId,
+       userId:  profileData?.userId,
+       bankId: values?.bankAccount?.bankId,
+       bankName:values?.bankAccount?.bankName,
+       bankBranchId: values?.bankAccount?.bankBranch_Id,
+       bankBranchName:values?.bankAccount?.bankBranchName,
+       bankAccountId: values?.bankAccount?.value,
+       bankAccountNumber:values?.bankAccount?.bankAccNo,
+       instrumentTypeId: values?.instrumentType?.value,
+       instrumentTypeName:values?.instrumentType?.label,
       })
     );
     let confirmObject = {
@@ -85,6 +93,8 @@ const PaymentPrepare = () => {
           payload,
           (data) => {
             toast.success(data[0]?.Column1 || "Submitted successfully");
+            setFieldValue("bankAccount", "");
+            setFieldValue("instrumentType");
             getData(
               getTrustAllLanding(
                 "GetAllPaymentStatusNDonationReciverList",
@@ -256,9 +266,9 @@ const PaymentPrepare = () => {
                           type="button"
                           className="btn btn-primary"
                           style={{ fontSize: "12px", marginTop: "15px" }}
-                          disabled={voucherBtn}
+                          disabled={voucherBtn || !values?.bankAccount || !values?.instrumentType}
                           onClick={() => {
-                            voucherSubmitlHandler();
+                            voucherSubmitlHandler(values, setFieldValue);
                           }}
                         >
                           All Voucher Prepare
