@@ -151,7 +151,7 @@ export function POFormByOrderTypeShipping() {
           bomId: 0,
           controllingUnitName: item?.controllingUnit?.label || "",
           costCenterId: +item?.costCenter?.value || 0,
-          costCenterName: item?.costCenter?.label || "" ,
+          costCenterName: item?.costCenter?.label || "",
           costElementId: +item?.costElement?.value || 0,
           costElementName: item?.costElement?.label || "",
           purchaseDescription: item?.desc || "",
@@ -165,7 +165,7 @@ export function POFormByOrderTypeShipping() {
           vatAmount: +item?.vatAmount || 0,
           baseVatAmount: +item?.userGivenVatAmount || 0,
           discount: 0,
-          profitCenterId: item?.profitCenter?.value|| 0,
+          profitCenterId: item?.profitCenter?.value || 0,
           // objPriceRowListDTO:
           //   item?.priceStructure?.map((item2, index) => ({
           //     rowId: 0,
@@ -223,18 +223,19 @@ export function POFormByOrderTypeShipping() {
             freight: +values?.freight || 0,
             commission: 0,
             othersCharge: +values?.othersCharge || 0,
-            transferBusinessUnitId: values?.isTransfer ?  values?.transferBusinessUnit?.value || 0 : 0,
+            transferBusinessUnitId: values?.isTransfer ? values?.transferBusinessUnit?.value || 0 : 0,
             transferCostElementId: values?.isTransfer ? values?.costElement?.value || 0 : 0,
             transferCostCenterId: values?.isTransfer ? values?.costCenter?.value || 0 : 0,
             profitCenterId: values?.isTransfer ? values?.profitCenter?.value || 0 : 0,
             originOfSparesShip: values?.originOfSparesShip || "",
             descriptionShip: values?.descriptionShip || "",
             supplyLocationShip: values?.supplyLocationShip || "",
-            leadDay:values?.leadTimeDays || 0,
+            leadDay: values?.leadTimeDays || 0,
             intTransferUnitPartnerId: values?.isTransfer ? values?.transferBusinessUnitSupplier?.value || 0 : 0,
             strTransferUnitPartnerName: values?.isTransfer ? values?.transferBusinessUnitSupplier?.label || "" : "",
           },
           objRowListDTO,
+          objImageListDTO: []
         };
         dispatch(
           savePurchaseOrderForAssetStandardService({
