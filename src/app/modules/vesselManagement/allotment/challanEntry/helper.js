@@ -159,10 +159,15 @@ export const validationSchema = Yup.object().shape({
     label: Yup.string().required("Mother Vessel is required"),
     value: Yup.string().required("Mother Vessel is required"),
   }),
+  port: Yup.object().shape({
+    label: Yup.string().required("Port is required"),
+    value: Yup.string().required("Port is required"),
+  }),
   motherVessel: Yup.object().shape({
     label: Yup.string().required("Mother Vessel is required"),
     value: Yup.string().required("Mother Vessel is required"),
   }),
+
   // program: Yup.object().shape({
   //   label: Yup.string().required("Program is required"),
   //   value: Yup.string().required("Program is required"),
@@ -189,7 +194,15 @@ export const validationSchema = Yup.object().shape({
     label: Yup.string().required("Destination/Godown Name is required"),
     value: Yup.string().required("Destination/Godown Name is required"),
   }),
+  deliveryType: Yup.object().shape({
+    label: Yup.string().required("Delivery Type is required"),
+    value: Yup.string().required("Delivery Type is required"),
+  }),
   address: Yup.string().required("Delivery address is required"),
   deliveryDate: Yup.string().required("Delivery date is required"),
   shippingChallanNo: Yup.string().required("Shipping challan no is required"),
+  transportRate: Yup.number().required("Transport rate is required"),
+  // goDownUnloadLabourRate: Yup.number().required(
+  //   "Godown unload labor rate is required"
+  // ),
 });
