@@ -1,6 +1,14 @@
 import React from "react";
+import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 
 export default function CommonTable({ salesOrderData, printRef }) {
+  let totalRequestQty = 0,
+    totalOrderQty = 0,
+    totalDeliveryQty = 0,
+    totalUnDeliveryQty = 0,
+    totalActualDeliveryQty = 0,
+    totalActualUnDeliveryQty = 0,
+    totalActualUnDeliveryAmount = 0;
   return (
     <>
       <div className="table-responsive">
@@ -30,30 +38,59 @@ export default function CommonTable({ salesOrderData, printRef }) {
               const minusValue =
                 item?.numUndeliveryQuantity < 0 ||
                 item?.numActualUndeliveryQuantity < 0;
+
+              const lessDelivery =
+                item?.numDeliveredQuantity < item?.numActualDeliveredQuantity;
+
+              totalRequestQty += item?.numrequestquantity;
+              totalOrderQty += item?.numorderquantity;
+              totalDeliveryQty += item?.numDeliveredQuantity;
+              totalUnDeliveryQty += item?.numUndeliveryQuantity;
+              totalActualDeliveryQty += item?.numActualDeliveredQuantity;
+              totalActualUnDeliveryQty += item?.numActualUndeliveryQuantity;
+              totalActualUnDeliveryAmount += item?.actualUndelvAmount;
               return (
                 <tr
                   key={index}
-                  style={minusValue ? { backgroundColor: "#ffff0085" } : {}}
+                  style={
+                    lessDelivery
+                      ? { backgroundColor: "#ff00007d" }
+                      : minusValue
+                      ? { backgroundColor: "#ffff0085" }
+                      : {}
+                  }
                 >
                   <td className="text-center">{index + 1}</td>
                   <td>{item?.strsoldtopartner}</td>
                   <td className="text-center">{item?.strChannelName}</td>
                   <td className="text-center">{item?.strshippointname}</td>
                   <td>{item?.strsalesordercode}</td>
-                  <td className="text-center">{item?.numrequestquantity}</td>
-                  <td>{item?.numorderquantity}</td>
-                  <td className="text-center">{item?.numDeliveredQuantity}</td>
-                  <td>{item?.numUndeliveryQuantity}</td>
-                  <td className="text-center">
+                  <td className="text-right">{item?.numrequestquantity}</td>
+                  <td className="text-right">{item?.numorderquantity}</td>
+                  <td className="text-right">{item?.numDeliveredQuantity}</td>
+                  <td className="text-right">{item?.numUndeliveryQuantity}</td>
+                  <td className="text-right">
                     {item?.numActualDeliveredQuantity}
                   </td>
-                  <td className="text-center">
+                  <td className="text-right">
                     {item?.numActualUndeliveryQuantity}
                   </td>
-                  <td className="text-center">{item?.actualUndelvAmount}</td>
+                  <td className="text-right">{item?.actualUndelvAmount}</td>
                 </tr>
               );
             })}
+            <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+              <td className="text-right" colSpan={5}>
+                <b>Total</b>
+              </td>
+              <td>{_fixedPoint(totalRequestQty, true, 0)}</td>
+              <td>{_fixedPoint(totalOrderQty, true, 0)}</td>
+              <td>{_fixedPoint(totalDeliveryQty, true, 0)}</td>
+              <td>{_fixedPoint(totalUnDeliveryQty, true, 0)}</td>
+              <td>{_fixedPoint(totalActualDeliveryQty, true, 0)}</td>
+              <td>{_fixedPoint(totalActualUnDeliveryQty, true, 0)}</td>
+              <td>{_fixedPoint(totalActualUnDeliveryAmount, true, 0)}</td>
+            </tr>
           </tbody>
         </table>
       </div>
