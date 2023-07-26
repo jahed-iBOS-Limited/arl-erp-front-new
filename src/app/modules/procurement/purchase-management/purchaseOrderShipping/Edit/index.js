@@ -241,11 +241,12 @@ export function POEditFormByOrderTypeShipping() {
             originOfSparesShip: values?.originOfSparesShip || "",
             descriptionShip: values?.descriptionShip || "",
             supplyLocationShip: values?.supplyLocationShip || "",
-            leadDay:values?.leadTimeDays || 0,
-            intTransferUnitPartnerId:values?.transferBusinessUnitSupplier?.value || 0,
-            strTransferUnitPartnerName:values?.transferBusinessUnitSupplier?.label || "",
+            leadDay: values?.leadTimeDays || 0,
+            intTransferUnitPartnerId: values?.transferBusinessUnitSupplier?.value || 0,
+            strTransferUnitPartnerName: values?.transferBusinessUnitSupplier?.label || "",
           },
           objRowListDTO,
+          objImageListDTO: [],
         };
         setDisabled(true);
         dispatch(
@@ -343,9 +344,9 @@ export function POEditFormByOrderTypeShipping() {
             approveBy: 0,
             approveDatetime: "2020-11-21T08:40:39.980Z",
             lastActionDateTime: "2020-11-21T08:40:39.980Z",
-            leadDay:values?.leadTimeDays || 0,
-            intTransferUnitPartnerId:values?.transferBusinessUnitSupplier?.value || 0,
-            strTransferUnitPartnerName:values?.transferBusinessUnitSupplier?.label || "",
+            leadDay: values?.leadTimeDays || 0,
+            intTransferUnitPartnerId: values?.transferBusinessUnitSupplier?.value || 0,
+            strTransferUnitPartnerName: values?.transferBusinessUnitSupplier?.label || "",
           },
           rowListDTO,
         };
