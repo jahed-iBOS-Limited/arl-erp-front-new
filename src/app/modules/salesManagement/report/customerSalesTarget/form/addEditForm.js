@@ -42,6 +42,7 @@ let max = year + 5;
 for (var i = year - 5; i <= max; i++) {
   targetYearsDDL.push({ value: i, label: i });
 }
+
 export function CustomerSalesTargetForm({
   history,
   match: {
@@ -76,6 +77,10 @@ export function CustomerSalesTargetForm({
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
+
+  const buSetOne = [4, 171, 175, 224, 144].includes(
+    selectedBusinessUnit?.value
+  );
 
   if (!id || !approveid) {
     initData = {
@@ -146,7 +151,7 @@ export function CustomerSalesTargetForm({
   // }, [getItemNameDDL]);
 
   const saveHandler = async (values, rowDto, cb) => {
-    if ([4, 175, 171, 224]?.includes(selectedBusinessUnit?.value)) {
+    if (buSetOne) {
       const selectedItems = rowDto.filter((item) => item?.isSelected);
       if (selectedItems?.length === 0) {
         return toast.warn("Please select at least one item");
@@ -294,7 +299,7 @@ export function CustomerSalesTargetForm({
       profileData?.accountId &&
       location?.state?.business_partner?.value &&
       !approveid &&
-      ![4, 175, 171, 224].includes(selectedBusinessUnit?.value)
+      !buSetOne
     ) {
       getItemListByPartnerId_api(
         profileData?.accountId,
@@ -316,11 +321,7 @@ export function CustomerSalesTargetForm({
           : "Create Customer Sales Target"
       }
       getProps={setObjprops}
-      isDisabled={
-        isDisabled ||
-        ([4, 175, 171, 244].includes(selectedBusinessUnit?.value) &&
-          !rowDto?.length)
-      }
+      isDisabled={isDisabled || (buSetOne && !rowDto?.length)}
     >
       {isDisabled && <Loading />}
       <div className="mt-0">
@@ -343,6 +344,7 @@ export function CustomerSalesTargetForm({
           itemListByPartner={itemListByPartner}
           distributionChannelDDL={distributionChannelDDL}
           setLoading={setDisabled}
+          buSetOne={buSetOne}
         />
       </div>
     </IForm>
