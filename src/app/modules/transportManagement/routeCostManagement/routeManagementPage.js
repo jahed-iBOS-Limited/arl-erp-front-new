@@ -31,6 +31,7 @@ import { ManualShipmentCostTable } from "./manualShipmentCost/Table/tableHeader"
 import FuelLogNExpense from "./fuelLogNExpense/form";
 import FuelLogModify from "./fuelLogModify/landing";
 import TripCostStatement from "./vehicleTrip/vehicleTrip";
+import VehicleProblemEntryForm from "./vehicleLog/problemForm/addEditForm";
 
 export function RouteManagementPage() {
   const userRole = useSelector(
@@ -53,6 +54,10 @@ export function RouteManagementPage() {
         />
 
         {/* Vehicle Log Book */}
+        <ContentRoute
+          path="/transport-management/routecostmanagement/routestandardcost/vehicleProblem"
+          component={VehicleProblemEntryForm}
+        />
         <ContentRoute
           path="/transport-management/routecostmanagement/routestandardcost/vehicleLogExpense/create"
           component={VehicleLogExpenseForm}

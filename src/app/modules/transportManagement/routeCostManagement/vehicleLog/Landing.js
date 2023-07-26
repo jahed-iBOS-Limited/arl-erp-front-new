@@ -109,35 +109,32 @@ const VehicleLogLanding = () => {
       enableReinitialize={true}
       initialValues={{
         ...initData,
-        // vehicleNo: {
-        //   value: vehicleNoList[0]?.value,
-        //   label: vehicleNoList[0]?.label,
-        // },
       }}
-      onSubmit={(values, { setSubmitting, resetForm }) => {}}
+      onSubmit={() => {}}
     >
-      {({
-        handleSubmit,
-        resetForm,
-        values,
-        errors,
-        touched,
-        setFieldValue,
-        isValid,
-      }) => (
+      {({ values, errors, touched, setFieldValue }) => (
         <>
           <ICustomCard
             createHandler={() => {
-              if (values?.vehicleNo?.value) {
-                history.push({
-                  pathname:
-                    "/transport-management/routecostmanagement/routestandardcost/create",
-                  state: {
-                    values,
-                  },
-                });
+              if (values?.type) {
+                if (values?.type?.value === 2) {
+                  history.push({
+                    pathname:
+                      "/transport-management/routecostmanagement/routestandardcost/vehicleProblem",
+                  });
+                } else if (values?.vehicleNo?.value) {
+                  history.push({
+                    pathname:
+                      "/transport-management/routecostmanagement/routestandardcost/create",
+                    state: {
+                      values,
+                    },
+                  });
+                } else {
+                  toast.warn("Please select vehicle no");
+                }
               } else {
-                toast.warn("Please select vehicle no");
+                toast.warn("Please Select a Type");
               }
             }}
             title="Vehicle Log Book for (Credit)"
@@ -147,6 +144,24 @@ const VehicleLogLanding = () => {
               <div className="global-form">
                 {/* Row */}
                 <div className="row">
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="type"
+                      options={[
+                        { value: 1, label: "Vehicle Log Book for (Credit)" },
+                        { value: 2, label: "Vehicle Problem Entry" },
+                      ]}
+                      value={values?.type}
+                      label="Type"
+                      onChange={(valueOption) => {
+                        setFieldValue("type", valueOption);
+                      }}
+                      placeholder="Type"
+                    />
+                  </div>
+
+                  <div className="col-lg-12"></div>
+
                   <div className="col-lg-2">
                     <label>
                       <b>Entry By</b>
