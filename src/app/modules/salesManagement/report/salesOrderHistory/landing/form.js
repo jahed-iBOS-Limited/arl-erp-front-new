@@ -271,7 +271,11 @@ export default function SalesOrderHistoryLanding() {
               {(loading || loadingLan) && <Loading />}
               {[3, 4, 5, 6].includes(values?.reportName?.value) &&
               salesOrderData?.length ? (
-                <CommonTable salesOrderData={salesOrderData} />
+                <CommonTable
+                  salesOrderData={salesOrderData}
+                  buId={buId}
+                  values={values}
+                />
               ) : null}
               <Table rowDto={rowDto} printRef={printRef} values={values} />
             </div>

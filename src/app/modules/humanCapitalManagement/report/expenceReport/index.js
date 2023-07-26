@@ -1,22 +1,23 @@
 import axios from "axios";
 import { Formik } from "formik";
+import moment from "moment";
 import React, { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
 import ICard from "../../../_helper/_card";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { _dateFormatter } from "./../../../_helper/_dateFormate";
 import InputField from "./../../../_helper/_inputField";
 import { _todayDate } from "./../../../_helper/_todayDate";
-import { GetExpenseReport_api } from "./helper";
-import Table from "./tables/table";
-import TableTwo from "./tables/tableTwo";
 import { YearDDL } from "./../../../_helper/_yearDDL";
-import { _dateFormatter } from "./../../../_helper/_dateFormate";
-import moment from "moment";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import TableThree from "./tables/tableThree";
+import { GetExpenseReport_api, usePrintHandler } from "./helper";
+import PrintableTable from "./tables/printableTable";
+import Table from "./tables/table";
 import TableFour from "./tables/tableFour";
+import TableThree from "./tables/tableThree";
+import TableTwo from "./tables/tableTwo";
 
 const monthDDL = [
   { value: 1, label: "January" },
@@ -74,6 +75,9 @@ const ExpenceReport = () => {
   const [gridData, setGridData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [, getGridData, isLoading] = useAxiosGet();
+  const [printableData, setPrintableData] = useState([]);
+
+  const { handlePrint, printRef } = usePrintHandler();
 
   const girdDataFunc = (values) => {
     setGridData([]);
@@ -99,6 +103,25 @@ const ExpenceReport = () => {
         setLoading
       );
     }
+  };
+
+  const getPrintData = (values) => {
+    GetExpenseReport_api(
+      selectedBusinessUnit?.value,
+      16,
+      values?.employeeName?.value || 0,
+      values?.fromDate,
+      values?.toDate,
+      values?.status?.value,
+      profileData?.userId,
+      values?.expenseCode,
+      values?.expenceGroup?.label,
+      setPrintableData,
+      setLoading,
+      () => {
+        handlePrint();
+      }
+    );
   };
 
   const employeeList = (v) => {
@@ -138,7 +161,13 @@ const ExpenceReport = () => {
             title="Expense Report"
             isExcelBtn={true}
             excelFileNameWillbe="expenseReport"
-            isPrint={true}
+            clickHandler={() => {
+              getPrintData(values);
+            }}
+            printTitle="Print"
+            isShowPrintPreviewBtn={
+              [14].includes(values?.reportType?.value) && gridData?.length
+            }
           >
             <form className="form form-label-right">
               <div className="global-form">
@@ -380,12 +409,17 @@ const ExpenceReport = () => {
               <TableThree gridData={gridData} />
             )}
             {[14].includes(values?.reportType?.value) && (
-              <TableFour
-                gridData={gridData}
-                values={values}
-                userId={profileData?.userId}
-                girdDataFunc={girdDataFunc}
-              />
+              <>
+                <TableFour
+                  gridData={gridData}
+                  values={values}
+                  userId={profileData?.userId}
+                  girdDataFunc={girdDataFunc}
+                />
+              </>
+            )}{" "}
+            {printableData?.length > 0 && (
+              <PrintableTable gridData={printableData} printRef={printRef} />
             )}
           </ICard>
         )}

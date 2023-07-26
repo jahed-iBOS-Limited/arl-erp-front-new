@@ -53,52 +53,55 @@ function TableFour({ gridData, values, userId, girdDataFunc }) {
   return (
     <>
       {loading && <Loading />}
-      <ICustomTable ths={headers}>
-        {gridData?.map((item, index) => {
-          totalApplicationAmount += item?.numApplicantAmount || 0;
-          totalApprovedByHR += item?.numApprvByHR || 0;
-          totalApprovedBySupervisor += item?.numApprvBySuppervisor || 0;
-          return (
-            <tr key={index}>
-              <td>{index + 1}</td>
-              <td>{item?.strUnit}</td>
-              <td className="text-right">
-                {_fixedPoint(item?.numApplicantAmount, true, 0)}
-              </td>
-              <td className="text-right">
-                {_fixedPoint(item?.numApprvBySuppervisor, true, 0)}
-              </td>
-              <td className="text-right">
-                {_fixedPoint(item?.numApprvByHR, true, 0)}
-              </td>
-              <td className="text-center">
-                <IView
-                  clickHandler={() => {
-                    setSingleItem(item);
-                    getData(item);
-                  }}
-                />
-              </td>
-            </tr>
-          );
-        })}
-        <tr>
-          <td colSpan={2} className="text-right">
-            <b>Total</b>
-          </td>
-          <td className="text-right">
-            <b>{_fixedPoint(totalApplicationAmount, true, 0)}</b>
-          </td>
+      <div>
+        <ICustomTable ths={headers}>
+          {gridData?.map((item, index) => {
+            totalApplicationAmount += item?.numApplicantAmount || 0;
+            totalApprovedByHR += item?.numApprvByHR || 0;
+            totalApprovedBySupervisor += item?.numApprvBySuppervisor || 0;
+            return (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                <td>{item?.strUnit}</td>
+                <td className="text-right">
+                  {_fixedPoint(item?.numApplicantAmount, true, 0)}
+                </td>
+                <td className="text-right">
+                  {_fixedPoint(item?.numApprvBySuppervisor, true, 0)}
+                </td>
+                <td className="text-right">
+                  {_fixedPoint(item?.numApprvByHR, true, 0)}
+                </td>
+                <td className="text-center">
+                  <IView
+                    clickHandler={() => {
+                      setSingleItem(item);
+                      getData(item);
+                    }}
+                  />
+                </td>
+              </tr>
+            );
+          })}
+          <tr>
+            <td colSpan={2} className="text-right">
+              <b>Total</b>
+            </td>
+            <td className="text-right">
+              <b>{_fixedPoint(totalApplicationAmount, true, 0)}</b>
+            </td>
 
-          <td className="text-right">
-            <b>{_fixedPoint(totalApprovedBySupervisor, true, 0)}</b>
-          </td>
-          <td className="text-right">
-            <b>{_fixedPoint(totalApprovedByHR, true, 0)}</b>
-          </td>
-          <td></td>
-        </tr>
-      </ICustomTable>
+            <td className="text-right">
+              <b>{_fixedPoint(totalApprovedBySupervisor, true, 0)}</b>
+            </td>
+            <td className="text-right">
+              <b>{_fixedPoint(totalApprovedByHR, true, 0)}</b>
+            </td>
+            <td></td>
+          </tr>
+        </ICustomTable>
+      </div>
+
       <IViewModal
         show={show}
         onHide={() => {
