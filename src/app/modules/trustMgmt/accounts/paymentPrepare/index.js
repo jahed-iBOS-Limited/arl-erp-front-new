@@ -21,6 +21,7 @@ const initData = {
   fromDate: "",
   toDate: "",
   businessUnit: "",
+  paymentType: "",
   bankAccount: "",
   instrumentType: "",
 };
@@ -61,10 +62,11 @@ const PaymentPrepare = () => {
     partName,
     paymentStatusId = 2,
     unitId,
+    paymentType,
     fromDate,
     toDate
   ) => {
-    return `/hcm/TrustManagement/GetTrustAllLanding?PartName=${partName}&PaymentStatusId=${paymentStatusId}&UnitId=${unitId}&FromDate=${fromDate}&ToDate=${toDate}`;
+    return `/hcm/TrustManagement/GetTrustAllLanding?PartName=${partName}&PaymentStatusId=${paymentStatusId}&UnitId=${unitId}&FromDate=${fromDate}&ToDate=${toDate}&paymentTypeId=${paymentType}`;
   };
 
   const voucherSubmitlHandler = (values, setFieldValue) => {
@@ -74,12 +76,12 @@ const PaymentPrepare = () => {
       payload.push({
         paymentScheduleId: itm?.PaymentScheduleId,
        userId:  profileData?.userId,
-       bankId: values?.bankAccount?.bankId,
-       bankName:values?.bankAccount?.bankName,
-       bankBranchId: values?.bankAccount?.bankBranch_Id,
-       bankBranchName:values?.bankAccount?.bankBranchName,
-       bankAccountId: values?.bankAccount?.value,
-       bankAccountNumber:values?.bankAccount?.bankAccNo,
+       bankId: values?.bankAccount?.bankId || 0,
+       bankName:values?.bankAccount?.bankName || '',
+       bankBranchId: values?.bankAccount?.bankBranch_Id || 0,
+       bankBranchName:values?.bankAccount?.bankBranchName || '',
+       bankAccountId: values?.bankAccount?.value || 0,
+       bankAccountNumber:values?.bankAccount?.bankAccNo || '',
        instrumentTypeId: values?.instrumentType?.value,
        instrumentTypeName:values?.instrumentType?.label,
       })
@@ -94,12 +96,13 @@ const PaymentPrepare = () => {
           (data) => {
             toast.success(data[0]?.Column1 || "Submitted successfully");
             setFieldValue("bankAccount", "");
-            setFieldValue("instrumentType");
+            setFieldValue("instrumentType", "");
             getData(
               getTrustAllLanding(
                 "GetAllPaymentStatusNDonationReciverList",
                 2,
                 filterData?.businessUnit || 4,
+                filterData?.paymentType,
                 filterData?.fromDate,
                 filterData?.toDate
               )
@@ -166,6 +169,32 @@ const PaymentPrepare = () => {
                               />
                             </div>
                           </div>
+                          <div className="col-lg-2 mb-2">
+                            <div className="d-flex align-items-center h-100">
+                              Payment Type
+                            </div>
+                          </div>
+                          <div className="col-lg-4 mb-2">
+                            <div className="d-flex align-items-center">
+                              <span className="mr-2">:</span>
+                              <NewSelect
+                                isHiddenToolTip={true}
+                                name="paymentType"
+                                isHiddenLabel={true}
+                                options={[
+                                  {value: 1, label: 'Zakat'},
+                                  {value: 2, label: 'Donation/Sadaka'}
+                                ]}
+                                value={values?.paymentType}
+                                onChange={(valueOption) => {
+                                  setFieldValue("paymentType", valueOption);
+                                }}
+                                placeholder="Payment Type"
+                                errors={errors}
+                                touched={touched}
+                              />
+                            </div>
+                          </div>
                           <div className="col-lg-12"></div>
                           <div className="col-lg-2 mb-2">
                             <div className="d-flex align-items-center h-100">
@@ -215,17 +244,19 @@ const PaymentPrepare = () => {
                                     "GetAllPaymentStatusNDonationReciverList",
                                     2,
                                     values?.businessUnit?.value || 4,
+                                    values?.paymentType?.value,
                                     values?.fromDate,
-                                    values?.toDate
+                                    values?.toDate,
                                   )
                                 );
                                 setFilterData({
                                   fromDate: values?.fromDate,
                                   toDate: values?.toDate,
                                   businessUnit: values?.businessUnit?.value,
+                                  paymentType: values?.paymentType?.value,
                                 });
                               }}
-                              //  disabled={!values?.fromDate || !values?.toDate}
+                               disabled={!values?.paymentType}
                             >
                               Show Report
                             </button>
@@ -237,6 +268,22 @@ const PaymentPrepare = () => {
                       <div className="col-lg-4"></div>
                       <div className="col-lg-3">
                         <NewSelect
+                          name="instrumentType"
+                          options={instrumentTypeDDL || []}
+                          value={values?.instrumentType}
+                          label="Instrument Type"
+                          onChange={(valueOption) => {
+                            if(["Cash"].includes(valueOption?.label)) {
+                              setFieldValue('bankAccount', '');
+                            };
+                            setFieldValue("instrumentType", valueOption);
+                          }}
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <NewSelect
                           name="bankAccount"
                           options={bankAccountDDL || []}
                           value={values?.bankAccount}
@@ -246,19 +293,7 @@ const PaymentPrepare = () => {
                           }}
                           errors={errors}
                           touched={touched}
-                        />
-                      </div>
-                      <div className="col-lg-3">
-                        <NewSelect
-                          name="instrumentType"
-                          options={instrumentTypeDDL || []}
-                          value={values?.instrumentType}
-                          label="Instrument Type"
-                          onChange={(valueOption) => {
-                            setFieldValue("instrumentType", valueOption);
-                          }}
-                          errors={errors}
-                          touched={touched}
+                          isDisabled={["Cash"].includes(values?.instrumentType?.label)}
                         />
                       </div>
                       <div className="col-lg-2 mt-1">
@@ -266,7 +301,7 @@ const PaymentPrepare = () => {
                           type="button"
                           className="btn btn-primary"
                           style={{ fontSize: "12px", marginTop: "15px" }}
-                          disabled={voucherBtn || !values?.bankAccount || !values?.instrumentType}
+                          disabled={voucherBtn || (!["Cash"].includes(values?.instrumentType?.label) && !values?.bankAccount) || !values?.instrumentType}
                           onClick={() => {
                             voucherSubmitlHandler(values, setFieldValue);
                           }}

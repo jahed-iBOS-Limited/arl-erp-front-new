@@ -15,6 +15,8 @@ const COGSTable = ({ journalData, landingValues, isDayBased }) => {
                   {isDayBased === 1 && (
                      <th>Transaction Date</th>
                   )}
+                  <th>General Ledger Name</th>
+                  <th>Warehouse Name</th>
                   <th>Item Code</th>
                   <th>Item Name</th>
                   {landingValues?.transactionType?.value === 1 && (
@@ -26,7 +28,7 @@ const COGSTable = ({ journalData, landingValues, isDayBased }) => {
                   ) : (
                      <th>Rate</th>
                   )}
-                  
+
                   <th>Amount</th>
                </tr>
             </thead>
@@ -38,12 +40,14 @@ const COGSTable = ({ journalData, landingValues, isDayBased }) => {
                         {isDayBased === 1 && (
                            <td>{item?.dteTransactionDate ? _dateFormatter(item?.dteTransactionDate) : ""}</td>
                         )}
+                        <td className="text-center">{item?.strGeneralLedgerName}</td>
+                        <td className="text-center">{item?.strWarehouseName}</td>
                         <td className="text-center">{item?.strItemCode}</td>
                         <td>{item?.strItemName}</td>
                         {landingValues?.transactionType?.value === 1 && (
                            <td>{item?.strProfitCenterName}</td>
                         )}
-                        
+
                         <td className="text-right">{item?.numQty}</td>
                         {landingValues?.transactionType?.value === 1 ? (
                            <td className="text-right">
@@ -54,7 +58,7 @@ const COGSTable = ({ journalData, landingValues, isDayBased }) => {
                               {item?.numRate.toFixed(2)}
                            </td>
                         )}
-                        
+
                         <td className="text-right">
                            {item?.numValue.toFixed(2)}
                         </td>
