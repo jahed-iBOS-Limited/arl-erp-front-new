@@ -1,13 +1,14 @@
 import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
 
-const Table = ({ rowDto, setRowDto, rowDtoHandler, removeHandler }) => {
-  const { selectedBusinessUnit } = useSelector((state) => {
-    return state?.authData;
-  }, shallowEqual);
-
+const Table = ({
+  rowDto,
+  setRowDto,
+  rowDtoHandler,
+  removeHandler,
+  buSetOne,
+}) => {
   const allSelect = (value) => {
     let _data = [...rowDto];
     const modify = _data.map((item) => {
@@ -25,7 +26,7 @@ const Table = ({ rowDto, setRowDto, rowDtoHandler, removeHandler }) => {
 
   return (
     <div>
-      {[4, 175, 171, 224].includes(selectedBusinessUnit?.value) ? (
+      {buSetOne ? (
         <table className="table table-striped table-bordered mt-3 global-table sales_order_landing_table">
           <thead>
             <tr>

@@ -120,7 +120,7 @@ export default function WarehouseApproveFrom({
       dailyLaboureRate: +values?.decDailyLaboureRate,
       truckToDamQnt: +values?.truckToDamQty,
       truckToDamRate: +values?.truckToDamRate,
-      othersCostQnt: +values?.othersCostQty,
+      othersCostQnt: 1,
       othersCostRate: +values?.othersCostRate,
 
       // all quantity
@@ -564,8 +564,8 @@ export default function WarehouseApproveFrom({
                       </div>
                       <div className="col-lg-3">
                         <InputField
-                          label="Others Cost Rate"
-                          placeholder="Others Cost Rate"
+                          label="Others Cost Amount"
+                          placeholder="Others Cost Amount"
                           value={values?.othersCostRate}
                           name="othersCostRate"
                           type="number"

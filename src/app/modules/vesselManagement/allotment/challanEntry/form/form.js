@@ -70,7 +70,7 @@ export default function _Form({
         if (type === 1) {
           setFieldValue("directRate", resData?.directRate);
           setFieldValue("dumpDeliveryRate", resData?.dumpDeliveryRate);
-          setFieldValue("transportRate", resData?.transportRate);
+          // setFieldValue("transportRate", resData?.transportRate);
         } else if (type === 2) {
           setFieldValue("goDownUnloadLabourRate", resData?.unLoadLabourRate);
         }
@@ -294,6 +294,7 @@ export default function _Form({
                           isDisabled={disableHandler() || id}
                         />
                       </div>
+                      {console.log(errors, "errors")}
                       <div className="col-lg-3">
                         <NewSelect
                           name="logisticBy"
