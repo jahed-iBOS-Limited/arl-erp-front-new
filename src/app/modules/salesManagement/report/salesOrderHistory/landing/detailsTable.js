@@ -1,8 +1,35 @@
 import React from "react";
+import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import Loading from "../../../../_helper/_loading";
 
-export default function CommonTable({ salesOrderData, printRef }) {
+export default function CommonTable({
+  salesOrderData,
+  printRef,
+  buId,
+  values,
+}) {
+  const [, updateSalesOrder, loading] = useAxiosGet();
+
+  const salesOrderUpdate = (item) => {
+    updateSalesOrder(
+      `/oms/SalesInformation/GetSalesOrderPendingInformation?intsoldtopartnerid=${
+        item?.intsoldtopartner
+      }&intbusinessunitid=${buId}&SalesOrderCode=${item?.strsalesordercode ||
+        "'"}&intpartid=${7}`
+    );
+  };
+
+  let totalRequestQty = 0,
+    totalOrderQty = 0,
+    totalDeliveryQty = 0,
+    totalUnDeliveryQty = 0,
+    totalActualDeliveryQty = 0,
+    totalActualUnDeliveryQty = 0,
+    totalActualUnDeliveryAmount = 0;
   return (
     <>
+      {loading && <Loading />}
       <div className="table-responsive">
         <table
           ref={printRef}
@@ -22,6 +49,9 @@ export default function CommonTable({ salesOrderData, printRef }) {
               <th style={{ width: "120px" }}>Actual Delivery Quantity</th>
               <th style={{ width: "120px" }}>Actual Un Delivery Quantity</th>
               <th style={{ width: "120px" }}>Actual Un Delivery Amount</th>
+              {[3].includes(values?.reportName?.value) && (
+                <th style={{ width: "50px" }}>Action</th>
+              )}
             </tr>
           </thead>
 
@@ -30,30 +60,73 @@ export default function CommonTable({ salesOrderData, printRef }) {
               const minusValue =
                 item?.numUndeliveryQuantity < 0 ||
                 item?.numActualUndeliveryQuantity < 0;
+
+              const lessDelivery =
+                item?.numDeliveredQuantity < item?.numActualDeliveredQuantity;
+
+              totalRequestQty += item?.numrequestquantity;
+              totalOrderQty += item?.numorderquantity;
+              totalDeliveryQty += item?.numDeliveredQuantity;
+              totalUnDeliveryQty += item?.numUndeliveryQuantity;
+              totalActualDeliveryQty += item?.numActualDeliveredQuantity;
+              totalActualUnDeliveryQty += item?.numActualUndeliveryQuantity;
+              totalActualUnDeliveryAmount += item?.actualUndelvAmount;
               return (
                 <tr
                   key={index}
-                  style={minusValue ? { backgroundColor: "#ffff0085" } : {}}
+                  style={
+                    lessDelivery
+                      ? { backgroundColor: "#ff00007d" }
+                      : minusValue
+                      ? { backgroundColor: "#ffff0085" }
+                      : {}
+                  }
                 >
                   <td className="text-center">{index + 1}</td>
                   <td>{item?.strsoldtopartner}</td>
                   <td className="text-center">{item?.strChannelName}</td>
                   <td className="text-center">{item?.strshippointname}</td>
                   <td>{item?.strsalesordercode}</td>
-                  <td className="text-center">{item?.numrequestquantity}</td>
-                  <td>{item?.numorderquantity}</td>
-                  <td className="text-center">{item?.numDeliveredQuantity}</td>
-                  <td>{item?.numUndeliveryQuantity}</td>
-                  <td className="text-center">
+                  <td className="text-right">{item?.numrequestquantity}</td>
+                  <td className="text-right">{item?.numorderquantity}</td>
+                  <td className="text-right">{item?.numDeliveredQuantity}</td>
+                  <td className="text-right">{item?.numUndeliveryQuantity}</td>
+                  <td className="text-right">
                     {item?.numActualDeliveredQuantity}
                   </td>
-                  <td className="text-center">
+                  <td className="text-right">
                     {item?.numActualUndeliveryQuantity}
                   </td>
-                  <td className="text-center">{item?.actualUndelvAmount}</td>
+                  <td className="text-right">{item?.actualUndelvAmount}</td>
+                  {[3].includes(values?.reportName?.value) && (
+                    <td className="text-center">
+                      <button
+                        className="btn btn-primary btn-sm"
+                        type="button"
+                        onClick={() => {
+                          salesOrderUpdate(item);
+                        }}
+                      >
+                        Update
+                      </button>
+                    </td>
+                  )}
                 </tr>
               );
             })}
+            <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+              <td className="text-right" colSpan={5}>
+                <b>Total</b>
+              </td>
+              <td>{_fixedPoint(totalRequestQty, true, 0)}</td>
+              <td>{_fixedPoint(totalOrderQty, true, 0)}</td>
+              <td>{_fixedPoint(totalDeliveryQty, true, 0)}</td>
+              <td>{_fixedPoint(totalUnDeliveryQty, true, 0)}</td>
+              <td>{_fixedPoint(totalActualDeliveryQty, true, 0)}</td>
+              <td>{_fixedPoint(totalActualUnDeliveryQty, true, 0)}</td>
+              <td>{_fixedPoint(totalActualUnDeliveryAmount, true, 0)}</td>
+              <td></td>
+            </tr>
           </tbody>
         </table>
       </div>

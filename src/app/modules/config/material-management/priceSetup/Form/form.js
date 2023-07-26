@@ -8,6 +8,7 @@ import ICalendar from "../../../../_helper/_inputCalender";
 import { useDispatch } from "react-redux";
 import { getItemByChannelIdAciton } from "../_redux/Actions";
 import InputField from "../../../../_helper/_inputField";
+import IButton from "../../../../_helper/iButton";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -40,9 +41,34 @@ export default function _Form({
   accountId,
   setDisabled,
   setRowDto,
-  is3BUnit,
+  businessUnitSet,
 }) {
   const dispatch = useDispatch();
+
+  const addClickHandler = (values, setFieldValue) => {
+    if (values.isAllItem) {
+      setAll(values);
+    } else if (values.appsItemRate) {
+      setAppsItemRateAll(values);
+      setFieldValue("appsItemRate", false);
+    } else {
+      const obj = {
+        ...values,
+        itemName: values.item.label,
+        itemId: values.item.value,
+        price: 0,
+      };
+      setter(obj);
+    }
+  };
+
+  const addDisableHandler = (values) => {
+    const result =
+      (!values.isAllItem && !values.item?.value && !values.appsItemRate) ||
+      (businessUnitSet && (!values?.minPrice || !values?.maxPrice));
+
+    return result;
+  };
 
   return (
     <>
@@ -141,7 +167,58 @@ export default function _Form({
                 </div>
               </div>
 
-              <div className="row mt-1 global-form">
+              <div className="row mt-2 global-form">
+                <div className="col-lg-3 mt-5 text-center d-flex justify-content-around">
+                  <div>
+                    <input
+                      type="checkbox"
+                      className="form-check-input"
+                      name="isAllItem"
+                      id="isAllItem"
+                      onChange={(e) => {
+                        setFieldValue("isAllItem", e.target.checked);
+                        setFieldValue(
+                          "appsItemRate",
+                          e.target.checked ? false : values.appsItemRate
+                        );
+                      }}
+                      checked={values?.isAllItem}
+                    />
+                    <label className="text-center pt-1" htmlFor="isAllItem">
+                      All Item
+                    </label>
+                  </div>
+                  {businessUnitSet && (
+                    <div>
+                      <input
+                        type="checkbox"
+                        className="form-check-input "
+                        name="appsItemRate"
+                        id="appsItemRate"
+                        onChange={(e) => {
+                          setFieldValue("appsItemRate", e.target.checked);
+                          setFieldValue("isAllItem", false);
+                          dispatch(
+                            getItemByChannelIdAciton(
+                              accountId,
+                              selectedBusinessUnit?.value,
+                              setDisabled,
+                              values?.conditionTypeRef?.value
+                            )
+                          );
+                        }}
+                        checked={values?.appsItemRate}
+                        disabled={!values?.conditionTypeRef?.value}
+                      />
+                      <label
+                        className="text-center pt-1"
+                        htmlFor="appsItemRate"
+                      >
+                        Apps Item Rate
+                      </label>
+                    </div>
+                  )}
+                </div>
                 <div className="col-lg-3">
                   <ISelect
                     value={values?.item}
@@ -154,9 +231,9 @@ export default function _Form({
                     // isDisabled={!values.item?.value}
                   />
                 </div>
-                {is3BUnit && (
+                {businessUnitSet && (
                   <>
-                    <div className="col-lg-3">
+                    <div className="col-lg-2">
                       <InputField
                         value={values?.minPrice}
                         placeHolder="Min Price"
@@ -164,7 +241,7 @@ export default function _Form({
                         name="minPrice"
                       />
                     </div>
-                    <div className="col-lg-3">
+                    <div className="col-lg-2">
                       <InputField
                         value={values?.maxPrice}
                         placeHolder="Max Price"
@@ -174,82 +251,15 @@ export default function _Form({
                     </div>
                   </>
                 )}
-                <div className="col-lg-3 text-center d-flex justify-content-around">
-                  <div>
-                    <label className="text-center ml-5">All Item</label> <br />
-                    <input
-                      type="checkbox"
-                      className="form-check-input ml-3"
-                      name="isAllItem"
-                      onChange={(e) => {
-                        setFieldValue("isAllItem", e.target.checked);
-                        setFieldValue(
-                          "appsItemRate",
-                          e.target.checked ? false : values.appsItemRate
-                        );
-                      }}
-                      checked={values?.isAllItem}
-                    />
-                  </div>
-                  {[224, 144, 171].includes(selectedBusinessUnit?.value) && (
-                    <>
-                      <div>
-                        <label className="text-center ml-5">
-                          Apps Item Rate
-                        </label>{" "}
-                        <br />
-                        <input
-                          type="checkbox"
-                          className="form-check-input ml-3"
-                          name="appsItemRate"
-                          onChange={(e) => {
-                            setFieldValue("appsItemRate", e.target.checked);
-                            setFieldValue("isAllItem", false);
-                            dispatch(
-                              getItemByChannelIdAciton(
-                                accountId,
-                                selectedBusinessUnit?.value,
-                                setDisabled,
-                                values?.conditionTypeRef?.value
-                              )
-                            );
-                          }}
-                          checked={values?.appsItemRate}
-                          disabled={!values?.conditionTypeRef?.value}
-                        />
-                      </div>
-                    </>
-                  )}
-                </div>
-                <div className="col-lg-12 text-right">
-                  <button
-                    onClick={() => {
-                      if (values.isAllItem) {
-                        setAll(values);
-                      } else if (values.appsItemRate) {
-                        setAppsItemRateAll(values);
-                        setFieldValue("appsItemRate", false);
-                      } else {
-                        const obj = {
-                          ...values,
-                          itemName: values.item.label,
-                          itemId: values.item.value,
-                          price: 0,
-                        };
-                        setter(obj);
-                      }
-                    }}
-                    disabled={
-                      !values.isAllItem &&
-                      !values.item?.value &&
-                      !values.appsItemRate
-                    }
-                    type="button"
-                    className="btn btn-primary mt-2"
-                  >
-                    ADD
-                  </button>
-                </div>
+
+                <IButton
+                  onClick={() => {
+                    addClickHandler(values, setFieldValue);
+                  }}
+                  disabled={addDisableHandler(values)}
+                >
+                  ADD
+                </IButton>
               </div>
 
               <div>
@@ -261,9 +271,7 @@ export default function _Form({
                         {/* <th>Item Code</th> */}
                         <th>Item Name</th>
                         <th>Price</th>
-                        {[224, 144, 171].includes(
-                          selectedBusinessUnit?.value
-                        ) && (
+                        {businessUnitSet && (
                           <>
                             <th>Max price addition</th>
                             <th>Min price deduction</th>
@@ -288,9 +296,7 @@ export default function _Form({
                               step="any"
                             />
                           </td>
-                          {[224, 144, 171].includes(
-                            selectedBusinessUnit?.value
-                          ) && (
+                          {businessUnitSet && (
                             <>
                               <td>
                                 <input

@@ -47,7 +47,19 @@ export default function PriceSetupForm({
     shallowEqual
   );
 
-  const is3BUnit = [224, 144, 171].includes(selectedBusinessUnit?.value);
+  const businessUnitSet = [
+    224,
+    144,
+    171,
+    178,
+    180,
+    181,
+    182,
+    183,
+    212,
+    213,
+    216,
+  ].includes(selectedBusinessUnit?.value);
 
   // get DDLs from store
   const {
@@ -116,7 +128,7 @@ export default function PriceSetupForm({
 
   const saveHandler = async (values, cb) => {
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
-      if (is3BUnit) {
+      if (businessUnitSet) {
         const payload = {
           rowString: rowDto
             ?.filter((item) => item?.price > 0)
@@ -238,7 +250,7 @@ export default function PriceSetupForm({
         setAppsItemRateAll={setAppsItemRateAll}
         setDisabled={setDisabled}
         setRowDto={setRowDto}
-        is3BUnit={is3BUnit}
+        businessUnitSet={businessUnitSet}
       />
     </IForm>
   );
