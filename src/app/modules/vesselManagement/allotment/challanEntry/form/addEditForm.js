@@ -267,10 +267,10 @@ export default function ChallanEntryForm() {
       case "motherVessel":
         setFieldValue("motherVessel", currentValue);
         setFieldValue("programNo", currentValue?.programNo);
-         setFieldValue("item", {
-           value: currentValue?.intProductId,
-           label: currentValue?.strProductName,
-         });
+        setFieldValue("item", {
+          value: currentValue?.intProductId,
+          label: currentValue?.strProductName,
+        });
         if (currentValue) {
           getLightersForChallan(
             values?.shipPoint?.value,
@@ -393,7 +393,7 @@ export default function ChallanEntryForm() {
           totalShippingValue: "",
           totalTax: "",
           netValue: "",
-          transportRate: "",
+          transportRate: values?.transportRate || "",
           // nEED tO Confirm
           emptyBag: "",
 
