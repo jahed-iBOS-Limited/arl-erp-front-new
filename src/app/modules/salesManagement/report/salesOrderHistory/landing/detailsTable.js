@@ -1,7 +1,25 @@
 import React from "react";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import Loading from "../../../../_helper/_loading";
 
-export default function CommonTable({ salesOrderData, printRef }) {
+export default function CommonTable({
+  salesOrderData,
+  printRef,
+  buId,
+  values,
+}) {
+  const [, updateSalesOrder, loading] = useAxiosGet();
+
+  const salesOrderUpdate = (item) => {
+    updateSalesOrder(
+      `/oms/SalesInformation/GetSalesOrderPendingInformation?intsoldtopartnerid=${
+        item?.intsoldtopartner
+      }&intbusinessunitid=${buId}&SalesOrderCode=${item?.strsalesordercode ||
+        "'"}&intpartid=${7}`
+    );
+  };
+
   let totalRequestQty = 0,
     totalOrderQty = 0,
     totalDeliveryQty = 0,
@@ -11,6 +29,7 @@ export default function CommonTable({ salesOrderData, printRef }) {
     totalActualUnDeliveryAmount = 0;
   return (
     <>
+      {loading && <Loading />}
       <div className="table-responsive">
         <table
           ref={printRef}
@@ -30,6 +49,9 @@ export default function CommonTable({ salesOrderData, printRef }) {
               <th style={{ width: "120px" }}>Actual Delivery Quantity</th>
               <th style={{ width: "120px" }}>Actual Un Delivery Quantity</th>
               <th style={{ width: "120px" }}>Actual Un Delivery Amount</th>
+              {[3].includes(values?.reportName?.value) && (
+                <th style={{ width: "50px" }}>Action</th>
+              )}
             </tr>
           </thead>
 
@@ -76,6 +98,19 @@ export default function CommonTable({ salesOrderData, printRef }) {
                     {item?.numActualUndeliveryQuantity}
                   </td>
                   <td className="text-right">{item?.actualUndelvAmount}</td>
+                  {[3].includes(values?.reportName?.value) && (
+                    <td className="text-center">
+                      <button
+                        className="btn btn-primary btn-sm"
+                        type="button"
+                        onClick={() => {
+                          salesOrderUpdate(item);
+                        }}
+                      >
+                        Update
+                      </button>
+                    </td>
+                  )}
                 </tr>
               );
             })}
@@ -90,6 +125,7 @@ export default function CommonTable({ salesOrderData, printRef }) {
               <td>{_fixedPoint(totalActualDeliveryQty, true, 0)}</td>
               <td>{_fixedPoint(totalActualUnDeliveryQty, true, 0)}</td>
               <td>{_fixedPoint(totalActualUnDeliveryAmount, true, 0)}</td>
+              <td></td>
             </tr>
           </tbody>
         </table>
