@@ -161,7 +161,7 @@ export default function AssetStandardPOCreateForm({
         const newData = {
           ...values,
           item: { ...values?.item },
-          desc: values?.item?.quotationEntryRemarks === "" ? values?.item?.description : values?.item?.quotationEntryRemarks ,
+          desc: values?.item?.quotationEntryRemarks === "" ? values?.item?.description : values?.item?.quotationEntryRemarks || "",
           selectedUom: {
             value: values?.item?.uoMId,
             label: values?.item?.uoMName,
@@ -274,7 +274,7 @@ export default function AssetStandardPOCreateForm({
   const basicAmountFromExcelToUI = (excelDataForAmount) => {
     excelDataForAmount.forEach((excelElement, excelIndex) => {
       rowDto.forEach((rowElement, rowIndex) => {
-        if(excelElement?.Item.trim().toLowerCase() === rowElement?.item?.itemName.trim().toLowerCase()){
+        if (excelElement?.Item.trim().toLowerCase() === rowElement?.item?.itemName.trim().toLowerCase()) {
           rowDtoDynamicHandler(
             "basicPrice",
             excelElement?.Price || 0,
@@ -287,23 +287,23 @@ export default function AssetStandardPOCreateForm({
     });
   }
 
-//   const getPercentageValue = (item) =>{
-//     if(!item?.numDiscountPercentage){
-//        return 0;
-//     }
-//     return Number(((item?.numDiscountPercentage / 100) * item?.numTotalSumValue).toFixed(2)) || 0; 
-//  }
+  //   const getPercentageValue = (item) =>{
+  //     if(!item?.numDiscountPercentage){
+  //        return 0;
+  //     }
+  //     return Number(((item?.numDiscountPercentage / 100) * item?.numTotalSumValue).toFixed(2)) || 0; 
+  //  }
 
- const getRunTimeGrossDiscount = (discountData) =>{
+  const getRunTimeGrossDiscount = (discountData) => {
 
-  if(!discountData){
-    return 0;
+    if (!discountData) {
+      return 0;
+    }
+
+    const totalBasic = discountData.reduce((acc, cur) => acc + +cur?.netValue, 0)
+    const discount = (totalBasic * discountData[0]?.discountPercentage) / 100
+    return Number((discount || 0).toFixed(2))
   }
-
-  const totalBasic = discountData.reduce((acc, cur) => acc + +cur?.netValue, 0)
-  const discount = (totalBasic * discountData[0]?.discountPercentage) / 100
-  return Number((discount || 0).toFixed(2))
- }
 
   useEffect(() => {
     getTransferBu(
@@ -358,7 +358,7 @@ export default function AssetStandardPOCreateForm({
                       selectedValue={values.supplierName}
                       handleChange={(valueOption) => {
                         setFieldValue("supplierName", valueOption);
-                        if(location?.state?.refType?.value === 4){
+                        if (location?.state?.refType?.value === 4) {
                           getRefNoDdlForStandradPo(
                             profileData?.accountId,
                             selectedBusinessUnit?.value,
@@ -370,9 +370,9 @@ export default function AssetStandardPOCreateForm({
                             location?.state?.warehouse?.value,
                             setRefNoDDL
                           );
-                        }                       
+                        }
                         setRowDto([])
-                        setFieldValue("referenceNo", "")                       
+                        setFieldValue("referenceNo", "")
                       }}
                       loadOptions={(v) => {
                         if (v.length < 3) return [];
@@ -437,7 +437,7 @@ export default function AssetStandardPOCreateForm({
                           name={item.name}
                           isDisabled={
                             item?.name === "incoterms" &&
-                            location?.state?.purchaseOrg?.label ===
+                              location?.state?.purchaseOrg?.label ===
                               "Foreign Procurement"
                               ? false
                               : item?.disabled
@@ -484,9 +484,9 @@ export default function AssetStandardPOCreateForm({
                       name={"freight"}
                       type={"number"}
                       onChange={(e) => {
-                        if(e.target.value > 0){
+                        if (e.target.value > 0) {
                           setFieldValue("freight", e.target.value);
-                        }else{                           
+                        } else {
                           setFieldValue("freight", "");
                         }
                       }}
@@ -499,9 +499,9 @@ export default function AssetStandardPOCreateForm({
                       name="othersCharge"
                       type="number"
                       onChange={(e) => {
-                        if(e.target.value > 0){
+                        if (e.target.value > 0) {
                           setFieldValue("othersCharge", e.target.value);
-                        }else{                           
+                        } else {
                           setFieldValue("othersCharge", "");
                         }
                       }}
@@ -510,13 +510,13 @@ export default function AssetStandardPOCreateForm({
                   <div className="col-lg-2">
                     <IInput
                       value={values.discount}
-                      label={location?.state?.refType?.value === 4 ? `Gross Discount (${values?.referenceNo?.numDiscountPercentage ? values?.referenceNo?.numDiscountPercentage : ""}%)` : "Gross Discount" }
+                      label={location?.state?.refType?.value === 4 ? `Gross Discount (${values?.referenceNo?.numDiscountPercentage ? values?.referenceNo?.numDiscountPercentage : ""}%)` : "Gross Discount"}
                       name={"discount"}
                       type={"number"}
                       onChange={(e) => {
-                        if(e.target.value > 0){
+                        if (e.target.value > 0) {
                           setFieldValue("discount", e.target.value);
-                        }else{                           
+                        } else {
                           setFieldValue("discount", "");
                         }
                       }}
@@ -530,7 +530,7 @@ export default function AssetStandardPOCreateForm({
                       type={"number"}
                     />
                   </div> */}
-                  
+
                   <div className="col-lg-2">
                     <IInput
                       value={values?.leadTimeDays}
@@ -748,8 +748,8 @@ export default function AssetStandardPOCreateForm({
                         // || !values?.supplierName
                       }
                       name="referenceNo"
-                      dependencyFunc={(value, allValues, setFieldValue,label, valueOption) => {  
-                        if(valueOption){
+                      dependencyFunc={(value, allValues, setFieldValue, label, valueOption) => {
+                        if (valueOption) {
                           setRowDto([])
                           setFieldValue("item", "");
                           if (location?.state?.refType?.value) {
@@ -759,19 +759,19 @@ export default function AssetStandardPOCreateForm({
                               value
                             );
                           }
-                          if(location?.state?.refType?.value === 4){
+                          if (location?.state?.refType?.value === 4) {
                             setFieldValue("othersCharge", valueOption?.numOthersCost)
                             setFieldValue("freight", valueOption?.numTransportCost)
                             //setFieldValue("discount", getPercentageValue(valueOption))
-                          } 
-                          }else{
-                            setRowDto([])
-                            setFieldValue("item", "");
-                            setFieldValue("othersCharge", "")
-                            setFieldValue("freight", "")
-                            //setFieldValue("discount", getPercentageValue(valueOption))
-                          }          
-                        }}
+                          }
+                        } else {
+                          setRowDto([])
+                          setFieldValue("item", "");
+                          setFieldValue("othersCharge", "")
+                          setFieldValue("freight", "")
+                          //setFieldValue("discount", getPercentageValue(valueOption))
+                        }
+                      }}
                       setFieldValue={setFieldValue}
                       errors={errors}
                       touched={touched}
@@ -790,22 +790,14 @@ export default function AssetStandardPOCreateForm({
                           if (v.length < 3) return [];
                           return axios
                             .get(
-                              `/procurement/PurchaseOrderItemDDL/StandardPurchaseOrderItemList?ItemTypeId=0&OrderTypeId=${
-                                location?.state?.orderType?.value
-                              }&AccountId=${
-                                profileData?.accountId
-                              }&BusinessUnitId=${
-                                selectedBusinessUnit?.value
-                              }&SbuId=${
-                                location?.state?.sbu?.value
-                              }&PurchaseOrgId=${
-                                location?.state?.purchaseOrg?.value
-                              }&PlantId=${
-                                location?.state?.plant?.value
-                              }&WearhouseId=${
-                                location?.state?.warehouse?.value
-                              }&RefTypeId=${
-                                location?.state?.refType?.value
+                              `/procurement/PurchaseOrderItemDDL/StandardPurchaseOrderItemList?ItemTypeId=0&OrderTypeId=${location?.state?.orderType?.value
+                              }&AccountId=${profileData?.accountId
+                              }&BusinessUnitId=${selectedBusinessUnit?.value
+                              }&SbuId=${location?.state?.sbu?.value
+                              }&PurchaseOrgId=${location?.state?.purchaseOrg?.value
+                              }&PlantId=${location?.state?.plant?.value
+                              }&WearhouseId=${location?.state?.warehouse?.value
+                              }&RefTypeId=${location?.state?.refType?.value
                               }&RefNoId=${0}&searchTerm=${v}`
                             )
                             .then((res) => {
@@ -815,7 +807,7 @@ export default function AssetStandardPOCreateForm({
                               return updateList;
                             });
                         }}
-                        // isDisabled={!values?.supplierName}
+                      // isDisabled={!values?.supplierName}
                       />
                       <FormikError
                         errors={errors}
@@ -886,8 +878,8 @@ export default function AssetStandardPOCreateForm({
                             ? !values.item
                             : false
                           : !values.isAllItem
-                          ? !values.referenceNo || !values.item
-                          : !values.referenceNo
+                            ? !values.referenceNo || !values.item
+                            : !values.referenceNo
                       }
                       style={{
                         marginTop: "20px",
@@ -906,8 +898,8 @@ export default function AssetStandardPOCreateForm({
                     >
                       Add
                     </button>
-                  </div>                  
-                    {rowDto?.length > 0 && 
+                  </div>
+                  {rowDto?.length > 0 &&
                     <>
                       <div className="col-lg-1">
                         <button
@@ -919,9 +911,9 @@ export default function AssetStandardPOCreateForm({
                           Upload
                           <i className="fa fa-upload ml-2"></i>
                         </button>
-                  </div>
+                      </div>
                     </>
-                    }
+                  }
                   <div
                     style={{ transform: "translateY(23px)" }}
                     className="col-lg"
@@ -957,7 +949,7 @@ export default function AssetStandardPOCreateForm({
                   setDisabled(true);
                   const data = await excelFileToArray(
                     excelFiles[0].file,
-                    excelFiles[0].name                    
+                    excelFiles[0].name
                   );
                   //setExcelDataForAmount(data);
                   setExcelFiles([]);
