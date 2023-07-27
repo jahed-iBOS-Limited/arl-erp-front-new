@@ -136,8 +136,11 @@ function _Form({ gridItem, laingValues, girdDataFunc, setModalShow }) {
   // rowdto handler for catch data from row's input field in rowTable
   const rowDtoHandler = (name, value, sl, setFieldValue, item) => {
     let data = [...expanseBillDetail];
-    if(+value < item?.adjustmentAmount || +value > item?.lineManagerAmountForCondition){
-      return toast.warn("Line Manager amount can not be less than Adjustment amount and greater than Self");
+    if(+value < (+item?.adjustmentAmount || 0)){
+      return toast.warn("Line Manager amount can not be less than Adjustment amount");
+    }
+    if(+value > (+item?.lineManagerAmountForCondition || 0)){
+      return toast.warn("Line Manager amount can not be greater than Line Manager Approval amount");
     }
     if (+value > item?.requestAmount) {
       return toast.warning("Invalid amount", { toastId: "requestAmount" });
