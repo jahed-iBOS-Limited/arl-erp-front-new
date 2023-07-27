@@ -500,6 +500,7 @@ export default function DeliverySalesPending() {
                                   <th>Delivery Order Date & Time</th>
                                   <th>Item Name</th>
                                   <th>SO No.</th>
+                                  <th>ShipPoint</th>
                                   <th>SO Date</th>
                                   <th>Order Qty</th>
                                   <th>Customer Delivery</th>
@@ -547,6 +548,7 @@ export default function DeliverySalesPending() {
                                         </td>
                                         <td>{item?.itemName}</td>
                                         <td>{item?.salesOrderCode}</td>
+                                        <td>{item?.shippointName}</td>
                                         <td>
                                           {item?.salesOrderDate &&
                                             moment(item?.salesOrderDate).format(
