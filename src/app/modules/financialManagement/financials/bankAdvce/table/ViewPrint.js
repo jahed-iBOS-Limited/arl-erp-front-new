@@ -134,6 +134,7 @@ const ViewData = ({ adviceReportData, values }) => {
       >
         {adviceReportData?.length > 0 && (
           <div className="row" unselectable="on">
+            {/* {console.log("t",values?.adviceType?.value, values?.advice?.value)} */}
             <div className="col-lg-12 my-3">
               <>
                 <div
@@ -250,6 +251,18 @@ const ViewData = ({ adviceReportData, values }) => {
                       totalInWords={totalInWords}
                     />
                   )}
+                  {values?.advice?.label === "JAMUNA-RTGS" &&
+                    <FormatFour
+                      fontSize={fontSize}
+                      APIUrl={APIUrl}
+                      selectedBusinessUnit={selectedBusinessUnit}
+                      values={values}
+                      adviceReportData={adviceReportData}
+                      total={total}
+                      totalInWords={totalInWords}
+                      isJamunaRtgs
+                  />
+                  }
                 </div>
               </>
             </div>
