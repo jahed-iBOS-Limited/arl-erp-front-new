@@ -34,9 +34,13 @@ const validationSchema = Yup.object().shape({
   approveAmount: Yup.number()
     .min(0, "Minimum 0 number")
     .required("Approve amount required")
-    .test("approveAmount", "invalid number ", function(value) {
-      return this.parent.approveAmountMax >= value;
-    }),
+    // .test("approveAmount", "invalid number ", function(value) {
+    //   return this.parent.approveAmountMax >= value;
+    // })
+    ,
+    netAmount: Yup.number()
+    .min(0, "Minimum 0 number")
+    .required("Net amount required"),
 });
 function _Form({ gridItem, laingValues, girdDataFunc, setModalShow }) {
   const profileData = useSelector((state) => {
@@ -132,6 +136,12 @@ function _Form({ gridItem, laingValues, girdDataFunc, setModalShow }) {
   // rowdto handler for catch data from row's input field in rowTable
   const rowDtoHandler = (name, value, sl, setFieldValue, item) => {
     let data = [...expanseBillDetail];
+    if(+value < (+item?.adjustmentAmount || 0)){
+      return toast.warn("Line Manager amount can not be less than Adjustment amount");
+    }
+    if(+value > (+item?.lineManagerAmountForCondition || 0)){
+      return toast.warn("Line Manager amount can not be greater than Line Manager Approval amount");
+    }
     if (+value > item?.requestAmount) {
       return toast.warning("Invalid amount", { toastId: "requestAmount" });
     }
@@ -423,6 +433,9 @@ function _Form({ gridItem, laingValues, girdDataFunc, setModalShow }) {
                                   Line Manager Req. Amount
                                 </th>
                                 <th style={{ width: "150px" }}>
+                                  Adjustment Amount
+                                </th>
+                                <th style={{ width: "150px" }}>
                                   Line Manager Amount
                                 </th>
                                 <th style={{ width: "150px" }}>Remarks</th>
@@ -443,6 +456,7 @@ function _Form({ gridItem, laingValues, girdDataFunc, setModalShow }) {
                                   <td>{item?.employeeFullName}</td>
                                   <td>{item?.expenseGroup}</td>
                                   <td>{item?.requestAmount}</td>
+                                  <td>{item?.adjustmentAmount}</td>
                                   <td>
                                     <IInput
                                       value={item?.lineManagerAmount}
@@ -474,7 +488,7 @@ function _Form({ gridItem, laingValues, girdDataFunc, setModalShow }) {
                                 </tr>
                               ))}
                               <tr>
-                                <td className="text-right" colspan="6">
+                                <td className="text-right" colspan="7">
                                   Total
                                 </td>
 
