@@ -916,6 +916,15 @@ export default function _Form({
                         type="date"
                       />
                     </div>
+                    <div className="col-lg-4">
+                      <InputField
+                        label="Issue Date"
+                        value={values?.issueDate}
+                        name="issueDate"
+                        placeholder="Issue Date"
+                        type="date"
+                      />
+                    </div>
                     <div className="col d-flex justify-content-end align-items-center mt-2">
                       <button
                         style={{ padding: "5px" }}
@@ -932,6 +941,7 @@ export default function _Form({
                             branchId: values?.branchName?.value || 0,
                             refNo: values?.refNo || "",
                             expireDate: values?.expireDate || "",
+                            issueDate: values?.issueDate || "",
                           };
                           morgazeSetter(obj);
                         }}
@@ -963,6 +973,7 @@ export default function _Form({
                               <th>Branch Name</th>
                               <th>Ref No.</th>
                               <th>Expire Date</th>
+                              <th>Issue Date</th>
                               <th>Action</th>
                             </tr>
                           </thead>
@@ -978,6 +989,7 @@ export default function _Form({
                                   <td>{itm?.branchName}</td>
                                   <td>{itm?.refNo}</td>
                                   <td>{itm?.expireDate}</td>
+                                  <td>{itm?.issueDate}</td>
                                   <td className="text-center">
                                     <IDelete
                                       remover={morgazeRemover}
