@@ -385,7 +385,7 @@ export function InventoryTransactionReportViewTableRow({
                             <td></td>
                             <td></td> */}
                               {/* <td colspan={+grId === 13 ? "9" : "5"}></td> */}
-                              <td colspan={+grId === 13 ? "9" : "5"}></td>
+                              <td colspan={"5"}></td>
                               <td className="font-weight-bold">Total</td>
                               {/* <td className="text-right">{data?.currentStock}</td> */}
                               <td className="text-right">
