@@ -56,7 +56,7 @@ export function InventoryTransactionReportViewTableRow({
   }, shallowEqual);
 
   useEffect(() => {
-    if (+grId === 4) {
+    if (+grId === 4 || +grId === 13) {
       getReportForInvReqW2w(Invid, setiIemReqReport);
     } else if (+grId === 9) {
       getReportForInvReqInternal(Invid, setiIemReqReport);
@@ -330,12 +330,7 @@ export function InventoryTransactionReportViewTableRow({
                           </>
                         )}
                       </div>
-                      {+grId === 4 ? (
-                        ""
-                      ) : +grId === 9 ? (
-                        ""
-                      ) : (
-                        <table
+                      {![4, 9, 13].includes(+grId) ?  <table
                           className="table table-striped table-bordered global-table"
                           id="table-to-xlsx"
                         >
@@ -344,10 +339,10 @@ export function InventoryTransactionReportViewTableRow({
                               <th>SL</th>
                               <th>Item Code</th>
                               <th>Item Name</th>
-                              {+grId === 13 ? <><th>To Plant Name</th>
+                              {/* {+grId === 13 ? <><th>To Plant Name</th>
                               <th>From Plant Name</th>
                               <th>To Warehouse Name</th>
-                              <th>From Warehouse Name</th></> : null}
+                              <th>From Warehouse Name</th></> : null} */}
                               <th>Uom</th>
                               <th>Location</th>
                               <th>Bin Number</th>
@@ -361,10 +356,10 @@ export function InventoryTransactionReportViewTableRow({
                                 <td className="text-center">{i + 1}</td>
                                 <td>{data?.itemCode}</td>
                                 <td>{data?.itemName}</td>
-                                {+grId === 13 ? <><td>{data?.toPlantName}</td>
+                                {/* {+grId === 13 ? <><td>{data?.toPlantName}</td>
                                 <td>{data?.fromPlantName}</td>
                                 <td>{data?.toWarehouseName}</td>
-                                <td>{data?.fromWarehouseName}</td></> : null}
+                                <td>{data?.fromWarehouseName}</td></> : null} */}
                                 <td>{data?.uomName}</td>
                                 <td>
                                   {data?.inventoryLocationName}
@@ -389,6 +384,7 @@ export function InventoryTransactionReportViewTableRow({
                             <td></td>
                             <td></td>
                             <td></td> */}
+                              {/* <td colspan={+grId === 13 ? "9" : "5"}></td> */}
                               <td colspan={+grId === 13 ? "9" : "5"}></td>
                               <td className="font-weight-bold">Total</td>
                               {/* <td className="text-right">{data?.currentStock}</td> */}
@@ -397,10 +393,9 @@ export function InventoryTransactionReportViewTableRow({
                               </td>
                             </tr>
                           </tbody>
-                        </table>
-                      )}
+                        </table> : null}
 
-                      {+grId === 4 && (
+                      {[4, 13].includes(+grId) ? (
                         <table
                           className="table table-striped table-bordered global-table"
                           id="table-to-xlsx"
@@ -441,9 +436,9 @@ export function InventoryTransactionReportViewTableRow({
                             ))}
                           </tbody>
                         </table>
-                      )}
+                      ) : null}
 
-                      {+grId === 9 && (
+                      {[9].includes(+grId) ? (
                         <table
                           className="table table-striped table-bordered global-table"
                           id="table-to-xlsx"
@@ -473,7 +468,7 @@ export function InventoryTransactionReportViewTableRow({
                             ))}
                           </tbody>
                         </table>
-                      )}
+                      ) : null}
 
                       <div className="mt-3">
                         <div className="d-flex">
