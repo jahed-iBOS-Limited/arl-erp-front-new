@@ -16,7 +16,7 @@ const headers = [
   { name: "Approved by HR" },
 ];
 
-const ApproveTable = ({ obj }) => {
+const RevenueVariance = ({ obj }) => {
   const { rowData, setRowData, userId, setShow } = obj;
   const [loading, setLoading] = useState(false);
 
@@ -160,4 +160,4 @@ const ApproveTable = ({ obj }) => {
   );
 };
 
-export default ApproveTable;
+export default RevenueVariance;

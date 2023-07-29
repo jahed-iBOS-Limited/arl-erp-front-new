@@ -8,8 +8,10 @@ export function getSalesOrgDDL(accId, buId) {
 }
 
 //Call sales org
-export function getSpecificationDDL(accId, buId) {
-  return axios.get(`/oms/SalesQuotation/GetSpecificationDDL`);
+export function getSpecificationDDL(buId) {
+  return axios.get(
+    `/oms/SalesQuotation/GetSpecificationDDL?businessUnitId=${buId}`
+  );
 }
 
 //Call sales org
