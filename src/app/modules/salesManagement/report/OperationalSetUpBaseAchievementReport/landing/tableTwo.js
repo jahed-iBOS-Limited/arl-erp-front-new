@@ -39,6 +39,7 @@ export default function TableTwo({ obj }) {
             <th style={{ width: "80px" }}>Total Visited Customer</th>
             <th style={{ width: "80px" }}>Total New Customer</th>
             <th style={{ width: "80px" }}>Salesforce Enroll</th>
+            <th style={{ width: "50px" }}>Action</th>
           </tr>
         </thead>
 
@@ -95,6 +96,11 @@ export default function TableTwo({ obj }) {
                 <td className="text-right">{item?.intTotalVisitedCustomer}</td>
                 <td className="text-right">{item?.intTotalNewCustomer}</td>
                 <td className="text-left">{item?.intSalesForceEnrol}</td>
+                <td className="text-center">
+                  <button className="btn btn-primary btn-sm" type="button">
+                    Update
+                  </button>
+                </td>
               </tr>
             );
           })}
@@ -120,7 +126,7 @@ export default function TableTwo({ obj }) {
             <td className="text-right">
               {_fixedPoint(monSeventyPercentTRTtotal, true)}
             </td>
-            <td colSpan={2}></td>
+            <td colSpan={3}></td>
           </tr>
         </tbody>
       </table>
