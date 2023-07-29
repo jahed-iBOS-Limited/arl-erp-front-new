@@ -1,161 +1,148 @@
-import React, { useState } from "react";
-import { toast } from "react-toastify";
+import { Formik } from "formik";
+import React from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import TextArea from "../../../../_helper/TextArea";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import Loading from "../../../../_helper/_loading";
-import { approveExpense } from "../helper";
-
-const headers = [
-  { name: "SL" },
-  { name: "Employee" },
-  { name: "Designation" },
-  { name: "Bank Name" },
-  { name: "Account Number" },
-  { name: "Application Amount" },
-  { name: "Approved by Supervisor" },
-  { name: "Approved by Line Manager" },
-  { name: "Approved by HR" },
-];
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
 const RevenueVariance = ({ obj }) => {
-  const { rowData, setRowData, userId, setShow } = obj;
-  const [loading, setLoading] = useState(false);
+  const { setShow, item } = obj;
+  // get selected business unit from store
+  const {
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => state.authData, shallowEqual);
 
-  const selectedItems = rowData?.filter((e) => e?.isSelected);
+  const [, postData, loader] = useAxiosPost();
 
-  const rowDataHandler = (name, index, value) => {
-    let _data = [...rowData];
-    _data[index][name] = value;
-    setRowData(_data);
+  const collectionDetailsEntry = (values) => {
+    const payload = [
+      {
+        sl: 0,
+        id: 0,
+        businessUnitId: buId,
+        territoryId: item?.intTerritoryId,
+        territoryName: item?.nl7 || "",
+        channelId: 0,
+        channelName: item?.nl5 || "",
+        employeeId: 0,
+        employeeName: item?.strEmployeeName || "",
+        levelId: 0,
+        typeId: 0,
+        dayId: 0,
+        weekId: 0,
+        monthId: 0,
+        monthName: "string",
+        yearId: 0,
+        revenueTarget: item?.monTotalRevenueTarget,
+        revenueAchievement: item?.monCollectionAmount,
+        achievementPercentage: item?.monAchv,
+        reason: values?.reason,
+        stepForAchievement: "string",
+        firstWeekTarget: item?.decFirstWeekTarget,
+        firstWeekRevenue: item?.decFirstWeekRevenue,
+        secondWeekTarget: item?.decSecondWeekTarget,
+        secondWeekRevenue: item?.decSecondWeekRevenue,
+        thirdWeekTarget: item?.decThirdWeekTarget,
+        thirdWeekRevenue: item?.decThirdWeekRevenue,
+        fourthWeekTarget: item?.decFourthWeekTarget,
+        fourthWeekRevenue: item?.decFourthWeekRevenue,
+      },
+    ];
+    postData(
+      `/oms/Complains/TargetAndCollectionDetailsEntry`,
+      payload,
+      () => {
+        setShow(false);
+      },
+      true
+    );
   };
-
-  const allSelect = (value) => {
-    let _data = [...rowData];
-    const modify = _data.map((item) => ({ ...item, isSelected: value }));
-    setRowData(modify);
-  };
-
-  const selectedAll =
-    rowData?.length > 0 && selectedItems?.length === rowData?.length;
-
-  const expenseApprove = () => {
-    if (selectedItems?.length < 1) {
-      return toast.warn("Please select at least one row!");
-    }
-    const payload = selectedItems?.map((element) => ({
-      expenseId: element?.intexpenseid,
-      expenseRowId: element?.introwid,
-      businessUnitId: element?.intunitid,
-      hrApproveBy: userId,
-    }));
-    approveExpense(payload, setLoading, () => {
-      setShow(false);
-    });
-  };
-
-  let totalApprovedBySupervisor = 0,
-    totalApprovedByLineManager = 0,
-    totalApplicationAmount = 0;
 
   return (
     <>
-      {loading && <Loading />}
-      <div>
-        <div className="text-right">
-          <button
-            className={"btn btn-info mt-1"}
-            onClick={() => {
-              expenseApprove();
-            }}
-            type="button"
-            disabled={!selectedItems?.length}
-          >
-            Approve
-          </button>
-        </div>
-        <table className="table mt-3 bj-table bj-table-landing">
-          <thead style={{ borderTop: "1px solid rgb(207, 203, 203)" }}>
-            <tr>
-              <th
-                onClick={() => allSelect(!selectedAll)}
-                style={{ minWidth: "30px" }}
-              >
-                <input
-                  type="checkbox"
-                  value={selectedAll}
-                  checked={selectedAll}
-                  onChange={() => {}}
+      {loader && <Loading />}
+      <Formik enableReinitialize={true} initialValues={{ reason: "" }}>
+        {({ values }) => (
+          <>
+            <div>
+              <div className="text-right">
+                <button
+                  className={"btn btn-info mt-1"}
+                  onClick={() => {
+                    collectionDetailsEntry(values);
+                  }}
+                  type="button"
+                  disabled={!values?.reason}
+                >
+                  Submit
+                </button>
+              </div>
+              <table className="table mt-3 bj-table bj-table-landing">
+                <thead
+                  style={{
+                    borderTop: "1px solid rgb(207, 203, 203)",
+                  }}
+                >
+                  <tr>
+                    <th colSpan={2}>First Week</th>
+                    <th colSpan={2}>Second Week</th>
+                    <th colSpan={2}>Third Week</th>
+                    <th colSpan={2}>Fourth Week</th>
+                  </tr>
+                  <tr>
+                    <th>Target</th>
+                    <th>Revenue</th>
+                    <th>Target</th>
+                    <th>Revenue</th>
+                    <th>Target</th>
+                    <th>Revenue</th>
+                    <th>Target</th>
+                    <th>Revenue</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="text-center">
+                      {_fixedPoint(item?.decFirstWeekTarget, true)}
+                    </td>
+                    <td className="text-center">
+                      {_fixedPoint(item?.decFirstWeekRevenue, true)}
+                    </td>
+                    <td className="text-center">
+                      {_fixedPoint(item?.decSecondWeekTarget, true)}
+                    </td>
+                    <td className="text-center">
+                      {_fixedPoint(item?.decSecondWeekRevenue, true)}
+                    </td>
+                    <td className="text-center">
+                      {_fixedPoint(item?.decThirdWeekTarget, true)}
+                    </td>
+                    <td className="text-center">
+                      {_fixedPoint(item?.decThirdWeekRevenue, true)}
+                    </td>
+                    <td className="text-center">
+                      {_fixedPoint(item?.decFourthWeekTarget, true)}
+                    </td>
+                    <td className="text-center">
+                      {_fixedPoint(item?.decFourthWeekRevenue, true)}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div className="global-form">
+                <label>Reason</label>
+                <TextArea
+                  name="reason"
+                  value={values?.reason}
+                  placeholder="Reason"
+                  rows="4"
                 />
-              </th>
-              {headers.map((th, index) => {
-                return th && !th.isHide ? (
-                  <th key={index} style={th.style}>
-                    {th.name}
-                  </th>
-                ) : null;
-              })}
-            </tr>
-          </thead>
-          <tbody>
-            {rowData?.map((item, index) => {
-              totalApplicationAmount += item?.numApplicantAmount || 0;
-              totalApprovedByLineManager += item?.numLinemangerAprv || 0;
-              totalApprovedBySupervisor += item?.numApprvBySuppervisor || 0;
-              return (
-                <tr key={index}>
-                  <td
-                    onClick={() => {
-                      rowDataHandler("isSelected", index, !item.isSelected);
-                    }}
-                    className="text-center"
-                  >
-                    <input
-                      type="checkbox"
-                      value={item?.isSelected}
-                      checked={item?.isSelected}
-                      onChange={() => {}}
-                    />
-                  </td>
-                  <td>{index + 1}</td>
-                  <td>{item?.strEmployeeFullName}</td>
-                  <td>{item?.strDesignation}</td>
-                  <td>{item?.strBank}</td>
-                  <td>{item?.strAccountNumber}</td>
-                  <td className="text-right">
-                    {_fixedPoint(item?.numApplicantAmount, true, 0)}
-                  </td>
-                  <td className="text-right">
-                    {_fixedPoint(item?.numApprvBySuppervisor, true, 0)}
-                  </td>
-                  <td className="text-right">
-                    {_fixedPoint(item?.numLinemangerAprv, true, 0)}
-                  </td>
-                  <td className="text-right">
-                    {_fixedPoint(item?.numLinemangerAprv, true, 0)}
-                  </td>
-                </tr>
-              );
-            })}
-            <tr>
-              <td colSpan={6} className="text-right">
-                <b>Total</b>
-              </td>
-              <td className="text-right">
-                <b>{_fixedPoint(totalApplicationAmount, true, 0)}</b>
-              </td>
-
-              <td className="text-right">
-                <b>{_fixedPoint(totalApprovedBySupervisor, true, 0)}</b>
-              </td>
-              <td className="text-right">
-                <b>{_fixedPoint(totalApprovedByLineManager, true, 0)}</b>
-              </td>
-              <td className="text-right">
-                <b>{_fixedPoint(totalApprovedByLineManager, true, 0)}</b>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+              </div>
+            </div>
+          </>
+        )}
+      </Formik>
     </>
   );
 };

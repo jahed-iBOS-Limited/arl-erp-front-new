@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import IViewModal from "../../../../_helper/_viewModal";
+import RevenueVariance from "./revenueVariance";
 
 export default function TableTwo({ obj }) {
   const { rowDto, printRef, values } = obj;
+
+  const [item, setItem] = useState({});
+  const [show, setShow] = useState(false);
 
   let numTargetQuantityTotal = 0,
     QntOneDayTotal = 0,
@@ -39,7 +44,7 @@ export default function TableTwo({ obj }) {
             <th style={{ width: "80px" }}>Total Visited Customer</th>
             <th style={{ width: "80px" }}>Total New Customer</th>
             <th style={{ width: "80px" }}>Salesforce Enroll</th>
-            <th style={{ width: "50px" }}>Action</th>
+            <th style={{ width: "100px" }}>Action</th>
           </tr>
         </thead>
 
@@ -96,9 +101,16 @@ export default function TableTwo({ obj }) {
                 <td className="text-right">{item?.intTotalVisitedCustomer}</td>
                 <td className="text-right">{item?.intTotalNewCustomer}</td>
                 <td className="text-left">{item?.intSalesForceEnrol}</td>
-                <td className="text-center">
-                  <button className="btn btn-primary btn-sm" type="button">
-                    Update
+                <td className="text-center p-0">
+                  <button
+                    className="btn btn-primary btn-sm p-2"
+                    type="button"
+                    onClick={() => {
+                      setItem(item);
+                      setShow(true);
+                    }}
+                  >
+                    Revenue Variance
                   </button>
                 </td>
               </tr>
@@ -130,6 +142,13 @@ export default function TableTwo({ obj }) {
           </tr>
         </tbody>
       </table>
+      <IViewModal
+        title={"Revenue Variance"}
+        show={show}
+        onHide={() => setShow(false)}
+      >
+        <RevenueVariance obj={{ item, setShow }} />
+      </IViewModal>
     </>
   );
 }
