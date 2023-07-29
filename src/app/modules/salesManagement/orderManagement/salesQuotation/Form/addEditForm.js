@@ -180,7 +180,7 @@ export default function SalesQuotationForm({
           selectedBusinessUnit.value
         )
       );
-      dispatch(getSpecificationDDLAction());
+      dispatch(getSpecificationDDLAction(selectedBusinessUnit?.value));
     }
   }, [selectedBusinessUnit, profileData]);
 

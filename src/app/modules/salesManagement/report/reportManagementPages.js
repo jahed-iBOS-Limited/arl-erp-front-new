@@ -2,51 +2,51 @@ import React from "react";
 import { Redirect, Switch } from "react-router-dom";
 // import LoadUnloadBill from "./loadUnloadBill";
 import { ContentRoute } from "../../../../_metronic/layout";
-import RecivableDueReport from "./recivableReport";
 import DeliveryReportTable from "./deliveryReport/Table/table";
 import { PendingOrder } from "./pendingOrder";
+import RecivableDueReport from "./recivableReport";
 // import { PartnerLedger } from "./partnerLedger";
 // import PartnerLedgerForm from "./partnerLedger/Form/addEditForm";
-import SalesReport from "./salesReport";
-import { SalesDetails } from "./salesDetails";
+import { shallowEqual, useSelector } from "react-redux";
+import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
+import findIndex from "./../../_helper/_findIndex";
+import { SalesReportOMS } from "./../orderManagement/salesReportOMS/index";
+import OperationalSetUpBaseAchievement from "./OperationalSetUpBaseAchievementReport/landing";
+import AllotmentSalesReport from "./allotmentSalesReport/Table";
+import AttachmentUpload from "./attachmentUpload/landing";
+import BankGuaranteeReport from "./bankGuaranteeReport/landing/table";
+import ChannelWiseSalesReportLanding from "./channelWiseSales/landing/table";
+import CommissionReportAndJVTable from "./commissionReportAndJV/table/table";
+import CustomerBalanceDaysNLimit from "./customerBalanceDayNLimit/landing/table";
+import CustomerCollectionTarget from "./customerCollectionTarget";
+import { CustomerCollectionTargetForm } from "./customerCollectionTarget/form/addEditForm";
+import CustomerCreditLimitReport from "./customerCreditLimit/landing/table";
 import CustomerSalesTarget from "./customerSalesTarget";
 import { CustomerSalesTargetForm } from "./customerSalesTarget/form/addEditForm";
 import { CustomerSalesTargetViewForm } from "./customerSalesTarget/view/addEditForm";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import { shallowEqual, useSelector } from "react-redux";
-import SalesOrderReportLanding from "./salesOrderReport/landing/index";
-import findIndex from "./../../_helper/_findIndex";
+import CustomerSalesTargetReport from "./customerSalesTargetReport/index";
 import { CustomerStatementReport } from "./customerStatement";
 import { CustomerStatementModifiedReport } from "./customerStatementModified";
-import ChannelWiseSalesReportLanding from "./channelWiseSales/landing/table";
 import DeliveryRequestReport from "./deliveryRequestReport/Table/table";
-import SalesReportEssentialTable from "./salesReportEssential/Table/table";
-import PartnerAllotmentReport from "./partnerAllotment/Table/table";
-import SalesTrendsAnalysisReportLanding from "./salesTrendAnalysis/landing/table";
-import OrderDetailsReportLanding from "./orderDetailsReport/landing/index";
-import SalesOrderHistoryLanding from "./salesOrderHistory/landing/form";
-import ItemWiseOrderReport from "./itemWiseOrderReport/landing";
-import SalesCommissionReportLanding from "./salesCommissionReport/landing/table";
-import AllotmentSalesReport from "./allotmentSalesReport/Table";
-import CustomerCreditLimitReport from "./customerCreditLimit/landing/table";
-import BankGuaranteeReport from "./bankGuaranteeReport/landing/table";
-import { SalesReportOMS } from "./../orderManagement/salesReportOMS/index";
-import ShipToPartyDelivery from "./shipToPartyDelivery/Table/table";
-import CustomerSalesTargetReport from "./customerSalesTargetReport/index";
-import AttachmentUpload from "./attachmentUpload/landing";
 import DeliverySalesPending from "./deliverySalesPending/landing/table";
-import Salesanalytics from "./salesanalytics";
-import OperationalSetUpBaseAchievementLanding from "./OperationalSetUpBaseAchievementReport/Table/table";
-import ManpowerSalesTargetTable from "./manpowerSalesTarget/landing/table";
-import ManpowerSalesTargetForm from "./manpowerSalesTarget/form/addEditForm";
-import RetailAndDistributorAchievement from "./retailAndDistAchivment/landing/form";
-import CommissionReportAndJVTable from "./commissionReportAndJV/table/table";
 import FertilizerReportLanding from "./fartilizerReport/landing";
-import CustomerCollectionTarget from "./customerCollectionTarget";
-import { CustomerCollectionTargetForm } from "./customerCollectionTarget/form/addEditForm";
-import VehicleArrangeInfo from "./vehicleArrangeInfo/landing/table";
-import CustomerBalanceDaysNLimit from "./customerBalanceDayNLimit/landing/table";
+import ItemWiseOrderReport from "./itemWiseOrderReport/landing";
 import LoadUnloadBill from "./loadUnloadBill/Table/form";
+import ManpowerSalesTargetForm from "./manpowerSalesTarget/form/addEditForm";
+import ManpowerSalesTargetTable from "./manpowerSalesTarget/landing/table";
+import OrderDetailsReportLanding from "./orderDetailsReport/landing/index";
+import PartnerAllotmentReport from "./partnerAllotment/Table/table";
+import RetailAndDistributorAchievement from "./retailAndDistAchivment/landing/form";
+import SalesCommissionReportLanding from "./salesCommissionReport/landing/table";
+import { SalesDetails } from "./salesDetails";
+import SalesOrderHistoryLanding from "./salesOrderHistory/landing/form";
+import SalesOrderReportLanding from "./salesOrderReport/landing/index";
+import SalesReport from "./salesReport";
+import SalesReportEssentialTable from "./salesReportEssential/Table/table";
+import SalesTrendsAnalysisReportLanding from "./salesTrendAnalysis/landing/table";
+import Salesanalytics from "./salesanalytics";
+import ShipToPartyDelivery from "./shipToPartyDelivery/Table/table";
+import VehicleArrangeInfo from "./vehicleArrangeInfo/landing/table";
 
 export function ReportManagementPages() {
   const userRole = useSelector(
@@ -271,7 +271,7 @@ export function ReportManagementPages() {
       {/* Collection Report */}
       <ContentRoute
         path="/sales-management/report/setupbaseachivement"
-        component={OperationalSetUpBaseAchievementLanding}
+        component={OperationalSetUpBaseAchievement}
       />
 
       <ContentRoute
