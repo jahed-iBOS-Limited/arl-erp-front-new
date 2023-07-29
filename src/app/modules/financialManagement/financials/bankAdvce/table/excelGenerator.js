@@ -168,6 +168,17 @@ export const excelGenerator = (
       );
       return;
     default:
+      if(values?.advice?.label === "JAMUNA-RTGS"){
+        formatFour(
+          values,
+          adviceReportData,
+          selectedBusinessUnit,
+          total,
+          totalInWords,
+          adviceBlobData,
+          fileName
+        );
+      }
       break;
   }
 };
