@@ -105,6 +105,8 @@ export default function _Form({
     );
   };
 
+  console.log("row",rowDto)
+
   return (
     <>
       <Formik
@@ -273,6 +275,7 @@ export default function _Form({
                     <th>BOM</th>
                     <th>UoM Name</th>
                     <th>Plan Quantity</th>
+                    <th>Rate</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -347,6 +350,24 @@ export default function _Form({
                             min="0"
                           />
                         )}
+                      </td>
+                      <td style={{ width: "150px" }} className="text-center">
+                        <input
+                          type="number"
+                          name="rate"
+                          value={item?.rate}
+                          onChange={(e) => {
+                            dataHandler(
+                              "rate",
+                              item,
+                              +e.target.value,
+                              setRowDto,
+                              rowDto
+                            );
+                          }}
+                          className="quantity-field form-control"
+                          min="0"
+                        />
                       </td>
                       <td className="text-center">
                         <IDelete id={index} remover={() => remover(index)} />

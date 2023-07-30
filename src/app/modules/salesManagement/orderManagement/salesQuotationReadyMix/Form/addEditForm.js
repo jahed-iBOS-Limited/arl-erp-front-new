@@ -134,7 +134,7 @@ export default function SalesQuotationReadyMixForm({
       dispatch(getItemSaleDDLAction(accId, buId));
       dispatch(getSalesOrgDDLAction(accId, buId));
       dispatch(getSoldToPartyDDLAction(accId, buId));
-      dispatch(getSpecificationDDLAction());
+      dispatch(getSpecificationDDLAction(buId));
     }
   }, [buId, accId]);
 

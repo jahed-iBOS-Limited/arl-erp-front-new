@@ -55,6 +55,11 @@ export default function EditForm({ history,isViewPage }) {
             value: meta.itemSubCategoryId,
             label: meta.itemSubCategoryName,
           },
+          minimumStockQuantity: meta?.minimumStockQuantity || "",
+          safetyStockQuantity : meta?.safetyStockQuantity || "",
+          maximumQuantity :meta?.maximumQuantity || "",
+          reorderQuantity : meta?.reorderQuantity || "",
+          reorderLevel:meta?.reorderLevel || "",
         });
     }
   };
@@ -79,6 +84,11 @@ export default function EditForm({ history,isViewPage }) {
         actionBy: profileData.userId,
         businessUnitId: selectedBusinessUnit?.value,
         isActive: true,
+        minimumStockQuantity: values?.minimumStockQuantity || "",
+        safetyStockQuantity : values?.safetyStockQuantity || "",
+        maximumQuantity : values?.maximumQuantity || "",
+        reorderQuantity : values?.reorderQuantity || "",
+        reorderLevel: values?.reorderLevel || "",
       };
 
       try {

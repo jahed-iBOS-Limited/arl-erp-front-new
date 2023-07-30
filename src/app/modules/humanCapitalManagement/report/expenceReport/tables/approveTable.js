@@ -12,6 +12,7 @@ const headers = [
   { name: "Account Number" },
   { name: "Application Amount" },
   { name: "Approved by Supervisor" },
+  { name: "Approved by Line Manager" },
   { name: "Approved by HR" },
 ];
 
@@ -52,7 +53,7 @@ const ApproveTable = ({ obj }) => {
   };
 
   let totalApprovedBySupervisor = 0,
-    totalApprovedByHR = 0,
+    totalApprovedByLineManager = 0,
     totalApplicationAmount = 0;
 
   return (
@@ -97,7 +98,7 @@ const ApproveTable = ({ obj }) => {
           <tbody>
             {rowData?.map((item, index) => {
               totalApplicationAmount += item?.numApplicantAmount || 0;
-              totalApprovedByHR += item?.numApprvByHR || 0;
+              totalApprovedByLineManager += item?.numLinemangerAprv || 0;
               totalApprovedBySupervisor += item?.numApprvBySuppervisor || 0;
               return (
                 <tr key={index}>
@@ -126,7 +127,10 @@ const ApproveTable = ({ obj }) => {
                     {_fixedPoint(item?.numApprvBySuppervisor, true, 0)}
                   </td>
                   <td className="text-right">
-                    {_fixedPoint(item?.numApprvByHR, true, 0)}
+                    {_fixedPoint(item?.numLinemangerAprv, true, 0)}
+                  </td>
+                  <td className="text-right">
+                    {_fixedPoint(item?.numLinemangerAprv, true, 0)}
                   </td>
                 </tr>
               );
@@ -143,7 +147,10 @@ const ApproveTable = ({ obj }) => {
                 <b>{_fixedPoint(totalApprovedBySupervisor, true, 0)}</b>
               </td>
               <td className="text-right">
-                <b>{_fixedPoint(totalApprovedByHR, true, 0)}</b>
+                <b>{_fixedPoint(totalApprovedByLineManager, true, 0)}</b>
+              </td>
+              <td className="text-right">
+                <b>{_fixedPoint(totalApprovedByLineManager, true, 0)}</b>
               </td>
             </tr>
           </tbody>

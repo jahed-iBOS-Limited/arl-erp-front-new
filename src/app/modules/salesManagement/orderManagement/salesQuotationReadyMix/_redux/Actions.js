@@ -45,8 +45,8 @@ export const getSalesQuotationById = (id, setDisabled) => (dispatch) => {
     });
 };
 
-export const getSpecificationDDLAction = (accId, buId) => (dispatch) => {
-  return requestFromServer.getSpecificationDDL(accId, buId).then((res) => {
+export const getSpecificationDDLAction = (buId) => (dispatch) => {
+  return requestFromServer.getSpecificationDDL(buId).then((res) => {
     const { status, data } = res;
     if (status === 200 && data) {
       dispatch(slice.SetSpctionDDL(data));

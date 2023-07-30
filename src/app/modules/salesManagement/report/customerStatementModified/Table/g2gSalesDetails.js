@@ -18,6 +18,7 @@ const G2GSalesDetailsTable = ({ rowData, excelRef }) => {
     "Quantity (ton)",
     "Price",
     "Amount",
+    "JV Amount",
   ];
 
   return (
@@ -48,7 +49,12 @@ const G2GSalesDetailsTable = ({ rowData, excelRef }) => {
               <tr
                 key={i}
                 style={{
-                  background: e.itemPrice <= 0 ? "#ff0000a1" : "",
+                  background:
+                    e.itemPrice <= 0
+                      ? "#fd2626a1"
+                      : e.salesValue < e.JVAmount
+                      ? "#ffe627a8"
+                      : "",
                 }}
               >
                 <td>{i + 1}</td>
@@ -67,6 +73,7 @@ const G2GSalesDetailsTable = ({ rowData, excelRef }) => {
                 <td className="text-right">
                   {_fixedPoint(e.salesValue, true)}
                 </td>
+                <td className="text-right">{_fixedPoint(e.jvAmount, true)}</td>
               </tr>
             );
           })}
@@ -87,6 +94,14 @@ const G2GSalesDetailsTable = ({ rowData, excelRef }) => {
               {_fixedPoint(
                 rowData.reduce((acc, cur) => {
                   return acc + cur.salesValue;
+                }, 0),
+                true
+              )}
+            </td>
+            <td>
+              {_fixedPoint(
+                rowData.reduce((acc, cur) => {
+                  return acc + cur.jvAmount;
                 }, 0),
                 true
               )}
