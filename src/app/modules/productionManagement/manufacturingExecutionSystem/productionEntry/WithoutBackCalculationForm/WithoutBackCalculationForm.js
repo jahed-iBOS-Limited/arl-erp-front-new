@@ -321,6 +321,7 @@ export default function _Form({
                           step='any'
                           onChange={(e) => {
                             if(+e.target.value <= 0){
+                              setFieldValue("dryerQty", "");
                               return ;
                             }
                             setFieldValue("dryerQty", e.target.value);
