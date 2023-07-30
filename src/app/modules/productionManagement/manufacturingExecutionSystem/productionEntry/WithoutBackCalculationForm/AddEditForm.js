@@ -40,6 +40,7 @@ let initData = {
   othersOutputItem: "",
   othersOutputQty: "",
   checkOutputItem: false,
+  dryerQty:"",
 };
 
 export default function WithOutBackCalculationForm() {
@@ -89,6 +90,7 @@ export default function WithOutBackCalculationForm() {
             actionBy: profileData?.userId,
             shiftId: values?.shift?.value,
             productionDate: values?.dteProductionDate,
+            numDryerQuantity: +values?.dryerQty,
           },
           editRow:
             values?.checkOutputItem === true
@@ -144,6 +146,7 @@ export default function WithOutBackCalculationForm() {
             strWorkCenterName: values?.productionOrder?.workCenterName,
             intApproveBy: 0,
             intActionBy: profileData?.userId,
+            numDryerQuantity: +values?.dryerQty,
           },
           objRowList:
             values?.checkOutputItem === true
