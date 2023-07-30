@@ -69,6 +69,7 @@ const initProduct = {
   partyStatusType: "",
   expireDate: "",
   operationalZone: "",
+  issueDate: "",
 };
 
 export default function PartnerSales() {
@@ -481,10 +482,14 @@ export default function PartnerSales() {
       setUpZoneId: businessunitid === 4 ? values?.operationalZone?.value : 0,
       setUpZoneName: businessunitid === 4 ? values?.operationalZone?.label : 0,
     };
-   
-    if(!rowDtoTwo?.some(item=>item?.partnerShippingName ===  values?.shipToParner.trim())){
-      console.log("here")
-      setRowDtoTwo(prev=>[
+
+    if (
+      !rowDtoTwo?.some(
+        (item) => item?.partnerShippingName === values?.shipToParner.trim()
+      )
+    ) {
+      console.log("here");
+      setRowDtoTwo((prev) => [
         ...(prev?.length > 0 ? prev : []),
         {
           configId: 0,
@@ -496,8 +501,8 @@ export default function PartnerSales() {
           isDefaultAddress: rowDtoTwo?.length > 0 ? false : true,
         },
       ]);
-    }else{
-      toast.warn("Can't add duplicate ship to partner name")
+    } else {
+      toast.warn("Can't add duplicate ship to partner name");
     }
   };
 
