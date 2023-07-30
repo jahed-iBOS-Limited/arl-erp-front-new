@@ -12,7 +12,7 @@ export const exportToCSV = (data) => {
   
     // Add data to the worksheet
     data.forEach((item) => {
-      worksheet.addRow([item.itemId, item.itemName, item.itemCode, item?.objBOMList?.[0]?.label,item?.objBOMList?.[0]?.value, item?.uom, ]);
+      worksheet.addRow([item.itemId, item.itemName, item.itemCode, item?.objBOMList?.[0]?.label,item?.objBOMList?.[0]?.value, item?.uomName, item?.uomid, "", item?.rate]);
     });
   
     // Generate a unique file name for the exported CSV file
