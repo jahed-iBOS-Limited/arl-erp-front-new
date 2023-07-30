@@ -73,7 +73,7 @@ const G2GSalesDetailsTable = ({ rowData, excelRef }) => {
                 <td className="text-right">
                   {_fixedPoint(e.salesValue, true)}
                 </td>
-                <td className="text-right">{_fixedPoint(e.JVAmount, true)}</td>
+                <td className="text-right">{_fixedPoint(e.jvAmount, true)}</td>
               </tr>
             );
           })}
@@ -101,7 +101,7 @@ const G2GSalesDetailsTable = ({ rowData, excelRef }) => {
             <td>
               {_fixedPoint(
                 rowData.reduce((acc, cur) => {
-                  return acc + cur.JVAmount;
+                  return acc + cur.jvAmount;
                 }, 0),
                 true
               )}
