@@ -90,7 +90,7 @@ export default function WithOutBackCalculationForm() {
             actionBy: profileData?.userId,
             shiftId: values?.shift?.value,
             productionDate: values?.dteProductionDate,
-            numDryerQuantity: +values?.dryerQty,
+            numDryerQuantity: +values?.dryerQty || 0,
           },
           editRow:
             values?.checkOutputItem === true
@@ -146,7 +146,7 @@ export default function WithOutBackCalculationForm() {
             strWorkCenterName: values?.productionOrder?.workCenterName,
             intApproveBy: 0,
             intActionBy: profileData?.userId,
-            numDryerQuantity: +values?.dryerQty,
+            numDryerQuantity: +values?.dryerQty || 0,
           },
           objRowList:
             values?.checkOutputItem === true
