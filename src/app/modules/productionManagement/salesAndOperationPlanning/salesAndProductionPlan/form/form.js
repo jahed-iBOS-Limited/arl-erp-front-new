@@ -8,6 +8,7 @@ import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import { getHorizonDDL, getItemListSalesPlanDDL, getYearDDL } from "../helper";
 import PaginationTable from "./../../../../_helper/_tablePagination";
+import { exportToCSV } from "./utils";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -63,13 +64,24 @@ export default function _Form({
           let rowData = [];
           for (let i = 1; i < resp.rows.length; i++) {
             rowData.push({
+              // salesPlanRowId: 0,
+              // itemId: resp.rows[i][0],
+              // itemName: resp.rows[i][1],
+              // uomid: resp.rows[i][2],
+              // uomName: resp.rows[i][3],
+              // itemPlanQty: resp.rows[i][4],
+              // numRate: resp.rows[i][5],
+
               salesPlanRowId: 0,
-              itemId: resp.rows[i][0],
-              itemName: resp.rows[i][1],
-              uomid: resp.rows[i][2],
-              uomName: resp.rows[i][3],
-              itemPlanQty: resp.rows[i][4],
-              numRate: resp.rows[i][5],
+              bomid : resp.rows[i][4],
+              bomname : resp.rows[i][3],
+              itemCode : resp.rows[i][2],
+              itemId : resp.rows[i][0],
+              itemName : resp.rows[i][1],
+              itemPlanQty : resp.rows[i][7],
+              rate : resp.rows[i][8],
+              uomName : resp.rows[i][5],
+              uomid : resp.rows[i][6],
             });
           }
 
@@ -268,7 +280,7 @@ export default function _Form({
                 <button
                   className="btn btn-primary"
                   onClick={() => {
-                    // exportExcel()
+                    exportToCSV(rowDto?.data)
                   }}
                   type="button"
                   style={{
@@ -285,6 +297,7 @@ export default function _Form({
                   <tr>
                     <th>SL</th>
                     <th>Item Name</th>
+                    <th>Item Code</th>
                     <th>BOM</th>
                     <th>UoM Name</th>
                     <th>Plan Quantity</th>
@@ -297,6 +310,7 @@ export default function _Form({
                     <tr key={index}>
                       <td className="text-center">{index + 1}</td>
                       <td className="pl-2">{item?.itemName}</td>
+                      <td className="pl-2">{item?.itemCode}</td>
                       <td style={{ width: "180px" }}>
                         {id ? (
                           item?.bomname || ""
@@ -321,7 +335,7 @@ export default function _Form({
                                 isDisabled={id ? true : false}
                               />
                             ) : (
-                              ""
+                              item?.bomname
                             )}
                           </>
                         )}
