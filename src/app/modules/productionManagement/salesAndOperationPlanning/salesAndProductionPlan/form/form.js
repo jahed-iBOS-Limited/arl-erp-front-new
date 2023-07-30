@@ -242,8 +242,8 @@ export default function _Form({
                 </div>
               </div>
 
-              <div className="global-form mt-4">
-                <div className="form-group row">
+              <div className="global-form mt-4 d-flex">
+                <div className="form-group row text-right">
                   <button
                     className="btn btn-primary"
                     onClick={handleClick}
@@ -265,6 +265,19 @@ export default function _Form({
                     style={{ display: "none" }}
                   />
                 </div>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => {
+                    // exportExcel()
+                  }}
+                  type="button"
+                  style={{
+                    marginLeft: "20px",
+                    height: "30px",
+                  }}
+                >
+                  Export Excel
+                </button>
               </div>
 
               <table className="global-table table">
@@ -366,7 +379,6 @@ export default function _Form({
                             );
                           }}
                           className="quantity-field form-control"
-                          min="0"
                         />
                       </td>
                       <td className="text-center">
