@@ -3,6 +3,7 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { Input } from "../../../../../../../../_metronic/_partials/controls";
 import Axios from "axios";
+import InputField from "../../../../../../_helper/_inputField";
 // import Select from "react-select";
 // import customStyles from "../../../../../../selectCustomStyle";
 
@@ -206,6 +207,92 @@ export default function _Form({
                     type="number"
                     disabled={!orgList}
                     min="0"
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    name="minimumStockQuantity"
+                    value={values?.minimumStockQuantity}
+                    label="Minimum Stock Quantity"
+                    step='any'
+                    onChange={(e) => {
+                      if(+e.target.value <= 0){
+                        setFieldValue("minimumStockQuantity", "");
+                        return;
+                      }
+                      setFieldValue("minimumStockQuantity", e.target.value);
+                    }}
+                    type="number"
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    name="safetyStockQuantity"
+                    value={values?.safetyStockQuantity}
+                    label="Safety Stock Quantity"
+                    step='any'
+                    onChange={(e) => {
+                      if(+e.target.value <= 0){
+                        setFieldValue("safetyStockQuantity", "");
+                        return ;
+                      }
+                      setFieldValue("safetyStockQuantity", e.target.value);
+                    }}
+                    type="number"
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    name="maximumQuantity"
+                    value={values?.maximumQuantity}
+                    label="Maximum Quantity"
+                    step='any'
+                    onChange={(e) => {
+                      if(+e.target.value <= 0){
+                        setFieldValue("maximumQuantity", "");
+                        return ;
+                      }
+                      setFieldValue("maximumQuantity", e.target.value);
+                    }}
+                    type="number"
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    name="reorderQuantity"
+                    value={values?.reorderQuantity}
+                    label="Reorder Quantity"
+                    step='any'
+                    onChange={(e) => {
+                      if(+e.target.value <= 0){
+                        setFieldValue("reorderQuantity", "");
+                        return ;
+                      }
+                      setFieldValue("reorderQuantity", e.target.value);
+                    }}
+                    type="number"
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    name="reorderLevel"
+                    value={values?.reorderLevel}
+                    label="Reorder Level"
+                    step='any'
+                    onChange={(e) => {
+                      setFieldValue("reorderLevel", e.target.value);
+                    }}
+                    type="text"
+                    errors={errors}
+                    touched={touched}
                   />
                 </div>
                 <div
