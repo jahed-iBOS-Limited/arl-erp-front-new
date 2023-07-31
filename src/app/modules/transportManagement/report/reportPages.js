@@ -24,6 +24,7 @@ import TripCostReportReport from "./tripCostReport/landing/landing";
 import TripSlabCostReport from "./tripSlabCostReport/landing/table";
 import VehicleFuelCostReport from "./vehicleFuelCostReport/landing";
 import VehicleFuelReport from "./vehicleFuelReport/landing/landing";
+import LogisticDashBoard from "./logisticDashBoard";
 
 export function TransportReportPages() {
   return (
@@ -75,10 +76,14 @@ export function TransportReportPages() {
           path="/transport-management/report/deliveryscheduleassaign"
           component={DeliveryScheduleAssignReport}
         />
-       
+
         <ContentRoute
           path="/transport-management/report/dashboardpdd"
           component={Dashboardpdd}
+        />
+        <ContentRoute
+          path="/transport-management/report/LogisticDashBoard"
+          component={LogisticDashBoard}
         />
         <ContentRoute
           path="/transport-management/report/transportZoneRate/edit/:id"
