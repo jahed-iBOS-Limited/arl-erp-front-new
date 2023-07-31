@@ -210,7 +210,6 @@ export const getSingleDataById = async (
 
         productionRowId: response?.objRow[0]?.productionRowId,
         outputItemName: response?.objRow[0]?.strItemName,
-        dryerQty: +response?.objRow[0]?.numDryerQuantity || "",
       };
       let newObjRow = response?.objRow.map((item) => {
         return {

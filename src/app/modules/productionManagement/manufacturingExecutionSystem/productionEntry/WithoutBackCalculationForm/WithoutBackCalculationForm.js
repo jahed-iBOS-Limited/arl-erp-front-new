@@ -313,24 +313,6 @@ export default function _Form({
                           // disabled={isEdit}
                         />
                       </div>
-                      <div className="col-lg-3">
-                        <InputField
-                          name="dryerQty"
-                          value={values?.dryerQty}
-                          label="Dryer Qty"
-                          step='any'
-                          onChange={(e) => {
-                            if(+e.target.value <= 0){
-                              setFieldValue("dryerQty", "");
-                              return ;
-                            }
-                            setFieldValue("dryerQty", e.target.value);
-                          }}
-                          type="number"
-                          errors={errors}
-                          touched={touched}
-                        />
-                      </div>
                       <div className="col-lg-12 pl-2 d-flex align-items-end">
                         <div>
                           <label className="p-2"> Output Item</label>
