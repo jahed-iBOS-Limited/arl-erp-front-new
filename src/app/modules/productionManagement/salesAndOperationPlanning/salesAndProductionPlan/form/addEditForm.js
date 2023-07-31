@@ -100,7 +100,7 @@ export default function SalesAndProductionPlanCreateForm({
         itemData.push({
           ...rowDto.data[i],
           bomid: rowDto.data[i]?.isMultiple ? rowDto.data[i].bom?.value : 0,
-          bomname: rowDto.data[i]?.isMultiple ? rowDto.data[i].bom?.label : "",
+          bomname: rowDto.data[i]?.isMultiple ? rowDto.data[i].bom?.label : rowDto.data[i]?.bomname,
           objBOMList: undefined,
           bom: undefined,
         });

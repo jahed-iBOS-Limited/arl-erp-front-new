@@ -8,6 +8,7 @@ import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import { getHorizonDDL, getItemListSalesPlanDDL, getYearDDL } from "../helper";
 import PaginationTable from "./../../../../_helper/_tablePagination";
+import { exportToCSV } from "./utils";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -63,13 +64,24 @@ export default function _Form({
           let rowData = [];
           for (let i = 1; i < resp.rows.length; i++) {
             rowData.push({
+              // salesPlanRowId: 0,
+              // itemId: resp.rows[i][0],
+              // itemName: resp.rows[i][1],
+              // uomid: resp.rows[i][2],
+              // uomName: resp.rows[i][3],
+              // itemPlanQty: resp.rows[i][4],
+              // numRate: resp.rows[i][5],
+
               salesPlanRowId: 0,
-              itemId: resp.rows[i][0],
-              itemName: resp.rows[i][1],
-              uomid: resp.rows[i][2],
-              uomName: resp.rows[i][3],
-              itemPlanQty: resp.rows[i][4],
-              numRate: resp.rows[i][5],
+              bomid : resp.rows[i][4],
+              bomname : resp.rows[i][3],
+              itemCode : resp.rows[i][2],
+              itemId : resp.rows[i][0],
+              itemName : resp.rows[i][1],
+              itemPlanQty : resp.rows[i][7],
+              rate : resp.rows[i][8],
+              uomName : resp.rows[i][5],
+              uomid : resp.rows[i][6],
             });
           }
 
@@ -104,6 +116,8 @@ export default function _Form({
       setRowDto
     );
   };
+
+  console.log("row",rowDto)
 
   return (
     <>
@@ -240,8 +254,8 @@ export default function _Form({
                 </div>
               </div>
 
-              <div className="global-form mt-4">
-                <div className="form-group row">
+              <div className="global-form mt-4 d-flex">
+                <div className="form-group row text-right">
                   <button
                     className="btn btn-primary"
                     onClick={handleClick}
@@ -263,6 +277,19 @@ export default function _Form({
                     style={{ display: "none" }}
                   />
                 </div>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => {
+                    exportToCSV(rowDto?.data)
+                  }}
+                  type="button"
+                  style={{
+                    marginLeft: "20px",
+                    height: "30px",
+                  }}
+                >
+                  Export Excel
+                </button>
               </div>
 
               <table className="global-table table">
@@ -270,9 +297,11 @@ export default function _Form({
                   <tr>
                     <th>SL</th>
                     <th>Item Name</th>
+                    <th>Item Code</th>
                     <th>BOM</th>
                     <th>UoM Name</th>
                     <th>Plan Quantity</th>
+                    <th>Rate</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -281,6 +310,7 @@ export default function _Form({
                     <tr key={index}>
                       <td className="text-center">{index + 1}</td>
                       <td className="pl-2">{item?.itemName}</td>
+                      <td className="pl-2">{item?.itemCode}</td>
                       <td style={{ width: "180px" }}>
                         {id ? (
                           item?.bomname || ""
@@ -305,7 +335,7 @@ export default function _Form({
                                 isDisabled={id ? true : false}
                               />
                             ) : (
-                              ""
+                              item?.bomname
                             )}
                           </>
                         )}
@@ -347,6 +377,23 @@ export default function _Form({
                             min="0"
                           />
                         )}
+                      </td>
+                      <td style={{ width: "150px" }} className="text-center">
+                        <input
+                          type="number"
+                          name="rate"
+                          value={item?.rate}
+                          onChange={(e) => {
+                            dataHandler(
+                              "rate",
+                              item,
+                              +e.target.value,
+                              setRowDto,
+                              rowDto
+                            );
+                          }}
+                          className="quantity-field form-control"
+                        />
                       </td>
                       <td className="text-center">
                         <IDelete id={index} remover={() => remover(index)} />
