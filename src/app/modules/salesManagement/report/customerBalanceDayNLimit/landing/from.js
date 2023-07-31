@@ -15,12 +15,14 @@ const reportTypes = [
 ];
 
 const partyStatusList = [
+  { value: 0, label: "All" },
   { value: 30, label: "Regular" },
   { value: 60, label: "IRegular" },
   { value: 1, label: "Block" },
 ];
 
 const partyGroupList = [
+  { value: 0, label: "All" },
   { value: 2, label: "Bank Guarantee" },
   { value: 3, label: "Work order / Purchase Order" },
   { value: 4, label: "Cheque" },
@@ -42,6 +44,8 @@ export default function Form({ obj }) {
     setChannelId,
     setFieldValue,
   } = obj;
+
+  console.log(channelId, "id");
 
   const loadCustomerList = (v) => {
     if (v?.length < 3) return [];
@@ -149,10 +153,11 @@ export default function Form({ obj }) {
                   region: idSetTwo(values),
                   area: idSetTwo(values),
                   territory: idSetTwo(values),
-                  onChange: (fieldName, allValue) => {
+                  onChange: (allValue, fieldName) => {
                     setIsShow(false);
                     setRowDto([]);
                     if (fieldName === "channel") {
+                      console.log("channel");
                       setChannelId(allValue?.channel?.value);
                     }
                   },
