@@ -17,7 +17,7 @@ const G2GSalesDetailsTable = ({ rowData, excelRef }) => {
     "Item",
     "Quantity (ton)",
     "Price",
-    "Amount",
+    "Sales Amount",
     "JV Amount",
   ];
 
@@ -52,7 +52,7 @@ const G2GSalesDetailsTable = ({ rowData, excelRef }) => {
                   background:
                     e.itemPrice <= 0
                       ? "#fd2626a1"
-                      : e.salesValue < e.JVAmount
+                      : e.salesValue < e.jvAmount
                       ? "#ffe627a8"
                       : "",
                 }}
