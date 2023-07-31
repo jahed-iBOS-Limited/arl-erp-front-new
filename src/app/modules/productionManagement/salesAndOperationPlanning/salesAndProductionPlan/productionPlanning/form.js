@@ -201,7 +201,6 @@ export default function _Form({
                               setRowDto
                             );
                           }}
-                          min='0'
                         />
                       </td>
                       <td className="pl-2 text-center">
