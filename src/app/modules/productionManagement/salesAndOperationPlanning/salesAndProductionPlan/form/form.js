@@ -346,8 +346,11 @@ export default function _Form({
                           <input
                             type="number"
                             name="entryItemPlanQty"
-                            value={item?.entryItemPlanQty}
+                            value={+item?.entryItemPlanQty || ""}
                             onChange={(e) => {
+                              if(+e.target.value < 0){
+                                return
+                              }
                               dataHandler(
                                 "entryItemPlanQty",
                                 item,
@@ -357,14 +360,16 @@ export default function _Form({
                               );
                             }}
                             className="quantity-field form-control"
-                            min="0"
                           />
                         ) : (
                           <input
                             type="number"
                             name="itemPlanQty"
-                            value={item?.itemPlanQty}
+                            value={+item?.itemPlanQty || ""}
                             onChange={(e) => {
+                              if(+e.target.value < 0){
+                                return
+                              }
                               dataHandler(
                                 "itemPlanQty",
                                 item,
@@ -374,7 +379,6 @@ export default function _Form({
                               );
                             }}
                             className="quantity-field form-control"
-                            min="0"
                           />
                         )}
                       </td>
@@ -382,8 +386,11 @@ export default function _Form({
                         <input
                           type="number"
                           name="rate"
-                          value={item?.rate}
+                          value={+item?.rate || ""}
                           onChange={(e) => {
+                            if(+e.target.value < 0){
+                              return
+                            }
                             dataHandler(
                               "rate",
                               item,

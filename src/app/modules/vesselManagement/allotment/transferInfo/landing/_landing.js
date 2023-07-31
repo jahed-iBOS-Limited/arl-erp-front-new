@@ -16,6 +16,7 @@ import NewSelect from "../../../../_helper/_select";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
+import { toast } from "react-toastify";
 
 const initData = {
   shipPoint: "",
@@ -60,26 +61,37 @@ const TransferInfoLanding = () => {
             <ICustomCard
               title="Transfer Info"
               createHandler={() => {
-                history.push(
-                  `/vessel-management/allotment/transferInfo/create`
-                );
+                if (!values?.transferType) {
+                  toast.warn("Please select a transfer type");
+                } else {
+                  history.push({
+                    pathname: `/vessel-management/allotment/transferInfo/create`,
+                    state: values,
+                  });
+                }
               }}
             >
               {isLoading && <Loading />}
               <form className="form form-label-right">
                 <div className="global-form row">
-                  {/* <div className="col-lg-3">
+                  <div className="col-lg-3">
                     <NewSelect
-                      name="shipPoint"
-                      options={[]}
-                      value={values?.shipPoint}
-                      label="ShipPoint"
+                      name="transferType"
+                      options={[
+                        { value: 1, label: "Warehouse to Warehouse transfer" },
+                        {
+                          value: 2,
+                          label: "Mother vessel to Mother vessel transfer",
+                        },
+                      ]}
+                      value={values?.transferType}
+                      label="Transfer Type"
                       onChange={(valueOption) => {
-                        setFieldValue("shipPoint", valueOption);
+                        setFieldValue("transferType", valueOption);
                       }}
-                      placeholder="ShipPoint"
+                      placeholder="Transfer Type"
                     />
-                  </div> */}
+                  </div>
                   <div className="col-lg-3">
                     <NewSelect
                       name="transactionType"
