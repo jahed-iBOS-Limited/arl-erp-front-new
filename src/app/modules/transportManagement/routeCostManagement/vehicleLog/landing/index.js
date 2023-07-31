@@ -19,9 +19,12 @@ import PaginationTable from "../../../../_helper/_tablePagination";
 import IViewModal from "../../../../_helper/_viewModal";
 import VehicleLogBook from "../view/addEditForm";
 import VehicleEditForm from "../Form/formForEdit";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import VehicleProblemTable from "./vehicleProblemTable";
 
 const initData = {
   vehicleNo: "",
+  shipPoint: "",
   travelDateFrom: _todayDate(),
   travelDateTo: _todayDate(),
   entryBy: "own",
@@ -34,6 +37,7 @@ const VehicleLogLanding = () => {
   // state
   const [vehicleNoList, setVehicleNoList] = useState([]);
   const [rowData, setRowData] = useState([]);
+  const [, getRowData, loader] = useAxiosGet();
 
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
@@ -58,17 +62,35 @@ const VehicleLogLanding = () => {
   }, [accId, buId, userId, employeeId]);
 
   const getGridData = (values, pageNo, pageSize) => {
-    getVehicleLogBookLanding(
-      values?.travelDateFrom,
-      values?.travelDateTo,
-      accId,
-      buId,
-      pageNo,
-      pageSize,
-      values?.vehicleNo?.value,
-      setRowData,
-      setLoading
-    );
+    const typeId = values?.type?.value;
+
+    if (typeId === 1) {
+      getVehicleLogBookLanding(
+        values?.travelDateFrom,
+        values?.travelDateTo,
+        accId,
+        buId,
+        pageNo,
+        pageSize,
+        values?.vehicleNo?.value,
+        setRowData,
+        setLoading
+      );
+    } else if (typeId === 2) {
+      getRowData(
+        `/tms/Vehicle/GetVechicleProblemInfo?businessUnitId=${buId}&shipPointId=${values
+          ?.shipPoint?.value || 0}&vehicleId=${values?.vehicleNo?.value ||
+          0}&pageNo=${pageNo}&pageSize=${pageSize}`,
+        (resData) => {
+          if (!resData?.data?.length) {
+            toast.warn("Data not found");
+            setRowData({});
+          } else {
+            setRowData(resData);
+          }
+        }
+      );
+    }
   };
 
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -99,6 +121,8 @@ const VehicleLogLanding = () => {
     IConfirmModal(confirmationObj);
   };
 
+  const isLoading = loader || loading;
+
   return (
     <Formik
       enableReinitialize={true}
@@ -107,7 +131,7 @@ const VehicleLogLanding = () => {
     >
       {({ values, setFieldValue }) => (
         <>
-          {loading && <Loading />}
+          {isLoading && <Loading />}
           <ICustomCard
             title="Vehicle Log Book for (Credit)"
             createHandler={() => {
@@ -148,18 +172,29 @@ const VehicleLogLanding = () => {
                 buId,
               }}
             />
-            <VehicleLogTable
-              obj={{
-                setId,
-                values,
-                rowData,
-                setOpen,
-                permitted,
-                setShowModal,
-                setSingleItem,
-                deleteVehicleLog,
-              }}
-            />
+
+            {/* Vehicle Log Table */}
+            {[1].includes(values?.type?.value) && (
+              <VehicleLogTable
+                obj={{
+                  setId,
+                  values,
+                  rowData,
+                  setOpen,
+                  permitted,
+                  setShowModal,
+                  setSingleItem,
+                  deleteVehicleLog,
+                }}
+              />
+            )}
+
+            {/* Vehicle Problem Table */}
+            {[2].includes(values?.type?.value) && (
+              <VehicleProblemTable obj={{ rowData }} />
+            )}
+
+            {/* Pagination section for both table */}
             {rowData?.data?.length > 0 && (
               <PaginationTable
                 count={rowData?.totalCount}
