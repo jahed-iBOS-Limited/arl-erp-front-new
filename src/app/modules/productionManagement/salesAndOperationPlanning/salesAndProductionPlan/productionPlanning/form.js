@@ -154,7 +154,8 @@ export default function _Form({
                   <tr>
                     <th>SL</th>
                     <th>Item Name</th>
-                    <th>Plan Quantity</th>
+                    <th>Sales Plan Quantity</th>
+                    <th>Production Plan Quantity</th>
                     <th>Start Date</th>
                     <th>End Date</th>
                     <th>Action</th>
@@ -175,6 +176,27 @@ export default function _Form({
                               item,
                               e?.target?.value,
                               "itemPlanQty",
+                              rowDto,
+                              setRowDto
+                            );
+                          }}
+                          min='0'
+                          disabled
+                        />
+                      </td>
+                      <td className="text-center">
+                        <InputField
+                          value={+item?.productionPlanQty || ""}
+                          name="productionPlanQty"
+                          type="number"
+                          onChange={(e) => {
+                            if(+e.target.value < 0){
+                              return
+                            }
+                            inputHandler(
+                              item,
+                              e?.target?.value,
+                              "productionPlanQty",
                               rowDto,
                               setRowDto
                             );
