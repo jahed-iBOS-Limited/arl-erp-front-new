@@ -39,6 +39,29 @@ export function salesAndOperationsPlanning() {
         from="/production-management/salesAndOperationsPlanning/salesAndProductionPlan"
         component={SalesAndProductionTable}
       />
+
+       {/* Purchase Plan */}
+       <ContentRoute
+        from="/production-management/salesAndOperationsPlanning/PurchasePlan/:plantId/:salesPlanId/createPP"
+        component={ProductionPlanningForm}
+      />
+      <ContentRoute
+        from="/production-management/salesAndOperationsPlanning/PurchasePlan/view/:viewId"
+        component={SalesAndProductionPlanCreateFormView}
+      />
+      <ContentRoute
+        from="/production-management/salesAndOperationsPlanning/PurchasePlan/edit/:id"
+        component={SalesAndProductionPlanCreateForm}
+      />
+      <ContentRoute
+        from="/production-management/salesAndOperationsPlanning/PurchasePlan/Create"
+        component={SalesAndProductionPlanCreateForm}
+      />
+
+      <ContentRoute
+        from="/production-management/salesAndOperationsPlanning/PurchasePlan"
+        component={SalesAndProductionTable}
+      />
       {/* Production Master Schedulel */}
       <ContentRoute
         path="/production-management/salesAndOperationsPlanning/productionMasterSchedule/add"
