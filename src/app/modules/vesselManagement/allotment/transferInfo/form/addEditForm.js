@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
@@ -8,8 +8,9 @@ import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import { GetShipPointDDL } from "../../generalInformation/helper";
 import Form from "./form";
+import MotherVesselTransferForm from "./MVesselTransferForm";
 
-let initData = {
+const initData = {
   transactionDate: _todayDate(),
   transactionType: "",
   shipPoint: "",
@@ -20,6 +21,14 @@ let initData = {
   quantity: "",
 };
 
+const initDataTwo = {
+  port: "",
+  motherVessel: "",
+  toPort: "",
+  toMotherVessel: "",
+  quantity: "",
+};
+
 export default function TransferInfoForm() {
   const { type } = useParams();
   const history = useHistory();
@@ -27,6 +36,8 @@ export default function TransferInfoForm() {
   const [shipPointDDL, setShipPointDDL] = useState([]);
   const [, postData, loading] = useAxiosPost();
   const [, getItems, isLoading] = useAxiosGet();
+  const { state } = useLocation();
+  const transferTypeId = state?.transferType?.value;
 
   // get user data from store
   const {
@@ -49,11 +60,12 @@ export default function TransferInfoForm() {
   };
 
   const saveHandler = async (values, cb) => {
+    let transferInData = []
     const selectedItems = rowDto?.filter((item) => item?.isSelected);
     if (values?.transactionType?.value === 5 && selectedItems?.length < 1) {
       return toast.warn("Please select at least one item!");
     }
-    const transferInData = selectedItems?.map((item) => {
+     transferInData = selectedItems?.map((item) => {
       return {
         inventoryTransactionId: item?.inventoryTransactionId,
         headerObject: {
@@ -83,8 +95,15 @@ export default function TransferInfoForm() {
     const payload =
       values?.transactionType?.value === 5 ? transferInData : rowDto;
 
+    const URL =
+      transferTypeId === 1
+        ? "/wms/FertilizerOperation/CreateG2GInventoryTransfer"
+        : transferTypeId === 2
+        ? "/tms/LigterLoadUnload/CreateMotherVesselTransfer"
+        : "";
+
     postData(
-      `/wms/FertilizerOperation/CreateG2GInventoryTransfer`,
+      URL,
       payload,
       () => {
         cb();
@@ -95,31 +114,55 @@ export default function TransferInfoForm() {
   };
 
   const addRow = (values, cb) => {
-    const newRow = {
-      headerObject: {
-        transactionDate: values?.transactionDate,
+    if (transferTypeId === 1) {
+      const newRow = {
+        headerObject: {
+          transactionDate: values?.transactionDate,
+          accountId: accId,
+          businessUnitId: buId,
+          businessUnitName: buName,
+          transactionTypeId: values?.transactionType?.value,
+          transactionTypeName: values?.transactionType?.label,
+          fromshipPointId: values?.shipPoint?.value,
+          fromshipPointName: values?.shipPoint?.label,
+          toShipPointId: values?.toShipPoint?.value,
+          toShipPointName: values?.toShipPoint?.label,
+          comments: values?.comments,
+          actionBy: userId,
+          isTransferReceive: values?.transactionType?.value === 5,
+        },
+        rowObject: {
+          itemId: values?.item?.value,
+          itemName: values?.item?.label,
+          transactionQuantity: values?.quantity,
+          actionBy: userId,
+        },
+      };
+      setRowDto([...rowDto, newRow]);
+      cb();
+    } else if (transferTypeId === 2) {
+      const isExist = rowDto?.filter(
+        (e) =>
+          e?.fromMotherVesselId === values?.motherVessel?.value &&
+          e?.toMotherVesselId === values?.toMotherVessel?.value
+      );
+      if (isExist?.length) {
+        return toast.warn("Duplicate entry is not allowed!");
+      }
+      const newRow = {
+        fromMotherVesselId: values?.motherVessel?.value,
+        fromMotherVesselName: values?.motherVessel?.label,
+        toMotherVesselId: values?.toMotherVessel?.value,
+        toMotherVesselName: values?.toMotherVessel?.label,
+        lighterVesselId: 0,
+        transferQuantity: values?.quantity,
+        actionBy: userId,
         accountId: accId,
         businessUnitId: buId,
-        businessUnitName: buName,
-        transactionTypeId: values?.transactionType?.value,
-        transactionTypeName: values?.transactionType?.label,
-        fromshipPointId: values?.shipPoint?.value,
-        fromshipPointName: values?.shipPoint?.label,
-        toShipPointId: values?.toShipPoint?.value,
-        toShipPointName: values?.toShipPoint?.label,
-        comments: values?.comments,
-        actionBy: userId,
-        isTransferReceive: values?.transactionType?.value === 5,
-      },
-      rowObject: {
-        itemId: values?.item?.value,
-        itemName: values?.item?.label,
-        transactionQuantity: values?.quantity,
-        actionBy: userId,
-      },
-    };
-    setRowDto([...rowDto, newRow]);
-    cb();
+      };
+      setRowDto([...rowDto, newRow]);
+      cb();
+    }
   };
 
   const removeRow = (i) => {
@@ -155,24 +198,40 @@ export default function TransferInfoForm() {
   return (
     <>
       {(loading || isLoading) && <Loading />}
-      <Form
-        type={type}
-        accId={accId}
-        buId={buId}
-        title={title}
-        history={history}
-        rowDto={rowDto}
-        addRow={addRow}
-        selectedAll={selectedAll}
-        allSelect={allSelect}
-        setRowDto={setRowDto}
-        removeRow={removeRow}
-        initData={initData}
-        rowDataHandler={rowDataHandler}
-        saveHandler={saveHandler}
-        shipPointDDL={shipPointDDL}
-        getTransferOutedItems={getTransferOutedItems}
-      />
+      {/* Warehouse to Warehouse Transfer */}
+      {transferTypeId === 1 && (
+        <Form
+          type={type}
+          accId={accId}
+          buId={buId}
+          title={title}
+          history={history}
+          rowDto={rowDto}
+          addRow={addRow}
+          selectedAll={selectedAll}
+          allSelect={allSelect}
+          setRowDto={setRowDto}
+          removeRow={removeRow}
+          initData={initData}
+          rowDataHandler={rowDataHandler}
+          saveHandler={saveHandler}
+          shipPointDDL={shipPointDDL}
+          getTransferOutedItems={getTransferOutedItems}
+        />
+      )}
+      {/* Mother Vessel to Mother Vessel Transfer */}
+      {transferTypeId === 2 && (
+        <MotherVesselTransferForm
+          obj={{
+            rowDto,
+            addRow,
+            history,
+            removeRow,
+            saveHandler,
+            initData: initDataTwo,
+          }}
+        />
+      )}
     </>
   );
 }
