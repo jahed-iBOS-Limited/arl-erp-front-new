@@ -3,6 +3,7 @@ export const getReportId = (values) => {
   const regularIrregularParty = `bb2df915-a2f8-47d8-a39d-906a547bb852`;
   const sisterConcernOverdue = `b9092f9e-962d-4b87-80a3-29292cb1f579`;
   const receivableReport = `d2ee852a-f129-4167-87f3-3ef0c00c9f8c`;
+  const partyStatusReport = `31b073bf-1efb-4fa1-acc2-86ab7a59ef43`;
   const reportId =
     typeId === 2
       ? regularIrregularParty
@@ -10,6 +11,8 @@ export const getReportId = (values) => {
       ? sisterConcernOverdue
       : typeId === 4
       ? receivableReport
+      : typeId === 5
+      ? partyStatusReport
       : "";
   return reportId;
 };
@@ -31,7 +34,7 @@ export const parameterValues = (values, buId, employeeId) => {
     },
     {
       name: "intchannelid",
-      value: values?.distributionChannel?.value?.toString() || "0",
+      value: values?.channel?.value?.toString() || "0",
     },
     { name: "intEmployeeid", value: employeeId?.toString() },
     { name: "region", value: "0" },
@@ -50,7 +53,7 @@ export const parameterValues = (values, buId, employeeId) => {
     },
     {
       name: "intchannelid",
-      value: values?.distributionChannel?.value?.toString() || "0",
+      value: values?.channel?.value?.toString() || "0",
     },
     { name: "intLevelId", value: "0" },
     { name: "RATId", value: "0" },
@@ -67,6 +70,36 @@ export const parameterValues = (values, buId, employeeId) => {
     },
   ];
 
+  const partyStatusReport = [
+    { name: "intunit", value: buId?.toString() },
+    {
+      name: "TransactionDate",
+      value: values?.date,
+    },
+    {
+      name: "intchannelid",
+      value: values?.channel?.value?.toString() || "0",
+    },
+    {
+      name: "customerId",
+      value: values?.customer?.value?.toString() || "0",
+    },
+    {
+      name: "region",
+      value: values?.region?.value?.toString() || "0",
+    },
+    { name: "area", value: values?.area?.value?.toString() || "0" },
+    { name: "territory", value: values?.territory?.value?.toString() || "0" },
+    {
+      name: "PartyStatus",
+      value: values?.partyStatus?.value?.toString() || "0",
+    },
+    {
+      name: "PartyGroupId",
+      value: values?.partyGroup?.value?.toString() || "0",
+    },
+  ];
+
   const parameters =
     typeId === 2
       ? regularIrregularParty
@@ -74,7 +107,9 @@ export const parameterValues = (values, buId, employeeId) => {
       ? sisterConcernOverdue
       : typeId === 4
       ? receivableReport
-      : "";
+      : typeId === 5
+      ? partyStatusReport
+      : [];
 
   return parameters;
 };
