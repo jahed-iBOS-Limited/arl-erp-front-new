@@ -32,6 +32,8 @@ import FuelLogModify from "./fuelLogModify/landing";
 import TripCostStatement from "./vehicleTrip/vehicleTrip";
 import VehicleProblemEntryForm from "./vehicleLog/problemForm/addEditForm";
 import VehicleLogLanding from "./vehicleLog/landing/index";
+import DistributionPlanLanding from "./distributionPlan";
+import DistributionPlanCreateEdit from "./distributionPlan/createEdit";
 
 export function RouteManagementPage() {
   const userRole = useSelector(
@@ -203,6 +205,15 @@ export function RouteManagementPage() {
         <ContentRoute
           path="/transport-management/routecostmanagement/shipmentcostManual"
           component={ManualShipmentCostTable}
+        />
+
+        <ContentRoute
+          path="/transport-management/routecostmanagement/distributionPlaning/create"
+          component={DistributionPlanCreateEdit}
+        />
+        <ContentRoute
+          path="/transport-management/routecostmanagement/distributionPlaning"
+          component={DistributionPlanLanding}
         />
 
         <ContentRoute

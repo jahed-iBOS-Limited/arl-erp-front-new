@@ -70,7 +70,7 @@ export const getItemListSalesPlanDDL = async (
 ) => {
   try {
     const res = await Axios.get(
-      `/mes/SalesPlanning/GetSalesPlanItemsAll?AccountId=${accId}&BusinessUnitId=${buId}&plantId=${plantId}&PageNo=${pageNo}&PageSize=${pageSize}`
+      `/mes/SalesPlanning/GetPurchasePlanItemsAll?AccountId=${accId}&BusinessUnitId=${buId}&plantId=${plantId}&PageNo=${pageNo}&PageSize=${pageSize}`
     );
     res.data.data.forEach((item) => {
       item["itemPlanQty"] = "";
@@ -109,7 +109,7 @@ export const getSalesPlanYearDDL = async (accId, buId, plantId, setter) => {
 export const saveItemRequest = async (data) => {
   try {
     const res = await Axios.post(
-      `/mes/SalesPlanning/CreateSalesPlanning`,
+      `/mes/SalesPlanning/CreatePurchasePlanning`,
       data
     );
     toast.success(res?.data?.message);
@@ -229,22 +229,8 @@ export const getProductionPlanning = async (
       },
     };
 
-    let modifyingRowData = res?.data?.data?.map((dataItem) => {
-      return {
-        ...dataItem,
-        productionPlanningRowId:
-          res?.data?.header?.productionPlanQtyInfoList?.find(
-            (item) => item?.itemId === dataItem?.itemId
-          )?.productionPlanningRowId || 0,
-        productionPlanningQty:
-          res?.data?.header?.productionPlanQtyInfoList?.find(
-            (item) => item?.itemId === dataItem?.itemId
-          )?.productionPlanningQty || 0,
-      };
-    });
-
     setterHeader(newHeader);
-    setterRow(modifyingRowData);
+    setterRow(res?.data?.data);
   } catch (error) {
     console.log(error.message);
   }

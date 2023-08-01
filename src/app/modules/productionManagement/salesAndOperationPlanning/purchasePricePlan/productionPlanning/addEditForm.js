@@ -6,11 +6,7 @@ import Form from "./form";
 import IForm from "../../../../_helper/_form";
 import { useLocation, useParams } from "react-router-dom";
 import Loading from "./../../../../_helper/_loading";
-import {
-  getPlantDDL,
-  createProductionEntry,
-  getProductionPlanning,
-} from "../helper";
+import { getPlantDDL, createProductionEntry, getProductionPlanning } from "../helper";
 import { toast } from "react-toastify";
 
 const initData = {
@@ -25,7 +21,7 @@ const initData = {
   monthId: "",
   itemPlanQty: "",
 };
-export default function ProductionPlanningForm({
+export default function PurchasePlanningForm({
   history,
   match: {
     params: { id },
@@ -34,7 +30,7 @@ export default function ProductionPlanningForm({
   // eslint-disable-next-line no-unused-vars
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
-  const [gridData, setGridData] = useState([]);
+  const [gridData, setGridData] = useState([])
 
   // eslint-disable-next-line no-unused-vars
   const [singleData, setSingleData] = useState({});
@@ -44,6 +40,7 @@ export default function ProductionPlanningForm({
   const [horizonDDL, setHorizonDDL] = useState([]);
   const [itemNameDDL, setItemNameDDL] = useState([]);
 
+  
   // get user profile data from store
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -73,22 +70,22 @@ export default function ProductionPlanningForm({
   const inputHandler = (item, value, name, rowDto, setRowDto) => {
     item[name] = value;
     setRowDto([...rowDto]);
-  };
+  }
 
   const saveHandler = (values, cb) => {
     if (values && profileData.accountId && selectedBusinessUnit) {
       const payload = {
         objHeader: {
-          salesPlanId: +params?.salesPlanId,
-          monthId: values?.horizon.value,
-          yearId: singleData?.year.value,
-          startDateTime: values?.startDate,
-          endDateTime: values?.endDate,
-          accountId: +profileData?.accountId,
-          plantId: values?.plant?.value,
-          businessUnitId: +selectedBusinessUnit?.value,
-          isActive: true,
-          actionBy: +profileData?.userId,
+          "salesPlanId": +params?.salesPlanId,
+          "monthId": values?.horizon.value,
+          "yearId": singleData?.year.value,
+          "startDateTime": values?.startDate,
+          "endDateTime": values?.endDate,
+          "accountId": +profileData?.accountId,
+          "plantId": values?.plant?.value,
+          "businessUnitId": +selectedBusinessUnit?.value,
+          "isActive": true,
+          "actionBy": +profileData?.userId,
         },
         objRow: gridData,
         // objRow: [
@@ -101,44 +98,42 @@ export default function ProductionPlanningForm({
         //     "isActive": true
         //   }
         // ],
-      };
+      }
       createProductionEntry(payload, cb);
     }
   };
 
   useEffect(() => {
-    var rowData = [];
-    for (let i = 0; i < rowDto.length; i++) {
+    var rowData=[];
+    for(let i=0; i<rowDto.length; i++){
       rowData.push({
-        itemId: rowDto[i].itemId,
-        itemName: rowDto[i].itemName,
-        uoMid: rowDto[i].uoMid,
-        productionPlanQty: +rowDto[i].productionPlanningQty || 0,
-        rate: 0,
-        isActive: true,
-        productionPlanningRowId: +rowDto[i].productionPlanningRowId || 0,
-      });
+        "itemId":rowDto[i].itemId,
+        "itemName":rowDto[i].itemName,
+        "uoMid":rowDto[i].uoMid,
+        "productionPlanQty": +rowDto[i].itemPlanQty,
+        "rate": 0,
+        "isActive": true
+    })
     }
-    setGridData(rowData);
+    setGridData(rowData)
   }, [rowDto]);
 
-  useEffect(() => {
+  useEffect(()=>{
     getProductionPlanning(
       profileData?.accountId,
       selectedBusinessUnit?.value,
       params?.plantId,
       params?.salesPlanId,
       setSingleData,
-      setRowDto
-    );
-  }, [params?.plantId, params?.salesPlanId]);
+      setRowDto,
+    )
+  }, [params?.plantId, params?.salesPlanId])
 
   const [objProps, setObjprops] = useState({});
 
   const remover = (index) => {
-    const data = [...rowDto];
-    data[index].isActive = false;
-    setRowDto(data);
+    const filterArr = rowDto.filter((item, ind) => ind !== index);
+    setRowDto(filterArr);
   };
   const rowDtoHandler = (values) => {
     const findDuplicate = rowDto?.find(
@@ -157,7 +152,7 @@ export default function ProductionPlanningForm({
       setRowDto([...rowDto, rowDataValues]);
     }
   };
-
+ 
   return (
     <IForm
       title={params?.id ? "Production Plan Edit" : "Production Plan Create"}
@@ -167,9 +162,7 @@ export default function ProductionPlanningForm({
       {isDisabled && <Loading />}
       <Form
         {...objProps}
-        initData={
-          params?.plantId && params?.salesPlanId ? singleData : initData
-        }
+        initData={(params?.plantId && params?.salesPlanId) ? singleData : initData}
         saveHandler={saveHandler}
         profileData={profileData}
         selectedBusinessUnit={selectedBusinessUnit}
