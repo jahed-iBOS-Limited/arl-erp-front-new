@@ -549,13 +549,13 @@ export default function SalesOrderForm({
         const _price = alotementPrice || itm?.price || 0;
         const numOrderValue = _price * itm?.quantity;
 
-        const additonRate =
+        const additionalRate =
           (+addData?.waterProofRate || 0) + (+addData?.pumpChargeRate || 0);
 
         //netValue
         const netValue =
           selectedBusinessUnit?.value === 175
-            ? numOrderValue + additonRate * itm?.quantity - itm?.discountValue
+            ? numOrderValue + additionalRate * itm?.quantity - itm?.discountValue
             : numOrderValue - (numOrderValue * itm?.discountValue) / 100;
         return {
           ...addData,
@@ -571,7 +571,7 @@ export default function SalesOrderForm({
                 (+itm?.quantity * +_price || 0) +
                 numOrderValue
               : selectedBusinessUnit?.value === 175
-              ? +itm?.quantity * additonRate + numOrderValue
+              ? +itm?.quantity * additionalRate + numOrderValue
               : +numOrderValue,
           numDiscountValue: itm?.discountValue,
           netValue: netValue,
@@ -642,7 +642,7 @@ export default function SalesOrderForm({
       SalesDiscountApiCallFunc(values, addData);
     } else {
       if (values.allCheckbox) {
-        const additonRate =
+        const additionalRate =
           (+values?.waterProofRate || 0) + (+values?.pumpChargeRate || 0);
 
         //if Checkbox true
@@ -651,19 +651,16 @@ export default function SalesOrderForm({
           itemCode: itm.itemCode,
           itemId: itm.itemId,
           itemName: itm.itemName,
-          numItemPrice: +itm.itemPrice + additonRate,
+          numItemPrice: +itm.itemPrice + additionalRate,
           waterProofRate: +values?.waterProofRate || 0,
           pumpChargeRate: +values?.pumpChargeRate || 0,
-          numOrderValue: +itm.value + +itm.quantity * additonRate,
+          numOrderValue: +itm.value + +itm.quantity * additionalRate,
           numRequestQuantity: +itm.quantity,
           uomName: itm.uom,
           uomId: itm.uomId,
           specification: itm.specification || "",
           numDiscountValue: 0,
-          netValue:
-            +itm.value +
-            +itm.quantity * additonRate -
-            ((+itm.value + +itm.quantity * additonRate) * 0) / 100,
+          netValue: +itm.value + +itm.quantity * additionalRate,
           isFree: "No",
           customerItemName: values?.customerItemName || itm.itemName,
         }));
@@ -674,7 +671,7 @@ export default function SalesOrderForm({
         ];
         setRowDto(unique);
       } else {
-        const additonRate =
+        const additionalRate =
           (+values?.waterProofRate || 0) + (+values?.pumpChargeRate || 0);
 
         //if Checkbox false
@@ -684,11 +681,11 @@ export default function SalesOrderForm({
             itemCode: referenceItemDetailsById.itemCode,
             itemId: referenceItemDetailsById.itemId,
             itemName: referenceItemDetailsById.itemName,
-            numItemPrice: +referenceItemDetailsById.itemPrice + additonRate,
+            numItemPrice: +referenceItemDetailsById.itemPrice + additionalRate,
             waterProofRate: +values?.waterProofRate || 0,
             numOrderValue:
               referenceItemDetailsById?.value +
-              (+referenceItemDetailsById.quantity * additonRate || 0),
+              (+referenceItemDetailsById.quantity * additionalRate || 0),
             numRequestQuantity: +referenceItemDetailsById.quantity,
             uomName: referenceItemDetailsById.uom,
             uomId: referenceItemDetailsById.uomId,
@@ -696,11 +693,7 @@ export default function SalesOrderForm({
             numDiscountValue: 0,
             netValue:
               referenceItemDetailsById?.value +
-              (+referenceItemDetailsById.quantity * additonRate || 0) -
-              ((referenceItemDetailsById?.value +
-                (+referenceItemDetailsById.quantity * additonRate || 0)) *
-                0) /
-                100,
+              (+referenceItemDetailsById.quantity * additionalRate || 0),
             isFree: "No",
             customerItemName:
               values?.customerItemName || referenceItemDetailsById.itemName,
@@ -1026,7 +1019,7 @@ export default function SalesOrderForm({
     IConfirmModal(confirmObject);
   };
 
-console.log(rowDto)
+  console.log(rowDto);
   return (
     <>
       {(isDisabled || loader) && <Loading />}
