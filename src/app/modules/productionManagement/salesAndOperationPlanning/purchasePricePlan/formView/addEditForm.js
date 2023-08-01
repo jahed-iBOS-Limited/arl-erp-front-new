@@ -27,7 +27,7 @@ const initData = {
   itemId: "",
   itemPlanQty: "",
 };
-export default function SalesAndProductionPlanCreateFormView({
+export default function PurchasePlanCreateFormView({
   history,
   match: {
     params: { viewId: id },

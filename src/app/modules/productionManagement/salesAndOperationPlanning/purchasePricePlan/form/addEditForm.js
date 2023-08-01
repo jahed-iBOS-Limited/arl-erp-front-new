@@ -27,7 +27,7 @@ const initData = {
   itemId: "",
   itemPlanQty: "",
 };
-export default function SalesAndProductionPlanCreateForm({
+export default function PurchasePlanCreateForm({
   history,
   match: {
     params: { id },

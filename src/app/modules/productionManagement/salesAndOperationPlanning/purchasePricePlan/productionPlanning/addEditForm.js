@@ -21,7 +21,7 @@ const initData = {
   monthId: "",
   itemPlanQty: "",
 };
-export default function ProductionPlanningForm({
+export default function PurchasePlanningForm({
   history,
   match: {
     params: { id },

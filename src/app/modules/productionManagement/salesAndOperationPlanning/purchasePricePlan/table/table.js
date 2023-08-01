@@ -17,7 +17,7 @@ import Loading from "../../../../_helper/_loading";
 import VersionModal from "./versionModal";
 import { SetSalesAndProductionTableLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 
-const SalesAndProductionTable = () => {
+const PurchasePlanTable = () => {
   const [loading, setLoading] = useState(false);
   const [plantDDL, setPlantDDL] = useState([]);
   const [yearDDL, setYearDDL] = useState([]);
@@ -68,7 +68,7 @@ const SalesAndProductionTable = () => {
   };
 
   return (
-    <ICustomCard title="Sales Plan" createHandler={createHandler}>
+    <ICustomCard title="Purchase Plan" createHandler={createHandler}>
       {loading && <Loading />}
 
       <div className="global-form row">
@@ -250,4 +250,4 @@ const SalesAndProductionTable = () => {
   );
 };
 
-export default SalesAndProductionTable;
+export default PurchasePlanTable;
