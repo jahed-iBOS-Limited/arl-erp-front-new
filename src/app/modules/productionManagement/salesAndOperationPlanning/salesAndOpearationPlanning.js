@@ -8,6 +8,7 @@ import ProductionMasterSchedulelLanding from "./productionMasterSchedule/Table/i
 import ProductionMasterSchedulelFrom from "./productionMasterSchedule/Form/addEditForm";
 import SalesAndProductionPlanCreateFormView from "./salesAndProductionPlan/formView/addEditForm";
 import MaterialReqPlanLanding from "./materialReqPlan/table/table";
+import Materialannualplan from "./materialReqPlan/table/table";
 import PurchasePlanTable from "./purchasePricePlan/table/table";
 import PurchasePlanCreateForm from "./purchasePricePlan/form/addEditForm";
 import PurchasePlanCreateFormView from "./purchasePricePlan/formView/addEditForm";
@@ -84,6 +85,10 @@ export function salesAndOperationsPlanning() {
       <ContentRoute
         path="/production-management/salesAndOperationsPlanning/materialReqPlan"
         component={MaterialReqPlanLanding}
+      />
+      <ContentRoute
+        path="/production-management/salesAndOperationsPlanning/materialannualplan"
+        component={Materialannualplan}
       />
     </Switch>
   );
