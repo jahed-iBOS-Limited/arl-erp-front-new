@@ -158,7 +158,6 @@ export default function _Form({
                     <th>Production Plan Quantity</th>
                     <th>Start Date</th>
                     <th>End Date</th>
-                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -180,23 +179,23 @@ export default function _Form({
                               setRowDto
                             );
                           }}
-                          min='0'
+                          min="0"
                           disabled
                         />
                       </td>
                       <td className="text-center">
                         <InputField
-                          value={+item?.productionPlanQty || ""}
-                          name="productionPlanQty"
+                          value={+item?.productionPlanningQty || ""}
+                          name="productionPlanningQty"
                           type="number"
                           onChange={(e) => {
-                            if(+e.target.value < 0){
-                              return
+                            if (+e.target.value < 0) {
+                              return;
                             }
                             inputHandler(
                               item,
                               e?.target?.value,
-                              "productionPlanQty",
+                              "productionPlanningQty",
                               rowDto,
                               setRowDto
                             );
@@ -208,9 +207,6 @@ export default function _Form({
                       </td>
                       <td className="pl-2 text-center">
                         {_dateFormatter(item?.enddateTime)}
-                      </td>
-                      <td className="text-center">
-                        <IDelete id={index} remover={remover} />
                       </td>
                     </tr>
                   ))}

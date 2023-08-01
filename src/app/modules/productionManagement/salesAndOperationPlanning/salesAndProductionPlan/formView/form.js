@@ -238,7 +238,7 @@ export default function _Form({
                     <th>Item Name</th>
                     <th>BOM</th>
                     <th>UoM Name</th>
-                    <th style={{ width: "150px" }}>Plan Quantity</th>
+                    <th style={{ width: "150px" }}>Sales Plan Quantity</th>
                     <th style={{ width: "150px" }}>Rate</th>
                     {/* <th>Action</th> */}
                   </tr>

@@ -300,7 +300,7 @@ export default function _Form({
                     <th>Item Code</th>
                     <th>BOM</th>
                     <th>UoM Name</th>
-                    <th>Plan Quantity</th>
+                    <th>Sales Plan Quantity</th>
                     <th>Rate</th>
                     <th>Action</th>
                   </tr>
