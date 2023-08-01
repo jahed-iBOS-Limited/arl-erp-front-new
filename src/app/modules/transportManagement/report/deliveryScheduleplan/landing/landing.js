@@ -543,6 +543,7 @@ function DeliveryScheduleplanReport() {
                                     <th>Sold To Party</th>
                                     <th>Ship To Party</th>
                                     <th>Address</th>
+                                    <th style={{ minWidth: "100px" }}>Item Name</th>
                                     <th>Quantity</th>
                                     {values?.trackingType?.value === 2 && (
                                       <>
@@ -647,6 +648,7 @@ function DeliveryScheduleplanReport() {
                                         <td>{item?.soldToPartnerName}</td>
                                         <td>{item?.shipToPartnerName}</td>
                                         <td>{item?.shipToPartnerAddress}</td>
+                                        <td>{item?.itemName}</td>
                                         <td className='text-center'>
                                           {item?.quantity}
                                         </td>

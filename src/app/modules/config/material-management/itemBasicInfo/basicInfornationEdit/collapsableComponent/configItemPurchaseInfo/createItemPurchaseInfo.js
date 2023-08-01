@@ -24,6 +24,11 @@ const initData = {
   hsCode: "",
   lotSize: 0,
   purchaseDescription: "",
+  minimumStockQuantity: "",
+  safetyStockQuantity : "",
+  maximumQuantity :"",
+  reorderQuantity : "",
+  reorderLevel:"",
 };
 
 export default function CreateItemPurchaseInfo({isViewPage}) {
@@ -148,6 +153,11 @@ export default function CreateItemPurchaseInfo({isViewPage}) {
         lotSize: values.lotSize || 0,
         isMrp: values.isMrp,
         actionBy: profileData.userId,
+        minimumStockQuantity : +values?.minimumStockQuantity || 0,
+        safetyStockQuantity : +values?.safetyStockQuantity || 0,
+        maximumQuantity : +values?.maximumQuantity || 0,
+        reorderQuantity : +values?.reorderQuantity || 0,
+        reorderLevel : values?.reorderLevel || "",
       };
       if (isExist) {
         data.configId = configId;

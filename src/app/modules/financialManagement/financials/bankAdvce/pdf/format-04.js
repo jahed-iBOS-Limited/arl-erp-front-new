@@ -11,6 +11,7 @@ export const FormatFour = ({
   total,
   totalInWords,
   fontSize,
+  isJamunaRtgs
 }) => {
   return (
     <>
@@ -73,7 +74,7 @@ export const FormatFour = ({
               fontSize: "10px",
             }}
           >
-            Subject: Fund Transfer through BEFTN
+            Subject: Fund Transfer through {isJamunaRtgs ? "RTGS" : "BEFTN"}
           </p>
           <p
             style={{ fontSize: "10px" }}
@@ -82,7 +83,7 @@ export const FormatFour = ({
             Dear Sir,
           </p>
           <p style={{ fontSize: "10px" }} className="font-weight-bold">
-            Please execute the BEFTN transaction as per following information:
+            Please execute the {isJamunaRtgs ? "RTGS" : "BEFTN"} transaction as per following information:
           </p>
           {/* <p style={{ fontSize: "10px" }} className="font-weight-bold">
           Detailed particulars of each Account Holder:
@@ -93,7 +94,7 @@ export const FormatFour = ({
           // style={{ width: "100%" }}
         >
           <thead>
-            {["jamunaBEFTN", "nrbcblBEFTN"].includes(values?.advice?.info) && (
+            {["jamunaBEFTN", "nrbcblBEFTN","jamuna-rtgs"].includes(values?.advice?.info) && (
               <tr>
                 <td
                   style={{
@@ -162,7 +163,7 @@ export const FormatFour = ({
             )}
           </thead>
           <tbody>
-            {["jamunaBEFTN", "nrbcblBEFTN"].includes(values?.advice?.info) && (
+            {["jamunaBEFTN", "nrbcblBEFTN","jamuna-rtgs"].includes(values?.advice?.info) && (
               <>
                 {adviceReportData?.map((itm, index) => {
                   // netTotal += itm?.numAmount;

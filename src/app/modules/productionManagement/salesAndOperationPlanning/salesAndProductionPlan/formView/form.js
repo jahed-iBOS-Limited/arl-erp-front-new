@@ -239,6 +239,7 @@ export default function _Form({
                     <th>BOM</th>
                     <th>UoM Name</th>
                     <th style={{ width: "150px" }}>Plan Quantity</th>
+                    <th style={{ width: "150px" }}>Rate</th>
                     {/* <th>Action</th> */}
                   </tr>
                 </thead>
@@ -260,6 +261,25 @@ export default function _Form({
                               "itemPlanQty",
                               item,
                               +e.target.value,
+                              setRowDto,
+                              rowDto
+                            );
+                          }}
+                          className="quantity-field form-control text-right"
+                          min="0"
+                          disabled
+                        />
+                      </td>
+                      <td className="text-center">
+                        <input
+                          type="number"
+                          name="rate"
+                          value={item?.rate}
+                          onChange={(e) => {
+                            dataHandler(
+                              "rate",
+                              item,
+                              e.target.value,
                               setRowDto,
                               rowDto
                             );

@@ -35,7 +35,8 @@ const initData = {
 
 const reportTypes = [
   { value: 1, label: "Trip Cost Report" },
-  { value: 2, label: "Vehicle Efficiency Details" },
+  { value: 2, label: "Per Bag Cost Details" },
+  { value: 3, label: "Vehicle Efficiency Details" },
 ];
 
 function TripCostReportReport() {
@@ -53,11 +54,22 @@ function TripCostReportReport() {
     return state?.commonDDL?.shippointDDL;
   }, shallowEqual);
 
-  const reportId = `c8aafa76-d1d0-476c-8f83-39819a54af63`;
+  const reportId = (values) => {
+    const typeId = values?.reportType?.value;
+    const report_id =
+      typeId === 2
+        ? `c8aafa76-d1d0-476c-8f83-39819a54af63`
+        : typeId === 3
+        ? `3a7f6f69-1b3a-4564-8898-a21598556915`
+        : "";
+    return report_id;
+  };
+
   const groupId = `e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`;
 
   const parameterValues = (values) => {
-    return [
+    const typeId = values?.reportType?.value;
+    const perBagCostDetails = [
       { name: "ShipPointId", value: `${+values?.shipPoint?.value}` },
       { name: "BusinessUnitId", value: `${+buId}` },
       { name: "FromDate", value: `${values?.fromDate}` },
@@ -71,6 +83,20 @@ function TripCostReportReport() {
       { name: "territoryid", value: `${+values?.territory?.value}` },
       { name: "ReportType", value: `${+values?.reportType?.value}` },
     ];
+
+    const vehicleEfficiencyDetails = [
+      { name: "Shippointid", value: `${+values?.shipPoint?.value}` },
+      { name: "FromDate", value: `${values?.fromDate}` },
+      { name: "ToDate", value: `${values?.toDate}` },
+    ];
+
+    const params =
+      typeId === 2
+        ? perBagCostDetails
+        : typeId === 3
+        ? vehicleEfficiencyDetails
+        : [];
+    return params;
   };
 
   const showHandler = (values) => {
@@ -86,7 +112,7 @@ function TripCostReportReport() {
         setGridData,
         setLoading
       );
-    } else if ([2].includes(typeId)) {
+    } else if ([2, 3].includes(typeId)) {
       setBIReport(true);
     }
   };
@@ -211,10 +237,11 @@ function TripCostReportReport() {
                       obj={{ accId, buId, gridData, values, buName, printRef }}
                     />
                   )}
-                  {[2].includes(values?.reportType?.value) && biReport && (
+                  {/* Power BI Reports */}
+                  {[2, 3].includes(values?.reportType?.value) && biReport && (
                     <PowerBIReport
                       groupId={groupId}
-                      reportId={reportId}
+                      reportId={reportId(values)}
                       parameterValues={parameterValues(values)}
                       parameterPanel={false}
                     />

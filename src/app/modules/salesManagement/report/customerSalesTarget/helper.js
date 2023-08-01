@@ -132,7 +132,7 @@ export const getSalesTargetById = async (
           uom: item?.intUomid,
           itemId: item?.intItemId,
           targetQty: +item?.targetQuantity || 0,
-          isSelected: true
+          isSelected: true,
         });
       });
 

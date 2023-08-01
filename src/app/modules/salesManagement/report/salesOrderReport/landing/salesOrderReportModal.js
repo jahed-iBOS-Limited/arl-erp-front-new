@@ -31,7 +31,7 @@ export default function SalesOrderReportModal({ data, show, onHide }) {
         </Modal.Header>
         <Modal.Body id="example-modal-sizes-title-xl">
           <div className="loan-scrollable-table">
-            <div className="scroll-table _table" style={{ maxHeight: "400px" }}>
+            <div>
               <table className="table table-striped table-bordered bj-table bj-table-landing text-center">
                 <thead>
                   <tr>
@@ -43,6 +43,9 @@ export default function SalesOrderReportModal({ data, show, onHide }) {
 
                     <th style={{ minWidth: "75px" }}>Delivery Quantity</th>
                     <th style={{ minWidth: "100px" }}>Delivery Value</th>
+                    <th style={{ minWidth: "100px" }}>
+                      Shipment Complete Date
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -62,6 +65,7 @@ export default function SalesOrderReportModal({ data, show, onHide }) {
                         <td className="text-right">
                           {_fixedPoint(item?.deliveryValue, true, 0)}
                         </td>
+                        <td>{_dateFormatter(item?.shipmentCompleteDate)}</td>
                       </tr>
                     );
                   })}
@@ -71,6 +75,7 @@ export default function SalesOrderReportModal({ data, show, onHide }) {
                     </td>
                     <td>{_fixedPoint(totalDeliveryQty, true, 0)}</td>
                     <td>{_fixedPoint(totalDeliveryValue, true, 0)}</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>

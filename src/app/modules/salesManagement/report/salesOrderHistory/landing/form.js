@@ -33,6 +33,16 @@ const initData = {
   salesOrderCodeInput: "",
 };
 
+const reportNameList = [
+  { value: 1, label: "Sales order history" },
+  { value: 2, label: "Challan History" },
+  { value: 3, label: "All sales order status" },
+  { value: 4, label: "Un delivery qnt status" },
+  { value: 5, label: "Sales order qnt negative" },
+  { value: 6, label: "Pending qnt update" },
+  // { value: 7, label: "Transport/Shipment Quantity (not completed)" },
+];
+
 export default function SalesOrderHistoryLanding() {
   const printRef = useRef();
 
@@ -85,6 +95,11 @@ export default function SalesOrderHistoryLanding() {
           0}&intbusinessunitid=${buId}&SalesOrderCode=${values?.salesOrderCodeInput ||
           "'"}&intpartid=${typeId}`
       );
+    } else if (typeId === 7) {
+      getSalesOrderData(
+        `/oms/OManagementReport/ShipmentNotCompletedInfo?accountId=${accId}&businessUnitId=${buId}&businessPartnerId=${values
+          ?.customer?.value || 0}`
+      );
     }
   };
 
@@ -110,14 +125,7 @@ export default function SalesOrderHistoryLanding() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="reportName"
-                      options={[
-                        { value: 1, label: "Sales order history" },
-                        { value: 2, label: "Challan History" },
-                        { value: 3, label: "All sales order status" },
-                        { value: 4, label: "Un delivery qnt status" },
-                        { value: 5, label: "Sales order qnt negative" },
-                        { value: 6, label: "Pending qnt update" },
-                      ]}
+                      options={reportNameList}
                       value={values?.reportName}
                       label="Report Name"
                       onChange={(valueOption) => {
@@ -271,7 +279,11 @@ export default function SalesOrderHistoryLanding() {
               {(loading || loadingLan) && <Loading />}
               {[3, 4, 5, 6].includes(values?.reportName?.value) &&
               salesOrderData?.length ? (
-                <CommonTable salesOrderData={salesOrderData} />
+                <CommonTable
+                  salesOrderData={salesOrderData}
+                  buId={buId}
+                  values={values}
+                />
               ) : null}
               <Table rowDto={rowDto} printRef={printRef} values={values} />
             </div>

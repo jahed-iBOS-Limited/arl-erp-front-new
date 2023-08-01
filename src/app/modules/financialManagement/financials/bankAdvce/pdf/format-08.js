@@ -1,10 +1,19 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useState } from "react";
 import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
 import numberWithCommas from "../../../../_helper/_numberWithCommas";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import { APIUrl } from "../../../../../App";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
+import axios from "axios";
+import { useEffect } from "react";
+
+export const fetchMoneyInWord = async (number) => {
+  try {
+    const res = await axios.get(`/fino/Expense/MoneyInWord?Money=${number}`);
+    return res?.data;
+  } catch (error) {}
+};
 
 const thStyle = {
   border: "1px solid #000",
@@ -19,6 +28,22 @@ export const FormatEight = ({
   totalInWords,
   fontSize,
 }) => {
+  const [amounts, setAmounts] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const newAmounts = await Promise.all(
+        adviceReportData.map(async (item) => {
+          const moneyInWord = await fetchMoneyInWord(item?.numAmount);
+          return moneyInWord;
+        })
+      );
+      setAmounts(newAmounts);
+    };
+
+    fetchData();
+  }, [adviceReportData]);
+
   return (
     <>
       {adviceReportData?.length > 0 &&
@@ -62,7 +87,7 @@ export const FormatEight = ({
                 style={{ fontSize: "14px" }}
                 className="font-weight-bold text-right"
               >
-                Date: {dateFormatWithMonthName(_todayDate())}
+                Date: {dateFormatWithMonthName(values?.dateTime)}
               </p>
               <p
                 style={{ fontSize: "14px" }}
@@ -398,7 +423,7 @@ export const FormatEight = ({
                         ...(fontSize && { fontSize }),
                       }}
                     >
-                      <b>+880 1776-940063</b>
+                      <b>{item?.strNaration}</b>
                     </div>
                   </td>
                   <td
@@ -413,7 +438,7 @@ export const FormatEight = ({
                         ...(fontSize && { fontSize }),
                       }}
                     >
-                      <b>+880 1711-539209</b>
+                      <b>{item?.strNaration}</b>
                     </div>
                   </td>
                 </tr>
@@ -583,12 +608,7 @@ export const FormatEight = ({
                       }}
                     >
                       <b>
-                        {adviceReportData.length > 0 &&
-                          numberWithCommas(
-                            adviceReportData
-                              ?.reduce((acc, item) => acc + item?.numAmount, 0)
-                              ?.toFixed(2)
-                          )}
+                        {numberWithCommas((item?.numAmount || 0)?.toFixed(2))}
                       </b>
                     </div>
                   </td>
@@ -627,12 +647,7 @@ export const FormatEight = ({
                         ...(fontSize && { fontSize }),
                       }}
                     >
-                      {adviceReportData.length > 0 &&
-                        numberWithCommas(
-                          adviceReportData
-                            ?.reduce((acc, item) => acc + item?.numAmount, 0)
-                            ?.toFixed(2)
-                        )}
+                      {numberWithCommas((item?.numAmount || 0)?.toFixed(2))}
                     </div>
                   </td>
                 </tr>
@@ -663,7 +678,7 @@ export const FormatEight = ({
                         ...(fontSize && { fontSize }),
                       }}
                     >
-                      <b>{totalInWords}</b>
+                      <b>{amounts?.[index]} Taka Only</b>
                     </div>
                   </td>
                 </tr>
@@ -682,9 +697,6 @@ export const FormatEight = ({
             <p>Yours Faithfully,</p>
             <p className="font-weight-bold" style={{ fontSize: "14px" }}>
               For {values?.bankAccountNo?.accountName}
-            </p>
-            <p className="font-weight-bold" style={{ fontSize: "14px" }}>
-              A/C No : {values?.bankAccountNo?.bankAccNo}
             </p>
             <div className="font-weight-bold " style={{ marginTop: "60px" }}>
               <div className="d-flex">
@@ -706,8 +718,13 @@ export const FormatEight = ({
                 </h6>
               </div>
             </div>
+            <p className="font-weight-bold" style={{ fontSize: "14px" }}>
+              A/C No : {values?.bankAccountNo?.bankAccNo}
+            </p>
             <div style={{ marginTop: "150px" }}>
-              <b className="rtgs-address">{values?.bankAccountNo?.accountName}</b>
+              <b className="rtgs-address">
+                {values?.bankAccountNo?.accountName}
+              </b>
               <p className="rtgs-address">
                 Akij House, 198 Bir Uttam Mir Shawkat Sarak,
               </p>

@@ -129,7 +129,7 @@ export default function ShippingPointTransportZoneForm() {
     getBanks(`/costmgmt/BankAccount/GETBankDDl`);
   }, [accId, buId]);
 
-  const saveHandlerTwo = (values,cb) => {
+  const saveHandlerTwo = (values, cb) => {
     if (rows?.length < 1) {
       return toast.warn("Please add at least one row!");
     }
@@ -184,6 +184,28 @@ export default function ShippingPointTransportZoneForm() {
     setRows(newRows);
   };
 
+  const setBankInfo = (currentValue, setFieldValue) => {
+    if (currentValue) {
+      setFieldValue("bank", {
+        label: currentValue?.bankName,
+        value: currentValue?.bankId,
+      });
+      setFieldValue("branch", {
+        label: currentValue?.branchName,
+        value: currentValue?.branchId,
+      });
+      setFieldValue("bankAccountName", currentValue?.bankAccountName);
+      setFieldValue("bankAccountNumber", currentValue?.accountNumber);
+      setFieldValue("routingNumber", currentValue?.routingNumber);
+    } else {
+      setFieldValue("bank", "");
+      setFieldValue("branch", "");
+      setFieldValue("bankAccountName", "");
+      setFieldValue("bankAccountNumber", "");
+      setFieldValue("routingNumber", "");
+    }
+  };
+
   const loadingTwo =
     shipPointDDLLoader ||
     empLoader ||
@@ -231,6 +253,7 @@ export default function ShippingPointTransportZoneForm() {
             addHandler,
             getBranches,
             setBranches,
+            setBankInfo,
             shipPointDDL,
             loading: loadingTwo,
             saveHandler: saveHandlerTwo,

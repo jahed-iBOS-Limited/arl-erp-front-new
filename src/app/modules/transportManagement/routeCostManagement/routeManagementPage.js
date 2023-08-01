@@ -2,7 +2,6 @@ import React from "react";
 import { Redirect, Switch } from "react-router-dom";
 import { LayoutSplashScreen, ContentRoute } from "../../../../_metronic/layout";
 import { Suspense } from "react";
-import VehicleLogLanding from "./vehicleLog/Landing";
 import VehicleLogBookForm from "./vehicleLog/Form/addEditForm";
 import VehicleLogExpenseForm from "./vehicleLog/expenseForm/addEditForm";
 import { ShipmentCostTable } from "./shipmentCost/Table/tableHeader";
@@ -31,6 +30,8 @@ import { ManualShipmentCostTable } from "./manualShipmentCost/Table/tableHeader"
 import FuelLogNExpense from "./fuelLogNExpense/form";
 import FuelLogModify from "./fuelLogModify/landing";
 import TripCostStatement from "./vehicleTrip/vehicleTrip";
+import VehicleProblemEntryForm from "./vehicleLog/problemForm/addEditForm";
+import VehicleLogLanding from "./vehicleLog/landing/index";
 
 export function RouteManagementPage() {
   const userRole = useSelector(
@@ -53,6 +54,10 @@ export function RouteManagementPage() {
         />
 
         {/* Vehicle Log Book */}
+        <ContentRoute
+          path="/transport-management/routecostmanagement/routestandardcost/vehicleProblem"
+          component={VehicleProblemEntryForm}
+        />
         <ContentRoute
           path="/transport-management/routecostmanagement/routestandardcost/vehicleLogExpense/create"
           component={VehicleLogExpenseForm}

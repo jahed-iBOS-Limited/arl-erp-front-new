@@ -128,6 +128,7 @@ const ServiceChargeAndIncomeElementLanding = () => {
                       <th style={{ minWidth: "30px" }} rowSpan={2}>
                         SL
                       </th>
+                      <th>Mother Vessel</th>
                       <th>Warehouse</th>
                       <th>Item</th>
                       <th style={{ minWidth: "70px" }}>Actions</th>
@@ -139,6 +140,9 @@ const ServiceChargeAndIncomeElementLanding = () => {
                         <tr key={i}>
                           <td className="text-center" style={{ width: "30px" }}>
                             {i + 1}
+                          </td>
+                          <td className="text-center">
+                            {item?.motherVesselName}
                           </td>
                           <td className="text-center">{item?.wareHouseName}</td>
                           <td className="text-center">{item?.itemName}</td>

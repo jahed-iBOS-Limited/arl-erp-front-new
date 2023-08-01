@@ -49,6 +49,7 @@ export default function _Form({
   selectedBusinessUnit,
   profileData,
   setLoading,
+  buSetOne,
 }) {
   const { approveid } = useParams();
   const hiddenFileInput = React.useRef(null);
@@ -194,7 +195,10 @@ export default function _Form({
                   {approveid && (
                     <div
                       className="col-lg-2 offset-5 approvalChackBox d-flex"
-                      style={{ marginTop: "-45px", position: "absolute" }}
+                      style={{
+                        marginTop: "-45px",
+                        position: "absolute",
+                      }}
                     >
                       <span className="mr-2" style={{ fontWeight: "bold" }}>
                         Approval
@@ -219,9 +223,7 @@ export default function _Form({
                       disabled={true}
                     />
                   </div>
-                  {![4, 175, 171, 244]?.includes(
-                    selectedBusinessUnit?.value
-                  ) && (
+                  {!buSetOne && (
                     <div className="col-lg-3">
                       <InputField
                         value={values?.businessPartner}
@@ -232,9 +234,7 @@ export default function _Form({
                       />
                     </div>
                   )}
-                  {![4, 175, 171, 244]?.includes(
-                    selectedBusinessUnit?.value
-                  ) ? (
+                  {!buSetOne ? (
                     <div className="col-lg-3">
                       <InputField
                         value={rowDto.reduce((a, b) => a + b.amount, 0)}
@@ -332,9 +332,7 @@ export default function _Form({
                       isDisabled={isEdit}
                     />
                   </div>
-                  {![4, 175, 171, 224]?.includes(
-                    selectedBusinessUnit?.value
-                  ) && (
+                  {!buSetOne && (
                     <>
                       <div className="col-lg-3">
                         <InputField
@@ -367,157 +365,154 @@ export default function _Form({
                       />
                     </div>
                   )}
-                  {[4, 175, 171, 224].includes(selectedBusinessUnit?.value) &&
-                    !isEdit && (
-                      <>
-                        <div className="col-lg-3">
-                          <NewSelect
-                            name="salesOrg"
-                            options={salesOrgDDL}
-                            value={values?.salesOrg}
-                            label="Sales Org"
-                            onChange={(valueOption) => {
-                              setRowDto([]);
-                              setFieldValue("salesOrg", valueOption);
-                              setFieldValue("item", "");
-                            }}
-                            placeholder="Sales Org"
-                            errors={errors}
-                            touched={touched}
-                          />
-                        </div>
-                        <div className="col-lg-3">
-                          <NewSelect
-                            name="distributionChannel"
-                            options={distributionChannelDDL}
-                            value={values?.distributionChannel}
-                            label="Distribution Channel"
-                            onChange={(valueOption) => {
-                              setRowDto([]);
-                              setFieldValue("distributionChannel", valueOption);
-                              setFieldValue("region", "");
-                              setFieldValue("area", "");
-                              setFieldValue("item", "");
+                  {buSetOne && !isEdit && (
+                    <>
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="salesOrg"
+                          options={salesOrgDDL}
+                          value={values?.salesOrg}
+                          label="Sales Org"
+                          onChange={(valueOption) => {
+                            setRowDto([]);
+                            setFieldValue("salesOrg", valueOption);
+                            setFieldValue("item", "");
+                          }}
+                          placeholder="Sales Org"
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="distributionChannel"
+                          options={distributionChannelDDL}
+                          value={values?.distributionChannel}
+                          label="Distribution Channel"
+                          onChange={(valueOption) => {
+                            setRowDto([]);
+                            setFieldValue("distributionChannel", valueOption);
+                            setFieldValue("region", "");
+                            setFieldValue("area", "");
+                            setFieldValue("item", "");
+                            getRegionAreaTerritory({
+                              channelId: valueOption?.value,
+                              setter: setRegionDDL,
+                              setLoading: setLoading,
+                              value: "regionId",
+                              label: "regionName",
+                            });
+                            getItemSalesByChannelDDL(
+                              profileData?.accountId,
+                              selectedBusinessUnit?.value,
+                              valueOption?.value,
+                              values?.salesOrg?.value,
+                              setItemDDL
+                            );
+                          }}
+                          placeholder="Distribution Channel"
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="item"
+                          options={itemDDL}
+                          value={values?.item}
+                          label="Item"
+                          onChange={(valueOption) => {
+                            setRowDto([]);
+                            setFieldValue("item", valueOption);
+                            getUoMitemPlantWarehouseDDL_api(
+                              profileData?.accountId,
+                              selectedBusinessUnit?.value,
+                              0,
+                              valueOption?.value,
+                              setFieldValue
+                            );
+                          }}
+                          placeholder="Item"
+                          errors={errors}
+                          touched={touched}
+                          isDisabled={!values?.distributionChannel}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="region"
+                          options={regionDDL || []}
+                          value={values?.region}
+                          label="Region"
+                          onChange={(valueOption) => {
+                            setFieldValue("area", "");
+                            setRowDto([]);
+                            setFieldValue("region", valueOption);
+                            if (valueOption) {
                               getRegionAreaTerritory({
-                                channelId: valueOption?.value,
-                                setter: setRegionDDL,
+                                channelId: values?.distributionChannel?.value,
+                                regionId: valueOption?.value,
+                                setter: setAreaDDL,
                                 setLoading: setLoading,
-                                value: "regionId",
-                                label: "regionName",
+                                value: "areaId",
+                                label: "areaName",
                               });
-                              getItemSalesByChannelDDL(
+                            }
+                          }}
+                          placeholder="Region"
+                          errors={errors}
+                          touched={touched}
+                          isDisabled={!values?.distributionChannel}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="area"
+                          options={areaDDL || []}
+                          value={values?.area}
+                          label="Area"
+                          onChange={(valueOption) => {
+                            setRowDto([]);
+                            setFieldValue("area", valueOption);
+                          }}
+                          placeholder="Area"
+                          errors={errors}
+                          touched={touched}
+                          isDisabled={!values?.region}
+                        />
+                      </div>
+                      <div className="col-lg-3 mt-5">
+                        <div className="d-flex">
+                          <button
+                            className="btn btn-primary"
+                            type="button"
+                            disabled={
+                              !values?.area ||
+                              !values?.salesOrg ||
+                              !values?.uom ||
+                              !values?.targetYear ||
+                              !values?.targetMonth ||
+                              !values?.sbu
+                            }
+                            onClick={() => {
+                              setRowDto([]);
+                              GetSalesTargetEntry(
                                 profileData?.accountId,
                                 selectedBusinessUnit?.value,
-                                valueOption?.value,
-                                values?.salesOrg?.value,
-                                setItemDDL
+                                values,
+                                setRowDto,
+                                setLoading
                               );
                             }}
-                            placeholder="Distribution Channel"
-                            errors={errors}
-                            touched={touched}
-                          />
+                          >
+                            Target Entry
+                          </button>
                         </div>
-                        <div className="col-lg-3">
-                          <NewSelect
-                            name="item"
-                            options={itemDDL}
-                            value={values?.item}
-                            label="Item"
-                            onChange={(valueOption) => {
-                              setRowDto([]);
-                              setFieldValue("item", valueOption);
-                              getUoMitemPlantWarehouseDDL_api(
-                                profileData?.accountId,
-                                selectedBusinessUnit?.value,
-                                0,
-                                valueOption?.value,
-                                setFieldValue
-                              );
-                            }}
-                            placeholder="Item"
-                            errors={errors}
-                            touched={touched}
-                            isDisabled={!values?.distributionChannel}
-                          />
-                        </div>
-                        <div className="col-lg-3">
-                          <NewSelect
-                            name="region"
-                            options={regionDDL || []}
-                            value={values?.region}
-                            label="Region"
-                            onChange={(valueOption) => {
-                              setFieldValue("area", "");
-                              setRowDto([]);
-                              setFieldValue("region", valueOption);
-                              if (valueOption) {
-                                getRegionAreaTerritory({
-                                  channelId: values?.distributionChannel?.value,
-                                  regionId: valueOption?.value,
-                                  setter: setAreaDDL,
-                                  setLoading: setLoading,
-                                  value: "areaId",
-                                  label: "areaName",
-                                });
-                              }
-                            }}
-                            placeholder="Region"
-                            errors={errors}
-                            touched={touched}
-                            isDisabled={!values?.distributionChannel}
-                          />
-                        </div>
-                        <div className="col-lg-3">
-                          <NewSelect
-                            name="area"
-                            options={areaDDL || []}
-                            value={values?.area}
-                            label="Area"
-                            onChange={(valueOption) => {
-                              setRowDto([]);
-                              setFieldValue("area", valueOption);
-                            }}
-                            placeholder="Area"
-                            errors={errors}
-                            touched={touched}
-                            isDisabled={!values?.region}
-                          />
-                        </div>
-                        <div className="col-lg-3 mt-5">
-                          <div className="d-flex">
-                            <button
-                              className="btn btn-primary"
-                              type="button"
-                              disabled={
-                                !values?.area ||
-                                !values?.salesOrg ||
-                                !values?.uom ||
-                                !values?.targetYear ||
-                                !values?.targetMonth ||
-                                !values?.sbu
-                              }
-                              onClick={() => {
-                                setRowDto([]);
-                                GetSalesTargetEntry(
-                                  profileData?.accountId,
-                                  selectedBusinessUnit?.value,
-                                  values,
-                                  setRowDto,
-                                  setLoading
-                                );
-                              }}
-                            >
-                              Target Entry
-                            </button>
-                          </div>
-                        </div>
-                      </>
-                    )}
+                      </div>
+                    </>
+                  )}
                   <div className="col-lg-12"></div>
-                  {![4, 175, 171, 224].includes(
-                    selectedBusinessUnit?.value
-                  ) && (
+                  {!buSetOne && (
                     <div className="col-lg-5 mt-3 d-flex ">
                       <div className="mr-3">
                         <button
@@ -569,79 +564,7 @@ export default function _Form({
                   )}
                 </div>
               </div>
-              {/* <div className="global-form mt-1 p-2">
-                <div className="form-group row">
-                  <div className="col">
-                    <NewSelect
-                      name="item"
-                      options={itemNameDDL}
-                      value={values?.item}
-                      label="Item"
-                      onChange={(valueOption) => {
-                        setFieldValue("item", valueOption);
-                        setFieldValue("uom", valueOption?.uomName);
-                      }}
-                      placeholder="Select Item"
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                  <div className="col">
-                    <label>UOM</label>
-                    <InputField
-                      value={values?.uom}
-                      name="uom"
-                      type="text"
-                      disabled={true}
-                    />
-                  </div>
-                  <div className="col">
-                    <label>Rate</label>
-                    <InputField
-                      value={values?.rate}
-                      name="rate"
-                      type="text"
-                      disabled={true}
-                    />
-                  </div>
 
-                  <div className="col">
-                    <label>Target Quantity</label>
-                    <InputField
-                      value={values?.quantity}
-                      name="quantity"
-                      type="text"
-                    />
-                  </div>
-                  <div className="col">
-                    <button
-                      className="btn btn-primary"
-                      type="button"
-                      onClick={() => {
-                        rowDataAddHandler({
-                          itemId: values?.item?.value,
-                          itemName: values?.item?.label,
-                          itemCode: values?.item?.code,
-                          uom: values?.item?.uomId,
-                          uomname: values?.item?.uomName,
-                          targetQuantity: values?.quantity,
-                          itemSalesRate: values?.rate,
-                          amount: values?.rate * values?.quantity,
-                          uomCode: values?.item?.uomCode,
-                        });
-                      }}
-                      style={{
-                        marginTop: "20px",
-                      }}
-                      disabled={
-                        !values?.item || !values?.quantity || !values?.rate
-                      }
-                    >
-                      Add
-                    </button>
-                  </div>
-                </div>
-              </div> */}
               <h4>
                 Total Target Qty:{" "}
                 {_fixedPoint(
@@ -659,6 +582,7 @@ export default function _Form({
                   rowDto={rowDto}
                   rowDtoHandler={rowDtoHandler}
                   setRowDto={setRowDto}
+                  buSetOne={buSetOne}
                 />
               )}
 

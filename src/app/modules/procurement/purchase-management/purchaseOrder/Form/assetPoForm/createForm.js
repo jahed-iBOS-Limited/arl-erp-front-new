@@ -24,6 +24,7 @@ import useAxiosGet from "../../customHooks/useAxiosGet";
 import NewSelect from "../../../../../_helper/_select";
 import { getProfitCenterList } from "../assetStandardPo/helper";
 import Loading from "../../../../../_helper/_loading";
+import AttachmentUploaderNew from "../../../../../_helper/attachmentUploaderNew";
 
 // This form is also used for standard PO
 
@@ -41,6 +42,8 @@ export default function AssetPOCreateForm({
   const [refNoDDL, setRefNoDDL] = useState([]);
   const [loading, setLoading] = useState(false);
   const [profitCenterList, setProfitCenterList] = useState([]);
+  const [attachmentList, setAttachmentList] = useState([]);
+
 
   // redux store data
   const storeData = useSelector((state) => {
@@ -266,7 +269,7 @@ export default function AssetPOCreateForm({
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, rowDto, () => {
+          saveHandler({...values, attachmentList}, rowDto, () => {
             resetForm(initData);
             setRowDto([]);
           });
@@ -439,6 +442,13 @@ export default function AssetPOCreateForm({
                       name="leadTimeDays"
                       type="number"
                     />
+                  </div>
+                  <div className="col-lg-2 mt-5">
+                    <AttachmentUploaderNew CBAttachmentRes={(attachmentData)=>{
+                      if(Array.isArray(attachmentData)){
+                        setAttachmentList(attachmentData);
+                      }
+                    }}/>
                   </div>
                   <div className="col-lg-2">
                     <div

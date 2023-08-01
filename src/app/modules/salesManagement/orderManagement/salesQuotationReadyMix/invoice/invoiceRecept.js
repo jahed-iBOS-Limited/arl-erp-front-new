@@ -46,12 +46,12 @@ const InvoiceRecept = ({ printRef, invoiceData, businessPartnerInfo }) => {
             {/* <p>Banani, Dhaka-1213</p> */}
           </div>
 
-          <div className="bold my-4">
+          <div className="bold my-3">
             Subject: Commercial offer for "Akij Brand" Ready Mix Concrete
             {/* for Your prestigious Dhanmondi project. */}
           </div>
 
-          <div className="mb-4">
+          <div className="mb-3">
             <p>Dear Sir,</p>
             <p>
               We are very much pleased to revised offer your esteemed
@@ -61,7 +61,7 @@ const InvoiceRecept = ({ printRef, invoiceData, businessPartnerInfo }) => {
             </p>
           </div>
 
-          <div className="mb-4">
+          <div className="mb-3">
             <div className="border-btm d-flex justify-content-between">
               <p className="bold">Delivery Address:</p>
               <p className="bold">Delivery Form</p>
@@ -80,7 +80,7 @@ const InvoiceRecept = ({ printRef, invoiceData, businessPartnerInfo }) => {
             </div>
           </div>
 
-          <div className="mb-4">
+          <div className="mb-2">
             <p className="bold border-btm">Product Specification</p>
 
             <div>
@@ -166,7 +166,7 @@ const InvoiceRecept = ({ printRef, invoiceData, businessPartnerInfo }) => {
           </ul>
         </div>
 
-        <div className="my-4">
+        <div className="my-2">
           <p className="bold border-btm">
             We will also provide you "Computerized Blending Sheet" with every
             mixture truck.
@@ -202,7 +202,7 @@ const InvoiceRecept = ({ printRef, invoiceData, businessPartnerInfo }) => {
           </p>
         </div> */}
 
-        <div className="mb-4">
+        <div className="mb-2">
           <p className="bold">Pumping Charge</p>
           <p>
             Pump shall be provided for quantities more than 1500 cft. It pumps
@@ -211,7 +211,7 @@ const InvoiceRecept = ({ printRef, invoiceData, businessPartnerInfo }) => {
           </p>
         </div>
 
-        <div className="mb-4">
+        <div className="mb-2">
           <p className="bold">Grouting: </p>
           <p>
             Client will have to provide minimum 4/6/8 Nos bags cement for
@@ -219,7 +219,7 @@ const InvoiceRecept = ({ printRef, invoiceData, businessPartnerInfo }) => {
           </p>
         </div>
 
-        <div className="mb-4">
+        <div className="mb-2">
           <p className="bold">Price Validity: </p>
           <p>
             The prices are valid for 30 days from the date of submission of
@@ -227,7 +227,7 @@ const InvoiceRecept = ({ printRef, invoiceData, businessPartnerInfo }) => {
           </p>
         </div>
 
-        <div className="mb-4">
+        <div className="mb-2">
           <p className="bold">Supply Validity: </p>
           <p>
             Supply validity at the above rates is for 30 days from te date of
@@ -242,7 +242,7 @@ const InvoiceRecept = ({ printRef, invoiceData, businessPartnerInfo }) => {
 
       <p className="bold mt-2">Thanks & Best Regards,</p>
 
-      <p className="bold mt-6"> {employeeFullName} </p>
+      <p className="bold mt-3"> {employeeFullName} </p>
       <p className="bold"> {designationName} </p>
     </div>
   );
