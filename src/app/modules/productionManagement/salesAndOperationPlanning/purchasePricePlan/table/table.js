@@ -151,7 +151,7 @@ const PurchasePlanTable = () => {
                 <th>Start Date</th>
                 <th>End Date</th>
                 <th>Plan Quantity</th>
-                <th>Action</th>
+                {/* <th>Action</th> */}
               </tr>
             </thead>
             <tbody>
@@ -162,10 +162,10 @@ const PurchasePlanTable = () => {
                   <td>{_dateFormatter(item?.startDate)}</td>
                   <td>{_dateFormatter(item?.endDate)}</td>
                   <td>{item?.planQTY}</td>
-                  <td>
-                    <div className="d-flex justify-content-around">
+                  {/* <td> */}
+                    {/* <div className="d-flex justify-content-around"> */}
                       {/* Edit */}
-                      <span
+                      {/* <span
                         onClick={() =>
                           history.push(
                             `/production-management/salesAndOperationsPlanning/PurchasePlan/edit/${item?.salesPlanId}`
@@ -173,10 +173,10 @@ const PurchasePlanTable = () => {
                         }
                       >
                         <IEdit />
-                      </span>
+                      </span> */}
 
                       {/* Extend */}
-                      <span
+                      {/* <span
                         className="extend"
                         onClick={() => {
                           history.push(
@@ -195,10 +195,10 @@ const PurchasePlanTable = () => {
                             <i className={`fa fa-arrows-alt`}></i>
                           </span>
                         </OverlayTrigger>
-                      </span>
+                      </span> */}
 
                       {/* View */}
-                      <span
+                      {/* <span
                         onClick={() =>
                           history.push(
                             `/production-management/salesAndOperationsPlanning/PurchasePlan/view/${item?.salesPlanId}`
@@ -208,10 +208,10 @@ const PurchasePlanTable = () => {
                         <span>
                           <i className={`fa fa-eye`}></i>
                         </span>
-                      </span>
+                      </span> */}
 
                       {/* version */}
-                      <span
+                      {/* <span
                         onClick={() => {
                           setVersionModalShow(true);
                           setVersionModalData(item);
@@ -226,9 +226,9 @@ const PurchasePlanTable = () => {
                             <i className={`fa fa-history`}></i>
                           </span>
                         </OverlayTrigger>
-                      </span>
-                    </div>
-                  </td>
+                      </span> */}
+                    {/* </div> */}
+                  {/* </td> */}
                 </tr>
               ))}
             </tbody>
