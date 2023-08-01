@@ -150,7 +150,8 @@ const SalesAndProductionTable = () => {
                 <th>Horizon Name</th>
                 <th>Start Date</th>
                 <th>End Date</th>
-                <th>Plan Quantity</th>
+                <th>Sales Plan Quantity</th>
+                <th>Production Plan Quantity</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -162,6 +163,7 @@ const SalesAndProductionTable = () => {
                   <td>{_dateFormatter(item?.startDate)}</td>
                   <td>{_dateFormatter(item?.endDate)}</td>
                   <td>{item?.planQTY}</td>
+                  <td>{item?.productionPlanQTY}</td>
                   <td>
                     <div className="d-flex justify-content-around">
                       {/* Edit */}

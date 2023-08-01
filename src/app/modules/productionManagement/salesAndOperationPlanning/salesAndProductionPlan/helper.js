@@ -229,8 +229,22 @@ export const getProductionPlanning = async (
       },
     };
 
+    let modifyingRowData = res?.data?.data?.map((dataItem) => {
+      return {
+        ...dataItem,
+        productionPlanningRowId:
+          res?.data?.header?.productionPlanQtyInfoList?.find(
+            (item) => item?.itemId === dataItem?.itemId
+          )?.productionPlanningRowId || 0,
+        productionPlanningQty:
+          res?.data?.header?.productionPlanQtyInfoList?.find(
+            (item) => item?.itemId === dataItem?.itemId
+          )?.productionPlanningQty || 0,
+      };
+    });
+
     setterHeader(newHeader);
-    setterRow(res?.data?.data);
+    setterRow(modifyingRowData);
   } catch (error) {
     console.log(error.message);
   }
