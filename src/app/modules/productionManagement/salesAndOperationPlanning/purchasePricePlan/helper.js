@@ -70,7 +70,7 @@ export const getItemListSalesPlanDDL = async (
 ) => {
   try {
     const res = await Axios.get(
-      `/mes/SalesPlanning/GetSalesPlanItemsAll?AccountId=${accId}&BusinessUnitId=${buId}&plantId=${plantId}&PageNo=${pageNo}&PageSize=${pageSize}`
+      `/mes/SalesPlanning/GetPurchasePlanItemsAll?AccountId=${accId}&BusinessUnitId=${buId}&plantId=${plantId}&PageNo=${pageNo}&PageSize=${pageSize}`
     );
     res.data.data.forEach((item) => {
       item["itemPlanQty"] = "";
@@ -109,7 +109,7 @@ export const getSalesPlanYearDDL = async (accId, buId, plantId, setter) => {
 export const saveItemRequest = async (data) => {
   try {
     const res = await Axios.post(
-      `/mes/SalesPlanning/CreateSalesPlanning`,
+      `/mes/SalesPlanning/CreatePurchasePlanning`,
       data
     );
     toast.success(res?.data?.message);
