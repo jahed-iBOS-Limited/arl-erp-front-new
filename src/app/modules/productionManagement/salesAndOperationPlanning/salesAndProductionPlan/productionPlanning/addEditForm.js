@@ -110,7 +110,7 @@ export default function ProductionPlanningForm({
         "itemId":rowDto[i].itemId,
         "itemName":rowDto[i].itemName,
         "uoMid":rowDto[i].uoMid,
-        "productionPlanQty": +rowDto[i].itemPlanQty,
+        "productionPlanQty": +rowDto[i].productionPlanQty || 0,
         "rate": 0,
         "isActive": true
     })
