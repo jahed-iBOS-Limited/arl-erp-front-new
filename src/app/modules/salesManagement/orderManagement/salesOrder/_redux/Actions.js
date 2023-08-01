@@ -691,13 +691,15 @@ export const getSalesOrderApproval_Aciton = (
 };
 
 // action for get getAvailableBalance data
-export const getSalesDiscount_Action = (payload, isDisabled) => (dispatch) => {
+export const getSalesDiscount_Action = (payload, isDisabled, cb) => (dispatch) => {
   isDisabled && isDisabled(true);
   return requestFromServer
     .getSalesDiscount(payload)
     .then((res) => {
       isDisabled && isDisabled(false);
+      cb && cb(res?.data);
       return dispatch(slice.SetSalesDiscount(res?.data));
+     
     })
     .catch((err) => {
       isDisabled && isDisabled(false);
