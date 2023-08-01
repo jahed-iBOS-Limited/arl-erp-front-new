@@ -660,10 +660,7 @@ export default function SalesOrderForm({
           uomId: itm.uomId,
           specification: itm.specification || "",
           numDiscountValue: 0,
-          netValue:
-            +itm.value +
-            +itm.quantity * additonRate -
-            ((+itm.value + +itm.quantity * additonRate) * 0) / 100,
+          netValue: +itm.value + +itm.quantity * additonRate,
           isFree: "No",
           customerItemName: values?.customerItemName || itm.itemName,
         }));
@@ -696,11 +693,7 @@ export default function SalesOrderForm({
             numDiscountValue: 0,
             netValue:
               referenceItemDetailsById?.value +
-              (+referenceItemDetailsById.quantity * additonRate || 0) -
-              ((referenceItemDetailsById?.value +
-                (+referenceItemDetailsById.quantity * additonRate || 0)) *
-                0) /
-                100,
+              (+referenceItemDetailsById.quantity * additonRate || 0),
             isFree: "No",
             customerItemName:
               values?.customerItemName || referenceItemDetailsById.itemName,
@@ -1026,7 +1019,7 @@ export default function SalesOrderForm({
     IConfirmModal(confirmObject);
   };
 
-console.log(rowDto)
+  console.log(rowDto);
   return (
     <>
       {(isDisabled || loader) && <Loading />}

@@ -32,7 +32,8 @@ const tableHeaders = (buId) => [
   "Is Free",
   "Quantity",
   "Basic Price",
-  (buId === 175 && "Water Proof Rate"),
+  buId === 175 && "Water Proof Rate",
+  buId === 175 && "Pump Charge Rate",
   "Amount",
   "Discount",
   "Net Value",
@@ -174,7 +175,7 @@ export default function ViewForm({ id, show, onHide, createSaveData }) {
         onHide={onHide}
         title={"Sales Order"}
         isShow={singleData?.objHeader && false}
-        btnText="Done"
+        btnText='Done'
       >
         <Formik
           enableReinitialize={true}
@@ -190,131 +191,131 @@ export default function ViewForm({ id, show, onHide, createSaveData }) {
             isValid,
           }) => (
             <>
-              <Form className="form form-label-right">
-                <div className="form-group row">
-                  <div className="col-lg-3">
+              <Form className='form form-label-right'>
+                <div className='form-group row'>
+                  <div className='col-lg-3'>
                     <ISelect
-                      label="Select Sold to Party"
+                      label='Select Sold to Party'
                       options={""}
                       value={values.soldtoParty}
-                      name="soldtoParty"
+                      name='soldtoParty'
                       setFieldValue={setFieldValue}
                       errors={errors}
                       touched={touched}
                       isDisabled={true}
                     />
                   </div>
-                  <div className="col-lg-3">
+                  <div className='col-lg-3'>
                     <ISelect
-                      label="Ship To Party"
+                      label='Ship To Party'
                       options={""}
                       value={values.shipToParty}
-                      name="shipToParty"
+                      name='shipToParty'
                       setFieldValue={setFieldValue}
                       errors={errors}
                       touched={touched}
                       isDisabled={true}
                     />
                   </div>
-                  <div className="col-lg-3">
+                  <div className='col-lg-3'>
                     <IInput
                       value={values.partnerReffNo}
-                      label="Party Ref. No"
-                      name="partnerReffNo"
+                      label='Party Ref. No'
+                      name='partnerReffNo'
                       disabled={true}
                     />
                   </div>
-                  <div className="col-lg-3">
+                  <div className='col-lg-3'>
                     <ICalendar
-                      label="Pricing Date"
-                      name="pricingDate"
-                      type="date"
+                      label='Pricing Date'
+                      name='pricingDate'
+                      type='date'
                       errors={errors}
                       touched={touched}
                       value={_dateFormatter(values.pricingDate || "")}
                       disabled={true}
                     />
                   </div>
-                  <div className="col-lg-3">
+                  <div className='col-lg-3'>
                     <ICalendar
-                      label="Delivery Date"
-                      name="dueShippingDate"
-                      type="date"
+                      label='Delivery Date'
+                      name='dueShippingDate'
+                      type='date'
                       errors={errors}
                       touched={touched}
                       value={_dateFormatter(values.dueShippingDate)}
                       disabled={true}
                     />
                   </div>
-                  <div className="col-lg-3">
+                  <div className='col-lg-3'>
                     <ISelect
-                      label="Incoterm"
+                      label='Incoterm'
                       options={""}
                       value={values.incoterm}
-                      name="incoterm"
+                      name='incoterm'
                       setFieldValue={setFieldValue}
                       errors={errors}
                       touched={touched}
                       isDisabled={true}
                     />
                   </div>
-                  <div className="col-lg-3">
+                  <div className='col-lg-3'>
                     <ISelect
-                      label="Payment Terms"
+                      label='Payment Terms'
                       options={""}
                       value={values.paymentTerms}
-                      name="paymentTerms"
+                      name='paymentTerms'
                       setFieldValue={setFieldValue}
                       errors={errors}
                       touched={touched}
                       isDisabled={true}
                     />
                   </div>
-                  <div className="col-lg-3">
+                  <div className='col-lg-3'>
                     <ISelect
-                      label="Select currency"
+                      label='Select currency'
                       options={""}
                       value={values.currency}
-                      name="currency"
+                      name='currency'
                       setFieldValue={setFieldValue}
                       errors={errors}
                       touched={touched}
                       isDisabled={true}
                     />
                   </div>
-                  <div className="col-lg-3">
+                  <div className='col-lg-3'>
                     <ISelect
-                      label="Reference Type"
+                      label='Reference Type'
                       options={""}
                       value={values.refType}
-                      name="refType"
+                      name='refType'
                       setFieldValue={setFieldValue}
                       errors={errors}
                       touched={touched}
                       isDisabled={true}
                     />
                   </div>
-                  <div className="col-lg-3">
+                  <div className='col-lg-3'>
                     <IInput
                       value={values.narration || values.narration}
-                      label="Comments"
-                      name="narration"
+                      label='Comments'
+                      name='narration'
                       disabled={true}
                     />
                   </div>
-                  <div className="col-lg-3">
+                  <div className='col-lg-3'>
                     <label>Ship To Party Contact No.</label>
                     <InputField
                       value={values?.shipToPartnerContactNo}
-                      name="shipToPartnerContactNo"
-                      placeholder="Ship To Party Contact No."
-                      type="text"
+                      name='shipToPartnerContactNo'
+                      placeholder='Ship To Party Contact No.'
+                      type='text'
                       disabled={true}
                     />
                   </div>
-                  <div className="col-lg-3 mt-4 text-center d-flex justify-content-around">
+                  <div className='col-lg-3 mt-4 text-center d-flex justify-content-around'>
                     <div>
-                      <label className="d-block" for="isTransshipment">
+                      <label className='d-block' for='isTransshipment'>
                         Transshipment
                       </label>
                       <Field
@@ -322,9 +323,9 @@ export default function ViewForm({ id, show, onHide, createSaveData }) {
                         component={() => (
                           <input
                             disabled={true}
-                            id="isTransshipment"
-                            type="checkbox"
-                            className="ml-2"
+                            id='isTransshipment'
+                            type='checkbox'
+                            className='ml-2'
                             value={values.isTransshipment || ""}
                             checked={values.isTransshipment}
                             name={values.isTransshipment}
@@ -336,11 +337,11 @@ export default function ViewForm({ id, show, onHide, createSaveData }) {
                             }}
                           />
                         )}
-                        label="Transshipment"
+                        label='Transshipment'
                       />
                     </div>
                     <div>
-                      <label className="d-block" for="isPartialShipment">
+                      <label className='d-block' for='isPartialShipment'>
                         Partial Shipment
                       </label>
                       <Field
@@ -348,9 +349,9 @@ export default function ViewForm({ id, show, onHide, createSaveData }) {
                         component={() => (
                           <input
                             disabled={true}
-                            id="isPartialShipment"
-                            type="checkbox"
-                            className="ml-2"
+                            id='isPartialShipment'
+                            type='checkbox'
+                            className='ml-2'
                             value={values.isPartialShipment || ""}
                             checked={values.isPartialShipment}
                             name={values.isPartialShipment}
@@ -362,20 +363,20 @@ export default function ViewForm({ id, show, onHide, createSaveData }) {
                             }}
                           />
                         )}
-                        label="PartialShipment"
+                        label='PartialShipment'
                       />
                     </div>
                   </div>
-                  <div className="col-lg-3">
+                  <div className='col-lg-3'>
                     <ISelect
-                      name="logisticBy"
+                      name='logisticBy'
                       options={[]}
                       value={values?.logisticBy}
-                      label="Logistic By"
+                      label='Logistic By'
                       onChange={(valueOption) => {
                         setFieldValue("logisticBy", valueOption);
                       }}
-                      placeholder="No Data Found"
+                      placeholder='No Data Found'
                       errors={errors}
                       touched={touched}
                       isDisabled={true}
@@ -385,31 +386,31 @@ export default function ViewForm({ id, show, onHide, createSaveData }) {
                   {selectedBusinessUnit?.value === 175 && (
                     <>
                       {" "}
-                      <div className="col-lg-3">
+                      <div className='col-lg-3'>
                         <ISelect
-                          name="isWaterProof"
+                          name='isWaterProof'
                           options={[]}
                           value={values?.isWaterProof}
-                          label="Is Water Proof"
+                          label='Is Water Proof'
                           onChange={(valueOption) => {
                             setFieldValue("isWaterProof", valueOption);
                           }}
-                          placeholder="No Data Found"
+                          placeholder='No Data Found'
                           errors={errors}
                           touched={touched}
                           isDisabled={true}
                         />
                       </div>{" "}
-                      <div className="col-lg-3">
+                      <div className='col-lg-3'>
                         <ISelect
-                          name="isPumpCharge"
+                          name='isPumpCharge'
                           options={[]}
                           value={values?.isPumpCharge}
-                          label="Is Pump Charge"
+                          label='Is Pump Charge'
                           onChange={(valueOption) => {
                             setFieldValue("isPumpCharge", valueOption);
                           }}
-                          placeholder="No Data Found"
+                          placeholder='No Data Found'
                           errors={errors}
                           touched={touched}
                           isDisabled={true}
@@ -417,33 +418,33 @@ export default function ViewForm({ id, show, onHide, createSaveData }) {
                       </div>
                     </>
                   )}
-                  <div className="col-lg-12">
+                  <div className='col-lg-12'>
                     {partnerBalance && (
-                      <p className="m-0 my-2">
+                      <p className='m-0 my-2'>
                         <b>Ledger Balance: </b>
                         {partnerBalance.ledgerBalance},
-                        <b className="ml-2">Credit Limit: </b>{" "}
+                        <b className='ml-2'>Credit Limit: </b>{" "}
                         {creditLimitForInternalUser},
-                        <b className="ml-2">Unbilled Amount: </b>
+                        <b className='ml-2'>Unbilled Amount: </b>
                         {partnerBalance.unbilledAmount},
-                        <b className="ml-2">Available Balance: </b>{" "}
+                        <b className='ml-2'>Available Balance: </b>{" "}
                         {availableBalance},
-                        <b className="ml-2">Undelivered Amount: </b>
+                        <b className='ml-2'>Undelivered Amount: </b>
                         {undeliveryValues?.unlideliveredValues}
                       </p>
                     )}
                   </div>
                 </div>
                 <div>
-                  <span className="salesOrderCode">
+                  <span className='salesOrderCode'>
                     SO Number: {createSaveData?.salesOrderCode}
                   </span>
-                  <div className="row justify-content-end">
-                    <div className="col-lg-2 d-flex">
-                      <b className="">Total Amount: </b> {total?.totalAmount}
+                  <div className='row justify-content-end'>
+                    <div className='col-lg-2 d-flex'>
+                      <b className=''>Total Amount: </b> {total?.totalAmount}
                     </div>
-                    <div className="col-lg-2">
-                      <b className="">Total Qty: </b> {total?.totalQty}
+                    <div className='col-lg-2'>
+                      <b className=''>Total Qty: </b> {total?.totalQty}
                     </div>
                   </div>
                 </div>
@@ -452,27 +453,38 @@ export default function ViewForm({ id, show, onHide, createSaveData }) {
           )}
         </Formik>
         {/* Modal Grid */}
-        <div className="mt-5">
+        <div className='mt-5'>
           <ICustomTable ths={tableHeaders(selectedBusinessUnit?.value)}>
             {rowDto?.map((itm, index) => {
               return (
                 <tr key={index}>
-                  <td className="text-center">{index + 1}</td>
-                  <td className="align-middle">{itm.referenceNoName}</td>
-                  <td className="align-middle">{itm.specification}</td>
-                  <td className="align-middle">{itm.shipToPartnerName}</td>
-                  <td className="align-middle">{itm.itemCode}</td>
-                  <td className="align-middle">{itm.itemName}</td>
-                  <td className="align-middle">{itm.customerItemName}</td>
-                  <td className="align-middle">{itm.uomName}</td>
-                  <td className="align-middle">{itm.isFree}</td>
-                  <td className="align-middle">{itm.numRequestQuantity}</td>
-                  <td className="align-middle">{itm.numItemPrice}</td>
-                  {selectedBusinessUnit?.value === 175 ? <td className="align-middle">{itm?.numWaterProofRate || 0}</td> : <></>}
-                  <td className="align-middle">{itm.numOrderValue}</td>
-                  <td className="align-middle">{itm.numDiscountValue}</td>
+                  <td className='text-center'>{index + 1}</td>
+                  <td className='align-middle'>{itm.referenceNoName}</td>
+                  <td className='align-middle'>{itm.specification}</td>
+                  <td className='align-middle'>{itm.shipToPartnerName}</td>
+                  <td className='align-middle'>{itm.itemCode}</td>
+                  <td className='align-middle'>{itm.itemName}</td>
+                  <td className='align-middle'>{itm.customerItemName}</td>
+                  <td className='align-middle'>{itm.uomName}</td>
+                  <td className='align-middle'>{itm.isFree}</td>
+                  <td className='align-middle'>{itm.numRequestQuantity}</td>
+                  <td className='align-middle'>{itm.numItemPrice}</td>
+                  {selectedBusinessUnit?.value === 175 ? (
+                    <>
+                      <td className='align-middle'>
+                        {itm?.numWaterProofRate || 0}
+                      </td>
+                      <td className='align-middle'>
+                        {itm?.numPumpChargeRate || 0}
+                      </td>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  <td className='align-middle'>{itm.numOrderValue}</td>
+                  <td className='align-middle'>{itm.numDiscountValue}</td>
 
-                  <td className="align-middle">
+                  <td className='align-middle'>
                     {itm.numOrderValue -
                       (itm.numOrderValue * itm.numDiscountValue) / 100}{" "}
                   </td>
