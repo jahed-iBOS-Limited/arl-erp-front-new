@@ -154,10 +154,10 @@ export default function _Form({
                   <tr>
                     <th>SL</th>
                     <th>Item Name</th>
-                    <th>Sales Plan Quantity</th>
-                    <th>Production Plan Quantity</th>
+                    <th>Plan Quantity</th>
                     <th>Start Date</th>
                     <th>End Date</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -179,27 +179,7 @@ export default function _Form({
                               setRowDto
                             );
                           }}
-                          min="0"
-                          disabled
-                        />
-                      </td>
-                      <td className="text-center">
-                        <InputField
-                          value={+item?.productionPlanningQty || ""}
-                          name="productionPlanningQty"
-                          type="number"
-                          onChange={(e) => {
-                            if (+e.target.value < 0) {
-                              return;
-                            }
-                            inputHandler(
-                              item,
-                              e?.target?.value,
-                              "productionPlanningQty",
-                              rowDto,
-                              setRowDto
-                            );
-                          }}
+                          min='0'
                         />
                       </td>
                       <td className="pl-2 text-center">
@@ -207,6 +187,9 @@ export default function _Form({
                       </td>
                       <td className="pl-2 text-center">
                         {_dateFormatter(item?.enddateTime)}
+                      </td>
+                      <td className="text-center">
+                        <IDelete id={index} remover={remover} />
                       </td>
                     </tr>
                   ))}

@@ -17,7 +17,7 @@ import Loading from "../../../../_helper/_loading";
 import VersionModal from "./versionModal";
 import { SetSalesAndProductionTableLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 
-const SalesAndProductionTable = () => {
+const PurchasePlanTable = () => {
   const [loading, setLoading] = useState(false);
   const [plantDDL, setPlantDDL] = useState([]);
   const [yearDDL, setYearDDL] = useState([]);
@@ -63,12 +63,12 @@ const SalesAndProductionTable = () => {
 
   const createHandler = () => {
     history.push(
-      "/production-management/salesAndOperationsPlanning/salesAndProductionPlan/Create"
+      "/production-management/salesAndOperationsPlanning/PurchasePlan/Create"
     );
   };
 
   return (
-    <ICustomCard title="Sales Plan" createHandler={createHandler}>
+    <ICustomCard title="Purchase Plan" createHandler={createHandler}>
       {loading && <Loading />}
 
       <div className="global-form row">
@@ -150,9 +150,8 @@ const SalesAndProductionTable = () => {
                 <th>Horizon Name</th>
                 <th>Start Date</th>
                 <th>End Date</th>
-                <th>Sales Plan Quantity</th>
-                <th>Production Plan Quantity</th>
-                <th>Action</th>
+                <th>Plan Quantity</th>
+                {/* <th>Action</th> */}
               </tr>
             </thead>
             <tbody>
@@ -163,26 +162,25 @@ const SalesAndProductionTable = () => {
                   <td>{_dateFormatter(item?.startDate)}</td>
                   <td>{_dateFormatter(item?.endDate)}</td>
                   <td>{item?.planQTY}</td>
-                  <td>{item?.productionPlanQTY}</td>
-                  <td>
-                    <div className="d-flex justify-content-around">
+                  {/* <td> */}
+                    {/* <div className="d-flex justify-content-around"> */}
                       {/* Edit */}
-                      <span
+                      {/* <span
                         onClick={() =>
                           history.push(
-                            `/production-management/salesAndOperationsPlanning/salesAndProductionPlan/edit/${item?.salesPlanId}`
+                            `/production-management/salesAndOperationsPlanning/PurchasePlan/edit/${item?.salesPlanId}`
                           )
                         }
                       >
                         <IEdit />
-                      </span>
+                      </span> */}
 
                       {/* Extend */}
-                      <span
+                      {/* <span
                         className="extend"
                         onClick={() => {
                           history.push(
-                            `/production-management/salesAndOperationsPlanning/salesAndProductionPlan/${plant.value}/${item?.salesPlanId}/createPP`
+                            `/production-management/salesAndOperationsPlanning/PurchasePlan/${plant.value}/${item?.salesPlanId}/createPP`
                           );
                         }}
                       >
@@ -197,23 +195,23 @@ const SalesAndProductionTable = () => {
                             <i className={`fa fa-arrows-alt`}></i>
                           </span>
                         </OverlayTrigger>
-                      </span>
+                      </span> */}
 
                       {/* View */}
-                      <span
+                      {/* <span
                         onClick={() =>
                           history.push(
-                            `/production-management/salesAndOperationsPlanning/salesAndProductionPlan/view/${item?.salesPlanId}`
+                            `/production-management/salesAndOperationsPlanning/PurchasePlan/view/${item?.salesPlanId}`
                           )
                         }
                       >
                         <span>
                           <i className={`fa fa-eye`}></i>
                         </span>
-                      </span>
+                      </span> */}
 
                       {/* version */}
-                      <span
+                      {/* <span
                         onClick={() => {
                           setVersionModalShow(true);
                           setVersionModalData(item);
@@ -228,9 +226,9 @@ const SalesAndProductionTable = () => {
                             <i className={`fa fa-history`}></i>
                           </span>
                         </OverlayTrigger>
-                      </span>
-                    </div>
-                  </td>
+                      </span> */}
+                    {/* </div> */}
+                  {/* </td> */}
                 </tr>
               ))}
             </tbody>
@@ -252,4 +250,4 @@ const SalesAndProductionTable = () => {
   );
 };
 
-export default SalesAndProductionTable;
+export default PurchasePlanTable;
