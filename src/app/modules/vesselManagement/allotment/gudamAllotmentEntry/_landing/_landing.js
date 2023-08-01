@@ -36,7 +36,7 @@ const headers = [
   "Year",
   "Allotment Qty",
   "Revenue Rate (Tk)",
-  "Revenue by Transport",
+  "Revenue Amount",
   "Action",
 ];
 
@@ -117,6 +117,21 @@ const GudamAllotmentLanding = () => {
   };
 
   let totalQty = 0;
+
+  function calculateTotalRevenueAmount(items) {
+    let totalSum = 0;
+
+    if (Array.isArray(items)) {
+      items.forEach((item) => {
+        const rate = item.revenueRate || 0;
+        const quantity = item.allotmentQuantity || 0;
+        const itemSum = rate * quantity;
+        totalSum += itemSum;
+      });
+    }
+
+    return totalSum || 0;
+  }
 
   return (
     <>
@@ -291,7 +306,8 @@ const GudamAllotmentLanding = () => {
                                 {item?.revenueRate}
                               </td>
                               <td className="text-right">
-                                {item?.revenueByTransport}
+                                {(item?.allotmentQuantity || 0) *
+                                  (item?.revenueRate || 0)}
                               </td>
                               <td
                                 style={{ width: "80px" }}
@@ -327,7 +343,8 @@ const GudamAllotmentLanding = () => {
                           <td className="text-right">
                             <b>{_fixedPoint(totalQty, true)}</b>
                           </td>
-                          <td colSpan={2}></td>
+                          <td>{calculateTotalRevenueAmount(rowData?.data)}</td>
+                          <td></td>
                         </tr>
                       </tbody>
                     </table>
