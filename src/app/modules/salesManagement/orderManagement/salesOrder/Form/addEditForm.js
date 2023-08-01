@@ -88,6 +88,7 @@ const initData = {
   logisticBy: { value: 1, label: "Company" },
   isWaterProof: { value: false, label: "No" },
   waterProofRate: "",
+  pumpChargeRate: "",
   isPumpCharge: { value: false, label: "No" },
   isUnloadLabourByCompany: { value: false, label: "No" },
 };
@@ -105,7 +106,7 @@ export default function SalesOrderForm({
   const [createSaveData, setCeateSaveData] = useState({});
   const [rowDto, setRowDto] = useState([]);
   const [singleHeaderData, setSingleHeaderData] = useState("");
-  const [formValues, setFormValues] = useState({});
+  // const [formValues, setFormValues] = useState({});
   const dispatch = useDispatch();
   const { state: headerData } = useLocation();
   const [total, setTotal] = useState({ totalAmount: 0, totalQty: 0 });
@@ -131,7 +132,6 @@ export default function SalesOrderForm({
     referenceWithItemListById,
     referenceItemDetailsById,
     availableBalance,
-    salesDiscount,
     salesOrderApproveCheck,
     creditLimitForInternalUser,
     alotementDDL,
@@ -228,6 +228,8 @@ export default function SalesOrderForm({
         netValue:
           itm.numOrderValue - (itm.numOrderValue * itm.numDiscountValue) / 100,
         isFree: itm.isFreeItem ? "Yes" : "No",
+        waterProofRate: itm?.waterProofRate || itm?.numWaterProofRate || 0,
+        pumpChargeRate: itm?.pumpChargeRate || itm?.numPumpChargeRate || 0,
       }));
       setRowDto(newRowDto);
     }
@@ -328,6 +330,7 @@ export default function SalesOrderForm({
           numRequestQuantity: +itm.numRequestQuantity,
           numOrderQuantity: +itm.numRequestQuantity,
           numWaterProofRate: +itm?.waterProofRate || 0,
+          numPumpChargeRate: +itm?.pumpChargeRate || 0,
           isFree: itm.isFree === "Yes" ? true : false,
           isFreeItem: itm.isFree === "Yes" ? true : false,
         }));
@@ -381,6 +384,7 @@ export default function SalesOrderForm({
             numRequestQuantity: +itm.numRequestQuantity,
             numOrderQuantity: +itm.numRequestQuantity,
             numWaterProofRate: +itm?.waterProofRate || 0,
+            numPumpChargeRate: +itm?.pumpChargeRate || 0,
             numItemPrice: +itm?.numItemPrice,
             isFree: itm.isFree === "Yes" ? true : false,
             isFreeItem: itm.isFree === "Yes" ? true : false,
@@ -533,8 +537,56 @@ export default function SalesOrderForm({
     setRowDto([...rowDto, obj]);
   };
 
+  // salesDiscount CB
+  const salesDiscountCB = (salesDiscount, addData) => {
+    if (salesDiscount) {
+      const newSalesDiscount = salesDiscount?.item?.map((itm) => {
+        //Price
+        // const itemPrice = !priceStructureCheck?.value
+        //   ? +itm.price
+        //   : +formValues.numItemPrice;
+        //total
+        const _price = alotementPrice || itm?.price || 0;
+        const numOrderValue = _price * itm?.quantity;
+
+        const additonRate =
+          (+addData?.waterProofRate || 0) + (+addData?.pumpChargeRate || 0);
+
+        //netValue
+        const netValue =
+          selectedBusinessUnit?.value === 175
+            ? numOrderValue + additonRate * itm?.quantity - itm?.discountValue
+            : numOrderValue - (numOrderValue * itm?.discountValue) / 100;
+        return {
+          ...addData,
+          itemId: itm?.itemId,
+          itemCode: itm?.itemCode,
+          itemName: itm?.itemName,
+          numRequestQuantity: +itm?.quantity,
+          numItemPrice: _price || 0,
+          //numOrderValue: itm?.itemValue,
+          numOrderValue:
+            selectedBusinessUnit?.value === 94
+              ? +itm?.quantity * +addData?.transportRate +
+                (+itm?.quantity * +_price || 0) +
+                numOrderValue
+              : selectedBusinessUnit?.value === 175
+              ? +itm?.quantity * additonRate + numOrderValue
+              : +numOrderValue,
+          numDiscountValue: itm?.discountValue,
+          netValue: netValue,
+          isFree: itm?.isFree ? "Yes" : "No",
+          uomName: itm?.uomName,
+          uomId: itm?.uomId,
+        };
+      });
+
+      setRowDto([...rowDto, ...newSalesDiscount]);
+    }
+  };
+
   //SalesDiscountApiCall
-  const SalesDiscountApiCallFunc = (values) => {
+  const SalesDiscountApiCallFunc = (values, addData) => {
     const payload = {
       unitId: selectedBusinessUnit?.value,
       plantId: headerData?.plant?.value,
@@ -555,7 +607,11 @@ export default function SalesOrderForm({
         // if Akij Cement company business unit
         ifBusinessUnitCement_rowAddFunc(values);
       } else {
-        dispatch(getSalesDiscount_Action(payload, setDisabled));
+        dispatch(
+          getSalesDiscount_Action(payload, setDisabled, (salesDiscount) => {
+            salesDiscountCB(salesDiscount, addData);
+          })
+        );
       }
     }
   };
@@ -572,29 +628,33 @@ export default function SalesOrderForm({
       isFreeItem: false,
       specification: "",
       narration: values?.narration,
-      numItemPrice: +values.numItemPrice,
+      numItemPrice: +values.numItemPrice || 0,
       transportRate: +values?.transportRate || 0,
       isVatPrice: priceForInternalUseVATAX?.isVatPrice || false,
       vatPrice: priceForInternalUseVATAX?.itemPrice || 0,
       waterProofRate: +values?.waterProofRate || 0,
+      pumpChargeRate: +values?.pumpChargeRate || 0,
     };
 
     if (!values.referenceNo) {
       //WIthout Referance
-      setFormValues(addData);
+      // setFormValues(addData);
       SalesDiscountApiCallFunc(values, addData);
     } else {
       if (values.allCheckbox) {
+        const additonRate =
+          (+values?.waterProofRate || 0) + (+values?.pumpChargeRate || 0);
+
         //if Checkbox true
         const allChecItem = referenceWithItemListById.map((itm) => ({
           ...addData,
           itemCode: itm.itemCode,
           itemId: itm.itemId,
           itemName: itm.itemName,
-          numItemPrice: +itm.itemPrice + (+values?.waterProofRate || 0),
+          numItemPrice: +itm.itemPrice + additonRate,
           waterProofRate: +values?.waterProofRate || 0,
-          numOrderValue:
-            +itm.value + (+itm.quantity * +values?.waterProofRate || 0),
+          pumpChargeRate: +values?.pumpChargeRate || 0,
+          numOrderValue: +itm.value + +itm.quantity * additonRate,
           numRequestQuantity: +itm.quantity,
           uomName: itm.uom,
           uomId: itm.uomId,
@@ -602,10 +662,8 @@ export default function SalesOrderForm({
           numDiscountValue: 0,
           netValue:
             +itm.value +
-            (+itm.quantity * +values?.waterProofRate || 0) -
-            ((+itm.value + (+itm.quantity * +values?.waterProofRate || 0)) *
-              0) /
-              100,
+            +itm.quantity * additonRate -
+            ((+itm.value + +itm.quantity * additonRate) * 0) / 100,
           isFree: "No",
           customerItemName: values?.customerItemName || itm.itemName,
         }));
@@ -616,6 +674,9 @@ export default function SalesOrderForm({
         ];
         setRowDto(unique);
       } else {
+        const additonRate =
+          (+values?.waterProofRate || 0) + (+values?.pumpChargeRate || 0);
+
         //if Checkbox false
         if (referenceItemDetailsById) {
           const referenceItemDetails = {
@@ -623,14 +684,11 @@ export default function SalesOrderForm({
             itemCode: referenceItemDetailsById.itemCode,
             itemId: referenceItemDetailsById.itemId,
             itemName: referenceItemDetailsById.itemName,
-            numItemPrice:
-              +referenceItemDetailsById.itemPrice +
-              (+values?.waterProofRate || 0),
+            numItemPrice: +referenceItemDetailsById.itemPrice + additonRate,
             waterProofRate: +values?.waterProofRate || 0,
             numOrderValue:
               referenceItemDetailsById?.value +
-              (+referenceItemDetailsById.quantity * +values?.waterProofRate ||
-                0),
+              (+referenceItemDetailsById.quantity * additonRate || 0),
             numRequestQuantity: +referenceItemDetailsById.quantity,
             uomName: referenceItemDetailsById.uom,
             uomId: referenceItemDetailsById.uomId,
@@ -638,11 +696,9 @@ export default function SalesOrderForm({
             numDiscountValue: 0,
             netValue:
               referenceItemDetailsById?.value +
-              (+referenceItemDetailsById.quantity * +values?.waterProofRate ||
-                0) -
+              (+referenceItemDetailsById.quantity * additonRate || 0) -
               ((referenceItemDetailsById?.value +
-                (+referenceItemDetailsById.quantity * +values?.waterProofRate ||
-                  0)) *
+                (+referenceItemDetailsById.quantity * additonRate || 0)) *
                 0) /
                 100,
             isFree: "No",
@@ -659,52 +715,52 @@ export default function SalesOrderForm({
     }
   };
 
-  //WIthout Referance
-  useEffect(() => {
-    if (salesDiscount) {
-      const newSalesDiscount = salesDiscount?.item?.map((itm) => {
-        //Price
-        // const itemPrice = !priceStructureCheck?.value
-        //   ? +itm.price
-        //   : +formValues.numItemPrice;
-        //total
-        const _price = alotementPrice || itm?.price || 0;
-        const numOrderValue = _price * itm?.quantity;
-        //netValue
-        const netValue =
-          selectedBusinessUnit?.value === 175
-            ? numOrderValue +
-              +formValues?.waterProofRate * itm?.quantity -
-              itm?.discountValue
-            : numOrderValue - (numOrderValue * itm?.discountValue) / 100;
-        return {
-          ...formValues,
-          itemId: itm?.itemId,
-          itemCode: itm?.itemCode,
-          itemName: itm?.itemName,
-          numRequestQuantity: +itm?.quantity,
-          numItemPrice: _price || 0,
-          //numOrderValue: itm?.itemValue,
-          numOrderValue:
-            selectedBusinessUnit?.value === 94
-              ? +itm?.quantity * +formValues?.transportRate +
-                (+itm?.quantity * +_price || 0) +
-                numOrderValue
-              : selectedBusinessUnit?.value === 175
-              ? +itm?.quantity * +formValues?.waterProofRate + numOrderValue
-              : +numOrderValue,
-          numDiscountValue: itm?.discountValue,
-          netValue: netValue,
-          isFree: itm?.isFree ? "Yes" : "No",
-          uomName: itm?.uomName,
-          uomId: itm?.uomId,
-        };
-      });
+  // //WIthout Referance
+  // useEffect(() => {
+  //   if (salesDiscount) {
+  //     const newSalesDiscount = salesDiscount?.item?.map((itm) => {
+  //       //Price
+  //       // const itemPrice = !priceStructureCheck?.value
+  //       //   ? +itm.price
+  //       //   : +formValues.numItemPrice;
+  //       //total
+  //       const _price = alotementPrice || itm?.price || 0;
+  //       const numOrderValue = _price * itm?.quantity;
+  //       //netValue
+  //       const netValue =
+  //         selectedBusinessUnit?.value === 175
+  //           ? numOrderValue +
+  //             +formValues?.waterProofRate * itm?.quantity -
+  //             itm?.discountValue
+  //           : numOrderValue - (numOrderValue * itm?.discountValue) / 100;
+  //       return {
+  //         ...formValues,
+  //         itemId: itm?.itemId,
+  //         itemCode: itm?.itemCode,
+  //         itemName: itm?.itemName,
+  //         numRequestQuantity: +itm?.quantity,
+  //         numItemPrice: _price || 0,
+  //         //numOrderValue: itm?.itemValue,
+  //         numOrderValue:
+  //           selectedBusinessUnit?.value === 94
+  //             ? +itm?.quantity * +formValues?.transportRate +
+  //               (+itm?.quantity * +_price || 0) +
+  //               numOrderValue
+  //             : selectedBusinessUnit?.value === 175
+  //             ? +itm?.quantity * +formValues?.waterProofRate + numOrderValue
+  //             : +numOrderValue,
+  //         numDiscountValue: itm?.discountValue,
+  //         netValue: netValue,
+  //         isFree: itm?.isFree ? "Yes" : "No",
+  //         uomName: itm?.uomName,
+  //         uomId: itm?.uomId,
+  //       };
+  //     });
 
-      setRowDto([...rowDto, ...newSalesDiscount]);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [salesDiscount]);
+  //     setRowDto([...rowDto, ...newSalesDiscount]);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [salesDiscount]);
 
   const remover = (id) => {
     let ccdata = rowDto.filter((itm, index) => index !== id);
@@ -970,11 +1026,12 @@ export default function SalesOrderForm({
     IConfirmModal(confirmObject);
   };
 
+console.log(rowDto)
   return (
     <>
       {(isDisabled || loader) && <Loading />}
       <IForm
-        title="Create Sales Order"
+        title='Create Sales Order'
         getProps={setObjprops}
         isDisabled={isDisabled}
       >

@@ -93,6 +93,10 @@ const validationSchema = Yup.object().shape({
     0,
     "Input value must be greater than zero"
   ),
+  pumpChargeRate: Yup.number().moreThan(
+    0,
+    "Input value must be greater than zero"
+  ),
 
   // shipToPartnerContactNo: Yup.number()
   // .test("shipToPartnerContactNo", "Maximum 11 number", function(value) {
@@ -206,17 +210,17 @@ export default function _Form({
           isValid,
         }) => (
           <>
-            <Form className="form form-label-right">
-              <div className="row mt-2">
-                <div className="col-lg-12 m-0 p-0">
-                  <div className="row global-form m-0">
+            <Form className='form form-label-right'>
+              <div className='row mt-2'>
+                <div className='col-lg-12 m-0 p-0'>
+                  <div className='row global-form m-0'>
                     <>
-                      <div className="col-lg-3">
+                      <div className='col-lg-3'>
                         <ISelect
-                          label="Select Sold to Party"
+                          label='Select Sold to Party'
                           options={soldToPartnerDDL || []}
                           value={values.soldtoParty}
-                          name="soldtoParty"
+                          name='soldtoParty'
                           setFieldValue={setFieldValue}
                           errors={errors}
                           touched={touched}
@@ -264,12 +268,12 @@ export default function _Form({
                           }}
                         />
                       </div>
-                      <div className="col-lg-3">
+                      <div className='col-lg-3'>
                         <ISelect
-                          label="Ship To Party"
+                          label='Ship To Party'
                           options={shipToPartner || []}
                           value={values.shipToParty}
-                          name="shipToParty"
+                          name='shipToParty'
                           setFieldValue={setFieldValue}
                           errors={errors}
                           touched={touched}
@@ -297,19 +301,19 @@ export default function _Form({
                           }}
                         />
                       </div>
-                      <div className="col-lg-3">
+                      <div className='col-lg-3'>
                         <IInput
                           value={values.partnerReffNo}
-                          label="Party Ref. No"
-                          name="partnerReffNo"
+                          label='Party Ref. No'
+                          name='partnerReffNo'
                           disabled={isEdit}
                         />
                       </div>
-                      <div className="col-lg-3">
+                      <div className='col-lg-3'>
                         <ICalendar
-                          label="Pricing Date"
-                          name="pricingDate"
-                          type="date"
+                          label='Pricing Date'
+                          name='pricingDate'
+                          type='date'
                           errors={errors}
                           touched={touched}
                           value={values.pricingDate || ""}
@@ -328,23 +332,23 @@ export default function _Form({
                           }}
                         />
                       </div>
-                      <div className="col-lg-3">
+                      <div className='col-lg-3'>
                         <ICalendar
-                          label="Delivery Date"
-                          name="dueShippingDate"
-                          type="date"
+                          label='Delivery Date'
+                          name='dueShippingDate'
+                          type='date'
                           errors={errors}
                           touched={touched}
                           value={values.dueShippingDate}
                           disabled={isEdit}
                         />
                       </div>
-                      <div className="col-lg-3">
+                      <div className='col-lg-3'>
                         <NewSelect
-                          label="Incoterm(Optional)"
+                          label='Incoterm(Optional)'
                           options={BUalesOrgIncotermDDL || []}
                           value={values.incoterm}
-                          name="incoterm"
+                          name='incoterm'
                           setFieldValue={setFieldValue}
                           errors={errors}
                           touched={touched}
@@ -352,39 +356,39 @@ export default function _Form({
                           onChange={(valueOption) => {
                             setFieldValue("incoterm", valueOption);
                           }}
-                          placeholder="Incoterm"
+                          placeholder='Incoterm'
                         />
                       </div>
-                      <div className="col-lg-3">
+                      <div className='col-lg-3'>
                         <ISelect
-                          label="Payment Terms"
+                          label='Payment Terms'
                           options={paymentTermsListDDL || []}
                           value={values.paymentTerms}
-                          name="paymentTerms"
+                          name='paymentTerms'
                           setFieldValue={setFieldValue}
                           errors={errors}
                           touched={touched}
                           isDisabled={isEdit}
                         />
                       </div>
-                      <div className="col-lg-3">
+                      <div className='col-lg-3'>
                         <ISelect
-                          label="Select Currency"
+                          label='Select Currency'
                           options={currencyListDDL || []}
                           value={values.currency}
-                          name="currency"
+                          name='currency'
                           setFieldValue={setFieldValue}
                           errors={errors}
                           touched={touched}
                           isDisabled={isEdit}
                         />
                       </div>
-                      <div className="col-lg-3">
+                      <div className='col-lg-3'>
                         <ISelect
-                          label="Reference Type"
+                          label='Reference Type'
                           options={orderReferanceTypeDDL || []}
                           value={values.refType}
-                          name="refType"
+                          name='refType'
                           setFieldValue={setFieldValue}
                           errors={errors}
                           touched={touched}
@@ -402,30 +406,30 @@ export default function _Form({
                           }
                         />
                       </div>
-                      <div className="col-lg-3">
+                      <div className='col-lg-3'>
                         <label>Ship To Party Address</label>
                         <InputField
                           value={values?.shiptoPartnerAddress}
-                          name="shiptoPartnerAddress"
-                          placeholder="Ship To Party Address"
-                          type="text"
+                          name='shiptoPartnerAddress'
+                          placeholder='Ship To Party Address'
+                          type='text'
                           required={values?.shiptoPartnerAddress}
                           disabled={isEdit}
                         />
                       </div>
-                      <div className="col-lg-3">
+                      <div className='col-lg-3'>
                         <IInput
                           value={values.narration || values.narration}
-                          label="Comments"
-                          name="narration"
+                          label='Comments'
+                          name='narration'
                           disabled={isEdit}
                         />
                       </div>
                       {profileData?.accountId !== 1 && (
                         <>
-                          <div className="col-lg-3 mt-4 text-center d-flex justify-content-around">
+                          <div className='col-lg-3 mt-4 text-center d-flex justify-content-around'>
                             <div>
-                              <label className="d-block" for="isTransshipment">
+                              <label className='d-block' for='isTransshipment'>
                                 Transshipment
                               </label>
                               <Field
@@ -433,9 +437,9 @@ export default function _Form({
                                 component={() => (
                                   <input
                                     disabled={isEdit}
-                                    id="isTransshipment"
-                                    type="checkbox"
-                                    className="ml-2"
+                                    id='isTransshipment'
+                                    type='checkbox'
+                                    className='ml-2'
                                     value={values.isTransshipment || ""}
                                     checked={values.isTransshipment}
                                     name={values.isTransshipment}
@@ -447,14 +451,14 @@ export default function _Form({
                                     }}
                                   />
                                 )}
-                                label="Transshipment"
+                                label='Transshipment'
                               />
                             </div>
 
                             <div>
                               <label
-                                className="d-block"
-                                for="isPartialShipment"
+                                className='d-block'
+                                for='isPartialShipment'
                               >
                                 Partial Shipment
                               </label>
@@ -463,9 +467,9 @@ export default function _Form({
                                 component={() => (
                                   <input
                                     disabled={isEdit}
-                                    id="isPartialShipment"
-                                    type="checkbox"
-                                    className="ml-2"
+                                    id='isPartialShipment'
+                                    type='checkbox'
+                                    className='ml-2'
                                     value={values.isPartialShipment || ""}
                                     checked={values.isPartialShipment}
                                     name={values.isPartialShipment}
@@ -477,7 +481,7 @@ export default function _Form({
                                     }}
                                   />
                                 )}
-                                label="PartialShipment"
+                                label='PartialShipment'
                               />
                             </div>
                           </div>
@@ -486,37 +490,37 @@ export default function _Form({
 
                       {!isEdit ? (
                         <>
-                          <div className="col-lg-3">
+                          <div className='col-lg-3'>
                             <label>Contact Person Name</label>
                             <InputField
                               value={values?.shipToPartnerContactNoNameOnly}
-                              name="shipToPartnerContactNoNameOnly"
-                              placeholder="Contact Person Name"
-                              type="text"
+                              name='shipToPartnerContactNoNameOnly'
+                              placeholder='Contact Person Name'
+                              type='text'
                               required
                               disabled={isEdit}
                             />
                           </div>
-                          <div className="col-lg-3">
+                          <div className='col-lg-3'>
                             <label>Contact Person No.</label>
                             <InputField
                               value={values?.shipToPartnerContactNo}
-                              name="shipToPartnerContactNo"
-                              placeholder="Contact Person No"
-                              type="number"
+                              name='shipToPartnerContactNo'
+                              placeholder='Contact Person No'
+                              type='number'
                               required
                               disabled={isEdit}
                             />
                           </div>
                         </>
                       ) : (
-                        <div className="col-lg-3">
+                        <div className='col-lg-3'>
                           <label>Contact Person Name & No.</label>
                           <InputField
                             value={values?.shipToPartnerContactNo}
-                            name="shipToPartnerContactNo"
-                            placeholder="Contact Number"
-                            type="text"
+                            name='shipToPartnerContactNo'
+                            placeholder='Contact Number'
+                            type='text'
                             disabled={isEdit}
                           />
                         </div>
@@ -525,19 +529,19 @@ export default function _Form({
                       {/* If Magnum or Akij ispat BUI = 171, 224 Selected */}
                       {[224, 171].includes(selectedBusinessUnit?.value) &&
                       values?.soldtoParty?.value ? (
-                        <div className="col-lg-3">
+                        <div className='col-lg-3'>
                           <NewSelect
-                            name="productType"
+                            name='productType'
                             options={[
                               { value: "Straight", label: "Straight" },
                               { value: "Bend", label: "Bend" },
                             ]}
                             value={values?.productType}
-                            label="Product Type"
+                            label='Product Type'
                             onChange={(valueOption) => {
                               setFieldValue("productType", valueOption);
                             }}
-                            placeholder="Product Type"
+                            placeholder='Product Type'
                             errors={errors}
                             touched={touched}
                             isDisabled={isEdit}
@@ -548,12 +552,12 @@ export default function _Form({
                       {/* if 'Bongo Traders Ltd' BUI Select  */}
                       {selectedBusinessUnit?.isTredingBusiness &&
                         alotementDDL?.length > 0 && (
-                          <div className="col-lg-3">
+                          <div className='col-lg-3'>
                             <NewSelect
-                              name="alotement"
+                              name='alotement'
                               options={alotementDDL || []}
                               value={values?.alotement}
-                              label="Alotement"
+                              label='Alotement'
                               onChange={(valueOption) => {
                                 setAlotementPrice(valueOption?.points || 0);
                                 setFieldValue("item", "");
@@ -571,7 +575,7 @@ export default function _Form({
                                   )
                                 );
                               }}
-                              placeholder="Alotement"
+                              placeholder='Alotement'
                               errors={errors}
                               touched={touched}
                               isDisabled={rowDto.length || !values?.soldtoParty}
@@ -579,31 +583,31 @@ export default function _Form({
                           </div>
                         )}
 
-                      <div className="col-lg-3">
+                      <div className='col-lg-3'>
                         <NewSelect
-                          name="transportZone"
+                          name='transportZone'
                           options={transportZoneDDL}
                           value={values?.transportZone}
-                          label="Ship To Party Transport Zone"
+                          label='Ship To Party Transport Zone'
                           onChange={(valueOption) => {
                             setFieldValue("transportZone", valueOption);
                           }}
-                          placeholder="No Data Found"
+                          placeholder='No Data Found'
                           errors={errors}
                           touched={touched}
                           isDisabled={isEdit}
                         />
                       </div>
-                      <div className="col-lg-3">
+                      <div className='col-lg-3'>
                         <NewSelect
-                          name="logisticBy"
+                          name='logisticBy'
                           options={logisticByDDL}
                           value={values?.logisticBy}
-                          label="Logistic By"
+                          label='Logistic By'
                           onChange={(valueOption) => {
                             setFieldValue("logisticBy", valueOption);
                           }}
-                          placeholder="No Data Found"
+                          placeholder='No Data Found'
                           errors={errors}
                           touched={touched}
                           isDisabled={isEdit}
@@ -612,17 +616,17 @@ export default function _Form({
                       </div>
                       {selectedBusinessUnit?.value === 175 && (
                         <>
-                          <div className="col-lg-3">
+                          <div className='col-lg-3'>
                             <NewSelect
-                              name="isWaterProof"
+                              name='isWaterProof'
                               options={isBooleanDDL}
                               value={values?.isWaterProof}
-                              label="Is Water Proof"
+                              label='Is Water Proof'
                               onChange={(valueOption) => {
                                 setFieldValue("isWaterProof", valueOption);
                                 setFieldValue("waterProofRate", "");
                               }}
-                              placeholder="No Data Found"
+                              placeholder='No Data Found'
                               errors={errors}
                               touched={touched}
                               isDisabled={isEdit || rowDto?.length > 0}
@@ -630,13 +634,13 @@ export default function _Form({
                             />
                           </div>
                           {values?.isWaterProof?.value ? (
-                            <div className="col-lg-3">
+                            <div className='col-lg-3'>
                               <label>Water Proof Rate</label>
                               <InputField
                                 value={values?.waterProofRate}
-                                name="waterProofRate"
-                                placeholder="Water Proof Rate"
-                                type="number"
+                                name='waterProofRate'
+                                placeholder='Water Proof Rate'
+                                type='number'
                                 required={values?.waterProofRate}
                                 isClearable
                                 disabled={rowDto?.length > 0}
@@ -645,48 +649,65 @@ export default function _Form({
                           ) : (
                             <></>
                           )}
-                          <div className="col-lg-3">
+                          <div className='col-lg-3'>
                             <NewSelect
-                              name="isPumpCharge"
+                              name='isPumpCharge'
                               options={isBooleanDDL}
                               value={values?.isPumpCharge}
-                              label="Is Pump Charge"
+                              label='Is Pump Charge'
                               onChange={(valueOption) => {
                                 setFieldValue("isPumpCharge", valueOption);
+                                setFieldValue("pumpChargeRate", "");
                               }}
-                              placeholder="No Data Found"
+                              placeholder='No Data Found'
                               errors={errors}
                               touched={touched}
                               isDisabled={isEdit}
                               isClearable={false}
                             />
                           </div>
+                          {values?.isPumpCharge?.value ? (
+                            <div className='col-lg-3'>
+                              <label>Pump Charge Rate</label>
+                              <InputField
+                                value={values?.pumpChargeRate}
+                                name='pumpChargeRate'
+                                placeholder='Pump Charge Rate'
+                                type='number'
+                                required={values?.pumpChargeRate}
+                                isClearable
+                                disabled={rowDto?.length > 0}
+                              />
+                            </div>
+                          ) : (
+                            <></>
+                          )}
                         </>
                       )}
 
                       {!isEdit ? (
-                        <div className="col-lg-3">
+                        <div className='col-lg-3'>
                           <label>Collections Days</label>
                           <InputField
                             value={values?.collectionDays}
-                            name="collectionDays"
-                            placeholder="Collection Days"
-                            type="number"
+                            name='collectionDays'
+                            placeholder='Collection Days'
+                            type='number'
                             required={values?.collectionDays}
                             disabled={!collectionDays?.isEditableDueDays}
                           />
                         </div>
                       ) : null}
                       {!isEdit && (
-                        <div className="col-lg-3">
+                        <div className='col-lg-3'>
                           <NewSelect
-                            name="isUnloadLabourByCompany"
+                            name='isUnloadLabourByCompany'
                             options={[
                               { value: false, label: "No" },
                               { value: true, label: "Yes" },
                             ]}
                             value={values?.isUnloadLabourByCompany}
-                            label="Unload by Company"
+                            label='Unload by Company'
                             onChange={(valueOption) => {
                               setFieldValue(
                                 "isUnloadLabourByCompany",
@@ -699,18 +720,18 @@ export default function _Form({
                         </div>
                       )}
 
-                      <div className="col-lg-12">
+                      <div className='col-lg-12'>
                         {partnerBalance && (
-                          <p className="m-0 my-2">
+                          <p className='m-0 my-2'>
                             <b>Ledger Balance: </b>
                             {_formatMoney(partnerBalance.ledgerBalance)},
-                            <b className="ml-2">Credit Limit: </b>{" "}
+                            <b className='ml-2'>Credit Limit: </b>{" "}
                             {_formatMoney(creditLimitForInternalUser)},
-                            <b className="ml-2">Unbilled Amount: </b>
+                            <b className='ml-2'>Unbilled Amount: </b>
                             {_formatMoney(partnerBalance.unbilledAmount)}{" "}
                             <button
-                              className="btn btn-sm btn-primary px-1 py-1"
-                              type="button"
+                              className='btn btn-sm btn-primary px-1 py-1'
+                              type='button'
                               onClick={() => {
                                 setTableType("unBilled");
                                 getUnBilledAmountDetails(
@@ -726,17 +747,17 @@ export default function _Form({
                             >
                               Details
                             </button>
-                            ,<b className="ml-2">Available Balance: </b>{" "}
+                            ,<b className='ml-2'>Available Balance: </b>{" "}
                             {_formatMoney(availableBalance)},
-                            <b className="ml-2">Undelivered Amount: </b>
+                            <b className='ml-2'>Undelivered Amount: </b>
                             {_formatMoney(
                               undeliveryValues?.unlideliveredValues
                             )}
-                            <b className="ml-2">Pending Qty: </b>
+                            <b className='ml-2'>Pending Qty: </b>
                             {_formatMoney(partnerBalance?.pendingQty)}{" "}
                             <button
-                              className="btn btn-sm btn-primary px-1 py-1"
-                              type="button"
+                              className='btn btn-sm btn-primary px-1 py-1'
+                              type='button'
                               onClick={() => {
                                 setTableType("order");
                                 getOrderPendingDetails(
@@ -753,11 +774,11 @@ export default function _Form({
                             >
                               Details
                             </button>
-                            <b className="ml-2">Transport Qty: </b>
+                            <b className='ml-2'>Transport Qty: </b>
                             {_formatMoney(partnerBalance?.transportQty)}{" "}
                             <button
-                              className="btn btn-sm btn-primary px-1 py-1"
-                              type="button"
+                              className='btn btn-sm btn-primary px-1 py-1'
+                              type='button'
                               onClick={() => {
                                 setTableType("delivery");
                                 GetPendingQuantityDetails(
@@ -776,7 +797,7 @@ export default function _Form({
                             </button>
                             {partnerBalance?.isDayLimit && (
                               <>
-                                <b className="ml-2">Day Limit: </b>
+                                <b className='ml-2'>Day Limit: </b>
                                 {"true"}
                               </>
                             )}
@@ -784,7 +805,7 @@ export default function _Form({
                         )}
                       </div>
                     </>
-                    <div className="col-lg-3 mt-5">
+                    <div className='col-lg-3 mt-5'>
                       <h5>
                         SO Validity Days:{" "}
                         {collectionDays?.salesOrderValidityDays}
@@ -794,20 +815,20 @@ export default function _Form({
                 </div>
                 {/* End Left */}
               </div>
-              <hr className="m-1"></hr>
-              <div className="row">
-                <div className="col-lg-12 m-0 p-0">
-                  <div className="row global-form m-0">
+              <hr className='m-1'></hr>
+              <div className='row'>
+                <div className='col-lg-12 m-0 p-0'>
+                  <div className='row global-form m-0'>
                     {/*  isEdit view */}
 
                     {!isEdit && (
                       <>
-                        <div className="col-lg-3">
+                        <div className='col-lg-3'>
                           <ISelect
-                            label="Reference No."
+                            label='Reference No.'
                             options={referenceNo || []}
                             value={values.referenceNo}
-                            name="referenceNo"
+                            name='referenceNo'
                             setFieldValue={setFieldValue}
                             errors={errors}
                             touched={touched}
@@ -831,12 +852,12 @@ export default function _Form({
                             }}
                           />
                         </div>
-                        <div className="col-lg-3">
+                        <div className='col-lg-3'>
                           <NewSelect
-                            name="item"
+                            name='item'
                             options={itemPlantDDL || []}
                             value={values?.item}
-                            label="Item"
+                            label='Item'
                             onChange={(valueOption) => {
                               setFieldValue("quantityTop", "");
                               setFieldValue("uom", "");
@@ -853,7 +874,7 @@ export default function _Form({
                                 );
                               }
                             }}
-                            placeholder="Item"
+                            placeholder='Item'
                             errors={errors}
                             touched={touched}
                             isDisabled={
@@ -869,21 +890,21 @@ export default function _Form({
                             }
                           />
                         </div>
-                        <div className="col-lg-3">
+                        <div className='col-lg-3'>
                           <IInput
                             value={values?.customerItemName}
-                            label="Customer Item Name"
-                            name="customerItemName"
+                            label='Customer Item Name'
+                            name='customerItemName'
                             setFieldValue={setFieldValue}
                             disabled={selectedBusinessUnit?.value === 4}
                           />
                         </div>
-                        <div className="col-lg-3">
+                        <div className='col-lg-3'>
                           <ISelect
-                            label="Select UoM"
+                            label='Select UoM'
                             options={itemUOMDDL || []}
                             value={values?.uom}
-                            name="uom"
+                            name='uom'
                             setFieldValue={setFieldValue}
                             errors={errors}
                             touched={touched}
@@ -893,17 +914,17 @@ export default function _Form({
                           />
                         </div>
 
-                        <div className="col-lg-3">
+                        <div className='col-lg-3'>
                           <IInput
                             value={values.quantityTop}
-                            label="Quantity"
-                            name="quantityTop"
+                            label='Quantity'
+                            name='quantityTop'
                             disabled={
                               values?.refType?.value === 1 ? false : true
                             }
-                            type="number"
-                            min="0"
-                            step="any"
+                            type='number'
+                            min='0'
+                            step='any'
                             onChange={(e) => {
                               /* if 'Bongo Traders Ltd' BUI Select */
                               if (selectedBusinessUnit?.isTredingBusiness) {
@@ -922,28 +943,28 @@ export default function _Form({
                           />
                         </div>
                         {isTransportRate && (
-                          <div className="col-lg-3">
+                          <div className='col-lg-3'>
                             <label>Transport Rate</label>
                             <InputField
                               value={values?.transportRate}
-                              name="transportRate"
-                              placeholder="Transport Rate"
-                              type="number"
-                              min="0"
+                              name='transportRate'
+                              placeholder='Transport Rate'
+                              type='number'
+                              min='0'
                             />
                           </div>
                         )}
-                        <div className="col-lg-1 mt-4">
-                          <label className="d-block" for="allCheckbox">
+                        <div className='col-lg-1 mt-4'>
+                          <label className='d-block' for='allCheckbox'>
                             All Item
                           </label>
                           <Field
                             name={values.allCheckbox}
                             component={() => (
                               <input
-                                id="allCheckbox"
-                                type="checkbox"
-                                className="ml-2"
+                                id='allCheckbox'
+                                type='checkbox'
+                                className='ml-2'
                                 value={values.allCheckbox || ""}
                                 checked={values.allCheckbox}
                                 name={values.allCheckbox}
@@ -956,11 +977,11 @@ export default function _Form({
                                 disabled={!values.referenceNo}
                               />
                             )}
-                            label="PartialShipment"
+                            label='PartialShipment'
                           />
                         </div>
 
-                        <div className="col-lg-1">
+                        <div className='col-lg-1'>
                           <button
                             onClick={() => {
                               if (
@@ -970,6 +991,15 @@ export default function _Form({
                                 return toast.warn(
                                   "Please give water proof rate"
                                 );
+
+                              if (
+                                values?.isPumpCharge?.value &&
+                                !values?.pumpChargeRate
+                              )
+                                return toast.warn(
+                                  "Please give pump charge rate"
+                                );
+
                               setter(values);
                               setFieldValue("item", "");
                               setFieldValue("uom", "");
@@ -986,16 +1016,16 @@ export default function _Form({
                                   !values.shipToParty
                                 : !values.refType || !values?.referenceNo
                             }
-                            type="button"
-                            className="btn btn-primary mt-6"
+                            type='button'
+                            className='btn btn-primary mt-6'
                           >
                             Add
                           </button>
                         </div>
                       </>
                     )}
-                    <div className="offset-lg-2 col-lg-5 d-flex justify-content-lg-end">
-                      <div className="right mt-4">
+                    <div className='offset-lg-2 col-lg-5 d-flex justify-content-lg-end'>
+                      <div className='right mt-4'>
                         <div>
                           {isEdit && (
                             <>
@@ -1004,8 +1034,8 @@ export default function _Form({
                                 onClick={() => {
                                   salesOrderApprovalHandler();
                                 }}
-                                type="button"
-                                className="btn btn-success mr-2"
+                                type='button'
+                                className='btn btn-success mr-2'
                                 // disabled={
                                 //   availableBalance &&
                                 //   availableBalance <= total.totalAmount
@@ -1024,8 +1054,8 @@ export default function _Form({
                                 onClick={() => {
                                   rejectHandler(id);
                                 }}
-                                type="button"
-                                className="btn btn-danger"
+                                type='button'
+                                className='btn btn-danger'
                               >
                                 Rejected
                               </button>
@@ -1049,27 +1079,27 @@ export default function _Form({
                                 );
                                 setOfferDetailsModel(true);
                               }}
-                              type="button"
-                              className="btn btn-primary ml-2"
+                              type='button'
+                              className='btn btn-primary ml-2'
                             >
-                              <i class="fa fa-gift" aria-hidden="true"></i>
+                              <i class='fa fa-gift' aria-hidden='true'></i>
                               Offer
                             </button>
                           )}
                         </div>
                       </div>
                     </div>
-                    <div className="col text-right">
-                      <div className="left">
-                        <div className="d-flex justify-content-end">
+                    <div className='col text-right'>
+                      <div className='left'>
+                        <div className='d-flex justify-content-end'>
                           <span
                             className={balanceCheckFunc() ? "text-danger " : ""}
                           >
                             {" "}
-                            <b className="">Total Amount: </b>
+                            <b className=''>Total Amount: </b>
                             {total?.totalAmount.toFixed(2)}
                           </span>
-                          <b className="ml-3">Total Qty: </b>{" "}
+                          <b className='ml-3'>Total Qty: </b>{" "}
                           {total?.totalQty.toFixed(2)}
                           {/* if 'Bongo Traders Ltd' BUI Select */}
                           {selectedBusinessUnit?.isTredingBusiness && (
@@ -1080,7 +1110,7 @@ export default function _Form({
                                   : ""
                               }
                             >
-                              <b className="ml-3">Pending Quantity: </b>
+                              <b className='ml-3'>Pending Quantity: </b>
                               {values?.alotement?.numQty}
                             </div>
                           )}
@@ -1092,12 +1122,12 @@ export default function _Form({
               </div>
 
               {/* Table Start */}
-              <div className="row cash_journal bank-journal bank-journal-custom ">
-                <div className="col-lg-12 pr-0 pl-0">
+              <div className='row cash_journal bank-journal bank-journal-custom '>
+                <div className='col-lg-12 pr-0 pl-0'>
                   {rowDto?.length > 0 && (
                     <Table
                       responsive
-                      className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table"
+                      className='table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table'
                     >
                       <thead>
                         <tr>
@@ -1133,10 +1163,15 @@ export default function _Form({
                             Basic Price
                           </th>
                           {selectedBusinessUnit?.value === 175 ? (
-                            <th>Water Proof Rate</th>
+                            <>
+                              {" "}
+                              <th>Water Proof Rate</th>
+                              <th>Pump Charge Rate </th>
+                            </>
                           ) : (
                             <></>
                           )}
+
                           <th>Amount</th>
                           <th>Discount</th>
                           <th>Net Value</th>
@@ -1150,33 +1185,33 @@ export default function _Form({
                             (itm?.numRequestQuantity || 0);
                           return (
                             <tr key={index}>
-                              <td className="text-center">{index + 1}</td>
-                              <td className="align-middle">
+                              <td className='text-center'>{index + 1}</td>
+                              <td className='align-middle'>
                                 {itm.referenceNoName}
                               </td>
-                              <td className="align-middle">
+                              <td className='align-middle'>
                                 {itm.specification}
                               </td>
-                              <td className="align-middle">
+                              <td className='align-middle'>
                                 {itm.shipToPartnerName}
                               </td>
-                              <td className="align-middle">{itm.itemCode}</td>
-                              <td className="align-middle">{itm.itemName}</td>
-                              <td className="align-middle">
+                              <td className='align-middle'>{itm.itemCode}</td>
+                              <td className='align-middle'>{itm.itemName}</td>
+                              <td className='align-middle'>
                                 {itm.customerItemName}
                               </td>
-                              <td className="align-middle">{itm.uomName}</td>
-                              <td className="align-middle">{itm.isFree}</td>
-                              <td className="align-middle">
+                              <td className='align-middle'>{itm.uomName}</td>
+                              <td className='align-middle'>{itm.isFree}</td>
+                              <td className='align-middle'>
                                 {values?.refType?.value !== 1 ||
                                 isBUIEssentials ? (
                                   <IInput
                                     value={rowDto[index]?.numRequestQuantity}
-                                    name="numRequestQuantity"
-                                    type="number"
+                                    name='numRequestQuantity'
+                                    type='number'
                                     required
-                                    min="1"
-                                    step="any"
+                                    min='1'
+                                    step='any'
                                     onChange={(e) => {
                                       rowDtoHandler(
                                         e.target.value,
@@ -1192,14 +1227,14 @@ export default function _Form({
                                 )}
                               </td>
                               {isTransportRate && (
-                                <td className="text-right">
+                                <td className='text-right'>
                                   {itm.transportRate}
                                 </td>
                               )}
                               {/* is Vat Price true*/}
                               {itm.isVatPrice &&
                               headerData?.salesOrg?.value !== 17 ? (
-                                <td className="text-center">
+                                <td className='text-center'>
                                   {itm.vatPrice || 0}
                                 </td>
                               ) : (
@@ -1211,16 +1246,16 @@ export default function _Form({
                                   (isBUIEssentials &&
                                     selectedBusinessUnit?.value !== 183) ? (
                                     <td
-                                      className="align-middle"
+                                      className='align-middle'
                                       style={{ width: "100px" }}
                                     >
                                       <InputField
                                         value={rowDto[index]?.numItemPrice}
-                                        name="numItemPrice"
-                                        placeholder="Price"
-                                        type="number"
-                                        min="0"
-                                        step="any"
+                                        name='numItemPrice'
+                                        placeholder='Price'
+                                        type='number'
+                                        min='0'
+                                        step='any'
                                         onChange={(e) =>
                                           rowDtoHandlerPrice(
                                             e.target.value,
@@ -1234,29 +1269,34 @@ export default function _Form({
                                       />
                                     </td>
                                   ) : (
-                                    <td className="text-center">
+                                    <td className='text-center'>
                                       {itm.numItemPrice}
                                     </td>
                                   )}
                                 </>
                               )}
                               {selectedBusinessUnit?.value === 175 ? (
-                                <td className="text-center">
-                                  {itm?.waterProofRate}
-                                </td>
+                                <>
+                                  <td className='text-center'>
+                                    {itm?.waterProofRate}
+                                  </td>
+                                  <td className='text-center'>
+                                    {itm?.pumpChargeRate}
+                                  </td>
+                                </>
                               ) : (
                                 <></>
                               )}
-                              <td className="text-center">
+                              <td className='text-center'>
                                 {itm.isVatPrice
                                   ? VATNumOrderValue.toFixed(2)
                                   : itm.numOrderValue.toFixed(2)}
                               </td>
-                              <td className="text-center">
+                              <td className='text-center'>
                                 {itm.numDiscountValue}
                               </td>
 
-                              <td className="text-center">
+                              <td className='text-center'>
                                 {itm.isVatPrice
                                   ? (
                                       VATNumOrderValue -
@@ -1267,9 +1307,9 @@ export default function _Form({
                               {isEdit ? (
                                 ""
                               ) : (
-                                <td className="text-center">
+                                <td className='text-center'>
                                   <i
-                                    className="fa fa-trash"
+                                    className='fa fa-trash'
                                     onClick={() => remover(index)}
                                   ></i>
                                 </td>
@@ -1284,14 +1324,14 @@ export default function _Form({
               </div>
               {/* Table End */}
               <button
-                type="submit"
+                type='submit'
                 style={{ display: "none" }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
-                type="reset"
+                type='reset'
                 style={{ display: "none" }}
                 ref={resetBtnRef}
                 onClick={() => {
@@ -1328,7 +1368,7 @@ export default function _Form({
                 <DetailsView tableType={tableType} gridData={detailsData} />
               </IViewModal>
               <IViewModal
-                title="Offer Details"
+                title='Offer Details'
                 show={offerDetailsModel}
                 onHide={() => setOfferDetailsModel(false)}
               >
