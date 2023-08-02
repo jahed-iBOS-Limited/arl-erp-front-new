@@ -24,35 +24,35 @@ const initData = {
 const validationSchema = Yup.object().shape({
   channel: Yup.object()
     .shape({
-      label: Yup.string().required("Channel is required"),
-      value: Yup.string().required("Channel is required"),
+      label: Yup.string().required('Channel is required'),
+      value: Yup.string().required('Channel is required'),
     })
-    .typeError("Channel is required"),
-    region: Yup.object()
+    .typeError('Channel is required'),
+  region: Yup.object()
     .shape({
-      label: Yup.string().required("Region is required"),
-      value: Yup.string().required("Region is required"),
+      label: Yup.string().required('Region is required'),
+      value: Yup.string().required('Region is required'),
     })
-    .typeError("Region is required"),
-    area: Yup.object()
+    .typeError('Region is required'),
+  area: Yup.object()
     .shape({
-      label: Yup.string().required("Area is required"),
-      value: Yup.string().required("Area is required"),
+      label: Yup.string().required('Area is required'),
+      value: Yup.string().required('Area is required'),
     })
-    .typeError("Area is required"),
-    territory: Yup.object()
+    .typeError('Area is required'),
+  territory: Yup.object()
     .shape({
-      label: Yup.string().required("Territory is required"),
-      value: Yup.string().required("Territory is required"),
+      label: Yup.string().required('Territory is required'),
+      value: Yup.string().required('Territory is required'),
     })
-    .typeError("Territory is required"),
-    transportType: Yup.object()
+    .typeError('Territory is required'),
+  transportType: Yup.object()
     .shape({
-      label: Yup.string().required("transport Type is required"),
-      value: Yup.string().required("Transport Type is required"),
+      label: Yup.string().required('transport Type is required'),
+      value: Yup.string().required('Transport Type is required'),
     })
-    .typeError("Transport Type is required"),
-    month: Yup.string().required(),
+    .typeError('Transport Type is required'),
+  month: Yup.string().required(),
 });
 
 export default function DistributionPlanCreateEdit() {
@@ -62,7 +62,7 @@ export default function DistributionPlanCreateEdit() {
   const [areaDDL, getAreaDDL, , setAreaDDl] = useAxiosGet();
   const [territoryDDL, getTerritoryDDL, , setTerritoryDDL] = useAxiosGet();
   const [rowDto, getRowDto, rowDtoLoading, setRowDto] = useAxiosGet();
-  const [, saveDistributionPlan, saveDistributionLoading] = useAxiosPost()
+  const [, saveDistributionPlan, saveDistributionLoading] = useAxiosPost();
 
   // get user data from store
   const {
@@ -119,11 +119,14 @@ export default function DistributionPlanCreateEdit() {
   };
 
   function getFirstAndLastDateOfMonth(dateString) {
-    const [year, month] = dateString.split("-").map(Number);
+    const [year, month] = dateString.split('-').map(Number);
     const lastDateOfMonth = new Date(year, month, 0);
 
-    const formattedFirstDate = `${year}-${month.toString().padStart(2, "0")}-01`;
-    const formattedLastDate = `${year}-${month.toString().padStart(2, "0")}-${lastDateOfMonth.getDate().toString().padStart(2, "0")}`;
+    const formattedFirstDate = `${year}-${month.toString().padStart(2, '0')}-01`;
+    const formattedLastDate = `${year}-${month.toString().padStart(2, '0')}-${lastDateOfMonth
+      .getDate()
+      .toString()
+      .padStart(2, '0')}`;
 
     return {
       firstDate: formattedFirstDate,
@@ -132,10 +135,10 @@ export default function DistributionPlanCreateEdit() {
   }
 
   const saveHandler = (values, cb) => {
-    if(!rowDto?.length) {
-      return toast.warn("No Item Found");
+    if (!rowDto?.length) {
+      return toast.warn('No Item Found');
     }
-    const distributionRowList = rowDto?.map((item)=> {
+    const distributionRowList = rowDto?.map((item) => {
       return {
         rowId: 0,
         distributionPlanningId: 0,
@@ -147,8 +150,8 @@ export default function DistributionPlanCreateEdit() {
         planRate: +item?.planRate || 0,
         isActive: true,
         actinoBy: item?.actionBy,
-      }
-    })
+      };
+    });
 
     const payload = {
       distributionPlanningId: 0,
@@ -164,30 +167,25 @@ export default function DistributionPlanCreateEdit() {
       isActive: true,
       actinoBy: employeeId,
       distributionRowList: distributionRowList,
-    }
-    saveDistributionPlan(
-      `/oms/DistributionChannel/createDistributionPlanning`,
-      payload,
-      cb,
-      true
-    )
+    };
+    saveDistributionPlan(`/oms/DistributionChannel/createDistributionPlanning`, payload, cb, true);
   };
 
   useEffect(() => {
     getRowDto(
       `/oms/DistributionChannel/GetDistributionPlanningItemList?buisnessUnitId=${buId}&plantId=0&wareHouseId=0`,
       (res) => {
-        const newRowDto = res?.map((item)=> ({
+        const newRowDto = res?.map((item) => ({
           ...item,
-          planQty: "",
-          planRate: "",
+          planQty: '',
+          planRate: '',
           actinoBy: employeeId,
-        }))
+        }));
         setRowDto(newRowDto);
       }
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ buId]);
+  }, [buId]);
 
   useEffect(() => {
     getChannelDDL(
@@ -297,7 +295,10 @@ export default function DistributionPlanCreateEdit() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="transportType"
-                      options={[{ value: 1, label: 'Direct'}, {value: 2, label: 'Via Transshipment' }]}
+                      options={[
+                        { value: 1, label: 'Direct' },
+                        { value: 2, label: 'Via Transshipment' },
+                      ]}
                       value={values?.type}
                       label="Transport Type"
                       onChange={(valueOption) => {
@@ -317,72 +318,78 @@ export default function DistributionPlanCreateEdit() {
                       value={values?.month}
                       onChange={(e) => {
                         setFieldValue('month', e.target.value);
-                        setFieldValue('fromDate', getFirstAndLastDateOfMonth(e?.target?.value)?.firstDate)
-                        setFieldValue('toDate', getFirstAndLastDateOfMonth(e?.target?.value)?.lastDate)
+                        setFieldValue(
+                          'fromDate',
+                          getFirstAndLastDateOfMonth(e?.target?.value)?.firstDate
+                        );
+                        setFieldValue(
+                          'toDate',
+                          getFirstAndLastDateOfMonth(e?.target?.value)?.lastDate
+                        );
                       }}
                     />
                   </div>
                 </div>
               </div>
               <div className="row">
-                  <div className="col-lg-12">
+                <div className="col-lg-12">
                   <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th className="text-left">Item Code </th>
-                          <th>Item Name</th>
-                          <th>Item UoM Name </th>
-                          <th>Plan Qty</th>
-                          <th>Plan Rate</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowDto?.length > 0 &&
-                          rowDto?.map((item, index) => (
-                            <tr key={index}>
-                              <td className="">{index + 1}</td>
-                              <td className="">{item?.itemCode}</td>
-                              <td className="">{item?.itemName}</td>
-                              <td className="">{item?.itemUoMName}</td>
-                              <td className="">
-                                <InputField
-                                  placeholder="Plan Qty"
-                                  name="planQty"
-                                  type="number"
-                                  value={item?.planQty}
-                                  onChange={(e) => {
-                                    const newItem = {...item};
-                                    newItem.planQty = e?.target?.value < 0 ? "" : e?.target?.value;
-                                    const newRowDto = rowDto?.map((itm)=> {
-                                      return itm?.itemId === newItem?.itemId ? newItem : itm;
-                                    })
-                                    setRowDto(newRowDto);
-                                  }}
-                                />
-                              </td>
-                              <td className="">
-                                <InputField
-                                  placeholder="Plan Rate"
-                                  name="planRate"
-                                  type="number"
-                                  value={item?.planRate}
-                                  onChange={(e) => {
-                                    const newItem = {...item};
-                                    newItem.planRate = e?.target?.value < 0 ? "" : e?.target?.value;
-                                    const newRowDto = rowDto?.map((itm)=> {
-                                      return itm?.itemId === newItem?.itemId ? newItem : itm;
-                                    })
-                                    setRowDto(newRowDto);
-                                  }}
-                                />
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
-                  </div>
+                    <thead>
+                      <tr>
+                        <th>SL</th>
+                        <th className="text-left">Item Code </th>
+                        <th>Item Name</th>
+                        <th>Item UoM Name </th>
+                        <th>Plan Qty</th>
+                        <th>Plan Rate</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rowDto?.length > 0 &&
+                        rowDto?.map((item, index) => (
+                          <tr key={index}>
+                            <td className="">{index + 1}</td>
+                            <td className="">{item?.itemCode}</td>
+                            <td className="">{item?.itemName}</td>
+                            <td className="">{item?.itemUoMName}</td>
+                            <td className="">
+                              <InputField
+                                placeholder="Plan Qty"
+                                name="planQty"
+                                type="number"
+                                value={item?.planQty}
+                                onChange={(e) => {
+                                  const newItem = { ...item };
+                                  newItem.planQty = e?.target?.value < 0 ? '' : e?.target?.value;
+                                  const newRowDto = rowDto?.map((itm) => {
+                                    return itm?.itemId === newItem?.itemId ? newItem : itm;
+                                  });
+                                  setRowDto(newRowDto);
+                                }}
+                              />
+                            </td>
+                            <td className="">
+                              <InputField
+                                placeholder="Plan Rate"
+                                name="planRate"
+                                type="number"
+                                value={item?.planRate}
+                                onChange={(e) => {
+                                  const newItem = { ...item };
+                                  newItem.planRate = e?.target?.value < 0 ? '' : e?.target?.value;
+                                  const newRowDto = rowDto?.map((itm) => {
+                                    return itm?.itemId === newItem?.itemId ? newItem : itm;
+                                  });
+                                  setRowDto(newRowDto);
+                                }}
+                              />
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
                 </div>
+              </div>
 
               <button
                 type="submit"
