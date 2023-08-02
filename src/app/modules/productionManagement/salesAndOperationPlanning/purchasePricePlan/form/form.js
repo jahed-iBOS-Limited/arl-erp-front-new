@@ -9,6 +9,9 @@ import NewSelect from "../../../../_helper/_select";
 import { getHorizonDDL, getItemListSalesPlanDDL, getYearDDL } from "../helper";
 import PaginationTable from "./../../../../_helper/_tablePagination";
 import { exportToCSV } from "./utils";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import Loading from "../../../../_helper/_loading";
+import { toast } from "react-toastify";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -46,16 +49,14 @@ export default function _Form({
   id,
   dataHandler,
   removeItem,
-  // setNumItemPlanQty,
-  // setQuantityIndex,
-  // updateItemQuantity,
 }) {
   const [fileObject, setFileObject] = useState("");
   const hiddenFileInput = React.useRef(null);
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(50);
   const [plant, setPlant] = React.useState({});
-
+  const [, getMrpPlanningInfo, mrpPlanningInfoLoader] = useAxiosGet();
+  const [, getHeaderRowInfo, headerRowInfoLoader] = useAxiosGet();
   useEffect(() => {
     if (fileObject) {
       ExcelRenderer(fileObject, (err, resp) => {
@@ -64,14 +65,6 @@ export default function _Form({
           let rowData = [];
           for (let i = 1; i < resp.rows.length; i++) {
             rowData.push({
-              // salesPlanRowId: 0,
-              // itemId: resp.rows[i][0],
-              // itemName: resp.rows[i][1],
-              // uomid: resp.rows[i][2],
-              // uomName: resp.rows[i][3],
-              // itemPlanQty: resp.rows[i][4],
-              // numRate: resp.rows[i][5],
-
               salesPlanRowId: 0,
               bomid: resp.rows[i][4],
               bomname: resp.rows[i][3],
@@ -84,7 +77,6 @@ export default function _Form({
               uomid: resp.rows[i][6],
             });
           }
-
           setRowDto({
             ...rowDto,
             data: rowData,
@@ -117,10 +109,58 @@ export default function _Form({
     );
   };
 
-  console.log("row", rowDto)
+  const updateRequiredQuantity = (values, valueOption) => {
+    getMrpPlanningInfo(
+      `/mes/SalesPlanning/GetMrplanningInfoDetail?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${values?.plant?.value}&PlanningHorizonId=${values?.year?.planningHorizonId}&PlanningHorizonRowId=${valueOption?.value}`,
+      (data) => {
+        console.log("data", data);
+        let actualItemMonthWise = []
+        data?.length > 0 && data.forEach(item => {
+          let rawMaterialItem = item?.objRawMaterialItemList
+          rawMaterialItem?.length > 0 && rawMaterialItem.forEach(nestedItem => {
+            if (nestedItem?.planningHorizonRowid === valueOption?.value) {
+              actualItemMonthWise.push(nestedItem)
+            }
+          })
+        })
+        let newRowDto = rowDto?.data?.length > 0 ? rowDto?.data?.map(item => {
+          let itemPlanQty = actualItemMonthWise.filter(nestedItem => nestedItem?.rawMaterialItemId === item?.itemId)?.[0]?.rawMaterialRequiredQty || 0
+          let purchaseQty = actualItemMonthWise.filter(nestedItem => nestedItem?.rawMaterialItemId === item?.itemId)?.[0]?.purchaseQuantity || 0
+          return {
+            ...item,
+            itemPlanQty,
+            entryItemPlanQty: purchaseQty,
+          }
+        }) : toast.warn("Row data is empty")
+        setRowDto({ ...rowDto, data: newRowDto })
+
+        // getHeaderRowInfo(`/mes/SalesPlanning/GetPurchaseRateDetails?AccountId=${profileData?.accountId
+        //   }&BusinessUnitId=${selectedBusinessUnit?.value
+        //   }&PlantId=${values?.plant?.value
+        //   }&PlanningHorizonId=${values?.year?.planningHorizonId
+        //   }&PlanningHorizonRowId=${valueOption?.value
+        //   }`, (data) => {
+        //     let newRowDto = rowDto?.data?.length > 0 ? rowDto?.data?.map(item => {
+        //       let qty = data?.filter(nestedItem => nestedItem?.itemId === item?.itemId)?.[0]?.purchaseQuantity || 0
+        //       let rowId = data?.filter(nestedItem => nestedItem?.itemId === item?.itemId)?.[0]?.intPurchasePlanRowId || 0
+        //       let headerId = data?.filter(nestedItem => nestedItem?.itemId === item?.itemId)?.[0]?.intPurchasePlanId || 0
+        //       return {
+        //         ...item,
+        //         entryItemPlanQty: qty,
+        //         intPurchasePlanId: headerId,
+        //         intPurchasePlanRowId: rowId,
+        //       }
+        //     }) : toast.warn("Row data is empty")
+        //     setRowDto({ ...rowDto, data: newRowDto })
+        //   })
+      }
+    );
+
+
+  };
 
   return (
-    <>
+    <div>
       <Formik
         enableReinitialize={true}
         initialValues={initData}
@@ -141,6 +181,7 @@ export default function _Form({
           setFieldValue,
         }) => (
           <>
+            {(mrpPlanningInfoLoader || headerRowInfoLoader) && <Loading />}
             {/* {console.log("values: ", values)} */}
             <Form className="form form-label-right">
               <div className="global-form p-2">
@@ -207,7 +248,7 @@ export default function _Form({
                       }}
                       errors={errors}
                       touched={touched}
-                      isDisabled={id ? true : false}
+                      isDisabled={(id || !rowDto?.data?.length) ? true : false}
                     />
                   </div>
                   <div className="col-lg-4">
@@ -218,6 +259,7 @@ export default function _Form({
                       label="Planning Horizon"
                       placeholder="Planning Horizon"
                       onChange={(valueOption) => {
+                        updateRequiredQuantity(values, valueOption)
                         setFieldValue("horizon", valueOption);
                         setFieldValue(
                           "startDate",
@@ -230,7 +272,7 @@ export default function _Form({
                       }}
                       errors={errors}
                       touched={touched}
-                      isDisabled={id ? true : false}
+                      isDisabled={(id || !values?.year) ? true : false}
                     />
                   </div>
                   <div className="col-lg-4">
@@ -300,6 +342,7 @@ export default function _Form({
                     <th>Item Code</th>
                     {/* <th>BOM</th> */}
                     <th>UoM Name</th>
+                    <th>MRP Quantity</th>
                     <th>Purchase Quantity</th>
                     <th>Rate</th>
                     <th>Action</th>
@@ -341,8 +384,27 @@ export default function _Form({
                         )}
                       </td> */}
                       <td className="text-center">{item?.uomName}</td>
+                      <td className="text-center">{item?.itemPlanQty}</td>
                       <td style={{ width: "150px" }} className="text-center">
-                        {id ? (
+                        <input
+                          type="number"
+                          name="entryItemPlanQty"
+                          value={+item?.entryItemPlanQty || ""}
+                          onChange={(e) => {
+                            if (+e.target.value < 0) {
+                              return
+                            }
+                            dataHandler(
+                              "entryItemPlanQty",
+                              item,
+                              +e.target.value,
+                              setRowDto,
+                              rowDto
+                            );
+                          }}
+                          className="quantity-field form-control"
+                        />
+                        {/* {id ? (
                           <input
                             type="number"
                             name="entryItemPlanQty"
@@ -362,25 +424,8 @@ export default function _Form({
                             className="quantity-field form-control"
                           />
                         ) : (
-                          <input
-                            type="number"
-                            name="itemPlanQty"
-                            value={+item?.itemPlanQty || ""}
-                            onChange={(e) => {
-                              if (+e.target.value < 0) {
-                                return
-                              }
-                              dataHandler(
-                                "itemPlanQty",
-                                item,
-                                +e.target.value,
-                                setRowDto,
-                                rowDto
-                              );
-                            }}
-                            className="quantity-field form-control"
-                          />
-                        )}
+                          
+                        )} */}
                       </td>
                       <td style={{ width: "150px" }} className="text-center">
                         <input
@@ -438,6 +483,6 @@ export default function _Form({
           </>
         )}
       </Formik>
-    </>
+    </div>
   );
 }
