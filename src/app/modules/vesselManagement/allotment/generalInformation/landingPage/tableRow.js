@@ -11,18 +11,20 @@ import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost"; 
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import { getTotal } from "../../../common/helper";
 import { getMotherVesselDDL } from "../../tenderInformation/helper";
 import {
   GetDomesticPortDDL,
   GetLighterAllotmentPagination,
+  GetTotalVsActualPagination,
   updateCNFInfo,
 } from "../helper";
 import CommissionRevenueCostTable from "./comRevCostTable";
 import GeneralInfoTable from "./generalInfoTable";
 import CNFTable from "./cnfTable";
 import AttachFile from "../../../../_helper/commonInputFieldsGroups/attachemntUpload";
+import TenderVsActualTable from "./tenderVsActualTable";
 
 const initData = {
   status: "",
@@ -38,6 +40,8 @@ const statusDDL = [
   { value: 3, label: "Mother Vessel Revenue Generate" },
   { value: 4, label: "Mother Vessel Cost Generate" },
   { value: 5, label: "CNF Bill Configure" },
+  { value: 6, label: "Tender vs Actual Details" },
+  { value: 7, label: "Tender vs Actual Topsheet" },
 ];
 
 export function LandingTableRow() {
@@ -72,7 +76,16 @@ export function LandingTableRow() {
         _pageNo,
         _pageSize
       );
-    } else if ([2, 3, 4, 5].includes(values?.status?.value)) {
+    }
+    else if (values?.status?.value === 6 || values?.status?.value === 7) {
+      GetTotalVsActualPagination(
+        buId,
+        values?.status?.value,
+        setGridData,
+        setLoading
+      );
+    }
+    else if ([2, 3, 4, 5].includes(values?.status?.value)) {
       const statusId = values?.status?.value;
 
       const commissionURL = `/tms/LigterLoadUnload/PreDataForMotherVesselCommissionEntry?accountId=${accId}&businessUnitId=${buId}&motherVesselId=${values?.motherVessel?.value}`;
@@ -84,10 +97,10 @@ export function LandingTableRow() {
       const URL = [2].includes(statusId)
         ? commissionURL
         : [3].includes(statusId)
-        ? revenueURL
-        : [4, 5].includes(statusId)
-        ? costURL
-        : "";
+          ? revenueURL
+          : [4, 5].includes(statusId)
+            ? costURL
+            : "";
 
       getRowData(URL, (resData) => {
         const modifyData = resData?.map((item) => {
@@ -101,8 +114,8 @@ export function LandingTableRow() {
           const billAmount = [3].includes(statusId)
             ? revenueAmount
             : [4].includes(statusId)
-            ? costAmount
-            : 0;
+              ? costAmount
+              : 0;
           return {
             ...item,
             isSelected: false,
@@ -262,7 +275,7 @@ export function LandingTableRow() {
   return (
     <>
       {/* Table Start */}
-      <Formik initialValues={initData} onSubmit={() => {}}>
+      <Formik initialValues={initData} onSubmit={() => { }}>
         {({ values, setFieldValue }) => (
           <>
             <form>
@@ -399,7 +412,7 @@ export function LandingTableRow() {
                       disabled={
                         !values?.narration ||
                         rowData?.filter((item) => item?.isSelected)?.length <
-                          1 ||
+                        1 ||
                         loader ||
                         loading
                       }
@@ -439,6 +452,14 @@ export function LandingTableRow() {
                 }}
               />
             )}
+
+            {
+              [6, 7].includes(values?.status?.value) && (
+                <TenderVsActualTable
+                  gridData={gridData}
+                />
+              )
+            }
             <AttachFile obj={{ open, setOpen, setUploadedImage }} />
           </>
         )}

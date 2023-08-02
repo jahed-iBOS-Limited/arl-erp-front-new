@@ -9,6 +9,9 @@ import NewSelect from "../../../../_helper/_select";
 import { getHorizonDDL, getItemListSalesPlanDDL, getYearDDL } from "../helper";
 import PaginationTable from "./../../../../_helper/_tablePagination";
 import { exportToCSV } from "./utils";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import Loading from "../../../../_helper/_loading";
+import { toast } from "react-toastify";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -55,7 +58,7 @@ export default function _Form({
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(50);
   const [plant, setPlant] = React.useState({});
-
+  const [, getMrpPlanningInfo, mrpPlanningInfoLoader] = useAxiosGet()
   useEffect(() => {
     if (fileObject) {
       ExcelRenderer(fileObject, (err, resp) => {
@@ -117,7 +120,29 @@ export default function _Form({
     );
   };
 
-  console.log("row", rowDto)
+  const updateRequiredQuantity = (values, valueOption) => {
+    getMrpPlanningInfo(
+      `/mes/SalesPlanning/GetMrplanningInfoDetail?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${values?.plant?.value}&PlanningHorizonId=${values?.year?.planningHorizonId}&PlanningHorizonRowId=${valueOption?.value}`,
+      (data) => {
+        let actualItemMonthWise = []
+        data?.length > 0 && data.forEach(item => {
+          let rawMaterialItem = item?.objRawMaterialItemList
+          rawMaterialItem?.length > 0 && rawMaterialItem.forEach(nestedItem => {
+            if (nestedItem?.planningHorizonRowid === valueOption?.value) {
+              actualItemMonthWise.push(nestedItem)
+            }
+          })
+        })
+        let newRowDto = rowDto?.data?.length > 0 ? rowDto?.data?.map(item => {
+          let mrpQuantity = actualItemMonthWise.filter(nestedItem => nestedItem?.rawMaterialItemId === item?.itemId)?.[0]?.rawMaterialRequiredQty || 0
+          return { ...item, mrpQuantity }
+        }) : toast.warn("Row data is empty")
+
+        setRowDto({ ...rowDto, data: newRowDto })
+
+      }
+    );
+  };
 
   return (
     <>
@@ -141,6 +166,7 @@ export default function _Form({
           setFieldValue,
         }) => (
           <>
+            {mrpPlanningInfoLoader && <Loading />}
             {/* {console.log("values: ", values)} */}
             <Form className="form form-label-right">
               <div className="global-form p-2">
@@ -207,7 +233,7 @@ export default function _Form({
                       }}
                       errors={errors}
                       touched={touched}
-                      isDisabled={id ? true : false}
+                      isDisabled={(id || !rowDto?.data?.length) ? true : false}
                     />
                   </div>
                   <div className="col-lg-4">
@@ -218,6 +244,7 @@ export default function _Form({
                       label="Planning Horizon"
                       placeholder="Planning Horizon"
                       onChange={(valueOption) => {
+                        updateRequiredQuantity(values, valueOption)
                         setFieldValue("horizon", valueOption);
                         setFieldValue(
                           "startDate",
@@ -230,7 +257,7 @@ export default function _Form({
                       }}
                       errors={errors}
                       touched={touched}
-                      isDisabled={id ? true : false}
+                      isDisabled={(id || !values?.year) ? true : false}
                     />
                   </div>
                   <div className="col-lg-4">
@@ -300,6 +327,7 @@ export default function _Form({
                     <th>Item Code</th>
                     {/* <th>BOM</th> */}
                     <th>UoM Name</th>
+                    <th>MRP Quantity</th>
                     <th>Purchase Quantity</th>
                     <th>Rate</th>
                     <th>Action</th>
@@ -341,6 +369,7 @@ export default function _Form({
                         )}
                       </td> */}
                       <td className="text-center">{item?.uomName}</td>
+                      <td className="text-center">{item?.mrpQuantity}</td>
                       <td style={{ width: "150px" }} className="text-center">
                         {id ? (
                           <input
