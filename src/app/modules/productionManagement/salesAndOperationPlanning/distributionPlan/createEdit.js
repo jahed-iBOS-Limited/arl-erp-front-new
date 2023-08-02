@@ -58,9 +58,9 @@ const validationSchema = Yup.object().shape({
 export default function DistributionPlanCreateEdit() {
   const [objProps, setObjprops] = useState({});
   const [channelDDL, getChannelDDL] = useAxiosGet();
-  const [regionDDL, getRegionDDL, , setRegionDDL] = useAxiosGet();
-  const [areaDDL, getAreaDDL, , setAreaDDl] = useAxiosGet();
-  const [territoryDDL, getTerritoryDDL, , setTerritoryDDL] = useAxiosGet();
+  const [regionDDL, getRegionDDL, regionLoading, setRegionDDL] = useAxiosGet();
+  const [areaDDL, getAreaDDL, areaLoading, setAreaDDl] = useAxiosGet();
+  const [territoryDDL, getTerritoryDDL, territoryLoading, setTerritoryDDL] = useAxiosGet();
   const [rowDto, getRowDto, rowDtoLoading, setRowDto] = useAxiosGet();
   const [, saveDistributionPlan, saveDistributionLoading] = useAxiosPost();
 
@@ -207,7 +207,11 @@ export default function DistributionPlanCreateEdit() {
     >
       {({ handleSubmit, resetForm, values, setFieldValue, isValid, errors, touched }) => (
         <>
-          {(rowDtoLoading || saveDistributionLoading) && <Loading />}
+          {(rowDtoLoading ||
+            saveDistributionLoading ||
+            territoryLoading ||
+            areaLoading ||
+            regionLoading) && <Loading />}
           <IForm title="Distribution Plan Create" getProps={setObjprops}>
             <Form>
               <div className="row global-form">
