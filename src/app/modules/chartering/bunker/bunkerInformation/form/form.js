@@ -102,11 +102,12 @@ export default function Form({
     }
   };
 
+  // BOD editablec intruction from sahil vai
+  // && values?.voyageNo?.label !== "1") and values?.hireTypeId === 1  || rmove this condition
   const BODDisableHandler = (values) => {
+    console.log("valuess", values)
     const result =
-      (values?.hireTypeId === 1 && values?.voyageNo?.label !== "1") ||
-      viewType ||
-      !values?.voyageNo;
+      ( viewType || !values?.voyageNo);
 
     return result;
   };

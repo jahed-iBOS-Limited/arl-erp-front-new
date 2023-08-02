@@ -1,20 +1,37 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import SalesAndProductionPlanCreateForm from "./salesAndProductionPlan/form/addEditForm";
-import ProductionPlanningForm from "./salesAndProductionPlan/productionPlanning/addEditForm";
-import SalesAndProductionTable from "./salesAndProductionPlan/table/table";
-import ProductionMasterSchedulelLanding from "./productionMasterSchedule/Table/index";
-import ProductionMasterSchedulelFrom from "./productionMasterSchedule/Form/addEditForm";
-import SalesAndProductionPlanCreateFormView from "./salesAndProductionPlan/formView/addEditForm";
-import MaterialReqPlanLanding from "./materialReqPlan/table/table";
-import Materialannualplan from "./materialReqPlan/table/table";
-import PurchasePlanTable from "./purchasePricePlan/table/table";
-import PurchasePlanCreateForm from "./purchasePricePlan/form/addEditForm";
-import PurchasePlanCreateFormView from "./purchasePricePlan/formView/addEditForm";
-import PurchasePlanningForm from "./purchasePricePlan/productionPlanning/addEditForm";
+/* eslint-disable react-hooks/rules-of-hooks */
+import React from 'react';
+import { shallowEqual, useSelector } from "react-redux";
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import SalesAndProductionPlanCreateForm from './salesAndProductionPlan/form/addEditForm';
+import ProductionPlanningForm from './salesAndProductionPlan/productionPlanning/addEditForm';
+import SalesAndProductionTable from './salesAndProductionPlan/table/table';
+import ProductionMasterSchedulelLanding from './productionMasterSchedule/Table/index';
+import ProductionMasterSchedulelFrom from './productionMasterSchedule/Form/addEditForm';
+import SalesAndProductionPlanCreateFormView from './salesAndProductionPlan/formView/addEditForm';
+import PurchasePlanTable from './purchasePricePlan/table/table';
+import PurchasePlanCreateForm from './purchasePricePlan/form/addEditForm';
+import PurchasePlanCreateFormView from './purchasePricePlan/formView/addEditForm';
+import PurchasePlanningForm from './purchasePricePlan/productionPlanning/addEditForm';
+import Materialannualplan from './materialReqPlan/table/table';
+import MaterialReqPlanLanding from './materialannualplan/table/table';
+import DistributionPlanLanding from './distributionPlan';
+import DistributionPlanCreateEdit from './distributionPlan/createEdit';
+import NotPermitted from '../../performanceManagement/notPermittedPage/notPermitted';
 
 export function salesAndOperationsPlanning() {
+  const userRole = useSelector(
+    (state) => state?.authData?.userRole,
+    shallowEqual
+  );
+
+  let distributionPlanningPermission = null;
+
+  for (let i = 0; i < userRole.length; i++) {
+    if (userRole[i]?.intFeatureId === 1328) {
+      distributionPlanningPermission = userRole[i];
+    }
+  }
   return (
     <Switch>
       <Redirect
@@ -45,8 +62,8 @@ export function salesAndOperationsPlanning() {
         component={SalesAndProductionTable}
       />
 
-       {/* Purchase Plan */}
-       <ContentRoute
+      {/* Purchase Plan */}
+      <ContentRoute
         from="/production-management/salesAndOperationsPlanning/PurchasePlan/:plantId/:salesPlanId/createPP"
         component={PurchasePlanningForm}
       />
@@ -89,6 +106,15 @@ export function salesAndOperationsPlanning() {
       <ContentRoute
         path="/production-management/salesAndOperationsPlanning/materialannualplan"
         component={Materialannualplan}
+      />
+      {/* Distribuation Planning */}
+      <ContentRoute
+        path="/production-management/salesAndOperationsPlanning/DistributionPlanning/create"
+        component={distributionPlanningPermission?.isCreate ? DistributionPlanCreateEdit : NotPermitted}
+      />
+      <ContentRoute
+        path="/production-management/salesAndOperationsPlanning/DistributionPlanning"
+        component={distributionPlanningPermission?.isView ? DistributionPlanLanding : NotPermitted}
       />
     </Switch>
   );
