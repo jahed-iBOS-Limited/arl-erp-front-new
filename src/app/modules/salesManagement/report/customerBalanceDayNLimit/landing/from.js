@@ -59,7 +59,7 @@ export default function Form({ obj }) {
   const disableHandler = (values) => {
     return (
       ([1, 2, 3].includes(values?.reportType?.value) &&
-        !values?.distributionChannel) ||
+        !values?.channel) ||
       !values?.reportType ||
       ([4].includes(values?.reportType?.value) && !values?.viewType)
     );
@@ -131,9 +131,8 @@ export default function Form({ obj }) {
           <div className="col-lg-3">
             <InputField
               value={values?.date}
-              label={`${
-                [4, 5].includes(values?.reportType?.value) ? "Transaction" : ""
-              } Date`}
+              label={`${[4, 5].includes(values?.reportType?.value) ? "Transaction" : ""
+                } Date`}
               name="date"
               type="date"
               onChange={(e) => {
