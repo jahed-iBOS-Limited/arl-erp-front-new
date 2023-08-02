@@ -12,7 +12,7 @@ import DetailsDistributionView from './detailsView';
 
 const initData = {};
 
-export default function CommonLanding() {
+export default function DistributionPlanLanding() {
   const history = useHistory();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
@@ -34,12 +34,12 @@ export default function CommonLanding() {
   };
 
   // get landing data on mount
-  useEffect(()=> {
+  useEffect(() => {
     getRowDto(
       `/oms/DistributionChannel/GetDistributionPlanningLanding?buisnessUnitId=${buId}&pageNo=${pageNo}&pageSize=${pageSize}`
-    )
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [buId])
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [buId]);
 
   return (
     <Formik
@@ -68,7 +68,7 @@ export default function CommonLanding() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        '/transport-management/routecostmanagement/distributionPlaning/create'
+                        '/production-management/salesAndOperationsPlanning/DistributionPlanning/create'
                       );
                     }}
                   >
@@ -79,57 +79,57 @@ export default function CommonLanding() {
             }}
           >
             <Form>
-            <div className="row">
-                  <div className="col-lg-12">
+              <div className="row">
+                <div className="col-lg-12">
                   <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th className="text-left">Distribution Channel Name</th>
-                          <th>Region Name</th>
-                          <th>Area Name</th>
-                          <th>Territory Name</th>
-                          <th>Transport Name</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowDto?.data?.length > 0 &&
-                          rowDto?.data?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{item?.sl}</td>
-                              <td>{item?.distributionChannelName}</td>
-                              <td>{item?.regionName}</td>
-                              <td>{item?.areaName}</td>
-                              <td>{item?.territoryName}</td>
-                              <td>{item?.transportTypeName}</td>
-                              <td className='text-center'>
-                                <IView
-                                  clickHandler={(e) => {
-                                    setDetailsView(item?.distributionRowList)
-                                    setIsShowModel(true)
-                                  }}
-                                />
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
-                    {rowDto?.data?.length > 0 && (
-                      <PaginationTable
-                        count={rowDto?.totalCount}
-                        setPositionHandler={setPositionHandler}
-                        paginationState={{
-                          pageNo,
-                          setPageNo,
-                          pageSize,
-                          setPageSize,
-                        }}
-                        values={values}
-                      />
-                    )}
-                  </div>
+                    <thead>
+                      <tr>
+                        <th>SL</th>
+                        <th className="text-left">Distribution Channel Name</th>
+                        <th>Region Name</th>
+                        <th>Area Name</th>
+                        <th>Territory Name</th>
+                        <th>Transport Name</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rowDto?.data?.length > 0 &&
+                        rowDto?.data?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{item?.sl}</td>
+                            <td>{item?.distributionChannelName}</td>
+                            <td>{item?.regionName}</td>
+                            <td>{item?.areaName}</td>
+                            <td>{item?.territoryName}</td>
+                            <td>{item?.transportTypeName}</td>
+                            <td className="text-center">
+                              <IView
+                                clickHandler={(e) => {
+                                  setDetailsView(item?.distributionRowList);
+                                  setIsShowModel(true);
+                                }}
+                              />
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                  {rowDto?.data?.length > 0 && (
+                    <PaginationTable
+                      count={rowDto?.totalCount}
+                      setPositionHandler={setPositionHandler}
+                      paginationState={{
+                        pageNo,
+                        setPageNo,
+                        pageSize,
+                        setPageSize,
+                      }}
+                      values={values}
+                    />
+                  )}
                 </div>
+              </div>
             </Form>
           </IForm>
           <IViewModal
@@ -140,7 +140,7 @@ export default function CommonLanding() {
               setIsShowModel(false);
             }}
           >
-            <DetailsDistributionView rowData={detailsView}/>
+            <DetailsDistributionView rowData={detailsView} />
           </IViewModal>
         </>
       )}
