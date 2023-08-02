@@ -73,15 +73,15 @@ export default function _Form({
               // numRate: resp.rows[i][5],
 
               salesPlanRowId: 0,
-              bomid : resp.rows[i][4],
-              bomname : resp.rows[i][3],
-              itemCode : resp.rows[i][2],
-              itemId : resp.rows[i][0],
-              itemName : resp.rows[i][1],
-              itemPlanQty : resp.rows[i][7],
-              rate : resp.rows[i][8],
-              uomName : resp.rows[i][5],
-              uomid : resp.rows[i][6],
+              bomid: resp.rows[i][4],
+              bomname: resp.rows[i][3],
+              itemCode: resp.rows[i][2],
+              itemId: resp.rows[i][0],
+              itemName: resp.rows[i][1],
+              itemPlanQty: resp.rows[i][7],
+              rate: resp.rows[i][8],
+              uomName: resp.rows[i][5],
+              uomid: resp.rows[i][6],
             });
           }
 
@@ -117,7 +117,7 @@ export default function _Form({
     );
   };
 
-  console.log("row",rowDto)
+  console.log("row", rowDto)
 
   return (
     <>
@@ -298,9 +298,9 @@ export default function _Form({
                     <th>SL</th>
                     <th>Item Name</th>
                     <th>Item Code</th>
-                    <th>BOM</th>
+                    {/* <th>BOM</th> */}
                     <th>UoM Name</th>
-                    <th>Plan Quantity</th>
+                    <th>Purchase Quantity</th>
                     <th>Rate</th>
                     <th>Action</th>
                   </tr>
@@ -311,7 +311,7 @@ export default function _Form({
                       <td className="text-center">{index + 1}</td>
                       <td className="pl-2">{item?.itemName}</td>
                       <td className="pl-2">{item?.itemCode}</td>
-                      <td style={{ width: "180px" }}>
+                      {/* <td style={{ width: "180px" }}>
                         {id ? (
                           item?.bomname || ""
                         ) : (
@@ -339,7 +339,7 @@ export default function _Form({
                             )}
                           </>
                         )}
-                      </td>
+                      </td> */}
                       <td className="text-center">{item?.uomName}</td>
                       <td style={{ width: "150px" }} className="text-center">
                         {id ? (
@@ -348,7 +348,7 @@ export default function _Form({
                             name="entryItemPlanQty"
                             value={+item?.entryItemPlanQty || ""}
                             onChange={(e) => {
-                              if(+e.target.value < 0){
+                              if (+e.target.value < 0) {
                                 return
                               }
                               dataHandler(
@@ -367,7 +367,7 @@ export default function _Form({
                             name="itemPlanQty"
                             value={+item?.itemPlanQty || ""}
                             onChange={(e) => {
-                              if(+e.target.value < 0){
+                              if (+e.target.value < 0) {
                                 return
                               }
                               dataHandler(
@@ -388,7 +388,7 @@ export default function _Form({
                           name="rate"
                           value={+item?.rate || ""}
                           onChange={(e) => {
-                            if(+e.target.value < 0){
+                            if (+e.target.value < 0) {
                               return
                             }
                             dataHandler(
