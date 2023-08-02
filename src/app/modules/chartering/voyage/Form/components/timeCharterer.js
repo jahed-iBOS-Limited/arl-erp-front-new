@@ -13,19 +13,7 @@ export default function TimeCharterer({
     <>
       <div className="marine-form-card-content">
         <div className="row">
-          <div className="col-lg-3">
-            <label>LSMGO Price/MT</label>
-            <FormikInput
-              value={values?.lsmgoPrice}
-              name="lsmgoPrice"
-              placeholder="LSMGO Price/MT"
-              type="number"
-              errors={errors}
-              touched={touched}
-              disabled={viewType === "view"}
-            />
-          </div>
-          <div className="col-lg-3">
+        <div className="col-lg-3">
             <label>LSFO Price/MT</label>
             <FormikInput
               value={values?.lsifoPrice}
@@ -37,6 +25,18 @@ export default function TimeCharterer({
               disabled={viewType === "view"}
             />
           </div>
+          <div className="col-lg-3">
+            <label>LSMGO Price/MT</label>
+            <FormikInput
+              value={values?.lsmgoPrice}
+              name="lsmgoPrice"
+              placeholder="LSMGO Price/MT"
+              type="number"
+              errors={errors}
+              touched={touched}
+              disabled={viewType === "view"}
+            />
+          </div>         
           <div className="col-lg-3">
             <label>Daily Hire</label>
             <FormikInput
