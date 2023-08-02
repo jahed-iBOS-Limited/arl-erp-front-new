@@ -11,8 +11,10 @@ export default function DetailsDistributionView({ rowData }) {
               <th>Item Code</th>
               <th>Item Name</th>
               <th>Item UoM Name</th>
-              <th>Plan Qty</th>
-              <th>Plan Rate</th>
+              <th>Plan Qty(Direct)</th>
+              <th>Plan Rate(Direct)</th>
+              <th>Plan Rate(Transshipment)</th>
+              <th>Plan Rate(Transshipment)</th>
             </tr>
           </thead>
           <tbody>
@@ -25,6 +27,8 @@ export default function DetailsDistributionView({ rowData }) {
                   <td>{item?.itemUoMName}</td>
                   <td>{item?.planQty}</td>
                   <td>{item?.planRate}</td>
+                  <td>{item?.planTransQty}</td>
+                  <td>{item?.planTransRate}</td>
                 </tr>
               ))}
           </tbody>

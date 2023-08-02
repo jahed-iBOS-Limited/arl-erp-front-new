@@ -15,7 +15,7 @@ const initData = {
   region: '',
   area: '',
   territory: '',
-  transportType: '',
+  // transportType: '',
   fromDate: '',
   toDate: '',
   month: '',
@@ -46,12 +46,12 @@ const validationSchema = Yup.object().shape({
       value: Yup.string().required('Territory is required'),
     })
     .typeError('Territory is required'),
-  transportType: Yup.object()
-    .shape({
-      label: Yup.string().required('transport Type is required'),
-      value: Yup.string().required('Transport Type is required'),
-    })
-    .typeError('Transport Type is required'),
+  // transportType: Yup.object()
+  //   .shape({
+  //     label: Yup.string().required('transport Type is required'),
+  //     value: Yup.string().required('Transport Type is required'),
+  //   })
+  //   .typeError('Transport Type is required'),
   month: Yup.string().required(),
 });
 
@@ -138,6 +138,26 @@ export default function DistributionPlanCreateEdit() {
     if (!rowDto?.length) {
       return toast.warn('No Item Found');
     }
+
+    for(let item of rowDto) {
+      if(item?.planQty || item?.planRate) {
+        if(!item?.planQty) {
+          return toast.warn("Plan Qty(Direct) is required!");
+        }
+        if(!item?.planRate) {
+          return toast.warn("Plan Rate(Direct) is required!")
+        }
+      }
+      if(item?.planTransQty || item?.planTransRate) {
+        if(!item?.planTransQty) {
+          return toast.warn("Plan Qty(Transshipment) is required!");
+        }
+        if(!item?.planTransRate) {
+          return toast.warn("Plan Rate(Transshipment) is required!")
+        }
+      }
+    }
+
     const distributionRowList = rowDto?.map((item) => {
       return {
         rowId: 0,
@@ -148,8 +168,10 @@ export default function DistributionPlanCreateEdit() {
         itemUoM: item?.itemUoM,
         planQty: +item?.planQty || 0,
         planRate: +item?.planRate || 0,
+        planTransQty: +item?.planTransQty || 0,
+        planTransRate: +item?.planTransRate || 0,
         isActive: true,
-        actinoBy: item?.actionBy,
+        actinoBy: employeeId,
       };
     });
 
@@ -160,15 +182,15 @@ export default function DistributionPlanCreateEdit() {
       regionId: values?.region?.value,
       areaId: values?.area?.value,
       territoryId: values?.territory?.value,
-      transportTypeId: values?.transportType?.value,
-      transportTypeName: values?.transportType?.label,
+      // transportTypeId: values?.transportType?.value,
+      // transportTypeName: values?.transportType?.label,
       fromDate: values?.fromDate,
       toDate: values?.toDate,
       isActive: true,
       actinoBy: employeeId,
       distributionRowList: distributionRowList,
     };
-    saveDistributionPlan(`/oms/DistributionChannel/createDistributionPlanning`, payload, cb, true);
+    saveDistributionPlan(`/oms/DistributionChannel/CreateAndEditDistributionPlanning`, payload, cb, true);
   };
 
   useEffect(() => {
@@ -179,6 +201,8 @@ export default function DistributionPlanCreateEdit() {
           ...item,
           planQty: '',
           planRate: '',
+          planTransQty: '',
+          planTransRate: '',
           actinoBy: employeeId,
         }));
         setRowDto(newRowDto);
@@ -296,7 +320,7 @@ export default function DistributionPlanCreateEdit() {
                       touched={touched}
                     />
                   </div>
-                  <div className="col-lg-3">
+                  {/* <div className="col-lg-3">
                     <NewSelect
                       name="transportType"
                       options={[
@@ -312,7 +336,7 @@ export default function DistributionPlanCreateEdit() {
                       errors={errors}
                       touched={touched}
                     />
-                  </div>
+                  </div> */}
                   <div className="col-lg-3">
                     <InputField
                       label="Month"
@@ -344,8 +368,10 @@ export default function DistributionPlanCreateEdit() {
                         <th className="text-left">Item Code </th>
                         <th>Item Name</th>
                         <th>Item UoM Name </th>
-                        <th>Plan Qty</th>
-                        <th>Plan Rate</th>
+                        <th>Plan Qty(Direct)</th>
+                        <th>Plan Rate(Direct)</th>
+                        <th>Plan Qty(Transshipment)</th>
+                        <th>Plan Rate(Transshipment)</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -358,7 +384,7 @@ export default function DistributionPlanCreateEdit() {
                             <td className="">{item?.itemUoMName}</td>
                             <td className="">
                               <InputField
-                                placeholder="Plan Qty"
+                                placeholder="Plan Qty(Direct)"
                                 name="planQty"
                                 type="number"
                                 value={item?.planQty}
@@ -374,13 +400,45 @@ export default function DistributionPlanCreateEdit() {
                             </td>
                             <td className="">
                               <InputField
-                                placeholder="Plan Rate"
+                                placeholder="Plan Rate(Direct)"
                                 name="planRate"
                                 type="number"
                                 value={item?.planRate}
                                 onChange={(e) => {
                                   const newItem = { ...item };
                                   newItem.planRate = e?.target?.value < 0 ? '' : e?.target?.value;
+                                  const newRowDto = rowDto?.map((itm) => {
+                                    return itm?.itemId === newItem?.itemId ? newItem : itm;
+                                  });
+                                  setRowDto(newRowDto);
+                                }}
+                              />
+                            </td>
+                            <td className="">
+                              <InputField
+                                placeholder="Plan Qty(Transshipment)"
+                                name="planTransQty"
+                                type="number"
+                                value={item?.planTransQty}
+                                onChange={(e) => {
+                                  const newItem = { ...item };
+                                  newItem.planTransQty = e?.target?.value < 0 ? '' : e?.target?.value;
+                                  const newRowDto = rowDto?.map((itm) => {
+                                    return itm?.itemId === newItem?.itemId ? newItem : itm;
+                                  });
+                                  setRowDto(newRowDto);
+                                }}
+                              />
+                            </td>
+                            <td className="">
+                              <InputField
+                                placeholder="Plan Rate(Transshipment)"
+                                name="planTransRate"
+                                type="number"
+                                value={item?.planTransRate}
+                                onChange={(e) => {
+                                  const newItem = { ...item };
+                                  newItem.planTransRate = e?.target?.value < 0 ? '' : e?.target?.value;
                                   const newRowDto = rowDto?.map((itm) => {
                                     return itm?.itemId === newItem?.itemId ? newItem : itm;
                                   });
