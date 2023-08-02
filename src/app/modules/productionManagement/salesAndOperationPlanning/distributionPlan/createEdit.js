@@ -142,18 +142,18 @@ export default function DistributionPlanCreateEdit() {
     for(let item of rowDto) {
       if(item?.planQty || item?.planRate) {
         if(!item?.planQty) {
-          return toast.warn("Plan quantity(Direct) is required!");
+          return toast.warn("Plan Qty(Direct) is required!");
         }
         if(!item?.planRate) {
-          return toast.warn("Plan rate(Direct) is required!")
+          return toast.warn("Plan Rate(Direct) is required!")
         }
       }
-      if(item?.numPlanTransQty || item?.numPlanTransRate) {
-        if(!item?.numPlanTransQty) {
-          return toast.warn("Plan quantity(Transshipment) is required!");
+      if(item?.planTransQty || item?.planTransRate) {
+        if(!item?.planTransQty) {
+          return toast.warn("Plan Qty(Transshipment) is required!");
         }
-        if(!item?.numPlanTransRate) {
-          return toast.warn("Plan rate(Transshipment) is required!")
+        if(!item?.planTransRate) {
+          return toast.warn("Plan Rate(Transshipment) is required!")
         }
       }
     }
@@ -168,10 +168,10 @@ export default function DistributionPlanCreateEdit() {
         itemUoM: item?.itemUoM,
         planQty: +item?.planQty || 0,
         planRate: +item?.planRate || 0,
-        numPlanTransQty: +item?.numPlanTransQty || 0,
-        numPlanTransRate: +item?.numPlanTransRate || 0,
+        planTransQty: +item?.planTransQty || 0,
+        planTransRate: +item?.planTransRate || 0,
         isActive: true,
-        actinoBy: item?.actionBy,
+        actinoBy: employeeId,
       };
     });
 
@@ -201,8 +201,8 @@ export default function DistributionPlanCreateEdit() {
           ...item,
           planQty: '',
           planRate: '',
-          numPlanTransQty: '',
-          numPlanTransRate: '',
+          planTransQty: '',
+          planTransRate: '',
           actinoBy: employeeId,
         }));
         setRowDto(newRowDto);
@@ -417,12 +417,12 @@ export default function DistributionPlanCreateEdit() {
                             <td className="">
                               <InputField
                                 placeholder="Plan Qty(Transshipment)"
-                                name="numPlanTransQty"
+                                name="planTransQty"
                                 type="number"
-                                value={item?.numPlanTransQty}
+                                value={item?.planTransQty}
                                 onChange={(e) => {
                                   const newItem = { ...item };
-                                  newItem.numPlanTransQty = e?.target?.value < 0 ? '' : e?.target?.value;
+                                  newItem.planTransQty = e?.target?.value < 0 ? '' : e?.target?.value;
                                   const newRowDto = rowDto?.map((itm) => {
                                     return itm?.itemId === newItem?.itemId ? newItem : itm;
                                   });
@@ -433,12 +433,12 @@ export default function DistributionPlanCreateEdit() {
                             <td className="">
                               <InputField
                                 placeholder="Plan Rate(Transshipment)"
-                                name="numPlanTransRate"
+                                name="planTransRate"
                                 type="number"
-                                value={item?.numPlanTransRate}
+                                value={item?.planTransRate}
                                 onChange={(e) => {
                                   const newItem = { ...item };
-                                  newItem.numPlanTransRate = e?.target?.value < 0 ? '' : e?.target?.value;
+                                  newItem.planTransRate = e?.target?.value < 0 ? '' : e?.target?.value;
                                   const newRowDto = rowDto?.map((itm) => {
                                     return itm?.itemId === newItem?.itemId ? newItem : itm;
                                   });
