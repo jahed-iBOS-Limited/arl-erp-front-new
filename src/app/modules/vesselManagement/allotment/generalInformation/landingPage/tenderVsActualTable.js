@@ -19,7 +19,7 @@ const TenderVsActualTable = ({ gridData }) => {
                         {gridData?.map((item, index) => {
                             return (
                                 <tr key={index}>
-                                    <td> {item?.sl}</td>
+                                    <td> {index + 1}</td>
                                     <td>{item?.strMVesselName}</td>
                                     <td>{item?.international}</td>
                                     <td>{item?.TotalRevenueApproximate}</td>
