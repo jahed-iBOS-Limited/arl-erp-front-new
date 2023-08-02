@@ -74,11 +74,8 @@ export const getItemListSalesPlanDDL = async (
     );
     res.data.data.forEach((item) => {
       item["itemPlanQty"] = "";
-      item["bom"] =
-        item?.objBOMList?.filter((nestedItem) => nestedItem?.isStandard)[0] ||
-        "";
+      item["bom"] = item?.objBOMList?.filter((nestedItem) => nestedItem?.isStandard)[0] || "";
     });
-    console.log("getItemListSalesPlanDDL", res?.data?.data);
     setter(res?.data);
   } catch (error) { }
 };
