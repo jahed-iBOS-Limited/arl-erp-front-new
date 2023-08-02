@@ -8,7 +8,7 @@ export const getPlantDDL = async (accId, buId, setter) => {
       `/mes/MesDDL/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const getLogVersionDDL = async (accId, buId, salesPlanId, setter) => {
@@ -41,7 +41,7 @@ export const getYearDDL = async (accId, buId, plantId, setter) => {
       `/mes/MesDDL/GetYearDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}`
     );
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 // horizon ddl
@@ -52,11 +52,11 @@ export const getHorizonDDL = async (accId, buId, plantId, yearId, setter) => {
     );
     let newData = res?.data;
     setter(
-      newData.sort(function(a, b) {
+      newData.sort(function (a, b) {
         return new Date(a.startdatetime) - new Date(b.enddatetime);
       })
     );
-  } catch (error) {}
+  } catch (error) { }
 };
 
 // Plant Item DDL
@@ -78,8 +78,9 @@ export const getItemListSalesPlanDDL = async (
         item?.objBOMList?.filter((nestedItem) => nestedItem?.isStandard)[0] ||
         "";
     });
+    console.log("getItemListSalesPlanDDL", res?.data?.data);
     setter(res?.data);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 const uniqueData = (data) => {
@@ -102,7 +103,7 @@ export const getSalesPlanYearDDL = async (accId, buId, plantId, setter) => {
     );
     const yearData = await uniqueData(res?.data);
     setter(yearData);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 // create
@@ -185,7 +186,7 @@ export const getSalesPlanById = async (
 
     setterHeader(newHeader);
     setterRow(newRowData);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const createProductionEntry = async (data, cb) => {

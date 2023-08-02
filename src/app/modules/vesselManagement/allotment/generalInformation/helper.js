@@ -19,7 +19,7 @@ export const GetLighterAllotmentPagination = async (
     setLoading(true);
     const res = await Axios.get(
       `/wms/FertilizerOperation/GetLighterAllotmentPagination?AccountId=${accId}&BusinessUnitId=${buId}&MotherVesselId=${motherVesselId ||
-        0}&PortId=${portId || 0}&PageNo=${pageNo}&PageSize=${pageSize}`
+      0}&PortId=${portId || 0}&PageNo=${pageNo}&PageSize=${pageSize}`
     );
 
     if (res.status === 200 && res?.data) {
@@ -30,6 +30,29 @@ export const GetLighterAllotmentPagination = async (
     setLoading(false);
   }
 };
+export const GetTotalVsActualPagination = async (
+  buId,
+  status,
+  setter,
+  setLoading,
+) => {
+  try {
+    setLoading(true);
+    // call new api here
+    const res = await Axios.get(
+      `/tms/LigterLoadUnload/GetMotherVesselRevenueInfo?partId=${status === 6 ? 1 : 2}&businessUnitId=${buId}`
+    );
+
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+      setLoading(false);
+    }
+  } catch (error) {
+    setLoading(false);
+  }
+};
+
+
 
 // create
 export const CreateLighterAllotment = async (payload, setLoading, cb) => {
