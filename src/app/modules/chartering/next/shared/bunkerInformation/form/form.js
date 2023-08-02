@@ -170,7 +170,7 @@ export default function Form({
                   BOD
                   
                   */}
-
+      {/* BOD editable instruction from sahil vai chartering */}
                   <div className="pt-3 px-2 col-lg-4">
                     <div
                       className="p-3 shadow-sm rounded"
@@ -189,7 +189,7 @@ export default function Form({
                           type="number"
                           errors={errors}
                           touched={touched}
-                          disabled={values?.voyageNo?.label !== "1" || viewType}
+                          disabled={ viewType}
                         />
                       </div>
                       <div className="">
@@ -201,7 +201,7 @@ export default function Form({
                           type="number"
                           errors={errors}
                           touched={touched}
-                          disabled={values?.voyageNo?.label !== "1" || viewType}
+                          disabled={ viewType}
                         />
                       </div>
                       <div className="">
@@ -213,7 +213,7 @@ export default function Form({
                           type="number"
                           errors={errors}
                           touched={touched}
-                          disabled={values?.voyageNo?.label !== "1" || viewType}
+                          disabled={ viewType}
                         />
                       </div>
                     </div>
