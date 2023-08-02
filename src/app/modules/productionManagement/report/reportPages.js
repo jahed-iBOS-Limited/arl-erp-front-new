@@ -11,6 +11,7 @@ import ProductionReportLanding from "./productionReport/landing/landing";
 import ItemOverallCost from "./ItemOverallCost";
 import ProductionWiseRMConjunctionReport from "./productionWiseRMConjunctionReport";
 import YeildReport from "./yeildReport";
+import Yeildreport from "./yeildReportNew";
 
 export function MesReportPages() {
   return (
@@ -37,7 +38,7 @@ export function MesReportPages() {
         component={CostSheetReportLanding}
       />
 
-     {/* Item Overall Report */}
+      {/* Item Overall Report */}
       <ContentRoute
         path="/production-management/report/ItemOverallCost"
         component={ItemOverallCost}
@@ -47,6 +48,12 @@ export function MesReportPages() {
       <ContentRoute
         path="/production-management/report/ProductionWiseRMConjunction"
         component={ProductionWiseRMConjunctionReport}
+      />
+      <ContentRoute
+        path="/production-management/report/yeildreport"
+        component={
+          Yeildreport
+        }
       />
 
       {/* BOM Report */}
@@ -71,7 +78,7 @@ export function MesReportPages() {
         path="/production-management/report/shopfloorIssueReport"
         component={ShopFloorIssueReportLanding}
       />
-       <ContentRoute
+      <ContentRoute
         path="/production-management/report/demoYeildReport"
         component={YeildReport}
       />
