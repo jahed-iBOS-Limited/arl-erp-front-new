@@ -7,12 +7,12 @@ import SalesAndProductionTable from "./salesAndProductionPlan/table/table";
 import ProductionMasterSchedulelLanding from "./productionMasterSchedule/Table/index";
 import ProductionMasterSchedulelFrom from "./productionMasterSchedule/Form/addEditForm";
 import SalesAndProductionPlanCreateFormView from "./salesAndProductionPlan/formView/addEditForm";
-import MaterialReqPlanLanding from "./materialReqPlan/table/table";
-import Materialannualplan from "./materialReqPlan/table/table";
 import PurchasePlanTable from "./purchasePricePlan/table/table";
 import PurchasePlanCreateForm from "./purchasePricePlan/form/addEditForm";
 import PurchasePlanCreateFormView from "./purchasePricePlan/formView/addEditForm";
 import PurchasePlanningForm from "./purchasePricePlan/productionPlanning/addEditForm";
+import Materialannualplan from "./materialReqPlan/table/table";
+import MaterialReqPlanLanding from "./materialannualplan/table/table";
 
 export function salesAndOperationsPlanning() {
   return (
