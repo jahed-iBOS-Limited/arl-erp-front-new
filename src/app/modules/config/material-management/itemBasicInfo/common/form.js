@@ -9,17 +9,17 @@ import InputField from "../../../../_helper/_inputField";
 
 // Validation schema
 const DataValiadtionSchema = Yup.object().shape({
-  itemName: Yup.string().when("businessUnit",{
-    is: businessUnit => businessUnit === 12 || businessUnit === 17 || 
-        businessUnit===102 || businessUnit ===117,
+  itemName: Yup.string().when("businessUnit", {
+    is: businessUnit => businessUnit === 12 || businessUnit === 17 ||
+      businessUnit === 102 || businessUnit === 117,
     then: Yup.string()
-          .min(2, "Minimum 2 symbols")
-          .max(500, "Maximum 500 symbols")
-          .required("Item Name is required"),
+      .min(2, "Minimum 2 symbols")
+      .max(500, "Maximum 500 symbols")
+      .required("Item Name is required"),
     otherwise: Yup.string()
-          .min(2, "Minimum 2 symbols")
-          .max(150, "Maximum 150 symbols")
-          .required("Item Name is required"),
+      .min(2, "Minimum 2 symbols")
+      .max(150, "Maximum 150 symbols")
+      .required("Item Name is required"),
   }),
   // itemCode: Yup.string()
   //   .min(2, "Minimum 2 symbols")
@@ -67,7 +67,7 @@ export default function _Form({
       const res = await Axios.get("/item/ItemCategory/GetItemTypeListDDL");
       setItemTypeList(res.data);
     } catch (error) {
-     
+
     }
   };
 
@@ -140,7 +140,7 @@ export default function _Form({
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={{...data, businessUnit: selectedBusinessUnit?.value}}
+        initialValues={{ ...data, businessUnit: selectedBusinessUnit?.value }}
         validationSchema={DataValiadtionSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveData(values, () => {
@@ -171,8 +171,8 @@ export default function _Form({
                     label="Item Name"
                   />
                 </div>
-                {(selectedBusinessUnit?.value === 102)&& 
-                <>                   
+                {(selectedBusinessUnit?.value === 102) &&
+                  <>
                     <div className="col-lg-3">
                       <Field
                         value={values.itemCode || ""}
@@ -180,30 +180,30 @@ export default function _Form({
                         component={Input}
                         placeholder="IMPA Code"
                         label="IMPA Code"
-                        //disabled={isDisabledCode}
+                      //disabled={isDisabledCode}
                       />
-                    </div>                   
-                  <div className="col-lg-3">
-                    <Field
-                      value={values.drawingCode || ""}
-                      name="drawingCode"
-                      component={Input}
-                      placeholder="Drawing Code"
-                      label="Drawing Code"
+                    </div>
+                    <div className="col-lg-3">
+                      <Field
+                        value={values.drawingCode || ""}
+                        name="drawingCode"
+                        component={Input}
+                        placeholder="Drawing Code"
+                        label="Drawing Code"
                       //disabled={isDisabledCode}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <Field
-                      value={values.partNo || ""}
-                      name="partNo"
-                      component={Input}
-                      placeholder="Part No"
-                      label="Part No"
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <Field
+                        value={values.partNo || ""}
+                        name="partNo"
+                        component={Input}
+                        placeholder="Part No"
+                        label="Part No"
                       //disabled={isDisabledCode}
-                    />
-                  </div>
-                </>
+                      />
+                    </div>
+                  </>
                 }
                 <div className="col-lg-3">
                   <label>Select Item Type</label>
@@ -272,9 +272,9 @@ export default function _Form({
                     className="text-danger"
                   >
                     {errors &&
-                    errors.itemCategory &&
-                    touched &&
-                    touched.itemCategory
+                      errors.itemCategory &&
+                      touched &&
+                      touched.itemCategory
                       ? errors.itemCategory.value
                       : ""}
                   </p>
@@ -311,9 +311,9 @@ export default function _Form({
                     className="text-danger"
                   >
                     {touched &&
-                    touched?.itemSubCategory &&
-                    errors &&
-                    errors?.itemSubCategory
+                      touched?.itemSubCategory &&
+                      errors &&
+                      errors?.itemSubCategory
                       ? errors?.itemSubCategory.value
                       : ""}
                   </p>
@@ -325,7 +325,7 @@ export default function _Form({
                     label="Minimum Stock Quantity"
                     step='any'
                     onChange={(e) => {
-                      if(+e.target.value <= 0){
+                      if (+e.target.value <= 0) {
                         setFieldValue("minimumStockQuantity", "");
                         return;
                       }
@@ -340,12 +340,12 @@ export default function _Form({
                   <InputField
                     name="safetyStockQuantity"
                     value={values?.safetyStockQuantity}
-                    label="Safety Stock Quantity"
+                    label="Safety Stock Quantity (with buffer)"
                     step='any'
                     onChange={(e) => {
-                      if(+e.target.value <= 0){
+                      if (+e.target.value <= 0) {
                         setFieldValue("safetyStockQuantity", "");
-                        return ;
+                        return;
                       }
                       setFieldValue("safetyStockQuantity", e.target.value);
                     }}
@@ -361,9 +361,9 @@ export default function _Form({
                     label="Maximum Quantity"
                     step='any'
                     onChange={(e) => {
-                      if(+e.target.value <= 0){
+                      if (+e.target.value <= 0) {
                         setFieldValue("maximumQuantity", "");
-                        return ;
+                        return;
                       }
                       setFieldValue("maximumQuantity", e.target.value);
                     }}
@@ -379,9 +379,9 @@ export default function _Form({
                     label="Reorder Quantity"
                     step='any'
                     onChange={(e) => {
-                      if(+e.target.value <= 0){
+                      if (+e.target.value <= 0) {
                         setFieldValue("reorderQuantity", "");
-                        return ;
+                        return;
                       }
                       setFieldValue("reorderQuantity", e.target.value);
                     }}
