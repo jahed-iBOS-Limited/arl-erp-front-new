@@ -6,7 +6,7 @@ const useAxiosGet = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const getData = (url, cb) => {
+  const getData = (url, cb, errorCB) => {
     setLoading(true);
     axios
       .get(url)
@@ -19,6 +19,7 @@ const useAxiosGet = () => {
         setRes([]);
         setError(err);
         setLoading(false);
+        errorCB && errorCB(err);
       });
   };
 
