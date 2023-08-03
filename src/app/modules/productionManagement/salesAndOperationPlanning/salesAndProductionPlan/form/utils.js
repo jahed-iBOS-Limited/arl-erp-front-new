@@ -7,12 +7,12 @@ export const exportToCSV = (data) => {
     const worksheet = workbook.addWorksheet('Sheet 1');
   
     // Define the header row (optional)
-    const headerRow = worksheet.addRow(['ItemId', 'ItemName', 'ItemCode', 'BOM', 'BomId','UOM','UomID','PlanQuantity','Rate']);
+    const headerRow = worksheet.addRow(['PlanRowId', 'PlanId', 'ItemId', 'ItemName', 'ItemCode', 'BOM', 'BomId','UOM','UomID','PlanQuantity','Rate']);
     headerRow.font = { bold: true };
   
     // Add data to the worksheet
     data.forEach((item) => {
-      worksheet.addRow([item.itemId, item.itemName, item.itemCode, item?.objBOMList?.[0]?.label,item?.objBOMList?.[0]?.value, item?.uomName, item?.uomid, "", item?.rate]);
+      worksheet.addRow([item?.salesPlanRowId || 0, item?.salesPlanId || 0, item.itemId, item.itemName, item.itemCode,item?.bomname || item?.objBOMList?.[0]?.label, item?.bomid || item?.objBOMList?.[0]?.value, item?.uomName, item?.uoMid, item?.entryItemPlanQty, item?.rate]);
     });
   
     // Generate a unique file name for the exported CSV file
