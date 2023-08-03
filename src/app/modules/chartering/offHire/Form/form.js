@@ -7,6 +7,8 @@ import customStyles from "../../_chartinghelper/common/selectCustomStyle";
 import { getVoyageDDLNew } from "../../helper";
 import { getItemRateByVoyageId } from "../../bunker/bunkerInformation/helper";
 import FormikInput from "../../_chartinghelper/common/formikInput";
+import OffHireEntryFormTable from "./table";
+import IButton from "../../../_helper/iButton";
 
 export default function _Form({
   title,
@@ -21,6 +23,9 @@ export default function _Form({
   selectedBusinessUnit,
   itemRates,
   setItemRates,
+  rows,
+  remover,
+  addHandler,
 }) {
   const history = useHistory();
   const [voyageNoDDL, setVoyageNoDDL] = useState([]);
@@ -499,7 +504,18 @@ export default function _Form({
                       disabled={viewType === "view"}
                     />
                   </div>
+                  <IButton
+                    onClick={() => {
+                      // addHandler(values);
+                    }}
+                    disabled={!values?.voyageNo || !values?.offHireReason}
+                  >
+                    + ADD
+                  </IButton>
                 </div>
+                {rows?.length > 0 && (
+                  <OffHireEntryFormTable obj={{ rows, remover }} />
+                )}
               </div>
             </form>
           </>

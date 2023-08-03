@@ -41,6 +41,11 @@ export const CharteringState = {
   },
   bunkerCostLandingFormData: commonFields,
   bunkerInformationLandingFormData: commonFields,
+  purchaseBunkerLandingFormData: commonFields,
+  offHireLandingFormData: commonFields,
+  expenseLandingFormData: commonFields,
+  timeCharterLandingFormData: commonFields,
+  voyageCharterLandingFormData: commonFields,
 };
 
 export const CharteringContext = createContext(CharteringState);
