@@ -24,7 +24,7 @@ const headers = [
   { name: "SL" },
   { name: "Vessel Name" },
   { name: "Voyage No" },
-  { name: "Off Hire No" },
+  // { name: "Off Hire No" },
   { name: "Off Hire Duration" },
   { name: "Off Hire Total Cost" },
   { name: "Actions" },
@@ -175,7 +175,7 @@ export default function OffHireTable() {
                     <td className="text-center">{index + 1}</td>
                     <td>{item?.vesselName}</td>
                     <td>{item?.voyageNumber}</td>
-                    <td>{item?.offHireId}</td>
+                    {/* <td>{item?.offHireId}</td> */}
                     <td>{item?.offHireDuration}</td>
                     <td className="text-right">
                       {_formatMoney(item?.offHireCostAmount)}
