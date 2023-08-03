@@ -94,7 +94,7 @@ const AddEditForm = () => {
   const [invoiceData, setInvoiceData] = useState([]);
   const [employeeList, setEmployeeList] = useState([]);
   const [channelId, setChannelId] = useState(0);
-  const [customerType, setCustomerType] = useState(0);
+  // const [customerType, setCustomerType] = useState(0);
 
   // get user profile data from store
   const {
@@ -140,7 +140,9 @@ const AddEditForm = () => {
             : "",
           compnayNameAndAddress:
             partnerInfo?.companyName + "_" + partnerInfo?.companyAddress,
-          purchaseOrderNo: partnerInfo?.partnerRefferenceNo ? partnerInfo?.partnerRefferenceNo : 0,
+          purchaseOrderNo: partnerInfo?.partnerRefferenceNo
+            ? partnerInfo?.partnerRefferenceNo
+            : 0,
           purchaseDate: values?.purchaseDate,
           contactPersonAndDesignation: values?.contactPerson,
           contactNo: partnerInfo?.contactNo,
@@ -308,9 +310,10 @@ const AddEditForm = () => {
         handleInvoicePrint();
       }
       if ([8].includes(buId)) {
-        if (customerType === 1) {
-          handleInvoicePrintPolyFibre();
-        }
+        // if (customerType === 1) {
+        //   handleInvoicePrintPolyFibre();
+        // }
+        handleInvoicePrintPolyFibre();
       }
     });
   };
@@ -402,7 +405,7 @@ const AddEditForm = () => {
                         setChannelId,
                         selectedAll,
                         allSelect,
-                        setCustomerType,
+                        // setCustomerType,
                       }}
                     />
                   ) : (
