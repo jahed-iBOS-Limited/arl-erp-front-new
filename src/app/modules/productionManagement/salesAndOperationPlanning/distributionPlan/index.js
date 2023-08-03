@@ -9,6 +9,7 @@ import IView from '../../../_helper/_helperIcons/_view';
 import PaginationTable from '../../../_helper/_tablePagination';
 import IViewModal from '../../../_helper/_viewModal';
 import DetailsDistributionView from './detailsView';
+import IEdit from '../../../_helper/_helperIcons/_edit';
 
 const initData = {};
 
@@ -102,12 +103,33 @@ export default function DistributionPlanLanding() {
                             <td>{item?.areaName}</td>
                             <td>{item?.territoryName}</td>
                             <td className="text-center">
-                              <IView
-                                clickHandler={(e) => {
-                                  setDetailsView(item?.distributionRowList);
-                                  setIsShowModel(true);
+                              <div
+                                style={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'space-around',
                                 }}
-                              />
+                              >
+                                <IView
+                                  styles={{ fontSize: '16px' }}
+                                  clickHandler={(e) => {
+                                    setDetailsView(item?.distributionRowList);
+                                    setIsShowModel(true);
+                                  }}
+                                />
+                                <IEdit
+                                  onClick={() => {
+                                    history.push({
+                                      pathname:
+                                        '/production-management/salesAndOperationsPlanning/DistributionPlanning/create',
+                                      state: {
+                                        isEdit: true,
+                                        item,
+                                      },
+                                    });
+                                  }}
+                                />
+                              </div>
                             </td>
                           </tr>
                         ))}

@@ -141,6 +141,7 @@ export default function _Form({
                 entryItemPlanQty: resPurchaseRateMatch?.purchaseQuantity || 0,
                 intPurchasePlanId: resPurchaseRateMatch?.intPurchasePlanId || 0,
                 intPurchasePlanRowId: resPurchaseRateMatch?.intPurchasePlanRowId || 0,
+                rate: resPurchaseRateMatch?.numRate || 0,
               }
             })
             setRowDto({ ...rowDto, data: modifiedRowDto })
@@ -155,6 +156,7 @@ export default function _Form({
                 entryItemPlanQty: 0,
                 intPurchasePlanId: 0,
                 intPurchasePlanRowId: 0,
+                rate: 0,
               }
             })
             setRowDto({ ...rowDto, data: modifiedRowDto })
@@ -171,6 +173,7 @@ export default function _Form({
             entryItemPlanQty: 0,
             intPurchasePlanId: 0,
             intPurchasePlanRowId: 0,
+            rate: 0,
           }
         })
         setRowDto({ ...rowDto, data: modifiedRowDto })
@@ -385,35 +388,6 @@ export default function _Form({
                       <td className="text-center">{index + 1}</td>
                       <td className="pl-2">{item?.itemName}</td>
                       <td className="pl-2">{item?.itemCode}</td>
-                      {/* <td style={{ width: "180px" }}>
-                        {id ? (
-                          item?.bomname || ""
-                        ) : (
-                          <>
-                            {item?.isMultiple ? (
-                              <NewSelect
-                                name={`bom${index + 1}`}
-                                options={item?.objBOMList}
-                                value={item?.bom}
-                                onChange={(valueOption) => {
-                                  dataHandler(
-                                    "bom",
-                                    item,
-                                    valueOption,
-                                    setRowDto,
-                                    rowDto
-                                  );
-                                }}
-                                errors={errors}
-                                touched={touched}
-                                isDisabled={id ? true : false}
-                              />
-                            ) : (
-                              item?.bomname
-                            )}
-                          </>
-                        )}
-                      </td> */}
                       <td className="text-center">{item?.uomName}</td>
                       <td className="text-center">{item?.itemPlanQty}</td>
                       <td style={{ width: "150px" }} className="text-center">
@@ -436,28 +410,6 @@ export default function _Form({
                           className="quantity-field form-control"
                           disabled={item?.itemPlanQty > 0 ? false : true}
                         />
-                        {/* {id ? (
-                          <input
-                            type="number"
-                            name="entryItemPlanQty"
-                            value={+item?.entryItemPlanQty || ""}
-                            onChange={(e) => {
-                              if (+e.target.value < 0) {
-                                return
-                              }
-                              dataHandler(
-                                "entryItemPlanQty",
-                                item,
-                                +e.target.value,
-                                setRowDto,
-                                rowDto
-                              );
-                            }}
-                            className="quantity-field form-control"
-                          />
-                        ) : (
-                          
-                        )} */}
                       </td>
                       <td style={{ width: "150px" }} className="text-center">
                         <input
