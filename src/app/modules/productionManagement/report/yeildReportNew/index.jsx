@@ -7,15 +7,19 @@ import InputField from "../../../_helper/_inputField";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { _todayDate } from "../../../_helper/_todayDate";
 import { shallowEqual, useSelector } from "react-redux";
+import WIPTable from "./wipTable";
+import YeildReport from "./yeildReport";
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
   reportType: "",
 };
 export default function Yeildreport() {
-  const [tableData, getTableData, tableDataLoader] = useAxiosGet();
+  const [gridData, setGridData] = React.useState([]);
+  const [, getTableData, tableDataLoader] = useAxiosGet();
+  const [, getYearldReportPivot, YearldReportPivotLoading] = useAxiosGet();
 
-  const saveHandler = (values, cb) => {};
+  const saveHandler = (values, cb) => { };
 
   const { selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
@@ -41,7 +45,7 @@ export default function Yeildreport() {
         touched,
       }) => (
         <>
-          {tableDataLoader && <Loading />}
+          {(tableDataLoader || YearldReportPivotLoading) && <Loading />}
           <IForm
             title="Yeild Report"
             isHiddenReset
@@ -61,6 +65,7 @@ export default function Yeildreport() {
                     type="date"
                     onChange={(e) => {
                       setFieldValue("fromDate", e.target.value);
+                      setGridData([])
                     }}
                   />
                 </div>
@@ -72,6 +77,7 @@ export default function Yeildreport() {
                     type="date"
                     onChange={(e) => {
                       setFieldValue("toDate", e.target.value);
+                      setGridData([])
                     }}
                   />
                 </div>
@@ -86,6 +92,7 @@ export default function Yeildreport() {
                     label="Report Type"
                     onChange={(valueOption) => {
                       setFieldValue("reportType", valueOption);
+                      setGridData([])
                     }}
                     errors={errors}
                     touched={touched}
@@ -104,21 +111,41 @@ export default function Yeildreport() {
                       !values?.reportType
                     }
                     onClick={() => {
-                      getTableData(
-                        `/mes/ProductionEntry/GetYearldReport?unitId=${selectedBusinessUnit?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}&intPartId=${values?.reportType?.value}`,
-                        (data) => {
-                          console.log("data", data);
-                        }
-                      );
+
+                      if (values?.reportType?.value === 1) {
+                        // yeild api call
+
+                        getYearldReportPivot(`/mes/ProductionEntry/GetYearldReportPivot?unitId=${selectedBusinessUnit?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}&intPartId=${values?.reportType?.value}`, (data) => {
+                          setGridData(data)
+                        });
+
+                      } else {
+                        // WIP api call
+                        getTableData(
+                          `/mes/ProductionEntry/GetYearldReport?unitId=${selectedBusinessUnit?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}&intPartId=${values?.reportType?.value}`,
+                          (data) => {
+                            setGridData(data)
+                          }
+                        );
+                      }
+
                     }}
                   >
                     View
                   </button>
                 </div>
-
-                {/* table */}
               </div>
-              <div className="row">
+
+              {/* Yeild Report table */}
+              {values?.reportType?.value === 1 && (
+                <YeildReport tableData={gridData} />
+              )}
+
+              {/*  WIP Table */}
+              {values?.reportType?.value === 2 && <WIPTable tableData={gridData} />}
+
+
+              {/* <div className="row">
                 <div className="col-lg-12">
                   <table className="table table-striped table-bordered global-table">
                     {values?.reportType?.value === 1 ? (
@@ -184,7 +211,7 @@ export default function Yeildreport() {
                     )}
                   </table>
                 </div>
-              </div>
+              </div> */}
             </Form>
           </IForm>
         </>
