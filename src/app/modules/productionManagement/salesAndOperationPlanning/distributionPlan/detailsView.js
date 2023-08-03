@@ -13,22 +13,22 @@ export default function DetailsDistributionView({ rowData }) {
               <th>Item UoM Name</th>
               <th>Plan Qty(Direct)</th>
               <th>Plan Rate(Direct)</th>
-              <th>Plan Rate(Transshipment)</th>
-              <th>Plan Rate(Transshipment)</th>
+              <th>Plan Rate(Via Transshipment)</th>
+              <th>Plan Rate(Via Transshipment)</th>
             </tr>
           </thead>
           <tbody>
             {rowData?.length > 0 &&
               rowData?.map((item, index) => (
                 <tr key={index}>
-                  <td>{item?.sl}</td>
+                  <td>{index + 1}</td>
                   <td>{item?.itemCode}</td>
                   <td>{item?.itemName}</td>
                   <td>{item?.itemUoMName}</td>
-                  <td>{item?.planQty}</td>
-                  <td>{item?.planRate}</td>
-                  <td>{item?.planTransQty}</td>
-                  <td>{item?.planTransRate}</td>
+                  <td className='text-center'>{item?.planQty}</td>
+                  <td className='text-center'>{item?.planRate}</td>
+                  <td className='text-center'>{item?.planTransQty}</td>
+                  <td className='text-center'>{item?.planTransRate}</td>
                 </tr>
               ))}
           </tbody>
