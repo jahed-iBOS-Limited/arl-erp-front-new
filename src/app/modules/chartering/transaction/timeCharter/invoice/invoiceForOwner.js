@@ -8,9 +8,11 @@ import {
   _formatMoneyWithDoller,
 } from "../../../_chartinghelper/_formatMoney";
 import { getDifference } from "../../../_chartinghelper/_getDateDiff";
-import { getOwnerBankInfoDetailsById } from "../helper";
+import { daysDDL, getOwnerBankInfoDetailsById } from "../helper";
 import { BankInfoComponent } from "./bankInfoComponent";
 import "./style.css";
+import FormikSelect from "../../../_chartinghelper/common/formikSelect";
+import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
 
 const toWords = new ToWords({
   localeCode: "en-US",
@@ -50,6 +52,81 @@ export default function InvoiceForOwner({
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bankInfoData]);
+
+  const redeliveryInputChangeHandler = (value) => {
+    console.log(value, "value date");
+    setFieldValue("redeliveryDate", value);
+    const copy = [...rowData];
+    let diffDate = parseFloat(
+      getDifference(
+        moment(invoiceHireData?.deliveryDate).format("YYYY-MM-DDTHH:mm:ss"),
+        value
+      )
+    );
+    const newArr = copy?.map((item) => {
+      if (item?.key === "hdto") {
+        return {
+          ...item,
+          duration: Number((diffDate - offHireDuration).toFixed(4)),
+          credit: (diffDate - offHireDuration) * invoiceHireData?.dailyHire,
+        };
+      }
+      if (item?.key === "hac") {
+        return {
+          ...item,
+          duration: Number((diffDate - offHireDuration).toFixed(4)),
+          debit:
+            (diffDate - offHireDuration) *
+            invoiceHireData?.dailyHire *
+            (invoiceHireData?.comm / 100),
+        };
+      }
+      if (item?.key === "cve") {
+        return {
+          ...item,
+          duration: Number((diffDate - offHireDuration).toFixed(4)),
+          credit:
+            ((12 * invoiceHireData?.cveday) / 365) *
+            (diffDate - offHireDuration),
+          // formula by changed by dipu vi
+          // credit:
+          //   ((diffDate - offHireDuration) *
+          //     invoiceHireData?.cveday) /
+          //   30,
+        };
+      }
+      if (item?.key === "hbc") {
+        return {
+          ...item,
+          duration: Number((diffDate - offHireDuration).toFixed(4)),
+          debit:
+            (diffDate - offHireDuration) *
+            invoiceHireData?.dailyHire *
+            (invoiceHireData?.brokerage / 100),
+        };
+      }
+      return item;
+    });
+
+    setRowData(newArr);
+  };
+
+  const voyageDateChangeHandler = (valueOption) => {
+    if (valueOption) {
+      const date = new Date(invoiceHireData?.deliveryDate);
+      date.setDate(date.getDate() + valueOption?.value);
+      const timezoneOffsetMinutes = date.getTimezoneOffset();
+      date.setTime(date.getTime() - timezoneOffsetMinutes * 60000);
+      const formattedDate = date
+        .toISOString()
+        .slice(0, 19)
+        .replace("T", " ");
+
+      redeliveryInputChangeHandler(formattedDate);
+    } else {
+      redeliveryInputChangeHandler("");
+    }
+  };
 
   let totalCredit = 0;
   let totalDebit = 0;
@@ -116,11 +193,31 @@ export default function InvoiceForOwner({
             {moment(invoiceHireData?.deliveryDate).format("MM-DD-YYYY HH:mm A")}
           </div>
         </div>
+        <div className="col-lg-6 "></div>
+        <div className="col-lg-6 my-1 headerWrapper">
+          <div className="headerKey">VOYAGE DAYS :</div>
+          <div className="headerValue" style={{ width: "30%" }}>
+            <FormikSelect
+              value={values?.voyageDays}
+              isSearchable={true}
+              options={daysDDL}
+              styles={customStyles}
+              name="voyageDays"
+              placeholder="Voyage Days"
+              onChange={(valueOption) => {
+                setFieldValue("voyageDays", valueOption);
+                voyageDateChangeHandler(valueOption);
+              }}
+              errors={errors}
+              touched={touched}
+            />
+          </div>
+        </div>
+
         <div className="col-lg-6 headerWrapper">
           <div className="headerKey">START PORT :</div>
           <div className="headerValue">{invoiceHireData?.startPortName}</div>
         </div>
-
         <div className="col-lg-6 headerWrapper">
           <div className="headerKey">REDELIVERY :</div>
           <div className="headerValue">
@@ -130,64 +227,7 @@ export default function InvoiceForOwner({
               placeholder="Redelivery Date"
               type="datetime-local"
               onChange={(e) => {
-                setFieldValue("redeliveryDate", e.target.value);
-                const copy = [...rowData];
-                let diffDate = parseFloat(
-                  getDifference(
-                    moment(invoiceHireData?.deliveryDate).format(
-                      "YYYY-MM-DDTHH:mm:ss"
-                    ),
-                    e.target.value
-                  )
-                );
-                const newArr = copy?.map((item) => {
-                  if (item?.key === "hdto") {
-                    return {
-                      ...item,
-                      duration: Number((diffDate - offHireDuration).toFixed(4)),
-                      credit:
-                        (diffDate - offHireDuration) *
-                        invoiceHireData?.dailyHire,
-                    };
-                  }
-                  if (item?.key === "hac") {
-                    return {
-                      ...item,
-                      duration: Number((diffDate - offHireDuration).toFixed(4)),
-                      debit:
-                        (diffDate - offHireDuration) *
-                        invoiceHireData?.dailyHire *
-                        (invoiceHireData?.comm / 100),
-                    };
-                  }
-                  if (item?.key === "cve") {
-                    return {
-                      ...item,
-                      duration: Number((diffDate - offHireDuration).toFixed(4)),
-                      credit:
-                        ((12 * invoiceHireData?.cveday) / 365) *
-                        (diffDate - offHireDuration),
-                      // formula by changed by dipu vi
-                      // credit:
-                      //   ((diffDate - offHireDuration) *
-                      //     invoiceHireData?.cveday) /
-                      //   30,
-                    };
-                  }
-                  if (item?.key === "hbc") {
-                    return {
-                      ...item,
-                      duration: Number((diffDate - offHireDuration).toFixed(4)),
-                      debit:
-                        (diffDate - offHireDuration) *
-                        invoiceHireData?.dailyHire *
-                        (invoiceHireData?.brokerage / 100),
-                    };
-                  }
-                  return item;
-                });
-
-                setRowData(newArr);
+                redeliveryInputChangeHandler(e?.target?.value);
               }}
               min={moment(invoiceHireData?.deliveryDate).format(
                 "YYYY-MM-DDTHH:mm:ss"

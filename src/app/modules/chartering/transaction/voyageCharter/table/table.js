@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { getVesselDDL, getVoyageDDLNew } from "../../../helper";
@@ -12,14 +12,7 @@ import ICustomTable from "../../../_chartinghelper/_customTable";
 import { _dateFormatter } from "../../../_chartinghelper/_dateFormatter";
 import PaginationTable from "../../../_chartinghelper/_tablePagination";
 import { getVoyageCharterTransactionLandingData } from "../helper";
-
-const initData = {
-  filterBy: "",
-  fromDate: "",
-  toDate: "",
-  vesselName: "",
-  voyageNo: "",
-};
+import { CharteringContext } from "../../../charteringContext";
 
 const headers = [
   { name: "SL" },
@@ -40,22 +33,49 @@ export default function VoyageCharterTable() {
   const [vesselDDL, setVesselDDL] = useState([]);
   const [voyageNoDDL, setVoyageNoDDL] = useState([]);
   const history = useHistory();
+  const [charteringState, setCharteringState] = useContext(CharteringContext);
+
+  const initData = charteringState?.voyageCharterLandingFormData;
+
+  // the function to update the context value
+  const updateCharteringState = (newState) => {
+    setCharteringState((prevState) => ({
+      ...prevState,
+      voyageCharterLandingFormData: newState,
+    }));
+  };
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
 
-  const getGridData = (values, pageNo, pageSize) => {
-    getVoyageCharterTransactionLandingData(
-      profileData?.accountId,
-      selectedBusinessUnit?.value,
-      values?.vesselName?.value || 0,
-      values?.voyageNo?.value || 0,
-      pageNo,
-      pageSize,
-      setGridData,
-      setLoading
-    );
+  const getGridData = (values, _pageNo = 0, _pageSize = 15) => {
+    setGridData([]);
+    if (values?.vesselName && values?.voyageNo) {
+      getVoyageCharterTransactionLandingData(
+        profileData?.accountId,
+        selectedBusinessUnit?.value,
+        values?.vesselName?.value || 0,
+        values?.voyageNo?.value || 0,
+        _pageNo,
+        _pageSize,
+        setGridData,
+        setLoading
+      );
+    }
+  };
+
+  const getVoyageDDL = (values) => {
+    getVoyageDDLNew({
+      accId: profileData?.accountId,
+      buId: selectedBusinessUnit?.value,
+      id: values?.vesselName?.value,
+      setter: setVoyageNoDDL,
+      setLoading: setLoading,
+      hireType: 0,
+      isComplete: 0,
+      voyageTypeId: 2,
+    });
   };
 
   useEffect(() => {
@@ -64,6 +84,9 @@ export default function VoyageCharterTable() {
       selectedBusinessUnit?.value,
       setVesselDDL
     );
+    if (initData?.vesselName) {
+      getVoyageDDL(initData);
+    }
     getGridData(initData, pageNo, pageSize);
   }, [profileData, selectedBusinessUnit]);
 
@@ -97,11 +120,12 @@ export default function VoyageCharterTable() {
                   <button
                     type="button"
                     className={"btn btn-primary px-3 py-2"}
-                    onClick={() =>
+                    onClick={() => {
+                      updateCharteringState(values);
                       history.push(
                         "/chartering/transaction/voyagecharter/create"
-                      )
-                    }
+                      );
+                    }}
                     disabled={false}
                   >
                     Create
@@ -122,24 +146,16 @@ export default function VoyageCharterTable() {
                       onChange={(valueOption) => {
                         setFieldValue("voyageNo", "");
                         setFieldValue("vesselName", valueOption);
+                        const updatedValues = {
+                          ...values,
+                          vesselName: valueOption,
+                        };
+                        updateCharteringState(updatedValues);
                         if (valueOption) {
-                          getVoyageDDLNew({
-                            accId: profileData?.accountId,
-                            buId: selectedBusinessUnit?.value,
-                            id: valueOption?.value,
-                            setter: setVoyageNoDDL,
-                            setLoading: setLoading,
-                            hireType: 0,
-                            isComplete: 0,
-                            voyageTypeId: 2,
-                          });
+                          getVoyageDDL(updatedValues);
                         }
 
-                        getGridData(
-                          { ...values, vesselName: valueOption },
-                          pageNo,
-                          pageSize
-                        );
+                        getGridData(updatedValues, pageNo, pageSize);
                       }}
                       // isDisabled={viewType === "view"}
                       errors={errors}
@@ -157,11 +173,12 @@ export default function VoyageCharterTable() {
                       label="Voyage No"
                       onChange={(valueOption) => {
                         setFieldValue("voyageNo", valueOption);
-                        getGridData(
-                          { ...values, voyageNo: valueOption },
-                          pageNo,
-                          pageSize
-                        );
+                        const updatedValues = {
+                          ...values,
+                          voyageNo: valueOption,
+                        };
+                        updateCharteringState(updatedValues);
+                        getGridData(updatedValues, pageNo, pageSize);
                       }}
                       isDisabled={!values?.vesselName}
                       errors={errors}

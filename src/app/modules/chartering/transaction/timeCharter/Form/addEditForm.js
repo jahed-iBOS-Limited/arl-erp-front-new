@@ -39,6 +39,7 @@ const initData = {
   narration: "",
   receivedDate: "",
   journalDate: _todayDate(),
+  voyageDays: "",
 };
 
 export default function TimeCharterForm() {
