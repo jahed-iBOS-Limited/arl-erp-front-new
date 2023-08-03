@@ -205,47 +205,6 @@ function YeildReport({ tableData }) {
               className='scroll-table _table scroll-table-auto'
             >
               <table className='table table-striped table-bordered global-table'>
-                {/* <>
-                  <thead>
-                    <tr>
-                      <th></th>
-                      <th style={{ minWidth: "80px" }}>Item Name</th>
-                      <th style={{ minWidth: "80px" }}>Productin Qty Bag</th>
-                      <th style={{ minWidth: "80px" }}>Production Qty</th>
-                      <th style={{ minWidth: "80px" }}>Consumption</th>
-                      <th style={{ minWidth: "80px" }}>By Production Qty</th>
-                      <th style={{ minWidth: "80px" }}>Yield Per</th>
-                      <th style={{ minWidth: "80px" }}>By Product</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {tableData?.map((item, index) => {
-                      return item?.rows?.map((row, index) => {
-                        return (
-                          <tr key={index}>
-                            {index === 0 && (
-                              <td rowSpan={item?.rows?.length}>
-                                {item?.title}
-                              </td>
-                            )}
-                            <td className="text-left">{row?.itemName}</td>
-                            <td className='text-right'>
-                              {_fixedPoint(row?.productinQtyBag)}
-                            </td>
-                            <td className='text-right'>{_fixedPoint(row?.productionQty)}</td>
-                            <td className='text-right'>{_fixedPoint(row?.consumption)}</td>
-                            <td className='text-right'>
-                              {_fixedPoint(row?.byProductionQty)}
-                            </td>
-                            <td className='text-right'>{_fixedPoint(row?.yieldPer)}</td>
-                            <td className='text-right'>{_fixedPoint(row?.byProduct)}</td>
-                          </tr>
-                        );
-                      });
-                    })}
-                  </tbody>
-                </> */}
-
                 {tableData?.map((itm) => {
                   return (
                     <>
@@ -287,7 +246,7 @@ function YeildReport({ tableData }) {
 
                         <tr>
                           <td className='text-left'>
-                            <b>Productin Qty Bag:</b>{" "}
+                            <b>Production Qty Bag:</b>{" "}
                           </td>
                           {itm?.rows?.map((row, index) => {
                             return (
@@ -356,26 +315,7 @@ function YeildReport({ tableData }) {
                     </>
                   );
                 })}
-                {/* <>
-                  <thead>
-                    <tr>
-                      <th></th>
-                      <th style={{ minWidth: "80px" }}>Item Name</th>
-
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {tableData?.map((item, index) => {
-                      return item?.rows?.map((row, index) => {
-                        return (
-                          <tr key={index}>
-
-                          </tr>
-                        );
-                      });
-                    })}
-                  </tbody>
-                </> */}
+                
               </table>
             </div>
           </div>
