@@ -9,6 +9,7 @@ import NewSelect from "../../../../_helper/_select";
 import { getHorizonDDL, getItemListSalesPlanDDL, getYearDDL } from "../helper";
 import PaginationTable from "./../../../../_helper/_tablePagination";
 import { exportToCSV } from "./utils";
+import { toast } from "react-toastify";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -64,24 +65,17 @@ export default function _Form({
           let rowData = [];
           for (let i = 1; i < resp.rows.length; i++) {
             rowData.push({
-              // salesPlanRowId: 0,
-              // itemId: resp.rows[i][0],
-              // itemName: resp.rows[i][1],
-              // uomid: resp.rows[i][2],
-              // uomName: resp.rows[i][3],
-              // itemPlanQty: resp.rows[i][4],
-              // numRate: resp.rows[i][5],
-
-              salesPlanRowId: 0,
-              bomid : resp.rows[i][4],
-              bomname : resp.rows[i][3],
-              itemCode : resp.rows[i][2],
-              itemId : resp.rows[i][0],
-              itemName : resp.rows[i][1],
-              itemPlanQty : resp.rows[i][7],
-              rate : resp.rows[i][8],
-              uomName : resp.rows[i][5],
-              uomid : resp.rows[i][6],
+              salesPlanRowId:resp.rows[i][0],
+              salesPlanId:resp.rows[i][1],
+              itemId:resp.rows[i][2],
+              itemName:resp.rows[i][3],
+              itemCode:resp.rows[i][4],
+              bomname:resp.rows[i][5],
+              bomid : resp.rows[i][6],
+              uomName : resp.rows[i][7],
+              uoMid : resp.rows[i][8],
+              entryItemPlanQty : resp.rows[i][9],
+              rate : resp.rows[i][10],
             });
           }
 
@@ -90,6 +84,7 @@ export default function _Form({
             data: rowData,
             totalCount: rowDto?.totalCount,
           });
+          toast.success("Successfully Uploaded!");
         }
       });
     }
