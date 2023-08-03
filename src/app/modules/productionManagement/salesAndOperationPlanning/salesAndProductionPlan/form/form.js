@@ -9,6 +9,7 @@ import NewSelect from "../../../../_helper/_select";
 import { getHorizonDDL, getItemListSalesPlanDDL, getYearDDL } from "../helper";
 import PaginationTable from "./../../../../_helper/_tablePagination";
 import { exportToCSV } from "./utils";
+import { toast } from "react-toastify";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -61,7 +62,6 @@ export default function _Form({
       ExcelRenderer(fileObject, (err, resp) => {
         if (err) {
         } else {
-          console.log("resp", resp);
           let rowData = [];
           for (let i = 1; i < resp.rows.length; i++) {
             rowData.push({
@@ -84,6 +84,7 @@ export default function _Form({
             data: rowData,
             totalCount: rowDto?.totalCount,
           });
+          toast.success("Successfully Uploaded!");
         }
       });
     }
