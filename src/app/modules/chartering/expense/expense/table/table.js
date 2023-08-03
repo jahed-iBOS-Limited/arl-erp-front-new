@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import { useHistory } from "react-router";
 import { Formik } from "formik";
@@ -14,11 +14,7 @@ import IView from "../../../_chartinghelper/icons/_view";
 import IEdit from "../../../_chartinghelper/icons/_edit";
 import PaginationTable from "../../../_chartinghelper/_tablePagination";
 import { _formatMoney } from "../../../_chartinghelper/_formatMoney";
-
-const initData = {
-  vesselName: "",
-  voyageNo: "",
-};
+import { CharteringContext } from "../../../charteringContext";
 
 const headers = [
   { name: "SL" },
@@ -36,10 +32,47 @@ export default function ExpenseTable() {
   const [vesselDDL, setVesselDDL] = useState([]);
   const [voyageNoDDL, setVoyageNoDDL] = useState([]);
   const history = useHistory();
+  const [charteringState, setCharteringState] = useContext(CharteringContext);
+
+  const initData = charteringState?.expenseLandingFormData;
+
+  // the function to update the context value
+  const updateCharteringState = (newState) => {
+    setCharteringState((prevState) => ({
+      ...prevState,
+      expenseLandingFormData: newState,
+    }));
+  };
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
+
+  const getGridData = (values, _pageNo = 0, _pageSize = 15) => {
+    getAdditionalCostLandingData(
+      profileData?.accountId,
+      selectedBusinessUnit?.value,
+      values?.vesselName?.value || 0,
+      values?.voyageNo?.value || 0,
+      _pageNo,
+      _pageSize,
+      setGridData,
+      setLoading
+    );
+  };
+
+  const getVoyageDDL = (values) => {
+    getVoyageDDLNew({
+      accId: profileData?.accountId,
+      buId: selectedBusinessUnit?.value,
+      id: values?.vesselName?.value,
+      setter: setVoyageNoDDL,
+      setLoading: setLoading,
+      hireType: 0,
+      isComplete: 0,
+      voyageTypeId: 0,
+    });
+  };
 
   useEffect(() => {
     getVesselDDL(
@@ -47,30 +80,11 @@ export default function ExpenseTable() {
       selectedBusinessUnit?.value,
       setVesselDDL
     );
-    getAdditionalCostLandingData(
-      profileData?.accountId,
-      selectedBusinessUnit?.value,
-      "",
-      "",
-      pageNo,
-      pageSize,
-      setGridData,
-      setLoading
-    );
+    getGridData(initData, pageNo, pageSize);
+    if (initData?.vesselName) {
+      getVoyageDDL(initData);
+    }
   }, [profileData, selectedBusinessUnit]);
-
-  const getGridData = (values, PageNo, PageSize) => {
-    getAdditionalCostLandingData(
-      profileData?.accountId,
-      selectedBusinessUnit?.value,
-      values?.vesselName?.value,
-      values?.voyageNo?.value,
-      PageNo || pageNo,
-      PageSize || pageSize,
-      setGridData,
-      setLoading
-    );
-  };
 
   const setPositionHandler = (pageNo, pageSize, values) => {
     getGridData(values, pageNo, pageSize);
@@ -93,9 +107,10 @@ export default function ExpenseTable() {
                   <button
                     type="button"
                     className={"btn btn-primary px-3 py-2"}
-                    onClick={() =>
-                      history.push("/chartering/expense/expense/create")
-                    }
+                    onClick={() => {
+                      updateCharteringState(values);
+                      history.push("/chartering/expense/expense/create");
+                    }}
                     disabled={false}
                   >
                     Create
@@ -117,19 +132,15 @@ export default function ExpenseTable() {
                         setFieldValue("vesselName", valueOption);
                         setFieldValue("voyageNo", "");
                         setVoyageNoDDL([]);
+                        const updatedValues = {
+                          ...values,
+                          vesselName: valueOption,
+                        };
+                        updateCharteringState(updatedValues);
                         if (valueOption) {
-                          getVoyageDDLNew({
-                            accId: profileData?.accountId,
-                            buId: selectedBusinessUnit?.value,
-                            id: valueOption?.value,
-                            setter: setVoyageNoDDL,
-                            setLoading: setLoading,
-                            hireType: 0,
-                            isComplete: 0,
-                            voyageTypeId: 0,
-                          });
+                          getVoyageDDL(updatedValues);
                         }
-                        getGridData({ ...values, vesselName: valueOption });
+                        getGridData(updatedValues);
                       }}
                       errors={errors}
                       touched={touched}
@@ -146,7 +157,12 @@ export default function ExpenseTable() {
                       label="Voyage No"
                       onChange={(valueOption) => {
                         setFieldValue("voyageNo", valueOption);
-                        getGridData({ ...values, voyageNo: valueOption });
+                        const updatedValues = {
+                          ...values,
+                          voyageNo: valueOption,
+                        };
+                        updateCharteringState(updatedValues);
+                        getGridData(updatedValues);
                       }}
                       isDisabled={!values?.vesselName}
                       errors={errors}

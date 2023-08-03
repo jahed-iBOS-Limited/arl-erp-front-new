@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
@@ -14,6 +14,7 @@ import ICustomTable from "../../../_chartinghelper/_customTable";
 import { _dateFormatter } from "../../../_chartinghelper/_dateFormatter";
 import PaginationTable from "../../../_chartinghelper/_tablePagination";
 import { getTimeCharterLandingData } from "../helper";
+import { CharteringContext } from "../../../charteringContext";
 
 const headers = [
   { name: "SL" },
@@ -26,14 +27,6 @@ const headers = [
   { name: "Actions" },
 ];
 
-const initData = {
-  filterBy: "",
-  fromDate: "",
-  toDate: "",
-  voyageNo: "",
-  vesselName: "",
-};
-
 export default function TimeCharterTable() {
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
@@ -42,10 +35,48 @@ export default function TimeCharterTable() {
   const [vesselDDL, setVesselDDL] = useState([]);
   const [voyageNoDDL, setVoyageNoDDL] = useState([]);
   const history = useHistory();
+  const [charteringState, setCharteringState] = useContext(CharteringContext);
+
+  const initData = charteringState?.timeCharterLandingFormData;
+
+  // the function to update the context value
+  const updateCharteringState = (newState) => {
+    setCharteringState((prevState) => ({
+      ...prevState,
+      timeCharterLandingFormData: newState,
+    }));
+  };
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
+
+  const getLandingData = (values, _pageNo = 0, _pageSize = 15) => {
+    getTimeCharterLandingData(
+      profileData?.accountId,
+      selectedBusinessUnit?.value,
+      values?.vesselName?.value,
+      values?.voyageNo?.value,
+      _pageNo,
+      _pageSize,
+      "",
+      setGridData,
+      setLoading
+    );
+  };
+
+  const getVoyageDDL = (values) => {
+    getVoyageDDLNew({
+      accId: profileData?.accountId,
+      buId: selectedBusinessUnit?.value,
+      id: values?.vesselName?.value,
+      setter: setVoyageNoDDL,
+      setLoading: setLoading,
+      hireType: 0,
+      isComplete: 0,
+      voyageTypeId: 1,
+    });
+  };
 
   useEffect(() => {
     getVesselDDL(
@@ -53,31 +84,14 @@ export default function TimeCharterTable() {
       selectedBusinessUnit?.value,
       setVesselDDL
     );
-    // getTimeCharterLandingData(
-    //   profileData?.accountId,
-    //   selectedBusinessUnit?.value,
-    //   0,
-    //   0,
-    //   pageNo,
-    //   pageSize,
-    //   "",
-    //   setGridData,
-    //   setLoading
-    // );
+    getLandingData(initData, pageNo, pageSize);
+    if (initData?.vesselName) {
+      getVoyageDDL(initData);
+    }
   }, [profileData, selectedBusinessUnit]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
-    getTimeCharterLandingData(
-      profileData?.accountId,
-      selectedBusinessUnit?.value,
-      values?.vesselName?.value,
-      values?.voyageNo?.value,
-      pageNo,
-      pageSize,
-      "",
-      setGridData,
-      setLoading
-    );
+    getLandingData(values, pageNo, pageSize);
   };
 
   return (
@@ -85,17 +99,9 @@ export default function TimeCharterTable() {
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        onSubmit={(values) => {}}
+        onSubmit={() => {}}
       >
-        {({
-          handleSubmit,
-          resetForm,
-          values,
-          errors,
-          touched,
-          setFieldValue,
-          isValid,
-        }) => (
+        {({ values, errors, touched, setFieldValue }) => (
           <>
             {loading && <Loading />}
             <form className="marine-form-card">
@@ -105,9 +111,12 @@ export default function TimeCharterTable() {
                   <button
                     type="button"
                     className={"btn btn-primary px-3 py-2"}
-                    onClick={() =>
-                      history.push("/chartering/transaction/timecharter/create")
-                    }
+                    onClick={() => {
+                      updateCharteringState(values);
+                      history.push(
+                        "/chartering/transaction/timecharter/create"
+                      );
+                    }}
                     disabled={false}
                   >
                     Create
@@ -129,28 +138,13 @@ export default function TimeCharterTable() {
                         setFieldValue("voyageNo", "");
                         setFieldValue("vesselName", valueOption);
                         setGridData([]);
-
-                        getVoyageDDLNew({
-                          accId: profileData?.accountId,
-                          buId: selectedBusinessUnit?.value,
-                          id: valueOption?.value,
-                          setter: setVoyageNoDDL,
-                          setLoading: setLoading,
-                          hireType: 0,
-                          isComplete: 0,
-                          voyageTypeId: 1,
-                        });
-                        // getTimeCharterLandingData(
-                        //   profileData?.accountId,
-                        //   selectedBusinessUnit?.value,
-                        //   valueOption?.value,
-                        //   0,
-                        //   pageNo,
-                        //   pageSize,
-                        //   "",
-                        //   setGridData,
-                        //   setLoading
-                        // );
+                        const updatedValues = {
+                          ...values,
+                          vesselName: valueOption,
+                        };
+                        updateCharteringState(updatedValues);
+                        getVoyageDDL(updatedValues);
+                        getLandingData(updatedValues);
                       }}
                       errors={errors}
                       touched={touched}
@@ -168,18 +162,12 @@ export default function TimeCharterTable() {
                       onChange={(valueOption) => {
                         setFieldValue("voyageNo", valueOption);
                         setGridData([]);
-
-                        getTimeCharterLandingData(
-                          profileData?.accountId,
-                          selectedBusinessUnit?.value,
-                          values?.vesselName?.value,
-                          valueOption?.value,
-                          pageNo,
-                          pageSize,
-                          "",
-                          setGridData,
-                          setLoading
-                        );
+                        const updatedValues = {
+                          ...values,
+                          voyageNo: valueOption,
+                        };
+                        updateCharteringState(updatedValues);
+                        getLandingData(updatedValues);
                       }}
                       isDisabled={!values?.vesselName}
                       errors={errors}

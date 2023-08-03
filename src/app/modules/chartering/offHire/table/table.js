@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import { useHistory } from "react-router";
 import { Formik } from "formik";
@@ -13,12 +13,7 @@ import IView from "../../_chartinghelper/icons/_view";
 import IEdit from "../../_chartinghelper/icons/_edit";
 import { _formatMoney } from "../../_chartinghelper/_formatMoney";
 import PaginationTable from "../../_chartinghelper/_tablePagination";
-
-const initData = {
-  filterBy: "",
-  fromDate: "",
-  toDate: "",
-};
+import { CharteringContext } from "../../charteringContext";
 
 const headers = [
   { name: "SL" },
@@ -38,10 +33,48 @@ export default function OffHireTable() {
   const [vesselDDL, setVesselDDL] = useState([]);
   const [voyageNoDDL, setVoyageNoDDL] = useState([]);
   const history = useHistory();
+  const [charteringState, setCharteringState] = useContext(CharteringContext);
+
+  const initData = charteringState?.offHireLandingFormData;
+
+  // the function to update the context value
+  const updateCharteringState = (newState) => {
+    setCharteringState((prevState) => ({
+      ...prevState,
+      offHireLandingFormData: newState,
+    }));
+  };
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
+
+  const getGridData = (values, _pageNo = 0, _pageSize = 15) => {
+    getOffHireLandingData(
+      profileData?.accountId,
+      selectedBusinessUnit?.value,
+      values?.vesselName?.value || 0,
+      values?.voyageNo?.value || 0,
+      _pageNo,
+      _pageSize,
+      "",
+      setGridData,
+      setLoading
+    );
+  };
+
+  const getVoyageDDL = (values) => {
+    getVoyageDDLNew({
+      accId: profileData?.accountId,
+      buId: selectedBusinessUnit?.value,
+      id: values?.vesselName?.value,
+      setter: setVoyageNoDDL,
+      setLoading: setLoading,
+      hireType: 0,
+      isComplete: 0,
+      voyageTypeId: 1,
+    });
+  };
 
   useEffect(() => {
     getVesselDDL(
@@ -49,45 +82,14 @@ export default function OffHireTable() {
       selectedBusinessUnit?.value,
       setVesselDDL
     );
-    getOffHireLandingData(
-      profileData?.accountId,
-      selectedBusinessUnit?.value,
-      0,
-      0,
-      pageNo,
-      pageSize,
-      "",
-      setGridData,
-      setLoading
-    );
+    getGridData(initData);
+    if (initData?.vesselName) {
+      getVoyageDDL(initData);
+    }
   }, [profileData, selectedBusinessUnit]);
 
-  const getGridData = (values) => {
-    getOffHireLandingData(
-      profileData?.accountId,
-      selectedBusinessUnit?.value,
-      values?.vesselName?.value || 0,
-      values?.voyageNo?.value || 0,
-      pageNo,
-      pageSize,
-      "",
-      setGridData,
-      setLoading
-    );
-  };
-
   const setPositionHandler = (pageNo, pageSize, values) => {
-    getOffHireLandingData(
-      profileData?.accountId,
-      selectedBusinessUnit?.value,
-      values?.vesselName?.value || 0,
-      values?.voyageNo?.value || 0,
-      pageNo,
-      pageSize,
-      "",
-      setGridData,
-      setLoading
-    );
+    getGridData(values, pageNo, pageSize);
   };
 
   return (
@@ -108,7 +110,10 @@ export default function OffHireTable() {
                   <button
                     type="button"
                     className={"btn btn-primary px-3 py-2"}
-                    onClick={() => history.push("/chartering/offHire/create")}
+                    onClick={() => {
+                      updateCharteringState(values);
+                      history.push("/chartering/offHire/create");
+                    }}
                   >
                     Create
                   </button>
@@ -129,19 +134,15 @@ export default function OffHireTable() {
                         setFieldValue("vesselName", valueOption);
                         setFieldValue("voyageNo", "");
                         setVoyageNoDDL([]);
+                        const updatedValues = {
+                          ...values,
+                          vesselName: valueOption,
+                        };
+                        updateCharteringState(updatedValues);
                         if (valueOption) {
-                          getVoyageDDLNew({
-                            accId: profileData?.accountId,
-                            buId: selectedBusinessUnit?.value,
-                            id: valueOption?.value,
-                            setter: setVoyageNoDDL,
-                            setLoading: setLoading,
-                            hireType: 0,
-                            isComplete: 0,
-                            voyageTypeId: 1,
-                          });
+                          getVoyageDDL(updatedValues);
                         }
-                        getGridData({ ...values, vesselName: valueOption });
+                        getGridData(updatedValues);
                       }}
                       // isDisabled={viewType === "view"}
                       errors={errors}
@@ -159,7 +160,12 @@ export default function OffHireTable() {
                       label="Voyage No"
                       onChange={(valueOption) => {
                         setFieldValue("voyageNo", valueOption);
-                        getGridData({ ...values, voyageNo: valueOption });
+                        const updatedValues = {
+                          ...values,
+                          voyageNo: valueOption,
+                        };
+                        updateCharteringState(updatedValues);
+                        getGridData(updatedValues);
                       }}
                       isDisabled={!values?.vesselName}
                       errors={errors}
