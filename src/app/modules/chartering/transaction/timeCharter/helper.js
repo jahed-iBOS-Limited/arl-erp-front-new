@@ -728,3 +728,9 @@ export const createTimeCharterBR = async (
     setLoading && setLoading(false);
   }
 };
+
+export const daysDDL = [];
+
+for (let i = 1; i <= 90; i++) {
+  daysDDL.push({ value: i, label: `${i} Day${i > 1 ? "s" : ""}` });
+}
