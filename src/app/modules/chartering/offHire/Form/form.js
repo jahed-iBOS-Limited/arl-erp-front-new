@@ -142,7 +142,7 @@ export default function _Form({
                       type="submit"
                       className={"btn btn-primary ml-2 px-3 py-2"}
                       onClick={handleSubmit}
-                      disabled={false}
+                      disabled={!viewType && !rows?.length}
                     >
                       Save
                     </button>

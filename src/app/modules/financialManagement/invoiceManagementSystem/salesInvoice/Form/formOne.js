@@ -25,7 +25,7 @@ function FormOne({ propsObj }) {
     setChannelId,
     selectedAll,
     allSelect,
-    setCustomerType,
+    // setCustomerType,
   } = propsObj;
 
   // totals for 1st table
@@ -69,7 +69,7 @@ function FormOne({ propsObj }) {
               onChange={(valueOption) => {
                 setFieldValue("customerType", valueOption);
                 setFieldValue("customer", "");
-                setCustomerType(valueOption?.value);
+                // setCustomerType(valueOption?.value);
                 setRowDto([]);
               }}
               placeholder="Customer Type"
