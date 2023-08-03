@@ -112,47 +112,69 @@ export default function _Form({
   const updateRequiredQuantity = (values, valueOption) => {
     getMrpPlanningInfo(
       `/mes/SalesPlanning/GetMrplanningInfoDetail?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${values?.plant?.value}&PlanningHorizonId=${values?.year?.planningHorizonId}&PlanningHorizonRowId=${valueOption?.value}`,
-      (data) => {
-        console.log("data", data);
+      (resMrplanningInfo) => {
+        // actual ItemMonth Wise mrp
         let actualItemMonthWise = []
-        data?.length > 0 && data.forEach(item => {
+        resMrplanningInfo?.length > 0 && resMrplanningInfo.forEach(item => {
           let rawMaterialItem = item?.objRawMaterialItemList
           rawMaterialItem?.length > 0 && rawMaterialItem.forEach(nestedItem => {
             if (nestedItem?.planningHorizonRowid === valueOption?.value) {
-              actualItemMonthWise.push(nestedItem)
+              actualItemMonthWise.push({
+                ...nestedItem,
+                itemId: nestedItem?.rawMaterialItemId,
+              })
             }
           })
         })
-        let newRowDto = rowDto?.data?.length > 0 ? rowDto?.data?.map(item => {
-          let itemPlanQty = actualItemMonthWise.filter(nestedItem => nestedItem?.rawMaterialItemId === item?.itemId)?.[0]?.rawMaterialRequiredQty || 0
-          let purchaseQty = actualItemMonthWise.filter(nestedItem => nestedItem?.rawMaterialItemId === item?.itemId)?.[0]?.purchaseQuantity || 0
-          return {
-            ...item,
-            itemPlanQty,
-            entryItemPlanQty: purchaseQty,
-          }
-        }) : toast.warn("Row data is empty")
-        setRowDto({ ...rowDto, data: newRowDto })
+        getHeaderRowInfo(`/mes/SalesPlanning/GetPurchaseRateDetails?AccountId=${profileData?.accountId
+          }&BusinessUnitId=${selectedBusinessUnit?.value
+          }&PlantId=${values?.plant?.value
+          }&PlanningHorizonId=${values?.year?.planningHorizonId
+          }&PlanningHorizonRowId=${valueOption?.value
+          }`, (resPurchaseRate) => {
+            const modifiedRowDto = rowDto?.data?.map(itm => {
+              const actualItemMonthWiseMathch = actualItemMonthWise.find(itm2 => itm2?.itemId === itm?.itemId)
+              const resPurchaseRateMatch = resPurchaseRate.find(itm2 => itm2?.itemId === itm?.itemId)
+              return {
+                ...itm,
+                itemPlanQty: actualItemMonthWiseMathch?.rawMaterialRequiredQty || 0,
+                entryItemPlanQty: resPurchaseRateMatch?.purchaseQuantity || 0,
+                intPurchasePlanId: resPurchaseRateMatch?.intPurchasePlanId || 0,
+                intPurchasePlanRowId: resPurchaseRateMatch?.intPurchasePlanRowId || 0,
+              }
+            })
+            setRowDto({ ...rowDto, data: modifiedRowDto })
 
-        // getHeaderRowInfo(`/mes/SalesPlanning/GetPurchaseRateDetails?AccountId=${profileData?.accountId
-        //   }&BusinessUnitId=${selectedBusinessUnit?.value
-        //   }&PlantId=${values?.plant?.value
-        //   }&PlanningHorizonId=${values?.year?.planningHorizonId
-        //   }&PlanningHorizonRowId=${valueOption?.value
-        //   }`, (data) => {
-        //     let newRowDto = rowDto?.data?.length > 0 ? rowDto?.data?.map(item => {
-        //       let qty = data?.filter(nestedItem => nestedItem?.itemId === item?.itemId)?.[0]?.purchaseQuantity || 0
-        //       let rowId = data?.filter(nestedItem => nestedItem?.itemId === item?.itemId)?.[0]?.intPurchasePlanRowId || 0
-        //       let headerId = data?.filter(nestedItem => nestedItem?.itemId === item?.itemId)?.[0]?.intPurchasePlanId || 0
-        //       return {
-        //         ...item,
-        //         entryItemPlanQty: qty,
-        //         intPurchasePlanId: headerId,
-        //         intPurchasePlanRowId: rowId,
-        //       }
-        //     }) : toast.warn("Row data is empty")
-        //     setRowDto({ ...rowDto, data: newRowDto })
-        //   })
+          }, (err) => {
+            // if GetPurchaseRateDetails error
+            const modifiedRowDto = rowDto?.data?.map(itm => {
+              const actualItemMonthWiseMathch = actualItemMonthWise.find(itm2 => itm2?.itemId === itm?.itemId)
+              return {
+                ...itm,
+                itemPlanQty: actualItemMonthWiseMathch?.rawMaterialRequiredQty || 0,
+                entryItemPlanQty: 0,
+                intPurchasePlanId: 0,
+                intPurchasePlanRowId: 0,
+              }
+            })
+            setRowDto({ ...rowDto, data: modifiedRowDto })
+          })
+
+      },
+      (err) => {
+        // if GetMrplanningInfoDetail error
+        toast.error(err?.response?.data?.message);
+        const modifiedRowDto = rowDto?.data?.map(itm => {
+          return {
+            ...itm,
+            itemPlanQty: 0,
+            entryItemPlanQty: 0,
+            intPurchasePlanId: 0,
+            intPurchasePlanRowId: 0,
+          }
+        })
+        setRowDto({ ...rowDto, data: modifiedRowDto })
+
       }
     );
 
@@ -194,33 +216,38 @@ export default function _Form({
                       label="Plant"
                       placeholder="Plant"
                       onChange={async (valueOption) => {
-                        await setRowDto([]);
-                        setFileObject("");
-                        setFieldValue("plant", valueOption);
-                        setPlant(valueOption);
-                        getItemListSalesPlanDDL(
-                          profileData?.accountId,
-                          selectedBusinessUnit?.value,
-                          valueOption?.value,
-                          pageNo,
-                          pageSize,
-                          setRowDto
-                        );
-                        getYearDDL(
-                          profileData?.accountId,
-                          selectedBusinessUnit?.value,
-                          valueOption?.value,
-                          setYearDDL
-                        );
-                        if (values?.year?.value) {
-                          getHorizonDDL(
+                        if (valueOption) {
+                          await setRowDto([]);
+                          setFileObject("");
+                          setFieldValue("plant", valueOption);
+                          setPlant(valueOption);
+                          getItemListSalesPlanDDL(
                             profileData?.accountId,
                             selectedBusinessUnit?.value,
                             valueOption?.value,
-                            valueOption?.value,
-                            setHorizonDDL
+                            pageNo,
+                            pageSize,
+                            setRowDto
                           );
+                          getYearDDL(
+                            profileData?.accountId,
+                            selectedBusinessUnit?.value,
+                            valueOption?.value,
+                            setYearDDL
+                          );
+                          if (values?.year?.value) {
+                            getHorizonDDL(
+                              profileData?.accountId,
+                              selectedBusinessUnit?.value,
+                              valueOption?.value,
+                              valueOption?.value,
+                              setHorizonDDL
+                            );
+                          }
+                        } else {
+                          setYearDDL([])
                         }
+
                       }}
                       errors={errors}
                       touched={touched}
@@ -235,16 +262,20 @@ export default function _Form({
                       label="Year"
                       placeholder="Year"
                       onChange={(valueOption) => {
-                        setFieldValue("year", valueOption);
-                        setFileObject("");
-                        setFieldValue("horizon", "");
-                        getHorizonDDL(
-                          profileData?.accountId,
-                          selectedBusinessUnit?.value,
-                          values?.plant?.value,
-                          valueOption?.value,
-                          setHorizonDDL
-                        );
+                        if (valueOption) {
+                          setFieldValue("year", valueOption);
+                          setFileObject("");
+                          setFieldValue("horizon", "");
+                          getHorizonDDL(
+                            profileData?.accountId,
+                            selectedBusinessUnit?.value,
+                            values?.plant?.value,
+                            valueOption?.value,
+                            setHorizonDDL
+                          );
+                        } else {
+                          setHorizonDDL([])
+                        }
                       }}
                       errors={errors}
                       touched={touched}
@@ -403,6 +434,7 @@ export default function _Form({
                             );
                           }}
                           className="quantity-field form-control"
+                          disabled={item?.itemPlanQty > 0 ? false : true}
                         />
                         {/* {id ? (
                           <input
@@ -445,6 +477,7 @@ export default function _Form({
                             );
                           }}
                           className="quantity-field form-control"
+                          disabled={item?.itemPlanQty > 0 ? false : true}
                         />
                       </td>
                       <td className="text-center">
