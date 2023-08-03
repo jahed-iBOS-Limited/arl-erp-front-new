@@ -1,5 +1,6 @@
 import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import * as Yup from 'yup';
 import Loading from '../../../_helper/_loading';
 import IForm from '../../../_helper/_form';
@@ -56,7 +57,9 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function DistributionPlanCreateEdit() {
+  const location = useLocation();
   const [objProps, setObjprops] = useState({});
+  const [modifiedData, setModifiedData] = useState({});
   const [channelDDL, getChannelDDL] = useAxiosGet();
   const [regionDDL, getRegionDDL, regionLoading, setRegionDDL] = useAxiosGet();
   const [areaDDL, getAreaDDL, areaLoading, setAreaDDl] = useAxiosGet();
@@ -139,29 +142,29 @@ export default function DistributionPlanCreateEdit() {
       return toast.warn('No Item Found');
     }
 
-    for(let item of rowDto) {
-      if(item?.planQty || item?.planRate) {
-        if(!item?.planQty) {
-          return toast.warn("Plan Qty(Direct) is required!");
+    for (let item of rowDto) {
+      if (item?.planQty || item?.planRate) {
+        if (!item?.planQty) {
+          return toast.warn('Plan Qty(Direct) is required!');
         }
-        if(!item?.planRate) {
-          return toast.warn("Plan Rate(Direct) is required!")
+        if (!item?.planRate) {
+          return toast.warn('Plan Rate(Direct) is required!');
         }
       }
-      if(item?.planTransQty || item?.planTransRate) {
-        if(!item?.planTransQty) {
-          return toast.warn("Plan Qty(Transshipment) is required!");
+      if (item?.planTransQty || item?.planTransRate) {
+        if (!item?.planTransQty) {
+          return toast.warn('Plan Qty(Via Transshipment) is required!');
         }
-        if(!item?.planTransRate) {
-          return toast.warn("Plan Rate(Transshipment) is required!")
+        if (!item?.planTransRate) {
+          return toast.warn('Plan Rate(Via Transshipment) is required!');
         }
       }
     }
 
     const distributionRowList = rowDto?.map((item) => {
       return {
-        rowId: 0,
-        distributionPlanningId: 0,
+        rowId: item?.rowId || 0,
+        distributionPlanningId: item?.distributionPlanningId || 0,
         itemId: item?.itemId,
         itemName: item?.itemName,
         itemCode: item?.itemCode,
@@ -176,7 +179,7 @@ export default function DistributionPlanCreateEdit() {
     });
 
     const payload = {
-      distributionPlanningId: 0,
+      distributionPlanningId: location?.state?.item?.distributionPlanningId || 0,
       businessUnitId: buId,
       distributionChannelId: values?.channel?.value,
       regionId: values?.region?.value,
@@ -190,24 +193,56 @@ export default function DistributionPlanCreateEdit() {
       actinoBy: employeeId,
       distributionRowList: distributionRowList,
     };
-    saveDistributionPlan(`/oms/DistributionChannel/CreateAndEditDistributionPlanning`, payload, cb, true);
+    saveDistributionPlan(
+      `/oms/DistributionChannel/CreateAndEditDistributionPlanning`,
+      payload,
+      location?.state?.isEdit ? null : cb,
+      true
+    );
   };
 
   useEffect(() => {
-    getRowDto(
-      `/oms/DistributionChannel/GetDistributionPlanningItemList?buisnessUnitId=${buId}&plantId=0&wareHouseId=0`,
-      (res) => {
-        const newRowDto = res?.map((item) => ({
-          ...item,
-          planQty: '',
-          planRate: '',
-          planTransQty: '',
-          planTransRate: '',
-          actinoBy: employeeId,
-        }));
-        setRowDto(newRowDto);
-      }
-    );
+    const { state } = location || {};
+    const { isEdit, item } = state || {};
+    if (isEdit) {
+      const [year, month] = item?.fromDate?.split('-');
+      const modifiedInitData = {
+        channel: { value: item?.distributionChannelId, label: item?.distributionChannelName },
+        region: { value: item?.regionId, label: item?.regionName },
+        area: { value: item?.areaId, label: item?.areaName },
+        territory: { value: item?.territoryId, label: item?.territoryName },
+        // transportType: '',
+        fromDate: item?.fromDate,
+        toDate: item?.toDate,
+        month: `${year}-${month}`,
+      };
+      setModifiedData(modifiedInitData);
+      handleChannelChange(modifiedInitData?.channel);
+      handleRegionChange(modifiedInitData, modifiedInitData?.region);
+      handleAreaChange(modifiedInitData, modifiedInitData?.area);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const { state } = location || {};
+    if (!state?.isEdit) {
+      getRowDto(
+        `/oms/DistributionChannel/GetDistributionPlanningItemList?buisnessUnitId=${buId}&plantId=0&wareHouseId=0`,
+        (res) => {
+          const newRowDto = res?.map((item) => ({
+            ...item,
+            planQty: '',
+            planRate: '',
+            planTransQty: '',
+            planTransRate: '',
+          }));
+          setRowDto(newRowDto);
+        }
+      );
+    } else {
+      setRowDto(state?.item?.distributionRowList);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buId]);
 
@@ -221,7 +256,7 @@ export default function DistributionPlanCreateEdit() {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={initData}
+      initialValues={location?.state?.isEdit ? modifiedData : initData}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
@@ -236,7 +271,10 @@ export default function DistributionPlanCreateEdit() {
             territoryLoading ||
             areaLoading ||
             regionLoading) && <Loading />}
-          <IForm title="Distribution Plan Create" getProps={setObjprops}>
+          <IForm
+            title={location?.state?.isEdit ? 'Distribution Plan Edit' : 'Distribution Plan Create'}
+            getProps={setObjprops}
+          >
             <Form>
               <div className="row global-form">
                 <div className="col-lg-12 row m-0 p-0">
@@ -370,8 +408,8 @@ export default function DistributionPlanCreateEdit() {
                         <th>Item UoM Name </th>
                         <th>Plan Qty(Direct)</th>
                         <th>Plan Rate(Direct)</th>
-                        <th>Plan Qty(Transshipment)</th>
-                        <th>Plan Rate(Transshipment)</th>
+                        <th>Plan Qty(Via Transshipment)</th>
+                        <th>Plan Rate(Via Transshipment)</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -422,7 +460,8 @@ export default function DistributionPlanCreateEdit() {
                                 value={item?.planTransQty}
                                 onChange={(e) => {
                                   const newItem = { ...item };
-                                  newItem.planTransQty = e?.target?.value < 0 ? '' : e?.target?.value;
+                                  newItem.planTransQty =
+                                    e?.target?.value < 0 ? '' : e?.target?.value;
                                   const newRowDto = rowDto?.map((itm) => {
                                     return itm?.itemId === newItem?.itemId ? newItem : itm;
                                   });
@@ -438,7 +477,8 @@ export default function DistributionPlanCreateEdit() {
                                 value={item?.planTransRate}
                                 onChange={(e) => {
                                   const newItem = { ...item };
-                                  newItem.planTransRate = e?.target?.value < 0 ? '' : e?.target?.value;
+                                  newItem.planTransRate =
+                                    e?.target?.value < 0 ? '' : e?.target?.value;
                                   const newRowDto = rowDto?.map((itm) => {
                                     return itm?.itemId === newItem?.itemId ? newItem : itm;
                                   });
