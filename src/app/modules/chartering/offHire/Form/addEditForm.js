@@ -47,6 +47,7 @@ export default function OffHireForm() {
   const [vesselDDL, setVesselDDL] = useState([]);
   const [dailyHireAndCVE, setDailyHireAndCVE] = useState({});
   const [itemRates, setItemRates] = useState({});
+  const [rows, setRows] = useState([]);
 
   // get user profile data from store
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -73,6 +74,43 @@ export default function OffHireForm() {
       });
     }
   }, [profileData, selectedBusinessUnit, id]);
+
+  const addHandler = (values) => {
+    const newRow = {
+      vesselId: values?.vesselName?.value,
+      vesselName: values?.vesselName?.label,
+      voyageId: values?.voyageNo?.value,
+      voyageNumber: values?.voyageNo?.label,
+      offHireReason: values?.offHireReason,
+      offHireStartDateTime: values?.offHireStartDateTime,
+      offHireEndDateTime: values?.offHireEndDateTime,
+      durationPercentage: values?.durationPercentage,
+      offHireCostAmount: values?.offHireCostAmount,
+      offHireDuration: values?.offHireDuration,
+      perDayLsmgoQty: values?.perDayLsmgoQty,
+      offHireLsmgoqty: values?.offHireLsmgoqty,
+      offHireLsmgorate: values?.offHireLsmgorate,
+      offHireLsmgovalue: values?.offHireLsmgovalue,
+      perDayLsfoQty: values?.perDayLsfoQty,
+      offHireLsfoqty: values?.offHireLsfoqty,
+      offHireLsforate: values?.offHireLsforate,
+      offHireLsfovalue: values?.offHireLsfovalue,
+      offHireCve: values?.offHireCve,
+      otherCost: values?.otherCost,
+      accountId: profileData?.accountId,
+      businessUnitId: selectedBusinessUnit?.value,
+      insertby: profileData?.userId,
+      addressCommision: values?.offHireAddressCommission,
+      offHireFinalDuration: values?.finalOffHireDuration,
+      brokarageCommision: values?.offHireBrokerCommission,
+    };
+    setRows([...rows, newRow]);
+  };
+
+  const remover = (index) => {
+    const newRowSet = rows?.filter((_, i) => i !== index);
+    setRows(newRowSet);
+  };
 
   const saveHandler = (values, cb) => {
     if (id) {
@@ -137,7 +175,7 @@ export default function OffHireForm() {
       createOffHire(payload, setLoading, cb);
     }
   };
-console.log("singleData",singleData)
+
   return (
     <>
       {loading && <Loading />}
@@ -160,6 +198,9 @@ console.log("singleData",singleData)
         selectedBusinessUnit={selectedBusinessUnit}
         itemRates={itemRates}
         setItemRates={setItemRates}
+        rows={rows}
+        remover={remover}
+        addHandler={addHandler}
       />
     </>
   );

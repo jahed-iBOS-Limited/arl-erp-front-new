@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import { useHistory } from "react-router";
 import { Formik } from "formik";
@@ -13,12 +13,7 @@ import { getPurchaseBunkerLandingData } from "../helper";
 import Loading from "../../../_chartinghelper/loading/_loading";
 import { _dateFormatter } from "../../../_chartinghelper/_dateFormatter";
 import PaginationTable from "../../../_chartinghelper/_tablePagination";
-
-const initData = {
-  filterBy: "",
-  fromDate: "",
-  toDate: "",
-};
+import { CharteringContext } from "../../../charteringContext";
 
 const headers = [
   { name: "SL" },
@@ -38,38 +33,62 @@ export default function PurchaseBunkerTable() {
   const [voyageNoDDL, setVoyageNoDDL] = useState([]);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
+  const [charteringState, setCharteringState] = useContext(CharteringContext);
+
+  const initData = charteringState?.purchaseBunkerLandingFormData;
+
+  // the function to update the context value
+  const updateCharteringState = (newState) => {
+    setCharteringState((prevState) => ({
+      ...prevState,
+      purchaseBunkerLandingFormData: newState,
+    }));
+  };
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
 
+  const getVoyageDDL = (values) => {
+    getVoyageDDLNew({
+      accId: profileData?.accountId,
+      buId: selectedBusinessUnit?.value,
+      id: values?.vesselName?.value,
+      setter: setVoyageNoDDL,
+      setLoading: setLoading,
+      hireType: 0,
+      isComplete: 0,
+      voyageTypeId: 0,
+    });
+  };
+
+  const getLandingData = (values, _pageNo = 0, _pageSize = 15) => {
+    getPurchaseBunkerLandingData(
+      values?.vesselName?.value || 0,
+      values?.voyageNo?.value || 0,
+      _pageNo,
+      _pageSize,
+      "",
+      setGridData,
+      setLoading
+    );
+  };
+
   useEffect(() => {
+    getLandingData(initData);
     getVesselDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
       setVesselDDL
     );
-    getPurchaseBunkerLandingData(
-      0,
-      0,
-      pageNo,
-      pageSize,
-      "",
-      setGridData,
-      setLoading
-    );
+
+    if (initData?.vesselName) {
+      getVoyageDDL(initData);
+    }
   }, [profileData, selectedBusinessUnit]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
-    getPurchaseBunkerLandingData(
-      values?.vesselName?.value || 0,
-      values?.voyageNo?.value || 0,
-      pageNo,
-      pageSize,
-      "",
-      setGridData,
-      setLoading
-    );
+    getLandingData(values, pageNo, pageSize);
   };
 
   return (
@@ -89,12 +108,13 @@ export default function PurchaseBunkerTable() {
                   <button
                     type="button"
                     className={"btn btn-primary px-3 py-2"}
-                    onClick={() =>
+                    onClick={() => {
+                      updateCharteringState(values);
                       history.push({
                         pathname: "/chartering/bunker/purchaseBunker/create",
                         state: values,
-                      })
-                    }
+                      });
+                    }}
                     disabled={false}
                   >
                     Create
@@ -115,32 +135,15 @@ export default function PurchaseBunkerTable() {
                       onChange={(valueOption) => {
                         setFieldValue("vesselName", valueOption);
                         setFieldValue("voyageNo", "");
+                        const updatedValues = {
+                          ...values,
+                          vesselName: valueOption,
+                        };
+                        updateCharteringState(updatedValues);
                         setVoyageNoDDL([]);
-                        getPurchaseBunkerLandingData(
-                          valueOption?.value || 0,
-                          values?.voyageNo?.value || 0,
-                          pageNo,
-                          pageSize,
-                          "",
-                          setGridData,
-                          setLoading
-                        );
+                        getLandingData(updatedValues);
                         if (valueOption) {
-                          getVoyageDDLNew({
-                            accId: profileData?.accountId,
-                            buId: selectedBusinessUnit?.value,
-                            id: valueOption?.value,
-                            setter: setVoyageNoDDL,
-                            setLoading: setLoading,
-                            hireType: 0,
-                            isComplete: 0,
-                            voyageTypeId: 0,
-                          });
-                          // getVoyageDDLByVesselId(
-                          //   valueOption?.value,
-                          //   setLoading,
-                          //   setVoyageNoDDL
-                          // );
+                          getVoyageDDL(updatedValues);
                         }
                       }}
                       errors={errors}
@@ -158,15 +161,12 @@ export default function PurchaseBunkerTable() {
                       label="Voyage No"
                       onChange={(valueOption) => {
                         setFieldValue("voyageNo", valueOption);
-                        getPurchaseBunkerLandingData(
-                          values?.vesselName?.value || 0,
-                          valueOption?.value || 0,
-                          pageNo,
-                          pageSize,
-                          "",
-                          setGridData,
-                          setLoading
-                        );
+                        const updatedValues = {
+                          ...values,
+                          voyageNo: valueOption,
+                        };
+                        updateCharteringState(updatedValues);
+                        getLandingData(updatedValues);
                       }}
                       isDisabled={!values?.vesselName}
                       errors={errors}
@@ -213,7 +213,12 @@ export default function PurchaseBunkerTable() {
                 <PaginationTable
                   count={gridData?.totalCount}
                   setPositionHandler={setPositionHandler}
-                  paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
+                  paginationState={{
+                    pageNo,
+                    setPageNo,
+                    pageSize,
+                    setPageSize,
+                  }}
                   values={values}
                 />
               )}
