@@ -144,35 +144,38 @@ export default function OffHireForm() {
       };
       editOffHire(data, setLoading);
     } else {
-      const payload = {
-        vesselId: values?.vesselName?.value,
-        vesselName: values?.vesselName?.label,
-        voyageId: values?.voyageNo?.value,
-        voyageNumber: values?.voyageNo?.label,
-        offHireReason: values?.offHireReason,
-        offHireStartDateTime: values?.offHireStartDateTime,
-        offHireEndDateTime: values?.offHireEndDateTime,
-        durationPercentage: values?.durationPercentage,
-        offHireCostAmount: values?.offHireCostAmount,
-        offHireDuration: values?.offHireDuration,
-        perDayLsmgoQty: values?.perDayLsmgoQty,
-        offHireLsmgoqty: values?.offHireLsmgoqty,
-        offHireLsmgorate: values?.offHireLsmgorate,
-        offHireLsmgovalue: values?.offHireLsmgovalue,
-        perDayLsfoQty: values?.perDayLsfoQty,
-        offHireLsfoqty: values?.offHireLsfoqty,
-        offHireLsforate: values?.offHireLsforate,
-        offHireLsfovalue: values?.offHireLsfovalue,
-        offHireCve: values?.offHireCve,
-        otherCost: values?.otherCost,
-        accountId: profileData?.accountId,
-        businessUnitId: selectedBusinessUnit?.value,
-        insertby: profileData?.userId,
-        addressCommision: values?.offHireAddressCommission,
-        offHireFinalDuration: values?.finalOffHireDuration,
-        brokarageCommision: values?.offHireBrokerCommission,
-      };
-      createOffHire(payload, setLoading, cb);
+      // const payload = {
+      //   vesselId: values?.vesselName?.value,
+      //   vesselName: values?.vesselName?.label,
+      //   voyageId: values?.voyageNo?.value,
+      //   voyageNumber: values?.voyageNo?.label,
+      //   offHireReason: values?.offHireReason,
+      //   offHireStartDateTime: values?.offHireStartDateTime,
+      //   offHireEndDateTime: values?.offHireEndDateTime,
+      //   durationPercentage: values?.durationPercentage,
+      //   offHireCostAmount: values?.offHireCostAmount,
+      //   offHireDuration: values?.offHireDuration,
+      //   perDayLsmgoQty: values?.perDayLsmgoQty,
+      //   offHireLsmgoqty: values?.offHireLsmgoqty,
+      //   offHireLsmgorate: values?.offHireLsmgorate,
+      //   offHireLsmgovalue: values?.offHireLsmgovalue,
+      //   perDayLsfoQty: values?.perDayLsfoQty,
+      //   offHireLsfoqty: values?.offHireLsfoqty,
+      //   offHireLsforate: values?.offHireLsforate,
+      //   offHireLsfovalue: values?.offHireLsfovalue,
+      //   offHireCve: values?.offHireCve,
+      //   otherCost: values?.otherCost,
+      //   accountId: profileData?.accountId,
+      //   businessUnitId: selectedBusinessUnit?.value,
+      //   insertby: profileData?.userId,
+      //   addressCommision: values?.offHireAddressCommission,
+      //   offHireFinalDuration: values?.finalOffHireDuration,
+      //   brokarageCommision: values?.offHireBrokerCommission,
+      // };
+      createOffHire(rows, setLoading, () => {
+        setRows([]);
+        cb();
+      });
     }
   };
 

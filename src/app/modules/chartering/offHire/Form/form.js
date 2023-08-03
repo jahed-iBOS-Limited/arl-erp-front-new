@@ -504,14 +504,21 @@ export default function _Form({
                       disabled={viewType === "view"}
                     />
                   </div>
-                  <IButton
-                    onClick={() => {
-                      // addHandler(values);
-                    }}
-                    disabled={!values?.voyageNo || !values?.offHireReason}
-                  >
-                    + ADD
-                  </IButton>
+                  {!viewType && (
+                    <IButton
+                      onClick={() => {
+                        addHandler(values);
+                      }}
+                      disabled={
+                        !values?.voyageNo ||
+                        !values?.offHireReason ||
+                        !values?.durationPercentage ||
+                        +values?.offHireDuration <= 0
+                      }
+                    >
+                      + ADD
+                    </IButton>
+                  )}
                 </div>
                 {rows?.length > 0 && (
                   <OffHireEntryFormTable obj={{ rows, remover }} />
