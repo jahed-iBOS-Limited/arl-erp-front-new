@@ -35,7 +35,12 @@ export default function MillProductionCreateEdit() {
   const [shopFloor, getShopFloor, shopFloorLoader] = useAxiosGet();
   const [mill, getMill, millLoader] = useAxiosGet();
   const [itemDDL, getItemDDL, itemDDLLoader, setItemDDL] = useAxiosGet();
-  const [materialIssueDetails, getMaterialIssueDetails, materialIssueDetailsLoader,setMaterialIssueDetails] = useAxiosGet();
+  const [
+    materialIssueDetails,
+    getMaterialIssueDetails,
+    materialIssueDetailsLoader,
+    setMaterialIssueDetails,
+  ] = useAxiosGet();
   const [bom, getBom, bomLoader] = useAxiosGet();
   const [, postData, dataLoader] = useAxiosPost();
   const { id } = useParams();
@@ -56,7 +61,9 @@ export default function MillProductionCreateEdit() {
     }, 0);
   };
   useEffect(() => {
-    getPlant(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`)
+    getPlant(
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const saveHandler = (values, cb) => {
@@ -85,8 +92,8 @@ export default function MillProductionCreateEdit() {
       intUomid: values?.intUomid,
       strUomName: values?.strUomname,
       row: rowData,
-    }
-    postData(`/mes/MSIL/CreateAndEditMillProduction`, payload, cb, true)
+    };
+    postData(`/mes/MSIL/CreateAndEditMillProduction`, payload, cb, true);
   };
   return (
     <Formik
@@ -110,8 +117,17 @@ export default function MillProductionCreateEdit() {
         touched,
       }) => (
         <>
-          {(plantLoader || shopFloorLoader || millLoader || dataLoader || itemDDLLoader || bomLoader || materialIssueDetailsLoader) && <Loading />}
-          <IForm title={id ? "Edit Mill Production" : "Create Mill Production"} getProps={setObjprops}>
+          {(plantLoader ||
+            shopFloorLoader ||
+            millLoader ||
+            dataLoader ||
+            itemDDLLoader ||
+            bomLoader ||
+            materialIssueDetailsLoader) && <Loading />}
+          <IForm
+            title={id ? "Edit Mill Production" : "Create Mill Production"}
+            getProps={setObjprops}
+          >
             <Form>
               <div className="form-group  global-form row">
                 <div className="col-lg-2">
@@ -120,7 +136,7 @@ export default function MillProductionCreateEdit() {
                     value={values?.dteDate}
                     name="dteDate"
                     type="date"
-                    disabled={(id || rowData?.length > 0) ? true : false}
+                    disabled={id || rowData?.length > 0 ? true : false}
                     onChange={(e) => {
                       setFieldValue("dteDate", e?.target?.value);
                     }}
@@ -182,7 +198,9 @@ export default function MillProductionCreateEdit() {
                         setFieldValue("numRunningHour", "");
                         setFieldValue("numQuantity", "");
                         setFieldValue("strRemarks", "");
-                        getShopFloor(`/mes/MesDDL/GetShopfloorDDL?AccountId=${accountId}&BusinessUnitid=${selectedBusinessUnit?.value}&PlantId=${valueOption?.value}`)
+                        getShopFloor(
+                          `/mes/MesDDL/GetShopfloorDDL?AccountId=${accountId}&BusinessUnitid=${selectedBusinessUnit?.value}&PlantId=${valueOption?.value}`
+                        );
                       } else {
                         setFieldValue("plant", "");
                         setFieldValue("shopFloor", "");
@@ -195,7 +213,7 @@ export default function MillProductionCreateEdit() {
                         setFieldValue("strRemarks", "");
                       }
                     }}
-                    isDisabled={(id || rowData?.length > 0) ? true : false}
+                    isDisabled={id || rowData?.length > 0 ? true : false}
                   />
                 </div>
 
@@ -215,7 +233,9 @@ export default function MillProductionCreateEdit() {
                         setFieldValue("numRunningHour", "");
                         setFieldValue("numQuantity", "");
                         setFieldValue("strRemarks", "");
-                        getMill(`/mes/MesDDL/GetWorkCenterDDL?AccountId=${accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${values?.plant?.value}&ShopFloorId=${valueOption?.value}`)
+                        getMill(
+                          `/mes/MesDDL/GetWorkCenterDDL?AccountId=${accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${values?.plant?.value}&ShopFloorId=${valueOption?.value}`
+                        );
                       } else {
                         setFieldValue("shopFloor", "");
                         setFieldValue("mill", "");
@@ -227,7 +247,7 @@ export default function MillProductionCreateEdit() {
                         setFieldValue("strRemarks", "");
                       }
                     }}
-                    isDisabled={(id || rowData?.length > 0) ? true : false}
+                    isDisabled={id || rowData?.length > 0 ? true : false}
                   />
                 </div>
                 <div className="col-lg-2">
@@ -245,23 +265,19 @@ export default function MillProductionCreateEdit() {
                         setFieldValue("numRunningHour", "");
                         setFieldValue("numQuantity", "");
                         setFieldValue("strRemarks", "");
-                        getItemDDL(`/mes/MesDDL/GetItemListForBackCalculation?accountId=${accountId
-                          }&businessUnitId=${selectedBusinessUnit?.value
-                          }&plantId=${values?.plant?.value
-                          }&shopFloorId=${values?.shopFloor?.value
-                          }&workCenterId=${valueOption?.value
-                          }`,
+                        getItemDDL(
+                          `/mes/MesDDL/GetItemListForBackCalculation?accountId=${accountId}&businessUnitId=${selectedBusinessUnit?.value}&plantId=${values?.plant?.value}&shopFloorId=${values?.shopFloor?.value}&workCenterId=${valueOption?.value}`,
                           (data) => {
                             const res = data?.map((itm) => {
                               return {
                                 ...itm,
                                 value: itm?.itemId,
                                 label: itm?.itemName,
-                              }
-                            })
-                            setItemDDL(res)
+                              };
+                            });
+                            setItemDDL(res);
                           }
-                        )
+                        );
                       } else {
                         setFieldValue("mill", "");
                         setFieldValue("productType", "");
@@ -271,9 +287,8 @@ export default function MillProductionCreateEdit() {
                         setFieldValue("numQuantity", "");
                         setFieldValue("strRemarks", "");
                       }
-
                     }}
-                    isDisabled={(id || rowData?.length > 0) ? true : false}
+                    isDisabled={id || rowData?.length > 0 ? true : false}
                   />
                 </div>
                 <div className="col-lg-2">
@@ -288,12 +303,9 @@ export default function MillProductionCreateEdit() {
                         setFieldValue("intUomid", valueOption?.uoMId);
                         setFieldValue("strUomname", valueOption?.uoMName);
                         setFieldValue("bom", "");
-                        getBom(`/mes/MesDDL/GetRoutingToBOMDDL?AccountId=${accountId
-                          }&BusinessUnitId=${selectedBusinessUnit?.value
-                          }&ItemId=${valueOption?.value
-                          }&WorkCenterId=${values?.mill?.value
-                          }`)
-
+                        getBom(
+                          `/mes/MesDDL/GetRoutingToBOMDDL?AccountId=${accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&ItemId=${valueOption?.value}&WorkCenterId=${values?.mill?.value}`
+                        );
                       } else {
                         setFieldValue("bom", "");
                         setFieldValue("productType", "");
@@ -303,7 +315,7 @@ export default function MillProductionCreateEdit() {
                         setFieldValue("strRemarks", "");
                       }
                     }}
-                    isDisabled={(id || rowData?.length > 0) ? true : false}
+                    isDisabled={id || rowData?.length > 0 ? true : false}
                   />
                 </div>
                 <div className="col-lg-2">
@@ -321,7 +333,7 @@ export default function MillProductionCreateEdit() {
                     options={bom}
                     value={values?.bom}
                     label="BOM Name"
-                    isDisabled={(id || rowData?.length > 0) ? true : false}
+                    isDisabled={id || rowData?.length > 0 ? true : false}
                     onChange={(valueOption) => {
                       if (valueOption) {
                         setFieldValue("bom", valueOption);
@@ -343,12 +355,16 @@ export default function MillProductionCreateEdit() {
                     value={values?.numRunningHour}
                     name="numRunningHour"
                     type="number"
-                    disabled={(id || rowData?.length > 0) ? true : false}
+                    disabled={id || rowData?.length > 0 ? true : false}
                     onChange={(e) => {
                       if (+e.target.value > 24 || +e.target.value < 0) {
-                        return toast.warn("Running hour must be in between 0 to 24")
+                        setFieldValue("breakdownHour", "");
+                        return toast.warn(
+                          "Running hour must be in between 0 to 24"
+                        );
                       } else {
-                        setFieldValue("numRunningHour", e.target.value)
+                        setFieldValue("breakdownHour", "");
+                        setFieldValue("numRunningHour", e.target.value);
                       }
                     }}
                   />
@@ -360,15 +376,21 @@ export default function MillProductionCreateEdit() {
                     name="numQuantity"
                     type="number"
                     onChange={(e) => {
-                      if (+e.target.value < 0) toast.warn("Quantity must be greater than 0")
+                      if (+e.target.value < 0)
+                        toast.warn("Quantity must be greater than 0");
                       else {
                         setFieldValue("numQuantity", e.target.value);
                         // setTimeout(() => {
-                          getMaterialIssueDetails(`/mes/MSIL/GetMaterialIssueByBOM?BusinessUnitId=${selectedBusinessUnit?.value}&BillOfMaterialId=${values?.bom?.value}&Quantity=${+e.target.value || 0}&Date=${values?.dteDate}`)
+                        getMaterialIssueDetails(
+                          `/mes/MSIL/GetMaterialIssueByBOM?BusinessUnitId=${
+                            selectedBusinessUnit?.value
+                          }&BillOfMaterialId=${values?.bom?.value}&Quantity=${+e
+                            .target.value || 0}&Date=${values?.dteDate}`
+                        );
                         // }, 1000);
                       }
                     }}
-                    disabled={(id || rowData?.length > 0) ? true : false}
+                    disabled={id || rowData?.length > 0 ? true : false}
                   />
                 </div>
                 <div className="col-lg-2">
@@ -380,7 +402,7 @@ export default function MillProductionCreateEdit() {
                     onChange={(e) => {
                       setFieldValue("strRemarks", e.target.value);
                     }}
-                    disabled={(id || rowData?.length > 0) ? true : false}
+                    disabled={id || rowData?.length > 0 ? true : false}
                   />
                 </div>
                 <div className="col-lg-12">
@@ -402,19 +424,22 @@ export default function MillProductionCreateEdit() {
                       </tr>
                     </thead>
                     <tbody>
-                      {
-                        materialIssueDetails?.data?.length > 0 && materialIssueDetails?.data?.map((item, index) => {
+                      {materialIssueDetails?.data?.length > 0 &&
+                        materialIssueDetails?.data?.map((item, index) => {
                           return (
                             <tr key={index}>
                               <td>{index + 1}</td>
                               <td className="text-left">{item.strItemName}</td>
                               <td className="text-center">{item.strUomName}</td>
-                              <td className="text-center">{item.numQuantity}</td>
-                              <td className="text-center">{item.numMoisturQuantity}</td>
+                              <td className="text-center">
+                                {item.numQuantity}
+                              </td>
+                              <td className="text-center">
+                                {item.numMoisturQuantity}
+                              </td>
                             </tr>
-                          )
-                        })
-                      }
+                          );
+                        })}
                     </tbody>
                   </table>
                 </div>
@@ -445,7 +470,13 @@ export default function MillProductionCreateEdit() {
                       }
                     }}
                     isDisabled={
-                      !values?.dteDate || !values?.plant || !values?.shopFloor || !values?.mill || !values?.productType || !values?.numQuantity || !values?.numRunningHour
+                      !values?.dteDate ||
+                      !values?.plant ||
+                      !values?.shopFloor ||
+                      !values?.mill ||
+                      !values?.productType ||
+                      !values?.numQuantity ||
+                      !values?.numRunningHour
                     }
                   />
                 </div>
@@ -456,13 +487,27 @@ export default function MillProductionCreateEdit() {
                     name="breakdownHour"
                     type="number"
                     onChange={(e) => {
-                      if (+e.target.value > +values?.numRunningHour || +e.target.value < 0) {
-                        return toast.warn("Breakdown hour must be in less or equal to running hour")
+                      if (
+                        (+e.target.value || 0) + +values?.numRunningHour > 24 ||
+                        +e.target.value < 0
+                      ) {
+                        return toast.warn(
+                          "Sum of Runnig Hour and Breakdown Hour cannot be greater than 24 hours and Breakdown Hour cannot be less than 0"
+                        );
                       } else {
                         setFieldValue("breakdownHour", e.target.value);
                       }
                     }}
-                    disabled={!values?.breakdownType || !values?.dteDate || !values?.plant || !values?.shopFloor || !values?.mill || !values?.productType || !values?.numQuantity || !values?.numRunningHour}
+                    disabled={
+                      !values?.breakdownType ||
+                      !values?.dteDate ||
+                      !values?.plant ||
+                      !values?.shopFloor ||
+                      !values?.mill ||
+                      !values?.productType ||
+                      !values?.numQuantity ||
+                      !values?.numRunningHour
+                    }
                   />
                 </div>
                 <div className="col-lg-2">
@@ -475,7 +520,15 @@ export default function MillProductionCreateEdit() {
                       setFieldValue("breakdownDetails", e.target.value);
                     }}
                     disabled={
-                      !values?.breakdownType || !values?.breakdownHour || !values?.dteDate || !values?.plant || !values?.shopFloor || !values?.mill || !values?.productType || !values?.numQuantity || !values?.numRunningHour
+                      !values?.breakdownType ||
+                      !values?.breakdownHour ||
+                      !values?.dteDate ||
+                      !values?.plant ||
+                      !values?.shopFloor ||
+                      !values?.mill ||
+                      !values?.productType ||
+                      !values?.numQuantity ||
+                      !values?.numRunningHour
                     }
                   />
                 </div>
@@ -484,29 +537,53 @@ export default function MillProductionCreateEdit() {
                     className="btn btn-primary mt-5"
                     type="button"
                     onClick={() => {
-                      setRowData([...rowData, {
-                        intRowId: 0,
-                        intMillProductionId: 0,
-                        intBreakDownTypeId: values?.breakdownType?.value,
-                        strBreakDownTypeName: values?.breakdownType?.label,
-                        numBreakdownHour: +values?.breakdownHour,
-                        strBreakdownDetails: values?.breakdownDetails,
-                      }]);
+                      if (+getRemainingBreakdown(values) + +values?.breakdownHour + +values?.numRunningHour > 24) {
+                        return toast.warning(
+                          "Total Breakdown Hour cannot be greater than 24"
+                        );
+                      }
+                      setRowData([
+                        ...rowData,
+                        {
+                          intRowId: 0,
+                          intMillProductionId: 0,
+                          intBreakDownTypeId: values?.breakdownType?.value,
+                          strBreakDownTypeName: values?.breakdownType?.label,
+                          numBreakdownHour: +values?.breakdownHour,
+                          strBreakdownDetails: values?.breakdownDetails,
+                        },
+                      ]);
                       setFieldValue("breakdownType", "");
                       setFieldValue("breakdownDetails", "");
                       setFieldValue("breakdownHour", "");
                     }}
-                    disabled={!values?.breakdownType || !values?.breakdownDetails || !values?.breakdownHour ? true : false}
+                    disabled={
+                      !values?.breakdownType ||
+                      !values?.breakdownDetails ||
+                      !values?.breakdownHour
+                        ? true
+                        : false
+                    }
                   >
                     Add
                   </button>
                 </div>
                 <div className="col-lg-3">
-                  <h4 className="bold">Total Hour: {" "}24</h4>
-                  <h4 className="bold">Running Hour: {" "} {values?.numRunningHour || 0} </h4>
-                  <h4 className="bold" style={{
-                    color: getRemainingBreakdown(values) > values?.numRunningHour ? "red" : "green"
-                  }}>Breakdown Hour: {" "} {getRemainingBreakdown(values)}</h4>
+                  <h4 className="bold">Total Hour: 24</h4>
+                  <h4 className="bold">
+                    Running Hour: {values?.numRunningHour || 0}{" "}
+                  </h4>
+                  <h4
+                    className="bold"
+                    style={{
+                      color:
+                        getRemainingBreakdown(values) > values?.numRunningHour
+                          ? "red"
+                          : "green",
+                    }}
+                  >
+                    Breakdown Hour: {getRemainingBreakdown(values)}
+                  </h4>
                 </div>
               </div>
               <div className="row">
@@ -522,26 +599,31 @@ export default function MillProductionCreateEdit() {
                       </tr>
                     </thead>
                     <tbody>
-                      {
-                        rowData?.length > 0 && rowData?.map((item, index) => {
+                      {rowData?.length > 0 &&
+                        rowData?.map((item, index) => {
                           return (
                             <tr key={index}>
                               <td>{index + 1}</td>
-                              <td className="text-center">{item.strBreakDownTypeName}</td>
+                              <td className="text-center">
+                                {item.strBreakDownTypeName}
+                              </td>
                               <td>{item.strBreakdownDetails}</td>
-                              <td className="text-center">{item.numBreakdownHour}</td>
+                              <td className="text-center">
+                                {item.numBreakdownHour}
+                              </td>
                               <td className="text-center">
                                 <IClose
                                   closer={() => {
-                                    let data = rowData.filter((x, i) => i !== index);
+                                    let data = rowData.filter(
+                                      (x, i) => i !== index
+                                    );
                                     setRowData(data);
                                   }}
                                 />
                               </td>
                             </tr>
-                          )
-                        })
-                      }
+                          );
+                        })}
                     </tbody>
                   </table>
                 </div>
