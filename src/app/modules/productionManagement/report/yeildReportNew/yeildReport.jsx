@@ -153,48 +153,269 @@
 
 // export default YeildReport;
 
+// import React from "react";
+// import "./style.scss";
+// import { _fixedPoint } from "../../../_helper/_fixedPoint";
+// function YeildReport({ tableData }) {
+//   if (tableData?.length === 0) return <></>;
+
+//   const emptyTHGenearte = (row) => {
+//     let maxRowLength = 0;
+//     for (let i = 0; i < tableData.length; i++) {
+//       const rows = tableData[i].rows;
+//       if (rows.length > maxRowLength) {
+//         maxRowLength = rows.length;
+//       }
+//     }
+//     // empty th generate
+
+//     let TrGenerateNumber = maxRowLength - row?.length;
+
+//     let th = [];
+//     for (let i = 0; i < TrGenerateNumber; i++) {
+//       th.push(<th></th>);
+//     }
+//     return th;
+//   };
+//   const emptyTDGenearte = (row) => {
+//     let maxRowLength = 0;
+//     for (let i = 0; i < tableData.length; i++) {
+//       const rows = tableData[i].rows;
+//       if (rows.length > maxRowLength) {
+//         maxRowLength = rows.length;
+//       }
+//     }
+//     // empty td generate
+
+//     let TdGenerateNumber = maxRowLength - row?.length;
+
+//     let td = [];
+//     for (let i = 0; i < TdGenerateNumber; i++) {
+//       td.push(<td></td>);
+//     }
+//     return td;
+//   };
+//   return (
+//     <>
+//       <div className='row YeildReport'>
+//         <div className='col-lg-12'>
+//           <div className='sta-scrollable-table scroll-table-auto'>
+//             <div
+//               style={{ maxHeight: "500px" }}
+//               className='scroll-table _table scroll-table-auto'
+//             >
+//               <table className='table table-striped table-bordered global-table'>
+//                 {tableData?.map((itm) => {
+//                   return (
+//                     <>
+//                       <thead>
+//                         <tr>
+//                           <th
+//                             style={{
+//                               minWidth: "120px",
+//                               background: "#c9f7f5",
+//                             }}
+//                             className='tableThBGOne'
+//                           >
+//                             {itm?.title}
+//                           </th>
+//                           {itm?.rows?.map((row, index) => {
+//                             return (
+//                               <th style={{ minWidth: "100px" }}>
+//                                 {row?.itemName}
+//                               </th>
+//                             );
+//                           })}
+//                           {emptyTHGenearte(itm?.rows)}
+//                         </tr>
+//                       </thead>
+//                       <tbody>
+//                         <tr>
+//                           <td className='text-left'>
+//                             <b>Yield Per:</b>
+//                           </td>
+//                           {itm?.rows?.map((row, index) => {
+//                             return (
+//                               <td className='text-right'>
+//                                 {_fixedPoint(row?.yieldPer)}
+//                               </td>
+//                             );
+//                           })}
+//                           {emptyTDGenearte(itm?.rows)}
+//                         </tr>
+
+//                         <tr>
+//                           <td className='text-left'>
+//                             <b>Production Qty Bag:</b>{" "}
+//                           </td>
+//                           {itm?.rows?.map((row, index) => {
+//                             return (
+//                               <td className='text-right'>
+//                                 {_fixedPoint(row?.productinQtyBag)}
+//                               </td>
+//                             );
+//                           })}
+//                           {emptyTDGenearte(itm?.rows)}
+//                         </tr>
+
+//                         <tr>
+//                           <td className='text-left'>
+//                             <b>Production Qty</b>
+//                           </td>
+//                           {itm?.rows?.map((row, index) => {
+//                             return (
+//                               <td className='text-right'>
+//                                 {_fixedPoint(row?.productionQty)}
+//                               </td>
+//                             );
+//                           })}
+//                           {emptyTDGenearte(itm?.rows)}
+//                         </tr>
+
+//                         <tr>
+//                           <td className='text-left'>
+//                             <b>Consumption</b>
+//                           </td>
+//                           {itm?.rows?.map((row, index) => {
+//                             return (
+//                               <td className='text-right'>
+//                                 {_fixedPoint(row?.consumption)}
+//                               </td>
+//                             );
+//                           })}
+//                           {emptyTDGenearte(itm?.rows)}
+//                         </tr>
+//                         <tr>
+//                           <td className='text-left'>
+//                             <b>By Product</b>
+//                           </td>
+//                           {itm?.rows?.map((row, index) => {
+//                             return (
+//                               <td className='text-right'>
+//                                 {_fixedPoint(row?.byProduct)}
+//                               </td>
+//                             );
+//                           })}
+//                           {emptyTDGenearte(itm?.rows)}
+//                         </tr>
+//                         <tr>
+//                           <td className='text-left'>
+//                             <b>By Production Qty</b>
+//                           </td>
+//                           {itm?.rows?.map((row, index) => {
+//                             return (
+//                               <td className='text-right'>
+//                                 {_fixedPoint(row?.byProductionQty)}
+//                               </td>
+//                             );
+//                           })}
+//                           {emptyTDGenearte(itm?.rows)}
+//                         </tr>
+//                       </tbody>
+//                     </>
+//                   );
+//                 })}
+
+//               </table>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </>
+//   );
+// }
+
+// export default YeildReport;
+
 import React from "react";
 import "./style.scss";
 import { _fixedPoint } from "../../../_helper/_fixedPoint";
 function YeildReport({ tableData }) {
   if (tableData?.length === 0) return <></>;
 
-  const emptyTHGenearte = (row) => {
-    let maxRowLength = 0;
+  const tableDataBodyRender = (tableData) => {
+    // all data flat
+    let allData = [];
     for (let i = 0; i < tableData.length; i++) {
       const rows = tableData[i].rows;
-      if (rows.length > maxRowLength) {
-        maxRowLength = rows.length;
+      for (let j = 0; j < rows.length; j++) {
+        const row = rows[j];
+        allData.push({
+          ...row,
+          categoryName: tableData[i].title,
+        });
       }
     }
-    // empty th generate
 
-    let TrGenerateNumber = maxRowLength - row?.length;
-
-    let th = [];
-    for (let i = 0; i < TrGenerateNumber; i++) {
-      th.push(<th></th>);
-    }
-    return th;
-  };
-  const emptyTDGenearte = (row) => {
-    let maxRowLength = 0;
-    for (let i = 0; i < tableData.length; i++) {
-      const rows = tableData[i].rows;
-      if (rows.length > maxRowLength) {
-        maxRowLength = rows.length;
+    // unique category name
+    let uniqueCategoryName = [];
+    for (let i = 0; i < allData.length; i++) {
+      const element = allData[i];
+      if (!uniqueCategoryName.includes(element.categoryName)) {
+        uniqueCategoryName.push(element.categoryName);
       }
     }
-    // empty td generate
 
-    let TdGenerateNumber = maxRowLength - row?.length;
-
-    let td = [];
-    for (let i = 0; i < TdGenerateNumber; i++) {
-      td.push(<td></td>);
+    // unique item name
+    let uniqueItemName = [];
+    for (let i = 0; i < allData.length; i++) {
+      const element = allData[i];
+      if (!uniqueItemName.includes(element.itemName)) {
+        uniqueItemName.push(element.itemName);
+      }
     }
-    return td;
+
+    // Tr generate
+    let tr = [];
+    for (let i = 0; i < uniqueItemName.length; i++) {
+      tr.push(
+        <tr key={i}>
+          <td>{i + 1}</td>
+          <td>
+            <b>{uniqueItemName[i]}</b>
+          </td>
+          {uniqueCategoryName.map((categoryName, index) => {
+            // match Catagory
+            let matchCatagory = allData?.find(
+              (itm) =>
+                itm.categoryName === categoryName &&
+                itm.itemName === uniqueItemName[i]
+            );
+            return (
+              <>
+                <td className='text-right'>
+                  {matchCatagory?.yieldPer &&
+                    _fixedPoint(matchCatagory?.yieldPer)}
+                </td>
+                <td className='text-right'>
+                  {matchCatagory?.productinQtyBag &&
+                    _fixedPoint(matchCatagory?.productinQtyBag)}
+                </td>
+                <td className='text-right'>
+                  {matchCatagory?.productionQty &&
+                    _fixedPoint(matchCatagory?.productionQty)}
+                </td>
+                <td className='text-right'>
+                  {matchCatagory?.byProduct &&
+                    _fixedPoint(matchCatagory?.byProduct)}
+                </td>
+                <td className='text-right'>
+                  {matchCatagory?.byProductionQty &&
+                    _fixedPoint(matchCatagory?.byProductionQty)}
+                </td>
+                <td className='text-right'>
+                  {matchCatagory?.consumption &&
+                    _fixedPoint(matchCatagory?.consumption)}
+                </td>
+              </>
+            );
+          })}
+        </tr>
+      );
+    }
+    return tr;
   };
+
   return (
     <>
       <div className='row YeildReport'>
@@ -205,117 +426,44 @@ function YeildReport({ tableData }) {
               className='scroll-table _table scroll-table-auto'
             >
               <table className='table table-striped table-bordered global-table'>
-                {tableData?.map((itm) => {
-                  return (
-                    <>
-                      <thead>
-                        <tr>
-                          <th
-                            style={{
-                              minWidth: "120px",
-                              background: "#c9f7f5",
-                            }}
-                            className='tableThBGOne'
-                          >
-                            {itm?.title}
+                <>
+                  <thead>
+                    <tr>
+                      <th rowSpan={2}>SL</th>
+                      <th rowSpan={2} style={{ minWidth: "150px" }}>
+                        Item Name
+                      </th>
+                      {tableData?.map((item, index) => (
+                        <th
+                          key={index}
+                          colSpan={6}
+                          className={
+                            index % 2 ? "tableThBGOne" : "tableThBGTwo"
+                          }
+                        >
+                          {item?.title}
+                        </th>
+                      ))}
+                    </tr>
+                    <tr>
+                      {tableData?.map((item, index) => (
+                        <>
+                          <th style={{ minWidth: "80px" }}>Yield Per</th>
+                          <th style={{ minWidth: "80px" }}>
+                            Productin Qty Bag
                           </th>
-                          {itm?.rows?.map((row, index) => {
-                            return (
-                              <th style={{ minWidth: "100px" }}>
-                                {row?.itemName}
-                              </th>
-                            );
-                          })}
-                          {emptyTHGenearte(itm?.rows)}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td className='text-left'>
-                            <b>Yield Per:</b>
-                          </td>
-                          {itm?.rows?.map((row, index) => {
-                            return (
-                              <td className='text-right'>
-                                {_fixedPoint(row?.yieldPer)}
-                              </td>
-                            );
-                          })}
-                          {emptyTDGenearte(itm?.rows)}
-                        </tr>
-
-                        <tr>
-                          <td className='text-left'>
-                            <b>Production Qty Bag:</b>{" "}
-                          </td>
-                          {itm?.rows?.map((row, index) => {
-                            return (
-                              <td className='text-right'>
-                                {_fixedPoint(row?.productinQtyBag)}
-                              </td>
-                            );
-                          })}
-                          {emptyTDGenearte(itm?.rows)}
-                        </tr>
-
-                        <tr>
-                          <td className='text-left'>
-                            <b>Production Qty</b>
-                          </td>
-                          {itm?.rows?.map((row, index) => {
-                            return (
-                              <td className='text-right'>
-                                {_fixedPoint(row?.productionQty)}
-                              </td>
-                            );
-                          })}
-                          {emptyTDGenearte(itm?.rows)}
-                        </tr>
-
-                        <tr>
-                          <td className='text-left'>
-                            <b>Consumption</b>
-                          </td>
-                          {itm?.rows?.map((row, index) => {
-                            return (
-                              <td className='text-right'>
-                                {_fixedPoint(row?.consumption)}
-                              </td>
-                            );
-                          })}
-                          {emptyTDGenearte(itm?.rows)}
-                        </tr>
-                        <tr>
-                          <td className='text-left'>
-                            <b>By Product</b>
-                          </td>
-                          {itm?.rows?.map((row, index) => {
-                            return (
-                              <td className='text-right'>
-                                {_fixedPoint(row?.byProduct)}
-                              </td>
-                            );
-                          })}
-                          {emptyTDGenearte(itm?.rows)}
-                        </tr>
-                        <tr>
-                          <td className='text-left'>
-                            <b>By Production Qty</b>
-                          </td>
-                          {itm?.rows?.map((row, index) => {
-                            return (
-                              <td className='text-right'>
-                                {_fixedPoint(row?.byProductionQty)}
-                              </td>
-                            );
-                          })}
-                          {emptyTDGenearte(itm?.rows)}
-                        </tr>
-                      </tbody>
-                    </>
-                  );
-                })}
-                
+                          <th style={{ minWidth: "80px" }}>Production Qty</th>
+                          <th style={{ minWidth: "80px" }}>By Product</th>
+                          <th style={{ minWidth: "80px" }}>
+                            By Production Qty
+                          </th>
+                          <th style={{ minWidth: "80px" }}>Consumption</th>
+                        </>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>{tableDataBodyRender(tableData)}</tbody>
+                </>
               </table>
             </div>
           </div>
