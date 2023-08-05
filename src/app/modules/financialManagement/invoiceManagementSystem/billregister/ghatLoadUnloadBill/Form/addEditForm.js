@@ -46,7 +46,8 @@ export default function GhatLoadUnloadBill() {
           return {
             ...item,
             isSelected: false,
-            billAmount: +item?.totalRate * +item?.unLoadQuantity,
+            billAmount: item?.totalAmount,
+            // billAmount: +item?.totalRate * +item?.unLoadQuantity,
           };
         });
         setGridData(modifyData);
