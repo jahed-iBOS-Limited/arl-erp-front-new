@@ -1,6 +1,6 @@
 import Axios from "axios";
 import { Form, Formik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import SearchAsyncSelect from "../../../../../_helper/SearchAsyncSelect";
@@ -15,6 +15,8 @@ import AttachFile from "../../../../../_helper/commonInputFieldsGroups/attachemn
 import { PortAndMotherVessel } from "../../../../../vesselManagement/common/components";
 import IButton from "../../../../../_helper/iButton";
 import FromDateToDateForm from "../../../../../_helper/commonInputFieldsGroups/dateForm";
+import IViewModal from "../../../../../_helper/_viewModal";
+import Details from "./details";
 
 const validationSchema = Yup.object().shape({
   supplier: Yup.object()
@@ -38,7 +40,9 @@ export default function _Form({
   resetBtnRef,
   setUploadedImage,
 }) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [show, setShow] = useState(false);
+  const [singleItem, setSingleItem] = useState({});
   const dispatch = useDispatch();
   return (
     <>
@@ -258,6 +262,7 @@ export default function _Form({
                       <th>Unloaded Quantity</th>
                       <th>Total Rate</th>
                       <th>Bill Amount</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -297,6 +302,18 @@ export default function _Form({
                             }}
                           />
                         </td>
+                        <td className="text-center">
+                          <button
+                            className="btn-primary btn btn-sm"
+                            type="button"
+                            onClick={() => {
+                              setSingleItem(item);
+                              setShow(true);
+                            }}
+                          >
+                            Details
+                          </button>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -304,6 +321,10 @@ export default function _Form({
               </div>
             </div>
             <AttachFile obj={{ open, setOpen, setUploadedImage }} />
+
+            <IViewModal show={show} onHide={() => setShow(false)}>
+              <Details obj={{ singleItem }} />
+            </IViewModal>
           </>
         )}
       </Formik>
