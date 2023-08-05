@@ -12,7 +12,7 @@ import DepartmentalBalancedScorecard from "./modules/performanceManagement/depar
 import KPIScoreCardNew from "./modules/performanceManagement/individualKpi/balancedScore/Table/KPIScoreCardNew";
 import SBUBalancedScorecard from "./modules/performanceManagement/sbuKpi/balancedScore/Table/SBUBalancedScorecard";
 import { serviceWorkerPoppup } from "./modules/_helper/serviceWorkerPoppup";
-import { getShippointDDLCommon_action } from "./modules/_helper/_redux/Actions";
+import { getOID_Action, getShippointDDLCommon_action } from "./modules/_helper/_redux/Actions";
 import ErrorsPage from "./pages/ErrorsExamples/ErrorsPage";
 import Maintenance from "./pages/Maintenance";
 import TokenExpiredPopUp from "./TokenExpiredPopUp";
@@ -58,6 +58,7 @@ export function Routes() {
           selectedBusinessUnit?.value
         )
       );
+      dispatch(getOID_Action(profileData?.employeeId))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);

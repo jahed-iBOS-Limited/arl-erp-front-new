@@ -28,6 +28,11 @@ export function getItemSaleDDL(accId, buId) {
     `/item/ItemSales/GetItemSalesDDL?AccountId=${accId}&BUnitId=${buId}`
   );
 }
+export function getYIDByEnrollId(empId) {
+  return axios.get(
+    `/mes/ProductionEntry/GetYIDByEnrollId?EnrollId=${empId}`
+  );
+}
 
 // shipping point ddl
 export function getShippingDDL(accId, buId) {
