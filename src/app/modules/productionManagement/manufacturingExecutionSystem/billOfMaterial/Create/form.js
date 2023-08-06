@@ -23,9 +23,10 @@ import axios from "axios";
 
 const validationSchema = {
   bomName: Yup.string().required("Bom Name is required"),
-  bomVersion: Yup.string().required("Bom Version is required").nullable(),
-  lotSize: Yup.number()
-    .required("Lot Size is required"),
+  bomVersion: Yup.string()
+    .required("Bom Version is required")
+    .nullable(),
+  lotSize: Yup.number().required("Lot Size is required"),
   wastage: Yup.number()
     .min(0, "Minimum 0 Chracter")
     .max(10000000, "Maximum 10000000 Chracter")
@@ -98,6 +99,7 @@ export default function _Form({
   headerItemUomDDL,
   setHeaderItemUomDDL,
   costTypeDDL,
+  bomTypeDDL,
 }) {
   const [, setValid] = useState(true);
   const [cost, setCost] = useState(0);
@@ -131,9 +133,9 @@ export default function _Form({
       );
       return modifiedProductDDL;
     }
-    return []
-  }
-  
+    return [];
+  };
+
   return (
     <>
       <Formik
@@ -322,6 +324,22 @@ export default function _Form({
                         placeholder="Bom Version"
                       />
                     </div>
+                    {[144, 188, 189].includes(selectedBusinessUnit?.value) && (
+                      <div style={{ width: 100 }} className="col-lg-12">
+                        <NewSelect
+                          name="bomType"
+                          options={bomTypeDDL || []}
+                          value={values?.bomType}
+                          label="BOM Type"
+                          onChange={(valueOption) => {
+                            setFieldValue("bomType", valueOption);
+                          }}
+                          errors={errors}
+                          touched={touched}
+                          // isDisabled={isEdit}
+                        />
+                      </div>
+                    )}
                     {/* <div className="col-lg-6">
                       <label>Bom Code</label>
                       <InputField
@@ -368,7 +386,7 @@ export default function _Form({
                         placeholder="Wastage"
                       />
                     </div>
-               
+
                     <div className="col-lg-6 mt-3 mb-2 d-flex align-items-center">
                       <span>
                         <b> {`Total Cost: ${parseFloat(cost).toFixed(2)}`} </b>
@@ -501,7 +519,9 @@ export default function _Form({
                           <tr>
                             <th style={{ width: "20px" }}>SL</th>
                             <th style={{ width: "50px" }}>Item Code</th>
-                            <th style={{ width: "160px",  }}><div className="text-left ml-2">Material</div></th>
+                            <th style={{ width: "160px" }}>
+                              <div className="text-left ml-2">Material</div>
+                            </th>
                             <th style={{ width: "50px" }}>Qty</th>
                             <th style={{ width: "50px" }}>UoM</th>
                             <th style={{ width: "30px" }}>Actions</th>
@@ -666,10 +686,18 @@ export default function _Form({
                         >
                           <tr>
                             <th style={{ width: "20px" }}>SL</th>
-                            <th style={{ width: "80px" }}><div className="text-left ml-2">Cost Center</div></th>
-                            <th style={{ width: "100px" }}><div className="text-left ml-2">Cost Of Element</div></th>
+                            <th style={{ width: "80px" }}>
+                              <div className="text-left ml-2">Cost Center</div>
+                            </th>
+                            <th style={{ width: "100px" }}>
+                              <div className="text-left ml-2">
+                                Cost Of Element
+                              </div>
+                            </th>
                             {/* <th style={{ width: "100px" }}>Cost Type</th> */}
-                            <th style={{ width: "60px" }}><div className="text-right">Amount</div></th>
+                            <th style={{ width: "60px" }}>
+                              <div className="text-right">Amount</div>
+                            </th>
                             <th style={{ width: "30px" }}>Actions</th>
                           </tr>
                         </thead>
@@ -733,7 +761,6 @@ export default function _Form({
     </>
   );
 }
-
 
 // {/* <div className="col-lg-6 mt-2 d-flex align-items-center">
 // <label>IsStandardBoM</label>
