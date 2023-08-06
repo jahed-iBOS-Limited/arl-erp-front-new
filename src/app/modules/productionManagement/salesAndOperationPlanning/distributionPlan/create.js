@@ -5,11 +5,12 @@ import * as Yup from 'yup';
 import Loading from '../../../_helper/_loading';
 import IForm from '../../../_helper/_form';
 import NewSelect from '../../../_helper/_select';
-import InputField from '../../../_helper/_inputField';
 import { shallowEqual, useSelector } from 'react-redux';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 import { toast } from 'react-toastify';
+import EntryTable from './entryTable';
+import ViewTable from './viewTable';
 
 const initData = {
   channel: '',
@@ -137,11 +138,11 @@ export default function DistributionPlanCreate() {
   // }
 
   const saveHandler = (values, cb) => {
-    if (!rowDto?.length) {
+    if (!rowDto?.itemList?.length) {
       return toast.warn('No Item Found');
     }
 
-    for (let item of rowDto) {
+    for (let item of rowDto?.itemList) {
       if (item?.planQty || item?.planRate) {
         if (!item?.planQty) {
           return toast.warn('Plan Qty(Direct) is required!');
@@ -160,7 +161,7 @@ export default function DistributionPlanCreate() {
       }
     }
 
-    const distributionRowList = rowDto?.map((item) => {
+    const distributionRowList = rowDto?.itemList?.map((item) => {
       return {
         rowId: item?.rowId || 0,
         distributionPlanningId: item?.distributionPlanningId || 0,
@@ -247,7 +248,7 @@ export default function DistributionPlanCreate() {
   useEffect(() => {
     const { state } = location || {};
     if (state?.isEdit) {
-      setRowDto(state?.item?.distributionRowList);
+      setRowDto({itemList : state?.item?.distributionRowList});
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buId]);
@@ -274,7 +275,7 @@ export default function DistributionPlanCreate() {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
-          setRowDto([]);
+          setRowDto({});
         });
       }}
     >
@@ -298,10 +299,7 @@ export default function DistributionPlanCreate() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="channel"
-                      options={[
-                        { value: 0, label: 'All' },
-                        ...(Array.isArray(channelDDL) ? channelDDL : []),
-                      ]}
+                      options={channelDDL || []}
                       value={values?.channel}
                       label="Distribution Channel"
                       onChange={(valueOption) => {
@@ -319,10 +317,7 @@ export default function DistributionPlanCreate() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="region"
-                      options={[
-                        { value: 0, label: 'All' },
-                        ...(Array.isArray(regionDDL) ? regionDDL : []),
-                      ]}
+                      options={regionDDL || []}
                       value={values?.region}
                       label="Region"
                       onChange={(valueOption) => {
@@ -340,10 +335,7 @@ export default function DistributionPlanCreate() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="area"
-                      options={[
-                        { value: 0, label: 'All' },
-                        ...(Array.isArray(areaDDL) ? areaDDL : []),
-                      ]}
+                      options={areaDDL || []}
                       value={values?.area}
                       label="Area"
                       onChange={(valueOption) => {
@@ -360,10 +352,7 @@ export default function DistributionPlanCreate() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="territory"
-                      options={[
-                        { value: 0, label: 'All' },
-                        ...(Array.isArray(territoryDDL) ? territoryDDL : []),
-                      ]}
+                      options={territoryDDL || []}
                       value={values?.territory}
                       label="Territory"
                       onChange={(valueOption) => {
@@ -499,97 +488,9 @@ export default function DistributionPlanCreate() {
               </div>
               <div className="row">
                 <div className="col-lg-12">
-                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th className="text-left">Item Code </th>
-                        <th>Item Name</th>
-                        <th>UoM</th>
-                        <th>Sales Plant Qty</th>
-                        <th>Distribution Plant Qty</th>
-                        <th>Plan Qty(Direct)</th>
-                        <th>Plan Rate(Direct)</th>
-                        <th>Plan Qty(Via Transshipment)</th>
-                        <th>Plan Rate(Via Transshipment)</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowDto?.length > 0 &&
-                        rowDto?.map((item, index) => (
-                          <tr key={index}>
-                            <td className="">{index + 1}</td>
-                            <td className="">{item?.itemCode}</td>
-                            <td className="">{item?.itemName}</td>
-                            <td className="">{item?.itemUoMName}</td>
-                            <td className="">{item?.salesPlanQty}</td>
-                            <td className="">{item?.distributionPlanQty}</td>
-                            <td className="">
-                              <InputField
-                                name="planQty"
-                                type="number"
-                                value={item?.planQty}
-                                onChange={(e) => {
-                                  const newItem = { ...item };
-                                  newItem.planQty = e?.target?.value < 0 ? '' : e?.target?.value;
-                                  const newRowDto = rowDto?.map((itm) => {
-                                    return itm?.itemId === newItem?.itemId ? newItem : itm;
-                                  });
-                                  setRowDto(newRowDto);
-                                }}
-                              />
-                            </td>
-                            <td className="">
-                              <InputField
-                                name="planRate"
-                                type="number"
-                                value={item?.planRate}
-                                onChange={(e) => {
-                                  const newItem = { ...item };
-                                  newItem.planRate = e?.target?.value < 0 ? '' : e?.target?.value;
-                                  const newRowDto = rowDto?.map((itm) => {
-                                    return itm?.itemId === newItem?.itemId ? newItem : itm;
-                                  });
-                                  setRowDto(newRowDto);
-                                }}
-                              />
-                            </td>
-                            <td className="">
-                              <InputField
-                                name="planTransQty"
-                                type="number"
-                                value={item?.planTransQty}
-                                onChange={(e) => {
-                                  const newItem = { ...item };
-                                  newItem.planTransQty =
-                                    e?.target?.value < 0 ? '' : e?.target?.value;
-                                  const newRowDto = rowDto?.map((itm) => {
-                                    return itm?.itemId === newItem?.itemId ? newItem : itm;
-                                  });
-                                  setRowDto(newRowDto);
-                                }}
-                              />
-                            </td>
-                            <td className="">
-                              <InputField
-                                name="planTransRate"
-                                type="number"
-                                value={item?.planTransRate}
-                                onChange={(e) => {
-                                  const newItem = { ...item };
-                                  newItem.planTransRate =
-                                    e?.target?.value < 0 ? '' : e?.target?.value;
-                                  const newRowDto = rowDto?.map((itm) => {
-                                    return itm?.itemId === newItem?.itemId ? newItem : itm;
-                                  });
-                                  setRowDto(newRowDto);
-                                }}
-                              />
-                            </td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
+                  {
+                    rowDto?.response === "Already Exists" ? <ViewTable rowDto={rowDto}/> : <EntryTable rowDto={rowDto} setRowDto={setRowDto}/>
+                  }
                 </div>
               </div>
 
