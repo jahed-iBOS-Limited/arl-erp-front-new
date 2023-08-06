@@ -19,6 +19,7 @@ import {
   getCostCenterDDL,
   getCostTypeDDL,
   saveBillofMaterial,
+  getBomTypeDDL,
 } from "../helper";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import { _timeFormatter } from "../../../../_helper/_timeFormatter";
@@ -31,6 +32,7 @@ const initData = {
   shopFloor: "",
   bomName: "",
   bomVersion: "",
+  bomType: "",
   bomCode: "",
   product: "",
   lotSize: "",
@@ -65,6 +67,21 @@ export default function BillofMaretialCreateForm() {
   const [UOMDDL, setUOMDDL] = useState([]);
   const [headerItemUomDDL, setHeaderItemUomDDL] = useState([]);
   const [costTypeDDL, setCostTypeDDL] = useState([]);
+
+  const bomTypeDDL = [
+    {
+      value: 1,
+      label: "Main (Paddy to Rice)",
+    },
+    {
+      value: 2,
+      label: "Conversion (Rice to Rice)",
+    },
+    {
+      value: 3,
+      label: "Re-Process (Rice to Rice)",
+    },
+  ];
 
   // Cost Element state
   const [costElementDDL, setCostElementDDL] = useState([]);
@@ -160,6 +177,8 @@ export default function BillofMaretialCreateForm() {
           editHeaderBOM: {
             billOfMaterialId: +params?.id,
             billOfMaterialCode: "", // values?.bomCode,
+            billOfTypeId: values?.bomType?.value || 0, // new addition by miraj bhai
+            billOfTypeName: values?.bomType?.label || "", // new addition by miraj bhai
             billOfMaterialName: values?.bomName,
             boMItemVersionName: values?.bomVersion,
             lotSize: +values?.lotSize,
@@ -187,6 +206,8 @@ export default function BillofMaretialCreateForm() {
             billOfMaterialName: values?.bomName,
             boMName: values?.copyfrombomname?.boMName,
             boMItemVersionName: values?.bomVersion,
+            billOfTypeId: values?.bomType?.value || 0, // new addition by miraj bhai
+            billOfTypeName: values?.bomType?.label || "", // new addition by miraj bhai
             itemId: +values?.product?.value,
             itemCode: values?.product?.code || singleData?.itemCode,
             itemName: values?.product?.label,
@@ -249,7 +270,7 @@ export default function BillofMaretialCreateForm() {
 
   // Row Data Remover
   const remover = (bomRowId) => {
-    console.log("rowDto",rowDto)
+    // console.log("rowDto", rowDto);
     const filterArr = rowDto?.filter((itm, idx) => itm?.boMrowId !== bomRowId);
     setRowDto(filterArr);
   };
@@ -321,6 +342,7 @@ export default function BillofMaretialCreateForm() {
         dataHandler={dataHandler}
         accountId={profileData?.accountId}
         businessUnitId={selectedBusinessUnit?.value}
+        bomTypeDDL={bomTypeDDL}
       />
     </IForm>
   );

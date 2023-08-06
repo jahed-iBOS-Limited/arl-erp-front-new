@@ -88,6 +88,7 @@ export default function _Form({
   costElementRowData,
   removerCostElement,
   setCostElementRowData,
+  bomTypeDDL,
 }) {
   const [valid, setValid] = useState(true);
   //to get materialDDL in Edit
@@ -248,6 +249,22 @@ export default function _Form({
                         disabled={true}
                       />
                     </div>
+                    {[144, 188, 189].includes(selectedBusinessUnit?.value) && (
+                      <div style={{ width: 100 }} className="col-lg-12">
+                        <NewSelect
+                          name="bomType"
+                          options={bomTypeDDL || []}
+                          value={values?.bomType}
+                          label="BOM Type"
+                          onChange={(valueOption) => {
+                            setFieldValue("bomType", valueOption);
+                          }}
+                          errors={errors}
+                          touched={touched}
+                          isDisabled={isEdit}
+                        />
+                      </div>
+                    )}
                     {/* <div className="col-lg-6">
                       <label>Bom Code</label>
                       <InputField

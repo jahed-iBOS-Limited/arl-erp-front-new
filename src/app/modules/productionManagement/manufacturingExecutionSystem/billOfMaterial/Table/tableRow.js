@@ -113,11 +113,14 @@ export function TableRow() {
     <ICustomCard
       title="Bill of Materials"
       renderProps={() => (
-        <button className="btn btn-primary" onClick={() => {
-          history.push({
-            pathname: '/production-management/mes/bill-of-material/create',
-          });
-        }}>
+        <button
+          className="btn btn-primary"
+          onClick={() => {
+            history.push({
+              pathname: "/production-management/mes/bill-of-material/create",
+            });
+          }}
+        >
           Create
         </button>
       )}
@@ -204,6 +207,9 @@ export function TableRow() {
                     <th style={{ width: "90px" }}>Item Code</th>
                     <th>BOM Name</th>
                     <th>BOM Version Name</th>
+                    {[144, 189, 188].includes(selectedBusinessUnit?.value) && (
+                      <th>BOM Type</th>
+                    )}
                     {/* <th style={{ width: "50px" }}>BOM Code</th> */}
                     <th style={{ width: "60px" }}>Lot Size</th>
                     <th style={{ width: "90px" }}>UoM</th>
@@ -220,14 +226,12 @@ export function TableRow() {
                         <td>
                           <div className="text-center">{item?.itemCode}</div>
                         </td>
-                        <td>
-                          <div className="pl-2">{item?.billOfMaterialName}</div>
+                        <td>{item?.billOfMaterialName}
                         </td>
-                        <td>
-                          <div className="text-center">
-                            {item?.boMItemVersionName}
-                          </div>
-                        </td>
+                        <td>{item?.boMItemVersionName}</td>
+                        {[144, 189, 188].includes(
+                          selectedBusinessUnit?.value
+                        ) && <td>{item?.billOfMaterialTypeName}</td>}
                         {/* <td>
                       <div className="text-center">
                         {item.billOfMaterialCode}
@@ -243,10 +247,15 @@ export function TableRow() {
                           <div className="text-left pl-2">{item?.uoMName}</div>
                         </td>
                         <td>
-                          <div style={{
-                            color: item?.isApproved ? "green" : "#ff9f1a",
-                            fontWeight:800
-                          }} className="text-center pl-2">{item?.isApproved ? "Approved" : "Pending"}</div>
+                          <div
+                            style={{
+                              color: item?.isApproved ? "green" : "#ff9f1a",
+                              fontWeight: 800,
+                            }}
+                            className="text-center pl-2"
+                          >
+                            {item?.isApproved ? "Approved" : "Pending"}
+                          </div>
                         </td>
                         <td>
                           <div className="d-flex justify-content-center">
@@ -307,7 +316,5 @@ export function TableRow() {
         </>
       </Formik>
     </ICustomCard>
-
-
   );
 }
