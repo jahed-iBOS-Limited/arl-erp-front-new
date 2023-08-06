@@ -14,7 +14,7 @@ import { SalesReportOMS } from "./../orderManagement/salesReportOMS/index";
 import OperationalSetUpBaseAchievement from "./OperationalSetUpBaseAchievementReport/landing";
 import AllotmentSalesReport from "./allotmentSalesReport/Table";
 import AttachmentUpload from "./attachmentUpload/landing";
-import BankGuaranteeReport from "./bankGuaranteeReport/landing/table";
+import BankGuaranteeReport from "./bankGuaranteeReport/landing";
 import ChannelWiseSalesReportLanding from "./channelWiseSales/landing/table";
 import CommissionReportAndJVTable from "./commissionReportAndJV/table/table";
 import CustomerBalanceDaysNLimit from "./customerBalanceDayNLimit/landing/table";
