@@ -210,7 +210,9 @@ export const getSingleDataById = async (
         itemCode,
         boMUOMName,
         boMuoMid,
-        boMItemVersionName
+        boMItemVersionName,
+        billOfTypeId,
+        billOfTypeName,
       } = res?.data?.objHeaderDTO;
 
       const newData = {
@@ -225,6 +227,14 @@ export const getSingleDataById = async (
         },
         bomName: billOfMaterialName,
         bomVersion: boMItemVersionName,
+        bomType:
+          billOfTypeId > 0 && billOfTypeName !== ""
+            ? { value: billOfTypeId, label: billOfTypeName }
+            : "",
+        // bomType: {
+        //   value: billOfTypeId,
+        //   label: billOfTypeName,
+        // },
         bomCode: billOfMaterialCode,
         product: {
           value: itemId,
@@ -290,11 +300,13 @@ export const CostForBOMLanding = async (
   setter
 ) => {
   setLoading(true);
-  try{
-    const res = await Axios.get(`/mes/BOM/CostForBOM?accountId=${accId}&businessUnitId=${buId}&shopFloorId=${shopFloorId}&itemId=${itemId}&approveQty=${approveQty}`);
+  try {
+    const res = await Axios.get(
+      `/mes/BOM/CostForBOM?accountId=${accId}&businessUnitId=${buId}&shopFloorId=${shopFloorId}&itemId=${itemId}&approveQty=${approveQty}`
+    );
     setLoading(false);
     setter(res?.data);
-  } catch(err){
+  } catch (err) {
     setLoading(false);
   }
 };

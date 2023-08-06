@@ -31,6 +31,7 @@ const initData = {
   shopFloor: "",
   bomName: "",
   bomVersion: "",
+  bomType: "",
   bomCode: "",
   product: "",
   lotSize: "",
@@ -61,7 +62,20 @@ export default function BillofMaretialViewForm() {
   const [copyfrombomname, setCopyfrombomname] = useState([]);
   const [UOMDDL, setUOMDDL] = useState([]);
   const history = useHistory();
-
+  const bomTypeDDL = [
+    {
+      value: 1,
+      label: "Main (Paddy to Rice)",
+    },
+    {
+      value: 2,
+      label: "Conversion (Rice to Rice)",
+    },
+    {
+      value: 3,
+      label: "Re-Process (Rice to Rice)",
+    },
+  ];
 
   // Cost Element state
   const [costElementDDL, setCostElementDDL] = useState([]);
@@ -293,6 +307,7 @@ export default function BillofMaretialViewForm() {
         costElementRowData={costElementRowData}
         setCostElementRowData={setCostElementRowData}
         removerCostElement={removerCostElement}
+        bomTypeDDL={bomTypeDDL}
       />
     </ICustomCard>
   );
