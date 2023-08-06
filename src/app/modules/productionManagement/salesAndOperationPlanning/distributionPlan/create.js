@@ -5,21 +5,24 @@ import * as Yup from 'yup';
 import Loading from '../../../_helper/_loading';
 import IForm from '../../../_helper/_form';
 import NewSelect from '../../../_helper/_select';
-import InputField from '../../../_helper/_inputField';
 import { shallowEqual, useSelector } from 'react-redux';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 import { toast } from 'react-toastify';
+import EntryTable from './entryTable';
+import ViewTable from './viewTable';
 
 const initData = {
   channel: '',
   region: '',
   area: '',
   territory: '',
-  // transportType: '',
   fromDate: '',
   toDate: '',
-  month: '',
+  plant: '',
+  warehouse: '',
+  year: '',
+  horizon: '',
 };
 
 const validationSchema = Yup.object().shape({
@@ -47,20 +50,17 @@ const validationSchema = Yup.object().shape({
       value: Yup.string().required('Territory is required'),
     })
     .typeError('Territory is required'),
-  // transportType: Yup.object()
-  //   .shape({
-  //     label: Yup.string().required('transport Type is required'),
-  //     value: Yup.string().required('Transport Type is required'),
-  //   })
-  //   .typeError('Transport Type is required'),
-  month: Yup.string().required(),
 });
 
-export default function DistributionPlanCreateEdit() {
+export default function DistributionPlanCreate() {
   const location = useLocation();
   const [objProps, setObjprops] = useState({});
   const [modifiedData, setModifiedData] = useState({});
   const [channelDDL, getChannelDDL] = useAxiosGet();
+  const [plantDDL, getPlantDDL] = useAxiosGet();
+  const [warehouseDDL, getWarehouseDDL, warehouseLoading, setWarehouseDDL] = useAxiosGet();
+  const [yearDDL, getYearDDL, yearLoading, setYearDDL] = useAxiosGet();
+  const [horizonDDL, getHorizonDDL, horizonLoading, setHorizonDDL] = useAxiosGet();
   const [regionDDL, getRegionDDL, regionLoading, setRegionDDL] = useAxiosGet();
   const [areaDDL, getAreaDDL, areaLoading, setAreaDDl] = useAxiosGet();
   const [territoryDDL, getTerritoryDDL, territoryLoading, setTerritoryDDL] = useAxiosGet();
@@ -69,7 +69,7 @@ export default function DistributionPlanCreateEdit() {
 
   // get user data from store
   const {
-    profileData: { accountId: accId, employeeId },
+    profileData: { accountId: accId, employeeId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
@@ -121,28 +121,28 @@ export default function DistributionPlanCreateEdit() {
     );
   };
 
-  function getFirstAndLastDateOfMonth(dateString) {
-    const [year, month] = dateString.split('-').map(Number);
-    const lastDateOfMonth = new Date(year, month, 0);
+  // function getFirstAndLastDateOfMonth(dateString) {
+  //   const [year, month] = dateString.split('-').map(Number);
+  //   const lastDateOfMonth = new Date(year, month, 0);
 
-    const formattedFirstDate = `${year}-${month.toString().padStart(2, '0')}-01`;
-    const formattedLastDate = `${year}-${month.toString().padStart(2, '0')}-${lastDateOfMonth
-      .getDate()
-      .toString()
-      .padStart(2, '0')}`;
+  //   const formattedFirstDate = `${year}-${month.toString().padStart(2, '0')}-01`;
+  //   const formattedLastDate = `${year}-${month.toString().padStart(2, '0')}-${lastDateOfMonth
+  //     .getDate()
+  //     .toString()
+  //     .padStart(2, '0')}`;
 
-    return {
-      firstDate: formattedFirstDate,
-      lastDate: formattedLastDate,
-    };
-  }
+  //   return {
+  //     firstDate: formattedFirstDate,
+  //     lastDate: formattedLastDate,
+  //   };
+  // }
 
   const saveHandler = (values, cb) => {
-    if (!rowDto?.length) {
+    if (!rowDto?.itemList?.length) {
       return toast.warn('No Item Found');
     }
 
-    for (let item of rowDto) {
+    for (let item of rowDto?.itemList) {
       if (item?.planQty || item?.planRate) {
         if (!item?.planQty) {
           return toast.warn('Plan Qty(Direct) is required!');
@@ -161,7 +161,7 @@ export default function DistributionPlanCreateEdit() {
       }
     }
 
-    const distributionRowList = rowDto?.map((item) => {
+    const distributionRowList = rowDto?.itemList?.map((item) => {
       return {
         rowId: item?.rowId || 0,
         distributionPlanningId: item?.distributionPlanningId || 0,
@@ -175,8 +175,12 @@ export default function DistributionPlanCreateEdit() {
         planTransRate: +item?.planTransRate || 0,
         isActive: true,
         actinoBy: employeeId,
+
+
+        // itemUoMName: "string",
       };
     });
+
 
     const payload = {
       distributionPlanningId: location?.state?.item?.distributionPlanningId || 0,
@@ -185,13 +189,23 @@ export default function DistributionPlanCreateEdit() {
       regionId: values?.region?.value,
       areaId: values?.area?.value,
       territoryId: values?.territory?.value,
-      // transportTypeId: values?.transportType?.value,
-      // transportTypeName: values?.transportType?.label,
       fromDate: values?.fromDate,
       toDate: values?.toDate,
       isActive: true,
       actinoBy: employeeId,
       distributionRowList: distributionRowList,
+
+      // businessUnitName: "string",
+      // distributionChannelName: "string",
+      // regionName: "string",
+      // areaName: "string",
+      // territoryName: "string",
+      // transportTypeId: 0,
+      // transportTypeName: "string",
+      plantHouseId: values?.plant?.value,
+      wareHouseId: values?.warehouse?.value,
+      monthId: values?.horizon?.value,
+      yearId: values?.year?.value,
     };
     saveDistributionPlan(
       `/oms/DistributionChannel/CreateAndEditDistributionPlanning`,
@@ -205,46 +219,46 @@ export default function DistributionPlanCreateEdit() {
     const { state } = location || {};
     const { isEdit, item } = state || {};
     if (isEdit) {
-      const [year, month] = item?.fromDate?.split('-');
       const modifiedInitData = {
         channel: { value: item?.distributionChannelId, label: item?.distributionChannelName },
         region: { value: item?.regionId, label: item?.regionName },
         area: { value: item?.areaId, label: item?.areaName },
         territory: { value: item?.territoryId, label: item?.territoryName },
-        // transportType: '',
+        plant: { value: item?.plantHouseId, label: item?.plantHouseName },
+        warehouse: { value: item?.wareHouseId, label: item?.wareHouseName },
+        year: { value: item?.yearId, label: item?.yearId },
+        horizon: { value: item?.monthId, label: item?.monthName },
         fromDate: item?.fromDate,
         toDate: item?.toDate,
-        month: `${year}-${month}`,
       };
       setModifiedData(modifiedInitData);
       handleChannelChange(modifiedInitData?.channel);
       handleRegionChange(modifiedInitData, modifiedInitData?.region);
       handleAreaChange(modifiedInitData, modifiedInitData?.area);
+      getWarehouseDDL(
+        `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${item?.plantHouseId}&OrgUnitTypeId=8`
+      );
+      getYearDDL(
+        `/mes/MesDDL/GetYearDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${item?.plantHouseId}`
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     const { state } = location || {};
-    if (!state?.isEdit) {
-      getRowDto(
-        `/oms/DistributionChannel/GetDistributionPlanningItemList?buisnessUnitId=${buId}&plantId=0&wareHouseId=0`,
-        (res) => {
-          const newRowDto = res?.map((item) => ({
-            ...item,
-            planQty: '',
-            planRate: '',
-            planTransQty: '',
-            planTransRate: '',
-          }));
-          setRowDto(newRowDto);
-        }
-      );
-    } else {
-      setRowDto(state?.item?.distributionRowList);
+    if (state?.isEdit) {
+      setRowDto({itemList : state?.item?.distributionRowList});
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buId]);
+
+  useEffect(() => {
+    getPlantDDL(
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     getChannelDDL(
@@ -261,6 +275,7 @@ export default function DistributionPlanCreateEdit() {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
+          setRowDto({});
         });
       }}
     >
@@ -270,21 +285,21 @@ export default function DistributionPlanCreateEdit() {
             saveDistributionLoading ||
             territoryLoading ||
             areaLoading ||
-            regionLoading) && <Loading />}
+            regionLoading ||
+            warehouseLoading ||
+            yearLoading ||
+            horizonLoading) && <Loading />}
           <IForm
             title={location?.state?.isEdit ? 'Distribution Plan Edit' : 'Distribution Plan Create'}
             getProps={setObjprops}
           >
             <Form>
-              <div className="row global-form">
-                <div className="col-lg-12 row m-0 p-0">
+              <div className="global-form">
+                <div className="row">
                   <div className="col-lg-3">
                     <NewSelect
                       name="channel"
-                      options={[
-                        { value: 0, label: 'All' },
-                        ...(Array.isArray(channelDDL) ? channelDDL : []),
-                      ]}
+                      options={channelDDL || []}
                       value={values?.channel}
                       label="Distribution Channel"
                       onChange={(valueOption) => {
@@ -302,10 +317,7 @@ export default function DistributionPlanCreateEdit() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="region"
-                      options={[
-                        { value: 0, label: 'All' },
-                        ...(Array.isArray(regionDDL) ? regionDDL : []),
-                      ]}
+                      options={regionDDL || []}
                       value={values?.region}
                       label="Region"
                       onChange={(valueOption) => {
@@ -323,10 +335,7 @@ export default function DistributionPlanCreateEdit() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="area"
-                      options={[
-                        { value: 0, label: 'All' },
-                        ...(Array.isArray(areaDDL) ? areaDDL : []),
-                      ]}
+                      options={areaDDL || []}
                       value={values?.area}
                       label="Area"
                       onChange={(valueOption) => {
@@ -343,10 +352,7 @@ export default function DistributionPlanCreateEdit() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="territory"
-                      options={[
-                        { value: 0, label: 'All' },
-                        ...(Array.isArray(territoryDDL) ? territoryDDL : []),
-                      ]}
+                      options={territoryDDL || []}
                       value={values?.territory}
                       label="Territory"
                       onChange={(valueOption) => {
@@ -358,138 +364,133 @@ export default function DistributionPlanCreateEdit() {
                       touched={touched}
                     />
                   </div>
-                  {/* <div className="col-lg-3">
+                </div>
+                <div className="row mt-5">
+                  <div className="col-lg-3">
                     <NewSelect
-                      name="transportType"
-                      options={[
-                        { value: 1, label: 'Direct' },
-                        { value: 2, label: 'Via Transshipment' },
-                      ]}
-                      value={values?.type}
-                      label="Transport Type"
+                      name="plant"
+                      options={plantDDL || []}
+                      value={values?.plant}
+                      label="Plant"
                       onChange={(valueOption) => {
-                        setFieldValue('transportType', valueOption);
+                        if (valueOption) {
+                          setFieldValue('plant', valueOption);
+                          getWarehouseDDL(
+                            `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${valueOption?.value}&OrgUnitTypeId=8`
+                          );
+                          getYearDDL(
+                            `/mes/MesDDL/GetYearDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${valueOption?.value}`
+                          );
+                        } else {
+                          setFieldValue('plant', '');
+                          setFieldValue('warehouse', '');
+                          setFieldValue('year', '');
+                          setFieldValue('horizon', '');
+                          setWarehouseDDL([]);
+                          setYearDDL([]);
+                          setHorizonDDL([]);
+                        }
                       }}
-                      placeholder="Transport Type"
+                      placeholder="Select plant"
                       errors={errors}
                       touched={touched}
                     />
-                  </div> */}
+                  </div>
                   <div className="col-lg-3">
-                    <InputField
-                      label="Month"
-                      placeholder="Month"
-                      name="month"
-                      type="month"
-                      value={values?.month}
-                      onChange={(e) => {
-                        setFieldValue('month', e.target.value);
-                        setFieldValue(
-                          'fromDate',
-                          getFirstAndLastDateOfMonth(e?.target?.value)?.firstDate
-                        );
-                        setFieldValue(
-                          'toDate',
-                          getFirstAndLastDateOfMonth(e?.target?.value)?.lastDate
+                    <NewSelect
+                      name="warehouse"
+                      options={warehouseDDL || []}
+                      value={values?.warehouse}
+                      label="Warehouse"
+                      onChange={(valueOption) => {
+                        if (valueOption) {
+                          setFieldValue('warehouse', valueOption);
+                        } else {
+                          setFieldValue('warehouse', '');
+                        }
+                      }}
+                      placeholder="Select Warehouse"
+                      errors={errors}
+                      touched={touched}
+                      isDisabled={!values?.plant}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="year"
+                      options={yearDDL || []}
+                      value={values?.year}
+                      label="Year"
+                      onChange={(valueOption) => {
+                        if (valueOption) {
+                          setFieldValue('year', valueOption);
+                          getHorizonDDL(
+                            `/mes/MesDDL/GetPlanningHorizonDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${values.plant?.value}&YearId=${valueOption?.value}`
+                          );
+                        } else {
+                          setFieldValue('year', '');
+                          setFieldValue('horizon', '');
+                          setHorizonDDL([]);
+                        }
+                      }}
+                      placeholder="Select year"
+                      errors={errors}
+                      touched={touched}
+                      isDisabled={!values?.plant}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="horizon"
+                      options={horizonDDL || []}
+                      value={values?.horizon}
+                      label="Planning Horizon"
+                      onChange={(valueOption) => {
+                        if (valueOption) {
+                          setFieldValue('horizon', valueOption);
+                          setFieldValue('fromDate', valueOption?.startdatetime);
+                          setFieldValue('toDate', valueOption?.enddatetime);
+                        } else {
+                          setFieldValue('horizon', '');
+                          setFieldValue('fromDate', '');
+                          setFieldValue('toDate', '');
+                        }
+                      }}
+                      placeholder="Select horizon"
+                      errors={errors}
+                      touched={touched}
+                      isDisabled={!values?.year}
+                    />
+                  </div>
+                  <div className="col-lg-1">
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      style={{ marginTop: '18px' }}
+                      disabled={
+                        !values?.plant || !values?.warehouse || !values?.year || !values?.horizon
+                      }
+                      onClick={() => {
+                        getRowDto(
+                          `/oms/DistributionChannel/GetDistributionPlanningItemList?buisnessUnitId=${buId}&plantId=${values?.plant?.value}&warehouseId=${values?.warehouse?.value}&year=${values?.year?.value}&month=${values?.horizon?.value}`,
+                          (res) => {
+                            if (res?.response === "Already Exists") {
+                              toast.warn("Already Exist this entry!")
+                            }
+                          }
                         );
                       }}
-                    />
+                    >
+                      View
+                    </button>
                   </div>
                 </div>
               </div>
               <div className="row">
                 <div className="col-lg-12">
-                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th className="text-left">Item Code </th>
-                        <th>Item Name</th>
-                        <th>Item UoM Name </th>
-                        <th>Plan Qty(Direct)</th>
-                        <th>Plan Rate(Direct)</th>
-                        <th>Plan Qty(Via Transshipment)</th>
-                        <th>Plan Rate(Via Transshipment)</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowDto?.length > 0 &&
-                        rowDto?.map((item, index) => (
-                          <tr key={index}>
-                            <td className="">{index + 1}</td>
-                            <td className="">{item?.itemCode}</td>
-                            <td className="">{item?.itemName}</td>
-                            <td className="">{item?.itemUoMName}</td>
-                            <td className="">
-                              <InputField
-                                placeholder="Plan Qty(Direct)"
-                                name="planQty"
-                                type="number"
-                                value={item?.planQty}
-                                onChange={(e) => {
-                                  const newItem = { ...item };
-                                  newItem.planQty = e?.target?.value < 0 ? '' : e?.target?.value;
-                                  const newRowDto = rowDto?.map((itm) => {
-                                    return itm?.itemId === newItem?.itemId ? newItem : itm;
-                                  });
-                                  setRowDto(newRowDto);
-                                }}
-                              />
-                            </td>
-                            <td className="">
-                              <InputField
-                                placeholder="Plan Rate(Direct)"
-                                name="planRate"
-                                type="number"
-                                value={item?.planRate}
-                                onChange={(e) => {
-                                  const newItem = { ...item };
-                                  newItem.planRate = e?.target?.value < 0 ? '' : e?.target?.value;
-                                  const newRowDto = rowDto?.map((itm) => {
-                                    return itm?.itemId === newItem?.itemId ? newItem : itm;
-                                  });
-                                  setRowDto(newRowDto);
-                                }}
-                              />
-                            </td>
-                            <td className="">
-                              <InputField
-                                placeholder="Plan Qty(Transshipment)"
-                                name="planTransQty"
-                                type="number"
-                                value={item?.planTransQty}
-                                onChange={(e) => {
-                                  const newItem = { ...item };
-                                  newItem.planTransQty =
-                                    e?.target?.value < 0 ? '' : e?.target?.value;
-                                  const newRowDto = rowDto?.map((itm) => {
-                                    return itm?.itemId === newItem?.itemId ? newItem : itm;
-                                  });
-                                  setRowDto(newRowDto);
-                                }}
-                              />
-                            </td>
-                            <td className="">
-                              <InputField
-                                placeholder="Plan Rate(Transshipment)"
-                                name="planTransRate"
-                                type="number"
-                                value={item?.planTransRate}
-                                onChange={(e) => {
-                                  const newItem = { ...item };
-                                  newItem.planTransRate =
-                                    e?.target?.value < 0 ? '' : e?.target?.value;
-                                  const newRowDto = rowDto?.map((itm) => {
-                                    return itm?.itemId === newItem?.itemId ? newItem : itm;
-                                  });
-                                  setRowDto(newRowDto);
-                                }}
-                              />
-                            </td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
+                  {
+                    rowDto?.response === "Already Exists" ? <ViewTable rowDto={rowDto}/> : <EntryTable rowDto={rowDto} setRowDto={setRowDto}/>
+                  }
                 </div>
               </div>
 
