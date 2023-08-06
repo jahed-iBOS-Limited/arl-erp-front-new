@@ -119,12 +119,12 @@ const BankGuaranteeReportLandingForm = ({ obj }) => {
               />
             </div>
           )}
-          {values?.type?.value === 3 && rowDto?.length > 0 && (
+          {[1, 3].includes(values?.type?.value) && rowDto?.length > 0 && (
             <button
               className="btn btn-info mt-5 ml-3"
               type="button"
               onClick={() => {
-                saveHandler(() => {
+                saveHandler(values, () => {
                   setRowDto([]);
                   resetForm(initData);
                 });

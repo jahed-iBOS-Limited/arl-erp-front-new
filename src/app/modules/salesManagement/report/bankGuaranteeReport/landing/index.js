@@ -43,24 +43,20 @@ export default function BankGuaranteeReport() {
   const [distributionChannelDDL, setDistributionChannelDDL] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showReport, setShowReport] = useState(false);
-  const [, updateBankGuaranteeInfo, loader] = useAxiosPost();
+  const [, postData, loader] = useAxiosPost();
 
   // get user profile data from store
-  const { profileData, selectedBusinessUnit } = useSelector(
-    (state) => state.authData,
-    shallowEqual
-  );
+  const {
+    profileData: { accountId: accId, userId },
+    selectedBusinessUnit: { value: buId, label: buName },
+  } = useSelector((state) => state.authData, shallowEqual);
 
   useEffect(() => {
-    if (profileData?.accountId && selectedBusinessUnit?.value) {
-      getDistributionChannelDDL(
-        profileData?.accountId,
-        selectedBusinessUnit?.value,
-        setDistributionChannelDDL
-      );
+    if (accId && buId) {
+      getDistributionChannelDDL(accId, buId, setDistributionChannelDDL);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profileData?.accountId, selectedBusinessUnit?.value]);
+  }, [accId, buId]);
 
   const handleClick = (event) => {
     hiddenFileInput.current.click();
@@ -75,8 +71,8 @@ export default function BankGuaranteeReport() {
           const modify = resp.rows?.slice(1)?.map((itm, index) => {
             console.log(itm, "itm");
             return {
-              intAccountId: profileData?.accountId,
-              intBusinessUnitId: selectedBusinessUnit?.value,
+              intAccountId: accId,
+              intBusinessUnitId: buId,
               intBusinessPartnerId: itm[1],
               businessPartnerName: itm[2],
               businessPartnerCode: itm[3],
@@ -91,7 +87,7 @@ export default function BankGuaranteeReport() {
               // strBranchName: itm[8],
               intBankId: itm[8],
               dteIssueDate: itm[6] ? excelDateFormatter(itm[6]) : "",
-              intActionBy: profileData?.userId,
+              intActionBy: userId,
               dteExpireDate: itm[7] ? excelDateFormatter(itm[7]) : "",
             };
           });
@@ -105,8 +101,8 @@ export default function BankGuaranteeReport() {
 
   const viewHandler = async (values) => {
     getCustomerBankGuaranteeReport(
-      profileData?.accountId,
-      selectedBusinessUnit?.value,
+      accId,
+      buId,
       values?.distributionChannel?.value,
       values?.date,
       setLoading,
@@ -114,8 +110,16 @@ export default function BankGuaranteeReport() {
     );
   };
 
-  const saveHandler = (cb) => {
-    const payload = rowDto?.map((element) => {
+  const saveHandler = (values, cb) => {
+    const typeId = values?.type?.value;
+    const date = new Date(values?.date);
+    const selectedItems = rowDto?.filter((item) => item?.isSelected);
+    if (typeId === 1 && selectedItems?.length < 1) {
+      return toast.warn("Please select at least one row!");
+    }
+
+    // Payload for Bank Guarantee Excel Upload
+    const payloadOne = rowDto?.map((element) => {
       return {
         ...element,
         numMortgageAmount:
@@ -125,12 +129,41 @@ export default function BankGuaranteeReport() {
         strBranchName: "string",
       };
     });
-    updateBankGuaranteeInfo(
-      `/partner/BusinessPartnerSales/CreateBulkSalesMortgage`,
-      payload,
-      () => cb(),
-      true
-    );
+
+    // Payload for Bank Guarantee Report
+    const payloadTwo = selectedItems?.map((item) => {
+      return {
+        businessUnitId: buId,
+        accountId: accId,
+        businessPartnerId: item?.CustomerId,
+        businessPartnerName: item?.CustomerName,
+        monthId: date?.getMonth() + 1,
+        yearId: date?.getFullYear(),
+        bankGuaranteeAmount: item?.BG,
+        actualCreditLimit: item?.ActualCL,
+        bgNlimitPercentage: item?.BgVSL,
+        approvedOd30percent: item?.ApprovedOD30,
+        usedOd: item?.UsedOD,
+        outOf30PercentOd: item?.Outof30OD,
+        debit: item?.Debit,
+        sales: item?.SalesBag,
+        bgCommissionPerBag: item?.BGCommissionBag,
+        totalBgCommission: item?.TotalCommission,
+        remarks: "",
+        actionBy: userId,
+      };
+    });
+
+    const payload = typeId === 3 ? payloadOne : typeId === 1 ? payloadTwo : [];
+
+    const URL =
+      typeId === 3
+        ? `/partner/BusinessPartnerSales/CreateBulkSalesMortgage`
+        : typeId === 1
+        ? `/partner/BusinessPartnerBankInfo/CreatePartnerBankGuaranteeInfo`
+        : [];
+
+    postData(URL, payload, () => cb(), true);
   };
 
   const groupId = `e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`;
@@ -138,7 +171,7 @@ export default function BankGuaranteeReport() {
 
   const parameterValues = (values) => {
     return [
-      { name: "Bunit", value: `${selectedBusinessUnit?.value}` },
+      { name: "Bunit", value: `${buId}` },
       { name: "ChannelID", value: `${values?.distributionChannel?.value}` },
       { name: "ViewType", value: `${2}` },
     ];
@@ -171,7 +204,7 @@ export default function BankGuaranteeReport() {
                     <b>Bank Guarantee Report</b>
                   </h3>
                   <h4>
-                    <b>{selectedBusinessUnit?.label}</b>
+                    <b>{buName}</b>
                   </h4>
                 </div>
 
@@ -199,7 +232,7 @@ export default function BankGuaranteeReport() {
                     {/* Bank Guarantee Report */}
                     {rowDto?.length > 0 &&
                       [1].includes(values?.type?.value) && (
-                        <TableOne obj={{ rowDto }} />
+                        <TableOne obj={{ rowDto, setRowDto }} />
                       )}
 
                     {/* Bank Guarantee Excel Upload */}
