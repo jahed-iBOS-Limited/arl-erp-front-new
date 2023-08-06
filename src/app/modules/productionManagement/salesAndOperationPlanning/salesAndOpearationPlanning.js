@@ -16,8 +16,9 @@ import PurchasePlanningForm from './purchasePricePlan/productionPlanning/addEdit
 import Materialannualplan from './materialReqPlan/table/table';
 import MaterialReqPlanLanding from './materialannualplan/table/table';
 import DistributionPlanLanding from './distributionPlan';
-import DistributionPlanCreateEdit from './distributionPlan/createEdit';
+import DistributionPlanCreate from './distributionPlan/create';
 import NotPermitted from '../../performanceManagement/notPermittedPage/notPermitted';
+import DistributionPlanEdit from './distributionPlan/edit';
 
 export function salesAndOperationsPlanning() {
   const userRole = useSelector(
@@ -109,8 +110,12 @@ export function salesAndOperationsPlanning() {
       />
       {/* Distribuation Planning */}
       <ContentRoute
+        path="/production-management/salesAndOperationsPlanning/DistributionPlanning/edit"
+        component={distributionPlanningPermission?.isCreate ? DistributionPlanEdit : NotPermitted}
+      />
+      <ContentRoute
         path="/production-management/salesAndOperationsPlanning/DistributionPlanning/create"
-        component={distributionPlanningPermission?.isCreate ? DistributionPlanCreateEdit : NotPermitted}
+        component={distributionPlanningPermission?.isCreate ? DistributionPlanCreate : NotPermitted}
       />
       <ContentRoute
         path="/production-management/salesAndOperationsPlanning/DistributionPlanning"
