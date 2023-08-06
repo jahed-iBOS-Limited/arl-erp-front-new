@@ -52,7 +52,7 @@ export function Header() {
           }}
         >
           <p className="m-0"><b>OID: {commonDDL?.OID}</b></p>
-          <p className="m-0"><b>Enroll Id: {profileData?.employeeId}</b></p>
+          <p className="m-0"><b>Enroll No: {profileData?.employeeId}</b></p>
         </div>
         <div
           className={` ${layoutProps.headerContainerClasses} d-flex align-items-stretch justify-content-between`}
