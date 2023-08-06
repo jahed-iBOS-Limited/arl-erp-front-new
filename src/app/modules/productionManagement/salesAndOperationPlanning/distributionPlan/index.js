@@ -90,6 +90,8 @@ export default function DistributionPlanLanding() {
                         <th>Region Name</th>
                         <th>Area Name</th>
                         <th>Territory Name</th>
+                        <th>Plant</th>
+                        <th>Warehouse</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -102,6 +104,8 @@ export default function DistributionPlanLanding() {
                             <td>{item?.regionName}</td>
                             <td>{item?.areaName}</td>
                             <td>{item?.territoryName}</td>
+                            <td>{item?.plantHouseName}</td>
+                            <td>{item?.wareHouseName}</td>
                             <td className="text-center">
                               <div
                                 style={{
