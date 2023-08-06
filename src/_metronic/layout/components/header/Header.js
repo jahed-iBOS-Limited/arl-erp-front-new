@@ -4,10 +4,17 @@ import { useHtmlClassService } from "../../_core/MetronicLayout";
 import { Topbar } from "./Topbar";
 import { HeaderMenuWrapper } from "./header-menu/HeaderMenuWrapper";
 import { AnimateLoading } from "../../../_partials/controls";
+import { shallowEqual, useSelector } from "react-redux";
 
 export function Header() {
   const uiService = useHtmlClassService();
+  const commonDDL = useSelector((state) => {
+    return state?.commonDDL;
+  }, shallowEqual);
 
+  const profileData = useSelector((state) => {
+    return state.authData.profileData;
+  }, shallowEqual);
   const layoutProps = useMemo(() => {
     return {
       headerClasses: uiService.getClasses("header", true),
@@ -25,11 +32,28 @@ export function Header() {
       {/*begin::Header*/}
       <div
         className={`header ${layoutProps.headerClasses}`}
-        id="kt_header"
+        id='kt_header'
         {...layoutProps.headerAttributes}
       >
         {/*begin::Container*/}
-        {window?.location?.origin !== "https://erp.ibos.io" && <b style={{marginLeft: "23px"}} className="mt-3 danger">Development</b>}
+        {window?.location?.origin !== "https://erp.ibos.io" && (
+          <b style={{ marginLeft: "23px" }} className='mt-3 danger'>
+            Development
+          </b>
+        )}
+
+        <div
+          style={{
+            display: "flex",
+            gap: "15px",
+            width: '500px',
+            alignItems: 'center',
+            marginLeft: '10px',
+          }}
+        >
+          <p className="m-0"><b>OID: {commonDDL?.OID}</b></p>
+          <p className="m-0"><b>Enroll No: {profileData?.employeeId}</b></p>
+        </div>
         <div
           className={` ${layoutProps.headerContainerClasses} d-flex align-items-stretch justify-content-between`}
         >
@@ -40,7 +64,7 @@ export function Header() {
           {/*end::Header Menu Wrapper*/}
 
           {/*begin::Topbar*/}
-          
+
           <Topbar />
 
           {/*end::Topbar*/}

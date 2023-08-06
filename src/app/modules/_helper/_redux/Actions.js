@@ -257,6 +257,11 @@ export const setDownlloadFileViewEmpty = () => async (dispatch) => {
 export const setSerialPortAction = (payload) => (dispatch) => {
   return dispatch(slice.setSerialPort(payload));
 };
+export const getOID_Action = (empId) => (dispatch) => {
+  requestFromServer.getYIDByEnrollId(empId).then((res) => {
+    dispatch(slice.setOID(res.data?.[0]?.yid));
+  });
+};
 
 // action getGenerateExcelDataFormat_Action
 export const getGenerateExcelDataFormat_Action = (payload) => () => {

@@ -1,0 +1,30 @@
+.YeildReport {
+  .global-table thead tr th.tableThBGOne {
+    background: #eee5ff !important;
+  }
+  .global-table thead tr th.tableThBGTwo {
+    background: #b5b5c3 !important;
+  }
+
+  .global-table thead tr:nth-child(1) th {
+    position: sticky;
+    top: 0;
+  }
+  .global-table thead tr:nth-child(2) th {
+    position: sticky;
+    top: 21px;
+  }
+  .global-table tbody tr td:nth-child(1) {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: #fff;
+  }
+  .global-table tbody tr td:nth-child(2) {
+    position: sticky;
+    left: 22px;
+    z-index: 1;
+    background: #fff;
+  }
+
+}

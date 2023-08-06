@@ -10,24 +10,26 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from "../../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 // import IEdit from "../../../../_helper/_helperIcons/_edit";
-import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
+import { toast } from "react-toastify";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IApproval from "../../../../_helper/_helperIcons/_approval";
+import IEdit from "../../../../_helper/_helperIcons/_edit";
+import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
 import NewSelect from "../../../../_helper/_select";
 import IViewModal from "../../../../_helper/_viewModal";
+import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
 import { BADCBCICForm } from "../../../common/components";
 import { getGodownDDL } from "../../../common/helper";
 import { GetShipPointDDL } from "../../loadingInformation/helper";
-import { getChallanById, StockOutFromInventoryApproval } from "../helper";
+import { getChallanById } from "../helper";
 import ChallanPrint from "./challanPrint";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
+import WarehouseApprove from "./warehouseApprove";
 
 const initData = {
   type: "badc",
@@ -63,8 +65,10 @@ const ChallanTable = () => {
   const [shipPointDDL, setShipPointDDL] = useState([]);
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
+  const [open, setOpen] = useState(false);
   const [challanInfo, setChallanInfo] = useState({});
   const [godownDDL, setGodownDDL] = useState([]);
+  const [singleItem, setSingleItem] = useState({});
 
   // get user profile data from store
   const {
@@ -119,15 +123,15 @@ const ChallanTable = () => {
     }
   };
 
-  const approveSubmitlHandler = (deliveryId, accId) => {
-    const payload = {
-      deliveryId: deliveryId,
-      actionBy: userId,
-    };
-    StockOutFromInventoryApproval(payload, () => {
-      getData(initData, pageNo, pageSize);
-    });
-  };
+  // const approveSubmitlHandler = (deliveryId, accId) => {
+  //   const payload = {
+  //     deliveryId: deliveryId,
+  //     actionBy: userId,
+  //   };
+  //   StockOutFromInventoryApproval(payload, setLoading, () => {
+  //     getData(initData, pageNo, pageSize);
+  //   });
+  // };
 
   return (
     <>
@@ -317,10 +321,20 @@ const ChallanTable = () => {
                                     <IApproval
                                       title="Approve"
                                       onClick={() =>
-                                        approveSubmitlHandler(
-                                          item?.deliveryId,
-                                          accId
-                                        )
+                                        // approveSubmitlHandler(
+                                        //   item?.deliveryId,
+                                        //   accId
+                                        // )
+                                        {
+                                          if (values?.shipPoint) {
+                                            setSingleItem(item);
+                                            setOpen(true);
+                                          } else {
+                                            toast.warn(
+                                              "Please select a shipPoint"
+                                            );
+                                          }
+                                        }
                                       }
                                     />
                                   </span>
@@ -351,8 +365,25 @@ const ChallanTable = () => {
                 </form>
               </CardBody>
             </Card>
+
+            {/* Challan Print */}
             <IViewModal show={show} onHide={() => setShow(false)}>
               <ChallanPrint challanInfo={challanInfo} />
+            </IViewModal>
+
+            {/* Warehouse Approve */}
+            <IViewModal show={open} onHide={() => setOpen(false)}>
+              <WarehouseApprove
+                obj={{
+                  formValues: values,
+                  userId,
+                  getData,
+                  pageNo,
+                  pageSize,
+                  singleItem,
+                  setOpen,
+                }}
+              />
             </IViewModal>
           </>
         )}
