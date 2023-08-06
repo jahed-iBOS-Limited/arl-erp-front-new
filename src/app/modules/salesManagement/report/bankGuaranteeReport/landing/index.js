@@ -13,10 +13,13 @@ import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import {
   getCustomerBankGuaranteeReport,
   getDistributionChannelDDL,
+  getSubmittedBankGuarantee,
 } from "../helper";
 import BankGuaranteeReportLandingForm from "./form";
 import TableOne from "./tableOne";
 import TableTwo from "./tableTwo";
+import TableThree from "./tableThree";
+import PaginationTable from "../../../../_helper/_tablePagination";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -32,6 +35,10 @@ const initData = {
   distributionChannel: "",
   expireWithin: { value: 0, label: "All" },
   type: "",
+  customer: "",
+  month: "",
+  year: "",
+  status: "",
 };
 
 export default function BankGuaranteeReport() {
@@ -44,6 +51,8 @@ export default function BankGuaranteeReport() {
   const [loading, setLoading] = useState(false);
   const [showReport, setShowReport] = useState(false);
   const [, postData, loader] = useAxiosPost();
+  const [pageNo, setPageNo] = useState(0);
+  const [pageSize, setPageSize] = useState(30);
 
   // get user profile data from store
   const {
@@ -99,15 +108,31 @@ export default function BankGuaranteeReport() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fileObject]);
 
-  const viewHandler = async (values) => {
-    getCustomerBankGuaranteeReport(
-      accId,
-      buId,
-      values?.distributionChannel?.value,
-      values?.date,
-      setLoading,
-      setRowDto
-    );
+  const viewHandler = async (values, _pageNo = 0, _pageSize = 15) => {
+    const typeId = values?.type?.value;
+    if (typeId === 1) {
+      getCustomerBankGuaranteeReport(
+        accId,
+        buId,
+        values?.distributionChannel?.value,
+        values?.date,
+        setLoading,
+        setRowDto
+      );
+    } else if (typeId === 4) {
+      getSubmittedBankGuarantee({
+        accId,
+        buId,
+        status: values?.status?.value,
+        partnerId: values?.customer?.value || 0,
+        monthId: values?.month?.value,
+        yearId: values?.year?.value,
+        pageNo: _pageNo,
+        pageSize: _pageSize,
+        setLoading,
+        setter: setRowDto,
+      });
+    }
   };
 
   const saveHandler = (values, cb) => {
@@ -177,6 +202,12 @@ export default function BankGuaranteeReport() {
     ];
   };
 
+  const setPositionHandler = (pageNo, pageSize, values) => {
+    viewHandler(values, pageNo, pageSize);
+  };
+
+  const isLoading = loading || loader;
+
   return (
     <Formik
       enableReinitialize={true}
@@ -186,7 +217,7 @@ export default function BankGuaranteeReport() {
     >
       {({ values, errors, touched, setFieldValue, resetForm }) => (
         <>
-          {(loading || loader) && <Loading />}
+          {isLoading && <Loading />}
           <ICard
             printTitle="Print"
             title="Bank Guarantee"
@@ -211,6 +242,8 @@ export default function BankGuaranteeReport() {
                 <>
                   <BankGuaranteeReportLandingForm
                     obj={{
+                      buId,
+                      accId,
                       values,
                       errors,
                       rowDto,
@@ -229,16 +262,36 @@ export default function BankGuaranteeReport() {
                     }}
                   />
                   <div>
-                    {/* Bank Guarantee Report */}
-                    {rowDto?.length > 0 &&
-                      [1].includes(values?.type?.value) && (
-                        <TableOne obj={{ rowDto, setRowDto }} />
+                    {rowDto?.length > 0 && [1].includes(values?.type?.value) ? (
+                      /* Bank Guarantee Report Table */
+                      <TableOne obj={{ rowDto, setRowDto }} />
+                    ) : [3].includes(values?.type?.value) ? (
+                      // Bank Guarantee excel upload Table
+                      <TableTwo obj={{ rowDto }} />
+                    ) : null}
+
+                    {/*  Submitted Bank Guarantee */}
+                    {rowDto?.data?.length > 0 &&
+                      [4].includes(values?.type?.value) && (
+                        <TableThree
+                          obj={{ rowDto, setRowDto, setPageNo, setPageSize }}
+                        />
                       )}
 
-                    {/* Bank Guarantee Excel Upload */}
-                    {rowDto?.length > 0 &&
-                      [3].includes(values?.type?.value) && (
-                        <TableTwo obj={{ rowDto }} />
+                    {/* Only for Submitted Bank Guarantee */}
+                    {rowDto?.data?.length > 0 &&
+                      [4].includes(values?.type?.value) && (
+                        <PaginationTable
+                          count={rowDto?.totalCount}
+                          setPositionHandler={setPositionHandler}
+                          paginationState={{
+                            pageNo,
+                            setPageNo,
+                            pageSize,
+                            setPageSize,
+                          }}
+                          values={values}
+                        />
                       )}
 
                     {/* Bank Guarantee Dataset (with excel format) */}

@@ -17,31 +17,32 @@ const ths = [
   "Remarks",
 ];
 
-export default function TableOne({ obj }) {
+export default function TableThree({ obj }) {
   const { rowDto, setRowDto } = obj;
 
   const allSelect = (value) => {
-    let _data = [...rowDto];
+    let _data = [...rowDto?.data];
     const modify = _data.map((item) => {
       return {
         ...item,
         isSelected: value,
       };
     });
-    setRowDto(modify);
+    setRowDto({ ...rowDto, data: modify });
   };
 
   const selectedAll = () => {
-    return rowDto?.length > 0 &&
-      rowDto?.filter((item) => item?.isSelected)?.length === rowDto?.length
+    return rowDto?.data?.length > 0 &&
+      rowDto?.data?.filter((item) => item?.isSelected)?.length ===
+        rowDto?.data?.length
       ? true
       : false;
   };
 
   const rowDataHandler = (name, index, value) => {
-    let _data = [...rowDto];
+    let _data = [...rowDto?.data];
     _data[index][name] = value;
-    setRowDto(_data);
+    setRowDto({ ...rowDto, data: _data });
   };
 
   let totalBG = 0;
@@ -80,17 +81,17 @@ export default function TableOne({ obj }) {
             </tr>
           </thead>
           <tbody>
-            {rowDto?.map((itm, index) => {
-              totalBG += itm.BG;
-              totalActualCreditLimit += itm.ActualCL;
-              totalBGvsLimit += itm.BgVSL;
-              totalApprovedOD += itm.ApprovedOD30;
-              totalUsedOD += itm.UsedOD;
-              totalOutOf30OD += itm.Outof30OD;
-              totalDebit += itm.Debit;
-              totalSales += itm.SalesBag;
+            {rowDto?.data?.map((itm, index) => {
+              totalBG += itm.bankGuaranteeAmount;
+              totalActualCreditLimit += itm.actualCreditLimit;
+              totalBGvsLimit += itm.bgNlimitPercentage;
+              totalApprovedOD += itm.approvedOd30percent;
+              totalUsedOD += itm.usedOd;
+              totalOutOf30OD += itm.outOf30PercentOd;
+              totalDebit += itm.debit;
+              totalSales += itm.sales;
               // totalBGComm += itm.BGCommissionBag;
-              totalCommission += itm.TotalCommission;
+              totalCommission += itm.totalBgCommission;
 
               return (
                 <>
@@ -110,18 +111,35 @@ export default function TableOne({ obj }) {
                       />
                     </td>
                     <td className="text-center">{index + 1}</td>
-                    <td> {itm?.CustomerName}</td>
-                    <td className="text-right"> {itm?.BG}</td>
-                    <td className="text-right">{itm?.ActualCL}</td>
-                    <td className="text-right">{itm?.BgVSL}</td>
-                    <td className="text-right">{itm?.ApprovedOD30}</td>
-                    <td className="text-right">{itm?.UsedOD}</td>
-                    <td className="text-right">{itm?.Outof30OD}</td>
-                    <td className="text-right">{itm?.Debit}</td>
-                    <td className="text-right">{itm?.SalesBag}</td>
-                    <td className="text-right">{itm?.BGCommissionBag}</td>
-                    <td className="text-right">{itm?.TotalCommission}</td>
-                    <td className="text-right">{itm?.Remarks}</td>
+                    <td> {itm?.businessPartnerName}</td>
+                    <td className="text-right">
+                      {" "}
+                      {_fixedPoint(itm?.bankGuaranteeAmount, true)}
+                    </td>
+                    <td className="text-right">
+                      {_fixedPoint(itm?.actualCreditLimit, true)}
+                    </td>
+                    <td className="text-right">{itm?.bgNlimitPercentage}</td>
+                    <td className="text-right">
+                      {_fixedPoint(itm?.approvedOd30percent, true)}
+                    </td>
+                    <td className="text-right">
+                      {_fixedPoint(itm?.usedOd, true)}
+                    </td>
+                    <td className="text-right">
+                      {_fixedPoint(itm?.outOf30PercentOd, true)}
+                    </td>
+                    <td className="text-right">
+                      {_fixedPoint(itm?.debit, true)}
+                    </td>
+                    <td className="text-right">
+                      {_fixedPoint(itm?.sales, true)}
+                    </td>
+                    <td className="text-right">{itm?.bgCommissionPerBag}</td>
+                    <td className="text-right">
+                      {_fixedPoint(itm?.totalBgCommission, true)}
+                    </td>
+                    <td className="text-right">{itm?.remarks}</td>
                   </tr>
                 </>
               );
@@ -134,9 +152,7 @@ export default function TableOne({ obj }) {
               <td className="text-right">
                 {_fixedPoint(totalActualCreditLimit, true)}
               </td>
-              <td className="text-right">
-                {_fixedPoint(totalBGvsLimit, true)}
-              </td>
+              <td className="text-right">{totalBGvsLimit}</td>
               <td className="text-right">
                 {_fixedPoint(totalApprovedOD, true)}
               </td>
