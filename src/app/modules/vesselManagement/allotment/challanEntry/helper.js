@@ -86,16 +86,23 @@ export const getLightersForChallan = async (
     setLoading && setLoading(false);
   }
 };
-export const StockOutFromInventoryApproval = async (payload, cb) => {
+export const StockOutFromInventoryApproval = async (
+  payload,
+  setLoading,
+  cb
+) => {
+  setLoading(true);
   try {
     await axios.put(
       `/tms/LigterLoadUnload/StockOutFromInventoryApproval`,
       payload
     );
     toast.success("Approved");
+    setLoading(false);
     cb();
   } catch (error) {
-    // toast.error(error?.response?.data?.message);
+    toast.error(error?.response?.data?.message);
+    setLoading(false);
   }
 };
 export const StockInToInventoryApproval = async (payload, cb) => {
