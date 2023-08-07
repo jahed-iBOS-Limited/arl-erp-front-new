@@ -561,7 +561,12 @@ const initState = {
   },
   salesAndProductionTableLanding: {
     plant: "",
+    channel: "",
+    region: "",
+    area: "",
+    territory: "",
     year: "",
+    horizon: "",
   },
   manufactureBOMTableLanding: {
     plant: "",
