@@ -59,7 +59,7 @@ export default function ProductionVarianceReport() {
         <>
           {tableDataLoader && <Loading />}
           <IForm
-            title="ProductionVarianceReport"
+            title="Production Variance Report"
             isHiddenReset
             isHiddenBack
             isHiddenSave
