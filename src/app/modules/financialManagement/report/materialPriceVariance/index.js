@@ -19,7 +19,7 @@ const initData = {
   monthYear: "",
 };
 function MaterialPriceVariance() {
-  const [rowDto, getRowDto] = useAxiosGet();
+  const [rowDto, getRowDto, rowDtoLoader, setrowDto] = useAxiosGet();
   // const [fromDateFApi, setFromDateFApi] = useState("");
 
   const selectedBusinessUnit = useSelector((state) => {
@@ -57,7 +57,7 @@ function MaterialPriceVariance() {
                 <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>
-                {false && <Loading />}
+                {rowDtoLoader && <Loading />}
                 <div className="global-form row">
                   <div className="col-lg-3">
                     <label>Month-Year</label>
@@ -67,6 +67,7 @@ function MaterialPriceVariance() {
                       placeholder="From Date"
                       type="month"
                       onChange={(e) => {
+                        setrowDto([]);
                         setFieldValue("monthYear", e?.target?.value);
                       }}
                     />
