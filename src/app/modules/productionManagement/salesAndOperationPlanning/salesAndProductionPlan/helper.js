@@ -171,6 +171,22 @@ export const getSalesPlanById = async (
         value: res?.data?.objHeader?.plantId,
         label: res?.data?.objHeader?.plantName,
       },
+      channel: {
+        value: res?.data?.objHeader?.intDistributionChannelId,
+        label: res?.data?.objHeader?.strDistributionChannelName,
+      },
+      region: {
+        value: res?.data?.objHeader?.intRegoinId,
+        label: res?.data?.objHeader?.strRegionName,
+      },
+      area: {
+        value: res?.data?.objHeader?.intAreaId,
+        label: res?.data?.objHeader?.strAreaName,
+      },
+      territory: {
+        value: res?.data?.objHeader?.teritoryId,
+        label: res?.data?.objHeader?.strTeritoryName,
+      },
       year: {
         value: res?.data?.objHeader?.yearId,
         label: res?.data?.objHeader?.yearId,
