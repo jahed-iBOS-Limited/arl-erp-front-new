@@ -26,20 +26,22 @@ export const getSurveyNoDDL = async (accId, buId, setter, setLoading) => {
 export const getTripInformation = async (
   accId,
   buId,
+  fromDate,
+  toDate,
   surveyNo,
-  reportDate,
+  // reportDate,
   setter,
   setLoading
 ) => {
   setLoading(true);
   try {
-    const res = await axios.get(
-      `https://imarine.ibos.io/domain/LighterVessel/GetLighterVesselTripBySurveyNo?AccountId=${accId}&BusinessUnitId=${buId}&SurveyNo=${surveyNo}&ReportDate=${reportDate}`
-    );
-
-    setter(res?.data);
-    setLoading(false);
-  } catch (error) {
+        const res = await axios.get(
+          `https://imarine.ibos.io/domain/LighterVessel/GetLighterVesselTripBySurveyNo?AccountId=${accId}&BusinessUnitId=${buId}&SurveyNo=${surveyNo}&fromDate=${fromDate}&toDate=${toDate}`
+        );
+        // &ReportDate=${reportDate}
+        setter(res?.data);
+        setLoading(false);
+      } catch (error) {
     setter([]);
     toast.warn(error?.response?.data?.message);
     setLoading(false);
