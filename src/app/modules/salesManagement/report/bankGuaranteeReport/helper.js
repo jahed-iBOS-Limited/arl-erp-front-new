@@ -23,6 +23,33 @@ export const getCustomerBankGuaranteeReport = async (
   }
 };
 
+export const getSubmittedBankGuarantee = async ({
+  accId,
+  buId,
+  status,
+  partnerId,
+  monthId,
+  yearId,
+  pageNo,
+  pageSize,
+  setLoading,
+  setter,
+}) => {
+  try {
+    setLoading(true);
+    const res = await Axios.get(
+      `/partner/BusinessPartnerBankInfo/GetPartnerBankGuaranteeInfoPagination?accountId=${accId}&businessUnitId=${buId}&status=${status}&businessPartnerId=${partnerId}&monthId=${monthId}&yearId=${yearId}&pageNo=${pageNo}&pageSize=${pageSize}`
+    );
+    if (res?.status === 200 && res?.data) {
+      setLoading(false);
+      setter(res?.data);
+    }
+  } catch (error) {
+    setter([]);
+    setLoading(false);
+  }
+};
+
 export const getDistributionChannelDDL = async (accId, buId, setter) => {
   try {
     let res = await Axios.get(
@@ -33,4 +60,3 @@ export const getDistributionChannelDDL = async (accId, buId, setter) => {
     setter([]);
   }
 };
-
