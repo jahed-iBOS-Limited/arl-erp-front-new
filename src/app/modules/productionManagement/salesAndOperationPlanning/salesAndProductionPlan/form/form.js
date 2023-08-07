@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { ExcelRenderer } from "react-excel-renderer";
 import * as Yup from "yup";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
+// import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import { getHorizonDDL, getItemListSalesPlanDDL, getYearDDL } from "../helper";
@@ -16,6 +16,22 @@ const validationSchema = Yup.object().shape({
   plant: Yup.object().shape({
     value: Yup.string().required("Plant Name is required"),
     label: Yup.string().required("Plant Name is required"),
+  }),
+  channel: Yup.object().shape({
+    value: Yup.string().required("Distribution Channel is required"),
+    label: Yup.string().required("Distribution Channel is required"),
+  }),
+  region: Yup.object().shape({
+    value: Yup.string().required("Region is required"),
+    label: Yup.string().required("Region is required"),
+  }),
+  area: Yup.object().shape({
+    value: Yup.string().required("Area is required"),
+    label: Yup.string().required("Area is required"),
+  }),
+  territory: Yup.object().shape({
+    value: Yup.string().required("Territory is required"),
+    label: Yup.string().required("Territory is required"),
   }),
   year: Yup.object().shape({
     value: Yup.string().required("Year is required"),
@@ -47,6 +63,16 @@ export default function _Form({
   id,
   dataHandler,
   removeItem,
+  channelDDL,
+  regionDDL,
+  areaDDL,
+  territoryDDL,
+  getRegionDDL,
+  setRegionDDL,
+  getAreaDDL,
+  setAreaDDL,
+  getTerritoryDDL,
+  setTerritoryDDL,
   // setNumItemPlanQty,
   // setQuantityIndex,
   // updateItemQuantity,
@@ -65,17 +91,17 @@ export default function _Form({
           let rowData = [];
           for (let i = 1; i < resp.rows.length; i++) {
             rowData.push({
-              salesPlanRowId:resp.rows[i][0],
-              salesPlanId:resp.rows[i][1],
-              itemId:resp.rows[i][2],
-              itemName:resp.rows[i][3],
-              itemCode:resp.rows[i][4],
-              bomname:resp.rows[i][5],
-              bomid : resp.rows[i][6],
-              uomName : resp.rows[i][7],
-              uoMid : resp.rows[i][8],
-              entryItemPlanQty : resp.rows[i][9],
-              rate : resp.rows[i][10],
+              salesPlanRowId: resp.rows[i][0],
+              salesPlanId: resp.rows[i][1],
+              itemId: resp.rows[i][2],
+              itemName: resp.rows[i][3],
+              itemCode: resp.rows[i][4],
+              bomname: resp.rows[i][5],
+              bomid: resp.rows[i][6],
+              uomName: resp.rows[i][7],
+              uoMid: resp.rows[i][8],
+              entryItemPlanQty: resp.rows[i][9],
+              rate: resp.rows[i][10],
             });
           }
 
@@ -112,7 +138,7 @@ export default function _Form({
     );
   };
 
-  console.log("row",rowDto)
+  console.log("row", rowDto);
 
   return (
     <>
@@ -122,8 +148,15 @@ export default function _Form({
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
-            resetForm(initData);
             setRowDto([]);
+            getItemListSalesPlanDDL(
+              profileData?.accountId,
+              selectedBusinessUnit?.value,
+              values?.plant?.value,
+              pageNo,
+              pageSize,
+              setRowDto
+            );
           });
         }}
       >
@@ -140,7 +173,7 @@ export default function _Form({
             <Form className="form form-label-right">
               <div className="global-form p-2">
                 <div className="form-group row">
-                  <div className="col-lg-4">
+                  <div className="col-lg-3">
                     <NewSelect
                       name="plant"
                       options={plantDDL}
@@ -181,7 +214,140 @@ export default function _Form({
                       isDisabled={id ? true : false}
                     />
                   </div>
-                  <div className="col-lg-4">
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="channel"
+                      options={channelDDL || []}
+                      value={values?.channel}
+                      isDisabled={id}
+                      label="Distribution Channel"
+                      onChange={(valueOption) => {
+                        if (valueOption) {
+                          setFieldValue("channel", valueOption);
+                          setFieldValue("region", "");
+                          setFieldValue("area", "");
+                          setFieldValue("territory", "");
+                          getRegionDDL(
+                            `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${valueOption?.value ||
+                              0}`,
+                            (res) => {
+                              const newDDL = res?.map((item) => ({
+                                ...item,
+                                value: item?.regionId,
+                                label: item?.regionName,
+                              }));
+                              setRegionDDL(newDDL);
+                            }
+                          );
+                          setAreaDDL([]);
+                          setTerritoryDDL([]);
+                        } else {
+                          setFieldValue("channel", "");
+                          setFieldValue("region", "");
+                          setFieldValue("area", "");
+                          setFieldValue("territory", "");
+                          setRegionDDL([]);
+                          setAreaDDL([]);
+                          setTerritoryDDL([]);
+                        }
+                      }}
+                      placeholder="Select Distribution Channel"
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="region"
+                      options={regionDDL || []}
+                      value={values?.region}
+                      label="Region"
+                      onChange={(valueOption) => {
+                        if (valueOption) {
+                          setFieldValue("region", valueOption);
+                          setFieldValue("area", "");
+                          setFieldValue("territory", "");
+                          getAreaDDL(
+                            `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${
+                              values?.channel?.value
+                            }&regionId=${valueOption?.value || 0}`,
+                            (res) => {
+                              const newDDL = res?.map((item) => ({
+                                ...item,
+                                value: item?.areaId,
+                                label: item?.areaName,
+                              }));
+                              setAreaDDL(newDDL);
+                            }
+                          );
+                          setTerritoryDDL([]);
+                        } else {
+                          setFieldValue("region", "");
+                          setFieldValue("area", "");
+                          setFieldValue("territory", "");
+                          setAreaDDL([]);
+                          setTerritoryDDL([]);
+                        }
+                      }}
+                      placeholder="Region"
+                      isDisabled={!values?.channel || id}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="area"
+                      options={areaDDL || []}
+                      value={values?.area}
+                      label="Area"
+                      onChange={(valueOption) => {
+                        if (valueOption) {
+                          setFieldValue("area", valueOption);
+                          setFieldValue("territory", "");
+                          getTerritoryDDL(
+                            `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${
+                              values?.channel?.value
+                            }&regionId=${
+                              values?.region?.value
+                            }&areaId=${valueOption?.value || 0}`,
+                            (res) => {
+                              const newDDL = res?.map((item) => ({
+                                ...item,
+                                value: item?.territoryId,
+                                label: item?.territoryName,
+                              }));
+                              setTerritoryDDL(newDDL);
+                            }
+                          );
+                        } else {
+                          setFieldValue("area", "");
+                          setFieldValue("territory", "");
+                          setTerritoryDDL([]);
+                        }
+                      }}
+                      placeholder="Area"
+                      isDisabled={!values?.region || id}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="territory"
+                      options={territoryDDL || []}
+                      value={values?.territory}
+                      label="Territory"
+                      onChange={(valueOption) => {
+                        setFieldValue("territory", valueOption);
+                      }}
+                      placeholder="Territory"
+                      isDisabled={!values?.area || id}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
                     <NewSelect
                       name="year"
                       options={yearDDL}
@@ -205,7 +371,7 @@ export default function _Form({
                       isDisabled={id ? true : false}
                     />
                   </div>
-                  <div className="col-lg-4">
+                  <div className="col-lg-3">
                     <NewSelect
                       name="horizon"
                       options={horizonDDL}
@@ -228,7 +394,7 @@ export default function _Form({
                       isDisabled={id ? true : false}
                     />
                   </div>
-                  <div className="col-lg-4">
+                  <div className="col-lg-3">
                     <label>Start Date</label>
                     <InputField
                       value={values?.startDate}
@@ -237,7 +403,7 @@ export default function _Form({
                       disabled
                     />
                   </div>
-                  <div className="col-lg-4">
+                  <div className="col-lg-3">
                     <label>End Date</label>
                     <InputField
                       value={values?.endDate}
@@ -275,7 +441,7 @@ export default function _Form({
                 <button
                   className="btn btn-primary"
                   onClick={() => {
-                    exportToCSV(rowDto?.data)
+                    exportToCSV(rowDto?.data);
                   }}
                   type="button"
                   style={{
@@ -297,7 +463,8 @@ export default function _Form({
                     <th>UoM Name</th>
                     <th>Sales Plan Quantity</th>
                     <th>Rate</th>
-                    <th>Action</th>
+                    <th>Amount</th>
+                    {/* <th>Action</th> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -343,8 +510,8 @@ export default function _Form({
                             name="entryItemPlanQty"
                             value={+item?.entryItemPlanQty || ""}
                             onChange={(e) => {
-                              if(+e.target.value < 0){
-                                return
+                              if (+e.target.value < 0) {
+                                return;
                               }
                               dataHandler(
                                 "entryItemPlanQty",
@@ -362,8 +529,8 @@ export default function _Form({
                             name="itemPlanQty"
                             value={+item?.itemPlanQty || ""}
                             onChange={(e) => {
-                              if(+e.target.value < 0){
-                                return
+                              if (+e.target.value < 0) {
+                                return;
                               }
                               dataHandler(
                                 "itemPlanQty",
@@ -383,8 +550,8 @@ export default function _Form({
                           name="rate"
                           value={+item?.rate || ""}
                           onChange={(e) => {
-                            if(+e.target.value < 0){
-                              return
+                            if (+e.target.value < 0) {
+                              return;
                             }
                             dataHandler(
                               "rate",
@@ -398,8 +565,13 @@ export default function _Form({
                         />
                       </td>
                       <td className="text-center">
-                        <IDelete id={index} remover={() => remover(index)} />
+                        {id
+                          ? (+item?.entryItemPlanQty || 0) * (+item?.rate || 0)
+                          : (+item?.itemPlanQty || 0) * (+item?.rate || 0)}
                       </td>
+                      {/* <td className="text-center">
+                        <IDelete id={index} remover={() => remover(index)} />
+                      </td> */}
                     </tr>
                   ))}
                 </tbody>
