@@ -37,6 +37,7 @@ import CostVsRevenuePBR from './costVsRevenue';
 import GeneralDashboardPBR from './generalDashboard';
 import InventoryValuationRDLC from './InventoryValuation';
 import IncomeStatementTaxLanding from './incomeStatementTax';
+import ProductionVarianceReport from './productionVarianceReport';
 
 export function ReportManagmentSystem() {
    const { userRole } = useSelector(state => state?.authData, shallowEqual);
@@ -197,6 +198,10 @@ export function ReportManagmentSystem() {
          <ContentRoute
             from="/financial-management/report/VATRebateReconciliation"
             component={VatRebateReconciliationRDLCReport}
+         />
+         <ContentRoute
+            from="/financial-management/report/ProductionVarianceReport"
+            component={ProductionVarianceReport}
          />
          <ContentRoute
             from="/financial-management/report/ItemBOMCost"
