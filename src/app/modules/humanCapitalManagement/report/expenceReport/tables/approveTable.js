@@ -98,7 +98,7 @@ const ApproveTable = ({ obj }) => {
           <tbody>
             {rowData?.map((item, index) => {
               totalApplicationAmount += item?.numApplicantAmount || 0;
-              totalApprovedByLineManager += item?.numLinemangerAprv || 0;
+              totalApprovedByLineManager += item?.numLineManagerAprv || 0;
               totalApprovedBySupervisor += item?.numApprvBySuppervisor || 0;
               return (
                 <tr key={index}>
@@ -127,10 +127,10 @@ const ApproveTable = ({ obj }) => {
                     {_fixedPoint(item?.numApprvBySuppervisor, true, 0)}
                   </td>
                   <td className="text-right">
-                    {_fixedPoint(item?.numLinemangerAprv, true, 0)}
+                    {_fixedPoint(item?.numLineManagerAprv, true, 0)}
                   </td>
                   <td className="text-right">
-                    {_fixedPoint(item?.numLinemangerAprv, true, 0)}
+                    {_fixedPoint(item?.numLineManagerAprv, true, 0)}
                   </td>
                 </tr>
               );

@@ -1,12 +1,11 @@
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import Form from "./form";
-import { getSurveyNoDDL, getTripInformation, saveInvoice } from "../helper";
 import { _todayDate } from "../../../_chartinghelper/_todayDate";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import Loading from "../../../_chartinghelper/loading/_loading";
+import { getSurveyNoDDL, getTripInformation, saveInvoice } from "../helper";
+import Form from "./form";
 
 const initData = {
   surveyNo: "",
@@ -15,6 +14,8 @@ const initData = {
   billDate: _todayDate(),
   month: "",
   year: "",
+  fromDate: _todayDate(),
+  toDate: _todayDate(),
 };
 
 const headers = [
@@ -45,14 +46,16 @@ export default function InvoiceForm() {
   }, [profileData, selectedBusinessUnit]);
 
   const GetTripInformation = (values) => {
-    const reportDate = _dateFormatter(
-      new Date(values?.year?.value, values?.month?.value - 1, 1)
-    );
+    // const reportDate = _dateFormatter(
+    //   new Date(values?.year?.value, values?.month?.value - 1, 1)
+    // );
     getTripInformation(
       profileData?.accountId,
       selectedBusinessUnit?.value,
+      values?.fromDate,
+      values?.toDate,
       values?.surveyNo?.label,
-      reportDate,
+      // reportDate,
       setTripInformation,
       setLoading
     );
