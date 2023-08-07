@@ -14,6 +14,7 @@ const headers = [
   { name: "Application Amount" },
   { name: "Approved by Supervisor" },
   { name: "Approved by Line Manager" },
+  { name: "Approved by HR" },
   { name: "Action" },
 ];
 
@@ -24,17 +25,26 @@ function TableFour({ gridData, values, userId, girdDataFunc }) {
 
   let totalApprovedBySupervisor = 0,
     totalApprovedByLineManager = 0,
+    totalApprovedByHR = 0,
     totalApplicationAmount = 0;
 
   const getData = (item) => {
+    const url = `/fino/ExpenseTADA/GetExpenseInfoForHRapprove?businessUnitId=${
+      item?.intunitid
+    }&partId=${15}&employeeId=${0}&fromDate=${values?.fromDate}&toDate=${
+      values?.toDate
+    }&isBillSubmitted=${
+      values?.status?.value
+    }&ReportViewBy=${userId}&ExpenseGroup=${values?.expenceGroup?.label}`;
     getRowData(
-      `/fino/ExpenseTADA/GetExpenseReport?Unitid=${
-        item?.intunitid
-      }&partid=${15}&employeeid=${0}&FromDate=${values?.fromDate}&Todate=${
-        values?.toDate
-      }&isBillSubmitted=${
-        values?.status?.value
-      }&ReportViewBy=${userId}&ExpenseGroup=${values?.expenceGroup?.label}`,
+      // `/fino/ExpenseTADA/GetExpenseReport?Unitid=${
+      //   item?.intunitid
+      // }&partid=${15}&employeeid=${0}&FromDate=${values?.fromDate}&Todate=${
+      //   values?.toDate
+      // }&isBillSubmitted=${
+      //   values?.status?.value
+      // }&ReportViewBy=${userId}&ExpenseGroup=${values?.expenceGroup?.label}`,
+      url,
       (resData) => {
         const modifyData = resData?.map((element) => ({
           ...element,
@@ -57,8 +67,9 @@ function TableFour({ gridData, values, userId, girdDataFunc }) {
         <ICustomTable ths={headers}>
           {gridData?.map((item, index) => {
             totalApplicationAmount += item?.numApplicantAmount || 0;
-            totalApprovedByLineManager += item?.numLinemangerAprv || 0;
+            totalApprovedByLineManager += item?.numLineManagerAprv || 0;
             totalApprovedBySupervisor += item?.numApprvBySuppervisor || 0;
+            totalApprovedByHR += item?.numApprvByHR || 0;
             return (
               <tr key={index}>
                 <td>{index + 1}</td>
@@ -71,7 +82,10 @@ function TableFour({ gridData, values, userId, girdDataFunc }) {
                   {_fixedPoint(item?.numApprvBySuppervisor, true, 0)}
                 </td>
                 <td className="text-right">
-                  {_fixedPoint(item?.numLinemangerAprv, true, 0)}
+                  {_fixedPoint(item?.numLineManagerAprv, true, 0)}
+                </td>
+                <td className="text-right">
+                  {_fixedPoint(item?.numApprvByHR, true, 0)}
                 </td>
                 <td className="text-center">
                   <IView
@@ -97,6 +111,9 @@ function TableFour({ gridData, values, userId, girdDataFunc }) {
             </td>
             <td className="text-right">
               <b>{_fixedPoint(totalApprovedByLineManager, true, 0)}</b>
+            </td>
+            <td className="text-right">
+              <b>{_fixedPoint(totalApprovedByHR, true, 0)}</b>
             </td>
 
             <td></td>

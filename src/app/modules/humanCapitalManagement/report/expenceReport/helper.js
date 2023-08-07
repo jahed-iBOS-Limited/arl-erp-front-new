@@ -14,19 +14,28 @@ export const GetExpenseReport_api = async (
   expCode,
   expenseGroup,
   setter,
-  setLoading, cb
+  setLoading,
+  cb
 ) => {
   setLoading(true);
   try {
-    const url = [1, 2, 3, 4, 14, 16].includes(reportType)
-      ? `/fino/ExpenseTADA/GetExpenseReport?Unitid=${buId}&partid=${reportType}&employeeid=${empId}&FromDate=${fromDate}&Todate=${toDate}&isBillSubmitted=${status}&ReportViewBy=${userId}&ExpenseGroup=${expenseGroup}`
-      : `fino/ExpenseTADA/GetExpenseBillStatus?Unitid=4&partid=${reportType}&employeeid=${empId}&FromDate=${fromDate}&Todate=${toDate}&ReportViewBy=${userId}&ExpenseCode=${expCode ||
-          "empty"}&ExpenseGroup=${expenseGroup}`;
+    const urlOne = `/fino/ExpenseTADA/GetExpenseReport?Unitid=${buId}&partid=${reportType}&employeeid=${empId}&FromDate=${fromDate}&Todate=${toDate}&isBillSubmitted=${status}&ReportViewBy=${userId}&ExpenseGroup=${expenseGroup}`;
+
+    const urlTwo = `/fino/ExpenseTADA/GetExpenseInfoForHRapprove?businessUnitId=${buId}&partId=${reportType}&employeeId=${empId}&fromDate=${fromDate}&toDate=${toDate}&isBillSubmitted=${status}&ReportViewBy=${userId}&ExpenseGroup=${expenseGroup}`;
+
+    const urlThree = `fino/ExpenseTADA/GetExpenseBillStatus?Unitid=4&partid=${reportType}&employeeid=${empId}&FromDate=${fromDate}&Todate=${toDate}&ReportViewBy=${userId}&ExpenseCode=${expCode ||
+      "empty"}&ExpenseGroup=${expenseGroup}`;
+
+    const url = [1, 2, 3, 4, 16].includes(reportType)
+      ? urlOne
+      : [14].includes(reportType)
+      ? urlTwo
+      : urlThree;
 
     const res = await axios.get(url);
     if (res?.data?.length < 1) toast.warn("Data Not Found");
     setter(res?.data);
-    cb && cb()
+    cb && cb();
     setLoading(false);
   } catch (error) {
     setter([]);
