@@ -274,7 +274,6 @@ export default function DistributionPlanCreate() {
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
-          resetForm(initData);
           setRowDto({});
         });
       }}
