@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import {
   Card,
@@ -13,32 +13,47 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { _formatMoney } from "../../../_helper/_formatMoney";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { fromDateFromApi } from "../../../_helper/_formDateFromApi";
+import { _getCurrentMonthYearForInput } from "../../../_helper/_todayDate";
+// import { fromDateFromApi } from "../../../_helper/_formDateFromApi";
 
 const initData = {
-  fromDate: _todayDate(),
-  toDate: _todayDate(),
+  monthYear: _getCurrentMonthYearForInput(),
 };
 function MaterialPriceVariance() {
-  const [rowDto, getRowDto] = useAxiosGet();
-  const [fromDateFApi, setFromDateFApi] = useState("");
+  const [rowDto, getRowDto, rowDtoLoader, setrowDto] = useAxiosGet();
+  // const [fromDateFApi, setFromDateFApi] = useState("");
 
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
-  useEffect(()=>{
-    fromDateFromApi(selectedBusinessUnit?.value, setFromDateFApi)
+  // useEffect(() => {
+  //   fromDateFromApi(selectedBusinessUnit?.value, setFromDateFApi);
+  // }, [selectedBusinessUnit]);
 
-  },[selectedBusinessUnit])
+  const getData = (values) => {
+    const [year, month] = values?.monthYear.split("-").map(Number);
+    const startDate = new Date(Date.UTC(year, month - 1, 1));
+    const endDate = new Date(Date.UTC(year, month, 0));
+    const formattedStartDate = startDate.toISOString().split("T")[0];
+    const formattedEndDate = endDate.toISOString().split("T")[0];
+    getRowDto(
+      `/fino/Report/GetRawMaterialPriceVarianceReport?intUnitId=${selectedBusinessUnit?.value}&fromDate=${formattedStartDate}&toDate=${formattedEndDate}`
+    );
+  };
+
+  useEffect(() => {
+    if (selectedBusinessUnit?.value && initData?.monthYear) {
+      getData(initData);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedBusinessUnit]);
 
   return (
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={{...initData, fromDate:fromDateFApi}}
-        // validationSchema={{}}
+        initialValues={initData}
         onSubmit={() => {}}
       >
         {({ values, errors, touched, setFieldValue }) => (
@@ -46,45 +61,21 @@ function MaterialPriceVariance() {
             <Card>
               {true && <ModalProgressBar />}
               <CardHeader title={"Material Price Variance"}>
-                <CardHeaderToolbar>
-                  {/* <button
-                    onClick={() => {
-                      history.push({
-                        pathname: `/financial-management/invoicemanagement-system/salesInvoice/create`,
-                        state: values,
-                      });
-                    }}
-                    className="btn btn-primary ml-2"
-                    type="button"
-                  >
-                    Create
-                  </button> */}
-                </CardHeaderToolbar>
+                <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>
-                {false && <Loading />}
+                {rowDtoLoader && <Loading />}
                 <div className="global-form row">
                   <div className="col-lg-3">
-                    <label>From Date</label>
+                    <label>Month-Year</label>
                     <InputField
-                      value={values?.fromDate}
-                      name="fromDate"
+                      value={values?.monthYear}
+                      name="monthYear"
                       placeholder="From Date"
-                      type="date"
+                      type="month"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e?.target?.value);
-                      }}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <label>To Date</label>
-                    <InputField
-                      value={values?.toDate}
-                      name="toDate"
-                      placeholder="To Date"
-                      type="date"
-                      onChange={(e) => {
-                        setFieldValue("toDate", e?.target?.value);
+                        setrowDto([]);
+                        setFieldValue("monthYear", e?.target?.value);
                       }}
                     />
                   </div>
@@ -93,11 +84,10 @@ function MaterialPriceVariance() {
                       style={{ marginTop: "18px" }}
                       type="button"
                       class="btn btn-primary"
-                      disabled={!values?.fromDate || !values?.toDate}
+                      disabled={!values?.monthYear}
                       onClick={() => {
-                        getRowDto(
-                          `/fino/Report/GetRawMaterialPriceVarianceReport?intUnitId=${selectedBusinessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`
-                        );
+                        console.log("values", values);
+                        getData(values);
                       }}
                     >
                       Show

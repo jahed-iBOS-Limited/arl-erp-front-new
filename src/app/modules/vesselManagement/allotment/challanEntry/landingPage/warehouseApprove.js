@@ -68,7 +68,7 @@ const WarehouseApprove = ({ obj }) => {
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        onSubmit={(values) => {}}
+        onSubmit={() => {}}
       >
         {({ values, errors, touched, setFieldValue }) => (
           <>
