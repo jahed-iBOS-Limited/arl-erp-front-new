@@ -50,6 +50,30 @@ const validationSchema = Yup.object().shape({
       value: Yup.string().required('Territory is required'),
     })
     .typeError('Territory is required'),
+  plant: Yup.object()
+    .shape({
+      label: Yup.string().required('Plant is required'),
+      value: Yup.string().required('Plant is required'),
+    })
+    .typeError('Plant is required'),
+  warehouse: Yup.object()
+    .shape({
+      label: Yup.string().required('Warehouse is required'),
+      value: Yup.string().required('Warehouse is required'),
+    })
+    .typeError('Warehouse is required'),
+  year: Yup.object()
+    .shape({
+      label: Yup.string().required('Year is required'),
+      value: Yup.string().required('Year is required'),
+    })
+    .typeError('Year is required'),
+  horizon: Yup.object()
+    .shape({
+      label: Yup.string().required('Horizon is required'),
+      value: Yup.string().required('Horizon is required'),
+    })
+    .typeError('Horizon is required'),
 });
 
 export default function DistributionPlanCreate() {
@@ -58,9 +82,9 @@ export default function DistributionPlanCreate() {
   const [modifiedData, setModifiedData] = useState({});
   const [channelDDL, getChannelDDL] = useAxiosGet();
   const [plantDDL, getPlantDDL] = useAxiosGet();
-  const [warehouseDDL, getWarehouseDDL, warehouseLoading, setWarehouseDDL] = useAxiosGet();
-  const [yearDDL, getYearDDL, yearLoading, setYearDDL] = useAxiosGet();
-  const [horizonDDL, getHorizonDDL, horizonLoading, setHorizonDDL] = useAxiosGet();
+  const [warehouseDDL, getWarehouseDDL, warehouseLoading] = useAxiosGet();
+  const [yearDDL, getYearDDL, yearLoading] = useAxiosGet();
+  const [horizonDDL, getHorizonDDL, horizonLoading] = useAxiosGet();
   const [regionDDL, getRegionDDL, regionLoading, setRegionDDL] = useAxiosGet();
   const [areaDDL, getAreaDDL, areaLoading, setAreaDDl] = useAxiosGet();
   const [territoryDDL, getTerritoryDDL, territoryLoading, setTerritoryDDL] = useAxiosGet();
@@ -73,69 +97,82 @@ export default function DistributionPlanCreate() {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  // handle channel change
-  const handleChannelChange = (valueOption) => {
-    const channelId = valueOption?.value || 0;
-    getRegionDDL(
-      `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${channelId}`,
-      (res) => {
-        const newDDL = res?.map((item) => ({
-          ...item,
-          value: item?.regionId,
-          label: item?.regionName,
-        }));
-        setRegionDDL(newDDL);
-      }
-    );
+  // get regionDDL api handler
+  const getRegionDDLHandler = (valueOption) => {
+    if (valueOption?.label) {
+      getRegionDDL(
+        `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${valueOption?.value}`,
+        (res) => {
+          const newDDL = res?.map((item) => ({
+            ...item,
+            value: item?.regionId,
+            label: item?.regionName,
+          }));
+          setRegionDDL(newDDL);
+        }
+      );
+    }
   };
 
-  // handle region change
-  const handleRegionChange = (values, valueOption) => {
-    const regionId = valueOption?.label ? `&regionId=${valueOption?.value}` : '';
-    getAreaDDL(
-      `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${values?.channel?.value}${regionId}`,
-      (res) => {
-        const newDDL = res?.map((item) => ({
-          ...item,
-          value: item?.areaId,
-          label: item?.areaName,
-        }));
-        setAreaDDl(newDDL);
-      }
-    );
+  // get areaDDLHandler api handler
+  const getAreaDDLHandler = (values, valueOption) => {
+    if (valueOption?.label) {
+      getAreaDDL(
+        `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${values?.channel?.value}&regionId=${valueOption?.value}`,
+        (res) => {
+          const newDDL = res?.map((item) => ({
+            ...item,
+            value: item?.areaId,
+            label: item?.areaName,
+          }));
+          setAreaDDl(newDDL);
+        }
+      );
+    }
   };
 
-  // handle Area change
-  const handleAreaChange = (values, valueOption) => {
-    const areaId = valueOption?.label ? `&areaId=${valueOption?.value}` : '';
-    getTerritoryDDL(
-      `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${values?.channel?.value}&regionId=${values?.region?.value}${areaId}`,
-      (res) => {
-        const newDDL = res?.map((item) => ({
-          ...item,
-          value: item?.territoryId,
-          label: item?.territoryName,
-        }));
-        setTerritoryDDL(newDDL);
-      }
-    );
+  // get territoryDDL api handler
+  const getTerritoryDDLHandler = (values, valueOption) => {
+    if (valueOption?.label) {
+      getTerritoryDDL(
+        `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${values?.channel?.value}&regionId=${values?.region?.value}&areaId=${valueOption?.value}`,
+        (res) => {
+          const newDDL = res?.map((item) => ({
+            ...item,
+            value: item?.territoryId,
+            label: item?.territoryName,
+          }));
+          setTerritoryDDL(newDDL);
+        }
+      );
+    }
   };
 
-  // function getFirstAndLastDateOfMonth(dateString) {
-  //   const [year, month] = dateString.split('-').map(Number);
-  //   const lastDateOfMonth = new Date(year, month, 0);
+  // get warehouseDDL api handler
+  const getWarehouseDDLHandler = (plantId) => {
+    if (plantId) {
+      getWarehouseDDL(
+        `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`
+      );
+    }
+  };
 
-  //   const formattedFirstDate = `${year}-${month.toString().padStart(2, '0')}-01`;
-  //   const formattedLastDate = `${year}-${month.toString().padStart(2, '0')}-${lastDateOfMonth
-  //     .getDate()
-  //     .toString()
-  //     .padStart(2, '0')}`;
-
-  //   return {
-  //     firstDate: formattedFirstDate,
-  //     lastDate: formattedLastDate,
-  //   };
-  // }
+  // get yearDDL api handler
+  const getYearDDLHandler = (plantId) => {
+    if (plantId) {
+      getYearDDL(
+        `/mes/MesDDL/GetYearDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}`
+      );
+    }
+  };
+  // get horizonDDL api handler
+  const getHorizonDDLHandler = (plantId, yearId) => {
+    if (plantId && yearId) {
+      getHorizonDDL(
+        `/mes/MesDDL/GetPlanningHorizonDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&YearId=${yearId}`
+      );
+    }
+  };
 
   const saveHandler = (values, cb) => {
     if (!rowDto?.itemList?.length) {
@@ -176,11 +213,9 @@ export default function DistributionPlanCreate() {
         isActive: true,
         actinoBy: employeeId,
 
-
         // itemUoMName: "string",
       };
     });
-
 
     const payload = {
       distributionPlanningId: location?.state?.item?.distributionPlanningId || 0,
@@ -232,15 +267,12 @@ export default function DistributionPlanCreate() {
         toDate: item?.toDate,
       };
       setModifiedData(modifiedInitData);
-      handleChannelChange(modifiedInitData?.channel);
-      handleRegionChange(modifiedInitData, modifiedInitData?.region);
-      handleAreaChange(modifiedInitData, modifiedInitData?.area);
-      getWarehouseDDL(
-        `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${item?.plantHouseId}&OrgUnitTypeId=8`
-      );
-      getYearDDL(
-        `/mes/MesDDL/GetYearDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${item?.plantHouseId}`
-      );
+      getRegionDDLHandler(modifiedInitData?.channel);
+      getAreaDDLHandler(modifiedInitData, modifiedInitData?.region);
+      getTerritoryDDLHandler(modifiedInitData, modifiedInitData?.area);
+      getWarehouseDDLHandler(item?.plantHouseId);
+      getYearDDLHandler(item?.plantHouseId);
+      getHorizonDDLHandler(item?.plantHouseId, item?.yearId);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -248,7 +280,7 @@ export default function DistributionPlanCreate() {
   useEffect(() => {
     const { state } = location || {};
     if (state?.isEdit) {
-      setRowDto({itemList : state?.item?.distributionRowList});
+      setRowDto({ itemList: state?.item?.distributionRowList });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buId]);
@@ -307,7 +339,7 @@ export default function DistributionPlanCreate() {
                         setFieldValue('region', '');
                         setFieldValue('area', '');
                         setFieldValue('territory', '');
-                        handleChannelChange(valueOption);
+                        getRegionDDLHandler(valueOption);
                       }}
                       placeholder="Select Distribution Channel"
                       errors={errors}
@@ -324,9 +356,9 @@ export default function DistributionPlanCreate() {
                         setFieldValue('region', valueOption);
                         setFieldValue('area', '');
                         setFieldValue('territory', '');
-                        handleRegionChange(values, valueOption);
+                        getAreaDDLHandler(values, valueOption);
                       }}
-                      placeholder="Region"
+                      placeholder="Select Region"
                       isDisabled={!values?.channel}
                       errors={errors}
                       touched={touched}
@@ -341,9 +373,9 @@ export default function DistributionPlanCreate() {
                       onChange={(valueOption) => {
                         setFieldValue('area', valueOption);
                         setFieldValue('territory', '');
-                        handleAreaChange(values, valueOption);
+                        getTerritoryDDLHandler(values, valueOption);
                       }}
-                      placeholder="Area"
+                      placeholder="Select Area"
                       isDisabled={!values?.region}
                       errors={errors}
                       touched={touched}
@@ -358,7 +390,7 @@ export default function DistributionPlanCreate() {
                       onChange={(valueOption) => {
                         setFieldValue('territory', valueOption);
                       }}
-                      placeholder="Territory"
+                      placeholder="Select Territory"
                       isDisabled={!values?.area}
                       errors={errors}
                       touched={touched}
@@ -373,23 +405,12 @@ export default function DistributionPlanCreate() {
                       value={values?.plant}
                       label="Plant"
                       onChange={(valueOption) => {
-                        if (valueOption) {
-                          setFieldValue('plant', valueOption);
-                          getWarehouseDDL(
-                            `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${valueOption?.value}&OrgUnitTypeId=8`
-                          );
-                          getYearDDL(
-                            `/mes/MesDDL/GetYearDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${valueOption?.value}`
-                          );
-                        } else {
-                          setFieldValue('plant', '');
-                          setFieldValue('warehouse', '');
-                          setFieldValue('year', '');
-                          setFieldValue('horizon', '');
-                          setWarehouseDDL([]);
-                          setYearDDL([]);
-                          setHorizonDDL([]);
-                        }
+                        setFieldValue('plant', valueOption);
+                        setFieldValue('warehouse', '');
+                        setFieldValue('year', '');
+                        setFieldValue('horizon', '');
+                        getWarehouseDDLHandler(valueOption?.value);
+                        getYearDDLHandler(valueOption?.value);
                       }}
                       placeholder="Select plant"
                       errors={errors}
@@ -403,11 +424,7 @@ export default function DistributionPlanCreate() {
                       value={values?.warehouse}
                       label="Warehouse"
                       onChange={(valueOption) => {
-                        if (valueOption) {
-                          setFieldValue('warehouse', valueOption);
-                        } else {
-                          setFieldValue('warehouse', '');
-                        }
+                        setFieldValue('warehouse', valueOption);
                       }}
                       placeholder="Select Warehouse"
                       errors={errors}
@@ -422,16 +439,9 @@ export default function DistributionPlanCreate() {
                       value={values?.year}
                       label="Year"
                       onChange={(valueOption) => {
-                        if (valueOption) {
-                          setFieldValue('year', valueOption);
-                          getHorizonDDL(
-                            `/mes/MesDDL/GetPlanningHorizonDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${values.plant?.value}&YearId=${valueOption?.value}`
-                          );
-                        } else {
-                          setFieldValue('year', '');
-                          setFieldValue('horizon', '');
-                          setHorizonDDL([]);
-                        }
+                        setFieldValue('year', valueOption);
+                        setFieldValue('horizon', '');
+                        getHorizonDDLHandler(values.plant?.value, valueOption?.value);
                       }}
                       placeholder="Select year"
                       errors={errors}
@@ -446,15 +456,9 @@ export default function DistributionPlanCreate() {
                       value={values?.horizon}
                       label="Planning Horizon"
                       onChange={(valueOption) => {
-                        if (valueOption) {
-                          setFieldValue('horizon', valueOption);
-                          setFieldValue('fromDate', valueOption?.startdatetime);
-                          setFieldValue('toDate', valueOption?.enddatetime);
-                        } else {
-                          setFieldValue('horizon', '');
-                          setFieldValue('fromDate', '');
-                          setFieldValue('toDate', '');
-                        }
+                        setFieldValue('horizon', valueOption);
+                        setFieldValue('fromDate', valueOption?.startdatetime || '');
+                        setFieldValue('toDate', valueOption?.enddatetime || '');
                       }}
                       placeholder="Select horizon"
                       errors={errors}
@@ -474,8 +478,8 @@ export default function DistributionPlanCreate() {
                         getRowDto(
                           `/oms/DistributionChannel/GetDistributionPlanningItemList?buisnessUnitId=${buId}&plantId=${values?.plant?.value}&warehouseId=${values?.warehouse?.value}&year=${values?.year?.value}&month=${values?.horizon?.value}`,
                           (res) => {
-                            if (res?.response === "Already Exists") {
-                              toast.warn("Already Exist this entry!")
+                            if (res?.response === 'Already Exists') {
+                              toast.warn('Already Exist this entry!');
                             }
                           }
                         );
@@ -488,9 +492,11 @@ export default function DistributionPlanCreate() {
               </div>
               <div className="row">
                 <div className="col-lg-12">
-                  {
-                    rowDto?.response === "Already Exists" ? <ViewTable rowDto={rowDto}/> : <EntryTable rowDto={rowDto} setRowDto={setRowDto}/>
-                  }
+                  {rowDto?.response === 'Already Exists' ? (
+                    <ViewTable rowDto={rowDto} />
+                  ) : (
+                    <EntryTable rowDto={rowDto} setRowDto={setRowDto} />
+                  )}
                 </div>
               </div>
 
