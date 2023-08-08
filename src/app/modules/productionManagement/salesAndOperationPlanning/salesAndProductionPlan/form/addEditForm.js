@@ -13,14 +13,9 @@ import {
 } from "../helper";
 import Loading from "./../../../../_helper/_loading";
 import Form from "./form";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const initData = {
   plant: "",
-  channel: "",
-  region: "",
-  area: "",
-  territory: "",
   year: "",
   horizon: "",
   startDate: "",
@@ -49,10 +44,6 @@ export default function SalesAndProductionPlanCreateForm({
 
   // DDL state
   const [plantDDL, setPlantDDL] = useState([]);
-  const [channelDDL, getChannelDDL] = useAxiosGet();
-  const [regionDDL, getRegionDDL, , setRegionDDL] = useAxiosGet();
-  const [areaDDL, getAreaDDL, , setAreaDDL] = useAxiosGet();
-  const [territoryDDL, getTerritoryDDL, , setTerritoryDDL] = useAxiosGet();
   const [yearDDL, setYearDDL] = useState([]);
   const [horizonDDL, setHorizonDDL] = useState([]);
   const [itemNameDDL, setItemNameDDL] = useState([]);
@@ -85,9 +76,6 @@ export default function SalesAndProductionPlanCreateForm({
       selectedBusinessUnit?.value,
       setPlantDDL
     );
-    getChannelDDL(
-      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}`
-    );
   }, []);
 
   // const salesPlanItem = () => {
@@ -112,9 +100,7 @@ export default function SalesAndProductionPlanCreateForm({
         itemData.push({
           ...rowDto.data[i],
           bomid: rowDto.data[i]?.isMultiple ? rowDto.data[i].bom?.value : 0,
-          bomname: rowDto.data[i]?.isMultiple
-            ? rowDto.data[i].bom?.label
-            : rowDto.data[i]?.bomname,
+          bomname: rowDto.data[i]?.isMultiple ? rowDto.data[i].bom?.label : rowDto.data[i]?.bomname,
           objBOMList: undefined,
           bom: undefined,
         });
@@ -167,14 +153,6 @@ export default function SalesAndProductionPlanCreateForm({
             accountId: profileData?.accountId,
             businessUnitId: selectedBusinessUnit?.value,
             plantId: values?.plant?.value,
-            intDistributionChannelId: values?.channel?.value || 0,
-            strDistributionChannelName: values?.channel?.label || "",
-            intRegoinId: values?.region?.value || 0,
-            strRegionName: values?.region?.label || "",
-            intAreaId: values?.area?.value || 0,
-            strAreaName: values?.area?.label || "",
-            teritoryId: values?.territory?.value || 0,
-            strTeritoryName: values?.territory?.label || "",
             actionBy: profileData?.userId,
           },
           objRow: createSalesPlanItem(),
@@ -287,16 +265,6 @@ export default function SalesAndProductionPlanCreateForm({
         // setQuantityIndex={setQuantityIndex}
         id={params?.id}
         dataHandler={dataHandler}
-        channelDDL={channelDDL}
-        regionDDL={regionDDL}
-        areaDDL={areaDDL}
-        territoryDDL={territoryDDL}
-        getRegionDDL={getRegionDDL}
-        setRegionDDL={setRegionDDL}
-        getAreaDDL={getAreaDDL}
-        setAreaDDL={setAreaDDL}
-        getTerritoryDDL={getTerritoryDDL}
-        setTerritoryDDL={setTerritoryDDL}
       />
     </IForm>
   );
