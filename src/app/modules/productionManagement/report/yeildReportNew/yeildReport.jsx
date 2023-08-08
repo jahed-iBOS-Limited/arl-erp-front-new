@@ -384,10 +384,6 @@ function YeildReport({ tableData }) {
             return (
               <>
                 <td className='text-right'>
-                  {matchCatagory?.yieldPer &&
-                    _fixedPoint(matchCatagory?.yieldPer)}
-                </td>
-                <td className='text-right'>
                   {matchCatagory?.productinQtyBag &&
                     _fixedPoint(matchCatagory?.productinQtyBag)}
                 </td>
@@ -396,16 +392,20 @@ function YeildReport({ tableData }) {
                     _fixedPoint(matchCatagory?.productionQty)}
                 </td>
                 <td className='text-right'>
-                  {matchCatagory?.byProduct &&
-                    _fixedPoint(matchCatagory?.byProduct)}
+                  {matchCatagory?.consumption &&
+                    _fixedPoint(matchCatagory?.consumption)}
                 </td>
                 <td className='text-right'>
                   {matchCatagory?.byProductionQty &&
                     _fixedPoint(matchCatagory?.byProductionQty)}
                 </td>
                 <td className='text-right'>
-                  {matchCatagory?.consumption &&
-                    _fixedPoint(matchCatagory?.consumption)}
+                  {matchCatagory?.yieldPer &&
+                    _fixedPoint(matchCatagory?.yieldPer)}
+                </td>
+                <td className='text-right'>
+                  {matchCatagory?.byProduct &&
+                    _fixedPoint(matchCatagory?.byProduct)}
                 </td>
               </>
             );
@@ -448,16 +448,16 @@ function YeildReport({ tableData }) {
                     <tr>
                       {tableData?.map((item, index) => (
                         <>
-                          <th style={{ minWidth: "80px" }}>Yield Per</th>
                           <th style={{ minWidth: "80px" }}>
-                            Productin Qty Bag
+                            Production Qty Bag
                           </th>
-                          <th style={{ minWidth: "80px" }}>Production Qty</th>
-                          <th style={{ minWidth: "80px" }}>By Product</th>
+                          <th style={{ minWidth: "80px" }}>Production Qty KG</th>
+                          <th style={{ minWidth: "80px" }}>Consumption</th>
                           <th style={{ minWidth: "80px" }}>
                             By Production Qty
                           </th>
-                          <th style={{ minWidth: "80px" }}>Consumption</th>
+                          <th style={{ minWidth: "80px" }}>Yield %</th>
+                          <th style={{ minWidth: "80px" }}>By Product %</th>
                         </>
                       ))}
                     </tr>
