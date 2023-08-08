@@ -47,7 +47,7 @@ export default function Yeildreport() {
         <>
           {(tableDataLoader || YearldReportPivotLoading) && <Loading />}
           <IForm
-            title="Yeild Report"
+            title="Yield Report"
             isHiddenReset
             isHiddenBack
             isHiddenSave
