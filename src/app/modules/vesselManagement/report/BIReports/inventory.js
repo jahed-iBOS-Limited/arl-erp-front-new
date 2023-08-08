@@ -15,6 +15,14 @@ import {
 import ChallanWiseSalesReport from "./challanWiseSalesTable";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import Loading from "../../../_helper/_loading";
+import MotherVesselInventoryReportTable from "./MVInventoryTable";
+
+const types = [
+  { value: 5, label: "Mother Vessel Inventory Report" },
+  { value: 1, label: "Mother Vessel Report" },
+  { value: 3, label: "Stock Wise Report" },
+  { value: 4, label: "Challan Wise Sales Report" },
+];
 
 const InventoryG2GReportRDLC = () => {
   const groupId = `e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`;
@@ -24,11 +32,13 @@ const InventoryG2GReportRDLC = () => {
   const [motherVesselDDL, setMotherVesselDDL] = useState([]);
   const [lighterVessel, setLighterVessel] = useState([]);
   const [shippointDDL, setShippointDDL] = useState([]);
-  const [rowData, getRowData, loading] = useAxiosGet();
+  const [rowData, getRowData, loading, setRowData] = useAxiosGet();
+  const [plantDDL, getPlantDDL] = useAxiosGet();
 
   const initData = {
     type: "",
-    shippoint: "",
+    plant: { value: 130, label: "G 2 G" },
+    shippoint: { value: 0, label: "All" },
     motherVessel: "",
     lighterVessel: "",
     viewType: "",
@@ -49,18 +59,33 @@ const InventoryG2GReportRDLC = () => {
   };
 
   const {
-    profileData: { accountId: accId },
+    profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  const getData = (values, searchTerm = "") => {
+  const getData = (values, searchTerm = "", _pageNo = 0, _pageSize = 1500) => {
+    const typeId = values?.type?.value;
     const search = searchTerm ? `&searchTerm=${searchTerm}` : "";
-    getRowData(
-      `/tms/LigterLoadUnload/G2GChallanWiseSalesReport?accountId=${accId}&businessUnitId=${buId}${search}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`
-    );
+
+    // Challan Wise Sales Report
+    const urlOne = `/tms/LigterLoadUnload/G2GChallanWiseSalesReport?accountId=${accId}&businessUnitId=${buId}${search}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`;
+
+    // Mother Vessel Inventory Report
+    const urlTwo = `/tms/InternalTransport/GetG2gInventoryInformation?intUnit=${buId}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}&intPlantId=${values?.plant?.value}&intItemTypeId=0&intItemId=0&intWareHouseId=${values?.shippoint?.value}&PageNo=${_pageNo}&PageSize=${_pageSize}`;
+
+    const URL = [4].includes(typeId)
+      ? urlOne
+      : [5].includes(typeId)
+      ? urlTwo
+      : ``;
+
+    getRowData(URL);
   };
 
   useEffect(() => {
+    getPlantDDL(
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
+    );
     getShippointDDL(accId, buId, setShippointDDL);
     getMotherVesselDDL(accId, buId, 0, setMotherVesselDDL);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -77,74 +102,104 @@ const InventoryG2GReportRDLC = () => {
                 <div className="col-lg-3">
                   <NewSelect
                     name="type"
-                    options={[
-                      { value: 1, label: "Mother Vessel Report" },
-                      { value: 3, label: "Stock Wise Report" },
-                      { value: 4, label: "Challan Wise Sales Report" },
-                    ]}
+                    options={types}
                     label="Type"
                     value={values?.type}
                     onChange={(valueOption) => {
                       setShowReport(false);
                       setFieldValue("type", valueOption);
                       setFieldValue("viewType", 0);
+                      setRowData([]);
                     }}
                     placeholder="Type"
                   />
                 </div>
-                {[1, 3].includes(values?.type?.value) && (
+                {[5].includes(values?.type?.value) && (
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="plant"
+                      options={plantDDL || []}
+                      label="Plant"
+                      value={values?.plant}
+                      onChange={(valueOption) => {
+                        setShowReport(false);
+                        setFieldValue("plant", valueOption);
+                        setRowData([]);
+                      }}
+                      placeholder="Plant"
+                    />
+                  </div>
+                )}
+                {[1, 3, 5].includes(values?.type?.value) && (
                   <>
                     <div className="col-lg-3">
                       <NewSelect
                         name="shippoint"
-                        options={
-                          [{ value: 0, label: "All" }, ...shippointDDL] || []
+                        options={[{ value: 0, label: "All" }, ...shippointDDL]}
+                        label={
+                          [5].includes(values?.type?.value)
+                            ? "Warehouse"
+                            : "ShipPoint"
                         }
-                        label="Shippoint"
                         value={values?.shippoint}
                         onChange={(valueOption) => {
                           setShowReport(false);
                           setFieldValue("shippoint", valueOption);
+                          setRowData([]);
                         }}
-                        placeholder="Shippoint"
-                      />
-                    </div>
-                    <div className="col-lg-3">
-                      <NewSelect
-                        name="motherVessel"
-                        options={
-                          [{ value: 0, label: "All" }, ...motherVesselDDL] || []
+                        placeholder={
+                          [5].includes(values?.type?.value)
+                            ? "Warehouse"
+                            : "ShipPoint"
                         }
-                        value={values?.motherVessel}
-                        label="Mother Vessel"
-                        onChange={(valueOption) => {
-                          setFieldValue("motherVessel", valueOption);
-                          valueOption &&
-                            GetLighterVesselDDL(
-                              valueOption?.value,
-                              setLighterVessel
-                            );
-                          setShowReport(false);
-                          setFieldValue("lighterVessel", "");
-                        }}
-                        placeholder="Mother Vessel"
                       />
                     </div>
-                    <div className="col-lg-3">
-                      <NewSelect
-                        name="lighterVessel"
-                        options={
-                          [{ value: 0, label: "All" }, ...lighterVessel] || []
-                        }
-                        label="Lighter Vessel"
-                        value={values?.lighterVessel}
-                        onChange={(valueOption) => {
-                          setShowReport(false);
-                          setFieldValue("lighterVessel", valueOption);
-                        }}
-                        placeholder="Lighter Vessel"
-                      />
-                    </div>
+                    {[1, 3].includes(values?.type?.value) && (
+                      <>
+                        <div className="col-lg-3">
+                          <NewSelect
+                            name="motherVessel"
+                            options={
+                              [
+                                { value: 0, label: "All" },
+                                ...motherVesselDDL,
+                              ] || []
+                            }
+                            value={values?.motherVessel}
+                            label="Mother Vessel"
+                            onChange={(valueOption) => {
+                              setFieldValue("motherVessel", valueOption);
+                              setRowData([]);
+                              valueOption &&
+                                GetLighterVesselDDL(
+                                  valueOption?.value,
+                                  setLighterVessel
+                                );
+                              setShowReport(false);
+                              setFieldValue("lighterVessel", "");
+                            }}
+                            placeholder="Mother Vessel"
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <NewSelect
+                            name="lighterVessel"
+                            options={
+                              [{ value: 0, label: "All" }, ...lighterVessel] ||
+                              []
+                            }
+                            label="Lighter Vessel"
+                            value={values?.lighterVessel}
+                            onChange={(valueOption) => {
+                              setShowReport(false);
+                              setFieldValue("lighterVessel", valueOption);
+                              setRowData([]);
+                            }}
+                            placeholder="Lighter Vessel"
+                          />
+                        </div>
+                      </>
+                    )}
                   </>
                 )}
                 {values?.type?.value === 3 ? (
@@ -160,6 +215,7 @@ const InventoryG2GReportRDLC = () => {
                       onChange={(valueOption) => {
                         setShowReport(false);
                         setFieldValue("viewType", valueOption);
+                        setRowData([]);
                       }}
                       placeholder="View Type"
                     />
@@ -171,6 +227,7 @@ const InventoryG2GReportRDLC = () => {
                     setFieldValue,
                     onChange: () => {
                       setShowReport(false);
+                      setRowData([]);
                     },
                     colSize: "col-lg-3",
                   }}
@@ -181,7 +238,7 @@ const InventoryG2GReportRDLC = () => {
                     if ([1, 3].includes(values?.type?.value)) {
                       setShowReport(false);
                       setShowReport(true);
-                    } else if ([4].includes(values?.type?.value)) {
+                    } else if ([4, 5].includes(values?.type?.value)) {
                       getData(values, "");
                     }
                   }}
@@ -198,6 +255,9 @@ const InventoryG2GReportRDLC = () => {
             )}
             {[4].includes(values?.type?.value) && (
               <ChallanWiseSalesReport obj={{ rowData }} />
+            )}
+            {[5].includes(values?.type?.value) && (
+              <MotherVesselInventoryReportTable obj={{ rowData }} />
             )}
           </ICustomCard>
         )}
