@@ -164,20 +164,23 @@ export default function BankGuaranteeReport() {
         businessPartnerName: item?.CustomerName,
         monthId: date?.getMonth() + 1,
         yearId: date?.getFullYear(),
-        bankGuaranteeAmount: item?.BG,
-        actualCreditLimit: item?.ActualCL,
-        bgNlimitPercentage: item?.BgVSL,
-        approvedOd30percent: item?.ApprovedOD30,
-        usedOd: item?.UsedOD,
-        outOf30PercentOd: item?.Outof30OD,
-        debit: item?.Debit,
-        sales: item?.SalesBag,
-        bgCommissionPerBag: item?.BGCommissionBag,
-        totalBgCommission: item?.TotalCommission,
-        remarks: "",
+        bankGuaranteeAmount: item?.BG || 0,
+        actualCreditLimit: item?.ActualCL || 0,
+        bgNlimitPercentage: item?.BgVSL || 0,
+        approvedOd30percent: item?.ApprovedOD30 || 0,
+        usedOd: item?.UsedOD || 0,
+        outOf30PercentOd: item?.Outof30OD || 0,
+        debit: item?.Debit || 0,
+        sales: item?.SalesBag || 0,
+        bgCommissionPerBag: item?.BGCommissionBag || 0,
+        totalBgCommission: item?.TotalCommission || 0,
+        remarks: item?.Remarks || "",
         actionBy: userId,
       };
     });
+
+    // Type 1 = Bank Guarantee Report
+    // Type 3 = Bank Guarantee Excel Upload
 
     const payload = typeId === 3 ? payloadOne : typeId === 1 ? payloadTwo : [];
 
