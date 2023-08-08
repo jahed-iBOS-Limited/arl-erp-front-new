@@ -84,7 +84,7 @@ export default function GhatLoadUnloadBill() {
           truckToDamRate: item?.truckToDamRate,
           lighterToBolgateRate: item?.lighterToBolgateRate,
           bolgateToDamRate: item?.bolgateToDamRate,
-          othersCostRate: +item?.totalRate,
+          othersCostRate: +item?.totalRate || 0,
         }));
 
         const payload = {
