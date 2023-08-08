@@ -1,7 +1,6 @@
 import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import * as Yup from 'yup';
 import Loading from '../../../_helper/_loading';
 import IForm from '../../../_helper/_form';
 import NewSelect from '../../../_helper/_select';
@@ -11,6 +10,7 @@ import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 import { toast } from 'react-toastify';
 import EntryTable from './entryTable';
 import ViewTable from './viewTable';
+import { getModifiedInitData, saveHandler, validationSchema } from './helper';
 
 const initData = {
   channel: '',
@@ -25,63 +25,12 @@ const initData = {
   horizon: '',
 };
 
-const validationSchema = Yup.object().shape({
-  channel: Yup.object()
-    .shape({
-      label: Yup.string().required('Channel is required'),
-      value: Yup.string().required('Channel is required'),
-    })
-    .typeError('Channel is required'),
-  region: Yup.object()
-    .shape({
-      label: Yup.string().required('Region is required'),
-      value: Yup.string().required('Region is required'),
-    })
-    .typeError('Region is required'),
-  area: Yup.object()
-    .shape({
-      label: Yup.string().required('Area is required'),
-      value: Yup.string().required('Area is required'),
-    })
-    .typeError('Area is required'),
-  territory: Yup.object()
-    .shape({
-      label: Yup.string().required('Territory is required'),
-      value: Yup.string().required('Territory is required'),
-    })
-    .typeError('Territory is required'),
-  plant: Yup.object()
-    .shape({
-      label: Yup.string().required('Plant is required'),
-      value: Yup.string().required('Plant is required'),
-    })
-    .typeError('Plant is required'),
-  warehouse: Yup.object()
-    .shape({
-      label: Yup.string().required('Warehouse is required'),
-      value: Yup.string().required('Warehouse is required'),
-    })
-    .typeError('Warehouse is required'),
-  year: Yup.object()
-    .shape({
-      label: Yup.string().required('Year is required'),
-      value: Yup.string().required('Year is required'),
-    })
-    .typeError('Year is required'),
-  horizon: Yup.object()
-    .shape({
-      label: Yup.string().required('Horizon is required'),
-      value: Yup.string().required('Horizon is required'),
-    })
-    .typeError('Horizon is required'),
-});
-
 export default function DistributionPlanCreate() {
   const location = useLocation();
   const [objProps, setObjprops] = useState({});
   const [modifiedData, setModifiedData] = useState({});
-  const [channelDDL, getChannelDDL] = useAxiosGet();
-  const [plantDDL, getPlantDDL] = useAxiosGet();
+  const [channelDDL, getChannelDDL, channelLoading] = useAxiosGet();
+  const [plantDDL, getPlantDDL, plantLoading] = useAxiosGet();
   const [warehouseDDL, getWarehouseDDL, warehouseLoading] = useAxiosGet();
   const [yearDDL, getYearDDL, yearLoading] = useAxiosGet();
   const [horizonDDL, getHorizonDDL, horizonLoading] = useAxiosGet();
@@ -174,98 +123,11 @@ export default function DistributionPlanCreate() {
     }
   };
 
-  const saveHandler = (values, cb) => {
-    if (!rowDto?.itemList?.length) {
-      return toast.warn('No Item Found');
-    }
-
-    for (let item of rowDto?.itemList) {
-      if (item?.planQty || item?.planRate) {
-        if (!item?.planQty) {
-          return toast.warn('Plan Qty(Direct) is required!');
-        }
-        if (!item?.planRate) {
-          return toast.warn('Plan Rate(Direct) is required!');
-        }
-      }
-      if (item?.planTransQty || item?.planTransRate) {
-        if (!item?.planTransQty) {
-          return toast.warn('Plan Qty(Via Transshipment) is required!');
-        }
-        if (!item?.planTransRate) {
-          return toast.warn('Plan Rate(Via Transshipment) is required!');
-        }
-      }
-    }
-
-    const distributionRowList = rowDto?.itemList?.map((item) => {
-      return {
-        rowId: item?.rowId || 0,
-        distributionPlanningId: item?.distributionPlanningId || 0,
-        itemId: item?.itemId,
-        itemName: item?.itemName,
-        itemCode: item?.itemCode,
-        itemUoM: item?.itemUoM,
-        planQty: +item?.planQty || 0,
-        planRate: +item?.planRate || 0,
-        planTransQty: +item?.planTransQty || 0,
-        planTransRate: +item?.planTransRate || 0,
-        isActive: true,
-        actinoBy: employeeId,
-
-        // itemUoMName: "string",
-      };
-    });
-
-    const payload = {
-      distributionPlanningId: location?.state?.item?.distributionPlanningId || 0,
-      businessUnitId: buId,
-      distributionChannelId: values?.channel?.value,
-      regionId: values?.region?.value,
-      areaId: values?.area?.value,
-      territoryId: values?.territory?.value,
-      fromDate: values?.fromDate,
-      toDate: values?.toDate,
-      isActive: true,
-      actinoBy: employeeId,
-      distributionRowList: distributionRowList,
-
-      // businessUnitName: "string",
-      // distributionChannelName: "string",
-      // regionName: "string",
-      // areaName: "string",
-      // territoryName: "string",
-      // transportTypeId: 0,
-      // transportTypeName: "string",
-      plantHouseId: values?.plant?.value,
-      wareHouseId: values?.warehouse?.value,
-      monthId: values?.horizon?.value,
-      yearId: values?.year?.value,
-    };
-    saveDistributionPlan(
-      `/oms/DistributionChannel/CreateAndEditDistributionPlanning`,
-      payload,
-      location?.state?.isEdit ? null : cb,
-      true
-    );
-  };
-
   useEffect(() => {
     const { state } = location || {};
     const { isEdit, item } = state || {};
     if (isEdit) {
-      const modifiedInitData = {
-        channel: { value: item?.distributionChannelId, label: item?.distributionChannelName },
-        region: { value: item?.regionId, label: item?.regionName },
-        area: { value: item?.areaId, label: item?.areaName },
-        territory: { value: item?.territoryId, label: item?.territoryName },
-        plant: { value: item?.plantHouseId, label: item?.plantHouseName },
-        warehouse: { value: item?.wareHouseId, label: item?.wareHouseName },
-        year: { value: item?.yearId, label: item?.yearId },
-        horizon: { value: item?.monthId, label: item?.monthName },
-        fromDate: item?.fromDate,
-        toDate: item?.toDate,
-      };
+      const modifiedInitData = getModifiedInitData(item);
       setModifiedData(modifiedInitData);
       getRegionDDLHandler(modifiedInitData?.channel);
       getAreaDDLHandler(modifiedInitData, modifiedInitData?.region);
@@ -290,7 +152,7 @@ export default function DistributionPlanCreate() {
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [userId, accId, buId]);
 
   useEffect(() => {
     getChannelDDL(
@@ -305,9 +167,16 @@ export default function DistributionPlanCreate() {
       initialValues={location?.state?.isEdit ? modifiedData : initData}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        saveHandler(values, () => {
-          resetForm(initData);
-          setRowDto({});
+        saveHandler({
+          values,
+          rowDto,
+          buId,
+          employeeId,
+          location,
+          saveDistributionPlan,
+          cb:() => {
+            setRowDto({});
+          }
         });
       }}
     >
@@ -315,6 +184,8 @@ export default function DistributionPlanCreate() {
         <>
           {(rowDtoLoading ||
             saveDistributionLoading ||
+            plantLoading ||
+            channelLoading ||
             territoryLoading ||
             areaLoading ||
             regionLoading ||
