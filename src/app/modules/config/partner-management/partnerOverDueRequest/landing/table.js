@@ -37,6 +37,7 @@ const header = [
   "Present Debit Amount",
   "Last Delivery Date",
   "Approve by Sales",
+  "Approve by Accounts",
   "Approve by Credit Control",
   "Status",
   "Remarks",
@@ -63,6 +64,10 @@ const PartnerOverDueRequestTable = () => {
     profileData: { accountId: accId, userId, departmentId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
+
+  // const tHeaders = () => {
+  //   const heads = buId === 175 ? header
+  // }
 
   const getData = (pageNo, pageSize) => {
     getPartnerOverDueRequestList(
@@ -101,8 +106,8 @@ const PartnerOverDueRequestTable = () => {
         isSelected: item?.isRejected
           ? false
           : !(item?.isCreditControllApprove && item?.isSalesApprove)
-            ? value
-            : false,
+          ? value
+          : false,
       };
     });
     setRowData(modify);
@@ -207,7 +212,7 @@ const PartnerOverDueRequestTable = () => {
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        onSubmit={() => { }}
+        onSubmit={() => {}}
       >
         {({ values, setFieldValue }) => (
           <>
@@ -216,46 +221,47 @@ const PartnerOverDueRequestTable = () => {
               <CardHeader title="Partner Over Due Request">
                 <CardHeaderToolbar>
                   <div className="d-flex justify-content-end">
-                    {[299, 4, 219, 356, 357].includes(departmentId) && isPermitted && (
-                      <>
-                        <button
-                          onClick={() => {
-                            setShow(true);
-                          }}
-                          className="btn btn-danger mr-2"
-                          disabled={
-                            !rowData?.filter(
-                              (e) =>
-                                e?.isSelected &&
-                                !(
-                                  e?.isCreditControllApprove &&
-                                  e?.isSalesApprove
-                                )
-                            )?.length
-                          }
-                        >
-                          Reject
-                        </button>
-                        <button
-                          onClick={() => {
-                            approveOfReject(true, values);
-                          }}
-                          className="btn btn-primary mr-2"
-                          disabled={
-                            !rowData?.filter(
-                              (e) =>
-                                e?.isSelected &&
-                                !(
-                                  e?.isCreditControllApprove &&
-                                  e?.isSalesApprove
-                                )
-                            )?.length
-                          }
-                        >
-                          Approve
-                        </button>
-                      </>
-                    )}
+                    {[299, 4, 219, 356, 357].includes(departmentId) &&
+                      isPermitted && (
+                        <>
+                          <button
+                            onClick={() => {
+                              setShow(true);
+                            }}
+                            className="btn btn-danger mr-2"
+                            disabled={
+                              !rowData?.filter(
+                                (e) =>
+                                  e?.isSelected &&
+                                  !(
+                                    e?.isCreditControllApprove &&
+                                    e?.isSalesApprove
+                                  )
+                              )?.length
+                            }
+                          >
+                            Reject
+                          </button>
+                          <button
+                            onClick={() => {
+                              approveOfReject(true, values);
+                            }}
+                            className="btn btn-primary mr-2"
+                            disabled={
+                              !rowData?.filter(
+                                (e) =>
+                                  e?.isSelected &&
+                                  !(
+                                    e?.isCreditControllApprove &&
+                                    e?.isSalesApprove
+                                  )
+                              )?.length
+                            }
+                          >
+                            Approve
+                          </button>
+                        </>
+                      )}
 
                     <button
                       onClick={() => {
@@ -311,11 +317,11 @@ const PartnerOverDueRequestTable = () => {
                             type="checkbox"
                             value={selectedAll()}
                             checked={selectedAll()}
-                            onChange={() => { }}
+                            onChange={() => {}}
                           />
                         </th>
                         {header.map((th, index) => {
-                          return <th key={index}> {th} </th>;
+                          return <th key={index}>{th}</th>;
                         })}
                       </tr>
                     </thead>
@@ -349,13 +355,13 @@ const PartnerOverDueRequestTable = () => {
                                 item?.isSalesApprove) ||
                               item?.isRejected
                             ) && (
-                                <input
-                                  type="checkbox"
-                                  value={item?.isSelected}
-                                  checked={item?.isSelected}
-                                  onChange={() => { }}
-                                />
-                              )}
+                              <input
+                                type="checkbox"
+                                value={item?.isSelected}
+                                checked={item?.isSelected}
+                                onChange={() => {}}
+                              />
+                            )}
                           </td>
                           <td style={{ width: "40px" }} className="text-center">
                             {index + 1}
@@ -408,19 +414,35 @@ const PartnerOverDueRequestTable = () => {
                               item?.isSalesApprove
                                 ? { backgroundColor: "#35e635", width: "60px" }
                                 : !item?.isSalesApprove
-                                  ? { backgroundColor: "yellow", width: "60px" }
-                                  : { width: "60px" }
+                                ? { backgroundColor: "yellow", width: "60px" }
+                                : { width: "60px" }
                             }
                           >
                             {item?.isSalesApprove ? "Yes" : "No"}
                           </td>
+                          {/* {buId !== 175 && ( */}
+                          <td
+                            style={
+                              item?.isAccountApprove
+                                ? {
+                                    backgroundColor: "#35e635",
+                                    width: "60px",
+                                  }
+                                : !item?.isAccountApprove
+                                ? { backgroundColor: "yellow", width: "60px" }
+                                : { width: "60px" }
+                            }
+                          >
+                            {item?.isAccountApprove ? "Yes" : "No"}
+                          </td>
+                          {/* )} */}
                           <td
                             style={
                               item?.isCreditControllApprove
                                 ? { backgroundColor: "#35e635", width: "60px" }
                                 : !item?.isCreditControllApprove
-                                  ? { backgroundColor: "yellow", width: "60px" }
-                                  : { width: "60px" }
+                                ? { backgroundColor: "yellow", width: "60px" }
+                                : { width: "60px" }
                             }
                           >
                             {item?.isCreditControllApprove ? "Yes" : "No"}
@@ -429,8 +451,8 @@ const PartnerOverDueRequestTable = () => {
                             {item?.isRejected
                               ? "Rejected"
                               : item?.isCreditControllApprove
-                                ? "Approved"
-                                : "Pending"}
+                              ? "Approved"
+                              : "Pending"}
                           </td>
                           <td>{item?.strComments}</td>
                         </tr>
