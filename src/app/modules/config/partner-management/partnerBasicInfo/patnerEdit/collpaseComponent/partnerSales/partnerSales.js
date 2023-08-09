@@ -686,21 +686,21 @@ export default function PartnerSales() {
   return (
     <Card>
       {true && <ModalProgressBar />}
-      <CardHeader title="Partner Sales Info">
+      <CardHeader title='Partner Sales Info'>
         <CardHeaderToolbar>
           <button
-            type="reset"
+            type='reset'
             onClick={ResetProductClick}
             ref={resetBtnRef}
-            className="btn btn-light ml-2"
+            className='btn btn-light ml-2'
           >
-            <i className="fa fa-redo"></i>
+            <i className='fa fa-redo'></i>
             Reset
           </button>
           {`  `}
           <button
-            type="submit"
-            className="btn btn-primary ml-2"
+            type='submit'
+            className='btn btn-primary ml-2'
             onClick={saveBtnClicker}
             ref={btnRef}
             disabled={isDisabled}
@@ -710,7 +710,7 @@ export default function PartnerSales() {
         </CardHeaderToolbar>
       </CardHeader>
       <CardBody>
-        <div className="mt-0">
+        <div className='mt-0'>
           {isDisabled && <Loading />}
           <Form
             // product={initProduct}
@@ -718,6 +718,11 @@ export default function PartnerSales() {
               salesData || {
                 ...initProduct,
                 alternetGeneralLedger: filterAdvanceReceiveGL?.[0] || "",
+                priceIncludingTax: [171, 224].includes(
+                  selectedBusinessUnit?.value
+                )
+                  ? true
+                  : false,
               }
             }
             btnRef={btnRef}
