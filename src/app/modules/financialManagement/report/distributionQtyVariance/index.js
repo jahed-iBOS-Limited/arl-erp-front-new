@@ -249,7 +249,8 @@ export default function DistributionQtyVariance() {
                         !values?.distributionChannel ||
                         !values?.region ||
                         !values?.area ||
-                        !values?.territory
+                        !values?.territory ||
+                        !values?.monthYear
                       }
                     >
                       View
