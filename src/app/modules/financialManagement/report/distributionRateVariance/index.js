@@ -243,13 +243,14 @@ export default function DistributionRateVariance() {
                       className="btn btn-primary"
                       style={{ marginTop: "18px" }}
                       onClick={() => {
-                        getData(values)
+                        getData(values);
                       }}
                       disabled={
                         !values?.distributionChannel ||
                         !values?.region ||
                         !values?.area ||
-                        !values?.territory
+                        !values?.territory ||
+                        !values?.monthYear
                       }
                     >
                       View
