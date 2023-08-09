@@ -14,6 +14,7 @@ import SalesOrderReportModal from "./salesOrderReportModal";
 import TableOne from "./tableOne";
 import Form from "./form";
 import TableTwo from "./tableTwo";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const initData = {
   fromDate: _todayDate(),
@@ -21,6 +22,7 @@ const initData = {
   shipPoint: { value: 0, label: "All" },
   reportType: { value: 0, label: "Details" },
   channel: "",
+  customer: "",
 };
 
 function SalesOrderReportLanding() {
@@ -28,6 +30,8 @@ function SalesOrderReportLanding() {
   const [modalShow, setModalShow] = useState(false);
   const [gridData, setGridData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [rowData, getRowData, loader] = useAxiosGet();
+
   // get user profile data from store
   const storeData = useSelector((state) => {
     return {
@@ -35,6 +39,7 @@ function SalesOrderReportLanding() {
       selectedBusinessUnit: state?.authData?.selectedBusinessUnit,
     };
   }, shallowEqual);
+
   const shipPointDDL = useSelector((state) => {
     return state?.commonDDL?.shippointDDL;
   }, shallowEqual);
@@ -59,18 +64,29 @@ function SalesOrderReportLanding() {
         setLoading
       );
     } else if ([2].includes(typeId)) {
+      getRowData(
+        `/oms/SalesInformation/GetDataBySalesOrdeByApps?buisnessUnitId=${
+          selectedBusinessUnit?.value
+        }&channelId=${values?.channel?.value}&shipPointId=${
+          values?.shipPoint?.value
+        }&customerId=${values?.customer?.value || 0}&fromDate=${
+          values?.fromDate
+        }&toDate=${values?.toDate}&isApproved=true`
+      );
     }
   };
 
   return (
     <>
       <ICustomCard title="Sales Order Report">
-        {loading && <Loading />}
+        {(loading || loader) && <Loading />}
         <Formik enableReinitialize={true} initialValues={initData}>
           {({ values, setFieldValue, errors, touched }) => (
             <>
               <Form
                 obj={{
+                  buId: selectedBusinessUnit?.value,
+                  accId: profileData?.accountId,
                   values,
                   errors,
                   touched,
@@ -96,15 +112,7 @@ function SalesOrderReportLanding() {
 
               {/* App's order list */}
               {[2].includes(values?.reportType?.value) && (
-                <TableTwo
-                  obj={{
-                    values,
-                    gridData,
-                    setDetails,
-                    setModalShow,
-                    getSummaryReportData,
-                  }}
-                />
+                <TableTwo obj={{ rowData }} />
               )}
             </>
           )}

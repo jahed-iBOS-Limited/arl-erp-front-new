@@ -3,9 +3,13 @@ import NewSelect from "../../../../_helper/_select";
 import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
 import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
 import IButton from "../../../../_helper/iButton";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import axios from "axios";
 
 export default function Form({ obj }) {
   const {
+    buId,
+    accId,
     values,
     errors,
     touched,
@@ -42,6 +46,27 @@ export default function Form({ obj }) {
               territory: false,
             }}
           />
+          <div className="col-lg-3">
+            <label>Customer</label>
+            <SearchAsyncSelect
+              selectedValue={values?.customer}
+              handleChange={(valueOption) => {
+                setFieldValue("customer", valueOption);
+                setGridData([]);
+              }}
+              isDisabled={!values?.channel}
+              placeholder="Search Customer"
+              loadOptions={(v) => {
+                const searchValue = v.trim();
+                if (searchValue?.length < 3 || !searchValue) return [];
+                return axios
+                  .get(
+                    `/partner/PManagementCommonDDL/GetCustomerNameDDLByChannelId?SearchTerm=${searchValue}&AccountId=${accId}&BusinessUnitId=${buId}&ChannelId=${values?.channel?.value}`
+                  )
+                  .then((res) => res?.data);
+              }}
+            />
+          </div>
           <FromDateToDateForm obj={{ values, setFieldValue }} />
           <div className="col-lg-3">
             <NewSelect

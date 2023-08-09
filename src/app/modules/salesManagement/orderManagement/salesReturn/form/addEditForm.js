@@ -1,51 +1,55 @@
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { toast } from "react-toastify";
-import { getDistributionChannelDDL_api } from "../../../../transportManagement/report/transportSupplierUpdate/helper";
-import { getSalesReturnGridData, salesReturnEntry } from "../helper";
-import Loading from "../../../../_helper/_loading";
+import React, { useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
+import Loading from "../../../../_helper/_loading";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { salesReturnEntry } from "../helper";
 import Form from "./form";
 
 const initData = {
-  distributionChannel: "",
+  channel: "",
   customer: "",
   challan: "",
   returnType: "",
+  fromDate: _todayDate(),
+  toDate: _todayDate(),
 };
 
 function SalesReturnForm() {
-  const [gridData, setGridData] = useState([]);
+  const [gridData, getGirdData, loader, setGridData] = useAxiosGet([]);
   const [loading, setLoading] = useState(false);
-  const [distributionChannelDDL, setDistributionChannelDDL] = useState([]);
 
   const history = useHistory();
 
   // get user profile data from store
-  const { profileData, selectedBusinessUnit } = useSelector((state) => {
-    return state?.authData;
-  }, shallowEqual);
-
-  useEffect(() => {
-    if (selectedBusinessUnit?.value && profileData?.accountId) {
-      getDistributionChannelDDL_api(
-        profileData?.accountId,
-        selectedBusinessUnit?.value,
-        setDistributionChannelDDL
-      );
-    }
-  }, [selectedBusinessUnit, profileData]);
+  const {
+    profileData: { accountId: accId, userId, employeeId: empId },
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => state?.authData, shallowEqual);
 
   const commonGridFunc = (values) => {
-    getSalesReturnGridData(
-      selectedBusinessUnit?.value,
-      values?.challan,
-      profileData?.employeeId,
-      values?.customer?.value,
-      setGridData,
-      setLoading
-    );
+    const returnType = values?.returnType?.value;
+
+    const urlOne = `/oms/SalesInformation/GetDeliveryChallanNSalesOrderCancel?Challan=${values?.challan}&Unitid=${buId}&Partid=5&Narration=test&InactiveBy=${empId}&Customerid=${values?.customer?.value}`;
+
+    const urlTwo = `/oms/SalesReturnAndCancelProcess/GetDeliveryDataForSalesReturnPartial?accountId=${accId}&businessUnitId=${buId}&channelId=${values?.channel?.value}&businessPartnerId=${values?.customer?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`;
+
+    const URL = returnType === 1 ? urlOne : returnType === 2 ? urlTwo : ``;
+
+    getGirdData(URL, (resData) => {
+      const modifyData = resData?.map((item) => ({
+        ...item,
+        isSelected: false,
+        rowData:
+          returnType === 2
+            ? item?.rowData?.map((elem) => ({ ...elem, returnQty: "" }))
+            : [],
+      }));
+
+      setGridData(modifyData);
+    });
   };
 
   const allSelect = (value) => {
@@ -61,12 +65,6 @@ function SalesReturnForm() {
       gridData?.length && gridData?.length > 0
       ? true
       : false;
-  };
-
-  const dataChangeHandler = (index, key, value) => {
-    let _data = [...gridData];
-    _data[index][key] = value;
-    setGridData(_data);
   };
 
   const saveHandler = (values) => {
@@ -106,7 +104,7 @@ function SalesReturnForm() {
           salesOrderNo: item?.stroder,
           deliveryChallan: item?.strchallan,
           deliveryID: item?.intDeliveryID,
-          businessUnitId: selectedBusinessUnit?.value,
+          businessUnitId: buId,
           businessPartnerId: values?.customer?.value,
           businessPartnerName: values?.customer?.label,
           totalQty: totalQty,
@@ -134,30 +132,30 @@ function SalesReturnForm() {
       }),
 
       img: [{ imageId: 0 }],
-      businessUnitId: selectedBusinessUnit?.value,
-      actionById: profileData?.userId,
+      businessUnitId: buId,
+      actionById: userId,
     };
     salesReturnEntry(payload, setLoading, () => {
       commonGridFunc(values);
     });
   };
 
+  const isLoader = loading || loader;
+
   return (
     <>
-      {loading && <Loading />}
+      {isLoader && <Loading />}
       <Form
         initData={initData}
         saveHandler={saveHandler}
         gridData={gridData}
         setGridData={setGridData}
         history={history}
-        distributionChannelDDL={distributionChannelDDL}
         commonGridFunc={commonGridFunc}
         selectedAll={selectedAll}
         allSelect={allSelect}
-        dataChangeHandler={dataChangeHandler}
-        profileData={profileData}
-        selectedBusinessUnit={selectedBusinessUnit}
+        accId={accId}
+        buId={buId}
       />
     </>
   );
