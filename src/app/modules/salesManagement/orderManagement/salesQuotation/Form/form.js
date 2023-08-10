@@ -151,12 +151,12 @@ export default function _Form({
             }
           }
           saveHandler(values, (_savedData) => {
+            setSavedData(_savedData);
+            resetForm(initData);
+
             if ([8].includes(selectedBusinessUnit?.value)) {
               handleInvoicePrint();
             }
-
-            setSavedData(_savedData);
-            resetForm(initData);
           });
         }}
       >
@@ -827,18 +827,13 @@ export default function _Form({
                     </table>
                   </div>
                 </div>
-                {/* {savedData ? (
-                <SalesQuotationForPolyFibreInvoice
-                  printRef={printRef}
-                  invoiceData={savedData?.customResponse}
-                  businessPartnerInfo={savedData?.businessPartnerInfo}
-                />
-              ) : null} */}
-                <SalesQuotationForPolyFibreInvoice
-                  printRef={printRef}
-                  invoiceData={savedData?.customResponse || []}
-                  businessPartnerInfo={savedData?.businessPartnerInfo}
-                />
+                {savedData ? (
+                  <SalesQuotationForPolyFibreInvoice
+                    printRef={printRef}
+                    invoiceData={savedData?.customResponse}
+                    businessPartnerInfo={savedData?.businessPartnerInfo}
+                  />
+                ) : null}
               </>
               <button
                 type='submit'

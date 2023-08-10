@@ -10,6 +10,8 @@ const SalesQuotationForPolyFibreInvoice = ({
   invoiceData,
   businessPartnerInfo,
 }) => {
+  console.log(invoiceData,
+    businessPartnerInfo, "print")
   const {
     profileData: { employeeFullName, designationName },
   } = useSelector((state) => {
@@ -42,8 +44,8 @@ const SalesQuotationForPolyFibreInvoice = ({
         <div>
           <div className='d-flex justify-content-between mb-3'>
             <p>
-              <b>Ref:</b>
-              {businessPartnerInfo?.partnerReffNo || ""}
+              <b>Ref: {' '}</b>
+              {invoiceData?.[0]?.partnerReffNo || ""}
             </p>
             <p>
               <b>Date: {moment(_todayDate()).format("DD MMM YYYY")}</b>
@@ -100,7 +102,7 @@ const SalesQuotationForPolyFibreInvoice = ({
         <div className='mb-5 mt-5'>
           <div className='invoiceFooterInfo'>
             <p>
-              <span>Stitching </span> {businessPartnerInfo?.strUsesOfCement}
+              <span>Stitching </span> {invoiceData?.[0]?.strUsesOfCement}
             </p>
             <p>
               <span>Print : </span>
@@ -108,28 +110,28 @@ const SalesQuotationForPolyFibreInvoice = ({
             </p>
             <p>
               <span>Bag Color </span>
-              {businessPartnerInfo?.strCoraseAggregate}
+              {invoiceData?.[0]?.strCoraseAggregate}
             </p>
             <p>
               <span>Packing </span>
-              {businessPartnerInfo?.strFineAggregate}
+              {invoiceData?.[0]?.strFineAggregate}
             </p>
             <p>
               <span>Payment </span>
-              {businessPartnerInfo?.paymentMode}
+              {invoiceData?.[0]?.paymentMode}
             </p>
             <p>
               <span>Offer Validity </span>
-              {moment(businessPartnerInfo?.quotationEndDate).format(
+              {moment(invoiceData?.[0]?.quotationEndDate).format(
                 "DD MMM YYYY"
               )}
             </p>
             <p>
               <span>Offer Quantity </span>
-              {invoiceData?.reduce(
+              <b>{invoiceData?.reduce(
                 (acc, cur) => acc + (+cur?.quotationQuantity || 0),
                 0
-              )}{" "}
+              )}{" "}</b>
               Pcs
             </p>
           </div>
@@ -143,9 +145,9 @@ const SalesQuotationForPolyFibreInvoice = ({
         </div>
       </div>
 
-      <p className='bold mt-2'>Thanking you,</p>
+      <p className='bold mt-2 mb-2'>Thanking you,</p>
 
-      <p className='bold mt-3'> {employeeFullName} </p>
+      <p className='bold mt-7'> {employeeFullName} </p>
       <p className='bold'> {designationName} </p>
     </div>
   );
