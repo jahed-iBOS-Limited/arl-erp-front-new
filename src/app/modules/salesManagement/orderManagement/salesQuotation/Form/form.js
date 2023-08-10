@@ -9,6 +9,9 @@ import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import NewSelect from "../../../../_helper/_select";
 import InputField from "./../../../../_helper/_inputField";
 import { _numberValidation } from "./../../../../_helper/_numberValidation";
+import SalesQuotationForPolyFibreInvoice from "./../invoicePolyFibre/invoiceRecept";
+import { toast } from "react-toastify";
+import { useReactToPrint } from "react-to-print";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -80,8 +83,11 @@ export default function _Form({
   objTerms,
   setObjTerms,
   currencyDDL,
-  profileData
+  profileData,
+  printRef,
 }) {
+  const [savedData, setSavedData] = useState(null);
+
   let [datas, setData] = useState([]);
 
   useEffect(() => {
@@ -110,6 +116,11 @@ export default function _Form({
     ]);
   }, [salesOrg, soldToParty, salesOffice, channel]);
 
+  const handleInvoicePrint = useReactToPrint({
+    content: () => printRef.current,
+    pageStyle:
+      "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}",
+  });
   return (
     <>
       <Formik
@@ -118,13 +129,34 @@ export default function _Form({
           isEdit
             ? initData
             : {
-              ...initData,
-            }
+                ...initData,
+              }
         }
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {
+          //Akij Poly Fibre Industries Ltd. === 8
+          if ([8].includes(selectedBusinessUnit?.value)) {
+            // empty check
+            if (!values?.strCoraseAggregate) {
+              return toast.warn("Please Input Bag Color");
+            }
+            if (!values?.strFineAggregate) {
+              return toast.warn("Please Input Packing");
+            }
+            if (!values?.strUsesOfCement) {
+              return toast.warn("Please Input Stitching");
+            }
+            if (!values?.paymentMode) {
+              return toast.warn("Please Input Payment Mode");
+            }
+          }
+          saveHandler(values, (_savedData) => {
+            setSavedData(_savedData);
             resetForm(initData);
+
+            if ([8].includes(selectedBusinessUnit?.value)) {
+              handleInvoicePrint();
+            }
           });
         }}
       >
@@ -138,6 +170,13 @@ export default function _Form({
           isValid,
         }) => (
           <>
+            {/* <button
+              onClick={() => {
+                handleInvoicePrint();
+              }}
+            >
+              Print
+            </button> */}
             <Form className='form form-label-right mt-2'>
               <div className='row mt-0'>
                 <div className='col-lg-12 p-0 m-0'>
@@ -213,8 +252,54 @@ export default function _Form({
                           disabled={isEdit}
                         />
                       </div>
-                      {
-                        (selectedBusinessUnit?.value === 144 && values?.salesOrg?.value === 7 && values?.channel?.value === 96) && (
+                      {/* Akij Poly Fibre Industries Ltd. ===8 */}
+                      {[8].includes(selectedBusinessUnit?.value) && (
+                        <>
+                          <div className='col-lg-3'>
+                            <InputField
+                              label='Stitching'
+                              value={values?.strUsesOfCement || ""}
+                              name='strUsesOfCement'
+                              placeholder='Stitching'
+                              type='text'
+                              disabled={isEdit}
+                            />
+                          </div>
+
+                          <div className='col-lg-3'>
+                            <InputField
+                              label='Bag Color'
+                              value={values?.strCoraseAggregate || ""}
+                              name='strCoraseAggregate'
+                              placeholder='Bag Color'
+                              type='text'
+                              disabled={isEdit}
+                            />
+                          </div>
+                          <div className='col-lg-3'>
+                            <InputField
+                              label='Packing'
+                              value={values?.strFineAggregate || ""}
+                              name='strFineAggregate'
+                              placeholder='Packing'
+                              type='text'
+                              disabled={isEdit}
+                            />
+                          </div>
+                          <div className='col-lg-2'>
+                            <InputField
+                              value={values.paymentMode || ""}
+                              label='Payment Mode'
+                              name='paymentMode'
+                              disabled={isEdit}
+                              placeholder='Payment Mode'
+                            />
+                          </div>
+                        </>
+                      )}
+                      {selectedBusinessUnit?.value === 144 &&
+                        values?.salesOrg?.value === 7 &&
+                        values?.channel?.value === 96 && (
                           <>
                             <div className='col-lg-3'>
                               <IInput
@@ -222,7 +307,10 @@ export default function _Form({
                                 label='Sales Contract'
                                 name='salesContract'
                                 onChange={(e) => {
-                                  setFieldValue("salesContract", e.target.value);
+                                  setFieldValue(
+                                    "salesContract",
+                                    e.target.value
+                                  );
                                 }}
                               />
                             </div>
@@ -242,7 +330,10 @@ export default function _Form({
                                 label='Mode Of Shipment'
                                 name='modeOfShipment'
                                 onChange={(e) => {
-                                  setFieldValue("modeOfShipment", e.target.value);
+                                  setFieldValue(
+                                    "modeOfShipment",
+                                    e.target.value
+                                  );
                                 }}
                               />
                             </div>
@@ -252,7 +343,10 @@ export default function _Form({
                                 label='Port Of Shipment'
                                 name='portOfShipment'
                                 onChange={(e) => {
-                                  setFieldValue("portOfShipment", e.target.value);
+                                  setFieldValue(
+                                    "portOfShipment",
+                                    e.target.value
+                                  );
                                 }}
                               />
                             </div>
@@ -262,7 +356,10 @@ export default function _Form({
                                 label='Port Of Discharge'
                                 name='portOfDischarge'
                                 onChange={(e) => {
-                                  setFieldValue("portOfDischarge", e.target.value);
+                                  setFieldValue(
+                                    "portOfDischarge",
+                                    e.target.value
+                                  );
                                 }}
                               />
                             </div>
@@ -272,7 +369,10 @@ export default function _Form({
                                 label='Final Destination'
                                 name='finalDestination'
                                 onChange={(e) => {
-                                  setFieldValue("finalDestination", e.target.value);
+                                  setFieldValue(
+                                    "finalDestination",
+                                    e.target.value
+                                  );
                                 }}
                               />
                             </div>
@@ -282,7 +382,10 @@ export default function _Form({
                                 label='Country Of Origin'
                                 name='countryOfOrigin'
                                 onChange={(e) => {
-                                  setFieldValue("countryOfOrigin", e.target.value);
+                                  setFieldValue(
+                                    "countryOfOrigin",
+                                    e.target.value
+                                  );
                                 }}
                               />
                             </div>
@@ -303,13 +406,15 @@ export default function _Form({
                                 name='freightCharge'
                                 type='number'
                                 onChange={(e) => {
-                                  setFieldValue("freightCharge", _numberValidation(e));
+                                  setFieldValue(
+                                    "freightCharge",
+                                    _numberValidation(e)
+                                  );
                                 }}
                               />
                             </div>
                           </>
-                        )
-                      }
+                        )}
                     </>
                   </div>
                 </div>
@@ -369,7 +474,9 @@ export default function _Form({
                         type='number'
                         value={values.price}
                         label={
-                          selectedBusinessUnit?.value === 144 && values?.salesOrg?.value === 7 && values?.channel?.value === 96
+                          selectedBusinessUnit?.value === 144 &&
+                          values?.salesOrg?.value === 7 &&
+                          values?.channel?.value === 96
                             ? "Price (USD)"
                             : "Price"
                         }
@@ -419,7 +526,10 @@ export default function _Form({
                               />
                             )}
                           />
-                          <label htmlFor='isSpecification' className='ml-1 mt-2'>
+                          <label
+                            htmlFor='isSpecification'
+                            className='ml-1 mt-2'
+                          >
                             Want to specification?
                           </label>
                         </div>
@@ -487,19 +597,40 @@ export default function _Form({
                             isDisabled={!values.itemList}
                           />
                         </div>
-                        <div className='col-lg-2'>
-                          <IInput
-                            type='number'
-                            value={values.value}
-                            label='Value'
-                            name='value'
-                            min='0'
-                            disabled={!values.itemList}
-                            onChange={((e) => {
-                              setFieldValue("value", e.target.value);
-                            })}
-                          />
-                        </div>
+                        {[8].includes(selectedBusinessUnit?.value) ? (
+                          <>
+                            <div className='col-lg-2'>
+                              <IInput
+                                type='text'
+                                value={values.value}
+                                label='Value'
+                                name='value'
+                                min='0'
+                                disabled={!values.itemList}
+                                onChange={(e) => {
+                                  setFieldValue("value", e.target.value);
+                                }}
+                              />
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div className='col-lg-2'>
+                              <IInput
+                                type='number'
+                                value={values.value}
+                                label='Value'
+                                name='value'
+                                min='0'
+                                disabled={!values.itemList}
+                                onChange={(e) => {
+                                  setFieldValue("value", e.target.value);
+                                }}
+                              />
+                            </div>
+                          </>
+                        )}
+
                         <div className='col-lg-2'>
                           <button
                             type='button'
@@ -538,11 +669,11 @@ export default function _Form({
                         </thead>
                         <tbody>
                           {specTableData.map((itm, index) => (
-                            <tr key={itm.specificationId}>
+                            <tr key={itm?.specificationId}>
                               <td className='text-center'>{index + 1}</td>
-                              <td className='pl-2'>{itm.specification}</td>
-                              <td className='text-right pr-2'>{itm.value}</td>
-                              <td className='text-right pr-2'>{itm.itemId}</td>
+                              <td className='pl-2'>{itm?.specification}</td>
+                              <td className='text-right pr-2'>{itm?.value}</td>
+                              <td className='text-right pr-2'>{itm?.itemId}</td>
                               {editItemOnChange && (
                                 <td className='text-center'>
                                   <i
@@ -594,19 +725,21 @@ export default function _Form({
                       </thead>
                       <tbody>
                         {rowDto.map((itm, index) => (
-                          <tr key={itm.itemId}>
+                          <tr key={itm?.itemId}>
                             <td className='text-center'>{++index}</td>
-                            <td className='pl-2'>{itm.itemName}</td>
-                            <td className='pl-2'>{itm.itemCode}</td>
+                            <td className='pl-2'>{itm?.itemName}</td>
+                            <td className='pl-2'>{itm?.itemCode}</td>
                             <td className='text-right pr-2'>
-                              {itm.quotationQuantity}
+                              {itm?.quotationQuantity}
                             </td>
-                            <td className='text-right pr-2'>{itm.itemPrice}</td>
                             <td className='text-right pr-2'>
-                              {itm.quotationValue}
+                              {itm?.itemPrice}
                             </td>
-                            <td className='pl-2'>{itm.uomName}</td>
-                            <td className='pl-2'>{itm.specification}</td>
+                            <td className='text-right pr-2'>
+                              {itm?.quotationValue}
+                            </td>
+                            <td className='pl-2'>{itm?.uomName}</td>
+                            <td className='pl-2'>{itm?.specification}</td>
                             <td className='text-center'>
                               <i
                                 className='fa fa-trash'
@@ -632,9 +765,9 @@ export default function _Form({
                           value={values.termsAndConditions}
                           label='Terms And Conditions'
                           name='termsAndConditions'
-                          onChange={((e) => {
+                          onChange={(e) => {
                             setFieldValue("termsAndConditions", e.target.value);
-                          })}
+                          }}
                         />
                       </div>
                       <div className='col-lg-3'>
@@ -651,8 +784,8 @@ export default function _Form({
                                 sl: objTerms?.length + 1,
                                 terms: values?.termsAndConditions,
                                 actionBy: profileData?.userId,
-                              }
-                            ])
+                              },
+                            ]);
                             setFieldValue("termsAndConditions", "");
                           }}
                         >
@@ -674,13 +807,16 @@ export default function _Form({
                       </thead>
                       <tbody>
                         {objTerms?.map((itm, index) => (
-                          <tr key={itm.intSl}>
+                          <tr key={itm?.intSl}>
                             <td className='text-center'>{index + 1}</td>
-                            <td className='pl-2'>{itm.terms}</td>
+                            <td className='pl-2'>{itm?.terms}</td>
                             <td className='text-center'>
-                              <i className='fa fa-trash'
+                              <i
+                                className='fa fa-trash'
                                 onClick={() => {
-                                  let filteredTermsAndConditions = objTerms.filter((item) => item.intSl !== itm.intSl);
+                                  let filteredTermsAndConditions = objTerms.filter(
+                                    (item) => item.intSl !== itm.intSl
+                                  );
                                   setObjTerms(filteredTermsAndConditions);
                                 }}
                               ></i>
@@ -691,6 +827,13 @@ export default function _Form({
                     </table>
                   </div>
                 </div>
+                {savedData ? (
+                  <SalesQuotationForPolyFibreInvoice
+                    printRef={printRef}
+                    invoiceData={savedData?.customResponse}
+                    businessPartnerInfo={savedData?.businessPartnerInfo}
+                  />
+                ) : null}
               </>
               <button
                 type='submit'
