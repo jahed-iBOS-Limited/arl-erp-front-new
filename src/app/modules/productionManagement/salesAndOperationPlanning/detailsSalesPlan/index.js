@@ -150,7 +150,7 @@ export default function MonthlySalesPlanLanding() {
                             <div className="d-flex justify-content-around">
                               <OverlayTrigger
                                 overlay={
-                                  <Tooltip id="cs-icon">{"Details"}</Tooltip>
+                                  <Tooltip id="cs-icon">{"Create Details Sales Plan"}</Tooltip>
                                 }
                               >
                                 <span
@@ -164,7 +164,7 @@ export default function MonthlySalesPlanLanding() {
                                     });
                                   }}
                                 >
-                                  <i className={`fa fa-eye`}></i>
+                                  <i className={`fas fas fa-share-square`}></i>
                                 </span>
                               </OverlayTrigger>
                             </div>

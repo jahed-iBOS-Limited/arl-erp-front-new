@@ -33,15 +33,14 @@ const initData = {
   itemId: "",
   itemPlanQty: "",
 };
-export default function DetailsSalesPlanEntry({
-  history,
-  match: {
-    params: { id },
-  },
-}) {
+export default function DetailsSalesPlanEntry() {
   // eslint-disable-next-line no-unused-vars
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
+
+  const { actionType } = useParams();
+
+  console.log("actionType", actionType);
 
   // eslint-disable-next-line no-unused-vars
   const [singleData, setSingleData] = useState({});
@@ -64,13 +63,19 @@ export default function DetailsSalesPlanEntry({
     return state.authData;
   }, shallowEqual);
 
-  const params = useParams();
   const location = useLocation();
   useEffect(() => {
-    if (id) {
-      getSalesPlanById(params?.id, setSingleData, setRowDto);
+    if (location?.state?.detailsItem?.intDetailSalesPlanId) {
+      getSalesPlanById(
+        location?.state?.detailsItem?.plantId,
+        location?.state?.detailsItem?.intDetailSalesPlanId,
+        profileData?.accountId,
+        selectedBusinessUnit?.value,
+        setSingleData,
+        setRowDto
+      );
     }
-  }, [params?.id]);
+  }, [location?.state?.detailsItem?.intDetailSalesPlanId]);
 
   // api useEffect
   useEffect(() => {
@@ -87,18 +92,23 @@ export default function DetailsSalesPlanEntry({
   const createSalesPlanItem = () => {
     let itemData = [];
     for (let i = 0; i < rowDto?.data?.length; i++) {
-      if (rowDto.data[i].itemPlanQty > 0) {
+      if (actionType === "edit" || rowDto.data[i].itemPlanQty > 0) {
         itemData.push({
-          ...rowDto.data[i],
-          intDetailSalesPlanRowId: 0,
-          intSalesPlanId: location?.state?.monthlyItem?.salesPlanId,
-          intDetailSalesPlanId: 0,
+          // ...rowDto.data[i],
+          intDetailSalesPlanRowId:
+            rowDto?.data[i]?.intDetailSalesPlanRowId || 0,
+          intSalesPlanId:
+            rowDto.data[i]?.salesPlanId ||
+            location?.state?.monthlyItem?.salesPlanId,
+          intDetailSalesPlanId: rowDto.data[i]?.intDetailSalesPlanId || 0,
           intItemId: rowDto.data[i]?.itemId,
           strItemName: rowDto.data[i]?.itemName,
           intUoMid: rowDto.data[i]?.uomid,
-          numItemPlanQty: rowDto.data[i].entryItemPlanQty,
-          numEntryItemPlanQty: 0,
-          numRate: id
+          numItemPlanQty:
+            rowDto.data[i].entryItemPlanQty || rowDto.data[i].itemPlanQty,
+          numEntryItemPlanQty:
+            rowDto.data[i].entryItemPlanQty || rowDto.data[i].itemPlanQty,
+          numRate: location?.state?.detailsItem?.intDetailSalesPlanId
             ? (+rowDto.data[i].entryItemPlanQty || 0) *
               (+rowDto.data[i].rate || 0)
             : (+rowDto.data[i].itemPlanQty || 0) * (+rowDto.data[i].rate || 0),
@@ -106,7 +116,10 @@ export default function DetailsSalesPlanEntry({
           strBomname: rowDto.data[i]?.isMultiple
             ? rowDto.data[i].bom?.label
             : rowDto.data[i]?.bomname,
-          isActive: true,
+          isActive:
+            actionType === "edit" && rowDto.data[i].entryItemPlanQty < 0
+              ? false
+              : true,
         });
       }
     }
@@ -115,35 +128,35 @@ export default function DetailsSalesPlanEntry({
 
   const saveHandler = async (values, cb) => {
     if (values && profileData.accountId && selectedBusinessUnit) {
-      if (params?.id) {
+      if (location?.state?.detailsItem?.intDetailSalesPlanId) {
         // eslint-disable-next-line no-unused-vars
 
         const payload = {
           header: {
-            salesPlanId: location?.state?.monthlyItem?.salesPlanId,
-            actionBy: profileData?.userId,
+            detailSalesPlanId: values?.intDetailSalesPlanId,
+            salesPlanId: values?.intSalesPlanId,
+            actionById: profileData?.userId,
           },
-          row: await rowDto.data?.map((item) => {
-            return {
-              ...item,
-              itemPlanQty: item?.entryItemPlanQty,
-            };
-          }),
+          row: createSalesPlanItem(),
         };
         editSalesPlanning(payload);
       } else {
         const payload = {
           header: {
             intDetailSalesPlanId:
-              location?.state?.monthlyItem?.detailSalesPlanId || 0, // bind from location details table
-            intSalesPlanId: location?.state?.monthlyItem?.salesPlanId,
-            intPlanningHorizonId: location?.state?.monthlyItem?.horizonId,
+              location?.state?.detailsItem?.intDetailSalesPlanId || 0,
+            intSalesPlanId:
+              location?.state?.detailsItem?.salesPlanId ||
+              location?.state?.monthlyItem?.salesPlanId,
+            intPlanningHorizonId:
+              values?.horizon?.value || location?.state?.monthlyItem?.horizonId,
             intPlanningHorizonRowId:
+              values?.horizon?.intPlanningHorizonRowId ||
               location?.state?.monthlyItem?.planningHorizonRowId,
             dteStartDateTime: values?.startDate,
             dteEndDateTime: values?.endDate,
-            intYearId: values?.year?.value,
-            intMonthId: values?.horizon?.value,
+            intYearId: values?.year?.label,
+            intMonthId: values?.horizon?.monthId,
             intAccountId: profileData?.accountId,
             intBusinessUnitId: selectedBusinessUnit?.value,
             intPlantId: values?.plant?.value,
@@ -155,9 +168,9 @@ export default function DetailsSalesPlanEntry({
             strAreaName: values?.area?.label || "",
             intTeritoryId: values?.territory?.value || 0,
             strTeritoryName: values?.territory?.label || "",
-            isProductionPlanned: false, // bind from location details table
+            isProductionPlanned: false,
             intActionBy: profileData?.userId,
-            isMrp: false, // bind from location details table
+            isMrp: false,
           },
           row: createSalesPlanItem(),
         };
@@ -187,7 +200,11 @@ export default function DetailsSalesPlanEntry({
 
   return (
     <IForm
-      title={params?.id ? " Sales Plan" : "Sales Plan Create"}
+      title={
+        location?.state?.detailsItem?.intDetailSalesPlanId
+          ? "Edit Details Sales Plan"
+          : "Create Details Sales Plan"
+      }
       getProps={setObjprops}
       isDisabled={isDisabled}
     >
@@ -195,7 +212,7 @@ export default function DetailsSalesPlanEntry({
       <Form
         {...objProps}
         initData={
-          params?.id
+          location?.state?.detailsItem?.intDetailSalesPlanId
             ? singleData
             : {
                 ...initData,
@@ -228,7 +245,7 @@ export default function DetailsSalesPlanEntry({
         setHorizonDDL={setHorizonDDL}
         numItemPlanQty={numItemPlanQty}
         setNumItemPlanQty={setNumItemPlanQty}
-        id={params?.id}
+        id={location?.state?.detailsItem?.intDetailSalesPlanId}
         dataHandler={dataHandler}
         channelDDL={channelDDL}
         regionDDL={regionDDL}
