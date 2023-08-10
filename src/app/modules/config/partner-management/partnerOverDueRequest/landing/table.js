@@ -41,7 +41,7 @@ const header = [
   "Approve by Accounts",
   "Approve by Credit Control",
   "Status",
-  "Action",
+  "Credit Control",
 ];
 
 const initData = {
