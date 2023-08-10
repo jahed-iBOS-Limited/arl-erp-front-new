@@ -13,6 +13,7 @@ import {
 } from "../../../../../../_metronic/_partials/controls";
 import TextArea from "../../../../_helper/TextArea";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import IEdit from "../../../../_helper/_helperIcons/_edit";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import PaginationTable from "../../../../_helper/_tablePagination";
@@ -40,7 +41,7 @@ const header = [
   "Approve by Accounts",
   "Approve by Credit Control",
   "Status",
-  "Remarks",
+  "Action",
 ];
 
 const initData = {
@@ -134,7 +135,6 @@ const PartnerOverDueRequestTable = () => {
     }
     if (selectedItems?.length > 0) {
       const payload = selectedItems.map((item) => {
-        console.log( item?.isSalesApprove);
         return {
           header: {
             intConfigId: item?.intId,
@@ -455,7 +455,28 @@ const PartnerOverDueRequestTable = () => {
                               ? "Approved"
                               : "Pending"}
                           </td>
-                          <td>{item?.strComments}</td>
+                          <td>
+                            {isPermitted ? (
+                              <button
+                                onClick={() => {
+                                  history.push({
+                                    pathname: `/config/partner-management/partner-basic-info/edit/${item?.intPartnerId}`,
+                                    state: {
+                                      businessPartnerCode:
+                                        item?.partnerCode || "",
+                                      businessPartnerName:
+                                        item?.partnerName || "",
+                                      checkBox: "SalesInformation",
+                                      businessPartnerTypeName: "Customer",
+                                    },
+                                  });
+                                }}
+                                style={{ border: "none", background: "none" }}
+                              >
+                                <IEdit title="Credit Control" />
+                              </button>
+                            ) : null}
+                          </td>
                         </tr>
                       );
                     })}
