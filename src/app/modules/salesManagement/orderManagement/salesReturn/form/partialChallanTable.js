@@ -8,18 +8,8 @@ export default function PartialChallanTable({ obj }) {
   const { gridData, allSelect, selectedAll, setGridData } = obj;
 
   const dataChangeHandler = (headerIndex, rowIndex, key, value) => {
-    console.log(
-      "headerIndex: ",
-      headerIndex,
-      "rowIndex: ",
-      rowIndex,
-      "key: ",
-      key,
-      "value: ",
-      value
-    );
     let _data = [...gridData];
-    console.log("key index: ", _data[headerIndex]["rowData"][rowIndex][key]);
+
     _data[headerIndex]["rowData"][rowIndex][key] = value;
     setGridData(_data);
   };
@@ -91,10 +81,10 @@ export default function PartialChallanTable({ obj }) {
                           {_fixedPoint(element?.itemPrice, true, 0)}
                         </td>
                         <td className="text-right">
-                          {_fixedPoint(element?.quantity, true, 0)}
+                          {_fixedPoint(element?.quantity, true)}
                         </td>
                         <td className="text-right">
-                          {_fixedPoint(element?.amount, true, 0)}
+                          {_fixedPoint(element?.amount, true)}
                         </td>
                         <td className="text-right">
                           {item?.isSelected ? (
@@ -112,7 +102,7 @@ export default function PartialChallanTable({ obj }) {
                                 );
                               }}
                               onBlur={(e) => {
-                                if (e?.target?.value > item?.quantity) {
+                                if (+e?.target?.value > element?.quantity) {
                                   toast.warn(
                                     "Return qty can not be greater than delivery qty"
                                   );
@@ -120,7 +110,7 @@ export default function PartialChallanTable({ obj }) {
                               }}
                             />
                           ) : (
-                            _fixedPoint(item?.returnQty, true, 0)
+                            item?.returnQty
                           )}
                         </td>
                       </>
@@ -134,8 +124,8 @@ export default function PartialChallanTable({ obj }) {
             <td colSpan={6} className="text-right">
               <b>Total</b>
             </td>
-            <td>{_fixedPoint(totalDeliveryQty, true, 0)}</td>
-            <td>{_fixedPoint(totalAmount, true, 0)}</td>
+            <td>{_fixedPoint(totalDeliveryQty, true)}</td>
+            <td>{_fixedPoint(totalAmount, true)}</td>
             <td>{_fixedPoint(totalDamage, true, 0)}</td>
           </tr>
         </tbody>
