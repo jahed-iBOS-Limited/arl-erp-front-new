@@ -40,7 +40,7 @@ export default function DetailsSalesPlanLanding() {
       `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}`
     );
     getGridData(
-      `/mes/SalesPlanning/DetailsSalesPlanLandingPagination?SalesPlanId=${location?.state?.monthlyItem?.salesPlanId}&AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${location?.state?.monthlyValues?.plant?.value}&Year=${location?.state?.monthlyValues?.year?.value}&PlanningHorizonId=${location?.state?.monthlyItem?.horizonId}&PlanningHorizonRowId=${location?.state?.monthlyItem?.planningHorizonRowId}&DistributionChannelId=0&RegoinId=0&AreaId=0&TeritoryId=0&PageNo=1&PageSize=100&ViewOrder=desc`
+      `/mes/SalesPlanning/DetailsSalesPlanLandingPagination?SalesPlanId=${location?.state?.monthlyItem?.salesPlanId}&AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${location?.state?.monthlyValues?.plant?.value}&Year=${location?.state?.monthlyValues?.year?.label}&PlanningHorizonId=${location?.state?.monthlyItem?.horizonId}&PlanningHorizonRowId=${location?.state?.monthlyItem?.planningHorizonRowId}&DistributionChannelId=0&RegoinId=0&AreaId=0&TeritoryId=0&PageNo=1&PageSize=100&ViewOrder=desc`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
@@ -305,7 +305,7 @@ export default function DetailsSalesPlanLanding() {
                         }&PlantId=${
                           location?.state?.monthlyValues?.plant?.value
                         }&Year=${
-                          location?.state?.monthlyValues?.year?.value
+                          location?.state?.monthlyValues?.year?.label
                         }&PlanningHorizonId=${
                           location?.state?.monthlyItem?.horizonId
                         }&PlanningHorizonRowId=${
@@ -339,7 +339,7 @@ export default function DetailsSalesPlanLanding() {
                         <th>Start Date</th>
                         <th>End Date</th>
                         <th>Sales Plan Quantity</th>
-                        {/* <th>Action</th> */}
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -354,7 +354,7 @@ export default function DetailsSalesPlanLanding() {
                           <td>{_dateFormatter(item?.startDate)}</td>
                           <td>{_dateFormatter(item?.endDate)}</td>
                           <td className="text-center">{item?.planQTY}</td>
-                          {/* <td>
+                          <td>
                             <div className="d-flex justify-content-around">
                               <span
                                 onClick={() =>
@@ -372,7 +372,7 @@ export default function DetailsSalesPlanLanding() {
                                 <IEdit />
                               </span>
                             </div>
-                          </td> */}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
