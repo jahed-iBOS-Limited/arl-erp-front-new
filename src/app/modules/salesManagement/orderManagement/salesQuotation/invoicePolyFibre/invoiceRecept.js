@@ -5,7 +5,7 @@ import { _todayDate } from "../../../../_helper/_todayDate";
 import moment from "moment";
 import logo from "../../../../_helper/images/apfil.svg";
 
-const SalesQuotationForPolyFibre = ({
+const SalesQuotationForPolyFibreInvoice = ({
   printRef,
   invoiceData,
   businessPartnerInfo,
@@ -17,10 +17,10 @@ const SalesQuotationForPolyFibre = ({
   }, shallowEqual);
 
   return (
-    <div className="poly_fibre_quotation_print" ref={printRef}>
-      <div className="poly_header text-center">
-        <img style={{ height: "90px" }} src={logo} alt="logo" />
-        <div className="  ml-2">
+    <div className='poly_fibre_quotation_print' ref={printRef}>
+      <div className='poly_header text-center'>
+        <img style={{ height: "90px" }} src={logo} alt='logo' />
+        <div className='  ml-2'>
           <p
             style={{ marginBottom: "0", fontSize: "50px", fontWeight: "bold" }}
           >
@@ -38,10 +38,18 @@ const SalesQuotationForPolyFibre = ({
         </p>
       </div>
 
-      <div className="main_table">
+      <div className='main_table'>
         <div>
-          <p>Date: {moment(_todayDate()).format("DD MMM YYYY")}</p>
-          <div className="bold">
+          <div className='d-flex justify-content-between mb-3'>
+            <p>
+              <b>Ref:</b>
+              {businessPartnerInfo?.partnerReffNo || ""}
+            </p>
+            <p>
+              <b>Date: {moment(_todayDate()).format("DD MMM YYYY")}</b>
+            </p>
+          </div>
+          <div className='bold'>
             <p>To</p>
             <p>The Managing Director</p>
             <p>{businessPartnerInfo?.strBusinessPartnerName}</p>
@@ -49,11 +57,11 @@ const SalesQuotationForPolyFibre = ({
             {/* <p>Banani, Dhaka-1213</p> */}
           </div>
 
-          <div className="bold my-3">
+          <div className='bold my-3'>
             Subject: Quotation for WPP Laminated Bag
           </div>
 
-          <div className="mb-3">
+          <div className='mb-3'>
             <p>Dear Sir,</p>
             <p>
               Referring your requirement & discussion with you; we are offering
@@ -62,13 +70,14 @@ const SalesQuotationForPolyFibre = ({
           </div>
         </div>
 
-        <table className="table mb-5">
+        <table className='table mb-5'>
           <thead>
             <tr>
               <th>SL</th>
               <th>Item</th>
-              <th>Size</th>
-              <th>Weight</th>
+              {/* <th>Size</th>
+              <th>Weight</th> */}
+              <th>Specification</th>
               <th>Unit Price (TK) Per Pcs</th>
             </tr>
           </thead>
@@ -76,59 +85,57 @@ const SalesQuotationForPolyFibre = ({
             {invoiceData?.map((item, index) => {
               return (
                 <tr>
-                  <td className="text-left">{"item?.itemName"}</td>
-                  <td className="text-center">
-                    {/OPC/.test("item?.itemName")
-                      ? "Akij Brand OPC"
-                      : "Akij Brand PCC"}
+                  <td className='text-center'>{index + 1}</td>
+                  <td className='text-left'>{item?.itemName}</td>
+                  <td className='text-center'>
+                    {item?.specification || "N/A"}
                   </td>
-                  <td className="text-center">{`${"item?.paymentMode"}`}</td>
-                  <td className="text-center">
-                    {"item?.isAitinclude " ? "Yes" : "No"}
-                  </td>
-                  <td className="text-center">
-                    {"item?.isIncludeVat " ? "Yes" : "No"}
-                  </td>
+                  <td className='text-center'>{item?.itemPrice}</td>
                 </tr>
               );
             })}
           </tbody>
         </table>
 
-        <div className="mb-5 mt-5">
-          <div>
+        <div className='mb-5 mt-5'>
+          <div className='invoiceFooterInfo'>
             <p>
-              <span>Stitching : </span> Single line stitching with sewing
-              thread/ Plastic thread.
+              <span>Stitching </span> {businessPartnerInfo?.strUsesOfCement}
             </p>
             <p>
               <span>Print : </span>
               Printed (One side).
             </p>
             <p>
-              <span>Bag Color : </span>
-              Milky White.
+              <span>Bag Color </span>
+              {businessPartnerInfo?.strCoraseAggregate}
             </p>
             <p>
-              <span>Packing : </span>
-              500 Pcs per bale strapped by PP Bank with wrapped.
+              <span>Packing </span>
+              {businessPartnerInfo?.strFineAggregate}
             </p>
             <p>
-              <span>Payment : </span>
-              Full in Advance.
+              <span>Payment </span>
+              {businessPartnerInfo?.paymentMode}
             </p>
             <p>
-              <span>Offer Validity : </span>
-              11/05/23
+              <span>Offer Validity </span>
+              {moment(businessPartnerInfo?.quotationEndDate).format(
+                "DD MMM YYYY"
+              )}
             </p>
             <p>
-              <span>Offer Quantity : </span>
-              60,000 Pcs.
+              <span>Offer Quantity </span>
+              {invoiceData?.reduce(
+                (acc, cur) => acc + (+cur?.quotationQuantity || 0),
+                0
+              )}{" "}
+              Pcs
             </p>
           </div>
         </div>
 
-        <div className="mb-5">
+        <div className='mb-5'>
           <p>
             We will highly appreciate to receive your kind response at the
             earliest.
@@ -136,12 +143,12 @@ const SalesQuotationForPolyFibre = ({
         </div>
       </div>
 
-      <p className="bold mt-2">Thanking you,</p>
+      <p className='bold mt-2'>Thanking you,</p>
 
-      <p className="bold mt-3"> {employeeFullName} </p>
-      <p className="bold"> {designationName} </p>
+      <p className='bold mt-3'> {employeeFullName} </p>
+      <p className='bold'> {designationName} </p>
     </div>
   );
 };
 
-export default SalesQuotationForPolyFibre;
+export default SalesQuotationForPolyFibreInvoice;

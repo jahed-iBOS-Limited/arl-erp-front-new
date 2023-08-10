@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import Form from "./form";
 import {
@@ -57,6 +57,10 @@ const initData = {
   freightCharge: "",
   termsAndConditions: "",
   currency: "",
+  strCoraseAggregate: "",
+  strFineAggregate: "",
+  strUsesOfCement: "",
+  paymentMode: "",
 };
 
 export default function SalesQuotationForm({
@@ -65,6 +69,7 @@ export default function SalesQuotationForm({
     params: { id },
   },
 }) {
+  const printRef = useRef();
   const [isDisabled, setDisabled] = useState(false);
   const [objProps, setObjprops] = useState({});
   const [rowDto, setRowDto] = useState([]);
@@ -74,7 +79,7 @@ export default function SalesQuotationForm({
   const [editItemOnChange, setEditItemOnChange] = useState(false);
   const [total, setTotal] = useState({ totalQty: 0, totalAmount: 0 });
   const quationCodeForEditPageTitle = history?.location?.state?.quotationCode;
-  const [currencyDDL, getCurrencyDDL, currencyDDLloader] = useAxiosGet()
+  const [currencyDDL, getCurrencyDDL, currencyDDLloader] = useAxiosGet();
   // get user profile data from store
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -127,7 +132,7 @@ export default function SalesQuotationForm({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getCurrencyDDL(`/domain/Purchase/GetBaseCurrencyList`)
+    getCurrencyDDL(`/domain/Purchase/GetBaseCurrencyList`);
   }, []);
   //Dispatch single data action and empty single data for create
   useEffect(() => {
@@ -195,11 +200,16 @@ export default function SalesQuotationForm({
             rowId: itm?.rowId || 0,
           };
         });
+        // Akij Poly Fibre Industries Ltd. ==== 8
         const objSpecRow = specRowDto.map((itm) => {
           return {
             ...itm,
             actionBy: profileData.userId,
             quotationDetailsRowId: itm.quotationDetailsRowId || 0,
+            value: [8].includes(selectedBusinessUnit.value) ? 0 : itm.value,
+            narration: [8].includes(selectedBusinessUnit.value)
+              ? itm.value
+              : itm.narration,
           };
         });
         const payload = {
@@ -232,10 +242,14 @@ export default function SalesQuotationForm({
             currencyPrice: 0,
             currencyValue: values?.currency?.value || "",
             currencyRateBdt: values.price || "",
+            paymentMode: values?.paymentMode || "",
+            strUsesOfCement: values?.strUsesOfCement || "",
+            strFineAggregate: values?.strFineAggregate || "",
+            strCoraseAggregate: values?.strCoraseAggregate || "",
           },
           objRow: objListRowDTO,
           objSpecRow: objSpecRow,
-          objTerms: objTerms
+          objTerms: objTerms,
         };
 
         if (rowDto.length) {
@@ -255,6 +269,10 @@ export default function SalesQuotationForm({
           return {
             ...itm,
             actionBy: profileData.userId,
+            value: [8].includes(selectedBusinessUnit.value) ? 0 : itm.value,
+            narration: [8].includes(selectedBusinessUnit.value)
+              ? itm.value
+              : itm.narration,
           };
         });
         const payload = {
@@ -286,17 +304,20 @@ export default function SalesQuotationForm({
             currencyPrice: 0,
             currencyValue: values?.currency?.value || "",
             currencyRateBdt: values.price || "",
+            paymentMode: values?.paymentMode || "",
+            strUsesOfCement: values?.strUsesOfCement || "",
+            strFineAggregate: values?.strFineAggregate || "",
+            strCoraseAggregate: values?.strCoraseAggregate || "",
           },
           objRow: objListRowDTO,
           objSpecRow: objSpecRow,
-          objTerms: objTerms
+          objTerms: objTerms,
         };
         if (rowDto.length) {
           dispatch(saveSalesquotation({ data: payload, cb, setDisabled }));
           setRowDto([]);
           setSpecTableData([]);
           setSpecRowDto([]);
-
         } else {
           toast.warning("You must have to add atleast one item");
         }
@@ -405,7 +426,12 @@ export default function SalesQuotationForm({
 
   const quotationClosedFunc = () => {
     dispatch(
-      editSalesQuotationStatusAction(+id, profileData?.userId, setDisabled, history)
+      editSalesQuotationStatusAction(
+        +id,
+        profileData?.userId,
+        setDisabled,
+        history
+      )
     );
   };
 
@@ -450,6 +476,7 @@ export default function SalesQuotationForm({
         setObjTerms={setObjTerms}
         currencyDDL={currencyDDL}
         profileData={profileData}
+        printRef={printRef}
       />
     </IForm>
   );
