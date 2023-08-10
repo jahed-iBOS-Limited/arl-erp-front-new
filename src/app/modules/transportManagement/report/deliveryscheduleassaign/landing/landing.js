@@ -512,7 +512,7 @@ function Table({
   allGridCheck,
   itemSlectedHandler,
   printRef,
-  commonGridApi
+  commonGridApi,
 }) {
   const [clickRowData, setClickRowData] = useState({});
   const [isLogisticByUpdateModal, setIsLogisticByUpdateModal] = useState(false);
@@ -585,8 +585,8 @@ function Table({
                           </th>
                         )}
                       <th>SL</th>
-                      <th>Delivery Code </th>
                       <th>Sales Order</th>
+                      <th>Delivery Code </th>
                       <th>Logistic By</th>
                       {shipmentTypeDDl?.[shipmentType]?.value === 0 ? (
                         <th>Shipment Type</th>
@@ -711,7 +711,6 @@ function Table({
                             )}
 
                           <td className='text-center'> {index + 1}</td>
-                          <td>{item?.deliveryCode}</td>
 
                           {prvSalesOrderCode !== item?.salesOrderCode && (
                             <td
@@ -721,6 +720,7 @@ function Table({
                               {item?.salesOrderCode}
                             </td>
                           )}
+                          <td>{item?.deliveryCode}</td>
 
                           <td>{item?.providerTypeName}</td>
                           {shipmentTypeDDl?.[shipmentType]?.value === 0 ? (
@@ -836,15 +836,15 @@ function Table({
                                 <button
                                   type='button'
                                   style={{
-                                    padding: '1px 6px',
-                                    margin: '0',
+                                    padding: "1px 6px",
+                                    margin: "0",
                                   }}
                                   className='btn btn-primary'
                                   onClick={() => {
                                     setIsLogisticByUpdateModal(true);
                                     setClickRowData({
                                       ...item,
-                                      ...values
+                                      ...values,
                                     });
                                   }}
                                 >
@@ -872,12 +872,14 @@ function Table({
             setClickRowData({});
           }}
         >
-          <LogisticByUpdateModal clickRowData={clickRowData}  landingCB={() => {
-            setIsLogisticByUpdateModal(false);
-            setClickRowData({});
-            commonGridApi(values)
-
-          }}/>
+          <LogisticByUpdateModal
+            clickRowData={clickRowData}
+            landingCB={() => {
+              setIsLogisticByUpdateModal(false);
+              setClickRowData({});
+              commonGridApi(values);
+            }}
+          />
         </IViewModal>
       )}
     </>

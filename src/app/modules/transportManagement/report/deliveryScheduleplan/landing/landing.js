@@ -59,6 +59,23 @@ const useStyles = makeStyles({
 });
 
 function DeliveryScheduleplanReport() {
+  const orderCodeMargeCount = (index, salesOrderCode, quantity) => {
+    let count = 1;
+    let totalQty = quantity;
+
+    for (let i = index + 1; i <= gridData?.length; i++) {
+      if (salesOrderCode === gridData[i]?.salesOrderCode) {
+        count++;
+        totalQty += gridData[i]?.quantity;
+      } else {
+        break;
+      }
+    }
+    return {
+      count,
+      totalQty,
+    };
+  };
   const classes = useStyles();
   const [shipmentType, setShipmentType] = React.useState(0);
   const [loading, setLoading] = useState(false);
@@ -530,6 +547,7 @@ function DeliveryScheduleplanReport() {
                                       </th>
                                     )}
                                     <th>SL</th>
+                                    <th>Sales Order</th>
                                     <th>Delivery Code </th>
                                     <th>Logistic By</th>
                                     {shipmentTypeDDl?.[shipmentType]?.value ===
@@ -543,8 +561,11 @@ function DeliveryScheduleplanReport() {
                                     <th>Sold To Party</th>
                                     <th>Ship To Party</th>
                                     <th>Address</th>
-                                    <th style={{ minWidth: "100px" }}>Item Name</th>
+                                    <th style={{ minWidth: "100px" }}>
+                                      Item Name
+                                    </th>
                                     <th>Quantity</th>
+                                    <th>Total Qty</th>
                                     {values?.trackingType?.value === 2 && (
                                       <>
                                         <th>Schedule Assign</th>
@@ -602,6 +623,25 @@ function DeliveryScheduleplanReport() {
                                       new Date(yesterdayDate) >=
                                       new Date(yesterdayDeliveryScheduleDate);
 
+                                    const prvSalesOrderCode =
+                                      gridData?.[index - 1]?.salesOrderCode;
+                                    const forwardSalesOrderCode =
+                                      gridData?.[index + 1]?.salesOrderCode;
+                                    let rowSpan = 1;
+                                    let totalQty = item?.quantity;
+                                    if (
+                                      forwardSalesOrderCode ===
+                                      item?.salesOrderCode
+                                    ) {
+                                      const margeResult = orderCodeMargeCount(
+                                        index,
+                                        item?.salesOrderCode,
+                                        item?.quantity
+                                      );
+                                      rowSpan = margeResult.count;
+                                      totalQty = margeResult.totalQty;
+                                    }
+
                                     return (
                                       <tr
                                         key={index}
@@ -635,6 +675,20 @@ function DeliveryScheduleplanReport() {
                                           {" "}
                                           {index + 1}
                                         </td>
+
+                                        {prvSalesOrderCode !==
+                                          item?.salesOrderCode && (
+                                          <td
+                                            rowSpan={rowSpan}
+                                            style={
+                                              rowSpan > 1
+                                                ? { fontWeight: "bold" }
+                                                : {}
+                                            }
+                                          >
+                                            {item?.salesOrderCode}
+                                          </td>
+                                        )}
                                         <td>{item?.deliveryCode}</td>
                                         <td>{item?.providerTypeName}</td>
                                         {shipmentTypeDDl?.[shipmentType]
@@ -652,6 +706,15 @@ function DeliveryScheduleplanReport() {
                                         <td className='text-center'>
                                           {item?.quantity}
                                         </td>
+                                        {prvSalesOrderCode !==
+                                          item?.salesOrderCode && (
+                                          <td
+                                            className='text-center'
+                                            rowSpan={rowSpan}
+                                          >
+                                            {totalQty}
+                                          </td>
+                                        )}
                                         {values?.trackingType?.value === 2 && (
                                           <>
                                             <td>
