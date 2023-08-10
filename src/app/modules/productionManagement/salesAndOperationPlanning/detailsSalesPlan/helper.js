@@ -58,7 +58,10 @@ export const getLandingPlantDDL = async (accId, buId, setter) => {
 
 export const editSalesPlanning = async (data) => {
   try {
-    const res = await axios.put(`/mes/SalesPlanning/EditSalesPlanning`, data);
+    const res = await axios.post(
+      `/mes/SalesPlanning/EditDetailsSalesPlanning`,
+      data
+    );
     toast.success(res?.data?.message);
   } catch (err) {
     toast.warning(err?.response?.data?.message || err?.message);
@@ -149,48 +152,65 @@ export const saveItemRequest = async (data) => {
 
 export const getSalesPlanById = async (
   salesPlanId,
+  detailsPlanId,
+  accId,
+  businessUnitId,
   setterHeader,
   setterRow
 ) => {
   try {
     const res = await axios.get(
-      `/mes/SalesPlanning/GetSalesPlanById?SalesPlanId=${salesPlanId}`
+      `/mes/SalesPlanning/GetDetailsSalesPlanById?DetailsSalesPlanId=${detailsPlanId}&AccountId=${accId}&BusinessUnitId=${businessUnitId}&PlantId=${salesPlanId}`
     );
-    const newRow = res?.data?.objRow;
+    const newRow = res?.data?.objRow?.map((item) => ({
+      ...item,
+      salesPlanId: item?.intSalesPlanId,
+      planningHorizonRowId: 162,
+      plantId: 79,
+      itemId: item?.intItemId,
+      itemName: item?.strItemName,
+      uomid: item?.intUoMid,
+      entryItemPlanQty: item?.numItemPlanQty,
+      rate: item?.numRate,
+    }));
+
     let newRowData = {
       data: [...newRow],
     };
     //const newHeader = res?.data?.objHeader;
     const newHeader = {
+      ...res?.data?.objHeader,
       plant: {
-        value: res?.data?.objHeader?.plantId,
-        label: res?.data?.objHeader?.plantName,
+        value: res?.data?.objHeader?.intPlantId,
+        label: res?.data?.objHeader?.strPlanName,
       },
       channel: {
         value: res?.data?.objHeader?.intDistributionChannelId,
-        label: res?.data?.objHeader?.strDistributionChannelName,
+        label: res?.data?.objHeader?.intDistributionChannelName,
       },
       region: {
         value: res?.data?.objHeader?.intRegoinId,
-        label: res?.data?.objHeader?.strRegionName,
+        label: res?.data?.objHeader?.intRegionName,
       },
       area: {
         value: res?.data?.objHeader?.intAreaId,
-        label: res?.data?.objHeader?.strAreaName,
+        label: res?.data?.objHeader?.intAreaName,
       },
       territory: {
         value: res?.data?.objHeader?.teritoryId,
-        label: res?.data?.objHeader?.strTeritoryName,
+        label: res?.data?.objHeader?.teritoryName,
       },
       year: {
-        value: res?.data?.objHeader?.yearId,
-        label: res?.data?.objHeader?.yearId,
+        value: res?.data?.objHeader?.intYearId,
+        label: res?.data?.objHeader?.intYearId,
       },
-      startDate: _dateFormatter(res?.data?.objHeader?.startDateTime),
-      endDate: _dateFormatter(res?.data?.objHeader?.endDateTime),
+      startDate: _dateFormatter(res?.data?.objHeader?.dteStartDateTime),
+      endDate: _dateFormatter(res?.data?.objHeader?.dteEndDateTime),
       horizon: {
-        value: res?.data?.objHeader?.planningHorizonRowId,
-        label: res?.data?.objHeader?.planningHorizonRowName,
+        value: res?.data?.objHeader?.intPlanningHorizonId,
+        label: res?.data?.objHeader?.strHorizonName,
+        intPlanningHorizonRowId: res?.data?.objHeader?.intPlanningHorizonRowId,
+        intPlanningHorizonId: res?.data?.objHeader?.intPlanningHorizonId,
       },
     };
 

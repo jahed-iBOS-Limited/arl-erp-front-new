@@ -16,7 +16,7 @@ const validationSchema = Yup.object().shape({
   plant: Yup.object().shape({
     value: Yup.string().required("Plant Name is required"),
     label: Yup.string().required("Plant Name is required"),
-  }),
+  }).required("Plant Name is required"),
   channel: Yup.object().shape({
     value: Yup.string().required("Distribution Channel is required"),
     label: Yup.string().required("Distribution Channel is required"),
@@ -217,6 +217,7 @@ export default function _Form({
                       touched={touched}
                     />
                   </div>
+                  {console.log("errors",errors)}
                   <div className="col-lg-3">
                     <NewSelect
                       name="year"
