@@ -1,15 +1,15 @@
+import Axios from "axios";
 import React from "react";
+import "react-confirm-alert/src/react-confirm-alert.css";
+import "react-quill/dist/quill.snow.css";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { PersistGate } from "redux-persist/integration/react";
-import { Routes } from "../app/Routes";
 import { I18nProvider } from "../_metronic/i18n";
 import { LayoutSplashScreen, MaterialThemeProvider } from "../_metronic/layout";
-import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
-import "react-confirm-alert/src/react-confirm-alert.css";
-import Axios from "axios";
-import "react-quill/dist/quill.snow.css";
+import { Routes } from "../app/Routes";
 
 const origin = window.location.origin;
 

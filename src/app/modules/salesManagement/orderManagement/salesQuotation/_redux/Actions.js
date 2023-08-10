@@ -49,6 +49,10 @@ export const getSalesQuotationById = (id, setDisabled) => (dispatch) => {
               label: item.objHeader?.currencyName,
             },
             quantity: "",
+            strCoraseAggregate:  item.objHeader?.strCoraseAggregate || '',
+            strFineAggregate: item.objHeader?.strFineAggregate || '',
+            strUsesOfCement: item.objHeader?.strUsesOfCement || '',
+            paymentMode: item.objHeader?.paymentMode || '',
           },
         };
         setDisabled && setDisabled(false);
@@ -60,8 +64,8 @@ export const getSalesQuotationById = (id, setDisabled) => (dispatch) => {
     });
 };
 
-export const getSpecificationDDLAction = ( buId) => (dispatch) => {
-  return requestFromServer.getSpecificationDDL( buId).then((res) => {
+export const getSpecificationDDLAction = (buId) => (dispatch) => {
+  return requestFromServer.getSpecificationDDL(buId).then((res) => {
     const { status, data } = res;
     if (status === 200 && data) {
       dispatch(slice.SetSpctionDDL(data));
@@ -96,7 +100,7 @@ export const saveSalesquotation = (payload) => () => {
       if (res.status === 200) {
         payload.setDisabled(false);
         toast.success(res.data?.message || "Submitted successfully");
-        payload.cb();
+        payload.cb(res?.data);
       }
     })
     .catch((err) => {

@@ -21,8 +21,7 @@ p {
   max-width: 210mm;
   margin: 0 auto;
   font-size: 14px !important;
-  /* display: none; */
-  /* border: 1px solid black; */
+  display: none;
 }
 
 .poly_fibre_quotation_print .main_table {
@@ -76,9 +75,24 @@ p {
 .border-btm {
   border-bottom: 1px solid gray;
 }
+.poly_fibre_quotation_print .invoiceFooterInfo p {
+  padding: 4px 0;
+}
+.poly_fibre_quotation_print .invoiceFooterInfo p span {
+  width: 92px;
+  position: relative;
+  display: inline-block;
+  margin-right: 30px;
+}
+.poly_fibre_quotation_print .invoiceFooterInfo p span::before {
+  content: ':';
+  position: absolute;
+  right: 0;
+  top: 0;
+}
 
-/* @media print {
+@media print {
   .poly_fibre_quotation_print {
     display: block !important;
   }
-} */
+}
