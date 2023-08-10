@@ -1,23 +1,35 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
-export const getSalesReturnGridData = async (
-  unitId,
-  deliveryCode,
-  updateBy,
-  customerId,
-  setter,
-  setLoading
-) => {
+// export const getSalesReturnGridData = async (
+//   unitId,
+//   deliveryCode,
+//   updateBy,
+//   customerId,
+//   setter,
+//   setLoading
+// ) => {
+//   setLoading(true);
+//   try {
+//     const res = await axios.get(
+//       `/oms/SalesInformation/GetDeliveryChallanNSalesOrderCancel?Challan=${deliveryCode}&Unitid=${unitId}&Partid=5&Narration=test&InactiveBy=${updateBy}&Customerid=${customerId}`
+//     );
+//     setter(res?.data?.map((item) => ({ ...item, isSelected: false })));
+//     setLoading(false);
+//   } catch (error) {
+//     setter([]);
+//     setLoading(false);
+//   }
+// };
+
+export const getSalesReturnPreData = async (url, setLoading, cb) => {
   setLoading(true);
   try {
-    const res = await axios.get(
-      `/oms/SalesInformation/GetDeliveryChallanNSalesOrderCancel?Challan=${deliveryCode}&Unitid=${unitId}&Partid=5&Narration=test&InactiveBy=${updateBy}&Customerid=${customerId}`
-    );
-    setter(res?.data?.map((item) => ({ ...item, isSelected: false })));
+    const res = await axios.get(url);
+    cb(res?.data);
     setLoading(false);
   } catch (error) {
-    setter([]);
+    toast.error(error?.response?.data?.message);
     setLoading(false);
   }
 };
