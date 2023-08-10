@@ -24,6 +24,7 @@ const initState = {
   imageView: {},
   multipleImageView: {},
   port : null,
+  OID: '',
 };
 
 export const commonDDLSlice = createSlice({
@@ -137,6 +138,10 @@ export const commonDDLSlice = createSlice({
         type: "",
         model: false,
       };
+    },
+    setOID: (state, action) => {
+      const { payload } = action;
+      state.OID = payload;
     },
   },
 });

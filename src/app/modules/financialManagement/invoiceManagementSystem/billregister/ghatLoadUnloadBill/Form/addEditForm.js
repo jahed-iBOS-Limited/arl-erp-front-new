@@ -46,7 +46,8 @@ export default function GhatLoadUnloadBill() {
           return {
             ...item,
             isSelected: false,
-            billAmount: +item?.totalRate * +item?.unLoadQuantity,
+            billAmount: item?.totalAmount,
+            // billAmount: +item?.totalRate * +item?.unLoadQuantity,
           };
         });
         setGridData(modifyData);
@@ -83,7 +84,7 @@ export default function GhatLoadUnloadBill() {
           truckToDamRate: item?.truckToDamRate,
           lighterToBolgateRate: item?.lighterToBolgateRate,
           bolgateToDamRate: item?.bolgateToDamRate,
-          othersCostRate: +item?.totalRate,
+          othersCostRate: +item?.totalRate || 0,
         }));
 
         const payload = {

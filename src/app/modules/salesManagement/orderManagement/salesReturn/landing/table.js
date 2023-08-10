@@ -163,7 +163,7 @@ const SalesReturn = () => {
                       name="returnType"
                       options={[
                         { value: 1, label: "Full Challan" },
-                        // { value: 2, label: "Partial Challan" },
+                        { value: 2, label: "Partial Challan" },
                       ]}
                       value={values?.returnType}
                       label="Return Type"

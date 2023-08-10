@@ -52,7 +52,8 @@ const G2GSalesDetailsTable = ({ rowData, excelRef }) => {
                   background:
                     e.itemPrice <= 0
                       ? "#fd2626a1"
-                      : e.salesValue < e.jvAmount
+                      : _fixedPoint(e.salesValue, false, 2) !==
+                        _fixedPoint(e.jvAmount, false, 2)
                       ? "#ffe627a8"
                       : "",
                 }}

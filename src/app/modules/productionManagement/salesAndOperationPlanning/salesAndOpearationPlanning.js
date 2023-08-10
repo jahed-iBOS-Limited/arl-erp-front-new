@@ -1,23 +1,26 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React from 'react';
+import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import { Redirect, Switch } from 'react-router-dom';
-import { ContentRoute } from '../../../../_metronic/layout';
-import SalesAndProductionPlanCreateForm from './salesAndProductionPlan/form/addEditForm';
-import ProductionPlanningForm from './salesAndProductionPlan/productionPlanning/addEditForm';
-import SalesAndProductionTable from './salesAndProductionPlan/table/table';
-import ProductionMasterSchedulelLanding from './productionMasterSchedule/Table/index';
-import ProductionMasterSchedulelFrom from './productionMasterSchedule/Form/addEditForm';
-import SalesAndProductionPlanCreateFormView from './salesAndProductionPlan/formView/addEditForm';
-import PurchasePlanTable from './purchasePricePlan/table/table';
-import PurchasePlanCreateForm from './purchasePricePlan/form/addEditForm';
-import PurchasePlanCreateFormView from './purchasePricePlan/formView/addEditForm';
-import PurchasePlanningForm from './purchasePricePlan/productionPlanning/addEditForm';
-import Materialannualplan from './materialReqPlan/table/table';
-import MaterialReqPlanLanding from './materialannualplan/table/table';
-import DistributionPlanLanding from './distributionPlan';
-import DistributionPlanCreateEdit from './distributionPlan/createEdit';
-import NotPermitted from '../../performanceManagement/notPermittedPage/notPermitted';
+import { Redirect, Switch } from "react-router-dom";
+import { ContentRoute } from "../../../../_metronic/layout";
+import NotPermitted from "../../performanceManagement/notPermittedPage/notPermitted";
+import MonthlySalesPlanLanding from "./detailsSalesPlan";
+import DistributionPlanCreate from "./distributionPlan/create";
+import DistributionPlanEdit from "./distributionPlan/edit";
+import Materialannualplan from "./materialReqPlan/table/table";
+import MaterialReqPlanLanding from "./materialannualplan/table/table";
+import ProductionMasterSchedulelFrom from "./productionMasterSchedule/Form/addEditForm";
+import ProductionMasterSchedulelLanding from "./productionMasterSchedule/Table/index";
+import PurchasePlanCreateForm from "./purchasePricePlan/form/addEditForm";
+import PurchasePlanCreateFormView from "./purchasePricePlan/formView/addEditForm";
+import PurchasePlanningForm from "./purchasePricePlan/productionPlanning/addEditForm";
+import PurchasePlanTable from "./purchasePricePlan/table/table";
+import SalesAndProductionPlanCreateForm from "./salesAndProductionPlan/form/addEditForm";
+import SalesAndProductionPlanCreateFormView from "./salesAndProductionPlan/formView/addEditForm";
+import ProductionPlanningForm from "./salesAndProductionPlan/productionPlanning/addEditForm";
+import SalesAndProductionTable from "./salesAndProductionPlan/table/table";
+import DetailsSalesPlanLanding from "./detailsSalesPlan/detailsSalesPlan";
+import DetailsSalesPlanEntry from "./detailsSalesPlan/entryForm/addEditForm";
 
 export function salesAndOperationsPlanning() {
   const userRole = useSelector(
@@ -109,12 +112,34 @@ export function salesAndOperationsPlanning() {
       />
       {/* Distribuation Planning */}
       <ContentRoute
-        path="/production-management/salesAndOperationsPlanning/DistributionPlanning/create"
-        component={distributionPlanningPermission?.isCreate ? DistributionPlanCreateEdit : NotPermitted}
+        path="/production-management/salesAndOperationsPlanning/DistributionPlanning/edit"
+        component={
+          distributionPlanningPermission?.isCreate
+            ? DistributionPlanEdit
+            : NotPermitted
+        }
       />
       <ContentRoute
-        path="/production-management/salesAndOperationsPlanning/DistributionPlanning"
-        component={distributionPlanningPermission?.isView ? DistributionPlanLanding : NotPermitted}
+        path="/production-management/salesAndOperationsPlanning/DistributionPlanning/create"
+        component={
+          distributionPlanningPermission?.isCreate
+            ? DistributionPlanCreate
+            : NotPermitted
+        }
+      />
+
+      {/* Details Sales Plan  */}
+      <ContentRoute
+        path="/production-management/salesAndOperationsPlanning/detailsalseplan/details/:actionType"
+        component={DetailsSalesPlanEntry}
+      />
+      <ContentRoute
+        path="/production-management/salesAndOperationsPlanning/detailsalseplan/details"
+        component={DetailsSalesPlanLanding}
+      />
+      <ContentRoute
+        path="/production-management/salesAndOperationsPlanning/detailsalseplan"
+        component={MonthlySalesPlanLanding}
       />
     </Switch>
   );

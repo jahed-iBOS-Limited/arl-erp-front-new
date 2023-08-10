@@ -11,25 +11,25 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from "../../../../../../_metronic/_partials/controls";
-import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import IApproval from "../../../../_helper/_helperIcons/_approval";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import IView from "../../../../_helper/_helperIcons/_view";
-import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
 import PaginationSearch from "../../../../_helper/_search";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import { _todayDate } from "../../../../_helper/_todayDate";
-// import { StockInToInventoryApproval } from "../../challanEntry/helper";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
+import NewSelect from "../../../../_helper/_select";
 import IViewModal from "../../../../_helper/_viewModal";
+import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
 import WarehouseApproveFrom from "./approve";
-// import { StockInToInventoryApproval } from "../../challanEntry/helper";
 
 const initData = {
   shipPoint: "",
+  status: { value: 0, label: "All" },
   fromDate: _monthFirstDate(),
   toDate: _todayDate(),
 };
@@ -69,7 +69,8 @@ const UnLoadingInformationTable = () => {
     const url = `/tms/LigterLoadUnload/GetLighterUnLoadingPagination?BusinessUnitId=${buId}&ShippingPoint=${values
       ?.shipPoint?.value || 0}&FromDate=${values?.fromDate}&ToDate=${
       values?.toDate
-    }&PageNo=${pageNo}&PageSize=${pageSize}&SearchTerm=${searchTxt}`;
+    }&PageNo=${pageNo}&PageSize=${pageSize}&SearchTerm=${searchTxt}&IsInventoryApprove=${values
+      ?.status?.value || 0}`;
 
     getRowData(url);
   };
@@ -114,7 +115,7 @@ const UnLoadingInformationTable = () => {
         initialValues={initData}
         onSubmit={() => {}}
       >
-        {({ values }) => (
+        {({ values, setFieldValue }) => (
           <>
             <Card>
               <ModalProgressBar />
@@ -140,20 +141,21 @@ const UnLoadingInformationTable = () => {
                 <form className="form form-label-right">
                   <div className="global-form">
                     <div className="row">
+                      <FromDateToDateForm obj={{ values, setFieldValue }} />
                       <div className="col-lg-3">
-                        <InputField
-                          label="From Date"
-                          value={values?.fromDate}
-                          name="fromDate"
-                          type="date"
-                        />
-                      </div>
-                      <div className="col-lg-3">
-                        <InputField
-                          label="To Date"
-                          value={values?.toDate}
-                          name="toDate"
-                          type="date"
+                        <NewSelect
+                          name="status"
+                          value={values?.status}
+                          label="Status"
+                          placeholder="Status"
+                          options={[
+                            { value: 0, label: "All" },
+                            { value: 1, label: "Pending" },
+                            { value: 2, label: "Approved" },
+                          ]}
+                          onChange={(e) => {
+                            setFieldValue("status", e);
+                          }}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -200,9 +202,9 @@ const UnLoadingInformationTable = () => {
                             <tr
                               key={index}
                               style={
-                                // item?.isInventoryApprove
-                                item?.isBillSubmitted
-                                  ? { backgroundColor: "#d4edda" }
+                                item?.isInventoryApprove
+                                  ? // item?.isBillSubmitted
+                                    { backgroundColor: "#d4edda" }
                                   : { backgroundColor: "#f8d7da" }
                               }
                             >
@@ -284,8 +286,8 @@ const UnLoadingInformationTable = () => {
                                 </div>
                               </td>
                               <td className="text-center">
-                                {/* {!item?.isInventoryApprove ? ( */}
-                                {!item?.isBillSubmitted ? (
+                                {!item?.isInventoryApprove ? (
+                                  // {!item?.isBillSubmitted ? (
                                   <span>
                                     <IApproval
                                       title="Approve"
