@@ -1,27 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
+import { Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
+import { toast } from "react-toastify";
 import {
   Card,
+  CardBody,
   CardHeader,
   CardHeaderToolbar,
-  CardBody,
   ModalProgressBar,
 } from "../../../../../../_metronic/_partials/controls";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { Formik } from "formik";
+import TextArea from "../../../../_helper/TextArea";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
+import PaginationTable from "../../../../_helper/_tablePagination";
+import IViewModal from "../../../../_helper/_viewModal";
 import {
   approveOrReject,
   checkPermission,
   getPartnerOverDueRequestList,
 } from "../helper";
-import { toast } from "react-toastify";
-import IViewModal from "../../../../_helper/_viewModal";
-import TextArea from "../../../../_helper/TextArea";
-import NewSelect from "../../../../_helper/_select";
 
 const header = [
   "SL",
@@ -134,10 +134,11 @@ const PartnerOverDueRequestTable = () => {
     }
     if (selectedItems?.length > 0) {
       const payload = selectedItems.map((item) => {
+        console.log( item?.isSalesApprove);
         return {
           header: {
             intConfigId: item?.intId,
-            approveType: item?.isSalesApprove ? 3 : 1,
+            approveType: item?.isSalesApprove ? 2 : 1,
             isApprovedBySales: item?.isSalesApprove
               ? item?.isSalesApprove
               : status,
