@@ -151,8 +151,10 @@ function Form({
                         commonGridFunc(values);
                       }}
                       disabled={
-                        !values?.customer ||
-                        (values?.returnType?.value === 1 && !values?.challan)
+                        !values?.returnType ||
+                        !values?.channel ||
+                        (values?.returnType?.value === 1 &&
+                          (!values?.challan || !values?.customer))
                       }
                     >
                       View
