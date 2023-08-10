@@ -14,69 +14,57 @@ p {
 .bold {
   font-weight: 600;
 }
-.print_invoice_wrapper {
+.poly_fibre_quotation_print {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   max-width: 210mm;
   margin: 0 auto;
   font-size: 14px !important;
-  display: none;
+  /* display: none; */
   /* border: 1px solid black; */
 }
-.print_invoice_wrapper .header {
-  display: flex;
-  gap: 40px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #d83f38;
-  /* position: fixed;
-  top: 0; */
-}
-.print_invoice_wrapper .header .office_info {
-  width: 65%;
-  text-align: right;
-}
 
-.print_invoice_wrapper .main_table {
+.poly_fibre_quotation_print .main_table {
   margin-top: 2rem;
 }
-.print_invoice_wrapper .main_table .table_header {
+.poly_fibre_quotation_print .main_table .table_header {
   font-size: 20px;
   border-bottom: 1px solid;
   max-width: 100px;
   margin: 0 auto;
   margin-bottom: 5px;
 }
-.print_invoice_wrapper .main_table .table {
+.poly_fibre_quotation_print .main_table .table {
   width: 100%;
   border-collapse: collapse;
 }
-.print_invoice_wrapper .main_table .table th {
+.poly_fibre_quotation_print .main_table .table th {
   border: 1px solid;
   padding: 5px;
 }
-.print_invoice_wrapper .main_table .table td {
+.poly_fibre_quotation_print .main_table .table td {
   border: 1px solid;
   padding: 5px;
 }
-.print_invoice_wrapper .main_table .note {
+.poly_fibre_quotation_print .main_table .note {
   display: flex;
   margin-top: 15px;
 }
-.print_invoice_wrapper .main_table .note ul {
+.poly_fibre_quotation_print .main_table .note ul {
   margin: 0;
   padding-left: 30px;
 }
-.print_invoice_wrapper .signature_wrapper {
+.poly_fibre_quotation_print .signature_wrapper {
   display: flex;
   justify-content: space-between;
   margin-top: 50px;
 }
-.print_invoice_wrapper .signature_wrapper .signature p {
+.poly_fibre_quotation_print .signature_wrapper .signature p {
   position: relative;
   padding-top: 2px;
 }
-.print_invoice_wrapper .signature_wrapper .signature p::before {
+.poly_fibre_quotation_print .signature_wrapper .signature p::before {
   content: "";
   position: absolute;
   height: 1px;
@@ -88,9 +76,18 @@ p {
 .border-btm {
   border-bottom: 1px solid gray;
 }
-
-@media print {
-  .print_invoice_wrapper {
-    display: block !important;
-  }
+.poly_fibre_quotation_print .invoiceFooterInfo p {
+  padding: 4px 0;
+}
+.poly_fibre_quotation_print .invoiceFooterInfo p span {
+  width: 92px;
+  position: relative;
+  display: inline-block;
+  margin-right: 30px;
+}
+.poly_fibre_quotation_print .invoiceFooterInfo p span::before {
+  content: ':';
+  position: absolute;
+  right: 0;
+  top: 0;
 }

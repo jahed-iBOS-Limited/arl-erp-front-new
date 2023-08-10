@@ -57,6 +57,9 @@ const initData = {
   address: "",
   includeAit: "",
   distance: "",
+  strCoraseAggregate: "",
+  strFineAggregate: "",
+  strUsesOfCement: "",
 };
 
 export default function SalesQuotationPolyFibreForm({
@@ -148,6 +151,13 @@ export default function SalesQuotationPolyFibreForm({
             sequenceNo: ++index,
             ...itm,
             rowId: itm?.rowId || 0,
+            salesQuotationId: itm?.salesQuotationId || 0,
+            currencyPrice: itm?.currencyPrice || 0,
+            currencyValue: itm?.currencyValue || 0,
+            packingDetialid:  itm?.packingDetialid || 0,
+            packingDetails: itm?.packingDetails || "",
+            exportUomid: itm?.exportUomid || 0,
+            exportUomname: itm?.exportUomname || "",
           };
         });
         const objSpecRow = specRowDto.map((itm) => {
@@ -159,50 +169,68 @@ export default function SalesQuotationPolyFibreForm({
         });
         const payload = {
           objHeader: {
-            quotationId: values?.quotationId,
+            quotationId: values?.quotationId || 0,
             accountId: accId,
             businessUnitId: buId,
-            salesOrganizationId: values?.salesOrg.value,
-            salesOfficeId: values?.salesOffice.value,
-            salesOfficeName: values?.salesOffice.label,
-            distributionChannelId: values?.channel.value,
-            pricingDate: values?.pricingDate,
-            partnerReffNo: values?.partnerReffNo,
+            salesOrganizationId: values?.salesOrg.value || 0,
+            salesOfficeId: values?.salesOffice.value || 0,
+            salesOfficeName: values?.salesOffice.label || "",
+            distributionChannelId: values?.channel.value || 0,
+            pricingDate: values?.pricingDate || new Date(),
+            partnerReffNo: values?.partnerReffNo || "",
             soldToPartnerId:
               values?.customerType?.value === 1
                 ? values?.soldToParty?.value
                 : 0,
-            totalQuotationValue: total.totalAmount,
-            totalQuotationQty: total.totalQty,
+            totalQuotationValue: total.totalAmount || 0,
+            totalQuotationQty: total.totalQty || 0,
             actionBy: userId,
-            quotationEndDate: values?.quotationEndDate,
+            quotationEndDate: values?.quotationEndDate || new Date(),
             remark: values?.remark || "",
-
-            // soldToPartnerName:
-            //   values?.customerType?.value === 1
-            //     ? values?.soldToParty?.label
-            //     : values?.customerName,
-            newCustomerName: values?.customerName,
-            newCustomerAddress: values?.customerAddress,
+            newCustomerName: values?.customerName || "",
+            newCustomerAddress: values?.customerAddress || "",
             address: values?.address || "",
             shipPointId: values?.shippingPoint?.value || 0,
             shipPointName: values?.shippingPoint?.label || "",
             isIncludeVat: values?.includeVat?.value === 1,
             paymentMode: values?.paymentMode || "",
-
             intConcernEmployeId: values?.officerName?.value,
             strConcernEmployeeName: values?.officerName?.label,
-            strUsesOfCement: "",
-            strCoraseAggregate: "",
-            strFineAggregate: "",
+            strUsesOfCement: values?.strUsesOfCement || "",
+            strCoraseAggregate: values?.strCoraseAggregate || "",
+            strFineAggregate: values?.strFineAggregate || "",
             strAddmixture: "",
             strWaterProofingChemical: "",
             strProject: "",
             isAitinclude: values?.includeAit?.value === 1,
             distancekm: values?.distance || "",
+
+            salesContractNo: "",
+            salesTermid: 0,
+            salesTerm: "",
+            modeofShipment: "",
+            portofShipmentId: 0,
+            portofShipment: "",
+            portofDischargeId: 0,
+            portofDishcharge: "",
+            finalDestination: "",
+            countryOfOrigin: "",
+            contractFor: "",
+            freightAmount: 0,
+            currencyId: 0,
+            currencyName: "",
+            currencyRateBdt: 0,
+            totalCurrencyAmount: 0,
+            exPortRegNo: "",
+            exPortPermissionNo: "",
+            intViewAs: 0,
+            strViewAs: "",
+            attachmentno: "",
+            attachPkid: 0,
           },
           objRow: objListRowDTO,
           objSpecRow: objSpecRow,
+          objTerms:[]
         };
 
         if (rowDto.length) {
@@ -216,6 +244,14 @@ export default function SalesQuotationPolyFibreForm({
             businessUnitId: buId,
             sequenceNo: ++index,
             ...itm,
+            rowId: itm?.rowId ||0,
+            salesQuotationId: itm?.salesQuotationId || 0,
+            currencyPrice: itm?.currencyPrice || 0,
+            currencyValue: itm?.currencyValue || 0,
+            packingDetialid:  itm?.packingDetialid || 0,
+            packingDetails: itm?.packingDetails || "",
+            exportUomid: itm?.exportUomid || 0,
+            exportUomname: itm?.exportUomname || "",
           };
         });
         const objSpecRow = specRowDto.map((itm) => {
@@ -228,28 +264,23 @@ export default function SalesQuotationPolyFibreForm({
           objHeader: {
             accountId: accId,
             businessUnitId: buId,
-            salesOrganizationId: values?.salesOrg.value,
-            salesOfficeId: values?.salesOffice.value,
-            salesOfficeName: values?.salesOffice.label,
-            distributionChannelId: values?.channel.value,
-            pricingDate: values?.pricingDate,
-            partnerReffNo: values?.partnerReffNo,
+            salesOrganizationId: values?.salesOrg.value || 0,
+            salesOfficeId: values?.salesOffice.value || 0,
+            salesOfficeName: values?.salesOffice.label || "",
+            distributionChannelId: values?.channel.value || 0,
+            pricingDate: values?.pricingDate || new Date(),
+            partnerReffNo: values?.partnerReffNo || "",
             soldToPartnerId:
               values?.customerType?.value === 1
                 ? values?.soldToParty?.value
                 : 0,
-            totalQuotationValue: total.totalAmount,
-            totalQuotationQty: total.totalQty,
+            totalQuotationValue: total.totalAmount || 0,
+            totalQuotationQty: total.totalQty || 0,
             actionBy: userId,
-            quotationEndDate: values?.quotationEndDate,
+            quotationEndDate: values?.quotationEndDate || new Date(),
             remark: values?.remark || "",
-
-            // soldToPartnerName:
-            //   values?.customerType?.value === 1
-            //     ? values?.soldToParty?.label
-            //     : values?.customerName,
-            newCustomerName: values?.customerName,
-            newCustomerAddress: values?.customerAddress,
+            newCustomerName: values?.customerName || "",
+            newCustomerAddress: values?.customerAddress || "",
             address: values?.address || "",
             shipPointId: values?.shippingPoint?.value || 0,
             shipPointName: values?.shippingPoint?.label || "",
@@ -257,9 +288,41 @@ export default function SalesQuotationPolyFibreForm({
             paymentMode: values?.paymentMode || "",
             isAitinclude: values?.includeAit?.value === 1,
             distancekm: values?.distance || "",
+            strUsesOfCement: values?.strUsesOfCement || "",
+            strCoraseAggregate: values?.strCoraseAggregate || "",
+            strFineAggregate: values?.strFineAggregate || "",
+            quotationId: 0,
+            intConcernEmployeId: 0,
+            strConcernEmployeeName: "",
+            strAddmixture: "",
+            strWaterProofingChemical: "",
+            strProject: "",
+            salesContractNo: "",
+            salesTermid: 0,
+            salesTerm: "",
+            modeofShipment: "",
+            portofShipmentId: 0,
+            portofShipment: "",
+            portofDischargeId: 0,
+            portofDishcharge: "",
+            finalDestination: "",
+            countryOfOrigin: "",
+            contractFor: "",
+            freightAmount: 0,
+            currencyId: 0,
+            currencyName: "",
+            currencyRateBdt: 0,
+            totalCurrencyAmount: 0,
+            exPortRegNo: "",
+            exPortPermissionNo: "",
+            intViewAs: 0,
+            strViewAs: "",
+            attachmentno: "",
+            attachPkid: 0,
           },
           objRow: objListRowDTO,
           objSpecRow: objSpecRow,
+          objTerms:[]
         };
         if (rowDto.length) {
           dispatch(saveSalesquotation({ data: payload, cb, setDisabled }));
@@ -296,7 +359,7 @@ export default function SalesQuotationPolyFibreForm({
         itemPrice: values?.price,
         quotationValue: values?.quantity * values?.price,
         itemCode: values?.itemList.code,
-        specification: strGen(specTableData, "specification", "value"),
+        specification: strGen(specTableData, "specification", "narration"),
         length: values?.length,
         height: values?.height,
         uomName: values?.uom.label,
@@ -339,9 +402,9 @@ export default function SalesQuotationPolyFibreForm({
     const newData = {
       specificationId: param.specification.value,
       specification: param.specification.label,
-      value: param.value,
+      value: param.value || 0,
       itemId: param.itemList.value,
-      narration: param.narration || '',
+      narration: param.narration || "",
     };
     if (isUniq("specificationId", param.specification.value, specTableData)) {
       setSpecTableData([...specTableData, newData]);
