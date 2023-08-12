@@ -988,8 +988,8 @@ export default function _Form({
                                   <td>{itm?.bankName}</td>
                                   <td>{itm?.branchName}</td>
                                   <td>{itm?.refNo}</td>
-                                  <td>{itm?.expireDate}</td>
-                                  <td>{itm?.issueDate}</td>
+                                  <td>{_dateFormatter(itm?.expireDate)}</td>
+                                  <td>{_dateFormatter(itm?.issueDate)}</td>
                                   <td className="text-center">
                                     <IDelete
                                       remover={morgazeRemover}
