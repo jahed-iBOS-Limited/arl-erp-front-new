@@ -235,19 +235,30 @@ export const getUomDDLItemId_Action = (accId, buId, itemId, setFieldValue) => (
   });
 };
 // getDownlloadFileView_Action
-export const getDownlloadFileView_Action = (id, closeModal) => (dispatch) => {
-  requestFromServer.getDownlloadFileView(id).then((res) => {
-    const { status, data } = res;
-    if (status === 200 && data) {
-      // console.log(res)
-      const obj = {
-        url: res?.config?.url,
-        type: res?.headers?.["content-type"],
-        model: closeModal ? false : true,
-      };
-      dispatch(slice.SetImageView(obj));
-    }
-  });
+export const getDownlloadFileView_Action = (id, closeModal, cb, setLoading) => (
+  dispatch
+) => {
+  setLoading && setLoading(true);
+  requestFromServer
+    .getDownlloadFileView(id)
+    .then((res) => {
+      const { status, data } = res;
+      if (status === 200 && data) {
+        // console.log(res)
+        const obj = {
+          url: res?.config?.url,
+          type: res?.headers?.["content-type"],
+          model: closeModal ? false : true,
+        };
+
+        dispatch(slice.SetImageView(obj));
+        cb && cb();
+        setLoading && setLoading(false);
+      }
+    })
+    .catch((err) => {
+      setLoading && setLoading(false);
+    });
 };
 
 // getDownlloadFileView_Action
