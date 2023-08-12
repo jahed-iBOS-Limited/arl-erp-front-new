@@ -1,0 +1,113 @@
+p {
+  margin: 0;
+  padding: 0;
+}
+.text-left {
+  text-align: left;
+}
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+.bold {
+  font-weight: 600;
+}
+.cement_quotation_print {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  max-width: 210mm;
+  margin: 0 auto;
+  font-size: 14px !important;
+  display: none;
+}
+
+.cement_quotation_print .main_table {
+  margin-top: 2rem;
+}
+
+.cement_quotation_print .header {
+  display: flex;
+  gap: 40px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #d83f38;
+  /* position: fixed;
+  top: 0; */
+}
+.cement_quotation_print .header .office_info {
+  width: 65%;
+  text-align: right;
+}
+
+.cement_quotation_print .main_table .table_header {
+  font-size: 20px;
+  border-bottom: 1px solid;
+  max-width: 100px;
+  margin: 0 auto;
+  margin-bottom: 5px;
+}
+.cement_quotation_print .main_table .table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.cement_quotation_print .main_table .table th {
+  border: 1px solid;
+  padding: 5px;
+}
+.cement_quotation_print .main_table .table td {
+  border: 1px solid;
+  padding: 5px;
+}
+
+.cement_quotation_print .underline {
+  text-decoration: underline;
+}
+.cement_quotation_print .main_table .note ul {
+  margin: 0;
+  padding-left: 20px;
+  list-style-type: none;
+}
+.cement_quotation_print .signature_wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
+}
+.cement_quotation_print .signature_wrapper .signature p {
+  position: relative;
+  padding-top: 2px;
+}
+.cement_quotation_print .signature_wrapper .signature p::before {
+  content: "";
+  position: absolute;
+  height: 1px;
+  width: calc(100% + 30px);
+  background: #000;
+  margin-left: -15px;
+  margin-top: -5px;
+}
+.border-btm {
+  border-bottom: 1px solid gray;
+}
+/* .cement_quotation_print .invoiceFooterInfo p {
+  padding: 4px 0;
+} */
+.cement_quotation_print .invoiceFooterInfo p span {
+  width: 120px;
+  position: relative;
+  display: inline-block;
+  margin-right: 30px;
+}
+.cement_quotation_print .invoiceFooterInfo p span::after {
+  content: ":";
+  position: absolute;
+  right: -20px;
+  top: 0;
+}
+
+@media print {
+  .cement_quotation_print {
+    display: block !important;
+  }
+}
