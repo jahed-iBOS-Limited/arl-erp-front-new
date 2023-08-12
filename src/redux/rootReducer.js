@@ -80,6 +80,7 @@ import { corporatePmsAchievementSlice } from "./../app/modules/performanceManage
 import { corporateInDividualBalancedScoreSlice } from "./../app/modules/performanceManagement/corporateKpi/balancedScore/_redux/Slice";
 import { coporateKpiDeshboardSlice } from "./../app/modules/performanceManagement/corporateKpi/kpiDashboard/_redux/Slice";
 import { iChatAppSlice } from "../app/modules/chatApp/redux/Slice";
+import { chattingAppSlice } from "../../src/app/modules/_helper/chattingAppRedux/Slice";
 
 export const rootReducer = combineReducers({
   auth: auth.reducer,
@@ -154,6 +155,7 @@ export const rootReducer = combineReducers({
   localStorage: localStorageSlice.reducer,
   chatApp: chatAppSlice.reducer,
   iChatApp: iChatAppSlice.reducer,
+  chattingApp: chattingAppSlice?.reducer,
 });
 
 export function* rootSaga() {

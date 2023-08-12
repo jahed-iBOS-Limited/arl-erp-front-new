@@ -17,6 +17,7 @@ const initAuthState = {
   isForceLogout: false,
   userRole: [],
   email: null,
+  peopledeskApiURL: "",
 };
 export const callTypes = {
   list: "list",
@@ -109,6 +110,10 @@ export const authSlice = createSlice({
     setIsToken: (state, action) => {
       const { payload } = action;
       state.tokenData = payload;
+    },
+    setPeopledeskApiURL: (state, action) => {
+      const { payload } = action;
+      state.peopledeskApiURL = payload;
     },
   },
 });

@@ -12,16 +12,25 @@ import DepartmentalBalancedScorecard from "./modules/performanceManagement/depar
 import KPIScoreCardNew from "./modules/performanceManagement/individualKpi/balancedScore/Table/KPIScoreCardNew";
 import SBUBalancedScorecard from "./modules/performanceManagement/sbuKpi/balancedScore/Table/SBUBalancedScorecard";
 import { serviceWorkerPoppup } from "./modules/_helper/serviceWorkerPoppup";
-import { getOID_Action, getShippointDDLCommon_action } from "./modules/_helper/_redux/Actions";
+import {
+  getOID_Action,
+  getShippointDDLCommon_action,
+} from "./modules/_helper/_redux/Actions";
 import ErrorsPage from "./pages/ErrorsExamples/ErrorsPage";
 import Maintenance from "./pages/Maintenance";
 import TokenExpiredPopUp from "./TokenExpiredPopUp";
 import * as requestFromServer from "./modules/Auth/_redux/Auth_Api";
 import { authSlice } from "./modules/Auth/_redux/Auth_Slice";
 import { getCookie } from "./modules/_helper/_cookie";
+import { toast } from "react-toastify";
+import { HubConnectionBuilder } from "@microsoft/signalr";
+import axios from "axios";
+import {
+  setNotifyCountAction,
+  setSignalRConnectionAction,
+} from "./modules/_helper/chattingAppRedux/Action";
 
 export function Routes() {
-
   const [isMaintenance, setMaintenance] = useState(false);
   const isAuthorized = useSelector((state) => {
     return state.authData.isAuth;
@@ -41,7 +50,15 @@ export function Routes() {
     },
     shallowEqual
   );
+  const connection = useSelector(
+    (state) => state?.chattingApp?.signalRConnection,
+    shallowEqual
+  );
 
+  const notifyCount = useSelector(
+    (state) => state?.chattingApp?.notifyCount,
+    shallowEqual
+  );
 
   const { actions } = authSlice;
   Axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -58,14 +75,14 @@ export function Routes() {
           selectedBusinessUnit?.value
         )
       );
-      dispatch(getOID_Action(profileData?.employeeId))
+      dispatch(getOID_Action(profileData?.employeeId));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
 
   // ======for peopleDesk user=====
   useEffect(() => {
-    const loginInfoPeopleDesk = getCookie("loginInfoPeopleDesk")
+    const loginInfoPeopleDesk = getCookie("loginInfoPeopleDesk");
     let info = JSON.parse(loginInfoPeopleDesk || "{}");
     if (info?.isAuth) {
       dispatch(
@@ -73,27 +90,34 @@ export function Routes() {
         actions.LoginFetched({
           isAuth: info?.isAuth,
           tokenData: {
-            token: info?.tokenData
-          }
+            token: info?.tokenData,
+          },
         })
       );
       if (info?.isAuth) {
-        Axios.defaults.headers.common["Authorization"] = `Bearer ${info?.tokenData}`;
-        requestFromServer.profileAPiCall(info?.email).then((res) => {
-          dispatch(actions.ProfileFetched(res));
-        }).catch(error => {
-          console.log(error)
-          dispatch(actions.LogOut())
-        });
+        Axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${info?.tokenData}`;
+        requestFromServer
+          .profileAPiCall(info?.email)
+          .then((res) => {
+            dispatch(actions.ProfileFetched(res));
+            dispatch(actions.setPeopledeskApiURL(info?.peopledeskApiURL || ''));
+            connectionHub(info?.peopledeskApiURL);
+          })
+          .catch((error) => {
+            console.log(error);
+            dispatch(actions.LogOut());
+          });
       }
     } else {
       if (window.location.origin === "https://erp.peopledesk.io") {
         dispatch(actions.LogOut());
-        window.location.href = "https://arl.peopledesk.io"
+        window.location.href = "https://arl.peopledesk.io";
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   useEffect(() => {
     const GetAppVersion_api = async () => {
@@ -110,6 +134,44 @@ export function Routes() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // ===============Notification ===============
+  const employeeId = profileData?.employeeId;
+  const signalR_KEY = "iBOS__" + window.location.origin;
+  const orgId = profileData?.accountId;
+
+  const notify_KEY = signalR_KEY + "__notify_" + orgId + "_" + employeeId;
+  const connectionHub = async (peopledeskApiURL) => {
+    const notifyRes = await axios.get(
+      `${peopledeskApiURL}/Notification/GetNotificationCountErp?employeeId=${employeeId}&accountId=${orgId}`
+    );
+    dispatch(setNotifyCountAction(notifyRes?.data));
+    const connectionHub = new HubConnectionBuilder()
+      .withUrl("https://signal.peopledesk.io/NotificationHub")
+      .withAutomaticReconnect()
+      .build();
+    if (connectionHub) {
+      connectionHub.start().then(() => {
+        dispatch(setSignalRConnectionAction(connectionHub));
+      });
+    }
+  };
+  useEffect(() => {
+    if (connection) {
+      connection.on(`sendTo_${notify_KEY}`, (count) => {
+        dispatch(setNotifyCountAction(notifyCount + 1));
+        if (count) {
+          toast.info("A new notification has come!!", {
+            autoClose: 2000,
+            limit: 10,
+            closeOnClick: true,
+            newestOnTop: true,
+          });
+        }
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [connection]);
+
   return (
     <Switch>
       {isExpiredPassword && (
@@ -124,30 +186,30 @@ export function Routes() {
           <LoginPage2 />
         </Route>
       ) : (
-        <Redirect from="/auth" to="/" />
+        <Redirect from='/auth' to='/' />
       )}
 
-      <Route path="/error" component={ErrorsPage} />
-      <Route path="/logout" component={Logout} />
+      <Route path='/error' component={ErrorsPage} />
+      <Route path='/logout' component={Logout} />
       {/* to show individual kpi scorecard in blank page without base layout as fer as requirement..we have to set the route outside of the base layout */}
       {isAuthorized && (
-        <Route path="/individual-kpi-scorecard" component={KPIScoreCardNew} />
+        <Route path='/individual-kpi-scorecard' component={KPIScoreCardNew} />
       )}
       {isAuthorized && (
         <Route
-          path="/departmental-balanced-scorecard"
+          path='/departmental-balanced-scorecard'
           component={DepartmentalBalancedScorecard}
         />
       )}
       {isAuthorized && (
         <Route
-          path="/sbu-balanced-scorecard"
+          path='/sbu-balanced-scorecard'
           component={SBUBalancedScorecard}
         />
       )}
 
       {!isAuthorized ? (
-        <Redirect to="/auth/login" />
+        <Redirect to='/auth/login' />
       ) : !authData.haveBusinessUnit ? (
         <div>
           <div
