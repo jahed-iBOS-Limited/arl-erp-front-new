@@ -6,7 +6,7 @@ import { ContentRoute } from "../../../../_metronic/layout";
 import NotPermitted from "../../performanceManagement/notPermittedPage/notPermitted";
 import MonthlySalesPlanLanding from "./detailsSalesPlan";
 import DistributionPlanCreate from "./distributionPlan/create";
-import DistributionPlanEdit from "./distributionPlan/edit";
+// import DistributionPlanEdit from "./distributionPlan/edit";
 import Materialannualplan from "./materialReqPlan/table/table";
 import MaterialReqPlanLanding from "./materialannualplan/table/table";
 import ProductionMasterSchedulelFrom from "./productionMasterSchedule/Form/addEditForm";
@@ -21,6 +21,7 @@ import ProductionPlanningForm from "./salesAndProductionPlan/productionPlanning/
 import SalesAndProductionTable from "./salesAndProductionPlan/table/table";
 import DetailsSalesPlanLanding from "./detailsSalesPlan/detailsSalesPlan";
 import DetailsSalesPlanEntry from "./detailsSalesPlan/entryForm/addEditForm";
+import DistributionPlanLanding from "./distributionPlan";
 
 export function salesAndOperationsPlanning() {
   const userRole = useSelector(
@@ -111,19 +112,27 @@ export function salesAndOperationsPlanning() {
         component={Materialannualplan}
       />
       {/* Distribuation Planning */}
-      <ContentRoute
+      {/* <ContentRoute
         path="/production-management/salesAndOperationsPlanning/DistributionPlanning/edit"
         component={
           distributionPlanningPermission?.isCreate
             ? DistributionPlanEdit
             : NotPermitted
         }
-      />
+      /> */}
       <ContentRoute
         path="/production-management/salesAndOperationsPlanning/DistributionPlanning/create"
         component={
           distributionPlanningPermission?.isCreate
             ? DistributionPlanCreate
+            : NotPermitted
+        }
+      />
+      <ContentRoute
+        path="/production-management/salesAndOperationsPlanning/DistributionPlanning"
+        component={
+          distributionPlanningPermission?.isView
+            ? DistributionPlanLanding
             : NotPermitted
         }
       />
