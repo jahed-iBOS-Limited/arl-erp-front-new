@@ -12,7 +12,10 @@ import DepartmentalBalancedScorecard from "./modules/performanceManagement/depar
 import KPIScoreCardNew from "./modules/performanceManagement/individualKpi/balancedScore/Table/KPIScoreCardNew";
 import SBUBalancedScorecard from "./modules/performanceManagement/sbuKpi/balancedScore/Table/SBUBalancedScorecard";
 import { serviceWorkerPoppup } from "./modules/_helper/serviceWorkerPoppup";
-import { getOID_Action, getShippointDDLCommon_action } from "./modules/_helper/_redux/Actions";
+import {
+  getOID_Action,
+  getShippointDDLCommon_action,
+} from "./modules/_helper/_redux/Actions";
 import ErrorsPage from "./pages/ErrorsExamples/ErrorsPage";
 import Maintenance from "./pages/Maintenance";
 import TokenExpiredPopUp from "./TokenExpiredPopUp";
@@ -22,7 +25,10 @@ import { getCookie } from "./modules/_helper/_cookie";
 import { toast } from "react-toastify";
 import { HubConnectionBuilder } from "@microsoft/signalr";
 import axios from "axios";
-import { setNotifyCountAction, setSignalRConnectionAction } from "./modules/_helper/chattingAppRedux/Action";
+import {
+  setNotifyCountAction,
+  setSignalRConnectionAction,
+} from "./modules/_helper/chattingAppRedux/Action";
 
 export function Routes() {
   const [isMaintenance, setMaintenance] = useState(false);
@@ -34,13 +40,25 @@ export function Routes() {
     return state.authData;
   }, shallowEqual);
 
-  const { token } = useSelector((state) => state?.authData.tokenData, shallowEqual);
-  const { profileData, selectedBusinessUnit, isExpiredPassword } = useSelector((state) => {
-    return state.authData;
-  }, shallowEqual);
-  const connection = useSelector((state) => state?.chattingApp?.signalRConnection, shallowEqual);
+  const { token } = useSelector(
+    (state) => state?.authData.tokenData,
+    shallowEqual
+  );
+  const { profileData, selectedBusinessUnit, isExpiredPassword } = useSelector(
+    (state) => {
+      return state.authData;
+    },
+    shallowEqual
+  );
+  const connection = useSelector(
+    (state) => state?.chattingApp?.signalRConnection,
+    shallowEqual
+  );
 
-  const notifyCount = useSelector((state) => state?.chattingApp?.notifyCount, shallowEqual);
+  const notifyCount = useSelector(
+    (state) => state?.chattingApp?.notifyCount,
+    shallowEqual
+  );
 
   const { actions } = authSlice;
   Axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -50,7 +68,13 @@ export function Routes() {
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
-      dispatch(getShippointDDLCommon_action(profileData?.userId, profileData?.accountId, selectedBusinessUnit?.value));
+      dispatch(
+        getShippointDDLCommon_action(
+          profileData?.userId,
+          profileData?.accountId,
+          selectedBusinessUnit?.value
+        )
+      );
       dispatch(getOID_Action(profileData?.employeeId));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -70,7 +94,9 @@ export function Routes() {
           },
         })
       );
-      Axios.defaults.headers.common["Authorization"] = `Bearer ${info?.tokenData}`;
+      Axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${info?.tokenData}`;
       requestFromServer
         .profileAPiCall(info?.email)
         .then((res) => {
@@ -82,9 +108,15 @@ export function Routes() {
             requestFromServer
               .getBuPermission(data?.userId, data?.accountId)
               .then((res) => {
-                const findBu = res?.data?.find((item) => item?.organizationUnitReffId === info?.peopleDeskBuId);
+                const findBu = res?.data?.find(
+                  (item) =>
+                    item?.organizationUnitReffId === info?.peopleDeskBuId
+                );
                 if (findBu) {
-                  if(selectedBusinessUnit?.value !== findBu?.organizationUnitReffId){
+                  if (
+                    selectedBusinessUnit?.value !==
+                    findBu?.organizationUnitReffId
+                  ) {
                     dispatch(
                       actions.SetBusinessUnit({
                         ...findBu,
@@ -92,11 +124,10 @@ export function Routes() {
                         label: findBu?.organizationUnitReffName,
                         address: findBu?.businessUnitAddress,
                         imageId: findBu?.image,
-                        isReload: true
+                        isReload: true,
                       })
                     );
                   }
-                 
                 }
               })
               .catch((error) => {
@@ -164,6 +195,13 @@ export function Routes() {
             closeOnClick: true,
             newestOnTop: true,
           });
+          if (document.hidden) {
+            if (Notification.permission === "granted") {
+              new Notification(`New notification !!!`, {
+                body: "A new notification has come!!",
+              });
+            }
+          }
         }
       });
     }
@@ -184,23 +222,36 @@ export function Routes() {
           <LoginPage2 />
         </Route>
       ) : (
-        <Redirect from="/auth" to="/" />
+        <Redirect from='/auth' to='/' />
       )}
 
-      <Route path="/error" component={ErrorsPage} />
-      <Route path="/logout" component={Logout} />
+      <Route path='/error' component={ErrorsPage} />
+      <Route path='/logout' component={Logout} />
       {/* to show individual kpi scorecard in blank page without base layout as fer as requirement..we have to set the route outside of the base layout */}
-      {isAuthorized && <Route path="/individual-kpi-scorecard" component={KPIScoreCardNew} />}
-      {isAuthorized && <Route path="/departmental-balanced-scorecard" component={DepartmentalBalancedScorecard} />}
-      {isAuthorized && <Route path="/sbu-balanced-scorecard" component={SBUBalancedScorecard} />}
+      {isAuthorized && (
+        <Route path='/individual-kpi-scorecard' component={KPIScoreCardNew} />
+      )}
+      {isAuthorized && (
+        <Route
+          path='/departmental-balanced-scorecard'
+          component={DepartmentalBalancedScorecard}
+        />
+      )}
+      {isAuthorized && (
+        <Route
+          path='/sbu-balanced-scorecard'
+          component={SBUBalancedScorecard}
+        />
+      )}
 
       {!isAuthorized ? (
-        <Redirect to="/auth/login" />
+        <Redirect to='/auth/login' />
       ) : !authData.haveBusinessUnit ? (
         <div>
           <div
             style={{
-              backgroundImage: "url('http://localhost:3000/static/media/loginBg.c4628164.png')",
+              backgroundImage:
+                "url('http://localhost:3000/static/media/loginBg.c4628164.png')",
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
               backgroundSize: "cover",
