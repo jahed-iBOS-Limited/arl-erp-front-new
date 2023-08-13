@@ -60,7 +60,7 @@ export function Routes() {
   useEffect(() => {
     const loginInfoPeopleDesk = getCookie("loginInfoPeopleDesk");
     let info = JSON.parse(loginInfoPeopleDesk || "{}");
-    if (info?.isAuth && !authData?.isAuth) {
+    if (info?.isAuth) {
       dispatch(
         // actions.LoginFetched(info)
         actions.LoginFetched({
@@ -74,7 +74,6 @@ export function Routes() {
       requestFromServer
         .profileAPiCall(info?.email)
         .then((res) => {
-          console.log(res);
           dispatch(actions.ProfileFetched(res));
           dispatch(actions.setPeopledeskApiURL(info?.peopledeskApiURL || ""));
           connectionHub(info?.peopledeskApiURL);
@@ -85,16 +84,19 @@ export function Routes() {
               .then((res) => {
                 const findBu = res?.data?.find((item) => item?.organizationUnitReffId === info?.peopleDeskBuId);
                 if (findBu) {
-                  dispatch(
-                    actions.SetBusinessUnit({
-                      ...findBu,
-                      value: findBu?.organizationUnitReffId,
-                      label: findBu?.organizationUnitReffName,
-                      address: findBu?.businessUnitAddress,
-                      imageId: findBu?.image,
-                      isReload: true
-                    })
-                  );
+                  if(selectedBusinessUnit?.value !== findBu?.organizationUnitReffId){
+                    dispatch(
+                      actions.SetBusinessUnit({
+                        ...findBu,
+                        value: findBu?.organizationUnitReffId,
+                        label: findBu?.organizationUnitReffName,
+                        address: findBu?.businessUnitAddress,
+                        imageId: findBu?.image,
+                        isReload: true
+                      })
+                    );
+                  }
+                 
                 }
               })
               .catch((error) => {
