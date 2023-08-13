@@ -165,7 +165,7 @@ export default function WarehouseApproveFrom({
             value: rates?.supplierId,
             label: rates?.supplierName,
           },
-          unloadedQty: _fixedPoint(singleItem?.receiveQnt, true, 2),
+          unloadedQty: _fixedPoint(singleItem?.receiveQnt, false, 2),
           directRate: rates?.directRate,
           dumpDeliveryRate: rates?.dumpDeliveryRate,
           bolgateToDamRate: rates?.bolgateToDamRate,
@@ -183,6 +183,7 @@ export default function WarehouseApproveFrom({
       >
         {({ values, errors, touched, setFieldValue }) => (
           <>
+          {console.log("unloadedQty", values?.unloadedQty)}
             {loading && <Loading />}
             <Card>
               <ModalProgressBar />
