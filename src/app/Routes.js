@@ -94,22 +94,51 @@ export function Routes() {
           },
         })
       );
-      if (info?.isAuth) {
-        Axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${info?.tokenData}`;
-        requestFromServer
-          .profileAPiCall(info?.email)
-          .then((res) => {
-            dispatch(actions.ProfileFetched(res));
-            dispatch(actions.setPeopledeskApiURL(info?.peopledeskApiURL || ''));
-            connectionHub(info?.peopledeskApiURL);
-          })
-          .catch((error) => {
-            console.log(error);
-            dispatch(actions.LogOut());
-          });
-      }
+      Axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${info?.tokenData}`;
+      requestFromServer
+        .profileAPiCall(info?.email)
+        .then((res) => {
+          dispatch(actions.ProfileFetched(res));
+          dispatch(actions.setPeopledeskApiURL(info?.peopledeskApiURL || ""));
+          connectionHub(info?.peopledeskApiURL);
+          const data = res?.data?.[0];
+          if (data?.accountId && data?.userId) {
+            requestFromServer
+              .getBuPermission(data?.userId, data?.accountId)
+              .then((res) => {
+                const findBu = res?.data?.find(
+                  (item) =>
+                    item?.organizationUnitReffId === info?.peopleDeskBuId
+                );
+                if (findBu) {
+                  if (
+                    selectedBusinessUnit?.value !==
+                    findBu?.organizationUnitReffId
+                  ) {
+                    dispatch(
+                      actions.SetBusinessUnit({
+                        ...findBu,
+                        value: findBu?.organizationUnitReffId,
+                        label: findBu?.organizationUnitReffName,
+                        address: findBu?.businessUnitAddress,
+                        imageId: findBu?.image,
+                        isReload: true,
+                      })
+                    );
+                  }
+                }
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          dispatch(actions.LogOut());
+        });
     } else {
       if (window.location.origin === "https://erp.peopledesk.io") {
         dispatch(actions.LogOut());
@@ -166,6 +195,13 @@ export function Routes() {
             closeOnClick: true,
             newestOnTop: true,
           });
+          if (document.hidden) {
+            if (Notification.permission === "granted") {
+              new Notification(`New notification !!!`, {
+                body: "A new notification has come!!",
+              });
+            }
+          }
         }
       });
     }
