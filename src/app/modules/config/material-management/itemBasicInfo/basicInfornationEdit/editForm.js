@@ -84,10 +84,10 @@ export default function EditForm({ history,isViewPage }) {
         actionBy: profileData.userId,
         businessUnitId: selectedBusinessUnit?.value,
         isActive: true,
-        minimumStockQuantity: values?.minimumStockQuantity || "",
-        safetyStockQuantity : values?.safetyStockQuantity || "",
-        maximumQuantity : values?.maximumQuantity || "",
-        reorderQuantity : values?.reorderQuantity || "",
+        minimumStockQuantity: +values?.minimumStockQuantity || 0,
+        safetyStockQuantity : +values?.safetyStockQuantity || 0,
+        maximumQuantity : +values?.maximumQuantity || 0,
+        reorderQuantity : +values?.reorderQuantity || 0,
         reorderLevel: values?.reorderLevel || "",
       };
 
