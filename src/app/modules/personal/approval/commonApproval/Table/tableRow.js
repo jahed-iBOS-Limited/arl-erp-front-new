@@ -32,6 +32,7 @@ import NewSelect from "../../../../_helper/_select";
 import BillOfMaterialTable from "./billOfMaterialTable";
 import { saveBOMApproval_api } from "./../helper";
 import InventoryAdjust from "../InventoryAdjust";
+import { getCookie } from "../../../../_helper/_cookie";
 
 export function TableRow(props) {
   const [billSubmitBtn, setBillSubmitBtn] = useState(true);
@@ -255,6 +256,43 @@ export function TableRow(props) {
     IConfirmModal(confirmObject);
   };
 
+  const loginInfoPeopleDesk = getCookie("loginInfoPeopleDesk");
+  let info = JSON.parse(loginInfoPeopleDesk || "{}");
+
+  useEffect(() => {
+    if (info?.peopleDeskPlant && info?.peopleDeskModule && info?.peopleDeskFeature) {
+      const peopleDeskFeature = info?.peopleDeskFeature;
+      const peopleDeskModule = info?.peopleDeskModule;
+      const peopleDeskPlant = info?.peopleDeskPlant;
+      setSelectedPlant(peopleDeskPlant);
+      setSelectedModule(peopleDeskModule);
+      setActivityName(peopleDeskFeature);
+      onChangeForActivity(peopleDeskFeature);
+      getActivityDDL(peopleDeskModule?.value, setActivity);
+      setRowDto([]);
+      setTableData([]);
+      dispatch(
+        setIBOS_app_activityAction({
+          activityName: peopleDeskFeature,
+          moduleName: peopleDeskModule,
+          selectedPlant: peopleDeskPlant,
+        })
+      );
+      if (activityName?.label === "Bill Of Material") {
+        BOMApprovalLanding(
+          profileData?.accountId,
+          selectedBusinessUnit?.value,
+          peopleDeskPlant?.value,
+          profileData?.userId,
+          pageNo,
+          pageSize,
+          setLoading,
+          setTableData
+        );
+      }
+    }
+  }, []);
+
   return (
     <>
       <ICustomCard title="Common Approval">
@@ -268,7 +306,6 @@ export function TableRow(props) {
               onChange={(valueOption) => {
                 setRowDto([]);
                 setTableData([]);
-                setActivityName("");
                 setSelectedPlant(valueOption);
               }}
               options={plantDDL}
@@ -308,16 +345,10 @@ export function TableRow(props) {
                     selectedPlant: selectedPlant || "",
                   })
                 );
-                if (valueOption?.label === "Inventory Adjustment") {
-
-                } else {
-
-
-
-                  onChangeForActivity(valueOption);
-
+                if (valueOption?.label === "Bill Of Material") {
                   commonBillOfMaterialGridFunc(pageNo, pageSize);
                 }
+                onChangeForActivity(valueOption);                
 
               }}
               styles={customStyles}
