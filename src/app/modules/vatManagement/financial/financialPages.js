@@ -9,6 +9,7 @@ import CashJournalEditForm from "./accountJournal/EditForm/cashJournal/cashJourn
 import AdjustmentJournal from "./accountJournal/form/adjustmentJournal/addEditForm";
 import BankJournalCreate from "./accountJournal/form/bankJournal/addForm";
 import CashJournalForm from "./accountJournal/form/cashJournalCreate/cashJournalForm";
+import BankStatementAutomation from "./bankStatementAutomation";
 
 export default function FinancialPages() {
 
@@ -57,6 +58,10 @@ export default function FinancialPages() {
       <ContentRoute
         path="/mngVat/tax-financial/account-journalCreate"
         component={accountJournalPermission?.isView ? AccountJournal : NotPermitted}
+      />
+      <ContentRoute
+        path="/mngVat/tax-financial/bank-statement-automation"
+        component={BankStatementAutomation}
       />
     </Switch>
   );
