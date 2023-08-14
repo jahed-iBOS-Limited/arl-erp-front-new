@@ -19,10 +19,10 @@ import {
 } from "./helper";
 import { shallowEqual, useSelector } from "react-redux";
 import IEdit from "../../../_helper/_helperIcons/_edit";
-import IDelete from "./../../../_helper/_helperIcons/_delete";
+import IDelete from "../../../_helper/_helperIcons/_delete";
 import IAdd from "../../../_helper/_helperIcons/_add";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _fixedPoint } from "./../../../_helper/_fixedPoint";
+import { _fixedPoint } from "../../../_helper/_fixedPoint";
 import { _todayDate } from "../../../_helper/_todayDate";
 import { toast } from "react-toastify";
 function EditForm({ rowClickItem }) {
