@@ -19,7 +19,7 @@ import SbuAddForm from "./sbu/WarehouseCreate/addForm";
 import SbuEditForm from "./sbu/businessUnitEdit/editForm";
 import { Sbu } from "./sbu/index";
 // import AllGlExtendPage from './generalLedger/allGlExtend/Table/tableRow'
-import findIndex from '../../_helper/_findIndex';
+import findIndex from "../../_helper/_findIndex";
 import BankBranch from "./bankBranch/index";
 import BareboatInsuranceConfig from "./bareboatCharterer";
 import BareboatChartererConfigCreateEdit from "./bareboatCharterer/createEdit";
@@ -28,6 +28,7 @@ import { ChequePrintSetup } from "./chequePrintSetup/index";
 import AllextendGLForm from "./generalLedger/allGlExtend/allGLExtend/Form/addEditForm";
 import SalaryJvConfigLanding from "./salaryJvConfig";
 import SalaryJvConfigCreateEdit from "./salaryJvConfig/createEdit";
+import BankStatementAutomation from "./bankStatementAutomation";
 
 export function FinConfigurationPages() {
   const userRole = useSelector(
@@ -36,27 +37,30 @@ export function FinConfigurationPages() {
   );
 
   const SBUPermission = userRole[findIndex(userRole, "SBU")];
-  const generalLedgerPermissions = userRole[findIndex(userRole, "General Ladger")];
+  const generalLedgerPermissions =
+    userRole[findIndex(userRole, "General Ladger")];
   const bankAccountPermissions = userRole[findIndex(userRole, "Bank Account")];
-  const disbursementCenterPermission = userRole[findIndex(userRole, "Disbursement Center")];
-  const financialStatementConfig = userRole[findIndex(userRole, "Financial Statement Config")];
+  const disbursementCenterPermission =
+    userRole[findIndex(userRole, "Disbursement Center")];
+  const financialStatementConfig =
+    userRole[findIndex(userRole, "Financial Statement Config")];
   const salaryJvConfig = userRole[findIndex(userRole, "Salary JV Config")];
 
   return (
     <Switch>
       <Redirect
         exact={true}
-        from="/financial-management/configuration"
-        to="/financial-management/configuration/general-ladger"
+        from='/financial-management/configuration'
+        to='/financial-management/configuration/general-ladger'
       />
       {/* General ledger routes */}
       <ContentRoute
-        from="/financial-management/configuration/general-ladger/allGlExtend"
+        from='/financial-management/configuration/general-ladger/allGlExtend'
         component={AllextendGLForm}
       />
 
       <ContentRoute
-        from="/financial-management/configuration/general-ladger/extend/:id"
+        from='/financial-management/configuration/general-ladger/extend/:id'
         component={
           generalLedgerPermissions?.isCreate
             ? GeneralLedgerExtendPage
@@ -64,7 +68,7 @@ export function FinConfigurationPages() {
         }
       />
       <ContentRoute
-        from="/financial-management/configuration/general-ladger/add"
+        from='/financial-management/configuration/general-ladger/add'
         component={
           generalLedgerPermissions?.isCreate
             ? MainCollapsePanel
@@ -72,7 +76,7 @@ export function FinConfigurationPages() {
         }
       />
       <ContentRoute
-        from="/financial-management/configuration/general-ladger/edit/:id"
+        from='/financial-management/configuration/general-ladger/edit/:id'
         component={
           generalLedgerPermissions?.isEdit
             ? GeneralLadgerEditForm
@@ -80,30 +84,30 @@ export function FinConfigurationPages() {
         }
       />
       <ContentRoute
-        from="/financial-management/configuration/general-ladger"
+        from='/financial-management/configuration/general-ladger'
         component={GeneralLedger}
       />
 
       {/* Bank Account routes */}
       <ContentRoute
-        from="/financial-management/configuration/bank-account/add"
+        from='/financial-management/configuration/bank-account/add'
         component={
           bankAccountPermissions?.isCreate ? BankAccountForm : NotPermittedPage
         }
       />
       <ContentRoute
-        from="/financial-management/configuration/bank-account/edit/:id"
+        from='/financial-management/configuration/bank-account/edit/:id'
         component={
           bankAccountPermissions?.isEdit ? BankAccountForm : NotPermittedPage
         }
       />
       <ContentRoute
-        from="/financial-management/configuration/bank-account"
+        from='/financial-management/configuration/bank-account'
         component={BankAccount}
       />
       {/* DisbursementCenter routes */}
       <ContentRoute
-        from="/financial-management/configuration/disbursementCenter/edit/:id"
+        from='/financial-management/configuration/disbursementCenter/edit/:id'
         component={
           disbursementCenterPermission?.isEdit
             ? DisbursementCenterForm
@@ -111,7 +115,7 @@ export function FinConfigurationPages() {
         }
       />
       <ContentRoute
-        from="/financial-management/configuration/disbursementCenter/add"
+        from='/financial-management/configuration/disbursementCenter/add'
         component={
           disbursementCenterPermission?.isCreate
             ? DisbursementCenterForm
@@ -119,26 +123,26 @@ export function FinConfigurationPages() {
         }
       />
       <ContentRoute
-        from="/financial-management/configuration/disbursementCenter"
+        from='/financial-management/configuration/disbursementCenter'
         component={DisbursementCenter}
       />
 
       {/* Sbu Route */}
       <ContentRoute
-        path="/financial-management/configuration/sbu/add"
+        path='/financial-management/configuration/sbu/add'
         component={SBUPermission?.isCreate ? SbuAddForm : NotPermittedPage}
       />
       <ContentRoute
-        path="/financial-management/configuration/sbu/edit/:id"
+        path='/financial-management/configuration/sbu/edit/:id'
         component={SBUPermission?.isEdit ? SbuEditForm : NotPermittedPage}
       />
       <ContentRoute
-        path="/financial-management/configuration/sbu"
+        path='/financial-management/configuration/sbu'
         component={Sbu}
       />
 
       <ContentRoute
-        from="/financial-management/configuration/financialStatement/view/:comId/:busId"
+        from='/financial-management/configuration/financialStatement/view/:comId/:busId'
         component={
           financialStatementConfig?.isView
             ? FinacialStatementViewForm
@@ -146,7 +150,7 @@ export function FinConfigurationPages() {
         }
       />
       <ContentRoute
-        from="/financial-management/configuration/financialStatement/add/:comId/:busId"
+        from='/financial-management/configuration/financialStatement/add/:comId/:busId'
         component={
           financialStatementConfig?.isCreate
             ? FinacialStatementForm
@@ -154,48 +158,58 @@ export function FinConfigurationPages() {
         }
       />
       <ContentRoute
-        from="/financial-management/configuration/financialStatement"
+        from='/financial-management/configuration/financialStatement'
         component={FinancialStateMent}
       />
       {/* Bank Branch routes */}
       <ContentRoute
-        path="/financial-management/configuration/bankbranch"
+        path='/financial-management/configuration/bankbranch'
         component={BankBranch}
       />
 
       {/* Cheque Print routes */}
       <ContentRoute
-        path="/financial-management/configuration/chequePrintSetup/add"
+        path='/financial-management/configuration/chequePrintSetup/add'
         component={ChequePrintSetupForm}
       />
       <ContentRoute
-        path="/financial-management/configuration/chequePrintSetup"
+        path='/financial-management/configuration/chequePrintSetup'
         component={ChequePrintSetup}
       />
 
       <ContentRoute
-        path="/financial-management/configuration/bareboatCharterConfig/edit/:id"
+        path='/financial-management/configuration/bareboatCharterConfig/edit/:id'
         component={BareboatChartererConfigCreateEdit}
       />
       <ContentRoute
-        path="/financial-management/configuration/bareboatCharterConfig/create"
+        path='/financial-management/configuration/bareboatCharterConfig/create'
         component={BareboatChartererConfigCreateEdit}
       />
       <ContentRoute
-        path="/financial-management/configuration/bareboatCharterConfig"
+        path='/financial-management/configuration/bareboatCharterConfig'
         component={BareboatInsuranceConfig}
       />
       <ContentRoute
-        path="/financial-management/configuration/SalaryJVConfig/edit"
-        component={salaryJvConfig?.isEdit ? SalaryJvConfigCreateEdit : NotPermittedPage}
+        path='/financial-management/configuration/SalaryJVConfig/edit'
+        component={
+          salaryJvConfig?.isEdit ? SalaryJvConfigCreateEdit : NotPermittedPage
+        }
       />
       <ContentRoute
-        path="/financial-management/configuration/SalaryJVConfig/create"
-        component={salaryJvConfig?.isCreate ? SalaryJvConfigCreateEdit : NotPermittedPage}
+        path='/financial-management/configuration/SalaryJVConfig/create'
+        component={
+          salaryJvConfig?.isCreate ? SalaryJvConfigCreateEdit : NotPermittedPage
+        }
       />
       <ContentRoute
-        path="/financial-management/configuration/SalaryJVConfig"
-        component={salaryJvConfig?.isView ? SalaryJvConfigLanding : NotPermittedPage}
+        path='/financial-management/configuration/SalaryJVConfig'
+        component={
+          salaryJvConfig?.isView ? SalaryJvConfigLanding : NotPermittedPage
+        }
+      />
+      <ContentRoute
+        path='/financial-management/configuration/bank-statement-automation'
+        component={BankStatementAutomation}
       />
     </Switch>
   );

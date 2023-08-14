@@ -41,7 +41,7 @@ const NotiBodyContent = ({ content, orgId, buId, handleClose, setLoading }) => {
             const policyFileUrl = async () => {
               try {
                 let { data } = await axios.get(
-                  `${peopledeskApiURL}/SaasMasterData/GetUploadedPolicyById?AccountId=${orgId}&BusinessUnitId=${buId}&PolicyId=${notificationMaster?.intFeatureTableAutoId}`
+                  `${peopledeskApiURL}/SaasMasterData/GetUploadedPolicyByIdErp?AccountId=${orgId}&BusinessUnitId=${buId}&PolicyId=${notificationMaster?.intFeatureTableAutoId}`
                 );
                 if (data?.intPolicyFileUrlId) {
                   const callback = () => {
