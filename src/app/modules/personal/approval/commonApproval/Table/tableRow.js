@@ -93,7 +93,8 @@ export function TableRow(props) {
     ) {
       setActivityChange((prev) => prev + 1);
       return;
-    } else { }
+    } else {
+    }
   };
 
   useEffect(() => {
@@ -106,7 +107,6 @@ export function TableRow(props) {
       );
     }
   }, [profileData, selectedBusinessUnit]);
-
 
   useEffect(() => {
     if (
@@ -251,19 +251,41 @@ export function TableRow(props) {
         }
         setBillSubmitBtn(true);
       },
-      noAlertFunc: () => { },
+      noAlertFunc: () => {},
     };
     IConfirmModal(confirmObject);
   };
 
-  const loginInfoPeopleDesk = getCookie("loginInfoPeopleDesk");
-  let info = JSON.parse(loginInfoPeopleDesk || "{}");
+  function getQueryParamValues() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const plantId = urlParams.get("plantId");
+    const plantName = urlParams.get("plantName");
+    const moduleId = urlParams.get("moduleId");
+    const moduleName = urlParams.get("moduleName");
+    const featureId = urlParams.get("featureId");
+    const featureName = urlParams.get("featureName");
+    return { plantId, plantName, moduleId, moduleName, featureId, featureName };
+  }
 
   useEffect(() => {
-    if (info?.peopleDeskPlant && info?.peopleDeskModule && info?.peopleDeskFeature) {
-      const peopleDeskFeature = info?.peopleDeskFeature;
-      const peopleDeskModule = info?.peopleDeskModule;
-      const peopleDeskPlant = info?.peopleDeskPlant;
+    const queryParams = getQueryParamValues();
+    if (
+      queryParams?.plantName &&
+      queryParams?.moduleName &&
+      queryParams?.featureName
+    ) {
+      const peopleDeskFeature = {
+        label: queryParams?.featureName,
+        value: queryParams?.featureId,
+      };
+      const peopleDeskModule = {
+        label: queryParams?.moduleName,
+        value: queryParams?.moduleId,
+      };
+      const peopleDeskPlant = {
+        label: queryParams?.plantName,
+        value: queryParams?.plantId,
+      };
       setSelectedPlant(peopleDeskPlant);
       setSelectedModule(peopleDeskModule);
       setActivityName(peopleDeskFeature);
@@ -295,13 +317,13 @@ export function TableRow(props) {
 
   return (
     <>
-      <ICustomCard title="Common Approval">
+      <ICustomCard title='Common Approval'>
         {/* Form & DDL */}
-        <div className="row mt-3 m-0 global-form">
-          <div className="col-lg-2">
+        <div className='row mt-3 m-0 global-form'>
+          <div className='col-lg-2'>
             <NewSelect
-              name="plant"
-              placeholder="Select Plant"
+              name='plant'
+              placeholder='Select Plant'
               value={selectedPlant}
               onChange={(valueOption) => {
                 setRowDto([]);
@@ -312,10 +334,10 @@ export function TableRow(props) {
             />
           </div>
 
-          <div className="col-lg-2">
+          <div className='col-lg-2'>
             <label>Select Module Name</label>
             <Select
-              placeholder="Module Name"
+              placeholder='Module Name'
               value={selectedModule}
               onChange={(valueOption) => {
                 setRowDto([]);
@@ -329,10 +351,10 @@ export function TableRow(props) {
               options={moduleNameDDL}
             />
           </div>
-          <div className="col-lg-2">
+          <div className='col-lg-2'>
             <label>Select Activity Name</label>
             <Select
-              placeholder="Activity Name"
+              placeholder='Activity Name'
               value={activityName}
               onChange={(valueOption) => {
                 setRowDto([]);
@@ -348,8 +370,7 @@ export function TableRow(props) {
                 if (valueOption?.label === "Bill Of Material") {
                   commonBillOfMaterialGridFunc(pageNo, pageSize);
                 }
-                onChangeForActivity(valueOption);                
-
+                onChangeForActivity(valueOption);
               }}
               styles={customStyles}
               isSearchable={true}
@@ -357,208 +378,205 @@ export function TableRow(props) {
             />
           </div>
 
-          {
-            activityName?.label === "Inventory Adjustment" ||
-              activityName?.label === "Loan Approval" ||
-              activityName?.label === "Movement Approval" ||
-              activityName?.label === "Leave Approval" ||
-              activityName?.label === "Purchase Order" ||
-              activityName?.label === "Purchase Request" ||
-              activityName?.label === "Item Request" ||
-              activityName?.label === "Purchase Return" ||
-              activityName?.label === "Gate Pass" ? null : (
-              <div className="col-lg-3 mt-4 offset-3 d-flex justify-content-end">
-                <button
-                  type="button"
-                  className="approvalButton btn btn-primary mr-1"
-                  onClick={() => approveSubmitlHandler()}
-                  disabled={billSubmitBtn}
-                >
-                  Approve
-                </button>
-              </div>
-            )}
+          {activityName?.label === "Inventory Adjustment" ||
+          activityName?.label === "Loan Approval" ||
+          activityName?.label === "Movement Approval" ||
+          activityName?.label === "Leave Approval" ||
+          activityName?.label === "Purchase Order" ||
+          activityName?.label === "Purchase Request" ||
+          activityName?.label === "Item Request" ||
+          activityName?.label === "Purchase Return" ||
+          activityName?.label === "Gate Pass" ? null : (
+            <div className='col-lg-3 mt-4 offset-3 d-flex justify-content-end'>
+              <button
+                type='button'
+                className='approvalButton btn btn-primary mr-1'
+                onClick={() => approveSubmitlHandler()}
+                disabled={billSubmitBtn}
+              >
+                Approve
+              </button>
+            </div>
+          )}
         </div>
 
         {/* All Grid */}
-        {
-          activityName?.label === "Loan Approval" ||
-            activityName?.label === "Movement Approval" ||
-            activityName?.label === "Leave Approval" ||
-            activityName?.label === "Purchase Order" ||
-            activityName?.label === "Purchase Request" ||
-            activityName?.label === "Item Request" ||
-            activityName?.label === "Purchase Return" ||
-            activityName?.label === "Gate Pass" ? (
-            <>
-
-              {activityName?.label === "Leave Approval" && <LeaveApprovalGrid />}
-              {activityName?.label === "Movement Approval" && (
-                <MovementApprovalGrid />
-              )}
-              {activityName?.label === "Loan Approval" && <LoanApprovalGrid />}
-              {activityName?.label === "Purchase Order" && (
-                <PurchaseOrderApprovalGrid
-                  onChangeForActivity={onChangeForActivity}
-                  activityName={activityName}
-                  activityChange={activityChange}
-                  selectedPlant={selectedPlant}
-                />
-              )}
-              { }
-              {activityName?.label === "Purchase Request" && (
-                <PurchaseRequestApprovalGrid
-                  onChangeForActivity={onChangeForActivity}
-                  activityName={activityName}
-                  activityChange={activityChange}
-                  selectedPlant={selectedPlant}
-                />
-              )}
-              {activityName?.label === "Item Request" && (
-                <ItemRequestApprovalGrid
-                  onChangeForActivity={onChangeForActivity}
-                  activityName={activityName}
-                  activityChange={activityChange}
-                  selectedPlant={selectedPlant}
-                />
-              )}
-              {activityName?.label === "Purchase Return" && (
-                <PurchaseReturnApprovalGrid
-                  onChangeForActivity={onChangeForActivity}
-                  activityName={activityName}
-                  activityChange={activityChange}
-                  selectedPlant={selectedPlant}
-                />
-              )}
-              {activityName?.label === "Gate Pass" && (
-                <GatePassApprovalGrid
-                  onChangeForActivity={onChangeForActivity}
-                  activityName={activityName}
-                  activityChange={activityChange}
-                  selectedPlant={selectedPlant}
-                />
-              )}
-            </>
-          ) : (
-            rowDto?.data?.length <= 0 && (
-              <table className="table table-striped table-bordered global-table">
-                {loading && <Loading />}
-                <thead>
+        {activityName?.label === "Loan Approval" ||
+        activityName?.label === "Movement Approval" ||
+        activityName?.label === "Leave Approval" ||
+        activityName?.label === "Purchase Order" ||
+        activityName?.label === "Purchase Request" ||
+        activityName?.label === "Item Request" ||
+        activityName?.label === "Purchase Return" ||
+        activityName?.label === "Gate Pass" ? (
+          <>
+            {activityName?.label === "Leave Approval" && <LeaveApprovalGrid />}
+            {activityName?.label === "Movement Approval" && (
+              <MovementApprovalGrid />
+            )}
+            {activityName?.label === "Loan Approval" && <LoanApprovalGrid />}
+            {activityName?.label === "Purchase Order" && (
+              <PurchaseOrderApprovalGrid
+                onChangeForActivity={onChangeForActivity}
+                activityName={activityName}
+                activityChange={activityChange}
+                selectedPlant={selectedPlant}
+              />
+            )}
+            {}
+            {activityName?.label === "Purchase Request" && (
+              <PurchaseRequestApprovalGrid
+                onChangeForActivity={onChangeForActivity}
+                activityName={activityName}
+                activityChange={activityChange}
+                selectedPlant={selectedPlant}
+              />
+            )}
+            {activityName?.label === "Item Request" && (
+              <ItemRequestApprovalGrid
+                onChangeForActivity={onChangeForActivity}
+                activityName={activityName}
+                activityChange={activityChange}
+                selectedPlant={selectedPlant}
+              />
+            )}
+            {activityName?.label === "Purchase Return" && (
+              <PurchaseReturnApprovalGrid
+                onChangeForActivity={onChangeForActivity}
+                activityName={activityName}
+                activityChange={activityChange}
+                selectedPlant={selectedPlant}
+              />
+            )}
+            {activityName?.label === "Gate Pass" && (
+              <GatePassApprovalGrid
+                onChangeForActivity={onChangeForActivity}
+                activityName={activityName}
+                activityChange={activityChange}
+                selectedPlant={selectedPlant}
+              />
+            )}
+          </>
+        ) : (
+          rowDto?.data?.length <= 0 && (
+            <table className='table table-striped table-bordered global-table'>
+              {loading && <Loading />}
+              <thead>
+                <tr>
+                  <th style={{ width: "20px" }}>
+                    <input
+                      type='checkbox'
+                      id='parent'
+                      onChange={(event) => {
+                        allGridCheck(event.target.checked);
+                      }}
+                    />
+                  </th>
+                  <th>SL</th>
+                  <th>Reff Code</th>
+                  <th>Transaction Date</th>
+                  <th>Due Date</th>
+                  {activityName?.label === "Purchase Order" && <th>Amount</th>}
+                  <th>Quantity</th>
+                  <th>Description</th>
+                  <th className='text-right pr-3'>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rowDto?.data?.map((item, i) => (
                   <tr>
-                    <th style={{ width: "20px" }}>
+                    <td>
                       <input
-                        type="checkbox"
-                        id="parent"
-                        onChange={(event) => {
-                          allGridCheck(event.target.checked);
+                        id='isSelect'
+                        type='checkbox'
+                        value={item?.isSelect}
+                        checked={item?.isSelect}
+                        onChange={(e) => {
+                          itemSlectedHandler(e.target.checked, i);
                         }}
                       />
-                    </th>
-                    <th>SL</th>
-                    <th>Reff Code</th>
-                    <th>Transaction Date</th>
-                    <th>Due Date</th>
-                    {activityName?.label === "Purchase Order" && <th>Amount</th>}
-                    <th>Quantity</th>
-                    <th>Description</th>
-                    <th className="text-right pr-3">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rowDto?.data?.map((item, i) => (
-                    <tr>
-                      <td>
-                        <input
-                          id="isSelect"
-                          type="checkbox"
-                          value={item?.isSelect}
-                          checked={item?.isSelect}
-                          onChange={(e) => {
-                            itemSlectedHandler(e.target.checked, i);
+                    </td>
+                    <td className='text-center'>{i + 1}</td>
+                    <td>
+                      <span className='pl-2'>{item.reffCode}</span>
+                    </td>
+                    <td className='text-center'>
+                      {_todayDate(item.transectionDate)}
+                    </td>
+                    <td className='text-center'>
+                      {_dateFormatter(item.dueDate)}
+                    </td>
+                    {activityName?.label === "Purchase Order" && (
+                      <td className='text-center'>{item.amount}</td>
+                    )}
+                    <td className='text-center'>{item.quantity}</td>
+                    <td className='text-center'>{item.description}</td>
+                    <td className='text-center'>
+                      {activityName?.label === "Purchase Request" && (
+                        <span
+                          onClick={(e) => {
+                            history.push(
+                              `/mngProcurement/purchase-management/purchase-request/view/${item?.transectionId}/viewType`
+                            );
                           }}
-                        />
-                      </td>
-                      <td className="text-center">{i + 1}</td>
-                      <td>
-                        <span className="pl-2">{item.reffCode}</span>
-                      </td>
-                      <td className="text-center">
-                        {_todayDate(item.transectionDate)}
-                      </td>
-                      <td className="text-center">
-                        {_dateFormatter(item.dueDate)}
-                      </td>
-                      {activityName?.label === "Purchase Order" && (
-                        <td className="text-center">{item.amount}</td>
+                        >
+                          <OverlayTrigger
+                            overlay={<Tooltip id='cs-icon'>{"View"}</Tooltip>}
+                          >
+                            <span>
+                              <i
+                                className={`fa pointer fa-eye`}
+                                aria-hidden='true'
+                              ></i>
+                            </span>
+                          </OverlayTrigger>
+                        </span>
                       )}
-                      <td className="text-center">{item.quantity}</td>
-                      <td className="text-center">{item.description}</td>
-                      <td className="text-center">
-                        {activityName?.label === "Purchase Request" && (
-                          <span
-                            onClick={(e) => {
-                              history.push(
-                                `/mngProcurement/purchase-management/purchase-request/view/${item?.transectionId}/viewType`
-                              );
-                            }}
-                          >
-                            <OverlayTrigger
-                              overlay={<Tooltip id="cs-icon">{"View"}</Tooltip>}
-                            >
-                              <span>
-                                <i
-                                  className={`fa pointer fa-eye`}
-                                  aria-hidden="true"
-                                ></i>
-                              </span>
-                            </OverlayTrigger>
-                          </span>
-                        )}
 
-                        {activityName?.label === "Purchase Order" && (
-                          <span
-                            onClick={(e) => {
-                              history.push({
-                                pathname: `/mngProcurement/purchase-management/purchaseorder/view/${item?.transectionId}/${item?.intPurchaseOrderTypeId}`,
-                                state: true,
-                              });
-                            }}
+                      {activityName?.label === "Purchase Order" && (
+                        <span
+                          onClick={(e) => {
+                            history.push({
+                              pathname: `/mngProcurement/purchase-management/purchaseorder/view/${item?.transectionId}/${item?.intPurchaseOrderTypeId}`,
+                              state: true,
+                            });
+                          }}
+                        >
+                          <OverlayTrigger
+                            overlay={<Tooltip id='cs-icon'>{"View"}</Tooltip>}
                           >
-                            <OverlayTrigger
-                              overlay={<Tooltip id="cs-icon">{"View"}</Tooltip>}
-                            >
-                              <span>
-                                <i
-                                  className={`fa pointer fa-eye`}
-                                  aria-hidden="true"
-                                ></i>
-                              </span>
-                            </OverlayTrigger>
-                          </span>
-                        )}
+                            <span>
+                              <i
+                                className={`fa pointer fa-eye`}
+                                aria-hidden='true'
+                              ></i>
+                            </span>
+                          </OverlayTrigger>
+                        </span>
+                      )}
 
-                        {activityName?.label === "Item Request" && (
-                          <span
-                            onClick={(e) => {
-                              history.push(
-                                `/inventory-management/warehouse-management/item-request/view/${item?.transectionId}`
-                              );
-                            }}
+                      {activityName?.label === "Item Request" && (
+                        <span
+                          onClick={(e) => {
+                            history.push(
+                              `/inventory-management/warehouse-management/item-request/view/${item?.transectionId}`
+                            );
+                          }}
+                        >
+                          <OverlayTrigger
+                            overlay={<Tooltip id='cs-icon'>{"View"}</Tooltip>}
                           >
-                            <OverlayTrigger
-                              overlay={<Tooltip id="cs-icon">{"View"}</Tooltip>}
-                            >
-                              <span>
-                                <i
-                                  className={`fa pointer fa-eye`}
-                                  aria-hidden="true"
-                                ></i>
-                              </span>
-                            </OverlayTrigger>
-                          </span>
-                        )}
+                            <span>
+                              <i
+                                className={`fa pointer fa-eye`}
+                                aria-hidden='true'
+                              ></i>
+                            </span>
+                          </OverlayTrigger>
+                        </span>
+                      )}
 
-                        {/* <span>
+                      {/* <span>
                     <OverlayTrigger
                       overlay={<Tooltip id="cs-icon">{"View"}</Tooltip>}
                     >
@@ -570,13 +588,13 @@ export function TableRow(props) {
                       </span>
                     </OverlayTrigger>
                   </span> */}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )
-          )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )
+        )}
         {activityName?.label === "Bill Of Material" && (
           <BillOfMaterialTable
             obj={{
@@ -592,15 +610,14 @@ export function TableRow(props) {
             }}
           />
         )}
-        {
-          activityName?.label === "Inventory Adjustment" &&
+        {activityName?.label === "Inventory Adjustment" && (
           <InventoryAdjust
             onChangeForActivity={onChangeForActivity}
             activityName={activityName}
             activityChange={activityChange}
             selectedPlant={selectedPlant}
           />
-        }
+        )}
         {/* Pagination Code */}
         {gridData?.data?.length > 0 && (
           <PaginationTable
