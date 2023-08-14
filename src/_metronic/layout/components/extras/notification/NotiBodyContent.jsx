@@ -7,13 +7,14 @@ import axios from 'axios';
 import React from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { getDownlloadFileView_Action } from '../../../../../app/modules/_helper/_redux/Actions';
+import { NotificationRirectFunc } from './helper';
 
 const NotiBodyContent = ({ content, orgId, buId, handleClose, setLoading }) => {
 
   const { peopledeskApiURL } = useSelector((state) => state.authData);
   const { notifyDetails, module, timeDifference, notificationMaster, isSeen } =
     content;
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
   return (
     <>
       <div
@@ -28,16 +29,8 @@ const NotiBodyContent = ({ content, orgId, buId, handleClose, setLoading }) => {
           width: "346px",
         }}
         onClick={(e) => {
-          if (notificationMaster?.strFeature === "leave_application") {
-            const win = window.open("https://arl.peopledesk.io/approval/leaveApproval", "_blank");
-            win.focus();
-          }
-          if (notificationMaster?.strFeature === "movement_application") {
-            const win = window.open("https://arl.peopledesk.io/approval/movementApproval", "_blank");
-            win.focus();
-          }
-          if (notificationMaster?.strFeature === "policy") {
 
+          if (notificationMaster?.strFeature === "policy") {
             const policyFileUrl = async () => {
               try {
                 let { data } = await axios.get(
@@ -62,6 +55,10 @@ const NotiBodyContent = ({ content, orgId, buId, handleClose, setLoading }) => {
             };
             policyFileUrl();
           }
+          notificationMaster?.routeUrl && NotificationRirectFunc({
+            ...notificationMaster,
+            peopledeskApiURL: peopledeskApiURL,
+          })
         }}
       >
         <div className="d-flex">
