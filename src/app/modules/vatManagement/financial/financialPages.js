@@ -9,7 +9,6 @@ import CashJournalEditForm from "./accountJournal/EditForm/cashJournal/cashJourn
 import AdjustmentJournal from "./accountJournal/form/adjustmentJournal/addEditForm";
 import BankJournalCreate from "./accountJournal/form/bankJournal/addForm";
 import CashJournalForm from "./accountJournal/form/cashJournalCreate/cashJournalForm";
-
 export default function FinancialPages() {
 
   const { userRole } = useSelector((state) => state?.authData, shallowEqual);
@@ -58,6 +57,7 @@ export default function FinancialPages() {
         path="/mngVat/tax-financial/account-journalCreate"
         component={accountJournalPermission?.isView ? AccountJournal : NotPermitted}
       />
+    
     </Switch>
   );
 }
