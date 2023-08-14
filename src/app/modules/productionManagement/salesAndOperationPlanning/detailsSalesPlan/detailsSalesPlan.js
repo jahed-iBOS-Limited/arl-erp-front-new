@@ -1,15 +1,16 @@
 import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
+import IEdit from "../../../_helper/_helperIcons/_edit";
 import InputField from "../../../_helper/_inputField";
 import NewSelect from "../../../_helper/_select";
+import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
-import IEdit from "../../../_helper/_helperIcons/_edit";
+import ViewModal from "./viewModal";
 
 const initData = {
   plant: "",
@@ -34,6 +35,7 @@ export default function DetailsSalesPlanLanding() {
   const [areaDDL, getAreaDDL, , setAreaDDL] = useAxiosGet();
   const [territoryDDL, getTerritoryDDL, , setTerritoryDDL] = useAxiosGet();
   const location = useLocation();
+  const [isShowModal, setIsShowModal] = useState(false);
 
   useEffect(() => {
     getChannelDDL(
@@ -326,7 +328,18 @@ export default function DetailsSalesPlanLanding() {
                 <div className="mt-5 ml-5">
                   <h4>
                     Monthly Total Sales Plan Quantity :{" "}
-                    {location?.state?.monthlyItem?.planQTY}
+                    <span
+                      onClick={() => {
+                        setIsShowModal(true);
+                      }}
+                      style={{
+                        color: "blue",
+                        cursor: "pointer",
+                        textDecoration: "underline",
+                      }}
+                    >
+                      {location?.state?.monthlyItem?.planQTY}
+                    </span>
                   </h4>
                 </div>
               </div>
@@ -398,6 +411,15 @@ export default function DetailsSalesPlanLanding() {
               )}
             </Form>
           </IForm>
+          <IViewModal
+            show={isShowModal}
+            backdrop={false}
+            onHide={() => {
+              setIsShowModal(false);
+            }}
+          >
+            <ViewModal id={location?.state?.monthlyValues?.plant?.value} />
+          </IViewModal>
         </>
       )}
     </Formik>
