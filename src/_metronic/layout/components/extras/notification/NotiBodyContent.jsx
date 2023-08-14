@@ -55,7 +55,7 @@ const NotiBodyContent = ({ content, orgId, buId, handleClose, setLoading }) => {
             };
             policyFileUrl();
           }
-          NotificationRirectFunc({
+          notificationMaster?.routeUrl && NotificationRirectFunc({
             ...notificationMaster,
             peopledeskApiURL: peopledeskApiURL,
           })
