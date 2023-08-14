@@ -25,7 +25,8 @@ import { _dateFormatter } from "../../../_helper/_dateFormate";
 import { _fixedPoint } from "../../../_helper/_fixedPoint";
 import { _todayDate } from "../../../_helper/_todayDate";
 import { toast } from "react-toastify";
-function EditForm({ rowClickItem,landingCB }) {
+import IClose from "../../../_helper/_helperIcons/_close";
+function EditForm({ rowClickItem, landingCB }) {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -88,7 +89,7 @@ function EditForm({ rowClickItem,landingCB }) {
         monBalance: +itm?.monBalance || 0,
         rowId: itm?.rowId || 0,
         headerId: rowClickItem?.headerId,
-        serialId: idx + 1
+        serialId: idx + 1,
       };
     });
     const payload = {
@@ -97,7 +98,8 @@ function EditForm({ rowClickItem,landingCB }) {
         bankId: values?.bankAccount?.value || 0,
         bankName: values?.bankAccount?.label || "",
         bankAccountId: values?.acDDL?.value || 0,
-        bankAccountNo: values?.acDDL?.bankAccountNo || values?.acDDL?.label || "",
+        bankAccountNo:
+          values?.acDDL?.bankAccountNo || values?.acDDL?.label || "",
         fileName: values?.fileName || "",
         fileUid: values?.fileUID || "",
         emailUid: values?.emailUId || "",
@@ -111,7 +113,7 @@ function EditForm({ rowClickItem,landingCB }) {
     };
 
     editBankStatmentAttachment(payload, setLoading, () => {
-      landingCB()
+      landingCB();
     });
   };
   return (
@@ -466,16 +468,35 @@ function EditForm({ rowClickItem,landingCB }) {
                                       >
                                         <IAdd />
                                       </sapn>
-                                      <sapn
-                                        onClick={() => {
-                                          // isEdit true
-                                          const data = [...rowDto];
-                                          data[i].isEdit = true;
-                                          setRowDto(data);
-                                        }}
-                                      >
-                                        <IEdit />
-                                      </sapn>
+                                      {item?.isEdit ? (
+                                        <>
+                                          <sapn
+                                            onClick={() => {
+                                              // isEdit true
+                                              const data = [...rowDto];
+                                              data[i].isEdit = false;
+                                              setRowDto(data);
+                                            }}
+                                          >
+                                            <IClose />
+                                          </sapn>
+                                        </>
+                                      ) : (
+                                        <>
+                                          {" "}
+                                          <sapn
+                                            onClick={() => {
+                                              // isEdit true
+                                              const data = [...rowDto];
+                                              data[i].isEdit = true;
+                                              setRowDto(data);
+                                            }}
+                                          >
+                                            <IEdit />
+                                          </sapn>
+                                        </>
+                                      )}
+
                                       <sapn
                                         onClick={() => {
                                           // delete single item
