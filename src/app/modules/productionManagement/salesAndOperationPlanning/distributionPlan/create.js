@@ -215,6 +215,7 @@ export default function DistributionPlanCreate() {
                       placeholder="Select Distribution Channel"
                       errors={errors}
                       touched={touched}
+                      isDisabled={location?.state?.isEdit}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -230,7 +231,7 @@ export default function DistributionPlanCreate() {
                         getAreaDDLHandler(values, valueOption);
                       }}
                       placeholder="Select Region"
-                      isDisabled={!values?.channel}
+                      isDisabled={!values?.channel || location?.state?.isEdit}
                       errors={errors}
                       touched={touched}
                     />
@@ -247,7 +248,7 @@ export default function DistributionPlanCreate() {
                         getTerritoryDDLHandler(values, valueOption);
                       }}
                       placeholder="Select Area"
-                      isDisabled={!values?.region}
+                      isDisabled={!values?.region || location?.state?.isEdit}
                       errors={errors}
                       touched={touched}
                     />
@@ -262,7 +263,7 @@ export default function DistributionPlanCreate() {
                         setFieldValue('territory', valueOption);
                       }}
                       placeholder="Select Territory"
-                      isDisabled={!values?.area}
+                      isDisabled={!values?.area || location?.state?.isEdit}
                       errors={errors}
                       touched={touched}
                     />
@@ -286,6 +287,7 @@ export default function DistributionPlanCreate() {
                       placeholder="Select plant"
                       errors={errors}
                       touched={touched}
+                      isDisabled={location?.state?.isEdit}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -300,7 +302,7 @@ export default function DistributionPlanCreate() {
                       placeholder="Select Warehouse"
                       errors={errors}
                       touched={touched}
-                      isDisabled={!values?.plant}
+                      isDisabled={!values?.plant || location?.state?.isEdit}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -317,7 +319,7 @@ export default function DistributionPlanCreate() {
                       placeholder="Select year"
                       errors={errors}
                       touched={touched}
-                      isDisabled={!values?.plant}
+                      isDisabled={!values?.plantA}
                     />
                   </div>
                   <div className="col-lg-3">
