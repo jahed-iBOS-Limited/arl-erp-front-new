@@ -10,13 +10,17 @@ import { getHorizonDDL, getItemListSalesPlanDDL, getYearDDL } from "../helper";
 import PaginationTable from "./../../../../_helper/_tablePagination";
 import { exportToCSV } from "./utils";
 import { toast } from "react-toastify";
+import IViewModal from "../../../../_helper/_viewModal";
+import ViewModal from "../viewModal";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
-  plant: Yup.object().shape({
-    value: Yup.string().required("Plant Name is required"),
-    label: Yup.string().required("Plant Name is required"),
-  }).required("Plant Name is required"),
+  plant: Yup.object()
+    .shape({
+      value: Yup.string().required("Plant Name is required"),
+      label: Yup.string().required("Plant Name is required"),
+    })
+    .required("Plant Name is required"),
   channel: Yup.object().shape({
     value: Yup.string().required("Distribution Channel is required"),
     label: Yup.string().required("Distribution Channel is required"),
@@ -72,12 +76,14 @@ export default function _Form({
   setAreaDDL,
   getTerritoryDDL,
   setTerritoryDDL,
+  location,
 }) {
   const [fileObject, setFileObject] = useState("");
   const hiddenFileInput = React.useRef(null);
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(50);
   const [plant, setPlant] = React.useState({});
+  const [isShowModal, setIsShowModal] = useState(false);
 
   useEffect(() => {
     if (fileObject) {
@@ -217,7 +223,7 @@ export default function _Form({
                       touched={touched}
                     />
                   </div>
-                  {console.log("errors",errors)}
+                  {console.log("errors", errors)}
                   <div className="col-lg-3">
                     <NewSelect
                       name="year"
@@ -455,6 +461,23 @@ export default function _Form({
                 >
                   Export Excel
                 </button>
+                <div className="mt-5 ml-5">
+                  <h4>
+                    Monthly Total Sales Plan Quantity :{" "}
+                    <span
+                      onClick={() => {
+                        setIsShowModal(true);
+                      }}
+                      style={{
+                        color: "blue",
+                        cursor: "pointer",
+                        textDecoration: "underline",
+                      }}
+                    >
+                      {location?.state?.monthlyItem?.planQTY}
+                    </span>
+                  </h4>
+                </div>
               </div>
 
               <table className="global-table table">
@@ -606,6 +629,15 @@ export default function _Form({
                 onSubmit={() => resetForm(initData)}
               ></button>
             </Form>
+            <IViewModal
+              show={isShowModal}
+              backdrop={false}
+              onHide={() => {
+                setIsShowModal(false);
+              }}
+            >
+              <ViewModal id={location?.state?.monthlyValues?.plant?.value} />
+            </IViewModal>
           </>
         )}
       </Formik>
