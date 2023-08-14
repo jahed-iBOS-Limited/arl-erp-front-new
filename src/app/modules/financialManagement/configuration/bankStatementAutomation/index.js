@@ -184,7 +184,11 @@ const BankStatementAutomation = () => {
                       onHide={() => setIsEditModal(false)}
                       title=''
                     >
-                      <EditForm rowClickItem={rowClickItem} />
+                      <EditForm rowClickItem={rowClickItem}  landingCB={() => {
+                          getGridData(values, pageNo, pageSize);
+                          setIsEditModal(false);
+                          setRowClickItem({})
+                      }}/>
                     </IViewModal>
                   )}
                 </Form>

@@ -25,7 +25,7 @@ import { _dateFormatter } from "../../../_helper/_dateFormate";
 import { _fixedPoint } from "../../../_helper/_fixedPoint";
 import { _todayDate } from "../../../_helper/_todayDate";
 import { toast } from "react-toastify";
-function EditForm({ rowClickItem }) {
+function EditForm({ rowClickItem,landingCB }) {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -96,8 +96,8 @@ function EditForm({ rowClickItem }) {
         headerId: rowClickItem?.headerId,
         bankId: values?.bankAccount?.value || 0,
         bankName: values?.bankAccount?.label || "",
-        accountId: values?.acDDL?.value || 0,
-        accountNo: values?.acDDL?.label || "",
+        bankAccountId: values?.acDDL?.value || 0,
+        bankAccountNo: values?.acDDL?.bankAccountNo || values?.acDDL?.label || "",
         fileName: values?.fileName || "",
         fileUid: values?.fileUID || "",
         emailUid: values?.emailUId || "",
@@ -110,7 +110,9 @@ function EditForm({ rowClickItem }) {
       rowDTO: modifyRowDto,
     };
 
-    editBankStatmentAttachment(payload, setLoading, () => {});
+    editBankStatmentAttachment(payload, setLoading, () => {
+      landingCB()
+    });
   };
   return (
     <div>

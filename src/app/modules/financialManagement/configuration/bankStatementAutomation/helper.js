@@ -86,10 +86,10 @@ export const dataModify = ({ formikRef, setRowDto, resData }) => {
             label: resData?.headerDTO?.bankName,
           }
         : "",
-      acDDL: resData?.headerDTO?.accountId
+      acDDL: resData?.headerDTO?.bankAccountId
         ? {
-            value: resData?.headerDTO?.accountId,
-            label: resData?.headerDTO?.accountNo,
+            value: resData?.headerDTO?.bankAccountId,
+            label: resData?.headerDTO?.bankAccountNo,
           }
         : "",
       fileName: resData?.headerDTO?.fileName || "",
