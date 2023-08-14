@@ -323,6 +323,12 @@ export default function DetailsSalesPlanLanding() {
                     View
                   </button>
                 </div>
+                <div className="mt-5 ml-5">
+                  <h4>
+                    Monthly Total Sales Plan Quantity :{" "}
+                    {location?.state?.monthlyItem?.planQTY}
+                  </h4>
+                </div>
               </div>
 
               {gridData?.data?.length > 0 && (
@@ -375,6 +381,17 @@ export default function DetailsSalesPlanLanding() {
                           </td>
                         </tr>
                       ))}
+                      <tr>
+                        <td colSpan={8}>Total</td>
+                        <td className="text-center">
+                          {gridData?.data?.reduce(
+                            (accumulator, currentValue) =>
+                              accumulator + (currentValue?.planQTY || 0),
+                            0
+                          )}
+                        </td>
+                        <td></td>
+                      </tr>
                     </tbody>
                   </>
                 </table>
