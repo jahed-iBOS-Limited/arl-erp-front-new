@@ -319,7 +319,7 @@ export default function DistributionPlanCreate() {
                       placeholder="Select year"
                       errors={errors}
                       touched={touched}
-                      isDisabled={!values?.plant}
+                      isDisabled={!values?.plantA}
                     />
                   </div>
                   <div className="col-lg-3">
