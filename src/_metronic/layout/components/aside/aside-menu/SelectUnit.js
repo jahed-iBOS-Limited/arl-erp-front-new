@@ -1,18 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from "react";
-import Select from "react-select";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import { isObject } from "lodash";
+import React, { useEffect } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import Select from "react-select";
 import {
   SetBusinessUnit,
   setBuList,
 } from "../../../../../app/modules/Auth/_redux/Auth_Actions";
-import { clearLocalStorageAction } from "../../../../../app/modules/_helper/reduxForLocalStorage/Actions";
 import {
   getCookie,
-  setCookie,
+  setPeopledeskCookie
 } from "../../../../../app/modules/_helper/_cookie";
+import { clearLocalStorageAction } from "../../../../../app/modules/_helper/reduxForLocalStorage/Actions";
 
 export default function SelectUnit() {
   const dispatch = useDispatch();
@@ -83,8 +83,7 @@ export default function SelectUnit() {
           const loginInfoPeopleDesk = getCookie("loginInfoPeopleDesk");
           let info = JSON.parse(loginInfoPeopleDesk || "{}");
           if (info?.isAuth) {
-            console.log('info', info)
-            setCookie(
+            setPeopledeskCookie(
               "loginInfoPeopleDesk",
               JSON.stringify({
                 ...info,

@@ -108,19 +108,6 @@ function ApproveapprovebillregLanding() {
     girdDataFunc(values);
   };
 
-  useEffect(() => {
-    if (approvebillregLanding?.plant?.value) {
-      girdDataFunc(approvebillregLanding);
-      getCostCenterDDL(
-        profileData.accountId,
-        selectedBusinessUnit.value,
-        approvebillregLanding?.sbu?.value,
-        setCostCenterDDL
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   // All item select
   const allGridCheck = (value, gridData) => {
     const modifyGridData = gridData?.map((itm) => ({
@@ -200,13 +187,34 @@ function ApproveapprovebillregLanding() {
   const paginationSearchHandler = (searchValue, values) => {
     girdDataFunc(values, pageSize, pageNo, searchValue);
   };
+
+  const formikRef = React.useRef(null);
+
+  useEffect(() => {
+    const values = approvebillregLanding || initData;
+    if (values?.plant?.value) {
+      girdDataFunc(values);
+      getCostCenterDDL(
+        profileData.accountId,
+        selectedBusinessUnit.value,
+        values?.sbu?.value,
+        setCostCenterDDL
+      );
+    }
+    if (formikRef.current) {
+      formikRef.current.setValues(values);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={approvebillregLanding || initData}
+        initialValues={{}}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {}}
+        innerRef={formikRef}
       >
         {({
           handleSubmit,
@@ -217,7 +225,7 @@ function ApproveapprovebillregLanding() {
           setFieldValue,
           isValid,
         }) => (
-          <div className="">
+          <div className=''>
             <Card>
               {true && <ModalProgressBar />}
               <CardHeader title={"Approve Bill Register"}>
@@ -225,17 +233,17 @@ function ApproveapprovebillregLanding() {
               </CardHeader>
               <CardBody>
                 {disabled && <Loading />}
-                <Form className="form form-label-right">
-                  <div className="row global-form global-form-custom">
-                    <div className="col-lg-3">
+                <Form className='form form-label-right'>
+                  <div className='row global-form global-form-custom'>
+                    <div className='col-lg-3'>
                       <NewSelect
-                        name="sbu"
+                        name='sbu'
                         options={SBUDDL || []}
                         value={values?.sbu}
-                        label="Select SBU"
+                        label='Select SBU'
                         onChange={(valueOption) => {
                           setFieldValue("sbu", valueOption);
-                          setFieldValue("costCenter", '');
+                          setFieldValue("costCenter", "");
                           setRowDto([]);
                           getCostCenterDDL(
                             profileData.accountId,
@@ -244,46 +252,46 @@ function ApproveapprovebillregLanding() {
                             setCostCenterDDL
                           );
                         }}
-                        placeholder="Select SBU"
+                        placeholder='Select SBU'
                         errors={errors}
                         touched={touched}
                       />
                     </div>
-                    <div className="col-lg-3">
+                    <div className='col-lg-3'>
                       <NewSelect
-                        name="plant"
+                        name='plant'
                         options={plantDDL || []}
                         value={values?.plant}
-                        label="Select Plant"
+                        label='Select Plant'
                         onChange={(valueOption) => {
                           setFieldValue("plant", valueOption);
                           setRowDto([]);
                         }}
-                        placeholder="Select Plant"
+                        placeholder='Select Plant'
                         errors={errors}
                         touched={touched}
                       />
                     </div>
-                    <div className="col-lg-3">
+                    <div className='col-lg-3'>
                       <NewSelect
-                        name="billType"
+                        name='billType'
                         options={
                           [{ value: 0, label: "All" }, ...billTypeDDL] || []
                         }
                         value={values?.billType}
-                        label="Bill Type"
+                        label='Bill Type'
                         onChange={(valueOption) => {
                           setFieldValue("billType", valueOption);
                           setRowDto([]);
                         }}
-                        placeholder="Bill Type"
+                        placeholder='Bill Type'
                         errors={errors}
                         touched={touched}
                       />
                     </div>
-                    <div className="col-lg-3">
+                    <div className='col-lg-3'>
                       <NewSelect
-                        name="status"
+                        name='status'
                         options={[
                           {
                             value: 1,
@@ -299,60 +307,60 @@ function ApproveapprovebillregLanding() {
                           },
                         ]}
                         value={values?.status}
-                        label="Status"
+                        label='Status'
                         onChange={(valueOption) => {
                           setFieldValue("status", valueOption);
                           setRowDto([]);
                         }}
-                        placeholder="Status"
+                        placeholder='Status'
                         errors={errors}
                         touched={touched}
                       />
                     </div>
 
-                    <div className="col-lg-3">
+                    <div className='col-lg-3'>
                       <label>From Date</label>
                       <InputField
                         value={values?.fromDate}
-                        name="fromDate"
-                        placeholder="From Date"
-                        type="date"
+                        name='fromDate'
+                        placeholder='From Date'
+                        type='date'
                       />
                     </div>
-                    <div className="col-lg-3">
+                    <div className='col-lg-3'>
                       <label>To Date</label>
                       <InputField
                         value={values?.toDate}
-                        name="toDate"
-                        placeholder="To Date"
-                        type="date"
+                        name='toDate'
+                        placeholder='To Date'
+                        type='date'
                       />
                     </div>
                     {selectedBusinessUnit?.value === 17 && (
-                      <div className="col-lg-3">
+                      <div className='col-lg-3'>
                         <NewSelect
-                          name="costCenter"
+                          name='costCenter'
                           options={costCenterDDL || []}
                           value={values?.costCenter || ""}
-                          label="Cost Center"
+                          label='Cost Center'
                           onChange={(valueOption) => {
                             setFieldValue("costCenter", valueOption);
                             setRowDto([]);
                           }}
-                          placeholder="Cost Center"
+                          placeholder='Cost Center'
                           isDisabled={!values?.sbu}
                         />
                       </div>
                     )}
 
-                    <div className="col-lg-3" style={{ marginTop: "19px" }}>
+                    <div className='col-lg-3' style={{ marginTop: "19px" }}>
                       <button
                         onClick={() => {
                           dispatch(setApprovebillregLandingAction(values));
                           ViewOnChangeHandler(values);
                         }}
-                        className="btn btn-primary ml-2 mr-2"
-                        type="button"
+                        className='btn btn-primary ml-2 mr-2'
+                        type='button'
                         disabled={!values?.plant || !values?.billType}
                       >
                         View
@@ -363,8 +371,8 @@ function ApproveapprovebillregLanding() {
                             dispatch(setApprovebillregLandingAction(values));
                             approveBillHandlerFunc(values);
                           }}
-                          className="btn btn-primary ml-2 mr-2"
-                          type="button"
+                          className='btn btn-primary ml-2 mr-2'
+                          type='button'
                           disabled={
                             !values?.plant ||
                             !values?.billType ||
@@ -395,7 +403,7 @@ function ApproveapprovebillregLanding() {
                   </div>
                   {/* <div className="row global-form global-form-custom py-6"></div> */}
                   <PaginationSearch
-                    placeholder="Bill Register Code Search"
+                    placeholder='Bill Register Code Search'
                     paginationSearchHandler={paginationSearchHandler}
                     values={values}
                   />
