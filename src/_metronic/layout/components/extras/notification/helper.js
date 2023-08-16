@@ -29,8 +29,28 @@ export const getAllNotificationsActions = async (
 
 export const NotificationRirectFunc = (data) => {
   const redirectBaseURL = redirectBaseURLGenerated(data);
-  const routeUrl = data?.routeUrl;
-  let path = `${redirectBaseURL}${routeUrl}`;
+
+  const queryParams = new URLSearchParams();
+    const routeUrl = data?.routeUrl;
+    let path = '';
+    if(data?.isErpMenu){
+      queryParams.append('isRedirectHR', true);
+      const iscommonapproval = routeUrl.includes('commonapproval');
+      if (iscommonapproval) {
+        queryParams.append('plantId', 0);
+        queryParams.append('plantName', 'All');
+        queryParams.append('moduleId', data?.erpModuleId || 0);
+        queryParams.append('moduleName', data?.erpModuleName || '');
+        queryParams.append('featureId', data?.erpModuleFeatureId || 0);
+        queryParams.append('featureName', data?.erpModuleFeatureName || '');
+        path = `${redirectBaseURL}/personal/approval/commonapproval?${queryParams.toString()}`
+      } else {
+        path = `${redirectBaseURL}${routeUrl}?${queryParams.toString()}`
+      }
+    }else {
+      path = `${redirectBaseURL}${routeUrl}`
+    }
+  
   window.open(path, "_blank");
 };
 

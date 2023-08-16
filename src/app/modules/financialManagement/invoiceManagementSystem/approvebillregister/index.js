@@ -26,6 +26,8 @@ import IConfirmModal from "./../../../_helper/_confirmModal";
 import PaginationTable from "./../../../_helper/_tablePagination";
 import PaginationSearch from "./../../../_helper/_search";
 import InputField from "../../../_helper/_inputField";
+import moment from "moment";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
 
 const initData = {
   sbu: "",
@@ -41,6 +43,7 @@ const initData = {
 const validationSchema = Yup.object().shape({});
 
 function ApproveapprovebillregLanding() {
+  const formikRef = React.useRef(null);
   const [SBUDDL, setSBUDDL] = useState([]);
   const [plantDDL, setPlantDDL] = useState([]);
   const [billTypeDDL, setBillTypeDDL] = useState([]);
@@ -72,18 +75,6 @@ function ApproveapprovebillregLanding() {
       setRowDto([]);
     }
   }, [gridDataArry]);
-  useEffect(() => {
-    if (profileData?.accountId && selectedBusinessUnit?.value) {
-      getSbuDDL(profileData.accountId, selectedBusinessUnit.value, setSBUDDL);
-      getPlantDDL(
-        profileData?.userId,
-        profileData?.accountId,
-        selectedBusinessUnit?.value,
-        setPlantDDL
-      );
-      GetBillTypeDDL(setBillTypeDDL);
-    }
-  }, [profileData, selectedBusinessUnit]);
 
   const girdDataFunc = (values, pageSizeP, pageNoP, searchTax) => {
     const isPageSize = pageSizeP ? pageSizeP : pageSize;
@@ -101,6 +92,7 @@ function ApproveapprovebillregLanding() {
       isPageNo,
       setGridDataArry,
       setDisabled,
+      profileData?.userId,
       searchTax
     );
   };
@@ -188,12 +180,10 @@ function ApproveapprovebillregLanding() {
     girdDataFunc(values, pageSize, pageNo, searchValue);
   };
 
-  const formikRef = React.useRef(null);
 
   useEffect(() => {
     const values = approvebillregLanding || initData;
-    if (values?.plant?.value) {
-      girdDataFunc(values);
+    if (values?.sbu?.value) {
       getCostCenterDDL(
         profileData.accountId,
         selectedBusinessUnit.value,
@@ -202,11 +192,79 @@ function ApproveapprovebillregLanding() {
       );
     }
     if (formikRef.current) {
-      formikRef.current.setValues(values);
+      const urlParams = new URLSearchParams(window.location.search);
+      const isRedirectHR = urlParams.get("isRedirectHR");
+      // initial landing api call withOut Redirect HR
+      if (!isRedirectHR) {
+        formikRef.current.setValues(values);
+        if (values?.plant?.value) {
+          girdDataFunc(values);
+        }
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (profileData?.accountId && selectedBusinessUnit?.value) {
+      getSbuDDL(
+        profileData.accountId,
+        selectedBusinessUnit.value,
+        setSBUDDL,
+        (sbuList) => {
+          // initial landing api call with Redirect HR
+          SetRedirectHRValues(sbuList);
+        }
+      );
+      getPlantDDL(
+        profileData?.userId,
+        profileData?.accountId,
+        selectedBusinessUnit?.value,
+        setPlantDDL
+      );
+      GetBillTypeDDL(setBillTypeDDL);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profileData, selectedBusinessUnit]);
+
+  const SetRedirectHRValues = (sbuList) => {
+    if (formikRef.current) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const isRedirectHR = urlParams.get("isRedirectHR");
+      if (isRedirectHR) {
+        const sbu = sbuList?.[0];
+        if (sbu?.value) {
+          getCostCenterDDL(
+            profileData.accountId,
+            selectedBusinessUnit.value,
+            sbu?.value,
+            setCostCenterDDL
+          );
+        }
+        const firstDayOfPreviousMonth = moment()
+          .subtract(2, "months")
+          .startOf("month");
+        const lestDayOfCurrentMonth = moment().endOf("month");
+        const redirectHRValues = {
+          fromDate: _dateFormatter(firstDayOfPreviousMonth),
+          toDate: _dateFormatter(lestDayOfCurrentMonth),
+          sbu: sbu,
+          costCenter: {
+            value: 0,
+            label: "All",
+          },
+          billType: { value: 0, label: "All" },
+          plant: { value: 0, label: "All" },
+          status: {
+            value: 1,
+            label: "Pending",
+          },
+        };
+        formikRef.current.setValues(redirectHRValues);
+        girdDataFunc(redirectHRValues);
+      }
+    }
+  };
   return (
     <>
       <Formik
@@ -260,7 +318,9 @@ function ApproveapprovebillregLanding() {
                     <div className='col-lg-3'>
                       <NewSelect
                         name='plant'
-                        options={plantDDL || []}
+                        options={
+                          [{ value: 0, label: "All" }, ...plantDDL] || []
+                        }
                         value={values?.plant}
                         label='Select Plant'
                         onChange={(valueOption) => {
