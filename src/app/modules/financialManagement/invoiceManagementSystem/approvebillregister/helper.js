@@ -33,7 +33,9 @@ export const GetBillRegister_api = async (
   PageNo,
   setter,
   setDisabled,
-  search
+  userId,
+  search,
+
 ) => {
   setDisabled(true);
   try {
@@ -42,7 +44,7 @@ export const GetBillRegister_api = async (
     const res = await Axios.get(
       `/fino/PaymentRequest/GetBillRegister?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&SBUId=${sbu}&TypeId=${typeId}&ApprovalType=${approvalType}&PageSize=${pageSize}&PageNo=${pageNo}&ViewOrder=desc${searchPath}&fromDate=${
         values?.fromDate
-      }&toDate=${values?.toDate}&CostCenterId=${costCenterId || 0}`
+      }&toDate=${values?.toDate}&CostCenterId=${costCenterId || 0}&UserId=${userId}`
     );
     setDisabled(false);
     const modifyGridData = {
