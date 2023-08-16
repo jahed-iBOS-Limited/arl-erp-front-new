@@ -86,7 +86,6 @@ export function Routes() {
     let info = JSON.parse(loginInfoPeopleDesk || "{}");
     if (info?.isAuth) {
       dispatch(
-        // actions.LoginFetched(info)
         actions.LoginFetched({
           isAuth: info?.isAuth,
           tokenData: {
