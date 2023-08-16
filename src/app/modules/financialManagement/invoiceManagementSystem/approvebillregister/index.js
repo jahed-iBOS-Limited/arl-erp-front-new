@@ -43,6 +43,7 @@ const initData = {
 const validationSchema = Yup.object().shape({});
 
 function ApproveapprovebillregLanding() {
+  const formikRef = React.useRef(null);
   const [SBUDDL, setSBUDDL] = useState([]);
   const [plantDDL, setPlantDDL] = useState([]);
   const [billTypeDDL, setBillTypeDDL] = useState([]);
@@ -178,23 +179,23 @@ function ApproveapprovebillregLanding() {
     girdDataFunc(values, pageSize, pageNo, searchValue);
   };
 
-  const formikRef = React.useRef(null);
 
   useEffect(() => {
     const values = approvebillregLanding || initData;
+    if (values?.sbu?.value) {
+      getCostCenterDDL(
+        profileData.accountId,
+        selectedBusinessUnit.value,
+        values?.sbu?.value,
+        setCostCenterDDL
+      );
+    }
     if (formikRef.current) {
       const urlParams = new URLSearchParams(window.location.search);
       const isRedirectHR = urlParams.get("isRedirectHR");
+      // initial landing api call withOut Redirect HR
       if (!isRedirectHR) {
         formikRef.current.setValues(values);
-        if (values?.sbu?.value) {
-          getCostCenterDDL(
-            profileData.accountId,
-            selectedBusinessUnit.value,
-            values?.sbu?.value,
-            setCostCenterDDL
-          );
-        }
         if (values?.plant?.value) {
           girdDataFunc(values);
         }
@@ -210,6 +211,7 @@ function ApproveapprovebillregLanding() {
         selectedBusinessUnit.value,
         setSBUDDL,
         (sbuList) => {
+          // initial landing api call with Redirect HR
           SetRedirectHRValues(sbuList);
         }
       );
@@ -229,6 +231,15 @@ function ApproveapprovebillregLanding() {
       const urlParams = new URLSearchParams(window.location.search);
       const isRedirectHR = urlParams.get("isRedirectHR");
       if (isRedirectHR) {
+        const sbu = sbuList?.[0];
+        if (sbu?.value) {
+          getCostCenterDDL(
+            profileData.accountId,
+            selectedBusinessUnit.value,
+            sbu?.value,
+            setCostCenterDDL
+          );
+        }
         const firstDayOfPreviousMonth = moment()
           .subtract(2, "months")
           .startOf("month");
@@ -236,7 +247,7 @@ function ApproveapprovebillregLanding() {
         const redirectHRValues = {
           fromDate: _dateFormatter(firstDayOfPreviousMonth),
           toDate: _dateFormatter(lestDayOfCurrentMonth),
-          sbu: sbuList?.[0],
+          sbu: sbu,
           costCenter: {
             value: 0,
             label: "All",
