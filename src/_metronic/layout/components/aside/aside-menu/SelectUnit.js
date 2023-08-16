@@ -83,6 +83,7 @@ export default function SelectUnit() {
           const loginInfoPeopleDesk = getCookie("loginInfoPeopleDesk");
           let info = JSON.parse(loginInfoPeopleDesk || "{}");
           if (info?.isAuth) {
+            console.log('info', info)
             setCookie(
               "loginInfoPeopleDesk",
               JSON.stringify({
