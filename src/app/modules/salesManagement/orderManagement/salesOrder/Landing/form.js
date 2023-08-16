@@ -68,6 +68,7 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function HeaderForm({ loading, setLoading }) {
+  const formikRef = React.useRef(null);
   let [controlls, setControlls] = useState([]);
   const [completeModalInfo, setCompleteModalInfo] = useState("");
   const [selesOrderId, setSalesOrderId] = useState("");
@@ -153,26 +154,6 @@ export default function HeaderForm({ loading, setLoading }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBusinessUnit, profileData]);
 
-  useEffect(() => {
-    if (
-      selectedBusinessUnit?.value &&
-      profileData?.accountId &&
-      salesOrderLanding?.shippoint?.value
-    ) {
-      dispatch(
-        getSalesOrderGridData(
-          profileData.accountId,
-          selectedBusinessUnit.value,
-          salesOrderLanding?.shippoint?.value,
-          salesOrderLanding?.orderStatus?.value,
-          pageNo,
-          pageSize,
-          null,
-          setLoading
-        )
-      );
-    }
-  }, [selectedBusinessUnit, profileData]);
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize, searchValue) => {
     dispatch(
@@ -209,7 +190,6 @@ export default function HeaderForm({ loading, setLoading }) {
         name: "sbu",
         options: SBUDDL || [],
         dependencyFunc: (currentValue, value, setter) => {
-          console.log(currentValue);
           dispatch(
             getSalesOrgDDL_Action(
               profileData.accountId,
@@ -354,25 +334,129 @@ export default function HeaderForm({ loading, setLoading }) {
       dispatch(SetGridDataEmpty_Action());
     };
   }, []);
+
+  useEffect(() => {
+    const values = {
+      ...salesOrderLanding,
+      orderType: salesOrderLanding?.orderType?.value
+        ? salesOrderLanding?.orderType
+        : salesOrderTypeDDL?.find((itm) => itm?.value === 1),
+    };
+
+    if (formikRef.current) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const isRedirectHR = urlParams.get("isRedirectHR");
+      // initial landing api call withOut Redirect HR
+      if (!isRedirectHR) {
+        formikRef.current.setValues(values);
+        if (values?.shippoint?.value) {
+          dispatch(
+            getSalesOrderGridData(
+              profileData.accountId,
+              selectedBusinessUnit.value,
+              values?.shippoint?.value,
+              values?.orderStatus?.value,
+              pageNo,
+              pageSize,
+              null,
+              setLoading
+            )
+          );
+        }
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const isRedirectHR = urlParams.get("isRedirectHR");
+    if (salesOrderTypeDDL?.length > 0 && SBUDDL?.length > 0 && isRedirectHR) {
+      const values = {
+        orderType: salesOrderTypeDDL?.find((itm) => itm?.value === 1) || "",
+        // sbu: SBUDDL?.[0] || "",
+        // shippoint: {
+        //   value: 0,
+        //   label: "All",
+        // },
+        // plant: {
+        //   value: 0,
+        //   label: "All",
+        // },
+        // salesOrg: {
+        //   value: 6,
+        //   label: "LOCAL SALES",
+        // },
+        // salesOffice: {
+        //   value: 0,
+        //   label: "All",
+        // },
+        // distributionChannel: {
+        //   value: 0,
+        //   label: "All",
+        // },
+        orderStatus: { value: 2, label: "Pending" },
+      };
+      formikRef.current.setValues(values);
+      dispatch(
+        getSalesOrderGridData(
+          profileData.accountId,
+          selectedBusinessUnit.value,
+          0,
+          3,
+          pageNo,
+          1000,
+          null,
+          setLoading
+        )
+      );
+      // dispatch(
+      //   getSalesOrgDDL_Action(
+      //     profileData.accountId,
+      //     selectedBusinessUnit.value,
+      //     SBUDDL?.[0]?.value
+      //   )
+      // );
+      // dispatch(
+      //   getDistributionChannelDDLAction(
+      //     profileData.accountId,
+      //     selectedBusinessUnit.value,
+      //     SBUDDL?.[0]?.value
+      //   )
+      // );
+
+      // if (values?.shippoint?.value) {
+      //   dispatch(
+      //     getSalesOrderGridData(
+      //       profileData.accountId,
+      //       selectedBusinessUnit.value,
+      //       values?.shippoint?.value,
+      //       values?.orderStatus?.value,
+      //       pageNo,
+      //       pageSize,
+      //       null,
+      //       setLoading
+      //     )
+      //   );
+      // }
+    }
+  }, [salesOrderTypeDDL, SBUDDL]);
+
   return (
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={{
-          ...salesOrderLanding,
-          orderType: salesOrderLanding?.orderType?.value
-            ? salesOrderLanding?.orderType
-            : salesOrderTypeDDL?.find((itm) => itm?.value === 1),
-        }}
+        initialValues={{}}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {}}
+        innerRef={formikRef}
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
-            <Form className="form form-label-right">
-              <div className="row global-form m-0">
+            <Form className='form form-label-right'>
+              <div className='row global-form m-0'>
                 {controlls.map((itm, idex) => (
-                  <div className="col-lg-3">
+                  <div className='col-lg-3'>
                     <ISelect
                       dependencyFunc={itm?.dependencyFunc}
                       label={itm?.label}
@@ -389,10 +473,10 @@ export default function HeaderForm({ loading, setLoading }) {
                   </div>
                 ))}
                 {/* View button */}
-                <div className="d-flex col-lg-3">
+                <div className='d-flex col-lg-3'>
                   <button
-                    type="button"
-                    className="btn btn-primary mt-5"
+                    type='button'
+                    className='btn btn-primary mt-5'
                     onClick={() => {
                       dispatch(
                         getSalesOrderGridData(
@@ -412,10 +496,10 @@ export default function HeaderForm({ loading, setLoading }) {
                   >
                     View
                   </button>
-                  <div className="text-right ml-2">
+                  <div className='text-right ml-2'>
                     <button
-                      type="button"
-                      className="btn btn-primary mt-5"
+                      type='button'
+                      className='btn btn-primary mt-5'
                       onClick={() => {
                         history.push({
                           pathname: `/sales-management/ordermanagement/salesorder/create`,
@@ -424,12 +508,12 @@ export default function HeaderForm({ loading, setLoading }) {
                         dispatch(setSalesOrderLandingAction(values));
                       }}
                       disabled={
-                        !values?.sbu ||
-                        !values?.plant ||
-                        !values?.salesOrg ||
-                        !values?.shippoint ||
-                        !values?.distributionChannel ||
-                        !values?.salesOffice ||
+                        !values?.sbu?.value ||
+                        !values?.plant?.value ||
+                        !values?.salesOrg?.value ||
+                        !values?.shippoint?.value ||
+                        !values?.distributionChannel?.value ||
+                        !values?.salesOffice?.value ||
                         !values?.orderType
                       }
                     >

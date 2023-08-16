@@ -30,7 +30,8 @@ export default function SalesOrderLandingPage() {
             id={match && match.params.id}
             history={history}
             onHide={() => {
-              history.push("/sales-management/ordermanagement/salesorder");
+              //history.push("/sales-management/ordermanagement/salesorder");
+              history.goBack();
               dispatch(setSalesOrderSingleEmpty());
             }}
           />
@@ -44,7 +45,8 @@ export default function SalesOrderLandingPage() {
             history={history}
             isLoading={setLoading}
             onHide={() => {
-              history.push("/sales-management/ordermanagement/salesorder");
+              //history.push("/sales-management/ordermanagement/salesorder");
+              history.goBack();
               dispatch(setSalesOrderSingleEmpty());
             }}
           />
