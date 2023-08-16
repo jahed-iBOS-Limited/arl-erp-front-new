@@ -10,7 +10,7 @@ import {
 } from "../../../../../app/modules/Auth/_redux/Auth_Actions";
 import {
   getCookie,
-  setPeopledeskCookie
+  setPeopledeskCookie,
 } from "../../../../../app/modules/_helper/_cookie";
 import { clearLocalStorageAction } from "../../../../../app/modules/_helper/reduxForLocalStorage/Actions";
 
@@ -79,7 +79,7 @@ export default function SelectUnit() {
         placeholder='Select Unit'
         onChange={(valueOption) => {
           dispatch(SetBusinessUnit(valueOption));
-          
+
           const loginInfoPeopleDesk = getCookie("loginInfoPeopleDesk");
           let info = JSON.parse(loginInfoPeopleDesk || "{}");
           if (info?.isAuth) {
