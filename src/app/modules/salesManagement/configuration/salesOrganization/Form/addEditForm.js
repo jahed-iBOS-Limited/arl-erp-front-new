@@ -76,14 +76,7 @@ export default function SalesOrganizationForm({
     setRowDto(objRow);
   }, [objRow]);
 
-  // //Dispatch Get emplist action for get emplist ddl
-  // useEffect(() => {
-  //   if (selectedBusinessUnit?.value && profileData?.accountId) {
-  //     dispatch(setBuList(profileData.userId, selectedBusinessUnit.value));
-  //   }
-
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [selectedBusinessUnit, profileData]);
+ 
 
   const saveHandler = async (values, cb) => {
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
