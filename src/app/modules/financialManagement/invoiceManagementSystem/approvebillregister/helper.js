@@ -40,7 +40,9 @@ export const GetBillRegister_api = async (
     const searchPath = search ? `&Search=${search}` : "";
     const pageNo = search ? 0 : PageNo;
     const res = await Axios.get(
-      `/fino/PaymentRequest/GetBillRegister?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&SBUId=${sbu}&TypeId=${typeId}&ApprovalType=${approvalType}&PageSize=${pageSize}&PageNo=${pageNo}&ViewOrder=desc${searchPath}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&CostCenterId=${costCenterId || 0}`
+      `/fino/PaymentRequest/GetBillRegister?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&SBUId=${sbu}&TypeId=${typeId}&ApprovalType=${approvalType}&PageSize=${pageSize}&PageNo=${pageNo}&ViewOrder=desc${searchPath}&fromDate=${
+        values?.fromDate
+      }&toDate=${values?.toDate}&CostCenterId=${costCenterId || 0}`
     );
     setDisabled(false);
     const modifyGridData = {
@@ -138,7 +140,12 @@ export const rejectBillRegister_api = async (
   }
 };
 
-export const GetSupplierInvoiceById_api = async (id, buId, setter, setDisabled) => {
+export const GetSupplierInvoiceById_api = async (
+  id,
+  buId,
+  setter,
+  setDisabled
+) => {
   try {
     setDisabled(true);
     const res = await Axios.get(
@@ -242,14 +249,14 @@ export const GetExpensesByBill_api = async (
     setDisabled(false);
   }
 };
-export const getSbuDDL = async (accId, buId, setter) => {
+export const getSbuDDL = async (accId, buId, setter, cb) => {
   try {
     let res = await Axios.get(
       `/hcm/HCMDDL/GetSBUDDL?AccountId=${accId}&BusineessUnitId=${buId}`
     );
-    if (res?.status === 200) {
-      setter(res?.data);
-    }
+
+    setter(res?.data);
+    cb&& cb(res?.data)
   } catch (err) {
     toast.warning(err?.response?.data?.message);
   }
@@ -258,9 +265,8 @@ export const getExpanseBillDetail = async ({
   buId,
   billId,
   setter,
-  setLoading
-}
-) => {
+  setLoading,
+}) => {
   try {
     setLoading(true);
     const res = await Axios.get(
@@ -268,10 +274,12 @@ export const getExpanseBillDetail = async ({
     );
     if (res.status === 200 && res?.data) {
       setLoading(false);
-      setter(res?.data?.map(itm => ({
-        ...itm,
-        requestAmount: itm?.lineManagerAmount || 0
-      })));
+      setter(
+        res?.data?.map((itm) => ({
+          ...itm,
+          requestAmount: itm?.lineManagerAmount || 0,
+        }))
+      );
     }
   } catch (error) {
     setLoading(false);

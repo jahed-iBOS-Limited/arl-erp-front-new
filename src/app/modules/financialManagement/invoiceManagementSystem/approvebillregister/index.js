@@ -26,6 +26,8 @@ import IConfirmModal from "./../../../_helper/_confirmModal";
 import PaginationTable from "./../../../_helper/_tablePagination";
 import PaginationSearch from "./../../../_helper/_search";
 import InputField from "../../../_helper/_inputField";
+import moment from "moment";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
 
 const initData = {
   sbu: "",
@@ -72,18 +74,6 @@ function ApproveapprovebillregLanding() {
       setRowDto([]);
     }
   }, [gridDataArry]);
-  useEffect(() => {
-    if (profileData?.accountId && selectedBusinessUnit?.value) {
-      getSbuDDL(profileData.accountId, selectedBusinessUnit.value, setSBUDDL);
-      getPlantDDL(
-        profileData?.userId,
-        profileData?.accountId,
-        selectedBusinessUnit?.value,
-        setPlantDDL
-      );
-      GetBillTypeDDL(setBillTypeDDL);
-    }
-  }, [profileData, selectedBusinessUnit]);
 
   const girdDataFunc = (values, pageSizeP, pageNoP, searchTax) => {
     const isPageSize = pageSizeP ? pageSizeP : pageSize;
@@ -192,21 +182,77 @@ function ApproveapprovebillregLanding() {
 
   useEffect(() => {
     const values = approvebillregLanding || initData;
-    if (values?.plant?.value) {
-      girdDataFunc(values);
-      getCostCenterDDL(
-        profileData.accountId,
-        selectedBusinessUnit.value,
-        values?.sbu?.value,
-        setCostCenterDDL
-      );
-    }
     if (formikRef.current) {
-      formikRef.current.setValues(values);
+      const urlParams = new URLSearchParams(window.location.search);
+      const isRedirectHR = urlParams.get("isRedirectHR");
+      if (!isRedirectHR) {
+        formikRef.current.setValues(values);
+        if (values?.sbu?.value) {
+          getCostCenterDDL(
+            profileData.accountId,
+            selectedBusinessUnit.value,
+            values?.sbu?.value,
+            setCostCenterDDL
+          );
+        }
+        if (values?.plant?.value) {
+          girdDataFunc(values);
+        }
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (profileData?.accountId && selectedBusinessUnit?.value) {
+      getSbuDDL(
+        profileData.accountId,
+        selectedBusinessUnit.value,
+        setSBUDDL,
+        (sbuList) => {
+          SetRedirectHRValues(sbuList);
+        }
+      );
+      getPlantDDL(
+        profileData?.userId,
+        profileData?.accountId,
+        selectedBusinessUnit?.value,
+        setPlantDDL
+      );
+      GetBillTypeDDL(setBillTypeDDL);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profileData, selectedBusinessUnit]);
+
+  const SetRedirectHRValues = (sbuList) => {
+    if (formikRef.current) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const isRedirectHR = urlParams.get("isRedirectHR");
+      if (isRedirectHR) {
+        const firstDayOfPreviousMonth = moment()
+          .subtract(2, "months")
+          .startOf("month");
+        const lestDayOfCurrentMonth = moment().endOf("month");
+        const redirectHRValues = {
+          fromDate: _dateFormatter(firstDayOfPreviousMonth),
+          toDate: _dateFormatter(lestDayOfCurrentMonth),
+          sbu: sbuList?.[0],
+          costCenter: {
+            value: 0,
+            label: "All",
+          },
+          billType: { value: 0, label: "All" },
+          plant: { value: 0, label: "All" },
+          status: {
+            value: 1,
+            label: "Pending",
+          },
+        };
+        formikRef.current.setValues(redirectHRValues);
+        girdDataFunc(redirectHRValues);
+      }
+    }
+  };
   return (
     <>
       <Formik
@@ -260,7 +306,9 @@ function ApproveapprovebillregLanding() {
                     <div className='col-lg-3'>
                       <NewSelect
                         name='plant'
-                        options={plantDDL || []}
+                        options={
+                          [{ value: 0, label: "All" }, ...plantDDL] || []
+                        }
                         value={values?.plant}
                         label='Select Plant'
                         onChange={(valueOption) => {
