@@ -54,7 +54,7 @@ const ItemBridge = () => {
   }, [profileData, selectedBusinessUnit]);
 
   const modifyData = (keyName, index, value) => {
-    let data = gridData;
+    let data = [...gridData];
     let element = data[index];
     element[keyName] = value;
     setGridData(data);
@@ -70,11 +70,10 @@ const ItemBridge = () => {
       taxItemGroupDDL
     );
   };
-
   return (
     <>
       <Formik initialValues={initData}>
-        {({ touched, values, setFieldValue }) => (
+        {({ touched, setFieldValue }) => (
           <>
             <Card>
               <CardHeader title="Item Bridge" />
@@ -105,7 +104,6 @@ const ItemBridge = () => {
                                 options={taxItemGroupDDL || []}
                                 value={item?.itemGroup}
                                 onChange={(valueOption) => {
-                                  setFieldValue("itemGroup", valueOption);
                                   modifyData("itemGroup", index, valueOption);
                                 }}
                                 touched={touched}
@@ -122,7 +120,7 @@ const ItemBridge = () => {
                                 onClick={() => {
                                   UpdateTaxItem(
                                     item?.value,
-                                    values?.itemGroup?.value,
+                                    item?.itemGroup?.value,
                                     profileData?.accountId,
                                     selectedBusinessUnit?.value,
                                     setLoading
