@@ -388,6 +388,9 @@ function YeildReport({ tableData }) {
                 itm.categoryName === categoryName &&
                 itm.itemName === uniqueItem?.[i]?.itemName
             );
+            let byProduct = (+matchCatagory?.byProductionQty || 0) / (+matchCatagory?.productionQty || 0)
+
+
             return (
               <>
                 <td className='text-right'>
@@ -411,8 +414,8 @@ function YeildReport({ tableData }) {
                     _fixedPoint(matchCatagory?.yieldPer)}
                 </td>
                 <td className='text-right'>
-                  {matchCatagory?.byProduct &&
-                    _fixedPoint(matchCatagory?.byProduct)}
+                  {matchCatagory?.byProductionQty &&
+                    _fixedPoint(isFinite(byProduct) ? isFinite : 0)}
                 </td>
               </>
             );
@@ -436,7 +439,7 @@ function YeildReport({ tableData }) {
                 <>
                   <thead>
                     <tr>
-                      <th rowSpan={2} style={{minWidth: '30px'}} className="sl">SL</th>
+                      <th rowSpan={2} style={{ minWidth: '30px' }} className="sl">SL</th>
                       <th rowSpan={2} style={{ minWidth: "150px" }} className="itemName">
                         Item Name
                       </th>
