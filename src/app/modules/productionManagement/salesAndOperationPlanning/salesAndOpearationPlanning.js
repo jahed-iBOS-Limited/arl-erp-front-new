@@ -22,6 +22,7 @@ import SalesAndProductionTable from "./salesAndProductionPlan/table/table";
 import DetailsSalesPlanLanding from "./detailsSalesPlan/detailsSalesPlan";
 import DetailsSalesPlanEntry from "./detailsSalesPlan/entryForm/addEditForm";
 import DistributionPlanLanding from "./distributionPlan";
+import ManufacturingOverheadPlanLanding from "./manufacturingOverheadPlan";
 
 export function salesAndOperationsPlanning() {
   const userRole = useSelector(
@@ -87,6 +88,10 @@ export function salesAndOperationsPlanning() {
       <ContentRoute
         from="/production-management/salesAndOperationsPlanning/PurchasePlan"
         component={PurchasePlanTable}
+      />
+      <ContentRoute
+        from="/production-management/salesAndOperationsPlanning/manufacturingoverheadplan"
+        component={ManufacturingOverheadPlanLanding}
       />
       {/* Production Master Schedulel */}
       <ContentRoute
