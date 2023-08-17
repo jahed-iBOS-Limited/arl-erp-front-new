@@ -172,7 +172,7 @@ export const SetBusinessUnit = (v) => (dispatch) => {
   dispatch(actions.SetBusinessUnit(v));
 };
 
-export const setBuList = (userId, accountId) => (dispatch) => {
+export const setBuList = (userId, accountId, CB) => (dispatch) => {
   // dispatch(actions.startCall({ callType: callTypes.action }));
   requestFromServer.getBuPermission(userId, accountId).then((res) => {
     const { status, data } = res;
@@ -189,7 +189,7 @@ export const setBuList = (userId, accountId) => (dispatch) => {
           };
           unitList.push(items);
         });
-
+        CB && CB(unitList)
       dispatch(actions.SetBusinessUnitList(unitList));
     }
   });

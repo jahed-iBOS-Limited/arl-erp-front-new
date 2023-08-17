@@ -16,7 +16,7 @@ import {
   getCreditLimitForInternalUser_action,
   getCurrencyListDDL_Action,
   getDataBySalesOrderId_Action,
-  getItemPlant_Action,
+  // getItemPlant_Action,
   getPartnerBalance_action,
   getSalesOrderGridData,
   getShipToPartner_Action,
@@ -124,26 +124,26 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
         )
       );
     }
-    dispatch(
-      getCurrencyListDDL_Action(
-        profileData?.accountId,
-        selectedBusinessUnit?.value
-      )
-    );
-    dispatch(
-      getTransportZoneDDL_action(
-        profileData?.accountId,
-        selectedBusinessUnit?.value
-      )
-    );
-    dispatch(
-      getItemPlant_Action(
-        profileData?.accountId,
-        selectedBusinessUnit?.value,
-        state?.distributionChannel?.value,
-        state?.salesOrg?.value
-      )
-    );
+    // dispatch(
+    //   getCurrencyListDDL_Action(
+    //     profileData?.accountId,
+    //     selectedBusinessUnit?.value
+    //   )
+    // );
+    // dispatch(
+    //   getTransportZoneDDL_action(
+    //     profileData?.accountId,
+    //     selectedBusinessUnit?.value
+    //   )
+    // );
+    // dispatch(
+    //   getItemPlant_Action(
+    //     profileData?.accountId,
+    //     selectedBusinessUnit?.value,
+    //     state?.distributionChannel?.value,
+    //     state?.salesOrg?.value
+    //   )
+    // );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 

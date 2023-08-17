@@ -32,8 +32,6 @@ import NewSelect from "../../../../_helper/_select";
 import BillOfMaterialTable from "./billOfMaterialTable";
 import { saveBOMApproval_api } from "./../helper";
 import InventoryAdjust from "../InventoryAdjust";
-import { getCookie } from "../../../../_helper/_cookie";
-
 export function TableRow(props) {
   const [billSubmitBtn, setBillSubmitBtn] = useState(true);
   let history = useHistory();
@@ -276,15 +274,15 @@ export function TableRow(props) {
     ) {
       const peopleDeskFeature = {
         label: queryParams?.featureName,
-        value: queryParams?.featureId,
+        value: +queryParams?.featureId,
       };
       const peopleDeskModule = {
         label: queryParams?.moduleName,
-        value: queryParams?.moduleId,
+        value: +queryParams?.moduleId,
       };
       const peopleDeskPlant = {
         label: queryParams?.plantName,
-        value: queryParams?.plantId,
+        value: +queryParams?.plantId,
       };
       setSelectedPlant(peopleDeskPlant);
       setSelectedModule(peopleDeskModule);
@@ -313,8 +311,8 @@ export function TableRow(props) {
         );
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   return (
     <>
       <ICustomCard title='Common Approval'>

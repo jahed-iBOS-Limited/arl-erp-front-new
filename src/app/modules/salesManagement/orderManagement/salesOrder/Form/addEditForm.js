@@ -112,7 +112,6 @@ export default function SalesOrderForm({
   const [total, setTotal] = useState({ totalAmount: 0, totalQty: 0 });
   const [collectionDays, selCollectionDays] = useState(0);
   const [, getCommissionRates, loader] = useAxiosPost();
-
   let {
     profileData,
     selectedBusinessUnit,
@@ -923,7 +922,7 @@ export default function SalesOrderForm({
   const salesOrderApprovalHandler = () => {
     if (salesOrderApproveCheck) {
       const callBackFunc = () => {
-        history.push(`/sales-management/ordermanagement/salesorder`);
+        history.goBack();
       };
       dispatch(
         getSalesOrderApproval_Aciton(
@@ -940,9 +939,10 @@ export default function SalesOrderForm({
   //landidng page form data condition chack
   useEffect(() => {
     if (!headerData?.orderType?.value && !id) {
-      history.push({
-        pathname: `/sales-management/ordermanagement/salesorder`,
-      });
+      // history.push({
+      //   pathname: `/sales-management/ordermanagement/salesorder`,
+      // });
+      history.goBack();
     }
 
     if (headerData?.distributionChannel?.value) {
@@ -1008,12 +1008,13 @@ export default function SalesOrderForm({
           rejectedBy: profileData?.userId,
         };
         const callBackFunc = () => {
-          history.push(`/sales-management/ordermanagement/salesorder`);
+          // history.push(`/sales-management/ordermanagement/salesorder`);
+          history.goBack();
         };
         rejectSalesOrder(payload, setDisabled, callBackFunc);
       },
       noAlertFunc: () => {
-        history.push(`/sales-management/ordermanagement/salesorder/edit/${id}`);
+        // history.push(`/sales-management/ordermanagement/salesorder/edit/${id}`);
       },
     };
     IConfirmModal(confirmObject);
