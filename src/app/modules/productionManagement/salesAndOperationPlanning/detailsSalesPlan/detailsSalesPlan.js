@@ -418,7 +418,7 @@ export default function DetailsSalesPlanLanding() {
               setIsShowModal(false);
             }}
           >
-            <ViewModal id={location?.state?.monthlyValues?.plant?.value} />
+            <ViewModal id={location?.state?.monthlyItem?.salesPlanId} />
           </IViewModal>
         </>
       )}
