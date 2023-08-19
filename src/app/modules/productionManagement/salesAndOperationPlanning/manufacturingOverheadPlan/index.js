@@ -1,20 +1,23 @@
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import IForm from "./../../../_helper/_form";
 import InputField from "./../../../_helper/_inputField";
 import Loading from "./../../../_helper/_loading";
 import NewSelect from "./../../../_helper/_select";
 import IViewModal from "../../../_helper/_viewModal";
-import IEdit from "../../../_helper/_helperIcons/_edit";
+import { getHorizonDDL, getPlantDDL, getYearDDL } from "./helper";
+import { shallowEqual, useSelector } from "react-redux";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import MonthlyModal from "./monthlyModal";
 
 const initData = {
-  sbu: "",
+  plant: "",
   year: "",
+  // horizon: "",
   gl: "",
-  subGl: "",
   glType: "",
-  standardValue: "",
 };
 
 // const validationSchema = Yup.object().shape({
@@ -31,8 +34,30 @@ const initData = {
 // });
 
 export default function ManufacturingOverheadPlanLanding() {
+  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
+
   const [objProps, setObjprops] = useState({});
   const [isShowModal, setisShowModal] = useState(false);
+  const [plantDDL, setPlantDDL] = useState([]);
+  const [yearDDL, setYearDDL] = useState([]);
+  const [horizonDDL, setHorizonDDL] = useState([]);
+  const [glDDL, getGlDDL] = useAxiosGet();
+  const [subGlRow, getSubGlRow, loading, setSubGlRow] = useAxiosGet();
+
+  useEffect(() => {
+    getPlantDDL(
+      profileData?.accountId,
+      selectedBusinessUnit?.value,
+      setPlantDDL
+    );
+    getGlDDL(
+      `/mes/SalesPlanning/GetGeneralLedgers?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&accountGroupId=4`
+    );
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = (values, cb) => {
     alert("Working...");
@@ -58,21 +83,40 @@ export default function ManufacturingOverheadPlanLanding() {
         touched,
       }) => (
         <>
-          {false && <Loading />}
-          <IForm title="Manufacturing Overhead Plan" getProps={setObjprops}>
+          {loading && <Loading />}
+          <IForm
+            title="Manufacturing Overhead Plan"
+            getProps={setObjprops}
+            isHiddenBack
+            isHiddenReset
+            isHiddenSave
+          >
             <Form>
               <div className="form-group  global-form row">
                 <div className="col-lg-3">
                   <NewSelect
-                    name="sbu"
-                    options={[
-                      { value: 1, label: "Item-1" },
-                      { value: 2, label: "Item-2" },
-                    ]}
-                    value={values?.sbu}
-                    label="SBU"
-                    onChange={(valueOption) => {
-                      setFieldValue("sbu", valueOption);
+                    name="plant"
+                    options={plantDDL}
+                    value={values?.plant}
+                    label="Plant"
+                    placeholder="Plant"
+                    onChange={async (valueOption) => {
+                      setFieldValue("plant", valueOption);
+                      getYearDDL(
+                        profileData?.accountId,
+                        selectedBusinessUnit?.value,
+                        valueOption?.value,
+                        setYearDDL
+                      );
+                      if (values?.year?.value) {
+                        getHorizonDDL(
+                          profileData?.accountId,
+                          selectedBusinessUnit?.value,
+                          valueOption?.value,
+                          valueOption?.value,
+                          setHorizonDDL
+                        );
+                      }
                     }}
                     errors={errors}
                     touched={touched}
@@ -81,76 +125,63 @@ export default function ManufacturingOverheadPlanLanding() {
                 <div className="col-lg-3">
                   <NewSelect
                     name="year"
-                    options={[
-                      { value: 1, label: "Item-1" },
-                      { value: 2, label: "Item-2" },
-                    ]}
+                    options={yearDDL}
                     value={values?.year}
                     label="Year"
+                    placeholder="Year"
                     onChange={(valueOption) => {
                       setFieldValue("year", valueOption);
+                      setFieldValue("horizon", "");
+                      getHorizonDDL(
+                        profileData?.accountId,
+                        selectedBusinessUnit?.value,
+                        values?.plant?.value,
+                        valueOption?.value,
+                        setHorizonDDL
+                      );
                     }}
                     errors={errors}
                     touched={touched}
+                    isDisabled={!values?.plant}
                   />
                 </div>
+                {/* <div className="col-lg-3">
+                  <NewSelect
+                    name="horizon"
+                    options={horizonDDL}
+                    value={values?.horizon}
+                    label="Planning Horizon"
+                    placeholder="Planning Horizon"
+                    onChange={(valueOption) => {
+                      setFieldValue("horizon", valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                    isDisabled={!values?.plant || !values?.year}
+                  />
+                </div> */}
                 <div className="col-lg-3">
                   <NewSelect
                     name="gl"
-                    options={[
-                      { value: 1, label: "Item-1" },
-                      { value: 2, label: "Item-2" },
-                    ]}
+                    options={glDDL || []}
                     value={values?.gl}
                     label="GL Name"
                     onChange={(valueOption) => {
                       setFieldValue("gl", valueOption);
+                      getSubGlRow(
+                        `/mes/SalesPlanning/GetBusinessTransactionsAsync?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&generalLedgerId=${valueOption?.value}`,
+                        (data) => {
+                          let modiFyRow = data?.map((item) => ({
+                            ...item,
+                            overheadType: null,
+                            standardValue: null,
+                          }));
+                          setSubGlRow(modiFyRow);
+                        }
+                      );
                     }}
                     errors={errors}
                     touched={touched}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="subGl"
-                    options={[
-                      { value: 1, label: "Item-1" },
-                      { value: 2, label: "Item-2" },
-                    ]}
-                    value={values?.subGl}
-                    label="SUB GL"
-                    onChange={(valueOption) => {
-                      setFieldValue("subGl", valueOption);
-                    }}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="glType"
-                    options={[
-                      { value: 1, label: "Item-1" },
-                      { value: 2, label: "Item-2" },
-                    ]}
-                    value={values?.glType}
-                    label="GL Type"
-                    onChange={(valueOption) => {
-                      setFieldValue("glType", valueOption);
-                    }}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.standardValue}
-                    label="Standard Value"
-                    name="standardValue"
-                    type="number"
-                    onChange={(e) => {
-                      setFieldValue("standardValue", e.target.value);
-                    }}
                   />
                 </div>
               </div>
@@ -163,24 +194,67 @@ export default function ManufacturingOverheadPlanLanding() {
                         <th>SL</th>
                         <th>Code</th>
                         <th>Sub GL Name</th>
-                        <th>Overhead Type</th>
+                        <th style={{ minWidth: "200px" }}>Overhead Type</th>
                         <th>Standard Value Per Unit/Montly</th>
-                        <th>Add Details</th>
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {[1]?.map((item, index) => (
+                      {subGlRow?.map((item, index) => (
                         <tr key={index}>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td><div>
-                            <IEdit/>
-                            </div></td>
+                          <td>{index + 1}</td>
+                          <td>{item?.businessTransactionCode}</td>
+                          <td>{item?.businessTransactionName}</td>
+                          <td>
+                            <NewSelect
+                              name="overheadType"
+                              options={[
+                                { value: "Fixed", label: "Fixed" },
+                                {
+                                  value: "Variable/Per unit",
+                                  label: "Variable/Per unit",
+                                },
+                              ]}
+                              value={item?.overheadType}
+                              onChange={(valueOption) => {
+                                let modiFyRow = [...subGlRow];
+                                modiFyRow[index]["overheadType"] = valueOption;
+                                setSubGlRow(modiFyRow);
+                              }}
+                            />
+                          </td>
+                          <td>
+                            <InputField
+                              value={item?.standardValue}
+                              type="number"
+                              onChange={(e) => {
+                                let modiFyRow = [...subGlRow];
+                                modiFyRow[index]["standardValue"] =
+                                  +e.target.value || "";
+                                setSubGlRow(modiFyRow);
+                              }}
+                            />
+                          </td>
+                          <td className="text-center">
+                            <div>
+                              {item?.overheadType && item?.standardValue ? (
+                                <OverlayTrigger
+                                  overlay={
+                                    <Tooltip id="cs-icon">{"Create"}</Tooltip>
+                                  }
+                                >
+                                  <span>
+                                    <i
+                                      className={`fas fa-pen-square pointer`}
+                                      onClick={() => {
+                                        setisShowModal(true);
+                                      }}
+                                    ></i>
+                                  </span>
+                                </OverlayTrigger>
+                              ) : null}
+                            </div>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -203,33 +277,13 @@ export default function ManufacturingOverheadPlanLanding() {
               ></button>
             </Form>
           </IForm>
-          <IViewModal show={isShowModal} onHide={() => setisShowModal(false)}>
-            <table className="table table-bordered table-striped">
-              <thead>
-                <tr>
-                  <th>SL</th>
-                  <th>Code</th>
-                  <th>Sub GL Name</th>
-                  <th>Overhead Type</th>
-                  <th>Standard Value Per Unit/Montly</th>
-                  <th>Add Details</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[1]?.map((item, index) => (
-                  <tr key={index}>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+
+          <IViewModal
+            modelSize="md"
+            show={isShowModal}
+            onHide={() => setisShowModal(false)}
+          >
+            <MonthlyModal />
           </IViewModal>
         </>
       )}
