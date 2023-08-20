@@ -5,7 +5,7 @@ import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute } from "../../../../_metronic/layout";
 import NotPermitted from "../../performanceManagement/notPermittedPage/notPermitted";
 import MonthlySalesPlanLanding from "./detailsSalesPlan";
-import DistributionPlanCreate from "./distributionPlan/create";
+import DistributionPlanCreateEdit from "./distributionPlan/createEdit";
 // import DistributionPlanEdit from "./distributionPlan/edit";
 import Materialannualplan from "./materialReqPlan/table/table";
 import MaterialReqPlanLanding from "./materialannualplan/table/table";
@@ -129,7 +129,7 @@ export function salesAndOperationsPlanning() {
         path="/production-management/salesAndOperationsPlanning/DistributionPlanning/create"
         component={
           distributionPlanningPermission?.isCreate
-            ? DistributionPlanCreate
+            ? DistributionPlanCreateEdit
             : NotPermitted
         }
       />

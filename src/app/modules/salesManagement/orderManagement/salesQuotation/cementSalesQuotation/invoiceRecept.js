@@ -117,9 +117,7 @@ const SalesQuotationForCement = ({
                 <tr key={index}>
                   <td className="text-center">{index + 1}</td>
                   <td className="text-left">{item?.itemName}</td>
-                  <td className="text-center">
-                    {item?.specification || "N/A"}
-                  </td>
+                  <td className="text-center">{item?.uomName }</td>
                   <td className="text-center">{item?.itemPrice}</td>
                   <td className="text-center">{item?.itemPrice}</td>
                   <td className="text-center">{item?.itemPrice}</td>
