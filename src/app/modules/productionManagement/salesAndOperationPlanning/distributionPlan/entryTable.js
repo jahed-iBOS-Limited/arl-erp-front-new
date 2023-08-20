@@ -7,7 +7,7 @@ export default function EntryTable({ rowDto, setRowDto }) {
       <thead>
         <tr>
           <th>SL</th>
-          <th className="text-left">Item Code </th>
+          <th>Item Code</th>
           <th>Item Name</th>
           <th>UoM</th>
           <th>Sales Plant Qty</th>
