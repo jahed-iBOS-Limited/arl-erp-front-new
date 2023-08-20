@@ -7,6 +7,7 @@ import { BudgetEntryLanding } from "./budgetEntry/Landing/addEditForm";
 import { BudgetEntryCreate } from "./budgetEntry/Create/addEditForm";
 import { BudgetEntryView } from "./budgetEntry/View/addEditForm";
 import { BudgetEntryEdit } from "./budgetEntry/Edit/addEditForm";
+import { HrPlanLanding } from "./HrPlan/landing";
 
 export function InternalControlBudgetPages() {
   const userRole = useSelector(
@@ -15,9 +16,13 @@ export function InternalControlBudgetPages() {
   );
 
   let budgetEntry = null;
+  let hrPlan = null;
   for (let i = 0; i < userRole.length; i++) {
     if (userRole[i]?.intFeatureId === 1156) {
       budgetEntry = userRole[i];
+    }
+    if (userRole[i]?.intFeatureId === 1340) {
+      hrPlan = userRole[i];
     }
   }
   return (
@@ -42,6 +47,10 @@ export function InternalControlBudgetPages() {
       <ContentRoute
         from="/internal-control/budget/budgetentry"
         component={budgetEntry?.isView ? BudgetEntryLanding : NotPermittedPage}
+      />
+      <ContentRoute
+        from="/internal-control/budget/hrplan"
+        component={hrPlan?.isView ? HrPlanLanding : NotPermittedPage}
       />
     </Switch>
   );
