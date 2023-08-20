@@ -22,6 +22,7 @@ export const getMonthlyVoyageStatement = async (
 };
 
 export const getDieselStatement = async (
+  buId,
   date,
   setter,
   setLoading,
@@ -32,7 +33,7 @@ export const getDieselStatement = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/LighterVesselTrip/GetLighterTripDisselExp?TripDate=${date}`
+      `https://imarine.ibos.io/domain/LighterVesselTrip/GetLighterTripDisselExp?TripDate=${date}&BusinessUnitId=${buId}`
     );
 
     const totalJVAmount = res?.data?.reduce(

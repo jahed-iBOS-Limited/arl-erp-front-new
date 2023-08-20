@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import IButton from "../../../../_helper/iButton";
@@ -43,6 +43,7 @@ export const headers = [
 
 const PumpFoodingBillLanding = () => {
   const history = useHistory();
+  const printRef = useRef();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [rowData, getRowData, isLoading, setRowData] = useAxiosGet();
@@ -142,6 +143,9 @@ const PumpFoodingBillLanding = () => {
       : false;
   };
 
+  let totalBillAmount = 0,
+    totalApprovedAmount = 0;
+
   return (
     <>
       <Formik
@@ -151,6 +155,8 @@ const PumpFoodingBillLanding = () => {
       >
         {({ values, setFieldValue }) => (
           <ICard
+            isShowPrintBtn={true}
+            componentRef={printRef}
             title="Pump Fooding Bill"
             isCreteBtn={true}
             createHandler={() => {
@@ -221,92 +227,108 @@ const PumpFoodingBillLanding = () => {
                   </button>
                 </div>
               )}
-              {rowData?.data?.length > 0 && (
-                <table
-                  id="table-to-xlsx"
-                  className={
-                    "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                  }
-                >
-                  <thead>
-                    <tr className="cursor-pointer">
-                      {values?.status?.value === 1 && (
-                        <th
-                          onClick={() => allSelect(!selectedAll())}
-                          style={{ width: "30px" }}
-                        >
-                          <input
-                            type="checkbox"
-                            value={selectedAll()}
-                            checked={selectedAll()}
-                            onChange={() => {}}
-                          />
-                        </th>
-                      )}
-                      {headers?.map((th, index) => {
-                        return <th key={index}> {th} </th>;
-                      })}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {rowData?.data?.map((item, index) => {
-                      return (
-                        <tr
-                          key={index}
-                          style={
-                            item?.approveAmount > 0
-                              ? {
-                                  backgroundColor: "#63dc64ab",
-                                  width: "30px",
+              <div ref={printRef}>
+                {" "}
+                {rowData?.data?.length > 0 && (
+                  <table
+                    ref={printRef}
+                    id="table-to-xlsx"
+                    className={
+                      "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                    }
+                  >
+                    <thead>
+                      <tr className="cursor-pointer">
+                        {values?.status?.value === 1 && (
+                          <th
+                            onClick={() => allSelect(!selectedAll())}
+                            style={{ width: "30px" }}
+                          >
+                            <input
+                              type="checkbox"
+                              value={selectedAll()}
+                              checked={selectedAll()}
+                              onChange={() => {}}
+                            />
+                          </th>
+                        )}
+                        {headers?.map((th, index) => {
+                          return <th key={index}> {th} </th>;
+                        })}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rowData?.data?.map((item, index) => {
+                        totalBillAmount += item?.billAmount;
+                        totalApprovedAmount += item?.approveAmount;
+                        return (
+                          <tr
+                            key={index}
+                            style={
+                              item?.approveAmount > 0
+                                ? {
+                                    backgroundColor: "#63dc64ab",
+                                    width: "30px",
+                                  }
+                                : {
+                                    width: "30px",
+                                    backgroundColor: "#d3e95eab",
+                                  }
+                            }
+                          >
+                            {values?.status?.value === 1 && (
+                              <td
+                                onClick={() => {
+                                  rowDataHandler(
+                                    "isSelected",
+                                    index,
+                                    !item.isSelected
+                                  );
+                                }}
+                                className="text-center"
+                                style={
+                                  item?.isSelected
+                                    ? {
+                                        backgroundColor: "#aacae3",
+                                        width: "30px",
+                                      }
+                                    : { width: "30px" }
                                 }
-                              : { width: "30px", backgroundColor: "#d3e95eab" }
-                          }
-                        >
-                          {values?.status?.value === 1 && (
+                              >
+                                <input
+                                  type="checkbox"
+                                  value={item?.isSelected}
+                                  checked={item?.isSelected}
+                                  onChange={() => {}}
+                                />
+                              </td>
+                            )}
                             <td
-                              onClick={() => {
-                                rowDataHandler(
-                                  "isSelected",
-                                  index,
-                                  !item.isSelected
-                                );
-                              }}
+                              style={{ width: "40px" }}
                               className="text-center"
-                              style={
-                                item?.isSelected
-                                  ? {
-                                      backgroundColor: "#aacae3",
-                                      width: "30px",
-                                    }
-                                  : { width: "30px" }
-                              }
                             >
-                              <input
-                                type="checkbox"
-                                value={item?.isSelected}
-                                checked={item?.isSelected}
-                                onChange={() => {}}
-                              />
+                              {index + 1}
                             </td>
-                          )}
-                          <td style={{ width: "40px" }} className="text-center">
-                            {index + 1}
-                          </td>
-                          <td>{item?.employeeName}</td>
-                          <td>{item?.employeeId}</td>
-                          <td>{item?.workplaceName}</td>
-                          <td>{item?.empDesignation}</td>
-                          <td>{_dateFormatter(item?.date)}</td>
-                          <td>{item?.startTime}</td>
-                          <td>{_dateFormatter(item?.endDate)}</td>
-                          <td>{item?.endTime}</td>
-                          {/* <td>{item?.hours}</td> */}
-                          <td className="text-right">{item?.billAmount}</td>
-                          <td className="text-right">{item?.approveAmount}</td>
-                          <td>{item?.remarks}</td>
-                          <td style={{ width: "80px" }} className="text-center">
-                            <div className="d-flex justify-content-around">
-                              {/* <span>
+                            <td>{item?.employeeName}</td>
+                            <td>{item?.employeeId}</td>
+                            <td>{item?.workplaceName}</td>
+                            <td>{item?.empDesignation}</td>
+                            <td>{_dateFormatter(item?.date)}</td>
+                            <td>{item?.startTime}</td>
+                            <td>{_dateFormatter(item?.endDate)}</td>
+                            <td>{item?.endTime}</td>
+                            {/* <td>{item?.hours}</td> */}
+                            <td className="text-right">{item?.billAmount}</td>
+                            <td className="text-right">
+                              {item?.approveAmount}
+                            </td>
+                            <td>{item?.remarks}</td>
+                            <td
+                              style={{ width: "80px" }}
+                              className="text-center"
+                            >
+                              <div className="d-flex justify-content-around">
+                                {/* <span>
                                 <IEdit
                                   onClick={() => {
                                     setSingleData(item);
@@ -315,24 +337,40 @@ const PumpFoodingBillLanding = () => {
                                   }}
                                 />
                               </span> */}
-                              {item?.approveAmount < 1 && (
-                                <span>
-                                  <IDelete
-                                    remover={(id) => {
-                                      deleteHandler(id, values);
-                                    }}
-                                    id={item?.autoId}
-                                  />
-                                </span>
-                              )}
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              )}
+                                {item?.approveAmount < 1 && (
+                                  <span>
+                                    <IDelete
+                                      remover={(id) => {
+                                        deleteHandler(id, values);
+                                      }}
+                                      id={item?.autoId}
+                                    />
+                                  </span>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                      <tr>
+                        <td
+                          className="text-right"
+                          colSpan={values?.status?.value === 1 ? 10 : 9}
+                        >
+                          <b>Total</b>
+                        </td>
+                        <td className="text-right">
+                          <b>{totalBillAmount}</b>
+                        </td>
+                        <td className="text-right">
+                          <b>{totalApprovedAmount}</b>
+                        </td>
+                        <td colSpan={2}></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                )}
+              </div>
 
               {rowData?.data?.length > 0 && (
                 <PaginationTable
