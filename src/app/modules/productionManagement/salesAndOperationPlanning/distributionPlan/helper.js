@@ -55,16 +55,32 @@ export const validationSchema = Yup.object().shape({
 export const getModifiedInitData = (item) => {
   if (item) {
     return {
-      channel: { value: item?.distributionChannelId, label: item?.distributionChannelName },
-      region: { value: item?.regionId, label: item?.regionName },
-      area: { value: item?.areaId, label: item?.areaName },
-      territory: { value: item?.territoryId, label: item?.territoryName },
-      plant: { value: item?.plantHouseId, label: item?.plantHouseName },
-      warehouse: { value: item?.wareHouseId, label: item?.wareHouseName },
-      year: { value: item?.yearId, label: item?.yearId },
-      horizon: { value: item?.monthId, label: item?.monthName },
-      fromDate: item?.fromDate,
-      toDate: item?.toDate,
+      channel:
+        item?.distributionChannelId && item?.distributionChannelName
+          ? { value: item?.distributionChannelId, label: item?.distributionChannelName }
+          : '',
+      region:
+        item?.regionId && item?.regionName
+          ? { value: item?.regionId, label: item?.regionName }
+          : '',
+      area: item?.areaId && item?.areaName ? { value: item?.areaId, label: item?.areaName } : '',
+      territory:
+        item?.territoryId && item?.territoryName
+          ? { value: item?.territoryId, label: item?.territoryName }
+          : '',
+      plant:
+        item?.plantHouseId && item?.plantHouseName
+          ? { value: item?.plantHouseId, label: item?.plantHouseName }
+          : '',
+      warehouse:
+        item?.wareHouseId && item?.wareHouseName
+          ? { value: item?.wareHouseId, label: item?.wareHouseName }
+          : '',
+      year: item?.yearId && item?.yearId ? { value: item?.yearId, label: item?.yearId } : '',
+      horizon:
+        item?.monthId && item?.monthName ? { value: item?.monthId, label: item?.monthName, planHorizonHeaderId: item?.intPlanningHorizonId } : '',
+      fromDate: item?.fromDate || '',
+      toDate: item?.toDate || '',
     };
   } else {
     return {};
@@ -135,6 +151,8 @@ export const saveHandler = ({
     plantHouseId: values?.plant?.value,
     wareHouseId: values?.warehouse?.value,
     monthId: values?.horizon?.value,
+    intPlanningHorizonId: values?.horizon?.planHorizonHeaderId,
+    intPlanningHorizonRowId: values?.horizon?.value,
     yearId: values?.year?.value,
   };
   saveDistributionPlan(

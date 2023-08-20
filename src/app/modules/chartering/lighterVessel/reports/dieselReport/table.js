@@ -49,6 +49,7 @@ export default function DieselStatement() {
 
   useEffect(() => {
     getDieselStatement(
+      selectedBusinessUnit?.value,
       _todayDate(),
       setGridData,
       setLoading,
@@ -125,6 +126,7 @@ export default function DieselStatement() {
                       onChange={(e) => {
                         setFieldValue("date", e.target.value);
                         getDieselStatement(
+                          selectedBusinessUnit?.value,
                           e?.target?.value,
                           setGridData,
                           setLoading,
