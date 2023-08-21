@@ -3,18 +3,17 @@ import { shallowEqual, useSelector } from "react-redux";
 import InputField from "../../../_helper/_inputField";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { monthData } from "./helper";
 
 function MonthlyModal({
   singleData,
   setSingleData,
-  montList,
-  setMontList,
   setisShowModal,
   getSubGlRow,
   setSubGlRow,
 }) {
   const [, saveHandler] = useAxiosPost();
-  const [multipyData, getMultipyData] = useAxiosGet();
+  const [, getMultipyData] = useAxiosGet();
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -29,15 +28,25 @@ function MonthlyModal({
           singleData?.values?.gl?.intGeneralLedgerId === 93 ? 1 : 2
         }`,
         (res) => {
-          const data = montList?.map((item, index) => {
+          const data = singleData?.item?.monthList?.map((item, index) => {
             return {
               ...item,
-              monthlyConversionValue: res.find(
-                (resItem) => resItem.intMonthId === item?.intMonthId
-              )?.monthlyConversionValue,
+              // intMonthLyValue:
+              //   +item?.intMonthLyValue *
+              //     +res.find((resItem) => resItem.intMonthId === item?.intMonthId)
+              //       ?.monthlyConversionValue || 0,
+              monthlyConversionValue:
+                res.find((resItem) => resItem.intMonthId === item?.intMonthId)
+                  ?.monthlyConversionValue || 0,
+              strManagementUomName:
+                res.find((resItem) => resItem.intMonthId === item?.intMonthId)
+                  ?.strManagementUomName || "",
             };
           });
-          setMontList(data);
+          setSingleData({
+            ...singleData,
+            item: { ...singleData?.item, monthList: data },
+          });
         }
       );
     }
@@ -79,12 +88,16 @@ function MonthlyModal({
                   isActive: true,
                   intActionBy: profileData?.userId,
                 },
-                rows: montList?.map((item) => ({
+                rows: singleData?.item?.monthList?.map((item) => ({
                   intMopplanRowId: item?.intMopplanRowId || 0,
                   intMopplanId: item?.intMopplanId || 0,
                   intMonthId: item?.intMonthId,
                   strMonthName: item?.strMonthName,
-                  intMonthLyValue: +item?.intMonthLyValue || 0,
+                  intMonthLyValue:
+                    singleData?.item?.overheadType?.value === 2
+                      ? (+item?.intMonthLyValue || 0) *
+                        (+item?.monthlyConversionValue || 0)
+                      : +item?.intMonthLyValue || 0,
                   isActive: item?.isActive,
                 })),
               },
@@ -95,6 +108,7 @@ function MonthlyModal({
                   (data) => {
                     let modiFyRow = data?.map((item) => ({
                       ...item,
+                      monthList: item?.monthList || monthData,
                       overheadType:
                         item?.overheadTypeId && item?.overheadTypeName
                           ? {
@@ -106,7 +120,8 @@ function MonthlyModal({
                     setSubGlRow(modiFyRow);
                   }
                 );
-              }
+              },
+              true
             );
           }}
           type="button"
@@ -124,25 +139,26 @@ function MonthlyModal({
 
                 <th>Monthly Value</th>
                 {singleData?.item?.overheadType?.value === 2 ? (
-                  <th>Monthly Conversion Value</th>
+                  <>
+                    <th>
+                      {singleData?.values?.gl?.intGeneralLedgerId === 93
+                        ? "Production Quantity"
+                        : "Sales Quantity"}
+                    </th>
+                    <th>UM</th>
+                    <th>Multiplication Result</th>
+                  </>
                 ) : null}
               </tr>
             </thead>
             <tbody>
-              {montList?.length > 0 &&
-                montList?.map((item, i) => (
-                  <tr>
+              {singleData?.item?.monthList?.length > 0 &&
+                singleData?.item?.monthList?.map((item, i) => (
+                  <tr key={i}>
                     <td>{item?.strMonthName}</td>
                     <td style={{ minWidth: "70px" }}>
                       <InputField
-                        value={
-                          singleData?.item?.overheadType?.value === 1
-                            ? +item?.intMonthLyValue ||
-                              +singleData?.item?.universalAmount ||
-                              ""
-                            : (+singleData?.item?.universalAmount || 0) *
-                                (+item?.monthlyConversionValue || 0) || ""
-                        }
+                        value={+item?.intMonthLyValue || ""}
                         type="number"
                         onChange={(e) => {
                           if (+e.target.value < 0) return;
@@ -151,15 +167,26 @@ function MonthlyModal({
                             +e.target.value || "";
                           setSingleData({
                             ...singleData,
-                            item: { ...item, monthList: modiFyRow },
+                            item: {
+                              ...singleData?.item,
+                              monthList: modiFyRow,
+                            },
                           });
                         }}
                       />
                     </td>
+
                     {singleData?.item?.overheadType?.value === 2 ? (
-                      <td className="text-center">
-                        {item?.monthlyConversionValue}
-                      </td>
+                      <>
+                        <td className="text-center">
+                          {item?.monthlyConversionValue}
+                        </td>
+                        <td>{item?.strManagementUomName}</td>
+                        <td className="text-center">
+                          {(+item?.intMonthLyValue || 0) *
+                            (+item?.monthlyConversionValue || 0) || ""}
+                        </td>
+                      </>
                     ) : null}
                   </tr>
                 ))}
