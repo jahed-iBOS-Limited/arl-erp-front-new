@@ -30,7 +30,6 @@ export default function ManufacturingOverheadPlanLanding() {
   const [glDDL, getGlDDL] = useAxiosGet();
   const [subGlRow, getSubGlRow, loading, setSubGlRow] = useAxiosGet();
   const [singleData, setSingleData] = useState();
-  const [montList, setMontList] = useState([...monthData]);
 
   useEffect(() => {
     getPlantDDL(
@@ -127,6 +126,7 @@ export default function ManufacturingOverheadPlanLanding() {
                         (data) => {
                           let modiFyRow = data?.map((item) => ({
                             ...item,
+                            monthList: item?.monthList || monthData,
                             overheadType:
                               item?.overheadTypeId && item?.overheadTypeName
                                 ? {
@@ -195,6 +195,42 @@ export default function ManufacturingOverheadPlanLanding() {
                                 let modiFyRow = [...subGlRow];
                                 modiFyRow[index]["universalAmount"] =
                                   +e.target.value || "";
+                                modiFyRow[index]["monthList"][0][
+                                  "intMonthLyValue"
+                                ] = +e.target.value || "";
+                                modiFyRow[index]["monthList"][1][
+                                  "intMonthLyValue"
+                                ] = +e.target.value || "";
+                                modiFyRow[index]["monthList"][2][
+                                  "intMonthLyValue"
+                                ] = +e.target.value || "";
+                                modiFyRow[index]["monthList"][3][
+                                  "intMonthLyValue"
+                                ] = +e.target.value || "";
+                                modiFyRow[index]["monthList"][4][
+                                  "intMonthLyValue"
+                                ] = +e.target.value || "";
+                                modiFyRow[index]["monthList"][5][
+                                  "intMonthLyValue"
+                                ] = +e.target.value || "";
+                                modiFyRow[index]["monthList"][6][
+                                  "intMonthLyValue"
+                                ] = +e.target.value || "";
+                                modiFyRow[index]["monthList"][7][
+                                  "intMonthLyValue"
+                                ] = +e.target.value || "";
+                                modiFyRow[index]["monthList"][8][
+                                  "intMonthLyValue"
+                                ] = +e.target.value || "";
+                                modiFyRow[index]["monthList"][9][
+                                  "intMonthLyValue"
+                                ] = +e.target.value || "";
+                                modiFyRow[index]["monthList"][10][
+                                  "intMonthLyValue"
+                                ] = +e.target.value || "";
+                                modiFyRow[index]["monthList"][11][
+                                  "intMonthLyValue"
+                                ] = +e.target.value || "";
                                 setSubGlRow(modiFyRow);
                               }}
                             />
@@ -215,9 +251,6 @@ export default function ManufacturingOverheadPlanLanding() {
                                     <i
                                       className={`fas fa-pen-square pointer`}
                                       onClick={() => {
-                                        if (item?.monthList?.length > 0) {
-                                          setMontList([...item?.monthList]);
-                                        }
                                         setSingleData({ values, item });
                                         setisShowModal(true);
                                       }}
@@ -254,15 +287,12 @@ export default function ManufacturingOverheadPlanLanding() {
             modelSize="lg"
             show={isShowModal}
             onHide={() => {
-              setMontList([...monthData]);
               setisShowModal(false);
             }}
           >
             <MonthlyModal
               singleData={singleData}
               setSingleData={setSingleData}
-              montList={montList}
-              setMontList={setMontList}
               setisShowModal={setisShowModal}
               getSubGlRow={getSubGlRow}
               setSubGlRow={setSubGlRow}
