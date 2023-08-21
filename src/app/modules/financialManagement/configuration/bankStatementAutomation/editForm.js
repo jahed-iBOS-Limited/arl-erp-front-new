@@ -108,6 +108,7 @@ function EditForm({ rowClickItem, landingCB }) {
         emailDateTime: values?.emailDate || new Date(),
         isInserted: true,
         statusMessage: values?.statusMessage || "",
+        isExecuted: values?.isExecuted || false,
       },
       rowDTO: modifyRowDto,
     };
@@ -155,13 +156,28 @@ function EditForm({ rowClickItem, landingCB }) {
                 {true && <ModalProgressBar />}
                 <CardHeader title='Edit Bank Statement Automation'>
                   <CardHeaderToolbar>
-                    <button
-                      type='submit'
-                      className='btn btn-primary ml-2'
-                      onClick={handleSubmit}
-                    >
-                      Save
-                    </button>
+                    <div>
+                      <button
+                        type='button'
+                        className='btn btn-primary ml-2'
+                        onClick={() => {
+                          setFieldValue("isExecuted", true);
+                          handleSubmit();
+                        }}
+                      >
+                        Executed & Save
+                      </button>
+                      <button
+                        type='button'
+                        className='btn btn-primary ml-2'
+                        onClick={() => {
+                          setFieldValue("isExecuted", false);
+                          handleSubmit();
+                        }}
+                      >
+                        Save
+                      </button>
+                    </div>
                   </CardHeaderToolbar>
                 </CardHeader>
                 <CardBody>
