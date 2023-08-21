@@ -7,7 +7,7 @@ export default function EntryTable({ rowDto, setRowDto }) {
       <thead>
         <tr>
           <th>SL</th>
-          <th className="text-left">Item Code </th>
+          <th>Item Code</th>
           <th>Item Name</th>
           <th>UoM</th>
           <th>Sales Plant Qty</th>
@@ -26,8 +26,8 @@ export default function EntryTable({ rowDto, setRowDto }) {
               <td>{item?.itemCode}</td>
               <td>{item?.itemName}</td>
               <td>{item?.itemUoMName}</td>
-              <td>{item?.salesPlanQty}</td>
-              <td>{item?.distributionPlanQty}</td>
+              <td className='text-center'>{item?.salesPlanQty}</td>
+              <td className='text-center'>{item?.distributionPlanQty}</td>
               <td>
                 <InputField
                   name="planQty"

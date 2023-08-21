@@ -25,7 +25,7 @@ const initData = {
   horizon: '',
 };
 
-export default function DistributionPlanCreate() {
+export default function DistributionPlanCreateEdit() {
   const location = useLocation();
   const [objProps, setObjprops] = useState({});
   const [modifiedData, setModifiedData] = useState({});
@@ -40,7 +40,7 @@ export default function DistributionPlanCreate() {
   const [rowDto, getRowDto, rowDtoLoading, setRowDto] = useAxiosGet();
   const [, saveDistributionPlan, saveDistributionLoading] = useAxiosPost();
 
-  // get user data from store
+  // get user data from redux store
   const {
     profileData: { accountId: accId, employeeId, userId },
     selectedBusinessUnit: { value: buId },
@@ -129,12 +129,12 @@ export default function DistributionPlanCreate() {
     if (isEdit) {
       const modifiedInitData = getModifiedInitData(item);
       setModifiedData(modifiedInitData);
-      getRegionDDLHandler(modifiedInitData?.channel);
-      getAreaDDLHandler(modifiedInitData, modifiedInitData?.region);
-      getTerritoryDDLHandler(modifiedInitData, modifiedInitData?.area);
-      getWarehouseDDLHandler(item?.plantHouseId);
-      getYearDDLHandler(item?.plantHouseId);
-      getHorizonDDLHandler(item?.plantHouseId, item?.yearId);
+      // getRegionDDLHandler(modifiedInitData?.channel);
+      // getAreaDDLHandler(modifiedInitData, modifiedInitData?.region);
+      // getTerritoryDDLHandler(modifiedInitData, modifiedInitData?.area);
+      // getWarehouseDDLHandler(item?.plantHouseId);
+      // getYearDDLHandler(item?.plantHouseId);
+      // getHorizonDDLHandler(item?.plantHouseId, item?.yearId);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -174,9 +174,9 @@ export default function DistributionPlanCreate() {
           employeeId,
           location,
           saveDistributionPlan,
-          cb:() => {
+          cb: () => {
             setRowDto({});
-          }
+          },
         });
       }}
     >
@@ -195,11 +195,13 @@ export default function DistributionPlanCreate() {
           <IForm
             title={location?.state?.isEdit ? 'Distribution Plan Edit' : 'Distribution Plan Create'}
             getProps={setObjprops}
+            isHiddenSave={rowDto?.response === 'Already Exists'}
+            isHiddenReset
           >
             <Form>
               <div className="global-form">
                 <div className="row">
-                  <div className="col-lg-3">
+                  <div className="col-lg-2">
                     <NewSelect
                       name="channel"
                       options={channelDDL || []}
@@ -218,7 +220,7 @@ export default function DistributionPlanCreate() {
                       isDisabled={location?.state?.isEdit}
                     />
                   </div>
-                  <div className="col-lg-3">
+                  <div className="col-lg-2">
                     <NewSelect
                       name="region"
                       options={regionDDL || []}
@@ -231,12 +233,12 @@ export default function DistributionPlanCreate() {
                         getAreaDDLHandler(values, valueOption);
                       }}
                       placeholder="Select Region"
-                      isDisabled={!values?.channel || location?.state?.isEdit}
                       errors={errors}
                       touched={touched}
+                      isDisabled={!values?.channel || location?.state?.isEdit}
                     />
                   </div>
-                  <div className="col-lg-3">
+                  <div className="col-lg-2">
                     <NewSelect
                       name="area"
                       options={areaDDL || []}
@@ -248,12 +250,12 @@ export default function DistributionPlanCreate() {
                         getTerritoryDDLHandler(values, valueOption);
                       }}
                       placeholder="Select Area"
-                      isDisabled={!values?.region || location?.state?.isEdit}
                       errors={errors}
                       touched={touched}
+                      isDisabled={!values?.region || location?.state?.isEdit}
                     />
                   </div>
-                  <div className="col-lg-3">
+                  <div className="col-lg-2">
                     <NewSelect
                       name="territory"
                       options={territoryDDL || []}
@@ -263,20 +265,19 @@ export default function DistributionPlanCreate() {
                         setFieldValue('territory', valueOption);
                       }}
                       placeholder="Select Territory"
-                      isDisabled={!values?.area || location?.state?.isEdit}
                       errors={errors}
                       touched={touched}
+                      isDisabled={!values?.area || location?.state?.isEdit}
                     />
                   </div>
-                </div>
-                <div className="row mt-5">
-                  <div className="col-lg-3">
+                  <div className="col-lg-2">
                     <NewSelect
                       name="plant"
                       options={plantDDL || []}
                       value={values?.plant}
                       label="Plant"
                       onChange={(valueOption) => {
+                        setRowDto({});
                         setFieldValue('plant', valueOption);
                         setFieldValue('warehouse', '');
                         setFieldValue('year', '');
@@ -287,16 +288,17 @@ export default function DistributionPlanCreate() {
                       placeholder="Select plant"
                       errors={errors}
                       touched={touched}
-                      isDisabled={location?.state?.isEdit}
+                      isDisabled={!values?.territory || location?.state?.isEdit}
                     />
                   </div>
-                  <div className="col-lg-3">
+                  <div className="col-lg-2">
                     <NewSelect
                       name="warehouse"
                       options={warehouseDDL || []}
                       value={values?.warehouse}
                       label="Warehouse"
                       onChange={(valueOption) => {
+                        setRowDto({});
                         setFieldValue('warehouse', valueOption);
                       }}
                       placeholder="Select Warehouse"
@@ -305,13 +307,14 @@ export default function DistributionPlanCreate() {
                       isDisabled={!values?.plant || location?.state?.isEdit}
                     />
                   </div>
-                  <div className="col-lg-3">
+                  <div className="col-lg-2">
                     <NewSelect
                       name="year"
                       options={yearDDL || []}
                       value={values?.year}
                       label="Year"
                       onChange={(valueOption) => {
+                        setRowDto({});
                         setFieldValue('year', valueOption);
                         setFieldValue('horizon', '');
                         getHorizonDDLHandler(values.plant?.value, valueOption?.value);
@@ -319,16 +322,17 @@ export default function DistributionPlanCreate() {
                       placeholder="Select year"
                       errors={errors}
                       touched={touched}
-                      isDisabled={!values?.plantA}
+                      isDisabled={!values?.plant || location?.state?.isEdit}
                     />
                   </div>
-                  <div className="col-lg-3">
+                  <div className="col-lg-2">
                     <NewSelect
                       name="horizon"
                       options={horizonDDL || []}
                       value={values?.horizon}
                       label="Planning Horizon"
                       onChange={(valueOption) => {
+                        setRowDto({});
                         setFieldValue('horizon', valueOption);
                         setFieldValue('fromDate', valueOption?.startdatetime || '');
                         setFieldValue('toDate', valueOption?.enddatetime || '');
@@ -336,7 +340,7 @@ export default function DistributionPlanCreate() {
                       placeholder="Select horizon"
                       errors={errors}
                       touched={touched}
-                      isDisabled={!values?.year}
+                      isDisabled={!values?.year || location?.state?.isEdit}
                     />
                   </div>
                   <div className="col-lg-1">
@@ -345,11 +349,16 @@ export default function DistributionPlanCreate() {
                       className="btn btn-primary"
                       style={{ marginTop: '18px' }}
                       disabled={
-                        !values?.plant || !values?.warehouse || !values?.year || !values?.horizon
+                        !values?.territory ||
+                        !values?.plant ||
+                        !values?.warehouse ||
+                        !values?.year ||
+                        !values?.horizon ||
+                        location?.state?.isEdit
                       }
                       onClick={() => {
                         getRowDto(
-                          `/oms/DistributionChannel/GetDistributionPlanningItemList?buisnessUnitId=${buId}&plantId=${values?.plant?.value}&warehouseId=${values?.warehouse?.value}&year=${values?.year?.value}&month=${values?.horizon?.value}`,
+                          `/oms/DistributionChannel/GetDistributionPlanningItemList?buisnessUnitId=${buId}&territoryid=${values?.territory?.value}&plantId=${values?.plant?.value}&warehouseId=${values?.warehouse?.value}&year=${values?.year?.value}&month=${values?.horizon?.value}`,
                           (res) => {
                             if (res?.response === 'Already Exists') {
                               toast.warn('Already Exist this entry!');
@@ -384,7 +393,10 @@ export default function DistributionPlanCreate() {
                 type="reset"
                 style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
-                onSubmit={() => resetForm(initData)}
+                onSubmit={() => {
+                  // setRowDto([]);
+                  // resetForm(initData);
+                }}
               ></button>
             </Form>
           </IForm>

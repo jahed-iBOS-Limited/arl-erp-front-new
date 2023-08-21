@@ -1,37 +1,22 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import * as Yup from "yup";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { shallowEqual, useSelector } from "react-redux";
+import IViewModal from "../../../_helper/_viewModal";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IForm from "./../../../_helper/_form";
 import InputField from "./../../../_helper/_inputField";
 import Loading from "./../../../_helper/_loading";
 import NewSelect from "./../../../_helper/_select";
-import IViewModal from "../../../_helper/_viewModal";
-import { getHorizonDDL, getPlantDDL, getYearDDL } from "./helper";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { getPlantDDL, getYearDDL, monthData } from "./helper";
 import MonthlyModal from "./monthlyModal";
 
 const initData = {
   plant: "",
   year: "",
-  // horizon: "",
   gl: "",
   glType: "",
 };
-
-// const validationSchema = Yup.object().shape({
-//   item: Yup.object()
-//     .shape({
-//       label: Yup.string().required("Item is required"),
-//       value: Yup.string().required("Item is required"),
-//     })
-//     .typeError("Item is required"),
-
-//   remarks: Yup.string().required("Remarks is required"),
-//   amount: Yup.number().required("Amount is required"),
-//   date: Yup.date().required("Date is required"),
-// });
 
 export default function ManufacturingOverheadPlanLanding() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -42,9 +27,9 @@ export default function ManufacturingOverheadPlanLanding() {
   const [isShowModal, setisShowModal] = useState(false);
   const [plantDDL, setPlantDDL] = useState([]);
   const [yearDDL, setYearDDL] = useState([]);
-  const [horizonDDL, setHorizonDDL] = useState([]);
   const [glDDL, getGlDDL] = useAxiosGet();
   const [subGlRow, getSubGlRow, loading, setSubGlRow] = useAxiosGet();
+  const [singleData, setSingleData] = useState();
 
   useEffect(() => {
     getPlantDDL(
@@ -108,15 +93,6 @@ export default function ManufacturingOverheadPlanLanding() {
                         valueOption?.value,
                         setYearDDL
                       );
-                      if (values?.year?.value) {
-                        getHorizonDDL(
-                          profileData?.accountId,
-                          selectedBusinessUnit?.value,
-                          valueOption?.value,
-                          valueOption?.value,
-                          setHorizonDDL
-                        );
-                      }
                     }}
                     errors={errors}
                     touched={touched}
@@ -131,35 +107,12 @@ export default function ManufacturingOverheadPlanLanding() {
                     placeholder="Year"
                     onChange={(valueOption) => {
                       setFieldValue("year", valueOption);
-                      setFieldValue("horizon", "");
-                      getHorizonDDL(
-                        profileData?.accountId,
-                        selectedBusinessUnit?.value,
-                        values?.plant?.value,
-                        valueOption?.value,
-                        setHorizonDDL
-                      );
                     }}
                     errors={errors}
                     touched={touched}
                     isDisabled={!values?.plant}
                   />
                 </div>
-                {/* <div className="col-lg-3">
-                  <NewSelect
-                    name="horizon"
-                    options={horizonDDL}
-                    value={values?.horizon}
-                    label="Planning Horizon"
-                    placeholder="Planning Horizon"
-                    onChange={(valueOption) => {
-                      setFieldValue("horizon", valueOption);
-                    }}
-                    errors={errors}
-                    touched={touched}
-                    isDisabled={!values?.plant || !values?.year}
-                  />
-                </div> */}
                 <div className="col-lg-3">
                   <NewSelect
                     name="gl"
@@ -173,8 +126,14 @@ export default function ManufacturingOverheadPlanLanding() {
                         (data) => {
                           let modiFyRow = data?.map((item) => ({
                             ...item,
-                            overheadType: null,
-                            standardValue: null,
+                            monthList: item?.monthList || monthData,
+                            overheadType:
+                              item?.overheadTypeId && item?.overheadTypeName
+                                ? {
+                                    value: item?.overheadTypeId,
+                                    label: item?.overheadTypeName,
+                                  }
+                                : "",
                           }));
                           setSubGlRow(modiFyRow);
                         }
@@ -209,9 +168,9 @@ export default function ManufacturingOverheadPlanLanding() {
                             <NewSelect
                               name="overheadType"
                               options={[
-                                { value: "Fixed", label: "Fixed" },
+                                { value: 1, label: "Fixed" },
                                 {
-                                  value: "Variable/Per unit",
+                                  value: 2,
                                   label: "Variable/Per unit",
                                 },
                               ]}
@@ -219,25 +178,70 @@ export default function ManufacturingOverheadPlanLanding() {
                               onChange={(valueOption) => {
                                 let modiFyRow = [...subGlRow];
                                 modiFyRow[index]["overheadType"] = valueOption;
+                                modiFyRow[index]["overheadTypeId"] =
+                                  valueOption?.value;
+                                modiFyRow[index]["overheadTypeName"] =
+                                  valueOption?.label;
                                 setSubGlRow(modiFyRow);
                               }}
                             />
                           </td>
                           <td>
                             <InputField
-                              value={item?.standardValue}
+                              value={+item?.universalAmount || ""}
                               type="number"
                               onChange={(e) => {
+                                if (+e.target.value < 0) return;
                                 let modiFyRow = [...subGlRow];
-                                modiFyRow[index]["standardValue"] =
+                                modiFyRow[index]["universalAmount"] =
                                   +e.target.value || "";
+                                modiFyRow[index]["monthList"][0][
+                                  "intMonthLyValue"
+                                ] = +e.target.value || "";
+                                modiFyRow[index]["monthList"][1][
+                                  "intMonthLyValue"
+                                ] = +e.target.value || "";
+                                modiFyRow[index]["monthList"][2][
+                                  "intMonthLyValue"
+                                ] = +e.target.value || "";
+                                modiFyRow[index]["monthList"][3][
+                                  "intMonthLyValue"
+                                ] = +e.target.value || "";
+                                modiFyRow[index]["monthList"][4][
+                                  "intMonthLyValue"
+                                ] = +e.target.value || "";
+                                modiFyRow[index]["monthList"][5][
+                                  "intMonthLyValue"
+                                ] = +e.target.value || "";
+                                modiFyRow[index]["monthList"][6][
+                                  "intMonthLyValue"
+                                ] = +e.target.value || "";
+                                modiFyRow[index]["monthList"][7][
+                                  "intMonthLyValue"
+                                ] = +e.target.value || "";
+                                modiFyRow[index]["monthList"][8][
+                                  "intMonthLyValue"
+                                ] = +e.target.value || "";
+                                modiFyRow[index]["monthList"][9][
+                                  "intMonthLyValue"
+                                ] = +e.target.value || "";
+                                modiFyRow[index]["monthList"][10][
+                                  "intMonthLyValue"
+                                ] = +e.target.value || "";
+                                modiFyRow[index]["monthList"][11][
+                                  "intMonthLyValue"
+                                ] = +e.target.value || "";
                                 setSubGlRow(modiFyRow);
                               }}
                             />
                           </td>
                           <td className="text-center">
                             <div>
-                              {item?.overheadType && item?.standardValue ? (
+                              {item?.overheadType &&
+                              item?.universalAmount &&
+                              values?.plant &&
+                              values?.year &&
+                              values?.gl ? (
                                 <OverlayTrigger
                                   overlay={
                                     <Tooltip id="cs-icon">{"Create"}</Tooltip>
@@ -247,6 +251,7 @@ export default function ManufacturingOverheadPlanLanding() {
                                     <i
                                       className={`fas fa-pen-square pointer`}
                                       onClick={() => {
+                                        setSingleData({ values, item });
                                         setisShowModal(true);
                                       }}
                                     ></i>
@@ -279,11 +284,19 @@ export default function ManufacturingOverheadPlanLanding() {
           </IForm>
 
           <IViewModal
-            modelSize="md"
+            modelSize="lg"
             show={isShowModal}
-            onHide={() => setisShowModal(false)}
+            onHide={() => {
+              setisShowModal(false);
+            }}
           >
-            <MonthlyModal />
+            <MonthlyModal
+              singleData={singleData}
+              setSingleData={setSingleData}
+              setisShowModal={setisShowModal}
+              getSubGlRow={getSubGlRow}
+              setSubGlRow={setSubGlRow}
+            />
           </IViewModal>
         </>
       )}

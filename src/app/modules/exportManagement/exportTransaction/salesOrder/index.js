@@ -19,6 +19,7 @@ import SalesOrderView from "./salesOrderView";
 import ICon from "../../../chartering/_chartinghelper/icons/_icon";
 import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
 import { toast } from "react-toastify";
+import IEdit from "../../../_helper/_helperIcons/_edit";
 
 const initData = {
   orderType: "",
@@ -147,6 +148,7 @@ export default function SalesOrderLanding() {
         orderType: orderTypeDDL?.length > 0 ? orderTypeDDL[0] : "",
         sbu: sbuDDL?.length > 0 ? sbuDDL[0] : "",
         salesOrg: modifySalesOrgDDL?.length > 0 ? modifySalesOrgDDL[0] : "",
+        shipPoint: shipPointDDL?.length > 0 ? shipPointDDL[0] : "",
         distributionChannel:
           modifyDistribuationChannelDDL?.length > 0
             ? modifyDistribuationChannelDDL[0]
@@ -399,7 +401,7 @@ export default function SalesOrderLanding() {
                         <th>Payment Terms</th>
                         <th style={{ width: "75px" }}>Order Total</th>
                         <th style={{ width: "60px" }}>Approval Status</th>
-                        <th style={{ width: "60px" }}>Actions</th>
+                        <th style={{ width: "100px" }}>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -456,19 +458,18 @@ export default function SalesOrderLanding() {
                                     <i class="fas fa-file-image"></i>{" "}
                                   </ICon>
                                 </span>
-                                {/* {!values?.status?.value && (
-                                                   <span
-                                                      className="edit"
-                                                      onClick={() => {
-                                                         // history.push({
-                                                         //     pathname: `/sales-management/ordermanagement/salesquotation/edit/${td.quotationId}`,
-                                                         //     state: td,
-                                                         // });
-                                                      }}
-                                                   >
-                                                       <IEdit /> 
-                                                   </span>
-                                                )} */}
+                                {/* job order */}
+                                <span className="Job Order Entry">
+                                  <IEdit
+                                    title="Job Order Entry"
+                                    onClick={() => {
+                                      history.push({
+                                        pathname: `/managementExport/exptransaction/salesorder/jobOrder/${td?.quotationId}`,
+                                        state: td,
+                                      });
+                                    }}
+                                  />
+                                </span>
                               </div>
                             </td>
                           </tr>

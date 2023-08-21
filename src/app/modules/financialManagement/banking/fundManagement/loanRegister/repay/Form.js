@@ -12,8 +12,8 @@ const loanRegister = Yup.object().shape({
     label: Yup.string().required("Bank is required"),
     value: Yup.string().required("Bank is required"),
   }),
-  amount: Yup.string().required("Amount is required"),
-  instrumentNo: Yup.string().required("Amount is required"),
+  instrumentNo: Yup.string().required("Instrument No is required"),
+  principalAmount: Yup.number().required("Principal Amount is required"),
 });
 
 export default function RepayForm({
@@ -127,16 +127,34 @@ export default function RepayForm({
                   />
                 </div>
                 <div className="col-lg-2 pl pr-1 mb-1">
-                  <label>Amount</label>
+                  <label>Principal Amount</label>
                   <InputField
-                    value={values?.amount}
-                    name="amount"
-                    placeholder="Amount"
+                    value={values?.principalAmount}
+                    name="principalAmount"
+                    placeholder="Principal Amount"
                     onChange={(e) => {
                       if (e.target.value > 0) {
-                        setFieldValue("amount", e.target.value);
+                        setFieldValue("principalAmount", e.target.value);
                       } else {
-                        setFieldValue("amount", "");
+                        setFieldValue("principalAmount", "");
+                      }
+                    }}
+                    type="number"
+                    min="0"
+                    step="any"
+                  />
+                </div>
+                <div className="col-lg-2 pl pr-1 mb-1">
+                  <label>Interest Amount</label>
+                  <InputField
+                    value={values?.interestAmount}
+                    name="interestAmount"
+                    placeholder="Interest Amount"
+                    onChange={(e) => {
+                      if (e.target.value > 0) {
+                        setFieldValue("interestAmount", e.target.value);
+                      } else {
+                        setFieldValue("interestAmount", "");
                       }
                     }}
                     type="number"

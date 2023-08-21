@@ -9,6 +9,7 @@ import SalesContractLanding from "./salesContract";
 import SalesContractCreateEdit from "./salesContract/createEdit";
 import SalesOrderLanding from "./salesOrder";
 import SalesOrderCreateEdit from "./salesOrder/createEdit";
+import CreateEditJobOrder from "./salesOrder/jobOrder/createEditJobOrder";
 
 export function ExportTransactionPages() {
     return (
@@ -43,6 +44,11 @@ export function ExportTransactionPages() {
             <ContentRoute
                 path="/managementExport/exptransaction/commercialinvoice"
                 component={CommercialInvoiceLanding}
+            />
+            {/* job order */}
+            <ContentRoute
+                path="/managementExport/exptransaction/salesorder/jobOrder/:id"
+                component={CreateEditJobOrder}
             />
             {/* sales order */}
             <ContentRoute
