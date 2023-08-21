@@ -86,7 +86,7 @@ export default function DistributionPlanLanding() {
                     <thead>
                       <tr>
                         <th>SL</th>
-                        <th className="text-left">Distribution Channel Name</th>
+                        <th>Distribution Channel Name</th>
                         <th>Region Name</th>
                         <th>Area Name</th>
                         <th>Territory Name</th>
