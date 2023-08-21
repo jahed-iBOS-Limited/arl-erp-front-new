@@ -10,7 +10,8 @@ const initData = {
   account: "",
   instrumentNo: "",
   instrumentDate: _todayDate(),
-  amount: "",
+  principalAmount: "",
+  interestAmount: "",
   transDate: _todayDate(),
 };
 
@@ -43,7 +44,8 @@ export default function RepayCreate({
       0,
       values?.instrumentNo,
       values?.instrumentDate,
-      +values?.amount,
+      +values?.principalAmount,
+      +values?.interestAmount,
       values?.transDate,
       profileData?.userId,
       cb

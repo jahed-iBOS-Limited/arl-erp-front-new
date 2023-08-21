@@ -240,7 +240,7 @@ const LoanRegisterLanding = () => {
                               <td className="text-">{item?.loanTypeName}</td>
                               <td className="text-">{item?.loanClassName}</td>
                               <td className="text-">{item?.facilityName}</td>
-                              <td className="text-">{item?.loanAccountName}</td>
+                              <td className="text-">{item?.strLoanAccountName}</td>
                               <td className="text-">{item?.intTenureDays}</td>
                               <td className="text-">
                                 {_dateFormatter(item?.dteStartDate)}
