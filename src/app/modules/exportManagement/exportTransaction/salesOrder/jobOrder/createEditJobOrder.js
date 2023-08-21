@@ -19,7 +19,6 @@ const initData = {
 
 export default function CreateEditJobOrder() {
   const location = useLocation();
-  const [executionRequirements, setExecutionRequirements] = useState([]);
   const salesQuotationId = location?.state?.quotationId;
   const [objProps, setObjprops] = useState({});
   const selectedBusinessUnit = useSelector((state) => {
@@ -43,7 +42,6 @@ export default function CreateEditJobOrder() {
       `/oms/SalesQuotation/ViewForeignSalesQuotation?QuotationId=${salesQuotationId}&accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`,
       (data) => {
         setJobOrderData(data.Data);
-        setExecutionRequirements(data?.Data?.JobOrderReq);
       }
     );
   };
@@ -321,17 +319,17 @@ export default function CreateEditJobOrder() {
                       <td>{item?.Sl}</td>
                       <td>{item?.OrderRequirement}</td>
                       <td className="text-center">
-                        <span
-                          onClick={() => {
-                            const filterArr = jobOrderData?.JobOrderReq?.filter(
-                              (itm, idx) => idx !== index
-                            );
-                            const newJobOrderData = { ...jobOrderData };
-                            newJobOrderData.JobOrderReq = filterArr;
-                            setJobOrderData(newJobOrderData);
-                          }}
-                        >
-                          <IDelete />
+                        <span>
+                          <IDelete
+                            remover={() => {
+                              const filterArr = jobOrderData?.JobOrderReq?.filter(
+                                (itm, idx) => idx !== index
+                              );
+                              const newJobOrderData = { ...jobOrderData };
+                              newJobOrderData.JobOrderReq = filterArr;
+                              setJobOrderData(newJobOrderData);
+                            }}
+                          />
                         </span>
                       </td>
                     </tr>
