@@ -112,7 +112,7 @@ export function HrPlanLanding() {
                                  <thead>
                                     <tr>
                                        <th style={{ width: '30px' }}>SL</th>
-                                       <th>Designation</th>
+                                       <th>Position</th>
                                        <th>Total Plan Qty</th>
                                        <th>Total Budget</th>
                                        <th style={{ width: '150px' }}>
@@ -162,6 +162,7 @@ export function HrPlanLanding() {
                                  </tbody>
                               </table>
                               <IViewModal
+                                 modelSize="lg"
                                  show={show}
                                  onHide={() => setShow(false)}
                               >
