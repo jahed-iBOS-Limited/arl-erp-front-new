@@ -129,12 +129,12 @@ export default function DistributionPlanCreateEdit() {
     if (isEdit) {
       const modifiedInitData = getModifiedInitData(item);
       setModifiedData(modifiedInitData);
-      getRegionDDLHandler(modifiedInitData?.channel);
-      getAreaDDLHandler(modifiedInitData, modifiedInitData?.region);
-      getTerritoryDDLHandler(modifiedInitData, modifiedInitData?.area);
-      getWarehouseDDLHandler(item?.plantHouseId);
-      getYearDDLHandler(item?.plantHouseId);
-      getHorizonDDLHandler(item?.plantHouseId, item?.yearId);
+      // getRegionDDLHandler(modifiedInitData?.channel);
+      // getAreaDDLHandler(modifiedInitData, modifiedInitData?.region);
+      // getTerritoryDDLHandler(modifiedInitData, modifiedInitData?.area);
+      // getWarehouseDDLHandler(item?.plantHouseId);
+      // getYearDDLHandler(item?.plantHouseId);
+      // getHorizonDDLHandler(item?.plantHouseId, item?.yearId);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
