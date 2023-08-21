@@ -165,7 +165,7 @@ function EditForm({ rowClickItem, landingCB }) {
                           handleSubmit();
                         }}
                       >
-                        Save
+                        Executed & Save
                       </button>
                       <button
                         type='button'
