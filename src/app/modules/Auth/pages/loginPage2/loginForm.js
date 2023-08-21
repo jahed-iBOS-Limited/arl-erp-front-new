@@ -11,18 +11,19 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import OtpPopup from "./OtpPopup";
 import Loading from "../../../_helper/_loading";
+import { setPeopledeskCookie } from "../../../_helper/_cookie";
 
 function LoginForm(props) {
   const { register, handleSubmit, errors } = useForm();
   const dispatch = useDispatch();
   const [isOtp, setIsOtp] = useState(false);
-  const [userId, setUserId] = useState("")
-  const [loading, setLoading] = useState(false)
+  const [userId, setUserId] = useState("");
+  const [loading, setLoading] = useState(false);
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
   });
-  const [token, setToken] = useState("")
+  const [token, setToken] = useState("");
 
   const loginAction = (isSkipOtp) => {
     axios
@@ -36,7 +37,13 @@ function LoginForm(props) {
               loginData.email,
               loginData.password,
               setLoading,
-              null,
+              () => {
+                setPeopledeskCookie(
+                  "loginInfoPeopleDesk",
+                  JSON.stringify({}),
+                  100
+                );
+              },
               setIsOtp,
               isSkipOtp,
               setUserId,
@@ -56,7 +63,7 @@ function LoginForm(props) {
     if (typeof languageLocale === "undefined" || languageLocale === "null") {
       localStorage.setItem("language", "en");
     }
-    
+
     loginAction(false);
   };
 
@@ -67,17 +74,16 @@ function LoginForm(props) {
     setLoginData(loginDataNew);
   };
 
-
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       {loading && <Loading />}
-      <Form.Group controlId="formBasicEmail">
-        <label className="login-form-label">Email </label>
+      <Form.Group controlId='formBasicEmail'>
+        <label className='login-form-label'>Email </label>
         <Form.Control
-          type="text"
-          placeholder="Enter user name or email address"
-          name="email"
-          className="fromStyle"
+          type='text'
+          placeholder='Enter user name or email address'
+          name='email'
+          className='fromStyle'
           onChange={handleChange}
         />
 
@@ -88,9 +94,9 @@ function LoginForm(props) {
                         pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                     })}
                 */}
-        <span className="iconname usericon"> </span>
+        <span className='iconname usericon'> </span>
       </Form.Group>
-      <div className="inputError margin-minus-10">
+      <div className='inputError margin-minus-10'>
         {errors.Email &&
           errors.Email.type === "required" &&
           '"Email Address" can\'t be blank!'}
@@ -102,22 +108,22 @@ function LoginForm(props) {
           '"Email Address" criteria aren\'t meet!'}
       </div>
 
-      <Form.Group controlId="formBasicPassword">
-        <label className="login-form-label">Password</label>
+      <Form.Group controlId='formBasicPassword'>
+        <label className='login-form-label'>Password</label>
         <React.Fragment>
           <Form.Control
-            type="password"
-            placeholder="Enter Password"
-            name="password"
-            className="fromStyle"
+            type='password'
+            placeholder='Enter Password'
+            name='password'
+            className='fromStyle'
             onChange={handleChange}
             ref={register({ required: true, minLength: 4 })}
           />
-          <span className="iconname passwordicon"> </span>
+          <span className='iconname passwordicon'> </span>
         </React.Fragment>
       </Form.Group>
 
-      <div className="inputError margin-minus-10">
+      <div className='inputError margin-minus-10'>
         {errors.Password &&
           errors.Password.type === "required" &&
           "Password\" can't be blank!"}
@@ -126,12 +132,12 @@ function LoginForm(props) {
           '"Password" criteria aren\'t meet!'}
       </div>
 
-      <div className="forgetPassword ">
-        <Form.Group controlId="formBasicCheckbox ">
-          <Form.Check type="checkbox" label="Remember Me" />
+      <div className='forgetPassword '>
+        <Form.Group controlId='formBasicCheckbox '>
+          <Form.Check type='checkbox' label='Remember Me' />
         </Form.Group>
-        <div className="forget" style={{ marginTop: "6px" }}>
-          <Link to="/reset-password">Forgot Password?</Link>
+        <div className='forget' style={{ marginTop: "6px" }}>
+          <Link to='/reset-password'>Forgot Password?</Link>
         </div>
       </div>
 
@@ -142,11 +148,18 @@ function LoginForm(props) {
             )} */}
 
       {
-        <Button type="submit" className="loginbutton custom_btn">
+        <Button type='submit' className='loginbutton custom_btn'>
           Log in
         </Button>
       }
-      {isOtp && <OtpPopup token={token} setIsOtp={setIsOtp} loginAction={loginAction} userId={userId} />}
+      {isOtp && (
+        <OtpPopup
+          token={token}
+          setIsOtp={setIsOtp}
+          loginAction={loginAction}
+          userId={userId}
+        />
+      )}
     </Form>
   );
 }
