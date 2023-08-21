@@ -87,7 +87,7 @@ export default function HrPlanCreateEditModal({ rowDetailsData, valueData, getRo
             <span className="pl-3 bold">
                {valueData?.department?.label || ''}
             </span>
-            <span className="pl-4">Designation : </span>
+            <span className="pl-4">Position : </span>
             <span className="pl-3 bold">{rowDetailsData?.strDesignation}</span>
          </div>
          <div className="row">
@@ -149,14 +149,14 @@ export default function HrPlanCreateEditModal({ rowDetailsData, valueData, getRo
                                  }}
                               />
                            </td>
-                           <td>{item?.numTotalBudget || ''}</td>
+                           <td style={{ minWidth: '70px' }}>{item?.numTotalBudget || ''}</td>
                         </tr>
                      ))}
                      <tr>
                         <td className='text-bold'>Grand Total</td>
                         <td className='text-bold'>{totalPlanQuantity}</td>
                         <td></td>
-                        <td className='text-bold'>{totalBugetAmount}</td>
+                        <td className='text-bold' style={{ minWidth: '70px' }}>{totalBugetAmount}</td>
                      </tr>
                   </tbody>
                </table>
