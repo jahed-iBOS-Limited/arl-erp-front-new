@@ -1,5 +1,3 @@
-
-
 import { IconButton } from '@material-ui/core';
 import GroupIcon from '@material-ui/icons/Group';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -12,7 +10,7 @@ import { NotificationRirectFunc } from './helper';
 const NotiBodyContent = ({ content, orgId, buId, handleClose, setLoading }) => {
 
   const { peopledeskApiURL } = useSelector((state) => state.authData);
-  const { notifyDetails, module, timeDifference, notificationMaster, isSeen } =
+  const { notifyDetails, notifyTitle, timeDifference, notificationMaster, isSeen } =
     content;
   const dispatch = useDispatch();
   return (
@@ -55,8 +53,8 @@ const NotiBodyContent = ({ content, orgId, buId, handleClose, setLoading }) => {
             };
             policyFileUrl();
           }
-          notificationMaster?.routeUrl && NotificationRirectFunc({
-            ...notificationMaster,
+          content?.routeUrl && NotificationRirectFunc({
+            ...content,
             peopledeskApiURL: peopledeskApiURL,
           })
         }}
@@ -82,7 +80,7 @@ const NotiBodyContent = ({ content, orgId, buId, handleClose, setLoading }) => {
 
             <div className="notification-body-header">
               <div className="d-flex justify-content-between ">
-                <h6>{module?.toUpperCase() || ""}</h6>
+                <h6>{notifyTitle?.toUpperCase() || ""}</h6>
                 <h6>
                   {timeDifference === "now"
                     ? timeDifference

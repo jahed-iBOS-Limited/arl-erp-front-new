@@ -247,14 +247,15 @@ export const createRepay = async (
   instrumentId,
   instrumentNo,
   instrumentDate,
-  amount,
+  principalAmount,
+  interestAmount,
   transDate,
   actionId,
   cb
 ) => {
   try {
     const res = await Axios.post(
-      `/fino/FundManagement/FundLoanRepay?accountId=${accId}&businessUnitId=${buId}&loanAccId=${loanAcc}&bankAccId=${bankAccId}&instrumentId=${instrumentId}&instrumentNo=${instrumentNo}&instrumentDate=${instrumentDate}&numAmount=${amount}&transDate=${transDate}&actionById=${actionId}`
+      `/fino/FundManagement/FundLoanRepay?accountId=${accId}&businessUnitId=${buId}&loanAccId=${loanAcc}&bankAccId=${bankAccId}&instrumentId=${instrumentId}&instrumentNo=${instrumentNo}&instrumentDate=${instrumentDate}&numAmount=${principalAmount}&numInterestAmount=${interestAmount || 0}&transDate=${transDate}&actionById=${actionId}`
     );
     if (res.status === 200) {
       toast.success(res?.message || "Submitted successfully");

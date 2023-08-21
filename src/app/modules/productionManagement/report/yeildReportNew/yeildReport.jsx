@@ -357,30 +357,40 @@ function YeildReport({ tableData }) {
     }
 
     // unique item name
-    let uniqueItemName = [];
+    let uniqueItem = [];
     for (let i = 0; i < allData.length; i++) {
       const element = allData[i];
-      if (!uniqueItemName.includes(element.itemName)) {
-        uniqueItemName.push(element.itemName);
+      const uniqueItemNameList = uniqueItem?.map((itm) => itm?.itemName)
+      if (!uniqueItemNameList.includes(element.itemName)) {
+        uniqueItem.push({
+          itemName: element?.itemName,
+          wip: element?.wip,
+        });
       }
     }
 
     // Tr generate
     let tr = [];
-    for (let i = 0; i < uniqueItemName.length; i++) {
+    for (let i = 0; i < uniqueItem?.length; i++) {
       tr.push(
         <tr key={i}>
           <td>{i + 1}</td>
           <td>
-            <b>{uniqueItemName[i]}</b>
+            <b>{uniqueItem?.[i]?.itemName}</b>
+          </td>
+          <td>
+            <b>{_fixedPoint(uniqueItem?.[i]?.wip)}</b>
           </td>
           {uniqueCategoryName.map((categoryName, index) => {
             // match Catagory
             let matchCatagory = allData?.find(
               (itm) =>
                 itm.categoryName === categoryName &&
-                itm.itemName === uniqueItemName[i]
+                itm.itemName === uniqueItem?.[i]?.itemName
             );
+            let byProduct = (+matchCatagory?.byProductionQty || 0) / (+matchCatagory?.productionQty || 0)
+
+
             return (
               <>
                 <td className='text-right'>
@@ -404,8 +414,8 @@ function YeildReport({ tableData }) {
                     _fixedPoint(matchCatagory?.yieldPer)}
                 </td>
                 <td className='text-right'>
-                  {matchCatagory?.byProduct &&
-                    _fixedPoint(matchCatagory?.byProduct)}
+                  {matchCatagory?.byProductionQty &&
+                    _fixedPoint(isFinite(byProduct) ? isFinite : 0)}
                 </td>
               </>
             );
@@ -429,9 +439,12 @@ function YeildReport({ tableData }) {
                 <>
                   <thead>
                     <tr>
-                      <th rowSpan={2}>SL</th>
-                      <th rowSpan={2} style={{ minWidth: "150px" }}>
+                      <th rowSpan={2} style={{ minWidth: '30px' }} className="sl">SL</th>
+                      <th rowSpan={2} style={{ minWidth: "150px" }} className="itemName">
                         Item Name
+                      </th>
+                      <th rowSpan={2} className="wip">
+                        WIP
                       </th>
                       {tableData?.map((item, index) => (
                         <th

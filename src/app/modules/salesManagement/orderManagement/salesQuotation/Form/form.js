@@ -12,6 +12,7 @@ import { _numberValidation } from "./../../../../_helper/_numberValidation";
 import SalesQuotationForPolyFibreInvoice from "./../invoicePolyFibre/invoiceRecept";
 import { toast } from "react-toastify";
 import { useReactToPrint } from "react-to-print";
+import SalesQuotationForCement from "../cementSalesQuotation/invoiceRecept";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -154,7 +155,7 @@ export default function _Form({
             setSavedData(_savedData);
             resetForm(initData);
 
-            if ([8].includes(selectedBusinessUnit?.value)) {
+            if ([8, 4].includes(selectedBusinessUnit?.value)) {
               handleInvoicePrint();
             }
           });
@@ -177,22 +178,22 @@ export default function _Form({
             >
               Print
             </button> */}
-            <Form className='form form-label-right mt-2'>
-              <div className='row mt-0'>
-                <div className='col-lg-12 p-0 m-0'>
-                  <div className='row global-form m-0'>
-                    <div className='col-lg-3'>
+            <Form className="form form-label-right mt-2">
+              <div className="row mt-0">
+                <div className="col-lg-12 p-0 m-0">
+                  <div className="row global-form m-0">
+                    <div className="col-lg-3">
                       <NewSelect
-                        name='salesOrg'
+                        name="salesOrg"
                         options={salesOrg}
                         value={values?.salesOrg}
-                        label='Sales Organization'
+                        label="Sales Organization"
                         onChange={(valueOption) => {
                           setFieldValue("salesOrg", valueOption);
                           setFieldValue("salesOffice", "");
                           salesOfficeDDLDispatcher(valueOption?.value);
                         }}
-                        placeholder='Sales Organization'
+                        placeholder="Sales Organization"
                         errors={errors}
                         touched={touched}
                         isDisabled={isEdit}
@@ -201,7 +202,7 @@ export default function _Form({
                     <>
                       {datas.map((data, index) => {
                         return (
-                          <div key={index} className='col-lg-3'>
+                          <div key={index} className="col-lg-3">
                             <ISelect
                               label={data.label}
                               placeholder={data.label}
@@ -218,81 +219,81 @@ export default function _Form({
                           </div>
                         );
                       })}
-                      <div className='col-lg-3'>
+                      <div className="col-lg-3">
                         <IInput
                           value={values.partnerReffNo}
-                          label='Supplier Ref. No.'
-                          name='partnerReffNo'
+                          label="Supplier Ref. No."
+                          name="partnerReffNo"
                           disabled={isEdit}
                         />
                       </div>
-                      <div className='col-lg-3'>
+                      <div className="col-lg-3">
                         <ICalendar
                           value={_dateFormatter(values.pricingDate || "")}
-                          label='Pricing Date'
-                          name='pricingDate'
+                          label="Pricing Date"
+                          name="pricingDate"
                           disabled={isEdit}
                         />
                       </div>
-                      <div className='col-lg-3'>
+                      <div className="col-lg-3">
                         <ICalendar
                           value={_dateFormatter(values.quotationEndDate || "")}
-                          label='Quotation End Date'
-                          name='quotationEndDate'
+                          label="Quotation End Date"
+                          name="quotationEndDate"
                           disabled={isEdit}
                         />
                       </div>
-                      <div className='col-lg-3'>
+                      <div className="col-lg-3">
                         <label>Remarks</label>
                         <InputField
                           value={values?.remark || ""}
-                          name='remark'
-                          placeholder='Remarks'
-                          type='text'
+                          name="remark"
+                          placeholder="Remarks"
+                          type="text"
                           disabled={isEdit}
                         />
                       </div>
                       {/* Akij Poly Fibre Industries Ltd. ===8 */}
                       {[8].includes(selectedBusinessUnit?.value) && (
                         <>
-                          <div className='col-lg-3'>
+                          <div className="col-lg-3">
                             <InputField
-                              label='Stitching'
+                              label="Stitching"
                               value={values?.strUsesOfCement || ""}
-                              name='strUsesOfCement'
-                              placeholder='Stitching'
-                              type='text'
+                              name="strUsesOfCement"
+                              placeholder="Stitching"
+                              type="text"
                               disabled={isEdit}
                             />
                           </div>
 
-                          <div className='col-lg-3'>
+                          <div className="col-lg-3">
                             <InputField
-                              label='Bag Color'
+                              label="Bag Color"
                               value={values?.strCoraseAggregate || ""}
-                              name='strCoraseAggregate'
-                              placeholder='Bag Color'
-                              type='text'
+                              name="strCoraseAggregate"
+                              placeholder="Bag Color"
+                              type="text"
                               disabled={isEdit}
                             />
                           </div>
-                          <div className='col-lg-3'>
+                          <div className="col-lg-3">
                             <InputField
-                              label='Packing'
+                              label="Packing"
                               value={values?.strFineAggregate || ""}
-                              name='strFineAggregate'
-                              placeholder='Packing'
-                              type='text'
+                              name="strFineAggregate"
+                              placeholder="Packing"
+                              type="text"
                               disabled={isEdit}
                             />
                           </div>
-                          <div className='col-lg-2'>
+                          <div className="col-lg-2">
                             <InputField
                               value={values.paymentMode || ""}
-                              label='Payment Mode'
-                              name='paymentMode'
+                              label="Payment Mode"
+                              name="paymentMode"
                               disabled={isEdit}
-                              placeholder='Payment Mode'
+                              placeholder="Payment Mode"
                             />
                           </div>
                         </>
@@ -301,11 +302,11 @@ export default function _Form({
                         values?.salesOrg?.value === 7 &&
                         values?.channel?.value === 96 && (
                           <>
-                            <div className='col-lg-3'>
+                            <div className="col-lg-3">
                               <IInput
                                 value={values?.salesContract || ""}
-                                label='Sales Contract'
-                                name='salesContract'
+                                label="Sales Contract"
+                                name="salesContract"
                                 onChange={(e) => {
                                   setFieldValue(
                                     "salesContract",
@@ -314,21 +315,21 @@ export default function _Form({
                                 }}
                               />
                             </div>
-                            <div className='col-lg-3'>
+                            <div className="col-lg-3">
                               <IInput
                                 value={values?.salesTerm || ""}
-                                label='Sales Term'
-                                name='salesTerm'
+                                label="Sales Term"
+                                name="salesTerm"
                                 onChange={(e) => {
                                   setFieldValue("salesTerm", e.target.value);
                                 }}
                               />
                             </div>
-                            <div className='col-lg-3'>
+                            <div className="col-lg-3">
                               <IInput
                                 value={values?.modeOfShipment || ""}
-                                label='Mode Of Shipment'
-                                name='modeOfShipment'
+                                label="Mode Of Shipment"
+                                name="modeOfShipment"
                                 onChange={(e) => {
                                   setFieldValue(
                                     "modeOfShipment",
@@ -337,11 +338,11 @@ export default function _Form({
                                 }}
                               />
                             </div>
-                            <div className='col-lg-3'>
+                            <div className="col-lg-3">
                               <IInput
                                 value={values?.portOfShipment || ""}
-                                label='Port Of Shipment'
-                                name='portOfShipment'
+                                label="Port Of Shipment"
+                                name="portOfShipment"
                                 onChange={(e) => {
                                   setFieldValue(
                                     "portOfShipment",
@@ -350,11 +351,11 @@ export default function _Form({
                                 }}
                               />
                             </div>
-                            <div className='col-lg-3'>
+                            <div className="col-lg-3">
                               <IInput
                                 value={values?.portOfDischarge || ""}
-                                label='Port Of Discharge'
-                                name='portOfDischarge'
+                                label="Port Of Discharge"
+                                name="portOfDischarge"
                                 onChange={(e) => {
                                   setFieldValue(
                                     "portOfDischarge",
@@ -363,11 +364,11 @@ export default function _Form({
                                 }}
                               />
                             </div>
-                            <div className='col-lg-3'>
+                            <div className="col-lg-3">
                               <IInput
                                 value={values?.finalDestination || ""}
-                                label='Final Destination'
-                                name='finalDestination'
+                                label="Final Destination"
+                                name="finalDestination"
                                 onChange={(e) => {
                                   setFieldValue(
                                     "finalDestination",
@@ -376,11 +377,11 @@ export default function _Form({
                                 }}
                               />
                             </div>
-                            <div className='col-lg-3'>
+                            <div className="col-lg-3">
                               <IInput
                                 value={values?.countryOfOrigin || ""}
-                                label='Country Of Origin'
-                                name='countryOfOrigin'
+                                label="Country Of Origin"
+                                name="countryOfOrigin"
                                 onChange={(e) => {
                                   setFieldValue(
                                     "countryOfOrigin",
@@ -389,22 +390,22 @@ export default function _Form({
                                 }}
                               />
                             </div>
-                            <div className='col-lg-3'>
+                            <div className="col-lg-3">
                               <IInput
                                 value={values?.contractFor || ""}
-                                label='Contract For'
-                                name='contractFor'
+                                label="Contract For"
+                                name="contractFor"
                                 onChange={(e) => {
                                   setFieldValue("contractFor", e.target.value);
                                 }}
                               />
                             </div>
-                            <div className='col-lg-3'>
+                            <div className="col-lg-3">
                               <IInput
                                 value={values?.freightCharge || ""}
-                                label='Freight Charge'
-                                name='freightCharge'
-                                type='number'
+                                label="Freight Charge"
+                                name="freightCharge"
+                                type="number"
                                 onChange={(e) => {
                                   setFieldValue(
                                     "freightCharge",
@@ -419,16 +420,16 @@ export default function _Form({
                   </div>
                 </div>
               </div>
-              <hr className='m-1'></hr>
-              <div className='row'>
-                <div className='col-lg-12 m-0 p-0'>
-                  <div className='row global-form m-0'>
-                    <div className='col-lg-3'>
+              <hr className="m-1"></hr>
+              <div className="row">
+                <div className="col-lg-12 m-0 p-0">
+                  <div className="row global-form m-0">
+                    <div className="col-lg-3">
                       <NewSelect
-                        label='Item list'
-                        placeholder='Item list'
+                        label="Item list"
+                        placeholder="Item list"
                         options={itemSalesDDL || []}
-                        name='itemList'
+                        name="itemList"
                         setFieldValue={setFieldValue}
                         errors={errors}
                         touched={touched}
@@ -442,24 +443,24 @@ export default function _Form({
                         }}
                       />
                     </div>
-                    <div className='col-lg-3 disable-border disabled-feedback'>
+                    <div className="col-lg-3 disable-border disabled-feedback">
                       <IInput
                         value={values?.quantity}
-                        label='Quantity'
-                        name='quantity'
-                        type='tel'
-                        min='1'
+                        label="Quantity"
+                        name="quantity"
+                        type="tel"
+                        min="1"
                         onChange={(e) => {
                           setFieldValue("quantity", _numberValidation(e));
                         }}
                       />
                     </div>
-                    <div className='col-lg-3'>
+                    <div className="col-lg-3">
                       <NewSelect
-                        label='Currency'
-                        placeholder='Currency'
+                        label="Currency"
+                        placeholder="Currency"
                         options={currencyDDL || []}
-                        name='currency'
+                        name="currency"
                         setFieldValue={setFieldValue}
                         errors={errors}
                         touched={touched}
@@ -469,9 +470,9 @@ export default function _Form({
                         }}
                       />
                     </div>
-                    <div className='col-lg-3'>
+                    <div className="col-lg-3">
                       <IInput
-                        type='number'
+                        type="number"
                         value={values.price}
                         label={
                           selectedBusinessUnit?.value === 144 &&
@@ -480,8 +481,8 @@ export default function _Form({
                             ? "Price (USD)"
                             : "Price"
                         }
-                        name='price'
-                        min='1'
+                        name="price"
+                        min="1"
                         disabled={!values.currency}
                         onChange={(e) => {
                           setFieldValue("price", e.target.value);
@@ -489,12 +490,12 @@ export default function _Form({
                       />
                     </div>
 
-                    <div className='col-lg-3'>
+                    <div className="col-lg-3">
                       <NewSelect
-                        label='Item UoM'
-                        placeholder='Item UoM'
+                        label="Item UoM"
+                        placeholder="Item UoM"
                         options={uomDDL}
-                        name='uom'
+                        name="uom"
                         onChange={(valueOption) => {
                           setFieldValue("uom", valueOption);
                         }}
@@ -503,20 +504,20 @@ export default function _Form({
                         value={values.uom}
                       />
                     </div>
-                    <div className='col-lg-6 d-flex align-items-center justify-content-between'>
-                      <div className='d-flex justify-content-center align-items-center'>
-                        <div className='w-10'>
+                    <div className="col-lg-6 d-flex align-items-center justify-content-between">
+                      <div className="d-flex justify-content-center align-items-center">
+                        <div className="w-10">
                           <Field
-                            name='isSpecification'
+                            name="isSpecification"
                             component={() => (
                               <input
-                                id='isSpecification'
-                                type='checkbox'
-                                label='Want to specification?'
-                                className='ml-2'
+                                id="isSpecification"
+                                type="checkbox"
+                                label="Want to specification?"
+                                className="ml-2"
                                 value={values?.isSpecification || false}
                                 checked={values?.isSpecification}
-                                name='isSpecification'
+                                name="isSpecification"
                                 onChange={(e) => {
                                   setFieldValue(
                                     "isSpecification",
@@ -527,15 +528,15 @@ export default function _Form({
                             )}
                           />
                           <label
-                            htmlFor='isSpecification'
-                            className='ml-1 mt-2'
+                            htmlFor="isSpecification"
+                            className="ml-1 mt-2"
                           >
                             Want to specification?
                           </label>
                         </div>
                         <button
-                          type='button'
-                          className='btn btn-primary ml-4'
+                          type="button"
+                          className="btn btn-primary ml-4"
                           disabled={
                             !values.itemList ||
                             !values.quantity ||
@@ -554,22 +555,22 @@ export default function _Form({
                           Add
                         </button>
                       </div>
-                      <div className='d-flex justify-content-center flex-column-reverse align-content-end'>
-                        <p className='mb-1'>
+                      <div className="d-flex justify-content-center flex-column-reverse align-content-end">
+                        <p className="mb-1">
                           <b>Total Qty :</b> {total.totalQty}
                         </p>
-                        <p className='mb-1'>
+                        <p className="mb-1">
                           <b>Total Amount :</b> {total.totalAmount}
                         </p>
                       </div>
                     </div>
                     {isEdit && (
-                      <div className='col-lg-2 mb-2'>
+                      <div className="col-lg-2 mb-2">
                         <IInput
-                          type='text'
+                          type="text"
                           value={values?.quotationCode}
-                          label='Quotation Code'
-                          name='quotationCode'
+                          label="Quotation Code"
+                          name="quotationCode"
                           disabled={true}
                         />
                       </div>
@@ -577,19 +578,19 @@ export default function _Form({
                   </div>
                 </div>
               </div>
-              <hr className='m-1'></hr>
+              <hr className="m-1"></hr>
               {/* specication start*/}
               <>
                 {values?.isSpecification === true && (
-                  <div className='row'>
-                    <div className='col-lg-12 p-0 m-0'>
-                      <div className='row global-form m-0'>
-                        <div className='col-lg-2'>
+                  <div className="row">
+                    <div className="col-lg-12 p-0 m-0">
+                      <div className="row global-form m-0">
+                        <div className="col-lg-2">
                           <ISelect
-                            label='Specification'
-                            placeholder='Specification'
+                            label="Specification"
+                            placeholder="Specification"
                             options={spctionDDL}
-                            name='specification'
+                            name="specification"
                             setFieldValue={setFieldValue}
                             errors={errors}
                             touched={touched}
@@ -599,13 +600,13 @@ export default function _Form({
                         </div>
                         {[8].includes(selectedBusinessUnit?.value) ? (
                           <>
-                            <div className='col-lg-2'>
+                            <div className="col-lg-2">
                               <IInput
-                                type='text'
+                                type="text"
                                 value={values.value}
-                                label='Value'
-                                name='value'
-                                min='0'
+                                label="Value"
+                                name="value"
+                                min="0"
                                 disabled={!values.itemList}
                                 onChange={(e) => {
                                   setFieldValue("value", e.target.value);
@@ -615,13 +616,13 @@ export default function _Form({
                           </>
                         ) : (
                           <>
-                            <div className='col-lg-2'>
+                            <div className="col-lg-2">
                               <IInput
-                                type='number'
+                                type="number"
                                 value={values.value}
-                                label='Value'
-                                name='value'
-                                min='0'
+                                label="Value"
+                                name="value"
+                                min="0"
                                 disabled={!values.itemList}
                                 onChange={(e) => {
                                   setFieldValue("value", e.target.value);
@@ -631,11 +632,11 @@ export default function _Form({
                           </>
                         )}
 
-                        <div className='col-lg-2'>
+                        <div className="col-lg-2">
                           <button
-                            type='button'
+                            type="button"
                             style={{ marginTop: "14px" }}
-                            className='btn btn-primary ml-2'
+                            className="btn btn-primary ml-2"
                             disabled={
                               !values.itemList ||
                               !values.specification ||
@@ -654,10 +655,10 @@ export default function _Form({
                     </div>
                   </div>
                 )}
-                <div className='row cash_journal bank-journal bank-journal-custom'>
-                  <div className='col-lg-6 pr-0 pl-0'>
+                <div className="row cash_journal bank-journal bank-journal-custom">
+                  <div className="col-lg-6 pr-0 pl-0">
                     {specTableData?.length >= 0 && (
-                      <table className='table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table'>
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                         <thead>
                           <tr>
                             <th style={{ width: "35px" }}>SL</th>
@@ -670,14 +671,14 @@ export default function _Form({
                         <tbody>
                           {specTableData.map((itm, index) => (
                             <tr key={itm?.specificationId}>
-                              <td className='text-center'>{index + 1}</td>
-                              <td className='pl-2'>{itm?.specification}</td>
-                              <td className='text-right pr-2'>{itm?.value}</td>
-                              <td className='text-right pr-2'>{itm?.itemId}</td>
+                              <td className="text-center">{index + 1}</td>
+                              <td className="pl-2">{itm?.specification}</td>
+                              <td className="text-right pr-2">{itm?.value}</td>
+                              <td className="text-right pr-2">{itm?.itemId}</td>
                               {editItemOnChange && (
-                                <td className='text-center'>
+                                <td className="text-center">
                                   <i
-                                    className='fa fa-trash'
+                                    className="fa fa-trash"
                                     onClick={() =>
                                       removerTwo(index, itm.itemId)
                                     }
@@ -691,11 +692,11 @@ export default function _Form({
                     )}
                   </div>
                   {!values?.isClosed && isEdit && (
-                    <div className='col-lg-2 offset-4 d-flex justify-content-center align-items-center'>
+                    <div className="col-lg-2 offset-4 d-flex justify-content-center align-items-center">
                       <button
-                        type='button'
+                        type="button"
                         style={{ marginTop: "14px", padding: "6px 16px" }}
-                        className='btn btn-primary ml-2'
+                        className="btn btn-primary ml-2"
                         onClick={() => {
                           quotationClosedFunc();
                         }}
@@ -706,10 +707,10 @@ export default function _Form({
                   )}
                 </div>
               </>
-              <div className='row cash_journal bank-journal bank-journal-custom'>
-                <div className='col-lg-12 pr-0 pl-0'>
+              <div className="row cash_journal bank-journal bank-journal-custom">
+                <div className="col-lg-12 pr-0 pl-0">
                   {rowDto?.length >= 0 && (
-                    <table className='table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table'>
+                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                       <thead>
                         <tr>
                           <th style={{ width: "35px" }}>SL</th>
@@ -726,23 +727,23 @@ export default function _Form({
                       <tbody>
                         {rowDto.map((itm, index) => (
                           <tr key={itm?.itemId}>
-                            <td className='text-center'>{++index}</td>
-                            <td className='pl-2'>{itm?.itemName}</td>
-                            <td className='pl-2'>{itm?.itemCode}</td>
-                            <td className='text-right pr-2'>
+                            <td className="text-center">{++index}</td>
+                            <td className="pl-2">{itm?.itemName}</td>
+                            <td className="pl-2">{itm?.itemCode}</td>
+                            <td className="text-right pr-2">
                               {itm?.quotationQuantity}
                             </td>
-                            <td className='text-right pr-2'>
+                            <td className="text-right pr-2">
                               {itm?.itemPrice}
                             </td>
-                            <td className='text-right pr-2'>
+                            <td className="text-right pr-2">
                               {itm?.quotationValue}
                             </td>
-                            <td className='pl-2'>{itm?.uomName}</td>
-                            <td className='pl-2'>{itm?.specification}</td>
-                            <td className='text-center'>
+                            <td className="pl-2">{itm?.uomName}</td>
+                            <td className="pl-2">{itm?.specification}</td>
+                            <td className="text-center">
                               <i
-                                className='fa fa-trash'
+                                className="fa fa-trash"
                                 onClick={() => remover(itm.itemId)}
                               ></i>
                             </td>
@@ -754,27 +755,27 @@ export default function _Form({
                 </div>
               </div>
               <>
-                <hr className='m-1'></hr>
+                <hr className="m-1"></hr>
                 {/* terms and conditions start */}
-                <div className='row'>
-                  <div className='col-lg-12 p-0 m-0'>
-                    <div className='row global-form m-0'>
-                      <div className='col-lg-3'>
+                <div className="row">
+                  <div className="col-lg-12 p-0 m-0">
+                    <div className="row global-form m-0">
+                      <div className="col-lg-3">
                         <IInput
-                          type='text'
+                          type="text"
                           value={values.termsAndConditions}
-                          label='Terms And Conditions'
-                          name='termsAndConditions'
+                          label="Terms And Conditions"
+                          name="termsAndConditions"
                           onChange={(e) => {
                             setFieldValue("termsAndConditions", e.target.value);
                           }}
                         />
                       </div>
-                      <div className='col-lg-3'>
+                      <div className="col-lg-3">
                         <button
-                          type='button'
+                          type="button"
                           style={{ marginTop: "17px" }}
-                          className='btn btn-primary ml-2'
+                          className="btn btn-primary ml-2"
                           disabled={!values?.termsAndConditions}
                           onClick={() => {
                             setObjTerms([
@@ -795,9 +796,9 @@ export default function _Form({
                     </div>
                   </div>
                 </div>
-                <div className='row cash_journal bank-journal bank-journal-custom'>
-                  <div className='col-lg-6 pr-0 pl-0'>
-                    <table className='table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table'>
+                <div className="row cash_journal bank-journal bank-journal-custom">
+                  <div className="col-lg-6 pr-0 pl-0">
+                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                       <thead>
                         <tr>
                           <th style={{ width: "35px" }}>SL</th>
@@ -808,11 +809,11 @@ export default function _Form({
                       <tbody>
                         {objTerms?.map((itm, index) => (
                           <tr key={itm?.intSl}>
-                            <td className='text-center'>{index + 1}</td>
-                            <td className='pl-2'>{itm?.terms}</td>
-                            <td className='text-center'>
+                            <td className="text-center">{index + 1}</td>
+                            <td className="pl-2">{itm?.terms}</td>
+                            <td className="text-center">
                               <i
-                                className='fa fa-trash'
+                                className="fa fa-trash"
                                 onClick={() => {
                                   let filteredTermsAndConditions = objTerms.filter(
                                     (item) => item.intSl !== itm.intSl
@@ -828,21 +829,29 @@ export default function _Form({
                   </div>
                 </div>
                 {savedData ? (
-                  <SalesQuotationForPolyFibreInvoice
-                    printRef={printRef}
-                    invoiceData={savedData?.customResponse}
-                    businessPartnerInfo={savedData?.businessPartnerInfo}
-                  />
+                  selectedBusinessUnit?.value === 4 ? (
+                    <SalesQuotationForCement
+                      printRef={printRef}
+                      invoiceData={savedData?.customResponse}
+                      businessPartnerInfo={savedData?.businessPartnerInfo}
+                    />
+                  ) : (
+                    <SalesQuotationForPolyFibreInvoice
+                      printRef={printRef}
+                      invoiceData={savedData?.customResponse}
+                      businessPartnerInfo={savedData?.businessPartnerInfo}
+                    />
+                  )
                 ) : null}
               </>
               <button
-                type='submit'
+                type="submit"
                 style={{ display: "none" }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
-                type='reset'
+                type="reset"
                 style={{ display: "none" }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}

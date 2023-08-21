@@ -1,4 +1,5 @@
 import React from 'react';
+import { _formatMoney } from '../../../_helper/_formatMoney';
 
 export default function ViewTable({ rowDto }) {
   return (
@@ -6,7 +7,7 @@ export default function ViewTable({ rowDto }) {
       <thead>
         <tr>
           <th>SL</th>
-          <th className="text-left">Item Code </th>
+          <th>Item Code</th>
           <th>Item Name</th>
           <th>UoM</th>
           <th>Sales Plant Qty</th>
@@ -25,12 +26,12 @@ export default function ViewTable({ rowDto }) {
               <td>{item?.itemCode}</td>
               <td>{item?.itemName}</td>
               <td>{item?.itemUoMName}</td>
-              <td>{item?.salesPlanQty}</td>
-              <td>{item?.distributionPlanQty}</td>
-              <td>{item?.planQty}</td>
-              <td>{item?.planRate}</td>
-              <td>{item?.planTransQty}</td>
-              <td>{item?.planTransRate}</td>
+              <td className='text-center'>{item?.salesPlanQty}</td>
+              <td className='text-center'>{item?.distributionPlanQty}</td>
+              <td className='text-center'>{item?.planQty}</td>
+              <td className='text-right'>{_formatMoney(item?.planRate)}</td>
+              <td className='text-center'>{item?.planTransQty}</td>
+              <td className='text-right'>{_formatMoney(item?.planTransRate)}</td>
             </tr>
           ))}
       </tbody>

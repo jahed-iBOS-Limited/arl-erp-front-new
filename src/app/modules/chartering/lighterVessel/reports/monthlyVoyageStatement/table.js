@@ -10,6 +10,7 @@ import { Formik } from "formik";
 import { _todayDate } from "../../../_chartinghelper/_todayDate";
 import ReactToPrint from "react-to-print";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 
 const headers = [
   { name: "SL" },
@@ -22,6 +23,9 @@ const headers = [
   { name: "Mother Vessel" },
   { name: "Voyage No (mother vessel)" },
   { name: "Cargo" },
+  { name: "Quantity" },
+  { name: "Rate" },
+  { name: "Freight" },
   { name: "Unloading Jetty" },
 ];
 
@@ -48,6 +52,9 @@ export default function MonthlyVoyageStatement() {
   }, [profileData, selectedBusinessUnit]);
 
   const printRef = useRef();
+
+  let totalQty = 0,
+    totalFreight = 0;
 
   return (
     <>
@@ -142,25 +149,51 @@ export default function MonthlyVoyageStatement() {
                         new Date(values?.date)?.getFullYear()}
                     </h4>
                   </div>
-                  {gridData?.map((item, index) => (
-                    <tr key={index}>
-                      <td className="text-center" style={{ width: "40px" }}>
-                        {index + 1}
-                      </td>
-                      <td>{item?.lighterVesselName}</td>
-                      <td>{item?.tripNo}</td>
-                      <td>{item?.receiveDate}</td>
-                      <td>{item?.dischargeStartDate}</td>
-                      <td>{item?.dischargeComplDate}</td>
-                      <td className="text-right">
-                        {item?.numTotalTripDuration} DAYS
-                      </td>
-                      <td>{item?.motherVesselName}</td>
-                      <td>{item?.voyageNo}</td>
-                      <td>{item?.cargoName}</td>
-                      <td>{item?.dischargePortName}</td>
-                    </tr>
-                  ))}
+                  {gridData?.map((item, index) => {
+                    totalQty += item?.numActualCargoQnty;
+                    totalFreight += item?.numTotalFreight;
+                    return (
+                      <tr key={index}>
+                        <td className="text-center" style={{ width: "40px" }}>
+                          {index + 1}
+                        </td>
+                        <td>{item?.lighterVesselName}</td>
+                        <td>{item?.tripNo}</td>
+                        <td>{item?.receiveDate}</td>
+                        <td>{item?.dischargeStartDate}</td>
+                        <td>{item?.dischargeComplDate}</td>
+                        <td className="text-right">
+                          {item?.numTotalTripDuration} DAYS
+                        </td>
+                        <td>{item?.motherVesselName}</td>
+                        <td>{item?.voyageNo}</td>
+                        <td>{item?.cargoName}</td>
+                        <td className="text-right">
+                          {_fixedPoint(item?.numActualCargoQnty, true, 0)}
+                        </td>
+                        <td className="text-right">
+                          {_fixedPoint(item?.numFreight, true, 0)}
+                        </td>
+                        <td className="text-right">
+                          {_fixedPoint(item?.numTotalFreight, true, 0)}
+                        </td>
+                        <td>{item?.dischargePortName}</td>
+                      </tr>
+                    );
+                  })}
+                  <tr>
+                    <td className="text-right" colSpan={10}>
+                      <b>Total</b>
+                    </td>
+                    <td className="text-right">
+                      <b>{_fixedPoint(totalQty, true, 0)}</b>
+                    </td>
+                    <td> </td>
+                    <td className="text-right">
+                      <b>{_fixedPoint(totalFreight, true, 0)}</b>
+                    </td>
+                    <td> </td>
+                  </tr>
                 </ICustomTable>
               </div>
             </form>

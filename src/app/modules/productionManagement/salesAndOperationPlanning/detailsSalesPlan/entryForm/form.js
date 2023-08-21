@@ -636,7 +636,7 @@ export default function _Form({
                 setIsShowModal(false);
               }}
             >
-              <ViewModal id={location?.state?.monthlyValues?.plant?.value} />
+              <ViewModal id={location?.state?.monthlyItem?.salesPlanId} />
             </IViewModal>
           </>
         )}

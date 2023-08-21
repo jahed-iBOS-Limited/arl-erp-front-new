@@ -134,11 +134,41 @@ const GridData = ({
                             {!td.approved && (
                               <span
                                 className="pr-2"
-                                onClick={() =>
+                                onClick={() =>{
+                                  const modifyValues  = {
+                                    sbu: {
+                                      value: td?.sbuId,
+                                      label: td?.sbuName,
+                                    },
+                                    shippoint: {
+                                      value: td?.shippointId,
+                                      label: td?.shippointName,
+                                    },
+                                    plant: {
+                                      value: td?.plantId,
+                                      label: td?.plantName,
+                                    },
+                                    salesOrg: {
+                                      value: td?.salesOrganizationId,
+                                      label: td?.salesOrganizationName,
+                                    },
+                                    salesOffice: {
+                                      value: td?.salesOfficeId,
+                                      label: td?.salesOfficeName,
+                                    },
+                                    distributionChannel: {
+                                      value: td?.distributionChannelId,
+                                      label: td?.distributionChannelName,
+                                    },
+                                    orderType: values?.orderType,
+                                    orderStatus: values?.orderStatus,
+                                  }
                                   history.push({
                                     pathname: `/sales-management/ordermanagement/salesorder/edit/${td.salesOrderId}`,
-                                    state: { ...td, ...values },
+                                    state: { ...td, ...modifyValues },
                                   })
+                                }
+                                 
                                 }
                                 style={{ border: "none", background: "none" }}
                               >
@@ -220,6 +250,35 @@ const GridData = ({
                                 <IEdit
                                   title="Edit Sales Order"
                                   onClick={() => {
+                                    const modifyValues  = {
+                                      sbu: {
+                                        value: td?.sbuId,
+                                        label: td?.sbuName,
+                                      },
+                                      shippoint: {
+                                        value: td?.shippointId,
+                                        label: td?.shippointName,
+                                      },
+                                      plant: {
+                                        value: td?.plantId,
+                                        label: td?.plantName,
+                                      },
+                                      salesOrg: {
+                                        value: td?.salesOrganizationId,
+                                        label: td?.salesOrganizationName,
+                                      },
+                                      salesOffice: {
+                                        value: td?.salesOfficeId,
+                                        label: td?.salesOfficeName,
+                                      },
+                                      distributionChannel: {
+                                        value: td?.distributionChannelId,
+                                        label: td?.distributionChannelName,
+                                      },
+                                      orderType: values?.orderType,
+                                      orderStatus: values?.orderStatus,
+                                    }
+
                                     getAddressChangingPermission(
                                       `/wms/FertilizerOperation/GetAllModificationPermission?UserEnroll=${profileData?.userId}&BusinessUnitId=${selectedBusinessUnit?.value}&Type=YsnAddressChange`,
                                       (addressChangingPermission) => {
@@ -227,7 +286,7 @@ const GridData = ({
                                           pathname: `/sales-management/ordermanagement/salesorder/update/${td?.salesOrderId}`,
                                           state: {
                                             ...td,
-                                            ...values,
+                                            ...modifyValues,
                                             addressChangingPermission,
                                           },
                                         });
@@ -279,7 +338,6 @@ const GridData = ({
       >
         <ShippointTransferModel
           completeModalInfo={completeModalInfo}
-          saveCompleteModel={saveCompleteModel}
           loading={loading}
           values={values}
           shipPointDDL={shipPointDDL}

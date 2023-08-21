@@ -1,4 +1,5 @@
 import React from 'react';
+import { _formatMoney } from '../../../_helper/_formatMoney';
 
 export default function DetailsDistributionView({ rowData }) {
   return (
@@ -26,9 +27,9 @@ export default function DetailsDistributionView({ rowData }) {
                   <td>{item?.itemName}</td>
                   <td>{item?.itemUoMName}</td>
                   <td className='text-center'>{item?.planQty}</td>
-                  <td className='text-center'>{item?.planRate}</td>
+                  <td className='text-right'>{_formatMoney(item?.planRate)}</td>
                   <td className='text-center'>{item?.planTransQty}</td>
-                  <td className='text-center'>{item?.planTransRate}</td>
+                  <td className='text-right'>{_formatMoney(item?.planTransRate)}</td>
                 </tr>
               ))}
           </tbody>
