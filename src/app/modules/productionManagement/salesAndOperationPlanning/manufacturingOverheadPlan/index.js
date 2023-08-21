@@ -70,7 +70,7 @@ export default function ManufacturingOverheadPlanLanding() {
         <>
           {loading && <Loading />}
           <IForm
-            title="Manufacturing Overhead Plan"
+            title="Overhead Plan"
             getProps={setObjprops}
             isHiddenBack
             isHiddenReset
