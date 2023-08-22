@@ -68,10 +68,6 @@ function EditForm({ rowClickItem, landingCB }) {
   }, [rowClickItem]);
 
   const saveHandler = (values) => {
-    // rowDto empty check
-
-    if (rowDto.length === 0) return toast.warn("Please add row");
-
     //   transactionDate,particulars,instrumentNo,monDebit,monCredit,monBalance, empty check
     const check = rowDto?.some((itm) => {
       return !itm?.transactionDate || !itm?.particulars || !itm?.instrumentNo;
@@ -184,6 +180,21 @@ function EditForm({ rowClickItem, landingCB }) {
                   <Form className='form form-label-right'>
                     <div className='form-group row global-form'>
                       <div className='col-lg-3'>
+                        {values?.bankId === 0 && (
+                          <p className='m-0'>
+                            Bank Account: <b> {values?.bankName}</b>
+                          </p>
+                        )}
+                      </div>
+                      <div className='col-lg-3'>
+                        {values?.bankAccountId === 0 && (
+                          <p className='m-0'>
+                            A/C No: <b> {values?.bankAccountNo}</b>
+                          </p>
+                        )}
+                      </div>
+                      <div className='col-lg-6'></div>
+                      <div className='col-lg-3'>
                         <NewSelect
                           name='bankAccount'
                           placeholder='Select Bank Account'
@@ -231,7 +242,7 @@ function EditForm({ rowClickItem, landingCB }) {
                           disabled
                         />
                       </div>
-                      <div className='col-lg-3'>
+                      {/* <div className='col-lg-3'>
                         <label>File UID </label>
                         <InputField
                           value={values?.fileUID || ""}
@@ -256,7 +267,7 @@ function EditForm({ rowClickItem, landingCB }) {
                           }}
                           disabled
                         />
-                      </div>
+                      </div> */}
                       <div className='col-lg-3'>
                         <label>Sender Address </label>
                         <InputField
@@ -464,26 +475,6 @@ function EditForm({ rowClickItem, landingCB }) {
                                         gap: "8px",
                                       }}
                                     >
-                                      <sapn
-                                        onClick={() => {
-                                          // new row add inner index position
-                                          const obj = {
-                                            transactionDate: _todayDate(),
-                                            particulars: "",
-                                            instrumentNo: "",
-                                            monCredit: "",
-                                            monDebit: "",
-                                            monBalance: "",
-                                            isEdit: true,
-                                          };
-
-                                          const newData = [...rowDto];
-                                          newData.splice(i + 1, 0, obj);
-                                          setRowDto(newData);
-                                        }}
-                                      >
-                                        <IAdd />
-                                      </sapn>
                                       {item?.isEdit ? (
                                         <>
                                           <sapn
@@ -512,6 +503,26 @@ function EditForm({ rowClickItem, landingCB }) {
                                           </sapn>
                                         </>
                                       )}
+                                      <sapn
+                                        onClick={() => {
+                                          // new row add inner index position
+                                          const obj = {
+                                            transactionDate: _todayDate(),
+                                            particulars: "",
+                                            instrumentNo: "",
+                                            monCredit: "",
+                                            monDebit: "",
+                                            monBalance: "",
+                                            isEdit: true,
+                                          };
+
+                                          const newData = [...rowDto];
+                                          newData.splice(i + 1, 0, obj);
+                                          setRowDto(newData);
+                                        }}
+                                      >
+                                        <IAdd />
+                                      </sapn>
 
                                       <sapn
                                         onClick={() => {

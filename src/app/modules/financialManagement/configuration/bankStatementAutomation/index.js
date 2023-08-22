@@ -118,7 +118,7 @@ const BankStatementAutomation = () => {
                           <th>File Name</th>
                           <th>Email Sender</th>
                           <th>Email Header</th>
-                          <th>Email DateTime</th>
+                          <th>Email Date</th>
                           <th>Status Message</th>
                           <th>Action</th>
                         </tr>
@@ -126,10 +126,15 @@ const BankStatementAutomation = () => {
                       <tbody>
                         {gridData?.data?.length > 0 &&
                           gridData?.data?.map((item, i) => (
-                            <tr key={i + 1}>
+                            <tr
+                              key={i + 1}
+                              style={{
+                                background: item?.isInserted ? "" : "#ffadad",
+                              }}
+                            >
                               <td className='text-center'>{i + 1}</td>
-                              <td className='text-left'>{item?.accountNo}</td>
                               <td className='text-left'>{item?.bankName}</td>
+                              <td className='text-left'>{item?.accountNo}</td>
                               <td className='text-left'>{item?.fileName}</td>
                               <td className='text-left'>
                                 {" "}
@@ -145,14 +150,16 @@ const BankStatementAutomation = () => {
                                 {item?.statusMessage}
                               </td>
                               <td className='text-center'>
-                                <span
-                                  onClick={() => {
-                                    setIsEditModal(true);
-                                    setRowClickItem(item);
-                                  }}
-                                >
-                                  <IEdit />
-                                </span>
+                                {!item?.isInserted && (
+                                  <span
+                                    onClick={() => {
+                                      setIsEditModal(true);
+                                      setRowClickItem(item);
+                                    }}
+                                  >
+                                    <IEdit />
+                                  </span>
+                                )}
                               </td>
                             </tr>
                           ))}
