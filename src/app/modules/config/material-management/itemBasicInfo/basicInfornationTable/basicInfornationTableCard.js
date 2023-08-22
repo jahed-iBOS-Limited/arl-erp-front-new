@@ -13,7 +13,7 @@ import NewSelect from "../../../../_helper/_select";
 import {
   getItemCategoryDDLByTypeId_api,
   getItemSubCategoryDDLByCategoryId_api,
-  getItemTypeListDDL_api
+  getItemTypeListDDL_api,
 } from "../helper";
 import IEdit from "./../../../../_helper/_helperIcons/_edit";
 import PaginationSearch from "./../../../../_helper/_search";
@@ -38,7 +38,7 @@ export function BasicInfornationTable() {
   const [itemSubCategoryOption, setItemSubCategoryOption] = useState([]);
   const [loading, setLoading] = useState(false);
   const [plantDDL, getPlantDDL] = useAxiosGet();
-  const [warehouseDDL, getWarehouseDDL] = useAxiosGet(); 
+  const [warehouseDDL, getWarehouseDDL] = useAxiosGet();
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
@@ -95,7 +95,9 @@ export function BasicInfornationTable() {
         0,
         0
       );
-      getPlantDDL(`/wms/Plant/GetPlantDDL?AccountId=${profileData.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`)
+      getPlantDDL(
+        `/wms/Plant/GetPlantDDL?AccountId=${profileData.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData]);
@@ -139,7 +141,16 @@ export function BasicInfornationTable() {
     }
   }, [profileData, selectedBusinessUnit]);
 
-  const download = (selectedBusinessUnit, itemType, itemCategory, itemSubCategory, search, plant, warehouse, accountId) => {
+  const download = (
+    selectedBusinessUnit,
+    itemType,
+    itemCategory,
+    itemSubCategory,
+    search,
+    plant,
+    warehouse,
+    accountId
+  ) => {
     setLoading(true);
     const url = `/wms/WmsReport/GetItemPurchaseListExcel?BusinessunitId=${selectedBusinessUnit}&ItemType=${itemType}&ItemCategory=${itemCategory}&ItemSubCategory=${itemSubCategory}&searchTerm=${""}&AccountId=${accountId}&Status=true&plantId=${plant}&warehouseId=${warehouse}&isDownload=true`;
     axios({
@@ -174,10 +185,9 @@ export function BasicInfornationTable() {
           itemSubCategory: { value: 0, label: "All" },
           plant: { value: 0, label: "All" },
           warehouse: { value: 0, label: "All" },
-
         }}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => { }}
+        onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
@@ -216,7 +226,7 @@ export function BasicInfornationTable() {
                       setFieldValue("itemCategory", valueOption);
                       valueOption?.value !== 0 &&
                         setFieldValue("itemSubCategory", "");
-                      setProducts([])
+                      setProducts([]);
                       getItemSubCategoryDDLByCategoryId_api(
                         profileData.accountId,
                         selectedBusinessUnit.value,
@@ -238,7 +248,7 @@ export function BasicInfornationTable() {
                     label="Item Sub-category"
                     onChange={(valueOption) => {
                       setFieldValue("itemSubCategory", valueOption);
-                      setProducts([])
+                      setProducts([]);
                     }}
                     placeholder="Item Sub-category"
                     errors={errors}
@@ -249,15 +259,15 @@ export function BasicInfornationTable() {
                 <div className="col-lg-3">
                   <NewSelect
                     name="plant"
-                    options={
-                      [ { value: 0, label: "All" },...plantDDL] || []
-                    }
+                    options={[{ value: 0, label: "All" }, ...plantDDL] || []}
                     value={values?.plant}
                     label="Plant"
                     onChange={(valueOption) => {
                       setFieldValue("plant", valueOption);
-                      getWarehouseDDL(`/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${valueOption?.value}`)
-                      setProducts([])
+                      getWarehouseDDL(
+                        `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${valueOption?.value}`
+                      );
+                      setProducts([]);
                     }}
                     placeholder="Plant"
                     errors={errors}
@@ -268,13 +278,13 @@ export function BasicInfornationTable() {
                   <NewSelect
                     name="warehouse"
                     options={
-                      [ { value: 0, label: "All" },...warehouseDDL] || []
+                      [{ value: 0, label: "All" }, ...warehouseDDL] || []
                     }
                     value={values?.warehouse}
                     label="warehouse"
                     onChange={(valueOption) => {
                       setFieldValue("warehouse", valueOption);
-                      setProducts([])
+                      setProducts([]);
                     }}
                     placeholder="warehouse"
                     errors={errors}
@@ -288,7 +298,7 @@ export function BasicInfornationTable() {
                       marginTop: "16px",
                     }}
                     onClick={() => {
-                      setProducts([])
+                      setProducts([]);
                       dispatchProduct(
                         profileData.accountId,
                         selectedBusinessUnit?.value,
@@ -326,7 +336,7 @@ export function BasicInfornationTable() {
                         values?.plant?.value,
                         values?.warehouse?.value,
                         profileData.accountId
-                      )
+                      );
                     }}
                     class="btn btn-primary ml-2"
                     disabled={products?.data?.length === 0}
@@ -557,7 +567,7 @@ export function BasicInfornationTable() {
                             >
                               <IEdit />
                             </span>
-                            {item?.itemTypeId === 4 && (
+                            {[4, 5].includes(item?.itemTypeId) && (
                               <span
                                 className="trade-offer-setup"
                                 onClick={() => {
@@ -577,7 +587,7 @@ export function BasicInfornationTable() {
                                   <span>
                                     <i
                                       className={`fas fa-gears pointer`}
-                                      onClick={() => { }}
+                                      onClick={() => {}}
                                     ></i>
                                   </span>
                                 </OverlayTrigger>

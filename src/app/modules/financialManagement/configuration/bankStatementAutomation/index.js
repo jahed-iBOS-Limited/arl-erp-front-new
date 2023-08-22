@@ -107,46 +107,50 @@ const BankStatementAutomation = () => {
                       </button>
                     </div>
                   </div>
-                  <div className='col-lg-12'>
-                    <div className='table-responsive'>
-                      <table className='table table-striped table-bordered global-table'>
-                        <thead>
-                          <tr>
-                            <th>SL</th>
-                            <th>Bank Name</th>
-                            <th>Account No</th>
-                            <th>File Name</th>
-                            <th>Email Sender</th>
-                            <th>Email Header</th>
-                            <th>Email DateTime</th>
-                            <th>Status Message</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {gridData?.data?.length > 0 &&
-                            gridData?.data?.map((item, i) => (
-                              <tr key={i + 1}>
-                                <td className='text-center'>{i + 1}</td>
-                                <td className='text-left'>{item?.accountNo}</td>
-                                <td className='text-left'>{item?.bankName}</td>
-                                <td className='text-left'>{item?.fileName}</td>
-                                <td className='text-left'>
-                                  {" "}
-                                  {item?.senderAddress}
-                                </td>
-                                <td className='text-left'>
-                                  {item?.emailHeader}
-                                </td>
-                                <td className='text-left'>
-                                  {moment(item?.emailDateTime).format(
-                                    "DD/MM/YYYY"
-                                  )}
-                                </td>
-                                <td className='text-left'>
-                                  {item?.statusMessage}
-                                </td>
-                                <td className='text-center'>
+
+                  <div className='table-responsive'>
+                    <table className='table table-striped table-bordered global-table'>
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Bank Name</th>
+                          <th>Account No</th>
+                          <th>File Name</th>
+                          <th>Email Sender</th>
+                          <th>Email Header</th>
+                          <th>Email Date</th>
+                          <th>Status Message</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {gridData?.data?.length > 0 &&
+                          gridData?.data?.map((item, i) => (
+                            <tr
+                              key={i + 1}
+                              style={{
+                                background: item?.isInserted ? "" : "#ffadad",
+                              }}
+                            >
+                              <td className='text-center'>{i + 1}</td>
+                              <td className='text-left'>{item?.bankName}</td>
+                              <td className='text-left'>{item?.accountNo}</td>
+                              <td className='text-left'>{item?.fileName}</td>
+                              <td className='text-left'>
+                                {" "}
+                                {item?.senderAddress}
+                              </td>
+                              <td className='text-left'>{item?.emailHeader}</td>
+                              <td className='text-left'>
+                                {moment(item?.emailDateTime).format(
+                                  "DD/MM/YYYY"
+                                )}
+                              </td>
+                              <td className='text-left'>
+                                {item?.statusMessage}
+                              </td>
+                              <td className='text-center'>
+                                {!item?.isInserted && (
                                   <span
                                     onClick={() => {
                                       setIsEditModal(true);
@@ -155,13 +159,14 @@ const BankStatementAutomation = () => {
                                   >
                                     <IEdit />
                                   </span>
-                                </td>
-                              </tr>
-                            ))}
-                        </tbody>
-                      </table>
-                    </div>
+                                )}
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
                   </div>
+
                   {getGridData?.data?.length > 0 && (
                     <PaginationTable
                       count={getGridData?.totalCount}
@@ -184,11 +189,14 @@ const BankStatementAutomation = () => {
                       onHide={() => setIsEditModal(false)}
                       title=''
                     >
-                      <EditForm rowClickItem={rowClickItem}  landingCB={() => {
+                      <EditForm
+                        rowClickItem={rowClickItem}
+                        landingCB={() => {
                           getGridData(values, pageNo, pageSize);
                           setIsEditModal(false);
-                          setRowClickItem({})
-                      }}/>
+                          setRowClickItem({});
+                        }}
+                      />
                     </IViewModal>
                   )}
                 </Form>
