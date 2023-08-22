@@ -80,6 +80,7 @@ export const dataModify = ({ formikRef, setRowDto, resData }) => {
   if (formikRef.current) {
     formikRef.current.setValues({
       ...formikRef.current.values,
+      ...resData?.headerDTO,
       bankAccount: resData?.headerDTO?.bankId
         ? {
             value: resData?.headerDTO?.bankId,
