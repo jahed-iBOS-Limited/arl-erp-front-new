@@ -27,7 +27,7 @@ const initData = {
   vehicle: "",
   comments1: "",
   costCenter: "",
-  costElement:"",
+  costElement: "",
   profitCenter: "",
   expenseDate: _todayDate(),
   transaction: "",
@@ -89,14 +89,13 @@ export default function ExpenseRegisterCreateForm() {
         } = singleData?.objHeader;
         //obj row
         let objRow = rowDto?.map((item) => ({
-          
           rowId: item.expenseRowId ? item.expenseRowId : 0,
-          costCenterId:item?.costCenter?.value || 0,
-          costCenterName:item?.costCenter?.label || "",
-          profitCenterId:item?.profitCenter?.value || 0,
-          profitCenterName:item?.profitCenter?.label || "",
-          costElementId:item?.costElement?.value || 0,
-          costElementName:item?.costElement?.label || "",
+          costCenterId: item?.costCenter?.value || 0,
+          costCenterName: item?.costCenter?.label || "",
+          profitCenterId: item?.profitCenter?.value || 0,
+          profitCenterName: item?.profitCenter?.label || "",
+          costElementId: item?.costElement?.value || 0,
+          costElementName: item?.costElement?.label || "",
           dteExpenseDate: item.expenseDate,
           businessTransactionId: item?.transaction?.value || 0,
           businessTransactionName: item?.transaction?.label || "",
@@ -126,8 +125,8 @@ export default function ExpenseRegisterCreateForm() {
             dteToDate: values.expenseTo,
             projectId: values.projectName.value || 0,
             projectName: values.projectName.label || "",
-            costCenterId:  0,
-            costCenterName:  "",
+            costCenterId: 0,
+            costCenterName: "",
             instrumentId: values.paymentType.value || 0,
             instrumentName: values.paymentType.label || "",
             disbursementCenterId: values?.disbursmentCenter?.value || 0,
@@ -155,12 +154,12 @@ export default function ExpenseRegisterCreateForm() {
       } else {
         // obj row for expense register
         let objRow = rowDto?.map((item) => ({
-          costCenterId:item?.costCenter?.value || 0,
-          costCenterName:item?.costCenter?.label || "",
-          profitCenterId:item?.profitCenter?.value || 0,
-          profitCenterName:item?.profitCenter?.label || "",
-          costElementId:item?.costElement?.value || 0,
-          costElementName:item?.costElement?.label || "",
+          costCenterId: item?.costCenter?.value || 0,
+          costCenterName: item?.costCenter?.label || "",
+          profitCenterId: item?.profitCenter?.value || 0,
+          profitCenterName: item?.profitCenter?.label || "",
+          costElementId: item?.costElement?.value || 0,
+          costElementName: item?.costElement?.label || "",
           dteExpenseDate: item.expenseDate,
           businessTransactionId: item.transaction.value || 0,
           businessTransactionName: item.transaction.label || "",
@@ -249,6 +248,8 @@ export default function ExpenseRegisterCreateForm() {
       driverName: values?.driverExp ? values?.userNmae?.label || "" : "",
     };
 
+    console.log("newobj", newobj);
+
     if (duplicateCheck) {
       toast.warning("Item already exists");
     } else {
@@ -257,9 +258,13 @@ export default function ExpenseRegisterCreateForm() {
         new Date(values?.expenseFrom) <= new Date(values?.expenseDate) &&
         new Date(values?.expenseTo) >= new Date(values?.expenseDate)
       ) {
-        setRowDto([...rowDto, newobj]);
-        cb && cb()
-        setUploadImage("");
+        if (+newobj?.expenseAmount > 499 && !newobj?.attachmentLink) {
+          return toast.warn("Attachment is required when expense amount is more or equal to 500");
+        } else {
+          setRowDto([...rowDto, newobj]);
+          cb && cb();
+          setUploadImage("");
+        }
       } else {
         toast.warn(
           'Expense Date must be in between "Exp Period From & Exp Period To" '
