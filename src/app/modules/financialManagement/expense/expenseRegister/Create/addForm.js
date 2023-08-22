@@ -42,7 +42,7 @@ const initData = {
   vehicle: "",
   comments1: "",
   costCenter: "",
-  costElement:"",
+  costElement: "",
   profitCenter: "",
   expenseDate: _todayDate(),
   transaction: "",
@@ -110,15 +110,15 @@ export default function ExpenseRegisterCreateForm() {
         //obj row
         let objRow = rowDto?.map((item, i) => ({
           rowId: item.expenseRowId ? item.expenseRowId : 0,
-          costCenterId:item?.costCenter?.value || 0,
-          costCenterName:item?.costCenter?.label || "",
-          profitCenterId:item?.profitCenter?.value || 0,
-          profitCenterName:item?.profitCenter?.label || "",
-          costElementId:item?.costElement?.value || 0,
-          costElementName:item?.costElement?.label || "",
+          costCenterId: item?.costCenter?.value || 0,
+          costCenterName: item?.costCenter?.label || "",
+          profitCenterId: item?.profitCenter?.value || 0,
+          profitCenterName: item?.profitCenter?.label || "",
+          costElementId: item?.costElement?.value || 0,
+          costElementName: item?.costElement?.label || "",
           dteExpenseDate: item.expenseDate,
           businessTransactionId: item?.transaction?.value || 0,
-          businessTransactionName: item?.transaction?.label || "", 
+          businessTransactionName: item?.transaction?.label || "",
           numQuantity: +item.quantity,
           numRate: +item.expenseAmount / +item.quantity,
           numAmount: +item.expenseAmount || 0,
@@ -137,16 +137,16 @@ export default function ExpenseRegisterCreateForm() {
             businessUnitName: selectedBusinessUnit?.label || "",
             sbuid: sbuid || 0,
             sbuname: sbuname || "",
-            countryId: countryId||0,
+            countryId: countryId || 0,
             countryName: countryName || "",
-            currencyId: currencyId||0,
-            currencyName: currencyName||"",
+            currencyId: currencyId || 0,
+            currencyName: currencyName || "",
             dteFromDate: values.expenseFrom,
             dteToDate: values.expenseTo,
             projectId: values.projectName.value || 0,
             projectName: values.projectName.label || "",
-            costCenterId:  0,
-            costCenterName:  "",
+            costCenterId: 0,
+            costCenterName: "",
             instrumentId: values.paymentType.value || 0,
             instrumentName: values.paymentType.label || "",
             disbursementCenterId: values?.disbursmentCenter?.value || 0,
@@ -155,7 +155,7 @@ export default function ExpenseRegisterCreateForm() {
             vehicleId:
               values.vehicle?.value === 1 ? "" : values.vehicle?.label || "",
             numTotalAmount: total?.totalAmount,
-            comments: values?.comments1 ||"",
+            comments: values?.comments1 || "",
             numTotalApprovedAmount: 0,
             actionBy: +profileData?.userId || 0,
             willApproved: location?.state?.isApproval ? true : false,
@@ -174,14 +174,14 @@ export default function ExpenseRegisterCreateForm() {
       } else {
         // obj row for expense register
         let objRow = rowDto?.map((item, i) => ({
-          costCenterId:item?.costCenter?.value || 0,
-          costCenterName:item?.costCenter?.label || "",
-          profitCenterId:item?.profitCenter?.value || 0,
-          profitCenterName:item?.profitCenter?.label || "",
-          costElementId:item?.costElement?.value || 0,
-          costElementName:item?.costElement?.label || "",
+          costCenterId: item?.costCenter?.value || 0,
+          costCenterName: item?.costCenter?.label || "",
+          profitCenterId: item?.profitCenter?.value || 0,
+          profitCenterName: item?.profitCenter?.label || "",
+          costElementId: item?.costElement?.value || 0,
+          costElementName: item?.costElement?.label || "",
           dteExpenseDate: item.expenseDate,
-          businessTransactionId: item.transaction.value ||0,
+          businessTransactionId: item.transaction.value || 0,
           businessTransactionName: item.transaction.label || "",
           numQuantity: +item.quantity || 0,
           numRate: +item.expenseAmount / +item.quantity,
@@ -200,9 +200,9 @@ export default function ExpenseRegisterCreateForm() {
             actionBy: +profileData?.userId || 0,
             businessUnitName: selectedBusinessUnit?.label || "",
             sbuid: location?.state?.selectedSbu.value || 0,
-            sbuname: location?.state?.selectedSbu.label || '',
+            sbuname: location?.state?.selectedSbu.label || "",
             countryId: location?.state?.selectedCountry.value || 0,
-            countryName: location?.state?.selectedCountry.label || '',
+            countryName: location?.state?.selectedCountry.label || "",
             currencyId: location?.state?.selectedCurrency.value || 0,
             currencyName: location?.state?.selectedCurrency.label || "",
             expenseForId: location?.state?.internalAccount
@@ -287,18 +287,24 @@ export default function ExpenseRegisterCreateForm() {
         new Date(values?.expenseFrom) <= new Date(values?.expenseDate) &&
         new Date(values?.expenseTo) >= new Date(values?.expenseDate)
       ) {
-        const newRowDto = [...rowDto, newobj];
-        if (fuelLogCash > 0) {
-          newRowDto.unshift({
-            ...values,
-            expenseAmount: fuelLogCash,
-            comments2: "Fuel Log Cash",
-            quantity: 1,
-          });
+        if (+newobj?.expenseAmount > 499 && !newobj?.attachmentLink) {
+          return toast.warn(
+            "Attachment is required when expense amount is more or equal to 500"
+          );
+        } else {
+          const newRowDto = [...rowDto, newobj];
+          if (fuelLogCash > 0) {
+            newRowDto.unshift({
+              ...values,
+              expenseAmount: fuelLogCash,
+              comments2: "Fuel Log Cash",
+              quantity: 1,
+            });
+          }
+          setRowDto(newRowDto);
+          cb && cb();
+          setUploadImage("");
         }
-        setRowDto(newRowDto);
-        cb && cb()
-        setUploadImage("");
       } else {
         toast.warn(
           'Expense Date must be in between "Exp Period From & Exp Period To" '
