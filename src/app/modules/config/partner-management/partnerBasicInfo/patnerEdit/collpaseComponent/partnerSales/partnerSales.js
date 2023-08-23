@@ -720,9 +720,10 @@ export default function PartnerSales() {
                 alternetGeneralLedger: filterAdvanceReceiveGL?.[0] || "",
                 priceIncludingTax: [171, 224].includes(
                   selectedBusinessUnit?.value
-                )
-                  ? true
-                  : false,
+                ),
+                isTaxOnDeliveryAmount: [171, 224].includes(
+                  selectedBusinessUnit?.value
+                ),
               }
             }
             btnRef={btnRef}
