@@ -10,6 +10,7 @@ import { BudgetEntryEdit } from "./budgetEntry/Edit/addEditForm";
 import { HrPlanLanding } from "./HrPlan/landing";
 import AssetLiabilityPlan from "./AssetLiabilityPlan";
 import AssetLiabilityPlanCreateEdit from "./AssetLiabilityPlan/createEdit";
+import ViewAssetLiabilityPlan from "./AssetLiabilityPlan/view";
 
 export function InternalControlBudgetPages() {
   const userRole = useSelector(
@@ -61,9 +62,17 @@ export function InternalControlBudgetPages() {
         component={hrPlan?.isView ? HrPlanLanding : NotPermittedPage}
       />
       <ContentRoute
+        from="/internal-control/budget/AssetLiabilityPlan/view/:yearId/:buId"
+        component={
+          AssetLiabilityPlanPermission?.isView
+            ? ViewAssetLiabilityPlan
+            : NotPermittedPage
+        }
+      />
+      <ContentRoute
         from="/internal-control/budget/AssetLiabilityPlan/create"
         component={
-          !AssetLiabilityPlanPermission?.isCreate
+          AssetLiabilityPlanPermission?.isCreate
             ? AssetLiabilityPlanCreateEdit
             : NotPermittedPage
         }
@@ -71,7 +80,7 @@ export function InternalControlBudgetPages() {
       <ContentRoute
         from="/internal-control/budget/AssetLiabilityPlan"
         component={
-          !AssetLiabilityPlanPermission?.isView
+          AssetLiabilityPlanPermission?.isView
             ? AssetLiabilityPlan
             : NotPermittedPage
         }
