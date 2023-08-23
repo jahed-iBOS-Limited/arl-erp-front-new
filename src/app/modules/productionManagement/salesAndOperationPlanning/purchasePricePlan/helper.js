@@ -26,7 +26,8 @@ export const getLogVersionDDL = async (accId, buId, salesPlanId, setter) => {
 export const getLandingPlantDDL = async (accId, buId, setter) => {
   try {
     const res = await Axios.get(
-      `/mes/MesDDL/GetSalesPlanPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`
+      // `/mes/MesDDL/GetSalesPlanPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`
+      `/mes/MesDDL/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
     setter(res?.data);
   } catch (error) {
