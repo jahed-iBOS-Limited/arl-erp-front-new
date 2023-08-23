@@ -37,8 +37,7 @@ const validationSchema = Yup.object().shape({
   //   label: Yup.string().required("Payment type is required"),
   //   value: Yup.string().required("Payment type is required"),
   // }),
-  expenseGroup: Yup.mixed()
-    .required("Expense Group is required"),
+  expenseGroup: Yup.mixed().required("Expense Group is required"),
   expenseFrom: Yup.date().required("Amount is required"),
   expenseTo: Yup.date().required("Instrument no is required"),
   disbursmentCenter: Yup.object().shape({
@@ -505,7 +504,7 @@ export default function _Form({
                           }
                           className="btn btn-primary"
                           onClick={() => {
-                            setter(values, ()=>{
+                            setter(values, () => {
                               setFieldValue("expenseAmount", "");
                             });
                             setFieldValue("driverExp", false);
