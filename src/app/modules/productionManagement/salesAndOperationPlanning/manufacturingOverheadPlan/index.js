@@ -70,7 +70,7 @@ export default function ManufacturingOverheadPlanLanding() {
         <>
           {loading && <Loading />}
           <IForm
-            title="Manufacturing Overhead Plan"
+            title="Overhead Plan"
             getProps={setObjprops}
             isHiddenBack
             isHiddenReset
@@ -195,42 +195,13 @@ export default function ManufacturingOverheadPlanLanding() {
                                 let modiFyRow = [...subGlRow];
                                 modiFyRow[index]["universalAmount"] =
                                   +e.target.value || "";
-                                modiFyRow[index]["monthList"][0][
-                                  "intMonthLyValue"
-                                ] = +e.target.value || "";
-                                modiFyRow[index]["monthList"][1][
-                                  "intMonthLyValue"
-                                ] = +e.target.value || "";
-                                modiFyRow[index]["monthList"][2][
-                                  "intMonthLyValue"
-                                ] = +e.target.value || "";
-                                modiFyRow[index]["monthList"][3][
-                                  "intMonthLyValue"
-                                ] = +e.target.value || "";
-                                modiFyRow[index]["monthList"][4][
-                                  "intMonthLyValue"
-                                ] = +e.target.value || "";
-                                modiFyRow[index]["monthList"][5][
-                                  "intMonthLyValue"
-                                ] = +e.target.value || "";
-                                modiFyRow[index]["monthList"][6][
-                                  "intMonthLyValue"
-                                ] = +e.target.value || "";
-                                modiFyRow[index]["monthList"][7][
-                                  "intMonthLyValue"
-                                ] = +e.target.value || "";
-                                modiFyRow[index]["monthList"][8][
-                                  "intMonthLyValue"
-                                ] = +e.target.value || "";
-                                modiFyRow[index]["monthList"][9][
-                                  "intMonthLyValue"
-                                ] = +e.target.value || "";
-                                modiFyRow[index]["monthList"][10][
-                                  "intMonthLyValue"
-                                ] = +e.target.value || "";
-                                modiFyRow[index]["monthList"][11][
-                                  "intMonthLyValue"
-                                ] = +e.target.value || "";
+
+                                for (let i = 0; i < 12; i++) {
+                                  modiFyRow[index]["monthList"][i][
+                                    "intMonthLyValue"
+                                  ] = +e.target.value || "";
+                                }
+
                                 setSubGlRow(modiFyRow);
                               }}
                             />
