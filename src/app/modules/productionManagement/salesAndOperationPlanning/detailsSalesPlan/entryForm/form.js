@@ -81,7 +81,7 @@ export default function _Form({
   const [fileObject, setFileObject] = useState("");
   const hiddenFileInput = React.useRef(null);
   const [pageNo, setPageNo] = React.useState(0);
-  const [pageSize, setPageSize] = React.useState(50);
+  const [pageSize, setPageSize] = React.useState(20000);
   const [plant, setPlant] = React.useState({});
   const [isShowModal, setIsShowModal] = useState(false);
 
@@ -141,7 +141,7 @@ export default function _Form({
     getItemListSalesPlanDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      plant?.value,
+      initData?.plant?.value,
       pageNo,
       pageSize,
       setRowDto
