@@ -167,9 +167,9 @@ const BankStatementAutomation = () => {
                     </table>
                   </div>
 
-                  {getGridData?.data?.length > 0 && (
+                  {gridData?.data?.length > 0 && (
                     <PaginationTable
-                      count={getGridData?.totalCount}
+                      count={gridData?.totalCount}
                       setPositionHandler={(pageNo, pageSize) => {
                         getGridData(values, pageNo, pageSize);
                       }}
