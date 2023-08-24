@@ -32,6 +32,7 @@ const initData = {
   monthId: "",
   itemId: "",
   itemPlanQty: "",
+  profitCenter: "",
 };
 export default function DetailsSalesPlanEntry() {
   // eslint-disable-next-line no-unused-vars
@@ -55,6 +56,11 @@ export default function DetailsSalesPlanEntry() {
   const [yearDDL, setYearDDL] = useState([]);
   const [horizonDDL, setHorizonDDL] = useState([]);
   const [itemNameDDL, setItemNameDDL] = useState([]);
+  const [
+    profitCenterDDl,
+    getProfitCenterDDL,
+    profitCenterDDLloader,
+  ] = useAxiosGet();
 
   const [numItemPlanQty, setNumItemPlanQty] = useState(0);
 
@@ -86,6 +92,10 @@ export default function DetailsSalesPlanEntry() {
     );
     getChannelDDL(
       `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}`
+    );
+
+    getProfitCenterDDL(
+      `/fino/CostSheet/ProfitCenterDDL?BUId=${selectedBusinessUnit?.value}`
     );
   }, []);
 
@@ -136,6 +146,7 @@ export default function DetailsSalesPlanEntry() {
             detailSalesPlanId: values?.intDetailSalesPlanId,
             salesPlanId: values?.intSalesPlanId,
             actionById: profileData?.userId,
+            intProfitCenterId: values?.profitCenter?.value,
           },
           row: createSalesPlanItem(),
         };
@@ -143,6 +154,7 @@ export default function DetailsSalesPlanEntry() {
       } else {
         const payload = {
           header: {
+            intProfitCenterId: values?.profitCenter?.value,
             intDetailSalesPlanId:
               location?.state?.detailsItem?.intDetailSalesPlanId || 0,
             intSalesPlanId:
@@ -257,6 +269,7 @@ export default function DetailsSalesPlanEntry() {
         setAreaDDL={setAreaDDL}
         getTerritoryDDL={getTerritoryDDL}
         setTerritoryDDL={setTerritoryDDL}
+        profitCenterDDl={profitCenterDDl}
       />
     </IForm>
   );

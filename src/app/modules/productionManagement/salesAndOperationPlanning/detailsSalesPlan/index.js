@@ -156,7 +156,7 @@ export default function MonthlySalesPlanLanding() {
                                 <span
                                   onClick={() => {
                                     history.push({
-                                      pathname: `/production-management/salesAndOperationsPlanning/detailsalseplan/details`,
+                                      pathname: `/internal-control/budget/detailsalseplan/details`,
                                       state: {
                                         monthlyValues: values,
                                         monthlyItem: item,
