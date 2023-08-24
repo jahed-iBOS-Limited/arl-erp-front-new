@@ -2,24 +2,25 @@ import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { toast } from "react-toastify";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import { _formatMoney } from "../../../_helper/_formatMoney";
+import IEdit from "../../../_helper/_helperIcons/_edit";
 import IView from "../../../_helper/_helperIcons/_view";
 import InputField from "../../../_helper/_inputField";
 import { _monthLastDate } from "../../../_helper/_monthLastDate";
+import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
 import PaginationSearch from "../../../_helper/_search";
 import NewSelect from "../../../_helper/_select";
 import PaginationTable from "../../../_helper/_tablePagination";
 import { _todayDate } from "../../../_helper/_todayDate";
 import IViewModal from "../../../_helper/_viewModal";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import ICon from "../../../chartering/_chartinghelper/icons/_icon";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
+import JobOrderView from "./jobOrderView";
 import SalesOrderView from "./salesOrderView";
-import ICon from "../../../chartering/_chartinghelper/icons/_icon";
-import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
-import { toast } from "react-toastify";
-import IEdit from "../../../_helper/_helperIcons/_edit";
 
 const initData = {
   orderType: "",
@@ -68,6 +69,7 @@ export default function SalesOrderLanding() {
   const [salesOfficeDDL, getSalesOfficeDDL, salesOfficeLoading] = useAxiosGet();
 
   const [orderViewModal, setOrderViewModal] = useState(false);
+  const [jobOrderViewModal, setJobOrderViewModal] = useState(false);
   const [salesQuotationId, setSalesQuotationId] = useState(null);
 
   useEffect(() => {
@@ -470,6 +472,14 @@ export default function SalesOrderLanding() {
                                     }}
                                   />
                                 </span>
+                                <span className="view">
+                                  <IView
+                                    clickHandler={() => {
+                                      setSalesQuotationId(td?.quotationId);
+                                      setJobOrderViewModal(true);
+                                    }}
+                                  />
+                                </span>
                               </div>
                             </td>
                           </tr>
@@ -486,6 +496,17 @@ export default function SalesOrderLanding() {
                     }}
                   >
                     <SalesOrderView salesQuotationId={salesQuotationId} />
+                  </IViewModal>
+                  {/* Job Order modal */}
+                  <IViewModal
+                    title="View Job Order"
+                    show={jobOrderViewModal}
+                    onHide={() => {
+                      setJobOrderViewModal(false);
+                      setSalesQuotationId(null);
+                    }}
+                  >
+                    <JobOrderView salesQuotationId={salesQuotationId}/>
                   </IViewModal>
                 </div>
                 {rowData?.data?.length > 0 && (
