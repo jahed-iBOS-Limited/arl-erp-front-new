@@ -63,7 +63,7 @@ const PurchasePlanTable = () => {
 
   const createHandler = () => {
     history.push(
-      "/production-management/salesAndOperationsPlanning/PurchasePlan/Create"
+      "/internal-control/budget/PurchasePlan/Create"
     );
   };
 
@@ -168,7 +168,7 @@ const PurchasePlanTable = () => {
                       {/* <span
                         onClick={() =>
                           history.push(
-                            `/production-management/salesAndOperationsPlanning/PurchasePlan/edit/${item?.salesPlanId}`
+                            `/internal-control/budget/PurchasePlan/edit/${item?.salesPlanId}`
                           )
                         }
                       >
@@ -180,7 +180,7 @@ const PurchasePlanTable = () => {
                         className="extend"
                         onClick={() => {
                           history.push(
-                            `/production-management/salesAndOperationsPlanning/PurchasePlan/${plant.value}/${item?.salesPlanId}/createPP`
+                            `/internal-control/budget/PurchasePlan/${plant.value}/${item?.salesPlanId}/createPP`
                           );
                         }}
                       >
@@ -201,7 +201,7 @@ const PurchasePlanTable = () => {
                       {/* <span
                         onClick={() =>
                           history.push(
-                            `/production-management/salesAndOperationsPlanning/PurchasePlan/view/${item?.salesPlanId}`
+                            `/internal-control/budget/PurchasePlan/view/${item?.salesPlanId}`
                           )
                         }
                       >

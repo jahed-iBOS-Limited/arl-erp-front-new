@@ -69,7 +69,7 @@ export default function DistributionPlanLanding() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        '/production-management/salesAndOperationsPlanning/DistributionPlanning/create'
+                        '/internal-control/budget/DistributionPlanning/create'
                       );
                     }}
                   >
@@ -125,7 +125,7 @@ export default function DistributionPlanLanding() {
                                   onClick={() => {
                                     history.push({
                                       pathname:
-                                        '/production-management/salesAndOperationsPlanning/DistributionPlanning/create',
+                                        '/internal-control/budget/DistributionPlanning/create',
                                       state: {
                                         isEdit: true,
                                         item,

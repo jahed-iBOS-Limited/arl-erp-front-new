@@ -67,32 +67,8 @@ export function salesAndOperationsPlanning() {
         component={SalesAndProductionTable}
       />
 
-      {/* Purchase Plan */}
-      <ContentRoute
-        from="/production-management/salesAndOperationsPlanning/PurchasePlan/:plantId/:salesPlanId/createPP"
-        component={PurchasePlanningForm}
-      />
-      <ContentRoute
-        from="/production-management/salesAndOperationsPlanning/PurchasePlan/view/:viewId"
-        component={PurchasePlanCreateFormView}
-      />
-      <ContentRoute
-        from="/production-management/salesAndOperationsPlanning/PurchasePlan/edit/:id"
-        component={PurchasePlanCreateForm}
-      />
-      <ContentRoute
-        from="/production-management/salesAndOperationsPlanning/PurchasePlan/Create"
-        component={PurchasePlanCreateForm}
-      />
-
-      <ContentRoute
-        from="/production-management/salesAndOperationsPlanning/PurchasePlan"
-        component={PurchasePlanTable}
-      />
-      <ContentRoute
-        from="/production-management/salesAndOperationsPlanning/manufacturingoverheadplan"
-        component={ManufacturingOverheadPlanLanding}
-      />
+      
+      
       {/* Production Master Schedulel */}
       <ContentRoute
         path="/production-management/salesAndOperationsPlanning/productionMasterSchedule/add"
@@ -115,45 +91,6 @@ export function salesAndOperationsPlanning() {
       <ContentRoute
         path="/production-management/salesAndOperationsPlanning/materialannualplan"
         component={Materialannualplan}
-      />
-      {/* Distribuation Planning */}
-      {/* <ContentRoute
-        path="/production-management/salesAndOperationsPlanning/DistributionPlanning/edit"
-        component={
-          distributionPlanningPermission?.isCreate
-            ? DistributionPlanEdit
-            : NotPermitted
-        }
-      /> */}
-      <ContentRoute
-        path="/production-management/salesAndOperationsPlanning/DistributionPlanning/create"
-        component={
-          distributionPlanningPermission?.isCreate
-            ? DistributionPlanCreateEdit
-            : NotPermitted
-        }
-      />
-      <ContentRoute
-        path="/production-management/salesAndOperationsPlanning/DistributionPlanning"
-        component={
-          distributionPlanningPermission?.isView
-            ? DistributionPlanLanding
-            : NotPermitted
-        }
-      />
-
-      {/* Details Sales Plan  */}
-      <ContentRoute
-        path="/production-management/salesAndOperationsPlanning/detailsalseplan/details/:actionType"
-        component={DetailsSalesPlanEntry}
-      />
-      <ContentRoute
-        path="/production-management/salesAndOperationsPlanning/detailsalseplan/details"
-        component={DetailsSalesPlanLanding}
-      />
-      <ContentRoute
-        path="/production-management/salesAndOperationsPlanning/detailsalseplan"
-        component={MonthlySalesPlanLanding}
       />
     </Switch>
   );
