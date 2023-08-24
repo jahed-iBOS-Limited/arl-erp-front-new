@@ -5,7 +5,8 @@ import { toast } from "react-toastify";
 export const getPlantDDL = async (accId, buId, setter) => {
   try {
     const res = await Axios.get(
-      `/mes/MesDDL/GetSalesPlanPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`
+      // `/mes/MesDDL/GetSalesPlanPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`
+      `/mes/MesDDL/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
     setter(res?.data);
   } catch (error) {
