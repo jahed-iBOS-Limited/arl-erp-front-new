@@ -15,6 +15,10 @@ import ViewModal from "../viewModal";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
+  profitCenter: Yup.object().shape({
+    value: Yup.string().required("Profit Center is required"),
+    label: Yup.string().required("Profit Center is required"),
+  }),
   plant: Yup.object()
     .shape({
       value: Yup.string().required("Plant Name is required"),
@@ -77,6 +81,7 @@ export default function _Form({
   getTerritoryDDL,
   setTerritoryDDL,
   location,
+  profitCenterDDl,
 }) {
   const [fileObject, setFileObject] = useState("");
   const hiddenFileInput = React.useRef(null);
@@ -269,6 +274,21 @@ export default function _Form({
                       errors={errors}
                       touched={touched}
                       isDisabled={true}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="profitCenter"
+                      options={profitCenterDDl}
+                      value={values?.profitCenter}
+                      label="Profit Center"
+                      placeholder="profit Center"
+                      onChange={(valueOption) => {
+                        setFieldValue("profitCenter", valueOption);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                      isDisabled={id}
                     />
                   </div>
                   <div className="col-lg-3">

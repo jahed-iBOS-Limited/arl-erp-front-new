@@ -11,6 +11,17 @@ import { HrPlanLanding } from "./HrPlan/landing";
 import AssetLiabilityPlan from "./AssetLiabilityPlan";
 import AssetLiabilityPlanCreateEdit from "./AssetLiabilityPlan/createEdit";
 import ViewAssetLiabilityPlan from "./AssetLiabilityPlan/view";
+import PurchasePlanningForm from "../../productionManagement/salesAndOperationPlanning/purchasePricePlan/productionPlanning/addEditForm";
+import PurchasePlanCreateFormView from "../../productionManagement/salesAndOperationPlanning/purchasePricePlan/formView/addEditForm";
+import PurchasePlanCreateForm from "../../productionManagement/salesAndOperationPlanning/purchasePricePlan/form/addEditForm";
+import PurchasePlanTable from "../../productionManagement/salesAndOperationPlanning/purchasePricePlan/table/table";
+import DistributionPlanCreateEdit from "../../productionManagement/salesAndOperationPlanning/distributionPlan/createEdit";
+import NotPermitted from "../../performanceManagement/notPermittedPage/notPermitted";
+import DistributionPlanLanding from "../../productionManagement/salesAndOperationPlanning/distributionPlan";
+import DetailsSalesPlanEntry from "../../productionManagement/salesAndOperationPlanning/detailsSalesPlan/entryForm/addEditForm";
+import DetailsSalesPlanLanding from "../../productionManagement/salesAndOperationPlanning/detailsSalesPlan/detailsSalesPlan";
+import MonthlySalesPlanLanding from "../../productionManagement/salesAndOperationPlanning/detailsSalesPlan";
+import ManufacturingOverheadPlanLanding from "../../productionManagement/salesAndOperationPlanning/manufacturingOverheadPlan";
 
 export function InternalControlBudgetPages() {
   const userRole = useSelector(
@@ -21,6 +32,8 @@ export function InternalControlBudgetPages() {
   let budgetEntry = null;
   let hrPlan = null;
   let AssetLiabilityPlanPermission = null;
+  let distributionPlanningPermission = null;
+
   for (let i = 0; i < userRole.length; i++) {
     if (userRole[i]?.intFeatureId === 1156) {
       budgetEntry = userRole[i];
@@ -30,6 +43,9 @@ export function InternalControlBudgetPages() {
     }
     if (userRole[i]?.intFeatureId === 1342) {
       AssetLiabilityPlanPermission = userRole[i];
+    }
+    if (userRole[i]?.intFeatureId === 1328) {
+      distributionPlanningPermission = userRole[i];
     }
   }
 
@@ -61,6 +77,70 @@ export function InternalControlBudgetPages() {
         from="/internal-control/budget/hrplan"
         component={hrPlan?.isView ? HrPlanLanding : NotPermittedPage}
       />
+
+      {/* Purchase Plan */}
+      <ContentRoute
+        from="/internal-control/budget/PurchasePlan/:plantId/:salesPlanId/createPP"
+        component={PurchasePlanningForm}
+      />
+      <ContentRoute
+        from="/internal-control/budget/PurchasePlan/view/:viewId"
+        component={PurchasePlanCreateFormView}
+      />
+      <ContentRoute
+        from="/internal-control/budget/PurchasePlan/edit/:id"
+        component={PurchasePlanCreateForm}
+      />
+      <ContentRoute
+        from="/internal-control/budget/PurchasePlan/Create"
+        component={PurchasePlanCreateForm}
+      />
+      <ContentRoute
+        from="/internal-control/budget/PurchasePlan"
+        component={PurchasePlanTable}
+      />
+
+      {/* Distribuation Planning */}
+      <ContentRoute
+        path="/internal-control/budget/DistributionPlanning/create"
+        component={
+          distributionPlanningPermission?.isCreate
+            ? DistributionPlanCreateEdit
+            : NotPermitted
+        }
+      />
+      <ContentRoute
+        path="/internal-control/budget/DistributionPlanning"
+        component={
+          distributionPlanningPermission?.isView
+            ? DistributionPlanLanding
+            : NotPermitted
+        }
+      />
+
+      {/* Details Sales Plan  */}
+      <ContentRoute
+        path="/internal-control/budget/detailsalseplan/details/:actionType"
+        component={DetailsSalesPlanEntry}
+      />
+      <ContentRoute
+        path="/internal-control/budget/detailsalseplan/details"
+        component={DetailsSalesPlanLanding}
+      />
+      <ContentRoute
+        path="/internal-control/budget/detailsalseplan"
+        component={MonthlySalesPlanLanding}
+      />
+
+      {/* overhead */}
+
+      <ContentRoute
+        from="/internal-control/budget/manufacturingoverheadplan"
+        component={ManufacturingOverheadPlanLanding}
+      />
+
+      {/* assets and liabilities */}
+
       <ContentRoute
         from="/internal-control/budget/AssetLiabilityPlan/view/:yearId/:buId"
         component={

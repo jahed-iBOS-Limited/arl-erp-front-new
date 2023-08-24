@@ -1,17 +1,17 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import Loading from "../../../../_helper/_loading";
-import IForm from "../../../../_helper/_form";
 import { shallowEqual, useSelector } from "react-redux";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
 import { useLocation } from "react-router";
-import InputField from "../../../../_helper/_inputField";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import TextArea from "../../../../_helper/TextArea";
 import { toast } from "react-toastify";
+import TextArea from "../../../../_helper/TextArea";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import IForm from "../../../../_helper/_form";
+import { _formatMoney } from "../../../../_helper/_formatMoney";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
+import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
 const initData = {
   orderRequirement: "",
@@ -147,6 +147,7 @@ export default function CreateEditJobOrder() {
                     <th>MFG DATE</th>
                     <th>BEST BEFORE</th>
                     <th>SELF LIFE</th>
+                    <th>NET WEIGHT MANUAL</th>
                     <th>SAMPLE FOR FOREIGN CUSTOMS</th>
                     <th>SAMPLE FOR BD CUSTOMS</th>
                   </tr>
@@ -216,6 +217,20 @@ export default function CreateEditJobOrder() {
                           type="number"
                           name="SelfLife"
                           disabled={true}
+                        />
+                      </td>
+                      <td>
+                        <InputField
+                          value={item?.NetWeightManual}
+                          type="number"
+                          name="NetWeightManual"
+                         onChange={(e)=>{
+                          rowDtoHandler(
+                            rowDataIndex,
+                            "NetWeightManual",
+                            e.target.value
+                          )
+                         }}
                         />
                       </td>
                       <td>

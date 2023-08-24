@@ -10,6 +10,7 @@ import NewSelect from "../../../_helper/_select";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import "./styles.css";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { _todayDate } from "../../../_helper/_todayDate";
 
 const initData = {
   fiscalYear: "",
@@ -24,8 +25,9 @@ export default function AssetLiabilityPlanCreateEdit() {
     setTableData,
   ] = useAxiosGet();
 
-  const [, saveData, saveDataLoader] = useAxiosPost();
+  const [inventoryData, getInventoryData, inventoryDataLoader] = useAxiosGet();
 
+  const [, saveData, saveDataLoader] = useAxiosPost();
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -51,9 +53,10 @@ export default function AssetLiabilityPlanCreateEdit() {
 
   useEffect(() => {
     getFiscalYearDDL(`/vat/TaxDDL/FiscalYearDDL`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const fillPersentageValue = (PercentageValue, index, initialAmount) => {
+  const fillPersentageValueInRow = (PercentageValue, index, initialAmount) => {
     const updatedData = [...tableData];
     let updatedValue = initialAmount;
     const monthsToUpdate = [
@@ -75,12 +78,115 @@ export default function AssetLiabilityPlanCreateEdit() {
       updatedValue = parseFloat(updatedValue.toFixed(2));
       updatedData[index][month] = updatedValue;
     }
-
-    console.log("updatedData", updatedData);
     setTableData(updatedData);
   };
 
   const getInventoryDataOfFiscalYear = () => {};
+
+  const calculatePercentageValues = (item) => {
+    if (item.entryType === "Percentage") {
+      const updatedValue = item.initialAmount;
+      let currentValue = updatedValue;
+
+      const monthsToUpdate = [
+        "julAmount",
+        "augAmount",
+        "sepAmount",
+        "octAmount",
+        "novAmount",
+        "decAmount",
+        "janAmount",
+        "febAmount",
+        "marAmount",
+        "aprAmount",
+        "mayAmount",
+        "junAmount",
+      ];
+
+      for (const month of monthsToUpdate) {
+        currentValue += currentValue * (item.entryTypeValue / 100);
+        currentValue = parseFloat(currentValue.toFixed(2));
+        item[month] = currentValue;
+      }
+    }
+    return item; // Return the modified item
+  };
+
+  const onViewButtonClick = (values) => {
+    getTableData(
+      `/fino/BudgetFinancial/GetAssetLiabilityPlan?partName=GetForCreate&businessUnitId=${selectedBusinessUnit?.value}&yearId=${values?.fiscalYear?.value}&monthId=0&autoId=0&glId=0`,
+      (data) => {
+        const updatedData = data?.map((item) => ({
+          ...item,
+          fillAllManual: "",
+        }));
+
+        const updatedDataWithPercentage = updatedData?.map(
+          calculatePercentageValues
+        );
+        console.log("tableData", updatedDataWithPercentage);
+        getInventoryData(
+          `/mes/SalesPlanning/GetGlWiseMaterialBalance?unitId=${
+            selectedBusinessUnit?.value
+          }&dteFromDate=${_todayDate()}`,
+          (invData) => {
+            console.log("InventoryData", invData);
+            const updatedDataWithInventory = updatedDataWithPercentage?.map(
+              (item) => {
+                const invDataItem = invData?.find(
+                  (invItem) => invItem?.intGeneralLedgerId === item?.glId
+                );
+                if (invDataItem) {
+                  return {
+                    ...item,
+                    julAmount: invDataItem?.julAmount,
+                    augAmount: invDataItem?.augAmount,
+                    sepAmount: invDataItem?.sepAmount,
+                    octAmount: invDataItem?.octAmount,
+                    novAmount: invDataItem?.novAmount,
+                    decAmount: invDataItem?.decAmount,
+                    janAmount: invDataItem?.janAmount,
+                    febAmount: invDataItem?.febAmount,
+                    marAmount: invDataItem?.marAmount,
+                    aprAmount: invDataItem?.aprAmount,
+                    mayAmount: invDataItem?.mayAmount,
+                    junAmount: invDataItem?.junAmount,
+                  };
+                } else {
+                  return item;
+                }
+              }
+            );
+
+            setTableData(updatedDataWithInventory);
+          }
+        );
+
+        // console.log("updatedDataWithPercentage", updatedDataWithPercentage);
+
+        // setTableData(updatedDataWithPercentage);
+      }
+    );
+  };
+
+  const getUpdatedRowObjectForManual = (data, newValue) => {
+    return {
+      ...data,
+      fillAllManual: newValue,
+      julAmount: newValue,
+      augAmount: newValue,
+      sepAmount: newValue,
+      octAmount: newValue,
+      novAmount: newValue,
+      decAmount: newValue,
+      janAmount: newValue,
+      febAmount: newValue,
+      marAmount: newValue,
+      aprAmount: newValue,
+      mayAmount: newValue,
+      junAmount: newValue,
+    };
+  };
 
   return (
     <Formik
@@ -102,9 +208,10 @@ export default function AssetLiabilityPlanCreateEdit() {
         touched,
       }) => (
         <>
-          {(tableDataLoader || fiscalYearDDLloader || saveDataLoader) && (
-            <Loading />
-          )}
+          {(tableDataLoader ||
+            fiscalYearDDLloader ||
+            saveDataLoader ||
+            inventoryDataLoader) && <Loading />}
           <IForm
             title={"Asset Liability Plan Create"}
             getProps={setObjprops}
@@ -143,62 +250,8 @@ export default function AssetLiabilityPlanCreateEdit() {
                               fillAllManual: "",
                             };
                           });
-                          const updatedData2 = updatedData?.map((item) => {
-                            // calculate percentage value
-                            if (item?.entryType === "Percentage") {
-                              const updatedValue = item?.initialAmount;
-                              const monthsToUpdate = [
-                                "julAmount",
-                                "augAmount",
-                                "sepAmount",
-                                "octAmount",
-                                "novAmount",
-                                "decAmount",
-                                "janAmount",
-                                "febAmount",
-                                "marAmount",
-                                "aprAmount",
-                                "mayAmount",
-                                "junAmount",
-                              ];
-                              for (const month of monthsToUpdate) {
-                                updatedValue +=
-                                  updatedValue * (item?.entryTypeValue / 100);
-                                updatedValue = parseFloat(
-                                  updatedValue.toFixed(2)
-                                );
-                                item[month] = updatedValue;
-                              }
-                            }
-                          });
-                          console.log("updatedData2", updatedData2)
-                          setTableData(updatedData2);
-                        }
-                      );
-                    }}
-                    disabled={!values?.fiscalYear}
-                  >
-                    View
-                  </button> */}
-                  <button
-                    style={{
-                      marginTop: "3px",
-                    }}
-                    className="btn btn-primary"
-                    type="button"
-                    onClick={() => {
-                      getTableData(
-                        `/fino/BudgetFinancial/GetAssetLiabilityPlan?partName=GetForCreate&businessUnitId=${selectedBusinessUnit?.value}&yearId=${values?.fiscalYear?.value}&monthId=0&autoId=0&glId=0`,
-                        (data) => {
-                          const updatedData = data?.map((item) => {
-                            return {
-                              ...item,
-                              fillAllManual: "",
-                            };
-                          });
 
                           const updatedData2 = updatedData?.map((item) => {
-                            // calculate percentage value
                             if (item?.entryType === "Percentage") {
                               const updatedValue = item?.initialAmount;
                               let currentValue = updatedValue;
@@ -233,6 +286,18 @@ export default function AssetLiabilityPlanCreateEdit() {
                         }
                       );
                     }}
+                    disabled={!values?.fiscalYear}
+                  >
+                    View
+                  </button> */}
+
+                  <button
+                    style={{
+                      marginTop: "3px",
+                    }}
+                    className="btn btn-primary"
+                    type="button"
+                    onClick={() => onViewButtonClick(values)}
                     disabled={!values?.fiscalYear}
                   >
                     View
@@ -365,7 +430,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       updatedData[index].entryTypeValue = +e
                                         .target.value;
                                       setTableData(updatedData);
-                                      fillPersentageValue(
+                                      fillPersentageValueInRow(
                                         +e.target.value,
                                         index,
                                         item?.initialAmount
@@ -381,7 +446,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                                   }}
                                 />
                               ) : item?.entryType === "Inventory" ? (
-                                <span className="text-center">
+                                <span className="text-center pointer">
                                   <OverlayTrigger
                                     overlay={
                                       <Tooltip
@@ -399,6 +464,38 @@ export default function AssetLiabilityPlanCreateEdit() {
                                   </OverlayTrigger>
                                 </span>
                               ) : (
+                                // <InputField
+                                //   value={item?.fillAllManual}
+                                //   type="text"
+                                //   name="fillAllManual"
+                                //   onChange={(e) => {
+                                //     const newValue = +e.target.value;
+                                //     if (newValue >= 0) {
+                                //       const updatedData = tableData.map(
+                                //         (data, idx) =>
+                                //           idx === index
+                                //             ? {
+                                //                 ...data,
+                                //                 fillAllManual: newValue,
+                                //                 julAmount: newValue,
+                                //                 augAmount: newValue,
+                                //                 sepAmount: newValue,
+                                //                 octAmount: newValue,
+                                //                 novAmount: newValue,
+                                //                 decAmount: newValue,
+                                //                 janAmount: newValue,
+                                //                 febAmount: newValue,
+                                //                 marAmount: newValue,
+                                //                 aprAmount: newValue,
+                                //                 mayAmount: newValue,
+                                //                 junAmount: newValue,
+                                //               }
+                                //             : data
+                                //       );
+                                //       setTableData(updatedData);
+                                //     }
+                                //   }}
+                                // />
                                 <InputField
                                   value={item?.fillAllManual}
                                   type="text"
@@ -409,22 +506,10 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       const updatedData = tableData.map(
                                         (data, idx) =>
                                           idx === index
-                                            ? {
-                                                ...data,
-                                                fillAllManual: newValue,
-                                                julAmount: newValue,
-                                                augAmount: newValue,
-                                                sepAmount: newValue,
-                                                octAmount: newValue,
-                                                novAmount: newValue,
-                                                decAmount: newValue,
-                                                janAmount: newValue,
-                                                febAmount: newValue,
-                                                marAmount: newValue,
-                                                aprAmount: newValue,
-                                                mayAmount: newValue,
-                                                junAmount: newValue,
-                                              }
+                                            ? getUpdatedRowObjectForManual(
+                                                data,
+                                                newValue
+                                              )
                                             : data
                                       );
                                       setTableData(updatedData);

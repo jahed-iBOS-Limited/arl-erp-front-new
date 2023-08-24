@@ -213,6 +213,10 @@ export const getSalesPlanById = async (
         intPlanningHorizonRowId: res?.data?.objHeader?.intPlanningHorizonRowId,
         intPlanningHorizonId: res?.data?.objHeader?.intPlanningHorizonId,
       },
+      profitCenter: {
+        value: res?.data?.objHeader?.intProfitCenterId,
+        label: res?.data?.objHeader?.strProfitCenterName,
+      }
     };
 
     setterHeader(newHeader);
