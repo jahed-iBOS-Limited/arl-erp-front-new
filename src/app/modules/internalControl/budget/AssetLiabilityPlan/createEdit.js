@@ -25,7 +25,7 @@ export default function AssetLiabilityPlanCreateEdit() {
     setTableData,
   ] = useAxiosGet();
 
-  const [inventoryData, getInventoryData, inventoryDataLoader] = useAxiosGet();
+  const [, getInventoryData, inventoryDataLoader] = useAxiosGet();
 
   const [, saveData, saveDataLoader] = useAxiosPost();
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -234,63 +234,6 @@ export default function AssetLiabilityPlanCreateEdit() {
                   />
                 </div>
                 <div className="col-lg-3 mt-5">
-                  {/* <button
-                    style={{
-                      marginTop: "3px",
-                    }}
-                    className="btn btn-primary"
-                    type="button"
-                    onClick={() => {
-                      getTableData(
-                        `/fino/BudgetFinancial/GetAssetLiabilityPlan?partName=GetForCreate&businessUnitId=${selectedBusinessUnit?.value}&yearId=${values?.fiscalYear?.value}&monthId=0&autoId=0&glId=0`,
-                        (data) => {
-                          const updatedData = data?.map((item) => {
-                            return {
-                              ...item,
-                              fillAllManual: "",
-                            };
-                          });
-
-                          const updatedData2 = updatedData?.map((item) => {
-                            if (item?.entryType === "Percentage") {
-                              const updatedValue = item?.initialAmount;
-                              let currentValue = updatedValue;
-                              const monthsToUpdate = [
-                                "julAmount",
-                                "augAmount",
-                                "sepAmount",
-                                "octAmount",
-                                "novAmount",
-                                "decAmount",
-                                "janAmount",
-                                "febAmount",
-                                "marAmount",
-                                "aprAmount",
-                                "mayAmount",
-                                "junAmount",
-                              ];
-
-                              for (const month of monthsToUpdate) {
-                                currentValue +=
-                                  currentValue * (item?.entryTypeValue / 100);
-                                currentValue = parseFloat(
-                                  currentValue.toFixed(2)
-                                );
-                                item[month] = currentValue;
-                              }
-                            }
-                            return item; // return the modified item
-                          });
-
-                          setTableData(updatedData2);
-                        }
-                      );
-                    }}
-                    disabled={!values?.fiscalYear}
-                  >
-                    View
-                  </button> */}
-
                   <button
                     style={{
                       marginTop: "3px",
@@ -305,7 +248,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                 </div>
               </div>
 
-              <div className="loan-scrollable-table assetLiabilityPlanTable mt-2">
+              <div className="loan-scrollable-table mt-2">
                 <div
                   style={{ maxHeight: "500px" }}
                   className="scroll-table _table"
@@ -313,97 +256,97 @@ export default function AssetLiabilityPlanCreateEdit() {
                   <table className="table table-striped table-bordered bj-table bj-table-landing">
                     <thead>
                       <tr>
-                        <th>SL</th>
-                        <th>GL Name</th>
+                        <th style={{ minWidth: "60px" }}>SL</th>
+                        <th style={{ minWidth: "200px" }}>GL Name</th>
                         <th style={{ minWidth: "100px" }}>GL Class</th>
                         <th style={{ minWidth: "80px" }}>GL Type</th>
                         <th
                           style={{
-                            minWidth: "80px",
+                            minWidth: "100px",
                           }}
                         >
                           Value
                         </th>
                         <th
                           style={{
-                            minWidth: "80px",
+                            minWidth: "100px",
                           }}
                         >
                           July
                         </th>
                         <th
                           style={{
-                            minWidth: "80px",
+                            minWidth: "100px",
                           }}
                         >
                           August
                         </th>
                         <th
                           style={{
-                            minWidth: "80px",
+                            minWidth: "100px",
                           }}
                         >
                           September
                         </th>
                         <th
                           style={{
-                            minWidth: "80px",
+                            minWidth: "100px",
                           }}
                         >
                           October
                         </th>
                         <th
                           style={{
-                            minWidth: "80px",
+                            minWidth: "100px",
                           }}
                         >
                           November
                         </th>
                         <th
                           style={{
-                            minWidth: "80px",
+                            minWidth: "100px",
                           }}
                         >
                           December
                         </th>
                         <th
                           style={{
-                            minWidth: "80px",
+                            minWidth: "100px",
                           }}
                         >
                           January
                         </th>
                         <th
                           style={{
-                            minWidth: "80px",
+                            minWidth: "100px",
                           }}
                         >
                           February
                         </th>
                         <th
                           style={{
-                            minWidth: "80px",
+                            minWidth: "100px",
                           }}
                         >
                           March
                         </th>
                         <th
                           style={{
-                            minWidth: "80px",
+                            minWidth: "100px",
                           }}
                         >
                           April
                         </th>
                         <th
                           style={{
-                            minWidth: "80px",
+                            minWidth: "100px",
                           }}
                         >
                           May
                         </th>
                         <th
                           style={{
-                            minWidth: "80px",
+                            minWidth: "100px",
                           }}
                         >
                           June
@@ -446,56 +389,8 @@ export default function AssetLiabilityPlanCreateEdit() {
                                   }}
                                 />
                               ) : item?.entryType === "Inventory" ? (
-                                <span className="text-center pointer">
-                                  <OverlayTrigger
-                                    overlay={
-                                      <Tooltip
-                                        className="mytooltip"
-                                        id="info-tooltip"
-                                      >
-                                        Fill Inventory Data
-                                      </Tooltip>
-                                    }
-                                  >
-                                    <i
-                                      class="fa fa-arrow-right"
-                                      aria-hidden="true"
-                                    ></i>
-                                  </OverlayTrigger>
-                                </span>
+                                <span className="text-center pointer"></span>
                               ) : (
-                                // <InputField
-                                //   value={item?.fillAllManual}
-                                //   type="text"
-                                //   name="fillAllManual"
-                                //   onChange={(e) => {
-                                //     const newValue = +e.target.value;
-                                //     if (newValue >= 0) {
-                                //       const updatedData = tableData.map(
-                                //         (data, idx) =>
-                                //           idx === index
-                                //             ? {
-                                //                 ...data,
-                                //                 fillAllManual: newValue,
-                                //                 julAmount: newValue,
-                                //                 augAmount: newValue,
-                                //                 sepAmount: newValue,
-                                //                 octAmount: newValue,
-                                //                 novAmount: newValue,
-                                //                 decAmount: newValue,
-                                //                 janAmount: newValue,
-                                //                 febAmount: newValue,
-                                //                 marAmount: newValue,
-                                //                 aprAmount: newValue,
-                                //                 mayAmount: newValue,
-                                //                 junAmount: newValue,
-                                //               }
-                                //             : data
-                                //       );
-                                //       setTableData(updatedData);
-                                //     }
-                                //   }}
-                                // />
                                 <InputField
                                   value={item?.fillAllManual}
                                   type="text"
