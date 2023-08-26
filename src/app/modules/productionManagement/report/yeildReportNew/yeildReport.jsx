@@ -415,7 +415,7 @@ function YeildReport({ tableData }) {
                 </td>
                 <td className='text-right'>
                   {matchCatagory?.byProductionQty &&
-                    _fixedPoint(isFinite(byProduct) ? isFinite : 0)}
+                    _fixedPoint(isFinite(byProduct) ? byProduct : 0)}
                 </td>
               </>
             );
@@ -441,7 +441,7 @@ function YeildReport({ tableData }) {
                     <tr>
                       <th rowSpan={2} style={{ minWidth: '30px' }} className="sl">SL</th>
                       <th rowSpan={2} style={{ minWidth: "150px" }} className="itemName">
-                        Item Name
+                        Product
                       </th>
                       <th rowSpan={2} className="wip">
                         WIP
