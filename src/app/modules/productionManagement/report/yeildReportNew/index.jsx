@@ -12,18 +12,43 @@ import YeildReport from "./yeildReport";
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  reportType: "",
+  reportType: { value: 1, label: "Yeild Report" },
+  shopFloor: "",
 };
+const bomTypeDDL = [
+  {
+    value: 1,
+    label: "Main (Paddy to Rice)",
+  },
+  {
+    value: 2,
+    label: "Conversion (Rice to Rice)",
+  },
+  {
+    value: 3,
+    label: "Re-Process (Rice to Rice)",
+  },
+];
 export default function Yeildreport() {
   const [gridData, setGridData] = React.useState([]);
   const [, getTableData, tableDataLoader] = useAxiosGet();
   const [, getYearldReportPivot, YearldReportPivotLoading] = useAxiosGet();
+  const [plantDDL, getPlantDDL] = useAxiosGet();
+  const [shopFloorDDL, getShopFloorDDL] = useAxiosGet();
+  const saveHandler = (values, cb) => {};
 
-  const saveHandler = (values, cb) => { };
-
-  const { selectedBusinessUnit } = useSelector((state) => {
+  const { selectedBusinessUnit, profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
+
+  React.useEffect(() => {
+    if (profileData?.accountId && selectedBusinessUnit?.value) {
+      getPlantDDL(
+        `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   return (
     <Formik
@@ -47,7 +72,7 @@ export default function Yeildreport() {
         <>
           {(tableDataLoader || YearldReportPivotLoading) && <Loading />}
           <IForm
-            title="Yield Report"
+            title='Yield Report'
             isHiddenReset
             isHiddenBack
             isHiddenSave
@@ -56,79 +81,149 @@ export default function Yeildreport() {
             }}
           >
             <Form>
-              <div className="form-group  global-form row">
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.fromDate}
-                    label="From Date"
-                    name="fromDate"
-                    type="date"
-                    onChange={(e) => {
-                      setFieldValue("fromDate", e.target.value);
-                      setGridData([])
-                    }}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.toDate}
-                    label="To Date"
-                    name="toDate"
-                    type="date"
-                    onChange={(e) => {
-                      setFieldValue("toDate", e.target.value);
-                      setGridData([])
-                    }}
-                  />
-                </div>
-                <div className="col-lg-3">
+              <div className='form-group  global-form row'>
+                <div className='col-lg-3'>
                   <NewSelect
-                    name="reportType"
+                    name='reportType'
                     options={[
                       { value: 1, label: "Yeild Report" },
                       { value: 2, label: "WIP" },
                     ]}
                     value={values?.reportType}
-                    label="Report Type"
+                    label='Report Type'
                     onChange={(valueOption) => {
                       setFieldValue("reportType", valueOption);
-                      setGridData([])
+                      setGridData([]);
                     }}
                     errors={errors}
                     touched={touched}
                   />
                 </div>
-                <div className="col-lg-3">
+                {/*  if reportType WIP */}
+                {[1, 2].includes(values?.reportType?.value) && (
+                  <>
+                    <div className='col-lg-3'>
+                      <InputField
+                        value={values?.fromDate}
+                        label='From Date'
+                        name='fromDate'
+                        type='date'
+                        onChange={(e) => {
+                          setFieldValue("fromDate", e.target.value);
+                          setGridData([]);
+                        }}
+                      />
+                    </div>
+                    <div className='col-lg-3'>
+                      <InputField
+                        value={values?.toDate}
+                        label='To Date'
+                        name='toDate'
+                        type='date'
+                        onChange={(e) => {
+                          setFieldValue("toDate", e.target.value);
+                          setGridData([]);
+                        }}
+                      />
+                    </div>
+                  </>
+                )}
+
+                {/*  if reportType Yeild Report */}
+                {/* {[1].includes(values?.reportType?.value) && (
+                  <>
+                    <div className='col-lg-3'>
+                      <NewSelect
+                        name='plant'
+                        options={plantDDL || []}
+                        value={values?.plant}
+                        label='Select Plant'
+                        onChange={(valueOption) => {
+                          setFieldValue("shopFloor", "");
+                          getShopFloorDDL(
+                            `/mes/MesDDL/GetShopfloorDDL?AccountId=${profileData.accountId}&BusinessUnitid=${selectedBusinessUnit.value}&PlantId=${0}`
+                          );
+                          setGridData([]);
+                          setFieldValue("plant", valueOption);
+                        }}
+                        placeholder='Select Plant'
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                    <div className='col-lg-3'>
+                      <NewSelect
+                        name='shopFloor'
+                        options={shopFloorDDL || []}
+                        value={values?.shopFloor}
+                        label='Shop Floor'
+                        onChange={(valueOption) => {
+                          setFieldValue("shopFloor", valueOption);
+                          setGridData([]);
+                        }}
+                        placeholder='Shop Floor'
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                    <div className='col-lg-3'>
+                      <NewSelect
+                        name='bomType'
+                        options={bomTypeDDL || []}
+                        value={values?.bomType}
+                        label='BOM Type'
+                        onChange={(valueOption) => {
+                          setFieldValue("bomType", valueOption);
+                          setGridData([]);
+                        }}
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                  </>
+                )} */}
+
+                <div className='col-lg-3'>
                   <button
-                    className="btn btn-primary mr-2"
+                    className='btn btn-primary mr-2'
                     style={{
                       marginTop: "20px",
                     }}
-                    type="button"
+                    type='button'
                     disabled={
                       !values?.fromDate ||
                       !values?.toDate ||
                       !values?.reportType
                     }
                     onClick={() => {
-
+                      setGridData([]);
                       if (values?.reportType?.value === 1) {
                         // yeild api call
-
-                        getYearldReportPivot(`/mes/ProductionEntry/GetYearldReportPivot?unitId=${selectedBusinessUnit?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}&intPartId=${values?.reportType?.value}`, (data) => {
-                          setGridData(data)
-                        });
-
+                        // getYearldReportPivot(
+                        //   `/mes/ProductionEntry/GetYearldReportPivot?unitId=${selectedBusinessUnit?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}&intPartId=${values?.reportType?.value}`,
+                        //   (data) => {
+                        //     setGridData(data);
+                        //   }
+                        // );
+                        getYearldReportPivot(
+                          `/mes/ProductionEntry/GetYearldReport?unitId=${
+                            selectedBusinessUnit?.value
+                          }&dteFromDate=${values?.fromDate}&dteToDate=${
+                            values?.toDate
+                          }&intPartId=${1}`,
+                          (data) => {
+                            setGridData(data);
+                          }
+                        );
                       } else {
                         // WIP api call
                         getTableData(
                           `/mes/ProductionEntry/GetYearldReport?unitId=${selectedBusinessUnit?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}&intPartId=${values?.reportType?.value}`,
                           (data) => {
-                            setGridData(data)
+                            setGridData(data);
                           }
                         );
                       }
-
                     }}
                   >
                     View
@@ -142,76 +237,9 @@ export default function Yeildreport() {
               )}
 
               {/*  WIP Table */}
-              {values?.reportType?.value === 2 && <WIPTable tableData={gridData} />}
-
-
-              {/* <div className="row">
-                <div className="col-lg-12">
-                  <table className="table table-striped table-bordered global-table">
-                    {values?.reportType?.value === 1 ? (
-                      <>
-                        <thead>
-                          <tr>
-                            <th>SL</th>
-                            <th>Production Order Id</th>
-                            <th>Item Id</th>
-                            <th>Item Name</th>
-                            <th>Producation Qty (bag)</th>
-                            <th>Producation Qty</th>
-                            <th>By Product</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {tableData?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td className="text-center">
-                                {item?.intproductionorderid}
-                              </td>
-                              <td className="text-center">{item?.intitemid}</td>
-                              <td>{item?.stritemname}</td>
-                              <td className="text-right">
-                                {item?.producationqtyBag}
-                              </td>
-                              <td className="text-right">
-                                {item?.producationQty}
-                              </td>
-                              <td className="text-right">{item?.byproduct}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </>
-                    ) : values?.reportType?.value === 2 ? (
-                      <>
-                        <thead>
-                          <tr>
-                            <th>SL</th>
-                            <th>Item Id</th>
-                            <th>Item Name</th>
-                            <th>Con Quantity</th>
-                            <th>Issue</th>
-                            <th>WIP</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {tableData?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td className="text-center">{item?.mitemid}</td>
-                              <td>{item?.stritemname}</td>
-                              <td className="text-right">{item?.conqty}</td>
-                              <td className="text-right">{item?.issue}</td>
-                              <td className="text-right">{item?.wip}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                  </table>
-                </div>
-              </div> */}
+              {values?.reportType?.value === 2 && (
+                <WIPTable tableData={gridData} />
+              )}
             </Form>
           </IForm>
         </>
