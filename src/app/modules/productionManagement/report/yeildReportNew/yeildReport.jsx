@@ -161,7 +161,7 @@ function YeildReportDetails({ clickRowData }) {
               <tr>
                 <th style={{ width: "30px" }}>SL.</th>
                 <th>Item Name</th>
-                <th>Production KG</th>
+                <th>By Product KG</th>
                 <th>By Product(%)</th>
               </tr>
             </thead>
