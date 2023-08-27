@@ -1,489 +1,207 @@
-// import React from "react";
-// import "./style.scss";
-// import { _fixedPoint } from "../../../_helper/_fixedPoint";
-// function YeildReport({ tableData }) {
-//   if (tableData?.length === 0) return <></>;
-
-//   return (
-//     <>
-//       <div className='row YeildReport'>
-//         <div className='col-lg-12'>
-//           <div className='sta-scrollable-table scroll-table-auto'>
-//             <div
-//               style={{ maxHeight: "500px" }}
-//               className='scroll-table _table scroll-table-auto'
-//             >
-//               <table className='table table-striped table-bordered global-table'>
-//                 <>
-//                   <thead>
-//                     <tr>
-//                       <th></th>
-//                       <th style={{ minWidth: "80px" }}>Item Name</th>
-//                       <th style={{ minWidth: "80px" }}>Productin Qty Bag</th>
-//                       <th style={{ minWidth: "80px" }}>Production Qty</th>
-//                       <th style={{ minWidth: "80px" }}>Consumption</th>
-//                       <th style={{ minWidth: "80px" }}>By Production Qty</th>
-//                       <th style={{ minWidth: "80px" }}>Yield Per</th>
-//                       <th style={{ minWidth: "80px" }}>By Product</th>
-//                     </tr>
-//                   </thead>
-//                   <tbody>
-//                     {tableData?.map((item, index) => {
-//                       return item?.rows?.map((row, index) => {
-//                         return (
-//                           <tr key={index}>
-//                             {index === 0 && (
-//                               <td rowSpan={item?.rows?.length}>
-//                                 {item?.title}
-//                               </td>
-//                             )}
-//                             <td className="text-left">{row?.itemName}</td>
-//                             <td className='text-right'>
-//                               {_fixedPoint(row?.productinQtyBag)}
-//                             </td>
-//                             <td className='text-right'>{_fixedPoint(row?.productionQty)}</td>
-//                             <td className='text-right'>{_fixedPoint(row?.consumption)}</td>
-//                             <td className='text-right'>
-//                               {_fixedPoint(row?.byProductionQty)}
-//                             </td>
-//                             <td className='text-right'>{_fixedPoint(row?.yieldPer)}</td>
-//                             <td className='text-right'>{_fixedPoint(row?.byProduct)}</td>
-//                           </tr>
-//                         );
-//                       });
-//                     })}
-//                   </tbody>
-//                 </>
-//               </table>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </>
-//   );
-// }
-
-// export default YeildReport;
-
-// import React from "react";
-// import './style.scss'
-// function YeildReport({ tableData }) {
-//   if (tableData?.length === 0) return <></>
-
-//   const tableDataBodyRender = (tableData) => {
-
-//     // tableData rows  max length
-//     let maxRowLength = 0;
-//     for (let i = 0; i < tableData.length; i++) {
-//       const rows = tableData[i].rows;
-//       if (rows.length > maxRowLength) {
-//         maxRowLength = rows.length;
-//       }
-//     }
-
-//     // tr generate
-//     let tr = [];
-//     for (let i = 0; i < maxRowLength; i++) {
-//       tr.push(<tr key={i}>
-//         <td>{i + 1}</td>
-//         {tableData?.map((item, index) => (
-//           <>
-//             <td>{item?.rows[i]?.itemName}</td>
-//             <td className="text-right">{item?.rows[i]?.productinQtyBag}</td>
-//             <td className="text-right">{item?.rows[i]?.productionQty}</td>
-//             <td className="text-right">{item?.rows[i]?.consumption}</td>
-//             <td className="text-right">{item?.rows[i]?.byProductionQty}</td>
-//             <td className="text-right">{item?.rows[i]?.yieldPer}</td>
-//             <td className="text-right">{item?.rows[i]?.byProduct}</td>
-//           </>
-//         ))}
-//       </tr>)
-//     }
-
-//     return tr;
-
-//   }
-
-//   return (
-//     <>
-//       <div className='row YeildReport'>
-//         <div className='col-lg-12'>
-//           <div className='sta-scrollable-table scroll-table-auto'>
-//             <div
-//               style={{ maxHeight: "500px" }}
-//               className='scroll-table _table scroll-table-auto'
-//             >
-//               <table className='table table-striped table-bordered global-table'>
-//                 <>
-//                   <thead>
-//                     <tr>
-//                       <th rowSpan={2}>SL</th>
-//                       {tableData?.map((item, index) => (
-//                         <th key={index} colSpan={7} className={index % 2 ? 'tableThBGOne' : 'tableThBGTwo'}>{item?.title}</th>
-//                       ))}
-//                     </tr>
-//                     <tr>
-//                       {tableData?.map((item, index) => (
-//                         <>
-//                           <th style={{ minWidth: '80px' }}>Item Name</th>
-//                           <th style={{ minWidth: '80px' }}>Productin Qty Bag</th>
-//                           <th style={{ minWidth: '80px' }}>Production Qty</th>
-//                           <th style={{ minWidth: '80px' }}>Consumption</th>
-//                           <th style={{ minWidth: '80px' }}>By Production Qty</th>
-//                           <th style={{ minWidth: '80px' }}>Yield Per</th>
-//                           <th style={{ minWidth: '80px' }}>By Product</th>
-
-//                         </>
-//                       ))}
-//                     </tr>
-//                   </thead>
-//                   <tbody>
-//                     {tableDataBodyRender(tableData)}
-
-//                   </tbody>
-//                 </>
-//               </table>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </>
-//   );
-// }
-
-// export default YeildReport;
-
-// import React from "react";
-// import "./style.scss";
-// import { _fixedPoint } from "../../../_helper/_fixedPoint";
-// function YeildReport({ tableData }) {
-//   if (tableData?.length === 0) return <></>;
-
-//   const emptyTHGenearte = (row) => {
-//     let maxRowLength = 0;
-//     for (let i = 0; i < tableData.length; i++) {
-//       const rows = tableData[i].rows;
-//       if (rows.length > maxRowLength) {
-//         maxRowLength = rows.length;
-//       }
-//     }
-//     // empty th generate
-
-//     let TrGenerateNumber = maxRowLength - row?.length;
-
-//     let th = [];
-//     for (let i = 0; i < TrGenerateNumber; i++) {
-//       th.push(<th></th>);
-//     }
-//     return th;
-//   };
-//   const emptyTDGenearte = (row) => {
-//     let maxRowLength = 0;
-//     for (let i = 0; i < tableData.length; i++) {
-//       const rows = tableData[i].rows;
-//       if (rows.length > maxRowLength) {
-//         maxRowLength = rows.length;
-//       }
-//     }
-//     // empty td generate
-
-//     let TdGenerateNumber = maxRowLength - row?.length;
-
-//     let td = [];
-//     for (let i = 0; i < TdGenerateNumber; i++) {
-//       td.push(<td></td>);
-//     }
-//     return td;
-//   };
-//   return (
-//     <>
-//       <div className='row YeildReport'>
-//         <div className='col-lg-12'>
-//           <div className='sta-scrollable-table scroll-table-auto'>
-//             <div
-//               style={{ maxHeight: "500px" }}
-//               className='scroll-table _table scroll-table-auto'
-//             >
-//               <table className='table table-striped table-bordered global-table'>
-//                 {tableData?.map((itm) => {
-//                   return (
-//                     <>
-//                       <thead>
-//                         <tr>
-//                           <th
-//                             style={{
-//                               minWidth: "120px",
-//                               background: "#c9f7f5",
-//                             }}
-//                             className='tableThBGOne'
-//                           >
-//                             {itm?.title}
-//                           </th>
-//                           {itm?.rows?.map((row, index) => {
-//                             return (
-//                               <th style={{ minWidth: "100px" }}>
-//                                 {row?.itemName}
-//                               </th>
-//                             );
-//                           })}
-//                           {emptyTHGenearte(itm?.rows)}
-//                         </tr>
-//                       </thead>
-//                       <tbody>
-//                         <tr>
-//                           <td className='text-left'>
-//                             <b>Yield Per:</b>
-//                           </td>
-//                           {itm?.rows?.map((row, index) => {
-//                             return (
-//                               <td className='text-right'>
-//                                 {_fixedPoint(row?.yieldPer)}
-//                               </td>
-//                             );
-//                           })}
-//                           {emptyTDGenearte(itm?.rows)}
-//                         </tr>
-
-//                         <tr>
-//                           <td className='text-left'>
-//                             <b>Production Qty Bag:</b>{" "}
-//                           </td>
-//                           {itm?.rows?.map((row, index) => {
-//                             return (
-//                               <td className='text-right'>
-//                                 {_fixedPoint(row?.productinQtyBag)}
-//                               </td>
-//                             );
-//                           })}
-//                           {emptyTDGenearte(itm?.rows)}
-//                         </tr>
-
-//                         <tr>
-//                           <td className='text-left'>
-//                             <b>Production Qty</b>
-//                           </td>
-//                           {itm?.rows?.map((row, index) => {
-//                             return (
-//                               <td className='text-right'>
-//                                 {_fixedPoint(row?.productionQty)}
-//                               </td>
-//                             );
-//                           })}
-//                           {emptyTDGenearte(itm?.rows)}
-//                         </tr>
-
-//                         <tr>
-//                           <td className='text-left'>
-//                             <b>Consumption</b>
-//                           </td>
-//                           {itm?.rows?.map((row, index) => {
-//                             return (
-//                               <td className='text-right'>
-//                                 {_fixedPoint(row?.consumption)}
-//                               </td>
-//                             );
-//                           })}
-//                           {emptyTDGenearte(itm?.rows)}
-//                         </tr>
-//                         <tr>
-//                           <td className='text-left'>
-//                             <b>By Product</b>
-//                           </td>
-//                           {itm?.rows?.map((row, index) => {
-//                             return (
-//                               <td className='text-right'>
-//                                 {_fixedPoint(row?.byProduct)}
-//                               </td>
-//                             );
-//                           })}
-//                           {emptyTDGenearte(itm?.rows)}
-//                         </tr>
-//                         <tr>
-//                           <td className='text-left'>
-//                             <b>By Production Qty</b>
-//                           </td>
-//                           {itm?.rows?.map((row, index) => {
-//                             return (
-//                               <td className='text-right'>
-//                                 {_fixedPoint(row?.byProductionQty)}
-//                               </td>
-//                             );
-//                           })}
-//                           {emptyTDGenearte(itm?.rows)}
-//                         </tr>
-//                       </tbody>
-//                     </>
-//                   );
-//                 })}
-
-//               </table>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </>
-//   );
-// }
-
-// export default YeildReport;
-
-import React from "react";
-import "./style.scss";
+import React, { useEffect } from "react";
 import { _fixedPoint } from "../../../_helper/_fixedPoint";
-function YeildReport({ tableData }) {
-  if (tableData?.length === 0) return <></>;
-
-  const tableDataBodyRender = (tableData) => {
-    // all data flat
-    let allData = [];
-    for (let i = 0; i < tableData.length; i++) {
-      const rows = tableData[i].rows;
-      for (let j = 0; j < rows.length; j++) {
-        const row = rows[j];
-        allData.push({
-          ...row,
-          categoryName: tableData[i].title,
-        });
-      }
-    }
-
-    // unique category name
-    let uniqueCategoryName = [];
-    for (let i = 0; i < allData.length; i++) {
-      const element = allData[i];
-      if (!uniqueCategoryName.includes(element.categoryName)) {
-        uniqueCategoryName.push(element.categoryName);
-      }
-    }
-
-    // unique item name
-    let uniqueItem = [];
-    for (let i = 0; i < allData.length; i++) {
-      const element = allData[i];
-      const uniqueItemNameList = uniqueItem?.map((itm) => itm?.itemName)
-      if (!uniqueItemNameList.includes(element.itemName)) {
-        uniqueItem.push({
-          itemName: element?.itemName,
-          wip: element?.wip,
-        });
-      }
-    }
-
-    // Tr generate
-    let tr = [];
-    for (let i = 0; i < uniqueItem?.length; i++) {
-      tr.push(
-        <tr key={i}>
-          <td>{i + 1}</td>
-          <td>
-            <b>{uniqueItem?.[i]?.itemName}</b>
-          </td>
-          <td>
-            <b>{_fixedPoint(uniqueItem?.[i]?.wip)}</b>
-          </td>
-          {uniqueCategoryName.map((categoryName, index) => {
-            // match Catagory
-            let matchCatagory = allData?.find(
-              (itm) =>
-                itm.categoryName === categoryName &&
-                itm.itemName === uniqueItem?.[i]?.itemName
-            );
-            let byProduct = (+matchCatagory?.byProductionQty || 0) / (+matchCatagory?.productionQty || 0)
-
-
-            return (
-              <>
-                <td className='text-right'>
-                  {matchCatagory?.productinQtyBag &&
-                    _fixedPoint(matchCatagory?.productinQtyBag)}
-                </td>
-                <td className='text-right'>
-                  {matchCatagory?.productionQty &&
-                    _fixedPoint(matchCatagory?.productionQty)}
-                </td>
-                <td className='text-right'>
-                  {matchCatagory?.consumption &&
-                    _fixedPoint(matchCatagory?.consumption)}
-                </td>
-                <td className='text-right'>
-                  {matchCatagory?.byProductionQty &&
-                    _fixedPoint(matchCatagory?.byProductionQty)}
-                </td>
-                <td className='text-right'>
-                  {matchCatagory?.yieldPer &&
-                    _fixedPoint(matchCatagory?.yieldPer)}
-                </td>
-                <td className='text-right'>
-                  {matchCatagory?.byProductionQty &&
-                    _fixedPoint(isFinite(byProduct) ? byProduct : 0)}
-                </td>
-              </>
-            );
-          })}
-        </tr>
-      );
-    }
-    return tr;
-  };
-
+import IViewModal from "../../../_helper/_viewModal";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { shallowEqual, useSelector } from "react-redux";
+import Loading from "../../../_helper/_loading";
+// import "./style.scss";
+function YeildReport({ tableData, values }) {
+  const [isModalShow, setIsModalShow] = React.useState(false);
+  const [clickRowData, setClickRowData] = React.useState({});
   return (
     <>
       <div className='row YeildReport'>
         <div className='col-lg-12'>
-          <div className='sta-scrollable-table scroll-table-auto'>
-            <div
-              style={{ maxHeight: "500px" }}
-              className='scroll-table _table scroll-table-auto'
-            >
-              <table className='table table-striped table-bordered global-table'>
-                <>
-                  <thead>
-                    <tr>
-                      <th rowSpan={2} style={{ minWidth: '30px' }} className="sl">SL</th>
-                      <th rowSpan={2} style={{ minWidth: "150px" }} className="itemName">
-                        Product
-                      </th>
-                      <th rowSpan={2} className="wip">
-                        WIP
-                      </th>
-                      {tableData?.map((item, index) => (
-                        <th
-                          key={index}
-                          colSpan={6}
-                          className={
-                            index % 2 ? "tableThBGOne" : "tableThBGTwo"
-                          }
-                        >
-                          {item?.title}
-                        </th>
-                      ))}
-                    </tr>
-                    <tr>
-                      {tableData?.map((item, index) => (
-                        <>
-                          <th style={{ minWidth: "80px" }}>
-                            Production Qty Bag
-                          </th>
-                          <th style={{ minWidth: "80px" }}>Production Qty KG</th>
-                          <th style={{ minWidth: "80px" }}>Consumption</th>
-                          <th style={{ minWidth: "80px" }}>
-                            By Production Qty
-                          </th>
-                          <th style={{ minWidth: "80px" }}>Yield %</th>
-                          <th style={{ minWidth: "80px" }}>By Product %</th>
-                        </>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>{tableDataBodyRender(tableData)}</tbody>
-                </>
-              </table>
-            </div>
+          <div className='table-responsive'>
+            <table className='table table-striped table-bordered global-table'>
+              <>
+                <thead>
+                  <tr>
+                    <th style={{ width: "30px" }}>SL.</th>
+                    <th>Product</th>
+                    <th>Issue</th>
+                    <th>Consumption KG</th>
+                    <th>WIP</th>
+                    <th>Production KG</th>
+                    <th>By Product KG</th>
+                    <th>Rice(%)</th>
+                    <th>By Product(%)</th>
+                    <th
+                      style={{
+                        width: "30px",
+                      }}
+                    >
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {tableData?.map((item, index) => {
+                    let byProductPercent =
+                      ((+item?.producationqtyBag || 0) /
+                        (+item?.consumtionQty || 0)) *
+                      100;
+                    let yieldPerPercent =
+                      ((+item?.producationQty || 0) /
+                        (+item?.consumtionQty || 0)) *
+                      100;
+                    return (
+                      <>
+                        <tr>
+                          <td>{index + 1}</td>
+                          <td>{item?.variant}</td>
+                          <td className='text-right'>
+                            {_fixedPoint(item?.issueQty || 0)}
+                          </td>
+                          <td className='text-right'>
+                            {_fixedPoint(item?.consumtionQty || 0)}
+                          </td>
+                          <td className='text-right'>
+                            {_fixedPoint(item?.wip || 0)}
+                          </td>
+                          <td className='text-right'>
+                            {_fixedPoint(item?.producationQty || 0)}
+                          </td>
+                          <td className='text-right'>
+                            {_fixedPoint(item?.producationqtyBag || 0)}
+                          </td>
+                          <td className='text-right'>
+                            {_fixedPoint(
+                              isFinite(yieldPerPercent) ? yieldPerPercent : 0
+                            )}
+                          </td>
+                          <td className='text-right'>
+                            {_fixedPoint(
+                              isFinite(byProductPercent) ? byProductPercent : 0
+                            )}
+                          </td>
+                          <td>
+                            <div className='d-flex justify-content-center align-items-center'>
+                              <button
+                                className='btn btn-primary mr-2'
+                                type='button'
+                                onClick={() => {
+                                  setIsModalShow(true);
+                                  setClickRowData({
+                                    ...item,
+                                    ...values,
+                                  });
+                                }}
+                              >
+                                Details
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      </>
+                    );
+                  })}
+                </tbody>
+              </>
+            </table>
           </div>
         </div>
       </div>
+
+      <IViewModal
+        show={isModalShow}
+        onHide={() => {
+          setIsModalShow(false);
+          setClickRowData({});
+        }}
+        title='Yeild Report Details'
+      >
+        <YeildReportDetails clickRowData={clickRowData} />
+      </IViewModal>
     </>
   );
 }
 
 export default YeildReport;
+
+function YeildReportDetails({ clickRowData }) {
+  const [
+    yeildReportDetailsList,
+    getYeildReportDetailsList,
+    yeildReportDetailsLoading,
+  ] = useAxiosGet([]);
+  const { selectedBusinessUnit } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
+  useEffect(() => {
+    if (clickRowData) {
+      getYeildReportDetailsList(
+        `/mes/ProductionEntry/GetYearldReport?unitId=${selectedBusinessUnit?.value}&dteFromDate=${clickRowData?.fromDate}&dteToDate=${clickRowData?.toDate}&intPartId=3&ShopFloorId=${clickRowData?.shopFloor?.value}&BillTypeId=${clickRowData?.bomType?.value}&Variant=${clickRowData?.variant}&ConsumptionQty=${clickRowData?.consumtionQty}`
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // yeildReportDetailsList reduce
+  const grandTotal = yeildReportDetailsList?.reduce(
+    (acc, curr) => {
+      return {
+        byProducationQty: acc.byProducationQty + (+curr?.byProducationQty || 0),
+        byproductPer: acc.byproductPer + (+curr?.byproductPer || 0),
+      };
+    },
+    {
+      byProducationQty: 0,
+      byproductPer: 0,
+    }
+  );
+
+  return (
+    <>
+      {yeildReportDetailsLoading && <Loading />}
+      <div className='table-responsive'>
+        <table className='table table-striped table-bordered global-table'>
+          <>
+            <thead>
+              <tr>
+                <th style={{ width: "30px" }}>SL.</th>
+                <th>Item Name</th>
+                <th>Production KG</th>
+                <th>By Product(%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {yeildReportDetailsList?.map((item, index) => {
+                return (
+                  <>
+                    <tr>
+                      <td>{index + 1}</td>
+                      <td>{item?.stritemname}</td>
+                      <td className='text-right'>
+                        {_fixedPoint(item?.byProducationQty || 0)}
+                      </td>
+                      <td className='text-right'>
+                        {_fixedPoint(item?.byproductPer || 0)}
+                      </td>
+                    </tr>
+                  </>
+                );
+              })}
+              <tr>
+                <td className='text-right' colSpan={2}>
+                  <b>Total</b>
+                </td>
+                <td className='text-right'>
+                  <b>{_fixedPoint(grandTotal?.byProducationQty || 0)}</b>
+                </td>
+                <td className='text-right'>
+                  {/* <b>
+                    {_fixedPoint(
+                      grandTotal?.byproductPer /
+                        yeildReportDetailsList?.length || 0
+                    )}
+                  </b> */}
+                </td>
+              </tr>
+            </tbody>
+          </>
+        </table>
+      </div>
+    </>
+  );
+}
