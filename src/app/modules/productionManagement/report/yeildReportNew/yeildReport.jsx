@@ -137,6 +137,20 @@ function YeildReportDetails({ clickRowData }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // yeildReportDetailsList reduce
+  const grandTotal = yeildReportDetailsList?.reduce(
+    (acc, curr) => {
+      return {
+        byProducationQty: acc.byProducationQty + (+curr?.byProducationQty || 0),
+        byproductPer: acc.byproductPer + (+curr?.byproductPer || 0),
+      };
+    },
+    {
+      byProducationQty: 0,
+      byproductPer: 0,
+    }
+  );
+
   return (
     <>
       {yeildReportDetailsLoading && <Loading />}
@@ -168,6 +182,22 @@ function YeildReportDetails({ clickRowData }) {
                   </>
                 );
               })}
+              <tr>
+                <td className='text-right' colSpan={2}>
+                  <b>Total</b>
+                </td>
+                <td className='text-right'>
+                  <b>{_fixedPoint(grandTotal?.byProducationQty || 0)}</b>
+                </td>
+                <td className='text-right'>
+                  {/* <b>
+                    {_fixedPoint(
+                      grandTotal?.byproductPer /
+                        yeildReportDetailsList?.length || 0
+                    )}
+                  </b> */}
+                </td>
+              </tr>
             </tbody>
           </>
         </table>
