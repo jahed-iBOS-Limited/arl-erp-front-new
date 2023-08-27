@@ -678,7 +678,6 @@ const ExpenseRegisterLanding = () => {
                               <th style={{ width: "100px" }}>
                                 Disbursement Center
                               </th>
-                              <th style={{ width: "100px" }}>Payment Type</th>
                               <th style={{ width: "100px" }}>Total Expense</th>
                               <th style={{ width: "40px" }}>Actions</th>
                             </tr>
@@ -735,11 +734,6 @@ const ExpenseRegisterLanding = () => {
                                 <td>
                                   <div className='pl-2'>
                                     {item?.disbursementCenterName}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className='pl-2'>
-                                    {item?.instrumentName}
                                   </div>
                                 </td>
                                 <td>
