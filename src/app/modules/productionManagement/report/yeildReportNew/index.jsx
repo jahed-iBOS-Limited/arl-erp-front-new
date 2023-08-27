@@ -233,7 +233,7 @@ export default function Yeildreport() {
 
               {/* Yeild Report table */}
               {values?.reportType?.value === 1 && (
-                <YeildReport tableData={gridData} />
+                <YeildReport tableData={gridData} values={values}/>
               )}
 
               {/*  WIP Table */}
