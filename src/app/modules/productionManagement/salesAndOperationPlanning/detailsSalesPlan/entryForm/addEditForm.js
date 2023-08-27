@@ -118,10 +118,7 @@ export default function DetailsSalesPlanEntry() {
             rowDto.data[i].entryItemPlanQty || rowDto.data[i].itemPlanQty,
           numEntryItemPlanQty:
             rowDto.data[i].entryItemPlanQty || rowDto.data[i].itemPlanQty,
-          numRate: location?.state?.detailsItem?.intDetailSalesPlanId
-            ? (+rowDto.data[i].entryItemPlanQty || 0) *
-              (+rowDto.data[i].rate || 0)
-            : (+rowDto.data[i].itemPlanQty || 0) * (+rowDto.data[i].rate || 0),
+          numRate: +rowDto.data[i].rate || 0,
           intBomid: rowDto.data[i]?.isMultiple ? rowDto.data[i].bom?.value : 0,
           strBomname: rowDto.data[i]?.isMultiple
             ? rowDto.data[i].bom?.label
