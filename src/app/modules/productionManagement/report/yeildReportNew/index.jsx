@@ -9,11 +9,17 @@ import { _todayDate } from "../../../_helper/_todayDate";
 import { shallowEqual, useSelector } from "react-redux";
 import WIPTable from "./wipTable";
 import YeildReport from "./yeildReport";
+import { toast } from "react-toastify";
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
   reportType: { value: 1, label: "Yeild Report" },
   shopFloor: "",
+  plant: "",
+  bomType: {
+    value: 1,
+    label: "Main (Paddy to Rice)",
+  },
 };
 const bomTypeDDL = [
   {
@@ -99,7 +105,7 @@ export default function Yeildreport() {
                     touched={touched}
                   />
                 </div>
-                {/*  if reportType WIP */}
+
                 {[1, 2].includes(values?.reportType?.value) && (
                   <>
                     <div className='col-lg-3'>
@@ -130,7 +136,7 @@ export default function Yeildreport() {
                 )}
 
                 {/*  if reportType Yeild Report */}
-                {/* {[1].includes(values?.reportType?.value) && (
+                {[1].includes(values?.reportType?.value) && (
                   <>
                     <div className='col-lg-3'>
                       <NewSelect
@@ -141,7 +147,7 @@ export default function Yeildreport() {
                         onChange={(valueOption) => {
                           setFieldValue("shopFloor", "");
                           getShopFloorDDL(
-                            `/mes/MesDDL/GetShopfloorDDL?AccountId=${profileData.accountId}&BusinessUnitid=${selectedBusinessUnit.value}&PlantId=${0}`
+                            `/mes/MesDDL/GetShopfloorDDL?AccountId=${profileData.accountId}&BusinessUnitid=${selectedBusinessUnit.value}&PlantId=${valueOption?.value}`
                           );
                           setGridData([]);
                           setFieldValue("plant", valueOption);
@@ -181,7 +187,7 @@ export default function Yeildreport() {
                       />
                     </div>
                   </>
-                )} */}
+                )}
 
                 <div className='col-lg-3'>
                   <button
@@ -198,19 +204,18 @@ export default function Yeildreport() {
                     onClick={() => {
                       setGridData([]);
                       if (values?.reportType?.value === 1) {
-                        // yeild api call
-                        // getYearldReportPivot(
-                        //   `/mes/ProductionEntry/GetYearldReportPivot?unitId=${selectedBusinessUnit?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}&intPartId=${values?.reportType?.value}`,
-                        //   (data) => {
-                        //     setGridData(data);
-                        //   }
-                        // );
+                        // plant, shopFloor, bomType empty check
+                        if (!values?.plant) {
+                          return toast.warning("Plant is required");
+                        }
+                        if (!values?.shopFloor) {
+                          return toast.warning("Shop Floor is required");
+                        }
+                        if (!values?.bomType) {
+                          return toast.warning("BOM Type is required");
+                        }
                         getYearldReportPivot(
-                          `/mes/ProductionEntry/GetYearldReport?unitId=${
-                            selectedBusinessUnit?.value
-                          }&dteFromDate=${values?.fromDate}&dteToDate=${
-                            values?.toDate
-                          }&intPartId=${1}`,
+                          `/mes/ProductionEntry/GetYearldReport?unitId=${selectedBusinessUnit?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}&intPartId=4&ShopFloorId=${values?.shopFloor?.value}&BillTypeId=${values?.bomType?.value}&Variant=''&ConsumptionQty=0`,
                           (data) => {
                             setGridData(data);
                           }
@@ -233,7 +238,7 @@ export default function Yeildreport() {
 
               {/* Yeild Report table */}
               {values?.reportType?.value === 1 && (
-                <YeildReport tableData={gridData} values={values}/>
+                <YeildReport tableData={gridData} values={values} />
               )}
 
               {/*  WIP Table */}

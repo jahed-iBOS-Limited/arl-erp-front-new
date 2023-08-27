@@ -38,20 +38,39 @@ function YeildReport({ tableData, values }) {
                 <tbody>
                   {tableData?.map((item, index) => {
                     let byProductPercent =
-                      (+item?.byProducationQty || 0) /
-                      (+item?.producationQty || 0);
+                      ((+item?.producationqtyBag || 0) /
+                        (+item?.consumtionQty || 0)) *
+                      100;
+                    let yieldPerPercent =
+                      ((+item?.producationQty || 0) /
+                        (+item?.consumtionQty || 0)) *
+                      100;
                     return (
                       <>
                         <tr>
                           <td>{index + 1}</td>
-                          <td>{item?.itemName}</td>
-                          <td>{_fixedPoint(item?.issueQty || 0)}</td>
-                          <td>{_fixedPoint(item?.consumtionQty || 0)}</td>
-                          <td>{_fixedPoint(item?.wip || 0)}</td>
-                          <td>{_fixedPoint(item?.producationQty || 0)}</td>
-                          <td>{_fixedPoint(item?.byProducationQty || 0)}</td>
-                          <td>{_fixedPoint(item?.yieldPer || 0)}</td>
-                          <td>
+                          <td>{item?.variant}</td>
+                          <td className='text-right'>
+                            {_fixedPoint(item?.issueQty || 0)}
+                          </td>
+                          <td className='text-right'>
+                            {_fixedPoint(item?.consumtionQty || 0)}
+                          </td>
+                          <td className='text-right'>
+                            {_fixedPoint(item?.wip || 0)}
+                          </td>
+                          <td className='text-right'>
+                            {_fixedPoint(item?.producationQty || 0)}
+                          </td>
+                          <td className='text-right'>
+                            {_fixedPoint(item?.producationqtyBag || 0)}
+                          </td>
+                          <td className='text-right'>
+                            {_fixedPoint(
+                              isFinite(yieldPerPercent) ? yieldPerPercent : 0
+                            )}
+                          </td>
+                          <td className='text-right'>
                             {_fixedPoint(
                               isFinite(byProductPercent) ? byProductPercent : 0
                             )}
@@ -112,11 +131,7 @@ function YeildReportDetails({ clickRowData }) {
   useEffect(() => {
     if (clickRowData) {
       getYeildReportDetailsList(
-        `/mes/ProductionEntry/GetYearldReport?unitId=${
-          selectedBusinessUnit?.value
-        }&dteFromDate=${clickRowData?.fromDate}&dteToDate=${
-          clickRowData?.toDate
-        }&intPartId=${1}`
+        `/mes/ProductionEntry/GetYearldReport?unitId=${selectedBusinessUnit?.value}&dteFromDate=${clickRowData?.fromDate}&dteToDate=${clickRowData?.toDate}&intPartId=3&ShopFloorId=${clickRowData?.shopFloor?.value}&BillTypeId=${clickRowData?.bomType?.value}&Variant=${clickRowData?.variant}&ConsumptionQty=${clickRowData?.consumtionQty}`
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -131,35 +146,23 @@ function YeildReportDetails({ clickRowData }) {
             <thead>
               <tr>
                 <th style={{ width: "30px" }}>SL.</th>
-                <th>Product</th>
-                <th>Issue</th>
-                <th>Consumption KG</th>
-                <th>WIP</th>
+                <th>Item Name</th>
                 <th>Production KG</th>
-                <th>By Product KG</th>
-                <th>Rice(%)</th>
                 <th>By Product(%)</th>
               </tr>
             </thead>
             <tbody>
               {yeildReportDetailsList?.map((item, index) => {
-                let byProductPercent =
-                  (+item?.byProducationQty || 0) / (+item?.producationQty || 0);
                 return (
                   <>
                     <tr>
                       <td>{index + 1}</td>
-                      <td>{item?.itemName}</td>
-                      <td>{_fixedPoint(item?.issueQty || 0)}</td>
-                      <td>{_fixedPoint(item?.consumtionQty || 0)}</td>
-                      <td>{_fixedPoint(item?.wip || 0)}</td>
-                      <td>{_fixedPoint(item?.producationQty || 0)}</td>
-                      <td>{_fixedPoint(item?.byProducationQty || 0)}</td>
-                      <td>{_fixedPoint(item?.yieldPer || 0)}</td>
-                      <td>
-                        {_fixedPoint(
-                          isFinite(byProductPercent) ? byProductPercent : 0
-                        )}
+                      <td>{item?.stritemname}</td>
+                      <td className='text-right'>
+                        {_fixedPoint(item?.byProducationQty || 0)}
+                      </td>
+                      <td className='text-right'>
+                        {_fixedPoint(item?.byproductPer || 0)}
                       </td>
                     </tr>
                   </>
