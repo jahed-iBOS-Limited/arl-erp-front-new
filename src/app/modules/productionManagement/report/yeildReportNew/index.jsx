@@ -223,7 +223,7 @@ export default function Yeildreport() {
                       } else {
                         // WIP api call
                         getTableData(
-                          `/mes/ProductionEntry/GetYearldReport?unitId=${selectedBusinessUnit?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}&intPartId=${values?.reportType?.value}`,
+                          `/mes/ProductionEntry/GetYearldReport?unitId=${selectedBusinessUnit?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}&intPartId=${values?.reportType?.value}&Variant=''&ConsumptionQty=0`,
                           (data) => {
                             setGridData(data);
                           }
