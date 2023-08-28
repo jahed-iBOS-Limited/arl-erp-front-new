@@ -34,21 +34,27 @@ export default function AssetLiabilityPlanCreateEdit() {
 
   const [objProps, setObjprops] = useState({});
   const saveHandler = (values, cb) => {
-    const payload = tableData.map((item) => {
-      return {
-        ...item,
-        yearId: values?.fiscalYear?.value,
-        yearName: values?.fiscalYear?.label,
-        partName: "Create",
-        actionBy: profileData?.userId,
-      };
-    });
-    saveData(
-      `/fino/BudgetFinancial/CreateAssetLiabilityPlan`,
-      payload,
-      null,
-      true
-    );
+    if (tableData?.length && tableData[0].msg !== "already exists") {
+      const payload = tableData.map((item) => {
+        return {
+          ...item,
+          yearId: values?.fiscalYear?.value,
+          yearName: values?.fiscalYear?.label,
+          partName: "Create",
+          actionBy: profileData?.userId,
+        };
+      });
+      saveData(
+        `/fino/BudgetFinancial/CreateAssetLiabilityPlan`,
+        payload,
+        () => {
+          setTableData([]);
+        },
+        true
+      );
+    } else {
+      return toast.warn("No data to save");
+    }
   };
 
   useEffect(() => {
@@ -80,8 +86,6 @@ export default function AssetLiabilityPlanCreateEdit() {
     }
     setTableData(updatedData);
   };
-
-  const getInventoryDataOfFiscalYear = () => {};
 
   const calculatePercentageValues = (item) => {
     if (item.entryType === "Percentage") {
@@ -118,53 +122,94 @@ export default function AssetLiabilityPlanCreateEdit() {
       (data) => {
         const updatedData = data?.map((item) => ({
           ...item,
-          fillAllManual: "",
+          fillAllManual: item?.initialAmount,
+          julAmount:
+            item?.entryType === "Manual"
+              ? item?.initialAmount
+              : item?.julAmount,
+          augAmount:
+            item?.entryType === "Manual"
+              ? item?.initialAmount
+              : item?.augAmount,
+          sepAmount:
+            item?.entryType === "Manual"
+              ? item?.initialAmount
+              : item?.sepAmount,
+          octAmount:
+            item?.entryType === "Manual"
+              ? item?.initialAmount
+              : item?.octAmount,
+          novAmount:
+            item?.entryType === "Manual"
+              ? item?.initialAmount
+              : item?.novAmount,
+          decAmount:
+            item?.entryType === "Manual"
+              ? item?.initialAmount
+              : item?.decAmount,
+          janAmount:
+            item?.entryType === "Manual"
+              ? item?.initialAmount
+              : item?.janAmount,
+          febAmount:
+            item?.entryType === "Manual"
+              ? item?.initialAmount
+              : item?.febAmount,
+          marAmount:
+            item?.entryType === "Manual"
+              ? item?.initialAmount
+              : item?.marAmount,
+          aprAmount:
+            item?.entryType === "Manual"
+              ? item?.initialAmount
+              : item?.marAmount,
+          mayAmount:
+            item?.entryType === "Manual"
+              ? item?.initialAmount
+              : item?.mayAmount,
+          junAmount:
+            item?.entryType === "Manual"
+              ? item?.initialAmount
+              : item?.junAmount,
         }));
-
         const updatedDataWithPercentage = updatedData?.map(
           calculatePercentageValues
         );
-        console.log("tableData", updatedDataWithPercentage);
-        getInventoryData(
-          `/mes/SalesPlanning/GetGlWiseMaterialBalance?unitId=${
-            selectedBusinessUnit?.value
-          }&dteFromDate=${_todayDate()}`,
-          (invData) => {
-            console.log("InventoryData", invData);
-            const updatedDataWithInventory = updatedDataWithPercentage?.map(
-              (item) => {
-                const invDataItem = invData?.find(
-                  (invItem) => invItem?.intGeneralLedgerId === item?.glId
-                );
-                if (invDataItem) {
-                  return {
-                    ...item,
-                    julAmount: invDataItem?.julAmount,
-                    augAmount: invDataItem?.augAmount,
-                    sepAmount: invDataItem?.sepAmount,
-                    octAmount: invDataItem?.octAmount,
-                    novAmount: invDataItem?.novAmount,
-                    decAmount: invDataItem?.decAmount,
-                    janAmount: invDataItem?.janAmount,
-                    febAmount: invDataItem?.febAmount,
-                    marAmount: invDataItem?.marAmount,
-                    aprAmount: invDataItem?.aprAmount,
-                    mayAmount: invDataItem?.mayAmount,
-                    junAmount: invDataItem?.junAmount,
-                  };
-                } else {
-                  return item;
+        data[0]?.msg !== "already exists" &&
+          getInventoryData(
+            `/mes/SalesPlanning/GetGlWiseMaterialBalance?unitId=${
+              selectedBusinessUnit?.value
+            }&dteFromDate=${_todayDate()}`,
+            (invData) => {
+              const updatedDataWithInventory = updatedDataWithPercentage?.map(
+                (item) => {
+                  const invDataItem = invData?.find(
+                    (invItem) => invItem?.intGeneralLedgerId === item?.glId
+                  );
+                  if (invDataItem) {
+                    return {
+                      ...item,
+                      julAmount: invDataItem?.julAmount.toFixed(2),
+                      augAmount: invDataItem?.augAmount.toFixed(2),
+                      sepAmount: invDataItem?.sepAmount.toFixed(2),
+                      octAmount: invDataItem?.octAmount.toFixed(2),
+                      novAmount: invDataItem?.novAmount.toFixed(2),
+                      decAmount: invDataItem?.decAmount.toFixed(2),
+                      janAmount: invDataItem?.janAmount.toFixed(2),
+                      febAmount: invDataItem?.febAmount.toFixed(2),
+                      marAmount: invDataItem?.marAmount.toFixed(2),
+                      aprAmount: invDataItem?.aprAmount.toFixed(2),
+                      mayAmount: invDataItem?.mayAmount.toFixed(2),
+                      junAmount: invDataItem?.junAmount.toFixed(2),
+                    };
+                  } else {
+                    return item;
+                  }
                 }
-              }
-            );
-
-            setTableData(updatedDataWithInventory);
-          }
-        );
-
-        // console.log("updatedDataWithPercentage", updatedDataWithPercentage);
-
-        // setTableData(updatedDataWithPercentage);
+              );
+              setTableData(updatedDataWithInventory);
+            }
+          );
       }
     );
   };
@@ -248,501 +293,431 @@ export default function AssetLiabilityPlanCreateEdit() {
                 </div>
               </div>
 
-              <div className="loan-scrollable-table mt-2">
-                <div
-                  style={{ maxHeight: "500px" }}
-                  className="scroll-table _table"
-                >
-                  <table className="table table-striped table-bordered bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th style={{ minWidth: "60px" }}>SL</th>
-                        <th style={{ minWidth: "200px" }}>GL Name</th>
-                        <th style={{ minWidth: "100px" }}>GL Class</th>
-                        <th style={{ minWidth: "80px" }}>GL Type</th>
-                        <th
-                          style={{
-                            minWidth: "100px",
-                          }}
-                        >
-                          Value
-                        </th>
-                        <th
-                          style={{
-                            minWidth: "100px",
-                          }}
-                        >
-                          July
-                        </th>
-                        <th
-                          style={{
-                            minWidth: "100px",
-                          }}
-                        >
-                          August
-                        </th>
-                        <th
-                          style={{
-                            minWidth: "100px",
-                          }}
-                        >
-                          September
-                        </th>
-                        <th
-                          style={{
-                            minWidth: "100px",
-                          }}
-                        >
-                          October
-                        </th>
-                        <th
-                          style={{
-                            minWidth: "100px",
-                          }}
-                        >
-                          November
-                        </th>
-                        <th
-                          style={{
-                            minWidth: "100px",
-                          }}
-                        >
-                          December
-                        </th>
-                        <th
-                          style={{
-                            minWidth: "100px",
-                          }}
-                        >
-                          January
-                        </th>
-                        <th
-                          style={{
-                            minWidth: "100px",
-                          }}
-                        >
-                          February
-                        </th>
-                        <th
-                          style={{
-                            minWidth: "100px",
-                          }}
-                        >
-                          March
-                        </th>
-                        <th
-                          style={{
-                            minWidth: "100px",
-                          }}
-                        >
-                          April
-                        </th>
-                        <th
-                          style={{
-                            minWidth: "100px",
-                          }}
-                        >
-                          May
-                        </th>
-                        <th
-                          style={{
-                            minWidth: "100px",
-                          }}
-                        >
-                          June
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {tableData.length > 0 &&
-                        tableData.map((item, index) => (
-                          <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td>{item?.glName}</td>
-                            <td>{item?.glClassName}</td>
-                            <td>{item?.entryType}</td>
-                            <td>
-                              {item?.entryType === "Percentage" ? (
-                                <InputField
-                                  value={item?.entryTypeValue}
-                                  type="text"
-                                  name="entryTypeValue"
-                                  onChange={(e) => {
-                                    if (+e.target.value >= 0) {
-                                      const updatedData = [...tableData];
-                                      updatedData[index].entryTypeValue = +e
-                                        .target.value;
-                                      setTableData(updatedData);
-                                      fillPersentageValueInRow(
-                                        +e.target.value,
-                                        index,
-                                        item?.initialAmount
-                                      );
-                                    } else {
-                                      const updatedData = [...tableData];
-                                      updatedData[index].entryTypeValue = 0;
-                                      setTableData(updatedData);
-                                      return toast.warn(
-                                        "Value must be greater than 0"
-                                      );
-                                    }
-                                  }}
-                                />
-                              ) : item?.entryType === "Inventory" ? (
-                                <span className="text-center pointer"></span>
-                              ) : (
-                                <InputField
-                                  value={item?.fillAllManual}
-                                  type="text"
-                                  name="fillAllManual"
-                                  onChange={(e) => {
-                                    const newValue = +e.target.value;
-                                    if (newValue >= 0) {
-                                      const updatedData = tableData.map(
-                                        (data, idx) =>
-                                          idx === index
-                                            ? getUpdatedRowObjectForManual(
-                                                data,
-                                                newValue
-                                              )
-                                            : data
-                                      );
-                                      setTableData(updatedData);
-                                    }
-                                  }}
-                                />
-                              )}
-                            </td>
-                            <td>
-                              {item?.entryType === "Manual" ? (
-                                <InputField
-                                  value={item?.julAmount}
-                                  type="text"
-                                  name="entryTypeValue"
-                                  onChange={(e) => {
-                                    if (+e.target.value >= 0) {
-                                      const updatedData = [...tableData];
-                                      updatedData[index].julAmount = +e.target
-                                        .value;
-                                      setTableData(updatedData);
-                                    } else {
-                                      const updatedData = [...tableData];
-                                      updatedData[index].julAmount = 0;
-                                      setTableData(updatedData);
-                                      return toast.warn(
-                                        "Value must be greater than 0"
-                                      );
-                                    }
-                                  }}
-                                />
-                              ) : (
-                                item?.julAmount
-                              )}
-                            </td>
-                            <td>
-                              {/* {item?.augAmount} */}
-                              {item?.entryType === "Manual" ? (
-                                <InputField
-                                  value={item?.augAmount}
-                                  type="text"
-                                  name="entryTypeValue"
-                                  onChange={(e) => {
-                                    if (+e.target.value >= 0) {
-                                      const updatedData = [...tableData];
-                                      updatedData[index].augAmount = +e.target
-                                        .value;
-                                      setTableData(updatedData);
-                                    } else {
-                                      const updatedData = [...tableData];
-                                      updatedData[index].augAmount = 0;
-                                      setTableData(updatedData);
-                                      return toast.warn(
-                                        "Value must be greater than 0"
-                                      );
-                                    }
-                                  }}
-                                />
-                              ) : (
-                                item?.augAmount
-                              )}
-                            </td>
-                            <td>
-                              {/* {item?.sepAmount} */}
-                              {item?.entryType === "Manual" ? (
-                                <InputField
-                                  value={item?.sepAmount}
-                                  type="text"
-                                  name="entryTypeValue"
-                                  onChange={(e) => {
-                                    if (+e.target.value >= 0) {
-                                      const updatedData = [...tableData];
-                                      updatedData[index].sepAmount = +e.target
-                                        .value;
-                                      setTableData(updatedData);
-                                    } else {
-                                      const updatedData = [...tableData];
-                                      updatedData[index].sepAmount = 0;
-                                      setTableData(updatedData);
-                                      return toast.warn(
-                                        "Value must be greater than 0"
-                                      );
-                                    }
-                                  }}
-                                />
-                              ) : (
-                                item?.sepAmount
-                              )}
-                            </td>
-                            <td>
-                              {/* {item?.octAmount} */}
-                              {item?.entryType === "Manual" ? (
-                                <InputField
-                                  value={item?.octAmount}
-                                  type="text"
-                                  name="entryTypeValue"
-                                  onChange={(e) => {
-                                    if (+e.target.value >= 0) {
-                                      const updatedData = [...tableData];
-                                      updatedData[index].octAmount = +e.target
-                                        .value;
-                                      setTableData(updatedData);
-                                    } else {
-                                      const updatedData = [...tableData];
-                                      updatedData[index].octAmount = 0;
-                                      setTableData(updatedData);
-                                      return toast.warn(
-                                        "Value must be greater than 0"
-                                      );
-                                    }
-                                  }}
-                                />
-                              ) : (
-                                item?.octAmount
-                              )}
-                            </td>
-                            <td>
-                              {/* {item?.novAmount} */}
-
-                              {item?.entryType === "Manual" ? (
-                                <InputField
-                                  value={item?.novAmount}
-                                  type="text"
-                                  name="entryTypeValue"
-                                  onChange={(e) => {
-                                    if (+e.target.value >= 0) {
-                                      const updatedData = [...tableData];
-                                      updatedData[index].novAmount = +e.target
-                                        .value;
-                                      setTableData(updatedData);
-                                    } else {
-                                      const updatedData = [...tableData];
-                                      updatedData[index].novAmount = 0;
-                                      setTableData(updatedData);
-                                      return toast.warn(
-                                        "Value must be greater than 0"
-                                      );
-                                    }
-                                  }}
-                                />
-                              ) : (
-                                item?.novAmount
-                              )}
-                            </td>
-                            <td>
-                              {/* {item?.decAmount} */}
-                              {item?.entryType === "Manual" ? (
-                                <InputField
-                                  value={item?.decAmount}
-                                  type="text"
-                                  name="entryTypeValue"
-                                  onChange={(e) => {
-                                    if (+e.target.value >= 0) {
-                                      const updatedData = [...tableData];
-                                      updatedData[index].decAmount = +e.target
-                                        .value;
-                                      setTableData(updatedData);
-                                    } else {
-                                      const updatedData = [...tableData];
-                                      updatedData[index].decAmount = 0;
-                                      setTableData(updatedData);
-                                      return toast.warn(
-                                        "Value must be greater than 0"
-                                      );
-                                    }
-                                  }}
-                                />
-                              ) : (
-                                item?.decAmount
-                              )}
-                            </td>
-                            <td>
-                              {/* {item?.janAmount} */}
-                              {item?.entryType === "Manual" ? (
-                                <InputField
-                                  value={item?.janAmount}
-                                  type="text"
-                                  name="entryTypeValue"
-                                  onChange={(e) => {
-                                    if (+e.target.value >= 0) {
-                                      const updatedData = [...tableData];
-                                      updatedData[index].janAmount = +e.target
-                                        .value;
-                                      setTableData(updatedData);
-                                    } else {
-                                      const updatedData = [...tableData];
-                                      updatedData[index].janAmount = 0;
-                                      setTableData(updatedData);
-                                      return toast.warn(
-                                        "Value must be greater than 0"
-                                      );
-                                    }
-                                  }}
-                                />
-                              ) : (
-                                item?.janAmount
-                              )}
-                            </td>
-                            <td>
-                              {/* {item?.febAmount} */}
-                              {item?.entryType === "Manual" ? (
-                                <InputField
-                                  value={item?.febAmount}
-                                  type="text"
-                                  name="entryTypeValue"
-                                  onChange={(e) => {
-                                    if (+e.target.value >= 0) {
-                                      const updatedData = [...tableData];
-                                      updatedData[index].febAmount = +e.target
-                                        .value;
-                                      setTableData(updatedData);
-                                    } else {
-                                      const updatedData = [...tableData];
-                                      updatedData[index].febAmount = 0;
-                                      setTableData(updatedData);
-                                      return toast.warn(
-                                        "Value must be greater than 0"
-                                      );
-                                    }
-                                  }}
-                                />
-                              ) : (
-                                item?.febAmount
-                              )}
-                            </td>
-                            <td>
-                              {/* {item?.marAmount} */}
-                              {item?.entryType === "Manual" ? (
-                                <InputField
-                                  value={item?.marAmount}
-                                  type="text"
-                                  name="entryTypeValue"
-                                  onChange={(e) => {
-                                    if (+e.target.value >= 0) {
-                                      const updatedData = [...tableData];
-                                      updatedData[index].marAmount = +e.target
-                                        .value;
-                                      setTableData(updatedData);
-                                    } else {
-                                      const updatedData = [...tableData];
-                                      updatedData[index].marAmount = 0;
-                                      setTableData(updatedData);
-                                      return toast.warn(
-                                        "Value must be greater than 0"
-                                      );
-                                    }
-                                  }}
-                                />
-                              ) : (
-                                item?.marAmount
-                              )}
-                            </td>
-                            <td>
-                              {/* {item?.aprAmount} */}
-                              {item?.entryType === "Manual" ? (
-                                <InputField
-                                  value={item?.aprAmount}
-                                  type="text"
-                                  name="entryTypeValue"
-                                  onChange={(e) => {
-                                    if (+e.target.value >= 0) {
-                                      const updatedData = [...tableData];
-                                      updatedData[index].aprAmount = +e.target
-                                        .value;
-                                      setTableData(updatedData);
-                                    } else {
-                                      const updatedData = [...tableData];
-                                      updatedData[index].aprAmount = 0;
-                                      setTableData(updatedData);
-                                      return toast.warn(
-                                        "Value must be greater than 0"
-                                      );
-                                    }
-                                  }}
-                                />
-                              ) : (
-                                item?.aprAmount
-                              )}
-                            </td>
-                            <td>
-                              {/* {item?.mayAmount} */}
-                              {item?.entryType === "Manual" ? (
-                                <InputField
-                                  value={item?.mayAmount}
-                                  type="text"
-                                  name="entryTypeValue"
-                                  onChange={(e) => {
-                                    if (+e.target.value >= 0) {
-                                      const updatedData = [...tableData];
-                                      updatedData[index].mayAmount = +e.target
-                                        .value;
-                                      setTableData(updatedData);
-                                    } else {
-                                      const updatedData = [...tableData];
-                                      updatedData[index].mayAmount = 0;
-                                      setTableData(updatedData);
-                                      return toast.warn(
-                                        "Value must be greater than 0"
-                                      );
-                                    }
-                                  }}
-                                />
-                              ) : (
-                                item?.mayAmount
-                              )}
-                            </td>
-                            <td>
-                              {/* {item?.junAmount} */}
-                              {item?.entryType === "Manual" ? (
-                                <InputField
-                                  value={item?.junAmount}
-                                  type="text"
-                                  name="entryTypeValue"
-                                  onChange={(e) => {
-                                    if (+e.target.value >= 0) {
-                                      const updatedData = [...tableData];
-                                      updatedData[index].junAmount = +e.target
-                                        .value;
-                                      setTableData(updatedData);
-                                    } else {
-                                      const updatedData = [...tableData];
-                                      updatedData[index].junAmount = 0;
-                                      setTableData(updatedData);
-                                      return toast.warn(
-                                        "Value must be greater than 0"
-                                      );
-                                    }
-                                  }}
-                                />
-                              ) : (
-                                item?.junAmount
-                              )}
-                            </td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
+              {values?.fiscalYear?.value &&
+              tableData.length &&
+              tableData[0].msg === "already exists" ? (
+                <div className="text-center mt-5">
+                  <p>{tableData[0].msg}</p>
                 </div>
-              </div>
+              ) : (
+                <div className="loan-scrollable-table mt-2">
+                  <div
+                    style={{ maxHeight: "500px" }}
+                    className="scroll-table _table"
+                  >
+                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th style={{ minWidth: "60px" }}>SL</th>
+                          <th style={{ minWidth: "200px" }}>GL Name</th>
+                          <th style={{ minWidth: "100px" }}>GL Class</th>
+                          <th style={{ minWidth: "80px" }}>GL Type</th>
+                          <th style={{ minWidth: "140px" }}>Value</th>
+                          <th style={{ minWidth: "140px" }}>July</th>
+                          <th style={{ minWidth: "140px" }}>August</th>
+                          <th style={{ minWidth: "140px" }}>September</th>
+                          <th style={{ minWidth: "140px" }}>October</th>
+                          <th style={{ minWidth: "140px" }}>November</th>
+                          <th style={{ minWidth: "140px" }}>December</th>
+                          <th style={{ minWidth: "140px" }}>January</th>
+                          <th style={{ minWidth: "140px" }}>February</th>
+                          <th style={{ minWidth: "140px" }}>March</th>
+                          <th style={{ minWidth: "140px" }}>April</th>
+                          <th style={{ minWidth: "140px" }}>May</th>
+                          <th style={{ minWidth: "140px" }}>June</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {tableData.length > 0 &&
+                          tableData.map((item, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>{item?.glName}</td>
+                              <td>{item?.glClassName}</td>
+                              <td>{item?.entryType}</td>
+                              <td>
+                                {item?.entryType === "Percentage" ? (
+                                  <InputField
+                                    value={item?.entryTypeValue}
+                                    type="text"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      if (+e.target.value >= 0) {
+                                        const updatedData = [...tableData];
+                                        updatedData[index].entryTypeValue = +e
+                                          .target.value;
+                                        setTableData(updatedData);
+                                        fillPersentageValueInRow(
+                                          +e.target.value,
+                                          index,
+                                          item?.initialAmount
+                                        );
+                                      } else {
+                                        const updatedData = [...tableData];
+                                        updatedData[index].entryTypeValue = 0;
+                                        setTableData(updatedData);
+                                        return toast.warn(
+                                          "Value must be greater than 0"
+                                        );
+                                      }
+                                    }}
+                                  />
+                                ) : item?.entryType === "Inventory" ? (
+                                  <span className="text-center pointer"></span>
+                                ) : (
+                                  <InputField
+                                    value={item?.fillAllManual}
+                                    type="text"
+                                    name="fillAllManual"
+                                    onChange={(e) => {
+                                      const newValue = +e.target.value;
+                                      if (newValue >= 0) {
+                                        const updatedData = tableData.map(
+                                          (data, idx) =>
+                                            idx === index
+                                              ? getUpdatedRowObjectForManual(
+                                                  data,
+                                                  newValue
+                                                )
+                                              : data
+                                        );
+                                        setTableData(updatedData);
+                                      }
+                                    }}
+                                  />
+                                )}
+                              </td>
+                              <td>
+                                {item?.entryType === "Manual" ? (
+                                  <InputField
+                                    value={item?.julAmount}
+                                    type="text"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      if (+e.target.value >= 0) {
+                                        const updatedData = [...tableData];
+                                        updatedData[index].julAmount = +e.target
+                                          .value;
+                                        setTableData(updatedData);
+                                      } else {
+                                        const updatedData = [...tableData];
+                                        updatedData[index].julAmount = 0;
+                                        setTableData(updatedData);
+                                        return toast.warn(
+                                          "Value must be greater than 0"
+                                        );
+                                      }
+                                    }}
+                                  />
+                                ) : (
+                                  item?.julAmount
+                                )}
+                              </td>
+                              <td>
+                                {/* {item?.augAmount} */}
+                                {item?.entryType === "Manual" ? (
+                                  <InputField
+                                    value={item?.augAmount}
+                                    type="text"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      if (+e.target.value >= 0) {
+                                        const updatedData = [...tableData];
+                                        updatedData[index].augAmount = +e.target
+                                          .value;
+                                        setTableData(updatedData);
+                                      } else {
+                                        const updatedData = [...tableData];
+                                        updatedData[index].augAmount = 0;
+                                        setTableData(updatedData);
+                                        return toast.warn(
+                                          "Value must be greater than 0"
+                                        );
+                                      }
+                                    }}
+                                  />
+                                ) : (
+                                  item?.augAmount
+                                )}
+                              </td>
+                              <td>
+                                {/* {item?.sepAmount} */}
+                                {item?.entryType === "Manual" ? (
+                                  <InputField
+                                    value={item?.sepAmount}
+                                    type="text"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      if (+e.target.value >= 0) {
+                                        const updatedData = [...tableData];
+                                        updatedData[index].sepAmount = +e.target
+                                          .value;
+                                        setTableData(updatedData);
+                                      } else {
+                                        const updatedData = [...tableData];
+                                        updatedData[index].sepAmount = 0;
+                                        setTableData(updatedData);
+                                        return toast.warn(
+                                          "Value must be greater than 0"
+                                        );
+                                      }
+                                    }}
+                                  />
+                                ) : (
+                                  item?.sepAmount
+                                )}
+                              </td>
+                              <td>
+                                {/* {item?.octAmount} */}
+                                {item?.entryType === "Manual" ? (
+                                  <InputField
+                                    value={item?.octAmount}
+                                    type="text"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      if (+e.target.value >= 0) {
+                                        const updatedData = [...tableData];
+                                        updatedData[index].octAmount = +e.target
+                                          .value;
+                                        setTableData(updatedData);
+                                      } else {
+                                        const updatedData = [...tableData];
+                                        updatedData[index].octAmount = 0;
+                                        setTableData(updatedData);
+                                        return toast.warn(
+                                          "Value must be greater than 0"
+                                        );
+                                      }
+                                    }}
+                                  />
+                                ) : (
+                                  item?.octAmount
+                                )}
+                              </td>
+                              <td>
+                                {/* {item?.novAmount} */}
+
+                                {item?.entryType === "Manual" ? (
+                                  <InputField
+                                    value={item?.novAmount}
+                                    type="text"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      if (+e.target.value >= 0) {
+                                        const updatedData = [...tableData];
+                                        updatedData[index].novAmount = +e.target
+                                          .value;
+                                        setTableData(updatedData);
+                                      } else {
+                                        const updatedData = [...tableData];
+                                        updatedData[index].novAmount = 0;
+                                        setTableData(updatedData);
+                                        return toast.warn(
+                                          "Value must be greater than 0"
+                                        );
+                                      }
+                                    }}
+                                  />
+                                ) : (
+                                  item?.novAmount
+                                )}
+                              </td>
+                              <td>
+                                {/* {item?.decAmount} */}
+                                {item?.entryType === "Manual" ? (
+                                  <InputField
+                                    value={item?.decAmount}
+                                    type="text"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      if (+e.target.value >= 0) {
+                                        const updatedData = [...tableData];
+                                        updatedData[index].decAmount = +e.target
+                                          .value;
+                                        setTableData(updatedData);
+                                      } else {
+                                        const updatedData = [...tableData];
+                                        updatedData[index].decAmount = 0;
+                                        setTableData(updatedData);
+                                        return toast.warn(
+                                          "Value must be greater than 0"
+                                        );
+                                      }
+                                    }}
+                                  />
+                                ) : (
+                                  item?.decAmount
+                                )}
+                              </td>
+                              <td>
+                                {/* {item?.janAmount} */}
+                                {item?.entryType === "Manual" ? (
+                                  <InputField
+                                    value={item?.janAmount}
+                                    type="text"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      if (+e.target.value >= 0) {
+                                        const updatedData = [...tableData];
+                                        updatedData[index].janAmount = +e.target
+                                          .value;
+                                        setTableData(updatedData);
+                                      } else {
+                                        const updatedData = [...tableData];
+                                        updatedData[index].janAmount = 0;
+                                        setTableData(updatedData);
+                                        return toast.warn(
+                                          "Value must be greater than 0"
+                                        );
+                                      }
+                                    }}
+                                  />
+                                ) : (
+                                  item?.janAmount
+                                )}
+                              </td>
+                              <td>
+                                {/* {item?.febAmount} */}
+                                {item?.entryType === "Manual" ? (
+                                  <InputField
+                                    value={item?.febAmount}
+                                    type="text"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      if (+e.target.value >= 0) {
+                                        const updatedData = [...tableData];
+                                        updatedData[index].febAmount = +e.target
+                                          .value;
+                                        setTableData(updatedData);
+                                      } else {
+                                        const updatedData = [...tableData];
+                                        updatedData[index].febAmount = 0;
+                                        setTableData(updatedData);
+                                        return toast.warn(
+                                          "Value must be greater than 0"
+                                        );
+                                      }
+                                    }}
+                                  />
+                                ) : (
+                                  item?.febAmount
+                                )}
+                              </td>
+                              <td>
+                                {/* {item?.marAmount} */}
+                                {item?.entryType === "Manual" ? (
+                                  <InputField
+                                    value={item?.marAmount}
+                                    type="text"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      if (+e.target.value >= 0) {
+                                        const updatedData = [...tableData];
+                                        updatedData[index].marAmount = +e.target
+                                          .value;
+                                        setTableData(updatedData);
+                                      } else {
+                                        const updatedData = [...tableData];
+                                        updatedData[index].marAmount = 0;
+                                        setTableData(updatedData);
+                                        return toast.warn(
+                                          "Value must be greater than 0"
+                                        );
+                                      }
+                                    }}
+                                  />
+                                ) : (
+                                  item?.marAmount
+                                )}
+                              </td>
+                              <td>
+                                {/* {item?.aprAmount} */}
+                                {item?.entryType === "Manual" ? (
+                                  <InputField
+                                    value={item?.aprAmount}
+                                    type="text"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      if (+e.target.value >= 0) {
+                                        const updatedData = [...tableData];
+                                        updatedData[index].aprAmount = +e.target
+                                          .value;
+                                        setTableData(updatedData);
+                                      } else {
+                                        const updatedData = [...tableData];
+                                        updatedData[index].aprAmount = 0;
+                                        setTableData(updatedData);
+                                        return toast.warn(
+                                          "Value must be greater than 0"
+                                        );
+                                      }
+                                    }}
+                                  />
+                                ) : (
+                                  item?.aprAmount
+                                )}
+                              </td>
+                              <td>
+                                {/* {item?.mayAmount} */}
+                                {item?.entryType === "Manual" ? (
+                                  <InputField
+                                    value={item?.mayAmount}
+                                    type="text"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      if (+e.target.value >= 0) {
+                                        const updatedData = [...tableData];
+                                        updatedData[index].mayAmount = +e.target
+                                          .value;
+                                        setTableData(updatedData);
+                                      } else {
+                                        const updatedData = [...tableData];
+                                        updatedData[index].mayAmount = 0;
+                                        setTableData(updatedData);
+                                        return toast.warn(
+                                          "Value must be greater than 0"
+                                        );
+                                      }
+                                    }}
+                                  />
+                                ) : (
+                                  item?.mayAmount
+                                )}
+                              </td>
+                              <td>
+                                {/* {item?.junAmount} */}
+                                {item?.entryType === "Manual" ? (
+                                  <InputField
+                                    value={item?.junAmount}
+                                    type="text"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      if (+e.target.value >= 0) {
+                                        const updatedData = [...tableData];
+                                        updatedData[index].junAmount = +e.target
+                                          .value;
+                                        setTableData(updatedData);
+                                      } else {
+                                        const updatedData = [...tableData];
+                                        updatedData[index].junAmount = 0;
+                                        setTableData(updatedData);
+                                        return toast.warn(
+                                          "Value must be greater than 0"
+                                        );
+                                      }
+                                    }}
+                                  />
+                                ) : (
+                                  item?.junAmount
+                                )}
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
 
               <button
                 type="submit"

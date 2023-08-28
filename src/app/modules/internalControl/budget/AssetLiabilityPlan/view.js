@@ -45,6 +45,7 @@ export default function AssetLiabilityPlanCreateEdit() {
         });
       }
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [yearId, buId]);
 
   return (
@@ -97,7 +98,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                   className="scroll-table _table"
                 >
                   <table className="table table-striped table-bordered bj-table bj-table-landing">
-                    <thead>
+                    {/* <thead>
                       <tr>
                         <th>SL</th>
                         <th>GL Name</th>
@@ -195,6 +196,27 @@ export default function AssetLiabilityPlanCreateEdit() {
                           June
                         </th>
                       </tr>
+                    </thead> */}
+                    <thead>
+                      <tr>
+                        <th style={{ minWidth: "60px" }}>SL</th>
+                        <th style={{ minWidth: "200px" }}>GL Name</th>
+                        <th style={{ minWidth: "100px" }}>GL Class</th>
+                        <th style={{ minWidth: "80px" }}>GL Type</th>
+                        <th style={{ minWidth: "140px" }}>Value</th>
+                        <th style={{ minWidth: "140px" }}>July</th>
+                        <th style={{ minWidth: "140px" }}>August</th>
+                        <th style={{ minWidth: "140px" }}>September</th>
+                        <th style={{ minWidth: "140px" }}>October</th>
+                        <th style={{ minWidth: "140px" }}>November</th>
+                        <th style={{ minWidth: "140px" }}>December</th>
+                        <th style={{ minWidth: "140px" }}>January</th>
+                        <th style={{ minWidth: "140px" }}>February</th>
+                        <th style={{ minWidth: "140px" }}>March</th>
+                        <th style={{ minWidth: "140px" }}>April</th>
+                        <th style={{ minWidth: "140px" }}>May</th>
+                        <th style={{ minWidth: "140px" }}>June</th>
+                      </tr>
                     </thead>
                     <tbody>
                       {tableData.length > 0 &&
@@ -205,9 +227,9 @@ export default function AssetLiabilityPlanCreateEdit() {
                             <td>{item?.glClassName}</td>
                             <td>{item?.entryType}</td>
                             <td>
-                                {
-                                    item?.entryType === "Percentage" ? item?.entryTypeValue : ""
-                                }
+                              {item?.entryType === "Percentage"
+                                ? item?.entryTypeValue
+                                : ""}
                             </td>
                             <td>{item?.julAmount}</td>
                             <td>{item?.augAmount}</td>
