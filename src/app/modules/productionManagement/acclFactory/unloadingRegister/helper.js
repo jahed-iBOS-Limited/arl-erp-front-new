@@ -195,6 +195,10 @@ export const breakdownTypeDDLForCraneStopageDetails = [
     label: "Power Problem",
     value: 5,
   },
+  {
+    label: "Others",
+    value: 6,
+  },
 ];
 export const craneNameDDLForCraneStopageDetails = [
   {
