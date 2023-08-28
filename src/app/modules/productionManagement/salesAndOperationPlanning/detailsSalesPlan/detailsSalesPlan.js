@@ -94,7 +94,7 @@ export default function DetailsSalesPlanLanding() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push({
-                        pathname: `/production-management/salesAndOperationsPlanning/detailsalseplan/details/create`,
+                        pathname: `/internal-control/budget/detailsalseplan/details/create`,
                         state: {
                           monthlyValues: location?.state?.monthlyValues,
                           monthlyItem: location?.state?.monthlyItem,
@@ -378,7 +378,7 @@ export default function DetailsSalesPlanLanding() {
                               <span
                                 onClick={() =>
                                   history.push({
-                                    pathname: `/production-management/salesAndOperationsPlanning/detailsalseplan/details/edit`,
+                                    pathname: `/internal-control/budget/detailsalseplan/details/edit`,
                                     state: {
                                       monthlyValues:
                                         location?.state?.monthlyValues,
