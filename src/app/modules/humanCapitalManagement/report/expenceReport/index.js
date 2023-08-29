@@ -67,7 +67,7 @@ const ExpenceReport = () => {
     expenseCode: "",
     expenceGroup: { value: 1, label: "TaDa" },
   };
-
+ 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -148,7 +148,6 @@ const ExpenceReport = () => {
     );
     return { lestDate, firstDate };
   };
-
   return (
     <>
       <Formik
@@ -169,6 +168,7 @@ const ExpenceReport = () => {
               [14].includes(values?.reportType?.value) && gridData?.length
             }
           >
+          
             <form className="form form-label-right">
               <div className="global-form">
                 <div className="row">
@@ -189,6 +189,7 @@ const ExpenceReport = () => {
                       touched={touched}
                     />
                   </div>
+          
                   {[3, 4, 5, 6, 7, 8, 9, 10].includes(
                     values?.reportType?.value
                   ) && (
