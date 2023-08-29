@@ -90,7 +90,7 @@ export const getModifiedInitData = (item) => {
 export const saveHandler = ({
   values,
   rowDto,
-  employeeId,
+  userId,
   buId,
   location,
   saveDistributionPlan,
@@ -132,7 +132,7 @@ export const saveHandler = ({
       planTransQty: +item?.planTransQty || 0,
       planTransRate: +item?.planTransRate || 0,
       isActive: true,
-      actinoBy: employeeId,
+      actinoBy: userId,
     };
   });
 
@@ -146,7 +146,7 @@ export const saveHandler = ({
     fromDate: values?.fromDate,
     toDate: values?.toDate,
     isActive: true,
-    actinoBy: employeeId,
+    actinoBy: userId,
     distributionRowList: distributionRowList,
     plantHouseId: values?.plant?.value,
     wareHouseId: values?.warehouse?.value,
