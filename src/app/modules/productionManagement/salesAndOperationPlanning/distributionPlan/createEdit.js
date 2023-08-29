@@ -42,7 +42,7 @@ export default function DistributionPlanCreateEdit() {
 
   // get user data from redux store
   const {
-    profileData: { accountId: accId, employeeId, userId },
+    profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
@@ -129,12 +129,6 @@ export default function DistributionPlanCreateEdit() {
     if (isEdit) {
       const modifiedInitData = getModifiedInitData(item);
       setModifiedData(modifiedInitData);
-      // getRegionDDLHandler(modifiedInitData?.channel);
-      // getAreaDDLHandler(modifiedInitData, modifiedInitData?.region);
-      // getTerritoryDDLHandler(modifiedInitData, modifiedInitData?.area);
-      // getWarehouseDDLHandler(item?.plantHouseId);
-      // getYearDDLHandler(item?.plantHouseId);
-      // getHorizonDDLHandler(item?.plantHouseId, item?.yearId);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -171,7 +165,7 @@ export default function DistributionPlanCreateEdit() {
           values,
           rowDto,
           buId,
-          employeeId,
+          userId,
           location,
           saveDistributionPlan,
           cb: () => {
