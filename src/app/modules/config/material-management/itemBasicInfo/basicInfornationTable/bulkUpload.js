@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Loading from '../../../../_helper/_loading';
 import IForm from '../../../../_helper/_form';
 import { downloadFile } from '../../../../_helper/downloadFile';
-import { readAndPrintExcelData } from './helper';
+import { itemListExcelGenerator, readAndPrintExcelData } from './helper';
 import Styles from './bulkUpdate.module.css';
 import { toast } from 'react-toastify';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
@@ -12,6 +12,7 @@ export default function BulkUpload() {
   const [objProps, setObjprops] = useState({});
   const [loading, setLoading] = useState(false);
   const [rowData, setRowData] = useState([]);
+  const ref = useRef(null);
   const [isValidationError, setIsValidationError] = useState(false);
   const [, saveItemList, saveItemListLoading] = useAxiosPost();
 
@@ -28,14 +29,22 @@ export default function BulkUpload() {
   const handleFileChange = (e) => {
     setIsValidationError(false);
     const file = e?.target?.files[0];
-    readAndPrintExcelData({ file, setLoading, setIsValidationError, setRowData });
+    readAndPrintExcelData({
+      file,
+      setLoading,
+      setIsValidationError,
+      setRowData,
+      cb: () => {
+        ref.current.value = '';
+      },
+    });
   };
 
   // excel format download handler
-  const handleExportExcel = () => {
+  const handleExportExcelFormat = () => {
     downloadFile(
-      `/hcm/EmpRemunerationAddDed/GetBlankAdditionDeductionExcelDownload`,
-      'Manual Salary Addition and Deduction',
+      `/domain/Document/DownlloadFile?id=638289275056408964_Item-Upload.xlsx`,
+      'Item List Format',
       'xlsx',
       setLoading
     );
@@ -74,7 +83,6 @@ export default function BulkUpload() {
       setIsValidationError(false);
     };
     saveItemList(`/item/ItemBasic/UploadItemBulk`, newItemList, callback, true);
-    console.log(newItemList);
   };
 
   return (
@@ -100,36 +108,43 @@ export default function BulkUpload() {
         }}
       >
         <div className={`form-group row global-form ${Styles['item-bulk-upload-wrapper']}`}>
-          <div className="col-lg-1">
-            <button type="button" className="btn btn-primary" onClick={handleExportExcel}>
-              Export Excel
-            </button>
-          </div>
-          <div className="col-lg-1">
-            <input
-              id="excel-upload"
-              className="pointer d-none"
-              type="file"
-              accept=".xlsx"
-              onChange={handleFileChange}
-            />
-            <label
-              htmlFor="excel-upload"
-              className={`btn btn-primary ${Styles['import-excel-btn']}`}
-            >
-              Import Excel
-            </label>
-          </div>
+          <button type="button" className="btn btn-primary" onClick={handleExportExcelFormat}>
+            Export Excel Format
+          </button>
+          <input
+            id="excel-upload"
+            className="pointer d-none"
+            type="file"
+            accept=".xlsx"
+            ref={ref}
+            onChange={handleFileChange}
+          />
+          <label
+            htmlFor="excel-upload"
+            className={`btn btn-primary ml-10 ${Styles['import-excel-btn']}`}
+          >
+            Import Excel
+          </label>
+          <button
+            type="button"
+            className="btn btn-primary ml-10"
+            onClick={() => {
+              itemListExcelGenerator(rowData);
+            }}
+          >
+            Export Excel
+          </button>
         </div>
+
         {rowData?.length > 0 ? (
-          <div className="row">
-            <div className="col-lg-12">
-              <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+          <div className="common-scrollable-table two-column-sticky">
+            <div className="scroll-table _table">
+              <table className="table table-striped table-bordered global-table">
                 <thead>
                   <tr>
                     <th>SL</th>
                     <th>Item Code</th>
-                    <th>Item Name</th>
+                    <th style={{ minWidth: '280px' }}>Item Name</th>
                     <th>Item Type Id</th>
                     <th>Item Category Id</th>
                     <th>Item Sub Category Id</th>
@@ -147,9 +162,7 @@ export default function BulkUpload() {
                   {rowData?.map((item, index) => (
                     <tr key={index}>
                       <td className="text-center">{index + 1}</td>
-                      <td className='text-center'>
-                        {item?.itemCode || ''}
-                      </td>
+                      <td className="text-center">{item?.itemCode || ''}</td>
                       <td className={!item?.itemName ? Styles['red-bg'] : ''}>
                         {item?.itemName || ''}
                       </td>
@@ -195,9 +208,7 @@ export default function BulkUpload() {
                       >
                         {item?.maxLeadDays || ''}
                       </td>
-                      <td className='text-center'>
-                        {item?.status || ''}
-                      </td>
+                      <td className="text-center">{item?.status || ''}</td>
                     </tr>
                   ))}
                 </tbody>
