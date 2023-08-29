@@ -57,7 +57,7 @@ body {
 }
 .common-scrollable-table thead th:first-child {
   position: -webkit-sticky; /* for Safari */
-  min-width: 75px;
+  min-width: 60px;
   border: 1px solid #ecf0f3 !important;
   position: sticky;
   left: 0;
@@ -98,14 +98,14 @@ body {
 .two-column-sticky thead th:nth-child(2) {
   position: -webkit-sticky;
   position: sticky;
-  left: 75px;
+  left: 60px;
   border: 1px solid #ecf0f3 !important;
   z-index: 100;
 }
 .two-column-sticky tbody td:nth-child(2) {
   position: -webkit-sticky;
   position: sticky;
-  left: 75px;
+  left: 60px;
   border: 1px solid #ecf0f3 !important;
   background: #fff !important;
   z-index: 9;
@@ -135,14 +135,14 @@ body {
 .three-column-sticky thead th:nth-child(2) {
   position: -webkit-sticky;
   position: sticky;
-  left: 75px;
+  left: 60px;
   border: 1px solid #ecf0f3 !important;
   z-index: 100;
 }
 .three-column-sticky tbody td:nth-child(2) {
   position: -webkit-sticky;
   position: sticky;
-  left: 75px;
+  left: 60px;
   border: 1px solid #ecf0f3 !important;
   background: #fff !important;
   z-index: 9;
@@ -153,14 +153,14 @@ body {
 .three-column-sticky thead th:nth-child(3) {
   position: -webkit-sticky;
   position: sticky;
-  left: 180px;
+  left: 165px;
   border: 1px solid #ecf0f3 !important;
   z-index: 100;
 }
 .three-column-sticky tbody td:nth-child(3) {
   position: -webkit-sticky;
   position: sticky;
-  left: 180px;
+  left: 165px;
   border: 1px solid #ecf0f3 !important;
   background: #fff !important;
   z-index: 9;
