@@ -1,23 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useRef } from "react";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { Formik, Form } from "formik";
-import Loading from "../../../../_helper/_loading";
-import InputField from "../../../../_helper/_inputField";
-import { getShipmentStandardCostByDate, } from "../helper";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import { Form, Formik } from "formik";
+import React, { useRef, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
+import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
 import {
   Card,
+  CardBody,
   CardHeader,
   CardHeaderToolbar,
-  CardBody,
 } from "../../../../../../_metronic/_partials/controls/Card";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import "./style.css";
+import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import printIcon from "../../../../_helper/images/print-icon.png";
+import { getShipmentStandardCostByDate, } from "../helper";
 import NewSelect from "./../../../../_helper/_select";
+import "./style.css";
 
 const initData = {
   fromDate: _todayDate(),
@@ -140,7 +139,7 @@ function DateWiseShipmentCostReport() {
                   </div>
                   {/* Table Start */}
                   {gridData?.objRowList?.length > 0 && (
-                    <div className="loan-scrollable-table">
+                    <div className="common-scrollable-table three-column-sticky">
                       <div className="scroll-table _table">
                         <table
                           ref={printRef}
