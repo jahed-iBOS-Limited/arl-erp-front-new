@@ -3,11 +3,11 @@ import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory, useLocation, useParams } from "react-router";
 import { toast } from "react-toastify";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import { getGodownDDL } from "../../../common/helper";
 import {
   // getMotherVesselDDL,
@@ -114,6 +114,7 @@ export default function ChallanEntryForm() {
   }, [accId, buId, type]);
 
   const addRow = (values, callBack) => {
+    console.log("values",values);
     const exists = rowData?.filter(
       (item) => item?.itemId === values?.item?.value
     );
@@ -375,6 +376,7 @@ export default function ChallanEntryForm() {
   useEffect(() => {
     if (id) {
       GetLighterChallanInfoById(id, "", (values) => {
+        // console.log(values?.rowList?.[0].transportRate);
         const data = {
           deliveryCode: "",
           transportZone: "",
@@ -393,9 +395,10 @@ export default function ChallanEntryForm() {
           totalShippingValue: "",
           totalTax: "",
           netValue: "",
-          transportRate: values?.transportRate || "",
+          transportRate: values?.rowList?.[0].transportRate || "",
+          goDownUnloadLabourRate :values?.rowList?.[0].godownLabourRate || "",
           // nEED tO Confirm
-          emptyBag: "",
+          emptyBag:values?.rowList?.[0].emptyBag || "",
 
           godown: values?.shipToPartnerId
             ? {
