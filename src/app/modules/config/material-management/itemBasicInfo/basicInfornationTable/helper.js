@@ -1,6 +1,7 @@
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import * as XLSX from 'xlsx';
+import { generateJsonToExcel } from '../../../../_helper/excel/jsonToExcel';
 
 export const itemSchema = Yup.object().shape({
   itemName: Yup.string().required(),
@@ -29,6 +30,7 @@ export const readAndPrintExcelData = async ({
   setLoading,
   setIsValidationError,
   setRowData,
+  cb
 }) => {
   setLoading(true);
   const promise = new Promise((resolve, reject) => {
@@ -54,9 +56,94 @@ export const readAndPrintExcelData = async ({
     }
     setIsValidationError(getValidationError(itemList));
     setRowData(itemList || []);
-    console.log(itemList);
     setLoading(false);
+    cb && cb();
   } catch (err) {
     setLoading(false);
   }
 };
+
+export const itemListExcelGenerator = (itemList) => {
+  const header = [
+    {
+      text: "Item Code",
+      textFormat: "number",
+      alignment: "center:middle",
+      key: "itemCode",
+    },
+    {
+      text: "Item Name",
+      textFormat: "text",
+      alignment: "center:middle",
+      key: "itemName",
+    },
+    {
+      text: "Item Type Id",
+      textFormat: "number",
+      alignment: "center:middle",
+      key: "itemTypeId",
+    },
+    {
+      text: "Item Category Id",
+      textFormat: "number",
+      alignment: "center:middle",
+      key: "itemCategoryId",
+    },
+    {
+      text: "Item Sub Category Id",
+      textFormat: "number",
+      alignment: "center:middle",
+      key: "itemSubCategoryId",
+    },
+    {
+      text: "Plant Id",
+      textFormat: "number",
+      alignment: "center:middle",
+      key: "plantId",
+    },
+    {
+      text: "Warehouse Id",
+      textFormat: "number",
+      alignment: "center:middle",
+      key: "warehouseId",
+    },
+    {
+      text: "Inventory Location Id",
+      textFormat: "number",
+      alignment: "center:middle",
+      key: "inventoryLocationId",
+    },
+    {
+      text: "Bin Number",
+      textFormat: "number",
+      alignment: "center:middle",
+      key: "binNumber",
+    },
+    {
+      text: "UoM Name",
+      textFormat: "text",
+      alignment: "center:middle",
+      key: "uomName",
+    },
+    {
+      text: "HS Code",
+      textFormat: "text",
+      alignment: "center:middle",
+      key: "hscode",
+    },
+    {
+      text: "Lead Days",
+      textFormat: "number",
+      alignment: "center:middle",
+      key: "maxLeadDays",
+    },
+    {
+      text: "Status",
+      textFormat: "text",
+      alignment: "center:middle",
+      key: "status",
+    },
+  ];
+
+  generateJsonToExcel(header, itemList, 'Item_list')
+}
