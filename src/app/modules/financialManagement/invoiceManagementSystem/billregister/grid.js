@@ -27,6 +27,7 @@ import ViewG2GCarrierBill from "./g2gCarrierBill/view/viewBillRegister";
 import ViewMotherVesselBill from "./motherVesselBill/view/viewBillRegister";
 import ViewCNFBill from "./cnfBill/view/table";
 import ViewStevedoreBill from "./stevedoreBill/view/table";
+import ViewSurveyorBill from "./surveyorBill/view/table";
 const GridData = ({
   rowDto,
   values,
@@ -276,6 +277,9 @@ const GridData = ({
             )}
             {gridItem?.billType === 26 && (
               <ViewStevedoreBill billRegisterId={gridItem?.billRegisterId} />
+            )}
+            {gridItem?.billType === 27 && (
+              <ViewSurveyorBill billRegisterId={gridItem?.billRegisterId} />
             )}
           </IViewModal>
 
