@@ -244,6 +244,24 @@ export default function PlannedFundRequirement({ rowData }) {
           </div>
         </div>
       ) : null}
+
+      {rowData?.length > 0 ? (
+        <div className="mt-5">
+          <h4
+            onClick={(e) => {
+              e.preventDefault();
+              window.open(
+                "https://docs.google.com/spreadsheets/d/1fqDF9_CW9sP6jc6HG851MFteC4Mw4zN_O07aYo1lfnI/edit#gid=0",
+                "_blank"
+              );
+            }}
+            style={{ textDecoration: "underline", cursor: "pointer" }}
+            className="text-primary"
+          >
+            Forecasted Long-Term Loan Amortization
+          </h4>
+        </div>
+      ) : null}
     </>
   );
 }
