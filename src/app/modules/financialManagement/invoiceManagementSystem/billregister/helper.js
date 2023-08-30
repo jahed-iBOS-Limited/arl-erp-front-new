@@ -1098,7 +1098,8 @@ export const getG2GCarrierBillById = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `/tms/LigterLoadUnload/GetCarrierBillG2G?AccountId=${accId}&BusinessUnitId=${buId}&BillRegisterId=${billId}`
+      `/tms/LigterLoadUnload/GetCarrierBillByBillRegisterIdId?accountId=${accId}&buisinessUnitId=${buId}&billRegisterId=${billId}`
+      // `/tms/LigterLoadUnload/GetCarrierBillG2G?AccountId=${accId}&BusinessUnitId=${buId}&BillRegisterId=${billId}`
     );
     setter(res?.data);
     setLoading(false);
@@ -1394,4 +1395,13 @@ export const getCostCenterDDL = async (accId, buId, sbuId, setter) => {
       setter(res.data);
     }
   } catch (error) {}
+};
+
+export const common_api_for_4_types_of_bill = (
+  accId,
+  buId,
+  billId,
+  billTypeId
+) => {
+  return `/tms/LigterLoadUnload/GetGTOGProgramInfoBybillRegisterId?accountId=${accId}&buisinessUnitId=${buId}&billRegisterId=${billId}&billTypeId=${billTypeId}`;
 };
