@@ -1,21 +1,9 @@
-// import React from 'react'
-
-// const ViewAssetLiabilityPlan = () => {
-//   return (
-//     <div>View</div>
-//   )
-// }
-
-// export default ViewAssetLiabilityPlan
-
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import Loading from "../../../_helper/_loading";
 import IForm from "../../../_helper/_form";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
 import NewSelect from "../../../_helper/_select";
-import "./styles.css";
 import { useParams } from "react-router-dom";
 
 export default function AssetLiabilityPlanCreateEdit() {
@@ -92,111 +80,12 @@ export default function AssetLiabilityPlanCreateEdit() {
                 </div>
               </div>
 
-              <div className="loan-scrollable-table assetLiabilityPlanTable">
+              <div className="common-scrollable-table two-column-sticky mt-2">
                 <div
                   style={{ maxHeight: "500px" }}
                   className="scroll-table _table"
                 >
                   <table className="table table-striped table-bordered bj-table bj-table-landing">
-                    {/* <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>GL Name</th>
-                        <th style={{ minWidth: "100px" }}>GL Class</th>
-                        <th style={{ minWidth: "80px" }}>GL Type</th>
-                        <th
-                          style={{
-                            minWidth: "80px",
-                          }}
-                        >
-                          Value
-                        </th>
-                        <th
-                          style={{
-                            minWidth: "80px",
-                          }}
-                        >
-                          July
-                        </th>
-                        <th
-                          style={{
-                            minWidth: "80px",
-                          }}
-                        >
-                          August
-                        </th>
-                        <th
-                          style={{
-                            minWidth: "80px",
-                          }}
-                        >
-                          September
-                        </th>
-                        <th
-                          style={{
-                            minWidth: "80px",
-                          }}
-                        >
-                          October
-                        </th>
-                        <th
-                          style={{
-                            minWidth: "80px",
-                          }}
-                        >
-                          November
-                        </th>
-                        <th
-                          style={{
-                            minWidth: "80px",
-                          }}
-                        >
-                          December
-                        </th>
-                        <th
-                          style={{
-                            minWidth: "80px",
-                          }}
-                        >
-                          January
-                        </th>
-                        <th
-                          style={{
-                            minWidth: "80px",
-                          }}
-                        >
-                          February
-                        </th>
-                        <th
-                          style={{
-                            minWidth: "80px",
-                          }}
-                        >
-                          March
-                        </th>
-                        <th
-                          style={{
-                            minWidth: "80px",
-                          }}
-                        >
-                          April
-                        </th>
-                        <th
-                          style={{
-                            minWidth: "80px",
-                          }}
-                        >
-                          May
-                        </th>
-                        <th
-                          style={{
-                            minWidth: "80px",
-                          }}
-                        >
-                          June
-                        </th>
-                      </tr>
-                    </thead> */}
                     <thead>
                       <tr>
                         <th style={{ minWidth: "60px" }}>SL</th>
