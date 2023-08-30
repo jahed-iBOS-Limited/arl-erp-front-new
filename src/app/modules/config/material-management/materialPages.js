@@ -114,7 +114,7 @@ export function MaterialPages() {
       />
       <ContentRoute
         from="/config/material-management/item-basic-info/bulk-upload"
-        component={BulkUpload}
+        component={itemProfilePermission?.isCreate ? BulkUpload : NotPermittedPage}
       />
       <ContentRoute
         from="/config/material-management/item-basic-info"
