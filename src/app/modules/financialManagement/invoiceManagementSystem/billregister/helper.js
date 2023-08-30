@@ -1098,7 +1098,8 @@ export const getG2GCarrierBillById = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `/tms/LigterLoadUnload/GetCarrierBillG2G?AccountId=${accId}&BusinessUnitId=${buId}&BillRegisterId=${billId}`
+      `/tms/LigterLoadUnload/GetCarrierBillByBillRegisterIdId?accountId=${accId}&buisinessUnitId=${buId}&billRegisterId=${billId}`
+      // `/tms/LigterLoadUnload/GetCarrierBillG2G?AccountId=${accId}&BusinessUnitId=${buId}&BillRegisterId=${billId}`
     );
     setter(res?.data);
     setLoading(false);
