@@ -71,33 +71,6 @@ export default function AssetLiabilityPlan() {
             }}
           >
             <Form>
-              {/* <div className="form-group  global-form row">
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="year"
-                    options={fiscalYearDDL || []}
-                    value={values?.year}
-                    label="Year"
-                    onChange={(valueOption) => {
-                      setFieldValue("year", valueOption);
-                    }}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                <div className="col-lg-3 mt-5">
-                  <button
-                    className="btn btn-primary"
-                    type="button"
-                    onClick={() => {
-                      console.log("values", values);
-                    }}
-                  >
-                    View
-                  </button>
-                </div>
-              </div> */}
-
               <div>
                 <table className="table table-striped table-bordered bj-table bj-table-landing">
                   <thead>
