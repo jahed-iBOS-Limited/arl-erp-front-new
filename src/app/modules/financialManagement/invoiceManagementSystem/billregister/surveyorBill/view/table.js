@@ -35,45 +35,38 @@ function ViewSurveyorBill({ billRegisterId }) {
             {loading && <Loading />}
 
             <form className="form form-label-right ">
-              <div className="row mt-3">
-                <div className="col-lg-12 ">
-                  <table className="table table-striped table-bordered mt-3 global-table">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Mother Vessel Name</th>
-                        <th>Surveyor Name</th>
-                        <th>Port Name</th>
-                        <th>Program Qty</th>
-                        <th>Surveyor Rate</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {gridData?.map((item, index) => {
-                        return (
-                          <>
-                            <tr key={index}>
-                              <td
-                                style={{ width: "30px" }}
-                                className="text-center"
-                              >
-                                {index + 1}
-                              </td>
-                              <td>{item?.motherVesselName}</td>
-                              <td>{item?.serveyorName}</td>
-                              <td>{item?.portName}</td>
-                              <td className="text-right">{item?.programQnt}</td>
-                              <td className="text-right">
-                                {item?.serveyorRate || 0}
-                              </td>
-                            </tr>
-                          </>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+              <table className="table global-table">
+                <thead>
+                  <tr>
+                    <th>SL</th>
+                    <th>Mother Vessel Name</th>
+                    <th>Surveyor Name</th>
+                    <th>Port Name</th>
+                    <th>Program Qty</th>
+                    <th>Surveyor Rate</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {gridData?.map((item, index) => {
+                    return (
+                      <>
+                        <tr key={index}>
+                          <td style={{ width: "30px" }} className="text-center">
+                            {index + 1}
+                          </td>
+                          <td>{item?.motherVesselName}</td>
+                          <td>{item?.serveyorName}</td>
+                          <td>{item?.portName}</td>
+                          <td className="text-right">{item?.programQnt}</td>
+                          <td className="text-right">
+                            {item?.serveyorRate || 0}
+                          </td>
+                        </tr>
+                      </>
+                    );
+                  })}
+                </tbody>
+              </table>
             </form>
           </ICard>
         )}

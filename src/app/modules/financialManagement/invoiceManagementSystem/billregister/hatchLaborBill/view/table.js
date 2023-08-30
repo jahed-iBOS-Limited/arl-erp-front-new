@@ -35,7 +35,7 @@ function ViewHatchLaborBill({ billRegisterId }) {
             {loading && <Loading />}
 
             <form className="form form-label-right ">
-              <table className="table table-striped table-bordered mt-3 global-table">
+              <table className="table global-table">
                 <thead>
                   <tr>
                     <th>SL</th>
