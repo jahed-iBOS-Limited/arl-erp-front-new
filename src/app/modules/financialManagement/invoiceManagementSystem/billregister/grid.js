@@ -28,6 +28,7 @@ import ViewMotherVesselBill from "./motherVesselBill/view/viewBillRegister";
 import ViewCNFBill from "./cnfBill/view/table";
 import ViewStevedoreBill from "./stevedoreBill/view/table";
 import ViewSurveyorBill from "./surveyorBill/view/table";
+import ViewHatchLaborBill from "./hatchLaborBill/view/table";
 const GridData = ({
   rowDto,
   values,
@@ -280,6 +281,9 @@ const GridData = ({
             )}
             {gridItem?.billType === 27 && (
               <ViewSurveyorBill billRegisterId={gridItem?.billRegisterId} />
+            )}
+            {gridItem?.billType === 28 && (
+              <ViewHatchLaborBill billRegisterId={gridItem?.billRegisterId} />
             )}
           </IViewModal>
 
