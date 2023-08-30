@@ -7,6 +7,7 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
 import PlannedAssetSchedule from "./plannedAssetSchedule";
+import PlannedFundRequirement from "./plannedFundRequirement";
 const initData = {
   enterpriseDivision: "",
   subDivision: "",
@@ -22,7 +23,7 @@ export default function PlanningReport() {
     return state.authData;
   }, shallowEqual);
 
-  const [rowData, getRowData] = useAxiosGet();
+  const [rowData, getRowData, loading, setRowData] = useAxiosGet();
 
   const [enterpriseDivisionDDL, getEnterpriseDivisionDDL] = useAxiosGet();
 
@@ -61,7 +62,7 @@ export default function PlanningReport() {
         touched,
       }) => (
         <>
-          {false && <Loading />}
+          {loading && <Loading />}
           <IForm
             title="Planning Report"
             isHiddenReset
@@ -81,6 +82,7 @@ export default function PlanningReport() {
                     value={values?.reportType}
                     label="Report Type"
                     onChange={(valueOption) => {
+                      setRowData([]);
                       setFieldValue("reportType", valueOption);
                       setValues({
                         ...initData,
@@ -154,7 +156,7 @@ export default function PlanningReport() {
                     </div>
                   </>
                 ) : null}
-                {[]?.includes(values?.reportType?.value) ? (
+                {[2]?.includes(values?.reportType?.value) ? (
                   <div className="col-md-3">
                     <NewSelect
                       name="year"
@@ -199,9 +201,12 @@ export default function PlanningReport() {
                   <button
                     type="button"
                     onClick={() => {
-                      getRowData(
-                        `/fino/Report/GetAssetSchedulePlanned?accountId=${profileData?.accountId}&businessUnitId=${values?.businessUnit?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`
-                      );
+                      let url = [1]?.includes(values?.reportType?.value)
+                        ? `/fino/Report/GetAssetSchedulePlanned?accountId=${profileData?.accountId}&businessUnitId=${values?.businessUnit?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`
+                        : [2]?.includes(values?.reportType?.value)
+                        ? `/fino/Report/GetPlannedFundRequirement?businessUnitId=${values?.businessUnit?.value}&strYear=${values?.year?.label}`
+                        : "";
+                      getRowData(url);
                     }}
                     className="btn btn-primary"
                   >
@@ -212,6 +217,9 @@ export default function PlanningReport() {
               <div>
                 {[1]?.includes(values?.reportType?.value) ? (
                   <PlannedAssetSchedule rowData={rowData} />
+                ) : null}
+                {[2]?.includes(values?.reportType?.value) ? (
+                  <PlannedFundRequirement rowData={rowData} />
                 ) : null}
               </div>
             </Form>
