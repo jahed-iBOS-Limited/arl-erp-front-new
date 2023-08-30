@@ -26,6 +26,11 @@ export default function PlannedAssetSchedule({ rowData }) {
     <>
       {rowData?.length > 0 ? (
         <div className="row">
+          <div>
+            <h4 className="mt-5 ml-5">
+              <strong> Fixed Asset Planning</strong>
+            </h4>
+          </div>
           <div className="col-lg-12">
             <table className="table table-striped table-bordered mt-3">
               <thead>
@@ -59,7 +64,7 @@ export default function PlannedAssetSchedule({ rowData }) {
                 ))}
                 <tr>
                   <td colSpan={2} className="text-center">
-                    Total
+                    <strong> Total</strong>
                   </td>
                   <td className="text-center">{numOpeningTotal}</td>
                   <td className="text-center">{numAdditionTotal}</td>
