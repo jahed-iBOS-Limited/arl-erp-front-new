@@ -243,7 +243,7 @@ function ViewG2GCarrierBill({
                                   <td>{item?.lighterVesselName}</td>
                                   <td>{item?.motherVesselName}</td>
                                   <td>
-                                    {_dateFormatter(item?.unLoadCompleteDate)}
+                                    {_dateFormatter(item?.unloadCompletedate)}
                                   </td>
                                   <td>{item?.quantityTon}</td>
                                   {/* <td>{item?.receiveQnt}</td> */}

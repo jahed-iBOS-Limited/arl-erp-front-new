@@ -1396,3 +1396,12 @@ export const getCostCenterDDL = async (accId, buId, sbuId, setter) => {
     }
   } catch (error) {}
 };
+
+export const common_api_for_4_types_of_bill = (
+  accId,
+  buId,
+  billId,
+  billTypeId
+) => {
+  return `/tms/LigterLoadUnload/GetGTOGProgramInfoBybillRegisterId?accountId=${accId}&buisinessUnitId=${buId}&billRegisterId=${billId}&billTypeId=${billTypeId}`;
+};

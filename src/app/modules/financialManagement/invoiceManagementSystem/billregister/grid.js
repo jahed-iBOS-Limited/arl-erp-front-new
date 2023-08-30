@@ -25,6 +25,7 @@ import { compressfile } from "../../../_helper/compressfile";
 import ViewG2GCustomizeBill from "./g2gCustomizeBill/view/viewBillRegister";
 import ViewG2GCarrierBill from "./g2gCarrierBill/view/viewBillRegister";
 import ViewMotherVesselBill from "./motherVesselBill/view/viewBillRegister";
+import ViewCNFBill from "./cnfBill/view/table";
 const GridData = ({
   rowDto,
   values,
@@ -268,6 +269,9 @@ const GridData = ({
                 landingValues={values}
                 gridItem={gridItem}
               />
+            )}
+            {gridItem?.billType === 25 && (
+              <ViewCNFBill billRegisterId={gridItem?.billRegisterId} />
             )}
           </IViewModal>
 
