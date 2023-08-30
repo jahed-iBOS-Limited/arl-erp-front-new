@@ -22,6 +22,8 @@ import {
 } from "../helper";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import moment from "moment";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
+import { toast } from "react-toastify";
 const initialValues = {
   id: null,
   date: null,
@@ -33,40 +35,41 @@ const initialValues = {
   createdAt: null,
   createdBy: null,
 };
-const validationSchema = Yup.object().shape({
-  date: Yup.string()
-    .required("Date is required")
-    .typeError("Date is required"),
-  shift: Yup.object({
-    label: Yup.string().required("Shift is required"),
-    value: Yup.number().required("Shift is required"),
-  })
-    .required("Shift is required")
-    .typeError("Shift is required"),
-  craneName: Yup.object({
-    label: Yup.string().required("Crane name is required"),
-    value: Yup.number().required("Crane name is required"),
-  })
-    .required("Crane name is required")
-    .typeError("Crane name is required"),
-  breakdownType: Yup.object({
-    label: Yup.string().required("Breakdown Type is required"),
-    value: Yup.number().required("Breakdown Type is required"),
-  })
-    .required("Breakdown Type is required")
-    .typeError("Breakdown Type is required"),
-  duration: Yup.string()
-    .required("Duration is required")
-    .typeError("Duration is required"),
-  stopageDetails: Yup.string()
-    .required("Stopes Details is required")
-    .typeError("Stopes Details is required"),
-});
+// const validationSchema = Yup.object().shape({
+//   date: Yup.string()
+//     .required("Date is required")
+//     .typeError("Date is required"),
+//   shift: Yup.object({
+//     label: Yup.string().required("Shift is required"),
+//     value: Yup.number().required("Shift is required"),
+//   })
+//     .required("Shift is required")
+//     .typeError("Shift is required"),
+//   craneName: Yup.object({
+//     label: Yup.string().required("Crane name is required"),
+//     value: Yup.number().required("Crane name is required"),
+//   })
+//     .required("Crane name is required")
+//     .typeError("Crane name is required"),
+//   breakdownType: Yup.object({
+//     label: Yup.string().required("Breakdown Type is required"),
+//     value: Yup.number().required("Breakdown Type is required"),
+//   })
+//     .required("Breakdown Type is required")
+//     .typeError("Breakdown Type is required"),
+//   duration: Yup.string()
+//     .required("Duration is required")
+//     .typeError("Duration is required"),
+//   stopageDetails: Yup.string()
+//     .required("Stopes Details is required")
+//     .typeError("Stopes Details is required"),
+// });
 const CranStopage = () => {
   const {
     selectedBusinessUnit,
     profileData: { accountId, userId },
   } = useSelector((state) => state?.authData, shallowEqual);
+  const [rowList, setRowList] = useState([]);
   const [filterObj, setFilterObj] = useState({
     fromDate: _monthFirstDate(),
     toDate: _monthLastDate(),
@@ -111,14 +114,18 @@ const CranStopage = () => {
         <Formik
           enableReinitialize={true}
           initialValues={initialValues}
-          validationSchema={validationSchema}
+          // validationSchema={validationSchema}
           onSubmit={(formValues, { resetForm }) => {
+            if (!rowList?.length) {
+              return toast.warn("Please add at least one row");
+            }
             onCreateOrEditCraneStopageDetails({
               accountId,
               businessUnitId: selectedBusinessUnit?.value,
               userId,
               createCraneStopesDetails,
               formValues,
+              rowList,
               cb: () => {
                 resetForm();
                 onGetCraneStopageDetailsLanding({
@@ -235,6 +242,75 @@ const CranStopage = () => {
                       }}
                       touched={touched}
                     />
+                  </div>
+                  <div style={{ marginTop: "17px" }}>
+                    <button
+                      disabled={
+                        !values?.date ||
+                        !values?.shift ||
+                        !values?.craneName ||
+                        !values?.breakdownType ||
+                        !values?.duration ||
+                        !values?.stopageDetails
+                      }
+                      type="button"
+                      onClick={() => {
+                        setRowList((prev) => [...prev, values]);
+                      }}
+                      className="btn btn-primary"
+                    >
+                      Add
+                    </button>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-lg-12">
+                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Shift</th>
+                          <th>Crane Name</th>
+                          <th>Breakdown Type</th>
+                          <th style={{ width: "70px" }}>Duration</th>
+                          <th>Stopage Details</th>
+                          <th style={{ width: "70px" }}>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {rowList?.length > 0 &&
+                          rowList.map((item, index) => (
+                            <tr key={index}>
+                              <td className="text-center">
+                                {item?.date
+                                  ? moment(
+                                      item?.date,
+                                      "YYYY-MM-DDThh:mm:ss"
+                                    ).format("DD-MM-YYYY")
+                                  : "N/A"}
+                              </td>
+                              <td>{item?.shift?.label}</td>
+                              <td>{item?.craneName?.label}</td>
+                              <td>{item?.breakdownType?.label}</td>
+                              <td className="text-center">{item?.duration}</td>
+                              <td className="text-center">
+                                {item?.stopageDetails}
+                              </td>
+                              <td className="text-center">
+                                <IDelete
+                                  remover={(index) => {
+                                    const data = rowList?.filter(
+                                      (item, i) => i !== index
+                                    );
+                                    setRowList(data);
+                                  }}
+                                  id={index}
+                                />
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
                   </div>
                 </div>
                 <div className="row mt-5">
