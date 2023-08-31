@@ -1,13 +1,11 @@
 import { Form, Formik } from "formik";
-import React, { useRef } from "react";
+import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import IForm from "../../_helper/_form";
 import InputField from "../../_helper/_inputField";
 import Loading from "../../_helper/_loading";
 import NewSelect from "../../_helper/_select";
 import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import ReactToPrint from "react-to-print";
 import TrailBalanceProjected from "./trailBalanceProjected";
 
 const initData = {
@@ -16,7 +14,6 @@ const initData = {
   toDate: "",
 };
 export default function ProjectedFinancialStatement() {
-  const printRef = useRef();
   const saveHandler = (values, cb) => {};
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
@@ -114,41 +111,11 @@ export default function ProjectedFinancialStatement() {
                     Show
                   </button>
                 </div>
-                {rowData.length > 0 && (
-                  <div
-                    className="col-lg-auto d-flex"
-                    style={{ marginTop: "25px" }}
-                  >
-                    <ReactHTMLTableToExcel
-                      id="test-table-xls-button"
-                      className="download-table-xls-button btn btn-primary"
-                      table="table-to-xlsx"
-                      filename="tablexls"
-                      sheet="tablexls"
-                      buttonText="Export Excel"
-                    />
-                    <ReactToPrint
-                      pageStyle={
-                        "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
-                      }
-                      trigger={() => (
-                        <button
-                          type="button"
-                          className="btn btn-sm btn-primary sales_invoice_btn ml-3"
-                        >
-                          Print
-                        </button>
-                      )}
-                      content={() => printRef.current}
-                    />
-                  </div>
-                )}
               </div>
               <div>
                 {[1]?.includes(values?.reportType?.value) ? (
                   <TrailBalanceProjected
                     rowData={rowData}
-                    printRef={printRef}
                     values={values}
                     selectedBusinessUnit={selectedBusinessUnit}
                   />
