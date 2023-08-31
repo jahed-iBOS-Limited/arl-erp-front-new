@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Formik } from "formik";
 import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 import ReactToPrint from "react-to-print";
 import * as Yup from "yup";
 import {
@@ -9,14 +9,13 @@ import {
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-  ModalProgressBar
+  ModalProgressBar,
 } from "../../../../../../../_metronic/_partials/controls";
-import printIcon from "../../../../../_helper/images/print-icon.png";
 import { _dateFormatter } from "../../../../../_helper/_dateFormate";
 import { _fixedPoint } from "../../../../../_helper/_fixedPoint";
 import InputField from "../../../../../_helper/_inputField";
 import Loading from "../../../../../_helper/_loading";
-import { getMultipleFileView_Action } from "../../../../../_helper/_redux/Actions";
+import printIcon from "../../../../../_helper/images/print-icon.png";
 import { BillApproved_api } from "../../../approvebillregister/helper";
 import { getG2GCarrierBillById } from "../../helper";
 
@@ -56,8 +55,7 @@ function ViewG2GCarrierBill({
   const [loading, setLoading] = useState(false);
   const [gridData, setGridData] = useState([]);
   const [disabled, setDisabled] = useState(false);
-  const printRef = useRef();
-  const dispatch = useDispatch();
+  const printRef = useRef(); 
 
   useEffect(() => {
     getG2GCarrierBillById(
@@ -164,7 +162,7 @@ function ViewG2GCarrierBill({
                       <h2>{selectedBusinessUnit?.label}</h2>
                       <h5>{selectedBusinessUnit?.address} </h5>
                       <h3>{"G2G Carrier Bill"}</h3>
-                      <button
+                      {/* <button
                         style={{
                           padding: "4px 4px",
                           position: "absolute",
@@ -180,7 +178,7 @@ function ViewG2GCarrierBill({
                         type="button"
                       >
                         Preview <i class="far fa-images"></i>
-                      </button>
+                      </button> */}
                       <ReactToPrint
                         pageStyle={
                           "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}"
@@ -223,14 +221,15 @@ function ViewG2GCarrierBill({
                             <th>Lighter Vessel Name</th>
                             <th>Mother Vessel Name</th>
                             <th>Unload Date</th>
-                            <th>Quantity(MT)</th>
+                            <th>Quantity (ton)</th>
                             <th>Carrier Rate</th>
-                            <th>Commission Rate</th>
+                            {/* <th>Commission Rate</th> */}
                             <th>Bill Amount</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {gridData?.rows?.map((item, index) => {
+                          {/* {gridData?.rows?.map((item, index) => { */}
+                          {gridData?.map((item, index) => {
                             return (
                               <>
                                 <tr key={index}>
@@ -244,31 +243,36 @@ function ViewG2GCarrierBill({
                                   <td>{item?.lighterVesselName}</td>
                                   <td>{item?.motherVesselName}</td>
                                   <td>
-                                    {_dateFormatter(item?.unLoadCompleteDate)}
+                                    {_dateFormatter(item?.unloadCompletedate)}
                                   </td>
-                                  <td>{item?.receiveQnt}</td>
+                                  <td>{item?.quantityTon}</td>
+                                  {/* <td>{item?.receiveQnt}</td> */}
                                   <td className="text-right">
                                     {item?.carrierRate || 0}
                                   </td>
-                                  <td className="text-right">
+                                  {/* <td className="text-right">
                                     {item?.carrierCommissionRate || 0}
-                                  </td>
+                                  </td> */}
                                   <td className="text-right">
-                                    {_fixedPoint(item?.billAmount)}
+                                    {_fixedPoint(
+                                      item?.carrierRate * item?.quantityTon
+                                    )}
                                   </td>
                                 </tr>
                               </>
                             );
                           })}
                           <tr>
-                            <td className="text-right" colSpan="8">
+                            <td className="text-right" colSpan="7">
                               <b>Total:</b>
                             </td>
                             <td className="text-right">
                               <b>
                                 {_fixedPoint(
-                                  gridData?.rows?.reduce(
-                                    (acc, cur) => (acc += cur?.billAmount),
+                                  gridData?.reduce(
+                                    (acc, cur) =>
+                                      (acc +=
+                                        cur?.quantityTon * cur?.carrierRate),
                                     0
                                   )
                                 )}

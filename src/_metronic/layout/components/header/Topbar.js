@@ -11,6 +11,7 @@ import { MyCartDropdown } from "../extras/dropdowns/MyCartDropdown";
 import { LanguageSelectorDropdown } from "../extras/dropdowns/LanguageSelectorDropdown";
 import { QuickUserToggler } from "../extras/QuiclUserToggler";
 // import MenuSearchIcon from "./menuSearchIcon/menuSearchIcon";
+import ReactSpeechRecognition from "./react-speech-recognition";
 
 export function Topbar() {
   const uiService = useHtmlClassService();
@@ -45,6 +46,7 @@ export function Topbar() {
   return (
     <>
       <div className="topbar">
+      <ReactSpeechRecognition />
         {/* menu search icon */}
         {/* <MenuSearchIcon /> */}
         {layoutProps.viewSearchDisplay && <SearchDropdown />}
