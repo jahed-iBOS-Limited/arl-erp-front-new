@@ -68,9 +68,9 @@ function EditForm({ rowClickItem, landingCB }) {
   }, [rowClickItem]);
 
   const saveHandler = (values) => {
-    //   transactionDate,particulars,instrumentNo,monDebit,monCredit,monBalance, empty check
+    //   transactionDate  empty check
     const check = rowDto?.some((itm) => {
-      return !itm?.transactionDate || !itm?.particulars || !itm?.instrumentNo;
+      return !itm?.transactionDate;
     });
     if (check) return toast.warn("Please fillup all fields");
 
@@ -86,6 +86,8 @@ function EditForm({ rowClickItem, landingCB }) {
         rowId: itm?.rowId || 0,
         headerId: rowClickItem?.headerId,
         serialId: idx + 1,
+        particulars: itm?.particulars || "",
+        instrumentNo: itm?.instrumentNo || "",
       };
     });
     const payload = {
