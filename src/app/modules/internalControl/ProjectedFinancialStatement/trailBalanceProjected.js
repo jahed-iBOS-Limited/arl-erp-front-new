@@ -9,7 +9,9 @@ export default function TrailBalanceProjected({
   values,
   selectedBusinessUnit,
 }) {
+  
   const printRef = useRef();
+
   const debitTotal = rowData.reduce((total, data) => {
     return total + data?.debit;
   }, 0);
