@@ -26,21 +26,18 @@ export default function EntryTable({ rowDto, setRowDto }) {
               <td>{item?.itemCode}</td>
               <td>{item?.itemName}</td>
               <td>{item?.itemUoMName}</td>
-              <td className='text-center'>{item?.salesPlanQty}</td>
-              <td className='text-center'>{item?.distributionPlanQty}</td>
+              <td className="text-center">{item?.salesPlanQty}</td>
+              <td className="text-center">{item?.distributionPlanQty}</td>
               <td>
                 <InputField
                   name="planQty"
                   type="number"
-                  value={item?.planQty || ""}
+                  value={item?.planQty || ''}
                   onChange={(e) => {
-                    const newItem = { ...item };
-                    newItem.planQty = e?.target?.value < 0 ? '' : e?.target?.value;
-                    const newRowDto = rowDto?.itemList?.map((itm) => {
-                      return itm?.itemId === newItem?.itemId ? newItem : itm;
-                    });
+                    const data = [...rowDto?.itemList];
+                    data[index]['planQty'] = e?.target?.value < 0 ? '' : e?.target?.value;
                     setRowDto({
-                      itemList: newRowDto
+                      itemList: data,
                     });
                   }}
                 />
@@ -49,15 +46,12 @@ export default function EntryTable({ rowDto, setRowDto }) {
                 <InputField
                   name="planRate"
                   type="number"
-                  value={item?.planRate || ""}
+                  value={item?.planRate || ''}
                   onChange={(e) => {
-                    const newItem = { ...item };
-                    newItem.planRate = e?.target?.value < 0 ? '' : e?.target?.value;
-                    const newRowDto = rowDto?.itemList?.map((itm) => {
-                      return itm?.itemId === newItem?.itemId ? newItem : itm;
-                    });
+                    const data = [...rowDto?.itemList];
+                    data[index]['planRate'] = e?.target?.value < 0 ? '' : e?.target?.value;
                     setRowDto({
-                      itemList: newRowDto
+                      itemList: data,
                     });
                   }}
                 />
@@ -66,15 +60,12 @@ export default function EntryTable({ rowDto, setRowDto }) {
                 <InputField
                   name="planTransQty"
                   type="number"
-                  value={item?.planTransQty || ""}
+                  value={item?.planTransQty || ''}
                   onChange={(e) => {
-                    const newItem = { ...item };
-                    newItem.planTransQty = e?.target?.value < 0 ? '' : e?.target?.value;
-                    const newRowDto = rowDto?.itemList?.map((itm) => {
-                      return itm?.itemId === newItem?.itemId ? newItem : itm;
-                    });
+                    const data = [...rowDto?.itemList];
+                    data[index]['planTransQty'] = e?.target?.value < 0 ? '' : e?.target?.value;
                     setRowDto({
-                      itemList: newRowDto
+                      itemList: data,
                     });
                   }}
                 />
@@ -83,15 +74,12 @@ export default function EntryTable({ rowDto, setRowDto }) {
                 <InputField
                   name="planTransRate"
                   type="number"
-                  value={item?.planTransRate || ""}
+                  value={item?.planTransRate || ''}
                   onChange={(e) => {
-                    const newItem = { ...item };
-                    newItem.planTransRate = e?.target?.value < 0 ? '' : e?.target?.value;
-                    const newRowDto = rowDto?.itemList?.map((itm) => {
-                      return itm?.itemId === newItem?.itemId ? newItem : itm;
-                    });
+                    const data = [...rowDto?.itemList];
+                    data[index]['planTransRate'] = e?.target?.value < 0 ? '' : e?.target?.value;
                     setRowDto({
-                      itemList: newRowDto
+                      itemList: data,
                     });
                   }}
                 />

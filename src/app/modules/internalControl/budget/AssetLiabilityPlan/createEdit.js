@@ -7,8 +7,6 @@ import { shallowEqual, useSelector } from "react-redux";
 import InputField from "../../../_helper/_inputField";
 import { toast } from "react-toastify";
 import NewSelect from "../../../_helper/_select";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import "./styles.css";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { _todayDate } from "../../../_helper/_todayDate";
 
@@ -300,7 +298,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                   <p>{tableData[0].msg}</p>
                 </div>
               ) : (
-                <div className="loan-scrollable-table mt-2">
+                <div className="common-scrollable-table two-column-sticky mt-2">
                   <div
                     style={{ maxHeight: "500px" }}
                     className="scroll-table _table"

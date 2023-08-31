@@ -23,6 +23,15 @@ export function BasicInfornationLandingCard() {
           >
             Create New
           </button>
+          <button
+            type="button"
+            className="btn btn-primary ml-10"
+            onClick={() =>
+              history.push("/config/material-management/item-basic-info/bulk-upload")
+            }
+          >
+            Bulk Upload
+          </button>
         </CardHeaderToolbar>
       </CardHeader>
       <CardBody>
