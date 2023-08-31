@@ -22,6 +22,7 @@ import DetailsSalesPlanEntry from "../../productionManagement/salesAndOperationP
 import DetailsSalesPlanLanding from "../../productionManagement/salesAndOperationPlanning/detailsSalesPlan/detailsSalesPlan";
 import MonthlySalesPlanLanding from "../../productionManagement/salesAndOperationPlanning/detailsSalesPlan";
 import ManufacturingOverheadPlanLanding from "../../productionManagement/salesAndOperationPlanning/manufacturingOverheadPlan";
+import ProjectedFinancialStatement from "../ProjectedFinancialStatement";
 
 export function InternalControlBudgetPages() {
   const userRole = useSelector(
@@ -76,6 +77,10 @@ export function InternalControlBudgetPages() {
       <ContentRoute
         from="/internal-control/budget/hrplan"
         component={hrPlan?.isView ? HrPlanLanding : NotPermittedPage}
+      />
+      <ContentRoute
+        from="/internal-control/budget/ProjectedFinancialStatement"
+        component={ProjectedFinancialStatement}
       />
 
       {/* Purchase Plan */}

@@ -131,140 +131,162 @@ export default function CreateEditJobOrder() {
                   />
                 </div>
               </div>
-              <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing mr-1">
-                <thead>
-                  <tr>
-                    <th className="text-center">Sl</th>
-                    <th>PRODUCT CODE</th>
-                    <th>DESCRIPTION OF GOODS</th>
-                    <th>PACKING SIZE</th>
-                    {jobOrderData?.Head?.map((item, index) => {
-                      return <th>{item?.HeaderName.toUpperCase()}</th>;
-                    })}
-                    <th>TOTAL PCS</th>
-                    <th>FOB RATE PCS BDT</th>
-                    <th>TOTAL AMOUNT FOB BDT</th>
-                    <th>MFG DATE</th>
-                    <th>BEST BEFORE</th>
-                    <th>SELF LIFE</th>
-                    <th>NET WEIGHT MANUAL</th>
-                    <th>SAMPLE FOR FOREIGN CUSTOMS</th>
-                    <th>SAMPLE FOR BD CUSTOMS</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {jobOrderData.RowData?.map((item, rowDataIndex) => (
-                    <tr>
-                      <td>{rowDataIndex + 1}</td>
-                      <td>{item?.ItemCode.toUpperCase()}</td>
-                      <td>{item?.ItemName.toUpperCase()}</td>
-                      <td>{item?.PackingDetails.toUpperCase()}</td>
-                      {item?.Headings?.map((itm, index) => (
-                        <td>{itm?.HeaderValue}</td>
+              <div className="common-scrollable-table two-column-sticky">
+                <div
+                  className="scroll-table _table"
+                  style={{ maxHeight: "540px" }}
+                >
+                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing mr-1">
+                    <thead>
+                      <tr>
+                        <th className="text-center">Sl</th>
+                        <th style={{ minWidth: "80px" }}>PRODUCT CODE</th>
+                        <th>DESCRIPTION OF GOODS</th>
+                        <th style={{ minWidth: "100px" }}>PACKING SIZE</th>
+                        {jobOrderData?.Head?.map((item, index) => {
+                          return (
+                            <th
+                              style={{
+                                minWidth: "80px",
+                              }}
+                            >
+                              {item?.HeaderName.toUpperCase()}
+                            </th>
+                          );
+                        })}
+                        <th style={{ minWidth: "80px" }}>TOTAL PCS</th>
+                        <th style={{ minWidth: "120px" }}>FOB RATE PCS BDT</th>
+                        <th style={{ minWidth: "120px" }}>
+                          {" "}
+                          TOTAL AMOUNT FOB BDT
+                        </th>
+                        <th style={{ minWidth: "100px" }}>MFG DATE</th>
+                        <th style={{ minWidth: "100px" }}>BEST BEFORE</th>
+                        <th style={{ minWidth: "80px" }}>SELF LIFE</th>
+                        <th style={{ minWidth: "120px" }}>NET WEIGHT MANUAL</th>
+                        <th style={{ minWidth: "100px" }}>
+                          SAMPLE FOR FOREIGN CUSTOMS
+                        </th>
+                        <th style={{ minWidth: "100px" }}>
+                          SAMPLE FOR BD CUSTOMS
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {jobOrderData.RowData?.map((item, rowDataIndex) => (
+                        <tr>
+                          <td>{rowDataIndex + 1}</td>
+                          <td>{item?.ItemCode.toUpperCase()}</td>
+                          <td>{item?.ItemName.toUpperCase()}</td>
+                          <td>{item?.PackingDetails.toUpperCase()}</td>
+                          {item?.Headings?.map((itm, index) => (
+                            <td>{itm?.HeaderValue}</td>
+                          ))}
+                          <td>{item?.TotalPieces}</td>
+                          <td className="text-right">
+                            {item?.FobRatePerPieceBDT
+                              ? _formatMoney(item?.FobRatePerPieceBDT)
+                              : ""}
+                          </td>
+                          <td className="text-right">
+                            {item?.TotalFobAmountBDT
+                              ? _formatMoney(item?.TotalFobAmountBDT)
+                              : ""}
+                          </td>
+                          <td>
+                            <InputField
+                              value={_dateFormatter(item?.MfgDate)}
+                              type="date"
+                              name="MfgDate"
+                              onChange={(e) => {
+                                selfLifeHandler(
+                                  e.target.value,
+                                  item?.BestBefore,
+                                  rowDataIndex
+                                );
+                                rowDtoHandler(
+                                  rowDataIndex,
+                                  "MfgDate",
+                                  e.target.value
+                                );
+                              }}
+                            />
+                          </td>
+                          <td>
+                            <InputField
+                              value={_dateFormatter(item?.BestBefore)}
+                              type="date"
+                              name="BestBefore"
+                              onChange={(e) => {
+                                selfLifeHandler(
+                                  item?.MfgDate,
+                                  e.target.value,
+                                  rowDataIndex
+                                );
+                                rowDtoHandler(
+                                  rowDataIndex,
+                                  "BestBefore",
+                                  e.target.value
+                                );
+                              }}
+                            />
+                          </td>
+                          <td>
+                            <InputField
+                              value={item?.SelfLife}
+                              type="number"
+                              name="SelfLife"
+                              disabled={true}
+                            />
+                          </td>
+                          <td>
+                            <InputField
+                              value={item?.NetWeightManual}
+                              type="number"
+                              name="NetWeightManual"
+                              onChange={(e) => {
+                                rowDtoHandler(
+                                  rowDataIndex,
+                                  "NetWeightManual",
+                                  e.target.value
+                                );
+                              }}
+                            />
+                          </td>
+                          <td>
+                            <InputField
+                              value={item?.ForeignCustomsSample}
+                              type="number"
+                              name="ForeignCustomsSample"
+                              onChange={(e) => {
+                                rowDtoHandler(
+                                  rowDataIndex,
+                                  "ForeignCustomsSample",
+                                  e.target.value
+                                );
+                              }}
+                            />
+                          </td>
+                          <td>
+                            <InputField
+                              value={item?.BdCustomsSample}
+                              type="number"
+                              name="BdCustomsSample"
+                              onChange={(e) => {
+                                rowDtoHandler(
+                                  rowDataIndex,
+                                  "BdCustomsSample",
+                                  e.target.value
+                                );
+                              }}
+                            />
+                          </td>
+                        </tr>
                       ))}
-                      <td>{item?.TotalPieces}</td>
-                      <td className="text-right">
-                        {item?.FobRatePerPieceBDT
-                          ? _formatMoney(item?.FobRatePerPieceBDT)
-                          : ""}
-                      </td>
-                      <td className="text-right">
-                        {item?.TotalFobAmountBDT
-                          ? _formatMoney(item?.TotalFobAmountBDT)
-                          : ""}
-                      </td>
-                      <td>
-                        <InputField
-                          value={_dateFormatter(item?.MfgDate)}
-                          type="date"
-                          name="MfgDate"
-                          onChange={(e) => {
-                            selfLifeHandler(
-                              e.target.value,
-                              item?.BestBefore,
-                              rowDataIndex
-                            );
-                            rowDtoHandler(
-                              rowDataIndex,
-                              "MfgDate",
-                              e.target.value
-                            );
-                          }}
-                        />
-                      </td>
-                      <td>
-                        <InputField
-                          value={_dateFormatter(item?.BestBefore)}
-                          type="date"
-                          name="BestBefore"
-                          onChange={(e) => {
-                            selfLifeHandler(
-                              item?.MfgDate,
-                              e.target.value,
-                              rowDataIndex
-                            );
-                            rowDtoHandler(
-                              rowDataIndex,
-                              "BestBefore",
-                              e.target.value
-                            );
-                          }}
-                        />
-                      </td>
-                      <td>
-                        <InputField
-                          value={item?.SelfLife}
-                          type="number"
-                          name="SelfLife"
-                          disabled={true}
-                        />
-                      </td>
-                      <td>
-                        <InputField
-                          value={item?.NetWeightManual}
-                          type="number"
-                          name="NetWeightManual"
-                         onChange={(e)=>{
-                          rowDtoHandler(
-                            rowDataIndex,
-                            "NetWeightManual",
-                            e.target.value
-                          )
-                         }}
-                        />
-                      </td>
-                      <td>
-                        <InputField
-                          value={item?.ForeignCustomsSample}
-                          type="number"
-                          name="ForeignCustomsSample"
-                          onChange={(e) => {
-                            rowDtoHandler(
-                              rowDataIndex,
-                              "ForeignCustomsSample",
-                              e.target.value
-                            );
-                          }}
-                        />
-                      </td>
-                      <td>
-                        <InputField
-                          value={item?.BdCustomsSample}
-                          type="number"
-                          name="BdCustomsSample"
-                          onChange={(e) => {
-                            rowDtoHandler(
-                              rowDataIndex,
-                              "BdCustomsSample",
-                              e.target.value
-                            );
-                          }}
-                        />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
 
               <div className="form-group  global-form row">
                 <div className="col-lg-12">
