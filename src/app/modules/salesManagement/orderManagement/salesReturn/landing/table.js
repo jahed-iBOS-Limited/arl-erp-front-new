@@ -35,6 +35,18 @@ const initData = {
   sbu: "",
 };
 
+const viewers = (values) => {
+  const returnTypeId = values?.returnType?.value;
+  const DDL =
+    returnTypeId === 1
+      ? [
+          { value: 1, label: "Supervisor" },
+          { value: 2, label: "Accountant" },
+        ]
+      : [{ value: 1, label: "Supervisor" }];
+  return DDL;
+};
+
 const SalesReturn = () => {
   const [gridData, setGridData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -179,10 +191,7 @@ const SalesReturn = () => {
                   <div className="col-lg-2">
                     <NewSelect
                       name="viewAs"
-                      options={[
-                        { value: 1, label: "Supervisor" },
-                        // { value: 2, label: "Accountant" },
-                      ]}
+                      options={viewers(values)}
                       value={values?.viewAs}
                       label="View As"
                       onChange={(valueOption) => {
@@ -192,6 +201,7 @@ const SalesReturn = () => {
                       placeholder="View As"
                       errors={errors}
                       touched={touched}
+                      isDisabled={!values?.returnType}
                     />
                   </div>
                   <div className="col-lg-2">
