@@ -139,7 +139,7 @@ function DateWiseShipmentCostReport() {
                   </div>
                   {/* Table Start */}
                   {gridData?.objRowList?.length > 0 && (
-                    <div className="common-scrollable-table three-column-sticky">
+                    <div className="common-scrollable-table two-column-sticky">
                       <div className="scroll-table _table">
                         <table
                           ref={printRef}
@@ -148,7 +148,7 @@ function DateWiseShipmentCostReport() {
                           <thead>
                             <tr>
                               <th>SL</th>
-                              <th style={{ minWidth: "105px" }}>
+                              <th>
                                 Shipment Code
                               </th>
                               <th>Vehicle No</th>
