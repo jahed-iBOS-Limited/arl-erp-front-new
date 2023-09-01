@@ -5,10 +5,12 @@ import IForm from "../../../_helper/_form";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import NewSelect from "../../../_helper/_select";
 import { useParams } from "react-router-dom";
-
+import { useLocation } from "react-router";
 export default function AssetLiabilityPlanCreateEdit() {
+  const location = useLocation();
   const [modifiedData, setModifiedData] = useState(null);
   const { yearId, buId } = useParams();
+  console.log("useParams", useParams());
   const [fiscalYearDDL, getFiscalYearDDL, fiscalYearDDLloader] = useAxiosGet();
   const [
     tableData,
@@ -21,14 +23,15 @@ export default function AssetLiabilityPlanCreateEdit() {
   const saveHandler = (values, cb) => {};
 
   useEffect(() => {
+    console.log("location", location?.state);
     getFiscalYearDDL(`/vat/TaxDDL/FiscalYearDDL`);
     getTableData(
-      `/fino/BudgetFinancial/GetAssetLiabilityPlan?partName=GetById&businessUnitId=${buId}&yearId=${yearId}&monthId=0&autoId=0&glId=0`,
+      `/fino/BudgetFinancial/GetAssetLiabilityPlan?partName=GetById&businessUnitId=${location?.state?.intBusinessUnitId}&yearId=${location?.state?.intYear}&yearName=${location?.state?.strYear}&monthId=0&autoId=0&glId=0`,
       (data) => {
         setModifiedData({
           fiscalYear: {
-            value: data[0]?.yearId,
-            label: data[0]?.yearName,
+            value: location?.state?.intYear,
+            label: location?.state?.strYear,
           },
         });
       }
@@ -92,6 +95,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                         <th style={{ minWidth: "200px" }}>GL Name</th>
                         <th style={{ minWidth: "100px" }}>GL Class</th>
                         <th style={{ minWidth: "80px" }}>GL Type</th>
+                        <th style={{ minWidth: "80px" }}>Opening</th>
                         <th style={{ minWidth: "140px" }}>Value</th>
                         <th style={{ minWidth: "140px" }}>July</th>
                         <th style={{ minWidth: "140px" }}>August</th>
@@ -115,6 +119,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                             <td>{item?.glName}</td>
                             <td>{item?.glClassName}</td>
                             <td>{item?.entryType}</td>
+                            <td>{item?.initialAmount}</td>
                             <td>
                               {item?.entryType === "Percentage"
                                 ? item?.entryTypeValue

@@ -22,7 +22,7 @@ export default function AssetLiabilityPlan() {
 
   useEffect(() => {
     getTableData(
-      `/fino/BudgetFinancial/GetAssetLiabilityPlan?partName=Landing&businessUnitId=${selectedBusinessUnit?.value}&yearId=0&monthId=0&autoId=0&glId=0`
+      `/fino/BudgetFinancial/GetAssetLiabilityPlan?partName=Landing&businessUnitId=${selectedBusinessUnit?.value}&yearId=0&yearName=yyyy-yyyy&monthId=0&autoId=0&glId=0`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -86,15 +86,19 @@ export default function AssetLiabilityPlan() {
                       tableData.map((item, index) => (
                         <>
                           <tr key={index}>
-                            <td>{index + 1}</td>
+                            <td style={{ width: "200px" }}>{index + 1}</td>
                             <td>{item?.strYear}</td>
-                            <td className="text-center">
+                            <td
+                              className="text-center"
+                              style={{ width: "200px" }}
+                            >
                               <div className="d-flex justify-content-around">
                                 <IView
                                   clickHandler={() => {
-                                    history.push(
-                                      `/internal-control/budget/AssetLiabilityPlan/view/${item?.intYear}/${item?.intBusinessUnitId}`
-                                    );
+                                    history.push({
+                                      pathname: `/internal-control/budget/AssetLiabilityPlan/view/${item?.intYear}/${item?.intBusinessUnitId}/${item?.strYear}`,
+                                      state: item,
+                                    });
                                   }}
                                 />
                                 {/* <IEdit
