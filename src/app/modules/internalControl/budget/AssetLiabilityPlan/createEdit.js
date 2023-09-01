@@ -15,6 +15,7 @@ const initData = {
 };
 
 export default function AssetLiabilityPlanCreateEdit() {
+  const formikRef = React.useRef(null);
   const [fiscalYearDDL, getFiscalYearDDL, fiscalYearDDLloader] = useAxiosGet();
   const [
     tableData,
@@ -40,13 +41,17 @@ export default function AssetLiabilityPlanCreateEdit() {
           yearName: values?.fiscalYear?.label,
           partName: "Create",
           actionBy: profileData?.userId,
+          businessUnitId: selectedBusinessUnit?.value,
         };
       });
       saveData(
         `/fino/BudgetFinancial/CreateAssetLiabilityPlan`,
         payload,
         () => {
-          setTableData([]);
+          // setTableData([]);
+          onViewButtonClick(
+            formikRef?.current?.values,
+          );
         },
         true
       );
@@ -86,6 +91,7 @@ export default function AssetLiabilityPlanCreateEdit() {
   };
 
   const calculatePercentageValues = (item) => {
+    console.log("item", item);
     if (item.entryType === "Percentage") {
       const updatedValue = item.initialAmount;
       let currentValue = updatedValue;
@@ -116,62 +122,14 @@ export default function AssetLiabilityPlanCreateEdit() {
 
   const onViewButtonClick = (values) => {
     getTableData(
-      `/fino/BudgetFinancial/GetAssetLiabilityPlan?partName=GetForCreate&businessUnitId=${selectedBusinessUnit?.value}&yearId=${values?.fiscalYear?.value}&monthId=0&autoId=0&glId=0`,
+      `/fino/BudgetFinancial/GetAssetLiabilityPlan?partName=GetForCreate&businessUnitId=${selectedBusinessUnit?.value}&yearId=${values?.fiscalYear?.value}&yearName=${values?.fiscalYear?.label}&monthId=0&autoId=0&glId=0`,
       (data) => {
         const updatedData = data?.map((item) => ({
           ...item,
-          fillAllManual: item?.initialAmount,
-          julAmount:
-            item?.entryType === "Manual"
-              ? item?.initialAmount
-              : item?.julAmount,
-          augAmount:
-            item?.entryType === "Manual"
-              ? item?.initialAmount
-              : item?.augAmount,
-          sepAmount:
-            item?.entryType === "Manual"
-              ? item?.initialAmount
-              : item?.sepAmount,
-          octAmount:
-            item?.entryType === "Manual"
-              ? item?.initialAmount
-              : item?.octAmount,
-          novAmount:
-            item?.entryType === "Manual"
-              ? item?.initialAmount
-              : item?.novAmount,
-          decAmount:
-            item?.entryType === "Manual"
-              ? item?.initialAmount
-              : item?.decAmount,
-          janAmount:
-            item?.entryType === "Manual"
-              ? item?.initialAmount
-              : item?.janAmount,
-          febAmount:
-            item?.entryType === "Manual"
-              ? item?.initialAmount
-              : item?.febAmount,
-          marAmount:
-            item?.entryType === "Manual"
-              ? item?.initialAmount
-              : item?.marAmount,
-          aprAmount:
-            item?.entryType === "Manual"
-              ? item?.initialAmount
-              : item?.marAmount,
-          mayAmount:
-            item?.entryType === "Manual"
-              ? item?.initialAmount
-              : item?.mayAmount,
-          junAmount:
-            item?.entryType === "Manual"
-              ? item?.initialAmount
-              : item?.junAmount,
+          fillAllManual: item?.entryTypeValue,
         }));
         const updatedDataWithPercentage = updatedData?.map(
-          calculatePercentageValues
+          (item) => calculatePercentageValues(item) // Call the function to modify the item
         );
         data[0]?.msg !== "already exists" &&
           getInventoryData(
@@ -233,6 +191,7 @@ export default function AssetLiabilityPlanCreateEdit() {
 
   return (
     <Formik
+      innerRef={formikRef}
       enableReinitialize={true}
       initialValues={initData}
       onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -310,6 +269,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                           <th style={{ minWidth: "200px" }}>GL Name</th>
                           <th style={{ minWidth: "100px" }}>GL Class</th>
                           <th style={{ minWidth: "80px" }}>GL Type</th>
+                          <th style={{ minWidth: "80px" }}>Opening</th>
                           <th style={{ minWidth: "140px" }}>Value</th>
                           <th style={{ minWidth: "140px" }}>July</th>
                           <th style={{ minWidth: "140px" }}>August</th>
@@ -333,6 +293,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                               <td>{item?.glName}</td>
                               <td>{item?.glClassName}</td>
                               <td>{item?.entryType}</td>
+                              <td>{item?.initialAmount}</td>
                               <td>
                                 {item?.entryType === "Percentage" ? (
                                   <InputField
