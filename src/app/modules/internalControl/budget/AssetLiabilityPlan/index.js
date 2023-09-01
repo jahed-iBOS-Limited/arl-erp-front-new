@@ -6,6 +6,7 @@ import IForm from "../../../_helper/_form";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { shallowEqual, useSelector } from "react-redux";
 import IView from "../../../_helper/_helperIcons/_view";
+import IEdit from "../../../_helper/_helperIcons/_edit";
 const initData = {
   year: "",
 };
@@ -88,13 +89,22 @@ export default function AssetLiabilityPlan() {
                             <td>{index + 1}</td>
                             <td>{item?.strYear}</td>
                             <td className="text-center">
-                              <IView
-                                clickHandler={() => {
-                                  history.push(
-                                    `/internal-control/budget/AssetLiabilityPlan/view/${item?.intYear}/${item?.intBusinessUnitId}`
-                                  );
-                                }}
-                              />
+                              <div className="d-flex justify-content-around">
+                                <IView
+                                  clickHandler={() => {
+                                    history.push(
+                                      `/internal-control/budget/AssetLiabilityPlan/view/${item?.intYear}/${item?.intBusinessUnitId}`
+                                    );
+                                  }}
+                                />
+                                <IEdit
+                                  onClick={() => {
+                                    history.push(
+                                      `/internal-control/budget/AssetLiabilityPlan/edit/${item?.intYear}/${item?.intBusinessUnitId}`
+                                    );
+                                  }}
+                                />
+                              </div>
                             </td>
                           </tr>
                         </>
