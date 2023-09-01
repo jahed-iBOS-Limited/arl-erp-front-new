@@ -97,13 +97,13 @@ export default function AssetLiabilityPlan() {
                                     );
                                   }}
                                 />
-                                <IEdit
+                                {/* <IEdit
                                   onClick={() => {
                                     history.push(
                                       `/internal-control/budget/AssetLiabilityPlan/edit/${item?.intYear}/${item?.intBusinessUnitId}`
                                     );
                                   }}
-                                />
+                                /> */}
                               </div>
                             </td>
                           </tr>
