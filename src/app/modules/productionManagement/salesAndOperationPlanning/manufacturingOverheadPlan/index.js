@@ -320,6 +320,9 @@ export default function ManufacturingOverheadPlanLanding() {
               setSubGlRow={setSubGlRow}
               profitCenterDDL={profitCenterDDL}
               landingValues={values}
+              landingCB={() => {
+                commonGridDataLoad(values);
+              }}
             />
           </IViewModal>
         </>
