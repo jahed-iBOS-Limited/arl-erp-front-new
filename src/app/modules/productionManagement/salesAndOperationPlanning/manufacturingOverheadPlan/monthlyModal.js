@@ -91,11 +91,11 @@ function MonthlyModal({
       return toast.warn("Please Select Profit Center");
     }
 
-    const matchingItem = singleData?.item?.monthList?.find(item => +item.monthlyConversionValue === 0);
+    // const matchingItem = singleData?.item?.monthList?.find(item => +item.monthlyConversionValue === 0);
 
-    if (matchingItem && singleData?.item?.overheadType?.value === 2) {
-      return toast.warn(`Management UM not configured. Please Configure for ${matchingItem?.strMonthName}`);
-    }
+    // if (matchingItem && singleData?.item?.overheadType?.value === 2) {
+    //   return toast.warn(`Management UM not configured. Please Configure for ${matchingItem?.strMonthName}`);
+    // }
 
     saveData(
       `/mes/SalesPlanning/CreateManufacturingOverheadPlanningMolthly`,
