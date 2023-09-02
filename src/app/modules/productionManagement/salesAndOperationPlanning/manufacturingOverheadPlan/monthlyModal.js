@@ -7,8 +7,7 @@ import InputField from "../../../_helper/_inputField";
 import NewSelect from "../../../_helper/_select";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { monthData } from "./helper";
-
+import Loading from "../../../_helper/_loading";
 const initData = {
   profitCenter: "",
 };
@@ -17,14 +16,13 @@ function MonthlyModal({
   singleData,
   setSingleData,
   setisShowModal,
-  getSubGlRow,
-  setSubGlRow,
   profitCenterDDL,
   landingValues,
+  landingCB
 }) {
   const [modifiedData, setModifiedData] = useState(null);
   const [objProps, setObjprops] = useState({});
-  const [, saveData] = useAxiosPost();
+  const [, saveData, saveLoading] = useAxiosPost();
   const [, getMultipyData] = useAxiosGet();
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
@@ -131,23 +129,7 @@ function MonthlyModal({
       },
       () => {
         setisShowModal(false);
-        getSubGlRow(
-          `/mes/SalesPlanning/GetBusinessTransactionsAsync?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&generalLedgerId=${singleData?.values?.gl?.intGeneralLedgerId}`,
-          (data) => {
-            let modiFyRow = data?.map((item) => ({
-              ...item,
-              monthList: item?.monthList || monthData,
-              overheadType:
-                item?.overheadTypeId && item?.overheadTypeName
-                  ? {
-                      value: item?.overheadTypeId,
-                      label: item?.overheadTypeName,
-                    }
-                  : "",
-            }));
-            setSubGlRow(modiFyRow);
-          }
-        );
+       landingCB()
       },
       true
     );
@@ -180,6 +162,7 @@ function MonthlyModal({
         touched,
       }) => (
         <>
+        {saveLoading && <Loading/>}
           <IForm
             title=''
             getProps={setObjprops}
