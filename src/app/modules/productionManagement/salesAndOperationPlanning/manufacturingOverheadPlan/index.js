@@ -137,8 +137,10 @@ export default function ManufacturingOverheadPlanLanding() {
                 <div className='col-lg-3'>
                   <NewSelect
                     name='profitCenter'
-                    options={
-                      [{ value: 0, label: "All" }, ...profitCenterDDL] || []
+                    // options={
+                    //   [{ value: 0, label: "All" }, ...profitCenterDDL] || []
+                    // }
+                    options={[...profitCenterDDL] || []
                     }
                     value={values?.profitCenter}
                     label='Profit Center'
