@@ -33,11 +33,11 @@ function MonthlyModal({
     landingValues?.profitCenter?.value === 0 ? "" : landingValues?.profitCenter;
   useEffect(() => {
     const profitCenter = singleData?.item?.intProfitCenterId
-    ? {
-        value: singleData?.item?.intProfitCenterId,
-        label: singleData?.item?.strProfitCenterName,
-      }
-    : defoultProfitCenter
+      ? {
+          value: singleData?.item?.intProfitCenterId,
+          label: singleData?.item?.strProfitCenterName,
+        }
+      : defoultProfitCenter;
     if (singleData?.item) {
       setModifiedData({
         profitCenter: profitCenter,
@@ -45,7 +45,13 @@ function MonthlyModal({
     }
     if (singleData?.item?.overheadType?.value === 2) {
       getMultipyData(
-        `/mes/SalesPlanning/GetMonthlyConversion?accountId=${
+        // `/mes/SalesPlanning/GetMonthlyConversion?accountId=${
+        //   profileData?.accountId
+        // }&businessUnitId=${selectedBusinessUnit?.value}&year=${singleData?.item
+        //   ?.intYear || singleData?.values?.fiscalYear?.value}&typeId=${
+        //   singleData?.values?.gl?.intGeneralLedgerId === 93 ? 1 : 2
+        // }&ProfitCenterId=${profitCenter?.value}`,
+        `/fino/BudgetFinancial/GetMonthlyConversion?accountId=${
           profileData?.accountId
         }&businessUnitId=${selectedBusinessUnit?.value}&year=${singleData?.item
           ?.intYear || singleData?.values?.fiscalYear?.value}&typeId=${
@@ -55,10 +61,8 @@ function MonthlyModal({
           const data = singleData?.item?.monthList?.map((item, index) => {
             return {
               ...item,
-              // intMonthLyValue:
-              //   +item?.intMonthLyValue *
-              //     +res.find((resItem) => resItem.intMonthId === item?.intMonthId)
-              //       ?.monthlyConversionValue || 0,
+              year: res?.find((month) => month?.intMonthId === item?.intMonthId)
+                ?.intYearId,
               monthlyConversionValue:
                 res.find((resItem) => resItem.intMonthId === item?.intMonthId)
                   ?.monthlyConversionValue || 0,
@@ -202,8 +206,8 @@ function MonthlyModal({
                     <table className="table table-striped table-bordered  global-table">
                       <thead>
                         <tr>
+                          <th>Year</th>
                           <th>Month Name</th>
-
                           <th>Monthly Value</th>
                           {singleData?.item?.overheadType?.value === 2 ? (
                             <>
@@ -223,6 +227,7 @@ function MonthlyModal({
                         {singleData?.item?.monthList?.length > 0 &&
                           singleData?.item?.monthList?.map((item, i) => (
                             <tr key={i}>
+                              <td className="text-center">{item?.year}</td>
                               <td>
                                 {
                                   monthData.find(
