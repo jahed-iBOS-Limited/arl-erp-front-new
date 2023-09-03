@@ -22,6 +22,8 @@ import DetailsSalesPlanEntry from "../../productionManagement/salesAndOperationP
 import DetailsSalesPlanLanding from "../../productionManagement/salesAndOperationPlanning/detailsSalesPlan/detailsSalesPlan";
 import MonthlySalesPlanLanding from "../../productionManagement/salesAndOperationPlanning/detailsSalesPlan";
 import ManufacturingOverheadPlanLanding from "../../productionManagement/salesAndOperationPlanning/manufacturingOverheadPlan";
+import ProjectedFinancialStatement from "../ProjectedFinancialStatement";
+import AssetLiabilityPlanEdit from "./AssetLiabilityPlan/Edit";
 
 export function InternalControlBudgetPages() {
   const userRole = useSelector(
@@ -76,6 +78,10 @@ export function InternalControlBudgetPages() {
       <ContentRoute
         from="/internal-control/budget/hrplan"
         component={hrPlan?.isView ? HrPlanLanding : NotPermittedPage}
+      />
+      <ContentRoute
+        from="/internal-control/budget/ProjectedFinancialStatement"
+        component={ProjectedFinancialStatement}
       />
 
       {/* Purchase Plan */}
@@ -146,6 +152,14 @@ export function InternalControlBudgetPages() {
         component={
           AssetLiabilityPlanPermission?.isView
             ? ViewAssetLiabilityPlan
+            : NotPermittedPage
+        }
+      />
+       <ContentRoute
+        from="/internal-control/budget/AssetLiabilityPlan/edit/:yearId/:buId"
+        component={
+          AssetLiabilityPlanPermission?.isCreate
+            ? AssetLiabilityPlanEdit
             : NotPermittedPage
         }
       />

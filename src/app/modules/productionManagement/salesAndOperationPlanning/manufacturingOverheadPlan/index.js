@@ -8,12 +8,12 @@ import IForm from "./../../../_helper/_form";
 import InputField from "./../../../_helper/_inputField";
 import Loading from "./../../../_helper/_loading";
 import NewSelect from "./../../../_helper/_select";
-import { getPlantDDL, getYearDDL, monthData } from "./helper";
+import { getPlantDDL, monthData } from "./helper";
 import MonthlyModal from "./monthlyModal";
 
 const initData = {
   plant: "",
-  year: "",
+  fiscalYear: "",
   gl: "",
   glType: "",
 };
@@ -26,12 +26,14 @@ export default function ManufacturingOverheadPlanLanding() {
   const [objProps, setObjprops] = useState({});
   const [isShowModal, setisShowModal] = useState(false);
   const [plantDDL, setPlantDDL] = useState([]);
-  const [yearDDL, setYearDDL] = useState([]);
+  const [fiscalYearDDL, getFiscalYearDDL] = useAxiosGet();
   const [glDDL, getGlDDL] = useAxiosGet();
   const [subGlRow, getSubGlRow, loading, setSubGlRow] = useAxiosGet();
   const [singleData, setSingleData] = useState();
 
   useEffect(() => {
+    getFiscalYearDDL(`/vat/TaxDDL/FiscalYearDDL`);
+
     getPlantDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -46,6 +48,46 @@ export default function ManufacturingOverheadPlanLanding() {
 
   const saveHandler = (values, cb) => {
     alert("Working...");
+  };
+
+  const [
+    profitCenterDDL,
+    getProfitCenterDDL,
+    profitCenterDDLloader,
+  ] = useAxiosGet();
+
+  useEffect(() => {
+    getProfitCenterDDL(
+      `/fino/CostSheet/ProfitCenterDDL?BUId=${selectedBusinessUnit?.value}`
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const commonGridDataLoad = (values) => {
+    if (
+      values?.fiscalYear?.value &&
+      values?.gl?.value &&
+      values?.profitCenter
+    ) {
+      setSubGlRow([]);
+      getSubGlRow(
+        `/mes/SalesPlanning/GetBusinessTransactionsAsync?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&generalLedgerId=${values?.gl?.value}&ProfitCenterId=${values?.profitCenter?.value}&Year=${values?.fiscalYear?.label}`,
+        (data) => {
+          let modiFyRow = data?.map((item) => ({
+            ...item,
+            monthList: item?.monthList || monthData,
+            overheadType:
+              item?.overheadTypeId && item?.overheadTypeName
+                ? {
+                    value: item?.overheadTypeId,
+                    label: item?.overheadTypeName,
+                  }
+                : "",
+          }));
+          setSubGlRow(modiFyRow);
+        }
+      );
+    }
   };
   return (
     <Formik
@@ -68,7 +110,7 @@ export default function ManufacturingOverheadPlanLanding() {
         touched,
       }) => (
         <>
-          {loading && <Loading />}
+          {(loading || profitCenterDDLloader) && <Loading />}
           <IForm
             title="Overhead Plan"
             getProps={setObjprops}
@@ -87,12 +129,6 @@ export default function ManufacturingOverheadPlanLanding() {
                     placeholder="Plant"
                     onChange={async (valueOption) => {
                       setFieldValue("plant", valueOption);
-                      getYearDDL(
-                        profileData?.accountId,
-                        selectedBusinessUnit?.value,
-                        valueOption?.value,
-                        setYearDDL
-                      );
                     }}
                     errors={errors}
                     touched={touched}
@@ -100,44 +136,55 @@ export default function ManufacturingOverheadPlanLanding() {
                 </div>
                 <div className="col-lg-3">
                   <NewSelect
-                    name="year"
-                    options={yearDDL}
-                    value={values?.year}
-                    label="Year"
-                    placeholder="Year"
+                    name="profitCenter"
+                    // options={
+                    //   [{ value: 0, label: "All" }, ...profitCenterDDL] || []
+                    // }
+                    options={[...profitCenterDDL] || []}
+                    value={values?.profitCenter}
+                    label="Profit Center"
                     onChange={(valueOption) => {
-                      setFieldValue("year", valueOption);
+                      setFieldValue("profitCenter", valueOption);
+                      commonGridDataLoad({
+                        ...values,
+                        profitCenter: valueOption,
+                      });
                     }}
                     errors={errors}
                     touched={touched}
-                    isDisabled={!values?.plant}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="fiscalYear"
+                    options={fiscalYearDDL || []}
+                    value={values?.fiscalYear}
+                    label="Year"
+                    disabled={!values?.plant}
+                    onChange={(valueOption) => {
+                      setFieldValue("fiscalYear", valueOption);
+                      commonGridDataLoad({
+                        ...values,
+                        fiscalYear: valueOption,
+                      });
+                    }}
+                    errors={errors}
+                    touched={touched}
                   />
                 </div>
                 <div className="col-lg-3">
                   <NewSelect
                     name="gl"
+                    isDisabled={!values?.fiscalYear}
                     options={glDDL || []}
                     value={values?.gl}
                     label="GL Name"
                     onChange={(valueOption) => {
                       setFieldValue("gl", valueOption);
-                      getSubGlRow(
-                        `/mes/SalesPlanning/GetBusinessTransactionsAsync?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&generalLedgerId=${valueOption?.value}`,
-                        (data) => {
-                          let modiFyRow = data?.map((item) => ({
-                            ...item,
-                            monthList: item?.monthList || monthData,
-                            overheadType:
-                              item?.overheadTypeId && item?.overheadTypeName
-                                ? {
-                                    value: item?.overheadTypeId,
-                                    label: item?.overheadTypeName,
-                                  }
-                                : "",
-                          }));
-                          setSubGlRow(modiFyRow);
-                        }
-                      );
+                      commonGridDataLoad({
+                        ...values,
+                        gl: valueOption,
+                      });
                     }}
                     errors={errors}
                     touched={touched}
@@ -211,7 +258,8 @@ export default function ManufacturingOverheadPlanLanding() {
                               {item?.overheadType &&
                               item?.universalAmount &&
                               values?.plant &&
-                              values?.year &&
+                              values?.fiscalYear &&
+                              values?.profitCenter &&
                               values?.gl ? (
                                 <OverlayTrigger
                                   overlay={
@@ -267,6 +315,11 @@ export default function ManufacturingOverheadPlanLanding() {
               setisShowModal={setisShowModal}
               getSubGlRow={getSubGlRow}
               setSubGlRow={setSubGlRow}
+              profitCenterDDL={profitCenterDDL}
+              landingValues={values}
+              landingCB={() => {
+                commonGridDataLoad(values);
+              }}
             />
           </IViewModal>
         </>

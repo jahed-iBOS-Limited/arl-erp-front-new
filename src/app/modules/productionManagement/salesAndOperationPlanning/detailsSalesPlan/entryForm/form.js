@@ -107,6 +107,7 @@ export default function _Form({
               bomid: resp.rows[i][6],
               uomName: resp.rows[i][7],
               uoMid: resp.rows[i][8],
+              itemPlanQty: resp.rows[i][9],
               entryItemPlanQty: resp.rows[i][9],
               rate: resp.rows[i][10],
             });
