@@ -213,6 +213,11 @@ export const getProductionPlanning = async (
     const res = await Axios.get(
       `/mes/ProductionPlanning/GetProductionPlanItemsPagination?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&SalesPlanId=${salesPlanId}&PageNo=1&PageSize=10&viewOrder=desc`
     );
+
+    const resTwo = await Axios.get(
+      `/mes/SalesPlanning/GetSalesPlanById?SalesPlanId=${salesPlanId}`
+    );
+
     const newHeader = {
       plant: {
         value: res?.data?.header?.plant.value,
@@ -233,6 +238,10 @@ export const getProductionPlanning = async (
     let modifyingRowData = res?.data?.data?.map((dataItem) => {
       return {
         ...dataItem,
+        itemPlanQty:
+          resTwo?.data?.objRow?.find(
+            (item) => item?.itemId === dataItem?.itemId
+          )?.itemPlanQty || 0,
         productionPlanningRowId:
           res?.data?.header?.productionPlanQtyInfoList?.find(
             (item) => item?.itemId === dataItem?.itemId

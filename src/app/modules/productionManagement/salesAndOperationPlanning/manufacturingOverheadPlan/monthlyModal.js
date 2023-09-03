@@ -1,15 +1,13 @@
+import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import InputField from "../../../_helper/_inputField";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { monthData } from "./helper";
-import { Form, Formik } from "formik";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import NewSelect from "../../../_helper/_select";
 import { toast } from "react-toastify";
-
+import IForm from "../../../_helper/_form";
+import InputField from "../../../_helper/_inputField";
+import NewSelect from "../../../_helper/_select";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import Loading from "../../../_helper/_loading";
 const initData = {
   profitCenter: "",
 };
@@ -18,24 +16,29 @@ function MonthlyModal({
   singleData,
   setSingleData,
   setisShowModal,
-  getSubGlRow,
-  setSubGlRow,
+  profitCenterDDL,
+  landingValues,
+  landingCB
 }) {
   const [modifiedData, setModifiedData] = useState(null);
   const [objProps, setObjprops] = useState({});
-  const [, saveData] = useAxiosPost();
+  const [, saveData, saveLoading] = useAxiosPost();
   const [, getMultipyData] = useAxiosGet();
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
+  let defoultProfitCenter =
+    landingValues?.profitCenter?.value === 0 ? "" : landingValues?.profitCenter;
   useEffect(() => {
     if (singleData?.item) {
       setModifiedData({
-        profitCenter: {
-          value: singleData?.item?.intProfitCenterId,
-          label: singleData?.item?.strProfitCenterName,
-        },
+        profitCenter: singleData?.item?.intProfitCenterId
+          ? {
+              value: singleData?.item?.intProfitCenterId,
+              label: singleData?.item?.strProfitCenterName,
+            }
+          : defoultProfitCenter,
       });
     }
     if (singleData?.item?.overheadType?.value === 2) {
@@ -73,23 +76,17 @@ function MonthlyModal({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const [
-    profitCenterDDL,
-    getProfitCenterDDL,
-    profitCenterDDLloader,
-  ] = useAxiosGet();
-
-  useEffect(() => {
-    getProfitCenterDDL(
-      `/fino/CostSheet/ProfitCenterDDL?BUId=${selectedBusinessUnit?.value}`
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const saveHandler = (values, cb) => {
-    if (!values?.profitCenter) {
+    if (!values?.profitCenter?.label) {
       return toast.warn("Please Select Profit Center");
     }
+
+    // const matchingItem = singleData?.item?.monthList?.find(item => +item.monthlyConversionValue === 0);
+
+    // if (matchingItem && singleData?.item?.overheadType?.value === 2) {
+    //   return toast.warn(`Management UM not configured. Please Configure for ${matchingItem?.strMonthName}`);
+    // }
+
     saveData(
       `/mes/SalesPlanning/CreateManufacturingOverheadPlanningMolthly`,
       {
@@ -132,23 +129,7 @@ function MonthlyModal({
       },
       () => {
         setisShowModal(false);
-        getSubGlRow(
-          `/mes/SalesPlanning/GetBusinessTransactionsAsync?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&generalLedgerId=${singleData?.values?.gl?.intGeneralLedgerId}`,
-          (data) => {
-            let modiFyRow = data?.map((item) => ({
-              ...item,
-              monthList: item?.monthList || monthData,
-              overheadType:
-                item?.overheadTypeId && item?.overheadTypeName
-                  ? {
-                      value: item?.overheadTypeId,
-                      label: item?.overheadTypeName,
-                    }
-                  : "",
-            }));
-            setSubGlRow(modiFyRow);
-          }
-        );
+       landingCB()
       },
       true
     );
@@ -157,7 +138,16 @@ function MonthlyModal({
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={singleData?.item ? modifiedData : initData}
+      initialValues={
+        singleData?.item
+          ? {
+              ...modifiedData,
+            }
+          : {
+              initData,
+              profitCenter: defoultProfitCenter,
+            }
+      }
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values);
       }}
@@ -172,16 +162,21 @@ function MonthlyModal({
         touched,
       }) => (
         <>
-          {profitCenterDDLloader && <Loading />}
-          <IForm title="" getProps={setObjprops} isHiddenBack={true} isHiddenReset={true}>
+        {saveLoading && <Loading/>}
+          <IForm
+            title=''
+            getProps={setObjprops}
+            isHiddenBack={true}
+            isHiddenReset={true}
+          >
             <Form>
-              <div className="form-group  global-form row">
-                <div className="col-lg-3">
+              <div className='form-group  global-form row'>
+                <div className='col-lg-3'>
                   <NewSelect
-                    name="profitCenter"
+                    name='profitCenter'
                     options={profitCenterDDL}
                     value={values?.profitCenter}
-                    label="Profit Center"
+                    label='Profit Center'
                     onChange={(valueOption) => {
                       setFieldValue("profitCenter", valueOption);
                     }}
@@ -192,9 +187,9 @@ function MonthlyModal({
               </div>
 
               <>
-                <div className="row">
-                  <div className="col-lg-12">
-                    <table className="table table-striped table-bordered  global-table">
+                <div className='row'>
+                  <div className='col-lg-12'>
+                    <table className='table table-striped table-bordered  global-table'>
                       <thead>
                         <tr>
                           <th>Month Name</th>
@@ -222,7 +217,7 @@ function MonthlyModal({
                               <td style={{ minWidth: "70px" }}>
                                 <InputField
                                   value={+item?.intMonthLyValue || ""}
-                                  type="number"
+                                  type='number'
                                   onChange={(e) => {
                                     if (+e.target.value < 0) return;
                                     let modiFyRow = [
@@ -243,11 +238,11 @@ function MonthlyModal({
 
                               {singleData?.item?.overheadType?.value === 2 ? (
                                 <>
-                                  <td className="text-center">
+                                  <td className='text-center'>
                                     {item?.monthlyConversionValue}
                                   </td>
                                   <td>{item?.strManagementUomName}</td>
-                                  <td className="text-center">
+                                  <td className='text-center'>
                                     {(+item?.intMonthLyValue || 0) *
                                       (+item?.monthlyConversionValue || 0) ||
                                       ""}
@@ -263,14 +258,14 @@ function MonthlyModal({
               </>
 
               <button
-                type="submit"
+                type='submit'
                 style={{ display: "none" }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
-                type="reset"
+                type='reset'
                 style={{ display: "none" }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}

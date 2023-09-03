@@ -23,7 +23,8 @@ const headers = [
   { name: "Mother Vessel" },
   { name: "Voyage No (mother vessel)" },
   { name: "Cargo" },
-  { name: "Quantity" },
+  { name: "Est. Quantity" },
+  { name: "Final Quantity" },
   { name: "Rate" },
   { name: "Freight" },
   { name: "Unloading Jetty" },
@@ -53,7 +54,7 @@ export default function MonthlyVoyageStatement() {
 
   const printRef = useRef();
 
-  let totalQty = 0,
+  let totalFinalQty = 0, totalEstQty=0,
     totalFreight = 0;
 
   return (
@@ -137,7 +138,7 @@ export default function MonthlyVoyageStatement() {
                       new Date(values?.date)?.getFullYear()}
                   </h4>
                 </div>
-                <ICustomTable id="table-to-xlsx" ths={headers}>
+                <ICustomTable id="table-to-xlsx" ths={headers} >
                   <div className="d-none" style={{ textAlign: "center" }}>
                     <h3>Akij Shipping Lines Ltd</h3>
                     <h4>
@@ -150,7 +151,8 @@ export default function MonthlyVoyageStatement() {
                     </h4>
                   </div>
                   {gridData?.map((item, index) => {
-                    totalQty += item?.numActualCargoQnty;
+                    totalFinalQty += item?.numActualCargoQnty;
+                    totalEstQty += item?.estimatedCargoQty;
                     totalFreight += item?.numTotalFreight;
                     return (
                       <tr key={index}>
@@ -169,6 +171,9 @@ export default function MonthlyVoyageStatement() {
                         <td>{item?.voyageNo}</td>
                         <td>{item?.cargoName}</td>
                         <td className="text-right">
+                          {_fixedPoint(item?.estimatedCargoQty, true, 0)}
+                        </td>
+                        <td className="text-right">
                           {_fixedPoint(item?.numActualCargoQnty, true, 0)}
                         </td>
                         <td className="text-right">
@@ -186,7 +191,10 @@ export default function MonthlyVoyageStatement() {
                       <b>Total</b>
                     </td>
                     <td className="text-right">
-                      <b>{_fixedPoint(totalQty, true, 0)}</b>
+                      <b>{_fixedPoint(totalEstQty, true, 0)}</b>
+                    </td>
+                    <td className="text-right">
+                      <b>{_fixedPoint(totalFinalQty, true, 0)}</b>
                     </td>
                     <td> </td>
                     <td className="text-right">

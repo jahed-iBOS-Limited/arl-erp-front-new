@@ -54,7 +54,7 @@ export default function InvoiceForm() {
       selectedBusinessUnit?.value,
       values?.fromDate,
       values?.toDate,
-      values?.surveyNo?.label,
+      values?.surveyNo?.label || "",
       // reportDate,
       setTripInformation,
       setLoading

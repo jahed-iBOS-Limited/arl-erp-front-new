@@ -153,14 +153,14 @@ body {
 .three-column-sticky thead th:nth-child(3) {
   position: -webkit-sticky;
   position: sticky;
-  left: 165px;
+  left: 240px;
   border: 1px solid #ecf0f3 !important;
   z-index: 100;
 }
 .three-column-sticky tbody td:nth-child(3) {
   position: -webkit-sticky;
   position: sticky;
-  left: 165px;
+  left: 240px;
   border: 1px solid #ecf0f3 !important;
   background: #fff !important;
   z-index: 9;
