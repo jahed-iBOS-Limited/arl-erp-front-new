@@ -111,33 +111,22 @@ export default function _Form({
 
   const updateRequiredQuantity = (values, valueOption) => {
     getMrpPlanningInfo(
-      `/mes/SalesPlanning/GetMrplanningInfoDetail?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${values?.plant?.value}&PlanningHorizonId=${values?.year?.planningHorizonId}&PlanningHorizonRowId=${valueOption?.value}`,
-      (resMrplanningInfo) => {
-        // actual ItemMonth Wise mrp
-        let actualItemMonthWise = []
-        resMrplanningInfo?.length > 0 && resMrplanningInfo.forEach(item => {
-          let rawMaterialItem = item?.objRawMaterialItemList
-          rawMaterialItem?.length > 0 && rawMaterialItem.forEach(nestedItem => {
-            if (nestedItem?.planningHorizonRowid === valueOption?.value) {
-              actualItemMonthWise.push({
-                ...nestedItem,
-                itemId: nestedItem?.rawMaterialItemId,
-              })
-            }
-          })
-        })
-        getHeaderRowInfo(`/mes/SalesPlanning/GetPurchaseRateDetails?AccountId=${profileData?.accountId
-          }&BusinessUnitId=${selectedBusinessUnit?.value
-          }&PlantId=${values?.plant?.value
-          }&PlanningHorizonId=${values?.year?.planningHorizonId
-          }&PlanningHorizonRowId=${valueOption?.value
-          }`, (resPurchaseRate) => {
+
+      // `/mes/SalesPlanning/GetMrplanningInfoDetail?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${values?.plant?.value}&PlanningHorizonId=${values?.year?.planningHorizonId}&PlanningHorizonRowId=${valueOption?.value}`
+
+      `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&yearId=${values?.year?.value}&monthId=${valueOption?.monthId}`
+      
+      ,(resMrplanningInfo) => {
+        // let actualItemMonthWise = resMrplanningInfo
+        // console.log("actualItemMonthWise", actualItemMonthWise)
+        getHeaderRowInfo(`/mes/SalesPlanning/GetPurchaseRateDetails?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value
+          }&PlantId=${values?.plant?.value}&PlanningHorizonId=${values?.year?.planningHorizonId}&PlanningHorizonRowId=${valueOption?.value}`, (resPurchaseRate) => {
             const modifiedRowDto = rowDto?.data?.map(itm => {
-              const actualItemMonthWiseMathch = actualItemMonthWise.find(itm2 => itm2?.itemId === itm?.itemId)
+              const actualItemMonthWiseMathch = resMrplanningInfo.find(itm2 => itm2?.intItemId === itm?.itemId)
               const resPurchaseRateMatch = resPurchaseRate.find(itm2 => itm2?.itemId === itm?.itemId)
               return {
                 ...itm,
-                itemPlanQty: actualItemMonthWiseMathch?.rawMaterialRequiredQty || 0,
+                itemPlanQty: actualItemMonthWiseMathch?.numMRPQty || 0,
                 entryItemPlanQty: resPurchaseRateMatch?.purchaseQuantity || 0,
                 intPurchasePlanId: resPurchaseRateMatch?.intPurchasePlanId || 0,
                 intPurchasePlanRowId: resPurchaseRateMatch?.intPurchasePlanRowId || 0,
@@ -149,10 +138,10 @@ export default function _Form({
           }, (err) => {
             // if GetPurchaseRateDetails error
             const modifiedRowDto = rowDto?.data?.map(itm => {
-              const actualItemMonthWiseMathch = actualItemMonthWise.find(itm2 => itm2?.itemId === itm?.itemId)
+              const actualItemMonthWiseMathch = resMrplanningInfo.find(itm2 => itm2?.intItemId === itm?.itemId)
               return {
                 ...itm,
-                itemPlanQty: actualItemMonthWiseMathch?.rawMaterialRequiredQty || 0,
+                itemPlanQty: actualItemMonthWiseMathch?.numMRPQty || 0,
                 entryItemPlanQty: 0,
                 intPurchasePlanId: 0,
                 intPurchasePlanRowId: 0,
