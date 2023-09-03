@@ -24,6 +24,7 @@ import PaginationTable from "../../../../_helper/_tablePagination";
 import moment from "moment";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import { toast } from "react-toastify";
+import { dateFormatterForInput } from "../../../msilProduction/meltingProduction/helper";
 const initialValues = {
   id: null,
   date: null,
@@ -420,10 +421,11 @@ const CranStopage = () => {
                               <td className="text-center">
                                 <IEdit
                                   onClick={() => {
-                                    setValues((prev) => ({
-                                      ...prev,
+                                    console.log("working")
+                                    setValues({
+                                      ...values,
                                       id: item?.craneStopageId,
-                                      date: item?.entryDate,
+                                      date: dateFormatterForInput(item?.entryDate),
                                       shift: {
                                         label: item?.shiftName,
                                         value: item?.shiftId,
@@ -442,7 +444,7 @@ const CranStopage = () => {
                                       stopageDetails: item?.stopesDetails,
                                       createdAt: item?.createdAt,
                                       createdBy: item?.createdBy,
-                                    }));
+                                    });
                                   }}
                                 />
                               </td>
