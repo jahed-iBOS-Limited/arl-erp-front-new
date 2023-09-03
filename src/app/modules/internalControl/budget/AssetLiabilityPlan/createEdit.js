@@ -145,6 +145,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                   if (invDataItem) {
                     return {
                       ...item,
+                      initialAmount: invDataItem?.opnAmount?.toFixed(2),
                       julAmount: invDataItem?.julAmount.toFixed(2),
                       augAmount: invDataItem?.augAmount.toFixed(2),
                       sepAmount: invDataItem?.sepAmount.toFixed(2),
