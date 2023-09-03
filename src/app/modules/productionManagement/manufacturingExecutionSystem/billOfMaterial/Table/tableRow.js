@@ -1,25 +1,25 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import IView from "../../../../_helper/_helperIcons/_view";
+import Select from "react-select";
+import ICustomCard from "../../../../_helper/_customCard";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
+import IView from "../../../../_helper/_helperIcons/_view";
+import IViewModal from "../../../../_helper/_viewModal";
+import { SetManufactureBOMTableLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import customStyles from "../../../../selectCustomStyle";
 import {
   GetBillofMaterialPagination,
   getPlantDDL,
   getShopFloorDDL,
 } from "../helper";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
 import Loading from "./../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
 import PaginationSearch from "./../../../../_helper/_search";
-import CostView from "./../../../../personal/approval/commonApproval/Table/_costView";
-import IViewModal from "../../../../_helper/_viewModal";
+import PaginationTable from "./../../../../_helper/_tablePagination";
 import CostViewTable from "./../../../../personal/approval/commonApproval/Table/CostView/CostView";
-import { SetManufactureBOMTableLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import { Formik } from "formik";
-import ICustomCard from "../../../../_helper/_customCard";
+import CostView from "./../../../../personal/approval/commonApproval/Table/_costView";
 
 export function TableRow() {
   const [loading, setLoading] = useState(false);
@@ -106,8 +106,6 @@ export function TableRow() {
   const paginationSearchHandler = (searchValue) => {
     setPositionHandler(pageNo, pageSize, searchValue);
   };
-
-  console.log(manufactureBOMTableLanding);
 
   return (
     <ICustomCard
@@ -214,12 +212,14 @@ export function TableRow() {
                     <th style={{ width: "60px" }}>Lot Size</th>
                     <th style={{ width: "90px" }}>UoM</th>
                     <th style={{ width: "90px" }}>Status</th>
+                    <th style={{ width: "90px" }}>Standard</th>
                     <th style={{ width: "90px" }}>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {gridData?.data?.length > 0 &&
                     gridData?.data?.map((item, index) => (
+                     
                       <tr key={index}>
                         {/* key={item.businessUnitId} */}
                         <td>{item?.sl}</td>
@@ -256,6 +256,15 @@ export function TableRow() {
                           >
                             {item?.isApproved ? "Approved" : "Pending"}
                           </div>
+                        </td>
+                        <td>
+                          {
+                            item?.isStandardBoM ? 
+                            <div className="text-left pl-2">Yes</div>
+                            :
+                            <div className="text-left pl-2">No</div>
+                          }
+                          
                         </td>
                         <td>
                           <div className="d-flex justify-content-center">
