@@ -1,30 +1,26 @@
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import IForm from "../../../../_helper/_form";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
-import * as Yup from "yup";
-import { useEffect } from "react";
-import { getShiftDDL } from "../../../manufacturingExecutionSystem/productionEntry/helper";
-import { shallowEqual, useSelector } from "react-redux";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
 import { _monthLastDate } from "../../../../_helper/_monthLastDate";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
 import PaginationSearch from "../../../../_helper/_search";
+import NewSelect from "../../../../_helper/_select";
+import PaginationTable from "../../../../_helper/_tablePagination";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { getShiftDDL } from "../../../manufacturingExecutionSystem/productionEntry/helper";
 import {
   breakdownTypeDDLForCraneStopageDetails,
   craneNameDDLForCraneStopageDetails,
   onCreateOrEditCraneStopageDetails,
   onGetCraneStopageDetailsLanding,
 } from "../helper";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import moment from "moment";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import { toast } from "react-toastify";
-import { dateFormatterForInput } from "../../../msilProduction/meltingProduction/helper";
 const initialValues = {
   id: null,
   date: null,
@@ -398,7 +394,7 @@ const CranStopage = () => {
                             <th>Breakdown Type</th>
                             <th style={{ width: "70px" }}>Duration</th>
                             <th>Stopage Details</th>
-                            <th style={{ width: "70px" }}>Action</th>
+                            {/* <th style={{ width: "70px" }}>Action</th> */}
                           </tr>
                         </thead>
                         <tbody>
@@ -418,14 +414,16 @@ const CranStopage = () => {
                               <td>{item?.breakdownTypeName}</td>
                               <td className="text-center">{item?.duration}</td>
                               <td>{item?.stopesDetails}</td>
-                              <td className="text-center">
+                              {/* <td className="text-center">
                                 <IEdit
                                   onClick={() => {
-                                    console.log("working")
+                                    console.log("working");
                                     setValues({
                                       ...values,
                                       id: item?.craneStopageId,
-                                      date: dateFormatterForInput(item?.entryDate),
+                                      date: dateFormatterForInput(
+                                        item?.entryDate
+                                      ),
                                       shift: {
                                         label: item?.shiftName,
                                         value: item?.shiftId,
@@ -447,7 +445,7 @@ const CranStopage = () => {
                                     });
                                   }}
                                 />
-                              </td>
+                              </td> */}
                             </tr>
                           ))}
                         </tbody>
