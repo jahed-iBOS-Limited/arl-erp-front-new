@@ -8,6 +8,7 @@ import NewSelect from "../../../_helper/_select";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import Loading from "../../../_helper/_loading";
+import { monthData } from "./helper";
 const initData = {
   profitCenter: "",
 };
@@ -124,7 +125,9 @@ function MonthlyModal({
             index < 6
               ? singleData?.values?.fiscalYear?.label?.split("-")[0]
               : singleData?.values?.fiscalYear?.label?.split("-")[1],
-          strMonthName: item?.strMonthName,
+          strMonthName: monthData.find(
+            (month) => month.intMonthId === item?.intMonthId
+          )?.strMonthName,
           intMonthLyValue: +item?.intMonthLyValue || 0,
           numProductionQty:
             (+item?.intMonthLyValue || 0) *
@@ -219,7 +222,14 @@ function MonthlyModal({
                         {singleData?.item?.monthList?.length > 0 &&
                           singleData?.item?.monthList?.map((item, i) => (
                             <tr key={i}>
-                              <td>{item?.strMonthName}</td>
+                              <td>
+                                {
+                                  monthData.find(
+                                    (month) =>
+                                      month.intMonthId === item?.intMonthId
+                                  )?.strMonthName
+                                }
+                              </td>
                               <td style={{ minWidth: "70px" }}>
                                 <InputField
                                   value={+item?.intMonthLyValue || ""}
