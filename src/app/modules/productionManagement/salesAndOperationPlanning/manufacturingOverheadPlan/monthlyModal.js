@@ -32,14 +32,15 @@ function MonthlyModal({
   let defoultProfitCenter =
     landingValues?.profitCenter?.value === 0 ? "" : landingValues?.profitCenter;
   useEffect(() => {
+    const profitCenter = singleData?.item?.intProfitCenterId
+    ? {
+        value: singleData?.item?.intProfitCenterId,
+        label: singleData?.item?.strProfitCenterName,
+      }
+    : defoultProfitCenter
     if (singleData?.item) {
       setModifiedData({
-        profitCenter: singleData?.item?.intProfitCenterId
-          ? {
-              value: singleData?.item?.intProfitCenterId,
-              label: singleData?.item?.strProfitCenterName,
-            }
-          : defoultProfitCenter,
+        profitCenter: profitCenter,
       });
     }
     if (singleData?.item?.overheadType?.value === 2) {
@@ -49,7 +50,7 @@ function MonthlyModal({
         }&businessUnitId=${selectedBusinessUnit?.value}&year=${singleData?.item
           ?.intYear || singleData?.values?.fiscalYear?.value}&typeId=${
           singleData?.values?.gl?.intGeneralLedgerId === 93 ? 1 : 2
-        }`,
+        }&ProfitCenterId=${profitCenter?.value}`,
         (res) => {
           const data = singleData?.item?.monthList?.map((item, index) => {
             return {
