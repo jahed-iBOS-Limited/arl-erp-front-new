@@ -18,7 +18,7 @@ function MonthlyModal({
   setisShowModal,
   profitCenterDDL,
   landingValues,
-  landingCB
+  landingCB,
 }) {
   const [modifiedData, setModifiedData] = useState(null);
   const [objProps, setObjprops] = useState({});
@@ -46,7 +46,7 @@ function MonthlyModal({
         `/mes/SalesPlanning/GetMonthlyConversion?accountId=${
           profileData?.accountId
         }&businessUnitId=${selectedBusinessUnit?.value}&year=${singleData?.item
-          ?.intYear || singleData?.values?.year?.value}&typeId=${
+          ?.intYear || singleData?.values?.fiscalYear?.value}&typeId=${
           singleData?.values?.gl?.intGeneralLedgerId === 93 ? 1 : 2
         }`,
         (res) => {
@@ -107,29 +107,35 @@ function MonthlyModal({
           intSubGlid: singleData?.item?.businessTransactionId,
           intSubGlcode: singleData?.item?.businessTransactionCode,
           strSubGlname: singleData?.item?.businessTransactionName,
-          intYear: singleData?.item?.intYear || singleData?.values?.year?.value,
+          intYear:
+            singleData?.item?.intYear || singleData?.values?.fiscalYear?.value,
           intAccountId: profileData?.accountId,
           intBusinessUnitId: selectedBusinessUnit?.value,
           numUniversalAmount: +singleData?.item?.universalAmount,
+          strFiscalYear: singleData?.values?.fiscalYear?.label,
           isActive: true,
           intActionBy: profileData?.userId,
         },
-        rows: singleData?.item?.monthList?.map((item) => ({
+        rows: singleData?.item?.monthList?.map((item, index) => ({
           intMopplanRowId: item?.intMopplanRowId || 0,
           intMopplanId: item?.intMopplanId || 0,
           intMonthId: item?.intMonthId,
+          IntYearId:
+            index < 6
+              ? singleData?.values?.fiscalYear?.label?.split("-")[0]
+              : singleData?.values?.fiscalYear?.label?.split("-")[1],
           strMonthName: item?.strMonthName,
-          intMonthLyValue:
-            singleData?.item?.overheadType?.value === 2
-              ? (+item?.intMonthLyValue || 0) *
-                (+item?.monthlyConversionValue || 0)
-              : +item?.intMonthLyValue || 0,
+          intMonthLyValue: +item?.intMonthLyValue || 0,
+          numProductionQty:
+            (+item?.intMonthLyValue || 0) *
+            (+item?.monthlyConversionValue || 0),
+          numMultiplication: +item?.monthlyConversionValue || 0,
           isActive: item?.isActive,
         })),
       },
       () => {
         setisShowModal(false);
-       landingCB()
+        landingCB();
       },
       true
     );
@@ -162,21 +168,21 @@ function MonthlyModal({
         touched,
       }) => (
         <>
-        {saveLoading && <Loading/>}
+          {saveLoading && <Loading />}
           <IForm
-            title=''
+            title=""
             getProps={setObjprops}
             isHiddenBack={true}
             isHiddenReset={true}
           >
             <Form>
-              <div className='form-group  global-form row'>
-                <div className='col-lg-3'>
+              <div className="form-group  global-form row">
+                <div className="col-lg-3">
                   <NewSelect
-                    name='profitCenter'
+                    name="profitCenter"
                     options={profitCenterDDL}
                     value={values?.profitCenter}
-                    label='Profit Center'
+                    label="Profit Center"
                     onChange={(valueOption) => {
                       setFieldValue("profitCenter", valueOption);
                     }}
@@ -187,9 +193,9 @@ function MonthlyModal({
               </div>
 
               <>
-                <div className='row'>
-                  <div className='col-lg-12'>
-                    <table className='table table-striped table-bordered  global-table'>
+                <div className="row">
+                  <div className="col-lg-12">
+                    <table className="table table-striped table-bordered  global-table">
                       <thead>
                         <tr>
                           <th>Month Name</th>
@@ -217,7 +223,7 @@ function MonthlyModal({
                               <td style={{ minWidth: "70px" }}>
                                 <InputField
                                   value={+item?.intMonthLyValue || ""}
-                                  type='number'
+                                  type="number"
                                   onChange={(e) => {
                                     if (+e.target.value < 0) return;
                                     let modiFyRow = [
@@ -238,11 +244,11 @@ function MonthlyModal({
 
                               {singleData?.item?.overheadType?.value === 2 ? (
                                 <>
-                                  <td className='text-center'>
+                                  <td className="text-center">
                                     {item?.monthlyConversionValue}
                                   </td>
                                   <td>{item?.strManagementUomName}</td>
-                                  <td className='text-center'>
+                                  <td className="text-center">
                                     {(+item?.intMonthLyValue || 0) *
                                       (+item?.monthlyConversionValue || 0) ||
                                       ""}
@@ -258,14 +264,14 @@ function MonthlyModal({
               </>
 
               <button
-                type='submit'
+                type="submit"
                 style={{ display: "none" }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
-                type='reset'
+                type="reset"
                 style={{ display: "none" }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
