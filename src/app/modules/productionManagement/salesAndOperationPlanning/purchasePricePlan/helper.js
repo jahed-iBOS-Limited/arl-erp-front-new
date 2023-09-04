@@ -105,12 +105,13 @@ export const getSalesPlanYearDDL = async (accId, buId, plantId, setter) => {
 };
 
 // create
-export const saveItemRequest = async (data) => {
+export const saveItemRequest = async (data, cb) => {
   try {
     const res = await Axios.post(
       `/mes/SalesPlanning/CreatePurchasePlanning`,
       data
     );
+    cb && cb();
     toast.success(res?.data?.message);
   } catch (error) {
     //add response message

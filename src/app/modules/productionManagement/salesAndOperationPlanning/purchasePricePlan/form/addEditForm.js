@@ -13,19 +13,14 @@ import {
 } from "../helper";
 import Loading from "./../../../../_helper/_loading";
 import Form from "./form";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const initData = {
   plant: "",
-  year: "",
+  fiscalYear: "",
   horizon: "",
   startDate: "",
   endDate: "",
-  itemName: "",
-  qty: "",
-  planningHorizonId: "",
-  monthId: "",
-  itemId: "",
-  itemPlanQty: "",
 };
 export default function PurchasePlanCreateForm({
   history,
@@ -35,7 +30,7 @@ export default function PurchasePlanCreateForm({
 }) {
   // eslint-disable-next-line no-unused-vars
   const [isDisabled, setDisabled] = useState(false);
-  const [rowDto, setRowDto] = useState([]);
+  const [rowDto, getRowDto, loading, setRowDto] = useAxiosGet();
   // const [salesPlanData, setSalesPlanData] = useState([]);
 
   // eslint-disable-next-line no-unused-vars
@@ -48,6 +43,7 @@ export default function PurchasePlanCreateForm({
   const [horizonDDL, setHorizonDDL] = useState([]);
 
   const [numItemPlanQty, setNumItemPlanQty] = useState(0);
+  const [fiscalYearDDL, getFiscalYearDDL] = useAxiosGet();
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -61,11 +57,11 @@ export default function PurchasePlanCreateForm({
 
   const params = useParams();
   const location = useLocation();
-  useEffect(() => {
-    if (id) {
-      getSalesPlanById(params?.id, setSingleData, setRowDto);
-    }
-  }, [params?.id]);
+  // useEffect(() => {
+  //   if (id) {
+  //     getSalesPlanById(params?.id, setSingleData, setRowDto);
+  //   }
+  // }, [params?.id]);
 
   // api useEffect
   useEffect(() => {
@@ -74,68 +70,62 @@ export default function PurchasePlanCreateForm({
       selectedBusinessUnit?.value,
       setPlantDDL
     );
+    getFiscalYearDDL(`/vat/TaxDDL/FiscalYearDDL`);
   }, []);
 
-  const createSalesPlanItem = () => {
-    let itemData = [];
-    for (let i = 0; i < rowDto?.data?.length; i++) {
-      if (rowDto.data[i].itemPlanQty > 0) {
-        itemData.push({
-          ...rowDto.data[i],
-          bomid: rowDto.data[i]?.isMultiple ? rowDto.data[i].bom?.value : 0,
-          bomname: rowDto.data[i]?.isMultiple
-            ? rowDto.data[i].bom?.label
-            : rowDto.data[i]?.bomname,
-          objBOMList: undefined,
-          bom: undefined,
-        });
-      }
+  const saveHandler = (values, cb) => {
+    if (rowDto?.length === 0) {
+      toast.warning("Please add Item and quantity");
     }
-    return itemData;
-  };
-
-  const saveHandler = async (values, cb) => {
     if (values && profileData.accountId && selectedBusinessUnit) {
       if (params?.id) {
-        // eslint-disable-next-line no-unused-vars
-
         const payload = {
           header: {
             salesPlanId: params?.id,
             actionBy: profileData?.userId,
           },
-          row: await rowDto.data?.map((item) => {
-            return {
-              ...item,
-              itemPlanQty: item?.entryItemPlanQty,
-            };
-          }),
+          row: rowDto.data?.map((item) => ({
+            ...item,
+            itemPlanQty: item?.purchaseQty,
+          })),
         };
         editSalesPlanning(payload);
       } else {
         const payload = {
           objHeader: {
-            planningHorizonId: values?.year?.planningHorizonId,
-            planningHorizonRowId: values?.horizon?.value,
+            planningHorizonId: 0,
+            planningHorizonRowId: 0,
             startDateTime: values?.startDate,
             endDateTime: values?.endDate,
-            yearId: values?.year?.value,
-            monthId: values?.horizon?.value,
+            yearId: values?.fiscalYear?.value,
+            strFiscalYear: values?.fiscalYear?.label,
+            monthId: values?.horizon?.monthId,
             version: "string",
             accountId: profileData?.accountId,
             businessUnitId: selectedBusinessUnit?.value,
             plantId: values?.plant?.value,
             actionBy: profileData?.userId,
+            purchasePlanId: 0,
+            productionPlanned: true,
+            isActive: true,
+            isMrp: true,
           },
-          objRow: createSalesPlanItem(),
+          objRow: rowDto
+            ?.filter((item) => +item?.purchaseQty > 0 && +item?.numRate > 0)
+            ?.map((item) => ({
+              intPurchasePlanRowId: 0,
+              intPurchasePlanId: 0,
+              itemId: item?.intItemId,
+              itemName: item?.strItemName,
+              uoMid: 0,
+              itemPlanQty: +item?.purchaseQty || 0,
+              entryItemPlanQty: +item?.purchaseQty || 0,
+              rate: +item?.numRate || 0,
+              bomid: 0,
+              bomname: "",
+            })),
         };
-
-        if (rowDto?.length === 0) {
-          toast.warning("Please add Item and quantity");
-        } else {
-          saveItemRequest(payload);
-          cb();
-        }
+        saveItemRequest(payload, cb);
       }
     }
   };
@@ -149,9 +139,10 @@ export default function PurchasePlanCreateForm({
     // setRowDto([...filterArr]);
   };
 
-  const dataHandler = (name, item, value, setRowDto, rowDto) => {
-    item[name] = value;
-    setRowDto({ ...rowDto });
+  const dataHandler = (name, index, value) => {
+    const data = [...rowDto];
+    data[index][name] = value;
+    setRowDto(data);
   };
 
   return (
@@ -160,7 +151,7 @@ export default function PurchasePlanCreateForm({
       getProps={setObjprops}
       isDisabled={isDisabled}
     >
-      {isDisabled && <Loading />}
+      {(isDisabled || loading) && <Loading />}
       <Form
         {...objProps}
         initData={params?.id ? singleData : initData}
@@ -169,6 +160,7 @@ export default function PurchasePlanCreateForm({
         selectedBusinessUnit={selectedBusinessUnit}
         rowDto={rowDto}
         setRowDto={setRowDto}
+        getRowDto={getRowDto}
         remover={remover}
         location={location}
         plantDDL={plantDDL}
@@ -180,6 +172,7 @@ export default function PurchasePlanCreateForm({
         setNumItemPlanQty={setNumItemPlanQty}
         id={params?.id}
         dataHandler={dataHandler}
+        fiscalYearDDL={fiscalYearDDL}
       />
     </IForm>
   );
