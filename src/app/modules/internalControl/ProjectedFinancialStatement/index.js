@@ -10,6 +10,8 @@ import TrailBalanceProjected from "./trailBalanceProjected";
 import { getIncomeStatement_api, getProfitCenterDDL } from "./helper";
 import { _todayDate } from "../../_helper/_todayDate";
 import ProjectedIncomeStatement from "./projectedIncomeStatement";
+import ProjectedBalanceReport from "./ProjectedBalanceReport";
+import ProjectedCashFlow from "./ProjectedCashFlow";
 
 const initData = {
   reportType: "",
@@ -37,6 +39,17 @@ export default function ProjectedFinancialStatement() {
   const [profitCenterDDL, setProfitCenterDDL] = useState([]);
   const [incomeStatement, setIncomeStatement] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [buddl, getbuddl, buddlLoader] = useAxiosGet();
+  const [
+    balanceReportData,
+    getBalanceReportData,
+    balanceReportDataLoader,
+  ] = useAxiosGet();
+  const [
+    cashFlowReportData,
+    getCashFlowReportData,
+    cashFlowReportDataLoader,
+  ] = useAxiosGet();
 
   useEffect(() => {
     getEnterpriseDivisionDDL(
@@ -44,6 +57,73 @@ export default function ProjectedFinancialStatement() {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData]);
+
+  const manageBalanceData = (arr) => {
+    var currentassets = [],
+      currentassetsTotalBalance = 0,
+      currentassetsTotalPlanBalance = 0,
+      nonCurrentAssets = [],
+      nonCurrentAssetsTotalBalance = 0,
+      nonCurrentAssetsTotalPlanBalance = 0,
+      equity = [],
+      equityTotalBalance = 0,
+      equityTotalPlanBalance = 0,
+      nonCurrentLiability = [],
+      nonCurrentLiabilityTotalBalance = 0,
+      nonCurrentLiabilityTotalPlanBalance = 0,
+      currentLiability = [],
+      currentLiabilityTotalBalance = 0,
+      currentLiabilityTotalPlanBalance = 0;
+
+    arr.forEach((data) => {
+      if (data.strAcClassName === "Current Asset") {
+        currentassetsTotalBalance = currentassetsTotalBalance + data.numBalance;
+        currentassetsTotalPlanBalance =
+          currentassetsTotalPlanBalance + data.numPlanBalance;
+        currentassets.push(data);
+      } else if (data.strAcClassName === "Non Current Asset") {
+        nonCurrentAssetsTotalBalance =
+          nonCurrentAssetsTotalBalance + data.numBalance;
+        nonCurrentAssetsTotalPlanBalance =
+          nonCurrentAssetsTotalPlanBalance + data.numPlanBalance;
+        nonCurrentAssets.push(data);
+      } else if (data.strAcClassName === "Equity") {
+        equityTotalBalance = equityTotalBalance + data.numBalance;
+        equityTotalPlanBalance = equityTotalPlanBalance + data.numPlanBalance;
+        equity.push(data);
+      } else if (data.strAcClassName === "Non Current Liabilities") {
+        nonCurrentLiabilityTotalBalance =
+          nonCurrentLiabilityTotalBalance + data.numBalance;
+        nonCurrentLiabilityTotalPlanBalance =
+          nonCurrentLiabilityTotalPlanBalance + data.numPlanBalance;
+        nonCurrentLiability.push(data);
+      } else if (data.strAcClassName === "Current Liabilities") {
+        currentLiabilityTotalBalance =
+          currentLiabilityTotalBalance + data.numBalance;
+        currentLiabilityTotalPlanBalance =
+          currentLiabilityTotalPlanBalance + data.numPlanBalance;
+        currentLiability.push(data);
+      }
+    });
+
+    return {
+      currentassets: currentassets,
+      nonCurrentAssets: nonCurrentAssets,
+      currentassetsTotalBalance: currentassetsTotalBalance,
+      currentassetsTotalPlanBalance: currentassetsTotalPlanBalance,
+      nonCurrentAssetsTotalBalance: nonCurrentAssetsTotalBalance,
+      nonCurrentAssetsTotalPlanBalance: nonCurrentAssetsTotalPlanBalance,
+      equity: equity,
+      equityTotalBalance: equityTotalBalance,
+      equityTotalPlanBalance: equityTotalPlanBalance,
+      nonCurrentLiability: nonCurrentLiability,
+      nonCurrentLiabilityTotalBalance: nonCurrentLiabilityTotalBalance,
+      nonCurrentLiabilityTotalPlanBalance: nonCurrentLiabilityTotalPlanBalance,
+      currentLiability: currentLiability,
+      currentLiabilityTotalBalance: currentLiabilityTotalBalance,
+      currentLiabilityTotalPlanBalance: currentLiabilityTotalPlanBalance,
+    };
+  };
 
   return (
     <Formik
@@ -67,7 +147,11 @@ export default function ProjectedFinancialStatement() {
         touched,
       }) => (
         <>
-          {(loading || rowLoading) && <Loading />}
+          {(loading ||
+            rowLoading ||
+            buddlLoader ||
+            cashFlowReportDataLoader ||
+            balanceReportDataLoader) && <Loading />}
           <IForm
             title="Projected Financial Statement"
             isHiddenReset
@@ -83,6 +167,7 @@ export default function ProjectedFinancialStatement() {
                       { value: 1, label: "Projected Trial Balance" },
                       { value: 2, label: "Projected Income Statement" },
                       { value: 3, label: "Projected Balance Sheet" },
+                      { value: 4, label: "Projected Cash Flow Statement" },
                     ]}
                     value={values?.reportType}
                     label="Report Type"
@@ -98,6 +183,61 @@ export default function ProjectedFinancialStatement() {
                     placeholder="Report Type"
                   />
                 </div>
+
+                {[3]?.includes(values?.reportType?.value) ? (
+                  <>
+                    <div className="col-md-3">
+                      <NewSelect
+                        name="enterpriseDivision"
+                        options={enterpriseDivisionDDL || []}
+                        value={values?.enterpriseDivision}
+                        label="Enterprise Division"
+                        onChange={(valueOption) => {
+                          setFieldValue("enterpriseDivision", valueOption);
+                          getbuddl(
+                            `/hcm/HCMDDL/GetBusinessUnitByBusinessUnitGroupDDL?AccountId=${profileData?.accountId}&BusinessUnitGroup=${valueOption?.label}`
+                          );
+                        }}
+                      />
+                    </div>
+                    <div className="col-md-3">
+                      <NewSelect
+                        name="businessUnit"
+                        options={buddl || []}
+                        value={values?.businessUnit}
+                        label="Business Unit"
+                        onChange={(valueOption) => {
+                          setFieldValue("businessUnit", valueOption);
+                        }}
+                        placeholder="Business Unit"
+                      />
+                    </div>
+                    <div className="col-md-3">
+                      <InputField
+                        value={values?.date}
+                        label="Date"
+                        name="date"
+                        type="date"
+                        onChange={(e) => {
+                          setFieldValue("date", e.target.value);
+                        }}
+                      />
+                    </div>
+                    <div className="col-md-2">
+                      <label>Conversion Rate</label>
+                      <InputField
+                        value={values?.conversionRate}
+                        name="conversionRate"
+                        placeholder="Conversion Rate"
+                        type="text"
+                        onChange={(e) => {
+                          setFieldValue("conversionRate", e.target.value);
+                        }}
+                        min={0}
+                      />
+                    </div>
+                  </>
+                ) : null}
 
                 {[2]?.includes(values?.reportType?.value) ? (
                   <>
@@ -204,33 +344,6 @@ export default function ProjectedFinancialStatement() {
                   </>
                 ) : null}
 
-                {[1, 2]?.includes(values?.reportType?.value) ? (
-                  <>
-                    <div className="col-lg-3">
-                      <InputField
-                        value={values?.fromDate}
-                        label="From Date"
-                        name="fromDate"
-                        type="date"
-                        onChange={(e) => {
-                          setFieldValue("fromDate", e.target.value);
-                        }}
-                      />
-                    </div>
-                    <div className="col-lg-3">
-                      <InputField
-                        value={values?.toDate}
-                        label="To Date"
-                        name="toDate"
-                        type="date"
-                        onChange={(e) => {
-                          setFieldValue("toDate", e.target.value);
-                        }}
-                      />
-                    </div>
-                  </>
-                ) : null}
-
                 {[2]?.includes(values?.reportType?.value) ? (
                   <>
                     <div className="col-md-2">
@@ -268,10 +381,87 @@ export default function ProjectedFinancialStatement() {
                     </div>
                   </>
                 ) : null}
+
+                {[4]?.includes(values?.reportType?.value) ? (
+                  <>
+                    <div className="col-md-3">
+                      <NewSelect
+                        name="enterpriseDivision"
+                        options={enterpriseDivisionDDL || []}
+                        value={values?.enterpriseDivision}
+                        label="Enterprise Division"
+                        onChange={(valueOption) => {
+                          setFieldValue("enterpriseDivision", valueOption);
+                          getbuddl(
+                            `/hcm/HCMDDL/GetBusinessUnitByBusinessUnitGroupDDL?AccountId=${profileData?.accountId}&BusinessUnitGroup=${valueOption?.label}`
+                          );
+                        }}
+                      />
+                    </div>
+                    <div className="col-md-3">
+                      <NewSelect
+                        name="businessUnit"
+                        options={buddl || []}
+                        value={values?.businessUnit}
+                        label="Business Unit"
+                        onChange={(valueOption) => {
+                          setFieldValue("businessUnit", valueOption);
+                        }}
+                        placeholder="Business Unit"
+                      />
+                    </div>
+                    <div className="col-md-2">
+                      <label>Conversion Rate</label>
+                      <InputField
+                        value={values?.conversionRate}
+                        name="conversionRate"
+                        placeholder="Conversion Rate"
+                        type="text"
+                        onChange={(e) => {
+                          setFieldValue("conversionRate", e.target.value);
+                        }}
+                        min={0}
+                      />
+                    </div>
+                  </>
+                ) : null}
+
+                {[1, 2, 4]?.includes(values?.reportType?.value) ? (
+                  <>
+                    <div className="col-lg-3">
+                      <InputField
+                        value={values?.fromDate}
+                        label="From Date"
+                        name="fromDate"
+                        type="date"
+                        onChange={(e) => {
+                          setFieldValue("fromDate", e.target.value);
+                        }}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <InputField
+                        value={values?.toDate}
+                        label="To Date"
+                        name="toDate"
+                        type="date"
+                        onChange={(e) => {
+                          setFieldValue("toDate", e.target.value);
+                        }}
+                      />
+                    </div>
+                  </>
+                ) : null}
+
                 <div style={{ marginTop: "17px" }}>
                   <button
                     type="button"
                     onClick={() => {
+                      if ([1]?.includes(values?.reportType?.value)) {
+                        getRowData(
+                          `/fino/Report/GetTrailBalanceProjected?businessUnitId=${selectedBusinessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`
+                        );
+                      }
                       if ([2]?.includes(values?.reportType?.value)) {
                         getIncomeStatement_api(
                           values?.fromDate,
@@ -289,11 +479,19 @@ export default function ProjectedFinancialStatement() {
                           values?.subDivision,
                           values?.reportType?.value
                         );
-                      } else {
-                        let url = [1]?.includes(values?.reportType?.value)
-                          ? `/fino/Report/GetTrailBalanceProjected?businessUnitId=${selectedBusinessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`
-                          : "";
-                        getRowData(url);
+                      }
+                      if ([3]?.includes(values?.reportType?.value)) {
+                        getRowData(
+                          `/fino/BalanceSheet/GetBalanceSheetProjected?AccountId=${profileData?.accountId}&BusinessUnitGroup=${values?.enterpriseDivision?.value}&BusinessUnitId=${values?.businessUnit?.value}&AsOnDate=${values?.date}&ConvertionRate=${values?.conversionRate}`,
+                          (data) => {
+                            setRowData(manageBalanceData(data));
+                          }
+                        );
+                      }
+                      if ([4]?.includes(values?.reportType?.value)) {
+                        getRowData(
+                          `/fino/Report/GetCashFlowStatementProjected?BusinessUnitGroup=${values?.enterpriseDivision?.value}&businessUnitId=${values?.businessUnit?.value}&sbuId=0&fromDate=${values?.fromDate}&toDate=${values?.toDate}&ConvertionRate=${values?.conversionRate}`
+                        );
                       }
                     }}
                     className="btn btn-primary"
@@ -314,6 +512,19 @@ export default function ProjectedFinancialStatement() {
                   <ProjectedIncomeStatement
                     incomeStatement={incomeStatement}
                     values={values}
+                  />
+                ) : null}
+                {[3]?.includes(values?.reportType?.value) ? (
+                  <ProjectedBalanceReport
+                    balanceReportData={rowData}
+                    values={values}
+                  />
+                ) : null}
+                {[4]?.includes(values?.reportType?.value) ? (
+                  <ProjectedCashFlow
+                    rowDto={rowData}
+                    values={values}
+                    accountName={profileData?.accountName}
                   />
                 ) : null}
               </div>
