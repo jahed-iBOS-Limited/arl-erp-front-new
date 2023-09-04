@@ -46,10 +46,8 @@ export default function PurchasePlanCreateForm({
   const [plantDDL, setPlantDDL] = useState([]);
   const [yearDDL, setYearDDL] = useState([]);
   const [horizonDDL, setHorizonDDL] = useState([]);
-  const [itemNameDDL, setItemNameDDL] = useState([]);
 
   const [numItemPlanQty, setNumItemPlanQty] = useState(0);
-  // const [quantityIndex, setQuantityIndex] = useState(0);
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -78,21 +76,6 @@ export default function PurchasePlanCreateForm({
     );
   }, []);
 
-  // const salesPlanItem = () => {
-  //   var itemData = [];
-
-  //   if (numItemPlanQty && quantityIndex) {
-  //     var data = [...rowDto.data];
-  //     data[quantityIndex - 1].numItemPlanQty = numItemPlanQty;
-  //     setRowDto(data);
-  //   }
-  //   for (let i = 0; i < rowDto.data.length; i++) {
-  //     if (rowDto.data[i].numItemPlanQty) {
-  //       itemData.push(rowDto.data[i]);
-  //     }
-  //   }
-  //   return itemData;
-  // };
   const createSalesPlanItem = () => {
     let itemData = [];
     for (let i = 0; i < rowDto?.data?.length; i++) {
@@ -100,7 +83,9 @@ export default function PurchasePlanCreateForm({
         itemData.push({
           ...rowDto.data[i],
           bomid: rowDto.data[i]?.isMultiple ? rowDto.data[i].bom?.value : 0,
-          bomname: rowDto.data[i]?.isMultiple ? rowDto.data[i].bom?.label : rowDto.data[i]?.bomname,
+          bomname: rowDto.data[i]?.isMultiple
+            ? rowDto.data[i].bom?.label
+            : rowDto.data[i]?.bomname,
           objBOMList: undefined,
           bom: undefined,
         });
@@ -108,19 +93,6 @@ export default function PurchasePlanCreateForm({
     }
     return itemData;
   };
-
-  // const editSalesPlanItem = () => {
-  //   var itemData = [];
-  //   // if (numItemPlanQty && quantityIndex) {
-  //   var data = [...rowDto.data];
-
-  //   for (let i = 0; i < data.length; i++) {
-  //     itemData.push(data[i]);
-  //   }
-  //   // itemData = [...data];
-  //   // }
-  //   return itemData;
-  // };
 
   const saveHandler = async (values, cb) => {
     if (values && profileData.accountId && selectedBusinessUnit) {
@@ -177,60 +149,6 @@ export default function PurchasePlanCreateForm({
     // setRowDto([...filterArr]);
   };
 
-  // const updateItemQuantity = () => {
-  //   var itemData = rowDto;
-  //   if (params?.id) {
-  //     if (numItemPlanQty && quantityIndex) {
-  //       itemData.data[quantityIndex - 1].numItemPlanQty = numItemPlanQty;
-  //       setSalesPlanData(itemData.data);
-  //       console.log(salesPlanData);
-  //       setNumItemPlanQty("");
-  //       setQuantityIndex("");
-  //     }
-  //   } else {
-  //     if (numItemPlanQty && quantityIndex) {
-  //       console.log(quantityIndex);
-  //       itemData.data[quantityIndex - 1].numItemPlanQty = numItemPlanQty;
-  //       setRowDto(itemData);
-  //       setSalesPlanData(itemData);
-  //       setNumItemPlanQty(0);
-  //       setQuantityIndex(0);
-  //     }
-  //   }
-  // };
-  // const rowDtoHandler = (values) => {
-  //   const findDuplicate = rowDto?.find(
-  //     (item) => item?.itemId === values?.itemName?.value
-  //   );
-  //   if (findDuplicate) {
-  //     toast.warning("Item already added");
-  //   } else {
-  //     let rowDataValues = {
-  //       itemId: values?.itemName?.value,
-  //       itemName: values?.itemName?.label,
-  //       uoMid: values?.itemName?.baseUomid,
-  //       numItemPlanQty: values?.qty,
-  //       numRate: 0,
-  //     };
-  //     setRowDto([...rowDto, rowDataValues]);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   var rowData = [];
-  //   for (let i = 0; i < rowDto?.length; i++) {
-  //     rowData.push({
-  //       salesPlanRowId: rowDto[i].salesPlanRowId,
-  //       itemId: rowDto[i].itemId,
-  //       itemName: rowDto[i].itemName,
-  //       uoMid: rowDto[i].uoMid,
-  //       itemPlanQty: rowDto[i].itemPlanQty,
-  //       numRate: 0,
-  //     });
-  //   }
-  //   setSalesPlanData(rowData);
-  // }, [rowDto?.length]);
-
   const dataHandler = (name, item, value, setRowDto, rowDto) => {
     item[name] = value;
     setRowDto({ ...rowDto });
@@ -256,13 +174,10 @@ export default function PurchasePlanCreateForm({
         plantDDL={plantDDL}
         yearDDL={yearDDL}
         setYearDDL={setYearDDL}
-        itemNameDDL={itemNameDDL}
-        setItemNameDDL={setItemNameDDL}
         horizonDDL={horizonDDL}
         setHorizonDDL={setHorizonDDL}
         numItemPlanQty={numItemPlanQty}
         setNumItemPlanQty={setNumItemPlanQty}
-        // setQuantityIndex={setQuantityIndex}
         id={params?.id}
         dataHandler={dataHandler}
       />

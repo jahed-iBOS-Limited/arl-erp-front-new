@@ -42,8 +42,6 @@ export default function _Form({
   plantDDL,
   yearDDL,
   setYearDDL,
-  itemNameDDL,
-  setItemNameDDL,
   horizonDDL,
   setHorizonDDL,
   id,
@@ -88,11 +86,6 @@ export default function _Form({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fileObject]);
 
-  useEffect(() => {
-    setRowDto(itemNameDDL.data);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [itemNameDDL]);
-
   const handleClick = (event) => {
     hiddenFileInput.current.click();
   };
@@ -111,34 +104,41 @@ export default function _Form({
 
   const updateRequiredQuantity = (values, valueOption) => {
     getMrpPlanningInfo(
-
       // `/mes/SalesPlanning/GetMrplanningInfoDetail?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${values?.plant?.value}&PlanningHorizonId=${values?.year?.planningHorizonId}&PlanningHorizonRowId=${valueOption?.value}`
 
-      `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&yearId=${values?.year?.value}&monthId=${valueOption?.monthId}`
-      
-      ,(resMrplanningInfo) => {
+      `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&yearId=${values?.year?.value}&monthId=${valueOption?.monthId}`,
+
+      (resMrplanningInfo) => {
         // let actualItemMonthWise = resMrplanningInfo
         // console.log("actualItemMonthWise", actualItemMonthWise)
-        getHeaderRowInfo(`/mes/SalesPlanning/GetPurchaseRateDetails?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value
-          }&PlantId=${values?.plant?.value}&PlanningHorizonId=${values?.year?.planningHorizonId}&PlanningHorizonRowId=${valueOption?.value}`, (resPurchaseRate) => {
-            const modifiedRowDto = rowDto?.data?.map(itm => {
-              const actualItemMonthWiseMathch = resMrplanningInfo.find(itm2 => itm2?.intItemId === itm?.itemId)
-              const resPurchaseRateMatch = resPurchaseRate.find(itm2 => itm2?.itemId === itm?.itemId)
+        getHeaderRowInfo(
+          `/mes/SalesPlanning/GetPurchaseRateDetails?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${values?.plant?.value}&PlanningHorizonId=${values?.year?.planningHorizonId}&PlanningHorizonRowId=${valueOption?.value}`,
+          (resPurchaseRate) => {
+            const modifiedRowDto = rowDto?.data?.map((itm) => {
+              const actualItemMonthWiseMathch = resMrplanningInfo.find(
+                (itm2) => itm2?.intItemId === itm?.itemId
+              );
+              const resPurchaseRateMatch = resPurchaseRate.find(
+                (itm2) => itm2?.itemId === itm?.itemId
+              );
               return {
                 ...itm,
                 itemPlanQty: actualItemMonthWiseMathch?.numMRPQty || 0,
                 entryItemPlanQty: resPurchaseRateMatch?.purchaseQuantity || 0,
                 intPurchasePlanId: resPurchaseRateMatch?.intPurchasePlanId || 0,
-                intPurchasePlanRowId: resPurchaseRateMatch?.intPurchasePlanRowId || 0,
+                intPurchasePlanRowId:
+                  resPurchaseRateMatch?.intPurchasePlanRowId || 0,
                 rate: resPurchaseRateMatch?.numRate || 0,
-              }
-            })
-            setRowDto({ ...rowDto, data: modifiedRowDto })
-
-          }, (err) => {
+              };
+            });
+            setRowDto({ ...rowDto, data: modifiedRowDto });
+          },
+          (err) => {
             // if GetPurchaseRateDetails error
-            const modifiedRowDto = rowDto?.data?.map(itm => {
-              const actualItemMonthWiseMathch = resMrplanningInfo.find(itm2 => itm2?.intItemId === itm?.itemId)
+            const modifiedRowDto = rowDto?.data?.map((itm) => {
+              const actualItemMonthWiseMathch = resMrplanningInfo.find(
+                (itm2) => itm2?.intItemId === itm?.itemId
+              );
               return {
                 ...itm,
                 itemPlanQty: actualItemMonthWiseMathch?.numMRPQty || 0,
@@ -146,16 +146,16 @@ export default function _Form({
                 intPurchasePlanId: 0,
                 intPurchasePlanRowId: 0,
                 rate: 0,
-              }
-            })
-            setRowDto({ ...rowDto, data: modifiedRowDto })
-          })
-
+              };
+            });
+            setRowDto({ ...rowDto, data: modifiedRowDto });
+          }
+        );
       },
       (err) => {
         // if GetMrplanningInfoDetail error
         toast.error(err?.response?.data?.message);
-        const modifiedRowDto = rowDto?.data?.map(itm => {
+        const modifiedRowDto = rowDto?.data?.map((itm) => {
           return {
             ...itm,
             itemPlanQty: 0,
@@ -163,14 +163,11 @@ export default function _Form({
             intPurchasePlanId: 0,
             intPurchasePlanRowId: 0,
             rate: 0,
-          }
-        })
-        setRowDto({ ...rowDto, data: modifiedRowDto })
-
+          };
+        });
+        setRowDto({ ...rowDto, data: modifiedRowDto });
       }
     );
-
-
   };
 
   return (
@@ -237,9 +234,8 @@ export default function _Form({
                             );
                           }
                         } else {
-                          setYearDDL([])
+                          setYearDDL([]);
                         }
-
                       }}
                       errors={errors}
                       touched={touched}
@@ -266,12 +262,12 @@ export default function _Form({
                             setHorizonDDL
                           );
                         } else {
-                          setHorizonDDL([])
+                          setHorizonDDL([]);
                         }
                       }}
                       errors={errors}
                       touched={touched}
-                      isDisabled={(id || !rowDto?.data?.length) ? true : false}
+                      isDisabled={id || !rowDto?.data?.length ? true : false}
                     />
                   </div>
                   <div className="col-lg-4">
@@ -282,7 +278,7 @@ export default function _Form({
                       label="Planning Horizon"
                       placeholder="Planning Horizon"
                       onChange={(valueOption) => {
-                        updateRequiredQuantity(values, valueOption)
+                        updateRequiredQuantity(values, valueOption);
                         setFieldValue("horizon", valueOption);
                         setFieldValue(
                           "startDate",
@@ -295,7 +291,7 @@ export default function _Form({
                       }}
                       errors={errors}
                       touched={touched}
-                      isDisabled={(id || !values?.year) ? true : false}
+                      isDisabled={id || !values?.year ? true : false}
                     />
                   </div>
                   <div className="col-lg-4">
@@ -345,7 +341,7 @@ export default function _Form({
                 <button
                   className="btn btn-primary"
                   onClick={() => {
-                    exportToCSV(rowDto?.data)
+                    exportToCSV(rowDto?.data);
                   }}
                   type="button"
                   style={{
@@ -386,7 +382,7 @@ export default function _Form({
                           value={+item?.entryItemPlanQty || ""}
                           onChange={(e) => {
                             if (+e.target.value < 0) {
-                              return
+                              return;
                             }
                             dataHandler(
                               "entryItemPlanQty",
@@ -407,7 +403,7 @@ export default function _Form({
                           value={+item?.rate || ""}
                           onChange={(e) => {
                             if (+e.target.value < 0) {
-                              return
+                              return;
                             }
                             dataHandler(
                               "rate",
