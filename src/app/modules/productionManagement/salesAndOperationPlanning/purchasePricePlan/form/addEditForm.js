@@ -113,8 +113,8 @@ export default function PurchasePlanCreateForm({
           objRow: rowDto
             ?.filter((item) => +item?.purchaseQty > 0 && +item?.numRate > 0)
             ?.map((item) => ({
-              intPurchasePlanRowId: 0,
-              intPurchasePlanId: 0,
+              intPurchasePlanRowId: item?.intPurchasePlanRowId || 0,
+              intPurchasePlanId: item?.intPurchasePlanId || 0,
               itemId: item?.intItemId,
               itemName: item?.strItemName,
               uoMid: 0,

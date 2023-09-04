@@ -9,6 +9,7 @@ import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import { getHorizonDDL } from "../helper";
 import { exportToCSV } from "./utils";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -48,6 +49,7 @@ export default function _Form({
   fiscalYearDDL,
 }) {
   const [fileObject, setFileObject] = useState("");
+  const [, modifyHandler] = useAxiosGet();
   const hiddenFileInput = React.useRef(null);
   // const [pageNo, setPageNo] = React.useState(0);
   // const [pageSize, setPageSize] = React.useState(50);
@@ -177,6 +179,22 @@ export default function _Form({
         // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
+            // modifyHandler(
+            //   `/fino/BudgetFinancial/GetsprGetPurchasePlanByMonth?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&year=${values?.fiscalYear?.value}&month=${values?.horizon?.monthId}`,
+            //   (updatedData) => {
+            //     getRowDto(
+            //       `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&yearId=${values?.fiscalYear?.value}&monthId=${values?.horizon?.monthId}`,
+            //       (data) => {
+            //         const result = data.filter((item2) => {
+            //           return updatedData.some(
+            //             (item1) => item1.intItemId === item2.intItemId
+            //           );
+            //         });
+            //         setRowDto(result);
+            //       }
+            //     );
+            //   }
+            // );
             getRowDto(
               `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&yearId=${values?.fiscalYear?.value}&monthId=${values?.horizon?.monthId}`
             );
@@ -308,9 +326,28 @@ export default function _Form({
                       onChange={(valueOption) => {
                         setRowDto([]);
                         // updateRequiredQuantity(values, valueOption);
+                        // modifyHandler(
+                        //   `/fino/BudgetFinancial/GetsprGetPurchasePlanByMonth?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&year=${values?.fiscalYear?.value}&month=${valueOption?.monthId}`,
+                        //   (updatedData) => {
+                        //     getRowDto(
+                        //       `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&yearId=${values?.fiscalYear?.value}&monthId=${valueOption?.monthId}`,
+                        //       (data) => {
+                        //         const result = data.filter((item2) => {
+                        //           return updatedData.some(
+                        //             (item1) => item1.itemId === item2.itemId
+                        //           );
+                        //         });
+
+                        //         setRowDto(result);
+                        //       }
+                        //     );
+                        //   }
+                        // );
+
                         getRowDto(
                           `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&yearId=${values?.fiscalYear?.value}&monthId=${valueOption?.monthId}`
                         );
+
                         setFieldValue("horizon", valueOption);
                         setFieldValue(
                           "startDate",
