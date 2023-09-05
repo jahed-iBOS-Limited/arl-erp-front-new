@@ -7,7 +7,11 @@ import Loading from "../../_helper/_loading";
 import NewSelect from "../../_helper/_select";
 import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
 import TrailBalanceProjected from "./trailBalanceProjected";
-import { getIncomeStatement_api, getProfitCenterDDL } from "./helper";
+import {
+  getIncomeStatement_api,
+  getProfitCenterDDL,
+  manageBalanceData,
+} from "./helper";
 import { _todayDate } from "../../_helper/_todayDate";
 import ProjectedIncomeStatement from "./projectedIncomeStatement";
 import ProjectedBalanceReport from "./ProjectedBalanceReport";
@@ -35,21 +39,11 @@ export default function ProjectedFinancialStatement() {
   const [rowData, getRowData, rowLoading, setRowData] = useAxiosGet();
   const [enterpriseDivisionDDL, getEnterpriseDivisionDDL] = useAxiosGet();
   const [subDivisionDDL, getSubDivisionDDL, ,] = useAxiosGet([]);
-  const [businessUnitDDL, getBusinessUnitDDL] = useAxiosGet();
+  const [businessUnitDDL, getBusinessUnitDDL, loader, setBusinessUnitDDL] = useAxiosGet();
   const [profitCenterDDL, setProfitCenterDDL] = useState([]);
   const [incomeStatement, setIncomeStatement] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [buddl, getbuddl, buddlLoader] = useAxiosGet();
-  const [
-    balanceReportData,
-    getBalanceReportData,
-    balanceReportDataLoader,
-  ] = useAxiosGet();
-  const [
-    cashFlowReportData,
-    getCashFlowReportData,
-    cashFlowReportDataLoader,
-  ] = useAxiosGet();
+  const [buddl, getbuddl, buddlLoader, setbuddl] = useAxiosGet();
 
   useEffect(() => {
     getEnterpriseDivisionDDL(
@@ -57,73 +51,6 @@ export default function ProjectedFinancialStatement() {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData]);
-
-  const manageBalanceData = (arr) => {
-    var currentassets = [],
-      currentassetsTotalBalance = 0,
-      currentassetsTotalPlanBalance = 0,
-      nonCurrentAssets = [],
-      nonCurrentAssetsTotalBalance = 0,
-      nonCurrentAssetsTotalPlanBalance = 0,
-      equity = [],
-      equityTotalBalance = 0,
-      equityTotalPlanBalance = 0,
-      nonCurrentLiability = [],
-      nonCurrentLiabilityTotalBalance = 0,
-      nonCurrentLiabilityTotalPlanBalance = 0,
-      currentLiability = [],
-      currentLiabilityTotalBalance = 0,
-      currentLiabilityTotalPlanBalance = 0;
-
-    arr.forEach((data) => {
-      if (data.strAcClassName === "Current Asset") {
-        currentassetsTotalBalance = currentassetsTotalBalance + data.numBalance;
-        currentassetsTotalPlanBalance =
-          currentassetsTotalPlanBalance + data.numPlanBalance;
-        currentassets.push(data);
-      } else if (data.strAcClassName === "Non Current Asset") {
-        nonCurrentAssetsTotalBalance =
-          nonCurrentAssetsTotalBalance + data.numBalance;
-        nonCurrentAssetsTotalPlanBalance =
-          nonCurrentAssetsTotalPlanBalance + data.numPlanBalance;
-        nonCurrentAssets.push(data);
-      } else if (data.strAcClassName === "Equity") {
-        equityTotalBalance = equityTotalBalance + data.numBalance;
-        equityTotalPlanBalance = equityTotalPlanBalance + data.numPlanBalance;
-        equity.push(data);
-      } else if (data.strAcClassName === "Non Current Liabilities") {
-        nonCurrentLiabilityTotalBalance =
-          nonCurrentLiabilityTotalBalance + data.numBalance;
-        nonCurrentLiabilityTotalPlanBalance =
-          nonCurrentLiabilityTotalPlanBalance + data.numPlanBalance;
-        nonCurrentLiability.push(data);
-      } else if (data.strAcClassName === "Current Liabilities") {
-        currentLiabilityTotalBalance =
-          currentLiabilityTotalBalance + data.numBalance;
-        currentLiabilityTotalPlanBalance =
-          currentLiabilityTotalPlanBalance + data.numPlanBalance;
-        currentLiability.push(data);
-      }
-    });
-
-    return {
-      currentassets: currentassets,
-      nonCurrentAssets: nonCurrentAssets,
-      currentassetsTotalBalance: currentassetsTotalBalance,
-      currentassetsTotalPlanBalance: currentassetsTotalPlanBalance,
-      nonCurrentAssetsTotalBalance: nonCurrentAssetsTotalBalance,
-      nonCurrentAssetsTotalPlanBalance: nonCurrentAssetsTotalPlanBalance,
-      equity: equity,
-      equityTotalBalance: equityTotalBalance,
-      equityTotalPlanBalance: equityTotalPlanBalance,
-      nonCurrentLiability: nonCurrentLiability,
-      nonCurrentLiabilityTotalBalance: nonCurrentLiabilityTotalBalance,
-      nonCurrentLiabilityTotalPlanBalance: nonCurrentLiabilityTotalPlanBalance,
-      currentLiability: currentLiability,
-      currentLiabilityTotalBalance: currentLiabilityTotalBalance,
-      currentLiabilityTotalPlanBalance: currentLiabilityTotalPlanBalance,
-    };
-  };
 
   return (
     <Formik
@@ -147,11 +74,7 @@ export default function ProjectedFinancialStatement() {
         touched,
       }) => (
         <>
-          {(loading ||
-            rowLoading ||
-            buddlLoader ||
-            cashFlowReportDataLoader ||
-            balanceReportDataLoader) && <Loading />}
+          {(loading || rowLoading || buddlLoader || loader) && <Loading />}
           <IForm
             title="Projected Financial Statement"
             isHiddenReset
@@ -195,7 +118,14 @@ export default function ProjectedFinancialStatement() {
                         onChange={(valueOption) => {
                           setFieldValue("enterpriseDivision", valueOption);
                           getbuddl(
-                            `/hcm/HCMDDL/GetBusinessUnitByBusinessUnitGroupDDL?AccountId=${profileData?.accountId}&BusinessUnitGroup=${valueOption?.label}`
+                            `/hcm/HCMDDL/GetBusinessUnitByBusinessUnitGroupDDL?AccountId=${profileData?.accountId}&BusinessUnitGroup=${valueOption?.label}`,
+                            (resData) => {
+                              const filteredData = resData.filter(
+                                (item) =>
+                                  !(item.label === "All" && item.value === 0)
+                              );
+                              setbuddl(filteredData);
+                            }
                           );
                         }}
                       />
@@ -285,7 +215,14 @@ export default function ProjectedFinancialStatement() {
                                 valueOption
                                   ? `&SubGroup=${valueOption?.value}`
                                   : ""
-                              }`
+                              }`,
+                              (data) => {
+                                const filteredData = data.filter(
+                                  (item) =>
+                                    !(item.label === "All" && item.value === 0)
+                                );
+                                setBusinessUnitDDL(filteredData);
+                              }
                             );
                           }
                         }}
@@ -393,7 +330,15 @@ export default function ProjectedFinancialStatement() {
                         onChange={(valueOption) => {
                           setFieldValue("enterpriseDivision", valueOption);
                           getbuddl(
-                            `/hcm/HCMDDL/GetBusinessUnitByBusinessUnitGroupDDL?AccountId=${profileData?.accountId}&BusinessUnitGroup=${valueOption?.label}`
+                            `/hcm/HCMDDL/GetBusinessUnitByBusinessUnitGroupDDL?AccountId=${profileData?.accountId}&BusinessUnitGroup=${valueOption?.label}`,
+                            (resData) => {
+                              const filteredData = resData.filter(
+                                (item) =>
+                                  !(item.label === "All" && item.value === 0)
+                              );
+                              setbuddl(filteredData);
+                              console.log("filteredData", filteredData);
+                            }
                           );
                         }}
                       />
