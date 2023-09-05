@@ -44,4 +44,69 @@ export const getIncomeStatement_api = async (
   }
 };
 
+export const manageBalanceData = (arr) => {
+  var currentassets = [],
+    currentassetsTotalBalance = 0,
+    currentassetsTotalPlanBalance = 0,
+    nonCurrentAssets = [],
+    nonCurrentAssetsTotalBalance = 0,
+    nonCurrentAssetsTotalPlanBalance = 0,
+    equity = [],
+    equityTotalBalance = 0,
+    equityTotalPlanBalance = 0,
+    nonCurrentLiability = [],
+    nonCurrentLiabilityTotalBalance = 0,
+    nonCurrentLiabilityTotalPlanBalance = 0,
+    currentLiability = [],
+    currentLiabilityTotalBalance = 0,
+    currentLiabilityTotalPlanBalance = 0;
 
+  arr.forEach((data) => {
+    if (data.strAcClassName === "Current Asset") {
+      currentassetsTotalBalance = currentassetsTotalBalance + data.numBalance;
+      currentassetsTotalPlanBalance =
+        currentassetsTotalPlanBalance + data.numPlanBalance;
+      currentassets.push(data);
+    } else if (data.strAcClassName === "Non Current Asset") {
+      nonCurrentAssetsTotalBalance =
+        nonCurrentAssetsTotalBalance + data.numBalance;
+      nonCurrentAssetsTotalPlanBalance =
+        nonCurrentAssetsTotalPlanBalance + data.numPlanBalance;
+      nonCurrentAssets.push(data);
+    } else if (data.strAcClassName === "Equity") {
+      equityTotalBalance = equityTotalBalance + data.numBalance;
+      equityTotalPlanBalance = equityTotalPlanBalance + data.numPlanBalance;
+      equity.push(data);
+    } else if (data.strAcClassName === "Non Current Liabilities") {
+      nonCurrentLiabilityTotalBalance =
+        nonCurrentLiabilityTotalBalance + data.numBalance;
+      nonCurrentLiabilityTotalPlanBalance =
+        nonCurrentLiabilityTotalPlanBalance + data.numPlanBalance;
+      nonCurrentLiability.push(data);
+    } else if (data.strAcClassName === "Current Liabilities") {
+      currentLiabilityTotalBalance =
+        currentLiabilityTotalBalance + data.numBalance;
+      currentLiabilityTotalPlanBalance =
+        currentLiabilityTotalPlanBalance + data.numPlanBalance;
+      currentLiability.push(data);
+    }
+  });
+
+  return {
+    currentassets: currentassets,
+    nonCurrentAssets: nonCurrentAssets,
+    currentassetsTotalBalance: currentassetsTotalBalance,
+    currentassetsTotalPlanBalance: currentassetsTotalPlanBalance,
+    nonCurrentAssetsTotalBalance: nonCurrentAssetsTotalBalance,
+    nonCurrentAssetsTotalPlanBalance: nonCurrentAssetsTotalPlanBalance,
+    equity: equity,
+    equityTotalBalance: equityTotalBalance,
+    equityTotalPlanBalance: equityTotalPlanBalance,
+    nonCurrentLiability: nonCurrentLiability,
+    nonCurrentLiabilityTotalBalance: nonCurrentLiabilityTotalBalance,
+    nonCurrentLiabilityTotalPlanBalance: nonCurrentLiabilityTotalPlanBalance,
+    currentLiability: currentLiability,
+    currentLiabilityTotalBalance: currentLiabilityTotalBalance,
+    currentLiabilityTotalPlanBalance: currentLiabilityTotalPlanBalance,
+  };
+};
