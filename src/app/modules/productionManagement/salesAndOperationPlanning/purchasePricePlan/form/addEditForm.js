@@ -77,6 +77,7 @@ export default function PurchasePlanCreateForm({
     if (rowDto?.length === 0) {
       toast.warning("Please add Item and quantity");
     }
+
     if (values && profileData.accountId && selectedBusinessUnit) {
       if (params?.id) {
         const payload = {
@@ -97,7 +98,7 @@ export default function PurchasePlanCreateForm({
             planningHorizonRowId: 0,
             startDateTime: values?.startDate,
             endDateTime: values?.endDate,
-            yearId: values?.fiscalYear?.value,
+            yearId: values?.horizon?.monthId > 6 ?   values?.fiscalYear?.value : values?.fiscalYear?.value + 1,
             strFiscalYear: values?.fiscalYear?.label,
             monthId: values?.horizon?.monthId,
             version: "string",
@@ -110,9 +111,7 @@ export default function PurchasePlanCreateForm({
             isActive: true,
             isMrp: true,
           },
-          objRow: rowDto
-            ?.filter((item) => +item?.purchaseQty > 0 && +item?.numRate > 0)
-            ?.map((item) => ({
+          objRow: rowDto?.filter((item) => +item?.purchaseQty > 0 && +item?.numRate > 0)?.map((item) => ({
               intPurchasePlanRowId: item?.intPurchasePlanRowId || 0,
               intPurchasePlanId: item?.intPurchasePlanId || 0,
               itemId: item?.intItemId,
@@ -125,7 +124,12 @@ export default function PurchasePlanCreateForm({
               bomname: "",
             })),
         };
-        saveItemRequest(payload, cb);
+        if(payload?.objRow?.length > 0){
+          saveItemRequest(payload, cb);
+        }else{
+          toast.warning("You have to add purchase quantity and rate");
+        }
+        
       }
     }
   };
