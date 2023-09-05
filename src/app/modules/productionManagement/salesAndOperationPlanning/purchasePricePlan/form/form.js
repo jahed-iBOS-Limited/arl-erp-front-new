@@ -195,7 +195,7 @@ export default function _Form({
             //   }
             // );
             getRowDto(
-              `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&yearId=${values?.fiscalYear?.value}&monthId=${values?.horizon?.monthId}`
+              `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&yearId=${values?.horizon?.monthId > 6 ? values?.fiscalYear?.value : values?.fiscalYear?.value+1}&monthId=${values?.horizon?.monthId}`
             );
           });
         }}
