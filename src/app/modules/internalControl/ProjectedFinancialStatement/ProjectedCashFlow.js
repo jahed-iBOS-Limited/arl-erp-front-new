@@ -26,14 +26,14 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
               <td className="pr-5 text-right">
                 Opening Cash & Cash Equivalent
               </td>
-              <td
+              {/* <td
                 style={{
                   border: "1px solid black",
                   textAlign: "center",
                 }}
               >
                 {_formatMoney(rowDto[0]["numPlannedOpening"])}
-              </td>
+              </td> */}
               <td
                 style={{
                   border: "1px solid black",
@@ -42,7 +42,7 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
               >
                 {_formatMoney(rowDto[0]["numOpening"])}
               </td>
-              <td
+              {/* <td
                 style={{
                   border: "1px solid black",
                   textAlign: "center",
@@ -51,9 +51,9 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                 {_formatMoney(
                   rowDto[0]["numPlannedOpening"] - rowDto[0]["numOpening"]
                 )}
-              </td>
+              </td> */}
             </tr>
-            <tr>
+            {/* <tr>
               <td style={{ height: "15px" }}></td>
               <td className="text-center" style={{ height: "15px" }}>
                 Budget
@@ -64,7 +64,7 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
               <td className="text-center" style={{ height: "15px" }}>
                 Variance
               </td>
-            </tr>
+            </tr> */}
             {rowDto?.map((item, index) => {
               switch (item.intFSId) {
                 case 9999:
@@ -78,34 +78,34 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                     return (
                       <tr style={{ background: "#f0f0f5" }}>
                         <td>{item?.strName}</td>
-                        <td className="text-right" style={{ width: "120px" }}>
+                        {/* <td className="text-right" style={{ width: "120px" }}>
                           {_formatMoney(item?.numPlannedAmount)}
-                        </td>
+                        </td> */}
                         <td className="text-right" style={{ width: "120px" }}>
                           {_formatMoney(item?.numAmount)}
                         </td>
-                        <td className="text-right" style={{ width: "120px" }}>
+                        {/* <td className="text-right" style={{ width: "120px" }}>
                           {_formatMoney(
                             item?.numPlannedAmount - item?.numAmount
                           )}
-                        </td>
+                        </td> */}
                       </tr>
                     );
                   } else if (index === rowDto.length - 1) {
                     return (
                       <tr style={{ background: "#e6ecff" }}>
                         <td>{item?.strName}</td>
-                        <td className="text-right" style={{ width: "120px" }}>
+                        {/* <td className="text-right" style={{ width: "120px" }}>
                           {_formatMoney(item?.numPlannedAmount)}
-                        </td>
+                        </td> */}
                         <td className="text-right" style={{ width: "120px" }}>
                           {_formatMoney(item?.numAmount)}
                         </td>
-                        <td className="text-right" style={{ width: "120px" }}>
+                        {/* <td className="text-right" style={{ width: "120px" }}>
                           {_formatMoney(
                             item?.numPlannedAmount - item?.numAmount
                           )}
-                        </td>
+                        </td> */}
                       </tr>
                     );
                   }
@@ -132,7 +132,7 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                       >
                         {item?.strName}
                       </td>
-                      <td
+                      {/* <td
                         className="pr-1"
                         style={{
                           border: "1px solid black",
@@ -143,7 +143,7 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                         }}
                       >
                         {_formatMoney(item?.numPlannedAmount)}
-                      </td>
+                      </td> */}
                       <td
                         className="pr-1"
                         style={{
@@ -156,7 +156,7 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                       >
                         {_formatMoney(item?.numAmount)}
                       </td>
-                      <td
+                      {/* <td
                         className="pr-1"
                         style={{
                           border: "1px solid black",
@@ -167,7 +167,7 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                         }}
                       >
                         {_formatMoney(item?.numPlannedAmount - item?.numAmount)}
-                      </td>
+                      </td> */}
                     </tr>
                   );
               }
