@@ -3,13 +3,12 @@ import React, { useEffect, useState } from "react";
 import { ExcelRenderer } from "react-excel-renderer";
 import * as Yup from "yup";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { getHorizonDDL } from "../helper";
 import { exportToCSV } from "./utils";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -345,7 +344,7 @@ export default function _Form({
                         // );
 
                         getRowDto(
-                          `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&yearId=${values?.fiscalYear?.value}&monthId=${valueOption?.monthId}`
+                          `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&yearId=${ valueOption?.monthId > 6 ?   values?.fiscalYear?.value : values?.fiscalYear?.value + 1}&monthId=${valueOption?.monthId}`
                         );
 
                         setFieldValue("horizon", valueOption);
