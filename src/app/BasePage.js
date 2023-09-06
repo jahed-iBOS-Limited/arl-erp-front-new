@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 import { LayoutSplashScreen } from "../_metronic/layout";
 import PaymentPages from "./modules/payment/PaymentPages";
 import SelfServicePages from "./modules/selfService/SelfServicePages";
-import AllReport from './modules/allReport/index';
 import TokenExpiredPopUp from "./TokenExpiredPopUp";
 import { useKeyPress } from "./modules/_helper/useKeyPress";
 
@@ -143,7 +142,6 @@ const BasePage = () => {
         {<Redirect exact from="/" to="/self-service/self-dashboard" />}
         {/* <Route path="/dashboard" component={DashboardPage} /> */}
         <Route path="/chat" component={ChatPages} />
-        <Route path="/allReport" component={AllReport} />
         <Route
           path="/safety-compliance"
           component={SafetyComplianceMainPages}
