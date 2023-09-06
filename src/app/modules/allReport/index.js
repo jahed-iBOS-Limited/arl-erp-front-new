@@ -42,6 +42,8 @@ function AllReport() {
   }, []);
 
   const searchHandler = (value) => {
+    setRowsPerPage(15);
+    setPage(0);
     const result = searchMatch(allList, value);
     setRenderList(result);
   };
@@ -81,40 +83,91 @@ function AllReport() {
                 </div>
                 <div className='row mt-1'>
                   <div className='col-lg-12'>
-                    <ul className='list-group'>
+                    <div className='table-responsive'>
+                      <table className='table table-striped table-bordered global-table mt-0'>
+                        <thead>
+                          <tr>
+                            <th style={{ width: "30px" }}>SL</th>
+                            <th>Standard Report Name</th>
+                            <th>Report Format Link (URL)</th>
+                            <th>Process</th>
+                            <th>Data Source</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {(rowsPerPage > 0
+                            ? renderList.slice(
+                                page * rowsPerPage,
+                                page * rowsPerPage + rowsPerPage
+                              )
+                            : renderList
+                          ).map((itm, idx) => {
+                            let url = `reportformatlink(url)`;
+                            let sl = page * rowsPerPage + idx + 1;
+                            return (
+                              <>
+                                <tr key={sl}>
+                                  <td>{sl}</td>
+                                  <td>{itm?.standardreportname}</td>
+                                  <td
+                                    onClick={() => {
+                                      // new tab open
+                                      window.open(itm?.[`${url}`], "_blank");
+                                    }}
+                                  >
+                                    <sapn className="link">{itm?.[`${url}`]}</sapn>
+                                  </td>
+                                  <td>{itm?.process}</td>
+                                  <td>{itm?.datasource}</td>
+                                </tr>
+                              </>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                    {/* <ul className='list-group'>
                       {(rowsPerPage > 0
                         ? renderList.slice(
                             page * rowsPerPage,
                             page * rowsPerPage + rowsPerPage
                           )
                         : renderList
-                      ).map((itm) => (
-                        <>
-                          <li>
-                            <p
-                              onClick={() => {
-                                let url = `reportformatlink(url)`;
-                                // new tab open
-                                window.open(itm?.[`${url}`], "_blank");
-                              }}
-                            >
-                              {itm?.standardreportname}
-                            </p>
-                            <div className='buttomBox'>
-                              {itm?.emailaddress && (
-                                <div className='box'>{itm?.emailaddress}</div>
-                              )}
-                              {itm?.process && (
-                                <div className='box'>{itm?.process}</div>
-                              )}
-                              {itm?.datasource && (
-                                <div className='box'>{itm?.datasource}</div>
-                              )}
-                            </div>
-                          </li>
-                        </>
-                      ))}
-                    </ul>
+                      ).map((itm, idx) => {
+                        let url = `reportformatlink(url)`;
+                        let sl = page * rowsPerPage + idx + 1;
+                        return (
+                          <>
+                            <li>
+                              <p>
+                                {" "}
+                                <span>{sl}) {' '}</span>
+                                {itm?.standardreportname}
+                              </p>
+                              <div className='buttomBox'>
+                                {itm?.[`${url}`] && (
+                                  <div
+                                    className='box link'
+                                    onClick={() => {
+                                      // new tab open
+                                      window.open(itm?.[`${url}`], "_blank");
+                                    }}
+                                  >
+                                    {itm?.[`${url}`]}
+                                  </div>
+                                )}
+                                {itm?.process && (
+                                  <div className='box'>{itm?.process}</div>
+                                )}
+                                {itm?.datasource && (
+                                  <div className='box'>{itm?.datasource}</div>
+                                )}
+                              </div>
+                            </li>
+                          </>
+                        );
+                      })}
+                    </ul> */}
                   </div>
                 </div>
                 <div className='row'>
