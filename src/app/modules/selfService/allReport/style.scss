@@ -1,0 +1,40 @@
+.AllReportWrapper {
+  .global-table tbody tr td .link{
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  ul.list-group {
+    list-style: none;
+    p {
+      font-size: 14px;
+      font-weight: 600;
+     
+      margin-bottom: 0;
+    }
+    li {
+      margin: 0px 0;
+      padding: 10px 5px;
+      border-bottom: 1px solid #d9d9d9;
+      // display: flex;
+      // gap: 5px;
+      // align-items: center;
+      .buttomBox {
+        display: flex;
+        gap: 15px;
+        font-size: 12px;
+        font-weight: 500;
+        .box {
+          background: #f1f1f1;
+          padding: 3px 5px;
+          border-radius: 3px;
+          &.link {
+            color: blue;
+            text-decoration: underline;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}
