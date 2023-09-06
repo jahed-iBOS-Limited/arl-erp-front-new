@@ -12,6 +12,7 @@ const reportTypes = [
   { value: 2, label: "Regular Irregular Party" },
   { value: 3, label: "Sister Concern Overdue" },
   { value: 5, label: "Party Status" },
+  { value: 6, label: "Sales & Revenue Collection Report" },
 ];
 
 const partyStatusList = [
@@ -45,8 +46,6 @@ export default function Form({ obj }) {
     setFieldValue,
   } = obj;
 
-  console.log(channelId, "id");
-
   const loadCustomerList = (v) => {
     if (v?.length < 3) return [];
     return axios
@@ -58,8 +57,7 @@ export default function Form({ obj }) {
 
   const disableHandler = (values) => {
     return (
-      ([1, 2, 3].includes(values?.reportType?.value) &&
-        !values?.channel) ||
+      ([1, 2, 3].includes(values?.reportType?.value) && !values?.channel) ||
       !values?.reportType ||
       ([4].includes(values?.reportType?.value) && !values?.viewType)
     );
@@ -131,8 +129,9 @@ export default function Form({ obj }) {
           <div className="col-lg-3">
             <InputField
               value={values?.date}
-              label={`${[4, 5].includes(values?.reportType?.value) ? "Transaction" : ""
-                } Date`}
+              label={`${
+                [4, 5].includes(values?.reportType?.value) ? "Transaction" : ""
+              } Date`}
               name="date"
               type="date"
               onChange={(e) => {
@@ -214,7 +213,7 @@ export default function Form({ obj }) {
             onClick={() => {
               if ([1].includes(values?.reportType?.value)) {
                 viewHandler(values);
-              } else if ([2, 3, 4, 5].includes(values?.reportType?.value)) {
+              } else if ([2, 3, 4, 5, 6].includes(values?.reportType?.value)) {
                 setIsShow(true);
               }
             }}
