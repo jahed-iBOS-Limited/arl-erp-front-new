@@ -7,10 +7,10 @@ import { toast } from "react-toastify";
 import { LayoutSplashScreen } from "../_metronic/layout";
 import PaymentPages from "./modules/payment/PaymentPages";
 import SelfServicePages from "./modules/selfService/SelfServicePages";
-
+import AllReport from './modules/allReport/index';
 import TokenExpiredPopUp from "./TokenExpiredPopUp";
 import { useKeyPress } from "./modules/_helper/useKeyPress";
-// const DashboardPage = lazy(() => import("./pages/DashboardPage"));
+
 const procurementPages = lazy(() =>
   import("./modules/procurement/procurementPages")
 );
@@ -96,8 +96,8 @@ const HashPerformanceMgtPages = lazy(() =>
 const ExportManagementPages = lazy(() =>
   import("./modules/exportManagement/exportmanagementPages")
 );
-
 const PowerBIPages = lazy(() => import("./modules/powerBI/powerBIPages"));
+
 
 const BasePage = () => {
   const { isExpiredToken, isAuth, isExpiredPassword } = useSelector(
@@ -143,6 +143,7 @@ const BasePage = () => {
         {<Redirect exact from="/" to="/self-service/self-dashboard" />}
         {/* <Route path="/dashboard" component={DashboardPage} /> */}
         <Route path="/chat" component={ChatPages} />
+        <Route path="/allReport" component={AllReport} />
         <Route
           path="/safety-compliance"
           component={SafetyComplianceMainPages}
