@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { matchText } from "./matchData";
 import { useState } from "react";
 
-function Commands({ listening, transcript, resetTranscript }) {
+function Commands({ listening, transcript, resetTranscript, setComponetRender }) {
   const [menuList, setMenuList] = useState([]);
 
   const { menu } = useSelector((state) => state?.authData, shallowEqual);
@@ -47,8 +47,11 @@ function Commands({ listening, transcript, resetTranscript }) {
       if (result) {
         history.push(result);
         resetTranscript();
+        setComponetRender(false)
       } else {
         toast.warn("Menu not found");
+        resetTranscript();
+        setComponetRender(false)
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
