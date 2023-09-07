@@ -9,6 +9,7 @@ import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
 export default function _Form({
   buId,
@@ -40,12 +41,20 @@ export default function _Form({
                   setRowData([]);
                 });
               }}
-              resetHandler={() => {
-                resetForm(initData);
-              }}
-              backHandler={() => {
-                history.goBack();
-              }}
+              resetHandler={
+                viewType
+                  ? ""
+                  : () => {
+                      resetForm(initData);
+                    }
+              }
+              backHandler={
+                viewType
+                  ? ""
+                  : () => {
+                      history.goBack();
+                    }
+              }
             >
               <form className="form form-label-right">
                 <div className="global-form">
@@ -112,11 +121,14 @@ export default function _Form({
                         label="Sales Order"
                         onChange={(valueOption) => {
                           setFieldValue("salesOrder", valueOption);
-                          setFieldValue("soDate", valueOption?.salesOrderDate);
-                          setFieldValue("soRef", valueOption?.salesOrderRef);
+                          setFieldValue(
+                            "soDate",
+                            _dateFormatter(valueOption?.salesOrderDate)
+                          );
+                          setFieldValue("soRef", valueOption?.label);
                           setFieldValue(
                             "salesContractRef",
-                            valueOption?.salesContractRef
+                            valueOption?.salesQuotationCode
                           );
                           setFieldValue(
                             "country",
@@ -139,7 +151,7 @@ export default function _Form({
                         type="text"
                         errors={errors}
                         touched={touched}
-                        disabled
+                        disabled={viewType}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -151,7 +163,7 @@ export default function _Form({
                         type="text"
                         errors={errors}
                         touched={touched}
-                        disabled
+                        disabled={viewType}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -163,7 +175,7 @@ export default function _Form({
                         type="text"
                         errors={errors}
                         touched={touched}
-                        disabled
+                        disabled={viewType}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -175,7 +187,7 @@ export default function _Form({
                         type="date"
                         errors={errors}
                         touched={touched}
-                        disabled
+                        disabled={viewType}
                       />
                     </div>
                     <div className="col-lg-3">
