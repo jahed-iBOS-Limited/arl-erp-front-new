@@ -46,7 +46,7 @@ export default function ExportPaymentPostingForm({ type, singleItem }) {
   useEffect(() => {
     if (type) {
       getSingleData(
-        `/partner/PartnerOverDue/GetExportPartnerPaymentInfoById?accountId=${accId}&businessUnitId=${buId}&paymentPrepareId=${singleData?.paymentPrepareId}`,
+        `/partner/PartnerOverDue/GetExportPartnerPaymentInfoById?accountId=${accId}&businessUnitId=${buId}&paymentPrepareId=${singleItem?.paymentPrepareId}`,
         (resData) => {
           const h = resData?.objHead;
           const modifyData = {
@@ -61,8 +61,8 @@ export default function ExportPaymentPostingForm({ type, singleItem }) {
             fromDate: _firstDateofMonth(),
             toDate: _todayDate(),
             salesOrder: {
-              value: h?.salesOrderCode,
-              label: h?.salesOrderId,
+              value: h?.salesOrderId,
+              label: h?.salesOrderCode,
             },
             soRef: h?.salesOrderRefererence,
             salesContractRef: "",
@@ -157,7 +157,7 @@ export default function ExportPaymentPostingForm({ type, singleItem }) {
           saveHandler={saveHandler}
           channelList={channelList}
           getSalesOrderList={getSalesOrderList}
-          initData={type === "edit" ? singleData : initData}
+          initData={type ? singleData : initData}
         />
       </div>
     </>

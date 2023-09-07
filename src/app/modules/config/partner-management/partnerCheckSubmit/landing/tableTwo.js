@@ -5,6 +5,7 @@ import IEdit from "../../../../_helper/_helperIcons/_edit";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import IViewModal from "../../../../_helper/_viewModal";
 import ExportPaymentPostingForm from "../foreignForm/addEditForm";
+import IView from "../../../../_helper/_helperIcons/_view";
 
 const headers = [
   "SL",
@@ -29,6 +30,7 @@ const ExportPaymentPostingTable = ({ obj }) => {
   } = obj;
   const [singleItem, setSingleItem] = useState({});
   const [type, setType] = useState("");
+  const [show, setShow] = useState(false);
 
   return (
     <>
@@ -61,18 +63,26 @@ const ExportPaymentPostingTable = ({ obj }) => {
                   <td>{_fixedPoint(item?.totalExpenseAganistTt, true)}</td>
 
                   <td style={{ width: "80px" }} className="text-center">
-                    {item?.isActive && !item?.isPosted && (
-                      <div className="d-flex justify-content-around">
-                        <span>
-                          <IEdit
-                            onClick={() => {
-                              setType("edit");
-                              setSingleItem(item);
-                            }}
-                          />
-                        </span>
-                      </div>
-                    )}
+                    <div className="d-flex justify-content-around">
+                      <span>
+                        <IEdit
+                          onClick={() => {
+                            setType("edit");
+                            setSingleItem(item);
+                            setShow(true);
+                          }}
+                        />
+                      </span>
+                      <span>
+                        <IView
+                          clickHandler={() => {
+                            setType("view");
+                            setSingleItem(item);
+                            setShow(true);
+                          }}
+                        />
+                      </span>
+                    </div>
                   </td>
                 </tr>
               );
@@ -81,7 +91,7 @@ const ExportPaymentPostingTable = ({ obj }) => {
         </table>
       )}
 
-      <IViewModal>
+      <IViewModal show={show} onHide={() => setShow(false)}>
         <ExportPaymentPostingForm type={type} singleItem={singleItem} />
       </IViewModal>
 
