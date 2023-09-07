@@ -1,23 +1,12 @@
 import { Form, Formik } from "formik";
-import { TablePagination } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import AllReportSearchInput from "./allReportSearchInput";
 import { allSheetData } from "./data";
 import "./style.scss";
 import { convertKeysSpace, searchMatch } from "./utility";
-import ICustomCard from './../../_helper/_customCard';
+import ICustomCard from "./../../_helper/_customCard";
 function AllReport() {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(15);
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
 
   const [allList, setAllList] = useState([]);
   const [renderList, setRenderList] = useState([]);
@@ -42,14 +31,12 @@ function AllReport() {
   }, []);
 
   const searchHandler = (value) => {
-    setRowsPerPage(15);
-    setPage(0);
     const result = searchMatch(allList, value);
     setRenderList(result);
   };
   return (
     <div className='AllReportWrapper'>
-      <ICustomCard title='All Report'>
+      <ICustomCard title='SSOT Report'>
         <Formik
           enableReinitialize={true}
           initialValues={{}}
@@ -67,7 +54,7 @@ function AllReport() {
             <>
               <Form className='form form-label-left'>
                 <div className='row'>
-                  <div className='col-lg-9'>
+                  <div className='col-lg-9 mt-1'>
                     <AllReportSearchInput
                       placeholder='Report Search'
                       paginationSearchHandler={(value) => {
@@ -80,79 +67,59 @@ function AllReport() {
                       }}
                     />
                   </div>
+                  {/* <div onClick={() => {
+                    setListRender(!listRender)
+                  }}>Click</div> */}
                 </div>
                 <div className='row mt-1'>
                   <div className='col-lg-12'>
-                    <div className='table-responsive'>
-                      <table className='table table-striped table-bordered global-table mt-0'>
-                        <thead>
-                          <tr>
-                            <th style={{ width: "30px" }}>SL</th>
-                            <th>Standard Report Name</th>
-                            <th>Report Format Link (URL)</th>
-                            <th>Process</th>
-                            <th>Data Source</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {(rowsPerPage > 0
-                            ? renderList.slice(
-                                page * rowsPerPage,
-                                page * rowsPerPage + rowsPerPage
-                              )
-                            : renderList
-                          ).map((itm, idx) => {
-                            let url = `reportformatlink(url)`;
-                            let sl = page * rowsPerPage + idx + 1;
-                            return (
-                              <>
-                                <tr key={sl}>
-                                  <td>{sl}</td>
-                                  <td>{itm?.standardreportname}</td>
-                                  <td
-                                    onClick={() => {
-                                      // new tab open
-                                      window.open(itm?.[`${url}`], "_blank");
-                                    }}
-                                  >
-                                    <sapn className='link'>
-                                      {itm?.[`${url}`]}
-                                    </sapn>
-                                  </td>
-                                  <td>{itm?.process}</td>
-                                  <td>{itm?.datasource}</td>
-                                </tr>
-                              </>
-                            );
-                          })}
-                        </tbody>
-                      </table>
-                    </div>
+                  <>
+                        {" "}
+                        <div className='table-responsive'>
+                          <table className='table table-striped table-bordered global-table mt-0'>
+                            <thead>
+                              <tr>
+                                <th style={{ width: "30px" }}>SL</th>
+                                <th>Standard Report Name</th>
+                                <th>Report Format Link (URL)</th>
+                                <th>Process</th>
+                                <th>Data Source</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {renderList?.map((itm, idx) => {
+                                let url = `reportformatlink(url)`;
+                                return (
+                                  <>
+                                    <tr key={idx + 1}>
+                                      <td>{idx + 1}</td>
+                                      <td>{itm?.standardreportname}</td>
+                                      <td
+                                        onClick={() => {
+                                          // new tab open
+                                          window.open(
+                                            itm?.[`${url}`],
+                                            "_blank"
+                                          );
+                                        }}
+                                      >
+                                        <sapn className='link'>
+                                          {itm?.[`${url}`]}
+                                        </sapn>
+                                      </td>
+                                      <td>{itm?.process}</td>
+                                      <td>{itm?.datasource}</td>
+                                    </tr>
+                                  </>
+                                );
+                              })}
+                            </tbody>
+                          </table>
+                        </div>
+                      </>
                   </div>
                 </div>
-                <div className='row'>
-                  <TablePagination
-                    rowsPerPageOptions={[
-                      15,
-                      25,
-                      50,
-                      75,
-                      100,
-                      200,
-                      300,
-                      400,
-                      500,
-                      1000,
-                      1500,
-                    ]}
-                    component='div'
-                    count={renderList.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onChangePage={handleChangePage}
-                    onChangeRowsPerPage={handleChangeRowsPerPage}
-                  />
-                </div>
+              
               </Form>
             </>
           )}
