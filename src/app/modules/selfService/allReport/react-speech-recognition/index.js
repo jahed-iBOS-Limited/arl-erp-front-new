@@ -19,6 +19,7 @@ function ReactSpeechRecognition({ setSearchInput, searchHandlerCB }) {
     return null;
   }
 
+  console.log(listening , componetRender)
   return (
     <>
       <div className='microphone d-flex align-items-center mr-6 ml-1'>
@@ -30,12 +31,13 @@ function ReactSpeechRecognition({ setSearchInput, searchHandlerCB }) {
             color: listening && componetRender ? "red" : "",
           }}
           onClick={() => {
-            setComponetRender(!componetRender);
             setSearchInput("")
             if (!listening) {
               SpeechRecognition.startListening();
+              setComponetRender(true);
             } else {
               resetTranscript();
+              setComponetRender(false);
             }
           }}
         ></i>
@@ -46,7 +48,6 @@ function ReactSpeechRecognition({ setSearchInput, searchHandlerCB }) {
             listening={listening}
             resetTranscript={resetTranscript}
             searchHandlerCB={searchHandlerCB}
-            setComponetRender={setComponetRender}
           />
         )}
       </div>
@@ -62,14 +63,12 @@ function TranscriptSet({
   resetTranscript,
   setSearchInput,
   searchHandlerCB,
-  setComponetRender
 }) {
   useEffect(() => {
     if (!listening && transcript) {
       setSearchInput(transcript);
       resetTranscript();
       searchHandlerCB(transcript);
-      setComponetRender(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listening, transcript]);

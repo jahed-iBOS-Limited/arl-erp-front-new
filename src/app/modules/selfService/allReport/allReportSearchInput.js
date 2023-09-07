@@ -1,9 +1,14 @@
 import React from "react";
 import ReactSpeechRecognition from "./react-speech-recognition";
+import { debounce } from "lodash";
+
+const search = debounce((paginationSearchHandler, value) => {
+  paginationSearchHandler(value);
+}, 400);
+
 function AllReportSearchInput({
   placeholder,
   paginationSearchHandler,
-  values,
   isDisabledFiled,
   setter,
   classes,
@@ -27,7 +32,7 @@ function AllReportSearchInput({
             type='button'
             disabled={isDisabledFiled}
             onClick={() => {
-              paginationSearchHandler(searchInput, values);
+              paginationSearchHandler(searchInput);
             }}
           >
             <i className='fas fa-search'></i>
@@ -43,13 +48,11 @@ function AllReportSearchInput({
           onChange={(e) => {
             setter && setter(e.target.value);
             setSearchInput(e.target.value);
-            if (!values && e.target.value?.length === 0) {
-              paginationSearchHandler(e.target.value, values);
-            }
+            search(paginationSearchHandler, e.target.value);
           }}
           onKeyDown={(e) => {
             if (e.keyCode === 13) {
-              paginationSearchHandler(e.target.value, values);
+              paginationSearchHandler(e.target.value);
             }
           }}
           value={searchInput}
