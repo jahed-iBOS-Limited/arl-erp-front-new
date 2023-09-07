@@ -130,3 +130,19 @@ export const editPartnerCheque = async (payload, setLoading) => {
     setLoading(false);
   }
 };
+
+export const editExportPaymentPosting = async (payload, setLoading, cb) => {
+  setLoading(true);
+  try {
+    const res = await axios.put(
+      `/partner/PartnerOverDue/EditExportPartnerPaymentInfo`,
+      payload
+    );
+    toast.success(res?.data?.message);
+    setLoading(false);
+    cb && cb();
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setLoading(false);
+  }
+};
