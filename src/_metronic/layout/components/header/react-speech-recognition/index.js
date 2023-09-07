@@ -28,10 +28,8 @@ function ReactSpeechRecognition() {
             listening={listening}
             transcript={transcript}
             resetTranscript={resetTranscript}
-            setComponetRender={setComponetRender}
           />
         )}
-
         <i
           class='fa fa-microphone pointer'
           aria-hidden='true'
@@ -40,11 +38,12 @@ function ReactSpeechRecognition() {
             color: listening && componetRender ? "red" : "",
           }}
           onClick={() => {
-            setComponetRender(!componetRender);
             if (!listening) {
               SpeechRecognition.startListening();
+              setComponetRender(true);
             } else {
               resetTranscript();
+              setComponetRender(false);
             }
           }}
         ></i>
