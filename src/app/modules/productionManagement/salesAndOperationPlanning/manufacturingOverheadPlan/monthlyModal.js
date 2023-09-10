@@ -99,7 +99,7 @@ function MonthlyModal({
         header: {
           intProfitCenterId: values?.profitCenter?.value,
           intMopplanId: singleData?.item?.intMopplanId || 0,
-          intPlantId: singleData?.values?.plant?.value, 
+          intPlantId: singleData?.item?.intPlantId || singleData?.values?.plant?.value, 
           intGlid:
             singleData?.item?.subGLId ||
             singleData?.values?.gl?.intGeneralLedgerId,
