@@ -33,8 +33,8 @@ function AllReport() {
           ])
         ).values(),
       ];
-      setAllList(uniqueCombinations);
-      setRenderList(uniqueCombinations);
+      setAllList(uniqueCombinations || []);
+      setRenderList(uniqueCombinations || []);
     } catch (error) {}
   }, []);
 
