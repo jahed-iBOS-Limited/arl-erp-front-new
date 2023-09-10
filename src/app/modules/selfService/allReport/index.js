@@ -25,8 +25,16 @@ function AllReport() {
           }
         });
       }
-      setAllList(_list);
-      setRenderList(_list);
+      const uniqueCombinations = [
+        ...new Map(
+          _list.map((item) => [
+            `${item?.datasource}-${item?.standardreportname}-${item?.process}`,
+            item,
+          ])
+        ).values(),
+      ];
+      setAllList(uniqueCombinations);
+      setRenderList(uniqueCombinations);
     } catch (error) {}
   }, []);
 
