@@ -1,17 +1,16 @@
 // eslint-disable-next-line no-unused-vars
-import { Field, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
+import { shallowEqual, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import InputField from "../../../_helper/_inputField";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
 import NewSelect from "../../../_helper/_select";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import IForm from "./../../../_helper/_form";
+import Loading from "./../../../_helper/_loading";
 // eslint-disable-next-line no-unused-vars
-import Select from "react-select";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { toast } from "react-toastify";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 
 const initData = {
     revenueElementName: "",
@@ -36,7 +35,6 @@ export default function RevenueElementCreateEdit() {
     const selectedBusinessUnit = useSelector((state) => {
         return state.authData.selectedBusinessUnit;
     }, shallowEqual);
-
     const [generalLedgerDDL, getGeneralLedgerDDL, generalLedgerDDLLoader, setGeneralLedgerDDL] = useAxiosGet();
     const [modifyData, setModifyData] = useState("");
     const saveHandler = (values, cb) => {
@@ -192,11 +190,12 @@ export default function RevenueElementCreateEdit() {
                                         value={values?.controllingUnit}
                                         label="Controlling Unit"
                                         onChange={(valueOption) => {
+                                            console.log("valueOption",valueOption);
                                             if (valueOption) {
                                                 setFieldValue("controllingUnit", valueOption);
                                                 setFieldValue("revenueCenter", "");
                                                 getRevenueCenterDDL(`/costmgmt/Revenue/GetRevenueCenterDDL?accountId=${profileData?.accountId
-                                                    }&businessUnitId=${valueOption?.value}`)
+                                                    }&businessUnitId=${selectedBusinessUnit?.value}`)
                                             } else {
                                                 setFieldValue("controllingUnit", "");
                                                 setFieldValue("revenueCenter", "");

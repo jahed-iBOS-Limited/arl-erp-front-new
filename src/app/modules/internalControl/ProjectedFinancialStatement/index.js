@@ -171,7 +171,7 @@ export default function ProjectedFinancialStatement() {
 
                 {[2]?.includes(values?.reportType?.value) ? (
                   <>
-                    <div className="col-md-3">
+                    {/* <div className="col-md-3">
                       <NewSelect
                         name="enterpriseDivision"
                         options={enterpriseDivisionDDL || []}
@@ -277,6 +277,40 @@ export default function ProjectedFinancialStatement() {
                         }}
                         placeholder="Profit Center"
                       />
+                    </div> */}
+                     <div className="col-md-3">
+                      <NewSelect
+                        name="enterpriseDivision"
+                        options={enterpriseDivisionDDL || []}
+                        value={values?.enterpriseDivision}
+                        label="Enterprise Division"
+                        onChange={(valueOption) => {
+                          setFieldValue("enterpriseDivision", valueOption);
+                          getbuddl(
+                            `/hcm/HCMDDL/GetBusinessUnitByBusinessUnitGroupDDL?AccountId=${profileData?.accountId}&BusinessUnitGroup=${valueOption?.label}`,
+                            (resData) => {
+                              const filteredData = resData.filter(
+                                (item) =>
+                                  !(item.label === "All" && item.value === 0)
+                              );
+                              setbuddl(filteredData);
+                              console.log("filteredData", filteredData);
+                            }
+                          );
+                        }}
+                      />
+                    </div>
+                    <div className="col-md-3">
+                      <NewSelect
+                        name="businessUnit"
+                        options={buddl || []}
+                        value={values?.businessUnit}
+                        label="Business Unit"
+                        onChange={(valueOption) => {
+                          setFieldValue("businessUnit", valueOption);
+                        }}
+                        placeholder="Business Unit"
+                      />
                     </div>
                   </>
                 ) : null}
@@ -296,7 +330,7 @@ export default function ProjectedFinancialStatement() {
                         min={0}
                       />
                     </div>
-                    <div className="col-md-2">
+                    {/* <div className="col-md-2">
                       <NewSelect
                         name="incomeReportType"
                         options={[
@@ -315,7 +349,7 @@ export default function ProjectedFinancialStatement() {
                         }}
                         placeholder="Type"
                       />
-                    </div>
+                    </div> */}
                   </>
                 ) : null}
 
@@ -411,12 +445,12 @@ export default function ProjectedFinancialStatement() {
                         getIncomeStatement_api(
                           values?.fromDate,
                           values?.toDate,
-                          values?.lastPeriodFrom,
-                          values?.lastPeriodTo,
+                          values?.toDate,
+                          values?.toDate,
                           values?.businessUnit?.value,
                           0,
                           setIncomeStatement,
-                          values?.profitCenter,
+                          "all",
                           setLoading,
                           "IncomeStatement",
                           values?.enterpriseDivision?.value,

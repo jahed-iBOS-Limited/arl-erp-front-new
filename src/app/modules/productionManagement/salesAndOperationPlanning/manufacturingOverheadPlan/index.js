@@ -71,7 +71,7 @@ export default function ManufacturingOverheadPlanLanding() {
     ) {
       setSubGlRow([]);
       getSubGlRow(
-        `/mes/SalesPlanning/GetBusinessTransactionsAsync?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&generalLedgerId=${values?.gl?.value}&ProfitCenterId=${values?.profitCenter?.value}&Year=${values?.fiscalYear?.label}`,
+        `/mes/SalesPlanning/GetBusinessTransactionsAsync?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&generalLedgerId=${values?.gl?.value}&ProfitCenterId=${values?.profitCenter?.value}&Year=${values?.fiscalYear?.label}&IntPlantId=${values?.plant?.value}`,
         (data) => {
           let modiFyRow = data?.map((item) => ({
             ...item,
