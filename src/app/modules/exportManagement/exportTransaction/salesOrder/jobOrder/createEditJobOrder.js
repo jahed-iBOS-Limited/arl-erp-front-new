@@ -114,7 +114,7 @@ export default function CreateEditJobOrder() {
       }) => (
         <>
           {(jobOrderDataLoader || jobOrderLoader) && <Loading />}
-          <IForm customTitle="Job Order" getProps={setObjprops}>
+          <IForm customTitle="Job Order Entry" getProps={setObjprops}>
             <Form>
               <div className="form-group  global-form row">
                 <div className="col-lg-3">
