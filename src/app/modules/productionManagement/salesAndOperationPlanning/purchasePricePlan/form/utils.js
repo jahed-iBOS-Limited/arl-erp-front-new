@@ -11,7 +11,7 @@ export const exportToCSV = (data) => {
     headerRow.font = { bold: true };
   
     // Add data to the worksheet
-    data.forEach((item) => {
+    data?.length && data.forEach((item) => {
       worksheet.addRow([item.itemId, item.itemName, item.itemCode, item?.objBOMList?.[0]?.label,item?.objBOMList?.[0]?.value, item?.uomName, item?.uomid, "", item?.rate]);
     });
   
