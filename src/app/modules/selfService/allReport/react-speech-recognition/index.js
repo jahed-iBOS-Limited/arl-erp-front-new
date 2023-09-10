@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
-import Commands from "./commands";
 
-function ReactSpeechRecognition() {
+function ReactSpeechRecognition({ setSearchInput, searchHandlerCB }) {
   const [componetRender, setComponetRender] = React.useState(false);
   const {
     transcript,
@@ -20,16 +19,10 @@ function ReactSpeechRecognition() {
     return null;
   }
 
+  console.log(listening , componetRender)
   return (
     <>
-      <div className='microphone d-flex align-items-center mr-6'>
-        {componetRender && (
-          <Commands
-            listening={listening}
-            transcript={transcript}
-            resetTranscript={resetTranscript}
-          />
-        )}
+      <div className='microphone d-flex align-items-center mr-6 ml-1'>
         <i
           class='fa fa-microphone pointer'
           aria-hidden='true'
@@ -38,6 +31,7 @@ function ReactSpeechRecognition() {
             color: listening && componetRender ? "red" : "",
           }}
           onClick={() => {
+            setSearchInput("")
             if (!listening) {
               SpeechRecognition.startListening();
               setComponetRender(true);
@@ -47,9 +41,37 @@ function ReactSpeechRecognition() {
             }
           }}
         ></i>
+        {componetRender && (
+          <TranscriptSet
+            transcript={transcript}
+            setSearchInput={setSearchInput}
+            listening={listening}
+            resetTranscript={resetTranscript}
+            searchHandlerCB={searchHandlerCB}
+          />
+        )}
       </div>
     </>
   );
 }
 
 export default ReactSpeechRecognition;
+
+function TranscriptSet({
+  listening,
+  transcript,
+  resetTranscript,
+  setSearchInput,
+  searchHandlerCB,
+}) {
+  useEffect(() => {
+    if (!listening && transcript) {
+      setSearchInput(transcript);
+      resetTranscript();
+      searchHandlerCB(transcript);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [listening, transcript]);
+
+  return <></>;
+}

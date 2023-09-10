@@ -27,6 +27,7 @@ import PayslipReport from "./payslip";
 import MyAsset from "./Assets";
 import TrainingLanding from "./training";
 import ViewTraining from "./training/viewTraining";
+import AllReport from "./allReport";
 
 export function SelfServicePages() {
   const userRole = useSelector(
@@ -162,6 +163,10 @@ export function SelfServicePages() {
           <ContentRoute
             path="/self-service/mytraining"
             component={TrainingLanding}
+          />
+          <ContentRoute
+            path="/self-service/SSOTReport"
+            component={AllReport}
           />
           {/* <ContentRoute
             path="/self-service/humanResource"

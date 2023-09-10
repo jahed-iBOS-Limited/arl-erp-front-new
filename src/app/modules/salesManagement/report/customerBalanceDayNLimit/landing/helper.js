@@ -4,6 +4,7 @@ export const getReportId = (values) => {
   const sisterConcernOverdue = `b9092f9e-962d-4b87-80a3-29292cb1f579`;
   const receivableReport = `d2ee852a-f129-4167-87f3-3ef0c00c9f8c`;
   const partyStatusReport = `31b073bf-1efb-4fa1-acc2-86ab7a59ef43`;
+  const salesAndRevenueCollectionReport = `fb701cc3-194d-461a-920f-30c399229e0c`;
   const reportId =
     typeId === 2
       ? regularIrregularParty
@@ -13,6 +14,8 @@ export const getReportId = (values) => {
       ? receivableReport
       : typeId === 5
       ? partyStatusReport
+      : typeId === 6
+      ? salesAndRevenueCollectionReport
       : "";
   return reportId;
 };
@@ -100,6 +103,12 @@ export const parameterValues = (values, buId, employeeId) => {
     },
   ];
 
+  const salesAndRevenueCollectionReport = [
+    { name: "BusinessUnitId", value: buId?.toString() },
+    { name: "reportDate", value: values?.date },
+    { name: "intPartid", value: "2" },
+  ];
+
   const parameters =
     typeId === 2
       ? regularIrregularParty
@@ -109,6 +118,8 @@ export const parameterValues = (values, buId, employeeId) => {
       ? receivableReport
       : typeId === 5
       ? partyStatusReport
+      : typeId === 6
+      ? salesAndRevenueCollectionReport
       : [];
 
   return parameters;

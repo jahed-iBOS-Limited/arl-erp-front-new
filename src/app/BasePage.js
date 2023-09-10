@@ -7,10 +7,9 @@ import { toast } from "react-toastify";
 import { LayoutSplashScreen } from "../_metronic/layout";
 import PaymentPages from "./modules/payment/PaymentPages";
 import SelfServicePages from "./modules/selfService/SelfServicePages";
-
 import TokenExpiredPopUp from "./TokenExpiredPopUp";
 import { useKeyPress } from "./modules/_helper/useKeyPress";
-// const DashboardPage = lazy(() => import("./pages/DashboardPage"));
+
 const procurementPages = lazy(() =>
   import("./modules/procurement/procurementPages")
 );
@@ -96,8 +95,8 @@ const HashPerformanceMgtPages = lazy(() =>
 const ExportManagementPages = lazy(() =>
   import("./modules/exportManagement/exportmanagementPages")
 );
-
 const PowerBIPages = lazy(() => import("./modules/powerBI/powerBIPages"));
+
 
 const BasePage = () => {
   const { isExpiredToken, isAuth, isExpiredPassword } = useSelector(

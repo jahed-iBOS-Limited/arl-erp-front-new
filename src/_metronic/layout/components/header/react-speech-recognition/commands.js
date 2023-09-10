@@ -49,6 +49,7 @@ function Commands({ listening, transcript, resetTranscript }) {
         resetTranscript();
       } else {
         toast.warn("Menu not found");
+        resetTranscript();
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
