@@ -37,6 +37,18 @@ export default function AssetLiabilityPlanCreateEdit() {
       const payload = tableData.map((item) => {
         return {
           ...item,
+          julAmount: +item?.julAmount || 0,
+          augAmount: +item?.augAmount || 0,
+          sepAmount: +item?.sepAmount || 0,
+          octAmount: +item?.octAmount || 0,
+          novAmount: +item?.novAmount || 0,
+          decAmount: +item?.decAmount || 0,
+          janAmount: +item?.janAmount || 0,
+          febAmount: +item?.febAmount || 0,
+          marAmount: +item?.marAmount || 0,
+          aprAmount: +item?.aprAmount || 0,
+          mayAmount: +item?.mayAmount || 0,
+          junAmount: +item?.junAmount || 0,
           yearId: values?.fiscalYear?.value,
           yearName: values?.fiscalYear?.label,
           partName: "Create",
@@ -49,9 +61,7 @@ export default function AssetLiabilityPlanCreateEdit() {
         payload,
         () => {
           // setTableData([]);
-          onViewButtonClick(
-            formikRef?.current?.values,
-          );
+          onViewButtonClick(formikRef?.current?.values);
         },
         true
       );
@@ -91,7 +101,6 @@ export default function AssetLiabilityPlanCreateEdit() {
   };
 
   const calculatePercentageValues = (item) => {
-    console.log("item", item);
     if (item.entryType === "Percentage") {
       const updatedValue = item.initialAmount;
       let currentValue = updatedValue;
@@ -327,22 +336,32 @@ export default function AssetLiabilityPlanCreateEdit() {
                                 ) : (
                                   <InputField
                                     value={item?.fillAllManual}
-                                    type="text"
+                                    type="number"
                                     name="fillAllManual"
                                     onChange={(e) => {
-                                      const newValue = +e.target.value;
-                                      if (newValue >= 0) {
-                                        const updatedData = tableData.map(
-                                          (data, idx) =>
-                                            idx === index
-                                              ? getUpdatedRowObjectForManual(
-                                                  data,
-                                                  newValue
-                                                )
-                                              : data
-                                        );
-                                        setTableData(updatedData);
-                                      }
+                                      const newValue = e.target.value;
+                                      const updatedData = tableData.map(
+                                        (data, idx) =>
+                                          idx === index
+                                            ? getUpdatedRowObjectForManual(
+                                                data,
+                                                newValue
+                                              )
+                                            : data
+                                      );
+                                      setTableData(updatedData);
+                                      // if (newValue >= 0) {
+                                      //   const updatedData = tableData.map(
+                                      //     (data, idx) =>
+                                      //       idx === index
+                                      //         ? getUpdatedRowObjectForManual(
+                                      //             data,
+                                      //             newValue
+                                      //           )
+                                      //         : data
+                                      //   );
+                                      //   setTableData(updatedData);
+                                      // }
                                     }}
                                   />
                                 )}
@@ -351,22 +370,38 @@ export default function AssetLiabilityPlanCreateEdit() {
                                 {item?.entryType === "Manual" ? (
                                   <InputField
                                     value={item?.julAmount}
-                                    type="text"
+                                    type="number"
                                     name="entryTypeValue"
                                     onChange={(e) => {
-                                      if (+e.target.value >= 0) {
-                                        const updatedData = [...tableData];
-                                        updatedData[index].julAmount = +e.target
-                                          .value;
-                                        setTableData(updatedData);
-                                      } else {
-                                        const updatedData = [...tableData];
-                                        updatedData[index].julAmount = 0;
-                                        setTableData(updatedData);
-                                        return toast.warn(
-                                          "Value must be greater than 0"
-                                        );
-                                      }
+                                      const updatedData = [...tableData];
+                                      updatedData[index].julAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
+                                      // if (+e.target.value >= 0) {
+                                      //   const updatedData = [...tableData];
+                                      //   updatedData[index].julAmount = +e.target
+                                      //     .value;
+                                      //   setTableData(updatedData);
+                                      // } else {
+                                      //   const updatedData = [...tableData];
+                                      //   updatedData[index].julAmount = 0;
+                                      //   setTableData(updatedData);
+                                      //   return toast.warn(
+                                      //     "Value must be greater than 0"
+                                      //   );
+                                      // }
+                                    }}
+                                  />
+                                ) : item?.entryType === "Percentage" ? (
+                                  <InputField
+                                    value={item?.julAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].julAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
                                     }}
                                   />
                                 ) : (
@@ -374,26 +409,28 @@ export default function AssetLiabilityPlanCreateEdit() {
                                 )}
                               </td>
                               <td>
-                                {/* {item?.augAmount} */}
                                 {item?.entryType === "Manual" ? (
                                   <InputField
                                     value={item?.augAmount}
-                                    type="text"
+                                    type="number"
                                     name="entryTypeValue"
                                     onChange={(e) => {
-                                      if (+e.target.value >= 0) {
-                                        const updatedData = [...tableData];
-                                        updatedData[index].augAmount = +e.target
-                                          .value;
-                                        setTableData(updatedData);
-                                      } else {
-                                        const updatedData = [...tableData];
-                                        updatedData[index].augAmount = 0;
-                                        setTableData(updatedData);
-                                        return toast.warn(
-                                          "Value must be greater than 0"
-                                        );
-                                      }
+                                      const updatedData = [...tableData];
+                                      updatedData[index].augAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
+                                    }}
+                                  />
+                                ) : item?.entryType === "Percentage" ? (
+                                  <InputField
+                                    value={item?.augAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].augAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
                                     }}
                                   />
                                 ) : (
@@ -405,22 +442,38 @@ export default function AssetLiabilityPlanCreateEdit() {
                                 {item?.entryType === "Manual" ? (
                                   <InputField
                                     value={item?.sepAmount}
-                                    type="text"
+                                    type="number"
                                     name="entryTypeValue"
                                     onChange={(e) => {
-                                      if (+e.target.value >= 0) {
-                                        const updatedData = [...tableData];
-                                        updatedData[index].sepAmount = +e.target
-                                          .value;
-                                        setTableData(updatedData);
-                                      } else {
-                                        const updatedData = [...tableData];
-                                        updatedData[index].sepAmount = 0;
-                                        setTableData(updatedData);
-                                        return toast.warn(
-                                          "Value must be greater than 0"
-                                        );
-                                      }
+                                      const updatedData = [...tableData];
+                                      updatedData[index].sepAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
+                                      // if (+e.target.value >= 0) {
+                                      //   const updatedData = [...tableData];
+                                      //   updatedData[index].sepAmount = +e.target
+                                      //     .value;
+                                      //   setTableData(updatedData);
+                                      // } else {
+                                      //   const updatedData = [...tableData];
+                                      //   updatedData[index].sepAmount = 0;
+                                      //   setTableData(updatedData);
+                                      //   return toast.warn(
+                                      //     "Value must be greater than 0"
+                                      //   );
+                                      // }
+                                    }}
+                                  />
+                                ) : item?.entryType === "Percentage" ? (
+                                  <InputField
+                                    value={item?.sepAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].sepAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
                                     }}
                                   />
                                 ) : (
@@ -432,22 +485,38 @@ export default function AssetLiabilityPlanCreateEdit() {
                                 {item?.entryType === "Manual" ? (
                                   <InputField
                                     value={item?.octAmount}
-                                    type="text"
+                                    type="number"
                                     name="entryTypeValue"
                                     onChange={(e) => {
-                                      if (+e.target.value >= 0) {
-                                        const updatedData = [...tableData];
-                                        updatedData[index].octAmount = +e.target
-                                          .value;
-                                        setTableData(updatedData);
-                                      } else {
-                                        const updatedData = [...tableData];
-                                        updatedData[index].octAmount = 0;
-                                        setTableData(updatedData);
-                                        return toast.warn(
-                                          "Value must be greater than 0"
-                                        );
-                                      }
+                                      const updatedData = [...tableData];
+                                      updatedData[index].octAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
+                                      // if (+e.target.value >= 0) {
+                                      //   const updatedData = [...tableData];
+                                      //   updatedData[index].octAmount = +e.target
+                                      //     .value;
+                                      //   setTableData(updatedData);
+                                      // } else {
+                                      //   const updatedData = [...tableData];
+                                      //   updatedData[index].octAmount = 0;
+                                      //   setTableData(updatedData);
+                                      //   return toast.warn(
+                                      //     "Value must be greater than 0"
+                                      //   );
+                                      // }
+                                    }}
+                                  />
+                                ) : item?.entryType === "Percentage" ? (
+                                  <InputField
+                                    value={item?.octAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].octAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
                                     }}
                                   />
                                 ) : (
@@ -455,27 +524,41 @@ export default function AssetLiabilityPlanCreateEdit() {
                                 )}
                               </td>
                               <td>
-                                {/* {item?.novAmount} */}
-
                                 {item?.entryType === "Manual" ? (
                                   <InputField
                                     value={item?.novAmount}
-                                    type="text"
+                                    type="number"
                                     name="entryTypeValue"
                                     onChange={(e) => {
-                                      if (+e.target.value >= 0) {
-                                        const updatedData = [...tableData];
-                                        updatedData[index].novAmount = +e.target
-                                          .value;
-                                        setTableData(updatedData);
-                                      } else {
-                                        const updatedData = [...tableData];
-                                        updatedData[index].novAmount = 0;
-                                        setTableData(updatedData);
-                                        return toast.warn(
-                                          "Value must be greater than 0"
-                                        );
-                                      }
+                                      const updatedData = [...tableData];
+                                      updatedData[index].novAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
+                                      // if (+e.target.value >= 0) {
+                                      //   const updatedData = [...tableData];
+                                      //   updatedData[index].novAmount = +e.target
+                                      //     .value;
+                                      //   setTableData(updatedData);
+                                      // } else {
+                                      //   const updatedData = [...tableData];
+                                      //   updatedData[index].novAmount = 0;
+                                      //   setTableData(updatedData);
+                                      //   return toast.warn(
+                                      //     "Value must be greater than 0"
+                                      //   );
+                                      // }
+                                    }}
+                                  />
+                                ) : item?.entryType === "Percentage" ? (
+                                  <InputField
+                                    value={item?.novAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].novAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
                                     }}
                                   />
                                 ) : (
@@ -487,22 +570,38 @@ export default function AssetLiabilityPlanCreateEdit() {
                                 {item?.entryType === "Manual" ? (
                                   <InputField
                                     value={item?.decAmount}
-                                    type="text"
+                                    type="number"
                                     name="entryTypeValue"
                                     onChange={(e) => {
-                                      if (+e.target.value >= 0) {
-                                        const updatedData = [...tableData];
-                                        updatedData[index].decAmount = +e.target
-                                          .value;
-                                        setTableData(updatedData);
-                                      } else {
-                                        const updatedData = [...tableData];
-                                        updatedData[index].decAmount = 0;
-                                        setTableData(updatedData);
-                                        return toast.warn(
-                                          "Value must be greater than 0"
-                                        );
-                                      }
+                                      const updatedData = [...tableData];
+                                      updatedData[index].decAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
+                                      // if (+e.target.value >= 0) {
+                                      //   const updatedData = [...tableData];
+                                      //   updatedData[index].decAmount = +e.target
+                                      //     .value;
+                                      //   setTableData(updatedData);
+                                      // } else {
+                                      //   const updatedData = [...tableData];
+                                      //   updatedData[index].decAmount = 0;
+                                      //   setTableData(updatedData);
+                                      //   return toast.warn(
+                                      //     "Value must be greater than 0"
+                                      //   );
+                                      // }
+                                    }}
+                                  />
+                                ) : item?.entryType === "Percentage" ? (
+                                  <InputField
+                                    value={item?.decAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].decAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
                                     }}
                                   />
                                 ) : (
@@ -514,22 +613,38 @@ export default function AssetLiabilityPlanCreateEdit() {
                                 {item?.entryType === "Manual" ? (
                                   <InputField
                                     value={item?.janAmount}
-                                    type="text"
+                                    type="number"
                                     name="entryTypeValue"
                                     onChange={(e) => {
-                                      if (+e.target.value >= 0) {
-                                        const updatedData = [...tableData];
-                                        updatedData[index].janAmount = +e.target
-                                          .value;
-                                        setTableData(updatedData);
-                                      } else {
-                                        const updatedData = [...tableData];
-                                        updatedData[index].janAmount = 0;
-                                        setTableData(updatedData);
-                                        return toast.warn(
-                                          "Value must be greater than 0"
-                                        );
-                                      }
+                                      const updatedData = [...tableData];
+                                      updatedData[index].janAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
+                                      // if (+e.target.value >= 0) {
+                                      //   const updatedData = [...tableData];
+                                      //   updatedData[index].janAmount = +e.target
+                                      //     .value;
+                                      //   setTableData(updatedData);
+                                      // } else {
+                                      //   const updatedData = [...tableData];
+                                      //   updatedData[index].janAmount = 0;
+                                      //   setTableData(updatedData);
+                                      //   return toast.warn(
+                                      //     "Value must be greater than 0"
+                                      //   );
+                                      // }
+                                    }}
+                                  />
+                                ) : item?.entryType === "Percentage" ? (
+                                  <InputField
+                                    value={item?.janAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].janAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
                                     }}
                                   />
                                 ) : (
@@ -541,22 +656,38 @@ export default function AssetLiabilityPlanCreateEdit() {
                                 {item?.entryType === "Manual" ? (
                                   <InputField
                                     value={item?.febAmount}
-                                    type="text"
+                                    type="number"
                                     name="entryTypeValue"
                                     onChange={(e) => {
-                                      if (+e.target.value >= 0) {
-                                        const updatedData = [...tableData];
-                                        updatedData[index].febAmount = +e.target
-                                          .value;
-                                        setTableData(updatedData);
-                                      } else {
-                                        const updatedData = [...tableData];
-                                        updatedData[index].febAmount = 0;
-                                        setTableData(updatedData);
-                                        return toast.warn(
-                                          "Value must be greater than 0"
-                                        );
-                                      }
+                                      const updatedData = [...tableData];
+                                      updatedData[index].febAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
+                                      // if (+e.target.value >= 0) {
+                                      //   const updatedData = [...tableData];
+                                      //   updatedData[index].febAmount = +e.target
+                                      //     .value;
+                                      //   setTableData(updatedData);
+                                      // } else {
+                                      //   const updatedData = [...tableData];
+                                      //   updatedData[index].febAmount = 0;
+                                      //   setTableData(updatedData);
+                                      //   return toast.warn(
+                                      //     "Value must be greater than 0"
+                                      //   );
+                                      // }
+                                    }}
+                                  />
+                                ) : item?.entryType === "Percentage" ? (
+                                  <InputField
+                                    value={item?.febAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].febAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
                                     }}
                                   />
                                 ) : (
@@ -568,22 +699,38 @@ export default function AssetLiabilityPlanCreateEdit() {
                                 {item?.entryType === "Manual" ? (
                                   <InputField
                                     value={item?.marAmount}
-                                    type="text"
+                                    type="number"
                                     name="entryTypeValue"
                                     onChange={(e) => {
-                                      if (+e.target.value >= 0) {
-                                        const updatedData = [...tableData];
-                                        updatedData[index].marAmount = +e.target
-                                          .value;
-                                        setTableData(updatedData);
-                                      } else {
-                                        const updatedData = [...tableData];
-                                        updatedData[index].marAmount = 0;
-                                        setTableData(updatedData);
-                                        return toast.warn(
-                                          "Value must be greater than 0"
-                                        );
-                                      }
+                                      const updatedData = [...tableData];
+                                      updatedData[index].marAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
+                                      // if (+e.target.value >= 0) {
+                                      //   const updatedData = [...tableData];
+                                      //   updatedData[index].marAmount = +e.target
+                                      //     .value;
+                                      //   setTableData(updatedData);
+                                      // } else {
+                                      //   const updatedData = [...tableData];
+                                      //   updatedData[index].marAmount = 0;
+                                      //   setTableData(updatedData);
+                                      //   return toast.warn(
+                                      //     "Value must be greater than 0"
+                                      //   );
+                                      // }
+                                    }}
+                                  />
+                                ) : item?.entryType === "Percentage" ? (
+                                  <InputField
+                                    value={item?.marAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].marAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
                                     }}
                                   />
                                 ) : (
@@ -595,22 +742,38 @@ export default function AssetLiabilityPlanCreateEdit() {
                                 {item?.entryType === "Manual" ? (
                                   <InputField
                                     value={item?.aprAmount}
-                                    type="text"
+                                    type="number"
                                     name="entryTypeValue"
                                     onChange={(e) => {
-                                      if (+e.target.value >= 0) {
-                                        const updatedData = [...tableData];
-                                        updatedData[index].aprAmount = +e.target
-                                          .value;
-                                        setTableData(updatedData);
-                                      } else {
-                                        const updatedData = [...tableData];
-                                        updatedData[index].aprAmount = 0;
-                                        setTableData(updatedData);
-                                        return toast.warn(
-                                          "Value must be greater than 0"
-                                        );
-                                      }
+                                      const updatedData = [...tableData];
+                                      updatedData[index].aprAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
+                                      // if (+e.target.value >= 0) {
+                                      //   const updatedData = [...tableData];
+                                      //   updatedData[index].aprAmount = +e.target
+                                      //     .value;
+                                      //   setTableData(updatedData);
+                                      // } else {
+                                      //   const updatedData = [...tableData];
+                                      //   updatedData[index].aprAmount = 0;
+                                      //   setTableData(updatedData);
+                                      //   return toast.warn(
+                                      //     "Value must be greater than 0"
+                                      //   );
+                                      // }
+                                    }}
+                                  />
+                                ) : item?.entryType === "Percentage" ? (
+                                  <InputField
+                                    value={item?.aprAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].aprAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
                                     }}
                                   />
                                 ) : (
@@ -622,22 +785,38 @@ export default function AssetLiabilityPlanCreateEdit() {
                                 {item?.entryType === "Manual" ? (
                                   <InputField
                                     value={item?.mayAmount}
-                                    type="text"
+                                    type="number"
                                     name="entryTypeValue"
                                     onChange={(e) => {
-                                      if (+e.target.value >= 0) {
-                                        const updatedData = [...tableData];
-                                        updatedData[index].mayAmount = +e.target
-                                          .value;
-                                        setTableData(updatedData);
-                                      } else {
-                                        const updatedData = [...tableData];
-                                        updatedData[index].mayAmount = 0;
-                                        setTableData(updatedData);
-                                        return toast.warn(
-                                          "Value must be greater than 0"
-                                        );
-                                      }
+                                      const updatedData = [...tableData];
+                                      updatedData[index].mayAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
+                                      // if (+e.target.value >= 0) {
+                                      //   const updatedData = [...tableData];
+                                      //   updatedData[index].mayAmount = +e.target
+                                      //     .value;
+                                      //   setTableData(updatedData);
+                                      // } else {
+                                      //   const updatedData = [...tableData];
+                                      //   updatedData[index].mayAmount = 0;
+                                      //   setTableData(updatedData);
+                                      //   return toast.warn(
+                                      //     "Value must be greater than 0"
+                                      //   );
+                                      // }
+                                    }}
+                                  />
+                                ) : item?.entryType === "Percentage" ? (
+                                  <InputField
+                                    value={item?.mayAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].mayAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
                                     }}
                                   />
                                 ) : (
@@ -649,22 +828,38 @@ export default function AssetLiabilityPlanCreateEdit() {
                                 {item?.entryType === "Manual" ? (
                                   <InputField
                                     value={item?.junAmount}
-                                    type="text"
+                                    type="number"
                                     name="entryTypeValue"
                                     onChange={(e) => {
-                                      if (+e.target.value >= 0) {
-                                        const updatedData = [...tableData];
-                                        updatedData[index].junAmount = +e.target
-                                          .value;
-                                        setTableData(updatedData);
-                                      } else {
-                                        const updatedData = [...tableData];
-                                        updatedData[index].junAmount = 0;
-                                        setTableData(updatedData);
-                                        return toast.warn(
-                                          "Value must be greater than 0"
-                                        );
-                                      }
+                                      const updatedData = [...tableData];
+                                      updatedData[index].junAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
+                                      // if (+e.target.value >= 0) {
+                                      //   const updatedData = [...tableData];
+                                      //   updatedData[index].junAmount = +e.target
+                                      //     .value;
+                                      //   setTableData(updatedData);
+                                      // } else {
+                                      //   const updatedData = [...tableData];
+                                      //   updatedData[index].junAmount = 0;
+                                      //   setTableData(updatedData);
+                                      //   return toast.warn(
+                                      //     "Value must be greater than 0"
+                                      //   );
+                                      // }
+                                    }}
+                                  />
+                                ) : item?.entryType === "Percentage" ? (
+                                  <InputField
+                                    value={item?.junAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].junAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
                                     }}
                                   />
                                 ) : (

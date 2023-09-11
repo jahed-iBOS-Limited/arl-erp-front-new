@@ -35,6 +35,8 @@ const headers = [
   "Month",
   "Year",
   "Allotment Qty",
+  "Challan Qty",
+  "Remaining Qty",
   "Revenue Rate (Tk)",
   "Revenue Amount",
   "Action",
@@ -116,7 +118,9 @@ const GudamAllotmentLanding = () => {
     IConfirmModal(objProps);
   };
 
-  let totalQty = 0;
+  let totalQty = 0,
+    totalChallanQty = 0,
+    totalRemainingQty = 0;
 
   function calculateTotalRevenueAmount(items) {
     let totalSum = 0;
@@ -285,6 +289,8 @@ const GudamAllotmentLanding = () => {
                       <tbody>
                         {rowData?.data?.map((item, index) => {
                           totalQty += item?.allotmentQuantity;
+                          totalChallanQty += item?.challanQuantity;
+                          totalRemainingQty += item?.remaingQuantity;
                           return (
                             <tr key={index}>
                               <td
@@ -301,6 +307,27 @@ const GudamAllotmentLanding = () => {
                               <td>{item?.yearId}</td>
                               <td className="text-right">
                                 {_fixedPoint(item?.allotmentQuantity, true)}
+                              </td>
+                              <td
+                                className="text-right"
+                                style={
+                                  item?.challanQuantity >
+                                  item?.allotmentQuantity
+                                    ? { backgroundColor: "#f9ee149c" }
+                                    : {}
+                                }
+                              >
+                                {_fixedPoint(item?.challanQuantity, true)}
+                              </td>
+                              <td
+                                className="text-right"
+                                style={
+                                  item?.remaingQuantity < 0
+                                    ? { backgroundColor: "#ff00007d" }
+                                    : {}
+                                }
+                              >
+                                {_fixedPoint(item?.remaingQuantity, true)}
                               </td>
                               <td className="text-right">
                                 {item?.revenueRate}
@@ -344,8 +371,15 @@ const GudamAllotmentLanding = () => {
                             <b>{_fixedPoint(totalQty, true)}</b>
                           </td>
                           <td className="text-right">
+                            <b>{_fixedPoint(totalChallanQty, true)}</b>
                           </td>
-                          <td className="text-right"><b>{calculateTotalRevenueAmount(rowData?.data)}</b></td>
+                          <td className="text-right">
+                            <b>{_fixedPoint(totalRemainingQty, true)}</b>
+                          </td>
+                          <td className="text-right"></td>
+                          <td className="text-right">
+                            <b>{calculateTotalRevenueAmount(rowData?.data)}</b>
+                          </td>
                           <td></td>
                         </tr>
                       </tbody>
@@ -362,6 +396,8 @@ const GudamAllotmentLanding = () => {
                           <th>Sl</th>
                           <th>Mother Vessel</th>
                           <th>Allotment Quantity</th>
+                          <th>Challan Quantity</th>
+                          <th>Remaining Quantity</th>
                           <th>Revenue Rate (TK.)</th>
                           <th>Item Name</th>
                           <th>Sold To Partner Name</th>
@@ -380,6 +416,27 @@ const GudamAllotmentLanding = () => {
                               <td>{item?.motherVesselName}</td>
                               <td className="text-center">
                                 {item?.allotmentQuantity}
+                              </td>
+                              <td
+                                className="text-center"
+                                style={
+                                  item?.challanQuantity >
+                                  item?.allotmentQuantity
+                                    ? { backgroundColor: "#f9ee149c" }
+                                    : {}
+                                }
+                              >
+                                {item?.challanQuantity}
+                              </td>
+                              <td
+                                className="text-center"
+                                style={
+                                  item?.remaingQuantity < 0
+                                    ? { backgroundColor: "#ff00007d" }
+                                    : {}
+                                }
+                              >
+                                {item?.remaingQuantity}
                               </td>
                               <td className="text-right">
                                 {item?.revenueRate}

@@ -11,6 +11,12 @@ import { _todayDate } from "../../../_chartinghelper/_todayDate";
 import ReactToPrint from "react-to-print";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import InputField from "../../../../_helper/_inputField";
+import NewSelect from "../../../../_helper/_select";
+import { getSBUListDDL } from "../../../../performanceManagement/stategyYearsPlan/helper";
+import { getSalesOrgList } from "../../../transaction/timeCharter/helper";
+import TextArea from "../../../../_helper/TextArea";
 
 const headers = [
   { name: "SL" },
@@ -28,46 +34,84 @@ const headers = [
   { name: "Rate" },
   { name: "Freight" },
   { name: "Unloading Jetty" },
+  { name: "Action" },
 ];
 
 const initData = {
   date: _todayDate(),
+  salesOrg: "",
+  sbu: "",
+  journalDate: _todayDate(),
+  narration: "",
 };
 
 export default function MonthlyVoyageStatement() {
   const [gridData, setGridData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [, createJournal, loader] = useAxiosPost();
+  const [sbuList, setSBUList] = useState([]);
+  const [salesOrgList, setSalesOrgList] = useState([]);
 
-  const { profileData, selectedBusinessUnit } = useSelector((state) => {
-    return state?.authData;
-  }, shallowEqual);
+  const {
+    profileData: { accountId: accId, userId },
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => state?.authData, shallowEqual);
 
   useEffect(() => {
     getMonthlyVoyageStatement(
-      profileData?.accountId,
-      selectedBusinessUnit?.value,
+      accId,
+      buId,
       _todayDate(),
       setGridData,
       setLoading
     );
-  }, [profileData, selectedBusinessUnit]);
+    getSBUListDDL(accId, buId, setSBUList);
+  }, [accId, buId]);
+
+  const JournalPost = (values, item, index) => {
+    const payload = {
+      accountId: accId,
+      businessUnitId: buId,
+      sbuId: values?.sbu?.value,
+      salesOrgId: values?.salesOrg?.value,
+      actionby: userId,
+      date: values?.journalDate,
+      totalAmount: item?.numTotalFreight,
+      narration: values?.narration,
+      lighterVesselId: 0,
+      consigneeParty: 0,
+    };
+
+    createJournal(
+      `https://imarine.ibos.io/domain/LighterVesselStatement/LighterVesselIncomeSatetementJournal`,
+      payload,
+      () => {
+        let _data = [...gridData];
+        _data[index]["jvDisable"] = true;
+        setGridData(_data);
+      },
+      true
+    );
+  };
 
   const printRef = useRef();
 
-  let totalFinalQty = 0, totalEstQty=0,
+  let totalFinalQty = 0,
+    totalEstQty = 0,
     totalFreight = 0;
+
+  const isLoading = loader || loading;
 
   return (
     <>
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        // validationSchema={{}}
-        onSubmit={(values, { setSubmitting, resetForm }) => {}}
+        onSubmit={() => {}}
       >
         {({ values, errors, touched, setFieldValue }) => (
           <>
-            {loading && <Loading />}
+            {isLoading && <Loading />}
             <form className="marine-form-card">
               <div className="marine-form-card-content">
                 <div className="row">
@@ -81,8 +125,8 @@ export default function MonthlyVoyageStatement() {
                       onChange={(e) => {
                         setFieldValue("date", e.target.value);
                         getMonthlyVoyageStatement(
-                          profileData?.accountId,
-                          selectedBusinessUnit?.value,
+                          accId,
+                          buId,
                           e?.target?.value,
                           setGridData,
                           setLoading
@@ -121,9 +165,67 @@ export default function MonthlyVoyageStatement() {
                       content={() => printRef.current}
                     />
                   </div>
-                  {/* <div className="ml-2">
-                    
-                  </div> */}
+                  {gridData?.length > 0 && (
+                    <>
+                      <div className="col-lg-2">
+                        <NewSelect
+                          value={values?.sbu || ""}
+                          options={sbuList || []}
+                          name="sbu"
+                          placeholder="SBU"
+                          label="SBU"
+                          onChange={(valueOption) => {
+                            setFieldValue("sbu", valueOption);
+                            setFieldValue("salesOrg", "");
+                            if (valueOption) {
+                              getSalesOrgList(
+                                accId,
+                                buId,
+                                valueOption?.value,
+                                setSalesOrgList,
+                                setLoading
+                              );
+                            }
+                          }}
+                        />
+                      </div>
+                      <div className="col-lg-2">
+                        <NewSelect
+                          value={values?.salesOrg || ""}
+                          options={salesOrgList || []}
+                          name="salesOrg"
+                          placeholder="Sales Organization"
+                          label="Sales Organization"
+                          onChange={(valueOption) => {
+                            setFieldValue("salesOrg", valueOption);
+                          }}
+                          isDisabled={!values?.sbu}
+                        />
+                      </div>
+                      <div className="col-lg-2">
+                        <InputField
+                          label="Journal Date"
+                          value={values?.journalDate}
+                          name="journalDate"
+                          placeholder="Date"
+                          type="date"
+                          onChange={(e) => {
+                            setFieldValue("journalDate", e.target.value);
+                          }}
+                        />
+                      </div>
+                      <div className="col-lg-4">
+                        <label>Narration</label>
+                        <TextArea
+                          value={values?.narration}
+                          name="narration"
+                          placeholder="Narration"
+                          type="text"
+                          rows="3"
+                        />
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
               <div ref={printRef}>
@@ -138,7 +240,7 @@ export default function MonthlyVoyageStatement() {
                       new Date(values?.date)?.getFullYear()}
                   </h4>
                 </div>
-                <ICustomTable id="table-to-xlsx" ths={headers} >
+                <ICustomTable id="table-to-xlsx" ths={headers}>
                   <div className="d-none" style={{ textAlign: "center" }}>
                     <h3>Akij Shipping Lines Ltd</h3>
                     <h4>
@@ -183,6 +285,23 @@ export default function MonthlyVoyageStatement() {
                           {_fixedPoint(item?.numTotalFreight, true, 0)}
                         </td>
                         <td>{item?.dischargePortName}</td>
+                        <td>
+                          <button
+                            className="btn btn-sm btn-info"
+                            type="button"
+                            onClick={() => {
+                              JournalPost(values, item, index);
+                            }}
+                            disabled={true
+                              // item?.jvDisable ||
+                              // isLoading ||
+                              // !values?.sbu ||
+                              // !values?.salesOrg
+                            }
+                          >
+                            JV
+                          </button>
+                        </td>
                       </tr>
                     );
                   })}
@@ -200,6 +319,7 @@ export default function MonthlyVoyageStatement() {
                     <td className="text-right">
                       <b>{_fixedPoint(totalFreight, true, 0)}</b>
                     </td>
+                    <td> </td>
                     <td> </td>
                   </tr>
                 </ICustomTable>
