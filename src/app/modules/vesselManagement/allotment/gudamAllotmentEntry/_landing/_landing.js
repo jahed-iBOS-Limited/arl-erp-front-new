@@ -322,7 +322,7 @@ const GudamAllotmentLanding = () => {
                               <td
                                 className="text-right"
                                 style={
-                                  item?.remaingQuantity === null
+                                  item?.remaingQuantity < 0
                                     ? { backgroundColor: "#ff00007d" }
                                     : {}
                                 }
@@ -431,7 +431,7 @@ const GudamAllotmentLanding = () => {
                               <td
                                 className="text-center"
                                 style={
-                                  item?.remaingQuantity === null
+                                  item?.remaingQuantity < 0
                                     ? { backgroundColor: "#ff00007d" }
                                     : {}
                                 }
