@@ -392,12 +392,23 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       // }
                                     }}
                                   />
+                                ) : item?.entryType === "Percentage" ? (
+                                  <InputField
+                                    value={item?.julAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].julAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
+                                    }}
+                                  />
                                 ) : (
                                   item?.julAmount
                                 )}
                               </td>
                               <td>
-                                {/* {item?.augAmount} */}
                                 {item?.entryType === "Manual" ? (
                                   <InputField
                                     value={item?.augAmount}
@@ -408,20 +419,18 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       updatedData[index].augAmount =
                                         e.target.value;
                                       setTableData(updatedData);
-
-                                      // if (+e.target.value >= 0) {
-                                      //   const updatedData = [...tableData];
-                                      //   updatedData[index].augAmount = +e.target
-                                      //     .value;
-                                      //   setTableData(updatedData);
-                                      // } else {
-                                      //   const updatedData = [...tableData];
-                                      //   updatedData[index].augAmount = 0;
-                                      //   setTableData(updatedData);
-                                      //   return toast.warn(
-                                      //     "Value must be greater than 0"
-                                      //   );
-                                      // }
+                                    }}
+                                  />
+                                ) : item?.entryType === "Percentage" ? (
+                                  <InputField
+                                    value={item?.augAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].augAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
                                     }}
                                   />
                                 ) : (
@@ -455,6 +464,18 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       // }
                                     }}
                                   />
+                                ) : item?.entryType === "Percentage" ? (
+                                  <InputField
+                                    value={item?.sepAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].sepAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
+                                    }}
+                                  />
                                 ) : (
                                   item?.sepAmount
                                 )}
@@ -486,13 +507,23 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       // }
                                     }}
                                   />
+                                ) : item?.entryType === "Percentage" ? (
+                                  <InputField
+                                    value={item?.octAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].octAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
+                                    }}
+                                  />
                                 ) : (
                                   item?.octAmount
                                 )}
                               </td>
                               <td>
-                                {/* {item?.novAmount} */}
-
                                 {item?.entryType === "Manual" ? (
                                   <InputField
                                     value={item?.novAmount}
@@ -516,6 +547,18 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       //     "Value must be greater than 0"
                                       //   );
                                       // }
+                                    }}
+                                  />
+                                ) : item?.entryType === "Percentage" ? (
+                                  <InputField
+                                    value={item?.novAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].novAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
                                     }}
                                   />
                                 ) : (
@@ -549,6 +592,18 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       // }
                                     }}
                                   />
+                                ) : item?.entryType === "Percentage" ? (
+                                  <InputField
+                                    value={item?.decAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].decAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
+                                    }}
+                                  />
                                 ) : (
                                   item?.decAmount
                                 )}
@@ -578,6 +633,18 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       //     "Value must be greater than 0"
                                       //   );
                                       // }
+                                    }}
+                                  />
+                                ) : item?.entryType === "Percentage" ? (
+                                  <InputField
+                                    value={item?.janAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].janAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
                                     }}
                                   />
                                 ) : (
@@ -611,6 +678,18 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       // }
                                     }}
                                   />
+                                ) : item?.entryType === "Percentage" ? (
+                                  <InputField
+                                    value={item?.febAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].febAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
+                                    }}
+                                  />
                                 ) : (
                                   item?.febAmount
                                 )}
@@ -640,6 +719,18 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       //     "Value must be greater than 0"
                                       //   );
                                       // }
+                                    }}
+                                  />
+                                ) : item?.entryType === "Percentage" ? (
+                                  <InputField
+                                    value={item?.marAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].marAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
                                     }}
                                   />
                                 ) : (
@@ -673,6 +764,18 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       // }
                                     }}
                                   />
+                                ) : item?.entryType === "Percentage" ? (
+                                  <InputField
+                                    value={item?.aprAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].aprAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
+                                    }}
+                                  />
                                 ) : (
                                   item?.aprAmount
                                 )}
@@ -704,6 +807,18 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       // }
                                     }}
                                   />
+                                ) : item?.entryType === "Percentage" ? (
+                                  <InputField
+                                    value={item?.mayAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].mayAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
+                                    }}
+                                  />
                                 ) : (
                                   item?.mayAmount
                                 )}
@@ -733,6 +848,18 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       //     "Value must be greater than 0"
                                       //   );
                                       // }
+                                    }}
+                                  />
+                                ) : item?.entryType === "Percentage" ? (
+                                  <InputField
+                                    value={item?.junAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].junAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
                                     }}
                                   />
                                 ) : (
