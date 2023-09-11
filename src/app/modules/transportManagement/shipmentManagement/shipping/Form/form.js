@@ -277,7 +277,7 @@ export default function _Form({
               loader) && <Loading />}
             {isSubsidyRunning && (
               <marquee
-                direction="left"
+                direction='left'
                 style={{
                   fontSize: "15px",
                   fontWeight: "bold",
@@ -287,26 +287,24 @@ export default function _Form({
                 Transport subsidiary is running....
               </marquee>
             )}
-            <Form className="form form-label-right">
-              <div className="row mt-1">
-                <div className="col-lg-9 text-center">
+            <Form className='form form-label-right'>
+              <div className='row mt-1'>
+                <div className='col-lg-9 text-center'>
                   <h4>Warehouse: {deliveryeDatabydata?.warehouseName}</h4>
                 </div>
                 {values?.Vehicle && (
                   <div
-                    className="col-lg-3"
+                    className='col-lg-3'
                     style={{ backgroundColor: "yellow" }}
                   >
                     <h5>
-                      {values?.Vehicle?.isRental
-                        ? "Rental Vehicle"
-                        : "Company Vehicle"}
+                      {values?.Vehicle?.ownerType && `${values?.Vehicle?.ownerType} Vehicle`}
                     </h5>
                   </div>
                 )}
-                <div className="col-lg-12 p-0 m-0">
+                <div className='col-lg-12 p-0 m-0'>
                   <div
-                    className="row global-form m-0"
+                    className='row global-form m-0'
                     style={{ paddingBottom: "10px" }}
                   >
                     <>
@@ -314,7 +312,7 @@ export default function _Form({
                         return itm?.type === "asyncSelect" ? (
                           isGateMaintain && (
                             <>
-                              <div className="col-lg-3">
+                              <div className='col-lg-3'>
                                 <label>{itm?.label}</label>
                                 <SearchAsyncSelect
                                   // isDisabled={itm?.isDisabled}
@@ -355,7 +353,7 @@ export default function _Form({
                                 />
                                 <FormikError
                                   errors={errors}
-                                  name="product"
+                                  name='product'
                                   touched={touched}
                                 />
                               </div>
@@ -363,15 +361,15 @@ export default function _Form({
                           )
                         ) : itm?.type === "cardInput" ? (
                           isGateMaintain && (
-                            <div className="col-lg-3 d-flex">
+                            <div className='col-lg-3 d-flex'>
                               <div style={{ width: "inherit" }}>
                                 <InputField
                                   disabled={itm?.isDisabled}
-                                  id="cardNoInput"
+                                  id='cardNoInput'
                                   value={values?.strCardNo}
                                   label={itm?.label}
-                                  name="strCardNo"
-                                  type="text"
+                                  name='strCardNo'
+                                  type='text'
                                   onKeyPress={(e) => {
                                     if (e.key === "Enter") {
                                       document.getElementById(
@@ -469,15 +467,15 @@ export default function _Form({
                                     style={{
                                       color: "blue",
                                     }}
-                                    className="fa fa-refresh"
-                                    aria-hidden="true"
+                                    className='fa fa-refresh'
+                                    aria-hidden='true'
                                   ></i>
                                 </span>
                               )}
                             </div>
                           )
                         ) : (
-                          <div className="col-lg-3">
+                          <div className='col-lg-3'>
                             <ISelect
                               label={itm.label}
                               placeholder={itm.label}
@@ -494,89 +492,89 @@ export default function _Form({
                           </div>
                         );
                       })}
-                      <div className="col-lg-3">
+                      <div className='col-lg-3'>
                         <InputField
                           value={values.lastDistance}
-                          label="Last Distance (KM)"
-                          name="lastDistance"
-                          type="number"
+                          label='Last Distance (KM)'
+                          name='lastDistance'
+                          type='number'
                           disabled
                         />
                       </div>
-                      <div className="col-lg-3">
+                      <div className='col-lg-3'>
                         <NewSelect
-                          name="isLaborImpart"
+                          name='isLaborImpart'
                           options={[
                             { value: false, label: "No" },
                             { value: true, label: "Yes" },
                           ]}
                           value={values?.isLaborImpart}
-                          label="Labor/Handling Provided"
+                          label='Labor/Handling Provided'
                           onChange={(valueOption) => {
                             setFieldValue("isLaborImpart", valueOption);
                             setFieldValue("supplierName", "");
                             setFieldValue("laborSupplierName", "");
                           }}
-                          placeholder="Labor/Handling Provided"
+                          placeholder='Labor/Handling Provided'
                           errors={errors}
                           touched={touched}
                           isDisabled={true}
                         />
                       </div>
-                      <div className="col-lg-3">
+                      <div className='col-lg-3'>
                         <label>Estimated of Arrival Date </label>
                         <ICalendar
                           value={values.estimatedTimeofArrival || ""}
-                          name="estimatedTimeofArrival"
+                          name='estimatedTimeofArrival'
                           disabled={isEdit}
                         />
                       </div>
-                      <div className="col-lg-3">
+                      <div className='col-lg-3'>
                         <label>Planned Loading Time </label>
                         <ICalendar
                           value={values.planedLoadingTime || ""}
-                          name="planedLoadingTime"
+                          name='planedLoadingTime'
                           disabled={isEdit}
                         />
                       </div>
-                      <div className="col-lg-3">
+                      <div className='col-lg-3'>
                         <InputField
                           value={values.driverName || ""}
-                          placeholder="Driver Name"
-                          name="driverName"
-                          label="Driver Name"
+                          placeholder='Driver Name'
+                          name='driverName'
+                          label='Driver Name'
                           component={Input}
-                          type="text"
+                          type='text'
                           disabled
                         />
                       </div>
-                      <div className="col-lg-3">
+                      <div className='col-lg-3'>
                         <InputField
                           value={values.driverContactNo || ""}
-                          placeholder="Driver Contact No"
-                          name="driverContactNo"
-                          label="Driver Contact No"
+                          placeholder='Driver Contact No'
+                          name='driverContactNo'
+                          label='Driver Contact No'
                           component={Input}
-                          type="text"
+                          type='text'
                           disabled
                         />
                       </div>
-                      <div className="col-lg-3" style={{ display: "none" }}>
+                      <div className='col-lg-3' style={{ display: "none" }}>
                         <InputField
                           value={values.driverId || ""}
-                          placeholder="Driver Id"
-                          name="driverId"
-                          label="Driver Id"
+                          placeholder='Driver Id'
+                          name='driverId'
+                          label='Driver Id'
                           component={Input}
-                          type="text"
+                          type='text'
                         />
                       </div>
                       {!isEdit && (
-                        <div className="col-lg-3">
+                        <div className='col-lg-3'>
                           <NewSelect
-                            name="pendingDelivery"
-                            placeholder="Pending Delivery List"
-                            label="Pending Delivery List"
+                            name='pendingDelivery'
+                            placeholder='Pending Delivery List'
+                            label='Pending Delivery List'
                             options={PendingDeliveryDDL || []}
                             value={values?.pendingDelivery}
                             isDisabled={!values?.Vehicle}
@@ -625,10 +623,10 @@ export default function _Form({
                         </div>
                       )}
 
-                      <div className="col-lg-3 mt-5">
+                      <div className='col-lg-3 mt-5'>
                         <button
-                          className="btn btn-primary btn-sm"
-                          type="button"
+                          className='btn btn-primary btn-sm'
+                          type='button'
                           onClick={() => {
                             getShipmentDetailInfo(
                               `/oms/Shipment/ChallanWiseTransportZoneRate?accountId=${accId}&businessUnitId=${buId}&deliveryId=${values?.pendingDelivery?.value}`,
@@ -647,10 +645,10 @@ export default function _Form({
                           See Slab Rates
                         </button>
                       </div>
-                      <div className="col-lg-3 mt-5">
+                      <div className='col-lg-3 mt-5'>
                         <button
-                          className="btn btn-primary btn-sm"
-                          type="button"
+                          className='btn btn-primary btn-sm'
+                          type='button'
                           onClick={() => {
                             const payload = rowDto?.map((e) => e?.deliveryId);
                             getItemListForChallan(
@@ -670,7 +668,7 @@ export default function _Form({
                         </button>
                       </div>
                       {values?.Vehicle?.isRental && (
-                        <div className="col-lg-3">
+                        <div className='col-lg-3'>
                           <label> Vehicle Supplier Name</label>
                           <SearchAsyncSelect
                             selectedValue={values.supplierName}
@@ -693,13 +691,13 @@ export default function _Form({
                           />
                           <FormikError
                             errors={errors}
-                            name="supplierName"
+                            name='supplierName'
                             touched={touched}
                           />
                         </div>
                       )}
                       {values?.isLaborImpart?.value && (
-                        <div className="col-lg-3">
+                        <div className='col-lg-3'>
                           <label>Labor/Handling Supplier Name</label>
                           <SearchAsyncSelect
                             selectedValue={values.laborSupplierName}
@@ -723,7 +721,7 @@ export default function _Form({
                           />
                           <FormikError
                             errors={errors}
-                            name="laborSupplierName"
+                            name='laborSupplierName'
                             touched={touched}
                           />
                         </div>
@@ -739,7 +737,7 @@ export default function _Form({
                         style={{ marginTop: "10px" }}
                       >
                         <div>
-                          <b className="mr-2">
+                          <b className='mr-2'>
                             Vehicle Capacity : &nbsp;
                             {rowDto?.length
                               ? values?.unloadVehicleWeight ||
@@ -759,7 +757,7 @@ export default function _Form({
                         </div>
 
                         <div>
-                          <b className="mr-2">
+                          <b className='mr-2'>
                             Product Actual : &nbsp;
                             {rowDto?.length
                               ? values?.unloadVehicleVolume ||
@@ -802,10 +800,10 @@ export default function _Form({
                       </div>
 
                       {!isEdit && (
-                        <div className="col d-flex justify-content-end align-items-center">
+                        <div className='col d-flex justify-content-end align-items-center'>
                           <button
-                            type="button"
-                            className="btn btn-primary mt-2"
+                            type='button'
+                            className='btn btn-primary mt-2'
                             onClick={() => addBtnHandler(values, setFieldValue)}
                             disabled={
                               !values.pendingDelivery ||
@@ -817,7 +815,7 @@ export default function _Form({
                           </button>
                         </div>
                       )}
-                      <div className="col-12 mt-3">
+                      <div className='col-12 mt-3'>
                         <p>
                           <strong>Narration: </strong>{" "}
                           <mark style={{ backgroundColor: "yellow" }}>
@@ -835,12 +833,12 @@ export default function _Form({
                   </div>
                 </div>
               </div>
-              <hr className="m-1"></hr>
+              <hr className='m-1'></hr>
 
-              <div className="row cash_journal bank-journal bank-journal-custom">
-                <div className="col-lg-12 pr-0 pl-0">
+              <div className='row cash_journal bank-journal bank-journal-custom'>
+                <div className='col-lg-12 pr-0 pl-0'>
                   {rowDto?.length >= 0 && (
-                    <table className="table table-striped table-bordered mt-1 bj-table bj-table-landing sales_order_landing_table">
+                    <table className='table table-striped table-bordered mt-1 bj-table bj-table-landing sales_order_landing_table'>
                       <thead>
                         <tr>
                           <th style={{ width: "35px" }}>SL</th>
@@ -859,54 +857,54 @@ export default function _Form({
                       <tbody>
                         {rowDto.map((itm, index) => (
                           <tr key={index}>
-                            <td className="text-center">{++index}</td>
+                            <td className='text-center'>{++index}</td>
                             <td>
-                              <div className="text-right pr-2">
+                              <div className='text-right pr-2'>
                                 {itm.deliveryId}
                               </div>
                             </td>
                             <td>
-                              <div className="text-right pr-2">
+                              <div className='text-right pr-2'>
                                 {itm.deliveryCode}
                               </div>
                             </td>
                             <td>
-                              <div className="pl-2">
+                              <div className='pl-2'>
                                 {itm.shipToPartnerName}
                               </div>
                             </td>
                             <td>
-                              <div className="pl-2">
+                              <div className='pl-2'>
                                 {itm.shipToPartnerAddress}
                               </div>
                             </td>
                             <td>
-                              <div className="pl-2">
+                              <div className='pl-2'>
                                 {itm.transportZoneName}
                               </div>
                             </td>
                             <td>
-                              <div className="pl-2">{itm.loadingPointName}</div>
+                              <div className='pl-2'>{itm.loadingPointName}</div>
                             </td>
                             <td>
-                              <div className="text-right pr-2">
+                              <div className='text-right pr-2'>
                                 {itm?.quantity}
                               </div>
                             </td>
                             <td>
-                              <div className="text-right pr-2">
+                              <div className='text-right pr-2'>
                                 {itm?.itemTotalNetWeight}
                               </div>
                             </td>
                             <td>
-                              <div className="text-right pr-2">
+                              <div className='text-right pr-2'>
                                 {itm?.itemTotalVolume}
                               </div>
                             </td>
                             {!isEdit && (
-                              <td className="text-center">
+                              <td className='text-center'>
                                 <i
-                                  className="fa fa-trash"
+                                  className='fa fa-trash'
                                   onClick={() =>
                                     remover(--index, setFieldValue)
                                   }
@@ -921,15 +919,15 @@ export default function _Form({
                 </div>
               </div>
               <IViewModal
-                modelSize="md"
-                title="Challan Items Preview"
+                modelSize='md'
+                title='Challan Items Preview'
                 show={open}
                 onHide={() => setOpen(false)}
               >
                 <ChallanItemsPreview rowData={previewItems} />
               </IViewModal>
               <IViewModal
-                title="Zone Cost Rates"
+                title='Zone Cost Rates'
                 show={show}
                 onHide={() => setShow(false)}
               >
@@ -937,14 +935,14 @@ export default function _Form({
               </IViewModal>
               <button
                 // type="submit"
-                type="button"
+                type='button'
                 style={{ display: "none" }}
                 ref={btnRef}
                 // onSubmit={() => handleSubmit()}
                 onClick={() => handleSubmit()}
               ></button>
               <button
-                type="reset"
+                type='reset'
                 style={{ display: "none" }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
