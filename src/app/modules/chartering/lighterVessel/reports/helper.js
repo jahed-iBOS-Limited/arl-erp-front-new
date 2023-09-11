@@ -13,7 +13,7 @@ export const getMonthlyVoyageStatement = async (
     const res = await axios.get(
       `https://imarine.ibos.io/domain/LighterVesselStatement/GetLighterVesselTripStatement?AccountId=${accId}&BusinessUnitId=${buId}&searchDate=${date}`
     );
-    setter(res?.data);
+    setter(res?.data?.map((item) => ({ ...item, jvDisable: false })));
     setLoading(false);
   } catch (error) {
     setter([]);
