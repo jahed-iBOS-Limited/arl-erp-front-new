@@ -25,6 +25,15 @@ export function PartnerLandingCard() {
           >
             Create New
           </button>
+          <button
+            type="button"
+            className="btn btn-primary ml-5"
+            onClick={() =>
+              history.push("/config/partner-management/partner-basic-info/bulk-upload")
+            }
+          >
+            Bulk Upload
+          </button>
         </CardHeaderToolbar>
       </CardHeader>
       <CardBody>
