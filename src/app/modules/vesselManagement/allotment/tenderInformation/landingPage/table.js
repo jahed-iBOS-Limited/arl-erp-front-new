@@ -139,6 +139,8 @@ export default function TenderInformationLandingTable() {
                         <th>Hatch Labour Rate</th>
                         <th>Lot No</th>
                         <th>Program Quantity</th>
+                        <th>Challan Quantity</th>
+                        <th>Remaining Quantity</th>
                         <th>Weight</th>
                         <th>Action</th>
                       </tr>
@@ -164,6 +166,19 @@ export default function TenderInformationLandingTable() {
                             <td>{item?.lotNo}</td>
                             <td className="text-right">
                               {_fixedPoint(item?.programQnt, true)}
+                            </td>
+                            <td className="text-right">
+                              {_fixedPoint(item?.challanQuantity, true)}
+                            </td>
+                            <td
+                              className="text-right"
+                              style={
+                                item?.remaingQuantity < 0
+                                  ? { backgroundColor: "#ff00007d" }
+                                  : { backgroundColor: "#90ee90" }
+                              }
+                            >
+                              {_fixedPoint(item?.remaingQuantity, true)}
                             </td>
                             <td className="text-right">
                               {_fixedPoint(item?.netWeight, true)}
