@@ -385,7 +385,7 @@ export function TableRow() {
                 </div>
               </div>
 
-              {gridData?.data?.length === 0 ? (
+              {gridData?.data?.length > 0 ? (
                 <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                   <thead>
                     <tr>
