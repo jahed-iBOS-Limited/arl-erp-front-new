@@ -21,6 +21,7 @@ function YeildReport({ tableData, values }) {
                     <th>Product</th>
                     <th>Issue</th>
                     <th>Consumption KG</th>
+                    <th>Actual Consumption</th>
                     <th>WIP</th>
                     <th>Production KG</th>
                     <th>By Product KG</th>
@@ -39,11 +40,11 @@ function YeildReport({ tableData, values }) {
                   {tableData?.map((item, index) => {
                     let byProductPercent =
                       ((+item?.producationqtyBag || 0) /
-                        (+item?.consumtionQty || 0)) *
+                        (+item?.actualConsumtionQty || 0)) *
                       100;
                     let yieldPerPercent =
                       ((+item?.producationQty || 0) /
-                        (+item?.consumtionQty || 0)) *
+                        (+item?.actualConsumtionQty || 0)) *
                       100;
                     return (
                       <>
@@ -55,6 +56,9 @@ function YeildReport({ tableData, values }) {
                           </td>
                           <td className='text-right'>
                             {_fixedPoint(item?.consumtionQty || 0)}
+                          </td>
+                          <td className='text-right'>
+                            {_fixedPoint(item?.actualConsumtionQty || 0)}
                           </td>
                           <td className='text-right'>
                             {_fixedPoint(item?.wip || 0)}
