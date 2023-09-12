@@ -171,6 +171,7 @@ export default function BillofMaretialCreateForm() {
           itemName: item?.material?.label,
           quantity: item?.quantity,
           uomid: +item?.material?.baseUomid || +item?.uoMid,
+          bommainItem: item?.bommainItem,
           isActive: true,
         }));
         const payload = {
@@ -198,6 +199,7 @@ export default function BillofMaretialCreateForm() {
           quantity: item?.quantity,
           // uomid: +item?.material?.baseUomid,
           uomid: +item?.material?.baseUomid || +item?.uoMid,
+          bommainItem: item?.bommainItem,
           isActive: true,
         }));
         const payload = {

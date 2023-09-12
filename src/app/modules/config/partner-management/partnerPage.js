@@ -24,7 +24,6 @@ import PartnerOverDueRequestTable from "./partnerOverDueRequest/landing/table";
 import PartnerOverDueRequestForm from "./partnerOverDueRequest/form/addEditForm";
 import PartnerPriceAndLimitRequestTable from "./partnerPriceNLimitRequest/landing/table";
 import PartnerPriceAndLimitRequestForm from "./partnerPriceNLimitRequest/form/addEditForm";
-import PartnerCheckSubmitTable from "./partnerCheckSubmit/landing/table";
 import PartnerCheckSubmitForm from "./partnerCheckSubmit/form/addEditForm";
 import MarketShareEntryLandingPage from "./marketShareEntry/landingPage/form";
 import MarketShareEntryForm from "./marketShareEntry/form/addEditForm";
@@ -34,6 +33,9 @@ import PartnerCheckSubmitForCement from "./partnerCheckSubmit/forCement/form/add
 import PartnerCheckSubmitTableForCement from "./partnerCheckSubmit/forCement/landing/table";
 import PartnerChequeInfo from "./partnerchequeinfo/landing/form";
 import ShippingPointnTransportRate from "./shippingPointnTransportrate";
+import ExportPaymentPostingForm from "./partnerCheckSubmit/foreignForm/addEditForm";
+import PartnerCheckSubmitLanding from "./partnerCheckSubmit/landing";
+import PartnerBulkUpload from "./partnerBasicInfo/partnerBulkUpload/partnerBulkUpload";
 
 export function PartnerPages() {
   const userRole = useSelector(
@@ -63,6 +65,12 @@ export function PartnerPages() {
         to="/config/partner-management/partner-basic-info"
       />
 
+      <ContentRoute
+        path="/config/partner-management/partner-basic-info/bulk-upload"
+        component={
+          partnerProfilePermission?.isCreate ? PartnerBulkUpload : NotPermittedPage
+        }
+      />
       <ContentRoute
         path="/config/partner-management/partner-basic-info/add"
         component={
@@ -212,11 +220,15 @@ export function PartnerPages() {
         }
       />
       <ContentRoute
+        from="/config/partner-management/partnerchecksubmit/export-payment-posting"
+        component={ExportPaymentPostingForm}
+      />
+      <ContentRoute
         from="/config/partner-management/partnerchecksubmit"
         component={
           buId === 4
             ? PartnerCheckSubmitTableForCement
-            : PartnerCheckSubmitTable
+            : PartnerCheckSubmitLanding
         }
       />
 

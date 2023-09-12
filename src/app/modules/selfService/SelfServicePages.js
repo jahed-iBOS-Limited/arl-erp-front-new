@@ -165,7 +165,7 @@ export function SelfServicePages() {
             component={TrainingLanding}
           />
           <ContentRoute
-            path="/self-service/allReport"
+            path="/self-service/SSOTReport"
             component={AllReport}
           />
           {/* <ContentRoute

@@ -151,7 +151,7 @@ export default function PurchasePlanCreateForm({
 
   return (
     <IForm
-      title={params?.id ? "Purchase Plan" : "Purchase Plan Create"}
+      title={params?.id ? "Procurement Plan" : "Procurement Plan Create"}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >
