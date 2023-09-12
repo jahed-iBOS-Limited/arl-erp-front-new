@@ -14,7 +14,7 @@ import { Routes } from "../app/Routes";
 const origin = window.location.origin;
 
 export const APIUrl =
-    process.env.NODE_ENV === "development" ? "https://erp.ibos.io" : origin;
+    process.env.NODE_ENV === "development" ? "https://deverp.ibos.io" : origin;
 Axios.defaults.baseURL = APIUrl;
 
 const App = ({ store, persistor, basename }) => {
