@@ -25,8 +25,10 @@ function YeildReport({ tableData, values }) {
                     <th>WIP</th>
                     <th>Production KG</th>
                     <th>By Product KG</th>
-                    <th>Rice(%)</th>
-                    <th>By Product(%)</th>
+                    <th>Standard Rice(%)</th>
+                    <th>Actual Rice(%)</th>
+                    <th>Standard By Product(%)</th>
+                    <th>Actual By Product(%)</th>
                     <th
                       style={{
                         width: "30px",
@@ -40,9 +42,17 @@ function YeildReport({ tableData, values }) {
                   {tableData?.map((item, index) => {
                     let byProductPercent =
                       ((+item?.producationqtyBag || 0) /
-                        (+item?.actualConsumtionQty || 0)) *
+                        (+item?.consumtionQty || 0)) *
                       100;
                     let yieldPerPercent =
+                      ((+item?.producationQty || 0) /
+                        (+item?.consumtionQty || 0)) *
+                      100;
+                    let actualByProductPercent =
+                      ((+item?.producationqtyBag || 0) /
+                        (+item?.actualConsumtionQty || 0)) *
+                      100;
+                    let actualYieldPerPercent =
                       ((+item?.producationQty || 0) /
                         (+item?.actualConsumtionQty || 0)) *
                       100;
@@ -76,7 +86,17 @@ function YeildReport({ tableData, values }) {
                           </td>
                           <td className='text-right'>
                             {_fixedPoint(
+                              isFinite(actualYieldPerPercent) ? actualYieldPerPercent : 0
+                            )}
+                          </td>
+                          <td className='text-right'>
+                            {_fixedPoint(
                               isFinite(byProductPercent) ? byProductPercent : 0
+                            )}
+                          </td>
+                          <td className='text-right'>
+                            {_fixedPoint(
+                              isFinite(actualByProductPercent) ? actualByProductPercent : 0
                             )}
                           </td>
                           <td>
