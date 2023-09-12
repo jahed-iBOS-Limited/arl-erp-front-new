@@ -1,34 +1,35 @@
 import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute } from "../../../../_metronic/layout";
-import SalesQuotation from "./salesQuotation";
-import { SalesContract } from "./salesContract";
-import SalesContactForm from "./salesContract/Form/addEditForm";
-import SalesQuotationForm from "./salesQuotation/Form/addEditForm";
+import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
+import findIndex from "./../../_helper/_findIndex";
+import CustomerIncentive from "./customerIncentive";
+import { CustomerVisitLanding } from "./customerVisit";
+import { CustomerVisitForm } from "./customerVisit/Form/addEditForm";
+import HologramPrintLanding from "./hologramPrint/table/table";
+import MonthlyCollectionPlanEntryForm from "./monthlyCollectionPlan/form/addEditForm";
+import { MonthlyCollectionPlanLanding } from "./monthlyCollectionPlan/landingPage/table";
+import OrdertransferLanding from "./ordertransfer/Table/index";
+import PartnerAllotmentChallanForm from "./partnerAllotmentChallan/Form/addEditForm";
+import PartnerAllotmentChallan from "./partnerAllotmentChallan/Table/table";
 import { PGI } from "./pgi";
 import PGIForm from "./pgi/Form/addEditForm";
+import { SalesContract } from "./salesContract";
+import SalesContactForm from "./salesContract/Form/addEditForm";
+import SalesContactViewForm from "./salesContract/ViewForm/addEditForm";
 import { SalesOrder } from "./salesOrder";
 import SalesOrderForm from "./salesOrder/Form/addEditForm";
-import SalesContactViewForm from "./salesContract/ViewForm/addEditForm";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import { shallowEqual, useSelector } from "react-redux";
-import OrdertransferLanding from "./ordertransfer/Table/index";
-import findIndex from "./../../_helper/_findIndex";
-import SalesOrderInActiveLanding from "./salesOrderInActive/landing/index";
-import PartnerAllotmentChallan from "./partnerAllotmentChallan/Table/table";
-import PartnerAllotmentChallanForm from "./partnerAllotmentChallan/Form/addEditForm";
-import { SalesReportOMS } from "./salesReportOMS/index";
 import { salesOrderInActiveMenuPermissionAPI } from "./salesOrderInActive/helper";
+import SalesOrderInActiveLanding from "./salesOrderInActive/landing/index";
 import SalesOrderReportLandingPage from "./salesOrderReport/Landing";
+import SalesQuotation from "./salesQuotation";
+import SalesQuotationForm from "./salesQuotation/Form/addEditForm";
+import SalesQuotationReadyMix from "./salesQuotationReadyMix";
+import SalesQuotationReadyMixForm from "./salesQuotationReadyMix/Form/addEditForm";
+import { SalesReportOMS } from "./salesReportOMS/index";
 import SalesReturnForm from "./salesReturn/form/addEditForm";
 import SalesReturn from "./salesReturn/landing/table";
-import SalesQuotationReadyMixForm from "./salesQuotationReadyMix/Form/addEditForm";
-import SalesQuotationReadyMix from "./salesQuotationReadyMix";
-import { CustomerVisitForm } from "./customerVisit/Form/addEditForm";
-import { CustomerVisitLanding } from "./customerVisit";
-import HologramPrintLanding from "./hologramPrint/table/table";
-import { MonthlyCollectionPlanLanding } from "./monthlyCollectionPlan/landingPage/table";
-import MonthlyCollectionPlanEntryForm from "./monthlyCollectionPlan/form/addEditForm";
 
 export function OrderManagementPages() {
   const userRole = useSelector(
@@ -256,6 +257,10 @@ export function OrderManagementPages() {
       <ContentRoute
         from="/sales-management/ordermanagement/MonthlyCollectionPlan"
         component={MonthlyCollectionPlanLanding}
+      />
+      <ContentRoute
+        from="/sales-management/ordermanagement/CustomerIncentive"
+        component={CustomerIncentive}
       />
     </Switch>
   );

@@ -35,6 +35,7 @@ import PartnerChequeInfo from "./partnerchequeinfo/landing/form";
 import ShippingPointnTransportRate from "./shippingPointnTransportrate";
 import ExportPaymentPostingForm from "./partnerCheckSubmit/foreignForm/addEditForm";
 import PartnerCheckSubmitLanding from "./partnerCheckSubmit/landing";
+import PartnerBulkUpload from "./partnerBasicInfo/partnerBulkUpload/partnerBulkUpload";
 
 export function PartnerPages() {
   const userRole = useSelector(
@@ -64,6 +65,12 @@ export function PartnerPages() {
         to="/config/partner-management/partner-basic-info"
       />
 
+      <ContentRoute
+        path="/config/partner-management/partner-basic-info/bulk-upload"
+        component={
+          partnerProfilePermission?.isCreate ? PartnerBulkUpload : NotPermittedPage
+        }
+      />
       <ContentRoute
         path="/config/partner-management/partner-basic-info/add"
         component={

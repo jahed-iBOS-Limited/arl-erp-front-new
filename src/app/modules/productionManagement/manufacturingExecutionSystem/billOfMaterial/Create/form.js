@@ -501,6 +501,7 @@ export default function _Form({
                               description: values?.UOM?.label,
                             },
                             quantity: values?.quantity,
+                            bommainItem:false,
                           };
                           setter(isUniq, "M", setFieldValue);
                           console.log("isUniq", isUniq);
@@ -524,6 +525,7 @@ export default function _Form({
                             </th>
                             <th style={{ width: "50px" }}>Qty</th>
                             <th style={{ width: "50px" }}>UoM</th>
+                            <th style={{ width: "50px" }}>Is Main Item</th>
                             <th style={{ width: "30px" }}>Actions</th>
                           </tr>
                         </thead>
@@ -571,6 +573,15 @@ export default function _Form({
                                   {item?.uomName ||
                                     item?.material?.description ||
                                     item?.values?.description}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="text-center">
+                                 <input type="checkbox" checked={item?.bommainItem} onChange={(e)=>{
+                                  let data = [...rowDto];
+                                  rowDto[index]["bommainItem"] = !item?.bommainItem;
+                                  setRowDto(data);
+                                 }} />
                                 </div>
                               </td>
 
@@ -669,6 +680,7 @@ export default function _Form({
                             costCenterName: values?.costCenter?.label,
                             productionCostType: values?.costType?.label,
                             ProductionCostTypeId: values?.costType?.value,
+                            bommainItem:false,
                           };
                           setter(payload, "C", setFieldValue);
                         }}
