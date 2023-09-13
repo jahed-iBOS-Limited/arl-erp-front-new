@@ -5,6 +5,7 @@ import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import IButton from "../../../../_helper/iButton";
 import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
+import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
 
 const reportTypes = [
   { value: 1, label: "Days And Amount Base Balance" },
@@ -126,21 +127,36 @@ export default function Form({ obj }) {
               </div>
             </>
           )}
-          <div className="col-lg-3">
-            <InputField
-              value={values?.date}
-              label={`${
-                [4, 5].includes(values?.reportType?.value) ? "Transaction" : ""
-              } Date`}
-              name="date"
-              type="date"
-              onChange={(e) => {
-                setIsShow(false);
-                setFieldValue("date", e?.target?.value);
-                setRowDto([]);
+          {![6].includes(values?.reportType?.value) && (
+            <div className="col-lg-3">
+              <InputField
+                value={values?.date}
+                label={`${
+                  [4, 5].includes(values?.reportType?.value)
+                    ? "Transaction"
+                    : ""
+                } Date`}
+                name="date"
+                type="date"
+                onChange={(e) => {
+                  setIsShow(false);
+                  setFieldValue("date", e?.target?.value);
+                  setRowDto([]);
+                }}
+              />
+            </div>
+          )}
+          {[6].includes(values?.reportType?.value) && (
+            <FromDateToDateForm
+              obj={{
+                values,
+                setFieldValue,
+                onChange: () => {
+                  setIsShow(false);
+                },
               }}
             />
-          </div>
+          )}
 
           {idSetOne(values) && (
             <>
