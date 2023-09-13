@@ -11,9 +11,13 @@ const headers = [
   "SL",
   "Customer Name",
   "SO Code",
-  "TT Amount",
-  "ERQ Value",
-  "ORQ Value",
+  "Conversion Rate",
+  "TT Amount (USD)",
+  "TT Amount (BDT)",
+  "ERQ Value (USD)",
+  "ERQ Value (BDT)",
+  "ORQ Value (USD)",
+  "ORQ Value (BDT)",
   "Total Expense Against TT",
   "Actions",
 ];
@@ -57,10 +61,14 @@ const ExportPaymentPostingTable = ({ obj }) => {
                   </td>
                   <td>{item?.customerName}</td>
                   <td>{item?.salesOrderCode}</td>
-                  <td>{_fixedPoint(item?.ttamount, true)}</td>
-                  <td>{_fixedPoint(item?.erqvalue, true)}</td>
-                  <td>{_fixedPoint(item?.orqvalue, true)}</td>
-                  <td>{_fixedPoint(item?.totalExpenseAganistTt, true)}</td>
+                  <td className="text-right">{_fixedPoint(item?.conversionRateBDT, true)}</td>
+                  <td className="text-right">{_fixedPoint(item?.ttamount, true)}</td>
+                  <td className="text-right">{_fixedPoint(item?.ttAmountBDT, true)}</td>
+                  <td className="text-right">{_fixedPoint(item?.erqvalue, true)}</td>
+                  <td className="text-right">{_fixedPoint(item?.erqvalueBDT, true)}</td>
+                  <td className="text-right">{_fixedPoint(item?.orqvalue, true)}</td>
+                  <td className="text-right">{_fixedPoint(item?.orqvalueBDT, true)}</td>
+                  <td className="text-right">{_fixedPoint(item?.totalExpenseAganistTt, true)}</td>
 
                   <td style={{ width: "80px" }} className="text-center">
                     <div className="d-flex justify-content-around">
