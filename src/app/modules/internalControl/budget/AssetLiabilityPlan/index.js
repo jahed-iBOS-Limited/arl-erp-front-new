@@ -6,7 +6,6 @@ import IForm from "../../../_helper/_form";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { shallowEqual, useSelector } from "react-redux";
 import IView from "../../../_helper/_helperIcons/_view";
-import IEdit from "../../../_helper/_helperIcons/_edit";
 const initData = {
   year: "",
 };
