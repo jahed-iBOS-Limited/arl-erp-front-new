@@ -85,7 +85,7 @@ export default function KpiDashboardForm() {
 
   useEffect(() => {
     if (profileData?.userId) {
-      dispatch(getEmployeeBasicInfoByIdAction(profileData?.userId));
+      dispatch(getEmployeeBasicInfoByIdAction(profileData?.employeeId));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData]);

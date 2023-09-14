@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useSelector } from 'react-redux';
 import IForm from '../../../_helper/_form';
 import Loading from '../../../_helper/_loading';
 import NewSelect from '../../../_helper/_select';
@@ -19,12 +19,11 @@ export function HrPlanLanding() {
       return state?.authData;
    }, shallowEqual);
 
-   const [yearDDL, getYearDDL, yLoading, setYearDDL] = useAxiosGet([]);
+   const [yearDDL, getYearDDL, yLoading] = useAxiosGet([]);
    const [
       departmentDDL,
       getDepartmentDDL,
       dLoading,
-      setDepartmentDDL,
    ] = useAxiosGet([]);
    const [rowDto, getRowDto, loading, setRowDto] = useAxiosGet([]);
    const [show, setShow] = useState(false);

@@ -33,6 +33,7 @@ export default function JobOrderView({ salesQuotationId }) {
         }
       );
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [salesQuotationId]);
 
   const totalFOBValue = (soRow, type) => {
