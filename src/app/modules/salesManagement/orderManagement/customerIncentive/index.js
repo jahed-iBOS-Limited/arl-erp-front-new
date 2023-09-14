@@ -2,6 +2,7 @@ import { Form, Formik } from "formik";
 import React, { useMemo, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import ReactHtmlTableToExcel from "react-html-table-to-excel";
 import InputField from "../../../_helper/_inputField";
 import NewSelect from "../../../_helper/_select";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
@@ -10,6 +11,7 @@ import Loading from "./../../../_helper/_loading";
 import useDebounce from "../../../_helper/customHooks/useDebounce";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { _formatMoney } from "../../../_helper/_formatMoney";
+import IConfirmModal from "../../../_helper/_confirmModal";
 
 const initData = {
   customerCategory: "",
@@ -21,7 +23,7 @@ const initData = {
 export default function CustomerIncentive() {
   const debounce = useDebounce();
   const [searchValue, setSearchValue] = useState("");
-  const [headingSelect, setHeadingSelect] = useState(false);
+  // const [headingSelect, setHeadingSelect] = useState(false);
   const [, saveData, saveLoader] = useAxiosPost();
   const [
     tradeCommission,
@@ -34,7 +36,6 @@ export default function CustomerIncentive() {
   const { value: buId } = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
-
   const { userId } = useSelector((state) => {
     return state?.authData?.profileData;
   }, shallowEqual);
@@ -48,12 +49,26 @@ export default function CustomerIncentive() {
     );
   }, [tradeCommission, searchValue]);
 
+  // handle all trade commission list select
+  const handleAllSelect = (e) => {
+    const updatedTradeCommission = tradeCommission?.map((item) => {
+      if (item?.isJvPosted) {
+        return item;
+      } else {
+        return {
+          ...item,
+          isSelect: e?.target?.checked,
+        };
+      }
+    });
+    setTradeCommission(updatedTradeCommission);
+  };
+
   // handle row slection on change
   const handleRowSelection = (key, value, currentItem) => {
     const newTradeCommissionData = [...tradeCommission];
     currentItem[key] = value;
     setTradeCommission(newTradeCommissionData);
-    setHeadingSelect(newTradeCommissionData?.every((item) => item?.isSelect));
   };
 
   // save handler
@@ -63,11 +78,12 @@ export default function CustomerIncentive() {
     tradeCommission?.forEach((item) => {
       if (item?.isSelect) {
         const newItem = {
-          incentiveType: values?.incentiveType?.value,
-          customerId: item?.customerId,
-          customerCode: item?.customerCode,
-          amount: item?.incentiveAmount,
-          dteDate: `${values?.monthYear}-01`,
+          incentiveType: item?.incentiveType || "",
+          customerId: item?.customerId || 0,
+          customerCode: item?.customerCode || "",
+          deliveryQty: item?.deliveryQty || 0,
+          amount: item?.incentiveAmount || 0,
+          dteDate: item?.dteDate || "",
           businessUnitId: buId,
           actionBy: userId,
         };
@@ -77,21 +93,40 @@ export default function CustomerIncentive() {
     });
 
     if (selectedTradeCommission?.length > 0) {
-      saveData(`/oms/SalesInformation/CreateTradeCommission`, selectedTradeCommission, cb, true);
+      IConfirmModal({
+        title: "Are you sure?",
+        message: "Are you sure want to post this JV?",
+        yesAlertFunc: () => {
+          saveData(
+            `/oms/SalesInformation/CreateTradeCommission`,
+            selectedTradeCommission,
+            cb,
+            true
+          );
+        },
+        noAlertFunc: () => {},
+      });
     } else {
       toast.warn("No item selected!");
     }
+  };
+
+  // get trade commission api handler
+  const getTradeCommissionHandler = (values) => {
+    getTradeCommission(
+      `/oms/SalesInformation/GetTradeCommission?partName=GetForCreate&businessUnitId=${buId}&customerId=0&monthYear=${values?.monthYear}-01&customerCategory=${values?.customerCategory?.value}&incentiveType=${values?.incentiveType?.value}`
+    );
   };
 
   return (
     <Formik
       enableReinitialize={true}
       initialValues={initData}
-      onSubmit={(values, { setSubmitting, resetForm }) => {
+      onSubmit={(values, { setFieldValue }) => {
         saveHandler(values, () => {
-          resetForm();
+          setFieldValue("searchText", "");
           setSearchValue("");
-          setTradeCommission([]);
+          getTradeCommissionHandler(values);
         });
       }}
     >
@@ -160,11 +195,7 @@ export default function CustomerIncentive() {
                     <button
                       type="button"
                       className="btn btn-primary"
-                      onClick={() => {
-                        getTradeCommission(
-                          `/oms/SalesInformation/GetTradeCommission?partName=GetForCreate&businessUnitId=${buId}&customerId=0&monthYear=${values?.monthYear}-01&customerCategory=${values?.customerCategory?.value}&incentiveType=${values?.incentiveType?.value}`
-                        );
-                      }}
+                      onClick={() => getTradeCommissionHandler(values)}
                       disabled={
                         !values?.customerCategory || !values?.incentiveType || !values?.monthYear
                       }
@@ -173,9 +204,15 @@ export default function CustomerIncentive() {
                     </button>
                   </div>
                   <div>
-                    <button type="button" className="btn btn-primary" onClick={() => {}} disabled>
-                      Excel
-                    </button>
+                    {tradeCommission?.length > 0 && (
+                      <ReactHtmlTableToExcel
+                        className="btn btn-primary"
+                        table="table-to-xlsx"
+                        filename="Customer Incentive"
+                        sheet="Sheet-1"
+                        buttonText="Export Excel"
+                      />
+                    )}
                   </div>
                 </div>
               </div>
@@ -224,7 +261,7 @@ export default function CustomerIncentive() {
                 </div>
                 {tradeCommission?.length > 0 ? (
                   <table
-                    style={{ maxHeight: "400px", overflow: "scroll" }}
+                    id="table-to-xlsx"
                     className="table table-striped table-bordered global-table"
                   >
                     <thead>
@@ -233,33 +270,22 @@ export default function CustomerIncentive() {
                           <input
                             type="checkbox"
                             name="isSelect"
-                            checked={headingSelect}
-                            onChange={(e) => {
-                              setHeadingSelect(e?.target?.checked);
-                              const updatedTradeCommission = tradeCommission?.map((item) => {
-                                if (item?.isJvPosted) {
-                                  return item;
-                                } else {
-                                  return {
-                                    ...item,
-                                    isSelect: e?.target?.checked,
-                                  };
-                                }
-                              });
-                              setTradeCommission(updatedTradeCommission);
-                            }}
+                            checked={tradeCommission?.every((item) => item?.isSelect)}
+                            onChange={handleAllSelect}
                           />
                         </th>
                         <th>SL</th>
                         <th>Customer Code</th>
                         <th>Customer Name</th>
                         <th>Customer Category</th>
+                        <th>UoM</th>
                         <th>Delivery Qty</th>
                         <th>
                           {values?.incentiveType?.value === "General"
                             ? "General Incentive"
                             : "Monthly Incentive"}
                         </th>
+                        <th>Is JV Posted</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -278,11 +304,13 @@ export default function CustomerIncentive() {
                               />
                             </td>
                             <td>{index + 1}</td>
-                            <td className="text-center">{item?.customerCode}</td>
-                            <td>{item?.customerName}</td>
-                            <td>{item?.customerCategory}</td>
-                            <td className="text-right">{item?.deliveryQty}</td>
+                            <td className="text-center">{item?.customerCode || ""}</td>
+                            <td>{item?.customerName || ""}</td>
+                            <td>{item?.customerCategory || ""}</td>
+                            <td className="text-center">{item?.uom || ""}</td>
+                            <td className="text-right">{item?.deliveryQty || 0}</td>
                             <td className="text-right">{_formatMoney(item?.incentiveAmount)}</td>
+                            <td className="text-center">{item?.isJvPosted ? "Yes" : "No"}</td>
                           </tr>
                         ))}
                     </tbody>
