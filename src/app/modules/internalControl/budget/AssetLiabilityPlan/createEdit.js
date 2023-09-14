@@ -11,6 +11,7 @@ import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { _todayDate } from "../../../_helper/_todayDate";
 
 const initData = {
+  businessUnit: "",
   fiscalYear: "",
 };
 
@@ -25,9 +26,11 @@ export default function AssetLiabilityPlanCreateEdit() {
   ] = useAxiosGet();
 
   const [, getInventoryData, inventoryDataLoader] = useAxiosGet();
-
   const [, saveData, saveDataLoader] = useAxiosPost();
-  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+
+  const [buDDL, getBuDDL, buDDLloader, setBuDDL] = useAxiosGet();
+
+  const { profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
@@ -53,7 +56,7 @@ export default function AssetLiabilityPlanCreateEdit() {
           yearName: values?.fiscalYear?.label,
           partName: "Create",
           actionBy: profileData?.userId,
-          businessUnitId: selectedBusinessUnit?.value,
+          businessUnitId: values?.businessUnit?.value,
         };
       });
       saveData(
@@ -71,6 +74,18 @@ export default function AssetLiabilityPlanCreateEdit() {
   };
 
   useEffect(() => {
+    getBuDDL(
+      `/domain/OrganizationalUnitUserPermission/GetBusinessUnitPermissionbyUser?UserId=${profileData?.userId}&ClientId=${profileData?.accountId}`,
+      (data) => {
+        const newData = data?.map((item) => {
+          return {
+            value: item?.organizationUnitReffId,
+            label: item?.organizationUnitReffName,
+          };
+        });
+        setBuDDL(newData);
+      }
+    );
     getFiscalYearDDL(`/vat/TaxDDL/FiscalYearDDL`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -104,7 +119,6 @@ export default function AssetLiabilityPlanCreateEdit() {
     if (item.entryType === "Percentage") {
       const updatedValue = item.initialAmount;
       let currentValue = updatedValue;
-
       const monthsToUpdate = [
         "julAmount",
         "augAmount",
@@ -119,11 +133,16 @@ export default function AssetLiabilityPlanCreateEdit() {
         "mayAmount",
         "junAmount",
       ];
-
       for (const month of monthsToUpdate) {
-        currentValue += currentValue * (item.entryTypeValue / 100);
-        currentValue = parseFloat(currentValue.toFixed(2));
-        item[month] = currentValue;
+        if (item?.initialAmount > 0) {
+          currentValue = item[month];
+          currentValue = parseFloat(currentValue.toFixed(2));
+          item[month] = currentValue;
+        } else {
+          currentValue += currentValue * (item.entryTypeValue / 100);
+          currentValue = parseFloat(currentValue.toFixed(2));
+          item[month] = currentValue;
+        }
       }
     }
     return item; // Return the modified item
@@ -131,51 +150,45 @@ export default function AssetLiabilityPlanCreateEdit() {
 
   const onViewButtonClick = (values) => {
     getTableData(
-      `/fino/BudgetFinancial/GetAssetLiabilityPlan?partName=GetForCreate&businessUnitId=${selectedBusinessUnit?.value}&yearId=${values?.fiscalYear?.value}&yearName=${values?.fiscalYear?.label}&monthId=0&autoId=0&glId=0`,
+      `/fino/BudgetFinancial/GetAssetLiabilityPlan?partName=GetForCreate&businessUnitId=${values?.businessUnit?.value}&yearId=${values?.fiscalYear?.value}&yearName=${values?.fiscalYear?.label}&monthId=0&autoId=0&glId=0`,
       (data) => {
         const updatedData = data?.map((item) => ({
           ...item,
           fillAllManual: item?.entryTypeValue,
         }));
-        const updatedDataWithPercentage = updatedData?.map(
-          (item) => calculatePercentageValues(item) // Call the function to modify the item
-        );
-        data[0]?.msg !== "already exists" &&
-          getInventoryData(
-            `/mes/SalesPlanning/GetGlWiseMaterialBalance?unitId=${
-              selectedBusinessUnit?.value
-            }&dteFromDate=${_todayDate()}`,
-            (invData) => {
-              const updatedDataWithInventory = updatedDataWithPercentage?.map(
-                (item) => {
-                  const invDataItem = invData?.find(
-                    (invItem) => invItem?.intGeneralLedgerId === item?.glId
-                  );
-                  if (invDataItem) {
-                    return {
-                      ...item,
-                      initialAmount: invDataItem?.opnAmount?.toFixed(2),
-                      julAmount: invDataItem?.julAmount.toFixed(2),
-                      augAmount: invDataItem?.augAmount.toFixed(2),
-                      sepAmount: invDataItem?.sepAmount.toFixed(2),
-                      octAmount: invDataItem?.octAmount.toFixed(2),
-                      novAmount: invDataItem?.novAmount.toFixed(2),
-                      decAmount: invDataItem?.decAmount.toFixed(2),
-                      janAmount: invDataItem?.janAmount.toFixed(2),
-                      febAmount: invDataItem?.febAmount.toFixed(2),
-                      marAmount: invDataItem?.marAmount.toFixed(2),
-                      aprAmount: invDataItem?.aprAmount.toFixed(2),
-                      mayAmount: invDataItem?.mayAmount.toFixed(2),
-                      junAmount: invDataItem?.junAmount.toFixed(2),
-                    };
-                  } else {
-                    return item;
-                  }
-                }
+        getInventoryData(
+          `/mes/SalesPlanning/GetGlWiseMaterialBalance?unitId=${
+            values?.businessUnit?.value
+          }&dteFromDate=${_todayDate()}`,
+          (invData) => {
+            const updatedDataWithInventory = updatedData?.map((item) => {
+              const invDataItem = invData?.find(
+                (invItem) => invItem?.intGeneralLedgerId === item?.glId
               );
-              setTableData(updatedDataWithInventory);
-            }
-          );
+              if (invDataItem) {
+                return {
+                  ...item,
+                  initialAmount: invDataItem?.opnAmount?.toFixed(2),
+                  julAmount: invDataItem?.julAmount.toFixed(2),
+                  augAmount: invDataItem?.augAmount.toFixed(2),
+                  sepAmount: invDataItem?.sepAmount.toFixed(2),
+                  octAmount: invDataItem?.octAmount.toFixed(2),
+                  novAmount: invDataItem?.novAmount.toFixed(2),
+                  decAmount: invDataItem?.decAmount.toFixed(2),
+                  janAmount: invDataItem?.janAmount.toFixed(2),
+                  febAmount: invDataItem?.febAmount.toFixed(2),
+                  marAmount: invDataItem?.marAmount.toFixed(2),
+                  aprAmount: invDataItem?.aprAmount.toFixed(2),
+                  mayAmount: invDataItem?.mayAmount.toFixed(2),
+                  junAmount: invDataItem?.junAmount.toFixed(2),
+                };
+              } else {
+                return item;
+              }
+            });
+            setTableData(updatedDataWithInventory);
+          }
+        );
       }
     );
   };
@@ -223,7 +236,8 @@ export default function AssetLiabilityPlanCreateEdit() {
           {(tableDataLoader ||
             fiscalYearDDLloader ||
             saveDataLoader ||
-            inventoryDataLoader) && <Loading />}
+            inventoryDataLoader ||
+            buDDLloader) && <Loading />}
           <IForm
             title={"Asset Liability Plan Create"}
             getProps={setObjprops}
@@ -231,6 +245,20 @@ export default function AssetLiabilityPlanCreateEdit() {
           >
             <Form>
               <div className="form-group  global-form row">
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="businessUnit"
+                    options={buDDL || []}
+                    value={values?.businessUnit}
+                    label="Business Unit"
+                    onChange={(valueOption) => {
+                      setFieldValue("businessUnit", valueOption);
+                      setTableData([]);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
                 <div className="col-lg-3">
                   <NewSelect
                     name="fiscalYear"
@@ -243,6 +271,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                     }}
                     errors={errors}
                     touched={touched}
+                    isDisabled={!values?.businessUnit}
                   />
                 </div>
                 <div className="col-lg-3 mt-5">
@@ -279,7 +308,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                           <th style={{ minWidth: "200px" }}>GL Name</th>
                           <th style={{ minWidth: "100px" }}>GL Class</th>
                           <th style={{ minWidth: "80px" }}>GL Type</th>
-                          <th style={{ minWidth: "80px" }}>Opening</th>
+                          <th style={{ minWidth: "100px" }}>Opening</th>
                           <th style={{ minWidth: "140px" }}>Value</th>
                           <th style={{ minWidth: "140px" }}>July</th>
                           <th style={{ minWidth: "140px" }}>August</th>
@@ -350,18 +379,6 @@ export default function AssetLiabilityPlanCreateEdit() {
                                             : data
                                       );
                                       setTableData(updatedData);
-                                      // if (newValue >= 0) {
-                                      //   const updatedData = tableData.map(
-                                      //     (data, idx) =>
-                                      //       idx === index
-                                      //         ? getUpdatedRowObjectForManual(
-                                      //             data,
-                                      //             newValue
-                                      //           )
-                                      //         : data
-                                      //   );
-                                      //   setTableData(updatedData);
-                                      // }
                                     }}
                                   />
                                 )}
@@ -377,19 +394,6 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       updatedData[index].julAmount =
                                         e.target.value;
                                       setTableData(updatedData);
-                                      // if (+e.target.value >= 0) {
-                                      //   const updatedData = [...tableData];
-                                      //   updatedData[index].julAmount = +e.target
-                                      //     .value;
-                                      //   setTableData(updatedData);
-                                      // } else {
-                                      //   const updatedData = [...tableData];
-                                      //   updatedData[index].julAmount = 0;
-                                      //   setTableData(updatedData);
-                                      //   return toast.warn(
-                                      //     "Value must be greater than 0"
-                                      //   );
-                                      // }
                                     }}
                                   />
                                 ) : item?.entryType === "Percentage" ? (
@@ -449,19 +453,6 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       updatedData[index].sepAmount =
                                         e.target.value;
                                       setTableData(updatedData);
-                                      // if (+e.target.value >= 0) {
-                                      //   const updatedData = [...tableData];
-                                      //   updatedData[index].sepAmount = +e.target
-                                      //     .value;
-                                      //   setTableData(updatedData);
-                                      // } else {
-                                      //   const updatedData = [...tableData];
-                                      //   updatedData[index].sepAmount = 0;
-                                      //   setTableData(updatedData);
-                                      //   return toast.warn(
-                                      //     "Value must be greater than 0"
-                                      //   );
-                                      // }
                                     }}
                                   />
                                 ) : item?.entryType === "Percentage" ? (
@@ -481,7 +472,6 @@ export default function AssetLiabilityPlanCreateEdit() {
                                 )}
                               </td>
                               <td>
-                                {/* {item?.octAmount} */}
                                 {item?.entryType === "Manual" ? (
                                   <InputField
                                     value={item?.octAmount}
@@ -492,19 +482,6 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       updatedData[index].octAmount =
                                         e.target.value;
                                       setTableData(updatedData);
-                                      // if (+e.target.value >= 0) {
-                                      //   const updatedData = [...tableData];
-                                      //   updatedData[index].octAmount = +e.target
-                                      //     .value;
-                                      //   setTableData(updatedData);
-                                      // } else {
-                                      //   const updatedData = [...tableData];
-                                      //   updatedData[index].octAmount = 0;
-                                      //   setTableData(updatedData);
-                                      //   return toast.warn(
-                                      //     "Value must be greater than 0"
-                                      //   );
-                                      // }
                                     }}
                                   />
                                 ) : item?.entryType === "Percentage" ? (
@@ -534,19 +511,6 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       updatedData[index].novAmount =
                                         e.target.value;
                                       setTableData(updatedData);
-                                      // if (+e.target.value >= 0) {
-                                      //   const updatedData = [...tableData];
-                                      //   updatedData[index].novAmount = +e.target
-                                      //     .value;
-                                      //   setTableData(updatedData);
-                                      // } else {
-                                      //   const updatedData = [...tableData];
-                                      //   updatedData[index].novAmount = 0;
-                                      //   setTableData(updatedData);
-                                      //   return toast.warn(
-                                      //     "Value must be greater than 0"
-                                      //   );
-                                      // }
                                     }}
                                   />
                                 ) : item?.entryType === "Percentage" ? (
@@ -577,19 +541,6 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       updatedData[index].decAmount =
                                         e.target.value;
                                       setTableData(updatedData);
-                                      // if (+e.target.value >= 0) {
-                                      //   const updatedData = [...tableData];
-                                      //   updatedData[index].decAmount = +e.target
-                                      //     .value;
-                                      //   setTableData(updatedData);
-                                      // } else {
-                                      //   const updatedData = [...tableData];
-                                      //   updatedData[index].decAmount = 0;
-                                      //   setTableData(updatedData);
-                                      //   return toast.warn(
-                                      //     "Value must be greater than 0"
-                                      //   );
-                                      // }
                                     }}
                                   />
                                 ) : item?.entryType === "Percentage" ? (
@@ -609,7 +560,6 @@ export default function AssetLiabilityPlanCreateEdit() {
                                 )}
                               </td>
                               <td>
-                                {/* {item?.janAmount} */}
                                 {item?.entryType === "Manual" ? (
                                   <InputField
                                     value={item?.janAmount}
@@ -620,19 +570,6 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       updatedData[index].janAmount =
                                         e.target.value;
                                       setTableData(updatedData);
-                                      // if (+e.target.value >= 0) {
-                                      //   const updatedData = [...tableData];
-                                      //   updatedData[index].janAmount = +e.target
-                                      //     .value;
-                                      //   setTableData(updatedData);
-                                      // } else {
-                                      //   const updatedData = [...tableData];
-                                      //   updatedData[index].janAmount = 0;
-                                      //   setTableData(updatedData);
-                                      //   return toast.warn(
-                                      //     "Value must be greater than 0"
-                                      //   );
-                                      // }
                                     }}
                                   />
                                 ) : item?.entryType === "Percentage" ? (
@@ -652,7 +589,6 @@ export default function AssetLiabilityPlanCreateEdit() {
                                 )}
                               </td>
                               <td>
-                                {/* {item?.febAmount} */}
                                 {item?.entryType === "Manual" ? (
                                   <InputField
                                     value={item?.febAmount}
@@ -663,19 +599,6 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       updatedData[index].febAmount =
                                         e.target.value;
                                       setTableData(updatedData);
-                                      // if (+e.target.value >= 0) {
-                                      //   const updatedData = [...tableData];
-                                      //   updatedData[index].febAmount = +e.target
-                                      //     .value;
-                                      //   setTableData(updatedData);
-                                      // } else {
-                                      //   const updatedData = [...tableData];
-                                      //   updatedData[index].febAmount = 0;
-                                      //   setTableData(updatedData);
-                                      //   return toast.warn(
-                                      //     "Value must be greater than 0"
-                                      //   );
-                                      // }
                                     }}
                                   />
                                 ) : item?.entryType === "Percentage" ? (
@@ -695,7 +618,6 @@ export default function AssetLiabilityPlanCreateEdit() {
                                 )}
                               </td>
                               <td>
-                                {/* {item?.marAmount} */}
                                 {item?.entryType === "Manual" ? (
                                   <InputField
                                     value={item?.marAmount}
@@ -706,19 +628,6 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       updatedData[index].marAmount =
                                         e.target.value;
                                       setTableData(updatedData);
-                                      // if (+e.target.value >= 0) {
-                                      //   const updatedData = [...tableData];
-                                      //   updatedData[index].marAmount = +e.target
-                                      //     .value;
-                                      //   setTableData(updatedData);
-                                      // } else {
-                                      //   const updatedData = [...tableData];
-                                      //   updatedData[index].marAmount = 0;
-                                      //   setTableData(updatedData);
-                                      //   return toast.warn(
-                                      //     "Value must be greater than 0"
-                                      //   );
-                                      // }
                                     }}
                                   />
                                 ) : item?.entryType === "Percentage" ? (
@@ -738,7 +647,6 @@ export default function AssetLiabilityPlanCreateEdit() {
                                 )}
                               </td>
                               <td>
-                                {/* {item?.aprAmount} */}
                                 {item?.entryType === "Manual" ? (
                                   <InputField
                                     value={item?.aprAmount}
@@ -749,19 +657,6 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       updatedData[index].aprAmount =
                                         e.target.value;
                                       setTableData(updatedData);
-                                      // if (+e.target.value >= 0) {
-                                      //   const updatedData = [...tableData];
-                                      //   updatedData[index].aprAmount = +e.target
-                                      //     .value;
-                                      //   setTableData(updatedData);
-                                      // } else {
-                                      //   const updatedData = [...tableData];
-                                      //   updatedData[index].aprAmount = 0;
-                                      //   setTableData(updatedData);
-                                      //   return toast.warn(
-                                      //     "Value must be greater than 0"
-                                      //   );
-                                      // }
                                     }}
                                   />
                                 ) : item?.entryType === "Percentage" ? (
@@ -781,7 +676,6 @@ export default function AssetLiabilityPlanCreateEdit() {
                                 )}
                               </td>
                               <td>
-                                {/* {item?.mayAmount} */}
                                 {item?.entryType === "Manual" ? (
                                   <InputField
                                     value={item?.mayAmount}
@@ -792,19 +686,6 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       updatedData[index].mayAmount =
                                         e.target.value;
                                       setTableData(updatedData);
-                                      // if (+e.target.value >= 0) {
-                                      //   const updatedData = [...tableData];
-                                      //   updatedData[index].mayAmount = +e.target
-                                      //     .value;
-                                      //   setTableData(updatedData);
-                                      // } else {
-                                      //   const updatedData = [...tableData];
-                                      //   updatedData[index].mayAmount = 0;
-                                      //   setTableData(updatedData);
-                                      //   return toast.warn(
-                                      //     "Value must be greater than 0"
-                                      //   );
-                                      // }
                                     }}
                                   />
                                 ) : item?.entryType === "Percentage" ? (
@@ -824,7 +705,6 @@ export default function AssetLiabilityPlanCreateEdit() {
                                 )}
                               </td>
                               <td>
-                                {/* {item?.junAmount} */}
                                 {item?.entryType === "Manual" ? (
                                   <InputField
                                     value={item?.junAmount}
@@ -835,19 +715,6 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       updatedData[index].junAmount =
                                         e.target.value;
                                       setTableData(updatedData);
-                                      // if (+e.target.value >= 0) {
-                                      //   const updatedData = [...tableData];
-                                      //   updatedData[index].junAmount = +e.target
-                                      //     .value;
-                                      //   setTableData(updatedData);
-                                      // } else {
-                                      //   const updatedData = [...tableData];
-                                      //   updatedData[index].junAmount = 0;
-                                      //   setTableData(updatedData);
-                                      //   return toast.warn(
-                                      //     "Value must be greater than 0"
-                                      //   );
-                                      // }
                                     }}
                                   />
                                 ) : item?.entryType === "Percentage" ? (
