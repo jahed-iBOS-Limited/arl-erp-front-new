@@ -24,13 +24,14 @@ export const getIncomeStatement_api = async (
   edLabel = "",
   conversionRate,
   subDivision,
-  reportType
+  reportType,
+  profitCenId
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
       `/fino/IncomeStatement/GetIncomeStatementProjected?partName=${partName}&dteFromDate=${fromDate}&dteToDate=${toDate}&dteFromDateL=${fromDateL}&dteToDateL=${toDateL}&BusinessUnitGroup=${edLabel}&BusinessUnitId=${buId}&SBUID=${
-        0}&intProfitCenId=${
+        0}&intProfitCenId=${profitCenId ||
         0}&fsComponentId=0&GLId=0&SUBGLId=0&ConvertionRate=${conversionRate}&SubGroup=all&reportTypeId=${reportType}`
     );
     if (res.status === 200 && res?.data) {
