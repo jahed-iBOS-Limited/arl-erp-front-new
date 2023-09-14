@@ -13,14 +13,18 @@ const initData = {
   customer: "",
   channel: "",
   soDate: "",
-  ttAmount: "",
   fromDate: _firstDateofMonth(),
   toDate: _todayDate(),
   salesOrder: "",
   soRef: "",
   salesContractRef: "",
+  ttAmount: "",
   erqValue: "",
   orqValue: "",
+  conversionRate: "",
+  ttAmountBDT: "",
+  erqValueBDT: "",
+  orqValueBDT: "",
 };
 
 export default function ExportPaymentPostingForm({ type, singleItem }) {
@@ -42,6 +46,7 @@ export default function ExportPaymentPostingForm({ type, singleItem }) {
     setSingleData,
   ] = useAxiosGet();
   const [soList, getSOList, soLoader] = useAxiosGet();
+  const [uploadedImage, setUploadedImage] = useState([]);
 
   useEffect(() => {
     if (type) {
@@ -68,6 +73,11 @@ export default function ExportPaymentPostingForm({ type, singleItem }) {
             salesContractRef: "",
             erqValue: h?.erqvalue,
             orqValue: h?.orqvalue,
+
+            conversionRate: h?.conversionRateBDT,
+            ttAmountBDT: h?.ttAmountBDT,
+            erqValueBDT: h?.erqvalueBDT,
+            orqValueBDT: h?.orqvalueBDT,
           };
           setSingleData(modifyData);
           setRowData(resData?.objRow);
@@ -107,6 +117,27 @@ export default function ExportPaymentPostingForm({ type, singleItem }) {
           ttamount: values?.ttAmount,
           erqvalue: values?.erqValue,
           orqvalue: values?.orqValue,
+
+          // sl: 0,
+         
+          // salesOrderId: 0,
+          // salesOrderCode: "string",
+          // customerId: 0,
+          // customerName: "string",
+          // salesOrderRefererence: "string",
+          conversionRateBDT: values?.conversionRate,
+           
+          ttAmountBDT: values?.ttAmountBDT,
+          // uomid: 0,
+          // uomname: "string",
+          
+          erqvalueBDT: values?.erqValueBDT,
+         
+          orqvalueBDT: values?.orqValueBDT,
+          // totalExpenseAganistTt: 0,
+          remark: "string",
+          actionBy: userId,
+          // attachment: "string",
         },
         objRow: rowData,
       };
@@ -125,6 +156,12 @@ export default function ExportPaymentPostingForm({ type, singleItem }) {
           orqvalue: values?.orqValue,
           remark: "",
           actionBy: userId,
+
+          conversionRateBDT: values?.conversionRate,
+          ttAmountBDT: values?.ttAmountBDT,
+          erqvalueBDT: values?.erqValueBDT,
+          orqvalueBDT: values?.orqValueBDT,
+          attachment: uploadedImage[0]?.id,
         },
         objRow: rowData,
       };
@@ -156,6 +193,7 @@ export default function ExportPaymentPostingForm({ type, singleItem }) {
           setRowData={setRowData}
           saveHandler={saveHandler}
           channelList={channelList}
+          setUploadedImage={setUploadedImage}
           getSalesOrderList={getSalesOrderList}
           initData={type ? singleData : initData}
         />
