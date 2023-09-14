@@ -42,6 +42,7 @@ export default function ProjectedFinancialStatement() {
   const [incomeStatement, setIncomeStatement] = useState([]);
   const [loading, setLoading] = useState(false);
   const [buddl, getbuddl, buddlLoader, setbuddl] = useAxiosGet();
+  const [profitCenterDDL, setProfitCenterDDL] = useState([]);
 
   useEffect(() => {
     getEnterpriseDivisionDDL(
@@ -310,8 +311,42 @@ export default function ProjectedFinancialStatement() {
                         label="Business Unit"
                         onChange={(valueOption) => {
                           setFieldValue("businessUnit", valueOption);
+                          setFieldValue("profitCenter", "");
+                          setIncomeStatement([]);
+                          if (valueOption?.value >= 0) {
+                            getProfitCenterDDL(
+                              valueOption?.value,
+                              (profitCenterDDLData) => {
+                                setProfitCenterDDL(profitCenterDDLData);
+                                setFieldValue("businessUnit", valueOption);
+                                setFieldValue(
+                                  "profitCenter",
+                                  profitCenterDDLData?.[0] || ""
+                                );
+                              }
+                            );
+                          }
                         }}
                         placeholder="Business Unit"
+                      />
+                    </div>
+                    <div className="col-md-3">
+                      <NewSelect
+                        isDisabled={
+                          values?.businessUnit?.value === 0 ||
+                          !values?.businessUnit
+                            ? true
+                            : false
+                        }
+                        name="profitCenter"
+                        options={profitCenterDDL || []}
+                        value={values?.profitCenter}
+                        label="Profit Center"
+                        onChange={(valueOption) => {
+                          setFieldValue("profitCenter", valueOption);
+                          setIncomeStatement([]);
+                        }}
+                        placeholder="Profit Center"
                       />
                     </div>
                   </>
@@ -458,7 +493,8 @@ export default function ProjectedFinancialStatement() {
                           values?.enterpriseDivision?.value,
                           values?.conversionRate,
                           values?.subDivision,
-                          values?.reportType?.value
+                          values?.reportType?.value,
+                          values?.profitCenter?.value,
                         );
                       }
                       if ([3]?.includes(values?.reportType?.value)) {
