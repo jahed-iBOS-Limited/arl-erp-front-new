@@ -10,6 +10,7 @@ import { getHorizonDDL, getItemListSalesPlanDDL, getYearDDL } from "../helper";
 import PaginationTable from "./../../../../_helper/_tablePagination";
 import { exportToCSV } from "./utils";
 import { toast } from "react-toastify";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -56,6 +57,7 @@ export default function _Form({
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(50);
   const [plant, setPlant] = React.useState({});
+  const [fiscalYearDDL, getFiscalYearDDL, fiscalYearDDLloader] = useAxiosGet();
 
   useEffect(() => {
     if (fileObject) {
@@ -65,17 +67,17 @@ export default function _Form({
           let rowData = [];
           for (let i = 1; i < resp.rows.length; i++) {
             rowData.push({
-              salesPlanRowId:resp.rows[i][0],
-              salesPlanId:resp.rows[i][1],
-              itemId:resp.rows[i][2],
-              itemName:resp.rows[i][3],
-              itemCode:resp.rows[i][4],
-              bomname:resp.rows[i][5],
-              bomid : resp.rows[i][6],
-              uomName : resp.rows[i][7],
-              uoMid : resp.rows[i][8],
-              entryItemPlanQty : resp.rows[i][9],
-              rate : resp.rows[i][10],
+              salesPlanRowId: resp.rows[i][0],
+              salesPlanId: resp.rows[i][1],
+              itemId: resp.rows[i][2],
+              itemName: resp.rows[i][3],
+              itemCode: resp.rows[i][4],
+              bomname: resp.rows[i][5],
+              bomid: resp.rows[i][6],
+              uomName: resp.rows[i][7],
+              uoMid: resp.rows[i][8],
+              entryItemPlanQty: resp.rows[i][9],
+              rate: resp.rows[i][10],
             });
           }
 
@@ -112,8 +114,6 @@ export default function _Form({
     );
   };
 
-  console.log("row",rowDto)
-
   return (
     <>
       <Formik
@@ -136,7 +136,6 @@ export default function _Form({
           setFieldValue,
         }) => (
           <>
-            {/* {console.log("values: ", values)} */}
             <Form className="form form-label-right">
               <div className="global-form p-2">
                 <div className="form-group row">
@@ -160,12 +159,18 @@ export default function _Form({
                           pageSize,
                           setRowDto
                         );
-                        getYearDDL(
-                          profileData?.accountId,
-                          selectedBusinessUnit?.value,
-                          valueOption?.value,
-                          setYearDDL
+                        getFiscalYearDDL(
+                          `/vat/TaxDDL/FiscalYearDDL`,
+                          (data) => {
+                            setYearDDL(data);
+                          }
                         );
+                        // getYearDDL(
+                        //   profileData?.accountId,
+                        //   selectedBusinessUnit?.value,
+                        //   valueOption?.value,
+                        //   setYearDDL
+                        // );
                         if (values?.year?.value) {
                           getHorizonDDL(
                             profileData?.accountId,
@@ -275,7 +280,7 @@ export default function _Form({
                 <button
                   className="btn btn-primary"
                   onClick={() => {
-                    exportToCSV(rowDto?.data)
+                    exportToCSV(rowDto?.data);
                   }}
                   type="button"
                   style={{
@@ -343,8 +348,8 @@ export default function _Form({
                             name="entryItemPlanQty"
                             value={+item?.entryItemPlanQty || ""}
                             onChange={(e) => {
-                              if(+e.target.value < 0){
-                                return
+                              if (+e.target.value < 0) {
+                                return;
                               }
                               dataHandler(
                                 "entryItemPlanQty",
@@ -362,8 +367,8 @@ export default function _Form({
                             name="itemPlanQty"
                             value={+item?.itemPlanQty || ""}
                             onChange={(e) => {
-                              if(+e.target.value < 0){
-                                return
+                              if (+e.target.value < 0) {
+                                return;
                               }
                               dataHandler(
                                 "itemPlanQty",
@@ -383,8 +388,8 @@ export default function _Form({
                           name="rate"
                           value={+item?.rate || ""}
                           onChange={(e) => {
-                            if(+e.target.value < 0){
-                              return
+                            if (+e.target.value < 0) {
+                              return;
                             }
                             dataHandler(
                               "rate",
