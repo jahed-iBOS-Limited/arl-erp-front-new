@@ -82,6 +82,7 @@ export default function ProductionPlanningForm({
           salesPlanId: +params?.salesPlanId,
           monthId: values?.horizon.value,
           yearId: singleData?.year.value,
+          strYear: singleData?.year.label,
           startDateTime: values?.startDate,
           endDateTime: values?.endDate,
           accountId: +profileData?.accountId,
@@ -91,16 +92,6 @@ export default function ProductionPlanningForm({
           actionBy: +profileData?.userId,
         },
         objRow: gridData,
-        // objRow: [
-        //   {
-        //     "itemId": 0,
-        //     "itemName": "string",
-        //     "uoMid": 0,
-        //     "productionPlanQty": 0,
-        //     "rate": 0,
-        //     "isActive": true
-        //   }
-        // ],
       };
       createProductionEntry(payload, cb);
     }
