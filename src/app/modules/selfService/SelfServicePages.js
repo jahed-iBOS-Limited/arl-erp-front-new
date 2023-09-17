@@ -1,34 +1,33 @@
-import React from "react";
+import React, { Suspense } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import { Redirect, Switch } from "react-router-dom";
-import { LayoutSplashScreen, ContentRoute } from "../../../_metronic/layout";
-import { Suspense } from "react";
-import BasicInformationlLanding from "./humanResource/employeeInformation/Table/form";
+import { ContentRoute, LayoutSplashScreen } from "../../../_metronic/layout";
 import DashboardPage from "../../pages/DashboardPage";
-import DailyAttendanceLanding from "./report/dailyAttendance/Landing";
-import FoodCornerLanding from "./cafeteriaMangement/foodCorner/landing";
+import NotPermittedPage from "../_helper/notPermitted/NotPermittedPage";
+import MyAsset from "./Assets";
 import AchievementTable from "./achievement/Table/table";
+import AllReport from "./allReport";
+import { CommonApprovalTable } from "./approval/commonApproval/Table/tableHeader";
+import FoodCornerLanding from "./cafeteriaMangement/foodCorner/landing";
+import ExpenseRegisterCreateForm from "./expenseRegister/Create/addForm";
+import { ExpenseRegister } from "./expenseRegister/index.js";
+import BasicInformationlLanding from "./humanResource/employeeInformation/Table/form";
+import OfficialInfoCollapsePanel from "./humanResource/officialInformation/EditForm/mainCollapse";
+import PersonalInfoCollapsePanel from "./humanResource/personalInformation/EditForm/mainCollapse";
+import Jobstation from "./jobstation/Form/addEditForm";
 import LeaveApprovalLanding from "./leaveMovement/LeaveApproval/Landing/Landing";
 import MovementApprovalLanding from "./leaveMovement/MovementApproval/Landing/Landing";
-import { CommonApprovalTable } from "./approval/commonApproval/Table/tableHeader";
-import { ExpenseRegister } from "./expenseRegister/index.js";
-import ExpenseRegisterCreateForm from "./expenseRegister/Create/addForm";
+import { LeaveAddForm } from "./leaveMovement/leaveApplication/Form/addEditForm";
+import { LeaveApplicationTable } from "./leaveMovement/leaveApplication/Table/tableHeader";
+import { MovementAddForm } from "./leaveMovement/movementApplication/Form/addEditForm";
+import { MovementApplicationTable } from "./leaveMovement/movementApplication/Table/tableHeader";
+import PayslipReport from "./payslip";
+import DailyAttendanceLanding from "./report/dailyAttendance/Landing";
+import TrainingLanding from "./training";
+import ViewTraining from "./training/viewTraining";
 import { ItemRequest } from "./warehouse/itemRequest";
 import ItemRequestForm from "./warehouse/itemRequest/Form/addEditForm";
 import ViewItemRequestForm from "./warehouse/itemRequest/view/addEditForm";
-import OfficialInfoCollapsePanel from "./humanResource/officialInformation/EditForm/mainCollapse";
-import PersonalInfoCollapsePanel from "./humanResource/personalInformation/EditForm/mainCollapse";
-import { LeaveApplicationTable } from "./leaveMovement/leaveApplication/Table/tableHeader";
-import { LeaveAddForm } from "./leaveMovement/leaveApplication/Form/addEditForm";
-import { MovementApplicationTable } from "./leaveMovement/movementApplication/Table/tableHeader";
-import { MovementAddForm } from "./leaveMovement/movementApplication/Form/addEditForm";
-import { shallowEqual, useSelector } from "react-redux";
-import NotPermittedPage from "../_helper/notPermitted/NotPermittedPage";
-import PayslipReport from "./payslip";
-import MyAsset from "./Assets";
-import TrainingLanding from "./training";
-import ViewTraining from "./training/viewTraining";
-import AllReport from "./allReport";
-
 export function SelfServicePages() {
   const userRole = useSelector(
     (state) => state?.authData?.userRole,
@@ -167,6 +166,10 @@ export function SelfServicePages() {
           <ContentRoute
             path="/self-service/SSOTReport"
             component={AllReport}
+          />
+          <ContentRoute
+            path="/self-service/jobstation"
+            component={Jobstation}
           />
           {/* <ContentRoute
             path="/self-service/humanResource"
