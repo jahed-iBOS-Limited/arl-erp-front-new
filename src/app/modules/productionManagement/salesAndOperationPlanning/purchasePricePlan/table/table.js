@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import ICustomCard from "../../../../_helper/_customCard";
 import Select from "react-select";
 import customStyles from "../../../../selectCustomStyle";
@@ -8,25 +7,22 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getLandingPlantDDL,
   getSalesPlanLanding,
-  getSalesPlanYearDDL,
 } from "../helper";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IViewModal from "../../../../_helper/_viewModal";
 import Loading from "../../../../_helper/_loading";
 import VersionModal from "./versionModal";
 import { SetSalesAndProductionTableLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const PurchasePlanTable = () => {
+  const [fiscalYearDDL, getFiscalYearDDL, fiscalYearDDLloader] = useAxiosGet();
   const [loading, setLoading] = useState(false);
   const [plantDDL, setPlantDDL] = useState([]);
-  const [yearDDL, setYearDDL] = useState([]);
-  // eslint-disable-next-line no-unused-vars
   const [gridData, setGridData] = useState([]);
   const history = useHistory();
   const dispatch = useDispatch();
 
-  /* Version Modal State */
   const [versionModalShow, setVersionModalShow] = useState(false);
   const [versionModalData, setVersionModalData] = useState();
 
@@ -43,6 +39,7 @@ const PurchasePlanTable = () => {
   const { plant, year } = salesAndProductionTableLanding;
 
   useEffect(() => {
+    getFiscalYearDDL(`/vat/TaxDDL/FiscalYearDDL`);
     getLandingPlantDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -54,35 +51,27 @@ const PurchasePlanTable = () => {
         profileData?.accountId,
         selectedBusinessUnit?.value,
         plant?.value,
-        year?.label,
+        year?.value,
         setGridData,
         setLoading
       );
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit, plant, year]);
 
   const createHandler = () => {
-    history.push(
-      "/internal-control/budget/PurchasePlan/Create"
-    );
+    history.push("/internal-control/budget/PurchasePlan/Create");
   };
 
   return (
     <ICustomCard title="Purchase Plan" createHandler={createHandler}>
-      {loading && <Loading />}
+      {(loading || fiscalYearDDLloader) && <Loading />}
 
       <div className="global-form row">
         <div className="col-lg">
           <label>Plant</label>
           <Select
             onChange={(v) => {
-              getSalesPlanYearDDL(
-                profileData?.accountId,
-                selectedBusinessUnit?.value,
-                v?.value,
-                setYearDDL
-              );
-
               dispatch(
                 SetSalesAndProductionTableLandingAction({
                   year: "",
@@ -111,7 +100,7 @@ const PurchasePlanTable = () => {
                 })
               );
             }}
-            options={yearDDL || []}
+            options={fiscalYearDDL || []}
             value={year}
             isSearchable={true}
             name="year"
@@ -119,7 +108,6 @@ const PurchasePlanTable = () => {
             placeholder="Year"
           />
         </div>
-
         <div className="col-lg">
           <button
             onClick={() => {
@@ -163,9 +151,9 @@ const PurchasePlanTable = () => {
                   <td>{_dateFormatter(item?.endDate)}</td>
                   <td>{item?.planQTY}</td>
                   {/* <td> */}
-                    {/* <div className="d-flex justify-content-around"> */}
-                      {/* Edit */}
-                      {/* <span
+                  {/* <div className="d-flex justify-content-around"> */}
+                  {/* Edit */}
+                  {/* <span
                         onClick={() =>
                           history.push(
                             `/internal-control/budget/PurchasePlan/edit/${item?.salesPlanId}`
@@ -175,8 +163,8 @@ const PurchasePlanTable = () => {
                         <IEdit />
                       </span> */}
 
-                      {/* Extend */}
-                      {/* <span
+                  {/* Extend */}
+                  {/* <span
                         className="extend"
                         onClick={() => {
                           history.push(
@@ -197,8 +185,8 @@ const PurchasePlanTable = () => {
                         </OverlayTrigger>
                       </span> */}
 
-                      {/* View */}
-                      {/* <span
+                  {/* View */}
+                  {/* <span
                         onClick={() =>
                           history.push(
                             `/internal-control/budget/PurchasePlan/view/${item?.salesPlanId}`
@@ -210,8 +198,8 @@ const PurchasePlanTable = () => {
                         </span>
                       </span> */}
 
-                      {/* version */}
-                      {/* <span
+                  {/* version */}
+                  {/* <span
                         onClick={() => {
                           setVersionModalShow(true);
                           setVersionModalData(item);
@@ -227,7 +215,7 @@ const PurchasePlanTable = () => {
                           </span>
                         </OverlayTrigger>
                       </span> */}
-                    {/* </div> */}
+                  {/* </div> */}
                   {/* </td> */}
                 </tr>
               ))}
@@ -235,7 +223,6 @@ const PurchasePlanTable = () => {
           </>
         </table>
       )}
-
       <IViewModal
         show={versionModalShow}
         onHide={() => setVersionModalShow(false)}
