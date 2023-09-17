@@ -1,0 +1,26 @@
+.leaflet-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  outline: none;
+}
+.jobstationMap .leaflet-popup-content-wrapper p {
+  padding: 0;
+  margin: 0 0 7px 0;
+}
+.jobstationMap .leaflet-popup-content-wrapper .fa {
+  margin-right: 5px;
+  font-size: 8px;
+}
+.jobstationMap .leaflet-popup-content-wrapper img {
+  width: 50px !important;
+  height: 50px !important;
+  cursor: pointer;
+}
+.jobstationMap .leaflet-popup-content-wrapper .photoLinkList{
+  display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+
+}
