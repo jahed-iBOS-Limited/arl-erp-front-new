@@ -1,41 +1,42 @@
 import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { Redirect, Switch } from "react-router-dom";
-import PartnerBasicInfo from "./partnerBasicInfo";
 import { ContentRoute } from "../../../../_metronic/layout";
-import PartnerAddForm from "./partnerBasicInfo/partnerCreate/partnerAddForm";
-import MainCollapsePanel from "./partnerBasicInfo/patnerEdit/mainCollapse";
+import findIndex from "./../../_helper/_findIndex";
+import NotPermittedPage from "./../../_helper/notPermitted/NotPermittedPage";
 import InformationSectionLanding from "./informationSection";
 import InformationSectionCreateForm from "./informationSection/Form/addEditForm";
 import InformationSetupLanding from "./informationSetup";
 import InformationSetupForm from "./informationSetup/Form/addEditForm";
-import PartnerInformation from "./partnerInformation";
-import PartnerInformationCollapsePanel from "./partnerInformation/patnerEdit/mainCollapse";
-import findIndex from "./../../_helper/_findIndex";
-import NotPermittedPage from "./../../_helper/notPermitted/NotPermittedPage";
-import PartnerProductAllocation from "./partnerProductAllocation/landing/table";
-import PartnerProductAllocationForm from "./partnerProductAllocation/form/addEditForm";
-import PartnerProductAllocationLcInfo from "./partnerAllocationLcInfo/landing/table";
-import PartnerProductAllocationLcInfoForm from "./partnerAllocationLcInfo/form/addEditForm";
-import { PartnerTerritoryInformation } from "./partnerTerritoryInfo/landing/table";
-import { ShipToPartnerInfoTable } from "./shipToPartnerInfo/landing/table";
-import { ShipToPartnerTransfer } from "./shipToPartnerTransfer/landing/table";
-import PartnerOverDueRequestTable from "./partnerOverDueRequest/landing/table";
-import PartnerOverDueRequestForm from "./partnerOverDueRequest/form/addEditForm";
-import PartnerPriceAndLimitRequestTable from "./partnerPriceNLimitRequest/landing/table";
-import PartnerPriceAndLimitRequestForm from "./partnerPriceNLimitRequest/form/addEditForm";
-import PartnerCheckSubmitForm from "./partnerCheckSubmit/form/addEditForm";
-import MarketShareEntryLandingPage from "./marketShareEntry/landingPage/form";
 import MarketShareEntryForm from "./marketShareEntry/form/addEditForm";
+import MarketShareEntryLandingPage from "./marketShareEntry/landingPage/form";
 import MarketShareReport from "./marketShareReport/landing/form";
-import ShipToPartnerAnalysisReport from "./shipToPartnerAnalysisReport/table";
+import PartnerProductAllocationLcInfoForm from "./partnerAllocationLcInfo/form/addEditForm";
+import PartnerProductAllocationLcInfo from "./partnerAllocationLcInfo/landing/table";
+import PartnerBasicInfo from "./partnerBasicInfo";
+import PartnerBulkUpload from "./partnerBasicInfo/partnerBulkUpload/partnerBulkUpload";
+import PartnerAddForm from "./partnerBasicInfo/partnerCreate/partnerAddForm";
+import PartnerView from "./partnerBasicInfo/partnerView/partnerView";
+import MainCollapsePanel from "./partnerBasicInfo/patnerEdit/mainCollapse";
 import PartnerCheckSubmitForCement from "./partnerCheckSubmit/forCement/form/addEditForm";
 import PartnerCheckSubmitTableForCement from "./partnerCheckSubmit/forCement/landing/table";
-import PartnerChequeInfo from "./partnerchequeinfo/landing/form";
-import ShippingPointnTransportRate from "./shippingPointnTransportrate";
 import ExportPaymentPostingForm from "./partnerCheckSubmit/foreignForm/addEditForm";
+import PartnerCheckSubmitForm from "./partnerCheckSubmit/form/addEditForm";
 import PartnerCheckSubmitLanding from "./partnerCheckSubmit/landing";
-import PartnerBulkUpload from "./partnerBasicInfo/partnerBulkUpload/partnerBulkUpload";
+import PartnerInformation from "./partnerInformation";
+import PartnerInformationCollapsePanel from "./partnerInformation/patnerEdit/mainCollapse";
+import PartnerOverDueRequestForm from "./partnerOverDueRequest/form/addEditForm";
+import PartnerOverDueRequestTable from "./partnerOverDueRequest/landing/table";
+import PartnerPriceAndLimitRequestForm from "./partnerPriceNLimitRequest/form/addEditForm";
+import PartnerPriceAndLimitRequestTable from "./partnerPriceNLimitRequest/landing/table";
+import PartnerProductAllocationForm from "./partnerProductAllocation/form/addEditForm";
+import PartnerProductAllocation from "./partnerProductAllocation/landing/table";
+import { PartnerTerritoryInformation } from "./partnerTerritoryInfo/landing/table";
+import PartnerChequeInfo from "./partnerchequeinfo/landing/form";
+import ShipToPartnerAnalysisReport from "./shipToPartnerAnalysisReport/table";
+import { ShipToPartnerInfoTable } from "./shipToPartnerInfo/landing/table";
+import { ShipToPartnerTransfer } from "./shipToPartnerTransfer/landing/table";
+import ShippingPointnTransportRate from "./shippingPointnTransportrate";
 
 export function PartnerPages() {
   const userRole = useSelector(
@@ -85,6 +86,11 @@ export function PartnerPages() {
             : NotPermittedPage
         }
       />
+      <ContentRoute
+        path="/config/partner-management/partner-basic-info/view/:id"
+        component={PartnerView}
+      />
+      
 
       <ContentRoute
         from="/config/partner-management/partner-basic-info"
