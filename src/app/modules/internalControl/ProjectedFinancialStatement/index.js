@@ -452,6 +452,7 @@ export default function ProjectedFinancialStatement() {
                         type="date"
                         onChange={(e) => {
                           setFieldValue("fromDate", e.target.value);
+                          setRowData([]);
                         }}
                       />
                     </div>
@@ -459,6 +460,7 @@ export default function ProjectedFinancialStatement() {
                       <InputField
                         value={values?.toDate}
                         label="To Date"
+                        min={values?.fromDate}
                         name="toDate"
                         type="date"
                         onChange={(e) => {

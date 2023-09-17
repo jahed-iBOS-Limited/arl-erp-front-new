@@ -133,7 +133,9 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                                         initialAmount: +item?.numAmount,
                                         actionBy: profileData?.userId,
                                       },
-                                    ]
+                                    ],
+                                    null,
+                                    true,
                                   );
                                 }}
                               >
