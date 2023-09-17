@@ -79,7 +79,7 @@ function TableGirdTwo({ rowDto, values }) {
           <tr>
             <td
               className="text-right"
-              colspan={[3].includes(values?.reportType?.value) ? 7 : 8}
+              colSpan={[3].includes(values?.reportType?.value) ? 7 : 9}
             >
               <b>Total</b>
             </td>
@@ -95,12 +95,15 @@ function TableGirdTwo({ rowDto, values }) {
                 <td className="text-right">
                   <b>{_formatMoney(soldToShop, 0)}</b>{" "}
                 </td>
-                <td className="text-right">
+                {/* <td className="text-right">
                   <b>{_formatMoney(totalSalesQty, 0)}</b>{" "}
-                </td>
+                </td> */}
               </>
             )}
 
+            <td className="text-right">
+              <b>{_fixedPoint(totalSalesQty, true, 0)}</b>
+            </td>
             <td className="text-right">
               <b>{_fixedPoint(SalesAmount, true, 0)}</b>
             </td>
