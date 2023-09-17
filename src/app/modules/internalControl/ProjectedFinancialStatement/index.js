@@ -497,7 +497,7 @@ export default function ProjectedFinancialStatement() {
                           values?.conversionRate,
                           values?.subDivision,
                           values?.reportType?.value,
-                          values?.profitCenter?.value,
+                          values?.profitCenter?.value
                         );
                       }
                       if ([3]?.includes(values?.reportType?.value)) {
