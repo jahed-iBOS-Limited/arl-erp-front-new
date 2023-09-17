@@ -1,10 +1,19 @@
 import React from "react";
 import { _dateFormatter } from "../../_helper/_dateFormate";
 import { _formatMoney } from "../../_helper/_formatMoney";
+import { isLastDayOfMonth } from "./helper";
+import useAxiosPost from "../../_helper/customHooks/useAxiosPost";
+import Loading from "../../_helper/_loading";
+import { shallowEqual, useSelector } from "react-redux";
 
 const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
+  const { profileData } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
+  const [, sendToAssetLiability, loading] = useAxiosPost();
   return (
     <>
+      {loading && <Loading />}
       {rowDto?.length > 0 && (
         <div className="d-flex flex-column align-items-center">
           <div className="text-center">
@@ -99,7 +108,40 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                           {_formatMoney(item?.numPlannedAmount)}
                         </td> */}
                         <td className="text-right" style={{ width: "120px" }}>
-                          {_formatMoney(item?.numAmount)}
+                          <div className="d-flex justify-content-around align-items-center">
+                            <div className="mr-5">
+                              <button
+                                className="btn btn-primary"
+                                disabled={
+                                  !isLastDayOfMonth(values?.toDate) ||
+                                  !values?.businessUnit?.value ||
+                                  !values?.conversionRate ||
+                                  !item?.numAmount
+                                }
+                                onClick={() => {
+                                  sendToAssetLiability(
+                                    `/fino/BudgetFinancial/CreateAssetLiabilityPlan`,
+                                    [
+                                      {
+                                        partName:
+                                          "UpdateFromProjectedCashflowStatement",
+                                        businessUnitId:
+                                          values?.businessUnit?.value,
+                                        dteDate: values?.toDate,
+                                        conversionRate: +values?.conversionRate,
+                                        yearName: "yyyy-yyyy",
+                                        initialAmount: +item?.numAmount,
+                                        actionBy: profileData?.userId,
+                                      },
+                                    ]
+                                  );
+                                }}
+                              >
+                                Send to Asset/Liability
+                              </button>
+                            </div>
+                            <div>{_formatMoney(item?.numAmount)}</div>
+                          </div>
                         </td>
                         {/* <td className="text-right" style={{ width: "120px" }}>
                           {_formatMoney(
