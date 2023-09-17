@@ -463,6 +463,7 @@ export default function ProjectedFinancialStatement() {
                         type="date"
                         onChange={(e) => {
                           setFieldValue("toDate", e.target.value);
+                          setRowData([]);
                         }}
                       />
                     </div>
