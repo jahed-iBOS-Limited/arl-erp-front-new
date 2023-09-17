@@ -5,6 +5,7 @@ export const getReportId = (values) => {
   const receivableReport = `d2ee852a-f129-4167-87f3-3ef0c00c9f8c`;
   const partyStatusReport = `31b073bf-1efb-4fa1-acc2-86ab7a59ef43`;
   const salesAndRevenueCollectionReport = `fb701cc3-194d-461a-920f-30c399229e0c`;
+  const BPBACPAnalysisReport = `ad59feaf-a160-4175-bb65-1b37901b1af1`;
   const reportId =
     typeId === 2
       ? regularIrregularParty
@@ -16,6 +17,8 @@ export const getReportId = (values) => {
       ? partyStatusReport
       : typeId === 6
       ? salesAndRevenueCollectionReport
+      : typeId === 7
+      ? BPBACPAnalysisReport
       : "";
   return reportId;
 };
@@ -104,10 +107,22 @@ export const parameterValues = (values, buId, employeeId) => {
   ];
 
   const salesAndRevenueCollectionReport = [
-    { name: "BusinessUnitId", value: buId?.toString() },
+    { name: "BusinessUnitId", value: values?.businessUnit?.value?.toString() },
     { name: "reportDateFrom", value: values?.fromDate },
     { name: "reportDateTO", value: values?.toDate },
     { name: "intPartid", value: "2" },
+  ];
+
+  const BPBACPAnalysisReport = [
+    { name: "BusinessUnitId", value: buId?.toString() },
+    {
+      name: "DistributionChannel",
+      value: values?.channel?.value?.toString(),
+    },
+    { name: "Regionid", value: values?.region?.value?.toString() },
+    { name: "Areaid", value: values?.area?.value?.toString() },
+    { name: "Territoryid", value: values?.territory?.value?.toString() },
+    { name: "reportDate", value: values?.date },
   ];
 
   const parameters =
@@ -121,6 +136,8 @@ export const parameterValues = (values, buId, employeeId) => {
       ? partyStatusReport
       : typeId === 6
       ? salesAndRevenueCollectionReport
+      : typeId === 7
+      ? BPBACPAnalysisReport
       : [];
 
   return parameters;
