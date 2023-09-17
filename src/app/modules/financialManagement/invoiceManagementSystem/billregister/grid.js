@@ -29,6 +29,8 @@ import ViewCNFBill from "./cnfBill/view/table";
 import ViewStevedoreBill from "./stevedoreBill/view/table";
 import ViewSurveyorBill from "./surveyorBill/view/table";
 import ViewHatchLaborBill from "./hatchLaborBill/view/table";
+import ViewGhatLoadUnloadBill from "./ghatLoadUnloadBill/view/viewBillRegister";
+import ViewG2GGodownUnloadBill from "./g2gGodownUnloadBill/view/viewBillRegister";
 const GridData = ({
   rowDto,
   values,
@@ -140,7 +142,7 @@ const GridData = ({
                         />
                       )}
 
-                      {/* { tableData.billStatus !== "Approved"  &&  
+                      {/* { tableData.billStatus !== "Approved"  &&
                      <span
                         className="view"
                         onClick={() => {
@@ -272,6 +274,12 @@ const GridData = ({
                 landingValues={values}
                 gridItem={gridItem}
               />
+            )}
+            {gridItem?.billType === 21 && (
+              <ViewG2GGodownUnloadBill billRegisterId={gridItem?.billRegisterId} />
+            )}
+            {gridItem?.billType === 22 && (
+              <ViewGhatLoadUnloadBill billRegisterId={gridItem?.billRegisterId} />
             )}
             {gridItem?.billType === 25 && (
               <ViewCNFBill billRegisterId={gridItem?.billRegisterId} />

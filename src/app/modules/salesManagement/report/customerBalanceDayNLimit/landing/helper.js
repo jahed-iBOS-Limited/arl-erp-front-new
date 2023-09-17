@@ -105,7 +105,8 @@ export const parameterValues = (values, buId, employeeId) => {
 
   const salesAndRevenueCollectionReport = [
     { name: "BusinessUnitId", value: buId?.toString() },
-    { name: "reportDate", value: values?.date },
+    { name: "reportDateFrom", value: values?.fromDate },
+    { name: "reportDateTO", value: values?.toDate },
     { name: "intPartid", value: "2" },
   ];
 

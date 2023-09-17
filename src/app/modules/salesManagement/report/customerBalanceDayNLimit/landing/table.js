@@ -14,6 +14,8 @@ import { dayThs, getReportId, groupId, parameterValues } from "./helper";
 
 const initData = {
   date: _todayDate(),
+  fromDate: _todayDate(),
+  toDate: _todayDate(),
   channel: "",
   region: "",
   area: "",

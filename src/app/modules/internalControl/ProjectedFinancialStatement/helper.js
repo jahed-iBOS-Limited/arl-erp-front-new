@@ -24,13 +24,14 @@ export const getIncomeStatement_api = async (
   edLabel = "",
   conversionRate,
   subDivision,
-  reportType
+  reportType,
+  profitCenId
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
       `/fino/IncomeStatement/GetIncomeStatementProjected?partName=${partName}&dteFromDate=${fromDate}&dteToDate=${toDate}&dteFromDateL=${fromDateL}&dteToDateL=${toDateL}&BusinessUnitGroup=${edLabel}&BusinessUnitId=${buId}&SBUID=${
-        0}&intProfitCenId=${
+        0}&intProfitCenId=${profitCenId ||
         0}&fsComponentId=0&GLId=0&SUBGLId=0&ConvertionRate=${conversionRate}&SubGroup=all&reportTypeId=${reportType}`
     );
     if (res.status === 200 && res?.data) {
@@ -109,3 +110,19 @@ export const manageBalanceData = (arr) => {
     currentLiabilityTotalPlanBalance: currentLiabilityTotalPlanBalance,
   };
 };
+
+export function isLastDayOfMonth(dateString) {
+  if(!dateString) return false;
+  // Parse the given date string to create a Date object
+  const date = new Date(dateString);
+
+  // Get the month and year of the given date
+  const month = date.getMonth();
+  const year = date.getFullYear();
+
+  // Calculate the next day's date
+  const nextDay = new Date(year, month, date.getDate() + 1);
+
+  // If the next day is in a different month, it means the given date is the last day of the month
+  return nextDay.getMonth() !== month;
+}

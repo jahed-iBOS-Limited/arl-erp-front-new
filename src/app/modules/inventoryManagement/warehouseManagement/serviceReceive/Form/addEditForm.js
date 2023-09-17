@@ -181,14 +181,11 @@ export default function ServiceReceiveForm({
   };
 
   const saveHandler = async (values, cb) => {
-
-
     if(totalVat.toFixed(4) > 0 && values?.vatAmmount < 1) return toast.warn("Vat amount should be greater than zero")
-
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       //edit api check
       if (id) {
-        let rowFormet = rowDto.map((data) => {
+        let rowFormet = rowDto?.map((data) => {
           return {
             rowId: data.rowId,
             serviceId: singleDataState?.objHeader.serviceId,
@@ -210,7 +207,7 @@ export default function ServiceReceiveForm({
         const payload = {
           objHeader: {
             serviceId: singleDataState?.objHeader.serviceId,
-            referenceId: values.poNumber.value,
+            referenceId: values?.poNumber?.value,
             strComments: values.comment,
             strDocumentId: values?.strDocumentId,
           },
@@ -251,8 +248,8 @@ export default function ServiceReceiveForm({
         const payload = {
           serviceCode: "",
           transactionDate: _todayDate(),
-          referenceId: values.poNumber.value,
-          referenceCode: values.poNumber.label,
+          referenceId: values?.poNumber.value,
+          referenceCode: values?.poNumber.label,
           accountId: profileData?.accountId,
           accountName: profileData?.accountName,
           businessUnitId: selectedBusinessUnit?.value,

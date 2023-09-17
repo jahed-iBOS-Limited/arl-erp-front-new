@@ -1,286 +1,134 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import * as Yup from "yup";
-import {
-  Card,
-  CardBody,
-  CardHeader,
-  CardHeaderToolbar,
-  ModalProgressBar,
-} from "../../../../../../../_metronic/_partials/controls";
-import printIcon from "../../../../../_helper/images/print-icon.png";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../../_helper/_fixedPoint";
-import InputField from "../../../../../_helper/_inputField";
 import Loading from "../../../../../_helper/_loading";
-import { getMultipleFileView_Action } from "../../../../../_helper/_redux/Actions";
-import { BillApproved_api } from "../../../approvebillregister/helper";
-import { getG2GCarrierBillById } from "../../helper";
+import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
+import IForm from "../../../../../_helper/_form";
 
-const initData = {
-  approveAmount: "",
-  approveAmountMax: "",
-  remarks: "",
-};
+export default function ViewGhatLoadUnloadBill({ billRegisterId }) {
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const [gridData, getGridData, gridDataLoading] = useAxiosGet();
 
-const validationSchema = Yup.object().shape({
-  approveAmount: Yup.number()
-    .min(0, "Minimum 0 number")
-    .required("Approve amount required")
-    .test("approveAmount", "Max Net Payable Amount", function(value) {
-      return this.parent.approveAmountMax >= value;
-    }),
-});
-
-function ViewMotherVesselBill({
-  landingValues,
-  gridItem,
-  setDataFunc,
-  setModalShow,
-}) {
-  console.log(gridItem, "gridItem");
-  // get profile data from store
-  const { profileData, selectedBusinessUnit } = useSelector((state) => {
-    return state?.authData;
+  // get profile data from redux store
+  const {
+    profileData: { accountId: accId },
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => {
+    return state.authData;
   }, shallowEqual);
 
-  const [loading, setLoading] = useState(false);
-  const [gridData, setGridData] = useState([]);
-  const [disabled, setDisabled] = useState(false);
-  const printRef = useRef();
-  const dispatch = useDispatch();
-
   useEffect(() => {
-    getG2GCarrierBillById(
-      profileData?.accountId,
-      selectedBusinessUnit?.value,
-      gridItem?.billRegisterId,
-      setGridData,
-      setLoading
+    getGridData(
+      `/tms/LigterLoadUnload/GetUnloadLabourBillByBillregesterId?accountId=${accId}&buisinessUnitId=${buId}&billRegisterId=${billRegisterId}`
     );
-  }, [profileData, selectedBusinessUnit]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [accId, buId]);
 
-  const saveHandler = (values) => {
-    const modifyGridData = {
-      billId: gridItem?.billRegisterId,
-      unitId: selectedBusinessUnit?.value,
-      billTypeId: gridItem?.billType,
-      approvedAmount: +values?.approveAmount,
-      remarks: values?.remarks || "",
-    };
-    const payload = {
-      bill: [modifyGridData],
-      row: [],
-    };
-
-    BillApproved_api(
-      profileData?.userId,
-      payload,
-      setDisabled,
-      setDataFunc,
-      landingValues,
-      setModalShow
-    );
-  };
   return (
-    <>
-      <Formik
-        enableReinitialize={true}
-        validationSchema={validationSchema}
-        initialValues={{
-          ...initData,
-          approveAmount: gridItem?.monTotalAmount,
-          approveAmountMax: gridItem?.monTotalAmount,
-        }}
-        onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {});
-        }}
-      >
-        {({ handleSubmit, resetForm, values }) => (
-          <Card>
-            {loading && <Loading />}
-            {true && <ModalProgressBar />}
-            <CardHeader title={`Mother Vessel Bill View (Approve Bill)`}>
-              <CardHeaderToolbar>
-                {landingValues?.status?.value &&
-                  landingValues?.status?.value !== 2 && (
-                    <button
-                      onClick={handleSubmit}
-                      className="btn btn-primary ml-2"
-                      type="submit"
-                      isDisabled={disabled}
-                    >
-                      Save
-                    </button>
-                  )}
-              </CardHeaderToolbar>
-            </CardHeader>
-            <CardBody>
-              <form
-                className="form form-label-right approveBillRegisterView"
-                componentRef={printRef}
-                ref={printRef}
-              >
-                {landingValues?.status?.value &&
-                  landingValues?.status?.value !== 2 && (
-                    <div className="row global-form printSectionNone">
-                      <div className="col-lg-3 offset-lg-6">
-                        <label>Remarks</label>
-                        <InputField
-                          value={values?.remarks}
-                          name="remarks"
-                          placeholder="Remarks"
-                          type="text"
-                        />
-                      </div>
-                      <div className="col-lg-3 ">
-                        <label>Approve Amount</label>
-                        <InputField
-                          value={values?.approveAmount}
-                          name="approveAmount"
-                          placeholder="Approve Amount"
-                          type="number"
-                          max={gridItem?.monTotalAmount}
-                          required
-                        />
-                      </div>
-                    </div>
-                  )}
-                <div className="row">
-                  <div className="col-lg-12 ">
-                    <div
-                      className="text-center "
-                      style={{ position: "relative" }}
-                    >
-                      <h2>{selectedBusinessUnit?.label}</h2>
-                      <h5>{selectedBusinessUnit?.address} </h5>
-                      <h3>Mother Vessel Bill</h3>
-                      <button
-                        style={{
-                          padding: "4px 4px",
-                          position: "absolute",
-                          top: "2px",
-                          right: "70px",
-                        }}
-                        onClick={() => {
-                          dispatch(
-                            getMultipleFileView_Action(gridData?.images)
-                          );
-                        }}
-                        className="btn btn-primary ml-2 printSectionNone"
-                        type="button"
-                      >
-                        Preview <i class="far fa-images"></i>
-                      </button>
-                      <ReactToPrint
-                        pageStyle={
-                          "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}"
-                        }
-                        trigger={() => (
-                          <button
-                            type="button"
-                            className="btn btn-primary printSectionNone"
-                            style={{
-                              padding: "2px 5px",
-                              position: "absolute",
-                              top: "0",
-                              right: "0",
-                            }}
-                          >
-                            <img
-                              style={{
-                                width: "25px",
-                                paddingRight: "5px",
-                              }}
-                              src={printIcon}
-                              alt="print-icon"
-                            />
-                            Print
-                          </button>
-                        )}
-                        content={() => printRef.current}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="row mt-3">
-                  <div className="col-lg-12 ">
-                    <div className="table-responsive">
-                      <table className="table table-striped table-bordered mt-3 global-table">
-                        <thead>
-                          <tr>
-                            <th>SL</th>
-                            <th>Ship Point Name</th>
-                            <th>Lighter Vessel Name</th>
-                            <th>Mother Vessel Name</th>
-                            <th>Unload Date</th>
-                            <th>Quantity(MT)</th>
-                            <th>Carrier Rate</th>
-                            <th>Commission Rate</th>
-                            <th>Bill Amount</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {gridData?.rows?.map((item, index) => {
-                            return (
-                              <>
-                                <tr key={index}>
-                                  <td
-                                    style={{ width: "30px" }}
-                                    className="text-center"
-                                  >
-                                    {index + 1}
-                                  </td>
-                                  <td>{item?.shipPointName}</td>
-                                  <td>{item?.lighterVesselName}</td>
-                                  <td>{item?.motherVesselName}</td>
-                                  <td>
-                                    {_dateFormatter(item?.unLoadCompleteDate)}
-                                  </td>
-                                  <td>{item?.receiveQnt}</td>
-                                  <td className="text-right">
-                                    {item?.carrierRate || 0}
-                                  </td>
-                                  <td className="text-right">
-                                    {item?.carrierCommissionRate || 0}
-                                  </td>
-                                  <td className="text-right">
-                                    {_fixedPoint(item?.billAmount)}
-                                  </td>
-                                </tr>
-                              </>
-                            );
-                          })}
-                          <tr>
-                            <td className="text-right" colSpan="8">
-                              <b>Total:</b>
-                            </td>
-                            <td className="text-right">
-                              <b>
-                                {_fixedPoint(
-                                  gridData?.rows?.reduce(
-                                    (acc, cur) => (acc += cur?.billAmount),
-                                    0
-                                  )
-                                )}
-                              </b>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </CardBody>
-          </Card>
-        )}
-      </Formik>
-    </>
+    <Formik enableReinitialize={true} initialValues={{}} onSubmit={(values) => {}}>
+      {() => (
+        <IForm
+          title="View Ghat Load Unload Bill"
+          isHiddenReset
+          isHiddenBack
+          isHiddenSave
+          renderProps={() => {}}
+        >
+          {(gridDataLoading || loading) && <Loading />}
+          <form className="form form-label-right ">
+            <div className="common-scrollable-table two-column-sticky">
+              <div className="scroll-table _table overflow-auto">
+                <table className="table table-striped table-bordered global-table">
+                  <thead>
+                    <tr>
+                      <th>SL</th>
+                      <th>Ship Point Name</th>
+                      <th>Mother Vessel Name</th>
+                      <th>Program No</th>
+                      <th>Lighter Vessel Name</th>
+                      <th>Unload Quantity</th>
+                      <th>Ghat Labour Supplier Name</th>
+                      <th>Direct Amount</th>
+                      <th>Dump Amount</th>
+                      <th>Dump To Truck Amount</th>
+                      <th>Lighter To Bolgate Amount</th>
+                      <th>Bolgate To Dam Amount</th>
+                      <th>Truck To Dump Outside Amount</th>
+                      <th>Truck To Dam Amount</th>
+                      <th>Others Cost Amount</th>
+                      <th>Biwta Amount</th>
+                      <th>Ship Sweeping Amount</th>
+                      <th>Scale Amount</th>
+                      <th>Daily Laboure Amount</th>
+                      <th>Total Amount</th>
+                      <th>Attachment</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {gridData?.map((item, index) => {
+                      return (
+                        <tr key={index}>
+                          <td style={{ width: "30px" }} className="text-center">
+                            {index + 1}
+                          </td>
+                          <td>{item?.shipPointName}</td>
+                          <td>{item?.motherVesselName}</td>
+                          <td>{item?.programNo}</td>
+                          <td>{item?.lighterVesselName}</td>
+                          <td className="text-right">{item?.unLoadQuantity}</td>
+                          <td>{item?.ghatLabourSupplierName}</td>
+                          <td className="text-right">{item?.directAmount}</td>
+                          <td className="text-right">{item?.dumpAmount}</td>
+                          <td className="text-right">{item?.dumpToTruckAmount}</td>
+                          <td className="text-right">{item?.lighterToBolgateAmount}</td>
+                          <td className="text-right">{item?.bolgateToDamAmount}</td>
+                          <td className="text-right">{item?.truckToDumpOutsideAmount}</td>
+                          <td className="text-right">{item?.truckToDamAmount}</td>
+                          <td className="text-right">{item?.othersCostAmount}</td>
+                          <td className="text-right">{item?.biwtaAmount}</td>
+                          <td className="text-right">{item?.shipSweepingRate}</td>
+                          <td className="text-right">{item?.scaleRate}</td>
+                          <td className="text-right">{item?.dailyLaboureRate}</td>
+                          <td className="text-right">{item?.totalAmount}</td>
+                          <td className="text-center">
+                            <OverlayTrigger
+                              overlay={<Tooltip id="cs-icon">View Attachment</Tooltip>}
+                            >
+                              <span
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  dispatch(
+                                    getDownlloadFileView_Action(
+                                      item?.attachment,
+                                      null,
+                                      null,
+                                      setLoading
+                                    )
+                                  );
+                                }}
+                                className="ml-2"
+                              >
+                                <i
+                                  style={{ fontSize: "16px" }}
+                                  className={`fa pointer fa-eye`}
+                                  aria-hidden="true"
+                                ></i>
+                              </span>
+                            </OverlayTrigger>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </form>
+        </IForm>
+      )}
+    </Formik>
   );
 }
-
-export default ViewMotherVesselBill;

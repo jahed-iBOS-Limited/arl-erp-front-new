@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
 import { Formik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import ICustomCard from "../../../../_helper/_customCard";
@@ -10,20 +10,23 @@ import NewSelect from "../../../../_helper/_select";
 import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import AttachFile from "../../../../_helper/commonInputFieldsGroups/attachemntUpload";
 
 export default function _Form({
   buId,
   accId,
+  soList,
   rowData,
   viewType,
   initData,
   setRowData,
   saveHandler,
   channelList,
+  setUploadedImage,
   getSalesOrderList,
-  soList,
 }) {
   const history = useHistory();
+  const [open, setOpen] = useState(false);
   return (
     <>
       <Formik
@@ -192,40 +195,137 @@ export default function _Form({
                     </div>
                     <div className="col-lg-3">
                       <InputField
-                        label="TT Amount"
+                        label="Conversion Rate"
+                        value={values?.conversionRate}
+                        name="conversionRate"
+                        placeholder="Conversion Rate"
+                        type="number"
+                        errors={errors}
+                        touched={touched}
+                        disabled={viewType === "view"}
+                        onChange={(e) => {
+                          setFieldValue("conversionRate", e?.target?.value);
+                          if (values?.ttAmount > 0) {
+                            setFieldValue(
+                              "ttAmountBDT",
+                              e?.target?.value * values?.ttAmount
+                            );
+                          }
+                          if (values?.erqValue > 0) {
+                            setFieldValue(
+                              "erqValueBDT",
+                              e?.target?.value * values?.erqValue
+                            );
+                          }
+                          if (values?.orqValue > 0) {
+                            setFieldValue(
+                              "orqValueBDT",
+                              e?.target?.value * values?.orqValue
+                            );
+                          }
+                        }}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <InputField
+                        label="TT Amount (USD)"
                         value={values?.ttAmount}
                         name="ttAmount"
-                        placeholder="TT Amount"
+                        placeholder="TT Amount (USD)"
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={
+                          viewType === "view" || !values?.conversionRate
+                        }
+                        onChange={(e) => {
+                          setFieldValue("ttAmount", e?.target?.value);
+                          setFieldValue(
+                            "ttAmountBDT",
+                            e?.target?.value * values?.conversionRate
+                          );
+                        }}
                       />
                     </div>
                     <div className="col-lg-3">
                       <InputField
-                        label="ERQ Value"
+                        label="TT Amount (BDT)"
+                        value={values?.ttAmountBDT}
+                        name="ttAmountBDT"
+                        placeholder="TT Amount (BDT)"
+                        type="number"
+                        errors={errors}
+                        touched={touched}
+                        disabled
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <InputField
+                        label="ERQ Value (USD)"
                         value={values?.erqValue}
                         name="erqValue"
-                        placeholder="ERQ Value"
+                        placeholder="ERQ Value (USD)"
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={
+                          viewType === "view" || !values?.conversionRate
+                        }
+                        onChange={(e) => {
+                          setFieldValue("erqValue", e?.target?.value);
+                          setFieldValue(
+                            "erqValueBDT",
+                            e?.target?.value * values?.conversionRate
+                          );
+                        }}
                       />
                     </div>
                     <div className="col-lg-3">
                       <InputField
-                        label="ORQ Value"
-                        value={values?.orqValue}
-                        name="orqValue"
-                        placeholder="ORQ Value"
+                        label="ERQ Value (BDT)"
+                        value={values?.erqValueBDT}
+                        name="erqValueBDT"
+                        placeholder="ERQ Value (BDT)"
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled
                       />
                     </div>
+                    <div className="col-lg-3">
+                      <InputField
+                        label="ORQ Value (USD)"
+                        value={values?.orqValue}
+                        name="orqValue"
+                        placeholder="ORQ Value (USD)"
+                        type="number"
+                        errors={errors}
+                        touched={touched}
+                        disabled={
+                          viewType === "view" || !values?.conversionRate
+                        }
+                        onChange={(e) => {
+                          setFieldValue("orqValue", e?.target?.value);
+                          setFieldValue(
+                            "orqValueBDT",
+                            e?.target?.value * values?.conversionRate
+                          );
+                        }}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <InputField
+                        label="ORQ Value (BDT)"
+                        value={values?.orqValueBDT}
+                        name="orqValueBDT"
+                        placeholder="ORQ Value (BDT)"
+                        type="number"
+                        errors={errors}
+                        touched={touched}
+                        disabled
+                      />
+                    </div>
+                    <AttachFile obj={{ open, setOpen, setUploadedImage }} />
                   </div>
                 </div>
                 <div className="row">

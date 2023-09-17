@@ -516,7 +516,7 @@ export default function ChallanEntryForm() {
             locationId: 0,
             locationName: "",
             shipToPartnerContactNo: "",
-            transportRate: 0,
+            transportRate: itm?.transportRate,
             emptyBag: +values?.emptyBag,
           }))
         );
