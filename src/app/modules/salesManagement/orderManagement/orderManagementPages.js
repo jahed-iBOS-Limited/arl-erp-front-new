@@ -30,6 +30,8 @@ import SalesQuotationReadyMixForm from "./salesQuotationReadyMix/Form/addEditFor
 import { SalesReportOMS } from "./salesReportOMS/index";
 import SalesReturnForm from "./salesReturn/form/addEditForm";
 import SalesReturn from "./salesReturn/landing/table";
+import DamageEntryLanding from "./damageEntry/landing";
+import DamageEntryForm from "./damageEntry/form/addEditForm";
 
 export function OrderManagementPages() {
   const userRole = useSelector(
@@ -229,6 +231,15 @@ export function OrderManagementPages() {
       <ContentRoute
         from="/sales-management/ordermanagement/salesreturn"
         component={SalesReturn}
+      />
+
+      <ContentRoute
+        from="/sales-management/ordermanagement/damageentry/entry"
+        component={DamageEntryForm}
+      />
+      <ContentRoute
+        from="/sales-management/ordermanagement/damageentry"
+        component={DamageEntryLanding}
       />
 
       {/* Sales Order Report Routes */}
