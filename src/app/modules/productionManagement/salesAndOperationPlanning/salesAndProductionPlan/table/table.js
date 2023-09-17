@@ -58,7 +58,7 @@ const SalesAndProductionTable = () => {
         profileData?.accountId,
         selectedBusinessUnit?.value,
         plant?.value,
-        year?.value,
+        year?.label,
         setGridData,
         setLoading
       );
@@ -133,7 +133,7 @@ const SalesAndProductionTable = () => {
                 profileData?.accountId,
                 selectedBusinessUnit?.value,
                 plant?.value,
-                year?.value,
+                year?.label,
                 setGridData,
                 setLoading
               );

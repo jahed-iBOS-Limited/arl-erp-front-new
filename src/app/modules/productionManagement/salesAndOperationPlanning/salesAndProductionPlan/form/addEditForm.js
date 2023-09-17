@@ -126,7 +126,6 @@ export default function SalesAndProductionPlanCreateForm({
     if (values && profileData.accountId && selectedBusinessUnit) {
       if (params?.id) {
         // eslint-disable-next-line no-unused-vars
-
         const payload = {
           header: {
             salesPlanId: params?.id,
@@ -149,7 +148,7 @@ export default function SalesAndProductionPlanCreateForm({
             endDateTime: values?.endDate,
             yearId: values?.year?.value,
             strYear: values?.year?.label,
-            monthId: values?.horizon?.value,
+            monthId: values?.horizon?.monthId,
             version: "string",
             accountId: profileData?.accountId,
             businessUnitId: selectedBusinessUnit?.value,
