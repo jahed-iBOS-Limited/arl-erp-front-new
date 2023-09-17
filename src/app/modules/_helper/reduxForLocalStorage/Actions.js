@@ -371,7 +371,6 @@ export const SetAssetReportMaintanceReportAction = (data) => (dispatch) => {
 };
 
 export const SetSalesAndProductionTableLandingAction = (data) => (dispatch) => {
-  // console.log(data)
   dispatch(slice.SetSalesAndProductionTableLanding(data));
 };
 

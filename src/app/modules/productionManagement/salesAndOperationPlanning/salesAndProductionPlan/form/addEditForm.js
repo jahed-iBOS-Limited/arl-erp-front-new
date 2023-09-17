@@ -148,6 +148,7 @@ export default function SalesAndProductionPlanCreateForm({
             startDateTime: values?.startDate,
             endDateTime: values?.endDate,
             yearId: values?.year?.value,
+            strYear: values?.year?.label,
             monthId: values?.horizon?.value,
             version: "string",
             accountId: profileData?.accountId,
