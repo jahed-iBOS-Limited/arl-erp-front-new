@@ -5,7 +5,6 @@ import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import { _formatMoney } from "../../../_helper/_formatMoney";
-import IEdit from "../../../_helper/_helperIcons/_edit";
 import IView from "../../../_helper/_helperIcons/_view";
 import InputField from "../../../_helper/_inputField";
 import { _monthLastDate } from "../../../_helper/_monthLastDate";
@@ -461,7 +460,7 @@ export default function SalesOrderLanding() {
                                   </ICon>
                                 </span>
                                 {/* job order */}
-                                <span className="Job Order Entry">
+                                {/* <span className="Job Order Entry">
                                   <IEdit
                                     title="Job Order Entry"
                                     onClick={() => {
@@ -471,7 +470,7 @@ export default function SalesOrderLanding() {
                                       });
                                     }}
                                   />
-                                </span>
+                                </span> */}
                                 <span className="view">
                                   <IView
                                     clickHandler={() => {

@@ -199,7 +199,9 @@ export default function CustomerBalanceDaysNLimit() {
                     )}
 
                     {isShow &&
-                      [2, 3, 4, 5, 6].includes(values?.reportType?.value) && (
+                      [2, 3, 4, 5, 6, 7].includes(
+                        values?.reportType?.value
+                      ) && (
                         <PowerBIReport
                           reportId={getReportId(values)}
                           groupId={groupId}

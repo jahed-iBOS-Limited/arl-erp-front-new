@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import IConfirmModal from "../../../../_helper/_confirmModal";
+import IView from "../../../../_helper/_helperIcons/_view";
 import PaginationSearch from "../../../../_helper/_search";
 import NewSelect from "../../../../_helper/_select";
 import IViewModal from "../../../../_helper/_viewModal";
@@ -593,6 +594,16 @@ export function PartnerTable({ saveHandler }) {
                     </td>
                     <td className="text-center">
                       <div className="d-flex justify-content-around">
+                      <span className="view">
+                              <IView
+                                clickHandler={() => {
+                                  history.push({
+                                    pathname: `/config/partner-management/partner-basic-info/view/${tableData?.businessPartnerId}`,
+                                    state: { tableData },
+                                  });
+                                }}
+                              />
+                            </span>
                         <button
                           onClick={() => {
                             history.push({
