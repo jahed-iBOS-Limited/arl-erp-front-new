@@ -110,3 +110,19 @@ export const manageBalanceData = (arr) => {
     currentLiabilityTotalPlanBalance: currentLiabilityTotalPlanBalance,
   };
 };
+
+export function isLastDayOfMonth(dateString) {
+  if(!dateString) return false;
+  // Parse the given date string to create a Date object
+  const date = new Date(dateString);
+
+  // Get the month and year of the given date
+  const month = date.getMonth();
+  const year = date.getFullYear();
+
+  // Calculate the next day's date
+  const nextDay = new Date(year, month, date.getDate() + 1);
+
+  // If the next day is in a different month, it means the given date is the last day of the month
+  return nextDay.getMonth() !== month;
+}
