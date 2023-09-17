@@ -16,6 +16,7 @@ const initData = {
   fiscalYear: "",
   gl: "",
   glType: "",
+  accountGroup: "",
 };
 
 export default function ManufacturingOverheadPlanLanding() {
@@ -26,23 +27,22 @@ export default function ManufacturingOverheadPlanLanding() {
   const [objProps, setObjprops] = useState({});
   const [isShowModal, setisShowModal] = useState(false);
   const [plantDDL, setPlantDDL] = useState([]);
-  const [fiscalYearDDL, getFiscalYearDDL] = useAxiosGet();
-  const [glDDL, getGlDDL] = useAxiosGet();
+  const [
+    fiscalYearDDL,
+    getFiscalYearDDL,
+    loaderOnGetFiscalYearDDL,
+  ] = useAxiosGet();
+  const [glDDL, getGlDDL, loaderOnGetGlDDL, setGlDDL] = useAxiosGet();
   const [subGlRow, getSubGlRow, loading, setSubGlRow] = useAxiosGet();
   const [singleData, setSingleData] = useState();
 
   useEffect(() => {
     getFiscalYearDDL(`/vat/TaxDDL/FiscalYearDDL`);
-
     getPlantDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
       setPlantDDL
     );
-    getGlDDL(
-      `/mes/SalesPlanning/GetGeneralLedgers?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&accountGroupId=4`
-    );
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
 
@@ -64,11 +64,7 @@ export default function ManufacturingOverheadPlanLanding() {
   }, []);
 
   const commonGridDataLoad = (values) => {
-    if (
-      values?.fiscalYear?.value &&
-      values?.gl?.value &&
-      values?.profitCenter
-    ) {
+    if ( values?.fiscalYear?.value && values?.gl?.value && values?.profitCenter) {
       setSubGlRow([]);
       getSubGlRow(
         `/mes/SalesPlanning/GetBusinessTransactionsAsync?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&generalLedgerId=${values?.gl?.value}&ProfitCenterId=${values?.profitCenter?.value}&Year=${values?.fiscalYear?.label}&IntPlantId=${values?.plant?.value}`,
@@ -89,6 +85,7 @@ export default function ManufacturingOverheadPlanLanding() {
       );
     }
   };
+
   return (
     <Formik
       enableReinitialize={true}
@@ -110,9 +107,12 @@ export default function ManufacturingOverheadPlanLanding() {
         touched,
       }) => (
         <>
-          {(loading || profitCenterDDLloader) && <Loading />}
+          {(loading ||
+            profitCenterDDLloader ||
+            loaderOnGetGlDDL ||
+            loaderOnGetFiscalYearDDL) && <Loading />}
           <IForm
-            title="Overhead Plan"
+            title="Income Expense Plan"
             getProps={setObjprops}
             isHiddenBack
             isHiddenReset
@@ -137,9 +137,6 @@ export default function ManufacturingOverheadPlanLanding() {
                 <div className="col-lg-3">
                   <NewSelect
                     name="profitCenter"
-                    // options={
-                    //   [{ value: 0, label: "All" }, ...profitCenterDDL] || []
-                    // }
                     options={[...profitCenterDDL] || []}
                     value={values?.profitCenter}
                     label="Profit Center"
@@ -167,6 +164,40 @@ export default function ManufacturingOverheadPlanLanding() {
                         ...values,
                         fiscalYear: valueOption,
                       });
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="accountGroup"
+                    isDisabled={!values?.fiscalYear}
+                    options={[
+                      {
+                        value: 3,
+                        label: "Income",
+                      },
+                      {
+                        value: 4,
+                        label: "Expense",
+                      },
+                    ]}
+                    value={values?.accountGroup}
+                    label="Account Group"
+                    onChange={(valueOption) => {
+                      if (valueOption) {
+                        setFieldValue("accountGroup", valueOption);
+                        setFieldValue("gl", "");
+                        setSubGlRow([]);
+                        getGlDDL(
+                          `/mes/SalesPlanning/GetGeneralLedgers?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&accountGroupId=${valueOption?.value}`
+                        );
+                      } else {
+                        setFieldValue("gl", "");
+                        setGlDDL([]);
+                        setSubGlRow([]);
+                      }
                     }}
                     errors={errors}
                     touched={touched}
