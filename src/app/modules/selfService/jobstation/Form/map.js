@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useEffect, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
-
+import { FullscreenControl } from "react-leaflet-fullscreen";
+import "react-leaflet-fullscreen/styles.css";
 import Loading from "../../../_helper/_loading";
 function RemoteAttendanceMap({ mapData, setMapData, allSheetData }) {
   const [loading, setLoading] = useState(false);
@@ -58,13 +59,7 @@ function RemoteAttendanceMap({ mapData, setMapData, allSheetData }) {
               url='https://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}'
             />
             <Markers markersData={allSheetData} />
-            {/* <Fullscreen
-              eventHandlers={{
-                enterFullscreen: (event) => {},
-                exitFullscreen: (event) => {},
-              }}
-              {...options}
-            /> */}
+            <FullscreenControl />
           </MapContainer>
         )}
       </div>
