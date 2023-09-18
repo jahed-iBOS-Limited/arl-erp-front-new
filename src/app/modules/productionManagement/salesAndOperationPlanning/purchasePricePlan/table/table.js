@@ -14,11 +14,16 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const PurchasePlanTable = () => {
   const [fiscalYearDDL, getFiscalYearDDL, fiscalYearDDLloader] = useAxiosGet();
-  const [loading, setLoading] = useState(false);
   const [plantDDL, setPlantDDL] = useState([]);
   const [gridData, setGridData] = useState([]);
   const history = useHistory();
   const dispatch = useDispatch();
+  const [
+    purchasePlan,
+    getPurchasePlan,
+    purchasePlanLoader,
+    setPurchasePlan,
+  ] = useAxiosGet();
 
   const [versionModalShow, setVersionModalShow] = useState(false);
   const [versionModalData, setVersionModalData] = useState();
@@ -44,13 +49,8 @@ const PurchasePlanTable = () => {
     );
 
     if (plant && year) {
-      getSalesPlanLanding(
-        profileData?.accountId,
-        selectedBusinessUnit?.value,
-        plant?.value,
-        year?.value,
-        setGridData,
-        setLoading
+      getPurchasePlan(
+        `/mes/SalesPlanning/GetPurchasePlanding?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${plant?.value}&StrYear=${year?.label}`
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -61,9 +61,8 @@ const PurchasePlanTable = () => {
   };
 
   return (
-    <ICustomCard title="Purchase Plan" createHandler={createHandler}>
-      {(loading || fiscalYearDDLloader) && <Loading />}
-
+    <ICustomCard title="Procurement Plan" createHandler={createHandler}>
+      {(fiscalYearDDLloader || purchasePlanLoader) && <Loading />}
       <div className="global-form row">
         <div className="col-lg">
           <label>Plant</label>
@@ -75,8 +74,6 @@ const PurchasePlanTable = () => {
                   plant: v,
                 })
               );
-
-              setGridData([]);
             }}
             options={plantDDL || []}
             value={plant}
@@ -108,13 +105,8 @@ const PurchasePlanTable = () => {
         <div className="col-lg">
           <button
             onClick={() => {
-              getSalesPlanLanding(
-                profileData?.accountId,
-                selectedBusinessUnit?.value,
-                plant?.value,
-                year?.label,
-                setGridData,
-                setLoading
+              getPurchasePlan(
+                `/mes/SalesPlanning/GetPurchasePlanding?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${plant?.value}&StrYear=${year?.label}`
               );
             }}
             style={{ marginTop: "18px" }}
@@ -126,30 +118,28 @@ const PurchasePlanTable = () => {
         </div>
       </div>
 
-      {gridData?.length > 0 && (
+      {purchasePlan?.length > 0 && (
         <table className="global-table table">
-          <>
-            <thead>
-              <tr>
-                <th>SL</th>
-                <th>Horizon Name</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Plan Quantity</th>
+          <thead>
+            <tr>
+              <th>SL</th>
+              <th>Horizon Name</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Plan Quantity</th>
+            </tr>
+          </thead>
+          <tbody>
+            {purchasePlan?.map((item, index) => (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                <td>{item?.strMonthName}</td>
+                <td>{_dateFormatter(item?.dteStartDateTime)}</td>
+                <td>{_dateFormatter(item?.dteEndDateTime)}</td>
+                <td>{item?.planQTY}</td>
               </tr>
-            </thead>
-            <tbody>
-              {gridData?.map((item, index) => (
-                <tr key={index}>
-                  <td>{item?.sl}</td>
-                  <td>{item?.horizonName}</td>
-                  <td>{_dateFormatter(item?.startDate)}</td>
-                  <td>{_dateFormatter(item?.endDate)}</td>
-                  <td>{item?.planQTY}</td>
-                </tr>
-              ))}
-            </tbody>
-          </>
+            ))}
+          </tbody>
         </table>
       )}
       <IViewModal
