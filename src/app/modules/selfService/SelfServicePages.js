@@ -14,7 +14,7 @@ import { ExpenseRegister } from "./expenseRegister/index.js";
 import BasicInformationlLanding from "./humanResource/employeeInformation/Table/form";
 import OfficialInfoCollapsePanel from "./humanResource/officialInformation/EditForm/mainCollapse";
 import PersonalInfoCollapsePanel from "./humanResource/personalInformation/EditForm/mainCollapse";
-// import Jobstation from "./jobstation/Form/addEditForm";
+import Jobstation from "./jobstation/Form/addEditForm";
 import LeaveApprovalLanding from "./leaveMovement/LeaveApproval/Landing/Landing";
 import MovementApprovalLanding from "./leaveMovement/MovementApproval/Landing/Landing";
 import { LeaveAddForm } from "./leaveMovement/leaveApplication/Form/addEditForm";
@@ -167,10 +167,10 @@ export function SelfServicePages() {
             path="/self-service/SSOTReport"
             component={AllReport}
           />
-          {/* <ContentRoute
+          <ContentRoute
             path="/self-service/jobstation"
             component={Jobstation}
-          /> */}
+          />
           {/* <ContentRoute
             path="/self-service/humanResource"
             component={HumanResourcePages}
