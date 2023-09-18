@@ -41,7 +41,7 @@ export default function _Form({ mapData, setMapData, datalist, loading }) {
     <>
       <Card>
         {true && <ModalProgressBar />}
-        <CardHeader title={"ARL Workplace(Job Station)"}>
+        <CardHeader title={"ARL (Job Station/Dealer Point)"}>
           <CardHeaderToolbar>
             <button
               onClick={handleRefresh}
