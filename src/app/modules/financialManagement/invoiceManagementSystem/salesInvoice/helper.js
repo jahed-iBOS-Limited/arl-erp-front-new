@@ -7,6 +7,7 @@ export const getSalesInvoiceLanding = async (
   buId,
   fromDate,
   toDate,
+  channelId,
   pageNo,
   pageSize,
   search,
@@ -15,9 +16,9 @@ export const getSalesInvoiceLanding = async (
 ) => {
   setLoading(true);
   const searchTerm = search ? `&search=${search}` : "";
-  const commonURL = `/wms/CommercialInvoice/GetCommercialInvoiceLanding?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&Todate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=asc`;
+  const commonURL = `/wms/CommercialInvoice/GetCommercialInvoiceLanding?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&Todate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=asc&${channelId}`;
 
-  const urlForSomeSelectedUnit = `/oms/OManagementReport/GetSalesInvoiceLanding?BusinessunitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc${searchTerm}`;
+  const urlForSomeSelectedUnit = `/oms/OManagementReport/GetSalesInvoiceLanding?BusinessunitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc${searchTerm}&${channelId}`;
 
   try {
     const res = await axios.get(

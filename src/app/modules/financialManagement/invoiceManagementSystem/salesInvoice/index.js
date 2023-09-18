@@ -11,6 +11,7 @@ import PaginationSearch from "../../../_helper/_search";
 import { _todayDate } from "../../../_helper/_todayDate";
 import SalesInvoiceGridData from "./grid";
 import { getSalesInvoiceLanding } from "./helper";
+import RATForm from "../../../_helper/commonInputFieldsGroups/ratForm";
 
 const initData = {
   order: "",
@@ -22,6 +23,7 @@ const initData = {
   projectName: "",
   delivery: "",
   challanNo: "",
+  channel: ""
 };
 
 function SalesInvoiceLanding() {
@@ -44,6 +46,7 @@ function SalesInvoiceLanding() {
       buId,
       values?.fromDate,
       values?.toDate,
+      values?.channel?.value,
       pageNo,
       pageSize,
       search,
@@ -85,10 +88,19 @@ function SalesInvoiceLanding() {
               {disabled && <Loading />}
               <Form className="form form-label-right">
                 <div className="row global-form global-form-custom">
+                  <RATForm
+                    obj={{
+                      values,
+                      setFieldValue,
+                      region: false,
+                      area: false,
+                      territory: false,
+                    }}
+                  />
                   <FromDateToDateForm obj={{ values, setFieldValue }} />
 
                   <IButton
-                    colSize={"col-lg-6"}
+                    colSize={"col-lg-3"}
                     onClick={() => {
                       getGridData(values, pageNo, pageSize);
                     }}
