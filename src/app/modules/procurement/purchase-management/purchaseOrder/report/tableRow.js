@@ -64,7 +64,7 @@ export function PurchaseOrderViewTableRow({ poId, orId, isHiddenBackBtn }) {
     subject: `Purchase Order No: ${purchaseOrderReport?.objHeaderDTO?.purchaseOrderNo}`,
     message: `Dear ${purchaseOrderReport?.objHeaderDTO?.supplierName}
     A Purchase Order has been sent from ${purchaseOrderReport?.objHeaderDTO?.billToName}Purchase Order No:   ${purchaseOrderReport?.objHeaderDTO?.purchaseOrderNo}
-    Please take the necessary action 
+    Please take the necessary action
     `,
     attachment: "",
   };
@@ -173,7 +173,7 @@ export function PurchaseOrderViewTableRow({ poId, orId, isHiddenBackBtn }) {
                         </div>
                         {/* <div className="d-flex justify-content-center align-items-center">
                           {selectedBusinessUnit?.value === 8 && (
-                            
+
                           )}
                         </div> */}
 
@@ -207,7 +207,7 @@ export function PurchaseOrderViewTableRow({ poId, orId, isHiddenBackBtn }) {
                           <div className="reportInfo1">
                             <p> Supplier: {purchaseOrderReport?.objHeaderDTO?.supplierName}</p>
                             <p> Email: {purchaseOrderReport?.objHeaderDTO?.supplierEmail}</p>
-                            <p>Attn: {purchaseOrderReport?.objHeaderDTO?.supplierName}</p>
+                            <p>Attn: {purchaseOrderReport?.objHeaderDTO?.strPropitor}</p>
                             <p>Phone: {purchaseOrderReport?.objHeaderDTO?.supplierContactNo}</p>
                             <p>Address: {purchaseOrderReport?.objHeaderDTO?.supplierAddress}</p>
                           </div>
