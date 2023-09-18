@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useEffect, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
-import Fullscreen from "react-leaflet-fullscreen-plugin";
+
 import Loading from "../../../_helper/_loading";
 function RemoteAttendanceMap({ mapData, setMapData, allSheetData }) {
   const [loading, setLoading] = useState(false);
@@ -33,15 +33,15 @@ function RemoteAttendanceMap({ mapData, setMapData, allSheetData }) {
     }, 2000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const options = {
-    position: "topleft",
-    title: "Show me the fullscreen !",
-    titleCancel: "Exit fullscreen mode",
-    content: null,
-    forceSeparateButton: true,
-    forcePseudoFullscreen: true,
-    fullscreenElement: false,
-  };
+  // const options = {
+  //   position: "topleft",
+  //   title: "Show me the fullscreen !",
+  //   titleCancel: "Exit fullscreen mode",
+  //   content: null,
+  //   forceSeparateButton: true,
+  //   forcePseudoFullscreen: true,
+  //   fullscreenElement: false,
+  // };
 
   return (
     <div className='jobstationMap'>
@@ -57,19 +57,14 @@ function RemoteAttendanceMap({ mapData, setMapData, allSheetData }) {
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url='https://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}'
             />
-            {/* {mapData?.latitude && (
-              <Marker
-                position={[mapData?.latitude, mapData?.longitude]}
-              ></Marker>
-            )} */}
             <Markers markersData={allSheetData} />
-            <Fullscreen
+            {/* <Fullscreen
               eventHandlers={{
                 enterFullscreen: (event) => {},
                 exitFullscreen: (event) => {},
               }}
               {...options}
-            />
+            /> */}
           </MapContainer>
         )}
       </div>
