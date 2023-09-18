@@ -112,7 +112,6 @@
     "socicon": "3.0.5",
     "socket.io-client": "^4.2.0",
     "to-words": "^3.1.0",
-    "use-google-sheets": "^2.0.0",
     "web-serial-polyfill": "^1.0.14",
     "xlsx": "^0.17.0",
     "yup": "0.29.0"
