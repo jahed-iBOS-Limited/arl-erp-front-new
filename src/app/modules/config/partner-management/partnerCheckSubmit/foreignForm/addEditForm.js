@@ -25,6 +25,7 @@ const initData = {
   ttAmountBDT: "",
   erqValueBDT: "",
   orqValueBDT: "",
+  finalDestination: ""
 };
 
 export default function ExportPaymentPostingForm({ type, singleItem }) {
@@ -61,7 +62,7 @@ export default function ExportPaymentPostingForm({ type, singleItem }) {
               value: h?.customerId,
             },
             channel: "",
-            soDate: "",
+            soDate: h?.soDate,
             ttAmount: h?.ttamount,
             fromDate: _firstDateofMonth(),
             toDate: _todayDate(),
@@ -70,7 +71,7 @@ export default function ExportPaymentPostingForm({ type, singleItem }) {
               label: h?.salesOrderCode,
             },
             soRef: h?.salesOrderRefererence,
-            salesContractRef: "",
+            salesContractRef: h?.salesQuotationCode,
             erqValue: h?.erqvalue,
             orqValue: h?.orqvalue,
 
@@ -78,6 +79,8 @@ export default function ExportPaymentPostingForm({ type, singleItem }) {
             ttAmountBDT: h?.ttAmountBDT,
             erqValueBDT: h?.erqvalueBDT,
             orqValueBDT: h?.orqvalueBDT,
+
+            finalDestination: h?.finalDestination,
           };
           setSingleData(modifyData);
           setRowData(resData?.objRow);
@@ -119,25 +122,27 @@ export default function ExportPaymentPostingForm({ type, singleItem }) {
           orqvalue: values?.orqValue,
 
           // sl: 0,
-         
+
           // salesOrderId: 0,
           // salesOrderCode: "string",
           // customerId: 0,
           // customerName: "string",
           // salesOrderRefererence: "string",
           conversionRateBDT: values?.conversionRate,
-           
+
           ttAmountBDT: values?.ttAmountBDT,
           // uomid: 0,
           // uomname: "string",
-          
+
           erqvalueBDT: values?.erqValueBDT,
-         
+
           orqvalueBDT: values?.orqValueBDT,
           // totalExpenseAganistTt: 0,
           remark: "string",
           actionBy: userId,
           // attachment: "string",
+
+          
         },
         objRow: rowData,
       };
@@ -162,6 +167,9 @@ export default function ExportPaymentPostingForm({ type, singleItem }) {
           erqvalueBDT: values?.erqValueBDT,
           orqvalueBDT: values?.orqValueBDT,
           attachment: uploadedImage[0]?.id,
+
+          finalDestination: values?.country,
+          salesContractRef: values?.salesContractRef
         },
         objRow: rowData,
       };

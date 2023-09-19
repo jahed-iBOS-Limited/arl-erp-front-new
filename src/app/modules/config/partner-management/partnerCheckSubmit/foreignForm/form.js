@@ -134,8 +134,8 @@ export default function _Form({
                             valueOption?.salesQuotationCode
                           );
                           setFieldValue(
-                            "country",
-                            valueOption?.strCountryOfOrigin
+                            "finalDestination",
+                            valueOption?.finalDestination
                           );
                         }}
                         placeholder="Sales Order"
@@ -147,14 +147,14 @@ export default function _Form({
 
                     <div className="col-lg-3">
                       <InputField
-                        label="Country"
-                        value={values?.country}
-                        name="country"
-                        placeholder="Country"
+                        label="Final Destination"
+                        value={values?.finalDestination}
+                        name="finalDestination"
+                        placeholder="Final Destination"
                         type="text"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType}
+                        disabled
                       />
                     </div>
                     <div className="col-lg-3">
@@ -166,7 +166,7 @@ export default function _Form({
                         type="text"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType}
+                        disabled
                       />
                     </div>
                     <div className="col-lg-3">
@@ -178,7 +178,7 @@ export default function _Form({
                         type="text"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType}
+                        disabled
                       />
                     </div>
                     <div className="col-lg-3">
@@ -190,7 +190,7 @@ export default function _Form({
                         type="date"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType}
+                        disabled
                       />
                     </div>
                     <div className="col-lg-3">
