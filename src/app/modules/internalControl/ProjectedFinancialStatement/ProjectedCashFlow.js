@@ -35,14 +35,14 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
               <td className="pr-5 text-right">
                 Opening Cash & Cash Equivalent
               </td>
-              {/* <td
+              <td
                 style={{
                   border: "1px solid black",
                   textAlign: "center",
                 }}
               >
                 {_formatMoney(rowDto[0]["numPlannedOpening"])}
-              </td> */}
+              </td>
               <td
                 style={{
                   border: "1px solid black",
@@ -62,18 +62,18 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                 )}
               </td> */}
             </tr>
-            {/* <tr>
+            <tr>
               <td style={{ height: "15px" }}></td>
               <td className="text-center" style={{ height: "15px" }}>
-                Budget
+                last Period
               </td>
               <td className="text-center" style={{ height: "15px" }}>
-                Actual
+                Current Period
               </td>
-              <td className="text-center" style={{ height: "15px" }}>
+              {/* <td className="text-center" style={{ height: "15px" }}>
                 Variance
-              </td>
-            </tr> */}
+              </td> */}
+            </tr>
             {rowDto?.map((item, index) => {
               switch (item.intFSId) {
                 case 9999:
@@ -87,9 +87,9 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                     return (
                       <tr style={{ background: "#f0f0f5" }}>
                         <td>{item?.strName}</td>
-                        {/* <td className="text-right" style={{ width: "120px" }}>
+                        <td className="text-right" style={{ width: "120px" }}>
                           {_formatMoney(item?.numPlannedAmount)}
-                        </td> */}
+                        </td>
                         <td className="text-right" style={{ width: "120px" }}>
                           {_formatMoney(item?.numAmount)}
                         </td>
@@ -104,9 +104,9 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                     return (
                       <tr style={{ background: "#e6ecff" }}>
                         <td>{item?.strName}</td>
-                        {/* <td className="text-right" style={{ width: "120px" }}>
+                        <td className="text-right" style={{ width: "120px" }}>
                           {_formatMoney(item?.numPlannedAmount)}
-                        </td> */}
+                        </td>
                         <td className="text-right" style={{ width: "120px" }}>
                           <div className="d-flex justify-content-around align-items-center">
                             <div className="mr-5">
@@ -176,7 +176,7 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                       >
                         {item?.strName}
                       </td>
-                      {/* <td
+                      <td
                         className="pr-1"
                         style={{
                           border: "1px solid black",
@@ -187,7 +187,7 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                         }}
                       >
                         {_formatMoney(item?.numPlannedAmount)}
-                      </td> */}
+                      </td>
                       <td
                         className="pr-1"
                         style={{
@@ -211,6 +211,7 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                         }}
                       >
                         {_formatMoney(item?.numPlannedAmount - item?.numAmount)}
+                        1
                       </td> */}
                     </tr>
                   );

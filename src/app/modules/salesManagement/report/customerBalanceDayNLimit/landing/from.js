@@ -14,6 +14,7 @@ const reportTypes = [
   { value: 3, label: "Sister Concern Overdue" },
   { value: 5, label: "Party Status" },
   { value: 6, label: "Sales & Revenue Collection Report" },
+  { value: 7, label: "BP BA CP Analysis Report" },
 ];
 
 const partyStatusList = [
@@ -66,14 +67,14 @@ export default function Form({ obj }) {
 
   const idSetOne = (values) => {
     const typeId = values?.reportType?.value;
-    const result = [1, 2, 3, 5].includes(typeId);
+    const result = [1, 2, 3, 5, 7].includes(typeId);
 
     return result;
   };
 
   const idSetTwo = (values) => {
     const typeId = values?.reportType?.value;
-    const result = [5].includes(typeId);
+    const result = [5, 7].includes(typeId);
 
     return result;
   };
@@ -94,7 +95,7 @@ export default function Form({ obj }) {
               }}
             />
           </div>
-          {[4].includes(values?.reportType?.value) && (
+          {[4, 6].includes(values?.reportType?.value) && (
             <>
               <div className="col-lg-3">
                 <NewSelect
@@ -109,22 +110,24 @@ export default function Form({ obj }) {
                   placeholder="Business Unit"
                 />
               </div>
-              <div className="col-lg-3">
-                <NewSelect
-                  name="viewType"
-                  options={[
-                    { value: 1, label: "Details" },
-                    { value: 5, label: "Top Sheet" },
-                  ]}
-                  value={values?.viewType}
-                  label="View Type"
-                  onChange={(valueOption) => {
-                    setIsShow(false);
-                    setFieldValue("viewType", valueOption);
-                  }}
-                  placeholder="View Type"
-                />
-              </div>
+              {[4].includes(values?.reportType?.value) && (
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="viewType"
+                    options={[
+                      { value: 1, label: "Details" },
+                      { value: 5, label: "Top Sheet" },
+                    ]}
+                    value={values?.viewType}
+                    label="View Type"
+                    onChange={(valueOption) => {
+                      setIsShow(false);
+                      setFieldValue("viewType", valueOption);
+                    }}
+                    placeholder="View Type"
+                  />
+                </div>
+              )}
             </>
           )}
           {![6].includes(values?.reportType?.value) && (
@@ -178,23 +181,25 @@ export default function Form({ obj }) {
                 }}
               />
 
-              <div className="col-lg-3">
-                <label>Customer</label>
-                <SearchAsyncSelect
-                  selectedValue={values?.customer}
-                  handleChange={(valueOption) => {
-                    setIsShow(false);
-                    setFieldValue("customer", valueOption);
-                    setRowDto([]);
-                  }}
-                  placeholder="Search Customer"
-                  loadOptions={loadCustomerList}
-                />
-              </div>
+              {![7].includes(values?.reportType?.value) && (
+                <div className="col-lg-3">
+                  <label>Customer</label>
+                  <SearchAsyncSelect
+                    selectedValue={values?.customer}
+                    handleChange={(valueOption) => {
+                      setIsShow(false);
+                      setFieldValue("customer", valueOption);
+                      setRowDto([]);
+                    }}
+                    placeholder="Search Customer"
+                    loadOptions={loadCustomerList}
+                  />
+                </div>
+              )}
             </>
           )}
 
-          {idSetTwo(values) && (
+          {[5].includes(values?.reportType?.value) && (
             <>
               <div className="col-lg-3">
                 <NewSelect
@@ -229,7 +234,9 @@ export default function Form({ obj }) {
             onClick={() => {
               if ([1].includes(values?.reportType?.value)) {
                 viewHandler(values);
-              } else if ([2, 3, 4, 5, 6].includes(values?.reportType?.value)) {
+              } else if (
+                [2, 3, 4, 5, 6, 7].includes(values?.reportType?.value)
+              ) {
                 setIsShow(true);
               }
             }}

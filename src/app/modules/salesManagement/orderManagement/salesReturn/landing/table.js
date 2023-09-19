@@ -316,8 +316,7 @@ const SalesReturn = () => {
                                 )
                               : _fixedPoint(
                                   item?.quantity || item?.totalReturnQty,
-                                  true,
-                                  0
+                                  true
                                 )}
                           </td>
                           <td className="text-right">

@@ -325,6 +325,18 @@ export default function _Form({
                         disabled
                       />
                     </div>
+                    <div className="col-lg-3 mt-5">
+                      <button
+                        className="btn btn-primary"
+                        type="button"
+                        onClick={() => {
+                          setOpen(true);
+                        }}
+                      >
+                        Attach File
+                      </button>
+                    </div>
+
                     <AttachFile obj={{ open, setOpen, setUploadedImage }} />
                   </div>
                 </div>

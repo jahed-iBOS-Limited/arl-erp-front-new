@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getLandingPlantDDL,
   getSalesPlanLanding,
-  getSalesPlanYearDDL,
 } from "../helper";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
@@ -16,8 +15,10 @@ import IViewModal from "../../../../_helper/_viewModal";
 import Loading from "../../../../_helper/_loading";
 import VersionModal from "./versionModal";
 import { SetSalesAndProductionTableLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const SalesAndProductionTable = () => {
+  const [, getFiscalYearDDL, fiscalYearDDLloader] = useAxiosGet();
   const [loading, setLoading] = useState(false);
   const [plantDDL, setPlantDDL] = useState([]);
   const [yearDDL, setYearDDL] = useState([]);
@@ -43,6 +44,9 @@ const SalesAndProductionTable = () => {
   const { plant, year } = salesAndProductionTableLanding;
 
   useEffect(() => {
+    getFiscalYearDDL(`/vat/TaxDDL/FiscalYearDDL`, (data) => {
+      setYearDDL(data);
+    });
     getLandingPlantDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -69,20 +73,22 @@ const SalesAndProductionTable = () => {
 
   return (
     <ICustomCard title="Sales Plan" createHandler={createHandler}>
-      {loading && <Loading />}
+      {(loading || fiscalYearDDLloader) && <Loading />}
 
       <div className="global-form row">
         <div className="col-lg">
           <label>Plant</label>
           <Select
             onChange={(v) => {
-              getSalesPlanYearDDL(
-                profileData?.accountId,
-                selectedBusinessUnit?.value,
-                v?.value,
-                setYearDDL
-              );
-
+              // getFiscalYearDDL(`/vat/TaxDDL/FiscalYearDDL`, (data) => {
+              //   setYearDDL(data);
+              // });
+              // getSalesPlanYearDDL(
+              //   profileData?.accountId,
+              //   selectedBusinessUnit?.value,
+              //   v?.value,
+              //   setYearDDL
+              // );
               dispatch(
                 SetSalesAndProductionTableLandingAction({
                   year: "",

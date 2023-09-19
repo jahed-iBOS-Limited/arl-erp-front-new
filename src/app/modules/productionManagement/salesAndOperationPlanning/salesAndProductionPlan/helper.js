@@ -142,7 +142,7 @@ export const getSalesPlanLanding = async (
   setLoading(true);
   try {
     const res = await Axios.get(
-      `/mes/SalesPlanning/SalesPlanningLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&plantId=${plantId}&Year=${year}&PageNo=1&PageSize=100&viewOrder=desc`
+      `/mes/SalesPlanning/SalesPlanningLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&plantId=${plantId}&StrYear=${year}&PageNo=1&PageSize=100&viewOrder=asc`
     );
     setLoading(false);
     setter(res?.data?.data);
@@ -174,7 +174,7 @@ export const getSalesPlanById = async (
       },
       year: {
         value: res?.data?.objHeader?.yearId,
-        label: res?.data?.objHeader?.yearId,
+        label: res?.data?.objHeader?.strYear,
       },
       startDate: _dateFormatter(res?.data?.objHeader?.startDateTime),
       endDate: _dateFormatter(res?.data?.objHeader?.endDateTime),
@@ -218,6 +218,7 @@ export const getProductionPlanning = async (
       `/mes/SalesPlanning/GetSalesPlanById?SalesPlanId=${salesPlanId}`
     );
 
+    console.log("resresres", res?.data)
     const newHeader = {
       plant: {
         value: res?.data?.header?.plant.value,
@@ -225,7 +226,7 @@ export const getProductionPlanning = async (
       },
       year: {
         value: res?.data?.header?.intYearId,
-        label: res?.data?.header?.intYearId,
+        label: res?.data?.header?.strYear,
       },
       startDate: _dateFormatter(res?.data?.header?.dteStartDateTime),
       endDate: _dateFormatter(res?.data?.header?.dteEndDateTime),
