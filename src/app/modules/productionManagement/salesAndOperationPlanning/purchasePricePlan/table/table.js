@@ -4,7 +4,7 @@ import Select from "react-select";
 import customStyles from "../../../../selectCustomStyle";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getLandingPlantDDL, getSalesPlanLanding } from "../helper";
+import { getLandingPlantDDL } from "../helper";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IViewModal from "../../../../_helper/_viewModal";
 import Loading from "../../../../_helper/_loading";
@@ -15,8 +15,6 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 const PurchasePlanTable = () => {
   const [fiscalYearDDL, getFiscalYearDDL, fiscalYearDDLloader] = useAxiosGet();
   const [plantDDL, setPlantDDL] = useState([]);
-  const [gridData, setGridData] = useState([]);
-  const [loading, setLoading] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
   const [
@@ -50,17 +48,9 @@ const PurchasePlanTable = () => {
     );
 
     if (plant && year) {
-      getSalesPlanLanding(
-        profileData?.accountId,
-        selectedBusinessUnit?.value,
-        plant?.value,
-        year?.value,
-        setGridData,
-        setLoading
+      getPurchasePlan(
+        `/mes/SalesPlanning/GetPurchasePlanding?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${plant?.value}&StrYear=${year?.label}`
       );
-      // getPurchasePlan(
-      //   `/mes/SalesPlanning/GetPurchasePlanding?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${plant?.value}&StrYear=${year?.label}`
-      // );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit, plant, year]);
@@ -77,6 +67,7 @@ const PurchasePlanTable = () => {
           <label>Plant</label>
           <Select
             onChange={(v) => {
+              setPurchasePlan([]);
               dispatch(
                 SetSalesAndProductionTableLandingAction({
                   year: "",
@@ -114,17 +105,9 @@ const PurchasePlanTable = () => {
         <div className="col-lg">
           <button
             onClick={() => {
-              getSalesPlanLanding(
-                profileData?.accountId,
-                selectedBusinessUnit?.value,
-                plant?.value,
-                year?.value,
-                setGridData,
-                setLoading
+              getPurchasePlan(
+                `/mes/SalesPlanning/GetPurchasePlanding?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${plant?.value}&StrYear=${year?.label}`
               );
-              // getPurchasePlan(
-              //   `/mes/SalesPlanning/GetPurchasePlanding?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${plant?.value}&StrYear=${year?.label}`
-              // );
             }}
             style={{ marginTop: "18px" }}
             className="btn btn-primary"
@@ -135,7 +118,7 @@ const PurchasePlanTable = () => {
         </div>
       </div>
 
-      {/* {purchasePlan?.length > 0 && (
+      {purchasePlan?.length > 0 && (
         <table className="global-table table">
           <thead>
             <tr>
@@ -153,36 +136,10 @@ const PurchasePlanTable = () => {
                 <td>{item?.strMonthName}</td>
                 <td>{_dateFormatter(item?.dteStartDateTime)}</td>
                 <td>{_dateFormatter(item?.dteEndDateTime)}</td>
-                <td>{item?.planQTY}</td>
+                <td className="text-center">{item?.procurementPlanQty}</td>
               </tr>
             ))}
           </tbody>
-        </table>
-      )} */}
-      {gridData?.length > 0 && (
-        <table className="global-table table">
-          <>
-            <thead>
-              <tr>
-                <th>SL</th>
-                <th>Horizon Name</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Plan Quantity</th>
-              </tr>
-            </thead>
-            <tbody>
-              {gridData?.map((item, index) => (
-                <tr key={index}>
-                  <td>{item?.sl}</td>
-                  <td>{item?.horizonName}</td>
-                  <td>{_dateFormatter(item?.startDate)}</td>
-                  <td>{_dateFormatter(item?.endDate)}</td>
-                  <td>{item?.planQTY}</td>
-                </tr>
-              ))}
-            </tbody>
-          </>
         </table>
       )}
       <IViewModal
