@@ -14,9 +14,9 @@ export default function TableOne({ obj }) {
 
   let totalOrderQty = 0;
   let totalOrderValue = 0;
-  let totalDeliveryQty = 0;
-  let totalDeliveryValue = 0;
-  let totalPendingQty = 0;
+  // let totalDeliveryQty = 0;
+  // let totalDeliveryValue = 0;
+  // let totalPendingQty = 0;
   return (
     <>
       {gridData?.length > 0 && (
@@ -38,9 +38,9 @@ export default function TableOne({ obj }) {
                   <th style={{ minWidth: "75px" }}>Order Quantity</th>
                   <th style={{ minWidth: "75px" }}>Order Value</th>
 
-                  <th style={{ minWidth: "100px" }}>Delivery Quantity</th>
+                  {/* <th style={{ minWidth: "100px" }}>Delivery Quantity</th>
                   <th style={{ minWidth: "100px" }}>Delivery Value</th>
-                  <th style={{ minWidth: "100px" }}>Pending Delivery</th>
+                  <th style={{ minWidth: "100px" }}>Pending Delivery</th> */}
 
                   <th style={{ minWidth: "50px" }}>Action</th>
                 </tr>
@@ -49,9 +49,9 @@ export default function TableOne({ obj }) {
                 {gridData?.map((item, index) => {
                   totalOrderQty += item?.orderQty;
                   totalOrderValue += item?.orderValue;
-                  totalDeliveryQty += item?.deliveryQty;
-                  totalDeliveryValue += item?.deliveryValue;
-                  totalPendingQty += item?.orderQty - item?.deliveryQty;
+                  // totalDeliveryQty += item?.deliveryQty;
+                  // totalDeliveryValue += item?.deliveryValue;
+                  // totalPendingQty += item?.orderQty - item?.deliveryQty;
 
                   return (
                     <tr key={index}>
@@ -71,7 +71,7 @@ export default function TableOne({ obj }) {
                         {_fixedPoint(item?.orderValue, true, 0)}
                       </td>
 
-                      <td className="text-right">
+                      {/* <td className="text-right">
                         {_fixedPoint(item?.deliveryQty, true, 4)}
                       </td>
                       <td className="text-right">
@@ -83,7 +83,7 @@ export default function TableOne({ obj }) {
                           true,
                           4
                         )}
-                      </td>
+                      </td> */}
 
                       <td className="action-att-report-print-disabled">
                         <div className="d-flex justify-content-around">
@@ -110,9 +110,9 @@ export default function TableOne({ obj }) {
                   </td>
                   <td>{_fixedPoint(totalOrderQty, true, 0)}</td>
                   <td>{_fixedPoint(totalOrderValue, true, 0)}</td>
-                  <td>{_fixedPoint(totalDeliveryQty, true, 0)}</td>
+                  {/* <td>{_fixedPoint(totalDeliveryQty, true, 0)}</td>
                   <td>{_fixedPoint(totalDeliveryValue, true, 0)}</td>
-                  <td>{_fixedPoint(totalPendingQty, true, 0)}</td>
+                  <td>{_fixedPoint(totalPendingQty, true, 0)}</td> */}
                   <td></td>
                 </tr>
               </tbody>
