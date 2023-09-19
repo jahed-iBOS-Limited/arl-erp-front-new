@@ -168,7 +168,7 @@ export function TableRow() {
                     name="searchValue"
                     className="form-control"
                     value={values?.searchValue}
-                    placeholder="Serach Customer Name"
+                    placeholder="Code Search"
                     aria-describedby="basic-addon2"
                     onChange={(e) => {
                       setFieldValue("searchValue", e.target.value);
