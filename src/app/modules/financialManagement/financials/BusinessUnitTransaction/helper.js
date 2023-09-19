@@ -8,13 +8,14 @@ export const getBusinessUnitGridData = async (
   setLoding,
   pageNo,
   pageSize,
-  search
+  search,
+  generalLedgerId
 ) => {
   setLoding(true);
   const searchPath = search ? `searchTerm=${search}&` : "";
   try {
     const res = await Axios.get(
-      `/fino/BusinessTransaction/GetBusinessTransactionSearchLandingPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+      `/fino/BusinessTransaction/GetBusinessTransactionSearchLandingPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}&generalLedgerId=${generalLedgerId?generalLedgerId:0}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
