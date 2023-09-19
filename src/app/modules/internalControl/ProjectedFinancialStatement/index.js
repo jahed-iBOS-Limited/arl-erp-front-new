@@ -46,6 +46,9 @@ export default function ProjectedFinancialStatement() {
   const [buddl, getbuddl, buddlLoader, setbuddl] = useAxiosGet();
   const [profitCenterDDL, setProfitCenterDDL] = useState([]);
 
+  const [ratioTableState, setRatioTableState] = useState([]);
+  const [componentTableState, setComponentTableState] = useState([]);
+
   const [
     financialRatioTable,
     getFinancialRatioTable,
@@ -124,7 +127,9 @@ export default function ProjectedFinancialStatement() {
             buddlLoader ||
             financialRatioTableLoader ||
             financialRatioComponentTableLoader ||
-            buDDLloader) && <Loading />}
+            buDDLloader ||
+            financialRatioTableForLastPeriodLoader ||
+            financialRatioComponentTableForLastPeriodLoader) && <Loading />}
           <IForm
             title="Projected Financial Statement"
             isHiddenReset
@@ -544,6 +549,9 @@ export default function ProjectedFinancialStatement() {
                                 setFinancialRatioTable([
                                   ...financialRatioTableResponse,
                                 ]);
+                                setRatioTableState([
+                                  ...financialRatioTableResponse,
+                                ]);
                               }
                             );
                           }
@@ -574,6 +582,10 @@ export default function ProjectedFinancialStatement() {
                                 }
 
                                 setFinancialRatioComponentTable([
+                                  ...finanCialRatioComponentResponse,
+                                ]);
+
+                                setComponentTableState([
                                   ...finanCialRatioComponentResponse,
                                 ]);
                               }
@@ -624,8 +636,8 @@ export default function ProjectedFinancialStatement() {
                 ) : null}
                 {[6]?.includes(values?.reportType?.value) ? (
                   <ProjectedFinancialRations
-                    ratioTableData={financialRatioTable}
-                    componentTableData={financialRatioComponentTable}
+                    ratioTableData={ratioTableState}
+                    componentTableData={componentTableState}
                     values={values}
                     selectedBusinessUnit={values?.businessUnit?.label}
                   />
