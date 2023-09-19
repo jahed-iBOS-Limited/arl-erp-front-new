@@ -2,7 +2,6 @@ import { Formik } from "formik";
 import React, { useEffect, useMemo, useState } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 import { shallowEqual, useSelector } from "react-redux";
-import PaginationSearch from "../../../../_helper/_search";
 import NewSelect from "../../../../_helper/_select";
 import { TableAction } from "../../../../_helper/columnFormatter";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
@@ -43,13 +42,18 @@ export function TableRow() {
       setLoding,
       pageNo,
       pageSize,
-      "",
+      ""
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
 
   //setPositionHandler
-  const setPositionHandler = (pageNo, pageSize, searchValue,generalLedgerId) => {
+  const setPositionHandler = (
+    pageNo,
+    pageSize,
+    searchValue,
+    generalLedgerId
+  ) => {
     getBusinessUnitGridData(
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -62,13 +66,14 @@ export function TableRow() {
     );
   };
 
-  const paginationSearchHandler = (searchValue) => {
+  const paginationSearchHandler = (searchValue, setFieldValue) => {
     setPositionHandler(pageNo, pageSize, searchValue);
+    setFieldValue("generalLedger", { label: "All", value: 0 });
   };
 
-  const filterGeneralLedgerHandler =(generalLedgerId)=>{
+  const filterGeneralLedgerHandler = (generalLedgerId) => {
     setPositionHandler(pageNo, pageSize, "", generalLedgerId);
-  }
+  };
 
   // UI Context
   const uIContext = useUIContext();
@@ -148,28 +153,68 @@ export function TableRow() {
         enableReinitialize={true}
         initialValues={{
           generalLedger: { label: "All", value: 0 },
+          searchValue: "",
         }}
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
             {loding || loadingGeneralLegger ? <Loading /> : null}
-            <div className="row ml-0">
-              <PaginationSearch
-                placeholder="Code Search"
-                paginationSearchHandler={paginationSearchHandler}
-                classes="mt-5 p-2"
-              />
+            <div className="row ml-0 mt-2 mb-2 align-items-center">
+        
+              <div style={{ width: "25%" }}>
+                <div className={"input-group"}>
+                  <input
+                    type="text"
+                    name="searchValue"
+                    className="form-control"
+                    value={values?.searchValue}
+                    placeholder="Serach Customer Name"
+                    aria-describedby="basic-addon2"
+                    onChange={(e) => {
+                      setFieldValue("searchValue", e.target.value);
+                      if (!e?.target?.value) {
+                        paginationSearchHandler(e.target.value, setFieldValue);
+                      }
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.keyCode === 13) {
+                        setFieldValue("searchValue", e.target.value);
+                        paginationSearchHandler(e.target.value, setFieldValue);
+                      }
+                    }}
+                  />
+                  <div className="input-group-append">
+                    <button
+                      className="btn btn-outline-secondary"
+                      type="button"
+                      onClick={() => {
+                        paginationSearchHandler(
+                          values?.searchValue,
+                          setFieldValue
+                        );
+                      }}
+                    >
+                      <i className="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div className="row ml-4 mr-1">
+                <div>
+                  <label htmlFor="">General Ledger:</label>
+                </div>
+              </div>
               <div className="col-lg-3">
                 <NewSelect
                   name="generalLedger"
                   value={values?.generalLedger}
                   options={generalLedger || []}
-                  label="General Ledger"
-                  onChange={(valueOption)=>{
+                  // label="General Ledger"
+                  onChange={(valueOption) => {
                     setFieldValue("generalLedger", valueOption);
-                    valueOption?.value !==0 &&
-                    filterGeneralLedgerHandler(valueOption?.value)
-
+                    setFieldValue("searchValue", "");
+                    valueOption?.value !== 0 &&
+                      filterGeneralLedgerHandler(valueOption?.value);
                   }}
                 />
               </div>
