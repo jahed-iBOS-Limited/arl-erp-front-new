@@ -195,7 +195,13 @@ export default function _Form({
             //   }
             // );
             getRowDto(
-              `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&yearId=${values?.horizon?.monthId > 6 ? values?.fiscalYear?.value : values?.fiscalYear?.value+1}&monthId=${values?.horizon?.monthId}`
+              `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${
+                profileData?.accountId
+              }&businessUnitId=${selectedBusinessUnit?.value}&yearId=${
+                values?.horizon?.monthId > 6
+                  ? values?.fiscalYear?.value
+                  : values?.fiscalYear?.value + 1
+              }&monthId=${values?.horizon?.monthId}`
             );
           });
         }}
@@ -324,29 +330,20 @@ export default function _Form({
                       placeholder="Planning Horizon"
                       onChange={(valueOption) => {
                         setRowDto([]);
-                        // updateRequiredQuantity(values, valueOption);
-                        // modifyHandler(
-                        //   `/fino/BudgetFinancial/GetsprGetPurchasePlanByMonth?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&year=${values?.fiscalYear?.value}&month=${valueOption?.monthId}`,
-                        //   (updatedData) => {
-                        //     getRowDto(
-                        //       `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&yearId=${values?.fiscalYear?.value}&monthId=${valueOption?.monthId}`,
-                        //       (data) => {
-                        //         const result = data.filter((item2) => {
-                        //           return updatedData.some(
-                        //             (item1) => item1.itemId === item2.itemId
-                        //           );
-                        //         });
-
-                        //         setRowDto(result);
-                        //       }
-                        //     );
-                        //   }
+                        // getRowDto(
+                        //   `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&yearId=${ valueOption?.monthId > 6 ?   values?.fiscalYear?.value : values?.fiscalYear?.value + 1}&monthId=${valueOption?.monthId}`
                         // );
-
                         getRowDto(
-                          `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&yearId=${ valueOption?.monthId > 6 ?   values?.fiscalYear?.value : values?.fiscalYear?.value + 1}&monthId=${valueOption?.monthId}`
+                          `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${
+                            profileData?.accountId
+                          }&businessUnitId=${
+                            selectedBusinessUnit?.value
+                          }&PlantId=${values?.plant?.value}&yearId=${
+                            valueOption?.monthId > 6
+                              ? values?.fiscalYear?.value
+                              : values?.fiscalYear?.value + 1
+                          }&monthId=${valueOption?.monthId}`
                         );
-
                         setFieldValue("horizon", valueOption);
                         setFieldValue(
                           "startDate",
