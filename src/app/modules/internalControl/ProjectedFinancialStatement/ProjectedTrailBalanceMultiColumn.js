@@ -8,7 +8,7 @@ export default function ProjectedTrailBalanceMultiColumn({
   selectedBusinessUnit,
 }) {
   const printRef = useRef();
-  console.log("values", values)
+  console.log("values", values);
   return (
     <>
       <div>
@@ -46,7 +46,7 @@ export default function ProjectedTrailBalanceMultiColumn({
             <div ref={printRef}>
               <div className="row mt-4">
                 <div className="col-12 text-center">
-                  <h3>{selectedBusinessUnit?.label}</h3>
+                  <h3>{selectedBusinessUnit}</h3>
                   <p>
                     From <span>{values?.fromDate}</span> To{" "}
                     <span>{values?.toDate}</span>
