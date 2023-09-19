@@ -23,6 +23,7 @@ const ProjectedFinancialRations = ({
               <th>SL</th>
               <th>Rario Name</th>
               <th>Std Ratio</th>
+              <th>Last Period</th>
               <th>Act Ratio</th>
               <th>Matric</th>
             </tr>
@@ -47,6 +48,9 @@ const ProjectedFinancialRations = ({
                         {item?.stdRatio ? item?.stdRatio : ""}
                       </td>
                       <td className="text-right">
+                        {item?.numRatio ? item?.lastPeriod : ""}
+                      </td>
+                      <td className="text-right">
                         {item?.numRatio ? item?.numRatio : ""}
                       </td>
                       <td>{item?.strMatric}</td>
@@ -63,6 +67,7 @@ const ProjectedFinancialRations = ({
           <thead>
             <tr>
               <th>Com. Name</th>
+              <th>Last Period</th>
               <th>Amount</th>
             </tr>
           </thead>
@@ -73,6 +78,9 @@ const ProjectedFinancialRations = ({
                   <tr key={index}>
                     <>
                       <td className="text-left">{item?.strComName}</td>
+                      <td className="text-right">
+                        {_formatMoney(Math.round(item?.numLastPeriod))}
+                      </td>
                       <td className="text-right">
                         {_formatMoney(Math.round(item?.numAmount), 0)}
                       </td>
