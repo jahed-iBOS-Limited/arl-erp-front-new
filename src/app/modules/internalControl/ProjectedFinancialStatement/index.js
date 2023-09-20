@@ -7,10 +7,12 @@ import Loading from "../../_helper/_loading";
 import NewSelect from "../../_helper/_select";
 import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
 import TrailBalanceProjected from "./trailBalanceProjected";
+import axios from "axios";
 import {
   getIncomeStatement_api,
   getProfitCenterDDL,
   manageBalanceData,
+  projectedFinancialRatios,
 } from "./helper";
 import { _todayDate } from "../../_helper/_todayDate";
 import ProjectedIncomeStatement from "./projectedIncomeStatement";
@@ -59,7 +61,7 @@ export default function ProjectedFinancialStatement() {
   console.log("financialRatioTable", financialRatioTable);
 
   const [
-    financialRatioComponentTable,
+    ,
     getFinancialRatioComponentTable,
     financialRatioComponentTableLoader,
     setFinancialRatioComponentTable,
@@ -427,8 +429,12 @@ export default function ProjectedFinancialStatement() {
                         label="Business Unit"
                         onChange={(valueOption) => {
                           if (valueOption) {
+                            setRatioTableState([]);
+                            setComponentTableState([]);
                             setFieldValue("businessUnit", valueOption);
                           } else {
+                            setRatioTableState([]);
+                            setComponentTableState([]);
                             setFieldValue("businessUnit", "");
                           }
                         }}
@@ -593,6 +599,13 @@ export default function ProjectedFinancialStatement() {
                           }
                         );
                       }
+                      // if ([6]?.includes(values?.reportType?.value)) {
+                      //   projectedFinancialRatios(
+                      //     values,
+                      //     setFinancialRatioTable,
+                      //     setFinancialRatioComponentTable
+                      //   );
+                      // }
                     }}
                     className="btn btn-primary"
                   >
