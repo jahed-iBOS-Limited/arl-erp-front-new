@@ -9,6 +9,9 @@ import Loading from "./../../../_helper/_loading";
 import { _todayDate } from "./../../../_helper/_todayDate";
 import { filterHandler } from "./helper";
 import "./style.css";
+import IView from "../../../_helper/_helperIcons/_view";
+import IViewModal from "../../../_helper/_viewModal";
+import ViewStopageDetails from "./viewStopageDetails";
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
@@ -17,6 +20,8 @@ export default function PowerPlantReport() {
   const [reportData, getReportData, getLoading] = useAxiosGet();
   const [isLoading, setLoading] = useState(false);
   const [stoppageDetails, setStoppageDetails] = useState({});
+  const [isShowModal, setIsShowModal] = useState(false);
+  const [modalInfo, setModalInfo] = useState(null);
   const [individualPowerConsumption, setIndividualPowerConsumption] = useState(
     {}
   );
@@ -321,12 +326,9 @@ export default function PowerPlantReport() {
                         </tr>
                         <tr>
                           <th>Engine Name</th>
-                          <th>Cause of stoppage</th>
-                          <th>Time</th>
-                          <th>Duration</th>
-                        </tr>
-                        <tr>
-                          <th colSpan="4">A- Shift</th>
+                          <th>Remarks</th>
+                          <th>Duration (Min)</th>
+                          <th>Action</th>
                         </tr>
                         {stoppageDetails?.shiftA?.length ? (
                           stoppageDetails?.shiftA?.map((item, i) => (
@@ -336,22 +338,24 @@ export default function PowerPlantReport() {
                                 {item?.particualarsAlpha}
                               </td>
                               <td className="text-center">
-                                {item?.particualarsBeta}
+                                {item?.particualarsGamma}
                               </td>
                               <td className="text-center">
-                                {item?.particualarsGamma}
+                                <IView
+                                  clickHandler={()=> {
+                                    setIsShowModal(true);
+                                    setModalInfo({
+                                      engineName: item?.particularsName,
+                                      fromDate: values?.fromDate,
+                                      toDate: values?.toDate
+                                    })
+                                  }}
+                                />
                               </td>
                             </tr>
                           ))
-                        ) : (
-                          <tr>
-                            <td colSpan="4">.</td>
-                          </tr>
-                        )}
+                        ) : null }
 
-                        <tr>
-                          <th colSpan="4">B- Shift</th>
-                        </tr>
                         {stoppageDetails?.shiftB?.length ? (
                           stoppageDetails?.shiftB?.map((item, i) => (
                             <tr key={i}>
@@ -360,21 +364,24 @@ export default function PowerPlantReport() {
                                 {item?.particualarsAlpha}
                               </td>
                               <td className="text-center">
-                                {item?.particualarsBeta}
+                                {item?.particualarsGamma}
                               </td>
                               <td className="text-center">
-                                {item?.particualarsGamma}
+                                <IView
+                                  clickHandler={()=> {
+                                    setIsShowModal(true);
+                                    setModalInfo({
+                                      engineName: item?.particularsName,
+                                      fromDate: values?.fromDate,
+                                      toDate: values?.toDate
+                                    })
+                                  }}
+                                />
                               </td>
                             </tr>
                           ))
-                        ) : (
-                          <tr>
-                            <td colSpan="4">.</td>
-                          </tr>
-                        )}
-                        <tr>
-                          <th colSpan="4">C- Shift</th>
-                        </tr>
+                        ) : null }
+
                         {stoppageDetails?.shiftC?.length ? (
                           stoppageDetails?.shiftC?.map((item, i) => (
                             <tr key={i}>
@@ -383,18 +390,23 @@ export default function PowerPlantReport() {
                                 {item?.particualarsAlpha}
                               </td>
                               <td className="text-center">
-                                {item?.particualarsBeta}
+                                {item?.particualarsGamma}
                               </td>
                               <td className="text-center">
-                                {item?.particualarsGamma}
+                                <IView
+                                  clickHandler={()=> {
+                                    setIsShowModal(true);
+                                    setModalInfo({
+                                      engineName: item?.particularsName,
+                                      fromDate: values?.fromDate,
+                                      toDate: values?.toDate
+                                    })
+                                  }}
+                                />
                               </td>
                             </tr>
                           ))
-                        ) : (
-                          <tr>
-                            <td colSpan="4">.</td>
-                          </tr>
-                        )}
+                        ) : null }
                       </thead>
                     </table>
                   </div>
@@ -402,6 +414,9 @@ export default function PowerPlantReport() {
               </div>
             </>
           </IForm>
+          <IViewModal show={isShowModal} onHide={() => setIsShowModal(false)}>
+            <ViewStopageDetails modalInfo={modalInfo}/>
+          </IViewModal>
         </>
       )}
     </Formik>
