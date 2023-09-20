@@ -119,7 +119,7 @@ export default function ProjectedIncomeStatement({ incomeStatement, values }) {
                       className="incTableThPadding"
                     >
                       <span>
-                        Budget
+                        Last Period
                         <br />
                         {/* {`${values?.fromDate} to ${values?.todate}`} */}
                       </span>
@@ -129,7 +129,7 @@ export default function ProjectedIncomeStatement({ incomeStatement, values }) {
                       className="incTableThPadding"
                     >
                       <span>
-                        Actual <br />
+                        Budget <br />
                         {/* {`${values?.lastPeriodFrom} to ${values?.lastPeriodTo}`} */}
                       </span>
                     </th>
