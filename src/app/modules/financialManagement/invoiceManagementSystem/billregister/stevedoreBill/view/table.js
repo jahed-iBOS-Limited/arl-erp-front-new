@@ -1,14 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import ICard from "../../../../../_helper/_card";
 import Loading from "../../../../../_helper/_loading";
+import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
 import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
 import { common_api_for_4_types_of_bill } from "../../helper";
 
 function ViewStevedoreBill({ billRegisterId }) {
   // get profile data from store
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
   const {
     profileData: { accountId: accId },
     selectedBusinessUnit: { value: buId },
@@ -16,7 +21,7 @@ function ViewStevedoreBill({ billRegisterId }) {
     return state.authData;
   }, shallowEqual);
 
-  const [gridData, getGridData, loading] = useAxiosGet();
+  const [gridData, getGridData, loadingGridData] = useAxiosGet();
 
   useEffect(() => {
     const url = common_api_for_4_types_of_bill(accId, buId, billRegisterId, 26);
@@ -32,7 +37,7 @@ function ViewStevedoreBill({ billRegisterId }) {
       >
         {() => (
           <ICard title={`View Stevedore Bill`}>
-            {loading && <Loading />}
+            {(loadingGridData || loading)&& <Loading />}
 
             <form className="form form-label-right ">
               <table className="table global-table">
@@ -44,6 +49,7 @@ function ViewStevedoreBill({ billRegisterId }) {
                     <th>Port Name</th>
                     <th>Program Qty</th>
                     <th>Stevedore Rate</th>
+                    <th>Attachment</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -60,6 +66,38 @@ function ViewStevedoreBill({ billRegisterId }) {
                           <td className="text-right">{item?.programQnt}</td>
                           <td className="text-right">
                             {item?.stevdorRate || 0}
+                          </td>
+                          <td className="text-center">
+                            <OverlayTrigger
+                              overlay={
+                                <Tooltip id="cs-icon">View Attachment</Tooltip>
+                              }
+                            >
+                              <span
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                 if(item?.attachment){
+                                  dispatch(
+                                    getDownlloadFileView_Action(
+                                      item?.attachment,
+                                      null,
+                                      null,
+                                      setLoading
+                                    )
+                                  );
+                                 }else{
+                                  toast.warn("No Attachment Found")
+                                 }
+                                }}
+                                className="ml-2"
+                              >
+                                <i
+                                  style={{ fontSize: "16px" }}
+                                  className={`fa pointer fa-eye`}
+                                  aria-hidden="true"
+                                ></i>
+                              </span>
+                            </OverlayTrigger>
                           </td>
                         </tr>
                       </>
