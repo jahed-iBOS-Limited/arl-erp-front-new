@@ -12,7 +12,7 @@ const validationSchema = Yup.object().shape({
 });
 
 function BankStatementAutomationloadExcel({ objProps }) {
-  const { uploadHandelar } = objProps;
+  const { uploadHandelar, rowDto } = objProps;
   const hiddenFileInput = React.useRef(null);
 
   const exportToExcel = () => {
@@ -25,15 +25,20 @@ function BankStatementAutomationloadExcel({ objProps }) {
     // Add some rows and columns
     worksheet.columns = [
       { header: "Transaction Date", key: "transactionDate", width: 15 },
-      { header: "Particular", key: "particular", width: 15 },
+      { header: "Particular", key: "particulars", width: 15 },
       { header: "Instrument No", key: "instrumentNo", width: 15 },
-      { header: "Credit", key: "credit", width: 15 },
-      { header: "Debit", key: "debit", width: 15 },
-      { header: "Balance", key: "balance", width: 15 },
+      { header: "Credit", key: "monCredit", width: 15 },
+      { header: "Debit", key: "monDebit", width: 15 },
+      { header: "Balance", key: "monBalance", width: 15 },
+      {
+        header: "Row Id (If it's a new row insert, then assign a row ID of 0.)",
+        key: "rowId",
+        width: 20,
+      },
     ];
     // first row color add
     const rows = worksheet.getRow(1);
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 7; i++) {
       rows.getCell(i + 1).fill = {
         type: "pattern",
         pattern: "solid",
@@ -41,32 +46,20 @@ function BankStatementAutomationloadExcel({ objProps }) {
       };
     }
 
-    //Transaction Date
-    const A2 = worksheet.getCell("A2");
-    A2.value = new Date("2022-01-01");
-
-    //Particular
-    const B2 = worksheet.getCell("B2");
-    B2.value = "Demo Particular";
-
-    //Instrument No
-    const C2 = worksheet.getCell("C2");
-    C2.value = "Demo Instrument No";
-
-    //Credit
-    const D2 = worksheet.getCell("D2");
-    D2.value = 10;
-
-    //Debit
-    const E2 = worksheet.getCell("E2");
-    E2.value = 10;
-
-    //Balance
-    const F2 = worksheet.getCell("F2");
-    F2.value = 20;
-
+    // Add rowDto using key
+    rowDto.forEach((item, index) => {
+      worksheet.addRow({
+        transactionDate: new Date(item?.transactionDate),
+        particulars: item?.particulars,
+        instrumentNo: item?.instrumentNo,
+        monCredit: item?.monCredit,
+        monDebit: item?.monDebit,
+        monBalance: item?.monBalance,
+        rowId: item?.rowId,
+      });
+    });
     // Apply data validation to cells in columns A and D for rows 2 to 100
-    for (let row = 2; row <= 100; row++) {
+    for (let row = 2; row <= 200; row++) {
       // Transaction Date data validation
       const cellA = worksheet.getCell(`A${row}`);
       cellA.dataValidation = {
