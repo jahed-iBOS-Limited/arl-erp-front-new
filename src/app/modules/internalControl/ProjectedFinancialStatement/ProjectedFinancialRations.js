@@ -10,7 +10,8 @@ const ProjectedFinancialRations = ({
   return (
     <div className="row">
       <div className="col-12 text-center">
-        <h3>{selectedBusinessUnit}</h3>
+        <h2>{selectedBusinessUnit}</h2>
+        <h4 className="text-primary">Projected Financial Ratio</h4>
         <p>
           From <span>{values?.fromDate}</span> To <span>{values?.toDate}</span>
         </p>
@@ -24,7 +25,7 @@ const ProjectedFinancialRations = ({
               <th>Rario Name</th>
               <th>Std Ratio</th>
               <th>Last Period</th>
-              <th>Act Ratio</th>
+              <th>Current Period</th>
               <th>Matric</th>
             </tr>
           </thead>
@@ -68,7 +69,7 @@ const ProjectedFinancialRations = ({
             <tr>
               <th>Com. Name</th>
               <th>Last Period</th>
-              <th>Amount</th>
+              <th>Current Period</th>
             </tr>
           </thead>
           <tbody>
