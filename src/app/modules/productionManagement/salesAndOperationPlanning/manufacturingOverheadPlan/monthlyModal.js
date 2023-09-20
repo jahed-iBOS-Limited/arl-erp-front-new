@@ -29,6 +29,7 @@ function MonthlyModal({
     return state.authData;
   }, shallowEqual);
 
+  console.log("landingValues", landingValues);
   let defoultProfitCenter =
     landingValues?.profitCenter?.value === 0 ? "" : landingValues?.profitCenter;
   useEffect(() => {
@@ -56,7 +57,9 @@ function MonthlyModal({
         }&businessUnitId=${selectedBusinessUnit?.value}&year=${singleData?.item
           ?.intYear || singleData?.values?.fiscalYear?.value}&typeId=${
           singleData?.values?.gl?.intGeneralLedgerId === 93 ? 1 : 2
-        }&ProfitCenterId=${profitCenter?.value}`,
+        }&ProfitCenterId=${profitCenter?.value}&PlantId=${
+          landingValues?.plant?.value
+        }`,
         (res) => {
           const data = singleData?.item?.monthList?.map((item, index) => {
             return {
@@ -99,7 +102,8 @@ function MonthlyModal({
         header: {
           intProfitCenterId: values?.profitCenter?.value,
           intMopplanId: singleData?.item?.intMopplanId || 0,
-          intPlantId: singleData?.item?.intPlantId || singleData?.values?.plant?.value, 
+          intPlantId:
+            singleData?.item?.intPlantId || singleData?.values?.plant?.value,
           intGlid:
             singleData?.item?.subGLId ||
             singleData?.values?.gl?.intGeneralLedgerId,
