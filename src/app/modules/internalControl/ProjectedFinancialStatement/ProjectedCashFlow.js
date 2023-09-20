@@ -22,7 +22,7 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                 ? values?.businessUnit?.label
                 : accountName}
             </h2>
-            <h4 className="text-primary">Cash Flow Statement</h4>
+            <h4 className="text-primary">Projected Cash Flow Statement</h4>
             <p className="mt-4" style={{ fontWeight: "bold" }}>
               {`For the period of: ${_dateFormatter(
                 values?.fromDate
@@ -135,7 +135,7 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                                       },
                                     ],
                                     null,
-                                    true,
+                                    true
                                   );
                                 }}
                               >
