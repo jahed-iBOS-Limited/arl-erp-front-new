@@ -145,14 +145,14 @@ function EditForm({ rowClickItem, landingCB }) {
           toast.warning("An unexpected error occurred");
         } else {
           const excelData = resp.rows?.slice(1)?.filter((itm) => itm?.[0]);
-          const nullValueDefoultValueSet = excelData?.map((itm) => {
+          const nullValueDefoultValueCheck = excelData?.map((itm) => {
             const list = [];
-            for (let i = 0; i < 6; i++) {
+            for (let i = 0; i < 7; i++) {
               list.push(itm[i]);
             }
             return list;
           });
-          const modify = nullValueDefoultValueSet.map((itm, index) => {
+          const modify = nullValueDefoultValueCheck.map((itm, index) => {
             const dateSerialNumber = itm?.[0] || "";
             return {
               transactionDate: dateSerialNumber
@@ -161,21 +161,31 @@ function EditForm({ rowClickItem, landingCB }) {
               monDebit: +itm?.[4] || 0,
               monCredit: +itm?.[3] || 0,
               monBalance: +itm?.[5] || 0,
-              rowId: 0,
               headerId: 0,
               serialId: 0,
               particulars: itm?.[1] || "",
               instrumentNo: itm?.[2] || "",
+              rowId: +itm?.[6] || 0,
             };
           });
           let error = {
             isInvalid: false,
             message: "",
           };
+          let rowIdList = [];
           for (let i = 0; i < modify.length; i++) {
             if (error.isInvalid) break;
             //	Transaction Date is valid &  empty check
             const dateObj = moment(modify[i]?.transactionDate, "YYYY-MM-DD");
+            // duplicate rowId check
+
+            const duplicateRowId = rowIdList.includes(modify[i]?.rowId);
+            if (duplicateRowId) {
+              error = {
+                isInvalid: true,
+                message: `Please SL Number "${i + 2} Row Id"  Duplicate`,
+              };
+            }
             if (!dateObj.isValid()) {
               error = {
                 isInvalid: true,
@@ -183,14 +193,16 @@ function EditForm({ rowClickItem, landingCB }) {
                   2} Transaction Date"  Invalid Field`,
               };
             }
+            if (+modify[i]?.rowId > 0) {
+              rowIdList.push(modify[i]?.rowId);
+            }
           }
           if (error.isInvalid) return toast.warning(error.message);
           list = modify;
         }
       });
     }
-
-    setRowDto([...rowDto, ...list]);
+    setRowDto([...list]);
     setUploadShowModal(false);
   };
 
@@ -643,6 +655,7 @@ function EditForm({ rowClickItem, landingCB }) {
                         <BankStatementAutomationloadExcel
                           objProps={{
                             uploadHandelar,
+                            rowDto,
                           }}
                         />
                       </IViewModal>
