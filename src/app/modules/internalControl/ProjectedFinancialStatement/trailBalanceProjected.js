@@ -54,7 +54,8 @@ export default function TrailBalanceProjected({
             <div ref={printRef}>
               <div className="row mt-4">
                 <div className="col-12 text-center">
-                  <h3>{selectedBusinessUnit}</h3>
+                  <h2>{selectedBusinessUnit}</h2>
+                  <h4 className="text-primary">Projected Trail Balance</h4>
                   <p>
                     From <span>{values?.fromDate}</span> To{" "}
                     <span>{values?.toDate}</span>

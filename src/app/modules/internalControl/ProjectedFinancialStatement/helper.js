@@ -30,8 +30,7 @@ export const getIncomeStatement_api = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `/fino/IncomeStatement/GetIncomeStatementProjected?partName=${partName}&dteFromDate=${fromDate}&dteToDate=${toDate}&dteFromDateL=${fromDateL}&dteToDateL=${toDateL}&BusinessUnitGroup=${edLabel}&BusinessUnitId=${buId}&SBUID=${
-        0}&intProfitCenId=${profitCenId ||
+      `/fino/IncomeStatement/GetIncomeStatementProjected?partName=${partName}&dteFromDate=${fromDate}&dteToDate=${toDate}&dteFromDateL=${fromDateL}&dteToDateL=${toDateL}&BusinessUnitGroup=${edLabel}&BusinessUnitId=${buId}&SBUID=${0}&intProfitCenId=${profitCenId ||
         0}&fsComponentId=0&GLId=0&SUBGLId=0&ConvertionRate=${conversionRate}&SubGroup=all&reportTypeId=${reportType}`
     );
     if (res.status === 200 && res?.data) {
@@ -112,7 +111,7 @@ export const manageBalanceData = (arr) => {
 };
 
 export function isLastDayOfMonth(dateString) {
-  if(!dateString) return false;
+  if (!dateString) return false;
   // Parse the given date string to create a Date object
   const date = new Date(dateString);
 
@@ -126,3 +125,85 @@ export function isLastDayOfMonth(dateString) {
   // If the next day is in a different month, it means the given date is the last day of the month
   return nextDay.getMonth() !== month;
 }
+
+export const projectedFinancialRatios = async ({
+  values,
+  selectedBusinessUnit,
+  setFinancialRatioTable,
+  setFinancialRatioComponentTable,
+}) => {
+  try {
+    const fromDate = values?.fromDate ? new Date(values.fromDate) : new Date();
+    const toDate = values?.toDate ? new Date(values.toDate) : new Date();
+    fromDate.setFullYear(fromDate.getFullYear() - 1);
+    toDate.setFullYear(toDate.getFullYear() - 1);
+    const fromDateStr = fromDate.toISOString().split("T")[0];
+    const toDateStr = toDate.toISOString().split("T")[0];
+
+    const financialRatioApi = await axios.get(
+      `/fino/BudgetFinancial/GetFinancialRatioProjectd?BusinessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&Todate=${values?.toDate}&Type=2`
+    );
+    const financialRatioTableResponse = financialRatioApi.data;
+
+    const financialRatioComponentApi = await axios.get(
+      `/fino/BudgetFinancial/GetFinancialRatioProjectd?BusinessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&Todate=${values?.toDate}&Type=1`
+    );
+    const financialRatioTableForLastPeriodResponse =
+      financialRatioComponentApi.data;
+
+    const ratioMap = new Map();
+    for (const item of financialRatioTableForLastPeriodResponse) {
+      ratioMap.set(item.strRarioName, item.numRatio);
+    }
+
+    for (const item of financialRatioTableResponse) {
+      const lastPeriodValue = ratioMap.get(item.strRarioName);
+      item.lastPeriod =
+        typeof lastPeriodValue === "number" ? lastPeriodValue : 0;
+    }
+
+    setFinancialRatioTable(financialRatioTableResponse);
+
+    const componentResponse = await axios.get(
+      `/fino/BudgetFinancial/GetFinancialRatioProjectd`,
+      {
+        params: {
+          BusinessUnitId: values?.businessUnit?.value,
+          FromDate: values?.fromDate,
+          Todate: values?.toDate,
+          Type: 1,
+        },
+      }
+    );
+    const financialRatioComponentTableResponse = componentResponse.data;
+
+    const componentLastPeriodResponse = await axios.get(
+      `/fino/CostSheet/GetFinancialRatio`,
+      {
+        params: {
+          BusinessUnitId: values?.businessUnit?.value,
+          FromDate: fromDateStr,
+          Todate: toDateStr,
+          Type: 1,
+        },
+      }
+    );
+    const financialRatioComponentTableForLastPeriodResponse =
+      componentLastPeriodResponse.data;
+
+    const componentMap = new Map();
+    for (const item of financialRatioComponentTableForLastPeriodResponse) {
+      componentMap.set(item.strComName, item.numAmount);
+    }
+
+    for (const item of financialRatioComponentTableResponse) {
+      const lastPeriodValue = componentMap.get(item.strComName);
+      item.numLastPeriod =
+        typeof lastPeriodValue === "number" ? lastPeriodValue : item.numAmount;
+    }
+
+    setFinancialRatioComponentTable(financialRatioComponentTableResponse);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};

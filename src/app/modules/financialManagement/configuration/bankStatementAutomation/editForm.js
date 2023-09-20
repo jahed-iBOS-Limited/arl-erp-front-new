@@ -1,5 +1,6 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
+import { ExcelRenderer } from "react-excel-renderer";
 import {
   Card,
   CardBody,
@@ -26,6 +27,9 @@ import { _fixedPoint } from "../../../_helper/_fixedPoint";
 import { _todayDate } from "../../../_helper/_todayDate";
 import { toast } from "react-toastify";
 import IClose from "../../../_helper/_helperIcons/_close";
+import IViewModal from "../../../_helper/_viewModal";
+import BankStatementAutomationloadExcel from "./upload";
+import moment from "moment";
 function EditForm({ rowClickItem, landingCB }) {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
@@ -35,6 +39,7 @@ function EditForm({ rowClickItem, landingCB }) {
   const [acDDL, setAcDDL] = useState([]);
   const [loading, setLoading] = React.useState(false);
   const [rowDto, setRowDto] = useState([]);
+  const [uploadShowModal, setUploadShowModal] = useState(false);
 
   useEffect(() => {
     bankAccountDDL(
@@ -115,6 +120,92 @@ function EditForm({ rowClickItem, landingCB }) {
       landingCB();
     });
   };
+
+  function excelDateToJSDate(excelDateSerialNumber) {
+    // Adjust for Excel's date offset (January 1, 1900)
+    const excelDateOffset = 25569; // For Windows Excel
+    // const excelDateOffset = 24107; // For Mac Excel (1904 date system)
+    // Convert Excel date serial number to milliseconds
+    const milliseconds =
+      (excelDateSerialNumber - excelDateOffset) * 86400 * 1000;
+
+    // Create a JavaScript date using Moment.js
+    const jsDate = moment.utc(milliseconds).toDate();
+
+    // Format the date as "YYYY-MM-DD"
+    const formattedDate = moment(jsDate).format("YYYY-MM-DD");
+    return formattedDate;
+  }
+
+  const uploadHandelar = async (fileObject, values) => {
+    let list = [];
+    if (fileObject) {
+      await ExcelRenderer(fileObject, (err, resp) => {
+        if (err) {
+          toast.warning("An unexpected error occurred");
+        } else {
+          const excelData = resp.rows?.slice(1)?.filter((itm) => itm?.[0]);
+          const nullValueDefoultValueCheck = excelData?.map((itm) => {
+            const list = [];
+            for (let i = 0; i < 7; i++) {
+              list.push(itm[i]);
+            }
+            return list;
+          });
+          const modify = nullValueDefoultValueCheck.map((itm, index) => {
+            const dateSerialNumber = itm?.[0] || "";
+            return {
+              transactionDate: dateSerialNumber
+                ? excelDateToJSDate(dateSerialNumber)
+                : "",
+              monDebit: +itm?.[4] || 0,
+              monCredit: +itm?.[3] || 0,
+              monBalance: +itm?.[5] || 0,
+              headerId: 0,
+              serialId: 0,
+              particulars: itm?.[1] || "",
+              instrumentNo: itm?.[2] || "",
+              rowId: +itm?.[6] || 0,
+            };
+          });
+          let error = {
+            isInvalid: false,
+            message: "",
+          };
+          let rowIdList = [];
+          for (let i = 0; i < modify.length; i++) {
+            if (error.isInvalid) break;
+            //	Transaction Date is valid &  empty check
+            const dateObj = moment(modify[i]?.transactionDate, "YYYY-MM-DD");
+            // duplicate rowId check
+
+            const duplicateRowId = rowIdList.includes(modify[i]?.rowId);
+            if (duplicateRowId) {
+              error = {
+                isInvalid: true,
+                message: `Please SL Number "${i + 2} Row Id"  Duplicate`,
+              };
+            }
+            if (!dateObj.isValid()) {
+              error = {
+                isInvalid: true,
+                message: `Please SL Number "${i +
+                  2} Transaction Date"  Invalid Field`,
+              };
+            }
+            if (+modify[i]?.rowId > 0) {
+              rowIdList.push(modify[i]?.rowId);
+            }
+          }
+          if (error.isInvalid) return toast.warning(error.message);
+          list = modify;
+        }
+      });
+    }
+    setRowDto([...list]);
+    setUploadShowModal(false);
+  };
+
   return (
     <div>
       <>
@@ -155,6 +246,15 @@ function EditForm({ rowClickItem, landingCB }) {
                 <CardHeader title='Edit Bank Statement Automation'>
                   <CardHeaderToolbar>
                     <div>
+                      <button
+                        type='button'
+                        className='btn btn-primary ml-2'
+                        onClick={() => {
+                          setUploadShowModal(true);
+                        }}
+                      >
+                        Excel Upload
+                      </button>
                       <button
                         type='button'
                         className='btn btn-primary ml-2'
@@ -545,6 +645,21 @@ function EditForm({ rowClickItem, landingCB }) {
                         </tbody>
                       </table>
                     </div>
+                    {uploadShowModal && (
+                      <IViewModal
+                        show={uploadShowModal}
+                        onHide={() => {
+                          setUploadShowModal(false);
+                        }}
+                      >
+                        <BankStatementAutomationloadExcel
+                          objProps={{
+                            uploadHandelar,
+                            rowDto,
+                          }}
+                        />
+                      </IViewModal>
+                    )}
                   </Form>
                 </CardBody>
               </Card>

@@ -78,8 +78,8 @@ export default function MonthlyVoyageStatement() {
       date: values?.journalDate,
       totalAmount: item?.numTotalFreight,
       narration: values?.narration,
-      lighterVesselId: 0,
-      consigneeParty: 0,
+      lighterVesselId: item?.lighterVesselId,
+      consigneeParty: item?.consigneePartyId,
     };
 
     createJournal(
@@ -292,11 +292,11 @@ export default function MonthlyVoyageStatement() {
                             onClick={() => {
                               JournalPost(values, item, index);
                             }}
-                            disabled={true
-                              // item?.jvDisable ||
-                              // isLoading ||
-                              // !values?.sbu ||
-                              // !values?.salesOrg
+                            disabled={
+                              item?.jvDisable ||
+                              isLoading ||
+                              !values?.sbu ||
+                              !values?.salesOrg
                             }
                           >
                             JV

@@ -14,32 +14,32 @@ import { Routes } from "../app/Routes";
 const origin = window.location.origin;
 
 export const APIUrl =
-    process.env.NODE_ENV === "development" ? "https://deverp.ibos.io" : origin;
+  process.env.NODE_ENV === "development" ? "https://deverp.ibos.io" : origin;
 Axios.defaults.baseURL = APIUrl;
 
 const App = ({ store, persistor, basename }) => {
-    return (
-        /* Provide Redux store */
-        <Provider store={store}>
-            {/* Asynchronously persist redux stores and show `SplashScreen` while it's loading. */}
-            <PersistGate persistor={persistor} loading={<LayoutSplashScreen />}>
-                {/* Add    high level `Suspense` in case if was not handled inside the React tree. */}
-                <React.Suspense fallback={<LayoutSplashScreen />}>
-                    {/* Override `basename` (e.g: `homepage` in `package.json`) */}
-                    <BrowserRouter basename={basename}>
-                        {/*This library only returns the location that has been active before the recent location change in the current window lifetime.*/}
-                        <MaterialThemeProvider>
-                            {/* Provide `react-intl` context synchronized with Redux state.  */}
-                            <I18nProvider>
-                                {/* Render routes with provided `Layout`. */}
-                                <ToastContainer position="bottom-right" />
-                                <Routes />
-                            </I18nProvider>
-                        </MaterialThemeProvider>
-                    </BrowserRouter>
-                </React.Suspense>
-            </PersistGate>
-        </Provider>
-    );
+  return (
+    /* Provide Redux store */
+    <Provider store={store}>
+      {/* Asynchronously persist redux stores and show `SplashScreen` while it's loading. */}
+      <PersistGate persistor={persistor} loading={<LayoutSplashScreen />}>
+        {/* Add    high level `Suspense` in case if was not handled inside the React tree. */}
+        <React.Suspense fallback={<LayoutSplashScreen />}>
+          {/* Override `basename` (e.g: `homepage` in `package.json`) */}
+          <BrowserRouter basename={basename}>
+            {/*This library only returns the location that has been active before the recent location change in the current window lifetime.*/}
+            <MaterialThemeProvider>
+              {/* Provide `react-intl` context synchronized with Redux state.  */}
+              <I18nProvider>
+                {/* Render routes with provided `Layout`. */}
+                <ToastContainer position="bottom-right" />
+                <Routes />
+              </I18nProvider>
+            </MaterialThemeProvider>
+          </BrowserRouter>
+        </React.Suspense>
+      </PersistGate>
+    </Provider>
+  );
 };
 export default App;
