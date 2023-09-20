@@ -92,12 +92,12 @@ export default function ProjectedIncomeStatement({ incomeStatement, values }) {
         {incomeStatement.length > 0 && (
           <div className="col-lg-12">
             <div className="titleContent text-center">
-              <h3>
+              <h2>
                 {values?.businessUnit?.value > 0
                   ? values?.businessUnit?.label
                   : restProfileData?.accountName}
-              </h3>
-              <h5>Comprehensive Income Statement</h5>
+              </h2>
+              <h4 className="text-primary">Projected Income Statement</h4>
               <p className="m-0">
                 <strong>
                   {`For the period from ${values?.fromDate} to ${values?.toDate}`}

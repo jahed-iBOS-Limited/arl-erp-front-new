@@ -5,7 +5,6 @@ import numberWithCommas from "../../_helper/_numberWithCommas";
 import moment from "moment";
 
 const ProjectedBalanceReport = ({ balanceReportData, values }) => {
-  console.log("balanceReportData", balanceReportData)
   const getTotalAssetsVariance = (rowDto) => {
     const data =
       (rowDto?.currentassetsTotalPlanBalance || 0) +
@@ -20,9 +19,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
     let a = (+rowDto?.equityTotalBalance || 0).toFixed(2);
     let b = (+rowDto?.nonCurrentLiabilityTotalBalance || 0).toFixed(2);
     let c = (+rowDto?.currentLiabilityTotalBalance || 0).toFixed(2);
-
     let total = (+a + +b + +c).toFixed(2);
-
     return total;
   };
 
@@ -30,23 +27,17 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
     let a = (+rowDto?.equityTotalPlanBalance || 0).toFixed(2);
     let b = (+rowDto?.nonCurrentLiabilityTotalPlanBalance || 0).toFixed(2);
     let c = (+rowDto?.currentLiabilityTotalPlanBalance || 0).toFixed(2);
-
     let total = (+a + +b + +c).toFixed(2);
-
     return total;
   };
 
   return (
     <>
       {balanceReportData && (
-        <div className="mx-auto mt-2" id="pdf-section">
+        <div className=" mt-2" id="pdf-section">
           <div className="titleContent text-center">
-            <h3>
-              {values?.business?.value > 0
-                ? values?.business?.label
-                : "Akij Resources Limited"}
-            </h3>
-            <h5>Balance Sheet</h5>
+            <h2>{values?.businessUnit?.label || ""}</h2>
+            <h4 className="text-primary">Projected Balance Sheet</h4>
             {values?.fromDate ? (
               <p className="m-0">
                 As On : {dateFormatWithMonthName(values?.fromDate)}
@@ -66,9 +57,9 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                   <td className="text-center" style={{ fontWeight: "bold" }}>
                     Amount
                   </td>
-                  <td className="text-center" style={{ fontWeight: "bold" }}>
+                  {/* <td className="text-center" style={{ fontWeight: "bold" }}>
                     Variance
-                  </td>
+                  </td> */}
                   {/* <td className="text-right" style={{ fontWeight: "bold" }}>Amount</td> */}
                 </tr>
                 <tr style={{ background: "#D8D8D8" }}>
@@ -92,7 +83,10 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                         >
                           {itm.strGlName}
                         </td>
-                        <td className="text-right">
+                        <td
+                          className="text-right"
+                          style={{ border: "1px solid black" }}
+                        >
                           {_formatMoney(itm?.numPlanBalance)}
                         </td>
                         <td
@@ -105,9 +99,9 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                             )}
                           </span>
                         </td>
-                        <td className="text-right">
+                        {/* <td className="text-right">
                           {_formatMoney(itm?.numPlanBalance - itm.numBalance)}
-                        </td>
+                        </td> */}
                         {/* <td></td> */}
                       </tr>
                     );
@@ -116,22 +110,28 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                   <td style={{ fontWeight: "bold" }}>
                     Total Non-Current Assets
                   </td>
-                  <td className="text-right">
+                  <td
+                    className="text-right"
+                    style={{ border: "1px solid black", fontWeight: "bold" }}
+                  >
                     {_formatMoney(
                       balanceReportData?.nonCurrentAssetsTotalPlanBalance
                     )}
                   </td>
-                  <td className="text-right">
+                  <td
+                    className="text-right"
+                    style={{ border: "1px solid black", fontWeight: "bold" }}
+                  >
                     {_formatMoney(
                       balanceReportData?.nonCurrentAssetsTotalBalance
                     )}
                   </td>
-                  <td className="text-right">
+                  {/* <td className="text-right">
                     {_formatMoney(
                       balanceReportData?.nonCurrentAssetsTotalPlanBalance -
                         balanceReportData?.nonCurrentAssetsTotalBalance
                     )}
-                  </td>
+                  </td> */}
                 </tr>
                 <tr>
                   <td colSpan="4" style={{ fontWeight: "bold" }}>
@@ -148,7 +148,10 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                         >
                           {itm.strGlName}
                         </td>
-                        <td className="text-right">
+                        <td
+                          className="text-right"
+                          style={{ border: "1px solid black" }}
+                        >
                           {_formatMoney(itm?.numPlanBalance)}
                         </td>
                         <td
@@ -161,33 +164,39 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                             )}
                           </span>
                         </td>
-                        <td className="text-right">
+                        {/* <td className="text-right">
                           {_formatMoney(itm?.numPlanBalance - itm.numBalance)}
-                        </td>
+                        </td> */}
                       </tr>
                     );
                   })}
                 <tr style={{ background: "#F2F2F2" }}>
                   <td style={{ fontWeight: "bold" }}>Total Current Assets</td>
-                  <td className="text-right">
+                  <td
+                    className="text-right"
+                    style={{ border: "1px solid black", fontWeight: "bold" }}
+                  >
                     {_formatMoney(
                       balanceReportData?.currentassetsTotalPlanBalance
                     )}
                   </td>
-                  <td className="text-right">
+                  <td
+                    className="text-right"
+                    style={{ border: "1px solid black", fontWeight: "bold" }}
+                  >
                     {_formatMoney(balanceReportData?.currentassetsTotalBalance)}
                   </td>
-                  <td className="text-right">
+                  {/* <td className="text-right">
                     {balanceReportData?.currentassetsTotalPlanBalance ||
                       0 - balanceReportData?.currentassetsTotalBalance ||
                       0}
-                  </td>
+                  </td> */}
                 </tr>
                 <tr style={{ background: "#D8D8D8" }}>
                   <td style={{ fontWeight: "bold" }}>Total Assets</td>
                   <td
                     className="text-right"
-                    style={{ borderBottom: "3px double black" }}
+                    style={{ border: "1px solid black", fontWeight: "bold" }}
                   >
                     {_formatMoney(
                       balanceReportData?.currentassetsTotalPlanBalance ||
@@ -198,19 +207,19 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                   </td>
                   <td
                     className="text-right"
-                    style={{ borderBottom: "3px double black" }}
+                    style={{ border: "1px solid black", fontWeight: "bold" }}
                   >
                     {_formatMoney(
                       (balanceReportData?.currentassetsTotalBalance || 0) +
                         (balanceReportData?.nonCurrentAssetsTotalBalance || 0)
                     )}
                   </td>
-                  <td
+                  {/* <td
                     className="text-right"
                     style={{ borderBottom: "3px double black" }}
                   >
                     {getTotalAssetsVariance(balanceReportData)}
-                  </td>
+                  </td> */}
                 </tr>
                 <tr style={{ height: "15px" }}></tr>
                 <tr style={{ background: "#D8D8D8" }}>
@@ -234,7 +243,10 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                         >
                           {itm.strGlName}
                         </td>
-                        <td className="text-right">
+                        <td
+                          className="text-right"
+                          style={{ border: "1px solid black" }}
+                        >
                           {_formatMoney(itm?.numPlanBalance)}
                         </td>
                         <td
@@ -247,26 +259,32 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                             )}
                           </span>
                         </td>
-                        <td className="text-right">
+                        {/* <td className="text-right">
                           {_formatMoney(itm?.numPlanBalance - itm.numBalance)}
-                        </td>
+                        </td> */}
                       </tr>
                     );
                   })}
                 <tr style={{ background: "#F2F2F2" }}>
                   <td style={{ fontWeight: "bold" }}>Total Equity</td>
-                  <td className="text-right">
+                  <td
+                    className="text-right"
+                    style={{ border: "1px solid black", fontWeight: "bold" }}
+                  >
                     {_formatMoney(balanceReportData?.equityTotalPlanBalance)}
                   </td>
-                  <td className="text-right">
+                  <td
+                    className="text-right"
+                    style={{ border: "1px solid black", fontWeight: "bold" }}
+                  >
                     {_formatMoney(balanceReportData?.equityTotalBalance)}
                   </td>
-                  <td className="text-right">
+                  {/* <td className="text-right">
                     {_formatMoney(
                       balanceReportData?.equityTotalPlanBalance -
                         balanceReportData?.equityTotalBalance
                     )}
-                  </td>
+                  </td> */}
                 </tr>
                 {/* <tr key="g">
                           <td className="text-center">Total</td>
@@ -296,7 +314,10 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                         >
                           {itm.strGlName}
                         </td>
-                        <td className="text-right">
+                        <td
+                          className="text-right"
+                          style={{ border: "1px solid black" }}
+                        >
                           {_formatMoney(itm?.numPlanBalance)}
                         </td>
                         <td
@@ -309,9 +330,9 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                             )}
                           </span>
                         </td>
-                        <td className="text-right">
+                        {/* <td className="text-right">
                           {_formatMoney(itm?.numPlanBalance - itm.numBalance)}
-                        </td>
+                        </td> */}
                       </tr>
                     );
                   })}
@@ -319,22 +340,28 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                   <td style={{ fontWeight: "bold" }}>
                     Total Non-Current Liability
                   </td>
-                  <td className="text-right">
+                  <td
+                    className="text-right"
+                    style={{ border: "1px solid black", fontWeight: "bold" }}
+                  >
                     {_formatMoney(
                       balanceReportData?.nonCurrentLiabilityTotalPlanBalance
                     )}
                   </td>
-                  <td className="text-right">
+                  <td
+                    className="text-right"
+                    style={{ border: "1px solid black", fontWeight: "bold" }}
+                  >
                     {_formatMoney(
                       balanceReportData?.nonCurrentLiabilityTotalBalance
                     )}
                   </td>
-                  <td className="text-right">
+                  {/* <td className="text-right">
                     {_formatMoney(
                       balanceReportData?.nonCurrentLiabilityTotalPlanBalance -
                         balanceReportData?.nonCurrentLiabilityTotalBalance
                     )}
-                  </td>
+                  </td> */}
                 </tr>
                 {/* <tr key="i">
                           <td className="text-center">Total</td>
@@ -363,7 +390,10 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                         >
                           {itm.strGlName}
                         </td>
-                        <td className="text-right">
+                        <td
+                          className="text-right"
+                          style={{ border: "1px solid black" }}
+                        >
                           {_formatMoney(itm?.numPlanBalance)}
                         </td>
                         <td
@@ -376,9 +406,9 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                             )}
                           </span>
                         </td>
-                        <td className="text-right">
+                        {/* <td className="text-right">
                           {_formatMoney(itm?.numPlanBalance - itm.numBalance)}
-                        </td>
+                        </td> */}
                       </tr>
                     );
                   })}
@@ -386,22 +416,28 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                   <td style={{ fontWeight: "bold" }}>
                     Total Current Liabilities
                   </td>
-                  <td className="text-right">
+                  <td
+                    className="text-right"
+                    style={{ border: "1px solid black", fontWeight: "bold" }}
+                  >
                     {_formatMoney(
                       balanceReportData?.currentLiabilityTotalPlanBalance
                     )}
                   </td>
-                  <td className="text-right">
+                  <td
+                    className="text-right"
+                    style={{ border: "1px solid black", fontWeight: "bold" }}
+                  >
                     {_formatMoney(
                       balanceReportData?.currentLiabilityTotalBalance
                     )}
                   </td>
-                  <td className="text-right">
+                  {/* <td className="text-right">
                     {_formatMoney(
                       balanceReportData?.currentLiabilityTotalPlanBalance -
                         balanceReportData?.currentLiabilityTotalBalance
                     )}
-                  </td>
+                  </td> */}
                 </tr>
                 {/* <tr key="k">
                           <td className="text-center">Total</td>
@@ -417,7 +453,8 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                   </td>
                   <td
                     className="text-right"
-                    style={{ borderBottom: "3px double black" }}
+                    // style={{ borderBottom: "3px double black" }}
+                    style={{ border: "1px solid black", fontWeight: "bold" }}
                   >
                     {_formatMoney(
                       equityAndLiaTotalForBudget(balanceReportData)
@@ -425,11 +462,12 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                   </td>
                   <td
                     className="text-right"
-                    style={{ borderBottom: "3px double black" }}
+                    // style={{ borderBottom: "3px double black" }}
+                    style={{ border: "1px solid black", fontWeight: "bold" }}
                   >
                     {_formatMoney(equityAndLiaTotal(balanceReportData))}
                   </td>
-                  <td
+                  {/* <td
                     className="text-right"
                     style={{ borderBottom: "3px double black" }}
                   >
@@ -437,7 +475,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                       equityAndLiaTotalForBudget(balanceReportData) -
                         equityAndLiaTotal(balanceReportData)
                     )}
-                  </td>
+                  </td> */}
                 </tr>
                 <tr style={{ height: "15px" }}></tr>
                 <tr>
