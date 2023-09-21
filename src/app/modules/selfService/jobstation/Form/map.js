@@ -4,6 +4,7 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { FullscreenControl } from "react-leaflet-fullscreen";
 import "react-leaflet-fullscreen/styles.css";
 import Loading from "../../../_helper/_loading";
+import MapIcon from "./mapIcon";
 function RemoteAttendanceMap({ mapData, setMapData, allSheetData }) {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
@@ -114,14 +115,14 @@ const Markers = ({ markersData }) => {
                 <i class='fa fa-dot-circle-o' aria-hidden='true'></i>
                 <b>Mobile Number :</b> {element?.mobilenumber}
               </p>
-              <div className="photoLinkList">
+              <div className='photoLinkList'>
                 {photoLinkList.map((photoLink, index) => {
                   return (
                     <div key={index}>
                       {photoLink && (
                         <img
                           src={photoLink}
-                          alt={`photo ${index +1}`}
+                          alt={`photo ${index + 1}`}
                           style={{ width: "100px", height: "100px" }}
                           onClick={() => {
                             window.open(photoLink);
@@ -131,6 +132,16 @@ const Markers = ({ markersData }) => {
                     </div>
                   );
                 })}
+                <span
+                  className='cursor-pointer'
+                  onClick={() => {
+                    window.open(
+                      `https://www.google.com/maps/search/?api=1&query=${element?.latitude},${element?.longitude}`
+                    );
+                  }}
+                >
+                  <MapIcon />
+                </span>
               </div>
             </Popup>
           </Marker>
