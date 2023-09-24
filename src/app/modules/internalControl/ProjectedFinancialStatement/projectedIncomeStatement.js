@@ -1,13 +1,15 @@
 import moment from "moment";
 import React, { useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import { _formatMoney } from "../../_helper/_formatMoney";
 import printIcon from "../../_helper/images/print-icon.png";
 import IViewModal from "../../_helper/_viewModal";
-import GeneralLedgerModalForIncomeStatement from "../../financialManagement/report/incomestatement/generalLedgerModal";
+// import GeneralLedgerModalForIncomeStatement from "../../financialManagement/report/incomestatement/generalLedgerModal";
 import StatisticalDetails from "../../financialManagement/report/incomestatement/statisticalDetails/statisticalDetailsModal";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import ReactToPrint from "react-to-print";
+import numberWithCommas from "../../_helper/_numberWithCommas";
+import { dateFormatWithMonthName } from "../../_helper/_dateFormate";
+import ProjectedIncomeStatementModal from "./modals/projectedIncomeStatementModal";
 const html2pdf = require("html2pdf.js");
 
 export default function ProjectedIncomeStatement({ incomeStatement, values }) {
@@ -100,7 +102,9 @@ export default function ProjectedIncomeStatement({ incomeStatement, values }) {
               <h4 className="text-primary">Projected Income Statement</h4>
               <p className="m-0">
                 <strong>
-                  {`For the period from ${values?.fromDate} to ${values?.toDate}`}
+                  For the period from:{" "}
+                  <span>{dateFormatWithMonthName(values?.fromDate)}</span> to{" "}
+                  <span>{dateFormatWithMonthName(values?.toDate)}</span>
                 </strong>
               </p>
             </div>
@@ -129,7 +133,7 @@ export default function ProjectedIncomeStatement({ incomeStatement, values }) {
                       className="incTableThPadding"
                     >
                       <span>
-                        Budget <br />
+                        Current Period <br />
                         {/* {`${values?.lastPeriodFrom} to ${values?.lastPeriodTo}`} */}
                       </span>
                     </th>
@@ -151,12 +155,18 @@ export default function ProjectedIncomeStatement({ incomeStatement, values }) {
                         </td>
                         <td></td>
 
-                        <td className="text-right">
-                          {_formatMoney(data?.monLastPeriodAmount)}
-                        </td>
                         <td
-                          className="text-right pointer"
+                          className="text-right"
+                          onClick={() => {
+                            if (
+                              !(data?.intFSId === 0 || data?.intFSId === 20)
+                            ) {
+                              setShowGeneralLedgerModal(true);
+                              setIncomeStatementRow(data);
+                            }
+                          }}
                           style={{
+                            cursor: "pointer",
                             textDecoration:
                               data?.intFSId === 0 || data?.intFSId === 20
                                 ? ""
@@ -167,24 +177,24 @@ export default function ProjectedIncomeStatement({ incomeStatement, values }) {
                                 : "blue",
                           }}
                         >
-                          <span
-                            onClick={() => {
-                              if (
-                                !(data?.intFSId === 0 || data?.intFSId === 20)
-                              ) {
-                                setShowGeneralLedgerModal(true);
-                                setIncomeStatementRow(data);
-                              }
-                            }}
-                          >
+                          {/* {_formatMoney(data?.monLastPeriodAmount)} */}
+                          {numberWithCommas(
+                            Math.round(data?.monLastPeriodAmount) || 0
+                          )}
+                        </td>
+                        <td className="text-right pointer">
+                          <span>
                             {" "}
-                            {_formatMoney(data?.monCurrentPeriodAmount)}
+                            {/* {_formatMoney(data?.monCurrentPeriodAmount)} */}
+                            {numberWithCommas(
+                              Math.round(data?.monCurrentPeriodAmount) || 0
+                            )}
                           </span>
                         </td>
                         <td className="text-right">
-                          {_formatMoney(
-                            data?.monLastPeriodAmount -
-                              data?.monCurrentPeriodAmount
+                          {numberWithCommas(
+                            Math.round(data?.monLastPeriodAmount) -
+                              Math.round(data?.monCurrentPeriodAmount)
                           )}
                         </td>
                       </tr>
@@ -213,7 +223,7 @@ export default function ProjectedIncomeStatement({ incomeStatement, values }) {
           setIncomeStatementRow(null);
         }}
       >
-        <GeneralLedgerModalForIncomeStatement
+        <ProjectedIncomeStatementModal
           values={values}
           businessUnitList={businessUnitList}
           incomeStatementRow={incomeStatementRow}
@@ -221,14 +231,14 @@ export default function ProjectedIncomeStatement({ incomeStatement, values }) {
         />
       </IViewModal>
 
-      <IViewModal
+      {/* <IViewModal
         show={statisticalDetailsModal}
         onHide={() => {
           setStatisticalDetailsModal(false);
         }}
       >
         <StatisticalDetails formValues={values} />
-      </IViewModal>
+      </IViewModal> */}
     </>
   );
 }
