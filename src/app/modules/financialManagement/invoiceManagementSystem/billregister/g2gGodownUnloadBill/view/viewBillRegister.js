@@ -1,12 +1,18 @@
 import { Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import Loading from "../../../../../_helper/_loading";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
+import React, { useEffect, useState } from "react";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import IForm from "../../../../../_helper/_form";
+import Loading from "../../../../../_helper/_loading";
+import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
+import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
 
 export default function ViewG2GGodownUnloadBill({ billRegisterId }) {
+  const [loading, setLoading] = useState(false);
   const [gridData, getGridData, gridDataLoading] = useAxiosGet();
+  const dispatch = useDispatch();
+  
 
   // get profile data from redux store
   const {
@@ -33,7 +39,7 @@ export default function ViewG2GGodownUnloadBill({ billRegisterId }) {
           isHiddenSave
           renderProps={() => {}}
         >
-          {gridDataLoading && <Loading />}
+          {(gridDataLoading || loading) && <Loading />}
           <form className="form form-label-right ">
             <div className="common-scrollable-table two-column-sticky">
               <div className="scroll-table _table overflow-auto">
@@ -53,6 +59,7 @@ export default function ViewG2GGodownUnloadBill({ billRegisterId }) {
                       <th>Quantity (Ton)</th>
                       <th>Godown Unload Labour Rate</th>
                       <th>Total Amount</th>
+                      <th>Attachment</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -75,6 +82,38 @@ export default function ViewG2GGodownUnloadBill({ billRegisterId }) {
                           <td className="text-right">{item?.godownUnloadLabouRate}</td>
                           <td className="text-right">
                             {Number(item?.quantity * item?.godownUnloadLabouRate)}
+                          </td>
+                          <td className="text-center">
+                            <OverlayTrigger
+                              overlay={
+                                <Tooltip id="cs-icon">View Attachment</Tooltip>
+                              }
+                            >
+                              <span
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                 if(item?.attachment){
+                                  dispatch(
+                                    getDownlloadFileView_Action(
+                                      item?.attachment,
+                                      null,
+                                      null,
+                                      setLoading
+                                    )
+                                  );
+                                 }else{
+                                  toast.warn("No Attachment Found")
+                                 }
+                                }}
+                                className="ml-2"
+                              >
+                                <i
+                                  style={{ fontSize: "16px" }}
+                                  className={`fa pointer fa-eye`}
+                                  aria-hidden="true"
+                                ></i>
+                              </span>
+                            </OverlayTrigger>
                           </td>
                         </tr>
                       );

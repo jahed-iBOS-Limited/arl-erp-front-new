@@ -9,6 +9,7 @@ import NewSelect from "../../../../_helper/_select";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { getHorizonDDL } from "../helper";
 import { exportToCSV } from "./utils";
+import { toast } from "react-toastify";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -194,10 +195,21 @@ export default function _Form({
             //     );
             //   }
             // );
+            // getRowDto(
+            //   `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${
+            //     profileData?.accountId
+            //   }&businessUnitId=${selectedBusinessUnit?.value}&yearId=${
+            //     values?.horizon?.monthId > 6
+            //       ? values?.fiscalYear?.value
+            //       : values?.fiscalYear?.value + 1
+            //   }&monthId=${values?.horizon?.monthId}`
+            // );
             getRowDto(
               `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${
                 profileData?.accountId
-              }&businessUnitId=${selectedBusinessUnit?.value}&yearId=${
+              }&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${
+                values?.plant?.value
+              }&yearId=${
                 values?.horizon?.monthId > 6
                   ? values?.fiscalYear?.value
                   : values?.fiscalYear?.value + 1
@@ -330,9 +342,6 @@ export default function _Form({
                       placeholder="Planning Horizon"
                       onChange={(valueOption) => {
                         setRowDto([]);
-                        // getRowDto(
-                        //   `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&yearId=${ valueOption?.monthId > 6 ?   values?.fiscalYear?.value : values?.fiscalYear?.value + 1}&monthId=${valueOption?.monthId}`
-                        // );
                         getRowDto(
                           `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${
                             profileData?.accountId
@@ -451,16 +460,19 @@ export default function _Form({
                             value={+item?.purchaseQty || ""}
                             onChange={(e) => {
                               if (+e.target.value < 0) {
-                                return;
+                                return toast.warn(
+                                  'Purchase quantity can"t be negative'
+                                );
+                              } else {
+                                dataHandler(
+                                  "purchaseQty",
+                                  index,
+                                  +e.target.value
+                                );
                               }
-                              dataHandler(
-                                "purchaseQty",
-                                index,
-                                +e.target.value
-                              );
                             }}
                             className="quantity-field form-control"
-                            disabled={item?.numMRPQty < 0}
+                            // disabled={item?.numMRPQty < 0}
                           />
                         </td>
                         <td style={{ width: "150px" }} className="text-center">
@@ -470,12 +482,12 @@ export default function _Form({
                             value={+item?.numRate || ""}
                             onChange={(e) => {
                               if (+e.target.value < 0) {
-                                return;
+                                return toast.warn("Rate can't be negative");
                               }
                               dataHandler("numRate", index, +e.target.value);
                             }}
                             className="quantity-field form-control"
-                            disabled={item?.numMRPQty < 0}
+                            // disabled={item?.numMRPQty < 0}
                           />
                         </td>
                         {/* <td className="text-center">
