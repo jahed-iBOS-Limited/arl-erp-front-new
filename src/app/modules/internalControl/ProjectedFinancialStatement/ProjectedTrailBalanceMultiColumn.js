@@ -1,6 +1,8 @@
 import React, { useRef } from "react";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import ReactToPrint from "react-to-print";
+import { dateFormatWithMonthName } from "../../_helper/_dateFormate";
+import numberWithCommas from "../../_helper/_numberWithCommas";
 
 export default function ProjectedTrailBalanceMultiColumn({
   rowData,
@@ -51,8 +53,11 @@ export default function ProjectedTrailBalanceMultiColumn({
                     Projected Trail Balance Multi-Column
                   </h4>
                   <p>
-                    From <span>{values?.fromDate}</span> To{" "}
-                    <span>{values?.toDate}</span>
+                    <strong>
+                      For the period from :{" "}
+                      <span>{dateFormatWithMonthName(values?.fromDate)}</span>{" "}
+                      To <span>{dateFormatWithMonthName(values?.toDate)}</span>
+                    </strong>
                   </p>
                 </div>
               </div>
@@ -93,40 +98,64 @@ export default function ProjectedTrailBalanceMultiColumn({
                         </div>
                       </td>
                       <td>
-                        <div className="text-right pr-2">{data?.junAmount}</div>
+                        <div className="text-right pr-2">
+                          {numberWithCommas(Math.round(data?.junAmount) || 0)}
+                        </div>
                       </td>
                       <td>
-                        <div className="text-right pr-2">{data?.febAmount}</div>
+                        <div className="text-right pr-2">
+                          {numberWithCommas(Math.round(data?.febAmount) || 0)}
+                        </div>
                       </td>
                       <td>
-                        <div className="text-right pr-2">{data?.marAmount}</div>
+                        <div className="text-right pr-2">
+                          {numberWithCommas(Math.round(data?.marAmount) || 0)}
+                        </div>
                       </td>
                       <td>
-                        <div className="text-right pr-2">{data?.aprAmount}</div>
+                        <div className="text-right pr-2">
+                          {numberWithCommas(Math.round(data?.aprAmount) || 0)}
+                        </div>
                       </td>
                       <td>
-                        <div className="text-right pr-2">{data?.mayAmount}</div>
+                        <div className="text-right pr-2">
+                          {numberWithCommas(Math.round(data?.mayAmount) || 0)}
+                        </div>
                       </td>
                       <td>
-                        <div className="text-right pr-2">{data?.junAmount}</div>
+                        <div className="text-right pr-2">
+                          {numberWithCommas(Math.round(data?.junAmount) || 0)}
+                        </div>
                       </td>
                       <td>
-                        <div className="text-right pr-2">{data?.julAmount}</div>
+                        <div className="text-right pr-2">
+                          {numberWithCommas(Math.round(data?.julAmount) || 0)}
+                        </div>
                       </td>
                       <td>
-                        <div className="text-right pr-2">{data?.augAmount}</div>
+                        <div className="text-right pr-2">
+                          {numberWithCommas(Math.round(data?.augAmount) || 0)}
+                        </div>
                       </td>
                       <td>
-                        <div className="text-right pr-2">{data?.sepAmount}</div>
+                        <div className="text-right pr-2">
+                          {numberWithCommas(Math.round(data?.sepAmount) || 0)}
+                        </div>
                       </td>
                       <td>
-                        <div className="text-right pr-2">{data?.octAmount}</div>
+                        <div className="text-right pr-2">
+                          {numberWithCommas(Math.round(data?.octAmount) || 0)}
+                        </div>
                       </td>
                       <td>
-                        <div className="text-right pr-2">{data?.novAmount}</div>
+                        <div className="text-right pr-2">
+                          {numberWithCommas(Math.round(data?.novAmount) || 0)}
+                        </div>
                       </td>
                       <td>
-                        <div className="text-right pr-2">{data?.decAmount}</div>
+                        <div className="text-right pr-2">
+                          {numberWithCommas(Math.round(data?.decAmount) || 0)}
+                        </div>
                       </td>
                     </tr>
                   ))}

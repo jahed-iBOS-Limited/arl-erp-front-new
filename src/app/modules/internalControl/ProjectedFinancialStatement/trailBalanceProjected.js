@@ -3,6 +3,7 @@ import numberWithCommas from "../../_helper/_numberWithCommas";
 import moment from "moment";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import ReactToPrint from "react-to-print";
+import { dateFormatWithMonthName } from "../../_helper/_dateFormate";
 
 export default function TrailBalanceProjected({
   rowData,
@@ -57,8 +58,11 @@ export default function TrailBalanceProjected({
                   <h2>{selectedBusinessUnit}</h2>
                   <h4 className="text-primary">Projected Trail Balance</h4>
                   <p>
-                    From <span>{values?.fromDate}</span> To{" "}
-                    <span>{values?.toDate}</span>
+                    <strong>
+                      For the period from :{" "}
+                      <span>{dateFormatWithMonthName(values?.fromDate)}</span>{" "}
+                      To <span>{dateFormatWithMonthName(values?.toDate)}</span>
+                    </strong>
                   </p>
                 </div>
               </div>
