@@ -7,19 +7,18 @@ import Loading from "../../_helper/_loading";
 import NewSelect from "../../_helper/_select";
 import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
 import TrailBalanceProjected from "./trailBalanceProjected";
-import axios from "axios";
 import {
   getIncomeStatement_api,
   getProfitCenterDDL,
   manageBalanceData,
-  projectedFinancialRatios,
 } from "./helper";
-import { _todayDate } from "../../_helper/_todayDate";
 import ProjectedIncomeStatement from "./projectedIncomeStatement";
 import ProjectedBalanceReport from "./ProjectedBalanceReport";
 import ProjectedCashFlow from "./ProjectedCashFlow";
 import ProjectedTrailBalanceMultiColumn from "./ProjectedTrailBalanceMultiColumn";
 import ProjectedFinancialRations from "./ProjectedFinancialRations";
+import { _firstDateOfCurrentFiscalYear } from "../../_helper/_firstDateOfCurrentFiscalYear";
+import { _monthLastDate } from "../../_helper/_monthLastDate";
 
 const initData = {
   reportType: "",
@@ -27,12 +26,10 @@ const initData = {
   subDivision: "",
   businessUnit: "",
   profitCenter: "",
-  fromDate: "",
-  toDate: "",
-  lastPeriodFrom: _todayDate(),
-  lastPeriodTo: _todayDate(),
-  conversionRate: "",
-  incomeReportType: "",
+  fromDate: _firstDateOfCurrentFiscalYear(),
+  toDate: _monthLastDate(),
+  conversionRate: 1,
+  date: _monthLastDate(),
 };
 export default function ProjectedFinancialStatement() {
   const [buDDL, getBuDDL, buDDLloader, setBuDDL] = useAxiosGet();
@@ -47,18 +44,14 @@ export default function ProjectedFinancialStatement() {
   const [loading, setLoading] = useState(false);
   const [buddl, getbuddl, buddlLoader, setbuddl] = useAxiosGet();
   const [profitCenterDDL, setProfitCenterDDL] = useState([]);
-
   const [ratioTableState, setRatioTableState] = useState([]);
   const [componentTableState, setComponentTableState] = useState([]);
-
   const [
-    financialRatioTable,
+    ,
     getFinancialRatioTable,
     financialRatioTableLoader,
     setFinancialRatioTable,
   ] = useAxiosGet();
-
-  console.log("financialRatioTable", financialRatioTable);
 
   const [
     ,
@@ -106,7 +99,6 @@ export default function ProjectedFinancialStatement() {
     <Formik
       enableReinitialize={true}
       initialValues={initData}
-      // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
@@ -449,6 +441,7 @@ export default function ProjectedFinancialStatement() {
                         name="fromDate"
                         type="date"
                         onChange={(e) => {
+                          console.log("e.target.value", e.target.value);
                           setFieldValue("fromDate", e.target.value);
                           setRowData([]);
                         }}
@@ -599,13 +592,6 @@ export default function ProjectedFinancialStatement() {
                           }
                         );
                       }
-                      // if ([6]?.includes(values?.reportType?.value)) {
-                      //   projectedFinancialRatios(
-                      //     values,
-                      //     setFinancialRatioTable,
-                      //     setFinancialRatioComponentTable
-                      //   );
-                      // }
                     }}
                     className="btn btn-primary"
                   >
