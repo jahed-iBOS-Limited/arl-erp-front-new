@@ -23,7 +23,7 @@ const ProjectedSubGeneralLedgerModal = ({
   useEffect(() => {
     if (generalLedgerRow?.intGeneralLedgerId) {
       getSubGeneralLedgerInfo(
-        `/fino/IncomeStatement/GetIncomeStatement?partName=SubGeneralLedger&dteFromDate=${
+        `/fino/IncomeStatement/GetIncomeStatementProjected?partName=SubGeneralLedger&dteFromDate=${
           values?.fromDate
         }&dteFromDateL=${values?.fromDate}&dteToDate=${
           values?.toDate

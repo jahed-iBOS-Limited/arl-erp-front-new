@@ -4,6 +4,9 @@ import ICustomCard from "../../../_helper/_customCard";
 import ReactToPrint from "react-to-print";
 import Loading from "../../../_helper/_loading";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import IViewModal from "../../../_helper/_viewModal";
+import AdjustmentJournalModal from "./adjustmentJournalModal";
+import BankJournalModal from "./bankJournalModal";
 
 const VoucherModal = ({
   values,
@@ -18,7 +21,7 @@ const VoucherModal = ({
   useEffect(() => {
     if (subGeneralLedgerRow?.intsubglid) {
       getVoucherInfo(
-        `/fino/IncomeStatement/GetIncomeStatement?partName=ProjectedVoucherList&dteFromDate=${
+        `/fino/IncomeStatement/GetIncomeStatementProjected?partName=VoucherList&dteFromDate=${
           values?.fromDate
         }&dteFromDateL=${values?.fromDate}&dteToDate=${
           values?.toDate
@@ -28,7 +31,7 @@ const VoucherModal = ({
           subGeneralLedgerRow?.glId
         }&SUBGLId=${subGeneralLedgerRow?.intsubglid}&ConvertionRate=${
           values?.conversionRate
-        }&SubGroup=${values?.subDivision?.value || 0}`,
+        }&SubGroup=${values?.subDivision?.value || "All"}`,
         (data) => {
           setTotalAmount(
             data?.reduce((value, row) => (value += row?.numAmount), 0) || 0
@@ -190,41 +193,46 @@ const VoucherModal = ({
           <div></div>
         </div>
       </ICustomCard>
-      {/* <IViewModal
+      <IViewModal
         show={showDebitCreditModal}
         onHide={() => {
           setShowDebitCreditModal(false);
           setVoucherRow(null);
         }}
       >
-        {(
-          voucherRow?.intaccountingjournaltypeid === 7 ||
+        {(voucherRow?.intaccountingjournaltypeid === 7 ||
           voucherRow?.intaccountingjournaltypeid === 8 ||
-          voucherRow?.intaccountingjournaltypeid === 9
-        ) && (
-            <AdjustmentJournalViewTableRow
-              id={voucherRow?.intAccountingJournalId}
-              typeId={voucherRow?.intaccountingjournaltypeid}
-            />
-          )}
+          voucherRow?.intaccountingjournaltypeid === 9) && (
+          <AdjustmentJournalModal
+            id={voucherRow?.intAccountingJournalId}
+            typeId={voucherRow?.intaccountingjournaltypeid}
+          />
+        )}
 
-        {(
-          voucherRow?.intaccountingjournaltypeid === 4 ||
+        {(voucherRow?.intaccountingjournaltypeid === 4 ||
           voucherRow?.intaccountingjournaltypeid === 5 ||
-          voucherRow?.intaccountingjournaltypeid === 6
-        ) && (
-            <BankJournalViewTableRow
-              id={voucherRow?.intAccountingJournalId}
-              headerData={{
-                ...voucherRow,
-                businessUnit,
-                accountingJournalTypeId: voucherRow?.intaccountingjournaltypeid,
-                fromWhere: "incomeStatement",
-              }}
-            />
-          )}
+          voucherRow?.intaccountingjournaltypeid === 6) && (
+          <BankJournalModal
+            id={voucherRow?.intAccountingJournalId}
+            headerData={{
+              ...voucherRow,
+              businessUnit,
+              accountingJournalTypeId: voucherRow?.intaccountingjournaltypeid,
+              fromWhere: "incomeStatement",
+            }}
+          />
+          // <BankJournalViewTableRow
+          // id={voucherRow?.intAccountingJournalId}
+          // headerData={{
+          //   ...voucherRow,
+          //   businessUnit,
+          //   accountingJournalTypeId: voucherRow?.intaccountingjournaltypeid,
+          //   fromWhere: "incomeStatement",
+          // }}
+          // />
+        )}
 
-        {(
+        {/* {(
           voucherRow?.intaccountingjournaltypeid === 1 ||
           voucherRow?.intaccountingjournaltypeid === 2 ||
           voucherRow?.intaccountingjournaltypeid === 3
@@ -234,10 +242,8 @@ const VoucherModal = ({
               headerData={{ accountingJournalTypeId: voucherRow?.intaccountingjournaltypeid }}
             />
 
-          )}
-
-
-      </IViewModal> */}
+          )} */}
+      </IViewModal>
     </>
   );
 };
