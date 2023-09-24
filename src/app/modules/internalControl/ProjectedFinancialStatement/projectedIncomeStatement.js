@@ -4,7 +4,7 @@ import { shallowEqual, useSelector } from "react-redux";
 import printIcon from "../../_helper/images/print-icon.png";
 import IViewModal from "../../_helper/_viewModal";
 // import GeneralLedgerModalForIncomeStatement from "../../financialManagement/report/incomestatement/generalLedgerModal";
-import StatisticalDetails from "../../financialManagement/report/incomestatement/statisticalDetails/statisticalDetailsModal";
+// import StatisticalDetails from "../../financialManagement/report/incomestatement/statisticalDetails/statisticalDetailsModal";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import ReactToPrint from "react-to-print";
 import numberWithCommas from "../../_helper/_numberWithCommas";
@@ -23,7 +23,7 @@ export default function ProjectedIncomeStatement({ incomeStatement, values }) {
   const printRef = useRef();
   const [showGeneralLedgerModal, setShowGeneralLedgerModal] = useState(false);
   const [incomeStatementRow, setIncomeStatementRow] = useState(null);
-  const [statisticalDetailsModal, setStatisticalDetailsModal] = useState(false);
+  // const [statisticalDetailsModal, setStatisticalDetailsModal] = useState(false);
 
   const pdfExport = (fileName) => {
     var element = document.getElementById("pdf-section");
@@ -157,25 +157,23 @@ export default function ProjectedIncomeStatement({ incomeStatement, values }) {
 
                         <td
                           className="text-right"
-                          onClick={() => {
-                            if (
-                              !(data?.intFSId === 0 || data?.intFSId === 20)
-                            ) {
-                              setShowGeneralLedgerModal(true);
-                              setIncomeStatementRow(data);
-                            }
-                          }}
-                          style={{
-                            cursor: "pointer",
-                            textDecoration:
-                              data?.intFSId === 0 || data?.intFSId === 20
-                                ? ""
-                                : "underline",
-                            color:
-                              data?.intFSId === 0 || data?.intFSId === 20
-                                ? ""
-                                : "blue",
-                          }}
+                          // onClick={() => {
+                          //   if (!(data?.intFSId === 0 || data?.intFSId === 20)) {
+                          //     setShowGeneralLedgerModal(true);
+                          //     setIncomeStatementRow(data);
+                          //   }
+                          // }}
+                          // style={{
+                          //   cursor: "pointer",
+                          //   textDecoration:
+                          //     data?.intFSId === 0 || data?.intFSId === 20
+                          //       ? ""
+                          //       : "underline",
+                          //   color:
+                          //     data?.intFSId === 0 || data?.intFSId === 20
+                          //       ? ""
+                          //       : "blue",
+                          // }}
                         >
                           {/* {_formatMoney(data?.monLastPeriodAmount)} */}
                           {numberWithCommas(
