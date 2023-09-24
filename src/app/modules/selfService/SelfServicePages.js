@@ -168,7 +168,7 @@ export function SelfServicePages() {
             component={AllReport}
           />
           <ContentRoute
-            path="/self-service/jobstation"
+            path="/self-service/arl-map"
             component={Jobstation}
           />
           {/* <ContentRoute
