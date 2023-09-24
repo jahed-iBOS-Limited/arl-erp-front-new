@@ -55,7 +55,9 @@ export default function ValuesTable({
                     itm?.typeId === 2 && (
                       <tr key={index}>
                         <td>
-                          <div className="text-left pl-1">{itm?.valuesOrComName}</div>
+                          <div className="text-left pl-1">
+                            {itm?.valuesOrComName}
+                          </div>
                         </td>
                         <td className="text-center">{itm?.numDesiredValue}</td>
                         {!isEmployee && (

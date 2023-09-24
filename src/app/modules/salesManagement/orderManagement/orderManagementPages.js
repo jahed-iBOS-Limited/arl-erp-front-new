@@ -35,10 +35,18 @@ import DamageEntryForm from "./damageEntry/form/addEditForm";
 import ServiceSalesCreate from "./serviceSales/create";
 
 export function OrderManagementPages() {
-  const userRole = useSelector(
-    (state) => state?.authData?.userRole,
+
+  const { userRole } = useSelector(
+    (state) => state?.authData,
     shallowEqual
   );
+
+  let customerIncentivePermission = null;
+  for (let i = 0; i < userRole.length; i++) {
+    if (userRole[i]?.intFeatureId === 1347) {
+      customerIncentivePermission = userRole[i];
+    }
+  }
 
   const salesQuotation = userRole[findIndex(userRole, "Sales Quotation")];
   const salesContract = userRole[findIndex(userRole, "Sales Contract")];
@@ -272,7 +280,7 @@ export function OrderManagementPages() {
       />
       <ContentRoute
         from="/sales-management/ordermanagement/CustomerIncentive"
-        component={CustomerIncentive}
+        component={customerIncentivePermission?.isView ? CustomerIncentive : NotPermittedPage}
       />
       <ContentRoute
         from="/sales-management/ordermanagement/ServiceSales/create"

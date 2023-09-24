@@ -9,28 +9,36 @@ import Loading from "./../../../_helper/_loading";
 import { _todayDate } from "./../../../_helper/_todayDate";
 import { filterHandler } from "./helper";
 import "./style.css";
+import IView from "../../../_helper/_helperIcons/_view";
+import IViewModal from "../../../_helper/_viewModal";
+import ViewStopageDetails from "./viewStopageDetails";
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
 export default function PowerPlantReport() {
-  const [reportData, getReportData, getLoading] = useAxiosGet();
+  const [reportData, getReportData, getLoading, setReportData] = useAxiosGet();
   const [isLoading, setLoading] = useState(false);
   const [stoppageDetails, setStoppageDetails] = useState({});
-  const [individualPowerConsumption, setIndividualPowerConsumption] = useState(
-    {}
-  );
+  const [isShowModal, setIsShowModal] = useState(false);
+  const [modalInfo, setModalInfo] = useState(null);
   const [powerGeneration, setPowerGeneration] = useState({});
+  const [individualPowerConsumption, setIndividualPowerConsumption] = useState({});
+
+  // redux store
   const { selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
+  // remove nullish data
+  const removeNullishData = (res) => {
+    const filteredData = res?.filter((item)=> item?.particularsName);
+    setReportData(filteredData || []);
+  }
+
+  // separate data section wise
   useEffect(() => {
-    const stoppageDetailsData = {
-      shiftA: filterHandler(reportData, 3),
-      shiftB: filterHandler(reportData, 4),
-      shiftC: filterHandler(reportData, 5),
-    };
+    const stoppageDetailsData = filterHandler(reportData, 3);
     setStoppageDetails(stoppageDetailsData);
 
     const individualPowerConsumption = {
@@ -97,7 +105,8 @@ export default function PowerPlantReport() {
                     className="btn btn-primary"
                     onClick={() => {
                       getReportData(
-                        `/mes/ShopFloor/PowerPlantReport?FromDate=${values?.fromDate}&ToDate=${values?.toDate}&BuId=${selectedBusinessUnit?.value}&isDownLoad=false`
+                        `/mes/ShopFloor/PowerPlantReport?FromDate=${values?.fromDate}&ToDate=${values?.toDate}&BuId=${selectedBusinessUnit?.value}&isDownLoad=false`,
+                        removeNullishData
                       );
                     }}
                   >
@@ -147,86 +156,96 @@ export default function PowerPlantReport() {
                 <div className="mt-5">
                   <div className="table-three border border-dark p-1">
                     <table>
-                      <tr>
-                        <th>Individual Power Consumption</th>
-                      </tr>
+                      <thead>
+                        <tr>
+                          <th>Individual Power Consumption</th>
+                        </tr>
+                      </thead>
                     </table>
 
                     <div className="d-flex justify-content-between">
                       <div className="left-table">
                         <table>
-                          <tr>
-                            <th colSpan="4">Total Consumptiom</th>
-                          </tr>
-                          <tr>
-                            <th>Plant</th>
-                            <th>Pick</th>
-                            <th>Off-Pick</th>
-                            <th>Total</th>
-                          </tr>
-                          {individualPowerConsumption?.totalConsumptiom
-                            ?.length ? (
-                            individualPowerConsumption?.totalConsumptiom?.map(
-                              (item, i) => (
-                                <tr key={i}>
-                                  <td>{item?.particularsName}</td>
-                                  <td className="text-center">
-                                    {item?.particualarsAlpha}
-                                  </td>
-                                  <td className="text-center">
-                                    {item?.particualarsBeta}
-                                  </td>
-                                  <td className="text-center">
-                                    {item?.particualarsGamma}
-                                  </td>
-                                </tr>
-                              )
-                            )
-                          ) : (
+                          <thead>
                             <tr>
-                              <td colSpan="4">.</td>
+                              <th colSpan="4">Total Consumptiom</th>
                             </tr>
-                          )}
+                            <tr>
+                              <th>Plant</th>
+                              <th>Pick</th>
+                              <th>Off-Pick</th>
+                              <th>Total</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {individualPowerConsumption?.totalConsumptiom
+                              ?.length ? (
+                              individualPowerConsumption?.totalConsumptiom?.map(
+                                (item, i) => (
+                                  <tr key={i}>
+                                    <td>{item?.particularsName}</td>
+                                    <td className="text-center">
+                                      {item?.particualarsAlpha}
+                                    </td>
+                                    <td className="text-center">
+                                      {item?.particualarsBeta}
+                                    </td>
+                                    <td className="text-center">
+                                      {item?.particualarsGamma}
+                                    </td>
+                                  </tr>
+                                )
+                              )
+                            ) : (
+                              <tr>
+                                <td colSpan="4">.</td>
+                              </tr>
+                            )}
+                          </tbody>
                         </table>
                       </div>
                       <div className="right-table ml-5">
                         <table>
-                          <tr>
-                            <th colSpan="4">REB Consumptiom</th>
-                          </tr>
-                          <tr>
-                            <th>Plant</th>
-                            <th>Pick</th>
-                            <th>Off-Pick</th>
-                            <th>Total</th>
-                          </tr>
-                          {individualPowerConsumption?.rebConsumptiom
-                            ?.length ? (
-                            individualPowerConsumption?.rebConsumptiom?.map(
-                              (item, i) => (
-                                <tr key={i}>
-                                  <td>
-                                    {item?.particularsName === "A--total--"
-                                      ? ""
-                                      : item?.particularsName}
-                                  </td>
-                                  <td className="text-center">
-                                    {item?.particualarsAlpha}
-                                  </td>
-                                  <td className="text-center">
-                                    {item?.particualarsBeta}
-                                  </td>
-                                  <td className="text-center">
-                                    {item?.particualarsGamma}
-                                  </td>
-                                </tr>
-                              )
-                            )
-                          ) : (
+                          <thead>
                             <tr>
-                              <td colSpan="4">.</td>
+                              <th colSpan="4">REB Consumptiom</th>
                             </tr>
-                          )}
+                            <tr>
+                              <th>Plant</th>
+                              <th>Pick</th>
+                              <th>Off-Pick</th>
+                              <th>Total</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {individualPowerConsumption?.rebConsumptiom
+                              ?.length ? (
+                              individualPowerConsumption?.rebConsumptiom?.map(
+                                (item, i) => (
+                                  <tr key={i}>
+                                    <td>
+                                      {item?.particularsName === "A--total--"
+                                        ? ""
+                                        : item?.particularsName}
+                                    </td>
+                                    <td className="text-center">
+                                      {item?.particualarsAlpha}
+                                    </td>
+                                    <td className="text-center">
+                                      {item?.particualarsBeta}
+                                    </td>
+                                    <td className="text-center">
+                                      {item?.particualarsGamma}
+                                    </td>
+                                  </tr>
+                                )
+                              )
+                            ) : (
+                              <tr>
+                                <td colSpan="4">.</td>
+                              </tr>
+                            )}
+                          </tbody>
                         </table>
                       </div>
                     </div>
@@ -246,6 +265,8 @@ export default function PowerPlantReport() {
                           <th>Power Generation</th>
                           <th>Running Hour</th>
                         </tr>
+                      </thead>
+                      <tbody>
                         {powerGeneration?.partOne?.length ? (
                           powerGeneration?.partOne?.map((item, i) => (
                             <tr key={i}>
@@ -263,11 +284,15 @@ export default function PowerPlantReport() {
                             <td colSpan="4">.</td>
                           </tr>
                         )}
+                      </tbody>
+                      <thead>
                         <tr>
                           <th>Particulars</th>
                           <th>Value</th>
                           <th>Unit</th>
                         </tr>
+                      </thead>
+                      <tbody>
                         {powerGeneration?.partTwo?.length ? (
                           powerGeneration?.partTwo?.map((item, i) => (
                             <tr key={i}>
@@ -285,6 +310,8 @@ export default function PowerPlantReport() {
                             <td colSpan="4">.</td>
                           </tr>
                         )}
+                      </tbody>
+                      <thead>
                         <tr>
                           <th colSpan="3">Gas Consumption Details</th>
                         </tr>
@@ -293,6 +320,8 @@ export default function PowerPlantReport() {
                           <th>Value</th>
                           <th>Unit</th>
                         </tr>
+                      </thead>
+                      <tbody>
                         {powerGeneration?.partThree?.length ? (
                           powerGeneration?.partThree?.map((item, i) => (
                             <tr key={i}>
@@ -310,7 +339,7 @@ export default function PowerPlantReport() {
                             <td colSpan="4">.</td>
                           </tr>
                         )}
-                      </thead>
+                      </tbody>
                     </table>
                   </div>
                   <div className="table-two">
@@ -321,87 +350,47 @@ export default function PowerPlantReport() {
                         </tr>
                         <tr>
                           <th>Engine Name</th>
-                          <th>Cause of stoppage</th>
-                          <th>Time</th>
-                          <th>Duration</th>
+                          <th>Remarks</th>
+                          <th>Duration (Min)</th>
+                          <th>Action</th>
                         </tr>
-                        <tr>
-                          <th colSpan="4">A- Shift</th>
-                        </tr>
-                        {stoppageDetails?.shiftA?.length ? (
-                          stoppageDetails?.shiftA?.map((item, i) => (
-                            <tr key={i}>
-                              <td>{item?.particularsName}</td>
-                              <td className="text-center">
-                                {item?.particualarsAlpha}
-                              </td>
-                              <td className="text-center">
-                                {item?.particualarsBeta}
-                              </td>
-                              <td className="text-center">
-                                {item?.particualarsGamma}
-                              </td>
-                            </tr>
-                          ))
-                        ) : (
-                          <tr>
-                            <td colSpan="4">.</td>
-                          </tr>
-                        )}
-
-                        <tr>
-                          <th colSpan="4">B- Shift</th>
-                        </tr>
-                        {stoppageDetails?.shiftB?.length ? (
-                          stoppageDetails?.shiftB?.map((item, i) => (
-                            <tr key={i}>
-                              <td>{item?.particularsName}</td>
-                              <td className="text-center">
-                                {item?.particualarsAlpha}
-                              </td>
-                              <td className="text-center">
-                                {item?.particualarsBeta}
-                              </td>
-                              <td className="text-center">
-                                {item?.particualarsGamma}
-                              </td>
-                            </tr>
-                          ))
-                        ) : (
-                          <tr>
-                            <td colSpan="4">.</td>
-                          </tr>
-                        )}
-                        <tr>
-                          <th colSpan="4">C- Shift</th>
-                        </tr>
-                        {stoppageDetails?.shiftC?.length ? (
-                          stoppageDetails?.shiftC?.map((item, i) => (
-                            <tr key={i}>
-                              <td>{item?.particularsName}</td>
-                              <td className="text-center">
-                                {item?.particualarsAlpha}
-                              </td>
-                              <td className="text-center">
-                                {item?.particualarsBeta}
-                              </td>
-                              <td className="text-center">
-                                {item?.particualarsGamma}
-                              </td>
-                            </tr>
-                          ))
-                        ) : (
-                          <tr>
-                            <td colSpan="4">.</td>
-                          </tr>
-                        )}
                       </thead>
+                      <tbody>
+                        {stoppageDetails?.length ? (
+                          stoppageDetails?.map((item, index) => (
+                            <tr key={index}>
+                              <td>{item?.particularsName}</td>
+                              <td className="text-center">
+                                {item?.particualarsAlpha}
+                              </td>
+                              <td className="text-center">
+                                {item?.particualarsGamma}
+                              </td>
+                              <td className="text-center">
+                                <IView
+                                  clickHandler={()=> {
+                                    setIsShowModal(true);
+                                    setModalInfo({
+                                      engineName: item?.particularsName,
+                                      fromDate: values?.fromDate,
+                                      toDate: values?.toDate
+                                    })
+                                  }}
+                                />
+                              </td>
+                            </tr>
+                          ))
+                        ) : null }
+                      </tbody>
                     </table>
                   </div>
                 </div>
               </div>
             </>
           </IForm>
+          <IViewModal show={isShowModal} onHide={() => setIsShowModal(false)}>
+            <ViewStopageDetails modalInfo={modalInfo}/>
+          </IViewModal>
         </>
       )}
     </Formik>
