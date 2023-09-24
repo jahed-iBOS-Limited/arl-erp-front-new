@@ -49,7 +49,7 @@ export default function ViewStopageDetails({ modalInfo }) {
                       <th>Shift</th>
                       <th>Time</th>
                       <th>Stopage Details</th>
-                      <th>Duration</th>
+                      <th>Duration (Min)</th>
                     </tr>
                   </thead>
                   <tbody>
