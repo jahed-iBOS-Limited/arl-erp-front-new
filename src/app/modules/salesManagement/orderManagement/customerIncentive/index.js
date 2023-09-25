@@ -1,7 +1,6 @@
 import { Form, Formik } from "formik";
 import React, { useMemo, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import ReactHtmlTableToExcel from "react-html-table-to-excel";
 import InputField from "../../../_helper/_inputField";
 import NewSelect from "../../../_helper/_select";
@@ -32,13 +31,22 @@ export default function CustomerIncentive() {
     setTradeCommission,
   ] = useAxiosGet();
 
-  //selected business unit from redux store
+  //redux store
   const { value: buId } = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
   const { userId } = useSelector((state) => {
     return state?.authData?.profileData;
   }, shallowEqual);
+  const userRole = useSelector((state) => state?.authData?.userRole, shallowEqual);
+
+  // check user permission
+  let permission = null;
+  for (let i = 0; i < userRole.length; i++) {
+    if (userRole[i]?.intFeatureId === 1347) {
+      permission = userRole[i];
+    }
+  }
 
   // get filtered trade commission on search
   const filteredTradeCommission = useMemo(() => {
@@ -50,25 +58,29 @@ export default function CustomerIncentive() {
   }, [tradeCommission, searchValue]);
 
   // handle all trade commission list select
-  const handleAllSelect = (e) => {
-    const updatedTradeCommission = tradeCommission?.map((item) => {
-      if (item?.isJvPosted) {
-        return item;
-      } else {
-        return {
-          ...item,
-          isSelect: e?.target?.checked,
-        };
-      }
+  const handleAllSelect = (value) => {
+    setTradeCommission((prev) => {
+      const updatedTradeCommission = prev?.map((item) => {
+        return item?.isJvPosted ? item : { ...item, isSelect: value };
+      });
+      return updatedTradeCommission;
     });
-    setTradeCommission(updatedTradeCommission);
   };
 
   // handle row slection on change
-  const handleRowSelection = (key, value, currentItem) => {
-    const newTradeCommissionData = [...tradeCommission];
-    currentItem[key] = value;
-    setTradeCommission(newTradeCommissionData);
+  const handleRowSelection = (value, currentItem, index) => {
+    setTradeCommission((prev) => {
+      const newTradeCommissionData = [...prev];
+      newTradeCommissionData[index] = { ...currentItem, isSelect: value };
+      return newTradeCommissionData;
+    });
+  };
+
+  // count total value
+  const countTotal = (key) => {
+    return tradeCommission?.reduce((previousValue, currentValue) => {
+      return previousValue + currentValue?.[key];
+    }, 0);
   };
 
   // save handler
@@ -91,24 +103,14 @@ export default function CustomerIncentive() {
         selectedTradeCommission?.push(newItem);
       }
     });
-
-    if (selectedTradeCommission?.length > 0) {
-      IConfirmModal({
-        title: "Are you sure?",
-        message: "Are you sure want to post this JV?",
-        yesAlertFunc: () => {
-          saveData(
-            `/oms/SalesInformation/CreateTradeCommission`,
-            selectedTradeCommission,
-            cb,
-            true
-          );
-        },
-        noAlertFunc: () => {},
-      });
-    } else {
-      toast.warn("No item selected!");
-    }
+    IConfirmModal({
+      title: "Are you sure?",
+      message: "Are you sure want to post this JV?",
+      yesAlertFunc: () => {
+        saveData(`/oms/SalesInformation/CreateTradeCommission`, selectedTradeCommission, cb, true);
+      },
+      noAlertFunc: () => {},
+    });
   };
 
   // get trade commission api handler
@@ -252,7 +254,7 @@ export default function CustomerIncentive() {
                     </div>
                   </div>
                   <div>
-                    {tradeCommission?.some((item) => item?.isSelect) && (
+                    {tradeCommission?.some((item) => item?.isSelect) && permission?.isCreate && (
                       <button type="button" className="btn btn-primary" onClick={handleSubmit}>
                         JV Posting
                       </button>
@@ -271,7 +273,8 @@ export default function CustomerIncentive() {
                             type="checkbox"
                             name="isSelect"
                             checked={tradeCommission?.every((item) => item?.isSelect)}
-                            onChange={handleAllSelect}
+                            onChange={(e) => handleAllSelect(e?.target?.checked)}
+                            disabled={!permission?.isCreate}
                           />
                         </th>
                         <th>SL</th>
@@ -298,9 +301,9 @@ export default function CustomerIncentive() {
                                 name="isSelect"
                                 checked={Boolean(item?.isSelect)}
                                 onChange={(e) =>
-                                  handleRowSelection("isSelect", e?.target?.checked, item)
+                                  handleRowSelection(e?.target?.checked, item, index)
                                 }
-                                disabled={item?.isJvPosted}
+                                disabled={item?.isJvPosted || !permission?.isCreate}
                               />
                             </td>
                             <td>{index + 1}</td>
@@ -313,6 +316,16 @@ export default function CustomerIncentive() {
                             <td className="text-center">{item?.isJvPosted ? "Yes" : "No"}</td>
                           </tr>
                         ))}
+                      <tr>
+                        <td className="font-weight-bold text-left ml-2" colSpan={6}>
+                          Total
+                        </td>
+                        <td className="font-weight-bold text-right">{countTotal("deliveryQty")}</td>
+                        <td className="font-weight-bold text-right">
+                          {_formatMoney(countTotal("incentiveAmount"))}
+                        </td>
+                        <td className="text-center">-</td>
+                      </tr>
                     </tbody>
                   </table>
                 ) : null}

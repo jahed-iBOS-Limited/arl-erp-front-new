@@ -5,6 +5,7 @@ import { isLastDayOfMonth } from "./helper";
 import useAxiosPost from "../../_helper/customHooks/useAxiosPost";
 import Loading from "../../_helper/_loading";
 import { shallowEqual, useSelector } from "react-redux";
+import numberWithCommas from "../../_helper/_numberWithCommas";
 
 const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
   const { profileData } = useSelector((state) => {
@@ -22,9 +23,9 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                 ? values?.businessUnit?.label
                 : accountName}
             </h2>
-            <h4 className="text-primary">Cash Flow Statement</h4>
+            <h4 className="text-primary">Projected Cash Flow Statement</h4>
             <p className="mt-4" style={{ fontWeight: "bold" }}>
-              {`For the period of: ${_dateFormatter(
+              {`For the period from: ${_dateFormatter(
                 values?.fromDate
               )}  to  ${_dateFormatter(values?.toDate)}`}{" "}
             </p>
@@ -41,7 +42,7 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                   textAlign: "center",
                 }}
               >
-                {_formatMoney(rowDto[0]["numPlannedOpening"])}
+                {numberWithCommas(Math.round(rowDto[0]["numPlannedOpening"]))}
               </td>
               <td
                 style={{
@@ -49,7 +50,7 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                   textAlign: "center",
                 }}
               >
-                {_formatMoney(rowDto[0]["numOpening"])}
+                {numberWithCommas(Math.round(rowDto[0]["numOpening"]))}
               </td>
               {/* <td
                 style={{
@@ -88,10 +89,10 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                       <tr style={{ background: "#f0f0f5" }}>
                         <td>{item?.strName}</td>
                         <td className="text-right" style={{ width: "120px" }}>
-                          {_formatMoney(item?.numPlannedAmount)}
+                          {numberWithCommas(Math.round(item?.numPlannedAmount))}
                         </td>
                         <td className="text-right" style={{ width: "120px" }}>
-                          {_formatMoney(item?.numAmount)}
+                          {numberWithCommas(Math.round(item?.numAmount))}
                         </td>
                         {/* <td className="text-right" style={{ width: "120px" }}>
                           {_formatMoney(
@@ -105,7 +106,7 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                       <tr style={{ background: "#e6ecff" }}>
                         <td>{item?.strName}</td>
                         <td className="text-right" style={{ width: "120px" }}>
-                          {_formatMoney(item?.numPlannedAmount)}
+                          {numberWithCommas(Math.round(item?.numPlannedAmount))}
                         </td>
                         <td className="text-right" style={{ width: "120px" }}>
                           <div className="d-flex justify-content-around align-items-center">
@@ -135,14 +136,16 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                                       },
                                     ],
                                     null,
-                                    true,
+                                    true
                                   );
                                 }}
                               >
                                 Send to Asset/Liability
                               </button>
                             </div>
-                            <div>{_formatMoney(item?.numAmount)}</div>
+                            <div>
+                              {numberWithCommas(Math.round(item?.numAmount))}
+                            </div>
                           </div>
                         </td>
                         {/* <td className="text-right" style={{ width: "120px" }}>
@@ -186,7 +189,7 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                           fontWeight: "normal",
                         }}
                       >
-                        {_formatMoney(item?.numPlannedAmount)}
+                        {numberWithCommas(Math.round(item?.numPlannedAmount))}
                       </td>
                       <td
                         className="pr-1"
@@ -198,7 +201,7 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                           fontWeight: "normal",
                         }}
                       >
-                        {_formatMoney(item?.numAmount)}
+                        {numberWithCommas(Math.round(item?.numAmount))}
                       </td>
                       {/* <td
                         className="pr-1"

@@ -30,14 +30,13 @@ export default function PurchasePlanCreateForm({
 }) {
   // eslint-disable-next-line no-unused-vars
   const [isDisabled, setDisabled] = useState(false);
-  const [rowDto, getRowDto, loading, setRowDto] = useAxiosGet();
+  const [rowDto, getRowDto, rowDtoLoading, setRowDto] = useAxiosGet();
   // const [salesPlanData, setSalesPlanData] = useState([]);
 
   // eslint-disable-next-line no-unused-vars
   const [singleData, setSingleData] = useState({});
   const [objProps, setObjprops] = useState({});
 
-  // DDL state
   const [plantDDL, setPlantDDL] = useState([]);
   const [yearDDL, setYearDDL] = useState([]);
   const [horizonDDL, setHorizonDDL] = useState([]);
@@ -45,15 +44,15 @@ export default function PurchasePlanCreateForm({
   const [numItemPlanQty, setNumItemPlanQty] = useState(0);
   const [fiscalYearDDL, getFiscalYearDDL] = useAxiosGet();
 
-  // get user profile data from store
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
 
-  // get selected business unit from store
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
+
+  const [loading, setLoading] = useState(false);
 
   const params = useParams();
   const location = useLocation();
@@ -90,7 +89,7 @@ export default function PurchasePlanCreateForm({
             itemPlanQty: item?.purchaseQty,
           })),
         };
-        editSalesPlanning(payload);
+        editSalesPlanning(payload, setLoading);
       } else {
         const payload = {
           objHeader: {
@@ -98,7 +97,10 @@ export default function PurchasePlanCreateForm({
             planningHorizonRowId: 0,
             startDateTime: values?.startDate,
             endDateTime: values?.endDate,
-            yearId: values?.horizon?.monthId > 6 ?   values?.fiscalYear?.value : values?.fiscalYear?.value + 1,
+            yearId:
+              values?.horizon?.monthId > 6
+                ? values?.fiscalYear?.value
+                : values?.fiscalYear?.value + 1,
             strFiscalYear: values?.fiscalYear?.label,
             monthId: values?.horizon?.monthId,
             version: "string",
@@ -111,7 +113,9 @@ export default function PurchasePlanCreateForm({
             isActive: true,
             isMrp: true,
           },
-          objRow: rowDto?.filter((item) => +item?.purchaseQty > 0 && +item?.numRate > 0)?.map((item) => ({
+          objRow: rowDto
+            ?.filter((item) => +item?.numRate > 0)
+            ?.map((item) => ({
               intPurchasePlanRowId: item?.intPurchasePlanRowId || 0,
               intPurchasePlanId: item?.intPurchasePlanId || 0,
               itemId: item?.intItemId,
@@ -124,12 +128,11 @@ export default function PurchasePlanCreateForm({
               bomname: "",
             })),
         };
-        if(payload?.objRow?.length > 0){
-          saveItemRequest(payload, cb);
-        }else{
+        if (payload?.objRow?.length > 0) {
+          saveItemRequest(payload, cb, setLoading);
+        } else {
           toast.warning("You have to add purchase quantity and rate");
         }
-        
       }
     }
   };
@@ -155,7 +158,7 @@ export default function PurchasePlanCreateForm({
       getProps={setObjprops}
       isDisabled={isDisabled}
     >
-      {(isDisabled || loading) && <Loading />}
+      {(isDisabled || rowDtoLoading || loading) && <Loading />}
       <Form
         {...objProps}
         initData={params?.id ? singleData : initData}

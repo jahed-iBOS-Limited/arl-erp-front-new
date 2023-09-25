@@ -12,12 +12,13 @@ import {
   getProfitCenterDDL,
   manageBalanceData,
 } from "./helper";
-import { _todayDate } from "../../_helper/_todayDate";
 import ProjectedIncomeStatement from "./projectedIncomeStatement";
 import ProjectedBalanceReport from "./ProjectedBalanceReport";
 import ProjectedCashFlow from "./ProjectedCashFlow";
 import ProjectedTrailBalanceMultiColumn from "./ProjectedTrailBalanceMultiColumn";
 import ProjectedFinancialRations from "./ProjectedFinancialRations";
+import { _firstDateOfCurrentFiscalYear } from "../../_helper/_firstDateOfCurrentFiscalYear";
+import { _monthLastDate } from "../../_helper/_monthLastDate";
 
 const initData = {
   reportType: "",
@@ -25,12 +26,10 @@ const initData = {
   subDivision: "",
   businessUnit: "",
   profitCenter: "",
-  fromDate: "",
-  toDate: "",
-  lastPeriodFrom: _todayDate(),
-  lastPeriodTo: _todayDate(),
-  conversionRate: "",
-  incomeReportType: "",
+  fromDate: _firstDateOfCurrentFiscalYear(),
+  toDate: _monthLastDate(),
+  conversionRate: 1,
+  date: _monthLastDate(),
 };
 export default function ProjectedFinancialStatement() {
   const [buDDL, getBuDDL, buDDLloader, setBuDDL] = useAxiosGet();
@@ -45,16 +44,32 @@ export default function ProjectedFinancialStatement() {
   const [loading, setLoading] = useState(false);
   const [buddl, getbuddl, buddlLoader, setbuddl] = useAxiosGet();
   const [profitCenterDDL, setProfitCenterDDL] = useState([]);
-
+  const [ratioTableState, setRatioTableState] = useState([]);
+  const [componentTableState, setComponentTableState] = useState([]);
   const [
-    financialRatioTable,
+    ,
     getFinancialRatioTable,
     financialRatioTableLoader,
+    setFinancialRatioTable,
   ] = useAxiosGet();
+
   const [
-    financialRatioComponentTable,
+    ,
     getFinancialRatioComponentTable,
     financialRatioComponentTableLoader,
+    setFinancialRatioComponentTable,
+  ] = useAxiosGet();
+
+  const [
+    ,
+    getFinancialRatioTableForLastPeriod,
+    financialRatioTableForLastPeriodLoader,
+  ] = useAxiosGet();
+
+  const [
+    ,
+    getFinancialRatioComponentTableForLastPeriod,
+    financialRatioComponentTableForLastPeriodLoader,
   ] = useAxiosGet();
 
   useEffect(() => {
@@ -84,7 +99,6 @@ export default function ProjectedFinancialStatement() {
     <Formik
       enableReinitialize={true}
       initialValues={initData}
-      // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
@@ -106,7 +120,10 @@ export default function ProjectedFinancialStatement() {
             rowLoading ||
             buddlLoader ||
             financialRatioTableLoader ||
-            financialRatioComponentTableLoader) && <Loading />}
+            financialRatioComponentTableLoader ||
+            buDDLloader ||
+            financialRatioTableForLastPeriodLoader ||
+            financialRatioComponentTableForLastPeriodLoader) && <Loading />}
           <IForm
             title="Projected Financial Statement"
             isHiddenReset
@@ -404,8 +421,12 @@ export default function ProjectedFinancialStatement() {
                         label="Business Unit"
                         onChange={(valueOption) => {
                           if (valueOption) {
+                            setRatioTableState([]);
+                            setComponentTableState([]);
                             setFieldValue("businessUnit", valueOption);
                           } else {
+                            setRatioTableState([]);
+                            setComponentTableState([]);
                             setFieldValue("businessUnit", "");
                           }
                         }}
@@ -420,6 +441,7 @@ export default function ProjectedFinancialStatement() {
                         name="fromDate"
                         type="date"
                         onChange={(e) => {
+                          console.log("e.target.value", e.target.value);
                           setFieldValue("fromDate", e.target.value);
                           setRowData([]);
                         }}
@@ -488,11 +510,86 @@ export default function ProjectedFinancialStatement() {
                         );
                       }
                       if ([6]?.includes(values?.reportType?.value)) {
+                        const fromDate = values?.fromDate
+                          ? new Date(values.fromDate)
+                          : new Date();
+                        const toDate = values?.toDate
+                          ? new Date(values.toDate)
+                          : new Date();
+                        fromDate.setFullYear(fromDate.getFullYear() - 1);
+                        toDate.setFullYear(toDate.getFullYear() - 1);
+                        const fromDateStr = fromDate
+                          .toISOString()
+                          .split("T")[0];
+                        const toDateStr = toDate.toISOString().split("T")[0];
+
                         getFinancialRatioTable(
-                          `/fino/BudgetFinancial/GetFinancialRatioProjectd?BusinessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&Todate=${values?.toDate}&Type=2`
+                          `/fino/BudgetFinancial/GetFinancialRatioProjectd?BusinessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&Todate=${values?.toDate}&Type=2`,
+                          (financialRatioTableResponse) => {
+                            getFinancialRatioTableForLastPeriod(
+                              `/fino/CostSheet/GetFinancialRatio?BusinessUnitId=${values?.businessUnit?.value}&FromDate=${fromDateStr}&Todate=${toDateStr}&Type=2`,
+                              (financialRatioTableForLastPeriodResponse) => {
+                                const lastPeriodMap = new Map();
+                                for (const item of financialRatioTableForLastPeriodResponse) {
+                                  lastPeriodMap.set(
+                                    item.strRarioName,
+                                    item.numRatio
+                                  );
+                                }
+                                for (const item of financialRatioTableResponse) {
+                                  const lastPeriodValue = lastPeriodMap.get(
+                                    item.strRarioName
+                                  );
+                                  item.lastPeriod =
+                                    typeof lastPeriodValue === "number"
+                                      ? lastPeriodValue
+                                      : 0;
+                                }
+                                setFinancialRatioTable([
+                                  ...financialRatioTableResponse,
+                                ]);
+                                setRatioTableState([
+                                  ...financialRatioTableResponse,
+                                ]);
+                              }
+                            );
+                          }
                         );
                         getFinancialRatioComponentTable(
-                          `/fino/BudgetFinancial/GetFinancialRatioProjectd?BusinessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&Todate=${values?.toDate}&Type=1`
+                          `/fino/BudgetFinancial/GetFinancialRatioProjectd?BusinessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&Todate=${values?.toDate}&Type=1`,
+                          (finanCialRatioComponentResponse) => {
+                            getFinancialRatioComponentTableForLastPeriod(
+                              `/fino/CostSheet/GetFinancialRatio?BusinessUnitId=${values?.businessUnit?.value}&FromDate=${fromDateStr}&Todate=${toDateStr}&Type=1`,
+                              (
+                                financialRatioComponentTableForLastPeriodResponse
+                              ) => {
+                                const lastPeriodMap = new Map();
+                                for (const item of financialRatioComponentTableForLastPeriodResponse) {
+                                  lastPeriodMap.set(
+                                    item.strComName,
+                                    item.numAmount
+                                  );
+                                }
+                                for (const item of finanCialRatioComponentResponse) {
+                                  const lastPeriodValue = lastPeriodMap.get(
+                                    item.strComName
+                                  );
+                                  item.numLastPeriod =
+                                    typeof lastPeriodValue === "number"
+                                      ? lastPeriodValue
+                                      : item.numAmount;
+                                }
+
+                                setFinancialRatioComponentTable([
+                                  ...finanCialRatioComponentResponse,
+                                ]);
+
+                                setComponentTableState([
+                                  ...finanCialRatioComponentResponse,
+                                ]);
+                              }
+                            );
+                          }
                         );
                       }
                     }}
@@ -538,8 +635,8 @@ export default function ProjectedFinancialStatement() {
                 ) : null}
                 {[6]?.includes(values?.reportType?.value) ? (
                   <ProjectedFinancialRations
-                    ratioTableData={financialRatioTable}
-                    componentTableData={financialRatioComponentTable}
+                    ratioTableData={ratioTableState}
+                    componentTableData={componentTableState}
                     values={values}
                     selectedBusinessUnit={values?.businessUnit?.label}
                   />

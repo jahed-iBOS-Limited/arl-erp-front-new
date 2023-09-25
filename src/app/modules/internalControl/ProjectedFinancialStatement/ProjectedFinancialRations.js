@@ -1,5 +1,9 @@
 import React from "react";
 import { _formatMoney } from "../../_helper/_formatMoney";
+import {
+  _dateFormatter,
+  dateFormatWithMonthName,
+} from "../../_helper/_dateFormate";
 
 const ProjectedFinancialRations = ({
   ratioTableData,
@@ -10,9 +14,14 @@ const ProjectedFinancialRations = ({
   return (
     <div className="row">
       <div className="col-12 text-center">
-        <h3>{selectedBusinessUnit}</h3>
+        <h2>{selectedBusinessUnit}</h2>
+        <h4 className="text-primary">Projected Financial Ratio</h4>
         <p>
-          From <span>{values?.fromDate}</span> To <span>{values?.toDate}</span>
+          <strong>
+            For the period from:{" "}
+            <span>{dateFormatWithMonthName(values?.fromDate)}</span> To{" "}
+            <span>{dateFormatWithMonthName(values?.toDate)}</span>
+          </strong>
         </p>
       </div>
       <div className="col-lg-6">
@@ -23,7 +32,8 @@ const ProjectedFinancialRations = ({
               <th>SL</th>
               <th>Rario Name</th>
               <th>Std Ratio</th>
-              <th>Act Ratio</th>
+              <th>Last Period</th>
+              <th>Current Period</th>
               <th>Matric</th>
             </tr>
           </thead>
@@ -47,6 +57,9 @@ const ProjectedFinancialRations = ({
                         {item?.stdRatio ? item?.stdRatio : ""}
                       </td>
                       <td className="text-right">
+                        {item?.numRatio ? item?.lastPeriod : ""}
+                      </td>
+                      <td className="text-right">
                         {item?.numRatio ? item?.numRatio : ""}
                       </td>
                       <td>{item?.strMatric}</td>
@@ -63,7 +76,8 @@ const ProjectedFinancialRations = ({
           <thead>
             <tr>
               <th>Com. Name</th>
-              <th>Amount</th>
+              <th>Last Period</th>
+              <th>Current Period</th>
             </tr>
           </thead>
           <tbody>
@@ -73,6 +87,9 @@ const ProjectedFinancialRations = ({
                   <tr key={index}>
                     <>
                       <td className="text-left">{item?.strComName}</td>
+                      <td className="text-right">
+                        {_formatMoney(Math.round(item?.numLastPeriod))}
+                      </td>
                       <td className="text-right">
                         {_formatMoney(Math.round(item?.numAmount), 0)}
                       </td>

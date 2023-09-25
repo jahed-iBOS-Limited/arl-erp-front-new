@@ -1,8 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Formik } from "formik";
 import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import ReactToPrint from "react-to-print";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
 import {
   Card,
@@ -15,6 +17,7 @@ import { _dateFormatter } from "../../../../../_helper/_dateFormate";
 import { _fixedPoint } from "../../../../../_helper/_fixedPoint";
 import InputField from "../../../../../_helper/_inputField";
 import Loading from "../../../../../_helper/_loading";
+import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
 import printIcon from "../../../../../_helper/images/print-icon.png";
 import { BillApproved_api } from "../../../approvebillregister/helper";
 import { getG2GCarrierBillById } from "../../helper";
@@ -55,8 +58,8 @@ function ViewG2GCarrierBill({
   const [loading, setLoading] = useState(false);
   const [gridData, setGridData] = useState([]);
   const [disabled, setDisabled] = useState(false);
-  const printRef = useRef(); 
-
+  const printRef = useRef();
+  const dispatch = useDispatch();
   useEffect(() => {
     getG2GCarrierBillById(
       profileData?.accountId,
@@ -225,6 +228,7 @@ function ViewG2GCarrierBill({
                             <th>Carrier Rate</th>
                             {/* <th>Commission Rate</th> */}
                             <th>Bill Amount</th>
+                            <th>Attachment</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -258,6 +262,38 @@ function ViewG2GCarrierBill({
                                       item?.carrierRate * item?.quantityTon
                                     )}
                                   </td>
+                                  <td className="text-center">
+                            <OverlayTrigger
+                              overlay={
+                                <Tooltip id="cs-icon">View Attachment</Tooltip>
+                              }
+                            >
+                              <span
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                 if(item?.attachment){
+                                  dispatch(
+                                    getDownlloadFileView_Action(
+                                      item?.attachment,
+                                      null,
+                                      null,
+                                      setLoading
+                                    )
+                                  );
+                                 }else{
+                                  toast.warn("No Attachment Found")
+                                 }
+                                }}
+                                className="ml-2"
+                              >
+                                <i
+                                  style={{ fontSize: "16px" }}
+                                  className={`fa pointer fa-eye`}
+                                  aria-hidden="true"
+                                ></i>
+                              </span>
+                            </OverlayTrigger>
+                          </td>F
                                 </tr>
                               </>
                             );
@@ -278,6 +314,7 @@ function ViewG2GCarrierBill({
                                 )}
                               </b>
                             </td>
+                            <td></td>
                           </tr>
                         </tbody>
                       </table>
