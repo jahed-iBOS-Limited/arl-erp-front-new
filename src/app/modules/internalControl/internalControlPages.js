@@ -2,7 +2,7 @@ import React, { Suspense } from "react";
 import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute, LayoutSplashScreen } from "../../../_metronic/layout";
 import { InternalControlBudgetPages } from "./budget/budgetPages";
-import BudgetVarianceReport from "./budgetVarianceReports";
+import BudgetVarianceReportPages from "./budgetVarianceReports/budgetVarianceReportPages";
 import { InternalControlConfigurationPages } from "./configuration/configurationPages";
 import InternalControlRevenueCenterPages from "./revenueCenter/revenueCenterPages";
 
@@ -22,7 +22,7 @@ export function InternalControlPages() {
         />
         <ContentRoute
           path="/internal-control/budgetvariancereport"
-          component={BudgetVarianceReport}
+          component={BudgetVarianceReportPages}
         />
 
         <ContentRoute
