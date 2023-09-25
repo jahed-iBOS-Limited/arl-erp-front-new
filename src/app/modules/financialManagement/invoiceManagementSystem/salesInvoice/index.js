@@ -46,7 +46,7 @@ function SalesInvoiceLanding() {
       buId,
       values?.fromDate,
       values?.toDate,
-      values?.channel?.value,
+      values?.channel?.value || 0,
       pageNo,
       pageSize,
       search,
