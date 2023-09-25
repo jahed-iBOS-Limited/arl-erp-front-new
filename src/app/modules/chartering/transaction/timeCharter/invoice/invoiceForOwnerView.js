@@ -130,9 +130,14 @@ export default function InvoiceForOwnerView({
             <div className="headerWrapper">
               <div className="headerKey">DATE OF INVOICE :</div>
               <div className="headerValue">
+                {invoiceHireData?.invoiceDate 
+                // || moment(invoiceHireData?.cpdtd).format("DD-MMM-YYYY")
+                }
+              </div>
+              {/* <div className="headerValue">
                 {invoiceHireData?.transactionDate ||
                   moment(invoiceHireData?.cpdtd).format("DD-MMM-YYYY")}
-              </div>
+              </div> */}
             </div>
             <div className="headerWrapper">
               <div className="headerKey">REF :</div>

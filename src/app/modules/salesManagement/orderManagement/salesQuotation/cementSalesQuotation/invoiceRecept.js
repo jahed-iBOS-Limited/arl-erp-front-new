@@ -104,7 +104,7 @@ const SalesQuotationForCement = ({
               <th rowSpan={2}>UOM</th>
               <th rowSpan={2}>Transport type</th>
               <th colSpan={2}>Price in BDT</th>
-              <th rowSpan={2}>Unloading</th>
+              <th rowSpan={2}>Remark</th>
             </tr>
             <tr>
               <th>Ex-Factory</th>
@@ -116,12 +116,12 @@ const SalesQuotationForCement = ({
               return (
                 <tr key={index}>
                   <td className="text-center">{index + 1}</td>
-                  <td className="text-left">{item?.itemName}</td>
-                  <td className="text-center">{item?.uomName }</td>
+                  <td className="text-center">{item?.itemName}</td>
+                  <td className="text-center">{item?.uomName}</td>
+                  <td className="text-center">{item?.transportTypeName}</td>
                   <td className="text-center">{item?.itemPrice}</td>
-                  <td className="text-center">{item?.itemPrice}</td>
-                  <td className="text-center">{item?.itemPrice}</td>
-                  <td className="text-center">{item?.itemPrice}</td>
+                  <td className="text-center">{item?.numPriceWithTransport}</td>
+                  <td className="text-center">{item?.remarks}</td>
                 </tr>
               );
             })}
