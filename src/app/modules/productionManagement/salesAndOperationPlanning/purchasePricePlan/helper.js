@@ -136,26 +136,26 @@ export const editSalesPlanning = async (data, setLoading) => {
 };
 
 // landing ddl
-export const getSalesPlanLanding = async (
-  accId,
-  buId,
-  plantId,
-  year,
-  setter,
-  setLoading
-) => {
-  setLoading(true);
-  try {
-    const res = await Axios.get(
-      `mes/SalesPlanning/PurchasePlanningLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&plantId=${plantId}&Year=${year}&PageNo=1&PageSize=100&viewOrder=desc`
-    );
-    setLoading(false);
-    setter(res?.data?.data);
-  } catch (error) {
-    setLoading(false);
-    setter([]);
-  }
-};
+// export const getSalesPlanLanding = async (
+//   accId,
+//   buId,
+//   plantId,
+//   year,
+//   setter,
+//   setLoading
+// ) => {
+//   setLoading(true);
+//   try {
+//     const res = await Axios.get(
+//       `mes/SalesPlanning/PurchasePlanningLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&plantId=${plantId}&Year=${year}&PageNo=1&PageSize=100&viewOrder=desc`
+//     );
+//     setLoading(false);
+//     setter(res?.data?.data);
+//   } catch (error) {
+//     setLoading(false);
+//     setter([]);
+//   }
+// };
 // get data by single id
 
 export const getSalesPlanById = async (
