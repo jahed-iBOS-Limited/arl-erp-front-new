@@ -1,9 +1,9 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Redirect, Switch } from "react-router-dom";
-import { LayoutSplashScreen, ContentRoute } from "../../../_metronic/layout";
-import { Suspense } from "react";
-import { InternalControlConfigurationPages } from "./configuration/configurationPages";
+import { ContentRoute, LayoutSplashScreen } from "../../../_metronic/layout";
 import { InternalControlBudgetPages } from "./budget/budgetPages";
+import BudgetVarianceReport from "./budgetVarianceReports";
+import { InternalControlConfigurationPages } from "./configuration/configurationPages";
 import InternalControlRevenueCenterPages from "./revenueCenter/revenueCenterPages";
 
 export function InternalControlPages() {
@@ -19,6 +19,10 @@ export function InternalControlPages() {
         <ContentRoute
           path="/internal-control/configuration"
           component={InternalControlConfigurationPages}
+        />
+        <ContentRoute
+          path="/internal-control/budgetvariancereport"
+          component={BudgetVarianceReport}
         />
 
         <ContentRoute

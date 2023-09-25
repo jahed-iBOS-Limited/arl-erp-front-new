@@ -150,7 +150,8 @@ export default function InvoiceForOwner({
         </div>
         <div className="col-lg-6 headerWrapper">
           <div className="headerKey">DATE OF INVOICE :</div>
-          <div className="headerValue">{values?.transactionDate}</div>
+          <div className="headerValue">{values?.invoiceDate}</div>
+          {/* <div className="headerValue">{values?.transactionDate}</div> */}
         </div>
 
         <div className="col-lg-6 headerWrapper">
