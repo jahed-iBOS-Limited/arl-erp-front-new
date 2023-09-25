@@ -497,13 +497,18 @@ export default function ProjectedFinancialStatement() {
                         value={values?.enterpriseDivision}
                         label="Enterprise Division"
                         onChange={(valueOption) => {
-                          setFieldValue("enterpriseDivision", valueOption);
-                          getSubDivisionDDL(
-                            `/hcm/HCMDDL/GetBusinessUnitSubGroup?AccountId=1&BusinessUnitGroup=${valueOption?.label}`,
-                            (data) => {
-                              console.log("data", data);
-                            }
-                          );
+                          if (valueOption) {
+                            setFieldValue("enterpriseDivision", valueOption);
+                            setFieldValue("subDivision", "");
+                            setFieldValue("subDivisionBusinessUnit", "");
+                            getSubDivisionDDL(
+                              `/hcm/HCMDDL/GetBusinessUnitSubGroup?AccountId=1&BusinessUnitGroup=${valueOption?.label}`
+                            );
+                          } else {
+                            setFieldValue("enterpriseDivision", "");
+                            setFieldValue("subDivision", "");
+                            setFieldValue("subDivisionBusinessUnit", "");
+                          }
                         }}
                       />
                     </div>
@@ -514,9 +519,14 @@ export default function ProjectedFinancialStatement() {
                         value={values?.subDivision}
                         label="Sub Division"
                         onChange={(valueOption) => {
-                          setFieldValue("subDivision", valueOption);
-                          getBusinessUnitBySubDivisionDDL(`/hcm/HCMDDL/GetBusinessUnitByBusinessUnitGroupDDL?AccountId=${profileData?.accountId}&BusinessUnitGroup=${values?.enterpriseDivision?.value}&SubGroup=${valueOption?.value}
+                          if (valueOption) {
+                            setFieldValue("subDivision", valueOption);
+                            getBusinessUnitBySubDivisionDDL(`/hcm/HCMDDL/GetBusinessUnitByBusinessUnitGroupDDL?AccountId=${profileData?.accountId}&BusinessUnitGroup=${values?.enterpriseDivision?.value}&SubGroup=${valueOption?.value}
                           `);
+                          } else {
+                            setFieldValue("subDivision", "");
+                            setFieldValue("subDivisionBusinessUnit", "");
+                          }
                         }}
                       />
                     </div>
@@ -568,14 +578,19 @@ export default function ProjectedFinancialStatement() {
                         value={values?.enterpriseDivision}
                         label="Enterprise Division"
                         onChange={(valueOption) => {
-                          setFieldValue("enterpriseDivision", valueOption);
-                          getFiscalYearDDL(`/vat/TaxDDL/FiscalYearDDL`);
-                          getSubDivisionDDL(
-                            `/hcm/HCMDDL/GetBusinessUnitSubGroup?AccountId=1&BusinessUnitGroup=${valueOption?.label}`,
-                            (data) => {
-                              console.log("data", data);
-                            }
-                          );
+                          if (valueOption) {
+                            setFieldValue("enterpriseDivision", valueOption);
+                            setFieldValue("subDivision", "");
+                            setFieldValue("subDivisionBusinessUnit", "");
+                            getFiscalYearDDL(`/vat/TaxDDL/FiscalYearDDL`);
+                            getSubDivisionDDL(
+                              `/hcm/HCMDDL/GetBusinessUnitSubGroup?AccountId=1&BusinessUnitGroup=${valueOption?.label}`
+                            );
+                          } else {
+                            setFieldValue("enterpriseDivision", "");
+                            setFieldValue("subDivision", "");
+                            setFieldValue("subDivisionBusinessUnit", "");
+                          }
                         }}
                       />
                     </div>
@@ -586,9 +601,15 @@ export default function ProjectedFinancialStatement() {
                         value={values?.subDivision}
                         label="Sub Division"
                         onChange={(valueOption) => {
-                          setFieldValue("subDivision", valueOption);
-                          getBusinessUnitBySubDivisionDDL(`/hcm/HCMDDL/GetBusinessUnitByBusinessUnitGroupDDL?AccountId=${profileData?.accountId}&BusinessUnitGroup=${values?.enterpriseDivision?.value}&SubGroup=${valueOption?.value}
+                          if (valueOption) {
+                            setFieldValue("subDivision", valueOption);
+                            setFieldValue("subDivisionBusinessUnit", "");
+                            getBusinessUnitBySubDivisionDDL(`/hcm/HCMDDL/GetBusinessUnitByBusinessUnitGroupDDL?AccountId=${profileData?.accountId}&BusinessUnitGroup=${values?.enterpriseDivision?.value}&SubGroup=${valueOption?.value}
                           `);
+                          } else {
+                            setFieldValue("subDivision", "");
+                            setFieldValue("subDivisionBusinessUnit", "");
+                          }
                         }}
                       />
                     </div>
@@ -599,7 +620,14 @@ export default function ProjectedFinancialStatement() {
                         value={values?.subDivisionBusinessUnit}
                         label="Business Unit"
                         onChange={(valueOption) => {
-                          setFieldValue("subDivisionBusinessUnit", valueOption);
+                          if (valueOption) {
+                            setFieldValue(
+                              "subDivisionBusinessUnit",
+                              valueOption
+                            );
+                          } else {
+                            setFieldValue("subDivisionBusinessUnit", "");
+                          }
                         }}
                       />
                     </div>
