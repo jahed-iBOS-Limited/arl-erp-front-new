@@ -61,6 +61,9 @@ const initData = {
   strFineAggregate: "",
   strUsesOfCement: "",
   paymentMode: "",
+  transportType: "",
+  validityDays: "",
+  reachPrice: "",
 };
 
 export default function SalesQuotationForm({
@@ -308,6 +311,8 @@ export default function SalesQuotationForm({
             strUsesOfCement: values?.strUsesOfCement || "",
             strFineAggregate: values?.strFineAggregate || "",
             strCoraseAggregate: values?.strCoraseAggregate || "",
+            strTransportType: values?.transportType?.label,
+            intValidityDays: values?.validityDays,
           },
           objRow: objListRowDTO,
           objSpecRow: objSpecRow,
@@ -353,6 +358,7 @@ export default function SalesQuotationForm({
         height: values.height,
         uomName: values.uom.label,
         uom: values.uom.value,
+        numPriceWithTransport: values?.reachPrice,
       },
     ];
 

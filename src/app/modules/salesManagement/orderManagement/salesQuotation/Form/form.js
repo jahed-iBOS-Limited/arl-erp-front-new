@@ -244,15 +244,49 @@ export default function _Form({
                         />
                       </div>
                       <div className="col-lg-3">
-                        <label>Remarks</label>
                         <InputField
                           value={values?.remark || ""}
                           name="remark"
-                          placeholder="Remarks"
                           type="text"
+                          placeholder="Remarks"
+                          label="Remarks"
                           disabled={isEdit}
                         />
                       </div>
+                      {[4].includes(selectedBusinessUnit?.value) && (
+                        <>
+                          <div className="col-lg-3">
+                            <InputField
+                              value={values?.validityDays || ""}
+                              name="validityDays"
+                              type="text"
+                              placeholder="Validity Days"
+                              label="Validity Days"
+                              disabled={isEdit}
+                            />
+                          </div>
+                          <div className="col-lg-3">
+                            <NewSelect
+                              name="transportType"
+                              options={[
+                                { value: 1, label: "Truck" },
+                                { value: 2, label: "Troller" },
+                                { value: 3, label: "Bulk" },
+                              ]}
+                              value={values?.transportType}
+                              label="Transport Type"
+                              onChange={(valueOption) => {
+                                setFieldValue("transportType", valueOption);
+                              }}
+                              placeholder="Transport Type"
+                              errors={errors}
+                              touched={touched}
+                              isDisabled={isEdit}
+                            />
+                          </div>
+                        </>
+                      )}
+
                       {/* Akij Poly Fibre Industries Ltd. ===8 */}
                       {[8].includes(selectedBusinessUnit?.value) && (
                         <>
@@ -490,6 +524,19 @@ export default function _Form({
                       />
                     </div>
 
+                    {[4].includes(selectedBusinessUnit?.value) && (
+                      <div className="col-lg-3">
+                        <InputField
+                          label="Reach Price"
+                          value={values?.reachPrice || ""}
+                          name="reachPrice"
+                          placeholder="Reach Price"
+                          type="text"
+                          disabled={isEdit}
+                        />
+                      </div>
+                    )}
+
                     <div className="col-lg-3">
                       <NewSelect
                         label="Item UoM"
@@ -549,6 +596,7 @@ export default function _Form({
                             setFieldValue("itemList", "");
                             setFieldValue("quantity", "");
                             setFieldValue("price", "");
+                            setFieldValue("reachPrice", "");
                             setFieldValue("uom", "");
                           }}
                         >
