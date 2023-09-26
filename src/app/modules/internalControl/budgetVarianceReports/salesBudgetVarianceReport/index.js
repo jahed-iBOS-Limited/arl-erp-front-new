@@ -61,6 +61,7 @@ const BudgetVsSalesVarient = () => {
                             getProfitCenterDDL(
                               valueOption?.value,
                               (profitCenterDDLData) => {
+                                console.log(profitCenterDDLData);
                                 setProfitCenterDDL(profitCenterDDLData);
                                 setFieldValue(
                                   "profitCenter",
