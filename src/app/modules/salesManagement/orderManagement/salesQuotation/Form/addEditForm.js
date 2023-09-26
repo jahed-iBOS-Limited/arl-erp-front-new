@@ -73,6 +73,7 @@ export default function SalesQuotationForm({
   },
 }) {
   const printRef = useRef();
+  const dispatch = useDispatch();
   const [isDisabled, setDisabled] = useState(false);
   const [objProps, setObjprops] = useState({});
   const [rowDto, setRowDto] = useState([]);
@@ -83,56 +84,27 @@ export default function SalesQuotationForm({
   const [total, setTotal] = useState({ totalQty: 0, totalAmount: 0 });
   const quationCodeForEditPageTitle = history?.location?.state?.quotationCode;
   const [currencyDDL, getCurrencyDDL, currencyDDLloader] = useAxiosGet();
-  // get user profile data from store
-  const profileData = useSelector((state) => {
-    return state.authData.profileData;
-  }, shallowEqual);
 
-  // get selected business unit from store
-  const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit;
-  }, shallowEqual);
+  // get user profile data from store
+  const {
+    profileData: { accountId: accId, userId },
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => state.authData, shallowEqual);
 
   // get single controlling  unit from store
-  const singleData = useSelector((state) => {
-    return state.salesQuotation?.singleData;
-  }, shallowEqual);
-  // sales org ddl
-  const salesOrg = useSelector((state) => {
-    return state.salesQuotation?.salesOrg;
-  }, shallowEqual);
+  const {
+    singleData,
+    salesOrg,
+    soldToParty,
+    setSpction: spctionDDL,
+  } = useSelector((state) => state?.salesQuotation, shallowEqual);
 
-  // sold to party ddl
-  const soldToParty = useSelector((state) => {
-    return state.salesQuotation?.soldToParty;
-  }, shallowEqual);
-
-  // sold to party ddl
-  const spctionDDL = useSelector((state) => {
-    return state.salesQuotation?.setSpction;
-  }, shallowEqual);
-
-  // channel ddl
-  const channel = useSelector((state) => {
-    return state.commonDDL?.distributionChannelDDL;
-  }, shallowEqual);
-
-  // salesOffice ddl
-  const salesOffice = useSelector((state) => {
-    return state.commonDDL?.salesOfficeDDL;
-  }, shallowEqual);
-
-  // item sale ddl
-  const itemSalesDDL = useSelector((state) => {
-    return state.commonDDL?.itemSaleDDL;
-  }, shallowEqual);
-
-  // item uom ddl
-  const uomDDL = useSelector((state) => {
-    return state.commonDDL?.uomDDL;
-  }, shallowEqual);
-
-  const dispatch = useDispatch();
+  const {
+    distributionChannelDDL: channel,
+    salesOfficeDDL: salesOffice,
+    itemSaleDDL: itemSalesDDL,
+    uomDDL,
+  } = useSelector((state) => state?.commonDDL, shallowEqual);
 
   useEffect(() => {
     getCurrencyDDL(`/domain/Purchase/GetBaseCurrencyList`);
@@ -159,45 +131,25 @@ export default function SalesQuotationForm({
   }, [singleData]);
 
   const salesOfficeDDLDispatcher = (salesOrgId) => {
-    dispatch(
-      getSalesOfficeDDLAction(
-        profileData.accountId,
-        selectedBusinessUnit.value,
-        salesOrgId
-      )
-    );
+    dispatch(getSalesOfficeDDLAction(accId, buId, salesOrgId));
   };
 
   useEffect(() => {
-    if (selectedBusinessUnit?.value && profileData?.accountId) {
-      dispatch(
-        getDistributionChannelDDLAction(
-          profileData.accountId,
-          selectedBusinessUnit.value
-        )
-      );
-      dispatch(
-        getItemSaleDDLAction(profileData.accountId, selectedBusinessUnit.value)
-      );
-      dispatch(
-        getSalesOrgDDLAction(profileData.accountId, selectedBusinessUnit.value)
-      );
-      dispatch(
-        getSoldToPartyDDLAction(
-          profileData.accountId,
-          selectedBusinessUnit.value
-        )
-      );
-      dispatch(getSpecificationDDLAction(selectedBusinessUnit?.value));
+    if (buId && accId) {
+      dispatch(getDistributionChannelDDLAction(accId, buId));
+      dispatch(getItemSaleDDLAction(accId, buId));
+      dispatch(getSalesOrgDDLAction(accId, buId));
+      dispatch(getSoldToPartyDDLAction(accId, buId));
+      dispatch(getSpecificationDDLAction(buId));
     }
-  }, [selectedBusinessUnit, profileData]);
+  }, [buId, accId]);
 
   const saveHandler = async (values, cb) => {
-    if (values && profileData?.accountId && selectedBusinessUnit?.value) {
+    if (values && accId && buId) {
       if (id) {
         const objListRowDTO = rowDto.map((itm, index) => {
           return {
-            businessUnitId: selectedBusinessUnit.value,
+            businessUnitId: buId,
             sequenceNo: ++index,
             ...itm,
             rowId: itm?.rowId || 0,
@@ -207,19 +159,17 @@ export default function SalesQuotationForm({
         const objSpecRow = specRowDto.map((itm) => {
           return {
             ...itm,
-            actionBy: profileData.userId,
+            actionBy: userId,
             quotationDetailsRowId: itm.quotationDetailsRowId || 0,
-            value: [8].includes(selectedBusinessUnit.value) ? 0 : itm.value,
-            narration: [8].includes(selectedBusinessUnit.value)
-              ? itm.value
-              : itm.narration,
+            value: [8].includes(buId) ? 0 : itm.value,
+            narration: [8].includes(buId) ? itm.value : itm.narration,
           };
         });
         const payload = {
           objHeader: {
             quotationId: values.quotationId,
-            accountId: profileData.accountId,
-            businessUnitId: selectedBusinessUnit.value,
+            accountId: accId,
+            businessUnitId: buId,
             salesOrganizationId: values.salesOrg.value,
             salesOfficeId: values.salesOffice.value,
             salesOfficeName: values.salesOffice.label,
@@ -229,7 +179,7 @@ export default function SalesQuotationForm({
             soldToPartnerId: values.soldtoParty.value,
             totalQuotationValue: total.totalAmount,
             totalQuotationQty: total.totalQty,
-            actionBy: profileData.userId,
+            actionBy: userId,
             quotationEndDate: values?.quotationEndDate,
             remark: values?.remark || "",
             // changes by monir bhai
@@ -263,7 +213,7 @@ export default function SalesQuotationForm({
       } else {
         const objListRowDTO = rowDto.map((itm, index) => {
           return {
-            businessUnitId: selectedBusinessUnit.value,
+            businessUnitId: buId,
             sequenceNo: ++index,
             ...itm,
           };
@@ -271,17 +221,15 @@ export default function SalesQuotationForm({
         const objSpecRow = specRowDto.map((itm) => {
           return {
             ...itm,
-            actionBy: profileData.userId,
-            value: [8].includes(selectedBusinessUnit.value) ? 0 : itm.value,
-            narration: [8].includes(selectedBusinessUnit.value)
-              ? itm.value
-              : itm.narration,
+            actionBy: userId,
+            value: [8].includes(buId) ? 0 : itm.value,
+            narration: [8].includes(buId) ? itm.value : itm.narration,
           };
         });
         const payload = {
           objHeader: {
-            accountId: profileData.accountId,
-            businessUnitId: selectedBusinessUnit.value,
+            accountId: accId,
+            businessUnitId: buId,
             salesOrganizationId: values.salesOrg.value,
             salesOfficeId: values.salesOffice.value,
             salesOfficeName: values.salesOffice.label,
@@ -291,7 +239,7 @@ export default function SalesQuotationForm({
             soldToPartnerId: values.soldtoParty.value,
             totalQuotationValue: total.totalAmount,
             totalQuotationQty: total.totalQty,
-            actionBy: profileData.userId,
+            actionBy: userId,
             quotationEndDate: values?.quotationEndDate,
             remark: values?.remark || "",
             // changes by monir bhai
@@ -307,12 +255,15 @@ export default function SalesQuotationForm({
             currencyPrice: 0,
             currencyValue: values?.currency?.value || "",
             currencyRateBdt: values.price || "",
-            paymentMode: values?.paymentMode || "",
+            paymentMode:
+              buId === 4
+                ? values?.paymentMode?.label
+                : values?.paymentMode || "",
             strUsesOfCement: values?.strUsesOfCement || "",
             strFineAggregate: values?.strFineAggregate || "",
             strCoraseAggregate: values?.strCoraseAggregate || "",
-            strTransportType: values?.transportType?.label,
-            intValidityDays: values?.validityDays,
+            transportType: values?.transportType?.label,
+            validityDays: values?.validityDays,
           },
           objRow: objListRowDTO,
           objSpecRow: objSpecRow,
@@ -413,14 +364,7 @@ export default function SalesQuotationForm({
   //onChange itemListHandelar
   const itemListHandelar = (currentValue, setFieldValue) => {
     setSpecTableData([]);
-    dispatch(
-      getUomDDLItemId_Action(
-        profileData.accountId,
-        selectedBusinessUnit.value,
-        currentValue,
-        setFieldValue
-      )
-    );
+    dispatch(getUomDDLItemId_Action(accId, buId, currentValue, setFieldValue));
   };
 
   //Dispatch single data action and empty single data for create
@@ -431,14 +375,7 @@ export default function SalesQuotationForm({
   }, []);
 
   const quotationClosedFunc = () => {
-    dispatch(
-      editSalesQuotationStatusAction(
-        +id,
-        profileData?.userId,
-        setDisabled,
-        history
-      )
-    );
+    dispatch(editSalesQuotationStatusAction(+id, userId, setDisabled, history));
   };
 
   return (
@@ -456,8 +393,7 @@ export default function SalesQuotationForm({
         {...objProps}
         initData={singleData?.objHeader || initData}
         saveHandler={saveHandler}
-        accountId={profileData?.accountId}
-        selectedBusinessUnit={selectedBusinessUnit}
+        buId={buId}
         isEdit={id || false}
         salesOfficeDDLDispatcher={salesOfficeDDLDispatcher}
         salesOrg={salesOrg}
@@ -481,7 +417,7 @@ export default function SalesQuotationForm({
         objTerms={objTerms}
         setObjTerms={setObjTerms}
         currencyDDL={currencyDDL}
-        profileData={profileData}
+        userId={userId}
         printRef={printRef}
       />
     </IForm>
