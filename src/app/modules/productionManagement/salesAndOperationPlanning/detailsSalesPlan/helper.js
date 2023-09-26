@@ -35,7 +35,7 @@ export const getSalesPlanLanding = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `/mes/SalesPlanning/SalesPlanningLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&plantId=${plantId}&Year=${year}&PageNo=1&PageSize=100&viewOrder=desc`
+      `/mes/SalesPlanning/PurchasePlanningLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&plantId=${plantId}&Year=${year}&PageNo=1&PageSize=100&viewOrder=desc`
     );
     setLoading(false);
     setter(res?.data?.data);
