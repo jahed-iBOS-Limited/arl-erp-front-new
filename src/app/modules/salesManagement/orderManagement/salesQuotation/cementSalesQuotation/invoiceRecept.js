@@ -11,7 +11,7 @@ const SalesQuotationForCement = ({
 }) => {
   console.log(invoiceData, businessPartnerInfo, "print");
   const {
-    profileData: { employeeFullName, designationName },
+    // profileData: { employeeFullName, designationName },
     selectedBusinessUnit: { imageId },
   } = useSelector((state) => {
     return state?.authData;
@@ -119,8 +119,8 @@ const SalesQuotationForCement = ({
                   <td className="text-center">{item?.itemName}</td>
                   <td className="text-center">{item?.uomName}</td>
                   <td className="text-center">{item?.transportTypeName}</td>
-                  <td className="text-center">{item?.itemPrice}</td>
                   <td className="text-center">{item?.numPriceWithTransport}</td>
+                  <td className="text-center">{item?.itemPrice}</td>
                   <td className="text-center">{item?.remarks}</td>
                 </tr>
               );
@@ -139,7 +139,8 @@ const SalesQuotationForCement = ({
             </p>
             <p>
               <span>Credit Days </span>
-              30 days from the date of delivery of each consignment
+              {invoiceData?.[0]?.intlimitdays} days from the date of delivery of
+              each consignment
             </p>
             <p>
               <span>Credit backup </span>
@@ -147,7 +148,7 @@ const SalesQuotationForCement = ({
             </p>
             <p>
               <span>Credit Limit </span>
-              500000/1000000 (Editable)
+              500000/1000000
             </p>
             <p>
               <span>Time of Delivery </span>
@@ -160,7 +161,8 @@ const SalesQuotationForCement = ({
             </p>
             <p>
               <span>Validity of offer </span>
-              1/7/10 days from the date price offer issued. (Editable) Pcs
+              {invoiceData?.[0]?.validityDays} days from the date price offer
+              issued.
             </p>
           </div>
         </div>
@@ -193,16 +195,22 @@ const SalesQuotationForCement = ({
             to assist you and discuss any specific requirements you may need.
           </p>
         </div>
-        <div className="mb-5">
+        {/* <div className="mb-5">
           <p>On behalf of Akij Cement Company Ltd.</p>
-        </div>
+        </div> */}
       </div>
 
       {/* <p className="bold mt-2 mb-2">Thanking you,</p> */}
 
-      <p className="bold mt-7"> {`(${employeeFullName})`} </p>
+      <div className="mt-5 pt-5 text-center">
+        <p className="mt-5 pt-5">
+          This is an automatically generated price quotation, no signature is
+          required.
+        </p>
+      </div>
+      {/* <p className="bold mt-7"> {`(${employeeFullName})`} </p>
       <p> {designationName} </p>
-      <p> Akij Cement Company Limited </p>
+      <p> Akij Cement Company Limited </p> */}
     </div>
   );
 };
