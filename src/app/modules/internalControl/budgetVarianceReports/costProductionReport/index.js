@@ -74,7 +74,7 @@ function CostOfProductionReport() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Cost Of Production"}>
+              <CardHeader title={"Cost Of Production Variance Report"}>
                 <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>

@@ -85,7 +85,7 @@ export default function DistributionQtyVariance() {
             territoryLoading ||
             tableDataLoader) && <Loading />}
           <IForm
-            title="Distribution Quantity Variance"
+            title="Distribution Quantity Variance Report"
             isHiddenReset
             isHiddenBack
             isHiddenSave
