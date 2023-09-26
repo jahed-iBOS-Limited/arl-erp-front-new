@@ -19,6 +19,7 @@ import "./style.css";
 const initData = {
   monthYear: "",
   currentBusinessUnit: "",
+  consumptionType: "",
 };
 
 function MaterialConsumptionVarianceReport() {
@@ -40,7 +41,7 @@ function MaterialConsumptionVarianceReport() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Material Consumption Variance"}>
+              <CardHeader title={"Material Consumption Variance Report"}>
                 <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>
@@ -67,6 +68,30 @@ function MaterialConsumptionVarianceReport() {
                     />
                   </div>
                   <div className="col-lg-3">
+                    <NewSelect
+                      name="consumptionType"
+                      options={[
+                        { value: 1, label: "BOM wise" },
+                        { value: 2, label: "Item wise" },
+                      ]}
+                      value={values?.consumptionType}
+                      label="Consumption Type"
+                      onChange={(valueOption) => {
+                        if (valueOption) {
+                          setFieldValue("consumptionType", valueOption);
+                          setRowDto([]);
+                        } else {
+                          setRowDto([]);
+                          setFieldValue("consumptionType", "");
+                        }
+                      }}
+                      placeholder="Consumption Type"
+                      errors={errors}
+                      touched={touched}
+                      required={true}
+                    />
+                  </div>
+                  <div className="col-lg-3">
                     <label>Month-Year</label>
                     <InputField
                       value={values?.monthYear}
@@ -83,12 +108,18 @@ function MaterialConsumptionVarianceReport() {
                       style={{ marginTop: "18px" }}
                       type="button"
                       class="btn btn-primary"
-                      disabled={!values?.monthYear}
+                      disabled={
+                        !values?.monthYear ||
+                        !values?.currentBusinessUnit ||
+                        !values?.consumptionType.value
+                      }
                       onClick={() => {
                         getRowDto(
                           `/fino/Report/GetRawMaterialConsumptionVarianceReport?intBusinessUnitId=${
                             values?.currentBusinessUnit?.value
-                          }&fromDate=${`${values?.monthYear}-01`}&toDate=${`${values?.monthYear}-01`}`,
+                          }&fromDate=${`${values?.monthYear}-01`}&toDate=${`${values?.monthYear}-01`}&ConsumptionTypeId=${
+                            values?.consumptionType.value
+                          }`,
                           (data) => {
                             let sl = 0;
                             let arr = [];
@@ -117,8 +148,10 @@ function MaterialConsumptionVarianceReport() {
                     <table className="table table-striped table-bordered bj-table bj-table-landing material-consumption-variance">
                       <thead>
                         <tr>
-                          <th>FG Item</th>
-                          <th>FG Item Budget[UoM]</th>
+                          {values?.consumptionType.value === 1 && <th>FG Item</th>}
+                          {values?.consumptionType.value === 1 && (
+                            <th>FG Item Budget[UoM]</th>
+                          )}
                           <th>Material Name</th>
                           <th>UOM</th>
                           <th>Budget Consumption per unit</th>
@@ -132,15 +165,20 @@ function MaterialConsumptionVarianceReport() {
                             <tr key={index}>
                               {item?.isShow ? (
                                 <>
-                                  <td rowSpan={item?.intSectionCount}>
-                                    {item?.fgItemName}
-                                  </td>
-                                  <td
+                                  {values?.consumptionType.value === 1 && (
+                                    <td rowSpan={item?.intSectionCount}>
+                                      {item?.fgItemName}
+                                    </td>
+                                  )}
+                                  {values?.consumptionType.value === 1 && (
+                                    <td
                                     className="text-center"
                                     rowSpan={item?.intSectionCount}
                                   >
                                     {item?.fgItemBudgetWithUom}
                                   </td>
+                                  )}
+                                 
                                 </>
                               ) : null}
                               <td

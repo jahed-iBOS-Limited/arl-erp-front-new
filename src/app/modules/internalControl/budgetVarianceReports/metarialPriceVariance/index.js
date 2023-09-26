@@ -45,13 +45,6 @@ function MaterialPriceVariance() {
     );
   };
 
-  // useEffect(() => {
-  //   if (selectedBusinessUnit?.value && initData?.monthYear) {
-  //     getData(initData);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [selectedBusinessUnit]);
-
   return (
     <>
       <Formik
@@ -63,7 +56,7 @@ function MaterialPriceVariance() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Material Price Variance"}>
+              <CardHeader title={"Material Price Variance Report"}>
                 <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>

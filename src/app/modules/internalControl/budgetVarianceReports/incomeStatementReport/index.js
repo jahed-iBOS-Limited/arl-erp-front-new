@@ -4,14 +4,18 @@ import React, { useEffect, useRef, useState } from "react";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import ReactToPrint from "react-to-print";
-import { Card, CardBody, CardHeader, CardHeaderToolbar, ModalProgressBar } from "../../../../../_metronic/_partials/controls";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  CardHeaderToolbar,
+  ModalProgressBar,
+} from "../../../../../_metronic/_partials/controls";
 
 import { _dateFormatter } from "../../../_helper/_dateFormate";
-import {
-    fromDateFromApiNew,
-} from "../../../_helper/_formDateFromApi";
-import { _formatMoney } from "../../../_helper/_formatMoney";
+import { fromDateFromApiNew } from "../../../_helper/_formDateFromApi";
 import Loading from "../../../_helper/_loading";
+import numberWithCommas from "../../../_helper/_numberWithCommas";
 import NewSelect from "../../../_helper/_select";
 import { _todayDate } from "../../../_helper/_todayDate";
 import IViewModal from "../../../_helper/_viewModal";
@@ -22,10 +26,10 @@ import { SetReportIncomestatementAction } from "../../../_helper/reduxForLocalSt
 import InputField from "./../../../_helper/_inputField";
 import GeneralLedgerModalForIncomeStatement from "./generalLedgerModal";
 import {
-    getBusinessDDLByED,
-    getEnterpriseDivisionDDL,
-    getIncomeStatement_api,
-    getProfitCenterDDL,
+  getBusinessDDLByED,
+  getEnterpriseDivisionDDL,
+  getIncomeStatement_api,
+  getProfitCenterDDL,
 } from "./helper";
 import StatisticalDetails from "./statisticalDetalis";
 
@@ -150,7 +154,7 @@ export function IncomeStatementReport() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Income Statement Report"}>
+              <CardHeader title={"Income Statement Variance Report"}>
                 <CardHeaderToolbar>
                   <ReactHTMLTableToExcel
                     id="test-table-xls-button-att-reports"
@@ -570,8 +574,8 @@ export function IncomeStatementReport() {
                                       <td></td>
 
                                       <td className="text-right">
-                                        {_formatMoney(
-                                          data?.monLastPeriodAmount
+                                        {numberWithCommas(
+                                          data?.monLastPeriodAmount.toFixed(2)
                                         )}
                                       </td>
                                       <td
@@ -603,15 +607,18 @@ export function IncomeStatementReport() {
                                           }}
                                         >
                                           {" "}
-                                          {_formatMoney(
-                                            data?.monCurrentPeriodAmount
+                                          {numberWithCommas(
+                                            data?.monCurrentPeriodAmount.toFixed(
+                                              2
+                                            )
                                           )}
                                         </span>
                                       </td>
                                       <td className="text-right">
-                                        {_formatMoney(
-                                          data?.monLastPeriodAmount -
-                                            data?.monCurrentPeriodAmount
+                                        {numberWithCommas(
+                                          data?.monCurrentPeriodAmount.toFixed(
+                                            2
+                                          )
                                         )}
                                       </td>
                                     </tr>
