@@ -2,19 +2,18 @@ import { Formik } from "formik";
 import React, { useEffect } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import {
-    Card,
-    CardBody,
-    CardHeader,
-    CardHeaderToolbar,
-    ModalProgressBar,
+  Card,
+  CardBody,
+  CardHeader,
+  CardHeaderToolbar,
+  ModalProgressBar,
 } from "../../../../../_metronic/_partials/controls";
 import { _formatMoney } from "../../../_helper/_formatMoney";
 import InputField from "../../../_helper/_inputField";
 
 import Loading from "../../../_helper/_loading";
-import {
-    _getCurrentMonthYearForInput
-} from "../../../_helper/_todayDate";
+import NewSelect from "../../../_helper/_select";
+import { _getCurrentMonthYearForInput } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import "./style.css";
 
@@ -22,12 +21,13 @@ const initData = {
   // fromDate: _todayDate(),
   // toDate: _todayDate(),
   monthYear: _getCurrentMonthYearForInput(),
+  currentBusinessUnit: "",
 };
 
 function CostOfProductionReport() {
   const [rowDto, getRowDto, loading, setRowDto] = useAxiosGet();
-  const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit;
+  const businessUnitList = useSelector((state) => {
+    return state.authData.businessUnitList;
   }, shallowEqual);
 
   const getData = (values) => {
@@ -38,7 +38,7 @@ function CostOfProductionReport() {
     const formattedEndDate = endDate.toISOString().split("T")[0];
 
     getRowDto(
-      `/fino/Report/GetMachineWiseCostOfProduction?intBusinessUnitId=${selectedBusinessUnit?.value}&fromDate=${formattedStartDate}&toDate=${formattedEndDate}`,
+      `/fino/Report/GetMachineWiseCostOfProduction?intBusinessUnitId=${values?.currentBusinessUnit?.value}&fromDate=${formattedStartDate}&toDate=${formattedEndDate}`,
       (data) => {
         let sl = 0;
         let arr = [];
@@ -59,7 +59,7 @@ function CostOfProductionReport() {
 
   useEffect(() => {
     getData(initData);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -80,30 +80,26 @@ function CostOfProductionReport() {
               <CardBody>
                 {loading && <Loading />}
                 <div className="global-form row">
-                  {/* <div className="col-lg-3">
-                    <label>From Date</label>
-                    <InputField
-                      value={values?.fromDate}
-                      name="fromDate"
-                      placeholder="From Date"
-                      type="date"
-                      onChange={(e) => {
-                        setFieldValue("fromDate", e?.target?.value);
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="currentBusinessUnit"
+                      options={businessUnitList}
+                      value={values?.currentBusinessUnit}
+                      label="Business Unit"
+                      onChange={(valueOption) => {
+                        if (valueOption) {
+                          setFieldValue("currentBusinessUnit", valueOption);
+                          setRowDto([]);
+                        } else {
+                          setRowDto([]);
+                        }
                       }}
+                      placeholder="Business Unit"
+                      errors={errors}
+                      touched={touched}
+                      required={true}
                     />
-                  </div> */}
-                  {/* <div className="col-lg-3">
-                    <label>To Date</label>
-                    <InputField
-                      value={values?.toDate}
-                      name="toDate"
-                      placeholder="To Date"
-                      type="date"
-                      onChange={(e) => {
-                        setFieldValue("toDate", e?.target?.value);
-                      }}
-                    />
-                  </div> */}
+                  </div>
                   <div className="col-lg-3">
                     <label>Month-Year</label>
                     <InputField
