@@ -41,7 +41,7 @@ function MaterialConsumptionVarianceReport() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Material Consumption Variance"}>
+              <CardHeader title={"Material Consumption Variance Report"}>
                 <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>

@@ -39,16 +39,9 @@ export default function DistributionRateVariance() {
     return state.authData.businessUnitList;
   }, shallowEqual);
 
-  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+  const { profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
-
-  // useEffect(() => {
-  //   getChannelDDL(
-  //     `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}`
-  //   );
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [profileData, selectedBusinessUnit]);
 
   const getData = (values) => {
     const [year, month] = values?.monthYear.split("-").map(Number);
@@ -86,7 +79,7 @@ export default function DistributionRateVariance() {
             territoryLoading ||
             tableDataLoader) && <Loading />}
           <IForm
-            title="Distribution Rate Variance"
+            title="Distribution Rate Variance Report"
             isHiddenReset
             isHiddenBack
             isHiddenSave
