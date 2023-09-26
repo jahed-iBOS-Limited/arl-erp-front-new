@@ -63,7 +63,7 @@ const initData = {
   paymentMode: "",
   transportType: "",
   validityDays: "",
-  reachPrice: "",
+  exFactoryPrice: "",
 };
 
 export default function SalesQuotationForm({
@@ -358,7 +358,7 @@ export default function SalesQuotationForm({
         height: values.height,
         uomName: values.uom.label,
         uom: values.uom.value,
-        numPriceWithTransport: values?.reachPrice,
+        numPriceWithTransport: values?.exFactoryPrice,
       },
     ];
 
