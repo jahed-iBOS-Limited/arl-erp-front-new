@@ -1,32 +1,33 @@
-
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Formik } from "formik";
-import React, { useEffect } from "react";
+import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import {
-    Card,
-    CardBody,
-    CardHeader,
-    CardHeaderToolbar,
-    ModalProgressBar,
+  Card,
+  CardBody,
+  CardHeader,
+  CardHeaderToolbar,
+  ModalProgressBar,
 } from "../../../../../_metronic/_partials/controls";
-import { _formatMoney } from "../../../_helper/_formatMoney";
 import InputField from "../../../_helper/_inputField";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 
 import Loading from "../../../_helper/_loading";
+import numberWithCommas from "../../../_helper/_numberWithCommas";
+import NewSelect from "../../../_helper/_select";
 import { _getCurrentMonthYearForInput } from "../../../_helper/_todayDate";
 // import { fromDateFromApi } from "../../../_helper/_formDateFromApi";
 
 const initData = {
   monthYear: _getCurrentMonthYearForInput(),
+  currentBusinessUnit: "",
 };
 function MaterialPriceVariance() {
   const [rowDto, getRowDto, rowDtoLoader, setrowDto] = useAxiosGet();
   // const [fromDateFApi, setFromDateFApi] = useState("");
 
-  const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit;
+  const businessUnitList = useSelector((state) => {
+    return state.authData.businessUnitList;
   }, shallowEqual);
 
   // useEffect(() => {
@@ -40,16 +41,16 @@ function MaterialPriceVariance() {
     const formattedStartDate = startDate.toISOString().split("T")[0];
     const formattedEndDate = endDate.toISOString().split("T")[0];
     getRowDto(
-      `/fino/Report/GetRawMaterialPriceVarianceReport?intUnitId=${selectedBusinessUnit?.value}&fromDate=${formattedStartDate}&toDate=${formattedEndDate}`
+      `/fino/Report/GetRawMaterialPriceVarianceReport?intUnitId=${values?.currentBusinessUnit?.value}&fromDate=${formattedStartDate}&toDate=${formattedEndDate}`
     );
   };
 
-  useEffect(() => {
-    if (selectedBusinessUnit?.value && initData?.monthYear) {
-      getData(initData);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedBusinessUnit]);
+  // useEffect(() => {
+  //   if (selectedBusinessUnit?.value && initData?.monthYear) {
+  //     getData(initData);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [selectedBusinessUnit]);
 
   return (
     <>
@@ -68,6 +69,26 @@ function MaterialPriceVariance() {
               <CardBody>
                 {rowDtoLoader && <Loading />}
                 <div className="global-form row">
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="currentBusinessUnit"
+                      options={businessUnitList}
+                      value={values?.currentBusinessUnit}
+                      label="Business Unit"
+                      onChange={(valueOption) => {
+                        if (valueOption) {
+                          setFieldValue("currentBusinessUnit", valueOption);
+                          setrowDto([]);
+                        } else {
+                          setrowDto([]);
+                        }
+                      }}
+                      placeholder="Business Unit"
+                      errors={errors}
+                      touched={touched}
+                      required={true}
+                    />
+                  </div>
                   <div className="col-lg-3">
                     <label>Month-Year</label>
                     <InputField
@@ -117,13 +138,13 @@ function MaterialPriceVariance() {
                               <td>{item?.ItemName}</td>
                               <td>{item?.UoM}</td>
                               <td className="text-right">
-                                {_formatMoney(item?.BudgetPrice)}
+                                {numberWithCommas(item?.BudgetPrice.toFixed(2))}
                               </td>
                               <td className="text-right">
-                                {_formatMoney(item?.ActualPrice)}
+                                {numberWithCommas(item?.ActualPrice.toFixed(2))}
                               </td>
                               <td className="text-right">
-                                {_formatMoney(item?.Variance)}
+                                {numberWithCommas(item?.Variance.toFixed(2))}
                               </td>
                             </tr>
                           ))}

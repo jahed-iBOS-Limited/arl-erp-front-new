@@ -1,25 +1,29 @@
 import { Formik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import {
-    Card,
-    CardBody,
-    CardHeader,
-    ModalProgressBar,
+  Card,
+  CardBody,
+  CardHeader,
+  ModalProgressBar,
 } from "../../../../../_metronic/_partials/controls";
+import { _formatMoney } from "../../../_helper/_formatMoney";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { getProfitCenterDDL } from "./helper";
 
 const initData = {
   month: "",
   monthId: "",
   yearId: "",
   currentBusinessUnit: "",
+  profitCenter:""
 };
 const BudgetVsSalesVarient = () => {
   const [rowData, getRowData, lodar, setRowData] = useAxiosGet();
+  const [profitCenterDDL, setProfitCenterDDL] = useState([]);
   const businessUnitList = useSelector((state) => {
     return state.authData.businessUnitList;
   }, shallowEqual);
@@ -41,7 +45,7 @@ const BudgetVsSalesVarient = () => {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Budget vs Sales Variance"}></CardHeader>
+              <CardHeader title={"Sales Variance Report"}></CardHeader>
               <CardBody>
                 {lodar && <Loading />}
                 <div className="form-group  global-form">
@@ -53,14 +57,23 @@ const BudgetVsSalesVarient = () => {
                         value={values?.currentBusinessUnit}
                         label="Business Unit"
                         onChange={(valueOption) => {
+                          if (valueOption?.value >= 0) {
+                            getProfitCenterDDL(
+                              valueOption?.value,
+                              (profitCenterDDLData) => {
+                                setProfitCenterDDL(profitCenterDDLData);
+                                setFieldValue(
+                                  "profitCenter",
+                                  profitCenterDDLData?.[1] || ""
+                                );
+                              }
+                            );
+                          }
                           if (valueOption) {
                             setFieldValue("currentBusinessUnit", valueOption);
                             setRowData([]);
                           } else {
                             setFieldValue("currentBusinessUnit", "");
-                            setFieldValue("yearId", "");
-                            setFieldValue("monthId", "");
-                            setFieldValue("month", "");
                             setRowData([]);
                           }
                         }}
@@ -68,6 +81,19 @@ const BudgetVsSalesVarient = () => {
                         errors={errors}
                         touched={touched}
                         required={true}
+                      />
+                    </div>
+                    {console.log(values)}
+                    <div className="col-md-3">
+                      <NewSelect
+                        name="profitCenter"
+                        options={profitCenterDDL || []}
+                        value={values?.profitCenter}
+                        label="Profit Center"
+                        onChange={(valueOption) => {
+                          setFieldValue("profitCenter", valueOption);
+                        }}
+                        placeholder="Profit Center"
                       />
                     </div>
                     <div className="col-lg-3">
@@ -104,11 +130,11 @@ const BudgetVsSalesVarient = () => {
                         style={{ marginTop: "20px" }}
                         className="btn btn-primary ml-2"
                         disabled={
-                          !values?.currentBusinessUnit || !values?.month
+                          !values?.currentBusinessUnit || !values?.month || !values?.profitCenter
                         }
                         onClick={() => {
                           getRowData(
-                            `/fino/CostSheet/BudgetVSSalesVarienceReport?Unitid=${values.currentBusinessUnit.value}&YearId=${values.yearId}&MonthId=${values.monthId}`
+                            `/fino/CostSheet/BudgetVSSalesVarienceReport?Unitid=${values.currentBusinessUnit.value}&YearId=${values.yearId}&MonthId=${values.monthId}&ProfitCenterId=${values?.profitCenter?.value}`
                           );
                         }}
                       >
@@ -161,26 +187,26 @@ const BudgetVsSalesVarient = () => {
                               <td>{item?.strUomName}</td>
 
                               <td className="text-center">
-                                {item?.numBudgetQty.toFixed(2)}
+                                {_formatMoney(item?.numBudgetQty.toFixed(2))}
                               </td>
                               <td className="text-center">
-                                {item?.numSalesQty.toFixed(2)}
+                                {_formatMoney(item?.numSalesQty.toFixed(2))}
                               </td>
                               <td className="text-center">
-                                {item?.varianceQnt.toFixed(2)}
+                                {_formatMoney(item?.varianceQnt.toFixed(2))}
                               </td>
                               <td className="text-center">
                                 {item?.numVarienceQtyPercentate?.toFixed(2)}
                               </td>
 
                               <td className="text-center">
-                                {item?.numBudgetValue.toFixed(2)}
+                                {_formatMoney(item?.numBudgetValue.toFixed(2))}
                               </td>
                               <td className="text-center">
-                                {item?.numSalesValue.toFixed(2)}
+                                {_formatMoney(item?.numSalesValue.toFixed(2))}
                               </td>
                               <td className="text-center">
-                                {item?.varianceValues.toFixed(2)}
+                                {_formatMoney(item?.varianceValues.toFixed(2))}
                               </td>
                               <td className="text-center">
                                 {item?.numVarienceValuePercentate?.toFixed(2)}

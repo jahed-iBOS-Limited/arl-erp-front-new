@@ -1,9 +1,10 @@
 import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
+import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
+import numberWithCommas from "../../../_helper/_numberWithCommas";
 import NewSelect from "../../../_helper/_select";
 import { _getCurrentMonthYearForInput } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
@@ -13,6 +14,7 @@ const initData = {
   area: "",
   territory: "",
   monthYear: _getCurrentMonthYearForInput(),
+  currentBusinessUnit: "",
 };
 export default function DistributionQtyVariance() {
   const [channelDDL, getChannelDDL, channelDDLloader] = useAxiosGet();
@@ -33,16 +35,19 @@ export default function DistributionQtyVariance() {
   ] = useAxiosGet();
   const saveHandler = (values, cb) => {};
 
-  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+  const businessUnitList = useSelector((state) => {
+    return state.authData.businessUnitList;
+  }, shallowEqual);
+  const { profileData} = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
-  useEffect(() => {
-    getChannelDDL(
-      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}`
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profileData, selectedBusinessUnit]);
+  // useEffect(() => {
+  //   getChannelDDL(
+  //     `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}`
+  //   );
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [profileData, ]);
 
   const getData = (values) => {
     const [year, month] = values?.monthYear.split("-").map(Number);
@@ -51,7 +56,7 @@ export default function DistributionQtyVariance() {
     const formattedStartDate = startDate.toISOString().split("T")[0];
     const formattedEndDate = endDate.toISOString().split("T")[0];
     getTableData(
-      `/fino/Report/GetDistributionVarianceReport?partName=Quantity&businessUnitId=${selectedBusinessUnit?.value}&distributionId=${values?.distributionChannel?.value}&regionId=${values?.region?.value}&areaId=${values?.area?.value}&territoryId=${values?.territory?.value}&fromDate=${formattedStartDate}&toDate=${formattedEndDate}`
+      `/fino/Report/GetDistributionVarianceReport?partName=Quantity&businessUnitId=${values?.currentBusinessUnit?.value}&distributionId=${values?.distributionChannel?.value}&regionId=${values?.region?.value}&areaId=${values?.area?.value}&territoryId=${values?.territory?.value}&fromDate=${formattedStartDate}&toDate=${formattedEndDate}`
     );
   };
   return (
@@ -91,9 +96,33 @@ export default function DistributionQtyVariance() {
             <Form>
               <div>
                 <div className="form-group  global-form row">
+                <div className="col-lg-3">
+                    <NewSelect
+                      name="currentBusinessUnit"
+                      options={businessUnitList}
+                      value={values?.currentBusinessUnit}
+                      label="Business Unit"
+                      onChange={(valueOption) => {
+                        if (valueOption) {
+                          setFieldValue("currentBusinessUnit", valueOption);
+                          getChannelDDL(
+                            `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${profileData?.accountId}&BUnitId=${valueOption?.value}`
+                          );
+                          setTableData([]);
+                        } else {
+                          setTableData([]);
+                        }
+                      }}
+                      placeholder="Business Unit"
+                      errors={errors}
+                      touched={touched}
+                      required={true}
+                    />
+                  </div>
                   <div className="col-lg-2">
                     <NewSelect
                       name="distributionChannel"
+                      isDisabled={!values?.currentBusinessUnit}
                       options={channelDDL || []}
                       value={values?.distributionChannel}
                       label="Distribution Channel"
@@ -289,15 +318,15 @@ export default function DistributionQtyVariance() {
                           <td className="text-right">
                             {item?.planQtyTransShipment}
                           </td>
-                          <td className="text-right">{item?.planQtyDirect}</td>
+                          <td className="text-right">{numberWithCommas(item?.planQtyDirect)}</td>
                           <td className="text-right">
                             {item?.actualQtyTransShipment}
                           </td>
                           <td className="text-right">
-                            {item?.actualQtyDirect}
+                          {numberWithCommas(item?.actualQtyDirect)}
                           </td>
                           <td className="text-right">
-                            {item?.varianceQtyTransShipment}
+                          {numberWithCommas(item?.actualQtyDirect)}
                           </td>
                           <td className="text-right">
                             {item?.varianceQtyDirect}
