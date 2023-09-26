@@ -1,12 +1,13 @@
 import { Form, Formik } from "formik";
 import React from "react";
-
 import { shallowEqual, useSelector } from "react-redux";
 import IForm from "../../../_helper/_form";
+import { _formatMoney } from "../../../_helper/_formatMoney";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import { _monthFirstDate } from "../../../_helper/_monthFirstDate";
 import { _monthLastDate } from "../../../_helper/_monthLastDate";
+import NewSelect from "../../../_helper/_select";
 import { _getCurrentMonthYearForInput } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 
@@ -14,20 +15,16 @@ const initData = {
   monthYear: _getCurrentMonthYearForInput(),
   fromDate: _monthFirstDate(),
   toDate: _monthLastDate(),
+  currentBusinessUnit:""
 };
 export default function ProductionVarianceReport() {
-  const [
-    tableData,
-    getTableData,
-    tableDataLoader,
-  ] = useAxiosGet();
+  const [tableData, getTableData, tableDataLoader,setTableData] = useAxiosGet();
   const saveHandler = (values, cb) => {};
 
-  const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit;
+  const businessUnitList = useSelector((state) => {
+    return state.authData.businessUnitList;
   }, shallowEqual);
-
- 
+  
 
   return (
     <Formik
@@ -63,28 +60,48 @@ export default function ProductionVarianceReport() {
               <div>
                 <div className="form-group  global-form row">
                   <div className="col-lg-3">
+                    <NewSelect
+                      name="currentBusinessUnit"
+                      options={businessUnitList}
+                      value={values?.currentBusinessUnit}
+                      label="Business Unit"
+                      onChange={(valueOption) => {
+                        if (valueOption) {
+                          setFieldValue("currentBusinessUnit", valueOption);
+                          setTableData([]);
+                        } else {
+                          setTableData([]);
+                        }
+                      }}
+                      placeholder="Business Unit"
+                      errors={errors}
+                      touched={touched}
+                      required={true}
+                    />
+                  </div>
+                  <div className="col-lg-3">
                     <label>From Date</label>
                     <InputField
-                        value={values?.fromDate}
-                        name="fromDate"
-                        placeholder="From Date"
-                        type="date"
-                        onChange={(e) => {
-                          setFieldValue("fromDate", e.target.value);
-                        }}
-                      />
+                      value={values?.fromDate}
+                      name="fromDate"
+                      placeholder="From Date"
+                      type="date"
+                      onChange={(e) => {
+                        setFieldValue("fromDate", e.target.value);
+                      }}
+                    />
                   </div>
                   <div className="col-lg-3">
                     <label>To Date</label>
                     <InputField
-                        value={values?.toDate}
-                        name="toDate"
-                        placeholder="From Date"
-                        type="date"
-                        onChange={(e) => {
-                          setFieldValue("toDate", e.target.value);
-                        }}
-                      />
+                      value={values?.toDate}
+                      name="toDate"
+                      placeholder="From Date"
+                      type="date"
+                      onChange={(e) => {
+                        setFieldValue("toDate", e.target.value);
+                      }}
+                    />
                   </div>
                   <div className="col-lg-3">
                     <button
@@ -94,7 +111,7 @@ export default function ProductionVarianceReport() {
                       disabled={!values?.monthYear}
                       onClick={() => {
                         getTableData(
-                          `/fino/Report/GetProductionVarianceReport?intBusinessUnitId=${selectedBusinessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`,
+                          `/fino/Report/GetProductionVarianceReport?intBusinessUnitId=${values?.currentBusinessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`
                         );
                       }}
                     >
@@ -123,9 +140,9 @@ export default function ProductionVarianceReport() {
                             <td className="text-center">{item?.itemCode}</td>
                             <td>{item?.itemName}</td>
                             <td>{item?.uomName}</td>
-                            <td className="text-right">{item?.budgetQty}</td>
-                            <td className="text-right">{item?.actualQty}</td>
-                            <td className="text-right">{item?.variance}</td>
+                            <td className="text-right">{_formatMoney(item?.budgetQty)}</td>
+                            <td className="text-right">{_formatMoney(item?.actualQty)}</td>
+                            <td className="text-right">{_formatMoney(item?.variance)}</td>
                           </tr>
                         ))}
                     </tbody>

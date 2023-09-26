@@ -2,27 +2,30 @@ import { Formik } from "formik";
 import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import {
-    Card,
-    CardBody,
-    CardHeader,
-    CardHeaderToolbar,
-    ModalProgressBar,
+  Card,
+  CardBody,
+  CardHeader,
+  CardHeaderToolbar,
+  ModalProgressBar,
 } from "../../../../../_metronic/_partials/controls";
 import { _formatMoney } from "../../../_helper/_formatMoney";
 import InputField from "../../../_helper/_inputField";
 
 import Loading from "../../../_helper/_loading";
+import NewSelect from "../../../_helper/_select";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import "./style.css";
 
 const initData = {
   monthYear: "",
+  currentBusinessUnit: "",
 };
 
 function MaterialConsumptionVarianceReport() {
   const [rowDto, getRowDto, loading, setRowDto] = useAxiosGet();
-  const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit;
+
+  const businessUnitList = useSelector((state) => {
+    return state.authData.businessUnitList;
   }, shallowEqual);
 
   return (
@@ -38,24 +41,31 @@ function MaterialConsumptionVarianceReport() {
             <Card>
               {true && <ModalProgressBar />}
               <CardHeader title={"Material Consumption Variance"}>
-                <CardHeaderToolbar>
-                  {/* <button
-                    onClick={() => {
-                      history.push({
-                        pathname: `/financial-management/invoicemanagement-system/salesInvoice/create`,
-                        state: values,
-                      });
-                    }}
-                    className="btn btn-primary ml-2"
-                    type="button"
-                  >
-                    Create
-                  </button> */}
-                </CardHeaderToolbar>
+                <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>
                 {loading && <Loading />}
                 <div className="global-form row">
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="currentBusinessUnit"
+                      options={businessUnitList}
+                      value={values?.currentBusinessUnit}
+                      label="Business Unit"
+                      onChange={(valueOption) => {
+                        if (valueOption) {
+                          setFieldValue("currentBusinessUnit", valueOption);
+                          setRowDto([]);
+                        } else {
+                          setRowDto([]);
+                        }
+                      }}
+                      placeholder="Business Unit"
+                      errors={errors}
+                      touched={touched}
+                      required={true}
+                    />
+                  </div>
                   <div className="col-lg-3">
                     <label>Month-Year</label>
                     <InputField
@@ -77,7 +87,7 @@ function MaterialConsumptionVarianceReport() {
                       onClick={() => {
                         getRowDto(
                           `/fino/Report/GetRawMaterialConsumptionVarianceReport?intBusinessUnitId=${
-                            selectedBusinessUnit?.value
+                            values?.currentBusinessUnit?.value
                           }&fromDate=${`${values?.monthYear}-01`}&toDate=${`${values?.monthYear}-01`}`,
                           (data) => {
                             let sl = 0;
