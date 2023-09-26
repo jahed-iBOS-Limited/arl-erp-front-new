@@ -516,7 +516,6 @@ export default function _Form({
                             : "Price"
                         }
                         name="price"
-                        min="1"
                         disabled={!values.currency}
                         onChange={(e) => {
                           setFieldValue("price", e.target.value);
@@ -527,10 +526,10 @@ export default function _Form({
                     {[4].includes(selectedBusinessUnit?.value) && (
                       <div className="col-lg-3">
                         <InputField
-                          label="Reach Price"
-                          value={values?.reachPrice || ""}
-                          name="reachPrice"
-                          placeholder="Reach Price"
+                          label="Ex-Factory Price"
+                          value={values?.exFactoryPrice || ""}
+                          name="exFactoryPrice"
+                          placeholder="Ex-Factory Price"
                           type="text"
                           disabled={isEdit}
                         />

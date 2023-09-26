@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import { getSalesquotationGridData } from "../_redux/Actions";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
@@ -13,22 +13,27 @@ import { Formik, Form } from "formik";
 import NewSelect from "./../../../../_helper/_select";
 import InputField from "./../../../../_helper/_inputField";
 import { setSalesQuotationLandingAction } from "./../../../../_helper/reduxForLocalStorage/Actions";
+import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
+import { useReactToPrint } from "react-to-print";
+import SalesQuotationForCement from "../cementSalesQuotation/invoiceRecept";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 export function TableRow() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const printRef = useRef();
   const [loading, setLoading] = useState(false);
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
-  // get user profile data from store
-  const profileData = useSelector((state) => {
-    return state.authData.profileData;
-  }, shallowEqual);
+  const [invoiceData, getInvoiceData, loader, setInvoiceData] = useAxiosGet();
 
-  // get selected business unit from store
-  const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit;
+  // get user profile data from store
+  const {
+    profileData: { accountId: accId },
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => {
+    return state.authData;
   }, shallowEqual);
 
   const gridData = useSelector((state) => {
@@ -43,8 +48,8 @@ export function TableRow() {
   const setPositionHandler = (pageNo, pageSize, searchValue, values) => {
     dispatch(
       getSalesquotationGridData(
-        profileData?.accountId,
-        selectedBusinessUnit?.value,
+        accId,
+        buId,
         setLoading,
         pageNo,
         pageSize,
@@ -61,29 +66,37 @@ export function TableRow() {
   };
 
   useEffect(() => {
-    if (selectedBusinessUnit && profileData) {
+    if (buId && accId) {
       setPositionHandler(pageNo, pageSize, null, salesQuotationLanding);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedBusinessUnit, profileData, salesQuotationLanding]);
+  }, [buId, accId, salesQuotationLanding]);
+
+  const handleInvoicePrint = useReactToPrint({
+    content: () => printRef.current,
+    pageStyle:
+      "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}",
+  });
+
+  const getPrintInfo = (quoteId, partnerId) => {
+    getInvoiceData(
+      `/oms/SalesQuotation/GetSalesQuotationInfoForPrint?QuotationId=${quoteId}&SoldtoPartnerId=${partnerId}`,
+      (resData) => {
+        setInvoiceData(resData);
+        handleInvoicePrint();
+        // handleInvoicePrintCement();
+      }
+    );
+  };
+
+  const isLoading = loader || loading;
+
   return (
     <>
       {/* Table Start */}
-      {loading && <Loading />}
-      <Formik
-        initialValues={salesQuotationLanding}
-        onSubmit={(values, { setSubmitting }) => { }}
-      >
-        {({
-          handleSubmit,
-          resetForm,
-          values,
-          errors,
-          touched,
-          setFieldValue,
-          isValid,
-          setValues,
-        }) => (
+      {isLoading && <Loading />}
+      <Formik initialValues={salesQuotationLanding} onSubmit={() => {}}>
+        {({ values, errors, touched, setFieldValue }) => (
           <>
             <Form>
               <div className="row global-form">
@@ -100,8 +113,8 @@ export function TableRow() {
                       setFieldValue("status", valueOption);
                       dispatch(
                         getSalesquotationGridData(
-                          profileData.accountId,
-                          selectedBusinessUnit.value,
+                          accId.accountId,
+                          buId.value,
                           setLoading,
                           pageNo,
                           pageSize,
@@ -185,7 +198,7 @@ export function TableRow() {
                           <th>Channel</th>
                           <th>Party Name</th>
                           <th style={{ width: "75px" }}>Total Qty</th>
-                          <th style={{ width: "60px" }}>Actions</th>
+                          <th style={{ width: "90px" }}>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -233,6 +246,21 @@ export function TableRow() {
                                     <IEdit />
                                   </span>
                                 )}
+                                {buId === 4 && (
+                                  <span>
+                                    <ICon
+                                      title={"Print Sales Quotation"}
+                                      onClick={() => {
+                                        getPrintInfo(
+                                          td?.quotationId,
+                                          td?.soldToPartnerId
+                                        );
+                                      }}
+                                    >
+                                      <i class="fas fa-print"></i>
+                                    </ICon>
+                                  </span>
+                                )}
                               </div>
                             </td>
                           </tr>
@@ -252,6 +280,13 @@ export function TableRow() {
                       setPageSize,
                     }}
                     values={values}
+                  />
+                )}
+                {invoiceData && buId === 4 && (
+                  <SalesQuotationForCement
+                    printRef={printRef}
+                    invoiceData={invoiceData?.objRow}
+                    businessPartnerInfo={invoiceData?.objHeader}
                   />
                 )}
               </div>
