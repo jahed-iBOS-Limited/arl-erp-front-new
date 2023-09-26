@@ -5,18 +5,21 @@ import { shallowEqual, useSelector } from "react-redux";
 import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
+import { _monthFirstDate } from "../../../_helper/_monthFirstDate";
+import { _monthLastDate } from "../../../_helper/_monthLastDate";
 import { _getCurrentMonthYearForInput } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 
 const initData = {
   monthYear: _getCurrentMonthYearForInput(),
+  fromDate: _monthFirstDate(),
+  toDate: _monthLastDate(),
 };
 export default function ProductionVarianceReport() {
   const [
     tableData,
     getTableData,
     tableDataLoader,
-    setTableData,
   ] = useAxiosGet();
   const saveHandler = (values, cb) => {};
 
@@ -24,19 +27,7 @@ export default function ProductionVarianceReport() {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
-  const getData = (values) => {
-    const [year, month] = values?.monthYear.split("-").map(Number);
-    const startDate = new Date(Date.UTC(year, month - 1, 1));
-    const endDate = new Date(Date.UTC(year, month, 0));
-    const formattedStartDate = startDate.toISOString().split("T")[0];
-    const formattedEndDate = endDate.toISOString().split("T")[0];
-    getTableData(
-      `/fino/Report/GetProductionVarianceReport?intBusinessUnitId=${selectedBusinessUnit?.value}&fromDate=${formattedStartDate}&toDate=${formattedEndDate}`,
-      (data) => {
-        console.log("data", data);
-      }
-    );
-  };
+ 
 
   return (
     <Formik
@@ -72,16 +63,28 @@ export default function ProductionVarianceReport() {
               <div>
                 <div className="form-group  global-form row">
                   <div className="col-lg-3">
-                    <label>Month-Year</label>
+                    <label>From Date</label>
                     <InputField
-                      value={values?.monthYear}
-                      name="monthYear"
-                      placeholder="From Date"
-                      type="month"
-                      onChange={(e) => {
-                        setFieldValue("monthYear", e?.target?.value);
-                      }}
-                    />
+                        value={values?.fromDate}
+                        name="fromDate"
+                        placeholder="From Date"
+                        type="date"
+                        onChange={(e) => {
+                          setFieldValue("fromDate", e.target.value);
+                        }}
+                      />
+                  </div>
+                  <div className="col-lg-3">
+                    <label>To Date</label>
+                    <InputField
+                        value={values?.toDate}
+                        name="toDate"
+                        placeholder="From Date"
+                        type="date"
+                        onChange={(e) => {
+                          setFieldValue("toDate", e.target.value);
+                        }}
+                      />
                   </div>
                   <div className="col-lg-3">
                     <button
@@ -90,8 +93,9 @@ export default function ProductionVarianceReport() {
                       class="btn btn-primary"
                       disabled={!values?.monthYear}
                       onClick={() => {
-                        console.log("values", values);
-                        getData(values);
+                        getTableData(
+                          `/fino/Report/GetProductionVarianceReport?intBusinessUnitId=${selectedBusinessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`,
+                        );
                       }}
                     >
                       Show
@@ -106,8 +110,8 @@ export default function ProductionVarianceReport() {
                         <th>Item Code</th>
                         <th>Item Name</th>
                         <th>Uom Name</th>
-                        <th>Actual Qty</th>
                         <th>Budget Qty</th>
+                        <th>Actual Qty</th>
                         <th>Variance</th>
                       </tr>
                     </thead>
@@ -119,8 +123,8 @@ export default function ProductionVarianceReport() {
                             <td className="text-center">{item?.itemCode}</td>
                             <td>{item?.itemName}</td>
                             <td>{item?.uomName}</td>
-                            <td className="text-right">{item?.actualQty}</td>
                             <td className="text-right">{item?.budgetQty}</td>
+                            <td className="text-right">{item?.actualQty}</td>
                             <td className="text-right">{item?.variance}</td>
                           </tr>
                         ))}

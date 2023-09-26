@@ -2,7 +2,11 @@ import React from "react";
 import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute } from "../../../../_metronic/layout";
 import CostOfProductionReport from "./costProductionReport";
+import DistributionQtyVariance from "./distributionQtyVarianceReport";
+import DistributionRateVariance from "./distributionRateVarianceReport";
+import { IncomeStatementReport } from "./incomeStatementReport";
 import MaterialConsumptionVarianceReport from "./materialConsumptionReport";
+import MaterialPriceVariance from "./metarialPriceVariance";
 import ProductionVarianceReport from "./productionVarianceReport";
 import BudgetVsSalesVarient from "./salesBudgetVarianceReport";
 
@@ -20,6 +24,10 @@ const BudgetVarianceReportPages = () => {
         component={BudgetVarianceReport}
       /> */}
       <ContentRoute
+        path="/internal-control/budgetvariancereport/incomestatementreport"
+        component={IncomeStatementReport}
+      />
+      <ContentRoute
         path="/internal-control/budgetvariancereport/BudgetVSSalesVariance"
         component={BudgetVsSalesVarient}
       />
@@ -34,6 +42,18 @@ const BudgetVarianceReportPages = () => {
       <ContentRoute
         path="/internal-control/budgetvariancereport/materialconsumptionreport"
         component={MaterialConsumptionVarianceReport}
+      />
+      <ContentRoute
+        path="/internal-control/budgetvariancereport/materialpricereport"
+        component={MaterialPriceVariance}
+      />
+      <ContentRoute
+        path="/internal-control/budgetvariancereport/distributionvariancereport"
+        component={DistributionQtyVariance}
+      />
+      <ContentRoute
+        path="/internal-control/budgetvariancereport/distributionratereport"
+        component={DistributionRateVariance}
       />
       
     </Switch>
