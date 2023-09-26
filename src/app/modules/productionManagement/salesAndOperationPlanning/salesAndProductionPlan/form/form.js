@@ -1,16 +1,16 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { ExcelRenderer } from "react-excel-renderer";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
-import { getHorizonDDL, getItemListSalesPlanDDL, getYearDDL } from "../helper";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { getHorizonDDL, getItemListSalesPlanDDL } from "../helper";
 import PaginationTable from "./../../../../_helper/_tablePagination";
 import { exportToCSV } from "./utils";
-import { toast } from "react-toastify";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -57,7 +57,7 @@ export default function _Form({
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(50);
   const [plant, setPlant] = React.useState({});
-  const [fiscalYearDDL, getFiscalYearDDL, fiscalYearDDLloader] = useAxiosGet();
+  const [, getFiscalYearDDL] = useAxiosGet();
 
   useEffect(() => {
     if (fileObject) {

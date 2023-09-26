@@ -63,6 +63,7 @@ const SalesAndProductionTable = () => {
         setLoading
       );
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit, plant, year]);
 
   const createHandler = () => {
