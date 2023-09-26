@@ -286,7 +286,16 @@ export function TableRow() {
                   <SalesQuotationForCement
                     printRef={printRef}
                     invoiceData={invoiceData?.objRow}
-                    businessPartnerInfo={invoiceData?.objHeader}
+                    businessPartnerInfo={{
+                      strBusinessPartnerName:
+                        invoiceData?.objRow?.length > 0
+                          ? invoiceData?.objRow[0]?.businessPartnerName
+                          : "",
+                      strBusinessPartnerAddress:
+                        invoiceData?.objRow?.length > 0
+                          ? invoiceData?.objRow[0]?.businessPartnerAddress
+                          : "",
+                    }}
                   />
                 )}
               </div>
