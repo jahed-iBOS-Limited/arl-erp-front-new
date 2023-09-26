@@ -64,8 +64,6 @@ function DamageEntryForm() {
   };
 
   const saveHandler = (values) => {
-    const returnType = values?.returnType?.value;
-
     const selectedItems = gridData?.filter((item) => item.isSelected);
     if (selectedItems?.length === 0) {
       toast.warn("Please select at least one item");
@@ -102,7 +100,7 @@ function DamageEntryForm() {
           businessPartnerName: header?.soldToPartnerName,
           totalQty: totalQty,
           totalAmount: totalAmount,
-          salesReturnType: returnType,
+          salesReturnType: 2,
           actionBy: userId,
         },
         row: header?.rowData?.map((row) => {
