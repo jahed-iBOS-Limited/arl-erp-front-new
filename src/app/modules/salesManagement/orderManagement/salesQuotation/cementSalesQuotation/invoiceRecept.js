@@ -9,9 +9,8 @@ const SalesQuotationForCement = ({
   invoiceData,
   businessPartnerInfo,
 }) => {
-  console.log(invoiceData, businessPartnerInfo, "print");
   const {
-    // profileData: { employeeFullName, designationName },
+    profileData: { employeeFullName, designationName },
     selectedBusinessUnit: { imageId },
   } = useSelector((state) => {
     return state?.authData;
@@ -118,10 +117,10 @@ const SalesQuotationForCement = ({
                   <td className="text-center">{index + 1}</td>
                   <td className="text-center">{item?.itemName}</td>
                   <td className="text-center">{item?.uomName}</td>
-                  <td className="text-center">{item?.transportTypeName}</td>
+                  <td className="text-center">{item?.transportType}</td>
                   <td className="text-center">{item?.numPriceWithTransport}</td>
                   <td className="text-center">{item?.itemPrice}</td>
-                  <td className="text-center">{item?.remarks}</td>
+                  <td className="text-center">{item?.remark}</td>
                 </tr>
               );
             })}
@@ -144,7 +143,8 @@ const SalesQuotationForCement = ({
             </p>
             <p>
               <span>Credit backup </span>
-              Purchase Order/Post Dated Cheque/Bank Guarantee/L-C.
+              {invoiceData?.[0]?.paymentMode}
+              {/* Purchase Order/Post Dated Cheque/Bank Guarantee/L-C. */}
             </p>
             <p>
               <span>Credit Limit </span>
@@ -195,22 +195,22 @@ const SalesQuotationForCement = ({
             to assist you and discuss any specific requirements you may need.
           </p>
         </div>
-        {/* <div className="mb-5">
+        <div className="mb-5">
           <p>On behalf of Akij Cement Company Ltd.</p>
-        </div> */}
+        </div>
       </div>
 
       {/* <p className="bold mt-2 mb-2">Thanking you,</p> */}
 
-      <div className="mt-5 pt-5 text-center">
+      {/* <div className="mt-5 pt-5 text-center">
         <p className="mt-5 pt-5">
           This is an automatically generated price quotation, no signature is
           required.
         </p>
-      </div>
-      {/* <p className="bold mt-7"> {`(${employeeFullName})`} </p>
+      </div> */}
+      <p className="bold mt-7"> {`(${employeeFullName})`} </p>
       <p> {designationName} </p>
-      <p> Akij Cement Company Limited </p> */}
+      <p> Akij Cement Company Limited </p>
     </div>
   );
 };

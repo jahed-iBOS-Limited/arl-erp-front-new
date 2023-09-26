@@ -64,7 +64,6 @@ export default function _Form({
   salesOrg,
   soldToParty,
   channel,
-  accountId,
   salesOffice,
   rowDto,
   removerTwo,
@@ -80,11 +79,11 @@ export default function _Form({
   itemListHandelar,
   setEditItemOnChange,
   quotationClosedFunc,
-  selectedBusinessUnit,
+  buId,
   objTerms,
   setObjTerms,
   currencyDDL,
-  profileData,
+  userId,
   printRef,
 }) {
   const [savedData, setSavedData] = useState(null);
@@ -136,7 +135,7 @@ export default function _Form({
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           //Akij Poly Fibre Industries Ltd. === 8
-          if ([8].includes(selectedBusinessUnit?.value)) {
+          if ([8].includes(buId)) {
             // empty check
             if (!values?.strCoraseAggregate) {
               return toast.warn("Please Input Bag Color");
@@ -155,7 +154,7 @@ export default function _Form({
             setSavedData(_savedData);
             resetForm(initData);
 
-            if ([8, 4].includes(selectedBusinessUnit?.value)) {
+            if ([8, 4].includes(buId)) {
               handleInvoicePrint();
             }
           });
@@ -253,7 +252,7 @@ export default function _Form({
                           disabled={isEdit}
                         />
                       </div>
-                      {[4].includes(selectedBusinessUnit?.value) && (
+                      {[4].includes(buId) && (
                         <>
                           <div className="col-lg-3">
                             <InputField
@@ -284,11 +283,30 @@ export default function _Form({
                               isDisabled={isEdit}
                             />
                           </div>
+                          <div className="col-lg-3">
+                            <NewSelect
+                              label="Credit Backup"
+                              placeholder="Credit Backup"
+                              options={[
+                                { value: 1, label: "Purchase Order" },
+                                { value: 2, label: "Post Dated Cheque" },
+                                { value: 3, label: "Bank Guarantee" },
+                                { value: 4, label: "L-C" },
+                              ]}
+                              name="paymentMode"
+                              errors={errors}
+                              touched={touched}
+                              value={values.paymentMode}
+                              onChange={(valueOption) => {
+                                setFieldValue("paymentMode", valueOption);
+                              }}
+                            />
+                          </div>
                         </>
                       )}
 
                       {/* Akij Poly Fibre Industries Ltd. ===8 */}
-                      {[8].includes(selectedBusinessUnit?.value) && (
+                      {[8].includes(buId) && (
                         <>
                           <div className="col-lg-3">
                             <InputField
@@ -332,7 +350,7 @@ export default function _Form({
                           </div>
                         </>
                       )}
-                      {selectedBusinessUnit?.value === 144 &&
+                      {buId === 144 &&
                         values?.salesOrg?.value === 7 &&
                         values?.channel?.value === 96 && (
                           <>
@@ -509,7 +527,7 @@ export default function _Form({
                         type="number"
                         value={values.price}
                         label={
-                          selectedBusinessUnit?.value === 144 &&
+                          buId === 144 &&
                           values?.salesOrg?.value === 7 &&
                           values?.channel?.value === 96
                             ? "Price (USD)"
@@ -523,7 +541,7 @@ export default function _Form({
                       />
                     </div>
 
-                    {[4].includes(selectedBusinessUnit?.value) && (
+                    {[4].includes(buId) && (
                       <div className="col-lg-3">
                         <InputField
                           label="Ex-Factory Price"
@@ -645,7 +663,7 @@ export default function _Form({
                             isDisabled={!values.itemList}
                           />
                         </div>
-                        {[8].includes(selectedBusinessUnit?.value) ? (
+                        {[8].includes(buId) ? (
                           <>
                             <div className="col-lg-2">
                               <IInput
@@ -801,96 +819,102 @@ export default function _Form({
                   )}
                 </div>
               </div>
-              <>
-                <hr className="m-1"></hr>
-                {/* terms and conditions start */}
-                <div className="row">
-                  <div className="col-lg-12 p-0 m-0">
-                    <div className="row global-form m-0">
-                      <div className="col-lg-3">
-                        <IInput
-                          type="text"
-                          value={values.termsAndConditions}
-                          label="Terms And Conditions"
-                          name="termsAndConditions"
-                          onChange={(e) => {
-                            setFieldValue("termsAndConditions", e.target.value);
-                          }}
-                        />
-                      </div>
-                      <div className="col-lg-3">
-                        <button
-                          type="button"
-                          style={{ marginTop: "17px" }}
-                          className="btn btn-primary ml-2"
-                          disabled={!values?.termsAndConditions}
-                          onClick={() => {
-                            setObjTerms([
-                              ...objTerms,
-                              {
-                                quotationId: values?.quotationId,
-                                sl: objTerms?.length + 1,
-                                terms: values?.termsAndConditions,
-                                actionBy: profileData?.userId,
-                              },
-                            ]);
-                            setFieldValue("termsAndConditions", "");
-                          }}
-                        >
-                          Add
-                        </button>
+              {/* terms and conditions start */}
+              {![4].includes(buId) && (
+                <>
+                  <hr className="m-1"></hr>
+
+                  <div className="row">
+                    <div className="col-lg-12 p-0 m-0">
+                      <div className="row global-form m-0">
+                        <div className="col-lg-3">
+                          <IInput
+                            type="text"
+                            value={values.termsAndConditions}
+                            label="Terms And Conditions"
+                            name="termsAndConditions"
+                            onChange={(e) => {
+                              setFieldValue(
+                                "termsAndConditions",
+                                e.target.value
+                              );
+                            }}
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <button
+                            type="button"
+                            style={{ marginTop: "17px" }}
+                            className="btn btn-primary ml-2"
+                            disabled={!values?.termsAndConditions}
+                            onClick={() => {
+                              setObjTerms([
+                                ...objTerms,
+                                {
+                                  quotationId: values?.quotationId,
+                                  sl: objTerms?.length + 1,
+                                  terms: values?.termsAndConditions,
+                                  actionBy: userId,
+                                },
+                              ]);
+                              setFieldValue("termsAndConditions", "");
+                            }}
+                          >
+                            Add
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="row cash_journal bank-journal bank-journal-custom">
-                  <div className="col-lg-6 pr-0 pl-0">
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                      <thead>
-                        <tr>
-                          <th style={{ width: "35px" }}>SL</th>
-                          <th>Terms and conditions</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {objTerms?.map((itm, index) => (
-                          <tr key={itm?.intSl}>
-                            <td className="text-center">{index + 1}</td>
-                            <td className="pl-2">{itm?.terms}</td>
-                            <td className="text-center">
-                              <i
-                                className="fa fa-trash"
-                                onClick={() => {
-                                  let filteredTermsAndConditions = objTerms.filter(
-                                    (item) => item.intSl !== itm.intSl
-                                  );
-                                  setObjTerms(filteredTermsAndConditions);
-                                }}
-                              ></i>
-                            </td>
+                  <div className="row cash_journal bank-journal bank-journal-custom">
+                    <div className="col-lg-6 pr-0 pl-0">
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                        <thead>
+                          <tr>
+                            <th style={{ width: "35px" }}>SL</th>
+                            <th>Terms and conditions</th>
+                            <th>Action</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {objTerms?.map((itm, index) => (
+                            <tr key={itm?.intSl}>
+                              <td className="text-center">{index + 1}</td>
+                              <td className="pl-2">{itm?.terms}</td>
+                              <td className="text-center">
+                                <i
+                                  className="fa fa-trash"
+                                  onClick={() => {
+                                    let filteredTermsAndConditions = objTerms.filter(
+                                      (item) => item.intSl !== itm.intSl
+                                    );
+                                    setObjTerms(filteredTermsAndConditions);
+                                  }}
+                                ></i>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-                </div>
-                {savedData ? (
-                  selectedBusinessUnit?.value === 4 ? (
-                    <SalesQuotationForCement
-                      printRef={printRef}
-                      invoiceData={savedData?.customResponse}
-                      businessPartnerInfo={savedData?.businessPartnerInfo}
-                    />
-                  ) : (
-                    <SalesQuotationForPolyFibreInvoice
-                      printRef={printRef}
-                      invoiceData={savedData?.customResponse}
-                      businessPartnerInfo={savedData?.businessPartnerInfo}
-                    />
-                  )
-                ) : null}
-              </>
+                </>
+              )}
+              {savedData ? (
+                buId === 4 ? (
+                  <SalesQuotationForCement
+                    printRef={printRef}
+                    invoiceData={savedData?.customResponse}
+                    businessPartnerInfo={savedData?.businessPartnerInfo}
+                  />
+                ) : (
+                  <SalesQuotationForPolyFibreInvoice
+                    printRef={printRef}
+                    invoiceData={savedData?.customResponse}
+                    businessPartnerInfo={savedData?.businessPartnerInfo}
+                  />
+                )
+              ) : null}
               <button
                 type="submit"
                 style={{ display: "none" }}
