@@ -22,6 +22,11 @@ import ReactHtmlTableToExcel from "react-html-table-to-excel";
 const initData = {
   plant: "",
   shopFloor: "",
+  bomType:"",
+  itemType: {
+    value: 3,
+    label: "All",
+  },
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -60,6 +65,8 @@ function ProductionReportLanding() {
       buId: selectedBusinessUnit?.value,
       pId: values?.plant?.value,
       sId: values?.shopFloor?.value,
+      billType:values?.bomType?.value,
+      isMainItem:values?.itemType?.value,
       fromDate: values?.fromDate,
       toDate: values?.toDate,
       setter: setGridData,
@@ -117,6 +124,58 @@ function ProductionReportLanding() {
                     />
                   </div>
                   <div className="col-lg-3">
+                    <NewSelect
+                      name="bomType"
+                      options={[
+                        {
+                          value: 1,
+                          label: "Main (Paddy to Rice)",
+                        },
+                        {
+                          value: 2,
+                          label: "Conversion (Rice to Rice)",
+                        },
+                        {
+                          value: 3,
+                          label: "Re-Process (Rice to Rice)",
+                        },
+                      ]}
+                      value={values?.bomType}
+                      label="Bom Type"
+                      onChange={(valueOption) => {
+                        setFieldValue("bomType", valueOption);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="itemType"
+                      options={[
+                        {
+                          value: 3,
+                          label: "All",
+                        },
+                        {
+                          value: 1,
+                          label: "Main Item",
+                        },
+                        {
+                          value: 2,
+                          label: "Others",
+                        },
+                      ]}
+                      value={values?.itemType}
+                      label="Item Type"
+                      onChange={(valueOption) => {
+                        setFieldValue("itemType", valueOption);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
                     <label>From Date</label>
                     <InputField
                       value={values?.fromDate}
@@ -148,7 +207,7 @@ function ProductionReportLanding() {
                         girdDataFunc(values, null);
                       }}
                       disabled={
-                        !values?.plant?.value || !values?.shopFloor?.value
+                        !values?.plant?.value || !values?.shopFloor?.value || !values?.bomType?.value || !values?.itemType?.value 
                       }
                     >
                       View
