@@ -78,7 +78,7 @@ export const getModifiedInitData = (item) => {
           : '',
       year: item?.yearId && item?.yearId ? { value: item?.yearId, label: item?.yearId } : '',
       horizon:
-        item?.monthId && item?.monthName ? { value: item?.monthId, label: item?.monthName, planHorizonHeaderId: item?.intPlanningHorizonId } : '',
+        item?.monthId && item?.monthName ? { value: item?.intPlanningHorizonRowId, label: item?.monthName, planHorizonHeaderId: item?.intPlanningHorizonId, monthId: item?.monthId } : '',
       fromDate: item?.fromDate || '',
       toDate: item?.toDate || '',
     };
@@ -150,7 +150,7 @@ export const saveHandler = ({
     distributionRowList: distributionRowList,
     plantHouseId: values?.plant?.value,
     wareHouseId: values?.warehouse?.value,
-    monthId: values?.horizon?.value,
+    monthId: values?.horizon?.monthId,
     intPlanningHorizonId: values?.horizon?.planHorizonHeaderId,
     intPlanningHorizonRowId: values?.horizon?.value,
     yearId: values?.year?.value,
