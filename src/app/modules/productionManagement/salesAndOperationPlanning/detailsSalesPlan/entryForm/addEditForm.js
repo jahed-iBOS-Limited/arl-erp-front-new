@@ -228,6 +228,7 @@ export default function DetailsSalesPlanEntry() {
                 ...location?.state?.monthlyValues,
                 horizon: {
                   value: location?.state?.monthlyItem?.horizonId,
+                  monthId: location?.state?.monthlyItem?.monthId,
                   label: location?.state?.monthlyItem?.horizonName,
                   planningHorizonRowId:
                     location?.state?.monthlyItem?.planningHorizonRowId,
