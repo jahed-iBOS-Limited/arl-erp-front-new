@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import InputField from "../../_helper/_inputField";
+import numberWithCommas from "../../_helper/_numberWithCommas";
 export default function ProjectedPlannedFundRequirement({ rowData }) {
   const [listData, setListData] = useState({
     typeOne: [],
@@ -48,7 +49,11 @@ export default function ProjectedPlannedFundRequirement({ rowData }) {
                         {item?.strGeneralLedgerCode}
                       </td>
                       <td>{item?.strGeneralLedgerName}</td>
-                      <td className="text-center">{item?.MonthlyAvgValue}</td>
+                      <td className="text-center">
+                        {numberWithCommas(
+                          Math.round(item?.MonthlyAvgValue) || 0
+                        )}
+                      </td>
                     </tr>
                   ))}
                 {listData?.typeOne?.length > 0 && (
@@ -58,9 +63,13 @@ export default function ProjectedPlannedFundRequirement({ rowData }) {
                     </td>
 
                     <td className="text-center">
-                      {listData?.typeOne?.reduce(
-                        (acc, curr) => acc + curr?.MonthlyAvgValue || 0,
-                        0
+                      {numberWithCommas(
+                        Math.round(
+                          listData?.typeOne?.reduce(
+                            (acc, curr) => acc + curr?.MonthlyAvgValue || 0,
+                            0
+                          )
+                        ) || 0
                       )}
                     </td>
                   </tr>
@@ -73,7 +82,11 @@ export default function ProjectedPlannedFundRequirement({ rowData }) {
                         {item?.strGeneralLedgerCode}
                       </td>
                       <td>{item?.strGeneralLedgerName}</td>
-                      <td className="text-center">{item?.MonthlyAvgValue}</td>
+                      <td className="text-center">
+                        {numberWithCommas(
+                          Math.round(item?.MonthlyAvgValue) || 0
+                        )}
+                      </td>
                     </tr>
                   ))}
                 {listData?.typeTwo?.length > 0 && (
@@ -83,9 +96,13 @@ export default function ProjectedPlannedFundRequirement({ rowData }) {
                     </td>
 
                     <td className="text-center">
-                      {listData?.typeTwo?.reduce(
-                        (acc, curr) => acc + curr?.MonthlyAvgValue || 0,
-                        0
+                      {numberWithCommas(
+                        Math.round(
+                          listData?.typeTwo?.reduce(
+                            (acc, curr) => acc + curr?.MonthlyAvgValue || 0,
+                            0
+                          )
+                        ) || 0
                       )}
                     </td>
                   </tr>
@@ -97,14 +114,18 @@ export default function ProjectedPlannedFundRequirement({ rowData }) {
                     </td>
 
                     <td className="text-center">
-                      {listData?.typeOne?.reduce(
-                        (acc, curr) => acc + (curr?.MonthlyAvgValue || 0),
-                        0
-                      ) -
-                        listData?.typeTwo?.reduce(
-                          (acc, curr) => acc + (curr?.MonthlyAvgValue || 0),
-                          0
-                        )}
+                      {numberWithCommas(
+                        Math.round(
+                          listData?.typeOne?.reduce(
+                            (acc, curr) => acc + (curr?.MonthlyAvgValue || 0),
+                            0
+                          ) -
+                            listData?.typeTwo?.reduce(
+                              (acc, curr) => acc + (curr?.MonthlyAvgValue || 0),
+                              0
+                            )
+                        ) || 0
+                      )}
                     </td>
                   </tr>
                 )}
@@ -138,7 +159,11 @@ export default function ProjectedPlannedFundRequirement({ rowData }) {
                         {item?.strGeneralLedgerCode}
                       </td>
                       <td>{item?.strGeneralLedgerName}</td>
-                      <td className="text-center">{item?.MonthlyAvgValue}</td>
+                      <td className="text-center">
+                        {numberWithCommas(
+                          Math.round(item?.MonthlyAvgValue) || 0
+                        )}
+                      </td>
                     </tr>
                   ))}
                 {listData?.typeThree?.length > 0 && (
@@ -184,14 +209,18 @@ export default function ProjectedPlannedFundRequirement({ rowData }) {
                   <td>STL</td>
                   <td>Net Working Capital</td>
                   <td className="text-center">
-                    {listData?.typeOne?.reduce(
-                      (acc, curr) => acc + (curr?.MonthlyAvgValue || 0),
-                      0
-                    ) -
-                      listData?.typeTwo?.reduce(
-                        (acc, curr) => acc + (curr?.MonthlyAvgValue || 0),
-                        0
-                      )}
+                    {numberWithCommas(
+                      Math.round(
+                        listData?.typeOne?.reduce(
+                          (acc, curr) => acc + (curr?.MonthlyAvgValue || 0),
+                          0
+                        ) -
+                          listData?.typeTwo?.reduce(
+                            (acc, curr) => acc + (curr?.MonthlyAvgValue || 0),
+                            0
+                          )
+                      )
+                    ) || 0}
                   </td>
                   <td>
                     <InputField
@@ -208,19 +237,23 @@ export default function ProjectedPlannedFundRequirement({ rowData }) {
                             0
                           );
 
-                        setFinancialCostOne((total * +e.target.value) / 12);
+                        setFinancialCostOne((total * Math.round(+e.target.value)) / 12);
                       }}
                     />
                   </td>
-                  <td>{financialCostOne || ""}</td>
+                  <td>{numberWithCommas(Math.round(financialCostOne)) || ""}</td>
                 </tr>
                 <tr>
                   <td>LTL</td>
                   <td>Long Term Bank Loan</td>
                   <td className="text-center">
-                    {listData?.typeThree?.reduce(
-                      (acc, curr) => acc + curr?.MonthlyAvgValue || 0,
-                      0
+                    {numberWithCommas(
+                      Math.round(
+                        listData?.typeThree?.reduce(
+                          (acc, curr) => acc + curr?.MonthlyAvgValue || 0,
+                          0
+                        )
+                      ) || 0
                     )}
                   </td>
                   <td>
