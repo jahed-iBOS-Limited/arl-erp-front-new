@@ -1,7 +1,14 @@
-import React from 'react';
-import InputField from '../../../_helper/_inputField';
+import React from "react";
+import InputField from "../../../_helper/_inputField";
 
 export default function EntryTable({ rowDto, setRowDto }) {
+  // getAbsoluteValue
+  const getAbsoluteValue = (e) => {
+    let newValue = e?.target?.value;
+    newValue = newValue < 0 ? Math?.abs(newValue) : newValue;
+    return newValue;
+  };
+
   return (
     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
       <thead>
@@ -32,12 +39,12 @@ export default function EntryTable({ rowDto, setRowDto }) {
                 <InputField
                   name="planQty"
                   type="number"
-                  value={item?.planQty || ''}
+                  value={item?.planQty || ""}
                   onChange={(e) => {
-                    const data = [...rowDto?.itemList];
-                    data[index]['planQty'] = e?.target?.value < 0 ? '' : e?.target?.value;
-                    setRowDto({
-                      itemList: data,
+                    setRowDto((prev) => {
+                      const data = [...prev?.itemList];
+                      data[index] = { ...item, planQty: getAbsoluteValue(e) };
+                      return { ...prev, itemList: data };
                     });
                   }}
                 />
@@ -46,12 +53,12 @@ export default function EntryTable({ rowDto, setRowDto }) {
                 <InputField
                   name="planRate"
                   type="number"
-                  value={item?.planRate || ''}
+                  value={item?.planRate || ""}
                   onChange={(e) => {
-                    const data = [...rowDto?.itemList];
-                    data[index]['planRate'] = e?.target?.value < 0 ? '' : e?.target?.value;
-                    setRowDto({
-                      itemList: data,
+                    setRowDto((prev) => {
+                      const data = [...prev?.itemList];
+                      data[index] = { ...item, planRate: getAbsoluteValue(e) };
+                      return { ...prev, itemList: data };
                     });
                   }}
                 />
@@ -60,12 +67,12 @@ export default function EntryTable({ rowDto, setRowDto }) {
                 <InputField
                   name="planTransQty"
                   type="number"
-                  value={item?.planTransQty || ''}
+                  value={item?.planTransQty || ""}
                   onChange={(e) => {
-                    const data = [...rowDto?.itemList];
-                    data[index]['planTransQty'] = e?.target?.value < 0 ? '' : e?.target?.value;
-                    setRowDto({
-                      itemList: data,
+                    setRowDto((prev) => {
+                      const data = [...prev?.itemList];
+                      data[index] = { ...item, planTransQty: getAbsoluteValue(e) };
+                      return { ...prev, itemList: data };
                     });
                   }}
                 />
@@ -74,12 +81,12 @@ export default function EntryTable({ rowDto, setRowDto }) {
                 <InputField
                   name="planTransRate"
                   type="number"
-                  value={item?.planTransRate || ''}
+                  value={item?.planTransRate || ""}
                   onChange={(e) => {
-                    const data = [...rowDto?.itemList];
-                    data[index]['planTransRate'] = e?.target?.value < 0 ? '' : e?.target?.value;
-                    setRowDto({
-                      itemList: data,
+                    setRowDto((prev) => {
+                      const data = [...prev?.itemList];
+                      data[index] = { ...item, planTransRate: getAbsoluteValue(e) };
+                      return { ...prev, itemList: data };
                     });
                   }}
                 />
