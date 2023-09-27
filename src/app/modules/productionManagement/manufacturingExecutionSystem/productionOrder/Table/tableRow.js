@@ -402,6 +402,7 @@ export function TableRow() {
                       <th>Production Order Date</th>
                       <th>Production Order Code</th>
                       <th>Item Name</th>
+                      <th>BOM Type</th>
                       <th>WorkCenter Name</th>
                       <th>Order Qty</th>
                       <th>Uom Name</th>
@@ -442,6 +443,11 @@ export function TableRow() {
                           <td>
                             <div className="pl-2">
                               {item?.itemName} [{item?.itemCode}]
+                            </div>
+                          </td>
+                          <td>
+                            <div className="pl-2">
+                              {item?.strBillOfTypeName}
                             </div>
                           </td>
                           <td>
