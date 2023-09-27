@@ -41,11 +41,12 @@ export default function EntryTable({ rowDto, setRowDto }) {
                   type="number"
                   value={item?.planQty || ""}
                   onChange={(e) => {
-                    setRowDto((prev) => {
-                      const data = [...prev?.itemList];
-                      data[index] = { ...item, planQty: getAbsoluteValue(e) };
-                      return { ...prev, itemList: data };
-                    });
+                    const data = [...rowDto?.itemList];
+                    data[index] = { ...item, planQty: getAbsoluteValue(e) };
+                    setRowDto((prev) => ({
+                      ...prev,
+                      itemList: data,
+                    }));
                   }}
                 />
               </td>
@@ -55,11 +56,12 @@ export default function EntryTable({ rowDto, setRowDto }) {
                   type="number"
                   value={item?.planRate || ""}
                   onChange={(e) => {
-                    setRowDto((prev) => {
-                      const data = [...prev?.itemList];
-                      data[index] = { ...item, planRate: getAbsoluteValue(e) };
-                      return { ...prev, itemList: data };
-                    });
+                    const data = [...rowDto?.itemList];
+                    data[index] = { ...item, planRate: getAbsoluteValue(e) };
+                    setRowDto((prev) => ({
+                      ...prev,
+                      itemList: data,
+                    }));
                   }}
                 />
               </td>
@@ -69,11 +71,12 @@ export default function EntryTable({ rowDto, setRowDto }) {
                   type="number"
                   value={item?.planTransQty || ""}
                   onChange={(e) => {
-                    setRowDto((prev) => {
-                      const data = [...prev?.itemList];
-                      data[index] = { ...item, planTransQty: getAbsoluteValue(e) };
-                      return { ...prev, itemList: data };
-                    });
+                    const data = [...rowDto?.itemList];
+                    data[index] = { ...item, planTransQty: getAbsoluteValue(e) };
+                    setRowDto((prev) => ({
+                      ...prev,
+                      itemList: data,
+                    }));
                   }}
                 />
               </td>
@@ -83,11 +86,12 @@ export default function EntryTable({ rowDto, setRowDto }) {
                   type="number"
                   value={item?.planTransRate || ""}
                   onChange={(e) => {
-                    setRowDto((prev) => {
-                      const data = [...prev?.itemList];
-                      data[index] = { ...item, planTransRate: getAbsoluteValue(e) };
-                      return { ...prev, itemList: data };
-                    });
+                    const data = [...rowDto?.itemList];
+                    data[index] = { ...item, planTransRate: getAbsoluteValue(e) };
+                    setRowDto((prev) => ({
+                      ...prev,
+                      itemList: data,
+                    }));
                   }}
                 />
               </td>
