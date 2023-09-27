@@ -1,5 +1,5 @@
 import { Formik } from "formik";
-import React, { useEffect } from "react";
+import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import {
   Card,
@@ -7,32 +7,23 @@ import {
   CardHeader,
   ModalProgressBar,
 } from "../../../../../_metronic/_partials/controls";
+import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import numberWithCommas from "../../../_helper/_numberWithCommas";
 import NewSelect from "../../../_helper/_select";
+import { _todayDate } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 
 const initData = {
   currentBusinessUnit: "",
-  fiscalYear: "",
+  toDate: _todayDate(),
 };
-const WorkingCapitalVarianceReport = () => {
+const InventoryVarianceReport = () => {
   const [rowData, getRowData, lodar, setRowData] = useAxiosGet();
-  const [fiscalYearDDL, getFiscalYearDDL] = useAxiosGet();
 
   const businessUnitList = useSelector((state) => {
     return state.authData.businessUnitList;
   }, shallowEqual);
-
-  //   const getMonth = (monthNumber) => {
-  //     return new Date(2021, monthNumber, 0).toLocaleString("default", {
-  //       month: "long",
-  //     });
-  //   };
-  useEffect(() => {
-    getFiscalYearDDL(`/vat/TaxDDL/FiscalYearDDL`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <>
@@ -45,9 +36,7 @@ const WorkingCapitalVarianceReport = () => {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader
-                title={"Working Capital Variance Report"}
-              ></CardHeader>
+              <CardHeader title={"Inventory Variance Report"}></CardHeader>
               <CardBody>
                 {lodar && <Loading />}
                 <div className="form-group  global-form">
@@ -74,30 +63,28 @@ const WorkingCapitalVarianceReport = () => {
                       />
                     </div>
                     <div className="col-lg-3">
-                      <NewSelect
-                        name="fiscalYear"
-                        options={fiscalYearDDL || []}
-                        value={values?.fiscalYear}
-                        label="Year"
-                        disabled={!values?.plant}
-                        onChange={(valueOption) => {
-                          setFieldValue("fiscalYear", valueOption);
+                      <label>To Date</label>
+                      <InputField
+                        value={values?.toDate}
+                        name="todate"
+                        placeholder="To date"
+                        type="date"
+                        onChange={(e) => {
+                          setFieldValue("toDate", e.target.value);
                         }}
-                        errors={errors}
-                        touched={touched}
                       />
                     </div>
-
+                    {console.log(values)}
                     <div>
                       <button
                         style={{ marginTop: "20px" }}
                         className="btn btn-primary ml-2"
                         disabled={
-                          !values?.currentBusinessUnit || !values?.fiscalYear
+                          !values?.currentBusinessUnit || !values?.toDate
                         }
                         onClick={() => {
                           getRowData(
-                            `/fino/Report/GetWorkingCapitalVarianceReport?businessUnitId=${values?.currentBusinessUnit?.value}&strYear=${values?.fiscalYear?.label}`
+                            `/fino/Report/GetInventoryVarianceReport?businessUnitId=${values?.currentBusinessUnit?.value}&toDate=${values?.toDate}`
                           );
                         }}
                       >
@@ -116,10 +103,11 @@ const WorkingCapitalVarianceReport = () => {
                         <thead>
                           <tr>
                             <th>SL</th>
-                            <th>General Laser Code</th>
-                            <th>General Laser Name</th>
-                            <th>Planned</th>
-                            <th>Actual</th>
+                            <th>Item Name</th>
+                            <th>Item Code</th>
+                            <th>Item Type</th>
+                            <th>Actual (Safety Stock)</th>
+                            <th>Average Stock</th>
                             <th>Variance</th>
                           </tr>
                         </thead>
@@ -132,20 +120,26 @@ const WorkingCapitalVarianceReport = () => {
                                   className="text-center"
                                   // rowSpan={item?.intSectionCount}
                                 >
-                                  {item?.strGlCode}
+                                  {item?.strItemName}
                                 </td>
                                 <td
                                   className="text-center"
                                   // rowSpan={item?.intSectionCount}
                                 >
-                                  {item?.strGlName}
+                                  {item?.strItemCode}
+                                </td>
+                                <td
+                                  className="text-center"
+                                  // rowSpan={item?.intSectionCount}
+                                >
+                                  {item?.strItemTypeName}
                                 </td>
                                 <td
                                   className="text-center"
                                   // rowSpan={item?.intSectionCount}
                                 >
                                   {numberWithCommas(
-                                    Math.round(item?.numPlanned) || 0
+                                    Math.round(item?.numSafetyStockQuantity) || 0
                                   )}
                                 </td>
                                 <td
@@ -153,16 +147,12 @@ const WorkingCapitalVarianceReport = () => {
                                   // rowSpan={item?.intSectionCount}
                                 >
                                   {numberWithCommas(
-                                    Math.round(item?.numActual) || 0
+                                    Math.round(item?.numAvgStock) ||
+                                      0
                                   )}
                                 </td>
-                                <td
-                                  className="text-center"
-                                  // rowSpan={item?.intSectionCount}
-                                >
-                                  {numberWithCommas(
-                                    Math.round(+item?.numPlanned - +item?.numActual) || 0
-                                  )}
+                                <td>
+                                  {numberWithCommas(Math.round(+item?.numSafetyStockQuantity - +item?.numAvgStock))}
                                 </td>
                               </tr>
                             ))}
@@ -180,4 +170,4 @@ const WorkingCapitalVarianceReport = () => {
   );
 };
 
-export default WorkingCapitalVarianceReport;
+export default InventoryVarianceReport;
