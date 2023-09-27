@@ -352,7 +352,7 @@ export default function DistributionPlanCreateEdit() {
                       }
                       onClick={() => {
                         getRowDto(
-                          `/oms/DistributionChannel/GetDistributionPlanningItemList?buisnessUnitId=${buId}&territoryid=${values?.territory?.value}&plantId=${values?.plant?.value}&warehouseId=${values?.warehouse?.value}&year=${values?.year?.value}&month=${values?.horizon?.value}`,
+                          `/oms/DistributionChannel/GetDistributionPlanningItemList?buisnessUnitId=${buId}&territoryid=${values?.territory?.value}&plantId=${values?.plant?.value}&warehouseId=${values?.warehouse?.value}&year=${values?.year?.value}&month=${values?.horizon?.monthId}`,
                           (res) => {
                             if (res?.response === 'Already Exists') {
                               toast.warn('Already Exist this entry!');
