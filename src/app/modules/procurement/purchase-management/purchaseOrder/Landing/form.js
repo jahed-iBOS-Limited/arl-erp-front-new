@@ -32,7 +32,7 @@ const initData = {
   purchaseOrg: "",
   plant: "",
   warehouse: "",
-}
+};
 // Validation schema
 const validationSchema = Yup.object().shape({});
 
@@ -118,7 +118,7 @@ export default function HeaderForm() {
           pageNo,
           pageSize,
           null,
-          poLandingInitData?.status?.label,
+          poLandingInitData?.status?.label
         )
       );
       getWarehouseDDL(poLandingInitData?.plant?.value);
@@ -144,7 +144,7 @@ export default function HeaderForm() {
         pageNo,
         pageSize,
         null,
-        poLandingInitData?.status?.label,
+        poLandingInitData?.status?.label
       )
     );
   };
@@ -185,7 +185,7 @@ export default function HeaderForm() {
         pageNo,
         pageSize,
         searchValue,
-        poLandingInitData?.status?.label,
+        poLandingInitData?.status?.label
       )
     );
   };
@@ -255,7 +255,7 @@ export default function HeaderForm() {
   useEffect(() => {
     if (newGrid?.length > 0) {
       setData([...newGrid]);
-    }else {
+    } else {
       setData([]);
     }
   }, [newGrid]);
@@ -266,7 +266,7 @@ export default function HeaderForm() {
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={{...initData,...poLandingInitData}}
+        initialValues={{ ...initData, ...poLandingInitData }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
@@ -318,7 +318,10 @@ export default function HeaderForm() {
                   !values?.purchaseOrg ||
                   !values?.sbu ||
                   !values?.refType ||
-                  !values?.orderType
+                  !values?.orderType ||
+                  (selectedBusinessUnit?.value !== 184 &&
+                    values?.orderType?.label === "Standard PO" &&
+                    values?.purchaseOrg?.label === "Local Procurement")
                 }
                 type="button"
                 className="btn btn-primary ml-3"
@@ -371,7 +374,7 @@ export default function HeaderForm() {
                       value={values?.status}
                       label="Status"
                       onChange={(v) => {
-                        setData([])
+                        setData([]);
                         setFieldValue("status", v);
                       }}
                       placeholder="Status"
@@ -431,7 +434,7 @@ export default function HeaderForm() {
                             pageNo,
                             pageSize,
                             null,
-                            values?.status?.value,
+                            values?.status?.value
                           )
                         );
                         dispatch(setPOLandingDataAction(values));
