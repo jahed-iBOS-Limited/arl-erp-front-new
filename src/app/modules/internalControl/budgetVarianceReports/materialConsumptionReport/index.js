@@ -29,6 +29,8 @@ function MaterialConsumptionVarianceReport() {
     return state.authData.businessUnitList;
   }, shallowEqual);
 
+  
+
   return (
     <>
       <Formik
@@ -114,10 +116,15 @@ function MaterialConsumptionVarianceReport() {
                         !values?.consumptionType.value
                       }
                       onClick={() => {
+                        const [year, month] = values?.monthYear.split("-").map(Number);
+                        const startDate = new Date(Date.UTC(year, month - 1, 1));
+                        const endDate = new Date(Date.UTC(year, month, 0));
+                        const formattedStartDate = startDate.toISOString().split("T")[0];
+                        const formattedEndDate = endDate.toISOString().split("T")[0];
                         getRowDto(
                           `/fino/Report/GetRawMaterialConsumptionVarianceReport?intBusinessUnitId=${
                             values?.currentBusinessUnit?.value
-                          }&fromDate=${`${values?.monthYear}-01`}&toDate=${`${values?.monthYear}-01`}&ConsumptionTypeId=${
+                          }&fromDate=${formattedStartDate}&toDate=${formattedEndDate}&ConsumptionTypeId=${
                             values?.consumptionType.value
                           }`,
                           (data) => {

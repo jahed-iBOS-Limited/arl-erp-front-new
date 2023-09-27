@@ -9,6 +9,7 @@ import MaterialConsumptionVarianceReport from "./materialConsumptionReport";
 import MaterialPriceVariance from "./metarialPriceVariance";
 import ProductionVarianceReport from "./productionVarianceReport";
 import BudgetVsSalesVarient from "./salesBudgetVarianceReport";
+import WorkingCapitalVarianceReport from "./workingCapitalVarianceReport";
 
 
 const BudgetVarianceReportPages = () => {
@@ -54,6 +55,10 @@ const BudgetVarianceReportPages = () => {
       <ContentRoute
         path="/internal-control/budgetvariancereport/distributionratereport"
         component={DistributionRateVariance}
+      />
+      <ContentRoute
+        path="/internal-control/budgetvariancereport/workingcapitalreport"
+        component={WorkingCapitalVarianceReport}
       />
       
     </Switch>

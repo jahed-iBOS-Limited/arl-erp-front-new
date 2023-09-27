@@ -37,6 +37,8 @@ function CostOfProductionReport() {
     const formattedStartDate = startDate.toISOString().split("T")[0];
     const formattedEndDate = endDate.toISOString().split("T")[0];
 
+    console.log("formattedEndDate", formattedEndDate)
+
     getRowDto(
       `/fino/Report/GetMachineWiseCostOfProduction?intBusinessUnitId=${values?.currentBusinessUnit?.value}&fromDate=${formattedStartDate}&toDate=${formattedEndDate}`,
       (data) => {
