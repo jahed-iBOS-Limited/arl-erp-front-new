@@ -1,4 +1,5 @@
 import React from "react";
+import numberWithCommas from "../../_helper/_numberWithCommas";
 export default function ProjectedPlannedAssetSchedule({ rowData }) {
   let numOpeningTotal = 0;
   let numAdditionTotal = 0;
@@ -52,28 +53,68 @@ export default function ProjectedPlannedAssetSchedule({ rowData }) {
                   <tr key={index}>
                     <td className="text-center">{item?.strGLCode}</td>
                     <td>{item?.strGlName}</td>
-                    <td className="text-center">{item?.numOpening}</td>
-                    <td className="text-center">{item?.numAddition}</td>
-                    <td className="text-center">{item?.numAdjustment}</td>
-                    <td className="text-center">{item?.numClosing}</td>
-                    <td className="text-center">{item?.numOpeningAccDep}</td>
-                    <td className="text-center">{item?.numChargedDurAccDep}</td>
-                    <td className="text-center">{item?.numClosingAccDep}</td>
-                    <td className="text-center">{item?.numNetAsset}</td>
+                    <td className="text-center">
+                      {numberWithCommas(Math.round(item?.numOpening) || 0)}
+                    </td>
+                    <td className="text-center">
+                      {numberWithCommas(Math.round(item?.numAddition) || 0)}
+                    </td>
+                    <td className="text-center">
+                      {numberWithCommas(Math.round(item?.numAdjustment) || 0)}
+                    </td>
+                    <td className="text-center">
+                      {numberWithCommas(Math.round(item?.numClosing) || 0)}
+                    </td>
+                    <td className="text-center">
+                      {numberWithCommas(
+                        Math.round(item?.numOpeningAccDep) || 0
+                      )}
+                    </td>
+                    <td className="text-center">
+                      {numberWithCommas(
+                        Math.round(item?.numChargedDurAccDep) || 0
+                      )}
+                    </td>
+                    <td className="text-center">
+                      {numberWithCommas(
+                        Math.round(item?.numClosingAccDep) || 0
+                      )}
+                    </td>
+                    <td className="text-center">
+                      {numberWithCommas(Math.round(item?.numNetAsset) || 0)}
+                    </td>
                   </tr>
                 ))}
                 <tr>
                   <td colSpan={2} className="text-center">
                     <strong> Total</strong>
                   </td>
-                  <td className="text-center">{numOpeningTotal}</td>
-                  <td className="text-center">{numAdditionTotal}</td>
-                  <td className="text-center">{numAdjustmentTotal}</td>
-                  <td className="text-center">{numClosingTotal}</td>
-                  <td className="text-center">{numOpeningAccDepTotal}</td>
-                  <td className="text-center">{numChargedDurAccDepTotal}</td>
-                  <td className="text-center">{numClosingAccDepTotal}</td>
-                  <td className="text-center">{numNetAssetTotal}</td>
+                  <td className="text-center">
+                    {numberWithCommas(Math.round(numOpeningTotal) || 0)}
+                  </td>
+                  <td className="text-center">
+                    {numberWithCommas(Math.round(numAdditionTotal) || 0)}
+                  </td>
+                  <td className="text-center">
+                    {numberWithCommas(Math.round(numAdjustmentTotal) || 0)}
+                  </td>
+                  <td className="text-center">
+                    {numberWithCommas(Math.round(numClosingTotal) || 0)}
+                  </td>
+                  <td className="text-center">
+                    {numberWithCommas(Math.round(numOpeningAccDepTotal) || 0)}
+                  </td>
+                  <td className="text-center">
+                    {numberWithCommas(
+                      Math.round(numChargedDurAccDepTotal) || 0
+                    )}
+                  </td>
+                  <td className="text-center">
+                    {numberWithCommas(Math.round(numClosingAccDepTotal) || 0)}
+                  </td>
+                  <td className="text-center">
+                    {numberWithCommas(Math.round(numNetAssetTotal) || 0)}
+                  </td>
                 </tr>
               </tbody>
             </table>
