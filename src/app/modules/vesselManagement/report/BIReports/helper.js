@@ -69,3 +69,12 @@ export const GetDomesticPortDDL = async (setter) => {
       setter([]);
     }
   };
+
+export const GetDomesticPortDDLWMS = async (setter) => {
+  try {
+    const res = await axios.get(`/wms/FertilizerOperation/GetDomesticPortDDL`);
+    setter(res?.data);
+  } catch (error) {
+    setter([]);
+  }
+};

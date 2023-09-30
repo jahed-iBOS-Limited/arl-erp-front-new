@@ -8,6 +8,7 @@ import ICustomCard from "../../../_helper/_customCard";
 import NewSelect from "../../../_helper/_select";
 import { _todayDate } from "../../../_helper/_todayDate";
 import {
+  GetDomesticPortDDLWMS,
   GetLighterVesselDDL,
   getMotherVesselDDL,
   getShippointDDL,
@@ -26,6 +27,8 @@ const types = [
   { value: 6, label: "WareHouse Inventory Report" },
 ];
 
+const WareHouseInventoryReport = 6;
+
 const InventoryG2GReportRDLC = () => {
   const groupId = `e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`;
   const reportId = `e6aa2fa0-33e0-4457-ac7c-a535717e326e`;
@@ -36,6 +39,7 @@ const InventoryG2GReportRDLC = () => {
   const [shippointDDL, setShippointDDL] = useState([]);
   const [rowData, getRowData, loading, setRowData] = useAxiosGet();
   const [plantDDL, getPlantDDL] = useAxiosGet();
+  const [portDDL, setPortDDL] = useState([]);
 
   const initData = {
     type: "",
@@ -66,6 +70,7 @@ const InventoryG2GReportRDLC = () => {
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const getData = (values, searchTerm = "", _pageNo = 0, _pageSize = 1500) => {
+
     const typeId = values?.type?.value;
     const search = searchTerm ? `&searchTerm=${searchTerm}` : "";
 
@@ -73,7 +78,7 @@ const InventoryG2GReportRDLC = () => {
     const urlOne = `/tms/LigterLoadUnload/G2GChallanWiseSalesReport?accountId=${accId}&businessUnitId=${buId}${search}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`;
 
     // Mother Vessel Inventory Report
-    const urlTwo = `/tms/InternalTransport/GetG2gInventoryInformation?intUnit=${buId}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}&intPlantId=${values?.plant?.value}&intItemTypeId=${typeId}&intItemId=0&intWareHouseId=${values?.shippoint?.value}&PageNo=${_pageNo}&PageSize=${_pageSize}`;
+    const urlTwo = `/tms/InternalTransport/GetG2gInventoryInformation?intUnit=${buId}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}&intPlantId=${values?.plant?.value}&intItemTypeId=${typeId}&intItemId=${values?.motherVessel?.value || 0}&intWareHouseId=${values?.shippoint?.value}&PageNo=${_pageNo}&PageSize=${_pageSize}`;
 
     const URL = [4].includes(typeId)
       ? urlOne
@@ -93,10 +98,14 @@ const InventoryG2GReportRDLC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
 
+  useEffect(() => {
+    GetDomesticPortDDLWMS(setPortDDL);
+  }, [accId, buId]);
+
   return (
     <>
       <Formik enableReinitialize={true} initialValues={initData}>
-        {({ values, setFieldValue }) => (
+        {({ values, setFieldValue,errors,touched }) => (
           <ICustomCard title="Inventory Report">
             {loading && <Loading />}
             <form className="form form-label-right">
@@ -111,6 +120,7 @@ const InventoryG2GReportRDLC = () => {
                       setShowReport(false);
                       setFieldValue("type", valueOption);
                       setFieldValue("viewType", 0);
+                      setFieldValue("motherVessel", "");
                       setRowData([]);
                     }}
                     placeholder="Type"
@@ -223,6 +233,42 @@ const InventoryG2GReportRDLC = () => {
                     />
                   </div>
                 ) : null}
+                {values?.type?.value === WareHouseInventoryReport && <>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="port"
+                      options={portDDL || []}
+                      value={values?.port}
+                      label="Port"
+                      onChange={(valueOption) => {
+                        setFieldValue("port", valueOption);
+                        setFieldValue("motherVessel", "");
+                        getMotherVesselDDL(
+                          accId,
+                          buId,
+                          valueOption?.value,
+                          setMotherVesselDDL
+                        );
+                      }}
+                      placeholder="Port"
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="motherVessel"
+                      options={[{value : 0, label: "All"} , ...motherVesselDDL]}
+                      value={values?.motherVessel}
+                      label="Mother Vessel"
+                      onChange={(valueOption) => {
+                        setFieldValue("motherVessel", valueOption);
+                      }}
+                      placeholder="Mother Vessel"
+                    />
+                  </div>
+                </>}
                 <FromDateToDateForm
                   obj={{
                     values,
