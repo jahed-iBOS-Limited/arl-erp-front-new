@@ -16,12 +16,14 @@ import ChallanWiseSalesReport from "./challanWiseSalesTable";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import Loading from "../../../_helper/_loading";
 import MotherVesselInventoryReportTable from "./MVInventoryTable";
+import WareHouseInventoryReportTable from "./wareHouseInventoryReportTable";
 
 const types = [
   { value: 5, label: "Mother Vessel Inventory Report" },
   { value: 1, label: "Mother Vessel Report" },
   { value: 3, label: "Stock Wise Report" },
   { value: 4, label: "Challan Wise Sales Report" },
+  { value: 6, label: "WareHouse Inventory Report" },
 ];
 
 const InventoryG2GReportRDLC = () => {
@@ -71,11 +73,11 @@ const InventoryG2GReportRDLC = () => {
     const urlOne = `/tms/LigterLoadUnload/G2GChallanWiseSalesReport?accountId=${accId}&businessUnitId=${buId}${search}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`;
 
     // Mother Vessel Inventory Report
-    const urlTwo = `/tms/InternalTransport/GetG2gInventoryInformation?intUnit=${buId}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}&intPlantId=${values?.plant?.value}&intItemTypeId=0&intItemId=0&intWareHouseId=${values?.shippoint?.value}&PageNo=${_pageNo}&PageSize=${_pageSize}`;
+    const urlTwo = `/tms/InternalTransport/GetG2gInventoryInformation?intUnit=${buId}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}&intPlantId=${values?.plant?.value}&intItemTypeId=${typeId}&intItemId=0&intWareHouseId=${values?.shippoint?.value}&PageNo=${_pageNo}&PageSize=${_pageSize}`;
 
     const URL = [4].includes(typeId)
       ? urlOne
-      : [5].includes(typeId)
+      : [5, 6].includes(typeId)
       ? urlTwo
       : ``;
 
@@ -114,7 +116,7 @@ const InventoryG2GReportRDLC = () => {
                     placeholder="Type"
                   />
                 </div>
-                {[5].includes(values?.type?.value) && (
+                {[5, 6].includes(values?.type?.value) && (
                   <div className="col-lg-3">
                     <NewSelect
                       name="plant"
@@ -130,14 +132,14 @@ const InventoryG2GReportRDLC = () => {
                     />
                   </div>
                 )}
-                {[1, 3, 5].includes(values?.type?.value) && (
+                {[1, 3, 5, 6].includes(values?.type?.value) && (
                   <>
                     <div className="col-lg-3">
                       <NewSelect
                         name="shippoint"
                         options={[{ value: 0, label: "All" }, ...shippointDDL]}
                         label={
-                          [5].includes(values?.type?.value)
+                          [5, 6].includes(values?.type?.value)
                             ? "Warehouse"
                             : "ShipPoint"
                         }
@@ -148,7 +150,7 @@ const InventoryG2GReportRDLC = () => {
                           setRowData([]);
                         }}
                         placeholder={
-                          [5].includes(values?.type?.value)
+                          [5, 6].includes(values?.type?.value)
                             ? "Warehouse"
                             : "ShipPoint"
                         }
@@ -238,7 +240,7 @@ const InventoryG2GReportRDLC = () => {
                     if ([1, 3].includes(values?.type?.value)) {
                       setShowReport(false);
                       setShowReport(true);
-                    } else if ([4, 5].includes(values?.type?.value)) {
+                    } else if ([4, 5, 6].includes(values?.type?.value)) {
                       getData(values, "");
                     }
                   }}
@@ -258,6 +260,9 @@ const InventoryG2GReportRDLC = () => {
             )}
             {[5].includes(values?.type?.value) && (
               <MotherVesselInventoryReportTable obj={{ rowData }} />
+            )}
+             {[6].includes(values?.type?.value) && (
+              <WareHouseInventoryReportTable rowData={rowData} />
             )}
           </ICustomCard>
         )}
