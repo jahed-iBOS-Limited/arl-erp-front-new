@@ -61,7 +61,7 @@ export default function PackingAndWeightListViewModal({
     const totalCarton = item?.Headings?.find(
       (item) => item?.HeaderName === "Total Carton"
     )?.HeaderValue;
-    return (netWeight + totalCarton * 0.4).toFixed(2);
+    return (netWeight + totalCarton * 0.5).toFixed(2);
   };
 
   const totalNetWeightSum = (data) => {
@@ -190,7 +190,7 @@ export default function PackingAndWeightListViewModal({
                         )}
                       >
                         <strong>SALES TERM:</strong>{" "}
-                        {quotationData?.HeaderData?.CountryOfOrigin?.toUpperCase()}
+                        {quotationData?.HeaderData?.SalesTerm?.toUpperCase()}
                       </td>
                     </tr>
                     <tr>
@@ -259,9 +259,9 @@ export default function PackingAndWeightListViewModal({
                           (quotationData?.Head?.length + 7) / 2
                         )}
                       >
-                        ISLAMI BANK BANGLADESH LIMITED <br />
+                        ISLAMI BANK BANGLADESH PLC <br />
                         HEAD OFFICE COMPLEX BRANCH <br />
-                        40 DILKUSHA C/A, DHAKA-1000, BANGLADESH. <br />
+                        41 DILKUSHA C/A, DHAKA-1000, BANGLADESH. <br />
                         ACCOUNT NO: 20502130100248815,
                         <br /> SWIFT CODE NO: IBBLBDDH213
                       </td>
@@ -272,7 +272,7 @@ export default function PackingAndWeightListViewModal({
                         )}
                       >
                         <strong>PLACE OF LOADING:</strong>{" "}
-                        {quotationData?.HeaderData?.SalesOfficeName?.toUpperCase()}{" "}
+                        {quotationData?.HeaderData?.PortofShipment?.toUpperCase()}{" "}
                         <br />
                         <strong>PORT OF DISCHARGE:</strong>{" "}
                         {quotationData?.HeaderData?.PortofDishcharge?.toUpperCase()}{" "}
@@ -280,12 +280,12 @@ export default function PackingAndWeightListViewModal({
                         <strong>FINAL DESTINATION:</strong>{" "}
                         {quotationData?.HeaderData?.FinalDestination?.toUpperCase()}{" "}
                         <br />
-                        <strong>EXP NO:</strong>{" "}
+                        {/* <strong>EXP NO:</strong>{" "}
                         {quotationData?.HeaderData?.ExPortPermissionNo?.toUpperCase()}{" "}
                         <strong className="ml-5">DATE:</strong>{" "}
                         {_dateFormatter(
                           quotationData?.HeaderData?.PricingDate?.toUpperCase()
-                        )}
+                        )} */}
                       </td>
                     </tr>
                     <tr>
