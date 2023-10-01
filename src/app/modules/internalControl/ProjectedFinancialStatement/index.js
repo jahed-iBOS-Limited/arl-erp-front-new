@@ -1,26 +1,26 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
+import { _firstDateOfCurrentFiscalYear } from "../../_helper/_firstDateOfCurrentFiscalYear";
 import IForm from "../../_helper/_form";
 import InputField from "../../_helper/_inputField";
 import Loading from "../../_helper/_loading";
+import { _monthLastDate } from "../../_helper/_monthLastDate";
 import NewSelect from "../../_helper/_select";
 import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
-import TrailBalanceProjected from "./trailBalanceProjected";
+import ProjectedBalanceReport from "./ProjectedBalanceReport";
+import ProjectedCashFlow from "./ProjectedCashFlow";
+import ProjectedFinancialRations from "./ProjectedFinancialRations";
+import ProjectedPlannedAssetSchedule from "./ProjectedPlannedAssetSchedule";
+import ProjectedPlannedFundRequirement from "./ProjectedPlannedFundRequirement";
+import ProjectedTrailBalanceMultiColumn from "./ProjectedTrailBalanceMultiColumn";
 import {
   getIncomeStatement_api,
   getProfitCenterDDL,
   manageBalanceData,
 } from "./helper";
 import ProjectedIncomeStatement from "./projectedIncomeStatement";
-import ProjectedBalanceReport from "./ProjectedBalanceReport";
-import ProjectedCashFlow from "./ProjectedCashFlow";
-import ProjectedTrailBalanceMultiColumn from "./ProjectedTrailBalanceMultiColumn";
-import ProjectedFinancialRations from "./ProjectedFinancialRations";
-import { _firstDateOfCurrentFiscalYear } from "../../_helper/_firstDateOfCurrentFiscalYear";
-import { _monthLastDate } from "../../_helper/_monthLastDate";
-import ProjectedPlannedAssetSchedule from "./ProjectedPlannedAssetSchedule";
-import ProjectedPlannedFundRequirement from "./ProjectedPlannedFundRequirement";
+import TrailBalanceProjected from "./trailBalanceProjected";
 
 const initData = {
   reportType: "",
@@ -32,6 +32,9 @@ const initData = {
   toDate: _monthLastDate(),
   conversionRate: 1,
   date: _monthLastDate(),
+  viewType: "",
+  productDivision: "",
+  tradeType: "",
 };
 export default function ProjectedFinancialStatement() {
   const [buDDL, getBuDDL, buDDLloader, setBuDDL] = useAxiosGet();
@@ -90,6 +93,13 @@ export default function ProjectedFinancialStatement() {
     ,
     getFinancialRatioComponentTableForLastPeriod,
     financialRatioComponentTableForLastPeriodLoader,
+  ] = useAxiosGet();
+
+  const [
+    tradeAndDivisionDDL,
+    getTradeAndDivisionDDL,
+    tradeAndDivisionLoader,
+    setTradeAndDivisionDDL,
   ] = useAxiosGet();
 
   useEffect(() => {
@@ -279,21 +289,24 @@ export default function ProjectedFinancialStatement() {
                         value={values?.businessUnit}
                         label="Business Unit"
                         onChange={(valueOption) => {
+                          setTradeAndDivisionDDL([]);
                           setFieldValue("businessUnit", valueOption);
                           setFieldValue("profitCenter", "");
+                          setFieldValue("viewType", "");
                           setIncomeStatement([]);
                           if (valueOption?.value >= 0) {
-                            getProfitCenterDDL(
-                              valueOption?.value,
-                              (profitCenterDDLData) => {
-                                setProfitCenterDDL(profitCenterDDLData);
-                                setFieldValue("businessUnit", valueOption);
-                                setFieldValue(
-                                  "profitCenter",
-                                  profitCenterDDLData?.[0] || ""
-                                );
-                              }
-                            );
+                            setFieldValue("businessUnit", valueOption);
+                            // getProfitCenterDDL(
+                            //   valueOption?.value,
+                            //   (profitCenterDDLData) => {
+                            //     setProfitCenterDDL(profitCenterDDLData);
+                            //     setFieldValue("businessUnit", valueOption);
+                            //     setFieldValue(
+                            //       "profitCenter",
+                            //       profitCenterDDLData?.[0] || ""
+                            //     );
+                            //   }
+                            // );
                           }
                         }}
                         placeholder="Business Unit"
@@ -303,21 +316,109 @@ export default function ProjectedFinancialStatement() {
                       <NewSelect
                         isDisabled={
                           values?.businessUnit?.value === 0 ||
-                          !values?.businessUnit
+                          !values?.businessUnit ||
+                          !values?.enterpriseDivision?.value
                             ? true
                             : false
                         }
-                        name="profitCenter"
-                        options={profitCenterDDL || []}
-                        value={values?.profitCenter}
-                        label="Profit Center"
+                        name="viewType"
+                        options={[
+                          { value: "profitCenter", label: "Profit Center" },
+                          {
+                            value: "Product Division",
+                            label: "Product Division",
+                          },
+                          { value: "Trade Type", label: "Trade Type" },
+                        ]}
+                        value={values?.viewType}
+                        label="View Type"
                         onChange={(valueOption) => {
-                          setFieldValue("profitCenter", valueOption);
+                          setFieldValue("viewType", valueOption);
+                          if (valueOption?.value === "profitCenter") {
+                            getProfitCenterDDL(
+                              values?.businessUnit?.value,
+                              (profitCenterDDLData) => {
+                                setProfitCenterDDL(profitCenterDDLData);
+                                // setFieldValue("businessUnit", valueOption);
+                                setFieldValue(
+                                  "profitCenter",
+                                  profitCenterDDLData?.[0] || ""
+                                );
+                              }
+                            );
+                          }
+                          if (
+                            valueOption?.value &&
+                            valueOption?.value !== "profitCenter"
+                          ) {
+                            getTradeAndDivisionDDL(
+                              `/fino/CostSheet/ProfitCenterDivisionChannelDDL?BUId=${values?.businessUnit?.value}&Type=${valueOption?.value}`
+                            );
+                          }
+
                           setIncomeStatement([]);
                         }}
-                        placeholder="Profit Center"
+                        placeholder="View Type"
                       />
                     </div>
+                    {values?.viewType?.value === "profitCenter" && (
+                      <div className="col-md-3">
+                        <NewSelect
+                          // isDisabled={
+                          //   values?.businessUnit?.value === 0 ||
+                          //   !values?.businessUnit
+                          //     ? true
+                          //     : false
+                          // }
+                          name="profitCenter"
+                          options={profitCenterDDL || []}
+                          value={values?.profitCenter}
+                          label="Profit Center"
+                          onChange={(valueOption) => {
+                            setFieldValue("profitCenter", valueOption);
+                            setIncomeStatement([]);
+                          }}
+                          placeholder="Profit Center"
+                        />
+                      </div>
+                    )}
+                    {values?.viewType?.value === "Product Division" && (
+                      <div className="col-md-3">
+                        <NewSelect
+                          // isDisabled={
+                          //   values?.businessUnit?.value === 0 ||
+                          //   !values?.businessUnit
+                          //     ? true
+                          //     : false
+                          // }
+                          name="productDivision"
+                          options={tradeAndDivisionDDL || []}
+                          value={values?.productDivision}
+                          label="Product Division"
+                          onChange={(valueOption) => {
+                            setFieldValue("productDivision", valueOption);
+                            setIncomeStatement([]);
+                          }}
+                          placeholder="Product Division"
+                        />
+                      </div>
+                    )}
+                    {values?.viewType?.value === "Trade Type" && (
+                      <div className="col-md-3">
+                        <NewSelect
+                          isDisabled={!values?.viewType}
+                          name="tradeType"
+                          options={tradeAndDivisionDDL || []}
+                          value={values?.tradeType}
+                          label="Trade Type"
+                          onChange={(valueOption) => {
+                            setFieldValue("tradeType", valueOption);
+                            setIncomeStatement([]);
+                          }}
+                          placeholder="Product Division"
+                        />
+                      </div>
+                    )}
                     <div className="col-md-2">
                       <label>Conversion Rate</label>
                       <InputField
@@ -466,7 +567,6 @@ export default function ProjectedFinancialStatement() {
                         name="fromDate"
                         type="date"
                         onChange={(e) => {
-                          console.log("e.target.value", e.target.value);
                           setFieldValue("fromDate", e.target.value);
                           setRowData([]);
                         }}
@@ -670,7 +770,13 @@ export default function ProjectedFinancialStatement() {
                           values?.conversionRate,
                           values?.subDivision,
                           values?.reportType?.value,
-                          values?.profitCenter?.value
+                          values?.profitCenter?.value,
+                          values?.viewType?.value,
+                          values?.productDivision?.value
+                            ? values?.productDivision?.value
+                            : values?.profitCenter?.value
+                            ? values?.profitCenter?.label
+                            : values?.tradeType?.value
                         );
                       }
                       if ([3]?.includes(values?.reportType?.value)) {
