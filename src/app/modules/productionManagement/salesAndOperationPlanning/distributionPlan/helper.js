@@ -1,55 +1,55 @@
-import { toast } from 'react-toastify';
-import * as Yup from 'yup';
+import { toast } from "react-toastify";
+import * as Yup from "yup";
 
 export const validationSchema = Yup.object().shape({
   channel: Yup.object()
     .shape({
-      label: Yup.string().required('Channel is required'),
-      value: Yup.string().required('Channel is required'),
+      label: Yup.string().required("Channel is required"),
+      value: Yup.string().required("Channel is required"),
     })
-    .typeError('Channel is required'),
+    .typeError("Channel is required"),
   region: Yup.object()
     .shape({
-      label: Yup.string().required('Region is required'),
-      value: Yup.string().required('Region is required'),
+      label: Yup.string().required("Region is required"),
+      value: Yup.string().required("Region is required"),
     })
-    .typeError('Region is required'),
+    .typeError("Region is required"),
   area: Yup.object()
     .shape({
-      label: Yup.string().required('Area is required'),
-      value: Yup.string().required('Area is required'),
+      label: Yup.string().required("Area is required"),
+      value: Yup.string().required("Area is required"),
     })
-    .typeError('Area is required'),
+    .typeError("Area is required"),
   territory: Yup.object()
     .shape({
-      label: Yup.string().required('Territory is required'),
-      value: Yup.string().required('Territory is required'),
+      label: Yup.string().required("Territory is required"),
+      value: Yup.string().required("Territory is required"),
     })
-    .typeError('Territory is required'),
+    .typeError("Territory is required"),
   plant: Yup.object()
     .shape({
-      label: Yup.string().required('Plant is required'),
-      value: Yup.string().required('Plant is required'),
+      label: Yup.string().required("Plant is required"),
+      value: Yup.string().required("Plant is required"),
     })
-    .typeError('Plant is required'),
+    .typeError("Plant is required"),
   warehouse: Yup.object()
     .shape({
-      label: Yup.string().required('Warehouse is required'),
-      value: Yup.string().required('Warehouse is required'),
+      label: Yup.string().required("Warehouse is required"),
+      value: Yup.string().required("Warehouse is required"),
     })
-    .typeError('Warehouse is required'),
+    .typeError("Warehouse is required"),
   year: Yup.object()
     .shape({
-      label: Yup.string().required('Year is required'),
-      value: Yup.string().required('Year is required'),
+      label: Yup.string().required("Year is required"),
+      value: Yup.string().required("Year is required"),
     })
-    .typeError('Year is required'),
+    .typeError("Year is required"),
   horizon: Yup.object()
     .shape({
-      label: Yup.string().required('Horizon is required'),
-      value: Yup.string().required('Horizon is required'),
+      label: Yup.string().required("Horizon is required"),
+      value: Yup.string().required("Horizon is required"),
     })
-    .typeError('Horizon is required'),
+    .typeError("Horizon is required"),
 });
 
 export const getModifiedInitData = (item) => {
@@ -57,30 +57,46 @@ export const getModifiedInitData = (item) => {
     return {
       channel:
         item?.distributionChannelId && item?.distributionChannelName
-          ? { value: item?.distributionChannelId, label: item?.distributionChannelName }
-          : '',
+          ? {
+              value: item?.distributionChannelId,
+              label: item?.distributionChannelName,
+            }
+          : "",
       region:
         item?.regionId && item?.regionName
           ? { value: item?.regionId, label: item?.regionName }
-          : '',
-      area: item?.areaId && item?.areaName ? { value: item?.areaId, label: item?.areaName } : '',
+          : "",
+      area:
+        item?.areaId && item?.areaName
+          ? { value: item?.areaId, label: item?.areaName }
+          : "",
       territory:
         item?.territoryId && item?.territoryName
           ? { value: item?.territoryId, label: item?.territoryName }
-          : '',
+          : "",
       plant:
         item?.plantHouseId && item?.plantHouseName
           ? { value: item?.plantHouseId, label: item?.plantHouseName }
-          : '',
+          : "",
       warehouse:
         item?.wareHouseId && item?.wareHouseName
           ? { value: item?.wareHouseId, label: item?.wareHouseName }
-          : '',
-      year: item?.yearId && item?.yearId ? { value: item?.yearId, label: item?.yearId } : '',
+          : "",
+      year:
+        item?.yearId && item?.yearId
+          ? { value: item?.yearId, label: item?.yearId }
+          : "",
       horizon:
-        item?.monthId && item?.monthName ? { value: item?.intPlanningHorizonRowId, label: item?.monthName, planHorizonHeaderId: item?.intPlanningHorizonId, monthId: item?.monthId } : '',
-      fromDate: item?.fromDate || '',
-      toDate: item?.toDate || '',
+        item?.monthId && item?.monthName
+          ? {
+              value: item?.intPlanningHorizonRowId,
+              label: item?.monthName,
+              planHorizonHeaderId: item?.intPlanningHorizonId,
+              monthId: item?.monthId,
+            }
+          : "",
+      fromDate: item?.fromDate || "",
+      toDate: item?.toDate || "",
     };
   } else {
     return {};
@@ -97,24 +113,24 @@ export const saveHandler = ({
   cb,
 }) => {
   if (!rowDto?.itemList?.length) {
-    return toast.warn('No Item Found');
+    return toast.warn("No Item Found");
   }
 
   for (let item of rowDto?.itemList) {
     if (item?.planQty || item?.planRate) {
       if (!item?.planQty) {
-        return toast.warn('Plan Qty(Direct) is required!');
+        return toast.warn("Plan Qty(Direct) is required!");
       }
       if (!item?.planRate) {
-        return toast.warn('Plan Rate(Direct) is required!');
+        return toast.warn("Plan Rate(Direct) is required!");
       }
     }
     if (item?.planTransQty || item?.planTransRate) {
       if (!item?.planTransQty) {
-        return toast.warn('Plan Qty(Via Transshipment) is required!');
+        return toast.warn("Plan Qty(Via Transshipment) is required!");
       }
       if (!item?.planTransRate) {
-        return toast.warn('Plan Rate(Via Transshipment) is required!');
+        return toast.warn("Plan Rate(Via Transshipment) is required!");
       }
     }
   }
@@ -154,6 +170,12 @@ export const saveHandler = ({
     intPlanningHorizonId: values?.horizon?.planHorizonHeaderId,
     intPlanningHorizonRowId: values?.horizon?.value,
     yearId: values?.year?.value,
+    distributionChannelName: values?.channel?.label,
+    regionName: values?.region?.label,
+    areaName: values?.area?.label,
+    territoryName: values?.territory?.label,
+    plantHouseName: values?.plant?.label,
+    wareHouseName: values?.warehouse?.label,
   };
   saveDistributionPlan(
     `/oms/DistributionChannel/CreateAndEditDistributionPlanning`,
