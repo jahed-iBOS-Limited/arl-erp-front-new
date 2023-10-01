@@ -209,6 +209,7 @@ export const getSalesPlanById = async (
       endDate: _dateFormatter(res?.data?.objHeader?.dteEndDateTime),
       horizon: {
         value: res?.data?.objHeader?.intPlanningHorizonId,
+        monthId: res?.data?.objHeader?.intMonthId,
         label: res?.data?.objHeader?.strHorizonName,
         intPlanningHorizonRowId: res?.data?.objHeader?.intPlanningHorizonRowId,
         intPlanningHorizonId: res?.data?.objHeader?.intPlanningHorizonId,
