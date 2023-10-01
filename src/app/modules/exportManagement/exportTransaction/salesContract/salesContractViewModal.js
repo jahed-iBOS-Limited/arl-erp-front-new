@@ -228,9 +228,9 @@ export default function SalesContractView({ quotationId }) {
                           (quotationData?.Head?.length + 6) / 2
                         )}
                       >
-                        ISLAMI BANK BANGLADESH LIMITED <br />
+                        ISLAMI BANK BANGLADESH PLC <br />
                         HEAD OFFICE COMPLEX BRANCH <br />
-                        40 DILKUSHA C/A, DHAKA-1000, BANGLADESH. <br />
+                        41 DILKUSHA C/A, DHAKA-1000, BANGLADESH. <br />
                         ACCOUNT NO: 20502130100248815, <br />
                         SWIFT CODE NO: IBBLBDDH213
                       </td>
