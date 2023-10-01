@@ -90,6 +90,8 @@ function LoginForm(props) {
       }
     ).toString();
     window.location.href = `${baseURl}?${encryptedText}`;
+
+   // loginAction(false);
   };
 
   const handleChange = ({ currentTarget: input }) => {
