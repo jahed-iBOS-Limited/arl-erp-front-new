@@ -279,8 +279,11 @@ export default function _Form({
                       <th>Ship To Partner</th>
                       <th>Delivery Date</th>
                       <th>Quantity</th>
-                      <th>Rate</th>
+                      <th>Transport Rate</th>
                       <th>Bill Amount</th>
+                      <th>Unload Labour Rate</th>
+                      <th>Transport Total</th>
+                      <th>Labour Total</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -296,7 +299,6 @@ export default function _Form({
                         <td className="text-center align-middle">
                           <input
                             type="checkbox"
-                            // value = {item?.checked ? true:false}
                             checked={item?.checked}
                             onChange={(e) => {
                               item["checked"] = e.target.checked;
@@ -327,6 +329,15 @@ export default function _Form({
                               setGridData([...gridData]);
                             }}
                           />
+                        </td>
+                        <td className="text-right">
+                          {item?.godownUnloadLabourRate}
+                        </td>
+                        <td className="text-right">
+                          {item?.quantity * item?.transportRate}
+                        </td>
+                        <td className="text-right">
+                          {+item?.quantity * +item?.godownUnloadLabourRate}
                         </td>
                       </tr>
                     ))}
