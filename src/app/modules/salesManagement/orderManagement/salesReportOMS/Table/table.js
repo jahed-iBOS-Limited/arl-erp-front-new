@@ -130,13 +130,13 @@ export default function SalesReportOMSTable() {
             "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}"
           }
         >
-          <div ref={printRef}>
+          <div>
             <div className='mx-auto SalesReportOMG'>
               <Formik enableReinitialize={true} initialValues={initData}>
                 {({ values, errors, touched, setFieldValue }) => (
                   <>
                     <Form className='form form-label-right'>
-                      <div className='form-group row global-form printSectionNone'>
+                      <div className='form-group row global-form'>
                         <div className='col-lg-3'>
                           <NewSelect
                             name='salesReportType'
@@ -357,30 +357,32 @@ export default function SalesReportOMSTable() {
                           </button>
                         </div>
                       </div>
-                    </Form>
-                    {loading && <Loading />}
-                    {/* sales report table */}
-                    {values?.salesReportType?.value === 1 && (
-                      <SalesReportTable
-                        rowDto={rowDto}
-                        selectedBusinessUnit={selectedBusinessUnit}
-                        values={values}
-                      />
-                    )}
+                      {loading && <Loading />}
+                      <div ref={printRef}>
+                        {/* sales report table */}
+                        {values?.salesReportType?.value === 1 && (
+                          <SalesReportTable
+                            rowDto={rowDto}
+                            selectedBusinessUnit={selectedBusinessUnit}
+                            values={values}
+                          />
+                        )}
 
-                    {/* Sellable Report Table */}
-                    {values?.salesReportType?.value === 2 && (
-                      <SellableReportTable
-                        rowDto={rowDto}
-                        selectedBusinessUnit={selectedBusinessUnit}
-                        values={values}
-                        commonGridDataApi={commonGridDataApi}
-                        setPageSize={setPageSize}
-                        setPageNo={setPageNo}
-                        pageSize={pageSize}
-                        pageNo={pageNo}
-                      />
-                    )}
+                        {/* Sellable Report Table */}
+                        {values?.salesReportType?.value === 2 && (
+                          <SellableReportTable
+                            rowDto={rowDto}
+                            selectedBusinessUnit={selectedBusinessUnit}
+                            values={values}
+                            commonGridDataApi={commonGridDataApi}
+                            setPageSize={setPageSize}
+                            setPageNo={setPageNo}
+                            pageSize={pageSize}
+                            pageNo={pageNo}
+                          />
+                        )}
+                      </div>
+                    </Form>
                   </>
                 )}
               </Formik>
@@ -626,13 +628,15 @@ function SellableReportTable({
           </div>
 
           {rowDto?.length > 0 && (
-            <PaginationTable
-              count={rowDto?.[0]?.totalRows}
-              setPositionHandler={(page) => {
-                commonGridDataApi(values);
-              }}
-              paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
-            />
+            <div className='printSectionNone'>
+              <PaginationTable
+                count={rowDto?.[0]?.totalRows}
+                setPositionHandler={(page) => {
+                  commonGridDataApi(values);
+                }}
+                paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
+              />
+            </div>
           )}
         </>
       )}
