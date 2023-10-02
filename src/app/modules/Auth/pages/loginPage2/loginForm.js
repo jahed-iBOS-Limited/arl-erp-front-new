@@ -73,25 +73,28 @@ function LoginForm(props) {
     let baseURl = "";
     if (process.env.NODE_ENV === "development") {
       baseURl = "http://localhost:3002";
-    } else if (window.location.hostname === "deverp.ibos.io") {
+    } else if (
+      window.location.hostname === "deverp.ibos.io" ||
+      window.location.hostname === "deverp.peopledesk.io"
+    ) {
       baseURl = "https://devarl.peopledesk.io";
     } else {
       baseURl = "https://arl.peopledesk.io";
     }
-  
+
     const encryptedText = CryptoJS.AES.encrypt(
       CryptoJS.enc.Utf8.parse(queryParams),
-      'redirectToErpLogin',
+      "redirectToErpLogin",
       {
         keySize: 128 / 8,
-        iv: 'redirectToErpLogin',
+        iv: "redirectToErpLogin",
         mode: CryptoJS.mode.CBC,
         padding: CryptoJS.pad.Pkcs7,
       }
     ).toString();
     window.location.href = `${baseURl}?${encryptedText}`;
 
-   // loginAction(false);
+    // loginAction(false);
   };
 
   const handleChange = ({ currentTarget: input }) => {
