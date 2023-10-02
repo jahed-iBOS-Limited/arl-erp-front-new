@@ -53,6 +53,7 @@ export const validationSchema = Yup.object().shape({
 });
 
 export const getModifiedInitData = (item) => {
+  console.log("item", item)
   if (item) {
     return {
       channel:
