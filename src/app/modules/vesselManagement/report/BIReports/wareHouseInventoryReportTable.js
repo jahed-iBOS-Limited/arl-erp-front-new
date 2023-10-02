@@ -41,6 +41,30 @@ export default function WareHouseInventoryReportTable({ rowData }) {
                   </tr>
                 );
               })}
+            <tr>
+              <td colSpan={5}>
+                <strong>Total</strong>
+              </td>
+              <td className="text-center">
+                {rowData.reduce((acc, { numInQty }) => acc + numInQty || 0, 0)}
+              </td>
+              <td className="text-center"></td>
+              <td className="text-center">
+                {rowData.reduce(
+                  (acc, { numOutQty }) => acc + numOutQty || 0,
+                  0
+                )}
+              </td>
+              <td className="text-center"></td>
+              <td className="text-center">
+                {rowData.reduce(
+                  (acc, { numCloseQty }) => acc + numCloseQty || 0,
+                  0
+                )}
+              </td>
+              <td className="text-center"></td>
+              <td className="text-center"></td>
+            </tr>
           </tbody>
         </table>
       </div>
