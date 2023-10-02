@@ -90,13 +90,11 @@ export const workPlan_landing_api = async (
   }
 };
 
-// https://erp.ibos.io/pms/CommonDDL/YearDDL?AccountId=1&BusinessUnitId=4
-
 export const commonYearDDL = async (setLoading, setter) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://erp.ibos.io/pms/CommonDDL/YearDDL?AccountId=1&BusinessUnitId=4`
+      `/pms/CommonDDL/YearDDL?AccountId=1&BusinessUnitId=4`
     );
 
     if (res.status === 200 && res.data) {

@@ -31,7 +31,7 @@ const SalesQuotationForCement = ({
         <div className="logo">
           <img
             style={{ width: "230px", height: "115px", objectFit: "cover" }}
-            src={`${"https://erp.ibos.io"}/domain/Document/DownlloadFile?id=${imageId}`}
+            src={`${window?.location?.origin}/domain/Document/DownlloadFile?id=${imageId}`}
             alt="logo"
           />
         </div>
