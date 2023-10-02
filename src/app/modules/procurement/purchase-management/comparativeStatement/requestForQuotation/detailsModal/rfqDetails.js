@@ -53,7 +53,7 @@ export function RFQViewDetails({ currentItem, isHiddenBackBtn }) {
     toBCC: rfqDetailsData[0]?.objSuplier?.map((itm) => (itm?.strEmail)),
     subject: `Request for Quotation No: ${rfqDetailsData[0]?.objHeader?.strRequestForQuotationCode}`,
     message: `Dear Sir, Please find the request for quotation: ${rfqDetailsData[0]?.objHeader?.strRequestForQuotationCode}
-    To enter the quotation, please go to the link,  https://erp.ibos.io/mngProcurement/comparative-statement/shipping-quotation-entry`,
+    To enter the quotation, please go to the link,  ${window?.location?.origin}/mngProcurement/comparative-statement/shipping-quotation-entry`,
     attachment: "",
   };
 

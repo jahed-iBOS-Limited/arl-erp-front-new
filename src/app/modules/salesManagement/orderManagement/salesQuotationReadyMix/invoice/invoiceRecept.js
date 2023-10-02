@@ -27,7 +27,7 @@ const InvoiceRecept = ({ printRef, invoiceData, businessPartnerInfo }) => {
         <div className="logo">
           <img
             style={{ width: "255px", objectFit: "cover" }}
-            src={`${"https://erp.ibos.io"}/domain/Document/DownlloadFile?id=${
+            src={`${window?.location?.origin}/domain/Document/DownlloadFile?id=${
               selectedBusinessUnit?.imageId
             }`}
             alt=""
