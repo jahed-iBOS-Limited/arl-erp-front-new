@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import IForm from "./../../../_helper/_form";
 import InputField from "./../../../_helper/_inputField";
@@ -8,6 +8,10 @@ import NewSelect from "./../../../_helper/_select";
 import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
 import IViewModal from "../../../_helper/_viewModal";
 import Schedule from "./schedule";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { shallowEqual, useSelector } from "react-redux";
+import IDelete from "../../../_helper/_helperIcons/_delete";
+import { toast } from "react-toastify";
 
 const initData = {
   salesOrg: "",
@@ -35,9 +39,26 @@ const initData = {
 // });
 
 export default function ServiceSalesCreate() {
+  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
+
   const [objProps, setObjprops] = useState({});
   const [attachmentList, setAttachmentList] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [customerList, getCustomerList] = useAxiosGet();
+  const [itemDDL, getItemDDL] = useAxiosGet();
+  const [itemList, setItemList] = useState([]);
+
+  useEffect(() => {
+    getCustomerList(
+      `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
+    );
+    getItemDDL(
+      `/oms/SalesOrder/GetgetServiceItemList?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = (values, cb) => {
     alert("Working...");
@@ -64,15 +85,15 @@ export default function ServiceSalesCreate() {
       }) => (
         <>
           {false && <Loading />}
-          <IForm title="Service Sales Entry" getProps={setObjprops}>
+          <IForm title="Create Service Sales Order" getProps={setObjprops}>
             <Form>
               <div className="form-group  global-form row">
                 <div className="col-lg-3">
                   <NewSelect
                     name="salesOrg"
                     options={[
-                      { value: 1, label: "salesOrg-1" },
-                      { value: 2, label: "salesOrg-2" },
+                      { value: 1, label: "Local Sales" },
+                      { value: 2, label: "Foreign Sales " },
                     ]}
                     value={values?.salesOrg}
                     label="Sales Org"
@@ -86,10 +107,7 @@ export default function ServiceSalesCreate() {
                 <div className="col-lg-3">
                   <NewSelect
                     name="customer"
-                    options={[
-                      { value: 1, label: "customer-1" },
-                      { value: 2, label: "customer-2" },
-                    ]}
+                    options={customerList || []}
                     value={values?.customer}
                     label="Customer"
                     onChange={(valueOption) => {
@@ -139,13 +157,12 @@ export default function ServiceSalesCreate() {
                 </div>
                 {[1]?.includes(values?.paymentType?.value) ? (
                   <>
-                    {" "}
                     <div className="col-lg-3">
                       <NewSelect
                         name="scheduleType"
                         options={[
-                          { value: 1, label: "scheduleType-1" },
-                          { value: 2, label: "scheduleType-2" },
+                          { value: 1, label: "Monthly" },
+                          { value: 2, label: "Yearly" },
                         ]}
                         value={values?.scheduleType}
                         label="Schedule Type"
@@ -172,18 +189,19 @@ export default function ServiceSalesCreate() {
                         value={values?.validFrom}
                         label="Valid From"
                         name="validFrom"
-                        type="validFrom"
+                        type="date"
                         onChange={(e) => {
                           setFieldValue("validFrom", e.target.value);
                         }}
                       />
                     </div>
+                    {console.log("values", values)}
                     <div className="col-lg-3">
                       <InputField
                         value={values?.validTo}
                         label="Valid To"
                         name="validTo"
-                        type="validTo"
+                        type="date"
                         onChange={(e) => {
                           setFieldValue("validTo", e.target.value);
                         }}
@@ -206,10 +224,7 @@ export default function ServiceSalesCreate() {
                 <div className="col-lg-3">
                   <NewSelect
                     name="item"
-                    options={[
-                      { value: 1, label: "item-1" },
-                      { value: 2, label: "item-2" },
-                    ]}
+                    options={itemDDL || []}
                     value={values?.item}
                     label="Item Name"
                     onChange={(valueOption) => {
@@ -220,7 +235,7 @@ export default function ServiceSalesCreate() {
                   />
                 </div>
 
-                <div className="col-lg-3">
+                {/* <div className="col-lg-3">
                   <InputField
                     value={values?.qty}
                     label="Qty"
@@ -252,18 +267,43 @@ export default function ServiceSalesCreate() {
                       setFieldValue("vat", e.target.value);
                     }}
                   />
-                </div>
+                </div> */}
                 <div className="d-flex">
                   <div style={{ marginTop: "18px" }}>
-                    <button type="button" className="btn btn-primary ml-4">
+                    <button
+                      type="button"
+                      disabled={!values?.item?.value}
+                      className="btn btn-primary ml-4"
+                      onClick={() => {
+                        let isExist = itemList?.some(
+                          (item) => item.label === values?.item?.label
+                        );
+                        if (isExist) return toast.warn("Already exist");
+                        setItemList((prev) => [
+                          ...prev,
+                          {
+                            ...values?.item,
+                            qty: 0,
+                            rate: 0,
+                            vat: 0,
+                            amount: 0,
+                            netAmount: 0,
+                          },
+                        ]);
+                      }}
+                    >
                       Add
                     </button>
                   </div>
-                  <div style={{ marginTop: "18px" }}>
-                    <button onClick={() => setIsOpen(true)} type="button" className="btn btn-primary ml-4">
+                  {/* <div style={{ marginTop: "18px" }}>
+                    <button
+                      onClick={() => setIsOpen(true)}
+                      type="button"
+                      className="btn btn-primary ml-4"
+                    >
                       Schedule
                     </button>
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
@@ -274,13 +314,96 @@ export default function ServiceSalesCreate() {
                       <thead>
                         <tr>
                           <th>Item Name</th>
-                          <th>Uom</th>
+                          {/* <th>Uom</th> */}
                           <th>Qty</th>
                           <th>Rate</th>
                           <th>Amount</th>
                           <th>Vat %</th>
-                          <th>Nate Amount</th>
+                          <th>Net Amount</th>
                           <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {itemList?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{item?.label}</td>
+                            {/* <td>Uom</td> */}
+                            <td>
+                              <InputField
+                                value={item?.qty || ""}
+                                type="number"
+                                onChange={(e) => {
+                                  let data = [...itemList];
+                                  data[index]["qty"] = e.target.value;
+                                  setItemList(data);
+                                }}
+                              />
+                            </td>
+                            <td>
+                              <InputField
+                                value={item?.rate || ""}
+                                type="number"
+                                onChange={(e) => {
+                                  let data = [...itemList];
+                                  data[index]["rate"] = e.target.value;
+                                  setItemList(data);
+                                }}
+                              />
+                            </td>
+                            <td>
+                              <InputField
+                                value={item?.amount || ""}
+                                type="number"
+                                onChange={(e) => {
+                                  let data = [...itemList];
+                                  data[index]["amount"] = e.target.value;
+                                  setItemList(data);
+                                }}
+                              />
+                            </td>
+                            <td>
+                              <InputField
+                                value={item?.vat || ""}
+                                type="number"
+                                onChange={(e) => {
+                                  let data = [...itemList];
+                                  data[index]["vat"] = e.target.value;
+                                  setItemList(data);
+                                }}
+                              />
+                            </td>
+                            <td>{item?.netAmount}</td>
+                            <td className="text-center">
+                              <IDelete
+                                style={{ fontSize: "16px" }}
+                                remover={(index) => {
+                                  let data = itemList.filter(
+                                    (item, i) => i !== index
+                                  );
+                                  setItemList(data);
+                                }}
+                                id={index}
+                              />
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
+                </div>
+              </div>
+
+              <div className="mt-5">
+                <div>
+                  {[1]?.length > 0 && (
+                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Due Date</th>
+                          <th>Percentage</th>
+                          <th>Amount</th>
+                          <th>Remarks</th>
                         </tr>
                       </thead>
                       <tbody>

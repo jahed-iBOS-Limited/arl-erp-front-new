@@ -283,11 +283,11 @@ export function OrderManagementPages() {
         component={customerIncentivePermission?.isView ? CustomerIncentive : NotPermittedPage}
       />
       <ContentRoute
-        from="/sales-management/ordermanagement/ServiceSales/create"
+        from="/sales-management/ordermanagement/servsalesorder/create"
         component={ServiceSalesCreate}
       />
       <ContentRoute
-        from="/sales-management/ordermanagement/ServiceSales"
+        from="/sales-management/ordermanagement/servsalesorder"
         component={()=> <h1>Working</h1>}
       />
     </Switch>
