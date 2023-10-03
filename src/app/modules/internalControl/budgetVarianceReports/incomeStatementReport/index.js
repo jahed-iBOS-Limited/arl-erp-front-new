@@ -540,7 +540,7 @@ export function IncomeStatementReport() {
                                     className="incTableThPadding"
                                   >
                                     <span>
-                                      Budget
+                                      Actual
                                       <br />
                                       {/* {`${values?.fromDate} to ${values?.todate}`} */}
                                     </span>
@@ -550,7 +550,7 @@ export function IncomeStatementReport() {
                                     className="incTableThPadding"
                                   >
                                     <span>
-                                      Actual <br />
+                                      Budget <br />
                                       {/* {`${values?.lastPeriodFrom} to ${values?.lastPeriodTo}`} */}
                                     </span>
                                   </th>
@@ -573,11 +573,6 @@ export function IncomeStatementReport() {
                                       </td>
                                       <td></td>
 
-                                      <td className="text-right">
-                                        {numberWithCommas(
-                                          data?.monLastPeriodAmount.toFixed(2)
-                                        )}
-                                      </td>
                                       <td
                                         className="text-right pointer"
                                         style={{
@@ -607,19 +602,28 @@ export function IncomeStatementReport() {
                                           }}
                                         >
                                           {" "}
-                                          {numberWithCommas(
-                                            data?.monCurrentPeriodAmount.toFixed(
-                                              2
-                                            )
-                                          )}
+                                          {data?.monCurrentPeriodAmount
+                                            ? numberWithCommas(
+                                                data?.monCurrentPeriodAmount.toFixed()
+                                              )
+                                            : 0}
                                         </span>
                                       </td>
                                       <td className="text-right">
-                                        {numberWithCommas(
-                                          data?.monCurrentPeriodAmount.toFixed(
-                                            2
-                                          )
-                                        )}
+                                        {data?.monLastPeriodAmount ? numberWithCommas(
+                                          data?.monLastPeriodAmount.toFixed()
+                                        ) : 0}
+                                      </td>
+                                      <td className="text-right">
+                                        {data?.monCurrentPeriodAmount &&
+                                        data?.monLastPeriodAmount
+                                          ? numberWithCommas(
+                                              (
+                                                data?.monCurrentPeriodAmount -
+                                                data?.monLastPeriodAmount
+                                              )?.toFixed()
+                                            )
+                                          : ""}
                                       </td>
                                     </tr>
                                   </>
