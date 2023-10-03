@@ -3,6 +3,8 @@ import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute } from "../../../../_metronic/layout";
 import CommercialInvoiceLanding from "./commercialInvoice";
 import CommercialInvoiceCreateEdit from "./commercialInvoice/createEdit";
+import ExportFreightInfo from "./exportFreight";
+import JobOrderLanding from "./jobOrder/landing";
 import PackingAndWeightListLanding from "./packingAndWeightList";
 import PackingAndWeightListCreateEdit from "./packingAndWeightList/createEdit";
 import SalesContractLanding from "./salesContract";
@@ -10,7 +12,6 @@ import SalesContractCreateEdit from "./salesContract/createEdit";
 import SalesOrderLanding from "./salesOrder";
 import SalesOrderCreateEdit from "./salesOrder/createEdit";
 import CreateEditJobOrder from "./salesOrder/jobOrder/createEditJobOrder";
-import JobOrderLanding from "./jobOrder/landing";
 
 export function ExportTransactionPages() {
     return (
@@ -50,6 +51,11 @@ export function ExportTransactionPages() {
         <ContentRoute
           path="/managementExport/exptransaction/salesorder/jobOrder/:id"
           component={CreateEditJobOrder}
+        />
+        {/* Export Freight */}
+        <ContentRoute
+          path="/managementExport/exptransaction/exportfreightinfo"
+          component={ExportFreightInfo}
         />
         {/* sales order */}
         <ContentRoute
