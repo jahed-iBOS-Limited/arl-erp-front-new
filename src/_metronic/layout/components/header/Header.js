@@ -1,10 +1,11 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import objectPath from "object-path";
 import { useHtmlClassService } from "../../_core/MetronicLayout";
 import { Topbar } from "./Topbar";
 import { HeaderMenuWrapper } from "./header-menu/HeaderMenuWrapper";
 import { AnimateLoading } from "../../../_partials/controls";
 import { shallowEqual, useSelector } from "react-redux";
+import IViewModal from "../../../../app/modules/_helper/_viewModal";
 
 export function Header() {
   const uiService = useHtmlClassService();
@@ -15,6 +16,9 @@ export function Header() {
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
+
+  const [isOpenManual, setIsOpenManual] = useState(false);
+
   const layoutProps = useMemo(() => {
     return {
       headerClasses: uiService.getClasses("header", true),
@@ -53,6 +57,7 @@ export function Header() {
         >
           <p className="m-0"><b>OID: {commonDDL?.OID}</b></p>
           <p className="m-0"><b>Enroll No: {profileData?.employeeId}</b></p>
+          <p onClick={() => setIsOpenManual(true)} className="m-0 pointer text-primary"><b>Manual</b></p>
         </div>
         <div
           className={` ${layoutProps.headerContainerClasses} d-flex align-items-stretch justify-content-between`}
@@ -66,11 +71,18 @@ export function Header() {
           {/*begin::Topbar*/}
 
           <Topbar />
+          
 
           {/*end::Topbar*/}
         </div>
         {/*end::Container*/}
       </div>
+      <IViewModal
+        show={isOpenManual}
+        onHide={() => setIsOpenManual(false)}
+      >
+        {/* <iframe height="500" width="100%" src="https://jahed.netlify.app/" title="description"></iframe> */}
+      </IViewModal>
       {/*end::Header*/}
     </>
   );
