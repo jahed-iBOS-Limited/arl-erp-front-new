@@ -272,7 +272,7 @@ export default function ServiceSalesCreate() {
                   <div style={{ marginTop: "18px" }}>
                     <button
                       type="button"
-                      disabled={!values?.item?.value}
+                      disabled={!values?.item?.value || itemList?.length}
                       className="btn btn-primary ml-4"
                       onClick={() => {
                         let isExist = itemList?.some(
@@ -350,16 +350,8 @@ export default function ServiceSalesCreate() {
                                 }}
                               />
                             </td>
-                            <td>
-                              <InputField
-                                value={item?.amount || ""}
-                                type="number"
-                                onChange={(e) => {
-                                  let data = [...itemList];
-                                  data[index]["amount"] = e.target.value;
-                                  setItemList(data);
-                                }}
-                              />
+                            <td className="text-center">
+                              {(item?.qty || 0) * (item?.rate || 0)}
                             </td>
                             <td>
                               <InputField
@@ -372,7 +364,19 @@ export default function ServiceSalesCreate() {
                                 }}
                               />
                             </td>
-                            <td>{item?.netAmount}</td>
+                            <td className="text-center">
+                              {(() => {
+                                let amount =
+                                  (item?.qty || 0) * (item?.rate || 0);
+                                let vat = item?.vat;
+                                return amount + (amount * vat) / 100;
+                              })()}
+                              {/* {(item?.qty || 0) * (item?.rate || 0) +
+                                ((item?.qty || 0) *
+                                  (item?.rate || 0) *
+                                  (item?.vat || 0)) /
+                                  100} */}
+                            </td>
                             <td className="text-center">
                               <IDelete
                                 style={{ fontSize: "16px" }}
