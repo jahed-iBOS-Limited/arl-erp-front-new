@@ -940,8 +940,9 @@ export default function ProjectedFinancialStatement() {
                   />
                 ) : null}
                 {[7]?.includes(values?.reportType?.value) ? (
-                  <ProjectedPlannedAssetSchedule rowData={rowData} />
+                  <ProjectedPlannedAssetSchedule rowData={rowData} toDate={values?.toDate} />
                 ) : null}
+                {console.log(values?.toDate)}
                 {[8]?.includes(values?.reportType?.value) ? (
                   <ProjectedPlannedFundRequirement rowData={rowData} />
                 ) : null}
