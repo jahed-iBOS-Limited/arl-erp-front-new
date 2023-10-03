@@ -743,11 +743,13 @@ export const getG2GBillData = async (
     setDisabled(true);
     const res = await Axios.get(
       `/tms/LigterLoadUnload/GetTruckAndGodownLabourBill?typeId=${typeId}&accountId=${accId}&businessUnitId=${buId}&supplierId=${supplierID}&fromDate=${fromDate}&toDate=${toDate}`
-      // `/tms/LigterLoadUnload/PreDataForCustomizeBillG2G?AccountId=${accId}&BusinessUnitId=${buId}&SupplierId=${supplierID}&FromDate=${fromDate}&ToDate=${toDate}${search}`
     );
     setter(
       res?.data?.map((item) => ({
         ...item,
+        transportAmount:
+          item?.transportAmount +
+          +item?.quantity * +item?.godownUnloadLabourRate,
         label: item?.challanNo,
         value: item?.tripId,
         approvedAmount: item?.totalCost,

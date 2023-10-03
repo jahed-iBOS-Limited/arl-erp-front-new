@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import OtpPopup from "./OtpPopup";
 import Loading from "../../../_helper/_loading";
 import { setPeopledeskCookie } from "../../../_helper/_cookie";
-
+import CryptoJS from "crypto-js";
 function LoginForm(props) {
   const { register, handleSubmit, errors } = useForm();
   const dispatch = useDispatch();
@@ -63,6 +63,36 @@ function LoginForm(props) {
     if (typeof languageLocale === "undefined" || languageLocale === "null") {
       localStorage.setItem("language", "en");
     }
+    // if (!loginData?.email) return toast.warn("Email is required");
+    // if (!loginData?.password) return toast.warn("Password is required");
+    // const queryParams = new URLSearchParams();
+    // queryParams.append("email", loginData.email);
+    // queryParams.append("password", loginData.password);
+    // queryParams.append("redirectToErpLogin", true);
+
+    // let baseURl = "";
+    // if (process.env.NODE_ENV === "development") {
+    //   baseURl = "http://localhost:3002";
+    // } else if (
+    //   window.location.hostname === "deverp.ibos.io" ||
+    //   window.location.hostname === "deverp.peopledesk.io"
+    // ) {
+    //   baseURl = "https://devarl.peopledesk.io";
+    // } else {
+    //   baseURl = "https://arl.peopledesk.io";
+    // }
+
+    // const encryptedText = CryptoJS.AES.encrypt(
+    //   CryptoJS.enc.Utf8.parse(queryParams),
+    //   "redirectToErpLogin",
+    //   {
+    //     keySize: 128 / 8,
+    //     iv: "redirectToErpLogin",
+    //     mode: CryptoJS.mode.CBC,
+    //     padding: CryptoJS.pad.Pkcs7,
+    //   }
+    // ).toString();
+    // window.location.href = `${baseURl}?${encryptedText}`;
 
     loginAction(false);
   };

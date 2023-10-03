@@ -1,28 +1,29 @@
-import { Form, Formik } from 'formik';
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import Loading from '../../../_helper/_loading';
-import IForm from '../../../_helper/_form';
-import NewSelect from '../../../_helper/_select';
-import { shallowEqual, useSelector } from 'react-redux';
-import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
-import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
-import { toast } from 'react-toastify';
-import EntryTable from './entryTable';
-import ViewTable from './viewTable';
-import { getModifiedInitData, saveHandler, validationSchema } from './helper';
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import Loading from "../../../_helper/_loading";
+import IForm from "../../../_helper/_form";
+import NewSelect from "../../../_helper/_select";
+import { shallowEqual, useSelector } from "react-redux";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { toast } from "react-toastify";
+import EntryTable from "./entryTable";
+import ViewTable from "./viewTable";
+import { getModifiedInitData, saveHandler, validationSchema } from "./helper";
+import axios from "axios";
 
 const initData = {
-  channel: '',
-  region: '',
-  area: '',
-  territory: '',
-  fromDate: '',
-  toDate: '',
-  plant: '',
-  warehouse: '',
-  year: '',
-  horizon: '',
+  channel: "",
+  region: "",
+  area: "",
+  territory: "",
+  fromDate: "",
+  toDate: "",
+  plant: "",
+  warehouse: "",
+  year: "",
+  horizon: "",
 };
 
 export default function DistributionPlanCreateEdit() {
@@ -36,7 +37,12 @@ export default function DistributionPlanCreateEdit() {
   const [horizonDDL, getHorizonDDL, horizonLoading] = useAxiosGet();
   const [regionDDL, getRegionDDL, regionLoading, setRegionDDL] = useAxiosGet();
   const [areaDDL, getAreaDDL, areaLoading, setAreaDDl] = useAxiosGet();
-  const [territoryDDL, getTerritoryDDL, territoryLoading, setTerritoryDDL] = useAxiosGet();
+  const [
+    territoryDDL,
+    getTerritoryDDL,
+    territoryLoading,
+    setTerritoryDDL,
+  ] = useAxiosGet();
   const [rowDto, getRowDto, rowDtoLoading, setRowDto] = useAxiosGet();
   const [, saveDistributionPlan, saveDistributionLoading] = useAxiosPost();
 
@@ -125,10 +131,15 @@ export default function DistributionPlanCreateEdit() {
 
   useEffect(() => {
     const { state } = location || {};
-    const { isEdit, item } = state || {};
+    const { isEdit } = state || {};
     if (isEdit) {
-      const modifiedInitData = getModifiedInitData(item);
-      setModifiedData(modifiedInitData);
+      (async () => {
+        const item = await axios.get(
+          `/oms/DistributionChannel/GetDistributionHeaderById?DistributionPlanningId=${state?.item?.distributionPlanningId}`
+        );
+
+        setModifiedData(getModifiedInitData(item?.data));
+      })();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -136,7 +147,12 @@ export default function DistributionPlanCreateEdit() {
   useEffect(() => {
     const { state } = location || {};
     if (state?.isEdit) {
-      setRowDto({ itemList: state?.item?.distributionRowList });
+      (async () => {
+        const distributionRowList = await axios.get(
+          `/oms/DistributionChannel/GetDistributionItemById?DistributionPlanningId=${state?.item?.distributionPlanningId}`
+        );
+        setRowDto({ itemList: distributionRowList?.data });
+      })();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buId]);
@@ -174,7 +190,15 @@ export default function DistributionPlanCreateEdit() {
         });
       }}
     >
-      {({ handleSubmit, resetForm, values, setFieldValue, isValid, errors, touched }) => (
+      {({
+        handleSubmit,
+        resetForm,
+        values,
+        setFieldValue,
+        isValid,
+        errors,
+        touched,
+      }) => (
         <>
           {(rowDtoLoading ||
             saveDistributionLoading ||
@@ -187,9 +211,13 @@ export default function DistributionPlanCreateEdit() {
             yearLoading ||
             horizonLoading) && <Loading />}
           <IForm
-            title={location?.state?.isEdit ? 'Distribution Plan Edit' : 'Distribution Plan Create'}
+            title={
+              location?.state?.isEdit
+                ? "Distribution Plan Edit"
+                : "Distribution Plan Create"
+            }
             getProps={setObjprops}
-            isHiddenSave={rowDto?.response === 'Already Exists'}
+            isHiddenSave={rowDto?.response === "Already Exists"}
             isHiddenReset
           >
             <Form>
@@ -202,10 +230,10 @@ export default function DistributionPlanCreateEdit() {
                       value={values?.channel}
                       label="Distribution Channel"
                       onChange={(valueOption) => {
-                        setFieldValue('channel', valueOption);
-                        setFieldValue('region', '');
-                        setFieldValue('area', '');
-                        setFieldValue('territory', '');
+                        setFieldValue("channel", valueOption);
+                        setFieldValue("region", "");
+                        setFieldValue("area", "");
+                        setFieldValue("territory", "");
                         getRegionDDLHandler(valueOption);
                       }}
                       placeholder="Select Distribution Channel"
@@ -221,9 +249,9 @@ export default function DistributionPlanCreateEdit() {
                       value={values?.region}
                       label="Region"
                       onChange={(valueOption) => {
-                        setFieldValue('region', valueOption);
-                        setFieldValue('area', '');
-                        setFieldValue('territory', '');
+                        setFieldValue("region", valueOption);
+                        setFieldValue("area", "");
+                        setFieldValue("territory", "");
                         getAreaDDLHandler(values, valueOption);
                       }}
                       placeholder="Select Region"
@@ -239,8 +267,8 @@ export default function DistributionPlanCreateEdit() {
                       value={values?.area}
                       label="Area"
                       onChange={(valueOption) => {
-                        setFieldValue('area', valueOption);
-                        setFieldValue('territory', '');
+                        setFieldValue("area", valueOption);
+                        setFieldValue("territory", "");
                         getTerritoryDDLHandler(values, valueOption);
                       }}
                       placeholder="Select Area"
@@ -256,7 +284,7 @@ export default function DistributionPlanCreateEdit() {
                       value={values?.territory}
                       label="Territory"
                       onChange={(valueOption) => {
-                        setFieldValue('territory', valueOption);
+                        setFieldValue("territory", valueOption);
                       }}
                       placeholder="Select Territory"
                       errors={errors}
@@ -272,10 +300,10 @@ export default function DistributionPlanCreateEdit() {
                       label="Plant"
                       onChange={(valueOption) => {
                         setRowDto({});
-                        setFieldValue('plant', valueOption);
-                        setFieldValue('warehouse', '');
-                        setFieldValue('year', '');
-                        setFieldValue('horizon', '');
+                        setFieldValue("plant", valueOption);
+                        setFieldValue("warehouse", "");
+                        setFieldValue("year", "");
+                        setFieldValue("horizon", "");
                         getWarehouseDDLHandler(valueOption?.value);
                         getYearDDLHandler(valueOption?.value);
                       }}
@@ -293,7 +321,7 @@ export default function DistributionPlanCreateEdit() {
                       label="Warehouse"
                       onChange={(valueOption) => {
                         setRowDto({});
-                        setFieldValue('warehouse', valueOption);
+                        setFieldValue("warehouse", valueOption);
                       }}
                       placeholder="Select Warehouse"
                       errors={errors}
@@ -309,9 +337,12 @@ export default function DistributionPlanCreateEdit() {
                       label="Year"
                       onChange={(valueOption) => {
                         setRowDto({});
-                        setFieldValue('year', valueOption);
-                        setFieldValue('horizon', '');
-                        getHorizonDDLHandler(values.plant?.value, valueOption?.value);
+                        setFieldValue("year", valueOption);
+                        setFieldValue("horizon", "");
+                        getHorizonDDLHandler(
+                          values.plant?.value,
+                          valueOption?.value
+                        );
                       }}
                       placeholder="Select year"
                       errors={errors}
@@ -327,9 +358,12 @@ export default function DistributionPlanCreateEdit() {
                       label="Planning Horizon"
                       onChange={(valueOption) => {
                         setRowDto({});
-                        setFieldValue('horizon', valueOption);
-                        setFieldValue('fromDate', valueOption?.startdatetime || '');
-                        setFieldValue('toDate', valueOption?.enddatetime || '');
+                        setFieldValue("horizon", valueOption);
+                        setFieldValue(
+                          "fromDate",
+                          valueOption?.startdatetime || ""
+                        );
+                        setFieldValue("toDate", valueOption?.enddatetime || "");
                       }}
                       placeholder="Select horizon"
                       errors={errors}
@@ -341,7 +375,7 @@ export default function DistributionPlanCreateEdit() {
                     <button
                       type="button"
                       className="btn btn-primary"
-                      style={{ marginTop: '18px' }}
+                      style={{ marginTop: "18px" }}
                       disabled={
                         !values?.territory ||
                         !values?.plant ||
@@ -354,8 +388,8 @@ export default function DistributionPlanCreateEdit() {
                         getRowDto(
                           `/oms/DistributionChannel/GetDistributionPlanningItemList?buisnessUnitId=${buId}&territoryid=${values?.territory?.value}&plantId=${values?.plant?.value}&warehouseId=${values?.warehouse?.value}&year=${values?.year?.value}&month=${values?.horizon?.monthId}`,
                           (res) => {
-                            if (res?.response === 'Already Exists') {
-                              toast.warn('Already Exist this entry!');
+                            if (res?.response === "Already Exists") {
+                              toast.warn("Already Exist this entry!");
                             }
                           }
                         );
@@ -368,7 +402,7 @@ export default function DistributionPlanCreateEdit() {
               </div>
               <div className="row">
                 <div className="col-lg-12">
-                  {rowDto?.response === 'Already Exists' ? (
+                  {rowDto?.response === "Already Exists" ? (
                     <ViewTable rowDto={rowDto} />
                   ) : (
                     <EntryTable rowDto={rowDto} setRowDto={setRowDto} />
@@ -378,14 +412,14 @@ export default function DistributionPlanCreateEdit() {
 
               <button
                 type="submit"
-                style={{ display: 'none' }}
+                style={{ display: "none" }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: 'none' }}
+                style={{ display: "none" }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => {
                   // setRowDto([]);

@@ -1,15 +1,16 @@
-import { Form, Formik } from 'formik';
-import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import IForm from './../../../_helper/_form';
-import Loading from './../../../_helper/_loading';
-import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
-import { shallowEqual, useSelector } from 'react-redux';
-import IView from '../../../_helper/_helperIcons/_view';
-import PaginationTable from '../../../_helper/_tablePagination';
-import IViewModal from '../../../_helper/_viewModal';
-import DetailsDistributionView from './detailsView';
-import IEdit from '../../../_helper/_helperIcons/_edit';
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import IForm from "./../../../_helper/_form";
+import Loading from "./../../../_helper/_loading";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { shallowEqual, useSelector } from "react-redux";
+import IView from "../../../_helper/_helperIcons/_view";
+import PaginationTable from "../../../_helper/_tablePagination";
+import IViewModal from "../../../_helper/_viewModal";
+import DetailsDistributionView from "./detailsView";
+import IEdit from "../../../_helper/_helperIcons/_edit";
+import NewSelect from "../../../_helper/_select";
 
 const initData = {};
 
@@ -19,28 +20,129 @@ export default function DistributionPlanLanding() {
   const [pageSize, setPageSize] = useState(15);
   const [isShowModel, setIsShowModel] = useState(false);
   const [detailsView, setDetailsView] = useState([]);
-  const [rowDto, getRowDto, rowDtoLoading] = useAxiosGet();
+  const [rowDto, getRowDto, rowDtoLoading, setRowDto] = useAxiosGet();
+  const [channelDDL, getChannelDDL] = useAxiosGet();
+  const [regionDDL, getRegionDDL, , setRegionDDL] = useAxiosGet();
+  const [areaDDL, getAreaDDL, , setAreaDDl] = useAxiosGet();
+  const [
+    territoryDDL,
+    getTerritoryDDL,
+    ,
+    setTerritoryDDL,
+  ] = useAxiosGet();
+  const [plantDDL, getPlantDDL, ] = useAxiosGet();
+  const [warehouseDDL, getWarehouseDDL, ] = useAxiosGet();
+  const [yearDDL, getYearDDL, ] = useAxiosGet();
+  const [horizonDDL, getHorizonDDL, ] = useAxiosGet();
 
   // get user data from store
   const {
     selectedBusinessUnit: { value: buId },
+    profileData: { accountId, userId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const saveHandler = (values, cb) => {};
 
-  const setPositionHandler = (pageNo, pageSize) => {
+  const setPositionHandler = (pageNo, pageSize, values) => {
     getRowDto(
-      `/oms/DistributionChannel/GetDistributionPlanningLanding?buisnessUnitId=${buId}&pageNo=${pageNo}&pageSize=${pageSize}`
+      // `/oms/DistributionChannel/GetDistributionPlanningLanding?buisnessUnitId=${buId}&pageNo=${pageNo}&pageSize=${pageSize}`
+      `/oms/DistributionChannel/GetDistributionPlanningLanding?buisnessUnitId=${buId}&plantId=${values
+        ?.plant?.value || 0}&yearId=${values?.year}&monthId=${values?.horizon?.monthId}&warehosueId=${values
+        ?.warehouse?.value || 0}&channelId=${values?.channel?.value ||
+        0}&regionId=${values?.region?.value || 0}&areaId=${values?.area
+        ?.value || 0}&territoryId=${values?.territory?.value ||
+        0}&pageNo=${pageNo}&pageSize=${pageSize}`
     );
   };
 
   // get landing data on mount
   useEffect(() => {
-    getRowDto(
-      `/oms/DistributionChannel/GetDistributionPlanningLanding?buisnessUnitId=${buId}&pageNo=${pageNo}&pageSize=${pageSize}`
+    
+    getPlantDDL(
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accountId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
+    );
+
+    getChannelDDL(
+      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accountId}&BUnitId=${buId}`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buId]);
+
+  const getRegionDDLHandler = (valueOption) => {
+    if (valueOption?.label) {
+      getRegionDDL(
+        `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${valueOption?.value}`,
+        (res) => {
+          const newDDL = res?.map((item) => ({
+            ...item,
+            value: item?.regionId,
+            label: item?.regionName,
+          }));
+          setRegionDDL(newDDL);
+        }
+      );
+    }
+  };
+
+  // get areaDDLHandler api handler
+  const getAreaDDLHandler = (values, valueOption) => {
+    if (valueOption?.label) {
+      getAreaDDL(
+        `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${values?.channel?.value}&regionId=${valueOption?.value}`,
+        (res) => {
+          const newDDL = res?.map((item) => ({
+            ...item,
+            value: item?.areaId,
+            label: item?.areaName,
+          }));
+          setAreaDDl(newDDL);
+        }
+      );
+    }
+  };
+
+  // get territoryDDL api handler
+  const getTerritoryDDLHandler = (values, valueOption) => {
+    if (valueOption?.label) {
+      getTerritoryDDL(
+        `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${values?.channel?.value}&regionId=${values?.region?.value}&areaId=${valueOption?.value}`,
+        (res) => {
+          const newDDL = res?.map((item) => ({
+            ...item,
+            value: item?.territoryId,
+            label: item?.territoryName,
+          }));
+          setTerritoryDDL(newDDL);
+        }
+      );
+    }
+  };
+
+  // get warehouseDDL api handler
+  const getWarehouseDDLHandler = (plantId) => {
+    if (plantId) {
+      getWarehouseDDL(
+        `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accountId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`
+      );
+    }
+  };
+
+  // get yearDDL api handler
+  const getYearDDLHandler = (plantId) => {
+    if (plantId) {
+      getYearDDL(
+        `/mes/MesDDL/GetYearDDL?AccountId=${accountId}&BusinessUnitId=${buId}&PlantId=${plantId}`
+      );
+    }
+  };
+  // get horizonDDL api handler
+  const getHorizonDDLHandler = (plantId, yearId) => {
+    if (plantId && yearId) {
+      getHorizonDDL(
+        `/mes/MesDDL/GetPlanningHorizonDDL?AccountId=${accountId}&BusinessUnitId=${buId}&PlantId=${plantId}&YearId=${yearId}`
+      );
+    }
+  };
 
   return (
     <Formik
@@ -53,7 +155,15 @@ export default function DistributionPlanLanding() {
         });
       }}
     >
-      {({ handleSubmit, resetForm, values, setFieldValue, isValid, errors, touched }) => (
+      {({
+        handleSubmit,
+        resetForm,
+        values,
+        setFieldValue,
+        isValid,
+        errors,
+        touched,
+      }) => (
         <>
           {rowDtoLoading && <Loading />}
           <IForm
@@ -69,7 +179,7 @@ export default function DistributionPlanLanding() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        '/internal-control/budget/DistributionPlanning/create'
+                        "/internal-control/budget/DistributionPlanning/create"
                       );
                     }}
                   >
@@ -80,6 +190,185 @@ export default function DistributionPlanLanding() {
             }}
           >
             <Form>
+              <div className="global-form">
+                <div className="row">
+                <div className="col-lg-2">
+                    <NewSelect
+                      name="plant"
+                      options={plantDDL || []}
+                      value={values?.plant}
+                      label="Plant"
+                      onChange={(valueOption) => {
+                        setRowDto([]);
+                        setFieldValue("plant", valueOption);
+                        setFieldValue("warehouse", "");
+                        setFieldValue("year", "");
+                        setFieldValue("horizon", "");
+                        getWarehouseDDLHandler(valueOption?.value);
+                        getYearDDLHandler(valueOption?.value);
+                      }}
+                      placeholder="Select plant"
+                      errors={errors}
+                      touched={touched}
+                      // isDisabled={!values?.territory}
+                    />
+                  </div>
+                  <div className="col-lg-2">
+                    <NewSelect
+                      name="warehouse"
+                      options={warehouseDDL || []}
+                      value={values?.warehouse}
+                      label="Warehouse"
+                      onChange={(valueOption) => {
+                        setRowDto({});
+                        setFieldValue("warehouse", valueOption);
+                      }}
+                      placeholder="Select Warehouse"
+                      errors={errors}
+                      touched={touched}
+                      isDisabled={!values?.plant}
+                    />
+                  </div>
+                  <div className="col-lg-2">
+                    <NewSelect
+                      name="year"
+                      options={yearDDL || []}
+                      value={values?.year}
+                      label="Year"
+                      onChange={(valueOption) => {
+                        setRowDto({});
+                        setFieldValue("year", valueOption);
+                        setFieldValue("horizon", "");
+                        getHorizonDDLHandler(
+                          values.plant?.value,
+                          valueOption?.value
+                        );
+                      }}
+                      placeholder="Select year"
+                      errors={errors}
+                      touched={touched}
+                      isDisabled={!values?.plant}
+                    />
+                  </div>
+                  <div className="col-lg-2">
+                    <NewSelect
+                      name="horizon"
+                      options={horizonDDL || []}
+                      value={values?.horizon}
+                      label="Planning Horizon"
+                      onChange={(valueOption) => {
+                        setRowDto({});
+                        setFieldValue("horizon", valueOption);
+                        setFieldValue(
+                          "fromDate",
+                          valueOption?.startdatetime || ""
+                        );
+                        setFieldValue("toDate", valueOption?.enddatetime || "");
+                      }}
+                      placeholder="Select horizon"
+                      errors={errors}
+                      touched={touched}
+                      isDisabled={!values?.year}
+                    />
+                  </div>
+                  <div className="col-lg-2">
+                    <NewSelect
+                      name="channel"
+                      options={channelDDL || []}
+                      value={values?.channel}
+                      label="Distribution Channel"
+                      onChange={(valueOption) => {
+                        setFieldValue("channel", valueOption);
+                        setFieldValue("region", "");
+                        setFieldValue("area", "");
+                        setFieldValue("territory", "");
+                        getRegionDDLHandler(valueOption);
+                      }}
+                      placeholder="Select Distribution Channel"
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-2">
+                    <NewSelect
+                      name="region"
+                      options={regionDDL || []}
+                      value={values?.region}
+                      label="Region"
+                      onChange={(valueOption) => {
+                        setFieldValue("region", valueOption);
+                        setFieldValue("area", "");
+                        setFieldValue("territory", "");
+                        getAreaDDLHandler(values, valueOption);
+                      }}
+                      placeholder="Select Region"
+                      errors={errors}
+                      touched={touched}
+                      isDisabled={!values?.channel}
+                    />
+                  </div>
+                  <div className="col-lg-2">
+                    <NewSelect
+                      name="area"
+                      options={areaDDL || []}
+                      value={values?.area}
+                      label="Area"
+                      onChange={(valueOption) => {
+                        setFieldValue("area", valueOption);
+                        setFieldValue("territory", "");
+                        getTerritoryDDLHandler(values, valueOption);
+                      }}
+                      placeholder="Select Area"
+                      errors={errors}
+                      touched={touched}
+                      isDisabled={!values?.region}
+                    />
+                  </div>
+                  <div className="col-lg-2">
+                    <NewSelect
+                      name="territory"
+                      options={territoryDDL || []}
+                      value={values?.territory}
+                      label="Territory"
+                      onChange={(valueOption) => {
+                        setFieldValue("territory", valueOption);
+                      }}
+                      placeholder="Select Territory"
+                      errors={errors}
+                      touched={touched}
+                      isDisabled={!values?.area}
+                    />
+                  </div>
+                  <div className="col-lg-1">
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      style={{ marginTop: "18px" }}
+                      disabled={
+                        !values?.plant ||
+                        !values?.year ||
+                        !values?.horizon
+                      }
+                      onClick={() => {
+                        getRowDto(
+                          // `/oms/DistributionChannel/GetDistributionPlanningLanding?buisnessUnitId=${buId}&pageNo=${pageNo}&pageSize=${pageSize}`
+                          `/oms/DistributionChannel/GetDistributionPlanningLanding?buisnessUnitId=${buId}&plantId=${values
+                            ?.plant?.value || 0}&yearId=${
+                            values?.year?.value
+                          }&monthId=${values?.horizon?.monthId}&warehosueId=${values?.warehouse?.value ||
+                            0}&channelId=${values?.channel?.value ||
+                            0}&regionId=${values?.region?.value ||
+                            0}&areaId=${values?.area?.value ||
+                            0}&territoryId=${values?.territory?.value ||
+                            0}&pageNo=${pageNo}&pageSize=${pageSize}`
+                        );
+                      }}
+                    >
+                      View
+                    </button>
+                  </div>
+                </div>
+              </div>
               <div className="row">
                 <div className="col-lg-12">
                   <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
@@ -109,15 +398,15 @@ export default function DistributionPlanLanding() {
                             <td className="text-center">
                               <div
                                 style={{
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'space-around',
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "space-around",
                                 }}
                               >
                                 <IView
-                                  styles={{ fontSize: '16px' }}
+                                  styles={{ fontSize: "16px" }}
                                   clickHandler={(e) => {
-                                    setDetailsView(item?.distributionRowList);
+                                    setDetailsView(item);
                                     setIsShowModel(true);
                                   }}
                                 />
@@ -125,7 +414,7 @@ export default function DistributionPlanLanding() {
                                   onClick={() => {
                                     history.push({
                                       pathname:
-                                        '/internal-control/budget/DistributionPlanning/create',
+                                        "/internal-control/budget/DistributionPlanning/create",
                                       state: {
                                         isEdit: true,
                                         item,
@@ -164,7 +453,7 @@ export default function DistributionPlanLanding() {
               setIsShowModel(false);
             }}
           >
-            <DetailsDistributionView rowData={detailsView} />
+            <DetailsDistributionView singleData={detailsView} />
           </IViewModal>
         </>
       )}
