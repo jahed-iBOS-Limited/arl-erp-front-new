@@ -1,14 +1,13 @@
 import { Form, Formik } from "formik";
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import IForm from "./../../../_helper/_form";
+import Loading from "./../../../_helper/_loading";
+import NewSelect from "../../../_helper/_select";
 import { shallowEqual, useSelector } from "react-redux";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../../_helper/_loading";
-import IForm from "../../../../_helper/_form";
-import NewSelect from "../../../../_helper/_select";
-
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 const initData = {};
-export default function ServiceSalesLanding() {
+export default function SalesInvoiceLanding() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -51,7 +50,7 @@ export default function ServiceSalesLanding() {
         <>
           {false && <Loading />}
           <IForm
-            title="Service Sales Order"
+            title="Sales Invoice"
             isHiddenReset
             isHiddenBack
             isHiddenSave
@@ -62,9 +61,7 @@ export default function ServiceSalesLanding() {
                     type="button"
                     className="btn btn-primary"
                     onClick={() => {
-                      history.push(
-                        "/sales-management/servicesales/servsalesorder/create"
-                      );
+                      history.push("route here");
                     }}
                   >
                     Create

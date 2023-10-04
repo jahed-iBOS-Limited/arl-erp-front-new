@@ -2,6 +2,8 @@ import React from "react";
 import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute } from "../../../../_metronic/layout";
 import ServiceSalesCreate from "./serviceSalesOrder/serviceSales/create";
+import SalesInvoiceLanding from "./salesInvoice";
+import ServiceSalesLanding from "./serviceSalesOrder/serviceSales";
 
 export function ServiceSalesPages() {
   return (
@@ -19,7 +21,12 @@ export function ServiceSalesPages() {
 
       <ContentRoute
         from="/sales-management/servicesales/servsalesorder"
-        component={() => <h1>Working</h1>}
+        component={ServiceSalesLanding}
+      />
+
+      <ContentRoute
+        from="/sales-management/servicesales/servsalesinvoice"
+        component={SalesInvoiceLanding}
       />
     </Switch>
   );
