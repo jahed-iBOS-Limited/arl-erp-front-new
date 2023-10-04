@@ -12,6 +12,9 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { shallowEqual, useSelector } from "react-redux";
 import IDelete from "../../../_helper/_helperIcons/_delete";
 import { toast } from "react-toastify";
+import { addMonthsToDate } from "./helper";
+import { _todayDate } from "../../../_helper/_todayDate";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 
 const initData = {
   salesOrg: "",
@@ -49,6 +52,40 @@ export default function ServiceSalesCreate() {
   const [customerList, getCustomerList] = useAxiosGet();
   const [itemDDL, getItemDDL] = useAxiosGet();
   const [itemList, setItemList] = useState([]);
+  const [invoiceDayNumber, setInvoiceDayNumber] = useState(null);
+  const [validFromData, setValidFromData] = useState("");
+  const [scheduleList, setSheduleList] = useState([]);
+  const [netAmount, setNetAmount] = useState(0);
+  const formikRef = React.useRef(null);
+  const [, saveHandlerFunc, loader] = useAxiosPost();
+
+  useEffect(() => {
+    if (itemList?.length) {
+      let amount = (itemList[0]?.qty || 0) * (itemList[0]?.rate || 0);
+      let vat = itemList[0]?.vat || 0;
+      let netAmount = amount + (amount * vat) / 100;
+      setNetAmount(netAmount);
+    } else {
+      setNetAmount(0);
+    }
+  }, [itemList]);
+
+  useEffect(() => {
+    if (invoiceDayNumber && validFromData) {
+      const list = [];
+      for (let i = 0; i < invoiceDayNumber; i++) {
+        list.push({
+          dueDate: addMonthsToDate(validFromData, i),
+          percentage: 0,
+          amount: 0,
+        });
+      }
+      formikRef.current.setFieldValue("validTo", list[list.length - 1].dueDate);
+      setSheduleList(list);
+    } else {
+      setSheduleList([]);
+    }
+  }, [invoiceDayNumber, validFromData]);
 
   useEffect(() => {
     getCustomerList(
@@ -61,8 +98,60 @@ export default function ServiceSalesCreate() {
   }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = (values, cb) => {
-    alert("Working...");
+    if (itemList?.length < 0) return toast.warn("Add at least one Item");
+    if (scheduleList?.length < 0) return toast.warn("Add Schedule");
+    let payload = {
+      header: {
+        intServiceSalesOrderId: 0,
+        strServiceSalesOrderCode: "",
+        intAccountId: profileData?.accountId,
+        intBusinessUnitId: selectedBusinessUnit?.value,
+        intSalesTypeId: values?.salesOrg?.value,
+        strSalesTypeName: values?.salesOrg?.label,
+        intCustomerId: values?.customer?.value,
+        strCustomerName: values?.customer?.label,
+        strCustomerAddress: values?.customer?.address,
+        intScheduleTypeId: values?.scheduleType?.value,
+        strScheduleTypeName: values?.scheduleType?.label,
+        intScheduleDayCount: +values?.invoiceDay,
+        dteStartDateTime: values?.validFrom,
+        dteEndDateTime: values?.validTo,
+        strAttachmentLink: attachmentList[0]?.id || "",
+        intActionBy: profileData?.userId,
+      },
+      row: itemList?.map((item) => ({
+        intServiceSalesOrderRowId: 0,
+        intServiceSalesOrderId: 0,
+        intItemId: item?.value,
+        strItemName: item?.label,
+        strUom: "",
+        numSalesQty: +item?.qty || 0,
+        numRate: +item?.rate || 0,
+        numSalesAmount: (+item?.qty || 0) * (+item?.rate || 0),
+        numSalesVatAmount: +item?.vat || 0,
+        numNetSalesAmount: +netAmount || 0,
+        isActive: true,
+      })),
+      schedule: scheduleList?.map((schedule) => ({
+        intServiceSalesScheduleId: 0,
+        intServiceSalesOrderId: 0,
+        dteScheduleDateTime: _todayDate(),
+        dteDueDateTime: schedule?.dueDate,
+        intPaymentByPercent: +schedule?.percentage || 0,
+        numScheduleAmount: +schedule?.amount,
+        strStatus: "",
+        isActive: true,
+      })),
+    };
+
+    saveHandlerFunc(
+      `oms/ServiceSales/createServiceSalesOrder`,
+      payload,
+      cb,
+      true
+    );
   };
+
   return (
     <Formik
       enableReinitialize={true}
@@ -71,8 +160,11 @@ export default function ServiceSalesCreate() {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
+          setItemList([]);
+          setSheduleList([]);
         });
       }}
+      innerRef={formikRef}
     >
       {({
         handleSubmit,
@@ -84,7 +176,7 @@ export default function ServiceSalesCreate() {
         touched,
       }) => (
         <>
-          {false && <Loading />}
+          {loader && <Loading />}
           <IForm title="Create Service Sales Order" getProps={setObjprops}>
             <Form>
               <div className="form-group  global-form row">
@@ -155,7 +247,7 @@ export default function ServiceSalesCreate() {
                     }}
                   />
                 </div>
-                {[1]?.includes(values?.paymentType?.value) ? (
+                {[1, 2]?.includes(values?.paymentType?.value) ? (
                   <>
                     <div className="col-lg-3">
                       <NewSelect
@@ -181,6 +273,7 @@ export default function ServiceSalesCreate() {
                         type="number"
                         onChange={(e) => {
                           setFieldValue("invoiceDay", e.target.value);
+                          setInvoiceDayNumber(e.target.value);
                         }}
                       />
                     </div>
@@ -192,16 +285,17 @@ export default function ServiceSalesCreate() {
                         type="date"
                         onChange={(e) => {
                           setFieldValue("validFrom", e.target.value);
+                          setValidFromData(e.target.value);
                         }}
                       />
                     </div>
-                    {console.log("values", values)}
                     <div className="col-lg-3">
                       <InputField
                         value={values?.validTo}
                         label="Valid To"
                         name="validTo"
                         type="date"
+                        disabled
                         onChange={(e) => {
                           setFieldValue("validTo", e.target.value);
                         }}
@@ -309,97 +403,89 @@ export default function ServiceSalesCreate() {
 
               <div className="mt-5">
                 <div>
-                  {[1]?.length > 0 && (
-                    <table className="table table-striped table-bordered bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th>Item Name</th>
-                          {/* <th>Uom</th> */}
-                          <th>Qty</th>
-                          <th>Rate</th>
-                          <th>Amount</th>
-                          <th>Vat %</th>
-                          <th>Net Amount</th>
-                          <th>Action</th>
+                  <table className="table table-striped table-bordered bj-table bj-table-landing">
+                    <thead>
+                      <tr>
+                        <th>Item Name</th>
+                        {/* <th>Uom</th> */}
+                        <th>Qty</th>
+                        <th>Rate</th>
+                        <th>Amount</th>
+                        <th>Vat %</th>
+                        <th>Net Amount</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {itemList?.map((item, index) => (
+                        <tr key={index}>
+                          <td>{item?.label}</td>
+                          {/* <td>Uom</td> */}
+                          <td>
+                            <InputField
+                              value={item?.qty || ""}
+                              type="number"
+                              onChange={(e) => {
+                                let data = [...itemList];
+                                data[index]["qty"] = e.target.value;
+                                setItemList(data);
+                              }}
+                            />
+                          </td>
+                          <td>
+                            <InputField
+                              value={item?.rate || ""}
+                              type="number"
+                              onChange={(e) => {
+                                let data = [...itemList];
+                                data[index]["rate"] = e.target.value;
+                                setItemList(data);
+                              }}
+                            />
+                          </td>
+                          <td className="text-center">
+                            {(item?.qty || 0) * (item?.rate || 0)}
+                          </td>
+                          <td>
+                            <InputField
+                              value={item?.vat || ""}
+                              type="number"
+                              onChange={(e) => {
+                                let data = [...itemList];
+                                data[index]["vat"] = e.target.value;
+                                setItemList(data);
+                              }}
+                            />
+                          </td>
+                          <td className="text-center">
+                            {(() => {
+                              let amount = (item?.qty || 0) * (item?.rate || 0);
+                              let vat = item?.vat;
+                              return amount + (amount * vat) / 100;
+                            })()}
+                          </td>
+                          <td className="text-center">
+                            <IDelete
+                              style={{ fontSize: "16px" }}
+                              remover={(index) => {
+                                let data = itemList.filter(
+                                  (item, i) => i !== index
+                                );
+                                setItemList(data);
+                              }}
+                              id={index}
+                            />
+                          </td>
                         </tr>
-                      </thead>
-                      <tbody>
-                        {itemList?.map((item, index) => (
-                          <tr key={index}>
-                            <td>{item?.label}</td>
-                            {/* <td>Uom</td> */}
-                            <td>
-                              <InputField
-                                value={item?.qty || ""}
-                                type="number"
-                                onChange={(e) => {
-                                  let data = [...itemList];
-                                  data[index]["qty"] = e.target.value;
-                                  setItemList(data);
-                                }}
-                              />
-                            </td>
-                            <td>
-                              <InputField
-                                value={item?.rate || ""}
-                                type="number"
-                                onChange={(e) => {
-                                  let data = [...itemList];
-                                  data[index]["rate"] = e.target.value;
-                                  setItemList(data);
-                                }}
-                              />
-                            </td>
-                            <td className="text-center">
-                              {(item?.qty || 0) * (item?.rate || 0)}
-                            </td>
-                            <td>
-                              <InputField
-                                value={item?.vat || ""}
-                                type="number"
-                                onChange={(e) => {
-                                  let data = [...itemList];
-                                  data[index]["vat"] = e.target.value;
-                                  setItemList(data);
-                                }}
-                              />
-                            </td>
-                            <td className="text-center">
-                              {(() => {
-                                let amount =
-                                  (item?.qty || 0) * (item?.rate || 0);
-                                let vat = item?.vat;
-                                return amount + (amount * vat) / 100;
-                              })()}
-                              {/* {(item?.qty || 0) * (item?.rate || 0) +
-                                ((item?.qty || 0) *
-                                  (item?.rate || 0) *
-                                  (item?.vat || 0)) /
-                                  100} */}
-                            </td>
-                            <td className="text-center">
-                              <IDelete
-                                style={{ fontSize: "16px" }}
-                                remover={(index) => {
-                                  let data = itemList.filter(
-                                    (item, i) => i !== index
-                                  );
-                                  setItemList(data);
-                                }}
-                                id={index}
-                              />
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  )}
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
 
               <div className="mt-5">
                 <div>
-                  {[1]?.length > 0 && (
+                  {scheduleList?.length > 0 && itemList?.length > 0 && (
                     <table className="table table-striped table-bordered bj-table bj-table-landing">
                       <thead>
                         <tr>
@@ -407,12 +493,65 @@ export default function ServiceSalesCreate() {
                           <th>Due Date</th>
                           <th>Percentage</th>
                           <th>Amount</th>
-                          <th>Remarks</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {[1]?.map((item, index) => (
-                          <tr key={index}></tr>
+                        {scheduleList?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>
+                              <InputField
+                                value={item?.dueDate}
+                                type="date"
+                                onChange={(e) => {
+                                  let data = [...scheduleList];
+                                  data[index]["dueDate"] = e.target.value;
+                                  setFieldValue("validTo", e.target.value);
+                                  setSheduleList(data);
+                                }}
+                              />
+                            </td>
+                            <td>
+                              <InputField
+                                value={item?.percentage || ""}
+                                type="number"
+                                onChange={(e) => {
+                                  const newValue = +e.target.value;
+
+                                  let totalPercentage = scheduleList.reduce(
+                                    (acc, curr, currIndex) => {
+                                      if (currIndex === index) {
+                                        return acc + newValue;
+                                      } else {
+                                        return acc + curr.percentage;
+                                      }
+                                    },
+                                    0
+                                  );
+
+                                  if (totalPercentage > 100) {
+                                    toast.warn(
+                                      "Total percentage should be 100"
+                                    );
+                                    return;
+                                  }
+
+                                  let updatedScheduleList = [...scheduleList];
+                                  updatedScheduleList[
+                                    index
+                                  ].percentage = newValue;
+                                  updatedScheduleList[index].amount =
+                                    ((newValue || 0) / 100) * (netAmount || 0);
+                                  setSheduleList(updatedScheduleList);
+                                }}
+                              />
+                            </td>
+                            <td>
+                              {/* {((item?.percentage || 0) / 100) *
+                                (netAmount || 0)} */}
+                              {item?.amount}
+                            </td>
+                          </tr>
                         ))}
                       </tbody>
                     </table>
