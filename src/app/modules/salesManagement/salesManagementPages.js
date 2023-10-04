@@ -7,6 +7,7 @@ import { OrderManagementPages } from "./orderManagement/orderManagementPages";
 import { TransportManagementPages } from "./transportManagementSystem/transportManagementPages";
 import { ReportManagementPages } from "./report/reportManagementPages";
 import { AcclReportPages } from "./acclReport/acclReportPages";
+import { ServiceSalesPages } from "./serviceSales/serviceSalesPages";
 
 export function SalesManagementPages() {
   return (
@@ -25,6 +26,10 @@ export function SalesManagementPages() {
         <ContentRoute
           path="/sales-management/ordermanagement"
           component={OrderManagementPages}
+        />
+        <ContentRoute
+          path="/sales-management/servicesales"
+          component={ServiceSalesPages}
         />
 
         <ContentRoute
