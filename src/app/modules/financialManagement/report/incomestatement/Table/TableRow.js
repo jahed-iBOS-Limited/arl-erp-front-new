@@ -1,39 +1,39 @@
-import { Formik, Form } from "formik";
-import React, { useEffect, useState, useRef } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import InputField from "./../../../../_helper/_inputField";
-import NewSelect from "./../../../../_helper/_select";
+import { Form, Formik } from "formik";
+import React, { useEffect, useRef, useState } from "react";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import ReactToPrint from "react-to-print";
-import {
-  ModalProgressBar,
-  Card,
-  CardBody,
-  CardHeader,
-  CardHeaderToolbar,
-} from "./../../../../../../_metronic/_partials/controls";
+import Loading from "../../../../_helper/_loading";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import printIcon from "../../../../_helper/images/print-icon.png";
+import { getProfitCenterDDL } from "../../profitCenterReport/Form/helper";
 import {
   getBusinessDDLByED,
   getEnterpriseDivisionDDL,
   getIncomeStatement_api,
 } from "../helper";
-import { _formatMoney } from "./../../../../_helper/_formatMoney";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  CardHeaderToolbar,
+  ModalProgressBar,
+} from "./../../../../../../_metronic/_partials/controls";
+import InputField from "./../../../../_helper/_inputField";
+import NewSelect from "./../../../../_helper/_select";
 import { SetReportIncomestatementAction } from "./../../../../_helper/reduxForLocalStorage/Actions";
-import { getProfitCenterDDL } from "../../profitCenterReport/Form/helper";
-import Loading from "../../../../_helper/_loading";
 // import { getBusinessUnitDDL } from "../../cashRegisterReport/Form/helper";
-import IViewModal from "../../../../_helper/_viewModal";
-import GeneralLedgerModalForIncomeStatement from "../generalLedgerModal";
-import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import moment from "moment";
-import StatisticalDetails from "../statisticalDetails/statisticalDetailsModal";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import {
   fromDateFromApiNew,
 } from "../../../../_helper/_formDateFromApi";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import numberWithCommas from "../../../../_helper/_numberWithCommas";
+import IViewModal from "../../../../_helper/_viewModal";
+import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import GeneralLedgerModalForIncomeStatement from "../generalLedgerModal";
+import StatisticalDetails from "../statisticalDetails/statisticalDetailsModal";
 
 const html2pdf = require("html2pdf.js");
 
@@ -536,7 +536,15 @@ export function TableRow() {
                                     Particulars
                                   </th>
                                   <th style={{ width: "200px" }}>Note SL</th>
-
+                                  <th
+                                    style={{ width: "250px" }}
+                                    className="incTableThPadding"
+                                  >
+                                    <span>
+                                      Actual <br />
+                                      {/* {`${values?.lastPeriodFrom} to ${values?.lastPeriodTo}`} */}
+                                    </span>
+                                  </th>
                                   <th
                                     style={{ width: "250px" }}
                                     className="incTableThPadding"
@@ -547,15 +555,7 @@ export function TableRow() {
                                       {/* {`${values?.fromDate} to ${values?.todate}`} */}
                                     </span>
                                   </th>
-                                  <th
-                                    style={{ width: "250px" }}
-                                    className="incTableThPadding"
-                                  >
-                                    <span>
-                                      Actual <br />
-                                      {/* {`${values?.lastPeriodFrom} to ${values?.lastPeriodTo}`} */}
-                                    </span>
-                                  </th>
+                                 
                                   <th style={{ width: "250px" }}>Variance</th>
                                 </tr>
                               </thead>
@@ -574,12 +574,6 @@ export function TableRow() {
                                         {data?.strFSComponentName}
                                       </td>
                                       <td></td>
-
-                                      <td className="text-right">
-                                        {_formatMoney(
-                                          data?.monLastPeriodAmount
-                                        )}
-                                      </td>
                                       <td
                                         className="text-right pointer"
                                         style={{
@@ -609,15 +603,20 @@ export function TableRow() {
                                           }}
                                         >
                                           {" "}
-                                          {_formatMoney(
-                                            data?.monCurrentPeriodAmount
-                                          )}
+                                          { data?.monCurrentPeriodAmount?numberWithCommas(
+                                            data?.monCurrentPeriodAmount.toFixed()
+                                          ) : 0}
                                         </span>
                                       </td>
                                       <td className="text-right">
-                                        {_formatMoney(
-                                          data?.monLastPeriodAmount -
-                                            data?.monCurrentPeriodAmount
+                                        {data?.monLastPeriodAmount? numberWithCommas(
+                                          data?.monLastPeriodAmount.toFixed()
+                                        ) : 0}
+                                      </td>
+                                     
+                                      <td className="text-right">
+                                        {numberWithCommas(
+                                            data?.monCurrentPeriodAmount - data?.monLastPeriodAmount
                                         )}
                                       </td>
                                     </tr>

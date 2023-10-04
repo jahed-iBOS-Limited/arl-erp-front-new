@@ -65,7 +65,7 @@ function ProductionReportLanding() {
       buId: selectedBusinessUnit?.value,
       pId: values?.plant?.value,
       sId: values?.shopFloor?.value,
-      billType:values?.bomType?.value,
+      billType:values?.bomType?.value || 0,
       isMainItem:values?.itemType?.value,
       fromDate: values?.fromDate,
       toDate: values?.toDate,
@@ -123,6 +123,7 @@ function ProductionReportLanding() {
                       touched={touched}
                     />
                   </div>
+                  {[188].includes(selectedBusinessUnit?.value) ? 
                   <div className="col-lg-3">
                     <NewSelect
                       name="bomType"
@@ -148,7 +149,7 @@ function ProductionReportLanding() {
                       errors={errors}
                       touched={touched}
                     />
-                  </div>
+                  </div> : null}
                   <div className="col-lg-3">
                     <NewSelect
                       name="itemType"
@@ -207,7 +208,7 @@ function ProductionReportLanding() {
                         girdDataFunc(values, null);
                       }}
                       disabled={
-                        !values?.plant?.value || !values?.shopFloor?.value || !values?.bomType?.value || !values?.itemType?.value 
+                        !values?.plant?.value || !values?.shopFloor?.value || (selectedBusinessUnit?.value === 188 && !values?.bomType?.value) || !values?.itemType?.value 
                       }
                     >
                       View
