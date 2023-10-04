@@ -748,8 +748,10 @@ export const getG2GBillData = async (
       res?.data?.map((item) => ({
         ...item,
         transportAmount:
-          item?.transportAmount +
-          +item?.quantity * +item?.godownUnloadLabourRate,
+          item?.soldToPartnerId === 73245
+            ? item?.transportAmount
+            : item?.transportAmount +
+              +item?.quantity * +item?.godownUnloadLabourRate,
         label: item?.challanNo,
         value: item?.tripId,
         approvedAmount: item?.totalCost,
