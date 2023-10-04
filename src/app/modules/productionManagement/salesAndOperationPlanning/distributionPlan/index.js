@@ -406,7 +406,7 @@ export default function DistributionPlanLanding() {
                                 <IView
                                   styles={{ fontSize: "16px" }}
                                   clickHandler={(e) => {
-                                    setDetailsView(item?.distributionRowList);
+                                    setDetailsView(item);
                                     setIsShowModel(true);
                                   }}
                                 />
@@ -453,7 +453,7 @@ export default function DistributionPlanLanding() {
               setIsShowModel(false);
             }}
           >
-            <DetailsDistributionView rowData={detailsView} />
+            <DetailsDistributionView singleData={detailsView} />
           </IViewModal>
         </>
       )}

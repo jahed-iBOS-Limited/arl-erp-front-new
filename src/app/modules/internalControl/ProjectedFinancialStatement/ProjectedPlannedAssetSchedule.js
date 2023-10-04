@@ -1,6 +1,7 @@
 import React from "react";
+import { dateFormatWithMonthName } from "../../_helper/_dateFormate";
 import numberWithCommas from "../../_helper/_numberWithCommas";
-export default function ProjectedPlannedAssetSchedule({ rowData }) {
+export default function ProjectedPlannedAssetSchedule({ rowData, toDate }) {
   let numOpeningTotal = 0;
   let numAdditionTotal = 0;
   let numAdjustmentTotal = 0;
@@ -25,18 +26,25 @@ export default function ProjectedPlannedAssetSchedule({ rowData }) {
   }
   return (
     <>
+      {console.log(toDate)}
       {rowData?.length > 0 ? (
         <div className="row">
           <div>
             <h4 className="mt-5 ml-5">
-              <strong> Fixed Asset Planning</strong>
+              <strong>
+                {" "}
+                Fixed Asset Planning{" "}
+                <span style={{ marginLeft: "5px" }}>
+                  {" "}
+                  {dateFormatWithMonthName(toDate)}
+                </span>
+              </strong>
             </h4>
           </div>
           <div className="col-lg-12">
             <table className="table table-striped table-bordered mt-3">
               <thead>
                 <tr>
-                  <th>Code</th>
                   <th>Asse Name</th>
                   <th>Opening</th>
                   <th>Addition</th>
@@ -51,69 +59,86 @@ export default function ProjectedPlannedAssetSchedule({ rowData }) {
               <tbody>
                 {rowData?.map((item, index) => (
                   <tr key={index}>
-                    <td className="text-center">{item?.strGLCode}</td>
-                    <td>{item?.strGlName}</td>
-                    <td className="text-center">
+                    <td style={{ fontWeight: "bold" }}>{item?.strGlName}</td>
+                    <td style={{ fontWeight: "bold",textAlign:"end"}}>
                       {numberWithCommas(Math.round(item?.numOpening) || 0)}
                     </td>
-                    <td className="text-center">
+                    <td style={{textAlign:"end"}}>
                       {numberWithCommas(Math.round(item?.numAddition) || 0)}
                     </td>
-                    <td className="text-center">
+                    <td style={{textAlign:"end"}}>
                       {numberWithCommas(Math.round(item?.numAdjustment) || 0)}
                     </td>
-                    <td className="text-center">
+                    <td style={{ fontWeight: "bold",textAlign:"end" }}>
                       {numberWithCommas(Math.round(item?.numClosing) || 0)}
                     </td>
-                    <td className="text-center">
+                    <td style={{textAlign:"end"}}>
                       {numberWithCommas(
                         Math.round(item?.numOpeningAccDep) || 0
                       )}
                     </td>
-                    <td className="text-center">
+                    <td style={{textAlign:"end"}}>
                       {numberWithCommas(
                         Math.round(item?.numChargedDurAccDep) || 0
                       )}
                     </td>
-                    <td className="text-center">
+                    <td style={{textAlign:"end"}}>
                       {numberWithCommas(
                         Math.round(item?.numClosingAccDep) || 0
                       )}
                     </td>
-                    <td className="text-center">
+                    <td style={{ fontWeight: "bold",textAlign:"end" }}>
                       {numberWithCommas(Math.round(item?.numNetAsset) || 0)}
                     </td>
                   </tr>
                 ))}
                 <tr>
-                  <td colSpan={2} className="text-center">
+                  <td colSpan={1} className="text-center">
                     <strong> Total</strong>
                   </td>
-                  <td className="text-center">
-                    {numberWithCommas(Math.round(numOpeningTotal) || 0)}
+                  <td style={{textAlign:"end"}}>
+                    <strong>
+                      {numberWithCommas(Math.round(numOpeningTotal) || 0)}
+                    </strong>
                   </td>
-                  <td className="text-center">
-                    {numberWithCommas(Math.round(numAdditionTotal) || 0)}
+                  <td style={{textAlign:"end"}}>
+                    <strong>
+                      {numberWithCommas(Math.round(numAdditionTotal) || 0)}
+                    </strong>
                   </td>
-                  <td className="text-center">
-                    {numberWithCommas(Math.round(numAdjustmentTotal) || 0)}
+                  <td style={{textAlign:"end"}}>
+                    <strong>
+                      {" "}
+                      {numberWithCommas(Math.round(numAdjustmentTotal) || 0)}
+                    </strong>
                   </td>
-                  <td className="text-center">
-                    {numberWithCommas(Math.round(numClosingTotal) || 0)}
+                  <td style={{textAlign:"end"}}>
+                    <strong>
+                      {numberWithCommas(Math.round(numClosingTotal) || 0)}
+                    </strong>
                   </td>
-                  <td className="text-center">
-                    {numberWithCommas(Math.round(numOpeningAccDepTotal) || 0)}
+                  <td style={{textAlign:"end"}}>
+                    <strong>
+                      {" "}
+                      {numberWithCommas(Math.round(numOpeningAccDepTotal) || 0)}
+                    </strong>
                   </td>
-                  <td className="text-center">
-                    {numberWithCommas(
-                      Math.round(numChargedDurAccDepTotal) || 0
-                    )}
+                  <td style={{textAlign:"end"}}>
+                    <strong>
+                      {numberWithCommas(
+                        Math.round(numChargedDurAccDepTotal) || 0
+                      )}
+                    </strong>
                   </td>
-                  <td className="text-center">
-                    {numberWithCommas(Math.round(numClosingAccDepTotal) || 0)}
+                  <td style={{textAlign:"end"}}>
+                    <strong>
+                      {numberWithCommas(Math.round(numClosingAccDepTotal) || 0)}
+                    </strong>
                   </td>
-                  <td className="text-center">
-                    {numberWithCommas(Math.round(numNetAssetTotal) || 0)}
+                  <td style={{textAlign:"end"}}>
+                    <strong>
+                      {numberWithCommas(Math.round(numNetAssetTotal) || 0)}
+                    </strong>
                   </td>
                 </tr>
               </tbody>
