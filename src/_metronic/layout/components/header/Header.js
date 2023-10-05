@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import objectPath from "object-path";
 import { useHtmlClassService } from "../../_core/MetronicLayout";
 import { Topbar } from "./Topbar";
@@ -15,6 +15,11 @@ export function Header() {
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
+
+  const manualClickHandler = () => {
+    window.open("https://docs.google.com/document/d/1h8N-fjk3yXEkk1_orlHhBna9VqQT4NqlQER9PEfBzVc/view")
+  }
+
   const layoutProps = useMemo(() => {
     return {
       headerClasses: uiService.getClasses("header", true),
@@ -53,6 +58,7 @@ export function Header() {
         >
           <p className="m-0"><b>OID: {commonDDL?.OID}</b></p>
           <p className="m-0"><b>Enroll No: {profileData?.employeeId}</b></p>
+          <p onClick={() => manualClickHandler()} className="m-0 pointer text-primary"><b>Manual</b></p>
         </div>
         <div
           className={` ${layoutProps.headerContainerClasses} d-flex align-items-stretch justify-content-between`}
@@ -66,6 +72,7 @@ export function Header() {
           {/*begin::Topbar*/}
 
           <Topbar />
+          
 
           {/*end::Topbar*/}
         </div>
