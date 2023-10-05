@@ -169,6 +169,7 @@ export default function CustomerIncentive() {
                     options={[
                       { value: "General", label: "General" },
                       { value: "Monthly", label: "Monthly" },
+                      { value: "Delivery", label: "Delivery" },
                     ]}
                     value={values?.incentiveType}
                     onChange={(valueOption) => {
