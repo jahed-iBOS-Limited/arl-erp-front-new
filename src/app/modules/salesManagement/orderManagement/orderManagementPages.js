@@ -32,7 +32,6 @@ import SalesReturnForm from "./salesReturn/form/addEditForm";
 import SalesReturn from "./salesReturn/landing/table";
 import DamageEntryLanding from "./damageEntry/landing";
 import DamageEntryForm from "./damageEntry/form/addEditForm";
-import ServiceSalesCreate from "./serviceSales/create";
 
 export function OrderManagementPages() {
 
@@ -281,14 +280,6 @@ export function OrderManagementPages() {
       <ContentRoute
         from="/sales-management/ordermanagement/CustomerIncentive"
         component={customerIncentivePermission?.isView ? CustomerIncentive : NotPermittedPage}
-      />
-      <ContentRoute
-        from="/sales-management/ordermanagement/ServiceSales/create"
-        component={ServiceSalesCreate}
-      />
-      <ContentRoute
-        from="/sales-management/ordermanagement/ServiceSales"
-        component={()=> <h1>Working</h1>}
       />
     </Switch>
   );

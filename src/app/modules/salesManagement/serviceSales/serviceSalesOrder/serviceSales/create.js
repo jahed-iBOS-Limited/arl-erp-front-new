@@ -1,0 +1,585 @@
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import * as Yup from "yup";
+import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
+import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
+import IViewModal from "../../../../_helper/_viewModal";
+import Schedule from "./schedule";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { shallowEqual, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { addMonthsToDate } from "./helper";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import IForm from "../../../../_helper/_form";
+import InputField from "../../../../_helper/_inputField";
+
+const initData = {
+  salesOrg: "",
+  customer: "",
+  paymentType: "",
+  billToParty: "",
+  referenceCode: "",
+  scheduleType: "",
+  invoiceDay: "",
+  validFrom: "",
+  validTo: "",
+};
+
+// const validationSchema = Yup.object().shape({
+//   item: Yup.object()
+//     .shape({
+//       label: Yup.string().required("Item is required"),
+//       value: Yup.string().required("Item is required"),
+//     })
+//     .typeError("Item is required"),
+
+//   remarks: Yup.string().required("Remarks is required"),
+//   amount: Yup.number().required("Amount is required"),
+//   date: Yup.date().required("Date is required"),
+// });
+
+export default function ServiceSalesCreate() {
+  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
+
+  const [objProps, setObjprops] = useState({});
+  const [attachmentList, setAttachmentList] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [customerList, getCustomerList] = useAxiosGet();
+  const [itemDDL, getItemDDL] = useAxiosGet();
+  const [itemList, setItemList] = useState([]);
+  const [invoiceDayNumber, setInvoiceDayNumber] = useState(null);
+  const [validFromData, setValidFromData] = useState("");
+  const [scheduleList, setSheduleList] = useState([]);
+  const [netAmount, setNetAmount] = useState(0);
+  const formikRef = React.useRef(null);
+  const [, saveHandlerFunc, loader] = useAxiosPost();
+
+  useEffect(() => {
+    if (itemList?.length) {
+      let amount = (itemList[0]?.qty || 0) * (itemList[0]?.rate || 0);
+      let vat = itemList[0]?.vat || 0;
+      let netAmount = amount + (amount * vat) / 100;
+      setNetAmount(netAmount);
+    } else {
+      setNetAmount(0);
+    }
+  }, [itemList]);
+
+  useEffect(() => {
+    if (invoiceDayNumber && validFromData) {
+      const list = [];
+      for (let i = 0; i < invoiceDayNumber; i++) {
+        list.push({
+          dueDate: addMonthsToDate(validFromData, i),
+          percentage: 0,
+          amount: 0,
+        });
+      }
+      formikRef.current.setFieldValue("validTo", list[list.length - 1].dueDate);
+      setSheduleList(list);
+    } else {
+      setSheduleList([]);
+    }
+  }, [invoiceDayNumber, validFromData]);
+
+  useEffect(() => {
+    getCustomerList(
+      `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
+    );
+    getItemDDL(
+      `/oms/SalesOrder/GetgetServiceItemList?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profileData, selectedBusinessUnit]);
+
+  const saveHandler = (values, cb) => {
+    if (itemList?.length < 0) return toast.warn("Add at least one Item");
+    if (scheduleList?.length < 0) return toast.warn("Add Schedule");
+    let payload = {
+      header: {
+        intServiceSalesOrderId: 0,
+        strServiceSalesOrderCode: "",
+        intAccountId: profileData?.accountId,
+        intBusinessUnitId: selectedBusinessUnit?.value,
+        intSalesTypeId: values?.salesOrg?.value,
+        strSalesTypeName: values?.salesOrg?.label,
+        intCustomerId: values?.customer?.value,
+        strCustomerName: values?.customer?.label,
+        strCustomerAddress: values?.customer?.address,
+        intScheduleTypeId: values?.scheduleType?.value,
+        strScheduleTypeName: values?.scheduleType?.label,
+        intScheduleDayCount: +values?.invoiceDay,
+        dteStartDateTime: values?.validFrom,
+        dteEndDateTime: values?.validTo,
+        strAttachmentLink: attachmentList[0]?.id || "",
+        intActionBy: profileData?.userId,
+      },
+      row: itemList?.map((item) => ({
+        intServiceSalesOrderRowId: 0,
+        intServiceSalesOrderId: 0,
+        intItemId: item?.value,
+        strItemName: item?.label,
+        strUom: "",
+        numSalesQty: +item?.qty || 0,
+        numRate: +item?.rate || 0,
+        numSalesAmount: (+item?.qty || 0) * (+item?.rate || 0),
+        numSalesVatAmount: +item?.vat || 0,
+        numNetSalesAmount: +netAmount || 0,
+        isActive: true,
+      })),
+      schedule: scheduleList?.map((schedule) => ({
+        intServiceSalesScheduleId: 0,
+        intServiceSalesOrderId: 0,
+        dteScheduleDateTime: _todayDate(),
+        dteDueDateTime: schedule?.dueDate,
+        intPaymentByPercent: +schedule?.percentage || 0,
+        numScheduleAmount: +schedule?.amount,
+        strStatus: "",
+        isActive: true,
+      })),
+    };
+
+    saveHandlerFunc(
+      `oms/ServiceSales/createServiceSalesOrder`,
+      payload,
+      cb,
+      true
+    );
+  };
+
+  return (
+    <Formik
+      enableReinitialize={true}
+      initialValues={initData}
+      //   validationSchema={validationSchema}
+      onSubmit={(values, { setSubmitting, resetForm }) => {
+        saveHandler(values, () => {
+          resetForm(initData);
+          setItemList([]);
+          setSheduleList([]);
+        });
+      }}
+      innerRef={formikRef}
+    >
+      {({
+        handleSubmit,
+        resetForm,
+        values,
+        setFieldValue,
+        isValid,
+        errors,
+        touched,
+      }) => (
+        <>
+          {loader && <Loading />}
+          <IForm title="Create Service Sales Order" getProps={setObjprops}>
+            <Form>
+              <div className="form-group  global-form row">
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="salesOrg"
+                    options={[
+                      { value: 1, label: "Local Sales" },
+                      { value: 2, label: "Foreign Sales " },
+                    ]}
+                    value={values?.salesOrg}
+                    label="Sales Org"
+                    onChange={(valueOption) => {
+                      setFieldValue("salesOrg", valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="customer"
+                    options={customerList || []}
+                    value={values?.customer}
+                    label="Customer"
+                    onChange={(valueOption) => {
+                      setFieldValue("customer", valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="paymentType"
+                    options={[
+                      { value: 1, label: "Re-Curring" },
+                      { value: 2, label: "One Time" },
+                    ]}
+                    value={values?.paymentType}
+                    label="Payment Type"
+                    onChange={(valueOption) => {
+                      setFieldValue("paymentType", valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.billToParty}
+                    label="Bill To Party"
+                    name="billToParty"
+                    type="number"
+                    onChange={(e) => {
+                      setFieldValue("billToParty", e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.referenceCode}
+                    label="Reference Code"
+                    name="referenceCode"
+                    type="text"
+                    onChange={(e) => {
+                      setFieldValue("referenceCode", e.target.value);
+                    }}
+                  />
+                </div>
+                {[1, 2]?.includes(values?.paymentType?.value) ? (
+                  <>
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="scheduleType"
+                        options={[
+                          { value: 1, label: "Monthly" },
+                          { value: 2, label: "Yearly" },
+                        ]}
+                        value={values?.scheduleType}
+                        label="Schedule Type"
+                        onChange={(valueOption) => {
+                          setFieldValue("scheduleType", valueOption);
+                        }}
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <InputField
+                        value={values?.invoiceDay}
+                        label="Invoice Day"
+                        name="invoiceDay"
+                        type="number"
+                        onChange={(e) => {
+                          setFieldValue("invoiceDay", e.target.value);
+                          setInvoiceDayNumber(e.target.value);
+                        }}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <InputField
+                        value={values?.validFrom}
+                        label="Valid From"
+                        name="validFrom"
+                        type="date"
+                        onChange={(e) => {
+                          setFieldValue("validFrom", e.target.value);
+                          setValidFromData(e.target.value);
+                        }}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <InputField
+                        value={values?.validTo}
+                        label="Valid To"
+                        name="validTo"
+                        type="date"
+                        disabled
+                        onChange={(e) => {
+                          setFieldValue("validTo", e.target.value);
+                        }}
+                      />
+                    </div>
+                  </>
+                ) : null}
+                <div className="col-lg-2 mt-5">
+                  <AttachmentUploaderNew
+                    CBAttachmentRes={(attachmentData) => {
+                      if (Array.isArray(attachmentData)) {
+                        setAttachmentList(attachmentData);
+                      }
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div className="form-group  global-form row mt-5">
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="item"
+                    options={itemDDL || []}
+                    value={values?.item}
+                    label="Item Name"
+                    onChange={(valueOption) => {
+                      setFieldValue("item", valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+
+                {/* <div className="col-lg-3">
+                  <InputField
+                    value={values?.qty}
+                    label="Qty"
+                    name="qty"
+                    type="number"
+                    onChange={(e) => {
+                      setFieldValue("qty", e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.rate}
+                    label="Rate"
+                    name="rate"
+                    type="number"
+                    onChange={(e) => {
+                      setFieldValue("rate", e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.vat}
+                    label="Vat %"
+                    name="vat"
+                    type="number"
+                    onChange={(e) => {
+                      setFieldValue("vat", e.target.value);
+                    }}
+                  />
+                </div> */}
+                <div className="d-flex">
+                  <div style={{ marginTop: "18px" }}>
+                    <button
+                      type="button"
+                      disabled={!values?.item?.value || itemList?.length}
+                      className="btn btn-primary ml-4"
+                      onClick={() => {
+                        let isExist = itemList?.some(
+                          (item) => item.label === values?.item?.label
+                        );
+                        if (isExist) return toast.warn("Already exist");
+                        setItemList((prev) => [
+                          ...prev,
+                          {
+                            ...values?.item,
+                            qty: 0,
+                            rate: 0,
+                            vat: 0,
+                            amount: 0,
+                            netAmount: 0,
+                          },
+                        ]);
+                      }}
+                    >
+                      Add
+                    </button>
+                  </div>
+                  {/* <div style={{ marginTop: "18px" }}>
+                    <button
+                      onClick={() => setIsOpen(true)}
+                      type="button"
+                      className="btn btn-primary ml-4"
+                    >
+                      Schedule
+                    </button>
+                  </div> */}
+                </div>
+              </div>
+
+              <div className="mt-5">
+                <div>
+                  <table className="table table-striped table-bordered bj-table bj-table-landing">
+                    <thead>
+                      <tr>
+                        <th>Item Name</th>
+                        {/* <th>Uom</th> */}
+                        <th>Qty</th>
+                        <th>Rate</th>
+                        <th>Amount</th>
+                        <th>Vat %</th>
+                        <th>Net Amount</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {itemList?.map((item, index) => (
+                        <tr key={index}>
+                          <td>{item?.label}</td>
+                          {/* <td>Uom</td> */}
+                          <td>
+                            <InputField
+                              value={item?.qty || ""}
+                              type="number"
+                              onChange={(e) => {
+                                let data = [...itemList];
+                                data[index]["qty"] = e.target.value;
+                                setItemList(data);
+                              }}
+                            />
+                          </td>
+                          <td>
+                            <InputField
+                              value={item?.rate || ""}
+                              type="number"
+                              onChange={(e) => {
+                                let data = [...itemList];
+                                data[index]["rate"] = e.target.value;
+                                setItemList(data);
+                              }}
+                            />
+                          </td>
+                          <td className="text-center">
+                            {(item?.qty || 0) * (item?.rate || 0)}
+                          </td>
+                          <td>
+                            <InputField
+                              value={item?.vat || ""}
+                              type="number"
+                              onChange={(e) => {
+                                let data = [...itemList];
+                                data[index]["vat"] = e.target.value;
+                                setItemList(data);
+                              }}
+                            />
+                          </td>
+                          <td className="text-center">
+                            {(() => {
+                              let amount = (item?.qty || 0) * (item?.rate || 0);
+                              let vat = item?.vat;
+                              return amount + (amount * vat) / 100;
+                            })()}
+                          </td>
+                          <td className="text-center">
+                            <IDelete
+                              style={{ fontSize: "16px" }}
+                              remover={(index) => {
+                                let data = itemList.filter(
+                                  (item, i) => i !== index
+                                );
+                                setItemList(data);
+                              }}
+                              id={index}
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div className="mt-5">
+                <div>
+                  {scheduleList?.length > 0 && itemList?.length > 0 && (
+                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Due Date</th>
+                          <th>Percentage</th>
+                          <th>Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {scheduleList?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>
+                              <InputField
+                                value={item?.dueDate}
+                                type="date"
+                                onChange={(e) => {
+                                  let data = [...scheduleList];
+                                  data[index]["dueDate"] = e.target.value;
+                                  setFieldValue("validTo", e.target.value);
+                                  setSheduleList(data);
+                                }}
+                              />
+                            </td>
+                            <td>
+                              <InputField
+                                value={item?.percentage || ""}
+                                type="number"
+                                onChange={(e) => {
+                                  const newValue = +e.target.value;
+
+                                  let totalPercentage = scheduleList.reduce(
+                                    (acc, curr, currIndex) => {
+                                      if (currIndex === index) {
+                                        return acc + newValue;
+                                      } else {
+                                        return acc + curr.percentage;
+                                      }
+                                    },
+                                    0
+                                  );
+
+                                  if (totalPercentage > 100) {
+                                    toast.warn(
+                                      "Total percentage should be 100"
+                                    );
+                                    return;
+                                  }
+
+                                  let updatedScheduleList = [...scheduleList];
+                                  updatedScheduleList[
+                                    index
+                                  ].percentage = newValue;
+                                  updatedScheduleList[index].amount =
+                                    ((newValue || 0) / 100) * (netAmount || 0);
+                                  setSheduleList(updatedScheduleList);
+                                }}
+                              />
+                            </td>
+                            <td>
+                              {/* {((item?.percentage || 0) / 100) *
+                                (netAmount || 0)} */}
+                              {item?.amount}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
+                </div>
+              </div>
+
+              <IViewModal show={isOpen} onHide={() => setIsOpen(false)}>
+                <Schedule />
+              </IViewModal>
+
+              <button
+                type="submit"
+                style={{ display: "none" }}
+                ref={objProps?.btnRef}
+                onSubmit={() => handleSubmit()}
+              ></button>
+
+              <button
+                type="reset"
+                style={{ display: "none" }}
+                ref={objProps?.resetBtnRef}
+                onSubmit={() => resetForm(initData)}
+              ></button>
+            </Form>
+          </IForm>
+        </>
+      )}
+    </Formik>
+  );
+}
