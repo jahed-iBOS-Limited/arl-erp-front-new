@@ -205,6 +205,12 @@ export const getBusinessPartnerSalesByPartnerId = async (
             label: objDataGet?.partyStatusType,
           }
         : "",
+      customerCategory: objDataGet?.customerCategory
+        ? {
+            value: objDataGet?.customerCategory,
+            label: objDataGet?.customerCategory,
+          }
+        : "",
       exclusivity: objDataGet?.isExclusive
         ? { value: true, label: "Exclusive" }
         : { value: false, label: "Non-Exclusive" },
