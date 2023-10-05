@@ -9,14 +9,18 @@ import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIRepor
 import FromDateToDateForm from "../../../_helper/commonInputFieldsGroups/dateForm";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IButton from "../../../_helper/iButton";
+import axios from "axios";
 import MotherVesselInventoryReportTable from "./MVInventoryTable";
 import ChallanWiseSalesReport from "./challanWiseSalesTable";
 import {
   GetDomesticPortDDLWMS,
-  getMotherVesselDDL,
+  getMotherVesselDDL, 
   wearhouse_api,
 } from "./helper";
 import WareHouseInventoryReportTable from "./wareHouseInventoryReportTable";
+import SearchAsyncSelect from "./../../../_helper/SearchAsyncSelect";
+import ItemVsWarehouse from "./itemVsWarehouse";
+import ItemVsMotherVessel from "./itemVsMotherVessel";
 
 const types = [
   { value: 5, label: "Mother Vessel Inventory Report" },
@@ -25,6 +29,8 @@ const types = [
   { value: 4, label: "Challan Wise Sales Report" },
   { value: 6, label: "Mother Vessel Vs Warehouse" },
   { value: 7, label: "Warehouse Vs Mother Vessel" },
+  { value: 8, label: "Item Vs Warehouse" },
+  { value: 9, label: "Item Vs Mother Vessel" },
 ];
 
 const InventoryG2GReportRDLC = () => {
@@ -43,12 +49,13 @@ const InventoryG2GReportRDLC = () => {
     type: "",
     plant: "",
     shippoint: { value: 0, label: "All" },
-    motherVessel: "",
+    motherVessel: { value: 0, label: "All" },
     lighterVessel: "",
     viewType: "",
     fromDate: _todayDate(),
     toDate: _todayDate(),
     wh: { value: 0, label: "All" },
+    intG2GItemId: { value: 0, label: "All" },
   };
 
   const parameterValues = (values) => {
@@ -86,7 +93,7 @@ const InventoryG2GReportRDLC = () => {
 
     const URL = [4].includes(typeId)
       ? urlOne
-      : [5, 6, 7].includes(typeId)
+      : [5, 6, 7, 8, 9].includes(typeId)
       ? urlTwo
       : ``;
 
@@ -135,14 +142,15 @@ const InventoryG2GReportRDLC = () => {
                       setShowReport(false);
                       setFieldValue("type", valueOption);
                       setFieldValue("viewType", 0);
-                      setFieldValue("motherVessel", "");
+                      // setFieldValue("motherVessel", "");
                       setFieldValue("port", "");
+                      // setFieldValue("intG2GItemId", "");
                       setRowData([]);
                     }}
                     placeholder='Type'
                   />
                 </div>
-                {[5, 6, 7].includes(values?.type?.value) && (
+                {[5, 6, 7, 8 , 9].includes(values?.type?.value) && (
                   <>
                     <div className='col-lg-3'>
                       <NewSelect
@@ -277,7 +285,7 @@ const InventoryG2GReportRDLC = () => {
                     />
                   </div>
                 ) : null}
-                {[6, 7]?.includes(values?.type?.value) && (
+                {[6, 7, 8, 9]?.includes(values?.type?.value) && (
                   <>
                     <div className='col-lg-3'>
                       <NewSelect
@@ -318,6 +326,36 @@ const InventoryG2GReportRDLC = () => {
                     </div>
                   </>
                 )}
+
+                {[8, 9].includes(values?.type?.value) && (
+                  <>
+                    <div className='col-lg-3'>
+                      <label>Item</label>
+                      <SearchAsyncSelect
+                        selectedValue={values?.intG2GItemId}
+                        handleChange={(valueOption) => {
+                          setFieldValue("intG2GItemId", valueOption);
+                        }}
+                        placeholder='Search Item'
+                        loadOptions={ async (v) => {
+                          const searchValue = v.trim();
+                          if (searchValue?.length < 3) return [
+                            { value: 0, label: "All" },
+                          ];
+                          return axios
+                            .get(
+                              `/wms/FertilizerOperation/GetItemListDDL?AccountId=${accId}&BusinessUinitId=${buId}&CorporationType=${0}&SearchTerm=${searchValue}`
+                            )
+                            .then((res) => [
+                              {value: 0, label: "All"},
+                              ...res?.data
+                            ]);
+                        }}
+                        // isDisabled={type}
+                      />
+                    </div>
+                  </>
+                )}
                 <FromDateToDateForm
                   obj={{
                     values,
@@ -335,7 +373,7 @@ const InventoryG2GReportRDLC = () => {
                     if ([1, 3].includes(values?.type?.value)) {
                       setShowReport(false);
                       setShowReport(true);
-                    } else if ([4, 5, 6, 7].includes(values?.type?.value)) {
+                    } else if ([4, 5, 6, 7, 8 , 9].includes(values?.type?.value)) {
                       getData(values, "");
                     }
                   }}
@@ -356,8 +394,14 @@ const InventoryG2GReportRDLC = () => {
             {[5].includes(values?.type?.value) && (
               <MotherVesselInventoryReportTable obj={{ rowData }} />
             )}
-            {[6, 7].includes(values?.type?.value) && (
+            {[6, 7,].includes(values?.type?.value) && (
               <WareHouseInventoryReportTable rowData={rowData} />
+            )}
+            {[8].includes(values?.type?.value) && (
+              <ItemVsWarehouse rowData={rowData} />
+            )}
+            {[9].includes(values?.type?.value) && (
+              <ItemVsMotherVessel rowData={rowData} />
             )}
           </ICustomCard>
         )}
