@@ -779,7 +779,7 @@ export default function _Form({
                                     {itm?.offerItemList
                                       ?.filter((itm) => itm?.isItemShow)
                                       ?.map((OfferItm) => (
-                                        <tr key={index}>
+                                        <tr key={index} style={{background: '#ffffa9'}}>
                                           <td>
                                             <div className='pl-2'>
                                               {OfferItm?.itemCode}
