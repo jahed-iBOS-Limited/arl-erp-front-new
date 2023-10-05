@@ -24,10 +24,11 @@ const types = [
   { value: 1, label: "Mother Vessel Report" },
   { value: 3, label: "Stock Wise Report" },
   { value: 4, label: "Challan Wise Sales Report" },
-  { value: 6, label: "WareHouse Inventory Report" },
+  { value: 6, label: "Mother Vessel Vs Warehouse" },
+  { value: 7, label: "Warehouse Vs Mother Vessel" },
 ];
 
-const WareHouseInventoryReport = 6;
+
 
 const InventoryG2GReportRDLC = () => {
   const groupId = `e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`;
@@ -82,7 +83,7 @@ const InventoryG2GReportRDLC = () => {
 
     const URL = [4].includes(typeId)
       ? urlOne
-      : [5, 6].includes(typeId)
+      : [5, 6,7].includes(typeId)
       ? urlTwo
       : ``;
 
@@ -126,7 +127,7 @@ const InventoryG2GReportRDLC = () => {
                     placeholder="Type"
                   />
                 </div>
-                {[5, 6].includes(values?.type?.value) && (
+                {[5, 6,7].includes(values?.type?.value) && (
                   <div className="col-lg-3">
                     <NewSelect
                       name="plant"
@@ -142,14 +143,14 @@ const InventoryG2GReportRDLC = () => {
                     />
                   </div>
                 )}
-                {[1, 3, 5, 6].includes(values?.type?.value) && (
+                {[1, 3, 5, 6,7].includes(values?.type?.value) && (
                   <>
                     <div className="col-lg-3">
                       <NewSelect
                         name="shippoint"
                         options={[{ value: 0, label: "All" }, ...shippointDDL]}
                         label={
-                          [5, 6].includes(values?.type?.value)
+                          [5, 6,7].includes(values?.type?.value)
                             ? "Warehouse"
                             : "ShipPoint"
                         }
@@ -160,7 +161,7 @@ const InventoryG2GReportRDLC = () => {
                           setRowData([]);
                         }}
                         placeholder={
-                          [5, 6].includes(values?.type?.value)
+                          [5, 6,7].includes(values?.type?.value)
                             ? "Warehouse"
                             : "ShipPoint"
                         }
@@ -233,7 +234,7 @@ const InventoryG2GReportRDLC = () => {
                     />
                   </div>
                 ) : null}
-                {values?.type?.value === WareHouseInventoryReport && <>
+                {[6, 7]?.includes(values?.type?.value) && <>
                   <div className="col-lg-3">
                     <NewSelect
                       name="port"
@@ -286,7 +287,7 @@ const InventoryG2GReportRDLC = () => {
                     if ([1, 3].includes(values?.type?.value)) {
                       setShowReport(false);
                       setShowReport(true);
-                    } else if ([4, 5, 6].includes(values?.type?.value)) {
+                    } else if ([4, 5, 6,7].includes(values?.type?.value)) {
                       getData(values, "");
                     }
                   }}
@@ -307,7 +308,7 @@ const InventoryG2GReportRDLC = () => {
             {[5].includes(values?.type?.value) && (
               <MotherVesselInventoryReportTable obj={{ rowData }} />
             )}
-             {[6].includes(values?.type?.value) && (
+             {[6,7].includes(values?.type?.value) && (
               <WareHouseInventoryReportTable rowData={rowData} />
             )}
           </ICustomCard>
