@@ -78,3 +78,15 @@ export const GetDomesticPortDDLWMS = async (setter) => {
     setter([]);
   }
 };
+
+//Wearhouse_api Api call
+export const wearhouse_api = async (accId, buId, userId, plantId, setter) => {
+  try {
+    const res = await axios.get(
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) { }
+};
