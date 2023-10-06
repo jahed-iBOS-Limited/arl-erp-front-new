@@ -7,8 +7,10 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IForm from "./../../../_helper/_form";
 import IViewModal from "../../../_helper/_viewModal";
 import ScheduleListTable from "./scheduleListTable";
+import IEdit from "../../../_helper/_helperIcons/_edit";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 const initData = {};
-export default function SalesInvoiceLanding() {
+export default function SalesInvoiceCreate() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -53,27 +55,7 @@ export default function SalesInvoiceLanding() {
       }) => (
         <>
           {false && <Loading />}
-          <IForm
-            title="Sales Invoice"
-            isHiddenReset
-            isHiddenBack
-            isHiddenSave
-            renderProps={() => {
-              return (
-                <div>
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={() => {
-                      history.push("/sales-management/servicesales/servsalesinvoice/create");
-                    }}
-                  >
-                    Create
-                  </button>
-                </div>
-              );
-            }}
-          >
+          <IForm title="Create Sales Invoice">
             <Form>
               <div>
                 <div className="form-group  global-form row">
@@ -124,80 +106,50 @@ export default function SalesInvoiceLanding() {
                     </button>
                   </div>
                 </div>
-                {rowData?.map((item, i) => (
-                  <div
-                    onClick={() => {
-                      setShowModal(true);
-                      setSingleItem(item);
-                    }}
-                    className="mt-5"
-                    style={{ cursor: "pointer" }}
-                  >
-                    <div className="form-group  global-form row">
-                      <table style={{ width: "100%" }}>
-                        <tr>
+                <div className="mt-5">
+                  <table className="table table-striped table-bordered bj-table bj-table-landing">
+                    <thead>
+                      <tr>
+                        <th>Customer</th>
+                        <th>Address</th>
+                        <th>Schedule Type</th>
+                        <th>Sales Type</th>
+                        <th> S Service Sales Order Code</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rowData?.map((item, index) => (
+                        <tr key={index}>
+                          <td>{item?.header?.strCustomerName}</td>
+                          <td>{item?.header?.strCustomerAddress}</td>
+                          <td>{item?.header?.strScheduleTypeName}</td>
+                          <td>{item?.header?.strSalesTypeName}</td>
+                          <td>{item?.header?.strServiceSalesOrderCode}</td>
                           <td>
-                            Customer:{" "}
-                            <strong>{item?.header?.strCustomerName}</strong>
-                          </td>
-                          <td>
-                            Address:{" "}
-                            <strong>{item?.header?.strCustomerAddress}</strong>
-                          </td>
-                          <td>
-                            Schedule Type:{" "}
-                            <strong>{item?.header?.strScheduleTypeName}</strong>
+                            <div className="d-flex justify-content-between">
+                              <OverlayTrigger
+                                overlay={
+                                  <Tooltip id="cs-icon">{"Create"}</Tooltip>
+                                }
+                              >
+                                <span>
+                                  <i
+                                    className={`fas fa-pen-square pointer `}
+                                    onClick={() => {
+                                      setShowModal(true);
+                                      setSingleItem(item);
+                                    }}
+                                  ></i>
+                                </span>
+                              </OverlayTrigger>
+                            </div>
                           </td>
                         </tr>
-                        <tr>
-                          <td>
-                            Sales Type:{" "}
-                            <strong>{item?.header?.strSalesTypeName}</strong>
-                          </td>
-                          <td>
-                            S Service Sales Order Code:{" "}
-                            <strong>
-                              {item?.header?.strServiceSalesOrderCode}
-                            </strong>
-                          </td>
-                          <td></td>
-                        </tr>
-                      </table>
-                    </div>
-                    {/* <div className="">
-                      <div>
-                        <table className="table table-striped table-bordered bj-table bj-table-landing">
-                          <thead>
-                            <tr>
-                              <th>Customer</th>
-                              <th>Schedule Type</th>
-                              <th>Item Name</th>
-                              <th>Due Date</th>
-                              <th>Payment Percent</th>
-                              <th>Schedule Amount</th>
-                              <th>Status</th>
-                              <th>Action</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {item?.scheduleList?.map((item, index) => (
-                              <tr key={index}>
-                                <td>{item?.strCustomerName}</td>
-                                <td>{item?.strScheduleTypeName}</td>
-                                <td>{item?.strItemName}</td>
-                                <td>{_dateFormatter(item?.dteDueDateTime)}</td>
-                                <td>{item?.intPaymentByPercent}</td>
-                                <td>{item?.numScheduleAmount}</td>
-                                <td>{item?.isInvoiceComplete}</td>
-                                <td>{item?.isInvoiceComplete}</td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    </div> */}
-                  </div>
-                ))}
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
               <IViewModal
                 show={showModal}
