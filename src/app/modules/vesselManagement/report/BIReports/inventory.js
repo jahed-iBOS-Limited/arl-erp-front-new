@@ -88,7 +88,7 @@ const InventoryG2GReportRDLC = () => {
     }&dteToDate=${values?.toDate}&intPlantId=${
       values?.plant?.value
     }&intItemTypeId=${typeId}&intItemId=${values?.motherVessel?.value ||
-      0}&intWareHouseId=${values?.shippoint?.value}&intG2GItemId=${values
+      0}&intWareHouseId=${values?.wh?.value}&intG2GItemId=${values
       ?.intG2GItemId?.value || 0}&PageNo=${_pageNo}&PageSize=${_pageSize}`;
 
     const URL = [4].includes(typeId)
