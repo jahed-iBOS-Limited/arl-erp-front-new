@@ -1,7 +1,7 @@
 import React from "react";
 import { _fixedPoint } from "../../../_helper/_fixedPoint";
 
-export default function WareHouseInventoryReportTable({ rowData }) {
+export default function ItemVsWarehouse({ rowData }) {
   return (
     <div className="mt-5">
       <div className="table-responsive">
@@ -9,7 +9,8 @@ export default function WareHouseInventoryReportTable({ rowData }) {
           <thead>
             <tr>
               <th>Sl</th>
-              <th>MVessel Name</th>
+              <th>Item Name</th>
+              {/* <th>MVessel Name</th> */}
               <th>Warehouse Name</th>
               <th>Open Qty</th>
               <th>Open Value</th>
@@ -28,7 +29,8 @@ export default function WareHouseInventoryReportTable({ rowData }) {
                 return (
                   <tr key={index}>
                     <td className="text-center">{index + 1}</td>
-                    <td>{item?.strMVesselName}</td>
+                    <td>{item?.strG2GItemName}</td>
+                    {/* <td>{item?.strMVesselName}</td> */}
                     <td>{item?.strWarehouseName}</td>
                     <td className="text-center">{_fixedPoint(item?.numOpenQty)}</td>
                     <td className="text-center">{_fixedPoint(item?.numOpenValue)}</td>
