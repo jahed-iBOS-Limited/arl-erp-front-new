@@ -33,6 +33,7 @@ import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
 import FormikError from "../../../../_helper/_formikError";
 import axios from "axios";
 import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
+import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -324,7 +325,7 @@ const ExpenseRegisterLanding = () => {
                     right: "95px",
                   }}
                 >
-                  Please select respective unit for 'Expense Approve'
+                  Please select respective unit for 'Expense Approve' & Please See the TADA Policy before submitting your expenses
                 </marquee>
               </CardHeader>
               <CardBody>
@@ -445,6 +446,18 @@ const ExpenseRegisterLanding = () => {
                         errors={errors}
                         touched={touched}
                       />
+                    </div>
+                    <div className="col-lg-3 d-flex align-items-center justify-content-end">
+                      <button
+                        className="btn btn-success"
+                        onClick={() => {
+                          dispatch(
+                            getDownlloadFileView_Action("638323656050908814_ARL_TADA_POLICY.pdf", null, null, setLoading)
+                          );
+                        }}
+                      >
+                        TADA Policy
+                      </button>
                     </div>
 
                     <div className='col-lg-5 col-xl-5 d-flex justify-content-between align-items-center mt-2 p-0 flex-wrap '>
