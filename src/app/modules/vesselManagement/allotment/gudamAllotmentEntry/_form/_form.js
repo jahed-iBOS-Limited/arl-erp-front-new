@@ -13,7 +13,6 @@ import {
 import { getMonth } from "../../../../salesManagement/report/customerSalesTarget/utils";
 // import YearMonthForm from "../../../../_helper/commonInputFieldsGroups/yearMonthForm";
 // import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import FormikError from "../../../../_helper/_formikError";
@@ -21,12 +20,13 @@ import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import { GetDomesticPortDDL } from "../../generalInformation/helper";
 // import { GetShipPointDDL } from "../../generalInformation/helper";
 import {
   editGudamAllotment,
-  getShipToPartnerDDLByShipPoint,
   getMotherVesselDDL,
+  getShipToPartnerDDLByShipPoint,
 } from "../helper";
 
 const initData = {
@@ -42,6 +42,7 @@ const initData = {
   revenueRate: "",
   revenueByTransport: "",
   isNearShipPoint: "",
+  extraAllotmentQuantity:0
 };
 
 const GudamAllotmentForm = ({
@@ -95,6 +96,7 @@ const GudamAllotmentForm = ({
           label: singleItem?.itemName,
         },
         allotmentQty: singleItem?.allotmentQuantity,
+        extraAllotmentQuantity:singleItem?.extraAllotmentQuantity || 0,
         month: {
           value: singleItem?.monthId,
           label: getMonth(singleItem?.monthId),
@@ -124,6 +126,7 @@ const GudamAllotmentForm = ({
         monthId: values?.month?.value,
         yearId: values?.year?.value,
         allotmentQuantity: values?.allotmentQty,
+        extraAllotmentQuantity: +values?.extraAllotmentQuantity || 0,
         motherVesselName: values?.motherVessel?.label,
         motherVesselId: values?.motherVessel?.value,
         revenueRate: +values?.revenueRate || 0,
@@ -163,6 +166,7 @@ const GudamAllotmentForm = ({
       monthId: date?.getMonth(),
       yearId: date?.getFullYear(),
       allotmentQuantity: values?.allotmentQty,
+      extraAllotmentQuantity: values?.extraAllotmentQuantity,
       actionby: userId,
       portId: values?.port?.value,
       portName: values?.port?.label,
@@ -335,6 +339,18 @@ const GudamAllotmentForm = ({
                           disabled={false}
                         />
                       </div>
+                      <div className="col-md-3">
+                        <InputField
+                          label="Extra Allotment Qty"
+                          placeholder="Allotment Qty"
+                          value={+values?.extraAllotmentQuantity || 0}
+                          name="extraAllotmentQuantity"
+                          type="text"
+                          disabled={false}
+                          errors
+                          touched
+                        />
+                      </div>
 
                       <div className="col-md-3">
                         <InputField
@@ -412,6 +428,7 @@ const GudamAllotmentForm = ({
                           // "Month",
                           // "Year",
                           "Allotment Qty",
+                          "Extra Allotment Qty",
                           "Revenue Rate (Tk.)",
                           "Revenue by Transport",
                           "Action",
@@ -438,6 +455,9 @@ const GudamAllotmentForm = ({
                             <td>{item?.yearId}</td> */}
                             <td className="text-right">
                               {_fixedPoint(item?.allotmentQuantity, true)}
+                            </td>
+                            <td className="text-right">
+                              {_fixedPoint(item?.extraAllotmentQuantity, true) || 0}
                             </td>
                             <td className="text-right">{item?.revenueRate}</td>
                             <td className="text-right">
