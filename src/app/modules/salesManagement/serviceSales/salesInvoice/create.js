@@ -20,7 +20,6 @@ export default function SalesInvoiceCreate() {
   const [rowData, getRowData, Loading] = useAxiosGet();
   const [showModal, setShowModal] = useState(false);
   const [singleItem, setSingleItem] = useState(null);
-  const [, collectionHandler] = useAxiosPost();
 
   useEffect(() => {
     getCustomerList(
