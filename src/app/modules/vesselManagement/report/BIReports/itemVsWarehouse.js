@@ -9,6 +9,7 @@ export default function ItemVsWarehouse({ rowData }) {
           <thead>
             <tr>
               <th>Sl</th>
+              <th>Item Name</th>
               {/* <th>MVessel Name</th> */}
               <th>Warehouse Name</th>
               <th>Open Qty</th>
@@ -28,6 +29,7 @@ export default function ItemVsWarehouse({ rowData }) {
                 return (
                   <tr key={index}>
                     <td className="text-center">{index + 1}</td>
+                    <td>{item?.strG2GItemName}</td>
                     {/* <td>{item?.strMVesselName}</td> */}
                     <td>{item?.strWarehouseName}</td>
                     <td className="text-center">{_fixedPoint(item?.numOpenQty)}</td>
@@ -43,7 +45,7 @@ export default function ItemVsWarehouse({ rowData }) {
                 );
               })}
             <tr>
-              <td colSpan={4}>
+              <td colSpan={5}>
                 <strong>Total</strong>
               </td>
               <td className="text-center">
