@@ -16,6 +16,7 @@ import IConfirmModal from "../../../_helper/_confirmModal";
 import { shallowEqual, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import AttachmentField from "./AttachmentField";
 
 const initData = {
   fromDate: "",
@@ -24,6 +25,7 @@ const initData = {
   paymentType: "",
   bankAccount: "",
   instrumentType: "",
+  attachment: "",
 };
 
 const PaymentPrepare = () => {
@@ -75,15 +77,15 @@ const PaymentPrepare = () => {
     checkedData.forEach((itm) =>
       payload.push({
         paymentScheduleId: itm?.PaymentScheduleId,
-       userId:  profileData?.userId,
-       bankId: values?.bankAccount?.bankId || 0,
-       bankName:values?.bankAccount?.bankName || '',
-       bankBranchId: values?.bankAccount?.bankBranch_Id || 0,
-       bankBranchName:values?.bankAccount?.bankBranchName || '',
-       bankAccountId: values?.bankAccount?.value || 0,
-       bankAccountNumber:values?.bankAccount?.bankAccNo || '',
-       instrumentTypeId: values?.instrumentType?.value,
-       instrumentTypeName:values?.instrumentType?.label,
+        userId:  profileData?.userId,
+        bankId: values?.bankAccount?.bankId || 0,
+        bankName:values?.bankAccount?.bankName || '',
+        bankBranchId: values?.bankAccount?.bankBranch_Id || 0,
+        bankBranchName:values?.bankAccount?.bankBranchName || '',
+        bankAccountId: values?.bankAccount?.value || 0,
+        bankAccountNumber:values?.bankAccount?.bankAccNo || '',
+        instrumentTypeId: values?.instrumentType?.value,
+        instrumentTypeName:values?.instrumentType?.label,
       })
     );
     let confirmObject = {
@@ -91,12 +93,13 @@ const PaymentPrepare = () => {
       message: `Do you want to post the selected voucher submit`,
       yesAlertFunc: () => {
         getApproveData(
-          `/hcm/TrustManagement/PreparePaymentApprove`,
+          `/hcm/TrustManagement/PreparePaymentApprove?UserId=${profileData?.userId}&Attachment=${values?.attachment?.[0]?.id}`,
           payload,
           (data) => {
             toast.success(data[0]?.Column1 || "Submitted successfully");
             setFieldValue("bankAccount", "");
             setFieldValue("instrumentType", "");
+            setFieldValue("attachment", "");
             getData(
               getTrustAllLanding(
                 "GetAllPaymentStatusNDonationReciverList",
@@ -265,7 +268,9 @@ const PaymentPrepare = () => {
                       </div>
                     </div>
                     <div className="row mt-5">
-                      <div className="col-lg-4"></div>
+                      <div className="col-lg-3">
+                        <AttachmentField attachment={values?.attachment} setFieldValue={setFieldValue}/>
+                      </div>
                       <div className="col-lg-3">
                         <NewSelect
                           name="instrumentType"
