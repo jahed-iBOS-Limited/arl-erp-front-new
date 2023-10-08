@@ -169,6 +169,7 @@ export default function CustomerIncentive() {
                     options={[
                       { value: "General", label: "General" },
                       { value: "Monthly", label: "Monthly" },
+                      { value: "Delivery", label: "Delivery" },
                     ]}
                     value={values?.incentiveType}
                     onChange={(valueOption) => {
@@ -283,11 +284,7 @@ export default function CustomerIncentive() {
                         <th>Customer Category</th>
                         <th>UoM</th>
                         <th>Delivery Qty</th>
-                        <th>
-                          {values?.incentiveType?.value === "General"
-                            ? "General Incentive"
-                            : "Monthly Incentive"}
-                        </th>
+                        <th>{values?.incentiveType?.value} Incentive</th>
                         <th>Is JV Posted</th>
                       </tr>
                     </thead>

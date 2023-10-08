@@ -440,6 +440,24 @@ export default function _Form({
                         touched={touched}
                       />
                     </div>
+                    <div className="col-lg-3 mb-2">
+                      <NewSelect
+                        name="customerCategory"
+                        options={[
+                          { value: "Platinum", label: "Platinum" },
+                          { value: "Gold", label: "Gold" },
+                          { value: "Silver", label: "Silver" },
+                        ]}
+                        value={values?.customerCategory}
+                        label="Customer Category"
+                        onChange={(valueOption) => {
+                          setFieldValue("customerCategory", valueOption);
+                        }}
+                        placeholder="Customer Category"
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
                     <div className="col-lg-3 mb-2 d-flex align-items-center">
                       <label className="mt-1">
                         <input
