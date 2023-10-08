@@ -1,0 +1,17 @@
+.image-upload-box {
+  cursor: pointer;
+  position: relative;
+  height: 30px;
+  border: 1px dashed rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+}
+.with-img {
+  max-width: 65px;
+  max-width: 100%;
+  border: 0;
+  background: transparent;
+  justify-content: left;
+}
