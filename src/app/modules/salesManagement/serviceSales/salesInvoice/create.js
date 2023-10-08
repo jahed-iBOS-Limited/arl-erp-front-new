@@ -59,7 +59,6 @@ export default function SalesInvoiceCreate() {
           <IForm
             title="Create Sales Invoice"
             isHiddenReset
-            isHiddenBack
             isHiddenSave
           >
             <Form>
