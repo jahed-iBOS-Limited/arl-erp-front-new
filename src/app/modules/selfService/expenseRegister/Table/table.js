@@ -30,6 +30,7 @@ import * as Yup from "yup";
 import NewSelect from "../../../_helper/_select";
 import { setPersonalExpRegLandingAction } from "../../../_helper/reduxForLocalStorage/Actions";
 import { useDispatch } from "react-redux";
+import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -354,6 +355,18 @@ const ExpenseRegisterLanding = () => {
                         errors={errors}
                         touched={touched}
                       />
+                    </div>
+                    <div className="col-lg-2 d-flex align-items-center justify-content-end">
+                      <button
+                        className="btn btn-success"
+                        onClick={() => {
+                          dispatch(
+                            getDownlloadFileView_Action("638323656050908814_ARL_TADA_POLICY.pdf", null, null, setLoading)
+                          );
+                        }}
+                      >
+                        TADA Policy
+                      </button>
                     </div>
 
                     <div className="col-lg-5 col-xl-5 d-flex justify-content-between align-items-center mt-2 p-0 flex-wrap ">
