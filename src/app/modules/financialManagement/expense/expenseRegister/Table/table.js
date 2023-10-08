@@ -325,7 +325,7 @@ const ExpenseRegisterLanding = () => {
                     right: "95px",
                   }}
                 >
-                  Please select respective unit for 'Expense Approve' & Please See the TADA Policy before submitting your expenses
+                  Please select respective unit for 'Expense Approve' & See the TADA Policy before submitting your expenses
                 </marquee>
               </CardHeader>
               <CardBody>
