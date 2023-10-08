@@ -1,29 +1,29 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Loading from "../../../../_helper/_loading";
+import { Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import {
   Card,
+  CardBody,
   CardHeader,
   CardHeaderToolbar,
-  CardBody,
   ModalProgressBar,
 } from "../../../../../../_metronic/_partials/controls";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { Formik } from "formik";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IViewModal from "../../../../_helper/_viewModal";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import { deleteGudamAllotment } from "../helper";
 import IConfirmModal from "../../../../_helper/_confirmModal";
-import GudamAllotmentForm from "../_form/_form";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { _todayDate } from "../../../../_helper/_todayDate";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import { getMonth } from "../../../../salesManagement/report/customerSalesTarget/utils";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
+import IEdit from "../../../../_helper/_helperIcons/_edit";
+import Loading from "../../../../_helper/_loading";
 import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
 import NewSelect from "../../../../_helper/_select";
+import PaginationTable from "../../../../_helper/_tablePagination";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import IViewModal from "../../../../_helper/_viewModal";
+import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { getMonth } from "../../../../salesManagement/report/customerSalesTarget/utils";
+import GudamAllotmentForm from "../_form/_form";
+import { deleteGudamAllotment } from "../helper";
 
 const headers = [
   "SL",
@@ -35,6 +35,7 @@ const headers = [
   "Month",
   "Year",
   "Allotment Qty",
+  "Extra Allotment Qty",
   "Challan Qty",
   "Remaining Qty",
   "Revenue Rate (Tk)",
@@ -308,6 +309,9 @@ const GudamAllotmentLanding = () => {
                               <td className="text-right">
                                 {_fixedPoint(item?.allotmentQuantity, true)}
                               </td>
+                              <td className="text-right">
+                                {_fixedPoint(item?.extraAllotmentQuantity, true)}
+                              </td>
                               <td
                                 className="text-right"
                                 style={
@@ -396,6 +400,7 @@ const GudamAllotmentLanding = () => {
                           <th>Sl</th>
                           <th>Mother Vessel</th>
                           <th>Allotment Quantity</th>
+                          <th>Extra Allotment Quantity</th>
                           <th>Challan Quantity</th>
                           <th>Remaining Quantity</th>
                           <th>Revenue Rate (TK.)</th>
@@ -416,6 +421,9 @@ const GudamAllotmentLanding = () => {
                               <td>{item?.motherVesselName}</td>
                               <td className="text-center">
                                 {item?.allotmentQuantity}
+                              </td>
+                              <td className="text-center">
+                                {item?.extraAllotmentQuantity}
                               </td>
                               <td
                                 className="text-center"

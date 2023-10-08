@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { getMonth } from "../../../../salesManagement/report/customerSalesTarget/utils";
 import Loading from "../../../../_helper/_loading";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { getMonth } from "../../../../salesManagement/report/customerSalesTarget/utils";
 import {
   GetDomesticPortDDL,
   GetShipPointDDL,
@@ -33,6 +36,9 @@ const initData = {
   quantity: "",
   rate: "",
   type: "",
+  reportType:"",
+  demandDate:_todayDate(),
+
 };
 
 const typeList = [
@@ -54,6 +60,14 @@ export default function GhatCostInfoForm() {
   const [shipPointDDL, setShipPointDDL] = useState([]);
   const [portDDL, setPortDDL] = useState([]);
   const [singleData, setSingleData] = useState([]);
+  const [
+    shipPointData,
+    getShipPoientData,
+    shipPointDataLoader,
+    setShipPointData,
+  ] = useAxiosGet();
+  const [supplierDDL, getSupplierDDL, supplierDDLLoader] = useAxiosGet();
+  const [_, saveLighterLoad, saveLighterLoadLoader] = useAxiosPost();
 
   // get user data from store
   const {
@@ -137,6 +151,38 @@ export default function GhatCostInfoForm() {
     }
   };
 
+  const shipPointSaveHandler =(shipPointData,values)=>{
+    const data = [...shipPointData];
+    const payload = data
+    ?.filter((item) => item.isSelected)
+    ?.map((item) => (
+      {
+      automId: 0,
+      shipPointId: item?.value,
+      shipPointName: item?.label,
+      accountId: accId,
+      businessUnitId: buId,
+      demandDate: values?.demandDate || 0,
+      demandVehicle: item?.demandVehicle || 0,
+      receiveVehicle: item?.receiveVehicle || 0,
+      truckLoaded: item?.truckLoaded || 0,
+      packingQntMt: item?.packingMt || 0,
+      bufferQntMt: item?.bufferQty || 0,
+      labourRequired: item?.labourRequired || 0,
+      presentLabour: item?.labourPresent || 0,
+      lighterWaiting: item?.lighterWaiting || 0,
+      actionBy: userId,
+      supplierId: item?.value,
+      supplierName: item?.label,
+    }));
+    saveLighterLoad(
+      `/tms/LigterLoadUnload/CreateLogisticDemandNReciveInfo`,
+      payload,
+      "",
+      true
+    );
+  }
+
   const addRow = (values, cb) => {
     const exist = rowDto?.find((item) => item?.typeId === values?.type?.value);
     if (exist) {
@@ -217,7 +263,7 @@ export default function GhatCostInfoForm() {
 
   return (
     <>
-      {isDisabled && <Loading />}
+      {(isDisabled || saveLighterLoadLoader)&& <Loading />}
       <Form
         type={type}
         accId={accId}
@@ -237,6 +283,14 @@ export default function GhatCostInfoForm() {
         destinationDDL={destinationDDL}
         onChangeHandler={onChangeHandler}
         initData={id ? singleData : initData}
+        shipPointData={shipPointData}
+        getShipPoientData={getShipPoientData}
+        shipPointDataLoader={shipPointDataLoader}
+        setShipPointData={setShipPointData}
+        supplierDDL={supplierDDL}
+        getSupplierDDL={getSupplierDDL}
+        supplierDDLLoader={supplierDDLLoader}
+        shipPointSaveHandler={shipPointSaveHandler}
       />
     </>
   );

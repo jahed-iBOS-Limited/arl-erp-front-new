@@ -3,19 +3,22 @@ import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import IButton from "../../../../_helper/iButton";
 import IConfirmModal from "../../../../_helper/_confirmModal";
 import ICustomCard from "../../../../_helper/_customCard";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
+import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
 import NewSelect from "../../../../_helper/_select";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import IViewModal from "../../../../_helper/_viewModal";
+import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import IButton from "../../../../_helper/iButton";
 import {
   GetDomesticPortDDL,
   GetShipPointDDL,
@@ -29,8 +32,10 @@ import {
   getGhatCostInfoLanding,
   getMotherVesselDDL,
 } from "../helper";
+import VehicleDemandEditModal from "../vehicleDemandEditModal";
 
 const initData = {
+  type: "",
   port: "",
   motherVessel: "",
   fromDate: _monthFirstDate(),
@@ -38,6 +43,8 @@ const initData = {
   destination: "",
   lighterVessel: "",
   shipPoint: "",
+  demandDate: _todayDate(),
+  supplier: "",
 };
 const headers = [
   "SL",
@@ -54,6 +61,8 @@ const GhatCostInfoTable = () => {
   const history = useHistory();
   const [loading, setLoading] = useState(false);
   const [portDDL, setPortDDL] = useState([]);
+  const [vehicleDemandModal,setVehicleDemandModal] = useState(false)
+  const [vehicleDemandItem,setVehicleDemandItem] = useState({})
   const [gridData, setGridData] = useState([]);
   const [motherVesselDDL, setMotherVesselDDL] = useState([]);
   const [pageNo, setPageNo] = useState(0);
@@ -61,6 +70,7 @@ const GhatCostInfoTable = () => {
   const [shipPointDDL, setShipPointDDL] = useState([]);
   const [destinationDDL, setDestinationDDL] = useState([]);
   const [lighters, setLighters] = useState([]);
+  const [vehicleDemandData,getVehicleDemandData,vehicleDemandDataLoad,setVehicleDemandData] = useAxiosGet()
 
   // get user data from store
   const {
@@ -128,188 +138,336 @@ const GhatCostInfoTable = () => {
                 );
               }}
             >
-              {loading && <Loading />}
+              {(loading  || vehicleDemandDataLoad) && (
+                <Loading />
+              )}
               <form className="form form-label-right">
                 <div className="global-form row">
                   <div className="col-lg-3">
                     <NewSelect
-                      name="destination"
-                      options={destinationDDL}
-                      value={values?.destination}
-                      label="Lighter Destination"
-                      onChange={(e) => {
-                        setFieldValue("destination", e);
+                      name="type"
+                      options={[
+                        { label: "Ghat Cost Information", value: 1 },
+                        { label: "Vehicle Demand Info", value: 2 },
+                      ]}
+                      value={values?.type}
+                      label="Type"
+                      onChange={(valueOption) => {
+                        setFieldValue("type", valueOption);
+                        setVehicleDemandData([]);
                       }}
-                      placeholder="Lighter Destination"
+                      placeholder="Type"
                     />
                   </div>
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="port"
-                      options={[...portDDL] || []}
-                      value={values?.port}
-                      label="Loading Port"
-                      onChange={(valueOption) => {
-                        setFieldValue("port", valueOption);
-                        setFieldValue("motherVessel", "");
-                        setFieldValue("lighterVessel", "");
-                        getMotherVesselDDL(
-                          accId,
-                          buId,
-                          setMotherVesselDDL,
-                          valueOption?.value
-                        );
-                      }}
-                      placeholder="Loading Port"
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="motherVessel"
-                      options={[...motherVesselDDL]}
-                      value={values?.motherVessel}
-                      label="Mother Vessel"
-                      onChange={(valueOption) => {
-                        setFieldValue("motherVessel", valueOption);
-                        setFieldValue("lighterVessel", "");
-                        if (valueOption) {
-                          getLightersByVesselNLighterDestination(
-                            values?.destination?.value,
-                            valueOption?.value,
-                            setLighters,
-                            setLoading,
-                            (e) => {}
-                          );
+                  {[1].includes(values?.type?.value) && (
+                    <>
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="destination"
+                          options={destinationDDL}
+                          value={values?.destination}
+                          label="Lighter Destination"
+                          onChange={(e) => {
+                            setFieldValue("destination", e);
+                          }}
+                          placeholder="Lighter Destination"
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="port"
+                          options={[...portDDL] || []}
+                          value={values?.port}
+                          label="Loading Port"
+                          onChange={(valueOption) => {
+                            setFieldValue("port", valueOption);
+                            setFieldValue("motherVessel", "");
+                            setFieldValue("lighterVessel", "");
+                            getMotherVesselDDL(
+                              accId,
+                              buId,
+                              setMotherVesselDDL,
+                              valueOption?.value
+                            );
+                          }}
+                          placeholder="Loading Port"
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="motherVessel"
+                          options={[...motherVesselDDL]}
+                          value={values?.motherVessel}
+                          label="Mother Vessel"
+                          onChange={(valueOption) => {
+                            setFieldValue("motherVessel", valueOption);
+                            setFieldValue("lighterVessel", "");
+                            if (valueOption) {
+                              getLightersByVesselNLighterDestination(
+                                values?.destination?.value,
+                                valueOption?.value,
+                                setLighters,
+                                setLoading,
+                                (e) => {}
+                              );
+                            }
+                          }}
+                          placeholder="Mother Vessel"
+                          isDisabled={!values?.destination}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="lighterVessel"
+                          options={lighters}
+                          value={values?.lighterVessel}
+                          label="Lighter Vessel"
+                          onChange={(e) => {
+                            setFieldValue("lighterVessel", e);
+                          }}
+                          placeholder="Lighter"
+                          isDisabled={!values?.motherVessel}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="shipPoint"
+                          options={shipPointDDL}
+                          value={values?.shipPoint}
+                          label="ShipPoint"
+                          onChange={(e) => {
+                            setFieldValue("shipPoint", e);
+                          }}
+                          placeholder="ShipPoint"
+                        />
+                      </div>
+                      <FromDateToDateForm
+                        obj={{
+                          values,
+                          setFieldValue,
+                        }}
+                      />
+                      <IButton
+                        onClick={() => {
+                          getData(values);
+                        }}
+                      />
+                    </>
+                  )}
+                  {[2]?.includes(values?.type?.value) && (
+                    <>
+                      <div className="col-lg-3">
+                        <InputField
+                          label="Demand Date"
+                          value={values?.demandDate}
+                          name="demandDate"
+                          type="date"
+                          // disabled={disableHandler()}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="shipPoint"
+                          options={shipPointDDL}
+                          value={values?.shipPoint}
+                          label="ShipPoint"
+                          onChange={(e) => {
+                            setFieldValue("shipPoint", e);
+                          }}
+                          placeholder="ShipPoint"
+                        />
+                      </div>
+                      <div>
+                      <button
+                        type="button"
+                        style={{ marginTop: "20px" }}
+                        className="btn btn-primary ml-2"
+                        disabled={
+                          !values?.demandDate || !values?.shipPoint?.value
                         }
-                      }}
-                      placeholder="Mother Vessel"
-                      isDisabled={!values?.destination}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="lighterVessel"
-                      options={lighters}
-                      value={values?.lighterVessel}
-                      label="Lighter Vessel"
-                      onChange={(e) => {
-                        setFieldValue("lighterVessel", e);
-                      }}
-                      placeholder="Lighter"
-                      isDisabled={!values?.motherVessel}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="shipPoint"
-                      options={shipPointDDL}
-                      value={values?.shipPoint}
-                      label="ShipPoint"
-                      onChange={(e) => {
-                        setFieldValue("shipPoint", e);
-                      }}
-                      placeholder="ShipPoint"
-                    />
-                  </div>
-                  <FromDateToDateForm
-                    obj={{
-                      values,
-                      setFieldValue,
-                    }}
-                  />
-                  <IButton
-                    onClick={() => {
-                      getData(values);
-                    }}
-                  />
-                </div>
-                {gridData?.data?.length > 0 && (
-                  <table
-                    id="table-to-xlsx"
-                    className={
-                      "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                    }
-                  >
-                    <thead>
-                      <tr className="cursor-pointer">
-                        {headers?.map((th, index) => {
-                          return <th key={index}> {th} </th>;
-                        })}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {gridData?.data?.map((item, index) => {
-                        grandTotalQty += item?.totalQuantity;
-                        grandTotalAmount += item?.totalAmount;
-                        return (
-                          <tr key={index}>
-                            <td> {index + 1}</td>
-                            <td> {item?.lighterVesselName}</td>
-                            <td> {item?.shipPointName}</td>
-                            <td> {_dateFormatter(values?.fromDate)}</td>
-                            <td> {_dateFormatter(values?.toDate)}</td>
-                            <td className="text-right">
-                              {_fixedPoint(item?.totalQuantity, true)}
-                            </td>
-                            <td className="text-right">
-                              {_fixedPoint(item?.totalAmount, true)}
-                            </td>
-                            <td style={{ width: "100px" }}>
-                              <div className="d-flex justify-content-around">
-                                <span
-                                  className="edit"
-                                  onClick={() => {
-                                    history.push({
-                                      pathname: `/vessel-management/allotment/ghatcostinfo/update/${item?.id}`,
-                                      state: item,
-                                    });
-                                  }}
-                                >
-                                  <IEdit title={"Rate Entry"} />
-                                </span>
-                                <span>
-                                  <IDelete
-                                    id={item?.id}
-                                    remover={(id) => {
-                                      deleteHandler(id, values);
-                                    }}
-                                  />
-                                </span>
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                      {gridData?.data?.length > 0 && (
-                        <tr style={{ fontWeight: "bold" }}>
-                          <td className="text-right" colSpan={5}>
-                            Total
-                          </td>
-                          <td className="text-right">
-                            {_fixedPoint(grandTotalQty, true)}
-                          </td>
-                          <td className="text-right">
-                            {_fixedPoint(grandTotalAmount, true)}
-                          </td>
+                        onClick={() => {
+                          getVehicleDemandData(
+                            `/tms/LigterLoadUnload/GetLogisticDemandNReciveInfo?ShipPointId=${values?.shipPoint?.value}&AccountId=${accId}&BusinessUnitId=${buId}&DayDate=${values?.demandDate}`
+                          );
+                        }}
+                      >
+                        Show
+                      </button>
+                    </div>
 
-                          <td></td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
+                    </>
+                  )}
+                </div>
+                {[1]?.includes(values?.type?.value) && (
+                  <>
+                    {gridData?.data?.length > 0 && (
+                      <table
+                        id="table-to-xlsx"
+                        className={
+                          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                        }
+                      >
+                        <thead>
+                          <tr className="cursor-pointer">
+                            {headers?.map((th, index) => {
+                              return <th key={index}> {th} </th>;
+                            })}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {gridData?.data?.map((item, index) => {
+                            grandTotalQty += item?.totalQuantity;
+                            grandTotalAmount += item?.totalAmount;
+                            return (
+                              <tr key={index}>
+                                <td> {index + 1}</td>
+                                <td> {item?.lighterVesselName}</td>
+                                <td> {item?.shipPointName}</td>
+                                <td> {_dateFormatter(values?.fromDate)}</td>
+                                <td> {_dateFormatter(values?.toDate)}</td>
+                                <td className="text-right">
+                                  {_fixedPoint(item?.totalQuantity, true)}
+                                </td>
+                                <td className="text-right">
+                                  {_fixedPoint(item?.totalAmount, true)}
+                                </td>
+                                <td style={{ width: "100px" }}>
+                                  <div className="d-flex justify-content-around">
+                                    <span
+                                      className="edit"
+                                      onClick={() => {
+                                        history.push({
+                                          pathname: `/vessel-management/allotment/ghatcostinfo/update/${item?.id}`,
+                                          state: item,
+                                        });
+                                      }}
+                                    >
+                                      <IEdit title={"Rate Entry"} />
+                                    </span>
+                                    <span>
+                                      <IDelete
+                                        id={item?.id}
+                                        remover={(id) => {
+                                          deleteHandler(id, values);
+                                        }}
+                                      />
+                                    </span>
+                                  </div>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                          {gridData?.data?.length > 0 && (
+                            <tr style={{ fontWeight: "bold" }}>
+                              <td className="text-right" colSpan={5}>
+                                Total
+                              </td>
+                              <td className="text-right">
+                                {_fixedPoint(grandTotalQty, true)}
+                              </td>
+                              <td className="text-right">
+                                {_fixedPoint(grandTotalAmount, true)}
+                              </td>
+
+                              <td></td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </table>
+                    )}
+                    {gridData?.data?.length > 0 && (
+                      <PaginationTable
+                        count={gridData?.totalCount}
+                        setPositionHandler={setPositionHandler}
+                        paginationState={{
+                          pageNo,
+                          setPageNo,
+                          pageSize,
+                          setPageSize,
+                        }}
+                        values={values}
+                      />
+                    )}
+                  </>
                 )}
-                {gridData?.data?.length > 0 && (
-                  <PaginationTable
-                    count={gridData?.totalCount}
-                    setPositionHandler={setPositionHandler}
-                    paginationState={{
-                      pageNo,
-                      setPageNo,
-                      pageSize,
-                      setPageSize,
+                {[2]?.includes(values?.type?.value) && (
+                  <>
+                    <div className="row mt-4">
+                      <div style={{ marginLeft: "auto", marginRight: "11px" }}>
+                      </div>
+                      <div className="col-lg-12">
+                        <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                          <thead>
+                            <tr>
+                              <th style={{ width: "20px" }}>Sl</th>
+                              <th>Supplier Name</th>
+                              <th>Demand Vehicle</th>
+                              <th>Receive Vehicle</th>
+                              <th>Truck Loaded</th>
+                              <th>Packing MT</th>
+                              <th>Labour Requirement</th>
+                              <th>Labour Present</th>
+                              <th>Lighter Waiting</th>
+                              <th>Buffer Qty</th>
+                              <th>Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {vehicleDemandData?.length > 0 &&
+                              vehicleDemandData?.map((item, index) => (
+                                <tr key={index}>
+                                  <td className="text-center">{index + 1}</td>
+                                  <td className="text-center">{item?.supplierName}</td>
+                                  <td className="text-center">
+                                  {item?.demandVehicle || 0}
+                                  </td>
+                                  <td className="text-center">
+                                  {item?.receiveVehicle || 0}
+                                  </td>
+                                  <td className="text-center">
+                                  {item?.truckLoaded || 0}
+                                  </td>
+                                  <td className="text-center">
+                                  {item?.packingQntMt || 0}
+                                  </td>
+                                  <td className="text-center">
+                                  {item?.labourRequired || 0}
+                                  </td>
+                                  <td className="text-center">
+                                  {item?.presentLabour || 0}
+                                  </td>
+                                  <td className="text-center">
+                                  {item?.lighterWaiting || 0}
+                                  </td>
+                                  <td className="text-center">
+                                  {item?.bufferQntMt || 0}
+                                  </td>
+                                  <td className="text-center">
+                                    <IEdit
+                                    title={"Edit"}
+                                    onClick={()=>{
+                                      setVehicleDemandModal(true)
+                                      setVehicleDemandItem(item)
+                                    }}
+                                    />
+                                  </td>
+                                </tr>
+                              ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <IViewModal
+                    title="Edit Vehicle Demand Info"
+                    show={vehicleDemandModal}
+                    onHide={()=>{
+                      setVehicleDemandModal(false)
+                      setVehicleDemandItem(null)
                     }}
-                    values={values}
-                  />
+                    >
+                      <VehicleDemandEditModal  vehicleDemandItem={vehicleDemandItem} buId={buId} setVehicleDemandModal={setVehicleDemandModal} getVehicleDemandData={getVehicleDemandData}/>
+                    </IViewModal>
+                  </>
                 )}
               </form>
             </ICustomCard>
