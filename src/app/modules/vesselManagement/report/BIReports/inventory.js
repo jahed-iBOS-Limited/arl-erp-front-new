@@ -14,13 +14,14 @@ import MotherVesselInventoryReportTable from "./MVInventoryTable";
 import ChallanWiseSalesReport from "./challanWiseSalesTable";
 import {
   GetDomesticPortDDLWMS,
-  getMotherVesselDDL, 
+  getMotherVesselDDL,
   wearhouse_api,
 } from "./helper";
 import WareHouseInventoryReportTable from "./wareHouseInventoryReportTable";
 import SearchAsyncSelect from "./../../../_helper/SearchAsyncSelect";
 import ItemVsWarehouse from "./itemVsWarehouse";
 import ItemVsMotherVessel from "./itemVsMotherVessel";
+import G2GinventoryChart from "./g2ginventoryChart";
 
 const types = [
   { value: 5, label: "Mother Vessel Inventory Report" },
@@ -88,8 +89,8 @@ const InventoryG2GReportRDLC = () => {
     }&dteToDate=${values?.toDate}&intPlantId=${
       values?.plant?.value
     }&intItemTypeId=${typeId}&intItemId=${values?.motherVessel?.value ||
-      0}&intWareHouseId=${values?.shippoint?.value}&intG2GItemId=${values
-      ?.intG2GItemId?.value || 0}&PageNo=${_pageNo}&PageSize=${_pageSize}`;
+      0}&intWareHouseId=${values?.wh?.value}&intG2GItemId=${values?.intG2GItemId
+      ?.value || 0}&PageNo=${_pageNo}&PageSize=${_pageSize}`;
 
     const URL = [4].includes(typeId)
       ? urlOne
@@ -150,7 +151,7 @@ const InventoryG2GReportRDLC = () => {
                     placeholder='Type'
                   />
                 </div>
-                {[5, 6, 7, 8 , 9].includes(values?.type?.value) && (
+                {[5, 6, 7, 8, 9].includes(values?.type?.value) && (
                   <>
                     <div className='col-lg-3'>
                       <NewSelect
@@ -337,18 +338,17 @@ const InventoryG2GReportRDLC = () => {
                           setFieldValue("intG2GItemId", valueOption);
                         }}
                         placeholder='Search Item'
-                        loadOptions={ async (v) => {
+                        loadOptions={async (v) => {
                           const searchValue = v.trim();
-                          if (searchValue?.length < 3) return [
-                            { value: 0, label: "All" },
-                          ];
+                          if (searchValue?.length < 3)
+                            return [{ value: 0, label: "All" }];
                           return axios
                             .get(
                               `/wms/FertilizerOperation/GetItemListDDL?AccountId=${accId}&BusinessUinitId=${buId}&CorporationType=${0}&SearchTerm=${searchValue}`
                             )
                             .then((res) => [
-                              {value: 0, label: "All"},
-                              ...res?.data
+                              { value: 0, label: "All" },
+                              ...res?.data,
                             ]);
                         }}
                         // isDisabled={type}
@@ -373,7 +373,9 @@ const InventoryG2GReportRDLC = () => {
                     if ([1, 3].includes(values?.type?.value)) {
                       setShowReport(false);
                       setShowReport(true);
-                    } else if ([4, 5, 6, 7, 8 , 9].includes(values?.type?.value)) {
+                    } else if (
+                      [4, 5, 6, 7, 8, 9].includes(values?.type?.value)
+                    ) {
                       getData(values, "");
                     }
                   }}
@@ -394,7 +396,7 @@ const InventoryG2GReportRDLC = () => {
             {[5].includes(values?.type?.value) && (
               <MotherVesselInventoryReportTable obj={{ rowData }} />
             )}
-            {[6, 7,].includes(values?.type?.value) && (
+            {[6, 7].includes(values?.type?.value) && (
               <WareHouseInventoryReportTable rowData={rowData} />
             )}
             {[8].includes(values?.type?.value) && (
@@ -403,6 +405,14 @@ const InventoryG2GReportRDLC = () => {
             {[9].includes(values?.type?.value) && (
               <ItemVsMotherVessel rowData={rowData} />
             )}
+
+            {[5, 6, 7, 8, 9].includes(values?.type?.value) &&
+              rowData?.length > 0 && (
+                <G2GinventoryChart
+                  rowData={rowData}
+                  reportType={values?.type?.value}
+                />
+              )}
           </ICustomCard>
         )}
       </Formik>
