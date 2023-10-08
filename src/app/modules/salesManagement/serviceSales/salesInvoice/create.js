@@ -1,14 +1,14 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IForm from "./../../../_helper/_form";
 import IViewModal from "../../../_helper/_viewModal";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import IForm from "./../../../_helper/_form";
 import ScheduleListTable from "./scheduleListTable";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
 const initData = {};
 export default function SalesInvoiceCreate() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -20,6 +20,7 @@ export default function SalesInvoiceCreate() {
   const [rowData, getRowData, Loading] = useAxiosGet();
   const [showModal, setShowModal] = useState(false);
   const [singleItem, setSingleItem] = useState(null);
+  const [, collectionHandler] = useAxiosPost();
 
   useEffect(() => {
     getCustomerList(
@@ -55,7 +56,12 @@ export default function SalesInvoiceCreate() {
       }) => (
         <>
           {false && <Loading />}
-          <IForm title="Create Sales Invoice">
+          <IForm
+            title="Create Sales Invoice"
+            isHiddenReset
+            isHiddenBack
+            isHiddenSave
+          >
             <Form>
               <div>
                 <div className="form-group  global-form row">
@@ -156,7 +162,10 @@ export default function SalesInvoiceCreate() {
                 onHide={() => setShowModal(false)}
                 title="Schedule List"
               >
-                <ScheduleListTable item={singleItem} />
+                <ScheduleListTable
+                  item={singleItem}
+                  setShowModal={setShowModal}
+                />
               </IViewModal>
             </Form>
           </IForm>
