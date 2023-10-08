@@ -7,7 +7,7 @@ import Loading from "../../../_helper/_loading";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { toast } from "react-toastify";
 
-export default function ScheduleListTable({ item }) {
+export default function ScheduleListTable({ item, setShowModal }) {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -50,37 +50,45 @@ export default function ScheduleListTable({ item }) {
                 return toast.warn("Please Select at least one Schedule");
               }
 
-              saveHandler(`/oms/ServiceSales/CreateServiceSalesInvocie`, {
-                header: {
-                  //   intServiceSalesInvoiceId: 0,
-                  //   strServiceSalesInvoiceCode: "",
-                  intServiceSalesOrderId: item?.header?.intServiceSalesOrderId,
-                  dteInvoiceDateTime: _todayDate(),
-                  intAccountId: profileData?.accountId,
-                  intBusinessUnitId: selectedBusinessUnit?.value,
-                  intSalesTypeId: item?.header?.intSalesTypeId,
-                  strSalesTypeName: item?.header?.strSalesTypeName,
-                  intCustomerId: item?.header?.intCustomerId,
-                  strCustomerName: item?.header?.strCustomerName,
-                  strCustomerAddress: item?.header?.strCustomerAddress,
-                  strCustomerAddress2: "",
-                  intScheduleTypeId: item?.header?.intScheduleTypeId,
-                  strScheduleTypeName: item?.header?.strScheduleTypeName,
-                  intActionBy: profileData?.userId,
+              saveHandler(
+                `/oms/ServiceSales/CreateServiceSalesInvocie`,
+                {
+                  header: {
+                    //   intServiceSalesInvoiceId: 0,
+                    //   strServiceSalesInvoiceCode: "",
+                    intServiceSalesOrderId:
+                      item?.header?.intServiceSalesOrderId,
+                    dteInvoiceDateTime: _todayDate(),
+                    intAccountId: profileData?.accountId,
+                    intBusinessUnitId: selectedBusinessUnit?.value,
+                    intSalesTypeId: item?.header?.intSalesTypeId,
+                    strSalesTypeName: item?.header?.strSalesTypeName,
+                    intCustomerId: item?.header?.intCustomerId,
+                    strCustomerName: item?.header?.strCustomerName,
+                    strCustomerAddress: item?.header?.strCustomerAddress,
+                    strCustomerAddress2: "",
+                    intScheduleTypeId: item?.header?.intScheduleTypeId,
+                    strScheduleTypeName: item?.header?.strScheduleTypeName,
+                    intActionBy: profileData?.userId,
+                  },
+                  row: data.map((item) => ({
+                    //   intServiceSalesInvoiceRowId: 0,
+                    //   intServiceSalesInvoiceId: 0,
+                    intServiceSalesScheduleId: item?.intServiceSalesScheduleId,
+                    dteScheduleCreateDateTime: item?.dteScheduleCreateDateTime,
+                    dteDueDateTime: item?.dteDueDateTime,
+                    numScheduleAmount: item?.numScheduleAmount,
+                    //   numCollectionAmount: 0,
+                    //   numPendingAmount: 0,
+                    //   numAdjustPreviousAmount: 0,
+                    isActive: true,
+                  })),
                 },
-                row: data.map((item) => ({
-                  //   intServiceSalesInvoiceRowId: 0,
-                  //   intServiceSalesInvoiceId: 0,
-                  intServiceSalesScheduleId: item?.intServiceSalesScheduleId,
-                  dteScheduleCreateDateTime: item?.dteScheduleCreateDateTime,
-                  dteDueDateTime: item?.dteDueDateTime,
-                  numScheduleAmount: item?.numScheduleAmount,
-                  //   numCollectionAmount: 0,
-                  //   numPendingAmount: 0,
-                  //   numAdjustPreviousAmount: 0,
-                  isActive: true,
-                })),
-              });
+                () => {
+                  setShowModal(false);
+                },
+                true
+              );
             }}
             className="btn btn-primary"
           >
