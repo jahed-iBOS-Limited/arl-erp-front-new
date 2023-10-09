@@ -24,8 +24,10 @@ export default function AttachmentView({ attachmentModalInfo }) {
       <div className="text-right">
         <table className="table table-striped table-bordered">
           <thead>
-            <th>SL</th>
-            <th>Attachment</th>
+            <tr>
+              <th>SL</th>
+              <th>Attachment</th>
+            </tr>
           </thead>
           <tbody>
             {rowData?.[0]?.objAttachmentListDTO?.length > 0 &&

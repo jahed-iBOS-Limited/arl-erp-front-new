@@ -293,7 +293,7 @@ const PurchaseOrderApprovalGrid = ({
                 </thead>
                 <tbody>
                   {rowDto?.data?.map((item, i) => (
-                    <tr>
+                    <tr key={i}>
                       <td>
                         <input
                           id="isSelect"
