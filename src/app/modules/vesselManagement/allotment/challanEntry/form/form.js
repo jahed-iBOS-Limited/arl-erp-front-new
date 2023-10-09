@@ -20,6 +20,7 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { BADCBCICForm } from "../../../common/components";
 import { getG2GMotherVesselLocalRevenueApi, validationSchema } from "../helper";
 import AddVehicleNameModal from "./addVehicleNameModal";
+import RestQtyModal from "./restQtyModal";
 import RowSection from "./rowSection";
 
 export default function _Form({
@@ -42,13 +43,15 @@ export default function _Form({
   onChangeHandler,
 }) {
   const [isShowModal, setIsShowModal] = useState(false);
+  const [isRestQtyModalShow, setIsResetModalShow] = useState(false);
   const [logisticId, setLogisticId] = useState(null);
   const [portDDL, getPortDDL] = useAxiosGet();
   const [altSuppliers, getaltSuppliers] = useAxiosGet();
   const [, getRates, loader] = useAxiosGet();
+  const [restQty, getRestQty, restQtyLoader] = useAxiosGet();
   const { state } = useLocation();
   const { id } = useParams();
-
+  console.log("state", state);
   const history = useHistory();
   useEffect(() => {
     getPortDDL(`/wms/FertilizerOperation/GetDomesticPortDDL`);
@@ -143,7 +146,7 @@ export default function _Form({
           setFieldValue,
         }) => (
           <>
-            {loader && <Loading />}
+            {(loader || restQtyLoader) && <Loading />}
             <Card>
               <ModalProgressBar />
               <CardHeader title={id ? "Edit Challan" : "Challan Entry"}>
@@ -561,9 +564,31 @@ export default function _Form({
                           </div>
                         </>
                       )}
+                      <div className="col-lg-12 mt-4">
+                        <button
+                          className="btn btn-primary"
+                          type="button"
+                          disabled ={!values?.port || !values?.motherVessel || !values?.godown}
+                          onClick={() => {
+                            setIsResetModalShow(true);
+                            getRestQty(
+                              `/tms/LigterLoadUnload/GetTotalQuantityForChallan?businessUnitId=${buId}&businessPartnerId=${
+                                state?.type === "badc" ? 73244 : 73245
+                              }&shipToPartnerId=${
+                                values?.godown?.value
+                              }&motherVesselId=${
+                                values?.motherVessel?.value
+                              }&portId=${values?.port?.value}`
+                            );
+                          }}
+                        >
+                          View Rest Qty
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </Form>
+
                 <RowSection
                   obj={{
                     itemList,
@@ -598,6 +623,15 @@ export default function _Form({
             logisticId={logisticId}
             setVehicleDDL={setVehicleDDL}
           />
+        </IViewModal>
+
+        <IViewModal
+          show={isRestQtyModalShow && restQty}
+          onHide={() => {
+            setIsResetModalShow(false);
+          }}
+        >
+          {<RestQtyModal restQty={restQty} />}
         </IViewModal>
       </div>
     </>
