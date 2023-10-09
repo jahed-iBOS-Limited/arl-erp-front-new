@@ -98,3 +98,36 @@ export const getGhatCostInfoById = async (id, setLoading, cb) => {
     setLoading(false);
   }
 };
+
+export const getVehicleAllColumnTotal = (arrData,setState) => {
+ 
+  let toatlValueDemandVehicle = 0;
+  let toatlValueReceiveVehicle = 0;
+  let toatlValueTruckLoaded = 0;
+  let toatlValuePackingMt = 0;
+  let toatlValueLabourRequirement = 0;
+  let toatlValueLabourPresent = 0;
+  let toatlValueLighterWaiting = 0;
+  let toatlValueBufferQty = 0;
+
+  arrData.forEach((item) => {
+    toatlValueDemandVehicle  += item.demandVehicle || 0;
+    toatlValueReceiveVehicle+= item.receiveVehicle || 0;
+    toatlValueTruckLoaded += item.truckLoaded || 0;
+    toatlValuePackingMt+= item.packingMt || 0;
+    toatlValueLabourRequirement+= item.labourRequirement || 0;
+    toatlValueLabourPresent += item.labourPresent || 0;
+    toatlValueLighterWaiting+= item.lighterWaiting || 0;
+    toatlValueBufferQty  += item.bufferQty || 0;
+  });
+  setState ({
+    toatlValueDemandVehicle,
+    toatlValueReceiveVehicle,
+    toatlValueTruckLoaded,
+    toatlValuePackingMt,
+    toatlValueLabourRequirement,
+    toatlValueLabourPresent,
+    toatlValueLighterWaiting,
+    toatlValueBufferQty
+  })
+};
