@@ -30,6 +30,7 @@ const initData = {
   remarks: "",
   unloadingSupplier: "",
   unloadingRate: "",
+  bolgateUnloadRate: "",
 };
 
 const GodownForm = ({ setShow, getData, formType, singleItem, values }) => {
@@ -75,6 +76,7 @@ const GodownForm = ({ setShow, getData, formType, singleItem, values }) => {
           label: singleItem?.unloadingSupplier,
         },
         unloadingRate: singleItem?.unloadingRate,
+        bolgateUnloadRate: singleItem?.bolgateUnloadRate || '',
       };
     } else {
       return initData;
@@ -94,6 +96,7 @@ const GodownForm = ({ setShow, getData, formType, singleItem, values }) => {
         unloadingSupplierId: values?.unloadingSupplier?.value,
         unloadingSupplier: values?.unloadingSupplier?.label,
         unloadingRate: +values?.unloadingRate,
+        bolgateUnloadRate: +values?.bolgateUnloadRate || 0,
       };
       editGodown(payload, setIsLoading, () => {
         getData(values, 0, 15);
@@ -127,6 +130,7 @@ const GodownForm = ({ setShow, getData, formType, singleItem, values }) => {
       unloadingSupplierId: values?.unloadingSupplier?.value,
       unloadingSupplier: values?.unloadingSupplier?.label,
       unloadingRate: +values?.unloadingRate,
+      bolgateUnloadRate: +values?.bolgateUnloadRate || 0,
     };
     setRows([...rows, newRow]);
   };
@@ -273,6 +277,15 @@ const GodownForm = ({ setShow, getData, formType, singleItem, values }) => {
                           disabled={false}
                         />
                       </div>
+                      <div className="col-md-3">
+                        <InputField
+                          label="Bolgate Unload Rate"
+                          placeholder="Bolgate Unload Rate"
+                          value={values?.bolgateUnloadRate}
+                          name="bolgateUnloadRate"
+                          type="number"
+                        />
+                      </div>
                       <div className="col-lg-3">
                         <label htmlFor="narration">Remarks</label>
                         <TextArea
@@ -323,6 +336,7 @@ const GodownForm = ({ setShow, getData, formType, singleItem, values }) => {
                           "Contact No",
                           "Unloading Supplier",
                           "Unloading Rate",
+                          "Bolgate Unload Rate",
                           "Remarks",
                           "Action",
                         ]?.map((th, index) => {
@@ -347,6 +361,7 @@ const GodownForm = ({ setShow, getData, formType, singleItem, values }) => {
                             <td>{item?.partnerShippingContact}</td>
                             <td>{item?.unloadingSupplier}</td>
                             <td>{item?.unloadingRate}</td>
+                            <td>{item?.bolgateUnloadRate}</td>
                             <td>{item?.remarks}</td>
 
                             <td

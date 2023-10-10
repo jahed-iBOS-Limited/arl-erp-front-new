@@ -220,7 +220,8 @@ export default function _Form({
                           placeholder="ShipPoint"
                           errors={errors}
                           touched={touched}
-                          isDisabled={disableHandler() || id}
+                          // isDisabled={disableHandler() || id}
+                          isDisabled={disableHandler()}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -235,7 +236,8 @@ export default function _Form({
                           placeholder="Port"
                           errors={errors}
                           touched={touched}
-                          isDisabled={disableHandler() || id}
+                          isDisabled={disableHandler() }
+                          // isDisabled={disableHandler() || id}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -264,7 +266,8 @@ export default function _Form({
                           placeholder="Mother Vessel"
                           errors={errors}
                           touched={touched}
-                          isDisabled={disableHandler() || id}
+                          isDisabled={disableHandler()}
+                          // isDisabled={disableHandler() || id}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -294,7 +297,8 @@ export default function _Form({
                           placeholder="Lighter"
                           errors={errors}
                           touched={touched}
-                          isDisabled={disableHandler() || id}
+                          // isDisabled={disableHandler() || id}
+                          isDisabled={disableHandler()}
                         />
                       </div>
                       {console.log(errors, "errors")}

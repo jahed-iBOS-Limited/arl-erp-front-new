@@ -114,7 +114,7 @@ export default function ChallanEntryForm() {
   }, [accId, buId, type]);
 
   const addRow = (values, callBack) => {
-    console.log("values",values);
+    console.log("values", values);
     const exists = rowData?.filter(
       (item) => item?.itemId === values?.item?.value
     );
@@ -268,6 +268,8 @@ export default function ChallanEntryForm() {
       case "motherVessel":
         setFieldValue("motherVessel", currentValue);
         setFieldValue("programNo", currentValue?.programNo);
+        setFieldValue("lighterVessel", "");
+
         setFieldValue("item", {
           value: currentValue?.intProductId,
           label: currentValue?.strProductName,
@@ -280,6 +282,12 @@ export default function ChallanEntryForm() {
             setLoading
           );
         }
+        // is edit  & Mother Vessel onChnage than rowData itemName update
+        rowDataItemNameUpdate({
+          value: currentValue?.intProductId,
+          label: currentValue?.strProductName,
+        });
+
         break;
 
       case "lighterVessel":
@@ -396,9 +404,9 @@ export default function ChallanEntryForm() {
           totalTax: "",
           netValue: "",
           transportRate: values?.rowList?.[0].transportRate || "",
-          goDownUnloadLabourRate :values?.rowList?.[0].godownLabourRate || "",
+          goDownUnloadLabourRate: values?.rowList?.[0].godownLabourRate || "",
           // nEED tO Confirm
-          emptyBag:values?.rowList?.[0].emptyBag || "",
+          emptyBag: values?.rowList?.[0].emptyBag || "",
 
           godown: values?.shipToPartnerId
             ? {
@@ -524,10 +532,20 @@ export default function ChallanEntryForm() {
     }
   }, [id]);
 
+  // is edit  & Mother Vessel onChnage than rowData itemName update
+  const rowDataItemNameUpdate = (valueOption) => {
+    const newRowData = rowData?.map((itm) => ({
+      ...itm,
+      itemName: valueOption?.label || "",
+      itemId: valueOption?.value || 0,
+    }));
+    setRowData(newRowData);
+  };
+
   return (
     <>
       {(loading || isLoading) && <Loading />}
-      <div className="mt-0">
+      <div className='mt-0'>
         <Form
           {...objProps}
           id={id}
