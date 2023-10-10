@@ -42,7 +42,7 @@ export default function DetailsSalesPlanLanding() {
       `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}`
     );
     getGridData(
-      `/mes/SalesPlanning/DetailsSalesPlanLandingPagination?SalesPlanId=${location?.state?.monthlyItem?.salesPlanId}&AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${location?.state?.monthlyValues?.plant?.value}&Year=${location?.state?.monthlyValues?.year?.label}&PlanningHorizonId=${location?.state?.monthlyItem?.horizonId}&PlanningHorizonRowId=${location?.state?.monthlyItem?.planningHorizonRowId}&DistributionChannelId=0&RegoinId=0&AreaId=0&TeritoryId=0&PageNo=1&PageSize=100&ViewOrder=desc`
+      `/mes/SalesPlanning/DetailsSalesPlanLandingPagination?SalesPlanId=${location?.state?.monthlyItem?.salesPlanId}&AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${location?.state?.monthlyValues?.plant?.value}&Year=${location?.state?.monthlyValues?.year?.label}&PlanningHorizonId=${location?.state?.monthlyItem?.horizonId}&PlanningHorizonRowId=${location?.state?.monthlyItem?.planningHorizonRowId}&DistributionChannelId=0&RegoinId=0&AreaId=0&TeritoryId=0&PageNo=1&PageSize=500&ViewOrder=desc`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
@@ -316,7 +316,7 @@ export default function DetailsSalesPlanLanding() {
                           0}&RegoinId=${values?.region?.value ||
                           0}&AreaId=${values?.area?.value ||
                           0}&TeritoryId=${values?.territory?.value ||
-                          0}&PageNo=1&PageSize=100&ViewOrder=desc`
+                          0}&PageNo=1&PageSize=500&ViewOrder=desc`
                       );
                     }}
                     style={{ marginTop: "18px" }}

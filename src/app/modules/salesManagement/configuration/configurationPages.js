@@ -31,6 +31,8 @@ import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
 import findIndex from "./../../_helper/_findIndex";
 import TerritoryInfoLanding from "./territoryInfo/landing/table";
 import TerritorySetupLanding from "./territoryInfo/territorySetup/landing/table";
+import SalesCommissionConfigure from "./salesCommissionConfigure/landing";
+import SalesCommissionConfigureEntryForm from "./salesCommissionConfigure/Form/addEditForm";
 
 export function SalesConfigurationPages() {
   const userRole = useSelector(
@@ -295,6 +297,15 @@ export function SalesConfigurationPages() {
       <ContentRoute
         from="/sales-management/configuration/territoryInfo"
         component={TerritoryInfoLanding}
+      />
+
+      <ContentRoute
+        from="/sales-management/configuration/salescommissionconfigure/entry"
+        component={SalesCommissionConfigureEntryForm}
+      />
+      <ContentRoute
+        from="/sales-management/configuration/salescommissionconfigure"
+        component={SalesCommissionConfigure}
       />
     </Switch>
   );

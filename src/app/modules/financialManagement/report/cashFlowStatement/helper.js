@@ -24,13 +24,41 @@ export const getCashFlowStatement = async (
 ) => {
   try {
     setLoading(true);
-    const res = await axios.get(`/fino/Report/GetCashFlowStatement?BusinessUnitGroup=${enterPriceDivision?.label || ""}&businessUnitId=${businessUnitId}&sbuId=${sbuId}&fromDate=${_dateFormatter(fromDate)}&toDate=${_dateFormatter(toDate)}&ConvertionRate=${conversionRate}`);
+    const res = await axios.get(
+      `/fino/Report/GetCashFlowStatement?BusinessUnitGroup=${enterPriceDivision?.label ||
+        ""}&businessUnitId=${businessUnitId}&sbuId=${sbuId}&fromDate=${_dateFormatter(
+        fromDate
+      )}&toDate=${_dateFormatter(toDate)}&ConvertionRate=${conversionRate}`
+    );
+
+    const resNumAmountFromProjectedApi = await axios.get(
+      `/fino/Report/GetCashFlowStatementProjected?BusinessUnitGroup=${enterPriceDivision?.label ||
+        ""}&businessUnitId=${businessUnitId}&sbuId=${sbuId}&fromDate=${_dateFormatter(
+        fromDate
+      )}&toDate=${_dateFormatter(toDate)}&ConvertionRate=${conversionRate}`
+    );
+    const filterGetData = resNumAmountFromProjectedApi?.data;
+    const modifiedData = res?.data?.map((item, index) => {
+      return {
+        ...item,
+        numPlannedAmount:
+          item.intSl === filterGetData[index].intSl
+            ? filterGetData[index].numAmount
+            : 0,
+
+        numPlannedOpening:
+          item.intSl === 1 ? filterGetData[index].numOpening : item.numOpening,
+      };
+    });
+
+    console.log("res data", res?.data);
+    console.log("filterGetData", filterGetData);
+    console.log("modifiedData", modifiedData);
+
     setLoading(false);
-    setter(res?.data);
+    setter(modifiedData);
   } catch (error) {
     setLoading(false);
     setter([]);
   }
 };
-
-
