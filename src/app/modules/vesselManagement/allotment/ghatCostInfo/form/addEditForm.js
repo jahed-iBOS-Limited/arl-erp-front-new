@@ -6,6 +6,7 @@ import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import useDebounce from "../../../../_helper/useDebounce";
 import { getMonth } from "../../../../salesManagement/report/customerSalesTarget/utils";
 import {
   GetDomesticPortDDL,
@@ -18,6 +19,7 @@ import {
 import {
   getGhatCostInfoById,
   getMotherVesselDDL,
+  getVehicleAllColumnTotal,
   ghatCostInfoEdit,
   ghatCostInfoEntry,
 } from "../helper";
@@ -36,9 +38,8 @@ const initData = {
   quantity: "",
   rate: "",
   type: "",
-  reportType:"",
-  demandDate:_todayDate(),
-
+  reportType: "",
+  demandDate: _todayDate(),
 };
 
 const typeList = [
@@ -68,12 +69,18 @@ export default function GhatCostInfoForm() {
   ] = useAxiosGet();
   const [supplierDDL, getSupplierDDL, supplierDDLLoader] = useAxiosGet();
   const [_, saveLighterLoad, saveLighterLoadLoader] = useAxiosPost();
-
+  const [toatlData, setTotalData] = useState();
+  const debounce = useDebounce();
   // get user data from store
   const {
     profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
+
+  useEffect(() => {
+    debounce(() => getVehicleAllColumnTotal(shipPointData,setTotalData));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shipPointData]);
 
   useEffect(() => {
     GetDomesticPortDDL(setPortDDL);
@@ -151,37 +158,36 @@ export default function GhatCostInfoForm() {
     }
   };
 
-  const shipPointSaveHandler =(shipPointData,values)=>{
+  const shipPointSaveHandler = (shipPointData, values) => {
     const data = [...shipPointData];
     const payload = data
-    ?.filter((item) => item.isSelected)
-    ?.map((item) => (
-      {
-      automId: 0,
-      shipPointId: item?.value,
-      shipPointName: item?.label,
-      accountId: accId,
-      businessUnitId: buId,
-      demandDate: values?.demandDate || 0,
-      demandVehicle: item?.demandVehicle || 0,
-      receiveVehicle: item?.receiveVehicle || 0,
-      truckLoaded: item?.truckLoaded || 0,
-      packingQntMt: item?.packingMt || 0,
-      bufferQntMt: item?.bufferQty || 0,
-      labourRequired: item?.labourRequired || 0,
-      presentLabour: item?.labourPresent || 0,
-      lighterWaiting: item?.lighterWaiting || 0,
-      actionBy: userId,
-      supplierId: item?.value,
-      supplierName: item?.label,
-    }));
+      ?.filter((item) => item.isSelected)
+      ?.map((item) => ({
+        automId: 0,
+        shipPointId: item?.value,
+        shipPointName: item?.label,
+        accountId: accId,
+        businessUnitId: buId,
+        demandDate: values?.demandDate || 0,
+        demandVehicle: item?.demandVehicle || 0,
+        receiveVehicle: item?.receiveVehicle || 0,
+        truckLoaded: item?.truckLoaded || 0,
+        packingQntMt: item?.packingMt || 0,
+        bufferQntMt: item?.bufferQty || 0,
+        labourRequired: item?.labourRequired || 0,
+        presentLabour: item?.labourPresent || 0,
+        lighterWaiting: item?.lighterWaiting || 0,
+        actionBy: userId,
+        supplierId: item?.value,
+        supplierName: item?.label,
+      }));
     saveLighterLoad(
       `/tms/LigterLoadUnload/CreateLogisticDemandNReciveInfo`,
       payload,
       "",
       true
     );
-  }
+  };
 
   const addRow = (values, cb) => {
     const exist = rowDto?.find((item) => item?.typeId === values?.type?.value);
@@ -260,10 +266,10 @@ export default function GhatCostInfoForm() {
   const title = `${
     type === "view" ? "View " : type === "edit" ? "Update" : "Enter"
   } Ghat Cost Info`;
-
+ console.log(toatlData);
   return (
     <>
-      {(isDisabled || saveLighterLoadLoader)&& <Loading />}
+      {(isDisabled || saveLighterLoadLoader) && <Loading />}
       <Form
         type={type}
         accId={accId}
@@ -291,6 +297,7 @@ export default function GhatCostInfoForm() {
         getSupplierDDL={getSupplierDDL}
         supplierDDLLoader={supplierDDLLoader}
         shipPointSaveHandler={shipPointSaveHandler}
+        toatlData={toatlData}
       />
     </>
   );

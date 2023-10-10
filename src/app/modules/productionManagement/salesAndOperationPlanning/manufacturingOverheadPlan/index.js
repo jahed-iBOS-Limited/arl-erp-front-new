@@ -64,7 +64,7 @@ export default function ManufacturingOverheadPlanLanding() {
   }, []);
 
   const commonGridDataLoad = (values) => {
-    if ( values?.fiscalYear?.value && values?.gl?.value && values?.profitCenter) {
+    if (values?.plant?.value && values?.fiscalYear?.value && values?.gl?.value && values?.profitCenter) {
       setSubGlRow([]);
       getSubGlRow(
         `/mes/SalesPlanning/GetBusinessTransactionsAsync?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&generalLedgerId=${values?.gl?.value}&ProfitCenterId=${values?.profitCenter?.value}&Year=${values?.fiscalYear?.label}&IntPlantId=${values?.plant?.value}`,
@@ -129,6 +129,10 @@ export default function ManufacturingOverheadPlanLanding() {
                     placeholder="Plant"
                     onChange={async (valueOption) => {
                       setFieldValue("plant", valueOption);
+                      commonGridDataLoad({
+                        ...values,
+                        plant: valueOption,
+                      });
                     }}
                     errors={errors}
                     touched={touched}

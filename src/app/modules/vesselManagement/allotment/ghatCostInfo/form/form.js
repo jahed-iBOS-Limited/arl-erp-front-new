@@ -37,6 +37,7 @@ export default function _Form({
   getSupplierDDL,
   supplierDDLLoader,
   shipPointSaveHandler,
+  toatlData
 }) {
   const loadOptions = async (v) => {
     await [];
@@ -52,6 +53,7 @@ export default function _Form({
         return [...updateList];
       });
   };
+  
   return (
     <>
       <Formik
@@ -421,6 +423,32 @@ export default function _Form({
                   shipPointData?.length > 0 && (
                     <>
                       <div className="row mt-4">
+                        <div style={{display:"flex",gap:"10px"}} className="col-lg-12">
+                          <div className="text-bold">
+                            <span>Total Demand Vehicle : {toatlData?.toatlValueDemandVehicle}</span>
+                          </div>
+                          <div className="text-bold">
+                            <span>Total Receive Vehicle : {toatlData?.toatlValueReceiveVehicle}</span>
+                          </div>
+                          <div className="text-bold">
+                            <span>Total Truck Loaded : {toatlData?.toatlValueTruckLoaded}</span>
+                          </div>
+                          <div className="text-bold">
+                            <span>Total PackingMt : {toatlData?.toatlValuePackingMt}</span>
+                          </div>
+                          <div className="text-bold">
+                            <span>Total LabourRequirement : {toatlData?.toatlValueLabourRequirement}</span>
+                          </div>
+                          <div className="text-bold">
+                            <span>Total LabourPresent : {toatlData?.toatlValueLabourPresent}</span>
+                          </div>
+                          <div className="text-bold">
+                            <span>Total Lighter Waiting : {toatlData?.toatlValueLighterWaiting}</span>
+                          </div>
+                          <div className="text-bold">
+                            <span>Total BufferQty : {toatlData?.toatlValueBufferQty}</span>
+                          </div>
+                        </div>
                         <div className="col-lg-12">
                           <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                             <thead>

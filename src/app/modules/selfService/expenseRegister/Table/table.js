@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-distracting-elements */
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
@@ -279,6 +280,19 @@ const ExpenseRegisterLanding = () => {
                     Create
                   </button>
                 </CardHeaderToolbar>
+
+                <marquee
+                  direction='left'
+                  style={{
+                    fontSize: "15px",
+                    fontWeight: "bold",
+                    color: "red",
+                    position: "absolute",
+                    right: "95px",
+                  }}
+                >
+                  Please select respective unit for 'Expense Approve' & See the TADA Policy before submitting your expenses
+                </marquee>
               </CardHeader>
               <CardBody>
                 <Form className="form form-label-right">
