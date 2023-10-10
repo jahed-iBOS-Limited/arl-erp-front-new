@@ -15,6 +15,9 @@ import { _todayDate } from "../../../../_helper/_todayDate";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import IForm from "../../../../_helper/_form";
 import InputField from "../../../../_helper/_inputField";
+import IEdit from "../../../../_helper/_helperIcons/_edit";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { update } from "lodash";
 
 const initData = {
   salesOrg: "",
@@ -55,12 +58,14 @@ export default function ServiceSalesCreate() {
   const [validFromData, setValidFromData] = useState("");
   const [validToData, setValidToData] = useState("");
   const [scheduleList, setSheduleList] = useState([]);
+  const [scheduleListFOneTime, setSheduleListFOneTime] = useState([]);
   const [netAmount, setNetAmount] = useState(0);
   const formikRef = React.useRef(null);
   const [, saveHandlerFunc, loader] = useAxiosPost();
   const [scheduleMonthRange, setScheduleMonthRange] = useState(0);
 
   console.log("scheduleList", scheduleList);
+  console.log("scheduleListFOneTime", scheduleListFOneTime);
   console.log("itemList", itemList);
 
   useEffect(() => {
@@ -74,28 +79,28 @@ export default function ServiceSalesCreate() {
     }
   }, [itemList]);
 
-  useEffect(() => {
-    if (scheduleMonthRange && validToData && validFromData) {
-      const list = [];
-      const n =
-        calculateMonthDifference(validFromData, validToData) /
-        scheduleMonthRange;
-      for (let i = 0; i < n; i++) {
-        list.push({
-          dueDate: addMonthsToDate(
-            validFromData,
-            i === 0 ? 0 : i * scheduleMonthRange
-          ),
-          percentage: 0,
-          amount: 0,
-        });
-      }
-      // formikRef.current.setFieldValue("validTo", list[list.length - 1].dueDate);
-      setSheduleList(list);
-    } else {
-      setSheduleList([]);
-    }
-  }, [scheduleMonthRange, validToData, validFromData]);
+  // useEffect(() => {
+  //   if (scheduleMonthRange && validToData && validFromData) {
+  //     const list = [];
+  //     const n =
+  //       calculateMonthDifference(validFromData, validToData) /
+  //       scheduleMonthRange;
+  //     for (let i = 0; i < n; i++) {
+  //       list.push({
+  //         dueDate: addMonthsToDate(
+  //           validFromData,
+  //           i === 0 ? 0 : i * scheduleMonthRange
+  //         ),
+  //         percentage: 0,
+  //         amount: 0,
+  //       });
+  //     }
+  //     // formikRef.current.setFieldValue("validTo", list[list.length - 1].dueDate);
+  //     setSheduleList(list);
+  //   } else {
+  //     setSheduleList([]);
+  //   }
+  // }, [scheduleMonthRange, validToData, validFromData]);
 
   useEffect(() => {
     getCustomerList(
@@ -413,18 +418,18 @@ export default function ServiceSalesCreate() {
                   />
                 </div>
                 <div className="d-flex">
-                  <div style={{ marginTop: "18px" }}>
+                  {/* <div style={{ marginTop: "18px" }}>
                     <button
                       type="button"
                       disabled={
                         !values?.item?.value ||
                         !values?.qty ||
                         !values?.rate ||
-                        !values?.vat ||
-                        itemList?.length
+                        !values?.vat
                       }
                       className="btn btn-primary ml-4"
                       onClick={() => {
+                        setSheduleList([]);
                         let isExist = itemList?.some(
                           (item) => item.label === values?.item?.label
                         );
@@ -450,7 +455,150 @@ export default function ServiceSalesCreate() {
                     >
                       Add
                     </button>
-                  </div>
+                  </div> */}
+                  {[1]?.includes(values?.paymentType?.value) ? (
+                    <div style={{ marginTop: "18px" }} className="ml-4">
+                      <button
+                        disabled={
+                          !values?.paymentType?.value ||
+                          !values?.validFrom ||
+                          !values?.validTo ||
+                          !values?.invoiceDay ||
+                          !values?.item?.value ||
+                          !values?.qty ||
+                          !values?.rate ||
+                          !values?.vat ||
+                          itemList?.length
+                        }
+                        onClick={() => {
+                          setSheduleList([]);
+                          let isExist = itemList?.some(
+                            (item) => item.label === values?.item?.label
+                          );
+                          if (isExist) return toast.warn("Already exist");
+                          setItemList((prev) => [
+                            ...prev,
+                            {
+                              ...values?.item,
+                              qty: +values?.qty || 0,
+                              rate: +values?.rate || 0,
+                              vat: +values?.vat || 0,
+                              amount:
+                                (+values?.qty || 0) * (+values?.rate || 0),
+                              netAmount:
+                                (() => {
+                                  let amount =
+                                    (+values?.qty || 0) * (+values?.rate || 0);
+                                  let vat = +values?.vat || 0;
+                                  return amount + (amount * vat) / 100;
+                                })() || 0,
+                            },
+                          ]);
+
+                          if (
+                            values?.scheduleType?.range &&
+                            values?.validTo &&
+                            values?.validFrom
+                          ) {
+                            console.log(
+                              "scheduleType" + values.scheduleType?.range
+                            );
+                            console.log("validTo" + values.validTo);
+                            console.log("validFrom" + values.validFrom);
+                            const list = [];
+                            const n =
+                              (+calculateMonthDifference(
+                                values?.validFrom,
+                                values?.validTo
+                              ) +
+                                1) /
+                              +values?.scheduleType?.range;
+                            for (let i = 0; i < n; i++) {
+                              list.push({
+                                dueDate: addMonthsToDate(
+                                  values?.validFrom,
+                                  i === 0 ? 0 : i * values?.scheduleType?.range
+                                ),
+                                percentage: 0,
+                                amount:
+                                  (() => {
+                                    let amount =
+                                      (+values?.qty || 0) *
+                                      (+values?.rate || 0);
+                                    let vat = +values?.vat || 0;
+                                    return amount + (amount * vat) / 100;
+                                  })() || 0,
+                              });
+                            }
+                            setSheduleList(list);
+                          } else {
+                            setSheduleList([]);
+                          }
+                        }}
+                        type="button"
+                        className="btn btn-primary"
+                      >
+                        Create Schedule
+                      </button>
+                    </div>
+                  ) : null}
+                  {[2]?.includes(values?.paymentType?.value) ? (
+                    <div style={{ marginTop: "18px" }} className="ml-4">
+                      <button
+                        disabled={
+                          !values?.item?.value ||
+                          !values?.qty ||
+                          !values?.rate ||
+                          !values?.vat ||
+                          itemList?.length
+                        }
+                        onClick={() => {
+                          setSheduleList([]);
+                          let isExist = itemList?.some(
+                            (item) => item.label === values?.item?.label
+                          );
+                          if (isExist) return toast.warn("Already exist");
+                          setItemList((prev) => [
+                            ...prev,
+                            {
+                              ...values?.item,
+                              qty: +values?.qty || 0,
+                              rate: +values?.rate || 0,
+                              vat: +values?.vat || 0,
+                              amount:
+                                (+values?.qty || 0) * (+values?.rate || 0),
+                              netAmount:
+                                (() => {
+                                  let amount =
+                                    (+values?.qty || 0) * (+values?.rate || 0);
+                                  let vat = +values?.vat || 0;
+                                  return amount + (amount * vat) / 100;
+                                })() || 0,
+                            },
+                          ]);
+
+                          setSheduleListFOneTime([
+                            {
+                              dueDate: _todayDate(),
+                              percentage: 100,
+                              amount:
+                                (() => {
+                                  let amount =
+                                    (+values?.qty || 0) * (+values?.rate || 0);
+                                  let vat = +values?.vat || 0;
+                                  return amount + (amount * vat) / 100;
+                                })() || 0,
+                              remarks: "",
+                            },
+                          ]);
+                        }}
+                        type="button"
+                        className="btn btn-primary"
+                      >
+                        Create Schedule
+                      </button>
+                    </div>
+                  ) : null}
                   {/* <div style={{ marginTop: "18px" }}>
                     <button
                       onClick={() => setIsOpen(true)}
@@ -463,125 +611,230 @@ export default function ServiceSalesCreate() {
                 </div>
               </div>
 
-              {/* <div className="mt-5">
-                <div>
-                  <table className="table table-striped table-bordered bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th>Item Code</th>
-                        <th>Item Name</th>
-                        <th>Qty</th>
-                        <th>Rate</th>
-                        <th>Amount</th>
-                        <th>Vat %</th>
-                        <th>Net Amount</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {itemList?.map((item, index) => (
-                        <tr key={index}>
-                          <td>{item?.strItemCode}</td>
-                          <td>{item?.label}</td>
-                          <td className="text-center">{item?.qty}</td>
-                          <td className="text-center">{item?.rate}</td>
-                          <td className="text-center">{item?.amount}</td>
-                          <td className="text-center">{item?.vat}</td>
-                          <td className="text-center">{item?.netAmount}</td>
-                          <td className="text-center">
-                            <IDelete
-                              style={{ fontSize: "16px" }}
-                              remover={(index) => {
-                                let data = itemList.filter(
-                                  (item, i) => i !== index
-                                );
-                                setItemList(data);
-                              }}
-                              id={index}
-                            />
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div> */}
-
-              <div className="mt-5">
-                <div>
-                  {scheduleList?.length > 0 && (
+              {itemList?.length > 0 && (
+                <div className="mt-5">
+                  <div>
                     <table className="table table-striped table-bordered bj-table bj-table-landing">
                       <thead>
                         <tr>
-                          <th>SL</th>
-                          <th>Due Date</th>
-                          <th>Percentage</th>
+                          <th>Item Code</th>
+                          <th>Item Name</th>
+                          <th>Qty</th>
+                          <th>Rate</th>
                           <th>Amount</th>
+                          <th>Vat %</th>
+                          <th>Net Amount</th>
+                          <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {scheduleList?.map((item, index) => (
+                        {itemList?.map((item, index) => (
                           <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td>
-                              <InputField
-                                value={item?.dueDate}
-                                type="date"
-                                onChange={(e) => {
-                                  let data = [...scheduleList];
-                                  data[index]["dueDate"] = e.target.value;
-                                  setFieldValue("validTo", e.target.value);
-                                  setSheduleList(data);
-                                }}
-                              />
-                            </td>
-                            <td>
-                              <InputField
-                                value={item?.percentage || ""}
-                                type="number"
-                                onChange={(e) => {
-                                  const newValue = +e.target.value;
-
-                                  let totalPercentage = scheduleList.reduce(
-                                    (acc, curr, currIndex) => {
-                                      if (currIndex === index) {
-                                        return acc + newValue;
-                                      } else {
-                                        return acc + curr.percentage;
-                                      }
-                                    },
-                                    0
+                            <td>{item?.strItemCode}</td>
+                            <td>{item?.label}</td>
+                            <td className="text-center">{item?.qty}</td>
+                            <td className="text-center">{item?.rate}</td>
+                            <td className="text-right">{item?.amount}</td>
+                            <td className="text-center">{item?.vat}</td>
+                            <td className="text-right">{item?.netAmount}</td>
+                            <td className="text-center">
+                              <IDelete
+                                style={{ fontSize: "16px" }}
+                                remover={(index) => {
+                                  let data = itemList.filter(
+                                    (item, i) => i !== index
                                   );
-
-                                  if (totalPercentage > 100) {
-                                    toast.warn(
-                                      "Total percentage should be 100"
-                                    );
-                                    return;
-                                  }
-
-                                  let updatedScheduleList = [...scheduleList];
-                                  updatedScheduleList[
-                                    index
-                                  ].percentage = newValue;
-                                  updatedScheduleList[index].amount =
-                                    ((newValue || 0) / 100) * (netAmount || 0);
-                                  setSheduleList(updatedScheduleList);
+                                  setItemList(data);
                                 }}
+                                id={index}
                               />
-                            </td>
-                            <td>
-                              {/* {((item?.percentage || 0) / 100) *
-                                (netAmount || 0)} */}
-                              {item?.amount}
                             </td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
-                  )}
+                  </div>
                 </div>
-              </div>
+              )}
+
+              {[1]?.includes(values?.paymentType?.value) ? (
+                <div className="mt-5">
+                  <div>
+                    {scheduleList?.length > 0 && (
+                      <table className="table table-striped table-bordered bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Due Date</th>
+                            <th>Amount</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {scheduleList?.map((item, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>
+                                <InputField
+                                  value={item?.dueDate}
+                                  type="date"
+                                  disabled
+                                  onChange={(e) => {
+                                    let data = [...scheduleList];
+                                    data[index]["dueDate"] = e.target.value;
+                                    setFieldValue("validTo", e.target.value);
+                                    setSheduleList(data);
+                                  }}
+                                />
+                              </td>
+                              <td className="text-right">{item?.amount}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    )}
+                  </div>
+                </div>
+              ) : null}
+
+              {[2]?.includes(values?.paymentType?.value) ? (
+                <div className="mt-5">
+                  <div>
+                    {scheduleListFOneTime?.length > 0 && (
+                      <table className="table table-striped table-bordered bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Due Date</th>
+                            <th>Percentage</th>
+                            <th>Amount</th>
+                            <th>Remarks</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {scheduleListFOneTime?.map((item, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>
+                                <InputField
+                                  value={item?.dueDate}
+                                  type="date"
+                                  onChange={(e) => {
+                                    let data = [...scheduleListFOneTime];
+                                    data[index]["dueDate"] = e.target.value;
+                                    setSheduleListFOneTime(data);
+                                  }}
+                                />
+                              </td>
+                              <td>
+                                <InputField
+                                  value={item?.percentage || ""}
+                                  type="number"
+                                  onChange={(e) => {
+                                    const newValue = +e.target.value;
+
+                                    let totalPercentage = scheduleListFOneTime.reduce(
+                                      (acc, curr, currIndex) => {
+                                        if (currIndex === index) {
+                                          return acc + newValue;
+                                        } else {
+                                          return acc + curr.percentage;
+                                        }
+                                      },
+                                      0
+                                    );
+
+                                    if (totalPercentage > 100) {
+                                      toast.warn(
+                                        "Total percentage should be 100"
+                                      );
+                                      return;
+                                    }
+
+                                    let updatedScheduleList = [
+                                      ...scheduleListFOneTime,
+                                    ];
+                                    updatedScheduleList[
+                                      index
+                                    ].percentage = newValue;
+                                    updatedScheduleList[index].amount =
+                                      ((newValue || 0) / 100) *
+                                      (netAmount || 0);
+                                    setSheduleListFOneTime(updatedScheduleList);
+                                  }}
+                                />
+                              </td>
+                              <td className="text-center">{item?.amount}</td>
+                              <td>
+                                <InputField
+                                  value={item?.remarks}
+                                  type="text"
+                                  onChange={(e) => {
+                                    let updatedScheduleList = [
+                                      ...scheduleListFOneTime,
+                                    ];
+                                    updatedScheduleList[index].remarks =
+                                      e.target.value;
+
+                                    setSheduleListFOneTime(updatedScheduleList);
+                                  }}
+                                />
+                              </td>
+                              <td>
+                                <div className="d-flex justify-content-around">
+                                  <OverlayTrigger
+                                    overlay={
+                                      <Tooltip id="cs-icon">{"Add"}</Tooltip>
+                                    }
+                                  >
+                                    <span>
+                                      <i
+                                        style={{
+                                          fontSize: "16px",
+                                          cursor: "pointer",
+                                        }}
+                                        className="fa fa-plus-square"
+                                        onClick={() => {
+                                          let updatedScheduleList = [
+                                            ...scheduleListFOneTime,
+                                          ];
+
+                                          setSheduleListFOneTime([
+                                            ...updatedScheduleList,
+                                            {
+                                              dueDate: _todayDate(),
+                                              percentage: 0,
+                                              amount: 0,
+                                              remarks: "",
+                                            },
+                                          ]);
+                                        }}
+                                      ></i>
+                                    </span>
+                                  </OverlayTrigger>
+
+                                  <IDelete
+                                    style={{ fontSize: "16px" }}
+                                    id={index}
+                                    remover={(index) => {
+                                      let updatedScheduleList = scheduleListFOneTime?.filter(
+                                        (schedule, i) => i !== index
+                                      );
+                                      setSheduleListFOneTime(
+                                        updatedScheduleList
+                                      );
+                                    }}
+                                  />
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    )}
+                  </div>
+                </div>
+              ) : null}
 
               <IViewModal show={isOpen} onHide={() => setIsOpen(false)}>
                 <Schedule />
