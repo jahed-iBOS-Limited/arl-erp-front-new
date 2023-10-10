@@ -24,13 +24,37 @@ export const getCashFlowStatement = async (
 ) => {
   try {
     setLoading(true);
-    const res = await axios.get(`/fino/Report/GetCashFlowStatement?BusinessUnitGroup=${enterPriceDivision?.label || ""}&businessUnitId=${businessUnitId}&sbuId=${sbuId}&fromDate=${_dateFormatter(fromDate)}&toDate=${_dateFormatter(toDate)}&ConvertionRate=${conversionRate}`);
+    const res = await axios.get(
+      `/fino/Report/GetCashFlowStatement?BusinessUnitGroup=${enterPriceDivision?.label ||
+        ""}&businessUnitId=${businessUnitId}&sbuId=${sbuId}&fromDate=${_dateFormatter(
+        fromDate
+      )}&toDate=${_dateFormatter(toDate)}&ConvertionRate=${conversionRate}`
+    );
+
+    const resNumAmountFromProjectedApi = await axios.get(
+      `/fino/Report/GetCashFlowStatementProjected?BusinessUnitGroup=${enterPriceDivision?.label ||
+        ""}&businessUnitId=${businessUnitId}&sbuId=${sbuId}&fromDate=${_dateFormatter(
+        fromDate
+      )}&toDate=${_dateFormatter(toDate)}&ConvertionRate=${conversionRate}`
+    );
+
+    const filterGetData = resNumAmountFromProjectedApi?.data;
+
+    const modifiedData =
+      res?.data?.length &&
+      res?.data?.forEach((item, index) => {
+        if (item.intSl === filterGetData[index].intSl) {
+          item.numAmount = filterGetData[index].numAmount;
+        }
+      });
+
     setLoading(false);
-    setter(res?.data);
+    setter(modifiedData);
+
+    // setLoading(false);
+    // setter(res?.data);
   } catch (error) {
     setLoading(false);
     setter([]);
   }
 };
-
-
