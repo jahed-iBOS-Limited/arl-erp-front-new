@@ -26,9 +26,7 @@ import {
 } from "../incomestatement/helper";
 import NewSelect from "../../../_helper/_select";
 import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import {
-  fromDateFromApiNew,
-} from "../../../_helper/_formDateFromApi";
+import { fromDateFromApiNew } from "../../../_helper/_formDateFromApi";
 
 const initDataFuction = (financialManagementReportCashFlowStatement) => {
   const initData = {
@@ -39,7 +37,7 @@ const initDataFuction = (financialManagementReportCashFlowStatement) => {
     convertionRate:
       financialManagementReportCashFlowStatement?.convertionRate || 1,
     fromDate: "",
-    toDate:  _todayDate(),
+    toDate: _todayDate(),
   };
 
   return initData;
@@ -151,15 +149,6 @@ export function CashFlowStatement() {
                           setRowDto([]);
                           setFieldValue("enterpriseDivision", valueOption);
                           setFieldValue("businessUnit", "");
-                          // dispatch(
-                          //   SetFinancialManagementReportCashFlowStatementAction(
-                          //     {
-                          //       ...values,
-                          //       enterpriseDivision: valueOption,
-                          //       businessUnit: "",
-                          //     }
-                          //   )
-                          // );
                           if (valueOption?.value) {
                             getBusinessDDLByED(
                               accountId,
@@ -181,14 +170,6 @@ export function CashFlowStatement() {
                           setShowRDLC(false);
                           setRowDto([]);
                           setFieldValue("businessUnit", valueOption);
-                          // dispatch(
-                          //   SetFinancialManagementReportCashFlowStatementAction(
-                          //     {
-                          //       ...values,
-                          //       businessUnit: valueOption,
-                          //     }
-                          //   )
-                          // );
                         }}
                         placeholder="Business Unit"
                         isDisabled={!values?.enterpriseDivision}
@@ -204,14 +185,6 @@ export function CashFlowStatement() {
                         onChange={(e) => {
                           setShowRDLC(false);
                           setFieldValue("convertionRate", e.target.value);
-                          // dispatch(
-                          //   SetFinancialManagementReportCashFlowStatementAction(
-                          //     {
-                          //       ...values,
-                          //       convertionRate: e.target.value,
-                          //     }
-                          //   )
-                          // );
                         }}
                       />
                     </div>
@@ -225,14 +198,6 @@ export function CashFlowStatement() {
                         onChange={(e) => {
                           setShowRDLC(false);
                           setFieldValue("fromDate", e.target.value);
-                          // dispatch(
-                          //   SetFinancialManagementReportCashFlowStatementAction(
-                          //     {
-                          //       ...values,
-                          //       fromDate: e.target.value,
-                          //     }
-                          //   )
-                          // );
                         }}
                       />
                     </div>
@@ -246,14 +211,6 @@ export function CashFlowStatement() {
                         onChange={(e) => {
                           setShowRDLC(false);
                           setFieldValue("toDate", e.target.value);
-                          // dispatch(
-                          //   SetFinancialManagementReportCashFlowStatementAction(
-                          //     {
-                          //       ...values,
-                          //       toDate: e.target.value,
-                          //     }
-                          //   )
-                          // );
                         }}
                       />
                     </div>
@@ -371,7 +328,11 @@ export function CashFlowStatement() {
                                   textAlign: "center",
                                 }}
                               >
-                                {_formatMoney(rowDto[0]["numPlannedOpening"])}
+                                {/* {_formatMoney(rowDto[0]["numPlannedOpening"])} */}
+
+                                {_formatMoney(
+                                  rowDto?.[rowDto?.length - 1].numPlannedAmount
+                                )}
                               </td>
                               <td
                                 style={{
