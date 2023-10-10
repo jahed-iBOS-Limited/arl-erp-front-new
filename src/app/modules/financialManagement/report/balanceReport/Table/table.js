@@ -1,12 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect, useState, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import ReactToPrint from "react-to-print";
+import { useFormik } from "formik";
+import moment from "moment";
+import React, { useEffect, useRef, useState } from "react";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import { getReportBalance } from "../helper";
+import { shallowEqual, useSelector } from "react-redux";
+import ReactToPrint from "react-to-print";
+import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
+import { _formatMoney } from "../../../../_helper/_formatMoney";
 import Loading from "../../../../_helper/_loading";
 import numberWithCommas from "../../../../_helper/_numberWithCommas";
+import NewSelect from "../../../../_helper/_select";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
+import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
+import {
+  getBusinessDDLByED,
+  getEnterpriseDivisionDDL,
+} from "../../incomestatement/helper";
+import { getReportBalance } from "../helper";
 import {
   Card,
   CardBody,
@@ -14,15 +26,6 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from "./../../../../../../_metronic/_partials/controls";
-import { useFormik } from "formik";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
-import { getBusinessDDLByED, getEnterpriseDivisionDDL } from "../../incomestatement/helper";
-import NewSelect from "../../../../_helper/_select";
-import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import moment from "moment";
 const html2pdf = require("html2pdf.js");
 
 const initData = {
@@ -36,10 +39,7 @@ export default function BalancerReportTable() {
   const [businessDDL, setBusinessUnitDDL] = useState([]);
   const [rowDto, setRowDto] = useState({});
   const [loading, setLoading] = useState(false);
-  const { profileData } = useSelector(
-    (store) => store?.authData,
-    shallowEqual
-  );
+  const { profileData } = useSelector((store) => store?.authData, shallowEqual);
 
   const pdfExport = (fileName) => {
     var element = document.getElementById("pdf-section");
@@ -115,11 +115,14 @@ export default function BalancerReportTable() {
   const reportId = "1cea2afd-f9aa-4b6b-9f46-5a39fa65ca4a";
   const parameterValues = (values) => {
     const agingParameters = [
-      { name: "BusinessUnitGroup", value: `${values?.enterpriseDivision?.value}` },
+      {
+        name: "BusinessUnitGroup",
+        value: `${values?.enterpriseDivision?.value}`,
+      },
       { name: "intBusinessUnitId", value: `${values?.business?.value}` },
       { name: "dteAsOnDate", value: `${values?.fromDate}` },
       { name: "intAccountId", value: `1` },
-      { name: "ConvertionRate", value: `${values?.conversionRate}` }
+      { name: "ConvertionRate", value: `${values?.conversionRate}` },
     ];
     return agingParameters;
   };
@@ -133,7 +136,6 @@ export default function BalancerReportTable() {
             <CardHeaderToolbar></CardHeaderToolbar>
           </CardHeader>
           <CardBody>
-
             {loading && <Loading />}
             <div className="global-form align-items-end">
               <div className="row">
@@ -205,9 +207,12 @@ export default function BalancerReportTable() {
                     type="number"
                   />
                 </div>
-                <div className="col-auto" style={{
-                  marginTop: "17px"
-                }}>
+                <div
+                  className="col-auto"
+                  style={{
+                    marginTop: "17px",
+                  }}
+                >
                   <ButtonStyleOne
                     label="View"
                     onClick={() => {
@@ -225,9 +230,12 @@ export default function BalancerReportTable() {
                     disabled={!values?.business || values?.conversionRate < 1}
                   />
                 </div>
-                <div className="col-auto" style={{
-                  marginTop: "17px"
-                }}>
+                <div
+                  className="col-auto"
+                  style={{
+                    marginTop: "17px",
+                  }}
+                >
                   <button
                     type="button"
                     className="btn btn-primary sales_invoice_btn"
@@ -259,10 +267,11 @@ export default function BalancerReportTable() {
                     id="test-table-xls-button"
                     className="btn btn-primary sales_invoice_btn export-excel"
                     table="table-to-xlsx"
-                    filename={`balanceReport (Date : ${values?.fromDate
-                      ? dateFormatWithMonthName(values?.fromDate)
-                      : "N/A"
-                      })`}
+                    filename={`balanceReport (Date : ${
+                      values?.fromDate
+                        ? dateFormatWithMonthName(values?.fromDate)
+                        : "N/A"
+                    })`}
                     sheet="balanceReport"
                     buttonText="Export Excel"
                   />
@@ -285,22 +294,23 @@ export default function BalancerReportTable() {
                   />
                 </div>
               </div>
-
             </div>
-            {
-              showRDLC ? <div>
+            {showRDLC ? (
+              <div>
                 <PowerBIReport
                   reportId={reportId}
                   groupId={groupId}
                   parameterValues={parameterValues(values)}
                   parameterPanel={false}
                 />
-              </div> : <>
+              </div>
+            ) : (
+              <>
                 {rowDto?.nonCurrentAssets ||
-                  rowDto?.currentassets ||
-                  rowDto?.equity ||
-                  rowDto?.nonCurrentLiability ||
-                  rowDto?.currentLiability ? (
+                rowDto?.currentassets ||
+                rowDto?.equity ||
+                rowDto?.nonCurrentLiability ||
+                rowDto?.currentLiability ? (
                   <div className="mx-auto mt-2" id="pdf-section" ref={printRef}>
                     <div className="titleContent text-center">
                       <h3>
@@ -332,8 +342,9 @@ export default function BalancerReportTable() {
                               className="text-center"
                               style={{ fontWeight: "bold" }}
                             >
-                              Amount
+                              Actual
                             </td>
+
                             <td
                               className="text-center"
                               style={{ fontWeight: "bold" }}
@@ -363,6 +374,7 @@ export default function BalancerReportTable() {
                                   >
                                     {itm.strGlName}
                                   </td>
+
                                   <td className="text-right">
                                     {_formatMoney(itm?.numPlanBalance)}
                                   </td>
@@ -378,7 +390,7 @@ export default function BalancerReportTable() {
                                   </td>
                                   <td className="text-right">
                                     {_formatMoney(
-                                      itm?.numPlanBalance - itm.numBalance
+                                      itm.numBalance - itm?.numPlanBalance
                                     )}
                                   </td>
                                   {/* <td></td> */}
@@ -395,12 +407,14 @@ export default function BalancerReportTable() {
                               )}
                             </td>
                             <td className="text-right">
-                              {_formatMoney(rowDto?.nonCurrentAssetsTotalBalance)}
+                              {_formatMoney(
+                                rowDto?.nonCurrentAssetsTotalBalance
+                              )}
                             </td>
                             <td className="text-right">
                               {_formatMoney(
                                 rowDto?.nonCurrentAssetsTotalPlanBalance -
-                                rowDto?.nonCurrentAssetsTotalBalance
+                                  rowDto?.nonCurrentAssetsTotalBalance
                               )}
                             </td>
                           </tr>
@@ -445,7 +459,9 @@ export default function BalancerReportTable() {
                               Total Current Assets
                             </td>
                             <td className="text-right">
-                              {_formatMoney(rowDto?.currentassetsTotalPlanBalance)}
+                              {_formatMoney(
+                                rowDto?.currentassetsTotalPlanBalance
+                              )}
                             </td>
                             <td className="text-right">
                               {_formatMoney(rowDto?.currentassetsTotalBalance)}
@@ -463,9 +479,9 @@ export default function BalancerReportTable() {
                               style={{ borderBottom: "3px double black" }}
                             >
                               {_formatMoney(
-                                rowDto?.currentassetsTotalPlanBalance ||
-                                0 + rowDto.nonCurrentAssetsTotalPlanBalance ||
-                                0
+                                (rowDto?.currentassetsTotalPlanBalance || 0) +
+                                  (rowDto?.nonCurrentAssetsTotalPlanBalance ||
+                                    0)
                               )}
                             </td>
                             <td
@@ -474,7 +490,7 @@ export default function BalancerReportTable() {
                             >
                               {_formatMoney(
                                 (rowDto?.currentassetsTotalBalance || 0) +
-                                (rowDto?.nonCurrentAssetsTotalBalance || 0)
+                                  (rowDto?.nonCurrentAssetsTotalBalance || 0)
                               )}
                             </td>
                             <td
@@ -538,7 +554,7 @@ export default function BalancerReportTable() {
                             <td className="text-right">
                               {_formatMoney(
                                 rowDto?.equityTotalPlanBalance -
-                                rowDto?.equityTotalBalance
+                                  rowDto?.equityTotalBalance
                               )}
                             </td>
                           </tr>
@@ -608,7 +624,7 @@ export default function BalancerReportTable() {
                             <td className="text-right">
                               {_formatMoney(
                                 rowDto?.nonCurrentLiabilityTotalPlanBalance -
-                                rowDto?.nonCurrentLiabilityTotalBalance
+                                  rowDto?.nonCurrentLiabilityTotalBalance
                               )}
                             </td>
                           </tr>
@@ -670,12 +686,14 @@ export default function BalancerReportTable() {
                               )}
                             </td>
                             <td className="text-right">
-                              {_formatMoney(rowDto?.currentLiabilityTotalBalance)}
+                              {_formatMoney(
+                                rowDto?.currentLiabilityTotalBalance
+                              )}
                             </td>
                             <td className="text-right">
                               {_formatMoney(
                                 rowDto?.currentLiabilityTotalPlanBalance -
-                                rowDto?.currentLiabilityTotalBalance
+                                  rowDto?.currentLiabilityTotalBalance
                               )}
                             </td>
                           </tr>
@@ -709,7 +727,7 @@ export default function BalancerReportTable() {
                             >
                               {_formatMoney(
                                 equityAndLiaTotalForBudget(rowDto) -
-                                equityAndLiaTotal(rowDto)
+                                  equityAndLiaTotal(rowDto)
                               )}
                             </td>
                           </tr>
@@ -718,7 +736,9 @@ export default function BalancerReportTable() {
                             <td
                               className="text-center d-none"
                               colSpan={4}
-                            >{`System Generated Report - ${moment().format('LLLL')}`}</td>
+                            >{`System Generated Report - ${moment().format(
+                              "LLLL"
+                            )}`}</td>
                           </tr>
                         </table>
                       </div>
@@ -728,9 +748,8 @@ export default function BalancerReportTable() {
                   <></>
                 )}
               </>
-            }
+            )}
             {/* </Form> */}
-
           </CardBody>
         </Card>
       </>

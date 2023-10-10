@@ -1,7 +1,7 @@
+import moment from "moment";
 import React from "react";
 import { dateFormatWithMonthName } from "../../_helper/_dateFormate";
 import numberWithCommas from "../../_helper/_numberWithCommas";
-import moment from "moment";
 
 const ProjectedBalanceReport = ({ balanceReportData, values }) => {
   const getTotalAssetsVariance = (rowDto) => {
@@ -49,24 +49,24 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
             <div className="my-5">
               <table id="table-to-xlsx" className="w-full">
                 <tr>
-                  <td style={{ fontWeight: "bold" }}>Particulars</td>
-                  <td className="text-center" style={{ fontWeight: "bold" }}>
+                  <td style={{ fontWeight: "bold",border:"1px solid" }}>Particulars</td>
+                  <td className="text-center" style={{ fontWeight: "bold",border:"1px solid" }}>
                     Last Period
                   </td>
-                  <td className="text-center" style={{ fontWeight: "bold" }}>
+                  <td className="text-center" style={{ fontWeight: "bold",border:"1px solid" }}>
                     Current Period
                   </td>
-                  <td className="text-center" style={{ fontWeight: "bold" }}>
+                  <td className="text-center" style={{ fontWeight: "bold",border:"1px solid" }}>
                     Variance
                   </td>
                   {/* <td className="text-right" style={{ fontWeight: "bold" }}>Amount</td> */}
                 </tr>
-                <tr style={{ background: "#D8D8D8" }}>
+                <tr style={{ background: "#D8D8D8" ,border: "1px solid black"}}>
                   <td colSpan="4" style={{ fontWeight: "bold" }}>
                     Assets
                   </td>
                 </tr>
-                <tr>
+                <tr style={{ border: "1px solid black" }}>
                   <td colSpan="4" style={{ fontWeight: "bold" }}>
                     Non-Current Assets
                   </td>
@@ -78,7 +78,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                       <tr key={index}>
                         <td
                           className="text-left"
-                          style={{ paddingLeft: "20px" }}
+                          style={{ paddingLeft: "20px",border:"1px solid" }}
                         >
                           {itm.strGlName}
                         </td>
@@ -107,8 +107,8 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                         >
                           <span className="pr-1">
                             {numberWithCommas(
-                              Math.round(itm?.numPlanBalance) -
-                                Math.round(itm.numBalance)
+                             Math.round(itm.numBalance)- Math.round(itm?.numPlanBalance) 
+                                
                             )}
                           </span>
                           {/* {_formatMoney(itm?.numPlanBalance - itm.numBalance)} */}
@@ -118,7 +118,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                     );
                   })}
                 <tr style={{ background: "#F2F2F2" }}>
-                  <td style={{ fontWeight: "bold" }}>
+                  <td style={{ fontWeight: "bold",border:"1px solid" }}>
                     Total Non-Current Assets
                   </td>
                   <td
@@ -157,8 +157,8 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                     )}
                   </td>
                 </tr>
-                <tr>
-                  <td colSpan="4" style={{ fontWeight: "bold" }}>
+                <tr style={{border:"1px solid" }}>
+                  <td colSpan="4" style={{ fontWeight: "bold",}}>
                     Current Assets
                   </td>
                 </tr>
@@ -168,7 +168,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                       <tr key={index}>
                         <td
                           className="text-left"
-                          style={{ paddingLeft: "20px" }}
+                          style={{ paddingLeft: "20px",border:"1px solid" }}
                         >
                           {itm.strGlName}
                         </td>
@@ -201,7 +201,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                     );
                   })}
                 <tr style={{ background: "#F2F2F2" }}>
-                  <td style={{ fontWeight: "bold" }}>Total Current Assets</td>
+                  <td style={{ fontWeight: "bold",border:"1px solid" }}>Total Current Assets</td>
                   <td
                     className="text-right"
                     style={{ border: "1px solid black", fontWeight: "bold" }}
@@ -237,7 +237,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                   </td>
                 </tr>
                 <tr style={{ background: "#D8D8D8" }}>
-                  <td style={{ fontWeight: "bold" }}>Total Assets</td>
+                  <td style={{ fontWeight: "bold" ,border:"1px solid"}}>Total Assets</td>
                   <td
                     className="text-right"
                     style={{ border: "1px solid black", fontWeight: "bold" }}
@@ -273,12 +273,12 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                   </td>
                 </tr>
                 <tr style={{ height: "15px" }}></tr>
-                <tr style={{ background: "#D8D8D8" }}>
+                <tr style={{ background: "#D8D8D8",border:"1px solid" }}>
                   <td colSpan="4" style={{ fontWeight: "bold" }}>
                     EQUITY AND LIABILITIES
                   </td>
                 </tr>
-                <tr>
+                <tr style={{border:"1px solid"}}>
                   <td colSpan="4" style={{ fontWeight: "bold" }}>
                     Equity
                   </td>
@@ -290,7 +290,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                       <tr key={index}>
                         <td
                           className="text-left"
-                          style={{ paddingLeft: "20px" }}
+                          style={{ paddingLeft: "20px",border:"1px solid" }}
                         >
                           {itm.strGlName}
                         </td>
@@ -324,7 +324,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                     );
                   })}
                 <tr style={{ background: "#F2F2F2" }}>
-                  <td style={{ fontWeight: "bold" }}>Total Equity</td>
+                  <td style={{ fontWeight: "bold" ,border:"1px solid"}}>Total Equity</td>
                   <td
                     className="text-right"
                     style={{ border: "1px solid black", fontWeight: "bold" }}
@@ -361,7 +361,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                           </td>
                         </tr> */}
 
-                <tr>
+                <tr style={{border:"1px solid"}}>
                   <td colSpan="4" style={{ fontWeight: "bold" }}>
                     Non-Current Liabilities
                   </td>
@@ -376,7 +376,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                       <tr key={index}>
                         <td
                           className="text-left"
-                          style={{ paddingLeft: "20px" }}
+                          style={{ paddingLeft: "20px",border:"1px solid" }}
                         >
                           {itm.strGlName}
                         </td>
@@ -410,7 +410,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                     );
                   })}
                 <tr style={{ background: "#F2F2F2" }}>
-                  <td style={{ fontWeight: "bold" }}>
+                  <td style={{ fontWeight: "bold",border:"1px solid" }}>
                     Total Non-Current Liability
                   </td>
                   <td
@@ -457,7 +457,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                             </span>
                           </td>
                         </tr> */}
-                <tr>
+                <tr style={{border:"1px solid"}}>
                   <td colSpan="4" style={{ fontWeight: "bold" }}>
                     Current Liabilities
                   </td>
@@ -472,7 +472,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                       <tr key={index}>
                         <td
                           className="text-left"
-                          style={{ paddingLeft: "20px" }}
+                          style={{ paddingLeft: "20px",border:"1px solid" }}
                         >
                           {itm.strGlName}
                         </td>
@@ -506,7 +506,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                     );
                   })}
                 <tr style={{ background: "#F2F2F2" }}>
-                  <td style={{ fontWeight: "bold" }}>
+                  <td style={{ fontWeight: "bold",border:"1px solid" }}>
                     Total Current Liabilities
                   </td>
                   <td
@@ -554,7 +554,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                           </td>
                         </tr> */}
                 <tr style={{ background: "#D8D8D8" }}>
-                  <td style={{ fontWeight: "bold" }}>
+                  <td style={{ fontWeight: "bold",border:"1px solid" }}>
                     TOTAL EQUITY AND LIABILITIES
                   </td>
                   <td
