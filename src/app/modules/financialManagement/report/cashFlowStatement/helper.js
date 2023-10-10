@@ -37,22 +37,26 @@ export const getCashFlowStatement = async (
         fromDate
       )}&toDate=${_dateFormatter(toDate)}&ConvertionRate=${conversionRate}`
     );
-
     const filterGetData = resNumAmountFromProjectedApi?.data;
+    const modifiedData = res?.data?.map((item, index) => {
+      return {
+        ...item,
+        numPlannedAmount:
+          item.intSl === filterGetData[index].intSl
+            ? filterGetData[index].numAmount
+            : 0,
 
-    const modifiedData =
-      res?.data?.length &&
-      res?.data?.forEach((item, index) => {
-        if (item.intSl === filterGetData[index].intSl) {
-          item.numAmount = filterGetData[index].numAmount;
-        }
-      });
+        numPlannedOpening:
+          item.intSl === 1 ? filterGetData[index].numOpening : item.numOpening,
+      };
+    });
+
+    console.log("res data", res?.data);
+    console.log("filterGetData", filterGetData);
+    console.log("modifiedData", modifiedData);
 
     setLoading(false);
     setter(modifiedData);
-
-    // setLoading(false);
-    // setter(res?.data);
   } catch (error) {
     setLoading(false);
     setter([]);
