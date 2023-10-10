@@ -93,6 +93,26 @@ export const challanConfirm = async (payload, setLoading, cb) => {
     setLoading && setLoading(false);
   }
 };
+export const deleteG2GChallanInfo = async (
+  deliveryId,
+  buId,
+  userId,
+  setLoading,
+  cb
+) => {
+  setLoading && setLoading(true);
+  try {
+    const res = await axios.put(
+      `/tms/LigterLoadUnload/DeleteG2GChallanInfo?deliveryId=${deliveryId}&businessUnitId=${buId}&userId=${userId}`
+    );
+    toast.success(res?.data?.message);
+    cb && cb();
+    setLoading && setLoading(false);
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setLoading && setLoading(false);
+  }
+};
 
 export const GetDomesticPortDDL = async (setter) => {
   try {
