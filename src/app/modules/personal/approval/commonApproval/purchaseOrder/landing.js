@@ -16,6 +16,7 @@ import { PurchaseOrderViewTableRow } from "../../../../procurement/purchase-mana
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import IClose from "../../../../_helper/_helperIcons/_close";
 import { toast } from "react-toastify";
+import AttachmentView from "./attachmentView";
 
 let initData = {};
 
@@ -35,8 +36,10 @@ const PurchaseOrderApprovalGrid = ({
   const dispatch = useDispatch();
   const [isShowModal, setIsShowModal] = useState(false);
   const [currentItem, setCurrentItem] = useState("");
+  const [showAttachmentModal, setShowAttachmentModal] = useState(false);
+  const [attachmentModalInfo, setAttachmentModalInfo] = useState("");
 
-  // custom Hooks 
+  // custom Hooks
   const [, postData, postDataLoading] = useAxiosPost();
 
   const profileData = useSelector((state) => {
@@ -190,7 +193,7 @@ const PurchaseOrderApprovalGrid = ({
         }
       );
     };
-  
+
     // create confirmation obj
     const getConfirmObject = (poId) => {
       return {
@@ -290,7 +293,7 @@ const PurchaseOrderApprovalGrid = ({
                 </thead>
                 <tbody>
                   {rowDto?.data?.map((item, i) => (
-                    <tr>
+                    <tr key={i}>
                       <td>
                         <input
                           id="isSelect"
@@ -325,7 +328,7 @@ const PurchaseOrderApprovalGrid = ({
                       className="mr-2"
                       onClick={(e) => singleApprovalndler(item.transectionId)}
                     >
-                 
+
                       <IApproval />
                     </span> */}
 
@@ -356,6 +359,23 @@ const PurchaseOrderApprovalGrid = ({
                               title="Close"
                             />
                           </span>
+                          {item?.isAttatchmentFound && (
+                            <span
+                              role="button"
+                              className="ml-2"
+                              onClick={() => {
+                                setShowAttachmentModal(true);
+                                setAttachmentModalInfo({
+                                  purchaseOrderId: item?.transectionId,
+                                  orderTypeId: item?.purchaseOrderTypeId,
+                                });
+                              }}
+                            >
+                              <OverlayTrigger overlay={<Tooltip id="cs-icon">Attachment</Tooltip>}>
+                                <i class="far fa-file-image"></i>
+                              </OverlayTrigger>
+                            </span>
+                          )}
                         </div>
                       </td>
                     </tr>
@@ -382,6 +402,13 @@ const PurchaseOrderApprovalGrid = ({
                 orId={currentItem?.purchaseOrderTypeId}
                 isHiddenBackBtn={true}
               />
+            </IViewModal>
+            <IViewModal
+              title="View Attachment"
+              show={showAttachmentModal}
+              onHide={() => setShowAttachmentModal(false)}
+            >
+              <AttachmentView attachmentModalInfo={attachmentModalInfo} />
             </IViewModal>
           </>
         )}
