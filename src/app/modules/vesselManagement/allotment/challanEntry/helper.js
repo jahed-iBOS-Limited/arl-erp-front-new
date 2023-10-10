@@ -165,15 +165,15 @@ export const validationSchema = Yup.object().shape({
   shipPoint: Yup.object().shape({
     label: Yup.string().required("Mother Vessel is required"),
     value: Yup.string().required("Mother Vessel is required"),
-  }),
+  }).nullable(),
   port: Yup.object().shape({
     label: Yup.string().required("Port is required"),
     value: Yup.string().required("Port is required"),
-  }),
+  }).nullable(),
   motherVessel: Yup.object().shape({
     label: Yup.string().required("Mother Vessel is required"),
     value: Yup.string().required("Mother Vessel is required"),
-  }),
+  }).nullable(),
 
   // program: Yup.object().shape({
   //   label: Yup.string().required("Program is required"),
@@ -182,7 +182,7 @@ export const validationSchema = Yup.object().shape({
   lighterVessel: Yup.object().shape({
     label: Yup.string().required("Lighter Vessel is required"),
     value: Yup.string().required("Lighter Vessel is required"),
-  }),
+  }).nullable(),
   logisticBy: Yup.object().shape({
     label: Yup.string().required("Logistic by is required"),
     value: Yup.string().required("Logistic by is required"),
