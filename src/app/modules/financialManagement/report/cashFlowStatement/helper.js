@@ -45,6 +45,9 @@ export const getCashFlowStatement = async (
           item.intSl === filterGetData[index].intSl
             ? filterGetData[index].numAmount
             : 0,
+
+        numPlannedOpening:
+          item.intSl === 1 ? filterGetData[index].numOpening : item.numOpening,
       };
     });
 

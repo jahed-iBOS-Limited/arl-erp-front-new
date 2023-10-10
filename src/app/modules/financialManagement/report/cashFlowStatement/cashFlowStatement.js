@@ -328,11 +328,7 @@ export function CashFlowStatement() {
                                   textAlign: "center",
                                 }}
                               >
-                                {/* {_formatMoney(rowDto[0]["numPlannedOpening"])} */}
-
-                                {_formatMoney(
-                                  rowDto?.[rowDto?.length - 1].numPlannedAmount
-                                )}
+                                {_formatMoney(rowDto[0]["numPlannedOpening"])}
                               </td>
                               <td
                                 style={{
