@@ -115,7 +115,7 @@ export const getVehicleAllColumnTotal = (arrData,setState) => {
     toatlValueReceiveVehicle+= item.receiveVehicle || 0;
     toatlValueTruckLoaded += item.truckLoaded || 0;
     toatlValuePackingMt+= item.packingMt || 0;
-    toatlValueLabourRequirement+= item.labourRequirement || 0;
+    toatlValueLabourRequirement+= item.labourRequired || 0;
     toatlValueLabourPresent += item.labourPresent || 0;
     toatlValueLighterWaiting+= item.lighterWaiting || 0;
     toatlValueBufferQty  += item.bufferQty || 0;
