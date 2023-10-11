@@ -53,7 +53,6 @@ export const validationSchema = Yup.object().shape({
 });
 
 export const getModifiedInitData = (item) => {
-  console.log("item", item)
   if (item) {
     return {
       channel:
@@ -120,23 +119,20 @@ export const saveHandler = ({
   for (let item of rowDto?.itemList) {
     if (item?.planQty || item?.planRate) {
       if (!item?.planQty) {
-        return toast.warn("Plan Qty(Direct) is required!");
+        return toast.warn("Plan Qty is required!");
       }
       if (!item?.planRate) {
-        return toast.warn("Plan Rate(Direct) is required!");
-      }
-    }
-    if (item?.planTransQty || item?.planTransRate) {
-      if (!item?.planTransQty) {
-        return toast.warn("Plan Qty(Via Transshipment) is required!");
-      }
-      if (!item?.planTransRate) {
-        return toast.warn("Plan Rate(Via Transshipment) is required!");
+        return toast.warn("Plan Rate is required!");
       }
     }
   }
 
-  const distributionRowList = rowDto?.itemList?.map((item) => {
+  const filteredRowList =
+    rowDto?.itemList?.filter(
+      (item) => item?.planQty > 0 && item?.planRate > 0
+    ) || [];
+
+  const distributionRowList = filteredRowList?.map((item) => {
     return {
       rowId: item?.rowId || 0,
       distributionPlanningId: item?.distributionPlanningId || 0,
@@ -146,10 +142,12 @@ export const saveHandler = ({
       itemUoM: item?.itemUoM,
       planQty: +item?.planQty || 0,
       planRate: +item?.planRate || 0,
-      planTransQty: +item?.planTransQty || 0,
-      planTransRate: +item?.planTransRate || 0,
       isActive: true,
       actinoBy: userId,
+      intWareHouseId: item?.intWareHouseId,
+      strWareHouseName: item?.strWareHouseName,
+      intPlantHouseId: item?.intPlantHouseId,
+      strPlantHouseName: item?.strPlantHouseName,
     };
   });
 
@@ -159,24 +157,18 @@ export const saveHandler = ({
     distributionChannelId: values?.channel?.value,
     regionId: values?.region?.value,
     areaId: values?.area?.value,
+    areaName: values?.area?.label,
     territoryId: values?.territory?.value,
+    territoryName: values?.territory?.label,
     fromDate: values?.fromDate,
     toDate: values?.toDate,
     isActive: true,
     actinoBy: userId,
     distributionRowList: distributionRowList,
-    plantHouseId: values?.plant?.value,
-    wareHouseId: values?.warehouse?.value,
     monthId: values?.horizon?.monthId,
-    intPlanningHorizonId: values?.horizon?.planHorizonHeaderId,
-    intPlanningHorizonRowId: values?.horizon?.value,
     yearId: values?.year?.value,
     distributionChannelName: values?.channel?.label,
     regionName: values?.region?.label,
-    areaName: values?.area?.label,
-    territoryName: values?.territory?.label,
-    plantHouseName: values?.plant?.label,
-    wareHouseName: values?.warehouse?.label,
   };
   saveDistributionPlan(
     `/oms/DistributionChannel/CreateAndEditDistributionPlanning`,

@@ -37,6 +37,7 @@ export default function DistributionPlanCreateEdit() {
   const [horizonDDL, getHorizonDDL, horizonLoading] = useAxiosGet();
   const [regionDDL, getRegionDDL, regionLoading, setRegionDDL] = useAxiosGet();
   const [areaDDL, getAreaDDL, areaLoading, setAreaDDl] = useAxiosGet();
+
   const [
     territoryDDL,
     getTerritoryDDL,
@@ -185,7 +186,7 @@ export default function DistributionPlanCreateEdit() {
           location,
           saveDistributionPlan,
           cb: () => {
-            setRowDto({});
+            // setRowDto({});
           },
         });
       }}
@@ -223,7 +224,7 @@ export default function DistributionPlanCreateEdit() {
             <Form>
               <div className="global-form">
                 <div className="row">
-                  <div className="col-lg-2">
+                  <div className="col-lg-3">
                     <NewSelect
                       name="channel"
                       options={channelDDL || []}
@@ -234,6 +235,7 @@ export default function DistributionPlanCreateEdit() {
                         setFieldValue("region", "");
                         setFieldValue("area", "");
                         setFieldValue("territory", "");
+                        setFieldValue("warehouse", "");
                         getRegionDDLHandler(valueOption);
                       }}
                       placeholder="Select Distribution Channel"
@@ -242,7 +244,7 @@ export default function DistributionPlanCreateEdit() {
                       isDisabled={location?.state?.isEdit}
                     />
                   </div>
-                  <div className="col-lg-2">
+                  <div className="col-lg-3">
                     <NewSelect
                       name="region"
                       options={regionDDL || []}
@@ -252,6 +254,7 @@ export default function DistributionPlanCreateEdit() {
                         setFieldValue("region", valueOption);
                         setFieldValue("area", "");
                         setFieldValue("territory", "");
+                        setFieldValue("warehouse", "");
                         getAreaDDLHandler(values, valueOption);
                       }}
                       placeholder="Select Region"
@@ -260,7 +263,7 @@ export default function DistributionPlanCreateEdit() {
                       isDisabled={!values?.channel || location?.state?.isEdit}
                     />
                   </div>
-                  <div className="col-lg-2">
+                  <div className="col-lg-3">
                     <NewSelect
                       name="area"
                       options={areaDDL || []}
@@ -269,6 +272,7 @@ export default function DistributionPlanCreateEdit() {
                       onChange={(valueOption) => {
                         setFieldValue("area", valueOption);
                         setFieldValue("territory", "");
+                        setFieldValue("warehouse", "");
                         getTerritoryDDLHandler(values, valueOption);
                       }}
                       placeholder="Select Area"
@@ -277,7 +281,7 @@ export default function DistributionPlanCreateEdit() {
                       isDisabled={!values?.region || location?.state?.isEdit}
                     />
                   </div>
-                  <div className="col-lg-2">
+                  <div className="col-lg-3">
                     <NewSelect
                       name="territory"
                       options={territoryDDL || []}
@@ -285,6 +289,8 @@ export default function DistributionPlanCreateEdit() {
                       label="Territory"
                       onChange={(valueOption) => {
                         setFieldValue("territory", valueOption);
+                        setFieldValue("warehouse", "");
+                        setRowDto({});
                       }}
                       placeholder="Select Territory"
                       errors={errors}
@@ -292,7 +298,7 @@ export default function DistributionPlanCreateEdit() {
                       isDisabled={!values?.area || location?.state?.isEdit}
                     />
                   </div>
-                  <div className="col-lg-2">
+                  <div className="col-lg-3">
                     <NewSelect
                       name="plant"
                       options={plantDDL || []}
@@ -313,23 +319,8 @@ export default function DistributionPlanCreateEdit() {
                       isDisabled={!values?.territory || location?.state?.isEdit}
                     />
                   </div>
-                  <div className="col-lg-2">
-                    <NewSelect
-                      name="warehouse"
-                      options={warehouseDDL || []}
-                      value={values?.warehouse}
-                      label="Warehouse"
-                      onChange={(valueOption) => {
-                        setRowDto({});
-                        setFieldValue("warehouse", valueOption);
-                      }}
-                      placeholder="Select Warehouse"
-                      errors={errors}
-                      touched={touched}
-                      isDisabled={!values?.plant || location?.state?.isEdit}
-                    />
-                  </div>
-                  <div className="col-lg-2">
+
+                  <div className="col-lg-3">
                     <NewSelect
                       name="year"
                       options={yearDDL || []}
@@ -339,6 +330,7 @@ export default function DistributionPlanCreateEdit() {
                         setRowDto({});
                         setFieldValue("year", valueOption);
                         setFieldValue("horizon", "");
+                        setFieldValue("warehouse", "");
                         getHorizonDDLHandler(
                           values.plant?.value,
                           valueOption?.value
@@ -350,13 +342,14 @@ export default function DistributionPlanCreateEdit() {
                       isDisabled={!values?.plant || location?.state?.isEdit}
                     />
                   </div>
-                  <div className="col-lg-2">
+                  <div className="col-lg-3">
                     <NewSelect
                       name="horizon"
                       options={horizonDDL || []}
                       value={values?.horizon}
                       label="Planning Horizon"
                       onChange={(valueOption) => {
+                        setFieldValue("warehouse", "");
                         setRowDto({});
                         setFieldValue("horizon", valueOption);
                         setFieldValue(
@@ -371,35 +364,69 @@ export default function DistributionPlanCreateEdit() {
                       isDisabled={!values?.year || location?.state?.isEdit}
                     />
                   </div>
-                  <div className="col-lg-1">
-                    <button
-                      type="button"
-                      className="btn btn-primary"
-                      style={{ marginTop: "18px" }}
-                      disabled={
-                        !values?.territory ||
-                        !values?.plant ||
-                        !values?.warehouse ||
-                        !values?.year ||
-                        !values?.horizon ||
-                        location?.state?.isEdit
-                      }
-                      onClick={() => {
-                        getRowDto(
-                          `/oms/DistributionChannel/GetDistributionPlanningItemList?buisnessUnitId=${buId}&territoryid=${values?.territory?.value}&plantId=${values?.plant?.value}&warehouseId=${values?.warehouse?.value}&year=${values?.year?.value}&month=${values?.horizon?.monthId}`,
-                          (res) => {
-                            if (res?.response === "Already Exists") {
-                              toast.warn("Already Exist this entry!");
-                            }
-                          }
-                        );
-                      }}
-                    >
-                      View
-                    </button>
-                  </div>
                 </div>
               </div>
+              <div className="global-form row">
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="warehouse"
+                    options={warehouseDDL || []}
+                    value={values?.warehouse}
+                    label="Warehouse"
+                    onChange={(valueOption) => {
+                      if (valueOption) {
+                        const isExist = rowDto?.itemList?.find(
+                          (item) => item?.intWareHouseId === valueOption?.value
+                        );
+                        if (isExist) {
+                          return toast.warn("Already Exist this entry!");
+                        } else {
+                          setFieldValue("warehouse", valueOption);
+                          getRowDto(
+                            `/oms/DistributionChannel/GetDistributionPlanningItemList?buisnessUnitId=${buId}&territoryid=${values?.territory?.value}&plantId=${values?.plant?.value}&warehouseId=${valueOption?.value}&year=${values?.year?.value}&month=${values?.horizon?.monthId}`,
+                            (res) => {
+                              const modifyResForWarehouse = res?.itemList?.map(
+                                (item) => {
+                                  return {
+                                    ...item,
+                                    intWareHouseId: valueOption?.value,
+                                    strWareHouseName: valueOption?.label,
+                                    intPlantHouseId: values?.plant?.value,
+                                    strPlantHouseName: values?.plant?.label,
+                                  };
+                                }
+                              );
+                              const newResData = [...modifyResForWarehouse];
+                              setRowDto({
+                                ...rowDto,
+                                itemList: rowDto?.itemList?.length
+                                  ? [...rowDto?.itemList, ...newResData]
+                                  : [...newResData],
+                              });
+                              if (res?.response === "Already Exists") {
+                                toast.warn("Already Exist this entry!");
+                              }
+                            }
+                          );
+                        }
+                      } else {
+                        setFieldValue("warehouse", "");
+                      }
+                    }}
+                    placeholder="Select Warehouse"
+                    errors={errors}
+                    touched={touched}
+                    isDisabled={
+                      !values?.territory ||
+                      !values?.plant ||
+                      !values?.year ||
+                      !values?.horizon ||
+                      location?.state?.isEdit
+                    }
+                  />
+                </div>
+              </div>
+
               <div className="row">
                 <div className="col-lg-12">
                   {rowDto?.response === "Already Exists" ? (
