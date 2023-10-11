@@ -616,7 +616,7 @@ export function TableRow() {
                                      
                                       <td className="text-right">
                                         {numberWithCommas(
-                                            data?.monCurrentPeriodAmount - data?.monLastPeriodAmount
+                                            (data?.monCurrentPeriodAmount - data?.monLastPeriodAmount).toFixed()
                                         )}
                                       </td>
                                     </tr>
