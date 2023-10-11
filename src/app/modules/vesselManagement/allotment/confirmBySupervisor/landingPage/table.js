@@ -1,9 +1,10 @@
 import React from "react";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import PaginationTable from "../../../../_helper/_tablePagination";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 
 const Table = ({ obj }) => {
   const {
@@ -20,24 +21,26 @@ const Table = ({ obj }) => {
     setPageSize,
     rowDataHandler,
     setPositionHandler,
+    deletHandler
   } = obj;
+
 
   return (
     <>
       {rowData?.data?.length > 0 && (
-        <div className="">
-          <div className="loan-scrollable-table inventory-statement-report">
-            <div style={{ maxHeight: "500px" }} className="scroll-table _table">
-              <table className="table table-striped table-bordered bj-table bj-table-landing table-font-size-sm">
+        <div className=''>
+          <div className='loan-scrollable-table inventory-statement-report'>
+            <div style={{ maxHeight: "500px" }} className='scroll-table _table'>
+              <table className='table table-striped table-bordered bj-table bj-table-landing table-font-size-sm'>
                 <thead>
-                  <tr className="cursor-pointer">
+                  <tr className='cursor-pointer'>
                     {status && (
                       <th
                         onClick={() => allSelect(!selectedAll(), values)}
                         style={{ minWidth: "30px" }}
                       >
                         <input
-                          type="checkbox"
+                          type='checkbox'
                           value={selectedAll()}
                           checked={selectedAll()}
                           onChange={() => {}}
@@ -101,6 +104,7 @@ const Table = ({ obj }) => {
                       </th>
                     )} */}
                     <th style={{ minWidth: "100px" }}>Insert By</th>
+                    <th style={{ minWidth: "50px" }}>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -129,10 +133,10 @@ const Table = ({ obj }) => {
                                 !item.isSelected
                               );
                             }}
-                            className="text-center"
+                            className='text-center'
                           >
                             <input
-                              type="checkbox"
+                              type='checkbox'
                               value={item?.isSelected}
                               checked={item?.isSelected}
                               onChange={() => {}}
@@ -142,15 +146,15 @@ const Table = ({ obj }) => {
                         )}
                         <td
                           style={{ minWidth: "30px" }}
-                          className="text-center"
+                          className='text-center'
                         >
                           {index + 1}
                         </td>
-                        <td className="" style={{ width: "100px" }}>
+                        <td className='' style={{ width: "100px" }}>
                           {status ? (
                             <InputField
-                              name="salesOrder"
-                              placeholder="Sales Order"
+                              name='salesOrder'
+                              placeholder='Sales Order'
                               value={item?.salesOrder}
                               onChange={(e) => {
                                 rowDataHandler(
@@ -168,13 +172,13 @@ const Table = ({ obj }) => {
                         <td>{item?.shipPointName}</td>
                         <td>{item?.vehicleRegNo}</td>
                         <td>{item?.address}</td>
-                        <td className="text-right" style={{ width: "100px" }}>
+                        <td className='text-right' style={{ width: "100px" }}>
                           {status ? (
                             <InputField
-                              name="quantity"
-                              placeholder="Quantity"
-                              type="number"
-                              min="0"
+                              name='quantity'
+                              placeholder='Quantity'
+                              type='number'
+                              min='0'
                               max={item?.maxQty}
                               value={item?.quantity}
                               disabled={
@@ -193,14 +197,14 @@ const Table = ({ obj }) => {
                             item?.quantity
                           )}
                         </td>
-                        <td className="text-right" style={{ width: "100px" }}>
+                        <td className='text-right' style={{ width: "100px" }}>
                           {status ? (
                             <InputField
-                              name="transportRate"
-                              placeholder="Transport Rate"
+                              name='transportRate'
+                              placeholder='Transport Rate'
                               value={item?.transportRate || ""}
-                              type="number"
-                              min="0"
+                              type='number'
+                              min='0'
                               disabled={values?.confirmationType?.value === 3}
                               onChange={(e) => {
                                 if (+e.target.value < 0) return;
@@ -215,14 +219,14 @@ const Table = ({ obj }) => {
                             item?.transportRate || 0
                           )}
                         </td>
-                        <td className="text-right">
+                        <td className='text-right'>
                           {status ? (
                             <InputField
-                              name="godownUnloadingRate"
-                              placeholder="Unloading Rate"
+                              name='godownUnloadingRate'
+                              placeholder='Unloading Rate'
                               value={item?.godownUnloadingRate || ""}
-                              type="number"
-                              min="0"
+                              type='number'
+                              min='0'
                               disabled={values?.confirmationType?.value === 2}
                               onChange={(e) => {
                                 if (+e.target.value < 0) return;
@@ -285,10 +289,10 @@ const Table = ({ obj }) => {
                             )}
                           </td>
                         )} */}
-                        <td className="text-right" style={{ width: "100px" }}>
+                        <td className='text-right' style={{ width: "100px" }}>
                           {status ? (
                             <InputField
-                              name="billAmount"
+                              name='billAmount'
                               value={
                                 (values?.confirmationType?.value === 2
                                   ? +item?.transportRate
@@ -313,12 +317,12 @@ const Table = ({ obj }) => {
                           )}
                         </td>
                         {[2, 3].includes(values?.confirmationType?.value) && (
-                          <td style={{ width: "100px" }} className="text-right">
+                          <td style={{ width: "100px" }} className='text-right'>
                             {item?.numItemPrice}
                           </td>
                         )}
                         {[2, 3].includes(values?.confirmationType?.value) && (
-                          <td style={{ width: "100px" }} className="text-right">
+                          <td style={{ width: "100px" }} className='text-right'>
                             {_fixedPoint(
                               item?.numItemPrice * item?.quantityTon,
                               true,
@@ -330,7 +334,7 @@ const Table = ({ obj }) => {
                           {status ? (
                             <NewSelect
                               isClearable={false}
-                              name="shipToPartner"
+                              name='shipToPartner'
                               value={item?.shipToPartner}
                               options={godownDDL}
                               onChange={(e) => {
@@ -341,13 +345,13 @@ const Table = ({ obj }) => {
                             item?.shipToPartnerName
                           )}
                         </td>
-                        <td className="text-right" style={{ width: "100px" }}>
+                        <td className='text-right' style={{ width: "100px" }}>
                           {status ? (
                             <InputField
-                              name="date"
-                              placeholder="Date"
+                              name='date'
+                              placeholder='Date'
                               value={item?.date}
-                              type="date"
+                              type='date'
                               onChange={(e) => {
                                 rowDataHandler("date", index, e?.target?.value);
                               }}
@@ -402,6 +406,17 @@ const Table = ({ obj }) => {
                           </td>
                         )} */}
                         <td style={{ width: "100px" }}>{item?.actionByName}</td>
+                        <td>
+                          <div className='d-flex justify-content-center align-items-center'>
+                            <span
+                              onClick={() => {
+                              deletHandler(item, values);
+                              }}
+                            >
+                              <IDelete />
+                            </span>
+                          </div>
+                        </td>
                       </tr>
                     );
                   })}

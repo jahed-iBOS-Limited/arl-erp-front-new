@@ -29,6 +29,7 @@ const headers = [
   "Contact No",
   "Unloading Supplier",
   "Unloading Rate",
+  "Bolgate Unload Rate",
   "Remarks",
   "Action",
 ];
@@ -166,6 +167,7 @@ const GodownLanding = () => {
                               <td>{item?.shipToPartnerContact}</td>
                               <td>{item?.unloadingSupplier}</td>
                               <td className="text-right">{item?.unloadingRate}</td>
+                              <td className="text-right">{item?.bolgateUnloadRate}</td>
                               <td>{item?.remarks}</td>
 
                               <td
