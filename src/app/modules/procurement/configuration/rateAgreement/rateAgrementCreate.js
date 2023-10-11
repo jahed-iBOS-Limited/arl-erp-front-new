@@ -1,6 +1,6 @@
 import { default as Axios } from "axios";
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -119,35 +119,40 @@ export default function RateAgreementCreate() {
     }
   };
 
-  if (id) {
-    const {
-      nameOfContact,
-      contractStartDate,
-      contractEndDate,
-      warehouseAddress,
-      termsAndCondition,
-      contactDateTime
-    } = location?.state || {};
+  useEffect(()=>{
+    if (id) {
+      const {
+        nameOfContact,
+        contractStartDate,
+        contractEndDate,
+        warehouseAddress,
+        termsAndCondition,
+        contactDateTime
+      } = location?.state || {};
+  
+      const editedInitData = {
+        nameOfContract: nameOfContact,
+        termsAndCondition: termsAndCondition,
+        contractStartDate: contractStartDate,
+        contractEndDate: contractEndDate,
+        deliveryAdress:warehouseAddress,
+        contractDate: contactDateTime,
+        itemName: "",
+        itemRate: "",
+        vat: "",
+      };
+      setSingleData(editedInitData)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[id])
 
-    const editedInitData = {
-      nameOfContract: nameOfContact,
-      termsAndCondition: termsAndCondition,
-      contractStartDate: contractStartDate,
-      contractEndDate: contractEndDate,
-      deliveryAdress:warehouseAddress,
-      contractDate: contactDateTime,
-      itemName: "",
-      itemRate: "",
-      vat: "",
-    };
-    setSingleData(editedInitData)
-  }
+ 
 
   return (
     <Formik
       enableReinitialize={true}
       initialValues={
-        id ? {singleData} : { ...initData, deliveryAdress: wareHouse?.address }
+        id ? singleData : { ...initData, deliveryAdress: wareHouse?.address }
       }
       validationSchema={rateAgreementValidationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -187,6 +192,7 @@ export default function RateAgreementCreate() {
                     }}
                   />
                 </div>
+                {console.log(values)}
                 <div className="col-lg-3">
                   <InputField
                     value={values?.contractStartDate}
