@@ -77,6 +77,8 @@ export default function GhatCostInfoForm() {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
+  
+
   useEffect(() => {
     debounce(() => getVehicleAllColumnTotal(shipPointData,setTotalData));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -121,6 +123,7 @@ export default function GhatCostInfoForm() {
           supplier: { value: supplierId, label: supplierName },
           month: { value: monthId, label: getMonth(monthId) },
           year: { value: yearId, label: yearId },
+          reportType: { value :1 ,label:"Ghat Cost Information"}
         });
       });
     }
@@ -266,7 +269,6 @@ export default function GhatCostInfoForm() {
   const title = `${
     type === "view" ? "View " : type === "edit" ? "Update" : "Enter"
   } Ghat Cost Info`;
- console.log(toatlData);
   return (
     <>
       {(isDisabled || saveLighterLoadLoader) && <Loading />}

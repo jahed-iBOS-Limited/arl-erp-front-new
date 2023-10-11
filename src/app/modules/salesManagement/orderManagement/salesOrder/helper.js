@@ -232,3 +232,18 @@ export const updateSalesOrder = async (payload, setLoading, cb) => {
     setLoading && setLoading(false);
   }
 };
+
+export const getBrokers = async (accId, buId, setter, setLoading) => {
+  setLoading(true);
+  try {
+    const res = await axios.get(
+      `/oms/OMSPivotReport/GetCommissionAgentDDL?accountId=${accId}&businessUnitId=${buId}`
+    );
+    setter(res?.data);
+    setLoading(false);
+  } catch (error) {
+    setter([]);
+    toast.error(error?.response?.data?.message);
+    setLoading(false);
+  }
+};

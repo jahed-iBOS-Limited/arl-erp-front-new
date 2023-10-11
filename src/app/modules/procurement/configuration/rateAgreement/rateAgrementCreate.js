@@ -2,16 +2,18 @@ import { default as Axios } from "axios";
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
 import TextArea from "../../../_helper/TextArea";
 import IForm from "../../../_helper/_form";
 import FormikError from "../../../_helper/_formikError";
-import IActiveInActiveIcon from "../../../_helper/_helperIcons/_activeInActiveIcon";
 import IDelete from "../../../_helper/_helperIcons/_delete";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
+import { _todayDate } from "../../../_helper/_todayDate";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { rateAgreementValidationSchema } from "./helper";
 const initData = {
   nameOfContract: "",
@@ -25,46 +27,55 @@ const initData = {
 };
 
 export default function RateAgreementCreate() {
-  const [rowData, setRowData] = useState([]);
+  const { id } = useParams();
+  const [rowData, getRowData,rowDataLoading,setRowData] = useAxiosGet();
   const [objProps, setObjprops] = useState({});
+  const [, postData, isLoading] = useAxiosPost();
+  const [singleData,setSingleData] = useState({})
   const {
     profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const location = useLocation();
-  console.log(location);
+  console.log("location", location);
+  console.log("id", id);
 
-  const { sbu, wareHouse, plant, purchaseOrganization,supplier } = location?.state || {};
+  const { sbu, wareHouse, plant, purchaseOrganization, supplier } =
+    location?.state || {};
   const saveHandler = (values, cb) => {
     const payload = {
-      IntAgreementHeaderId: 0,
-      StrAgreementCode: "",
-      StrNameOfContact: values?.nameOfContract,
-      DteContactDateTime: values?.contractDate,
-      IntPurchaseOrganizationId: purchaseOrganization?.value,
-      StrPurchaseOrganizationName: purchaseOrganization?.label,
-      IntSupplierId: supplier?.value,
-      StrSupplierName: supplier?.label,
-      IntBusinessUnitId: buId,
-      IntPlantId: plant?.value,
-      IntWarehouseId: wareHouse?.value,
-      strWarehouseName: wareHouse?.label,
-      StrTermsAndCondition:values?.termsAndCondition || "",
-      StrWarehouseAddress: values?.deliveryAdress,
-      DteContractStartDate: values?.contractStartDate,
-      DteContractEndDate: values?.contractEndDate,
-      IsActive: false,
-      IsApprove: false,
-      IntApprovedBy: 0,
-      IntCreatedBy: accId,
-      DteCreatedAt: "",
-      IntUpdateBy: 0,
-      DteUpdateAt: "",
-      rows : rowData
+      agreementHeaderId: 0,
+      agreementCode: "",
+      nameOfContact: values?.nameOfContract,
+      contactDateTime: values?.contractDate,
+      purchaseOrganizationId: purchaseOrganization?.value,
+      purchaseOrganizationName: purchaseOrganization?.label,
+      supplierId: supplier?.value,
+      supplierName: supplier?.label,
+      businessUnitId: buId,
+      plantId: plant?.value,
+      warehouseId: wareHouse?.value,
+      warehouseName: wareHouse?.label,
+      termsAndCondition: values?.termsAndCondition || "",
+      warehouseAddress: values?.deliveryAdress,
+      contractStartDate: values?.contractStartDate,
+      contractEndDate: values?.contractEndDate,
+      isActive: true,
+      isApprove: false,
+      approvedBy: 0,
+      createdBy: userId,
+      createdAt: _todayDate(),
+      rows: rowData,
     };
-    console.log(payload);
+    postData(
+      `/procurement/PurchaseOrder/SaveAndEditRateAgreement`,
+      payload,
+      () => {
+        cb();
+      },
+      true
+    );
   };
-
 
   const loadUserList = (v) => {
     if (v?.length < 3) return [];
@@ -92,11 +103,14 @@ export default function RateAgreementCreate() {
     }
     try {
       const newRow = {
-        intAutoId: 0,
+        autoId: 0,
         itemId: values?.itemName?.value,
         itemName: values?.itemName?.label,
         itemRate: values?.itemRate,
-        vat: values?.vat,
+        vatPercentage: values?.vat,
+        isActive: true,
+        createdAt: _todayDate(),
+        status: "Active",
       };
       setRowData([...rowData, newRow]);
       callBack();
@@ -105,20 +119,45 @@ export default function RateAgreementCreate() {
     }
   };
 
+  if (id) {
+    const {
+      nameOfContact,
+      contractStartDate,
+      contractEndDate,
+      warehouseAddress,
+      termsAndCondition,
+      contactDateTime
+    } = location?.state || {};
+
+    const editedInitData = {
+      nameOfContract: nameOfContact,
+      termsAndCondition: termsAndCondition,
+      contractStartDate: contractStartDate,
+      contractEndDate: contractEndDate,
+      deliveryAdress:warehouseAddress,
+      contractDate: contactDateTime,
+      itemName: "",
+      itemRate: "",
+      vat: "",
+    };
+    setSingleData(editedInitData)
+  }
+
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={{ ...initData, deliveryAdress: wareHouse?.address }}
+      initialValues={
+        id ? {singleData} : { ...initData, deliveryAdress: wareHouse?.address }
+      }
       validationSchema={rateAgreementValidationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        if(rowData?.length>0){
+        if (rowData?.length > 0) {
           saveHandler(values, () => {
             resetForm(initData);
           });
-        }else{
-          toast.warn("Please add minimum one item")
+        } else {
+          toast.warn("Please add minimum one item");
         }
-       
       }}
     >
       {({
@@ -131,7 +170,7 @@ export default function RateAgreementCreate() {
         touched,
       }) => (
         <>
-        {console.log("error", errors)}
+          {console.log("error", errors)}
           {false && <Loading />}
           <IForm title="Rate Agreement Create" getProps={setObjprops}>
             <Form onSubmit={handleSubmit}>
@@ -214,7 +253,6 @@ export default function RateAgreementCreate() {
                     type="text"
                     // disabled={viewType === "view"}
                   />
-                 
                 </div>
               </div>
 
@@ -335,7 +373,7 @@ export default function RateAgreementCreate() {
 
                       <td className="text-center">
                         <IDelete remover={deleteRow} id={index} />
-                        <IActiveInActiveIcon title="test" iconTyee="inActive" />
+                        {/* <IActiveInActiveIcon title="test" iconTyee="inActive" /> */}
                       </td>
 
                       {/* {!viewType && (
