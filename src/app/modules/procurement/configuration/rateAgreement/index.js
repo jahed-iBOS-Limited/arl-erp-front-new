@@ -1,11 +1,13 @@
 import axios from "axios";
 import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
+import { _dateTimeFormatter } from "../../../_helper/_dateFormate";
 import IForm from "../../../_helper/_form";
 import FormikError from "../../../_helper/_formikError";
+import IEdit from "../../../_helper/_helperIcons/_edit";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
@@ -18,10 +20,43 @@ const initData = {
 };
 export default function RateAgreement() {
   //  ddl list
-  const [sbuListDDL, getSbuListDDL, loadSbuListDDL] = useAxiosGet();
-  const [poListDDL, getPoListDDL, loadPoListDDL] = useAxiosGet();
-  const [plantListDDL, getPlanListDDL, loadPlantListDDL] = useAxiosGet();
-  const [whListDDL, getWhListDDL, loadWhListDDL] = useAxiosGet();
+  const [sbuListDDL, getSbuListDDL] = useAxiosGet();
+  const [poListDDL, getPoListDDL] = useAxiosGet();
+  const [plantListDDL, getPlanListDDL] = useAxiosGet();
+  const [whListDDL, getWhListDDL] = useAxiosGet();
+  const [sampleData, setSampleData] = useState({
+    data: [
+      {
+        sl: 1,
+        agreementHeaderId: 1,
+        agreementCode: "34545",
+        nameOfContact: null,
+        contactDateTime: "2023-05-20T00:00:00",
+        purchaseOrganizationId: 0,
+        purchaseOrganizationName: null,
+        supplierId: 0,
+        supplierName: "kjhgfd",
+        businessUnitId: 0,
+        plantId: 0,
+        warehouseId: 0,
+        warehouseName: "",
+        termsAndCondition: null,
+        warehouseAddress: null,
+        contractStartDate: "2023-05-20T00:00:00",
+        contractEndDate: "2023-05-20T00:00:00",
+        isActive: false,
+        isApprove: null,
+        approvedBy: null,
+        createdBy: null,
+        createdAt: null,
+        updateBy: null,
+        updateAt: null,
+      },
+    ],
+    currentPage: 1,
+    totalCount: 1,
+    pageSize: 10,
+  });
 
   const {
     profileData: { accountId: accId, userId },
@@ -72,12 +107,16 @@ export default function RateAgreement() {
             isHiddenSave
             renderProps={() => {
               return (
-                <div
-                >
+                <div>
                   <button
                     type="submit"
                     className="btn btn-primary mr-4"
-                    disabled={!values?.sbu || !values?.purchaseOrganization || !values?.plant || !values?.wareHouse }
+                    disabled={
+                      !values?.sbu ||
+                      !values?.purchaseOrganization ||
+                      !values?.plant ||
+                      !values?.wareHouse
+                    }
                     onClick={() => {
                       // viewPurchaseOrderData(values);
                       // dispatch(setPurchaseRequestPPRAction(values));
@@ -87,10 +126,19 @@ export default function RateAgreement() {
                   </button>
                   <button
                     type="button"
-                    disabled={!values?.sbu || !values?.purchaseOrganization || !values?.plant || !values?.wareHouse || !values?.supplier}
+                    disabled={
+                      !values?.sbu ||
+                      !values?.purchaseOrganization ||
+                      !values?.plant ||
+                      !values?.wareHouse ||
+                      !values?.supplier
+                    }
                     className="btn btn-primary"
                     onClick={() => {
-                      history.push(`/mngProcurement/purchase-configuration/rateAgreement/create`,values);
+                      history.push(
+                        `/mngProcurement/purchase-configuration/rateAgreement/create`,
+                        values
+                      );
                     }}
                   >
                     Create
@@ -196,6 +244,48 @@ export default function RateAgreement() {
                     name="supplierName"
                     touched={touched}
                   />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-lg-12">
+                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                    <thead>
+                      <tr>
+                        <th>Sl</th>
+                        <th>Contract Code</th>
+                        <th>Warehouse</th>
+                        <th>Contract Date</th>
+                        <th>Supplier Name</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {sampleData?.data?.length > 0 &&
+                        sampleData?.data?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{item?.sl}</td>
+                            <td>{item?.agreementCode}</td>
+                            <td>{item?.warehouseName || "Sample Name"}</td>
+                            <td>{_dateTimeFormatter(item?.contactDateTime)}</td>
+                            <td>{item?.supplierName}</td>
+                            <td>
+                              {_dateTimeFormatter(item?.contractStartDate)}
+                            </td>
+                            <td>{_dateTimeFormatter(item?.contractEndDate)}</td>
+                            <td>
+                              <IEdit title="Edit" onClick={() => {
+                                history.push({
+                                  pathname :`/mngProcurement/purchase-configuration/rateAgreement/edit/${item?.agreementHeaderId}`,
+                                  state:item
+                                })
+                              }} />
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </Form>
