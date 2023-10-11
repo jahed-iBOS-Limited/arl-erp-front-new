@@ -48,7 +48,11 @@ import { SetPartnerBalanceEmpty_Action } from "./../_redux/Actions";
 import { SetUndeliveryValuesEmpty_Action } from "./../_redux/Actions";
 import Loading from "./../../../../_helper/_loading";
 import { isUniq } from "./../../../../_helper/uniqChecker";
-import { getChannelBaseCollectionDays, rejectSalesOrder } from "../helper";
+import {
+  getBrokers,
+  getChannelBaseCollectionDays,
+  rejectSalesOrder,
+} from "../helper";
 import IConfirmModal from "./../../../../_helper/_confirmModal";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 const initData = {
@@ -91,6 +95,8 @@ const initData = {
   pumpChargeRate: "",
   isPumpCharge: { value: false, label: "No" },
   isUnloadLabourByCompany: { value: false, label: "No" },
+  haveBroker: { value: false, label: "No" },
+  brokerName: "",
 };
 
 export default function SalesOrderForm({
@@ -112,6 +118,7 @@ export default function SalesOrderForm({
   const [total, setTotal] = useState({ totalAmount: 0, totalQty: 0 });
   const [collectionDays, selCollectionDays] = useState(0);
   const [, getCommissionRates, loader] = useAxiosPost();
+  const [brokerDDL, setBrokerDDL] = useState([]);
   let {
     profileData,
     selectedBusinessUnit,
@@ -251,6 +258,12 @@ export default function SalesOrderForm({
   //Dispatch Get inital action
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
+      getBrokers(
+        profileData?.accountId,
+        selectedBusinessUnit?.value,
+        setBrokerDDL,
+        setDisabled
+      );
       dispatch(
         getCurrencyListDDL_Action(
           profileData?.accountId,
@@ -442,6 +455,7 @@ export default function SalesOrderForm({
             isUnloadLabourByCompany: values?.isUnloadLabourByCompany?.value,
             salesOrderValidityDays: collectionDays?.salesOrderValidityDays,
             salesOrderExpiredDate: "2023-06-22T14:08:10.512Z",
+            commissionAgentId: values?.brokerName?.value
           },
           objRow: newRowDto,
         };
@@ -554,7 +568,9 @@ export default function SalesOrderForm({
         //netValue
         const netValue =
           selectedBusinessUnit?.value === 175
-            ? numOrderValue + additionalRate * itm?.quantity - itm?.discountValue
+            ? numOrderValue +
+              additionalRate * itm?.quantity -
+              itm?.discountValue
             : numOrderValue - (numOrderValue * itm?.discountValue) / 100;
         return {
           ...addData,
@@ -633,6 +649,7 @@ export default function SalesOrderForm({
       vatPrice: priceForInternalUseVATAX?.itemPrice || 0,
       waterProofRate: +values?.waterProofRate || 0,
       pumpChargeRate: +values?.pumpChargeRate || 0,
+      commissionAgentRate: ""
     };
 
     if (!values.referenceNo) {
@@ -1025,7 +1042,7 @@ export default function SalesOrderForm({
     <>
       {(isDisabled || loader) && <Loading />}
       <IForm
-        title='Create Sales Order'
+        title="Create Sales Order"
         getProps={setObjprops}
         isDisabled={isDisabled}
       >
@@ -1080,6 +1097,7 @@ export default function SalesOrderForm({
           transportZoneDDL={transportZoneDDL}
           collectionDays={collectionDays}
           getCommissionRatesForEssential={getCommissionRatesForEssential}
+          brokerDDL={brokerDDL}
         />
       </IForm>
     </>
