@@ -164,7 +164,7 @@ const GhatCostInfoTable = () => {
                       label="Type"
                       onChange={(valueOption) => {
                         setFieldValue("type", valueOption);
-                        setFieldValue("shipPoint","")
+                        setFieldValue("shipPoint", "");
                         setVehicleDemandData([]);
                       }}
                       placeholder="Type"
@@ -279,7 +279,10 @@ const GhatCostInfoTable = () => {
                       <div className="col-lg-3">
                         <NewSelect
                           name="shipPoint"
-                          options={shipPointDDL}
+                          options={[
+                            { value: 0, label: "All" },
+                            ...shipPointDDL,                            
+                          ]}
                           value={values?.shipPoint}
                           label="ShipPoint"
                           onChange={(e) => {
@@ -294,7 +297,7 @@ const GhatCostInfoTable = () => {
                           style={{ marginTop: "20px" }}
                           className="btn btn-primary ml-2"
                           disabled={
-                            !values?.demandDate || !values?.shipPoint?.value
+                            !values?.demandDate || !values?.shipPoint
                           }
                           onClick={() => {
                             getVehicleDemandData(
