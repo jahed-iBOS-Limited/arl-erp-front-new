@@ -28,6 +28,10 @@ const initData = {
   invoiceDay: "",
   validFrom: "",
   validTo: "",
+  item:"",
+  qty: "",
+  rate: "",
+  vat: "",
 };
 
 // const validationSchema = Yup.object().shape({
