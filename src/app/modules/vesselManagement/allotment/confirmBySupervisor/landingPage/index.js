@@ -8,10 +8,14 @@ import ICard from "../../../../_helper/_card";
 import IConfirmModal from "../../../../_helper/_confirmModal";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate"; 
+import { _todayDate } from "../../../../_helper/_todayDate";
 import { getGodownDDL, getTotal } from "../../../common/helper";
 import { GetShipPointDDL } from "../../loadingInformation/helper";
-import { challanConfirm, getLandingDataForConfirmation } from "../helper";
+import {
+  challanConfirm,
+  deleteG2GChallanInfo,
+  getLandingDataForConfirmation,
+} from "../helper";
 import Form from "./form";
 import Table from "./table";
 import AttachFile from "../../../../_helper/commonInputFieldsGroups/attachemntUpload";
@@ -357,6 +361,13 @@ const ConfirmBySupervisor = () => {
     true
   );
 
+  // delete handler
+  const deletHandler = (item, values) => {
+    deleteG2GChallanInfo(item?.deliveryId, buId, userId, setLoading, () => {
+      getData(values, pageNo, pageSize);
+    });
+  };
+
   return (
     <>
       <Formik
@@ -367,12 +378,12 @@ const ConfirmBySupervisor = () => {
         {({ values, setFieldValue }) => (
           <>
             <ICard
-              title="Challan Confirmation"
+              title='Challan Confirmation'
               createHandler={() => {
                 saveHandler(values);
               }}
               createBtnText={"Approve"}
-              createBtnClass="btn-info"
+              createBtnClass='btn-info'
               disableCreateBtn={disabled(values)}
             >
               {loading && <Loading />}
@@ -413,6 +424,7 @@ const ConfirmBySupervisor = () => {
                   setPageSize,
                   rowDataHandler,
                   setPositionHandler,
+                  deletHandler,
                 }}
               />
             </ICard>
