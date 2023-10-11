@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Form, Formik } from "formik";
 import React from "react";
+import { toast } from "react-toastify";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import ICustomCard from "../../../../_helper/_customCard";
 import FormikError from "../../../../_helper/_formikError";
@@ -90,7 +91,11 @@ export default function _Form({
                       });
                     }
                     if (values?.reportType?.value === 2) {
-                      shipPointSaveHandler(shipPointData, values);
+                      if(shipPointData?.length && shipPointData?.some(item=>item?.isSelected)){
+                        shipPointSaveHandler(shipPointData, values);
+                      }else{
+                        toast.warn("Select minimum one row")
+                      }
                     }
                   }
             }
