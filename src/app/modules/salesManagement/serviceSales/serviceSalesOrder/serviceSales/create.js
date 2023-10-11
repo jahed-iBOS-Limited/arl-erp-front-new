@@ -177,6 +177,7 @@ export default function ServiceSalesCreate() {
           resetForm(initData);
           setItemList([]);
           setSheduleList([]);
+          setSheduleListFOneTime([]);
         });
       }}
       innerRef={formikRef}
@@ -236,7 +237,13 @@ export default function ServiceSalesCreate() {
                     label="Payment Type"
                     onChange={(valueOption) => {
                       setFieldValue("paymentType", valueOption);
+                      setFieldValue("scheduleType", "");
+                      setFieldValue("invoiceDay", "");
+                      setFieldValue("validFrom", "");
+                      setFieldValue("validTo", "");
+                      setItemList([]);
                       setSheduleList([]);
+                      setSheduleListFOneTime([]);
                     }}
                     errors={errors}
                     touched={touched}
@@ -281,7 +288,9 @@ export default function ServiceSalesCreate() {
                           setFieldValue("validTo", "");
                           setValidToData("");
                           setScheduleMonthRange(valueOption?.range || 0);
+                          setItemList([]);
                           setSheduleList([]);
+                          setSheduleListFOneTime([]);
                         }}
                         errors={errors}
                         touched={touched}
@@ -310,6 +319,7 @@ export default function ServiceSalesCreate() {
                     <div className="col-lg-3">
                       <InputField
                         value={values?.validFrom}
+                        disabled={!values?.scheduleType || !values?.invoiceDay}
                         label="Valid From"
                         name="validFrom"
                         type="date"
@@ -645,6 +655,8 @@ export default function ServiceSalesCreate() {
                                     (item, i) => i !== index
                                   );
                                   setItemList(data);
+                                  setSheduleList([]);
+                                  setSheduleListFOneTime([]);
                                 }}
                                 id={index}
                               />
