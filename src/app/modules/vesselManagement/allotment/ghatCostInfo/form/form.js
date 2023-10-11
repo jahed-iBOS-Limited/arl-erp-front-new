@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Form, Formik } from "formik";
 import React from "react";
+import { toast } from "react-toastify";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import ICustomCard from "../../../../_helper/_customCard";
 import FormikError from "../../../../_helper/_formikError";
@@ -37,7 +38,7 @@ export default function _Form({
   getSupplierDDL,
   supplierDDLLoader,
   shipPointSaveHandler,
-  toatlData
+  toatlData,
 }) {
   const loadOptions = async (v) => {
     await [];
@@ -53,7 +54,7 @@ export default function _Form({
         return [...updateList];
       });
   };
-  
+
   return (
     <>
       <Formik
@@ -90,7 +91,11 @@ export default function _Form({
                       });
                     }
                     if (values?.reportType?.value === 2) {
-                      shipPointSaveHandler(shipPointData, values);
+                      if(shipPointData?.length && shipPointData?.some(item=>item?.isSelected)){
+                        shipPointSaveHandler(shipPointData, values);
+                      }else{
+                        toast.warn("Select minimum one row")
+                      }
                     }
                   }
             }
@@ -423,30 +428,80 @@ export default function _Form({
                   shipPointData?.length > 0 && (
                     <>
                       <div className="row mt-4">
-                        <div style={{display:"flex",gap:"10px"}} className="col-lg-12">
-                          <div className="text-bold">
-                            <span>Total Demand Vehicle : {toatlData?.toatlValueDemandVehicle}</span>
+                        <div
+                          style={{ display: "flex", gap: "10px" }}
+                          className="col-lg-12"
+                        >
+                          <div
+                            style={{ fontSize: "13px", fontWeight: "bold" }}
+                            className="text-bold"
+                          >
+                            <span>
+                              Total Demand Vehicle :{" "}
+                              <span style={{ color: "red" }}>
+                                {toatlData?.toatlValueDemandVehicle}
+                              </span>
+                            </span>
                           </div>
-                          <div className="text-bold">
-                            <span>Total Receive Vehicle : {toatlData?.toatlValueReceiveVehicle}</span>
+                          <div
+                            style={{ fontSize: "13px", fontWeight: "bold" }}
+                            className="text-bold"
+                          >
+                            <span>
+                              Total PackingMt :{" "}
+                              <span style={{ color: "red" }}>
+                                {" "}
+                                {toatlData?.toatlValuePackingMt}
+                              </span>
+                            </span>
                           </div>
-                          <div className="text-bold">
-                            <span>Total Truck Loaded : {toatlData?.toatlValueTruckLoaded}</span>
+                          <div
+                            style={{ fontSize: "13px", fontWeight: "bold" }}
+                            className="text-bold"
+                          >
+                            <span>
+                              Total Dump Qty Ton :{" "}
+                              <span style={{ color: "red" }}>
+                                {" "}
+                                {toatlData?.toatlValueBufferQty}
+                              </span>
+                            </span>
                           </div>
-                          <div className="text-bold">
-                            <span>Total PackingMt : {toatlData?.toatlValuePackingMt}</span>
+                          <div
+                            style={{ fontSize: "13px", fontWeight: "bold" }}
+                            className="text-bold"
+                          >
+                            <span>
+                              Total LabourRequirement :{" "}
+                              <span style={{ color: "red" }}>
+                                {" "}
+                                {toatlData?.toatlValueLabourRequirement}
+                              </span>
+                            </span>
                           </div>
-                          <div className="text-bold">
-                            <span>Total LabourRequirement : {toatlData?.toatlValueLabourRequirement}</span>
+                          <div
+                            style={{ fontSize: "13px", fontWeight: "bold" }}
+                            className="text-bold"
+                          >
+                            <span>
+                              Total LabourPresent :{" "}
+                              <span style={{ color: "red" }}>
+                                {" "}
+                                {toatlData?.toatlValueLabourPresent}
+                              </span>
+                            </span>
                           </div>
-                          <div className="text-bold">
-                            <span>Total LabourPresent : {toatlData?.toatlValueLabourPresent}</span>
-                          </div>
-                          <div className="text-bold">
-                            <span>Total Lighter Waiting : {toatlData?.toatlValueLighterWaiting}</span>
-                          </div>
-                          <div className="text-bold">
-                            <span>Total BufferQty : {toatlData?.toatlValueBufferQty}</span>
+                          <div
+                            style={{ fontSize: "13px", fontWeight: "bold" }}
+                            className="text-bold"
+                          >
+                            <span>
+                              Total Lighter Waiting :{" "}
+                              <span style={{ color: "red" }}>
+                                {" "}
+                                {toatlData?.toatlValueLighterWaiting}
+                              </span>
+                            </span>
                           </div>
                         </div>
                         <div className="col-lg-12">
@@ -477,13 +532,13 @@ export default function _Form({
                                 </th>
                                 <th>Ghat Name</th>
                                 <th>Demand Vehicle</th>
-                                <th>Receive Vehicle</th>
-                                <th>Truck Loaded</th>
+                                {/* <th>Receive Vehicle</th>
+                                <th>Truck Loaded</th> */}
                                 <th>Packing MT</th>
+                                <th>Dump Qty Ton</th>
                                 <th>Labour Requirement</th>
                                 <th>Labour Present</th>
                                 <th>Lighter Waiting</th>
-                                <th>Buffer Qty</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -517,7 +572,7 @@ export default function _Form({
                                         }}
                                       />
                                     </td>
-                                    <td>
+                                    {/* <td>
                                       <InputField
                                         value={item?.receiveVehicle || 0}
                                         min="0"
@@ -528,8 +583,8 @@ export default function _Form({
                                           setShipPointData(data);
                                         }}
                                       />
-                                    </td>
-                                    <td>
+                                    </td> */}
+                                    {/* <td>
                                       <InputField
                                         value={item?.truckLoaded || 0}
                                         min="0"
@@ -540,7 +595,7 @@ export default function _Form({
                                           setShipPointData(data);
                                         }}
                                       />
-                                    </td>
+                                    </td> */}
                                     <td>
                                       <InputField
                                         value={item?.packingMt || 0}
@@ -548,6 +603,18 @@ export default function _Form({
                                         onChange={(e) => {
                                           const data = [...shipPointData];
                                           data[index]["packingMt"] = +e.target
+                                            .value;
+                                          setShipPointData(data);
+                                        }}
+                                      />
+                                    </td>
+                                    <td>
+                                      <InputField
+                                        value={item?.bufferQty || 0}
+                                        min="0"
+                                        onChange={(e) => {
+                                          const data = [...shipPointData];
+                                          data[index]["bufferQty"] = +e.target
                                             .value;
                                           setShipPointData(data);
                                         }}
@@ -585,18 +652,6 @@ export default function _Form({
                                           const data = [...shipPointData];
                                           data[index]["lighterWaiting"] = +e
                                             .target.value;
-                                          setShipPointData(data);
-                                        }}
-                                      />
-                                    </td>
-                                    <td>
-                                      <InputField
-                                        value={item?.bufferQty || 0}
-                                        min="0"
-                                        onChange={(e) => {
-                                          const data = [...shipPointData];
-                                          data[index]["bufferQty"] = +e.target
-                                            .value;
                                           setShipPointData(data);
                                         }}
                                       />

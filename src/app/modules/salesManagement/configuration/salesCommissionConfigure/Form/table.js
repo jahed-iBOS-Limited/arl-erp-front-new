@@ -313,8 +313,8 @@ const TableThree = ({ obj }) => {
             <th>BA Rate/bag</th>
             <th>CP Rate/bag</th>
             <th>1-99%</th>
-            <th>100-1000%</th>
-            <th> {">"}1000% </th>
+            <th>100-999%</th>
+            <th> {">"}999% </th>
           </tr>
         </thead>
         <tbody>

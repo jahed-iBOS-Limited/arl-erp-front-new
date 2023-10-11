@@ -1,11 +1,13 @@
 import React from 'react'
-import { Redirect, Switch } from 'react-router-dom'
-import { ContentRoute } from './../../../../_metronic/layout/components/content/ContentRoute'
-import { PurchaseOrganization } from './purchase-organization/index'
-import PurchaseOrgAddForm from './purchase-organization/Form/addEditForm'
 import { shallowEqual, useSelector } from 'react-redux'
-import NotPermittedPage from '../../_helper/notPermitted/NotPermittedPage'
+import { Redirect, Switch } from 'react-router-dom'
 import findIndex from '../../_helper/_findIndex'
+import NotPermittedPage from '../../_helper/notPermitted/NotPermittedPage'
+import { ContentRoute } from './../../../../_metronic/layout/components/content/ContentRoute'
+import PurchaseOrgAddForm from './purchase-organization/Form/addEditForm'
+import { PurchaseOrganization } from './purchase-organization/index'
+import RateAgreement from './rateAgreement'
+import RateAgreementCreate from './rateAgreement/rateAgrementCreate'
 
 export function POConfigurationPages() {
   const userRole = useSelector(
@@ -41,6 +43,25 @@ export function POConfigurationPages() {
         from="/mngProcurement/purchase-configuration/purchase-organization"
         component={PurchaseOrganization}
       />
+
+      {/* Rate Agreement */}
+      <ContentRoute
+        from="/mngProcurement/purchase-configuration/rateAgreement/edit/:id"
+        component={
+          purchaseOrganization?.isCreate ? RateAgreementCreate : NotPermittedPage
+        }
+      />
+      <ContentRoute
+        from="/mngProcurement/purchase-configuration/rateAgreement/create"
+        component={
+          purchaseOrganization?.isCreate ? RateAgreementCreate : NotPermittedPage
+        }
+      />
+      <ContentRoute
+        from="/mngProcurement/purchase-configuration/rateAgreement"
+        component={RateAgreement}
+      />
+
     </Switch>
   )
 }
