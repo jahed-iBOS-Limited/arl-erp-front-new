@@ -1,0 +1,207 @@
+import axios from "axios";
+import { Form, Formik } from "formik";
+import React, { useEffect } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
+import IForm from "../../../_helper/_form";
+import FormikError from "../../../_helper/_formikError";
+import Loading from "../../../_helper/_loading";
+import NewSelect from "../../../_helper/_select";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+const initData = {
+  sbu: "",
+  purchaseOrganization: "",
+  plant: "",
+  wareHouse: "",
+  supplier: "",
+};
+export default function RateAgreement() {
+  //  ddl list
+  const [sbuListDDL, getSbuListDDL, loadSbuListDDL] = useAxiosGet();
+  const [poListDDL, getPoListDDL, loadPoListDDL] = useAxiosGet();
+  const [plantListDDL, getPlanListDDL, loadPlantListDDL] = useAxiosGet();
+  const [whListDDL, getWhListDDL, loadWhListDDL] = useAxiosGet();
+
+  const {
+    profileData: { accountId: accId, userId },
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => state?.authData, shallowEqual);
+
+  const saveHandler = (values, cb) => {};
+  const history = useHistory();
+
+  useEffect(() => {
+    getSbuListDDL(
+      `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`
+    );
+    getPoListDDL(
+      `/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${accId}&BusinessUnitId=${buId}`
+    );
+    getPlanListDDL(
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
+    );
+  }, [buId]);
+
+  return (
+    <Formik
+      enableReinitialize={true}
+      initialValues={initData}
+      // validationSchema={{}}
+      onSubmit={(values, { setSubmitting, resetForm }) => {
+        saveHandler(values, () => {
+          resetForm(initData);
+        });
+      }}
+    >
+      {({
+        handleSubmit,
+        resetForm,
+        values,
+        setFieldValue,
+        isValid,
+        errors,
+        touched,
+      }) => (
+        <>
+          {false && <Loading />}
+          <IForm
+            title="Rate Agreement"
+            isHiddenReset
+            isHiddenBack
+            isHiddenSave
+            renderProps={() => {
+              return (
+                <div
+                >
+                  <button
+                    type="submit"
+                    className="btn btn-primary mr-4"
+                    disabled={!values?.sbu || !values?.purchaseOrganization || !values?.plant || !values?.wareHouse }
+                    onClick={() => {
+                      // viewPurchaseOrderData(values);
+                      // dispatch(setPurchaseRequestPPRAction(values));
+                    }}
+                  >
+                    View
+                  </button>
+                  <button
+                    type="button"
+                    disabled={!values?.sbu || !values?.purchaseOrganization || !values?.plant || !values?.wareHouse || !values?.supplier}
+                    className="btn btn-primary"
+                    onClick={() => {
+                      history.push(`/mngProcurement/purchase-configuration/rateAgreement/create`,values);
+                    }}
+                  >
+                    Create
+                  </button>
+                </div>
+              );
+            }}
+          >
+            <Form>
+              <div className="global-form row">
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="sbu"
+                    options={sbuListDDL || []}
+                    value={values?.sbu}
+                    label="SBU"
+                    onChange={(valueOption) => {
+                      setFieldValue("sbu", valueOption);
+                    }}
+                    placeholder="SBU"
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="purchaseOrganization"
+                    isDisabled={!values?.sbu?.value}
+                    options={poListDDL || []}
+                    value={values?.purchaseOrganization}
+                    label="Purchase Organization"
+                    onChange={(valueOption) => {
+                      setFieldValue("purchaseOrganization", valueOption);
+                    }}
+                    placeholder="Purchase Organization"
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="plant"
+                    isDisabled={!values?.purchaseOrganization?.value}
+                    options={plantListDDL || []}
+                    value={values?.plant}
+                    label="Plant"
+                    onChange={(valueOption) => {
+                      setFieldValue("wareHouse", "");
+                      if (valueOption?.value) {
+                        setFieldValue("plant", valueOption);
+                        getWhListDDL(
+                          `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${valueOption?.value}&OrgUnitTypeId=8`
+                        );
+                      } else {
+                        setFieldValue("wareHouse", "");
+                        setFieldValue("plant", "");
+                      }
+                    }}
+                    placeholder="Plant"
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="wareHouse"
+                    isDisabled={!values?.plant?.value}
+                    options={whListDDL || []}
+                    value={values?.wareHouse}
+                    label="WareHouse"
+                    onChange={(valueOption) => {
+                      setFieldValue("wareHouse", valueOption);
+                    }}
+                    placeholder="WareHouse"
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <label>Supplier Name</label>
+                  <SearchAsyncSelect
+                    selectedValue={values.supplier}
+                    isDisabled={!values?.wareHouse?.value}
+                    handleChange={(valueOption) => {
+                      setFieldValue("supplier", valueOption);
+                    }}
+                    loadOptions={(v) => {
+                      if (v.length < 3) return [];
+                      return axios
+                        .get(
+                          `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accId}&UnitId=${buId}&SBUId=${values?.sbu?.value}`
+                        )
+                        .then((res) => {
+                          const updateList = res?.data.map((item) => ({
+                            ...item,
+                          }));
+                          return updateList;
+                        });
+                    }}
+                  />
+                  <FormikError
+                    errors={errors}
+                    name="supplierName"
+                    touched={touched}
+                  />
+                </div>
+              </div>
+            </Form>
+          </IForm>
+        </>
+      )}
+    </Formik>
+  );
+}
