@@ -115,6 +115,18 @@ export default function ServiceSalesCreate() {
   const saveHandler = (values, cb) => {
     if (itemList?.length < 0) return toast.warn("Add at least one Item");
     if (scheduleList?.length < 0) return toast.warn("Add Schedule");
+    let totalPercentage = scheduleListFOneTime.reduce(
+      (accumulator, currentValue) => accumulator + currentValue["percentage"],
+      0
+    );
+    if (values?.paymentType?.label === "One Time" && +totalPercentage !== 100) {
+      return toast.warn("Total percentage should be 100");
+    }
+
+    let scheduleArray =
+      values?.paymentType?.label === "Re-Curring"
+        ? scheduleList
+        : scheduleListFOneTime;
     let payload = {
       header: {
         intServiceSalesOrderId: 0,
@@ -126,11 +138,11 @@ export default function ServiceSalesCreate() {
         intCustomerId: values?.customer?.value,
         strCustomerName: values?.customer?.label,
         strCustomerAddress: values?.customer?.address,
-        intScheduleTypeId: values?.scheduleType?.value,
-        strScheduleTypeName: values?.scheduleType?.label,
-        intScheduleDayCount: +values?.invoiceDay,
-        dteStartDateTime: values?.validFrom,
-        dteEndDateTime: values?.validTo,
+        intScheduleTypeId: values?.scheduleType?.value || 0,
+        strScheduleTypeName: values?.scheduleType?.label || "",
+        intScheduleDayCount: +values?.invoiceDay || 0,
+        dteStartDateTime: values?.validFrom || null,
+        dteEndDateTime: values?.validTo || null,
         strAttachmentLink: attachmentList[0]?.id || "",
         intActionBy: profileData?.userId,
       },
@@ -147,7 +159,7 @@ export default function ServiceSalesCreate() {
         numNetSalesAmount: +netAmount || 0,
         isActive: true,
       })),
-      schedule: scheduleList?.map((schedule) => ({
+      schedule: scheduleArray?.map((schedule) => ({
         intServiceSalesScheduleId: 0,
         intServiceSalesOrderId: 0,
         dteScheduleDateTime: _todayDate(),
@@ -517,12 +529,10 @@ export default function ServiceSalesCreate() {
                             console.log("validFrom" + values.validFrom);
                             const list = [];
                             const n =
-                              (+calculateMonthDifference(
+                              +calculateMonthDifference(
                                 values?.validFrom,
                                 values?.validTo
-                              ) +
-                                1) /
-                              +values?.scheduleType?.range;
+                              ) / +values?.scheduleType?.range;
                             for (let i = 0; i < n; i++) {
                               list.push({
                                 dueDate: addMonthsToDate(
