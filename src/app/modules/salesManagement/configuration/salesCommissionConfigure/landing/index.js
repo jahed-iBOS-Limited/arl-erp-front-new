@@ -11,6 +11,8 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import ICard from "../../../../_helper/_card";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import Loading from "../../../../_helper/_loading";
+import IViewModal from "../../../../_helper/_viewModal";
+import EditForm from "./editForm";
 
 const initData = {
   fromDate: _monthFirstDate(),
@@ -24,12 +26,15 @@ export default function SalesCommissionConfigure() {
   const [pageSize, setPageSize] = useState(15);
   const [gridData, getGridData, loading, setGridData] = useAxiosGet();
 
+  const [open, setOpen] = useState(false);
+  const [singleData, setSingleData] = useState({});
+
   const {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
   //setLandingData
-  const getData = (_pageNo, _pageSize, values) => {
+  const getData = (_pageNo = 0, _pageSize = 15, values) => {
     const url = `/oms/CustomerSalesTarget/PartySalesCommissionConfigPagination?businessUnitId=${buId}&commissionTypeId=${
       values?.commissionType?.value
     }&channelId=${values?.channel?.value || 0}&regionId=${values?.region
@@ -62,7 +67,9 @@ export default function SalesCommissionConfigure() {
                 setGridData,
               }}
             />
-            <SalesCommissionConfigureLandingTable obj={{ gridData }} />
+            <SalesCommissionConfigureLandingTable
+              obj={{ gridData, values, setOpen, setSingleData }}
+            />
             {gridData?.data?.length > 0 && (
               <PaginationTable
                 count={gridData?.totalCount}
@@ -75,7 +82,12 @@ export default function SalesCommissionConfigure() {
                 }}
                 values={values}
               />
-            )}
+            )}{" "}
+            <IViewModal show={open} onHide={() => setOpen(false)}>
+              <EditForm
+                obj={{ setOpen, singleData, preValues: values, getData }}
+              />
+            </IViewModal>
           </ICard>
         )}
       </Formik>
