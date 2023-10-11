@@ -46,7 +46,7 @@ const SalesCommissionConfigureLandingForm = ({ obj }) => {
               }}
             />
           </div>
-          <RATForm obj={{ values, setFieldValue }} />
+          <RATForm obj={{ values, setFieldValue, territory: false }} />
           <FromDateToDateForm obj={{ values, setFieldValue }} />
           <div className="col-lg-3">
             <button
