@@ -119,13 +119,12 @@ export default function VehicleDemandEditModal({
                       <tr>
                         <th style={{ width: "160px" }}>Supplier Name</th>
                         <th>Demand Vehicle</th>
-                        <th>Receive Vehicle</th>
-                        <th>Truck Loaded</th>
                         <th>Packing MT</th>
+                        <th>Dump Qty Ton</th>
                         <th>Labour Requirement</th>
                         <th>Labour Present</th>
                         <th>Lighter Waiting</th>
-                        <th>Buffer Qty</th>
+                        
                       </tr>
                     </thead>
                     <tbody>
@@ -152,7 +151,7 @@ export default function VehicleDemandEditModal({
                           }}
                         />
                       </td>
-                      <td>
+                      {/* <td>
                         <InputField
                           value={+values?.receiveVehicle || 0}
                           min="0"
@@ -169,13 +168,22 @@ export default function VehicleDemandEditModal({
                             setFieldValue("truckLoaded", e?.target?.value);
                           }}
                         />
-                      </td>
+                      </td> */}
                       <td>
                         <InputField
                           value={+values?.packingMt || 0}
                           min="0"
                           onChange={(e) => {
                             setFieldValue("packingMt", e?.target?.value);
+                          }}
+                        />
+                      </td>
+                      <td>
+                        <InputField
+                          value={+values?.bufferQty || 0}
+                          min="0"
+                          onChange={(e) => {
+                            setFieldValue("bufferQty", e?.target?.value);
                           }}
                         />
                       </td>
@@ -206,15 +214,7 @@ export default function VehicleDemandEditModal({
                           }}
                         />
                       </td>
-                      <td>
-                        <InputField
-                          value={+values?.bufferQty || 0}
-                          min="0"
-                          onChange={(e) => {
-                            setFieldValue("bufferQty", e?.target?.value);
-                          }}
-                        />
-                      </td>
+                      
                     </tbody>
                   </table>
                 </div>
