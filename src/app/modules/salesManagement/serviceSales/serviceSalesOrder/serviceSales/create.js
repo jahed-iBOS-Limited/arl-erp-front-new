@@ -142,8 +142,8 @@ export default function ServiceSalesCreate() {
         intScheduleTypeId: values?.scheduleType?.value || 0,
         strScheduleTypeName: values?.scheduleType?.label || "",
         intScheduleDayCount: +values?.invoiceDay || 0,
-        dteStartDateTime: values?.validFrom || null,
-        dteEndDateTime: values?.validTo || null,
+        dteStartDateTime: values?.validFrom || _todayDate(),
+        dteEndDateTime: values?.validTo || _todayDate(),
         strAttachmentLink: attachmentList[0]?.id || "",
         intActionBy: profileData?.userId,
       },
@@ -591,14 +591,8 @@ export default function ServiceSalesCreate() {
                           setSheduleListFOneTime([
                             {
                               dueDate: _todayDate(),
-                              percentage: 100,
-                              amount:
-                                (() => {
-                                  let amount =
-                                    (+values?.qty || 0) * (+values?.rate || 0);
-                                  let vat = +values?.vat || 0;
-                                  return amount + (amount * vat) / 100;
-                                })() || 0,
+                              percentage: 0,
+                              amount: 0,
                               remarks: "",
                             },
                           ]);
@@ -808,6 +802,34 @@ export default function ServiceSalesCreate() {
                                         }}
                                         className="fa fa-plus-square"
                                         onClick={() => {
+                                          const newValue =
+                                            scheduleListFOneTime[index][
+                                              "percentage"
+                                            ];
+
+                                          if (!newValue) {
+                                            return toast.warn(
+                                              "Please add percentage"
+                                            );
+                                          }
+
+                                          let totalPercentage = scheduleListFOneTime.reduce(
+                                            (acc, curr, currIndex) => {
+                                              if (currIndex === index) {
+                                                return acc + newValue;
+                                              } else {
+                                                return acc + curr.percentage;
+                                              }
+                                            },
+                                            0
+                                          );
+
+                                          if (totalPercentage >= 100) {
+                                            return toast.warn(
+                                              "Total percentage already 100"
+                                            );
+                                          }
+
                                           let updatedScheduleList = [
                                             ...scheduleListFOneTime,
                                           ];
