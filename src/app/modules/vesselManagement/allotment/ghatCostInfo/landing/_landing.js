@@ -61,8 +61,8 @@ const GhatCostInfoTable = () => {
   const history = useHistory();
   const [loading, setLoading] = useState(false);
   const [portDDL, setPortDDL] = useState([]);
-  const [vehicleDemandModal,setVehicleDemandModal] = useState(false)
-  const [vehicleDemandItem,setVehicleDemandItem] = useState({})
+  const [vehicleDemandModal, setVehicleDemandModal] = useState(false);
+  const [vehicleDemandItem, setVehicleDemandItem] = useState({});
   const [gridData, setGridData] = useState([]);
   const [motherVesselDDL, setMotherVesselDDL] = useState([]);
   const [pageNo, setPageNo] = useState(0);
@@ -70,7 +70,12 @@ const GhatCostInfoTable = () => {
   const [shipPointDDL, setShipPointDDL] = useState([]);
   const [destinationDDL, setDestinationDDL] = useState([]);
   const [lighters, setLighters] = useState([]);
-  const [vehicleDemandData,getVehicleDemandData,vehicleDemandDataLoad,setVehicleDemandData] = useAxiosGet()
+  const [
+    vehicleDemandData,
+    getVehicleDemandData,
+    vehicleDemandDataLoad,
+    setVehicleDemandData,
+  ] = useAxiosGet();
 
   // get user data from store
   const {
@@ -121,6 +126,13 @@ const GhatCostInfoTable = () => {
   let grandTotalQty = 0;
   let grandTotalAmount = 0;
 
+  let totalDemandVehicle = 0;
+  let totalPackingMT = 0;
+  let totalDumpQtyTon = 0;
+  let totalLabourRequirement = 0;
+  let totalLabourPresent = 0;
+  let totalLighterWaiting = 0;
+
   return (
     <>
       <Formik
@@ -128,7 +140,7 @@ const GhatCostInfoTable = () => {
         initialValues={initData}
         onSubmit={() => {}}
       >
-        {({ values, setFieldValue }) => (
+        {({ values, setFieldValue, setValues }) => (
           <>
             <ICustomCard
               title="Ghat Cost Information"
@@ -138,9 +150,7 @@ const GhatCostInfoTable = () => {
                 );
               }}
             >
-              {(loading  || vehicleDemandDataLoad) && (
-                <Loading />
-              )}
+              {(loading || vehicleDemandDataLoad) && <Loading />}
               <form className="form form-label-right">
                 <div className="global-form row">
                   <div className="col-lg-3">
@@ -154,6 +164,7 @@ const GhatCostInfoTable = () => {
                       label="Type"
                       onChange={(valueOption) => {
                         setFieldValue("type", valueOption);
+                        setFieldValue("shipPoint","")
                         setVehicleDemandData([]);
                       }}
                       placeholder="Type"
@@ -278,23 +289,22 @@ const GhatCostInfoTable = () => {
                         />
                       </div>
                       <div>
-                      <button
-                        type="button"
-                        style={{ marginTop: "20px" }}
-                        className="btn btn-primary ml-2"
-                        disabled={
-                          !values?.demandDate || !values?.shipPoint?.value
-                        }
-                        onClick={() => {
-                          getVehicleDemandData(
-                            `/tms/LigterLoadUnload/GetLogisticDemandNReciveInfo?ShipPointId=${values?.shipPoint?.value}&AccountId=${accId}&BusinessUnitId=${buId}&DayDate=${values?.demandDate}`
-                          );
-                        }}
-                      >
-                        Show
-                      </button>
-                    </div>
-
+                        <button
+                          type="button"
+                          style={{ marginTop: "20px" }}
+                          className="btn btn-primary ml-2"
+                          disabled={
+                            !values?.demandDate || !values?.shipPoint?.value
+                          }
+                          onClick={() => {
+                            getVehicleDemandData(
+                              `/tms/LigterLoadUnload/GetLogisticDemandNReciveInfo?ShipPointId=${values?.shipPoint?.value}&AccountId=${accId}&BusinessUnitId=${buId}&DayDate=${values?.demandDate}`
+                            );
+                          }}
+                        >
+                          Show
+                        </button>
+                      </div>
                     </>
                   )}
                 </div>
@@ -393,8 +403,9 @@ const GhatCostInfoTable = () => {
                 {[2]?.includes(values?.type?.value) && (
                   <>
                     <div className="row mt-4">
-                      <div style={{ marginLeft: "auto", marginRight: "11px" }}>
-                      </div>
+                      <div
+                        style={{ marginLeft: "auto", marginRight: "11px" }}
+                      ></div>
                       <div className="col-lg-12">
                         <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                           <thead>
@@ -402,70 +413,131 @@ const GhatCostInfoTable = () => {
                               <th style={{ width: "20px" }}>Sl</th>
                               <th>Supplier Name</th>
                               <th>Demand Vehicle</th>
-                              <th>Receive Vehicle</th>
-                              <th>Truck Loaded</th>
                               <th>Packing MT</th>
+                              <th>Dump Qty Ton</th>
                               <th>Labour Requirement</th>
                               <th>Labour Present</th>
                               <th>Lighter Waiting</th>
-                              <th>Buffer Qty</th>
                               <th>Actions</th>
                             </tr>
                           </thead>
                           <tbody>
                             {vehicleDemandData?.length > 0 &&
-                              vehicleDemandData?.map((item, index) => (
-                                <tr key={index}>
-                                  <td className="text-center">{index + 1}</td>
-                                  <td className="text-center">{item?.supplierName}</td>
-                                  <td className="text-center">
-                                  {item?.demandVehicle || 0}
-                                  </td>
-                                  <td className="text-center">
-                                  {item?.receiveVehicle || 0}
-                                  </td>
-                                  <td className="text-center">
-                                  {item?.truckLoaded || 0}
-                                  </td>
-                                  <td className="text-center">
-                                  {item?.packingQntMt || 0}
-                                  </td>
-                                  <td className="text-center">
-                                  {item?.labourRequired || 0}
-                                  </td>
-                                  <td className="text-center">
-                                  {item?.presentLabour || 0}
-                                  </td>
-                                  <td className="text-center">
-                                  {item?.lighterWaiting || 0}
-                                  </td>
-                                  <td className="text-center">
-                                  {item?.bufferQntMt || 0}
-                                  </td>
-                                  <td className="text-center">
-                                    <IEdit
-                                    title={"Edit"}
-                                    onClick={()=>{
-                                      setVehicleDemandModal(true)
-                                      setVehicleDemandItem(item)
-                                    }}
-                                    />
-                                  </td>
-                                </tr>
-                              ))}
+                              vehicleDemandData?.map((item, index) => {
+                                totalDemandVehicle += item?.demandVehicle;
+                                totalPackingMT += item?.packingQntMt;
+                                totalDumpQtyTon += item?.bufferQntMt;
+                                totalLabourRequirement += item?.labourRequired;
+                                totalLabourPresent += item?.presentLabour;
+                                totalLighterWaiting += item?.lighterWaiting;
+                                return (
+                                  <>
+                                    <tr key={index}>
+                                      <td className="text-center">
+                                        {index + 1}
+                                      </td>
+                                      <td className="text-center">
+                                        {item?.supplierName}
+                                      </td>
+                                      <td className="text-center">
+                                        {item?.demandVehicle || 0}
+                                      </td>
+                                      <td className="text-center">
+                                        {item?.packingQntMt || 0}
+                                      </td>
+                                      <td className="text-center">
+                                        {item?.bufferQntMt || 0}
+                                      </td>
+                                      <td className="text-center">
+                                        {item?.labourRequired || 0}
+                                      </td>
+                                      <td className="text-center">
+                                        {item?.presentLabour || 0}
+                                      </td>
+                                      <td className="text-center">
+                                        {item?.lighterWaiting || 0}
+                                      </td>
+
+                                      <td className="text-center">
+                                        <IEdit
+                                          title={"Edit"}
+                                          onClick={() => {
+                                            setVehicleDemandModal(true);
+                                            setVehicleDemandItem(item);
+                                          }}
+                                        />
+                                      </td>
+                                    </tr>
+                                  </>
+                                );
+                              })}
+                            <tr>
+                              <td
+                                style={{ fontWeight: "bold" }}
+                                colSpan="2"
+                                className="fw-bold"
+                              >
+                                Total
+                              </td>
+                              <td
+                                style={{ fontWeight: "bold" }}
+                                className="text-center"
+                              >
+                                {totalDemandVehicle}
+                              </td>
+                              <td
+                                style={{ fontWeight: "bold" }}
+                                className="text-center"
+                              >
+                                {totalPackingMT}
+                              </td>
+                              <td
+                                style={{ fontWeight: "bold" }}
+                                className="text-center"
+                              >
+                                {totalDumpQtyTon}
+                              </td>
+                              <td
+                                style={{ fontWeight: "bold" }}
+                                className="text-center"
+                              >
+                                {totalLabourRequirement}
+                              </td>
+                              <td
+                                style={{ fontWeight: "bold" }}
+                                className="text-center"
+                              >
+                                {totalLabourPresent}
+                              </td>
+                              <td
+                                style={{ fontWeight: "bold" }}
+                                className="text-center"
+                              >
+                                {totalLighterWaiting}
+                              </td>
+                              <td
+                                style={{ fontWeight: "bold" }}
+                                className="text-center"
+                              ></td>
+                            </tr>
                           </tbody>
                         </table>
                       </div>
                     </div>
                     <IViewModal
-                    title="Edit Vehicle Demand Info"
-                    show={vehicleDemandModal}
-                    onHide={()=>{
-                      setVehicleDemandModal(false)
-                      setVehicleDemandItem(null)
-                    }}
+                      title="Edit Vehicle Demand Info"
+                      show={vehicleDemandModal}
+                      onHide={() => {
+                        setVehicleDemandModal(false);
+                        setVehicleDemandItem(null);
+                      }}
                     >
-                      <VehicleDemandEditModal  vehicleDemandItem={vehicleDemandItem} buId={buId} setVehicleDemandModal={setVehicleDemandModal} getVehicleDemandData={getVehicleDemandData}/>
+                      <VehicleDemandEditModal
+                        vehicleDemandItem={vehicleDemandItem}
+                        buId={buId}
+                        setVehicleDemandModal={setVehicleDemandModal}
+                        getVehicleDemandData={getVehicleDemandData}
+                      />
                     </IViewModal>
                   </>
                 )}
