@@ -24,7 +24,6 @@ const initData = {
   customer: "",
   paymentType: "",
   billToParty: "",
-  referenceCode: "",
   scheduleType: "",
   invoiceDay: "",
   validFrom: "",
@@ -269,17 +268,6 @@ export default function ServiceSalesCreate() {
                     type="text"
                     onChange={(e) => {
                       setFieldValue("billToParty", e.target.value);
-                    }}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.referenceCode}
-                    label="Reference Code"
-                    name="referenceCode"
-                    type="text"
-                    onChange={(e) => {
-                      setFieldValue("referenceCode", e.target.value);
                     }}
                   />
                 </div>
