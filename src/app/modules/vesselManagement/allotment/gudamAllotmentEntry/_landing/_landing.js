@@ -28,6 +28,7 @@ import { deleteGudamAllotment } from "../helper";
 const headers = [
   "SL",
   "Business Partner",
+  "Buffer Id",
   "Buffer Name",
   // "ShipPoint",
   "Mother Vessel",
@@ -304,6 +305,7 @@ const GudamAllotmentLanding = () => {
                                 {index + 1}
                               </td>
                               <td>{item?.soldToPartnerName}</td>
+                              <td>{item?.shipToPartnerId}</td>
                               <td>{item?.shipToPartnerName}</td>
                               <td>{item?.motherVesselName}</td>
                               <td>{item?.itemName}</td>
@@ -374,7 +376,7 @@ const GudamAllotmentLanding = () => {
                           );
                         })}
                         <tr>
-                          <td colSpan={7} className="text-right">
+                          <td colSpan={8} className="text-right">
                             <b>Total</b>
                           </td>
                           <td className="text-right">
