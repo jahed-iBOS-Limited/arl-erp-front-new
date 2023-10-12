@@ -468,6 +468,37 @@ export default function _Form({
                             </div>
                           </>
                         )}
+                      {buId === 4 && (
+                        <>
+                          <div className="col-lg-3">
+                            <InputField
+                              value={values?.finalDestination || ""}
+                              label="Destination"
+                              placeholder="Destination"
+                              name="finalDestination"
+                              type="text"
+                            />
+                          </div>
+                          <div className="col-lg-3">
+                            <InputField
+                              value={values?.creditLimitDaysPropose || ""}
+                              label="Credit Limit Day"
+                              placeholder="Credit Limit Day"
+                              name="creditLimitDaysPropose"
+                              type="text"
+                            />
+                          </div>
+                          <div className="col-lg-3">
+                            <InputField
+                              value={values?.creditLimitAmountsPropose || ""}
+                              label="Credit Limit Amount"
+                              placeholder="Credit Limit Amount"
+                              name="creditLimitAmountsPropose"
+                              type="text"
+                            />
+                          </div>
+                        </>
+                      )}
                     </>
                   </div>
                 </div>
