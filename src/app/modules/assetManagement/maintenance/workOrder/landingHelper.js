@@ -9,7 +9,7 @@ export const getAssetPlantDDL = async (userId, accId, buId, setter) => {
       setter(res?.data);
     }
   } catch (error) {
-    
+
   }
 };
 
@@ -22,7 +22,7 @@ export const getAssetSBUDDL = async (accId, buId, setter) => {
       setter(res?.data);
     }
   } catch (error) {
-    
+
   }
 };
 
@@ -41,7 +41,7 @@ export const getassetWarehouseData = async (
       setter(res?.data);
     }
   } catch (error) {
-    
+
   }
 };
 
@@ -53,19 +53,21 @@ export const getGridData = async (
   setLoading,
   pageNo,
   pageSize,
-  whId
+  whId,
+  status,
+  costCenter
 ) => {
   try {
     setLoading(true);
     const res = await Axios.get(
-      `/asset/LandingView/GetMntWorkOrderList?AccountId=${accId}&UnitId=${buId}&PlantId=${plId}&WhId=${whId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
+      `/asset/LandingView/GetMntWorkOrderList?AccountId=${accId}&UnitId=${buId}&PlantId=${plId}&WhId=${whId}&Status=${status}&CostCenterId=${costCenter}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
       setLoading(false);
     }
   } catch (error) {
-    
+
     setLoading(false);
   }
 };

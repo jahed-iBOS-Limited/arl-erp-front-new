@@ -179,6 +179,8 @@ const initState = {
     plantName: "",
     sbuName: "",
     warehouseName: "",
+    status: "",
+    costCenter: "",
   },
   ibos_app_activity: { activityName: "", moduleName: "" },
   advanceForInternalExpLanding: "",
