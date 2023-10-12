@@ -121,7 +121,8 @@ const GudamAllotmentLanding = () => {
 
   let totalQty = 0,
     totalChallanQty = 0,
-    totalRemainingQty = 0;
+    totalRemainingQty = 0,
+    totalExtraAllotmentQuantity = 0;
 
   function calculateTotalRevenueAmount(items) {
     let totalSum = 0;
@@ -292,6 +293,8 @@ const GudamAllotmentLanding = () => {
                           totalQty += item?.allotmentQuantity;
                           totalChallanQty += item?.challanQuantity;
                           totalRemainingQty += item?.remaingQuantity;
+                          totalExtraAllotmentQuantity +=
+                            item?.extraAllotmentQuantity;
                           return (
                             <tr key={index}>
                               <td
@@ -310,7 +313,10 @@ const GudamAllotmentLanding = () => {
                                 {_fixedPoint(item?.allotmentQuantity, true)}
                               </td>
                               <td className="text-right">
-                                {_fixedPoint(item?.extraAllotmentQuantity, true)}
+                                {_fixedPoint(
+                                  item?.extraAllotmentQuantity,
+                                  true
+                                )}
                               </td>
                               <td
                                 className="text-right"
@@ -373,6 +379,11 @@ const GudamAllotmentLanding = () => {
                           </td>
                           <td className="text-right">
                             <b>{_fixedPoint(totalQty, true)}</b>
+                          </td>
+                          <td className="text-right">
+                            <b>
+                              {_fixedPoint(totalExtraAllotmentQuantity, true)}
+                            </b>
                           </td>
                           <td className="text-right">
                             <b>{_fixedPoint(totalChallanQty, true)}</b>
