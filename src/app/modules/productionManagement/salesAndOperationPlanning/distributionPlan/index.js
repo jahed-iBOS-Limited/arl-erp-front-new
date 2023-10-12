@@ -209,7 +209,76 @@ export default function DistributionPlanLanding() {
             <Form>
               <div className="global-form">
                 <div className="row">
-                  <div className="col-lg-2">
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="channel"
+                      options={channelDDL || []}
+                      value={values?.channel}
+                      label="Distribution Channel"
+                      onChange={(valueOption) => {
+                        setFieldValue("channel", valueOption);
+                        setFieldValue("region", "");
+                        setFieldValue("area", "");
+                        setFieldValue("territory", "");
+                        getRegionDDLHandler(valueOption);
+                      }}
+                      placeholder="Select Distribution Channel"
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="region"
+                      options={regionDDL || []}
+                      value={values?.region}
+                      label="Region"
+                      onChange={(valueOption) => {
+                        setFieldValue("region", valueOption);
+                        setFieldValue("area", "");
+                        setFieldValue("territory", "");
+                        getAreaDDLHandler(values, valueOption);
+                      }}
+                      placeholder="Select Region"
+                      errors={errors}
+                      touched={touched}
+                      isDisabled={!values?.channel}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="area"
+                      options={areaDDL || []}
+                      value={values?.area}
+                      label="Area"
+                      onChange={(valueOption) => {
+                        setFieldValue("area", valueOption);
+                        setFieldValue("territory", "");
+                        getTerritoryDDLHandler(values, valueOption);
+                      }}
+                      placeholder="Select Area"
+                      errors={errors}
+                      touched={touched}
+                      isDisabled={!values?.region}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="territory"
+                      options={territoryDDL || []}
+                      value={values?.territory}
+                      label="Territory"
+                      onChange={(valueOption) => {
+                        setFieldValue("territory", valueOption);
+                      }}
+                      placeholder="Select Territory"
+                      errors={errors}
+                      touched={touched}
+                      isDisabled={!values?.area}
+                    />
+                  </div>
+                  <div className="col-lg-3">
                     <NewSelect
                       name="plant"
                       options={plantDDL || []}
@@ -227,10 +296,9 @@ export default function DistributionPlanLanding() {
                       placeholder="Select plant"
                       errors={errors}
                       touched={touched}
-                      // isDisabled={!values?.territory}
                     />
                   </div>
-                  <div className="col-lg-2">
+                  {/* <div className="col-lg-3">
                     <NewSelect
                       name="warehouse"
                       options={warehouseDDL || []}
@@ -245,8 +313,8 @@ export default function DistributionPlanLanding() {
                       touched={touched}
                       isDisabled={!values?.plant}
                     />
-                  </div>
-                  <div className="col-lg-2">
+                  </div> */}
+                  <div className="col-lg-3">
                     <NewSelect
                       name="year"
                       options={yearDDL || []}
@@ -267,7 +335,7 @@ export default function DistributionPlanLanding() {
                       isDisabled={!values?.plant}
                     />
                   </div>
-                  <div className="col-lg-2">
+                  <div className="col-lg-3">
                     <NewSelect
                       name="horizon"
                       options={horizonDDL || []}
@@ -288,74 +356,7 @@ export default function DistributionPlanLanding() {
                       isDisabled={!values?.year}
                     />
                   </div>
-                  <div className="col-lg-2">
-                    <NewSelect
-                      name="channel"
-                      options={channelDDL || []}
-                      value={values?.channel}
-                      label="Distribution Channel"
-                      onChange={(valueOption) => {
-                        setFieldValue("channel", valueOption);
-                        setFieldValue("region", "");
-                        setFieldValue("area", "");
-                        setFieldValue("territory", "");
-                        getRegionDDLHandler(valueOption);
-                      }}
-                      placeholder="Select Distribution Channel"
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                  <div className="col-lg-2">
-                    <NewSelect
-                      name="region"
-                      options={regionDDL || []}
-                      value={values?.region}
-                      label="Region"
-                      onChange={(valueOption) => {
-                        setFieldValue("region", valueOption);
-                        setFieldValue("area", "");
-                        setFieldValue("territory", "");
-                        getAreaDDLHandler(values, valueOption);
-                      }}
-                      placeholder="Select Region"
-                      errors={errors}
-                      touched={touched}
-                      isDisabled={!values?.channel}
-                    />
-                  </div>
-                  <div className="col-lg-2">
-                    <NewSelect
-                      name="area"
-                      options={areaDDL || []}
-                      value={values?.area}
-                      label="Area"
-                      onChange={(valueOption) => {
-                        setFieldValue("area", valueOption);
-                        setFieldValue("territory", "");
-                        getTerritoryDDLHandler(values, valueOption);
-                      }}
-                      placeholder="Select Area"
-                      errors={errors}
-                      touched={touched}
-                      isDisabled={!values?.region}
-                    />
-                  </div>
-                  <div className="col-lg-2">
-                    <NewSelect
-                      name="territory"
-                      options={territoryDDL || []}
-                      value={values?.territory}
-                      label="Territory"
-                      onChange={(valueOption) => {
-                        setFieldValue("territory", valueOption);
-                      }}
-                      placeholder="Select Territory"
-                      errors={errors}
-                      touched={touched}
-                      isDisabled={!values?.area}
-                    />
-                  </div>
+
                   <div className="col-lg-1">
                     <button
                       type="button"
@@ -366,7 +367,6 @@ export default function DistributionPlanLanding() {
                       }
                       onClick={() => {
                         getRowDto(
-                          // `/oms/DistributionChannel/GetDistributionPlanningLanding?buisnessUnitId=${buId}&pageNo=${pageNo}&pageSize=${pageSize}`
                           `/oms/DistributionChannel/GetDistributionPlanningLanding?buisnessUnitId=${buId}&plantId=${values
                             ?.plant?.value || 0}&yearId=${
                             values?.year?.value
