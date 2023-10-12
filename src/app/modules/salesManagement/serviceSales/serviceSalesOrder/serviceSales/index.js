@@ -145,9 +145,9 @@ export default function ServiceSalesLanding() {
                           <td>{item?.strCustomerName}</td>
                           <td>{item?.strScheduleTypeName}</td>
                           <td>{item?.strItemName}</td>
-                          <td>{_dateFormatter(item?.dteDueDateTime)}</td>
-                          <td>{item?.intPaymentByPercent}</td>
-                          <td>{item?.numScheduleAmount}</td>
+                          <td className="text-center">{_dateFormatter(item?.dteDueDateTime)}</td>
+                          <td className="text-center">{item?.intPaymentByPercent}</td>
+                          <td className="text-right">{item?.numScheduleAmount}</td>
                         </tr>
                       ))}
                     </tbody>
