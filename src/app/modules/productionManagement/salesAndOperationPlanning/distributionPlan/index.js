@@ -11,6 +11,7 @@ import IViewModal from "../../../_helper/_viewModal";
 import DetailsDistributionView from "./detailsView";
 import IEdit from "../../../_helper/_helperIcons/_edit";
 import NewSelect from "../../../_helper/_select";
+import DistributionPlantEditModal from "./distributionPlantEditModal";
 
 const initData = {};
 
@@ -21,19 +22,24 @@ export default function DistributionPlanLanding() {
   const [isShowModel, setIsShowModel] = useState(false);
   const [detailsView, setDetailsView] = useState([]);
   const [rowDto, getRowDto, rowDtoLoading, setRowDto] = useAxiosGet();
-  const [channelDDL, getChannelDDL] = useAxiosGet();
-  const [regionDDL, getRegionDDL, , setRegionDDL] = useAxiosGet();
-  const [areaDDL, getAreaDDL, , setAreaDDl] = useAxiosGet();
+  const [channelDDL, getChannelDDL, channelDDLloader] = useAxiosGet();
+  const [
+    regionDDL,
+    getRegionDDL,
+    regionDDLloader,
+    setRegionDDL,
+  ] = useAxiosGet();
+  const [areaDDL, getAreaDDL, areaDDLloader, setAreaDDl] = useAxiosGet();
   const [
     territoryDDL,
     getTerritoryDDL,
-    ,
+    territoryDDLloader,
     setTerritoryDDL,
   ] = useAxiosGet();
-  const [plantDDL, getPlantDDL, ] = useAxiosGet();
-  const [warehouseDDL, getWarehouseDDL, ] = useAxiosGet();
-  const [yearDDL, getYearDDL, ] = useAxiosGet();
-  const [horizonDDL, getHorizonDDL, ] = useAxiosGet();
+  const [plantDDL, getPlantDDL, plantDDLloader] = useAxiosGet();
+  const [warehouseDDL, getWarehouseDDL, warehouseDDLloader] = useAxiosGet();
+  const [yearDDL, getYearDDL, yearDDLloader] = useAxiosGet();
+  const [horizonDDL, getHorizonDDL, horizonDDLloader] = useAxiosGet();
 
   // get user data from store
   const {
@@ -47,17 +53,17 @@ export default function DistributionPlanLanding() {
     getRowDto(
       // `/oms/DistributionChannel/GetDistributionPlanningLanding?buisnessUnitId=${buId}&pageNo=${pageNo}&pageSize=${pageSize}`
       `/oms/DistributionChannel/GetDistributionPlanningLanding?buisnessUnitId=${buId}&plantId=${values
-        ?.plant?.value || 0}&yearId=${values?.year}&monthId=${values?.horizon?.monthId}&warehosueId=${values
-        ?.warehouse?.value || 0}&channelId=${values?.channel?.value ||
-        0}&regionId=${values?.region?.value || 0}&areaId=${values?.area
-        ?.value || 0}&territoryId=${values?.territory?.value ||
+        ?.plant?.value || 0}&yearId=${values?.year}&monthId=${
+        values?.horizon?.monthId
+      }&warehosueId=${values?.warehouse?.value || 0}&channelId=${values?.channel
+        ?.value || 0}&regionId=${values?.region?.value || 0}&areaId=${values
+        ?.area?.value || 0}&territoryId=${values?.territory?.value ||
         0}&pageNo=${pageNo}&pageSize=${pageSize}`
     );
   };
 
   // get landing data on mount
   useEffect(() => {
-    
     getPlantDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accountId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
@@ -144,6 +150,9 @@ export default function DistributionPlanLanding() {
     }
   };
 
+  const [isEditModal, setIsEditModal] = useState(false);
+  const [editData, setEditData] = useState(null);
+
   return (
     <Formik
       enableReinitialize={true}
@@ -165,7 +174,15 @@ export default function DistributionPlanLanding() {
         touched,
       }) => (
         <>
-          {rowDtoLoading && <Loading />}
+          {(rowDtoLoading ||
+            channelDDLloader ||
+            regionDDLloader ||
+            areaDDLloader ||
+            plantDDLloader ||
+            warehouseDDLloader ||
+            yearDDLloader ||
+            territoryDDLloader ||
+            horizonDDLloader) && <Loading />}
           <IForm
             title="Distribution Plan"
             isHiddenReset
@@ -192,7 +209,76 @@ export default function DistributionPlanLanding() {
             <Form>
               <div className="global-form">
                 <div className="row">
-                <div className="col-lg-2">
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="channel"
+                      options={channelDDL || []}
+                      value={values?.channel}
+                      label="Distribution Channel"
+                      onChange={(valueOption) => {
+                        setFieldValue("channel", valueOption);
+                        setFieldValue("region", "");
+                        setFieldValue("area", "");
+                        setFieldValue("territory", "");
+                        getRegionDDLHandler(valueOption);
+                      }}
+                      placeholder="Select Distribution Channel"
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="region"
+                      options={regionDDL || []}
+                      value={values?.region}
+                      label="Region"
+                      onChange={(valueOption) => {
+                        setFieldValue("region", valueOption);
+                        setFieldValue("area", "");
+                        setFieldValue("territory", "");
+                        getAreaDDLHandler(values, valueOption);
+                      }}
+                      placeholder="Select Region"
+                      errors={errors}
+                      touched={touched}
+                      isDisabled={!values?.channel}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="area"
+                      options={areaDDL || []}
+                      value={values?.area}
+                      label="Area"
+                      onChange={(valueOption) => {
+                        setFieldValue("area", valueOption);
+                        setFieldValue("territory", "");
+                        getTerritoryDDLHandler(values, valueOption);
+                      }}
+                      placeholder="Select Area"
+                      errors={errors}
+                      touched={touched}
+                      isDisabled={!values?.region}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="territory"
+                      options={territoryDDL || []}
+                      value={values?.territory}
+                      label="Territory"
+                      onChange={(valueOption) => {
+                        setFieldValue("territory", valueOption);
+                      }}
+                      placeholder="Select Territory"
+                      errors={errors}
+                      touched={touched}
+                      isDisabled={!values?.area}
+                    />
+                  </div>
+                  <div className="col-lg-3">
                     <NewSelect
                       name="plant"
                       options={plantDDL || []}
@@ -210,10 +296,9 @@ export default function DistributionPlanLanding() {
                       placeholder="Select plant"
                       errors={errors}
                       touched={touched}
-                      // isDisabled={!values?.territory}
                     />
                   </div>
-                  <div className="col-lg-2">
+                  {/* <div className="col-lg-3">
                     <NewSelect
                       name="warehouse"
                       options={warehouseDDL || []}
@@ -228,8 +313,8 @@ export default function DistributionPlanLanding() {
                       touched={touched}
                       isDisabled={!values?.plant}
                     />
-                  </div>
-                  <div className="col-lg-2">
+                  </div> */}
+                  <div className="col-lg-3">
                     <NewSelect
                       name="year"
                       options={yearDDL || []}
@@ -250,7 +335,7 @@ export default function DistributionPlanLanding() {
                       isDisabled={!values?.plant}
                     />
                   </div>
-                  <div className="col-lg-2">
+                  <div className="col-lg-3">
                     <NewSelect
                       name="horizon"
                       options={horizonDDL || []}
@@ -271,91 +356,23 @@ export default function DistributionPlanLanding() {
                       isDisabled={!values?.year}
                     />
                   </div>
-                  <div className="col-lg-2">
-                    <NewSelect
-                      name="channel"
-                      options={channelDDL || []}
-                      value={values?.channel}
-                      label="Distribution Channel"
-                      onChange={(valueOption) => {
-                        setFieldValue("channel", valueOption);
-                        setFieldValue("region", "");
-                        setFieldValue("area", "");
-                        setFieldValue("territory", "");
-                        getRegionDDLHandler(valueOption);
-                      }}
-                      placeholder="Select Distribution Channel"
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                  <div className="col-lg-2">
-                    <NewSelect
-                      name="region"
-                      options={regionDDL || []}
-                      value={values?.region}
-                      label="Region"
-                      onChange={(valueOption) => {
-                        setFieldValue("region", valueOption);
-                        setFieldValue("area", "");
-                        setFieldValue("territory", "");
-                        getAreaDDLHandler(values, valueOption);
-                      }}
-                      placeholder="Select Region"
-                      errors={errors}
-                      touched={touched}
-                      isDisabled={!values?.channel}
-                    />
-                  </div>
-                  <div className="col-lg-2">
-                    <NewSelect
-                      name="area"
-                      options={areaDDL || []}
-                      value={values?.area}
-                      label="Area"
-                      onChange={(valueOption) => {
-                        setFieldValue("area", valueOption);
-                        setFieldValue("territory", "");
-                        getTerritoryDDLHandler(values, valueOption);
-                      }}
-                      placeholder="Select Area"
-                      errors={errors}
-                      touched={touched}
-                      isDisabled={!values?.region}
-                    />
-                  </div>
-                  <div className="col-lg-2">
-                    <NewSelect
-                      name="territory"
-                      options={territoryDDL || []}
-                      value={values?.territory}
-                      label="Territory"
-                      onChange={(valueOption) => {
-                        setFieldValue("territory", valueOption);
-                      }}
-                      placeholder="Select Territory"
-                      errors={errors}
-                      touched={touched}
-                      isDisabled={!values?.area}
-                    />
-                  </div>
+
                   <div className="col-lg-1">
                     <button
                       type="button"
                       className="btn btn-primary"
                       style={{ marginTop: "18px" }}
                       disabled={
-                        !values?.plant ||
-                        !values?.year ||
-                        !values?.horizon
+                        !values?.plant || !values?.year || !values?.horizon
                       }
                       onClick={() => {
                         getRowDto(
-                          // `/oms/DistributionChannel/GetDistributionPlanningLanding?buisnessUnitId=${buId}&pageNo=${pageNo}&pageSize=${pageSize}`
                           `/oms/DistributionChannel/GetDistributionPlanningLanding?buisnessUnitId=${buId}&plantId=${values
                             ?.plant?.value || 0}&yearId=${
                             values?.year?.value
-                          }&monthId=${values?.horizon?.monthId}&warehosueId=${values?.warehouse?.value ||
+                          }&monthId=${
+                            values?.horizon?.monthId
+                          }&warehosueId=${values?.warehouse?.value ||
                             0}&channelId=${values?.channel?.value ||
                             0}&regionId=${values?.region?.value ||
                             0}&areaId=${values?.area?.value ||
@@ -379,8 +396,8 @@ export default function DistributionPlanLanding() {
                         <th>Region Name</th>
                         <th>Area Name</th>
                         <th>Territory Name</th>
-                        <th>Plant</th>
-                        <th>Warehouse</th>
+                        {/* <th>Plant</th> */}
+                        {/* <th>Warehouse</th> */}
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -393,8 +410,8 @@ export default function DistributionPlanLanding() {
                             <td>{item?.regionName}</td>
                             <td>{item?.areaName}</td>
                             <td>{item?.territoryName}</td>
-                            <td>{item?.plantHouseName}</td>
-                            <td>{item?.wareHouseName}</td>
+                            {/* <td>{item?.plantHouseName}</td> */}
+                            {/* <td>{item?.wareHouseName}</td> */}
                             <td className="text-center">
                               <div
                                 style={{
@@ -412,14 +429,16 @@ export default function DistributionPlanLanding() {
                                 />
                                 <IEdit
                                   onClick={() => {
-                                    history.push({
-                                      pathname:
-                                        "/internal-control/budget/DistributionPlanning/create",
-                                      state: {
-                                        isEdit: true,
-                                        item,
-                                      },
-                                    });
+                                    setIsEditModal(true);
+                                    setEditData(item);
+                                    // history.push({
+                                    //   pathname:
+                                    //     "/internal-control/budget/DistributionPlanning/create",
+                                    //   state: {
+                                    //     isEdit: true,
+                                    //     item,
+                                    //   },
+                                    // });
                                   }}
                                 />
                               </div>
@@ -454,6 +473,20 @@ export default function DistributionPlanLanding() {
             }}
           >
             <DetailsDistributionView singleData={detailsView} />
+          </IViewModal>
+          <IViewModal
+            title="Distribution Plan Edit"
+            modelSize="xl"
+            show={isEditModal}
+            onHide={() => {
+              setIsEditModal(false);
+            }}
+          >
+            <DistributionPlantEditModal
+              editData={editData}
+              landingValues={values}
+              setIsEditModal={setIsEditModal}
+            />
           </IViewModal>
         </>
       )}

@@ -17,12 +17,14 @@ export default function EntryTable({ rowDto, setRowDto }) {
           <th>Item Code</th>
           <th>Item Name</th>
           <th>UoM</th>
+          <th>Plant</th>
+          <th>Warehouse</th>
           <th>Sales Plant Qty</th>
           <th>Distribution Plant Qty</th>
-          <th>Plan Qty(Direct)</th>
-          <th>Plan Rate(Direct)</th>
-          <th>Plan Qty(Via Transshipment)</th>
-          <th>Plan Rate(Via Transshipment)</th>
+          <th>Plan Qty</th>
+          <th>Plan Rate</th>
+          {/* <th>Plan Qty(Via Transshipment)</th>
+          <th>Plan Rate(Via Transshipment)</th> */}
         </tr>
       </thead>
       <tbody>
@@ -33,8 +35,12 @@ export default function EntryTable({ rowDto, setRowDto }) {
               <td>{item?.itemCode}</td>
               <td>{item?.itemName}</td>
               <td>{item?.itemUoMName}</td>
+              <td>{item?.strPlantHouseName}</td>
+              <td>{item?.strWareHouseName}</td>
               <td className="text-center">{item?.salesPlanQty}</td>
-              <td className="text-center">{item?.distributionPlanQty}</td>
+              <td className="text-center">
+                {item?.distributionPlanQty ? item?.distributionPlanQty : 0}
+              </td>
               <td>
                 <InputField
                   name="planQty"
@@ -65,7 +71,7 @@ export default function EntryTable({ rowDto, setRowDto }) {
                   }}
                 />
               </td>
-              <td>
+              {/* <td>
                 <InputField
                   name="planTransQty"
                   type="number"
@@ -79,8 +85,8 @@ export default function EntryTable({ rowDto, setRowDto }) {
                     }));
                   }}
                 />
-              </td>
-              <td>
+              </td> */}
+              {/* <td>
                 <InputField
                   name="planTransRate"
                   type="number"
@@ -94,7 +100,7 @@ export default function EntryTable({ rowDto, setRowDto }) {
                     }));
                   }}
                 />
-              </td>
+              </td> */}
             </tr>
           ))}
       </tbody>

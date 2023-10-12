@@ -6,8 +6,12 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import Loading from "../../../../_helper/_loading";
 import IForm from "../../../../_helper/_form";
 import NewSelect from "../../../../_helper/_select";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
-const initData = {};
+const initData = {
+  customer: "",
+  item: "",
+};
 export default function ServiceSalesLanding() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
@@ -15,6 +19,7 @@ export default function ServiceSalesLanding() {
 
   const [customerList, getCustomerList] = useAxiosGet();
   const [itemDDL, getItemDDL] = useAxiosGet();
+  const [scheduleList, getScheduleList, loader] = useAxiosGet();
 
   useEffect(() => {
     getCustomerList(
@@ -49,7 +54,7 @@ export default function ServiceSalesLanding() {
         touched,
       }) => (
         <>
-          {false && <Loading />}
+          {loader && <Loading />}
           <IForm
             title="Service Sales Order"
             isHiddenReset
@@ -107,10 +112,45 @@ export default function ServiceSalesLanding() {
                       className="btn btn-primary"
                       type="button"
                       style={{ marginTop: "17px" }}
+                      onClick={() => {
+                        getScheduleList(
+                          `/oms/ServiceSales/GetServiceScheduleList?accountId=${
+                            profileData?.accountId
+                          }&businessUnitId=${
+                            selectedBusinessUnit?.value
+                          }&ServiceSalesOrderId=${0}`
+                        );
+                      }}
                     >
                       Show
                     </button>
                   </div>
+                </div>
+                <div className="mt-5">
+                  <table className="table table-striped table-bordered bj-table bj-table-landing">
+                    <thead>
+                      <tr>
+                        <th>Customer</th>
+                        <th>Schedule Type</th>
+                        <th>Item Name</th>
+                        <th>Due Date</th>
+                        <th>Payment Percent</th>
+                        <th>Schedule Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {scheduleList?.map((item, index) => (
+                        <tr key={index}>
+                          <td>{item?.strCustomerName}</td>
+                          <td>{item?.strScheduleTypeName}</td>
+                          <td>{item?.strItemName}</td>
+                          <td>{_dateFormatter(item?.dteDueDateTime)}</td>
+                          <td>{item?.intPaymentByPercent}</td>
+                          <td>{item?.numScheduleAmount}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </Form>

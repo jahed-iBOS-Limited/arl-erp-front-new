@@ -28,6 +28,7 @@ import { deleteGudamAllotment } from "../helper";
 const headers = [
   "SL",
   "Business Partner",
+  "Buffer Id",
   "Buffer Name",
   // "ShipPoint",
   "Mother Vessel",
@@ -121,7 +122,8 @@ const GudamAllotmentLanding = () => {
 
   let totalQty = 0,
     totalChallanQty = 0,
-    totalRemainingQty = 0;
+    totalRemainingQty = 0,
+    totalExtraAllotmentQuantity = 0;
 
   function calculateTotalRevenueAmount(items) {
     let totalSum = 0;
@@ -292,6 +294,8 @@ const GudamAllotmentLanding = () => {
                           totalQty += item?.allotmentQuantity;
                           totalChallanQty += item?.challanQuantity;
                           totalRemainingQty += item?.remaingQuantity;
+                          totalExtraAllotmentQuantity +=
+                            item?.extraAllotmentQuantity;
                           return (
                             <tr key={index}>
                               <td
@@ -301,6 +305,7 @@ const GudamAllotmentLanding = () => {
                                 {index + 1}
                               </td>
                               <td>{item?.soldToPartnerName}</td>
+                              <td>{item?.shipToPartnerId}</td>
                               <td>{item?.shipToPartnerName}</td>
                               <td>{item?.motherVesselName}</td>
                               <td>{item?.itemName}</td>
@@ -310,7 +315,10 @@ const GudamAllotmentLanding = () => {
                                 {_fixedPoint(item?.allotmentQuantity, true)}
                               </td>
                               <td className="text-right">
-                                {_fixedPoint(item?.extraAllotmentQuantity, true)}
+                                {_fixedPoint(
+                                  item?.extraAllotmentQuantity,
+                                  true
+                                )}
                               </td>
                               <td
                                 className="text-right"
@@ -368,11 +376,16 @@ const GudamAllotmentLanding = () => {
                           );
                         })}
                         <tr>
-                          <td colSpan={7} className="text-right">
+                          <td colSpan={8} className="text-right">
                             <b>Total</b>
                           </td>
                           <td className="text-right">
                             <b>{_fixedPoint(totalQty, true)}</b>
+                          </td>
+                          <td className="text-right">
+                            <b>
+                              {_fixedPoint(totalExtraAllotmentQuantity, true)}
+                            </b>
                           </td>
                           <td className="text-right">
                             <b>{_fixedPoint(totalChallanQty, true)}</b>
