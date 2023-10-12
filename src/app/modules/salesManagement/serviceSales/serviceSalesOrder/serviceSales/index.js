@@ -7,6 +7,7 @@ import Loading from "../../../../_helper/_loading";
 import IForm from "../../../../_helper/_form";
 import NewSelect from "../../../../_helper/_select";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import { _todayDate } from "../../../../_helper/_todayDate";
 
 const initData = {
   customer: "",
@@ -118,7 +119,7 @@ export default function ServiceSalesLanding() {
                             profileData?.accountId
                           }&businessUnitId=${
                             selectedBusinessUnit?.value
-                          }&ServiceSalesOrderId=${0}`
+                          }&ServiceSalesOrderId=${0}&dteTodate=${_todayDate()}`
                         );
                       }}
                     >
