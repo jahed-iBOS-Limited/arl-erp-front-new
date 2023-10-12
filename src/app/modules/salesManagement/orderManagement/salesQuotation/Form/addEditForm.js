@@ -64,6 +64,8 @@ const initData = {
   transportType: "",
   validityDays: "",
   exFactoryPrice: "",
+  creditLimitDaysPropose: "",
+  creditLimitAmountsPropose: "",
 };
 
 export default function SalesQuotationForm({
@@ -199,6 +201,8 @@ export default function SalesQuotationForm({
             strUsesOfCement: values?.strUsesOfCement || "",
             strFineAggregate: values?.strFineAggregate || "",
             strCoraseAggregate: values?.strCoraseAggregate || "",
+            creditLimitDaysPropose: values?.creditLimitDaysPropose,
+            creditLimitAmountsPropose: values?.creditLimitAmountsPropose,
           },
           objRow: objListRowDTO,
           objSpecRow: objSpecRow,
@@ -264,6 +268,8 @@ export default function SalesQuotationForm({
             strCoraseAggregate: values?.strCoraseAggregate || "",
             transportType: values?.transportType?.label,
             validityDays: values?.validityDays,
+            creditLimitDaysPropose: values?.creditLimitDaysPropose,
+            creditLimitAmountsPropose: values?.creditLimitAmountsPropose,
           },
           objRow: objListRowDTO,
           objSpecRow: objSpecRow,

@@ -51,10 +51,13 @@ p {
 .cement_quotation_print .main_table .table {
   width: 100%;
   border-collapse: collapse;
+  color: #000;
+  text-align: center;
 }
 .cement_quotation_print .main_table .table th {
   border: 1px solid;
   padding: 5px;
+  text-align: center;
 }
 .cement_quotation_print .main_table .table td {
   border: 1px solid;
