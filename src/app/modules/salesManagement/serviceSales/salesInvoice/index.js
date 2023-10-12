@@ -10,7 +10,10 @@ import ScheduleListTable from "./scheduleListTable";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import IConfirmModal from "../../../_helper/_confirmModal";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-const initData = {};
+const initData = {
+  customer: "",
+  type: "",
+};
 export default function SalesInvoiceLanding() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
@@ -93,6 +96,22 @@ export default function SalesInvoiceLanding() {
                       touched={touched}
                     />
                   </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="type"
+                      options={[
+                        { value: false, label: "In Completed Collection" },
+                        { value: true, label: "Completed Collection" },
+                      ]}
+                      value={values?.type}
+                      label="Type"
+                      onChange={(valueOption) => {
+                        setFieldValue("type", valueOption);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
                   <div>
                     <button
                       className="btn btn-primary"
@@ -105,7 +124,8 @@ export default function SalesInvoiceLanding() {
                           }&businessUnitId=${
                             selectedBusinessUnit?.value
                           }&customerId=${values?.customer?.value ||
-                            0}&isCollectionComplte=false`
+                            0}&isCollectionComplte=${values?.type?.value ||
+                            false}`
                         );
                       }}
                     >
@@ -122,7 +142,7 @@ export default function SalesInvoiceLanding() {
                         <th>Schedule Type</th>
                         <th>Sales Type</th>
                         <th> S Service Sales Order Code</th>
-                        <th>Action</th>
+                        {values?.type?.value ? null : <th>Action</th>}
                       </tr>
                     </thead>
                     <tbody>
@@ -132,35 +152,41 @@ export default function SalesInvoiceLanding() {
                           <td>{item?.invocieHeader?.strCustomerAddress}</td>
                           <td>{item?.invocieHeader?.strScheduleTypeName}</td>
                           <td>{item?.invocieHeader?.strSalesTypeName}</td>
-                          <td>{item?.invocieHeader?.strServiceSalesOrderCode}</td>
                           <td>
-                            <div className="d-flex justify-content-between">
-                              <OverlayTrigger
-                                overlay={
-                                  <Tooltip id="cs-icon">{"Collection"}</Tooltip>
-                                }
-                              >
-                                <span>
-                                  <i
-                                    onClick={() => {
-                                      IConfirmModal({
-                                        title: "Are you sure ?",
-                                        yesAlertFunc: () => {
-                                          collectionHandler(
-                                            `/oms/ServiceSales/InvoiceCollection?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&serviceSalesInvoiceId=${item?.invocieHeader?.intServiceSalesInvoiceId}`
-                                          );
-                                        },
-                                        noAlertFunc: () => {},
-                                      });
-                                    }}
-                                    style={{ fontSize: "16px" }}
-                                    class="fa fa-archive"
-                                    aria-hidden="true"
-                                  ></i>
-                                </span>
-                              </OverlayTrigger>
-                            </div>
+                            {item?.invocieHeader?.strServiceSalesOrderCode}
                           </td>
+                          {values?.type?.value ? null : (
+                            <td>
+                              <div className="d-flex justify-content-between">
+                                <OverlayTrigger
+                                  overlay={
+                                    <Tooltip id="cs-icon">
+                                      {"Collection"}
+                                    </Tooltip>
+                                  }
+                                >
+                                  <span>
+                                    <i
+                                      onClick={() => {
+                                        IConfirmModal({
+                                          title: "Are you sure ?",
+                                          yesAlertFunc: () => {
+                                            collectionHandler(
+                                              `/oms/ServiceSales/InvoiceCollection?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&serviceSalesInvoiceId=${item?.invocieHeader?.intServiceSalesInvoiceId}`
+                                            );
+                                          },
+                                          noAlertFunc: () => {},
+                                        });
+                                      }}
+                                      style={{ fontSize: "16px" }}
+                                      class="fa fa-archive"
+                                      aria-hidden="true"
+                                    ></i>
+                                  </span>
+                                </OverlayTrigger>
+                              </div>
+                            </td>
+                          )}
                         </tr>
                       ))}
                     </tbody>
