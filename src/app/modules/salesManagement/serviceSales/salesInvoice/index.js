@@ -7,6 +7,9 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IForm from "./../../../_helper/_form";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { _todayDate } from "../../../_helper/_todayDate";
+import IConfirmModal from "../../../_helper/_confirmModal";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
 const initData = {
   customer: "",
   item: "",
@@ -21,6 +24,7 @@ export default function SalesInvoiceLanding() {
   const [rowData, getRowData, loader, setRowData] = useAxiosGet();
   const [itemDDL, getItemDDL] = useAxiosGet();
   const [, saveHandler] = useAxiosPost();
+  const [, collectionHandler] = useAxiosGet();
 
   // const [showModal, setShowModal] = useState(false);
   // const [singleItem, setSingleItem] = useState(null);
@@ -41,15 +45,16 @@ export default function SalesInvoiceLanding() {
 
   const getData = ({ typeId, values }) => {
     let apiUrl = [2]?.includes(typeId)
-      ? `/oms/ServiceSales/GetServiceSalesInvocieList?accountId={
-        profileData?.accountId
-      }&businessUnitId=${
-        selectedBusinessUnit?.value
-      }&customerId=0&isCollectionComplte=${false}`
-      : `/oms/ServiceSales/GetServiceSalesWithSchedules?accountId=${
+      ? `/oms/ServiceSales/GetServiceSalesInvocieList?accountId=${
           profileData?.accountId
-        }&businessUnitId=${selectedBusinessUnit?.value}&customerId=${values
-          ?.customer?.value || 0}&itemId=${values?.item?.value || 0}`;
+        }&businessUnitId=${
+          selectedBusinessUnit?.value
+        }&customerId=0&isCollectionComplte=${false}`
+      : `/oms/ServiceSales/GetServiceScheduleList?accountId=${
+          profileData?.accountId
+        }&businessUnitId=${
+          selectedBusinessUnit?.value
+        }&ServiceSalesOrderId=${0}&dteTodate=${_todayDate()}`;
 
     getRowData(apiUrl, (data) => {
       const result = data?.map((item) => ({ ...item, isChecked: false }));
@@ -96,23 +101,21 @@ export default function SalesInvoiceLanding() {
                         header: {
                           //   intServiceSalesInvoiceId: 0,
                           //   strServiceSalesInvoiceCode: "",
-                          intServiceSalesOrderId:
-                            item?.header?.intServiceSalesOrderId,
+                          intServiceSalesOrderId: item?.intServiceSalesOrderId,
                           dteInvoiceDateTime: _todayDate(),
                           intAccountId: profileData?.accountId,
                           intBusinessUnitId: selectedBusinessUnit?.value,
-                          intSalesTypeId: item?.header?.intSalesTypeId,
-                          strSalesTypeName: item?.header?.strSalesTypeName,
-                          intCustomerId: item?.header?.intCustomerId,
-                          strCustomerName: item?.header?.strCustomerName,
-                          strCustomerAddress: item?.header?.strCustomerAddress,
+                          intSalesTypeId: item?.intSalesTypeId,
+                          strSalesTypeName: item?.strSalesTypeName,
+                          intCustomerId: item?.intCustomerId,
+                          strCustomerName: item?.strCustomerName,
+                          strCustomerAddress: item?.strCustomerAddress,
                           strCustomerAddress2: "",
-                          intScheduleTypeId: item?.header?.intScheduleTypeId,
-                          strScheduleTypeName:
-                            item?.header?.strScheduleTypeName,
+                          intScheduleTypeId: item?.intScheduleTypeId,
+                          strScheduleTypeName: item?.strScheduleTypeName,
                           intActionBy: profileData?.userId,
                         },
-                        row: item?.scheduleList.map((item) => ({
+                        row: data?.map((item) => ({
                           //   intServiceSalesInvoiceRowId: 0,
                           //   intServiceSalesInvoiceId: 0,
                           intServiceSalesScheduleId:
@@ -184,6 +187,7 @@ export default function SalesInvoiceLanding() {
                       label="Type"
                       onChange={(valueOption) => {
                         setFieldValue("type", valueOption);
+                        setRowData([]);
                       }}
                       errors={errors}
                       touched={touched}
@@ -202,7 +206,130 @@ export default function SalesInvoiceLanding() {
                     </button>
                   </div>
                 </div>
-                <div className="mt-5">
+                {[1]?.includes(values?.type?.value) ? (
+                  <div className="mt-5">
+                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th>
+                            <input
+                              type="checkbox"
+                              checked={
+                                rowData?.length > 0 &&
+                                rowData?.every((item) => item?.isChecked)
+                              }
+                              onChange={(e) => {
+                                setRowData(
+                                  rowData?.map((item) => {
+                                    return {
+                                      ...item,
+                                      isChecked: e?.target?.checked,
+                                    };
+                                  })
+                                );
+                              }}
+                            />
+                          </th>
+                          <th>Customer</th>
+                          <th>Schedule Type</th>
+                          <th>Item Name</th>
+                          <th>Due Date</th>
+                          <th>Payment Percent</th>
+                          <th>Schedule Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {rowData?.map((item, index) => (
+                          <tr key={index}>
+                            <td>
+                              <input
+                                type="checkbox"
+                                value={item?.isChecked}
+                                checked={item?.isChecked}
+                                onChange={(e) => {
+                                  const data = [...rowData];
+                                  data[index]["isChecked"] = e.target.checked;
+                                  setRowData(data);
+                                }}
+                              />
+                            </td>
+                            <td>{item?.strCustomerName}</td>
+                            <td>{item?.strScheduleTypeName}</td>
+                            <td>{item?.strItemName}</td>
+                            <td className="text-center">
+                              {_dateFormatter(item?.dteDueDateTime)}
+                            </td>
+                            <td className="text-center">
+                              {item?.intPaymentByPercent}
+                            </td>
+                            <td className="text-right">
+                              {item?.numScheduleAmount}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <div className="mt-5">
+                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th>Customer</th>
+                          <th>Address</th>
+                          <th>Schedule Type</th>
+                          <th>Sales Type</th>
+                          <th> S Service Sales Order Code</th>
+                          {values?.type?.value ? null : <th>Action</th>}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {rowData?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{item?.invocieHeader?.strCustomerName}</td>
+                            <td>{item?.invocieHeader?.strCustomerAddress}</td>
+                            <td>{item?.invocieHeader?.strScheduleTypeName}</td>
+                            <td>{item?.invocieHeader?.strSalesTypeName}</td>
+                            <td>
+                              {item?.invocieHeader?.strServiceSalesOrderCode}
+                            </td>
+                            <td>
+                              <div className="d-flex justify-content-between">
+                                <OverlayTrigger
+                                  overlay={
+                                    <Tooltip id="cs-icon">
+                                      {"Collection"}
+                                    </Tooltip>
+                                  }
+                                >
+                                  <span>
+                                    <i
+                                      onClick={() => {
+                                        IConfirmModal({
+                                          title: "Are you sure ?",
+                                          yesAlertFunc: () => {
+                                            collectionHandler(
+                                              `/oms/ServiceSales/InvoiceCollection?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&serviceSalesInvoiceId=${item?.invocieHeader?.intServiceSalesInvoiceId}`
+                                            );
+                                          },
+                                          noAlertFunc: () => {},
+                                        });
+                                      }}
+                                      style={{ fontSize: "16px" }}
+                                      class="fa fa-archive"
+                                      aria-hidden="true"
+                                    ></i>
+                                  </span>
+                                </OverlayTrigger>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+                {/* <div className="mt-5">
                   <table className="table table-striped table-bordered bj-table bj-table-landing">
                     <thead>
                       <tr>
@@ -256,7 +383,7 @@ export default function SalesInvoiceLanding() {
                       ))}
                     </tbody>
                   </table>
-                </div>
+                </div> */}
               </div>
               {/* <IViewModal
                 show={showModal}
