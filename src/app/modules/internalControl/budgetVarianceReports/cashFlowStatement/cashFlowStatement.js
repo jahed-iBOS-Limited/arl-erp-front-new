@@ -318,7 +318,7 @@ export function CashFlowStatement() {
                             className="cashFlowStatement"
                           >
                             <tr>
-                              <td className="pr-5 text-right">
+                              <td className="pr-5 text-right border border-dark">
                                 Opening Cash & Cash Equivalent
                               </td>
                               <td
@@ -350,21 +350,24 @@ export function CashFlowStatement() {
                               </td>
                             </tr>
                             <tr>
-                              <td style={{ height: "15px" }}></td>
                               <td
-                                className="text-center"
+                                className="border border-dark"
+                                style={{ height: "15px" }}
+                              ></td>
+                              <td
+                                className="text-center border border-dark"
                                 style={{ height: "15px" }}
                               >
                                 Budget
                               </td>
                               <td
-                                className="text-center"
+                                className="text-center border border-dark"
                                 style={{ height: "15px" }}
                               >
                                 Actual
                               </td>
                               <td
-                                className="text-center"
+                                className="text-center border border-dark"
                                 style={{ height: "15px" }}
                               >
                                 Variance
@@ -375,28 +378,35 @@ export function CashFlowStatement() {
                                 case 9999:
                                   return (
                                     <tr style={{ background: "#e6ecff" }}>
-                                      <td colSpan="4">{item?.strName}</td>
+                                      <td
+                                        className="border border-dark"
+                                        colSpan="4"
+                                      >
+                                        {item?.strName}
+                                      </td>
                                     </tr>
                                   );
                                 case 0:
                                   if (item.strName.startsWith("Net")) {
                                     return (
                                       <tr style={{ background: "#f0f0f5" }}>
-                                        <td>{item?.strName}</td>
+                                        <td className="border border-dark">
+                                          {item?.strName}
+                                        </td>
                                         <td
-                                          className="text-right"
+                                          className="text-right border border-dark"
                                           style={{ width: "120px" }}
                                         >
                                           {_formatMoney(item?.numPlannedAmount)}
                                         </td>
                                         <td
-                                          className="text-right"
+                                          className="text-right border border-dark"
                                           style={{ width: "120px" }}
                                         >
                                           {_formatMoney(item?.numAmount)}
                                         </td>
                                         <td
-                                          className="text-right"
+                                          className="text-right border border-dark"
                                           style={{ width: "120px" }}
                                         >
                                           {_formatMoney(
@@ -409,21 +419,23 @@ export function CashFlowStatement() {
                                   } else if (index === rowDto.length - 1) {
                                     return (
                                       <tr style={{ background: "#e6ecff" }}>
-                                        <td>{item?.strName}</td>
+                                        <td className="border border-dark">
+                                          {item?.strName}
+                                        </td>
                                         <td
-                                          className="text-right"
+                                          className="text-right border border-dark"
                                           style={{ width: "120px" }}
                                         >
                                           {_formatMoney(item?.numPlannedAmount)}
                                         </td>
                                         <td
-                                          className="text-right"
+                                          className="text-right border border-dark"
                                           style={{ width: "120px" }}
                                         >
                                           {_formatMoney(item?.numAmount)}
                                         </td>
                                         <td
-                                          className="text-right"
+                                          className="text-right border border-dark"
                                           style={{ width: "120px" }}
                                         >
                                           {_formatMoney(
@@ -436,13 +448,19 @@ export function CashFlowStatement() {
                                   }
                                   return (
                                     <tr>
-                                      <td colSpan="4">{item?.strName}</td>
+                                      <td
+                                        className="border border-dark"
+                                        colSpan="4"
+                                      >
+                                        {item?.strName}
+                                      </td>
                                     </tr>
                                   );
                                 case null:
                                   return (
                                     <tr>
                                       <td
+                                        className="text-center border border-dark"
                                         colSpan="4"
                                         style={{ height: "15px" }}
                                       ></td>
@@ -453,6 +471,7 @@ export function CashFlowStatement() {
                                   return (
                                     <tr>
                                       <td
+                                        className="border border-dark"
                                         style={{
                                           padding: "0 0 0 5px",
                                           fontWeight: "normal",
