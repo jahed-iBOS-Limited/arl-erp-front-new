@@ -115,7 +115,6 @@ const WorkingCapitalVarianceReport = () => {
                       >
                         <thead>
                           <tr>
-                            <th>SL</th>
                             <th>General Laser Code</th>
                             <th>General Laser Name</th>
                             <th>Planned</th>
@@ -127,29 +126,31 @@ const WorkingCapitalVarianceReport = () => {
                           {rowData?.length > 0 &&
                             rowData?.map((item, index) => (
                               <tr key={index}>
-                                <td>{index + 1}</td>
                                 <td
-                                  className="text-center"
+                                  className="text-start"
                                   // rowSpan={item?.intSectionCount}
                                 >
                                   {item?.strGlCode}
                                 </td>
                                 <td
-                                  className="text-center"
+                                  className="text-start"
+                                  style={item?.intGlId === 0 ? {fontWeight:"bold",fontSize:"13px",textAlign:"end"} : {}}
                                   // rowSpan={item?.intSectionCount}
                                 >
                                   {item?.strGlName}
                                 </td>
                                 <td
-                                  className="text-center"
+                                  className="text-end"
                                   // rowSpan={item?.intSectionCount}
+                                  style={item?.intGlId === 0 ? {fontWeight:"bold",fontSize:"13px",textAlign:"end"} : {textAlign:"end"}}
                                 >
                                   {numberWithCommas(
                                     Math.round(item?.numPlanned) || 0
                                   )}
                                 </td>
                                 <td
-                                  className="text-center"
+                                  className="text-end"
+                                  style={item?.intGlId === 0 ? {fontWeight:"bold",fontSize:"13px",textAlign:"end"} : {textAlign:"end"}}
                                   // rowSpan={item?.intSectionCount}
                                 >
                                   {numberWithCommas(
@@ -157,11 +158,14 @@ const WorkingCapitalVarianceReport = () => {
                                   )}
                                 </td>
                                 <td
-                                  className="text-center"
+                                  className="text-end text-bold"
+                                  style={item?.intGlId === 0 ? {fontWeight:"bold",fontSize:"13px",textAlign:"end"} : {textAlign:"end"}}
                                   // rowSpan={item?.intSectionCount}
                                 >
                                   {numberWithCommas(
-                                    Math.round(+item?.numPlanned - +item?.numActual) || 0
+                                    Math.round(
+                                      +item?.numPlanned - +item?.numActual
+                                    ) || 0
                                   )}
                                 </td>
                               </tr>

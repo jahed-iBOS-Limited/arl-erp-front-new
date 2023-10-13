@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import PaginationSearch from './../../../../_helper/_search'
 import ICustomCard from '../../../../_helper/_customCard'
 import InputField from "../../../../_helper/_inputField";
@@ -279,7 +279,10 @@ const IssueReportTable = () => {
 
   }
 
-
+  const calculateTotal = useMemo(()=> {
+    const total = landing?.reduce((previousValue, item)=> previousValue + (item?.numTotalAmount || 0), 0);
+    return total;
+  }, [landing]);
 
   return (
     <ICustomCard title="Issue Statement">
@@ -471,10 +474,10 @@ const IssueReportTable = () => {
                     >
                       View
                     </button>
-                    {/* 
+                    {/*
 
                       temporary hide this button
-                    
+
                     */}
                     {
                       landing?.length > 0 &&
@@ -555,6 +558,12 @@ const IssueReportTable = () => {
                             </td> */}
                           </tr>
                         ))}
+                        <tr>
+                          <td className='font-weight-bold'>Total</td>
+                          <td colSpan={10}></td>
+                          <td>{_formatMoney(calculateTotal)}</td>
+                          <td></td>
+                        </tr>
                       </tbody>
                     )}
                   </table>
