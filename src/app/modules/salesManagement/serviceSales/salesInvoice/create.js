@@ -55,11 +55,7 @@ export default function SalesInvoiceCreate() {
       }) => (
         <>
           {false && <Loading />}
-          <IForm
-            title="Create Sales Invoice"
-            isHiddenReset
-            isHiddenSave
-          >
+          <IForm title="Create Sales Invoice" isHiddenReset isHiddenSave>
             <Form>
               <div>
                 <div className="form-group  global-form row">
