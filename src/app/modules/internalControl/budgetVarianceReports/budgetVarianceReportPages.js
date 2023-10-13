@@ -13,6 +13,7 @@ import WorkingCapitalVarianceReport from "./workingCapitalVarianceReport";
 import InventoryVarianceReport from "./workingVarianceReport";
 import Incomestatement from "./incomeStatement";
 import TrailBalanceReport from "./trailBalance";
+import { FinencialRatiosAnalysis } from "./financialRatioAnalysis/Form/addEditForm";
 
 const BudgetVarianceReportPages = () => {
   return (
@@ -81,6 +82,10 @@ const BudgetVarianceReportPages = () => {
       <ContentRoute
         path="/internal-control/budgetvariancereport/inventoryvariancereport"
         component={InventoryVarianceReport}
+      />
+      <ContentRoute
+        path="/internal-control/budgetvariancereport/financialratiosanalysis"
+        component={FinencialRatiosAnalysis}
       />
     </Switch>
   );
