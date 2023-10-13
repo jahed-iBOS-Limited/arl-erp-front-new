@@ -15,6 +15,7 @@ import Incomestatement from "./incomeStatement";
 import TrailBalanceReport from "./trailBalance";
 import { FinencialRatiosAnalysis } from "./financialRatioAnalysis/Form/addEditForm";
 import { CashFlowStatement } from "./cashFlowStatement/cashFlowStatement";
+import { BalanceReport } from "./balanceSheetReport";
 
 const BudgetVarianceReportPages = () => {
   return (
@@ -34,7 +35,7 @@ const BudgetVarianceReportPages = () => {
       />
       <ContentRoute
         path="/internal-control/budgetvariancereport/balancereport"
-        component={() => <div>Balance Sheet</div>}
+        component={BalanceReport}
       />
       <ContentRoute
         path="/internal-control/budgetvariancereport/cashFlowStatement"
