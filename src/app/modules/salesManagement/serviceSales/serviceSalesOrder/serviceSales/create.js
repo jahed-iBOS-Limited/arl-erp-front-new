@@ -28,7 +28,7 @@ const initData = {
   invoiceDay: "",
   validFrom: "",
   validTo: "",
-  item:"",
+  item: "",
   qty: "",
   rate: "",
   vat: "",
@@ -66,6 +66,7 @@ export default function ServiceSalesCreate() {
   const formikRef = React.useRef(null);
   const [, saveHandlerFunc, loader] = useAxiosPost();
   const [scheduleMonthRange, setScheduleMonthRange] = useState(0);
+  const [salesOrgList, getSalesOrgList] = useAxiosGet();
 
   console.log("scheduleList", scheduleList);
   console.log("scheduleListFOneTime", scheduleListFOneTime);
@@ -106,6 +107,10 @@ export default function ServiceSalesCreate() {
   // }, [scheduleMonthRange, validToData, validFromData]);
 
   useEffect(() => {
+    getSalesOrgList(
+      `/oms/BusinessUnitSalesOrganization/GetBUSalesOrgDDL?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}&SBUId=0`
+    );
+
     getCustomerList(
       `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
     );
@@ -217,10 +222,7 @@ export default function ServiceSalesCreate() {
                 <div className="col-lg-3">
                   <NewSelect
                     name="salesOrg"
-                    options={[
-                      { value: 1, label: "Local Sales" },
-                      { value: 2, label: "Foreign Sales " },
-                    ]}
+                    options={salesOrgList || []}
                     value={values?.salesOrg}
                     label="Sales Org"
                     onChange={(valueOption) => {
