@@ -32,6 +32,7 @@ import FuelLogModify from "./fuelLogModify/landing";
 import TripCostStatement from "./vehicleTrip/vehicleTrip";
 import VehicleProblemEntryForm from "./vehicleLog/problemForm/addEditForm";
 import VehicleLogLanding from "./vehicleLog/landing/index";
+import TripTargetEntryForm from "./vehicleLog/tripTargetEntry/addEditForm";
 
 export function RouteManagementPage() {
   const userRole = useSelector(
@@ -57,6 +58,10 @@ export function RouteManagementPage() {
         <ContentRoute
           path="/transport-management/routecostmanagement/routestandardcost/vehicleProblem"
           component={VehicleProblemEntryForm}
+        />
+        <ContentRoute
+          path="/transport-management/routecostmanagement/routestandardcost/tripTargetEntry"
+          component={TripTargetEntryForm}
         />
         <ContentRoute
           path="/transport-management/routecostmanagement/routestandardcost/vehicleLogExpense/create"
