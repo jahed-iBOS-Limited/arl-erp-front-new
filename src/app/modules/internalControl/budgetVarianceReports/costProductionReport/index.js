@@ -181,7 +181,7 @@ function CostOfProductionReport() {
                                 {_formatMoney(item?.numActTotalCost)}
                               </td>
                               <td className="text-center">
-                                <IView/>
+                                <IView />
                               </td>
                             </tr>
                           ))}
