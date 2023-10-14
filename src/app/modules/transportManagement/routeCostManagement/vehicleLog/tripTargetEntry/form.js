@@ -176,7 +176,7 @@ export default function _Form({
                             <b>
                               {_fixedPoint(
                                 rowData?.reduce(
-                                  (total, curr) => (total += curr?.tripTarget),
+                                  (total, curr) => (total += +curr?.tripTarget),
                                   0
                                 ),
                                 true
