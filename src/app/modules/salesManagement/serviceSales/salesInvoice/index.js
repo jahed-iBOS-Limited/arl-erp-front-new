@@ -115,7 +115,21 @@ export default function SalesInvoiceLanding() {
                           strScheduleTypeName: item?.strScheduleTypeName,
                           intActionBy: profileData?.userId,
                         },
-                        row: data?.map((item) => ({
+                        // row: data?.map((item) => ({
+                        //   //   intServiceSalesInvoiceRowId: 0,
+                        //   //   intServiceSalesInvoiceId: 0,
+                        //   intServiceSalesScheduleId:
+                        //     item?.intServiceSalesScheduleId,
+                        //   dteScheduleCreateDateTime:
+                        //     item?.dteScheduleCreateDateTime,
+                        //   dteDueDateTime: item?.dteDueDateTime,
+                        //   numScheduleAmount: item?.numScheduleAmount,
+                        //   //   numCollectionAmount: 0,
+                        //   //   numPendingAmount: 0,
+                        //   //   numAdjustPreviousAmount: 0,
+                        //   isActive: true,
+                        // })),
+                        row:[{
                           //   intServiceSalesInvoiceRowId: 0,
                           //   intServiceSalesInvoiceId: 0,
                           intServiceSalesScheduleId:
@@ -128,7 +142,7 @@ export default function SalesInvoiceLanding() {
                           //   numPendingAmount: 0,
                           //   numAdjustPreviousAmount: 0,
                           isActive: true,
-                        })),
+                        }],
                       }));
 
                       saveHandler(
