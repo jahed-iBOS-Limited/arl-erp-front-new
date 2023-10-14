@@ -16,6 +16,7 @@ import NewSelect from "../../../_helper/_select";
 import { _getCurrentMonthYearForInput } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import "./style.css";
+import IView from "../../../_helper/_helperIcons/_view";
 
 const initData = {
   // fromDate: _todayDate(),
@@ -37,25 +38,10 @@ function CostOfProductionReport() {
     const formattedStartDate = startDate.toISOString().split("T")[0];
     const formattedEndDate = endDate.toISOString().split("T")[0];
 
-    console.log("formattedEndDate", formattedEndDate)
+    console.log("formattedEndDate", formattedEndDate);
 
     getRowDto(
-      `/fino/Report/GetMachineWiseCostOfProduction?intBusinessUnitId=${values?.currentBusinessUnit?.value}&fromDate=${formattedStartDate}&toDate=${formattedEndDate}`,
-      (data) => {
-        let sl = 0;
-        let arr = [];
-        data.forEach((item) => {
-          let obj = {
-            ...item,
-            isShow: sl === item?.intSectionSl ? false : true,
-          };
-          if (sl !== item?.intSectionSl) {
-            sl = item?.intSectionSl;
-          }
-          arr.push(obj);
-        });
-        setRowDto(arr);
-      }
+      `/fino/Report/GetMachineWiseCostOfProduction?intBusinessUnitId=${values?.currentBusinessUnit?.value}&fromDate=${formattedStartDate}&toDate=${formattedEndDate}`
     );
   };
 
@@ -147,83 +133,55 @@ function CostOfProductionReport() {
                     >
                       <thead>
                         <tr>
-                          {/* <th>Machine</th> */}
                           <th>Item Code</th>
                           <th>Item Name</th>
-                          <th>UoM</th>
-                          <th>Particulars</th>
                           <th>Uom</th>
-                          <th>Budget</th>
-                          <th>Actual</th>
-                          <th>Variance</th>
+                          <th>Budget Production Qty</th>
+                          <th>Actual Production Qty</th>
+                          <th>Budget Material Cost</th>
+                          <th>Actual Material Cost</th>
+                          <th>Budget Overhead</th>
+                          <th>Actual Overhead</th>
+                          <th>Budget Total Cost</th>
+                          <th>Actual Total Cost</th>
+                          <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
                         {rowDto?.length > 0 &&
                           rowDto?.map((item, index) => (
                             <tr key={index}>
-                              {item?.isShow ? (
-                                <>
-                                  {/* <td
-                                    className="text-center"
-                                    rowSpan={item?.intSectionCount}
-                                  >
-                                    {item?.machineName}
-                                  </td> */}
-                                  <td
-                                    className="text-center"
-                                    rowSpan={item?.intSectionCount}
-                                  >
-                                    {item?.fgItemCode}
-                                  </td>
-                                  <td
-                                    className="text-center"
-                                    rowSpan={item?.intSectionCount}
-                                  >
-                                    {item?.fgItemName}
-                                  </td>
-                                  <td
-                                    className="text-center"
-                                    rowSpan={item?.intSectionCount}
-                                  >
-                                    {item?.fgItemUom}
-                                  </td>
-                                </>
-                              ) : null}
-                              <td
-                                className={
-                                  item?.isTotal ? "text-left bold" : "text-left"
-                                }
-                              >
-                                {item?.particularsName}
+                              <td className="text-center">
+                                {item?.strItemCode}
                               </td>
-                              <td>{item?.particularsUom}</td>
-                              <td
-                                className={
-                                  item?.isTotal
-                                    ? "text-right bold"
-                                    : "text-right"
-                                }
-                              >
-                                {_formatMoney(item?.budgetConsumption)}
+                              <td>{item?.strItemName}</td>
+                              <td>{item?.strBaseUomName}</td>
+                              <td className="text-center">
+                                {item?.numBudProdQty}
                               </td>
-                              <td
-                                className={
-                                  item?.isTotal
-                                    ? "text-right bold"
-                                    : "text-right"
-                                }
-                              >
-                                {_formatMoney(item?.actualConsumption)}
+                              <td className="text-center">
+                                {item?.numActProdQty}
                               </td>
-                              <td
-                                className={
-                                  item?.isTotal
-                                    ? "text-right bold"
-                                    : "text-right"
-                                }
-                              >
-                                {_formatMoney(item?.variance)}
+                              <td className="text-right">
+                                {_formatMoney(item?.numBudMatCost)}
+                              </td>
+                              <td className="text-right">
+                                {_formatMoney(item?.numActMatCost)}
+                              </td>
+                              <td className="text-right">
+                                {_formatMoney(item?.numBudOverhead)}
+                              </td>
+                              <td className="text-right">
+                                {_formatMoney(item?.numActOverhead)}
+                              </td>
+                              <td className="text-right">
+                                {_formatMoney(item?.numBudTotalCost)}
+                              </td>
+                              <td className="text-right">
+                                {_formatMoney(item?.numActTotalCost)}
+                              </td>
+                              <td className="text-center">
+                                <IView/>
                               </td>
                             </tr>
                           ))}
