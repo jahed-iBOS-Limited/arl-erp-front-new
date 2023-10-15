@@ -91,7 +91,7 @@ const DistributionPlantEditModal = ({
                         <th>UoM</th>
                         <th>Plant</th>
                         <th>Warehouse</th>
-                        <th>Distribution Plant Qty</th>
+                        {/* <th>Distribution Plant Qty</th> */}
                         <th>Plan Qty</th>
                         <th>Plan Rate</th>
                       </tr>
@@ -106,11 +106,11 @@ const DistributionPlantEditModal = ({
                             <td>{item?.itemUoMName}</td>
                             <td>{item?.strPlantHouseName}</td>
                             <td>{item?.strWareHouseName}</td>
-                            <td className="text-center">
+                            {/* <td className="text-center">
                               {item?.distributionPlanQty
                                 ? item?.distributionPlanQty
                                 : 0}
-                            </td>
+                            </td> */}
                             <td>
                               <InputField
                                 name="planQty"

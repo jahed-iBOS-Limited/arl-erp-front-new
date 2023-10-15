@@ -105,18 +105,18 @@ export const getModifiedInitData = (item) => {
 
 export const saveHandler = ({
   values,
-  rowDto,
+  tableData,
   userId,
   buId,
   location,
   saveDistributionPlan,
   cb,
 }) => {
-  if (!rowDto?.itemList?.length) {
+  if (!tableData?.itemList?.length) {
     return toast.warn("No Item Found");
   }
 
-  for (let item of rowDto?.itemList) {
+  for (let item of tableData?.itemList) {
     if (item?.planQty || item?.planRate) {
       if (!item?.planQty) {
         return toast.warn("Plan Qty is required!");
@@ -128,7 +128,7 @@ export const saveHandler = ({
   }
 
   const filteredRowList =
-    rowDto?.itemList?.filter(
+    tableData?.itemList?.filter(
       (item) => item?.planQty > 0 && item?.planRate > 0
     ) || [];
 
@@ -176,4 +176,33 @@ export const saveHandler = ({
     location?.state?.isEdit ? null : cb,
     true
   );
+};
+
+export const modifyRowDto = (list) => {
+  const tempList = [];
+  if (list?.length > 0) {
+    list.forEach((item, idx) => {
+      const isItemExist = tempList?.filter(
+        (itm) => itm?.itemId === item?.itemId
+      );
+
+      if (isItemExist?.length > 0) {
+        const obj = {
+          ...item,
+        };
+        const matchItem = isItemExist[isItemExist?.length - 1];
+        const currentintRestQty =
+          (+matchItem?.salesPlanQty || 0) - (+matchItem?.planQty || 0);
+        obj.salesPlanQty = currentintRestQty;
+        obj.intRestQty = currentintRestQty - (+item?.planQty || 0);
+        tempList.push(obj);
+      } else {
+        tempList.push({
+          ...item,
+          intRestQty: (+item?.salesPlanQty || 0) - (+item?.planQty || 0),
+        });
+      }
+    });
+  }
+  return tempList;
 };
