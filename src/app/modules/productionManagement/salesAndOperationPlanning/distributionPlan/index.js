@@ -53,7 +53,7 @@ export default function DistributionPlanLanding() {
     getRowDto(
       // `/oms/DistributionChannel/GetDistributionPlanningLanding?buisnessUnitId=${buId}&pageNo=${pageNo}&pageSize=${pageSize}`
       `/oms/DistributionChannel/GetDistributionPlanningLanding?buisnessUnitId=${buId}&plantId=${values
-        ?.plant?.value || 0}&yearId=${values?.year}&monthId=${
+        ?.plant?.value || 0}&yearId=${values?.year?.value}&monthId=${
         values?.horizon?.monthId
       }&warehosueId=${values?.warehouse?.value || 0}&channelId=${values?.channel
         ?.value || 0}&regionId=${values?.region?.value || 0}&areaId=${values
