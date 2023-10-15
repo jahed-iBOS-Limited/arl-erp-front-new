@@ -27,6 +27,7 @@ const initData = {
   parts: "",
   quantity: "",
   remarks: "",
+  stockQuantity: 0,
   value: 0,
   serviceName: "",
   serviceCost: "",
