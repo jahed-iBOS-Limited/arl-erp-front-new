@@ -18,7 +18,7 @@ const initData = {};
 export default function DistributionPlanLanding() {
   const history = useHistory();
   const [pageNo, setPageNo] = useState(0);
-  const [pageSize, setPageSize] = useState(15);
+  const [pageSize, setPageSize] = useState(300);
   const [isShowModel, setIsShowModel] = useState(false);
   const [detailsView, setDetailsView] = useState([]);
   const [rowDto, getRowDto, rowDtoLoading, setRowDto] = useAxiosGet();
