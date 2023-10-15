@@ -396,6 +396,8 @@ export default function DistributionPlanLanding() {
                         <th>Region Name</th>
                         <th>Area Name</th>
                         <th>Territory Name</th>
+                        <th>Distribution Plan Qty</th>
+                        <th>Sales Plan Qty</th>
                         {/* <th>Plant</th> */}
                         {/* <th>Warehouse</th> */}
                         <th>Action</th>
@@ -410,6 +412,12 @@ export default function DistributionPlanLanding() {
                             <td>{item?.regionName}</td>
                             <td>{item?.areaName}</td>
                             <td>{item?.territoryName}</td>
+                            <td className="text-center">
+                              {item?.distributionPlanQty}
+                            </td>
+                            <td className="text-center">
+                              {item?.salesPlanQty}
+                            </td>
                             {/* <td>{item?.plantHouseName}</td> */}
                             {/* <td>{item?.wareHouseName}</td> */}
                             <td className="text-center">
