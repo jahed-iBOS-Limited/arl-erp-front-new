@@ -396,8 +396,8 @@ export default function DistributionPlanLanding() {
                         <th>Region Name</th>
                         <th>Area Name</th>
                         <th>Territory Name</th>
-                        <th>Distribution Plan Qty</th>
                         <th>Sales Plan Qty</th>
+                        <th>Distribution Plan Qty</th>
                         {/* <th>Plant</th> */}
                         {/* <th>Warehouse</th> */}
                         <th>Action</th>
@@ -413,10 +413,10 @@ export default function DistributionPlanLanding() {
                             <td>{item?.areaName}</td>
                             <td>{item?.territoryName}</td>
                             <td className="text-center">
-                              {item?.distributionPlanQty}
+                              {item?.salesPlanQty}
                             </td>
                             <td className="text-center">
-                              {item?.salesPlanQty}
+                              {item?.distributionPlanQty}
                             </td>
                             {/* <td>{item?.plantHouseName}</td> */}
                             {/* <td>{item?.wareHouseName}</td> */}
@@ -439,14 +439,6 @@ export default function DistributionPlanLanding() {
                                   onClick={() => {
                                     setIsEditModal(true);
                                     setEditData(item);
-                                    // history.push({
-                                    //   pathname:
-                                    //     "/internal-control/budget/DistributionPlanning/create",
-                                    //   state: {
-                                    //     isEdit: true,
-                                    //     item,
-                                    //   },
-                                    // });
                                   }}
                                 />
                               </div>
