@@ -108,6 +108,7 @@ export default function SalesInvoiceLanding() {
                           intSalesTypeId: item?.intSalesTypeId,
                           strSalesTypeName: item?.strSalesTypeName,
                           intCustomerId: item?.intCustomerId,
+                          strCustomerCode: item?.strCustomerCode || "",
                           strCustomerName: item?.strCustomerName,
                           strCustomerAddress: item?.strCustomerAddress,
                           strCustomerAddress2: "",
