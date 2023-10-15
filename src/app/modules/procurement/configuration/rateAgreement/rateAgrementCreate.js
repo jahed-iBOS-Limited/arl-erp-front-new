@@ -14,6 +14,7 @@ import Loading from "../../../_helper/_loading";
 import { _todayDate } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { dateFormatterForInput } from "../../../productionManagement/msilProduction/meltingProduction/helper";
 import { rateAgreementValidationSchema } from "./helper";
 const initData = {
   nameOfContract: "",
@@ -43,38 +44,42 @@ export default function RateAgreementCreate() {
   const { sbu, wareHouse, plant, purchaseOrganization, supplier } =
     location?.state || {};
   const saveHandler = (values, cb) => {
-    const payload = {
-      agreementHeaderId: 0,
-      agreementCode: "",
-      nameOfContact: values?.nameOfContract,
-      contactDateTime: values?.contractDate,
-      purchaseOrganizationId: purchaseOrganization?.value,
-      purchaseOrganizationName: purchaseOrganization?.label,
-      supplierId: supplier?.value,
-      supplierName: supplier?.label,
-      businessUnitId: buId,
-      plantId: plant?.value,
-      warehouseId: wareHouse?.value,
-      warehouseName: wareHouse?.label,
-      termsAndCondition: values?.termsAndCondition || "",
-      warehouseAddress: values?.deliveryAdress,
-      contractStartDate: values?.contractStartDate,
-      contractEndDate: values?.contractEndDate,
-      isActive: true,
-      isApprove: false,
-      approvedBy: 0,
-      createdBy: userId,
-      createdAt: _todayDate(),
-      rows: rowData,
-    };
-    postData(
-      `/procurement/PurchaseOrder/SaveAndEditRateAgreement`,
-      payload,
-      () => {
-        cb();
-      },
-      true
-    );
+    if(!id){
+      const payload = {
+        agreementHeaderId: 0,
+        agreementCode: "",
+        nameOfContact: values?.nameOfContract,
+        contactDateTime: values?.contractDate,
+        purchaseOrganizationId: purchaseOrganization?.value,
+        purchaseOrganizationName: purchaseOrganization?.label,
+        supplierId: supplier?.value,
+        supplierName: supplier?.label,
+        businessUnitId: buId,
+        plantId: plant?.value,
+        warehouseId: wareHouse?.value,
+        warehouseName: wareHouse?.label,
+        termsAndCondition: values?.termsAndCondition || "",
+        warehouseAddress: values?.deliveryAdress,
+        contractStartDate: values?.contractStartDate,
+        contractEndDate: values?.contractEndDate,
+        isActive: true,
+        isApprove: false,
+        approvedBy: 0,
+        createdBy: userId,
+        createdAt: _todayDate(),
+        rows: rowData,
+      };
+      postData(
+        `/procurement/PurchaseOrder/SaveAndEditRateAgreement`,
+        payload,
+        () => {
+          cb();
+        },
+        true
+      );
+    }
+   
+    
   };
 
   const loadUserList = (v) => {
@@ -103,14 +108,16 @@ export default function RateAgreementCreate() {
     }
     try {
       const newRow = {
-        autoId: 0,
+        agreementRowId: 0,
         itemId: values?.itemName?.value,
         itemName: values?.itemName?.label,
+        itemCode : values?.itemName?.code,
         itemRate: values?.itemRate,
         vatPercentage: values?.vat,
         isActive: true,
         createdAt: _todayDate(),
         status: "Active",
+        
       };
       setRowData([...rowData, newRow]);
       callBack();
@@ -129,20 +136,26 @@ export default function RateAgreementCreate() {
         termsAndCondition,
         contactDateTime
       } = location?.state || {};
-  
+      console.log(location);
       const editedInitData = {
         nameOfContract: nameOfContact,
         termsAndCondition: termsAndCondition,
-        contractStartDate: contractStartDate,
-        contractEndDate: contractEndDate,
+        contractStartDate: dateFormatterForInput(contractStartDate),
+        contractEndDate: dateFormatterForInput(contractEndDate),
         deliveryAdress:warehouseAddress,
-        contractDate: contactDateTime,
+        contractDate: dateFormatterForInput(contactDateTime),
         itemName: "",
         itemRate: "",
         vat: "",
       };
       setSingleData(editedInitData)
+    
     }
+
+    getRowData(
+      `/spreadsheets/d/1FIwLk0oR7FFTqJA0UUxlDwEu5wa8Vi0DWbrEUr3ZxDc/edit#gid=${id}`
+    )
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[id])
 
@@ -374,7 +387,7 @@ export default function RateAgreementCreate() {
                       </td>
                       <td className="text-right">{item?.itemRate}</td>
                       <td className="text-right" style={{ width: "150px" }}>
-                        {item?.vat}
+                        {item?.vatPercentage}
                       </td>
 
                       <td className="text-center">

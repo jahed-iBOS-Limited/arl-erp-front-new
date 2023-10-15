@@ -3,6 +3,7 @@ import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import "./cementStyle.css";
+import logo from "../../../../_helper/images/akij_cement_logo.png";
 
 const SalesQuotationForCement = ({
   printRef,
@@ -11,10 +12,7 @@ const SalesQuotationForCement = ({
 }) => {
   const {
     profileData: { employeeFullName, designationName },
-    selectedBusinessUnit: { imageId },
-  } = useSelector((state) => {
-    return state?.authData;
-  }, shallowEqual);
+  } = useSelector((state) => state?.authData, shallowEqual);
 
   return (
     <div className="cement_quotation_print" ref={printRef}>
@@ -31,7 +29,8 @@ const SalesQuotationForCement = ({
         <div className="logo">
           <img
             style={{ width: "230px", height: "115px", objectFit: "cover" }}
-            src={`${window?.location?.origin}/domain/Document/DownlloadFile?id=${imageId}`}
+            src={logo}
+            // src={`${window?.location?.origin}/domain/Document/DownlloadFile?id=${imageId}`}
             alt="logo"
           />
         </div>
@@ -48,9 +47,9 @@ const SalesQuotationForCement = ({
               <b>Date: {moment(_todayDate()).format("DD MMM YYYY")}</b>
             </p>
           </div>
-          <div className="bold">
-            <p>To</p>
-            <p>The Managing Director</p>
+          <div>
+            <p className="bold">To</p>
+            <p className="bold">The Managing Director</p>
             <p>{businessPartnerInfo?.strBusinessPartnerName}</p>
             <p> {businessPartnerInfo?.strBusinessPartnerAddress} </p>
             {/* <p>Banani, Dhaka-1213</p> */}
@@ -87,9 +86,13 @@ const SalesQuotationForCement = ({
                 Portland Cement (CEM-I), Strength Class 52.5 according to BDS EN
                 197-1:2003
               </p>
-              <p>
-                <span>Price </span>
-                00
+              <p
+                style={{
+                  marginLeft: "150px",
+                }}
+              >
+                Portland Composite Cement (CEM-II), Strength Class 42.5
+                according to BDS EN 197-1:2003
               </p>
             </div>
           </div>
@@ -98,16 +101,33 @@ const SalesQuotationForCement = ({
         <table className="table mb-5">
           <thead>
             <tr>
-              <th rowSpan={2}>Destination</th>
-              <th rowSpan={2}>Product</th>
-              <th rowSpan={2}>UOM</th>
-              <th rowSpan={2}>Transport type</th>
-              <th colSpan={2}>Price in BDT</th>
-              <th rowSpan={2}>Remark</th>
+              <th className="align-middle" rowSpan={2}>
+                SL
+              </th>
+              <th className="align-middle" rowSpan={2}>
+                Destination
+              </th>
+              <th className="align-middle" rowSpan={2}>
+                Product
+              </th>
+              <th className="align-middle" rowSpan={2}>
+                UOM
+              </th>
+              <th className="align-middle" rowSpan={2}>
+                Transport type
+              </th>
+              <th className="align-middle" colSpan={2}>
+                Price in BDT
+              </th>
+              <th className="align-middle" rowSpan={2}>
+                Remark
+              </th>
             </tr>
             <tr>
-              <th>Ex-Factory</th>
-              <th>Reach Price (Inclusive Transport)</th>
+              <th className="align-middle">Ex-Factory</th>
+              <th className="align-middle">
+                Reach Price (Inclusive Transport)
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -115,6 +135,7 @@ const SalesQuotationForCement = ({
               return (
                 <tr key={index}>
                   <td className="text-center">{index + 1}</td>
+                  <td className="text-center">{item?.address}</td>
                   <td className="text-center">{item?.itemName}</td>
                   <td className="text-center">{item?.uomName}</td>
                   <td className="text-center">{item?.transportType}</td>
@@ -138,8 +159,8 @@ const SalesQuotationForCement = ({
             </p>
             <p>
               <span>Credit Days </span>
-              {invoiceData?.[0]?.intlimitdays} days from the date of delivery of
-              each consignment
+              {invoiceData?.[0]?.creditLimitDaysPropose} days from the date of
+              delivery of each consignment
             </p>
             <p>
               <span>Credit backup </span>
@@ -148,7 +169,7 @@ const SalesQuotationForCement = ({
             </p>
             <p>
               <span>Credit Limit </span>
-              500000/1000000
+              {invoiceData?.[0]?.creditLimitAmountsPropose}
             </p>
             <p>
               <span>Time of Delivery </span>
@@ -178,7 +199,7 @@ const SalesQuotationForCement = ({
             </li>
             <li>
               b) In case of any AIT deduction, you must provide certificate
-              within 40 days from the date of payment.
+              within 30 days from the date of payment.
             </li>
             <li>
               c) ACCL retains the ultimate discretion in respect of delivery,
@@ -202,15 +223,15 @@ const SalesQuotationForCement = ({
 
       {/* <p className="bold mt-2 mb-2">Thanking you,</p> */}
 
-      {/* <div className="mt-5 pt-5 text-center">
+      <p className="bold mt-7"> {`(${employeeFullName})`} </p>
+      <p> {designationName} </p>
+      <p> Akij Cement Company Limited </p>
+      <div className="mt-5 pt-5 text-center">
         <p className="mt-5 pt-5">
           This is an automatically generated price quotation, no signature is
           required.
         </p>
-      </div> */}
-      <p className="bold mt-7"> {`(${employeeFullName})`} </p>
-      <p> {designationName} </p>
-      <p> Akij Cement Company Limited </p>
+      </div>
     </div>
   );
 };

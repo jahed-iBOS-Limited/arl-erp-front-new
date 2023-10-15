@@ -8,7 +8,8 @@ const TableOne = ({ rowDto }) => {
   const [isShowModel, setIsShowModel] = useState(false);
   const [formula, setFormula] = useState("");
 
-  const headers = ["SL", "Rario Name", "Std Ratio", "Act Ratio", "Matric"];
+  const headers = ["SL", "Rario Name", "Std Ratio","Budget Ratio", "Act Ratio", "Matric"];
+  console.log("rowDto", rowDto)
   return (
     <div>
       <h6 className="m-0 p-0 mt-2">Financial Ratio</h6>
@@ -25,6 +26,7 @@ const TableOne = ({ rowDto }) => {
                 <td className="text-right">{item?.numSL}</td>
                 <td className="text-left">{item?.strRarioName}</td>
                 <td className="text-right">{item?.stdRatio ? item?.stdRatio : ""}</td>
+                <td className="text-right">{item?.budgetRatio || ""}</td>
                 {/* <td className="text-right">{item?.numRatio ? item?.numRatio : ""}</td> */}
                 <td className="text-right">{item?.numRatio ? item?.numRatio : ""}</td>
                 <td>

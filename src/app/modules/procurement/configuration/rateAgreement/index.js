@@ -10,6 +10,7 @@ import FormikError from "../../../_helper/_formikError";
 import IEdit from "../../../_helper/_helperIcons/_edit";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
+import PaginationTable from "../../../_helper/_tablePagination";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 const initData = {
   sbu: "",
@@ -19,44 +20,14 @@ const initData = {
   supplier: "",
 };
 export default function RateAgreement() {
+  const [pageNo, setPageNo] = useState(1);
+  const [pageSize, setPageSize] = useState(15);
   //  ddl list
   const [sbuListDDL, getSbuListDDL] = useAxiosGet();
   const [poListDDL, getPoListDDL] = useAxiosGet();
   const [plantListDDL, getPlanListDDL] = useAxiosGet();
   const [whListDDL, getWhListDDL] = useAxiosGet();
-  const [sampleData, setSampleData] = useState({
-    data: [
-      {
-        sl: 1,
-        agreementHeaderId: 1,
-        agreementCode: "34545",
-        nameOfContact: "my sonar bangla",
-        contactDateTime: "2023-05-20T00:00:00",
-        purchaseOrganizationId: 0,
-        purchaseOrganizationName: null,
-        supplierId: 0,
-        supplierName: "kjhgfd",
-        businessUnitId: 0,
-        plantId: 0,
-        warehouseId: 0,
-        warehouseName: "Test address bangladesh",
-        termsAndCondition: "fresh and supper",
-        warehouseAddress: "sangapur",
-        contractStartDate: "2023-05-20T00:00:00",
-        contractEndDate: "2023-05-20T00:00:00",
-        isActive: false,
-        isApprove: null,
-        approvedBy: null,
-        createdBy: null,
-        createdAt: null,
-        updateBy: null,
-        updateAt: null,
-      },
-    ],
-    currentPage: 1,
-    totalCount: 1,
-    pageSize: 10,
-  });
+  const [rowDto, getRowDto, rowDtoLoading] = useAxiosGet();
 
   const {
     profileData: { accountId: accId, userId },
@@ -65,6 +36,16 @@ export default function RateAgreement() {
 
   const saveHandler = (values, cb) => {};
   const history = useHistory();
+  const getLandingData = (pageNo, pageSize, values) => {
+    getRowDto(
+      `/procurement/PurchaseOrder/GetRateAgreement?BusinessUnitId=${buId}&PurchaseOrganisationId=${
+        values?.purchaseOrganization?.value
+      }&PlantId=${values?.plant?.value}&WarehouseId=${
+        values?.wareHouse?.value
+      }&supplierId=${values?.supplier?.value ||
+        0}&PageNo=${pageNo}&PageSize=${pageSize}`
+    );
+  };
 
   useEffect(() => {
     getSbuListDDL(
@@ -118,8 +99,7 @@ export default function RateAgreement() {
                       !values?.wareHouse
                     }
                     onClick={() => {
-                      // viewPurchaseOrderData(values);
-                      // dispatch(setPurchaseRequestPPRAction(values));
+                      getLandingData(pageNo, pageSize, values);
                     }}
                   >
                     View
@@ -262,8 +242,8 @@ export default function RateAgreement() {
                       </tr>
                     </thead>
                     <tbody>
-                      {sampleData?.data?.length > 0 &&
-                        sampleData?.data?.map((item, index) => (
+                      {rowDto?.data?.length > 0 &&
+                        rowDto?.data?.map((item, index) => (
                           <tr key={index}>
                             <td>{item?.sl}</td>
                             <td>{item?.agreementCode}</td>
@@ -275,17 +255,33 @@ export default function RateAgreement() {
                             </td>
                             <td>{_dateTimeFormatter(item?.contractEndDate)}</td>
                             <td>
-                              <IEdit title="Edit" onClick={() => {
-                                history.push({
-                                  pathname :`/mngProcurement/purchase-configuration/rateAgreement/edit/${item?.agreementHeaderId}`,
-                                  state:item
-                                })
-                              }} />
+                              <IEdit
+                                title="Edit"
+                                onClick={() => {
+                                  history.push({
+                                    pathname: `/mngProcurement/purchase-configuration/rateAgreement/edit/${item?.agreementHeaderId}`,
+                                    state: item,
+                                  });
+                                }}
+                              />
                             </td>
                           </tr>
                         ))}
                     </tbody>
                   </table>
+                  {rowDto?.data?.length > 0 && (
+                    <PaginationTable
+                      count={rowDto?.totalCount}
+                      setPositionHandler={getLandingData}
+                      paginationState={{
+                        pageNo,
+                        setPageNo,
+                        pageSize,
+                        setPageSize,
+                      }}
+                      values={values}
+                    />
+                  )}
                 </div>
               </div>
             </Form>
