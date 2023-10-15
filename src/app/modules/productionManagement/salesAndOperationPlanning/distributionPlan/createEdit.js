@@ -9,9 +9,8 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { toast } from "react-toastify";
 import EntryTable from "./entryTable";
-import ViewTable from "./viewTable";
-import { getModifiedInitData, saveHandler, validationSchema } from "./helper";
-import axios from "axios";
+// import ViewTable from "./viewTable";
+import { modifyRowDto, saveHandler, validationSchema } from "./helper";
 
 const initData = {
   channel: "",
@@ -29,7 +28,6 @@ const initData = {
 export default function DistributionPlanCreateEdit() {
   const location = useLocation();
   const [objProps, setObjprops] = useState({});
-  const [modifiedData, setModifiedData] = useState({});
   const [channelDDL, getChannelDDL, channelLoading] = useAxiosGet();
   const [plantDDL, getPlantDDL, plantLoading] = useAxiosGet();
   const [warehouseDDL, getWarehouseDDL, warehouseLoading] = useAxiosGet();
@@ -44,7 +42,8 @@ export default function DistributionPlanCreateEdit() {
     territoryLoading,
     setTerritoryDDL,
   ] = useAxiosGet();
-  const [rowDto, getRowDto, rowDtoLoading, setRowDto] = useAxiosGet();
+  const [tableData, setTableData] = useState({});
+  const [, getRowDto, rowDtoLoading, setRowDto] = useAxiosGet();
   const [, saveDistributionPlan, saveDistributionLoading] = useAxiosPost();
 
   // get user data from redux store
@@ -131,34 +130,6 @@ export default function DistributionPlanCreateEdit() {
   };
 
   useEffect(() => {
-    const { state } = location || {};
-    const { isEdit } = state || {};
-    if (isEdit) {
-      (async () => {
-        const item = await axios.get(
-          `/oms/DistributionChannel/GetDistributionHeaderById?DistributionPlanningId=${state?.item?.distributionPlanningId}`
-        );
-
-        setModifiedData(getModifiedInitData(item?.data));
-      })();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    const { state } = location || {};
-    if (state?.isEdit) {
-      (async () => {
-        const distributionRowList = await axios.get(
-          `/oms/DistributionChannel/GetDistributionItemById?DistributionPlanningId=${state?.item?.distributionPlanningId}`
-        );
-        setRowDto({ itemList: distributionRowList?.data });
-      })();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [buId]);
-
-  useEffect(() => {
     getPlantDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
@@ -172,15 +143,94 @@ export default function DistributionPlanCreateEdit() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
 
+  const handleWarehouseChange = (values, valueOption, setFieldValue) => {
+    if (valueOption) {
+      const isExist = tableData?.itemList?.find(
+        (item) => item?.intWareHouseId === valueOption?.value
+      );
+      if (isExist) {
+        return toast.warn("Already Exist this entry!");
+      } else {
+        setFieldValue("warehouse", valueOption);
+        getRowDto(
+          `/oms/DistributionChannel/GetDistributionPlanningItemList?buisnessUnitId=${buId}&territoryid=${values?.territory?.value}&plantId=${values?.plant?.value}&warehouseId=${valueOption?.value}&year=${values?.year?.value}&month=${values?.horizon?.monthId}`,
+          (res) => {
+            try {
+              const isExistWareHouse = tableData?.itemList?.find(
+                (item) => item?.intWareHouseId === valueOption?.value
+              );
+
+              if (isExistWareHouse) {
+                return toast.warn("already exists");
+              } else {
+                const modifyResForWarehouse = res?.itemList?.map((item) => {
+                  return {
+                    ...item,
+                    intWareHouseId: valueOption?.value,
+                    strWareHouseName: valueOption?.label,
+                    intPlantHouseId: values?.plant?.value,
+                    strPlantHouseName: values?.plant?.label,
+                    intRestQty: +item?.salesPlanQty || 0,
+                    salesPlanQty: +item?.salesPlanQty || 0,
+                  };
+                });
+                const currentItemList = [
+                  ...(tableData?.itemList || []),
+                  ...modifyResForWarehouse,
+                ];
+                const modifyItemList = modifyRowDto(currentItemList);
+                setTableData({
+                  ...tableData,
+                  itemList: modifyItemList,
+                });
+              }
+            } catch (error) {
+              console.log(error);
+            }
+            // const modifyResForWarehouse = res?.itemList?.map((item) => {
+            //   const restQty = rowDto?.itemList?.filter(
+            //     (itm) => itm?.itemId === item?.itemId
+            //   );
+            //   return {
+            //     ...item,
+            //     intWareHouseId: valueOption?.value,
+            //     strWareHouseName: valueOption?.label,
+            //     intPlantHouseId: values?.plant?.value,
+            //     strPlantHouseName: values?.plant?.label,
+            //     intRestQty: +item?.salesPlanQty - (+item?.planQty || 0),
+            //     salesPlanQty:
+            //       restQty?.length > 0
+            //         ? restQty[restQty?.length - 1]?.intRestQty || 0
+            //         : item?.salesPlanQty,
+            //   };
+            // });
+            // const newResData = [...modifyResForWarehouse];
+            // setRowDto({
+            //   ...rowDto,
+            //   itemList: rowDto?.itemList?.length
+            //     ? [...rowDto?.itemList, ...newResData]
+            //     : [...newResData],
+            // });
+            // if (res?.response === "Already Exists") {
+            //   toast.warn("Already Exist this entry!");
+            // }
+          }
+        );
+      }
+    } else {
+      setFieldValue("warehouse", "");
+    }
+  };
+
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={location?.state?.isEdit ? modifiedData : initData}
+      initialValues={initData}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler({
           values,
-          rowDto,
+          tableData,
           buId,
           userId,
           location,
@@ -212,13 +262,9 @@ export default function DistributionPlanCreateEdit() {
             yearLoading ||
             horizonLoading) && <Loading />}
           <IForm
-            title={
-              location?.state?.isEdit
-                ? "Distribution Plan Edit"
-                : "Distribution Plan Create"
-            }
+            title={"Distribution Plan Create"}
             getProps={setObjprops}
-            isHiddenSave={rowDto?.response === "Already Exists"}
+            isHiddenSave={tableData?.response === "Already Exists"}
             isHiddenReset
           >
             <Form>
@@ -241,7 +287,6 @@ export default function DistributionPlanCreateEdit() {
                       placeholder="Select Distribution Channel"
                       errors={errors}
                       touched={touched}
-                      isDisabled={location?.state?.isEdit}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -260,7 +305,7 @@ export default function DistributionPlanCreateEdit() {
                       placeholder="Select Region"
                       errors={errors}
                       touched={touched}
-                      isDisabled={!values?.channel || location?.state?.isEdit}
+                      isDisabled={!values?.channel}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -278,7 +323,7 @@ export default function DistributionPlanCreateEdit() {
                       placeholder="Select Area"
                       errors={errors}
                       touched={touched}
-                      isDisabled={!values?.region || location?.state?.isEdit}
+                      isDisabled={!values?.region}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -295,7 +340,7 @@ export default function DistributionPlanCreateEdit() {
                       placeholder="Select Territory"
                       errors={errors}
                       touched={touched}
-                      isDisabled={!values?.area || location?.state?.isEdit}
+                      isDisabled={!values?.area}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -316,7 +361,7 @@ export default function DistributionPlanCreateEdit() {
                       placeholder="Select plant"
                       errors={errors}
                       touched={touched}
-                      isDisabled={!values?.territory || location?.state?.isEdit}
+                      isDisabled={!values?.territory}
                     />
                   </div>
 
@@ -339,7 +384,7 @@ export default function DistributionPlanCreateEdit() {
                       placeholder="Select year"
                       errors={errors}
                       touched={touched}
-                      isDisabled={!values?.plant || location?.state?.isEdit}
+                      isDisabled={!values?.plant}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -361,7 +406,7 @@ export default function DistributionPlanCreateEdit() {
                       placeholder="Select horizon"
                       errors={errors}
                       touched={touched}
-                      isDisabled={!values?.year || location?.state?.isEdit}
+                      isDisabled={!values?.year}
                     />
                   </div>
                 </div>
@@ -374,44 +419,7 @@ export default function DistributionPlanCreateEdit() {
                     value={values?.warehouse}
                     label="Warehouse"
                     onChange={(valueOption) => {
-                      if (valueOption) {
-                        const isExist = rowDto?.itemList?.find(
-                          (item) => item?.intWareHouseId === valueOption?.value
-                        );
-                        if (isExist) {
-                          return toast.warn("Already Exist this entry!");
-                        } else {
-                          setFieldValue("warehouse", valueOption);
-                          getRowDto(
-                            `/oms/DistributionChannel/GetDistributionPlanningItemList?buisnessUnitId=${buId}&territoryid=${values?.territory?.value}&plantId=${values?.plant?.value}&warehouseId=${valueOption?.value}&year=${values?.year?.value}&month=${values?.horizon?.monthId}`,
-                            (res) => {
-                              const modifyResForWarehouse = res?.itemList?.map(
-                                (item) => {
-                                  return {
-                                    ...item,
-                                    intWareHouseId: valueOption?.value,
-                                    strWareHouseName: valueOption?.label,
-                                    intPlantHouseId: values?.plant?.value,
-                                    strPlantHouseName: values?.plant?.label,
-                                  };
-                                }
-                              );
-                              const newResData = [...modifyResForWarehouse];
-                              setRowDto({
-                                ...rowDto,
-                                itemList: rowDto?.itemList?.length
-                                  ? [...rowDto?.itemList, ...newResData]
-                                  : [...newResData],
-                              });
-                              if (res?.response === "Already Exists") {
-                                toast.warn("Already Exist this entry!");
-                              }
-                            }
-                          );
-                        }
-                      } else {
-                        setFieldValue("warehouse", "");
-                      }
+                      handleWarehouseChange(values, valueOption, setFieldValue);
                     }}
                     placeholder="Select Warehouse"
                     errors={errors}
@@ -420,8 +428,7 @@ export default function DistributionPlanCreateEdit() {
                       !values?.territory ||
                       !values?.plant ||
                       !values?.year ||
-                      !values?.horizon ||
-                      location?.state?.isEdit
+                      !values?.horizon
                     }
                   />
                 </div>
@@ -429,11 +436,10 @@ export default function DistributionPlanCreateEdit() {
 
               <div className="row">
                 <div className="col-lg-12">
-                  {rowDto?.response === "Already Exists" ? (
-                    <ViewTable rowDto={rowDto} />
-                  ) : (
-                    <EntryTable rowDto={rowDto} setRowDto={setRowDto} />
-                  )}
+                  <EntryTable
+                    tableData={tableData}
+                    setTableData={setTableData}
+                  />
                 </div>
               </div>
 
@@ -448,10 +454,7 @@ export default function DistributionPlanCreateEdit() {
                 type="reset"
                 style={{ display: "none" }}
                 ref={objProps?.resetBtnRef}
-                onSubmit={() => {
-                  // setRowDto([]);
-                  // resetForm(initData);
-                }}
+                onSubmit={() => {}}
               ></button>
             </Form>
           </IForm>
