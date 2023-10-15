@@ -108,3 +108,22 @@ export const checkPermission = async (userId, buId, setter, setLoading) => {
     setLoading(false);
   }
 };
+export const getOverDueApprovalUserApi = async (
+  accId,
+  buId,
+  userId,
+  setter,
+  setLoading
+) => {
+  setLoading(true);
+  setter('')
+  try {
+    const res = await axios.get(
+      `/oms/TerritoryInfo/GetOverDueApprovalUser?accountId=${accId}&businessUnitId=${buId}&userId=${userId}`
+    );
+    setter(res?.data);
+    setLoading(false);
+  } catch (error) {
+    setLoading(false);
+  }
+};

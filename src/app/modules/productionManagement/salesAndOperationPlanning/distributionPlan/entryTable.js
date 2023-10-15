@@ -21,7 +21,7 @@ export default function EntryTable({ tableData, setTableData }) {
           <th>Plant</th>
           <th>Warehouse</th>
           <th>Sales Plant Qty</th>
-          <th>Rest Qty</th>
+          <th>Distribution Plan Rest Qty</th>
           <th>Plan Qty</th>
           <th>Plan Rate</th>
         </tr>
