@@ -41,7 +41,6 @@ export default function ReceiveInvCreateForm({
   const [isDisabled, setDisabled] = useState(false);
   const dispatch = useDispatch();
   const [rowDto, setRowDto] = useState([]);
-  console.log("rowDtoooooo: ", rowDto);
   const [fileObjects, setFileObjects] = useState([]);
   const [open, setOpen] = useState(false);
   const [supplierDDL, setSupplierDDL] = useState(false);
@@ -131,7 +130,6 @@ export default function ReceiveInvCreateForm({
   //add row Dto Data
   const addRowDtoData = (values) => {
     if (values.isAllItem === false) {
-      console.log("rowDto add rowdto data: ", rowDto);
       let data = rowDto?.filter((data) => data?.itemId === values?.item?.value);
       if (data?.length > 0) {
         toast.warning("Item Already added", { toastId: "receiveInventory" });
@@ -141,7 +139,7 @@ export default function ReceiveInvCreateForm({
           {
             itemId: values?.item?.value,
             itemName: values?.item?.label,
-            itemCode: values?.item?.code,
+            itemCode: values?.item?.itemCode,
             uoMid: values?.item?.uoMId,
             uoMname: values?.item?.uoMName,
             refQty: values?.item?.refQty || 0,
@@ -175,13 +173,12 @@ export default function ReceiveInvCreateForm({
       }
     } else {
       let data = itemDDL?.map((data) => {
-        console.log("Dataaaaaaaa: ", data);
         return {
           itemId: data?.value,
           itemName: data?.label,
           uoMid: data.uoMId,
           uoMname: data?.uoMName,
-          itemCode: data.code,
+          itemCode: data.itemCode,
           refQty: data?.refQty || 0,
           restQty: data?.restQty || 0,
           requestQty: data?.requestQty || 0,
@@ -261,7 +258,6 @@ export default function ReceiveInvCreateForm({
       if (values && profileData?.accountId && selectedBusinessUnit?.value) {
         let rowDataformet = rowDto
           .map((data) => {
-            console.log("dataaaaa: ", data);
             return {
               itemId: data?.itemId,
               itemName: data?.itemName,
@@ -290,8 +286,6 @@ export default function ReceiveInvCreateForm({
             };
           })
           .filter((data) => data.numTransactionQuantity > 0);
-
-        console.log(rowDataformet);
 
         // if (rowDataformet.length === 0) {
         //   toast.warning("Item Quantity Can not be zero");
@@ -415,7 +409,6 @@ export default function ReceiveInvCreateForm({
         }) => (
           <>
             {disableHandler && disableHandler(!isValid)}
-            {console.log("values", values)}
             <Form className="form form-label-right po-label">
               <div className="form-group row inventory-form">
                 <div className="col-lg-2">
