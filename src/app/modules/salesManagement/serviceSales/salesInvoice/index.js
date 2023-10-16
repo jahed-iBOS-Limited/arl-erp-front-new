@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
@@ -10,6 +10,8 @@ import { _todayDate } from "../../../_helper/_todayDate";
 import IConfirmModal from "../../../_helper/_confirmModal";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
+import IViewModal from "../../../_helper/_viewModal";
+import PrintInvoiceModal from "./printInvoice";
 const initData = {
   customer: "",
   item: "",
@@ -26,8 +28,8 @@ export default function SalesInvoiceLanding() {
   const [, saveHandler] = useAxiosPost();
   const [, collectionHandler] = useAxiosGet();
 
-  // const [showModal, setShowModal] = useState(false);
-  // const [singleItem, setSingleItem] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [singleItem, setSingleItem] = useState(null);
   // const [, collectionHandler] = useAxiosPost();
 
   useEffect(() => {
@@ -101,7 +103,8 @@ export default function SalesInvoiceLanding() {
                         header: {
                           //   intServiceSalesInvoiceId: 0,
                           //   strServiceSalesInvoiceCode: "",
-                          strServiceSalesOrderCode: item?.strServiceSalesOrderCode,
+                          strServiceSalesOrderCode:
+                            item?.strServiceSalesOrderCode,
                           intServiceSalesOrderId: item?.intServiceSalesOrderId,
                           dteInvoiceDateTime: _todayDate(),
                           intAccountId: profileData?.accountId,
@@ -131,20 +134,22 @@ export default function SalesInvoiceLanding() {
                         //   //   numAdjustPreviousAmount: 0,
                         //   isActive: true,
                         // })),
-                        row:[{
-                          //   intServiceSalesInvoiceRowId: 0,
-                          //   intServiceSalesInvoiceId: 0,
-                          intServiceSalesScheduleId:
-                            item?.intServiceSalesScheduleId,
-                          dteScheduleCreateDateTime:
-                            item?.dteScheduleCreateDateTime,
-                          dteDueDateTime: item?.dteDueDateTime,
-                          numScheduleAmount: item?.numScheduleAmount,
-                          //   numCollectionAmount: 0,
-                          //   numPendingAmount: 0,
-                          //   numAdjustPreviousAmount: 0,
-                          isActive: true,
-                        }],
+                        row: [
+                          {
+                            //   intServiceSalesInvoiceRowId: 0,
+                            //   intServiceSalesInvoiceId: 0,
+                            intServiceSalesScheduleId:
+                              item?.intServiceSalesScheduleId,
+                            dteScheduleCreateDateTime:
+                              item?.dteScheduleCreateDateTime,
+                            dteDueDateTime: item?.dteDueDateTime,
+                            numScheduleAmount: item?.numScheduleAmount,
+                            //   numCollectionAmount: 0,
+                            //   numPendingAmount: 0,
+                            //   numAdjustPreviousAmount: 0,
+                            isActive: true,
+                          },
+                        ],
                       }));
 
                       saveHandler(
@@ -331,8 +336,33 @@ export default function SalesInvoiceLanding() {
                                           noAlertFunc: () => {},
                                         });
                                       }}
-                                      style={{ fontSize: "16px" }}
+                                      style={{
+                                        fontSize: "16px",
+                                        cursor: "pointer",
+                                      }}
                                       class="fa fa-archive"
+                                      aria-hidden="true"
+                                    ></i>
+                                  </span>
+                                </OverlayTrigger>
+                                <OverlayTrigger
+                                  overlay={
+                                    <Tooltip id="cs-icon">
+                                      {"Print Invoice"}
+                                    </Tooltip>
+                                  }
+                                >
+                                  <span>
+                                    <i
+                                      onClick={() => {
+                                        setSingleItem(item);
+                                        setShowModal(true);
+                                      }}
+                                      style={{
+                                        fontSize: "16px",
+                                        cursor: "pointer",
+                                      }}
+                                      class="fa fa-print"
                                       aria-hidden="true"
                                     ></i>
                                   </span>
@@ -345,69 +375,14 @@ export default function SalesInvoiceLanding() {
                     </table>
                   </div>
                 )}
-                {/* <div className="mt-5">
-                  <table className="table table-striped table-bordered bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th>
-                          <input
-                            type="checkbox"
-                            checked={
-                              rowData?.length > 0 &&
-                              rowData?.every((item) => item?.isChecked)
-                            }
-                            onChange={(e) => {
-                              setRowData(
-                                rowData?.map((item) => {
-                                  return {
-                                    ...item,
-                                    isChecked: e?.target?.checked,
-                                  };
-                                })
-                              );
-                            }}
-                          />
-                        </th>
-                        <th>Customer</th>
-                        <th>Schedule Type</th>
-                        <th>Sales Type</th>
-                        <th> S Service Sales Order Code</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowData?.map((item, index) => (
-                        <tr key={index}>
-                          <td>
-                            <input
-                              type="checkbox"
-                              value={item?.isChecked}
-                              checked={item?.isChecked}
-                              onChange={(e) => {
-                                const data = [...rowData];
-                                data[index]["isChecked"] = e.target.checked;
-                                setRowData(data);
-                              }}
-                            />
-                          </td>
-                          <td>{item?.header?.strCustomerName}</td>
-                          <td>{item?.header?.strScheduleTypeName}</td>
-                          <td>{item?.header?.strSalesTypeName}</td>
-                          <td className="text-center">
-                            {item?.header?.strServiceSalesOrderCode}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div> */}
               </div>
-              {/* <IViewModal
+              <IViewModal
                 show={showModal}
                 onHide={() => setShowModal(false)}
-                title="Schedule List"
+                title=""
               >
-                <ScheduleListTable item={singleItem} />
-              </IViewModal> */}
+                <PrintInvoiceModal singleItem={singleItem} />
+              </IViewModal>
             </Form>
           </IForm>
         </>
