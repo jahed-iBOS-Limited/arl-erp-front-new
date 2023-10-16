@@ -37,6 +37,8 @@ import ShipToPartnerAnalysisReport from "./shipToPartnerAnalysisReport/table";
 import { ShipToPartnerInfoTable } from "./shipToPartnerInfo/landing/table";
 import { ShipToPartnerTransfer } from "./shipToPartnerTransfer/landing/table";
 import ShippingPointnTransportRate from "./shippingPointnTransportrate";
+import BusinessPartnerGroupLanding from "./businessPartnerGroup/landing";
+import BusinessPartnerGroupForm from "./businessPartnerGroup/form/addEditForm";
 
 export function PartnerPages() {
   const userRole = useSelector(
@@ -69,7 +71,9 @@ export function PartnerPages() {
       <ContentRoute
         path="/config/partner-management/partner-basic-info/bulk-upload"
         component={
-          partnerProfilePermission?.isCreate ? PartnerBulkUpload : NotPermittedPage
+          partnerProfilePermission?.isCreate
+            ? PartnerBulkUpload
+            : NotPermittedPage
         }
       />
       <ContentRoute
@@ -90,7 +94,6 @@ export function PartnerPages() {
         path="/config/partner-management/partner-basic-info/view/:id"
         component={PartnerView}
       />
-      
 
       <ContentRoute
         from="/config/partner-management/partner-basic-info"
@@ -268,6 +271,15 @@ export function PartnerPages() {
       <ContentRoute
         from="/config/partner-management/partnerchequeinfo"
         component={PartnerChequeInfo}
+      />
+
+      <ContentRoute
+        from="/config/partner-management/businesspartnergroup/create"
+        component={BusinessPartnerGroupForm}
+      />
+      <ContentRoute
+        from="/config/partner-management/businesspartnergroup"
+        component={BusinessPartnerGroupLanding}
       />
     </Switch>
   );

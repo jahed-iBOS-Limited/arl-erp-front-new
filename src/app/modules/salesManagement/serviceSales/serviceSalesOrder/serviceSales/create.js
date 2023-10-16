@@ -149,8 +149,14 @@ export default function ServiceSalesCreate() {
         strCustomerAddress: values?.customer?.address,
         intPaymentTypeId: values?.paymentType?.value || 0,
         strPaymentType: values?.paymentType?.label || "",
-        intScheduleTypeId: values?.scheduleType?.value || 0,
-        strScheduleTypeName: values?.scheduleType?.label || "",
+        intScheduleTypeId:
+          values?.paymentType?.value === 2
+            ? 4
+            : values?.scheduleType?.value || 0,
+        strScheduleTypeName:
+          values?.paymentType?.value === 2
+            ? "One Time"
+            : values?.scheduleType?.label || "",
         intScheduleDayCount: +values?.invoiceDay || 0,
         dteStartDateTime: values?.validFrom || _todayDate(),
         dteEndDateTime: values?.validTo || _todayDate(),
