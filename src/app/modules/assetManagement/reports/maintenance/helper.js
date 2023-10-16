@@ -29,6 +29,7 @@ export const getMaintenanceReport = async ({
   businessUnitId,
   plantId,
   reportType,
+  status,
   fromDate,
   toDate,
   intReffId,
@@ -37,7 +38,7 @@ export const getMaintenanceReport = async ({
 }) => {
   setLoading(true);
   try {
-    const res = await Axios.get(`/asset/Asset/GetAssetManitenanceRPT?intPart=${part}&intUnitId=${businessUnitId}&intPlantId=${plantId}&dteFrom=${fromDate}&dteTo=${toDate}&intReffId=${intReffId}&intRptType=${reportType}&whid=${warehouseId}`
+    const res = await Axios.get(`/asset/Asset/GetAssetManitenanceRPT?intPart=${part}&intUnitId=${businessUnitId}&intPlantId=${plantId}&dteFrom=${fromDate}&dteTo=${toDate}&intReffId=${intReffId}&intRptType=${reportType}&whid=${warehouseId}&status=${status}`
     );
     setLoading(false);
     setter(res?.data);

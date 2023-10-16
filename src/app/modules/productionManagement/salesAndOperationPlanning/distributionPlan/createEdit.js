@@ -283,6 +283,7 @@ export default function DistributionPlanCreateEdit() {
                         setFieldValue("territory", "");
                         setFieldValue("warehouse", "");
                         getRegionDDLHandler(valueOption);
+                        setTableData({});
                       }}
                       placeholder="Select Distribution Channel"
                       errors={errors}
@@ -301,6 +302,7 @@ export default function DistributionPlanCreateEdit() {
                         setFieldValue("territory", "");
                         setFieldValue("warehouse", "");
                         getAreaDDLHandler(values, valueOption);
+                        setTableData({});
                       }}
                       placeholder="Select Region"
                       errors={errors}
@@ -319,6 +321,7 @@ export default function DistributionPlanCreateEdit() {
                         setFieldValue("territory", "");
                         setFieldValue("warehouse", "");
                         getTerritoryDDLHandler(values, valueOption);
+                        setTableData({});
                       }}
                       placeholder="Select Area"
                       errors={errors}
@@ -336,6 +339,7 @@ export default function DistributionPlanCreateEdit() {
                         setFieldValue("territory", valueOption);
                         setFieldValue("warehouse", "");
                         setRowDto({});
+                        setTableData({});
                       }}
                       placeholder="Select Territory"
                       errors={errors}
@@ -351,6 +355,7 @@ export default function DistributionPlanCreateEdit() {
                       label="Plant"
                       onChange={(valueOption) => {
                         setRowDto({});
+                        setTableData({});
                         setFieldValue("plant", valueOption);
                         setFieldValue("warehouse", "");
                         setFieldValue("year", "");
@@ -373,6 +378,7 @@ export default function DistributionPlanCreateEdit() {
                       label="Year"
                       onChange={(valueOption) => {
                         setRowDto({});
+                        setTableData({});
                         setFieldValue("year", valueOption);
                         setFieldValue("horizon", "");
                         setFieldValue("warehouse", "");
@@ -394,6 +400,7 @@ export default function DistributionPlanCreateEdit() {
                       value={values?.horizon}
                       label="Planning Horizon"
                       onChange={(valueOption) => {
+                        setTableData({});
                         setFieldValue("warehouse", "");
                         setRowDto({});
                         setFieldValue("horizon", valueOption);
