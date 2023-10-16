@@ -49,7 +49,7 @@ export default function _Form({
         ...item,
         value: item?.value,
         assetproName: item?.label,
-        label: item?.labelCode     
+        label: item?.labelCode
       }));
       return updateList;
     });
@@ -80,7 +80,7 @@ export default function _Form({
             {console.log(values, "values")}
             <Form className="form form-label-right">
               <div className="form-group row global-form">
-                <div className="col-lg-3">
+                <div className="col-lg-4">
                   <label>Asset NO.</label>
                   <SearchAsyncSelect
                     selectedValue={values?.assetNo}
@@ -118,7 +118,7 @@ export default function _Form({
                     touched={touched}
                   /> */}
                 </div>
-                <div className="col-lg-3">
+                <div className="col-lg-4">
                   <InputField
                     value={values?.assetName}
                     label="Asset Name"
@@ -127,7 +127,7 @@ export default function _Form({
                     name="assetName"
                   />
                 </div>
-                <div className="col-lg-3">
+                <div className="col-lg-4">
                   <InputField
                     value={values?.businessUnit}
                     label="Business Unit"
@@ -136,17 +136,21 @@ export default function _Form({
                     name="businessUnit"
                   />
                 </div>
-                <div className="col-lg-3 mt-7 d-flex">
+                <div className="col-lg-4 mt-7 d-flex">
                   <label className="mr-3">
                     <Field type="radio" name="picked" value="Preventive" />
                     <span className="ml-2">Preventive</span>
                   </label>
-                  <label>
+                  <label className="mr-3">
                     <Field type="radio" name="picked" value="Corrective" />
                     <span className="ml-2">Corrective</span>
                   </label>
+                  <label>
+                    <Field type="radio" name="picked" value="OthersInstallation" />
+                    <span className="ml-2">Others Installation</span>
+                  </label>
                 </div>
-                <div className="col-lg-3">
+                <div className="col-lg-4">
                   <ISelect
                     label="Select Service"
                     options={serviceDDL}
@@ -158,7 +162,7 @@ export default function _Form({
                   />
                 </div>
 
-                <div className="col-lg-3">
+                <div className="col-lg-4">
                   <ISelect
                     label="Select Priority"
                     options={[

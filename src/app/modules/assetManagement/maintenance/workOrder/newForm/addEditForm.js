@@ -63,7 +63,13 @@ export default function AssetOrderForm({
   const saveHandler = async (values, cb) => {
     setDisabled(true);
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
-      
+      const isPreventive = () => {
+        if(values?.picked === "OthersInstallation") {
+          return 0;
+        }
+        return values.picked === "Preventive" ? true : false;
+      }
+
       const payload = {
         assetId: values.assetNo.value,
         assetCode: values.assetNo.code,
@@ -77,7 +83,8 @@ export default function AssetOrderForm({
         warehouseId: warehouseName.value,
         warehouseName: warehouseName.label,
         dueMaintenanceDate: _todayDate(),
-        isPreventive: values.picked === "Preventive" ? true : false,
+        isPreventive: isPreventive(),
+        IsOthersInstallation: values?.picked === "OthersInstallation" ? true : false,
         startDateTime: values.assetDate,
         endDateTime: _todayDate(),
         engineerEmployeeId: 0,
