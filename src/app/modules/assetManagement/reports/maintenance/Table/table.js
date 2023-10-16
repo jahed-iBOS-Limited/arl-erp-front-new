@@ -17,6 +17,7 @@ import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import axios from "axios";
 import ReactHtmlTableToExcel from "react-html-table-to-excel";
 import { IInput } from "../../../../_helper/_input";
+import { _timeFormatter } from "../../../../_helper/_timeFormatter";
 // import FormikError from "../../../../_helper/_formikError";
 // import numberWithCommas from "../../../../_helper/_numberWithCommas";
 
@@ -372,8 +373,8 @@ const MaintenanceReportTable = () => {
                           <td>{item?.strRepairType}</td>
                           <td>{item?.strPriority}</td>
                           <td>{item?.strStatus}</td>
-                          <td>{_dateFormatter(item?.dteStart)}</td>
-                          <td>{_dateFormatter(item?.dteEnd)}</td>
+                          <td>{_dateFormatter(item?.dteStart)} ({_timeFormatter(item?.dteStart?.split('T')?.[1])})</td>
+                          <td>{_dateFormatter(item?.dteEnd)} ({_timeFormatter(item?.dteEnd?.split('T')?.[1])})</td>
                           <td>{item?.monMaterial}</td>
                           <td>{item?.monServiceCost}</td>
                           <td>{item?.monMaterial + item?.monServiceCost}</td>
@@ -389,7 +390,7 @@ const MaintenanceReportTable = () => {
                         </tr>
                       ))}
                         <tr>
-                          <td className="text-right font-weight-bold" colSpan="10"> Total</td>
+                          <td className="text-right font-weight-bold" colSpan="11"> Total</td>
                           <td className="text-center font-weight-bold">{landing?.reduce((acc,item)=>acc+ +item?.monMaterial,0)}</td>
                           <td className="text-center font-weight-bold">{landing?.reduce((acc,item)=>acc+ +item?.monServiceCost,0)}</td>
                           <td className="text-center font-weight-bold">{landing?.reduce((acc,item)=>acc+ (+item?.monMaterial + +item?.monServiceCost),0)}</td>

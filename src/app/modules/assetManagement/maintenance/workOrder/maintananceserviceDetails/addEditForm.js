@@ -32,6 +32,7 @@ const initData = {
   serviceName: "",
   serviceCost: "",
   descriptionSub: "",
+  costCenter: "",
   costElement: "",
   narration: "",
 };
