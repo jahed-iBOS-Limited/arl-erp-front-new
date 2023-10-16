@@ -101,6 +101,7 @@ export default function SalesInvoiceLanding() {
                         header: {
                           //   intServiceSalesInvoiceId: 0,
                           //   strServiceSalesInvoiceCode: "",
+                          strServiceSalesOrderCode: item?.strServiceSalesOrderCode,
                           intServiceSalesOrderId: item?.intServiceSalesOrderId,
                           dteInvoiceDateTime: _todayDate(),
                           intAccountId: profileData?.accountId,
