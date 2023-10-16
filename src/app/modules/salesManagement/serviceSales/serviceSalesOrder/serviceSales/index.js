@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { shallowEqual, useSelector } from "react-redux";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
@@ -8,6 +8,7 @@ import IForm from "../../../../_helper/_form";
 import NewSelect from "../../../../_helper/_select";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import PaginationTable from "../../../../_helper/_tablePagination";
 
 const initData = {
   customer: "",
@@ -21,6 +22,8 @@ export default function ServiceSalesLanding() {
   const [customerList, getCustomerList] = useAxiosGet();
   const [itemDDL, getItemDDL] = useAxiosGet();
   const [scheduleList, getScheduleList, loader] = useAxiosGet();
+  const [pageNo, setPageNo] = useState(0);
+  const [pageSize, setPageSize] = useState(15);
 
   useEffect(() => {
     getCustomerList(
@@ -34,6 +37,17 @@ export default function ServiceSalesLanding() {
 
   const saveHandler = (values, cb) => {};
   const history = useHistory();
+
+  const setPositionHandler = (pageNo, pageSize, values) => {
+    getScheduleList(
+      `/oms/ServiceSales/GetServiceSalesLanding?accountId=${
+        profileData?.accountId
+      }&businessUnitId=${selectedBusinessUnit?.value}&customerId=${values
+        ?.customer?.value || 0}&itemId=${values?.item?.value ||
+        0}&pageNo=${pageNo}&pageSize=${pageSize}`
+    );
+  };
+
   return (
     <Formik
       enableReinitialize={true}
@@ -115,11 +129,13 @@ export default function ServiceSalesLanding() {
                       style={{ marginTop: "17px" }}
                       onClick={() => {
                         getScheduleList(
-                          `/oms/ServiceSales/GetServiceScheduleList?accountId=${
+                          `/oms/ServiceSales/GetServiceSalesLanding?accountId=${
                             profileData?.accountId
                           }&businessUnitId=${
                             selectedBusinessUnit?.value
-                          }&ServiceSalesOrderId=${0}&dteTodate=${_todayDate()}`
+                          }&customerId=${values?.customer?.value ||
+                            0}&itemId=${values?.item?.value ||
+                            0}&pageNo=${pageNo}&pageSize=${pageSize}`
                         );
                       }}
                     >
@@ -131,27 +147,42 @@ export default function ServiceSalesLanding() {
                   <table className="table table-striped table-bordered bj-table bj-table-landing">
                     <thead>
                       <tr>
+                        <th>Order Code</th>
                         <th>Customer</th>
+                        <th>Salaes Type Name</th>
+                        <th>Payment Type</th>
                         <th>Schedule Type</th>
-                        <th>Item Name</th>
-                        <th>Due Date</th>
-                        <th>Payment Percent</th>
-                        <th>Schedule Amount</th>
+                        <th>Due Invoice</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {scheduleList?.map((item, index) => (
+                      {scheduleList?.data?.map((item, index) => (
                         <tr key={index}>
+                          <td>{item?.strServiceSalesOrderCode}</td>
                           <td>{item?.strCustomerName}</td>
+                          <td>{item?.strSalesTypeName}</td>
+                          <td>{item?.strPaymentType}</td>
                           <td>{item?.strScheduleTypeName}</td>
-                          <td>{item?.strItemName}</td>
-                          <td className="text-center">{_dateFormatter(item?.dteDueDateTime)}</td>
-                          <td className="text-center">{item?.intPaymentByPercent}</td>
-                          <td className="text-right">{item?.numScheduleAmount}</td>
+                          <td className="text-center">
+                            {`${item?.invoiceCollectionCount} / ${item?.intInvoiceCount}`}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
+                  {scheduleList?.data?.length > 0 && (
+                    <PaginationTable
+                      count={scheduleList?.totalCount}
+                      setPositionHandler={setPositionHandler}
+                      paginationState={{
+                        pageNo,
+                        setPageNo,
+                        pageSize,
+                        setPageSize,
+                      }}
+                      values={values}
+                    />
+                  )}
                 </div>
               </div>
             </Form>
