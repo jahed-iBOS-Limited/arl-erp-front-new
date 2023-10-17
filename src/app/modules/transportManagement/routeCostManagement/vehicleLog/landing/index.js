@@ -21,6 +21,7 @@ import VehicleLogBook from "../view/addEditForm";
 import VehicleEditForm from "../Form/formForEdit";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import VehicleProblemTable from "./vehicleProblemTable";
+import VehicleTripTargetTable from "./tripTargetTable";
 
 const initData = {
   vehicleNo: "",
@@ -64,6 +65,15 @@ const VehicleLogLanding = () => {
   const getGridData = (values, pageNo, pageSize) => {
     const typeId = values?.type?.value;
 
+    const vehicleProblemUrl = `/tms/Vehicle/GetVechicleProblemInfo?businessUnitId=${buId}&shipPointId=${values
+      ?.shipPoint?.value || 0}&vehicleId=${values?.vehicleNo?.value ||
+      0}&pageNo=${pageNo}&pageSize=${pageSize}`;
+
+    const tripTargetUrl = `/tms/Vehicle/GetVehicleTripTarget?businessUnitId=${buId}&shipPointId=${values?.shipPoint?.value}&vehicleId=${values?.vehicleNo?.value}&yearId=${values?.year?.value}&monthId=${values?.month?.value}&pageNo=${pageNo}&pageSize=${pageSize}`;
+
+    const URL =
+      typeId === 2 ? vehicleProblemUrl : typeId === 3 ? tripTargetUrl : "";
+
     if (typeId === 1) {
       getVehicleLogBookLanding(
         values?.travelDateFrom,
@@ -76,20 +86,15 @@ const VehicleLogLanding = () => {
         setRowData,
         setLoading
       );
-    } else if (typeId === 2) {
-      getRowData(
-        `/tms/Vehicle/GetVechicleProblemInfo?businessUnitId=${buId}&shipPointId=${values
-          ?.shipPoint?.value || 0}&vehicleId=${values?.vehicleNo?.value ||
-          0}&pageNo=${pageNo}&pageSize=${pageSize}`,
-        (resData) => {
-          if (!resData?.data?.length) {
-            toast.warn("Data not found");
-            setRowData({});
-          } else {
-            setRowData(resData);
-          }
+    } else if ([2, 3].includes(typeId)) {
+      getRowData(URL, (resData) => {
+        if (!resData?.data?.length) {
+          toast.warn("Data not found");
+          setRowData({});
+        } else {
+          setRowData(resData);
         }
-      );
+      });
     }
   };
 
@@ -140,6 +145,14 @@ const VehicleLogLanding = () => {
                   history.push({
                     pathname:
                       "/transport-management/routecostmanagement/routestandardcost/vehicleProblem",
+                  });
+                } else if (values?.type?.value === 3) {
+                  history.push({
+                    pathname:
+                      "/transport-management/routecostmanagement/routestandardcost/tripTargetEntry",
+                    state: {
+                      values,
+                    },
                   });
                 } else if (values?.vehicleNo?.value) {
                   history.push({
@@ -192,6 +205,9 @@ const VehicleLogLanding = () => {
             {/* Vehicle Problem Table */}
             {[2].includes(values?.type?.value) && (
               <VehicleProblemTable obj={{ rowData }} />
+            )}
+            {[3].includes(values?.type?.value) && (
+              <VehicleTripTargetTable obj={{ rowData, buId, values }} />
             )}
 
             {/* Pagination section for both table */}

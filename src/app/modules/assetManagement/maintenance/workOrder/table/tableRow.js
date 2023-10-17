@@ -22,6 +22,7 @@ import {
   setWorkOrderAction,
   setworkOrderTableLastAction,
 } from "../../../../_helper/reduxForLocalStorage/Actions";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 export function TableRow(props) {
   //const dispatch = useDispatch();
@@ -42,15 +43,18 @@ export function TableRow(props) {
   }, shallowEqual);
 
   const [gridData, setGridData] = useState([]);
-  const [plantName, setPlantName] = useState("");
-  const [warehouseName, setWarehouseName] = useState("");
+  const [sbu, setSbu] = useState([]);
+  const [sbuName, setSbuName] = useState("");
   const [plant, setPlant] = useState([]);
+  const [plantName, setPlantName] = useState("");
   const [warehouse, setWarehouse] = useState([]);
+  const [warehouseName, setWarehouseName] = useState("");
+  const [status, setStatus] = useState("");
+  const [costCenter, setCostCenter] = useState("");
+  const [costCenterDDL, getCostCenterDDL, costCenterDDLLoader] = useAxiosGet();
   // const [isShowModal, setIsShowModal] = useState(false);
   const [currentRowData, setCurrentRowData] = useState("");
   const [isShowModalforCreate, setisShowModalforCreate] = useState(false);
-  const [sbuName, setSbuName] = useState("");
-  const [sbu, setSbu] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
@@ -65,12 +69,16 @@ export function TableRow(props) {
       setLoading,
       pageNo,
       pageSize,
-      warehouseName?.value
+      warehouseName?.value,
+      status?.value,
+      costCenter?.value
     );
     let data = {
       plantName,
       sbuName,
       warehouseName,
+      status,
+      costCenter,
     };
     dispatch(setWorkOrderAction(data));
   };
@@ -91,11 +99,16 @@ export function TableRow(props) {
       setSbuName(wordOrder?.sbuName);
       setPlantName(wordOrder?.plantName);
       setWarehouseName(wordOrder?.warehouseName);
+      setStatus(wordOrder?.status);
+      setCostCenter(wordOrder?.costCenter);
       onChangeforPlant(workOrder?.plantName);
+      getCostCenterDDLHandler(workOrder?.sbuName?.value);
       if (
         wordOrder?.sbuName &&
         wordOrder?.plantName &&
-        wordOrder?.warehouseName
+        wordOrder?.warehouseName &&
+        wordOrder?.status &&
+        wordOrder?.costCenter
       ) {
         getGridData(
           profileData?.accountId,
@@ -105,7 +118,9 @@ export function TableRow(props) {
           setLoading,
           pageNo,
           pageSize,
-          wordOrder?.warehouseName?.value
+          wordOrder?.warehouseName?.value,
+          wordOrder?.status?.value,
+          wordOrder?.costCenter?.value,
         );
       }
     }
@@ -121,6 +136,11 @@ export function TableRow(props) {
     );
   };
 
+  // get cost center ddl handler
+  const getCostCenterDDLHandler = (sbuId) => {
+    getCostCenterDDL(`/asset/DropDown/GetCostCenterList?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SbuId=${sbuId}`)
+  }
+
   const viewGridData = () => {
     getGridData(
       profileData?.accountId,
@@ -130,12 +150,16 @@ export function TableRow(props) {
       setLoading,
       pageNo,
       pageSize,
-      warehouseName?.value
+      warehouseName?.value,
+      status?.value,
+      costCenter?.value
     );
     let data = {
       plantName,
       sbuName,
       warehouseName,
+      status,
+      costCenter,
     };
     dispatch(setWorkOrderAction(data));
   };
@@ -146,6 +170,7 @@ export function TableRow(props) {
 
   return (
     <>
+      {(loading || costCenterDDLLoader) && <Loading />}
       <ICustomCard
         title="Maintenance Work Order"
         renderProps={() => (
@@ -158,7 +183,6 @@ export function TableRow(props) {
           </button>
         )}
       >
-        {loading && <Loading />}
         <div className="row global-form my-3">
           {/* global-form */}
           <div className="col-lg-2">
@@ -169,6 +193,7 @@ export function TableRow(props) {
                 value={sbuName}
                 onChange={(value) => {
                   setSbuName(value);
+                  getCostCenterDDLHandler(value?.value);
                 }}
                 styles={customStyles}
                 isSearchable={true}
@@ -208,10 +233,47 @@ export function TableRow(props) {
               />
             </div>
           </div>
+          <div className="col-lg-2">
+            <div className="form-group">
+              <label>Select Status</label>
+              <Select
+                placeholder="Select Status"
+                options={[
+                  {value: "All", label: "All"},
+                  {value: "Pending", label: "Pending" },
+                  {value: "Open", label: "Open" },
+                  {value: "Close", label: "Close" }
+                ]}
+                value={status}
+                onChange={(value) => {
+                  setStatus(value);
+                }}
+                isDisabled={!warehouseName}
+                styles={customStyles}
+                isSearchable={true}
+              />
+            </div>
+          </div>
+          <div className="col-lg-2">
+            <div className="form-group">
+              <label>Select Cost Center</label>
+              <Select
+                placeholder="Select Cost Center"
+                options={[{ value: 0, label: "All" }, ...costCenterDDL]}
+                value={costCenter}
+                onChange={(value) => {
+                  setCostCenter(value);
+                }}
+                isDisabled={!sbuName}
+                styles={customStyles}
+                isSearchable={true}
+              />
+            </div>
+          </div>
           <div className="col-lg-2 d-flex align-items-end">
             <button
               className="btn btn-primary"
-              disabled={!plantName || !warehouseName}
+              disabled={!plantName || !warehouseName || !status || !costCenter}
               onClick={viewGridData}
             >
               View
@@ -229,6 +291,7 @@ export function TableRow(props) {
                 <th>Maintenance Code</th>
                 <th>Problems</th>
                 <th>Priority</th>
+                <th>Status</th>
                 <th>Date</th>
                 <th className="text-right pr-3">Actions</th>
               </tr>
@@ -243,6 +306,7 @@ export function TableRow(props) {
                   <td>{item.assetMaintenanceCode}</td>
                   <td>{item?.problems} </td>
                   <td>{item.priorityName}</td>
+                  <td>{item?.status}</td>
                   <td>{_dateFormatter(item.dueMaintenanceDate)}</td>
                   <td className="text-center">
                     <span

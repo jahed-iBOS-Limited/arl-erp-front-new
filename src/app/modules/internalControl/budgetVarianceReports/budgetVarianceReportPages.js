@@ -11,7 +11,11 @@ import ProductionVarianceReport from "./productionVarianceReport";
 import BudgetVsSalesVarient from "./salesBudgetVarianceReport";
 import WorkingCapitalVarianceReport from "./workingCapitalVarianceReport";
 import InventoryVarianceReport from "./workingVarianceReport";
-
+import Incomestatement from "./incomeStatement";
+import TrailBalanceReport from "./trailBalance";
+import { FinencialRatiosAnalysis } from "./financialRatioAnalysis/Form/addEditForm";
+import { CashFlowStatement } from "./cashFlowStatement/cashFlowStatement";
+import { BalanceReport } from "./balanceSheetReport";
 
 const BudgetVarianceReportPages = () => {
   return (
@@ -19,7 +23,23 @@ const BudgetVarianceReportPages = () => {
       <Redirect
         exact={true}
         from="/internal-control/budgetvariancereport"
-        to="/internal-control/budgetvariancereport/BudgetVSSalesVariance"
+        to="/internal-control/budgetvariancereport/trailbalance"
+      />
+      <ContentRoute
+        path="/internal-control/budgetvariancereport/trailbalance"
+        component={TrailBalanceReport}
+      />
+      <ContentRoute
+        path="/internal-control/budgetvariancereport/incomestatement"
+        component={Incomestatement}
+      />
+      <ContentRoute
+        path="/internal-control/budgetvariancereport/balancereport"
+        component={BalanceReport}
+      />
+      <ContentRoute
+        path="/internal-control/budgetvariancereport/cashFlowStatement"
+        component={CashFlowStatement}
       />
       {/* <ContentRoute
         path="/internal-control/budgetvariancereport/BudgetVSSalesVariance/test"
@@ -65,7 +85,10 @@ const BudgetVarianceReportPages = () => {
         path="/internal-control/budgetvariancereport/inventoryvariancereport"
         component={InventoryVarianceReport}
       />
-      
+      <ContentRoute
+        path="/internal-control/budgetvariancereport/financialratiosanalysis"
+        component={FinencialRatiosAnalysis}
+      />
     </Switch>
   );
 };

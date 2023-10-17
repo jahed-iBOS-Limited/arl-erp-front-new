@@ -17,6 +17,7 @@ import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import axios from "axios";
 import ReactHtmlTableToExcel from "react-html-table-to-excel";
 import { IInput } from "../../../../_helper/_input";
+import { _timeFormatter } from "../../../../_helper/_timeFormatter";
 // import FormikError from "../../../../_helper/_formikError";
 // import numberWithCommas from "../../../../_helper/_numberWithCommas";
 
@@ -44,7 +45,8 @@ const MaintenanceReportTable = () => {
     reportType: assetReportMaintanceReport?.reportType || "",
     fromDate: assetReportMaintanceReport?.fromDate || _todayDate(),
     toDate: assetReportMaintanceReport?.toDate || _todayDate(),
-    assetNo:assetReportMaintanceReport?.assetNo || ""
+    assetNo:assetReportMaintanceReport?.assetNo || "",
+    status: assetReportMaintanceReport?.status || ""
   };
 
   // //paginationState
@@ -141,19 +143,19 @@ const MaintenanceReportTable = () => {
                       options={plantDDL || []}
                       value={values?.plant}
                       label="Plant"
-                      onChange={(v) => {
-                        if(v){
+                      onChange={(valueOption) => {
+                        if(valueOption){
                           getWarehouseDDL({
                             buId: selectedBusinessUnit?.value,
-                            plantId: v?.value,
+                            plantId: valueOption?.value,
                             setter: setWarehouseDDL,
                           });
                         }
-                        setFieldValue("plant", v);
+                        setFieldValue("plant", valueOption);
                         dispatch(
                           SetAssetReportMaintanceReportAction({
                             ...values,
-                            plant: v,
+                            plant: valueOption,
                           })
                         );
                       }}
@@ -168,12 +170,12 @@ const MaintenanceReportTable = () => {
                       options={warehouseDDL || []}
                       value={values?.warehouse}
                       label="Warehouse"
-                      onChange={(v) => {
-                        setFieldValue("warehouse", v);
+                      onChange={(valueOption) => {
+                        setFieldValue("warehouse", valueOption);
                         dispatch(
                           SetAssetReportMaintanceReportAction({
                             ...values,
-                            warehouse: v,
+                            warehouse: valueOption,
                           })
                         );
                       }}
@@ -189,12 +191,12 @@ const MaintenanceReportTable = () => {
                       options={reportTypelist || []}
                       value={values?.reportType}
                       label="Report Type"
-                      onChange={(v) => {
-                        setFieldValue("reportType", v);
+                      onChange={(valueOption) => {
+                        setFieldValue("reportType", valueOption);
                         dispatch(
                           SetAssetReportMaintanceReportAction({
                             ...values,
-                            reportType: v,
+                            reportType: valueOption,
                           })
                         );
                       }}
@@ -229,26 +231,33 @@ const MaintenanceReportTable = () => {
                       />
                     </div>
                   }
+                  <div className="col-lg-2">
+                    <NewSelect
+                      name="status"
+                      options={[
+                        { value: 0, label: "All" },
+                        { value: "Pending", label: "Pending" },
+                        { value: "Open", label: "Open" },
+                        { value: "Close", label: "Close" },
+                      ]}
+                      value={values?.status}
+                      label="Status"
+                      onChange={(valueOption) => {
+                        setFieldValue("status", valueOption);
+                        dispatch(
+                          SetAssetReportMaintanceReportAction({
+                            ...values,
+                            status: valueOption,
+                          })
+                        );
+                      }}
+                      placeholder="Status"
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
 
                   <div className="col-lg-2">
-                    {/* <label>From Date</label>
-                    <div className="d-flex">
-                      <InputField
-                        value={values?.fromDate}
-                        name="fromDate"
-                        placeholder="From date"
-                        type="date"
-                        onChange={(e) => {
-                          setFieldValue("fromDate", e.target.value);
-                          dispatch(
-                            SetAssetReportMaintanceReportAction({
-                              ...values,
-                              fromDate: e.target.value,
-                            })
-                          );
-                        }}
-                      />
-                    </div> */}
                     <IInput
                       value={values?.fromDate}
                       name="fromDate"
@@ -298,6 +307,7 @@ const MaintenanceReportTable = () => {
                             businessUnitId: selectedBusinessUnit?.value,
                             plantId: values?.plant?.value,
                             reportType: values?.reportType?.value,
+                            status: values?.status?.value,
                             fromDate: values?.fromDate,
                             toDate: values?.toDate,
                             intReffId: values?.assetNo?.value || 0,
@@ -339,6 +349,7 @@ const MaintenanceReportTable = () => {
                         <th style={{ width: "100px" }}>Problem</th>
                         <th>Repair Type</th>
                         <th>Priority</th>
+                        <th>Status</th>
                         <th>Start Date</th>
                         <th>End Date</th>
                         <th>Material</th>
@@ -361,8 +372,9 @@ const MaintenanceReportTable = () => {
                           <td>{item?.strProblem}</td>
                           <td>{item?.strRepairType}</td>
                           <td>{item?.strPriority}</td>
-                          <td>{_dateFormatter(item?.dteStart)}</td>
-                          <td>{_dateFormatter(item?.dteEnd)}</td>
+                          <td>{item?.strStatus}</td>
+                          <td>{_dateFormatter(item?.dteStart)} ({_timeFormatter(item?.dteStart?.split('T')?.[1])})</td>
+                          <td>{_dateFormatter(item?.dteEnd)} ({_timeFormatter(item?.dteEnd?.split('T')?.[1])})</td>
                           <td>{item?.monMaterial}</td>
                           <td>{item?.monServiceCost}</td>
                           <td>{item?.monMaterial + item?.monServiceCost}</td>
@@ -378,7 +390,7 @@ const MaintenanceReportTable = () => {
                         </tr>
                       ))}
                         <tr>
-                          <td className="text-right font-weight-bold" colSpan="10"> Total</td>
+                          <td className="text-right font-weight-bold" colSpan="11"> Total</td>
                           <td className="text-center font-weight-bold">{landing?.reduce((acc,item)=>acc+ +item?.monMaterial,0)}</td>
                           <td className="text-center font-weight-bold">{landing?.reduce((acc,item)=>acc+ +item?.monServiceCost,0)}</td>
                           <td className="text-center font-weight-bold">{landing?.reduce((acc,item)=>acc+ (+item?.monMaterial + +item?.monServiceCost),0)}</td>

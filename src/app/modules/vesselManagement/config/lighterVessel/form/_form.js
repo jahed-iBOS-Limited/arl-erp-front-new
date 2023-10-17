@@ -93,6 +93,7 @@ const LighterVesselCreateForm = ({
       carrierAgenName: values?.carrierName?.label,
       carrierAgenId: values?.carrierName?.value,
       contactNo: values?.contactNo,
+      carrierRate: +values?.carrierRate,
     };
     setRows([...rows, newRow]);
     callBack();
@@ -261,7 +262,6 @@ const LighterVesselCreateForm = ({
                           }
                           onChange={(e) => {
                             setFieldValue("carrierName", e || "");
-                            // setFieldValue("contactNo", e?.contactNo || "");
                           }}
                           isDisabled={false}
                         />
@@ -330,7 +330,8 @@ const LighterVesselCreateForm = ({
                             "Mother Vessel",
                             "Lighter Vessel",
                             "Capacity",
-                            "Carrier",
+                            "Carrier Name",
+                            "Carrier Rate",
                             "Contact No.",
                             "Action",
                           ]?.map((th, index) => {
@@ -341,6 +342,7 @@ const LighterVesselCreateForm = ({
                       <tbody>
                         {/* {console.log(rows)} */}
                         {rows?.map((item, index) => {
+                          console.log("item", item);
                           return (
                             <tr key={index}>
                               <td
@@ -352,7 +354,8 @@ const LighterVesselCreateForm = ({
                               <td>{item?.motherVesselName}</td>
                               <td>{item?.lighterVesselName}</td>
                               <td>{item?.vesselCapacity}</td>
-                              <td>{item?.carrierName}</td>
+                              <td>{item?.carrierAgenName}</td>
+                              <td>{item?.carrierRate}</td>
                               <td>{item?.contactNo}</td>
                               <td className="text-center">
                                 <div className="d-flex justify-content-around">

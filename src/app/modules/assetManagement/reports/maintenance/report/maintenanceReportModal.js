@@ -22,6 +22,7 @@ function MaintenanceDetailReport({
         businessUnitId: selectedBusinessUnit?.value,
         plantId: values?.plant?.value,
         reportType: values?.reportType?.value,
+        status: values?.status?.value,
         fromDate: values?.fromDate,
         toDate: values?.toDate,
         intReffId: item?.intMaintenanceNo,
@@ -137,20 +138,16 @@ function MaintenanceDetailReport({
             <tbody>
               {landing?.map((item, index) => {
                 return (
-                  <>
-                    {/* {index !== 0 && ( */}
-                      <tr key={index}>
-                        <td>{index + 1}</td>
-                        <td>{_dateFormatter(item?.dteEnd)}</td>
-                        <td>{item?.strSpareParts}</td>
-                        <td>{item?.strUom}</td>
-                        <td>{item?.numQty}</td>
-                        <td>{_formatMoney(item?.monMaterial)}</td>
-                        <td>{item?.strServiceName}</td>
-                        <td>{_formatMoney(item?.monServiceCost)}</td>
-                      </tr>
-                    {/* )} */}
-                  </>
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td>{_dateFormatter(item?.dteEnd)}</td>
+                    <td>{item?.strSpareParts}</td>
+                    <td>{item?.strUom}</td>
+                    <td>{item?.numQty}</td>
+                    <td>{_formatMoney(item?.monMaterial)}</td>
+                    <td>{item?.strServiceName}</td>
+                    <td>{_formatMoney(item?.monServiceCost)}</td>
+                  </tr>
                 );
               })}
               <tr>

@@ -20,8 +20,8 @@ import PaginationTable from "../../../../_helper/_tablePagination";
 import IViewModal from "../../../../_helper/_viewModal";
 import {
   approveOrReject,
-  checkPermission,
-  getPartnerOverDueRequestList,
+  getOverDueApprovalUserApi,
+  getPartnerOverDueRequestList
 } from "../helper";
 
 const header = [
@@ -56,13 +56,14 @@ const PartnerOverDueRequestTable = () => {
   const [pageSize, setPageSize] = useState(15);
   const [rowData, setRowData] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
-  const [isPermitted, setIsPermitted] = useState(false);
+  // const [isPermitted, setIsPermitted] = useState(false);
   const [show, setShow] = useState(false);
   const [gridData, setGridData] = useState([]);
+  const [overDueApprovalUser, setOverDueApprovalUser] = useState("");
 
   // get user profile data from store
   const {
-    profileData: { accountId: accId, userId, departmentId },
+    profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
@@ -84,8 +85,17 @@ const PartnerOverDueRequestTable = () => {
   };
 
   useEffect(() => {
-    getData(pageNo, pageSize);
-    checkPermission(userId, buId, setIsPermitted, setLoading);
+    if (buId && accId) {
+      getData(pageNo, pageSize);
+      // checkPermission(userId, buId, setIsPermitted, setLoading);
+      getOverDueApprovalUserApi(
+        accId,
+        buId,
+        userId,
+        setOverDueApprovalUser,
+        setLoading
+      );
+    }
   }, [accId, buId]);
 
   // set PositionHandler
@@ -219,50 +229,50 @@ const PartnerOverDueRequestTable = () => {
           <>
             <Card>
               <ModalProgressBar />
-              <CardHeader title="Partner Over Due Request">
+              <CardHeader title='Partner Over Due Request'>
                 <CardHeaderToolbar>
-                  <div className="d-flex justify-content-end">
-                    {[299, 4, 219, 356, 357].includes(departmentId) &&
-                      isPermitted && (
-                        <>
-                          <button
-                            onClick={() => {
-                              setShow(true);
-                            }}
-                            className="btn btn-danger mr-2"
-                            disabled={
-                              !rowData?.filter(
-                                (e) =>
-                                  e?.isSelected &&
-                                  !(
-                                    e?.isCreditControllApprove &&
-                                    e?.isSalesApprove
-                                  )
-                              )?.length
-                            }
-                          >
-                            Reject
-                          </button>
-                          <button
-                            onClick={() => {
-                              approveOfReject(true, values);
-                            }}
-                            className="btn btn-primary mr-2"
-                            disabled={
-                              !rowData?.filter(
-                                (e) =>
-                                  e?.isSelected &&
-                                  !(
-                                    e?.isCreditControllApprove &&
-                                    e?.isSalesApprove
-                                  )
-                              )?.length
-                            }
-                          >
-                            Approve
-                          </button>
-                        </>
-                      )}
+                  <div className='d-flex justify-content-end'>
+                    {/* [299, 4, 219, 356, 357].includes(departmentId) && */}
+                    {overDueApprovalUser && (
+                      <>
+                        <button
+                          onClick={() => {
+                            setShow(true);
+                          }}
+                          className='btn btn-danger mr-2'
+                          disabled={
+                            !rowData?.filter(
+                              (e) =>
+                                e?.isSelected &&
+                                !(
+                                  e?.isCreditControllApprove &&
+                                  e?.isSalesApprove
+                                )
+                            )?.length
+                          }
+                        >
+                          Reject
+                        </button>
+                        <button
+                          onClick={() => {
+                            approveOfReject(true, values);
+                          }}
+                          className='btn btn-primary mr-2'
+                          disabled={
+                            !rowData?.filter(
+                              (e) =>
+                                e?.isSelected &&
+                                !(
+                                  e?.isCreditControllApprove &&
+                                  e?.isSalesApprove
+                                )
+                            )?.length
+                          }
+                        >
+                          Approve
+                        </button>
+                      </>
+                    )}
 
                     <button
                       onClick={() => {
@@ -270,7 +280,7 @@ const PartnerOverDueRequestTable = () => {
                           "/config/partner-management/partneroverduerequest/create"
                         );
                       }}
-                      className="btn btn-primary"
+                      className='btn btn-primary'
                     >
                       Create
                     </button>
@@ -278,13 +288,13 @@ const PartnerOverDueRequestTable = () => {
                 </CardHeaderToolbar>
               </CardHeader>
               <CardBody>
-                <form className="form form-label-right">
+                <form className='form form-label-right'>
                   {loading && <Loading />}
-                  <div className="global-form">
-                    <div className="row">
-                      <div className="col-md-3">
+                  <div className='global-form'>
+                    <div className='row'>
+                      <div className='col-md-3'>
                         <NewSelect
-                          name="status"
+                          name='status'
                           options={[
                             { value: 0, label: "All" },
                             { value: 1, label: "Approved" },
@@ -293,12 +303,12 @@ const PartnerOverDueRequestTable = () => {
                             { value: 4, label: "Rejected" },
                           ]}
                           value={values?.status}
-                          label="Status"
+                          label='Status'
                           onChange={(valueOption) => {
                             setFieldValue("status", valueOption);
                             filterRowData(valueOption?.value);
                           }}
-                          placeholder="Select Status"
+                          placeholder='Select Status'
                         />
                       </div>
                     </div>
@@ -311,11 +321,11 @@ const PartnerOverDueRequestTable = () => {
                     <thead>
                       <tr
                         onClick={() => allSelect(!selectedAll())}
-                        className="cursor-pointer"
+                        className='cursor-pointer'
                       >
                         <th style={{ width: "40px" }}>
                           <input
-                            type="checkbox"
+                            type='checkbox'
                             value={selectedAll()}
                             checked={selectedAll()}
                             onChange={() => {}}
@@ -329,7 +339,7 @@ const PartnerOverDueRequestTable = () => {
                     {rowData?.map((item, index) => {
                       return (
                         <tr
-                          className="cursor-pointer"
+                          className='cursor-pointer'
                           key={index}
                           onClick={() => {
                             if (
@@ -350,40 +360,40 @@ const PartnerOverDueRequestTable = () => {
                               : {}
                           }
                         >
-                          <td className="text-center" style={{ width: "40px" }}>
+                          <td className='text-center' style={{ width: "40px" }}>
                             {!(
                               (item?.isCreditControllApprove &&
                                 item?.isSalesApprove) ||
                               item?.isRejected
                             ) && (
                               <input
-                                type="checkbox"
+                                type='checkbox'
                                 value={item?.isSelected}
                                 checked={item?.isSelected}
                                 onChange={() => {}}
                               />
                             )}
                           </td>
-                          <td style={{ width: "40px" }} className="text-center">
+                          <td style={{ width: "40px" }} className='text-center'>
                             {index + 1}
                           </td>
                           <td>{item?.partnerName}</td>
-                          <td className="text-right" style={{ width: "60px" }}>
+                          <td className='text-right' style={{ width: "60px" }}>
                             {!item?.isDayLimit
                               ? item?.creditLimitAmountExisting
                               : ""}
                           </td>
-                          <td className="text-right" style={{ width: "60px" }}>
+                          <td className='text-right' style={{ width: "60px" }}>
                             {!item?.isDayLimit
                               ? item?.creditLimitAmountRequesting
                               : ""}
                           </td>
-                          <td className="text-right" style={{ width: "60px" }}>
+                          <td className='text-right' style={{ width: "60px" }}>
                             {item?.isDayLimit
                               ? item?.creditLimitDaysExisting
                               : ""}
                           </td>
-                          <td className="text-right" style={{ width: "60px" }}>
+                          <td className='text-right' style={{ width: "60px" }}>
                             {item?.isDayLimit
                               ? item?.creditLimitDaysRequesting
                               : ""}
@@ -398,13 +408,13 @@ const PartnerOverDueRequestTable = () => {
                               ? _dateFormatter(item?.toDate)
                               : ""}
                           </td>
-                          <td style={{ width: "60px" }} className="text-right">
+                          <td style={{ width: "60px" }} className='text-right'>
                             {item?.requsetQnt}
                           </td>
-                          <td style={{ width: "60px" }} className="text-right">
+                          <td style={{ width: "60px" }} className='text-right'>
                             {item?.requsetAmount}
                           </td>
-                          <td style={{ width: "60px" }} className="text-right">
+                          <td style={{ width: "60px" }} className='text-right'>
                             {item?.presentDebitAmount}
                           </td>
                           <td style={{ width: "60px" }}>
@@ -448,7 +458,7 @@ const PartnerOverDueRequestTable = () => {
                           >
                             {item?.isCreditControllApprove ? "Yes" : "No"}
                           </td>
-                          <td className="font-weight-bold">
+                          <td className='font-weight-bold'>
                             {item?.isRejected
                               ? "Rejected"
                               : item?.isCreditControllApprove
@@ -456,7 +466,7 @@ const PartnerOverDueRequestTable = () => {
                               : "Pending"}
                           </td>
                           <td>
-                            {isPermitted ? (
+                            {overDueApprovalUser ? (
                               <button
                                 onClick={() => {
                                   history.push({
@@ -473,7 +483,7 @@ const PartnerOverDueRequestTable = () => {
                                 }}
                                 style={{ border: "none", background: "none" }}
                               >
-                                <IEdit title="Credit Control" />
+                                <IEdit title='Credit Control' />
                               </button>
                             ) : null}
                           </td>
@@ -499,36 +509,36 @@ const PartnerOverDueRequestTable = () => {
               </CardBody>
             </Card>
             <IViewModal
-              modelSize="md"
+              modelSize='md'
               show={show}
               onHide={() => setShow(false)}
             >
               {loading && <Loading />}
-              <div className="form form-label-right">
-                <div className="d-flex justify-content-end">
+              <div className='form form-label-right'>
+                <div className='d-flex justify-content-end'>
                   <button
-                    type="button"
+                    type='button'
                     onClick={() => {
                       approveOfReject(false, values, () => {
                         setShow(false);
                       });
                     }}
-                    className="btn btn-primary mt-1"
+                    className='btn btn-primary mt-1'
                     disabled={!values?.reason}
                   >
                     Done
                   </button>
                 </div>
 
-                <div className="row global-form ">
-                  <div className="col-12">
-                    <label htmlFor="">Rejection Reason</label>
+                <div className='row global-form '>
+                  <div className='col-12'>
+                    <label htmlFor=''>Rejection Reason</label>
                     <TextArea
                       value={values?.reason}
-                      name="reason"
-                      placeholder="Enter Rejection Reason"
-                      type="text"
-                      rows="4"
+                      name='reason'
+                      placeholder='Enter Rejection Reason'
+                      type='text'
+                      rows='4'
                     />
                   </div>
                 </div>

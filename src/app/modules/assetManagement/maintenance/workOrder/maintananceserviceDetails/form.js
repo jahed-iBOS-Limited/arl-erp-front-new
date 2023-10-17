@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import InputField from "../../../../_helper/_inputField";
@@ -9,8 +9,12 @@ import FormikError from "../../../../_helper/_formikError";
 import NewSelect from "../../../../_helper/_select";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
-import { getCostElement } from "../../../../inventoryManagement/warehouseManagement/itemRequest/helper";
-import { getInventoryCurrentBalance } from "./helper";
+// import { getCostElement } from "../../../../inventoryManagement/warehouseManagement/itemRequest/helper";
+// import { getInventoryCurrentBalance } from "./helper";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import Loading from "../../../../_helper/_loading";
+import { toast } from "react-toastify";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -41,13 +45,14 @@ export default function _Form({
   whId,
   maintenanceId,
 }) {
-  const [costeleDDL, setcosteleDDL] = useState([]);
+  const [, getStockAndRate, stockAndRateLoader] = useAxiosPost();
+  const [costCenterDDL, getCostCenterDDL, costCenterDDLLoader] = useAxiosGet();
+  const [costElementDDL, getCostElementDDL, costElementDDLLoader] = useAxiosGet();
 
   useEffect(() => {
-    if (selectedBusinessUnit?.value) {
-      getCostElement(selectedBusinessUnit?.value, setcosteleDDL);
-    }
-  }, [selectedBusinessUnit]);
+    getCostCenterDDL(`/procurement/PurchaseOrder/CostCenter?AccountId=${accountId}&UnitId=${selectedBusinessUnit?.value}`)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [accountId, selectedBusinessUnit]);
 
   return (
     <>
@@ -71,6 +76,7 @@ export default function _Form({
           isValid,
         }) => (
           <>
+            {(stockAndRateLoader || costCenterDDLLoader || costElementDDLLoader) && <Loading />}
             {disableHandler(!isValid)}
             <Form className="form form-label-right">
               <div className="form-group row global-form">
@@ -98,7 +104,19 @@ export default function _Form({
                     selectedValue={values?.parts}
                     handleChange={(valueOption) => {
                       if (valueOption && values?.warehouse?.value) {
-                        getInventoryCurrentBalance({ whId: values?.warehouse?.value, buId: selectedBusinessUnit?.value, itemId: valueOption?.value, setFieldValue, name: "value" });
+                        const payload = [
+                          {
+                            businessUnitId: selectedBusinessUnit?.value,
+                            wareHouseId: values?.warehouse?.value,
+                            itemId: valueOption?.value
+                          }
+                        ]
+                        getStockAndRate(`/mes/ProductionEntry/GetRuningStockAndQuantityList`, payload, (res)=> {
+                          const {numStockByDate, numStockRateByDate} = res?.[0] || {};
+                          setFieldValue("stockQuantity", numStockByDate || 0);
+                          setFieldValue("value", numStockRateByDate || 0);
+                        });
+                        // getInventoryCurrentBalance({ whId: values?.warehouse?.value, buId: selectedBusinessUnit?.value, itemId: valueOption?.value, setFieldValue, name: "value" });
                       }
                       setFieldValue("parts", valueOption);
                     }}
@@ -108,7 +126,7 @@ export default function _Form({
                         `/asset/DropDown/GetPartsList?AccountId=${accountId}&UnitId=${selectedBusinessUnit?.value}&PlantId=${plantId}&WHId=${values?.warehouse?.value}&searchTearm=${v}`
                       ).then((res) => res?.data);
                     }}
-                    disabled={true}
+                    isDisabled={!values?.warehouse}
                   />
                   <FormikError
                     errors={errors}
@@ -127,8 +145,26 @@ export default function _Form({
                 </div>
                 <div className="col-lg-3">
                   <NewSelect
+                    label="Select Cost Center"
+                    options={costCenterDDL || []}
+                    value={values?.costCenter}
+                    placeholder="Select Cost Center"
+                    name="costCenter"
+                    onChange={(valueOption) => {
+                      setFieldValue("costElement", "");
+                      setFieldValue("costCenter", valueOption);
+                      if(valueOption) {
+                        getCostElementDDL(`/procurement/PurchaseOrder/GetCostElementByCostCenter?AccountId=${accountId}&UnitId=${selectedBusinessUnit?.value}&CostCenterId=${valueOption?.value}`);
+                      }
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
                     label="Select Cost Element"
-                    options={costeleDDL || []}
+                    options={costElementDDL || []}
                     value={values?.costElement}
                     placeholder="Select Cost Element"
                     name="costElement"
@@ -137,15 +173,21 @@ export default function _Form({
                     }}
                     errors={errors}
                     touched={touched}
+                    isDisabled={!values?.costCenter}
                   />
                 </div>
                 <div className="col-lg-2">
                   <InputField
-                    value={values?.quantity}
                     label="Quantity"
-                    placeholder="Quantity"
-                    type="number"
                     name="quantity"
+                    type="number"
+                    placeholder="Quantity"
+                    value={values?.quantity}
+                    onChange={(e)=> {
+                      let newValue = e?.target?.value;
+                      newValue = newValue < 0 ? Math?.abs(newValue) : newValue;
+                      setFieldValue("quantity", newValue);
+                    }}
                     min="0"
                   />
                 </div>
@@ -159,12 +201,22 @@ export default function _Form({
                 </div> */}
                 <div className="col-lg-2">
                   <InputField
+                    value={values?.stockQuantity}
+                    label="Stock Quantity"
+                    placeholder="Stock Quantity"
+                    type="number"
+                    name="stockQuantity"
+                    disabled
+                  />
+                </div>
+                <div className="col-lg-2">
+                  <InputField
                     value={values?.value}
                     label="Value"
                     placeholder="Value"
                     type="number"
                     name="value"
-                    min="0"
+                    disabled
                   />
                 </div>
                 <div className="col-lg-2">
@@ -186,12 +238,17 @@ export default function _Form({
                       values.value === ""
                     }
                     onClick={() => {
-                      onClickForSparePArts(values);
-                      setFieldValue("warehouse", "");
-                      setFieldValue("parts", "");
-                      setFieldValue("costElement", "");
-                      setFieldValue("quantity", "");
-                      setFieldValue("value", 0);
+                      if(values?.quantity <= values?.stockQuantity) {
+                        onClickForSparePArts(values);
+                        setFieldValue("warehouse", "");
+                        setFieldValue("parts", "");
+                        setFieldValue("costElement", "");
+                        setFieldValue("quantity", "");
+                        setFieldValue("stockQuantity", 0);
+                        setFieldValue("value", 0);
+                      } else {
+                        toast.warn("Quantity must be less than or equal to stock quantity!");
+                      }
                     }}
                     className="btn btn-primary"
                   >
