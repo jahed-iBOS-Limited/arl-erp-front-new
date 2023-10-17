@@ -57,6 +57,7 @@ export default function RateAgreement() {
     getPlanListDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buId]);
 
   return (
@@ -80,7 +81,7 @@ export default function RateAgreement() {
         touched,
       }) => (
         <>
-          {false && <Loading />}
+          {(rowDtoLoading) && <Loading />}
           <IForm
             title="Rate Agreement"
             isHiddenReset
