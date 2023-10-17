@@ -16,6 +16,7 @@ import TrailBalanceReport from "./trailBalance";
 import { FinencialRatiosAnalysis } from "./financialRatioAnalysis/Form/addEditForm";
 import { CashFlowStatement } from "./cashFlowStatement/cashFlowStatement";
 import { BalanceReport } from "./balanceSheetReport";
+import OverheadVarianceReport from "./overheadVarianceReport";
 
 const BudgetVarianceReportPages = () => {
   return (
@@ -76,6 +77,10 @@ const BudgetVarianceReportPages = () => {
       <ContentRoute
         path="/internal-control/budgetvariancereport/distributionratereport"
         component={DistributionRateVariance}
+      />
+       <ContentRoute
+        path="/internal-control/budgetvariancereport/overheadvariancereport"
+        component={OverheadVarianceReport}
       />
       <ContentRoute
         path="/internal-control/budgetvariancereport/workingcapitalreport"

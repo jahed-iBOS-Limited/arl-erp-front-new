@@ -181,8 +181,8 @@ const GridData = ({
                               >
                                 Printed
                               </button>
-                              {(selectedBusinessUnit?.value === 171 ||
-                                selectedBusinessUnit?.value === 224) && (
+                              {/* {(selectedBusinessUnit?.value === 171 ||
+                                selectedBusinessUnit?.value === 224) && ( */}
                                 <button
                                   type="button"
                                   className="btn btn-primary"
@@ -199,7 +199,7 @@ const GridData = ({
                                 >
                                   Clear
                                 </button>
-                              )}
+                              {/* )} */}
                             </>
                           )}
                         </div>
