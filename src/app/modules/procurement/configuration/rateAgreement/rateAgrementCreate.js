@@ -8,6 +8,7 @@ import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
 import TextArea from "../../../_helper/TextArea";
 import IForm from "../../../_helper/_form";
 import FormikError from "../../../_helper/_formikError";
+import IActiveInActiveIcon from "../../../_helper/_helperIcons/_activeInActiveIcon";
 import IDelete from "../../../_helper/_helperIcons/_delete";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
@@ -29,22 +30,33 @@ const initData = {
 
 export default function RateAgreementCreate() {
   const { id } = useParams();
-  const [rowData, getRowData,rowDataLoading,setRowData] = useAxiosGet();
+  const [rowData, getRowData, rowDataLoading, setRowData] = useAxiosGet();
   const [objProps, setObjprops] = useState({});
   const [, postData, isLoading] = useAxiosPost();
-  const [singleData,setSingleData] = useState({})
+  const [singleData, setSingleData] = useState({});
   const {
     profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const location = useLocation();
-  console.log("location", location);
-  console.log("id", id);
 
-  const { sbu, wareHouse, plant, purchaseOrganization, supplier } =
-    location?.state || {};
+  const {
+    wareHouse,
+    plant,
+    purchaseOrganization,
+    supplier,
+    agreementHeaderId,
+    purchaseOrganizationId,
+    purchaseOrganizationName,
+    supplierId,
+    supplierName,
+    businessUnitId,
+    plantId,
+    warehouseId,
+    warehouseName,
+  } = location?.state || {};
   const saveHandler = (values, cb) => {
-    if(!id){
+    if (!id) {
       const payload = {
         agreementHeaderId: 0,
         agreementCode: "",
@@ -78,17 +90,54 @@ export default function RateAgreementCreate() {
         true
       );
     }
-   
-    
+    if (id) {
+      const payload = {
+        agreementHeaderId: agreementHeaderId,
+        agreementCode: "",
+        nameOfContact: values?.nameOfContract,
+        contactDateTime: values?.contractDate,
+        purchaseOrganizationId: purchaseOrganizationId,
+        purchaseOrganizationName: purchaseOrganizationName,
+        supplierId: supplierId,
+        supplierName: supplierName,
+        businessUnitId: businessUnitId,
+        plantId: plantId,
+        warehouseId: warehouseId,
+        warehouseName: warehouseName,
+        termsAndCondition: values?.termsAndCondition || "",
+        warehouseAddress: values?.deliveryAdress,
+        contractStartDate: values?.contractStartDate,
+        contractEndDate: values?.contractEndDate,
+        isActive: true,
+        isApprove: false,
+        approvedBy: 0,
+        createdBy: userId,
+        createdAt: _todayDate(),
+        rows: rowData,
+      };
+      postData(
+        `/procurement/PurchaseOrder/SaveAndEditRateAgreement`,
+        payload,
+        () => {
+          cb(
+            getRowData(
+              `/procurement/PurchaseOrder/GetRateAgreementById?AgreementHeaderId=${id}`
+            )
+          );
+        },
+        true
+      );
+    }
   };
 
   const loadUserList = (v) => {
     if (v?.length < 3) return [];
     return Axios.get(
       `/wms/ItemPlantWarehouse/GetItemPlantWarehouseForPurchaseRequestSearchDDL?accountId=${accId}&businessUnitId=${buId}&plantId=${plant?.value ||
-        initData?.plantId}&whId=${wareHouse?.value ||
-        initData?.warehouseId}&purchaseOrganizationId=${purchaseOrganization?.value ||
-        initData?.purchaseOrganizationId}&typeId=2&searchTerm=${v}`
+        location?.state?.plantId}&whId=${wareHouse?.value ||
+        location?.state
+          ?.warehouseId}&purchaseOrganizationId=${purchaseOrganization?.value ||
+        location?.state?.purchaseOrganizationId}&typeId=2&searchTerm=${v}`
       // typeId 2 pass for this standard products
     ).then((res) => {
       const updateList = res?.data.map((item) => ({
@@ -111,13 +160,12 @@ export default function RateAgreementCreate() {
         agreementRowId: 0,
         itemId: values?.itemName?.value,
         itemName: values?.itemName?.label,
-        itemCode : values?.itemName?.code,
+        itemCode: values?.itemName?.code,
         itemRate: values?.itemRate,
         vatPercentage: values?.vat,
         isActive: true,
         createdAt: _todayDate(),
         status: "Active",
-        
       };
       setRowData([...rowData, newRow]);
       callBack();
@@ -126,7 +174,18 @@ export default function RateAgreementCreate() {
     }
   };
 
-  useEffect(()=>{
+  const statusHandler = (index, item) => {
+    const data = [...rowData];
+    if (item?.status === "Active") {
+      data[index]["status"] = "Inactive";
+      setRowData(data);
+    } else {
+      data[index]["status"] = "Active";
+      setRowData(data);
+    }
+  };
+  console.log(id);
+  useEffect(() => {
     if (id) {
       const {
         nameOfContact,
@@ -134,33 +193,30 @@ export default function RateAgreementCreate() {
         contractEndDate,
         warehouseAddress,
         termsAndCondition,
-        contactDateTime
+        contactDateTime,
       } = location?.state || {};
-      console.log(location);
       const editedInitData = {
         nameOfContract: nameOfContact,
         termsAndCondition: termsAndCondition,
         contractStartDate: dateFormatterForInput(contractStartDate),
         contractEndDate: dateFormatterForInput(contractEndDate),
-        deliveryAdress:warehouseAddress,
+        deliveryAdress: warehouseAddress,
         contractDate: dateFormatterForInput(contactDateTime),
         itemName: "",
         itemRate: "",
         vat: "",
       };
-      setSingleData(editedInitData)
-    
+      setSingleData(editedInitData);
     }
 
-    getRowData(
-      `/spreadsheets/d/1FIwLk0oR7FFTqJA0UUxlDwEu5wa8Vi0DWbrEUr3ZxDc/edit#gid=${id}`
-    )
+    if (id) {
+      getRowData(
+        `/procurement/PurchaseOrder/GetRateAgreementById?AgreementHeaderId=${id}`
+      );
+    }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[id])
-
- 
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
   return (
     <Formik
       enableReinitialize={true}
@@ -188,8 +244,8 @@ export default function RateAgreementCreate() {
         touched,
       }) => (
         <>
-          {console.log("error", errors)}
-          {false && <Loading />}
+          {/* {console.log("error", errors)} */}
+          {(rowDataLoading || isLoading) && <Loading />}
           <IForm title="Rate Agreement Create" getProps={setObjprops}>
             <Form onSubmit={handleSubmit}>
               <div className="form-group  global-form row">
@@ -197,6 +253,7 @@ export default function RateAgreementCreate() {
                   <InputField
                     name="nameOfContract"
                     value={values?.nameOfContract}
+                    disabled={id && values?.nameOfContract}
                     label="Name Of Contract"
                     type="text"
                     placeholder="Name Of Contract"
@@ -205,12 +262,12 @@ export default function RateAgreementCreate() {
                     }}
                   />
                 </div>
-                {console.log(values)}
                 <div className="col-lg-3">
                   <InputField
+                    name="contractStartDate"
+                    disabled={id && values?.contractStartDate}
                     value={values?.contractStartDate}
                     label="Contract Start Date"
-                    name="contractStartDate"
                     type="date"
                     onChange={(e) => {
                       setFieldValue("contractStartDate", e.target.value);
@@ -222,9 +279,10 @@ export default function RateAgreementCreate() {
                 </div>
                 <div className="col-lg-3">
                   <InputField
+                    name="contractEndDate"
+                    disabled={id && values?.contractEndDate}
                     value={values?.contractEndDate}
                     label="Contract End Date"
-                    name="contractEndDate"
                     type="date"
                     onChange={(e) => {
                       setFieldValue("contractEndDate", e.target.value);
@@ -236,9 +294,10 @@ export default function RateAgreementCreate() {
                 </div>
                 <div className="col-lg-3">
                   <InputField
-                    value={values?.contractDate}
-                    label="Contract Date"
                     name="contractDate"
+                    value={values?.contractDate}
+                    disabled={id && values?.contractDate}
+                    label="Contract Date"
                     type="date"
                     onChange={(e) => {
                       setFieldValue("contractDate", e.target.value);
@@ -251,6 +310,7 @@ export default function RateAgreementCreate() {
                 <div className="col-lg-3">
                   <InputField
                     name="deliveryAdress"
+                    disabled={id && values?.deliveryAdress}
                     value={values?.deliveryAdress}
                     label="Delivery Adress"
                     type="text"
@@ -266,6 +326,7 @@ export default function RateAgreementCreate() {
                   <label htmlFor="">Terms And Conditions</label>
                   <TextArea
                     label="Terms And Condition"
+                    disabled={id}
                     value={values?.termsAndCondition}
                     name="termsAndCondition"
                     placeholder="Terms And Condition"
@@ -353,9 +414,8 @@ export default function RateAgreementCreate() {
                       <th>Item Name</th>
                       <th>Item Rate</th>
                       <th>Vat (%)</th>
-                      {/* <th>Active Status</th> */}
+                      {id && <th>Active Status</th>}
                       <th>Action</th>
-                      {/* {!viewType && <th>Action</th>} */}
                     </tr>
                   </thead>
                   {rowData?.map((item, index) => (
@@ -364,45 +424,99 @@ export default function RateAgreementCreate() {
                         {index + 1}
                       </td>
                       <td className="text-center">{item?.itemId}</td>
-                      <td className="text-center">
-                        {/* {viewType === "edit" ? (
-                              <InputField
-                                value={row?.deliverdQnt}
-                                name="deliverdQnt"
-                                type="number"
-                                errors={errors}
-                                touched={touched}
-                                onChange={(e) => {
-                                  rowDataChange(
-                                    index,
-                                    "deliverdQnt",
-                                    e?.target?.value
-                                  );
-                                }}
-                              />
-                            ) : (
-                              row?.deliverdQnt
-                            )} */}
-                        {item?.itemName}
-                      </td>
-                      <td className="text-right">{item?.itemRate}</td>
-                      <td className="text-right" style={{ width: "150px" }}>
-                        {item?.vatPercentage}
-                      </td>
+                      <td className="text-center">{item?.itemName}</td>
+                      {item?.agreementRowId === 0 ? (
+                        <td className="text-left">
+                          <span style={{ paddingLeft: "4px" }}>
+                            {item?.itemRate}
+                          </span>
+                        </td>
+                      ) : (
+                        <td>
+                          <InputField
+                            value={item?.itemRate}
+                            type="number"
+                            onChange={(e) => {
+                              const data = [...rowData];
+                              data[index]["itemRate"] = +e?.target?.value;
+                              setRowData(data);
+                            }}
+                          />
+                        </td>
+                      )}
 
-                      <td className="text-center">
-                        <IDelete remover={deleteRow} id={index} />
-                        {/* <IActiveInActiveIcon title="test" iconTyee="inActive" /> */}
-                      </td>
-
-                      {/* {!viewType && (
-                            <td
-                              className="text-center"
-                              style={{ width: "60px" }}
+                      {item?.agreementRowId === 0 ? (
+                        <td
+                          className="text-left "
+                          style={{ width: "150px", height: "28px" }}
+                        >
+                          <span style={{ paddingLeft: "4px" }}>
+                            {item?.vatPercentage}
+                          </span>
+                        </td>
+                      ) : (
+                        <td>
+                          <InputField
+                            value={item?.vatPercentage}
+                            type="number"
+                            onChange={(e) => {
+                              const data = [...rowData];
+                              data[index]["vatPercentage"] = +e?.target?.value;
+                              setRowData(data);
+                            }}
+                          />
+                        </td>
+                      )}
+                      {id && item?.agreementRowId ? (
+                        <td className="text-center">
+                          <span
+                            style={
+                              item?.status === "Active"
+                                ? { fontWeight: "bold", color: "green" }
+                                : { fontWeight: "bold", color: "red" }
+                            }
+                          >
+                            {item?.status === "Active" ? "Active" : "Inactive"}
+                          </span>
+                          <span
+                            disabled={!item?.agreementRowId}
+                            className="ml-2 pointer"
+                            onClick={() => {
+                              statusHandler(index, item);
+                            }}
+                          >
+                            <IActiveInActiveIcon
+                              title="Status"
+                              iconTyee={
+                                item?.status === "Active"
+                                  ? "Active"
+                                  : "inActive"
+                              }
+                            />
+                          </span>
+                        </td>
+                      ) : (
+                        id && (
+                          <td className="text-center" disabled>
+                            <span
+                              style={{ fontWeight: "bold", color: "green" }}
                             >
-                              <IDelete remover={deleteRow} id={index} />
-                            </td>
-                          )} */}
+                              Active
+                            </span>
+                            <IActiveInActiveIcon
+                              title="Status"
+                              iconTyee="Active"
+                            />
+                          </td>
+                        )
+                      )}
+                      {item?.agreementRowId === 0 ? (
+                        <td className="text-center">
+                          <IDelete remover={deleteRow} id={index} />
+                        </td>
+                      ) : (
+                        <td></td>
+                      )}
                     </tr>
                   ))}
                 </table>
