@@ -221,7 +221,7 @@ export default function CreateRowForm({
               name="ratio"
               type="number"
               onChange={(e) => {
-                if (e.target.value <= 100) {
+                if (e.target.value <= 200) {
                   setFieldValue("ratio", Math.abs(e.target.value));
                 }
               }}
