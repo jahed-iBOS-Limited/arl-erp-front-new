@@ -17,7 +17,7 @@ export default function BusinessPartnerGroupLandingTable({ obj }) {
             {rowData?.data?.data?.map((item, i) => (
               <tr key={i + 1}>
                 <td>{i + 1}</td>
-                <td>{item?.businessPartnerName}</td>
+                <td>{item?.businessPartneName}</td>
                 <td>{item?.businessPartnerGroupName}</td>
               </tr>
             ))}
