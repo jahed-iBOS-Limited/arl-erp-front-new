@@ -130,7 +130,7 @@ export default function Form({ obj }) {
               )}
             </>
           )}
-          {![6].includes(values?.reportType?.value) && (
+          {![6,7].includes(values?.reportType?.value) && (
             <div className="col-lg-3">
               <InputField
                 value={values?.date}
@@ -149,7 +149,7 @@ export default function Form({ obj }) {
               />
             </div>
           )}
-          {[6].includes(values?.reportType?.value) && (
+          {[6,7].includes(values?.reportType?.value) && (
             <FromDateToDateForm
               obj={{
                 values,

@@ -122,7 +122,8 @@ export const parameterValues = (values, buId, employeeId) => {
     { name: "Regionid", value: values?.region?.value?.toString() },
     { name: "Areaid", value: values?.area?.value?.toString() },
     { name: "Territoryid", value: values?.territory?.value?.toString() },
-    { name: "reportDate", value: values?.date },
+    { name: "dteFromDate", value: values?.fromDate },
+    { name: "dteToDate", value: values?.toDate },
   ];
 
   const parameters =
