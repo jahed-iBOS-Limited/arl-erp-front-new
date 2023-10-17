@@ -225,12 +225,12 @@ const TableTwo = ({ obj }) => {
                 <td> {index + 1}</td>
                 <td>
                   <InputField
-                    value={item?.date}
-                    name="date"
-                    placeholder="Date"
+                    value={item?.commissionDate}
+                    name="commissionDate"
+                    placeholder="Commission Date"
                     type="date"
                     onChange={(e) => {
-                      rowDataHandler(index, "date", e?.target?.value);
+                      rowDataHandler(index, "commissionDate", e?.target?.value);
                     }}
                   />
                 </td>{" "}

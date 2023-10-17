@@ -55,7 +55,7 @@ export default function BusinessPartnerGroupLandingForm({ obj }) {
                 name="partnerGroup"
                 label="Partner Group"
                 placeholder="Partner Group"
-                options={partnerGroups || []}
+                options={[{ value: 0, label: "All" }, ...partnerGroups] || []}
                 value={values?.partnerGroup}
                 onChange={(valueOption) => {
                   setFieldValue("partnerGroup", valueOption);
