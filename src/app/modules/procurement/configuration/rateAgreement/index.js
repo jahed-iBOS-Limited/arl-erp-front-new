@@ -254,7 +254,7 @@ export default function RateAgreement() {
                               {_dateTimeFormatter(item?.contractStartDate)}
                             </td>
                             <td>{_dateTimeFormatter(item?.contractEndDate)}</td>
-                            <td>
+                            <td className="text-center">
                               <IEdit
                                 title="Edit"
                                 onClick={() => {
