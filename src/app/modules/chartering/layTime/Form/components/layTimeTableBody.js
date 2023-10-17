@@ -364,7 +364,7 @@ export default function LayTimeTableBody({
                           type="number"
                           errors={errors}
                           onChange={(e) => {
-                            if (e.target.value <= 100) {
+                            if (e.target.value <= 200) {
                               rowDataUpdateHandler(
                                 index,
                                 nestedIndex,
