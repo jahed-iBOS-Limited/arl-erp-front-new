@@ -14,6 +14,8 @@ import MotherVesselInventoryReportTable from "./MVInventoryTable";
 import ChallanWiseSalesReport from "./challanWiseSalesTable";
 import {
   GetDomesticPortDDLWMS,
+  GetShipPointDDL,
+  getGodownDDL,
   getMotherVesselDDL,
   wearhouse_api,
 } from "./helper";
@@ -22,6 +24,7 @@ import SearchAsyncSelect from "./../../../_helper/SearchAsyncSelect";
 import ItemVsWarehouse from "./itemVsWarehouse";
 import ItemVsMotherVessel from "./itemVsMotherVessel";
 import G2GinventoryChart from "./g2ginventoryChart";
+import BufferStockvsDelivery from "./bufferStockvsDelivery";
 
 const types = [
   { value: 5, label: "Mother Vessel Inventory Report" },
@@ -32,6 +35,7 @@ const types = [
   { value: 7, label: "Warehouse Vs Mother Vessel" },
   { value: 8, label: "Item Vs Warehouse" },
   { value: 9, label: "Item Vs Mother Vessel" },
+  { value: 10, label: "Buffer Stock vs Delivery" },
 ];
 
 const InventoryG2GReportRDLC = () => {
@@ -42,10 +46,12 @@ const InventoryG2GReportRDLC = () => {
   const [motherVesselDDL, setMotherVesselDDL] = useState([]);
   // const [lighterVessel, setLighterVessel] = useState([]);
   // const [shippointDDL, setShippointDDL] = useState([]);
+  const [godownDDL, setGodownDDL] = useState([]);
   const [rowData, getRowData, loading, setRowData] = useAxiosGet();
   const [plantDDL, getPlantDDL] = useAxiosGet();
   const [portDDL, setPortDDL] = useState([]);
   const [wareHouseDDL, setwareHouseDDL] = useState([]);
+  const [shipPointDDL, setShipPointDDL] = useState([]);
   const initData = {
     type: "",
     plant: "",
@@ -57,6 +63,7 @@ const InventoryG2GReportRDLC = () => {
     toDate: _todayDate(),
     wh: { value: 0, label: "All" },
     intG2GItemId: { value: 0, label: "All" },
+    redioType: "badc",
   };
 
   const parameterValues = (values) => {
@@ -92,11 +99,20 @@ const InventoryG2GReportRDLC = () => {
       0}&intWareHouseId=${values?.wh?.value}&intG2GItemId=${values?.intG2GItemId
       ?.value || 0}&PageNo=${_pageNo}&PageSize=${_pageSize}`;
 
+    const urlThree = `/tms/InternalTransport/GetG2GBufferAllotmentVsChllan?intPartid=10&intMotherVesselid=${values
+      ?.motherVessel?.value || 0}&intshiptopartnerid=${
+      values?.bufferName?.value
+    }&intShippingPointId=${values?.shipPoint?.value}&dteFromDate=${
+      values?.fromDate
+    }&dteToDate=${values?.toDate}`;
+
     const URL = [4].includes(typeId)
       ? urlOne
       : [5, 6, 7, 8, 9].includes(typeId)
       ? urlTwo
-      : ``;
+      : [10].includes(typeId)
+      ? urlThree
+      : "";
 
     getRowData(URL);
   };
@@ -118,9 +134,12 @@ const InventoryG2GReportRDLC = () => {
   }, [accId, buId]);
 
   useEffect(() => {
-    GetDomesticPortDDLWMS(setPortDDL);
+    if (accId && buId) {
+      GetDomesticPortDDLWMS(setPortDDL);
+    }
   }, [accId, buId]);
-
+  const radioStyle = { height: "25px", width: "25px" };
+  
   return (
     <>
       <Formik
@@ -133,6 +152,50 @@ const InventoryG2GReportRDLC = () => {
             {loading && <Loading />}
             <form className='form form-label-right'>
               <div className='form-group row global-form'>
+                {[10].includes(values?.type?.value) && (
+                  <>
+                    <div className='col-12 mt-3 d-flex'>
+                      <div className='d-flex align-items-center mr-5'>
+                        <input
+                          style={radioStyle}
+                          type='radio'
+                          name='redioType'
+                          id='badc'
+                          value={values?.redioType}
+                          checked={values?.redioType === "badc"}
+                          onChange={() => {
+                            setFieldValue("redioType", "badc");
+                            setFieldValue("bufferName", "");
+                            getGodownDDL(buId, 73244, setGodownDDL);
+                            setRowData([]);
+                          }}
+                        />
+                        <label htmlFor='badc' className='ml-1'>
+                          <h3>BADC</h3>
+                        </label>
+                      </div>
+                      <div className='d-flex align-items-center ml-5'>
+                        <input
+                          style={radioStyle}
+                          type='radio'
+                          name='redioType'
+                          id='bcic'
+                          value={values?.redioType}
+                          checked={values?.redioType === "bcic"}
+                          onChange={() => {
+                            setFieldValue("redioType", "bcic");
+                            setFieldValue("bufferName", "");
+                            getGodownDDL(buId, 73245, setGodownDDL);
+                            setRowData([]);
+                          }}
+                        />
+                        <label htmlFor='bcic' className='ml-1'>
+                          <h3>BCIC</h3>
+                        </label>
+                      </div>
+                    </div>
+                  </>
+                )}
                 <div className='col-lg-3'>
                   <NewSelect
                     name='type'
@@ -143,10 +206,13 @@ const InventoryG2GReportRDLC = () => {
                       setShowReport(false);
                       setFieldValue("type", valueOption);
                       setFieldValue("viewType", 0);
-                      // setFieldValue("motherVessel", "");
                       setFieldValue("port", "");
-                      // setFieldValue("intG2GItemId", "");
                       setRowData([]);
+
+                      if (valueOption?.value === 10) {
+                        GetShipPointDDL(accId, buId, setShipPointDDL);
+                        getGodownDDL(buId, 73244, setGodownDDL);
+                      }
                     }}
                     placeholder='Type'
                   />
@@ -286,7 +352,46 @@ const InventoryG2GReportRDLC = () => {
                     />
                   </div>
                 ) : null}
-                {[6, 7, 8, 9]?.includes(values?.type?.value) && (
+
+                {/* if type Buffer Stock vs Delivery */}
+                {[10].includes(values?.type?.value) && (
+                  <>
+                    <div className='col-lg-3'>
+                      <NewSelect
+                        name='shipPoint'
+                        options={[{ value: 0, label: "All" }, ...shipPointDDL]}
+                        value={values?.shipPoint}
+                        label='ShipPoint'
+                        onChange={(valueOption) => {
+                          setFieldValue("shipPoint", valueOption);
+                          setRowData([]);
+                        }}
+                        placeholder='ShipPoint'
+                      />
+                    </div>
+                    <div className='col-lg-3'>
+                      <NewSelect
+                        name='bufferName'
+                        options={[
+                          {
+                            value: 0,
+                            label: "All",
+                          },
+                          ...godownDDL
+                        ] || []}
+                        value={values?.bufferName}
+                        label='Buffer Name'
+                        placeholder='Buffer Name'
+                        onChange={(e) => {
+                          setFieldValue("bufferName", e);
+                          setRowData([]);
+                        }}
+                      />
+                    </div>
+                  </>
+                )}
+
+                {[6, 7, 8, 9, 10]?.includes(values?.type?.value) && (
                   <>
                     <div className='col-lg-3'>
                       <NewSelect
@@ -374,7 +479,7 @@ const InventoryG2GReportRDLC = () => {
                       setShowReport(false);
                       setShowReport(true);
                     } else if (
-                      [4, 5, 6, 7, 8, 9].includes(values?.type?.value)
+                      [4, 5, 6, 7, 8, 9, 10].includes(values?.type?.value)
                     ) {
                       getData(values, "");
                     }
@@ -404,6 +509,9 @@ const InventoryG2GReportRDLC = () => {
             )}
             {[9].includes(values?.type?.value) && (
               <ItemVsMotherVessel rowData={rowData} />
+            )}
+            {[10].includes(values?.type?.value) && (
+              <BufferStockvsDelivery rowData={rowData} />
             )}
 
             {[5, 6, 7, 8, 9].includes(values?.type?.value) &&
