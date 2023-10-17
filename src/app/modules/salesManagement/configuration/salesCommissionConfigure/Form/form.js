@@ -7,6 +7,8 @@ import NewSelect from "../../../../_helper/_select";
 import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
 import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
 import SalesCommissionConfigureFormTable from "./table";
+import IButton from "../../../../_helper/iButton";
+import InputField from "../../../../_helper/_inputField";
 
 const ValidationSchema = Yup.object().shape({});
 
@@ -62,21 +64,32 @@ export default function _Form({
                     obj={{
                       values,
                       setFieldValue,
-                      area: false,
+                      area: [16].includes(values?.commissionType?.value),
                       territory: false,
                       onChange: (allValues, fieldName) => {
                         setRowData([]);
-                        if (fieldName === "region") {
-                          getAreas({
-                            channelId: allValues?.channel?.value,
-                            regionId: allValues?.region?.value,
-                          });
-                        }
+                        // if (fieldName === "region") {
+                        // }
                       },
                     }}
                   />
 
                   <FromDateToDateForm obj={{ values, setFieldValue }} />
+
+                  <div className={`col-lg-3`}>
+                    <InputField
+                      label="Common Rate"
+                      value={values?.commonRate}
+                      name="commonRate"
+                      placeholder="Common Rate"
+                      type={`text`}
+                    />
+                  </div>
+                  <IButton
+                    onClick={() => {
+                      getAreas(values);
+                    }}
+                  />
                 </div>
               </form>
             </div>

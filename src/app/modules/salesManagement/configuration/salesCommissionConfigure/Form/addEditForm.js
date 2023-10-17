@@ -8,6 +8,7 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet.js";
 import Form from "./form.js";
 import { toast } from "react-toastify";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost.js";
+import { _dateFormatter } from "../../../../_helper/_dateFormate.js";
 
 const initData = {
   commissionType: "",
@@ -15,6 +16,7 @@ const initData = {
   toDate: _todayDate(),
   channel: "",
   region: "",
+  commonRate: "",
 };
 
 export default function SalesCommissionConfigureEntryForm() {
@@ -43,32 +45,71 @@ export default function SalesCommissionConfigureEntryForm() {
     );
   }, [buId]);
 
-  const getAreas = ({ channelId, regionId, areaId, territoryId }) => {
-    const region = regionId ? `&regionId=${regionId}` : "";
-    const area = areaId ? `&areaId=${areaId}` : "";
-    const territory = territoryId ? `&TerritoryId=${territoryId}` : "";
-    getAreaList(
-      `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${channelId}${region}${area}${territory}`,
-      (resData) => {
-        const modifyData = resData?.map((item) => ({
-          ...item,
-          value: item["areaId"],
-          label: item["areaName"],
+  const getAreas = (values) => {
+    const commissionTypeId = values?.commissionType?.value;
+    const channelId = values?.channel?.value;
+    const regionId = values?.region?.value;
+    // const areaId = values?.area?.value;
+    // const territoryId = values?.territory?.value;
 
+    const region = regionId ? `&regionId=${regionId}` : "";
+    // const area = areaId ? `&areaId=${areaId}` : "";
+    // const territory = territoryId ? `&TerritoryId=${territoryId}` : "";
+
+    const commonRate = values?.commonRate || "";
+
+    if (commissionTypeId === 16) {
+      const newArray = [];
+      let currentDate = new Date(values?.fromDate);
+      let endDate = new Date(values?.toDate);
+
+      while (currentDate <= endDate) {
+        const newRow = {
+          value: values?.area?.value,
+          label: values?.area?.label,
+          areaId: values?.area?.value,
+          areaName: values?.area?.label,
+          commissionDate: _dateFormatter(currentDate),
           commissionRate: "",
           salesQty: "",
           ratePerBag: "",
-          bpcommissionRate: "",
-          bacommissionRate: "",
-          cpcommissionRate: "",
-          firstSlabCommissionRate: "",
-          secondSlabCommissionRate: "",
-          thirdSlabCommissionRate: "",
-        }));
+          bpcommissionRate: commonRate,
+          bacommissionRate: commonRate,
+          cpcommissionRate: commonRate,
+          firstSlabCommissionRate: commonRate,
+          secondSlabCommissionRate: commonRate,
+          thirdSlabCommissionRate: commonRate,
+        };
 
-        setRowData(modifyData);
+        newArray.push(newRow);
+        currentDate.setDate(currentDate.getDate() + 1);
       }
-    );
+
+      setRowData(newArray);
+    } else {
+      getAreaList(
+        `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${channelId}${region}`,
+        (resData) => {
+          const modifyData = resData?.map((item) => ({
+            ...item,
+            value: item["areaId"],
+            label: item["areaName"],
+
+            commissionRate: "",
+            salesQty: "",
+            ratePerBag: "",
+            bpcommissionRate: commonRate,
+            bacommissionRate: commonRate,
+            cpcommissionRate: commonRate,
+            firstSlabCommissionRate: commonRate,
+            secondSlabCommissionRate: commonRate,
+            thirdSlabCommissionRate: commonRate,
+          }));
+
+          setRowData(modifyData);
+        }
+      );
+    }
   };
 
   const saveData = async (values, cb) => {
@@ -84,7 +125,7 @@ export default function SalesCommissionConfigureEntryForm() {
         businessUnitId: buId,
         fromDateTime: values?.fromDate,
         toDateTime: values?.toDate,
-        commissionDate: item?.date || _todayDate(),
+        commissionDate: item?.commissionDate || _todayDate(),
         levelId: 0,
         channelId: values?.channel?.value,
         regionId: values?.region?.value,
@@ -93,12 +134,12 @@ export default function SalesCommissionConfigureEntryForm() {
         commissionTypeId: values?.commissionType?.value,
         commissiontTypeName: values?.commissionType?.label,
         commissionRate: 0,
-        bpcommissionRate: item?.bpcommissionRate || 0,
-        bacommissionRate: item?.bacommissionRate || 0,
-        cpcommissionRate: item?.cpcommissionRate || 0,
-        firstSlabCommissionRate: item?.firstSlabCommissionRate || 0,
-        secondSlabCommissionRate: item?.secondSlabCommissionRate || 0,
-        thirdSlabCommissionRate: item?.thirdSlabCommissionRate || 0,
+        bpcommissionRate: +item?.bpcommissionRate || 0,
+        bacommissionRate: +item?.bacommissionRate || 0,
+        cpcommissionRate: +item?.cpcommissionRate || 0,
+        firstSlabCommissionRate: +item?.firstSlabCommissionRate || 0,
+        secondSlabCommissionRate: +item?.secondSlabCommissionRate || 0,
+        thirdSlabCommissionRate: +item?.thirdSlabCommissionRate || 0,
       };
     });
 
