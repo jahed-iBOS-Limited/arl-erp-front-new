@@ -4,6 +4,9 @@ import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute } from "../../../../_metronic/layout";
 import EventPlanningLanding from "./eventPlanning";
 import EventPlanningCreateEdit from "./eventPlanning/createEdit";
+import ViewEventDetails from "./eventPlanning/view";
+import Punch from "./eventPlanning/punch";
+import NotPermitted from "../../performanceManagement/notPermittedPage/notPermitted";
 
 export function EventPages() {
   const userRole = useSelector(
@@ -11,10 +14,12 @@ export function EventPages() {
     shallowEqual
   );
 
+  let eventPermission = null;
+
   for (let i = 0; i < userRole.length; i++) {
-    // if (userRole[i]?.intFeatureId === 1131) {
-    //   trainingAttendence = userRole[i];
-    // }
+    if (userRole[i]?.intFeatureId === 1368) {
+      eventPermission = userRole[i];
+    }
   }
 
   return (
@@ -25,16 +30,30 @@ export function EventPages() {
         to="/learningDevelopment/event/EventPlanning"
       />
       <ContentRoute
+        path="/learningDevelopment/event/EventPlanning/view/:id/punch/:activityId"
+        component={eventPermission?.isEdit ? Punch : NotPermitted}
+      />
+      <ContentRoute
+        path="/learningDevelopment/event/EventPlanning/view/:id"
+        component={eventPermission?.isEdit ? ViewEventDetails : NotPermitted}
+      />
+      <ContentRoute
         path="/learningDevelopment/event/EventPlanning/edit/:id"
-        component={EventPlanningCreateEdit}
+        component={
+          eventPermission?.isEdit ? EventPlanningCreateEdit : NotPermitted
+        }
       />
       <ContentRoute
         path="/learningDevelopment/event/EventPlanning/create"
-        component={EventPlanningCreateEdit}
+        component={
+          eventPermission?.isCreate ? EventPlanningCreateEdit : NotPermitted
+        }
       />
       <ContentRoute
         path="/learningDevelopment/event/EventPlanning"
-        component={EventPlanningLanding}
+        component={
+          eventPermission?.isView ? EventPlanningLanding : NotPermitted
+        }
       />
     </Switch>
   );

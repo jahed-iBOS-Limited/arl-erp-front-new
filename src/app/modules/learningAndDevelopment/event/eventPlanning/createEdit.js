@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import IForm from "./../../../_helper/_form";
 import InputField from "./../../../_helper/_inputField";
@@ -11,6 +11,8 @@ import IDelete from "../../../_helper/_helperIcons/_delete";
 import { shallowEqual, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
 
 const initData = {
   eventName: "",
@@ -25,6 +27,8 @@ const validationSchema = Yup.object().shape({
   eventName: Yup.string().required("Event Name is required"),
   eventDescription: Yup.string().required("Event Description is required"),
   eventPlace: Yup.string().required("Event Place is required"),
+  eventStartDate: Yup.string().required("Event Start Date is required"),
+  eventEndDate: Yup.string().required("Event End Date is required"),
 });
 
 export default function EventPlanningCreateEdit() {
@@ -32,15 +36,17 @@ export default function EventPlanningCreateEdit() {
   const [activityList, setActivityList] = useState([]);
   const [participantList, setParticipantList] = useState([]);
   const [, saveData, saveDataLoader] = useAxiosPost();
+  const [modifiedData, setModifiedData] = useState({});
+  const [, getEditData, editDataLoader] = useAxiosGet();
 
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
-
   const { id } = useParams();
+
   const saveHandler = (values, cb) => {
     const payload = {
-      eventId: 0,
+      eventId: id ? id : 0,
       eventName: values?.eventName,
       eventDescription: values?.eventDescription,
       eventPlace: values?.eventPlace,
@@ -50,11 +56,10 @@ export default function EventPlanningCreateEdit() {
       participants: participantList,
       activities: activityList,
     };
-
     saveData(`/hcm/Training/CreateEvent`, payload, cb, true);
   };
 
-  const activityAddHandler = (values) => {
+  const activityAddHandler = (values, setFieldValue) => {
     const isExist = activityList?.find(
       (item) => item?.activityName === values?.activityName
     );
@@ -65,7 +70,7 @@ export default function EventPlanningCreateEdit() {
         ...activityList,
         {
           activityId: 0,
-          eventId: id ? id : 0,
+          eventId: id ? +id : 0,
           activityName: values?.activityName,
           activityStartTime: null,
           activityEndTime: null,
@@ -73,6 +78,7 @@ export default function EventPlanningCreateEdit() {
           createdBy: profileData?.employeeId,
         },
       ]);
+      setFieldValue("activityName", "");
     }
   };
 
@@ -81,14 +87,33 @@ export default function EventPlanningCreateEdit() {
     setActivityList(filterArr);
   };
 
+  useEffect(() => {
+    if (id) {
+      getEditData(`/hcm/Training/GetEventById?id=${id}`, (data) => {
+        setActivityList(data?.activities);
+        setParticipantList(data?.participants);
+        setModifiedData({
+          eventName: data?.eventName,
+          eventDescription: data?.eventDescription,
+          eventPlace: data?.eventPlace,
+          eventStartDate: _dateFormatter(data?.eventStartDate),
+          eventEndDate: _dateFormatter(data?.eventEndDate),
+        });
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={initData}
+      initialValues={id ? modifiedData : initData}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
-          resetForm(initData);
+          !id && resetForm(initData);
+          !id && setActivityList([]);
+          !id && setParticipantList([]);
         });
       }}
     >
@@ -102,7 +127,7 @@ export default function EventPlanningCreateEdit() {
         touched,
       }) => (
         <>
-          {saveDataLoader && <Loading />}
+          {(saveDataLoader || editDataLoader) && <Loading />}
           <IForm title={"Event Planning Create"} getProps={setObjprops}>
             <Form>
               {/* header section */}
@@ -211,8 +236,9 @@ export default function EventPlanningCreateEdit() {
                           type="button"
                           className="btn btn-primary"
                           onClick={() => {
-                            activityAddHandler(values);
+                            activityAddHandler(values, setFieldValue);
                           }}
+                          disabled={!values?.activityName}
                         >
                           Add
                         </button>
@@ -266,12 +292,12 @@ export default function EventPlanningCreateEdit() {
                       <tr>
                         <th>SL</th>
                         <th>Name</th>
-                        <th>occupation</th>
-                        <th>organization</th>
-                        <th>phone</th>
-                        <th>email</th>
-                        <th>address</th>
-                        <th>code</th>
+                        <th>Occupation</th>
+                        <th>Organization</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                        <th>Code</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -279,13 +305,13 @@ export default function EventPlanningCreateEdit() {
                         participantList?.map((item, index) => (
                           <tr key={index}>
                             <td>{index + 1}</td>
-                            <td>{item?.name}</td>
+                            <td>{item?.participantName}</td>
                             <td>{item?.occupation}</td>
-                            <td>{item?.organization}</td>
+                            <td>{item?.organaizationName}</td>
                             <td>{item?.phone}</td>
                             <td>{item?.email}</td>
                             <td>{item?.address}</td>
-                            <td>{item?.code}</td>
+                            <td>{item?.cardNumber}</td>
                           </tr>
                         ))}
                     </tbody>
