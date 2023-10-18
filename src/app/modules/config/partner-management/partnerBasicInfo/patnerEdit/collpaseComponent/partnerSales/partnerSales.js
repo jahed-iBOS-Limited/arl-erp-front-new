@@ -71,6 +71,7 @@ const initProduct = {
   expireDate: "",
   operationalZone: "",
   issueDate: "",
+  agConcern: "",
 };
 
 export default function PartnerSales() {
@@ -91,6 +92,7 @@ export default function PartnerSales() {
   const [defaultConfigId, setDefaultConfigId] = useState(null);
   const [filterAdvanceReceiveGL, setFilterAdvanceReceiveGL] = useState([]);
   const [operationalZones, getOperationalZones] = useAxiosGet();
+  const [AGConcernDDL, getAGConcernDDL] = useAxiosGet();
 
   // get sbu ddl from store
   const sbuDDL = useSelector((state) => {
@@ -98,6 +100,7 @@ export default function PartnerSales() {
   }, shallowEqual);
   //Dispatch Get sbuDDL action for get sbu ddl
   useEffect(() => {
+    getAGConcernDDL(`/partner/BusinessPartnerBasicInfo/GetAGConcernUnitDDL`);
     if (selectedBusinessUnit?.value && profileData?.accountId) {
       dispatch(
         getSbuDDLAction(profileData.accountId, selectedBusinessUnit.value)
@@ -351,6 +354,8 @@ export default function PartnerSales() {
             creditFacilityTypeName: values?.paymentMode?.label,
             partyStatusType: values?.partyStatusType?.value,
             strCustomerCategory: values?.customerCategory?.value,
+            akigGroupSisterConcernId: values?.agConcern?.value, //new
+            akigGroupSisterConcernName: values?.agConcern?.label, //new
           },
           objListEditDTO: rowDto,
           objListEditCr: creditRowDto,
@@ -689,21 +694,21 @@ export default function PartnerSales() {
   return (
     <Card>
       {true && <ModalProgressBar />}
-      <CardHeader title='Partner Sales Info'>
+      <CardHeader title="Partner Sales Info">
         <CardHeaderToolbar>
           <button
-            type='reset'
+            type="reset"
             onClick={ResetProductClick}
             ref={resetBtnRef}
-            className='btn btn-light ml-2'
+            className="btn btn-light ml-2"
           >
-            <i className='fa fa-redo'></i>
+            <i className="fa fa-redo"></i>
             Reset
           </button>
           {`  `}
           <button
-            type='submit'
-            className='btn btn-primary ml-2'
+            type="submit"
+            className="btn btn-primary ml-2"
             onClick={saveBtnClicker}
             ref={btnRef}
             disabled={isDisabled}
@@ -713,7 +718,7 @@ export default function PartnerSales() {
         </CardHeaderToolbar>
       </CardHeader>
       <CardBody>
-        <div className='mt-0'>
+        <div className="mt-0">
           {isDisabled && <Loading />}
           <Form
             // product={initProduct}
@@ -771,6 +776,7 @@ export default function PartnerSales() {
             filterAdvanceReceiveGL={filterAdvanceReceiveGL}
             operationalZones={operationalZones}
             getOperationalZoneDDL={getOperationalZoneDDL}
+            AGConcernDDL={AGConcernDDL}
           />
         </div>
       </CardBody>

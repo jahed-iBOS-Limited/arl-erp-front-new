@@ -264,36 +264,6 @@ export default function RateAgreementCreate() {
                 </div>
                 <div className="col-lg-3">
                   <InputField
-                    name="contractStartDate"
-                    disabled={id && values?.contractStartDate}
-                    value={values?.contractStartDate}
-                    label="Contract Start Date"
-                    type="date"
-                    onChange={(e) => {
-                      setFieldValue("contractStartDate", e.target.value);
-                    }}
-                    // min={values?.validTillDate?.split("T")[0]}
-                    // errors={errors}
-                    // touched={touched}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    name="contractEndDate"
-                    disabled={id && values?.contractEndDate}
-                    value={values?.contractEndDate}
-                    label="Contract End Date"
-                    type="date"
-                    onChange={(e) => {
-                      setFieldValue("contractEndDate", e.target.value);
-                    }}
-                    // errors={errors}
-                    // touched={touched}
-                    // min={values?.validTillDate?.split("T")[0]}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
                     name="contractDate"
                     value={values?.contractDate}
                     disabled={id && values?.contractDate}
@@ -302,15 +272,39 @@ export default function RateAgreementCreate() {
                     onChange={(e) => {
                       setFieldValue("contractDate", e.target.value);
                     }}
-                    // errors={errors}
-                    // touched={touched}
-                    // min={values?.validTillDate?.split("T")[0]}
                   />
                 </div>
                 <div className="col-lg-3">
                   <InputField
+                    name="contractStartDate"
+                    // disabled={id && values?.contractStartDate}
+                    value={values?.contractStartDate}
+                    label="Contract Start Date"
+                    type="date"
+                    onChange={(e) => {
+                      setFieldValue("contractStartDate", e.target.value);
+                    }}
+                    
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    name="contractEndDate"
+                    // disabled={id && values?.contractEndDate}
+                    value={values?.contractEndDate}
+                    label="Contract End Date"
+                    type="date"
+                    onChange={(e) => {
+                      setFieldValue("contractEndDate", e.target.value);
+                    }}
+                    
+                  />
+                </div>
+                
+                <div className="col-lg-3">
+                  <InputField
                     name="deliveryAdress"
-                    disabled={id && values?.deliveryAdress}
+                    disabled={(id && values?.deliveryAdress) || values?.deliveryAdress}
                     value={values?.deliveryAdress}
                     label="Delivery Adress"
                     type="text"
@@ -318,15 +312,14 @@ export default function RateAgreementCreate() {
                     onChange={(e) => {
                       setFieldValue("deliveryAdress", e.target.value);
                     }}
-                    // errors={errors}
-                    // touched={touched}
+                   
                   />
                 </div>
                 <div className="col-lg-6">
                   <label htmlFor="">Terms And Conditions</label>
                   <TextArea
                     label="Terms And Condition"
-                    disabled={id}
+                    // disabled={id}
                     value={values?.termsAndCondition}
                     name="termsAndCondition"
                     placeholder="Terms And Condition"
@@ -342,15 +335,7 @@ export default function RateAgreementCreate() {
                   <SearchAsyncSelect
                     selectedValue={values?.itemName}
                     handleChange={(valueOption) => {
-                      setFieldValue("itemName", valueOption);
-                      setFieldValue("uomName", "");
-                      //   getUOMList(
-                      //     valueOption?.value,
-                      //     selectedBusinessUnit?.value,
-                      //     profileData?.accountId,
-                      //     setUOMList,
-                      //     setFieldValue
-                      //   );
+                      setFieldValue("itemName", valueOption);                     
                     }}
                     loadOptions={loadUserList}
                     disabled={true}
@@ -427,7 +412,7 @@ export default function RateAgreementCreate() {
                       <td className="text-center">{item?.itemName}</td>
                       {item?.agreementRowId === 0 ? (
                         <td className="text-left">
-                          <span style={{ paddingLeft: "4px" }}>
+                          <span style={{ paddingLeft: "16px" }}>
                             {item?.itemRate}
                           </span>
                         </td>
@@ -450,7 +435,7 @@ export default function RateAgreementCreate() {
                           className="text-left "
                           style={{ width: "150px", height: "28px" }}
                         >
-                          <span style={{ paddingLeft: "4px" }}>
+                          <span style={{ paddingLeft: "12px" }}>
                             {item?.vatPercentage}
                           </span>
                         </td>
