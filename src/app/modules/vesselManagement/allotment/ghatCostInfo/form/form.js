@@ -260,11 +260,8 @@ export default function _Form({
                         value={values?.supplier}
                         label="Supplier Name"
                         onChange={(valueOption) => {
-                          if (valueOption?.value) {
                             setFieldValue("supplier", valueOption);
-                          } else {
-                            setFieldValue("supplier", "");
-                          }
+                            setShipPointData([]);
                         }}
                         placeholder="Supplier Name"
                       />
