@@ -191,6 +191,7 @@ export default function ServiceSalesCreate() {
         dteScheduleDateTime: _todayDate(),
         dteDueDateTime: schedule?.dueDate,
         intPaymentByPercent: +schedule?.percentage || 0,
+        numScheduleVatAmount: +schedule?.vat || 0,
         numScheduleAmount: +schedule?.amount,
         strRemarks: schedule?.remarks || "",
         strStatus: "",
@@ -566,6 +567,9 @@ export default function ServiceSalesCreate() {
                                   i === 0 ? 0 : i * values?.scheduleType?.range
                                 ),
                                 percentage: 0,
+                                amountWithoutVat:
+                                  (+values?.qty || 0) * (+values?.rate || 0),
+                                vat: +values?.vat || 0,
                                 amount:
                                   (() => {
                                     let amount =
@@ -708,6 +712,7 @@ export default function ServiceSalesCreate() {
                           <tr>
                             <th>SL</th>
                             <th>Due Date</th>
+                            <th>Vat</th>
                             <th>Amount</th>
                           </tr>
                         </thead>
@@ -728,6 +733,7 @@ export default function ServiceSalesCreate() {
                                   }}
                                 />
                               </td>
+                              <td className="text-right">{item?.vat}</td>
                               <td className="text-right">{item?.amount}</td>
                             </tr>
                           ))}
