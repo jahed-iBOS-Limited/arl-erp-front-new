@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import Form from "./form";
 import IForm from "../../../../_helper/_form";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import { _todayDate, _todayDateTime12HFormet } from "../../../../_helper/_todayDate";
 import { useLocation } from "react-router-dom";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { getServiceDDL, saveWorkOrderData } from "../helpers";
@@ -17,7 +17,7 @@ const initData = {
   picked: "Preventive",
   service: "",
   priority: "",
-  assetDate: _todayDate(),
+  assetDate: _todayDateTime12HFormet(),
   problem: "",
 };
 
@@ -71,33 +71,32 @@ export default function AssetOrderForm({
       }
 
       const payload = {
-        assetId: values.assetNo.value,
-        assetCode: values.assetNo.code,
-        assetDescription: values.assetNo.label ? values.assetNo.label.split("[")[0] : "",
+        assetId: values?.assetNo?.value,
+        assetCode: values?.assetNo?.code,
+        assetDescription: values?.assetNo?.label ? values?.assetNo?.label?.split("[")[0] : "",
         accountId: profileData?.accountId,
-        sbuId: sbuName.value,
-        plantId: plantName.value,
+        sbuId: sbuName?.value,
+        plantId: plantName?.value,
         businessUnitId: selectedBusinessUnit?.value,
-        itemServiceId: values.service.value,
-        itemServiceName: values.service.label,
-        warehouseId: warehouseName.value,
-        warehouseName: warehouseName.label,
+        itemServiceId: values?.service?.value,
+        itemServiceName: values?.service?.label,
+        warehouseId: warehouseName?.value,
+        warehouseName: warehouseName?.label,
         dueMaintenanceDate: _todayDate(),
         isPreventive: isPreventive(),
         IsOthersInstallation: values?.picked === "OthersInstallation" ? true : false,
-        startDateTime: values.assetDate,
-        endDateTime: _todayDate(),
+        startDateTime: values?.assetDate,
         engineerEmployeeId: 0,
         engineerName: "",
         engineerContact: "",
         isComplete: false,
         status: "",
         costCenterId: 0,
-        priority: values.priority.value,
-        priorityName: values.priority.label,
+        priority: values?.priority?.value,
+        priorityName: values?.priority?.label,
         customerContactName: "",
         customerContactNo: "",
-        problems: values.problem,
+        problems: values?.problem,
         notes: "",
         actionBy: profileData?.userId,
       };
@@ -136,7 +135,7 @@ export default function AssetOrderForm({
           selectedBusinessUnit={selectedBusinessUnit}
           serviceDDL={serviceDDL}
           assetListDDL={assetListDDL}
-          plantId={plantName.value}
+          plantId={plantName?.value}
           setAssetListDDL={setAssetListDDL}
         />
       </IForm>
