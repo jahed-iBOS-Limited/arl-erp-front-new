@@ -16,7 +16,7 @@ import AllotmentSalesReport from "./allotmentSalesReport/Table";
 import AttachmentUpload from "./attachmentUpload/landing";
 import BankGuaranteeReport from "./bankGuaranteeReport/landing";
 import ChannelWiseSalesReportLanding from "./channelWiseSales/landing/table";
-import CommissionReportAndJVTable from "./commissionReportAndJV/table/table";
+import CommissionReportAndJV from "./commissionReportAndJV/landing/index";
 import CustomerBalanceDaysNLimit from "./customerBalanceDayNLimit/landing/table";
 import CustomerCollectionTarget from "./customerCollectionTarget";
 import { CustomerCollectionTargetForm } from "./customerCollectionTarget/form/addEditForm";
@@ -281,7 +281,7 @@ export function ReportManagementPages() {
 
       <ContentRoute
         from="/sales-management/report/commisionReportAndJv"
-        component={CommissionReportAndJVTable}
+        component={CommissionReportAndJV}
       />
 
       {/* Fertilizer Report */}
