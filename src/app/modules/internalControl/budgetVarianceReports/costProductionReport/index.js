@@ -1,5 +1,5 @@
 import { Formik } from "formik";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import {
   Card,
@@ -17,6 +17,8 @@ import { _getCurrentMonthYearForInput } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import "./style.css";
 import IView from "../../../_helper/_helperIcons/_view";
+import IViewModal from "../../../_helper/_viewModal";
+import ViewModal from "./viewModal";
 
 const initData = {
   // fromDate: _todayDate(),
@@ -30,6 +32,9 @@ function CostOfProductionReport() {
   const businessUnitList = useSelector((state) => {
     return state.authData.businessUnitList;
   }, shallowEqual);
+
+  const [isShowModal, setIsShowModal] = useState(false);
+  const [singleData, setSingleData] = useState({});
 
   const getData = (values) => {
     const [year, month] = values?.monthYear.split("-").map(Number);
@@ -181,7 +186,12 @@ function CostOfProductionReport() {
                                 {_formatMoney(item?.numActTotalCost)}
                               </td>
                               <td className="text-center">
-                                <IView />
+                                <IView
+                                  clickHandler={() => {
+                                    setSingleData(item);
+                                    setIsShowModal(true);
+                                  }}
+                                />
                               </td>
                             </tr>
                           ))}
@@ -189,6 +199,16 @@ function CostOfProductionReport() {
                     </table>
                   </div>
                 </div>
+                <IViewModal
+                  modelSize="lg"
+                  show={isShowModal}
+                  onHide={() => setIsShowModal(false)}
+                >
+                  <ViewModal
+                    singleData={singleData}
+                    values={values}
+                  />
+                </IViewModal>
               </CardBody>
             </Card>
           </>
