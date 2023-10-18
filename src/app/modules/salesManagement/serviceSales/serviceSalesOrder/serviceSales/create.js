@@ -20,6 +20,7 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { update } from "lodash";
 
 const initData = {
+  distributionChannel: "",
   salesOrg: "",
   customer: "",
   paymentType: "",
@@ -67,6 +68,7 @@ export default function ServiceSalesCreate() {
   const [, saveHandlerFunc, loader] = useAxiosPost();
   const [scheduleMonthRange, setScheduleMonthRange] = useState(0);
   const [salesOrgList, getSalesOrgList] = useAxiosGet();
+  const [channelDDL, getChannelDDL, channelDDLloader] = useAxiosGet();
 
   console.log("scheduleList", scheduleList);
   console.log("scheduleListFOneTime", scheduleListFOneTime);
@@ -107,6 +109,9 @@ export default function ServiceSalesCreate() {
   // }, [scheduleMonthRange, validToData, validFromData]);
 
   useEffect(() => {
+    getChannelDDL(
+      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}`
+    );
     getSalesOrgList(
       `/oms/BusinessUnitSalesOrganization/GetBUSalesOrgDDL?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}&SBUId=0`
     );
@@ -121,6 +126,8 @@ export default function ServiceSalesCreate() {
   }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = (values, cb) => {
+    if (!values?.distributionChannel?.value)
+      return toast.warn("Distribution Channel is required");
     if (itemList?.length < 0) return toast.warn("Add at least one Item");
     if (scheduleList?.length < 0) return toast.warn("Add Schedule");
     let totalPercentage = scheduleListFOneTime.reduce(
@@ -141,6 +148,8 @@ export default function ServiceSalesCreate() {
         strServiceSalesOrderCode: "",
         intAccountId: profileData?.accountId,
         intBusinessUnitId: selectedBusinessUnit?.value,
+        intDistributionChannelId: values?.distributionChannel?.value, // add new field
+        strDistributionChannelName: values?.distributionChannel?.label, // add new field
         intSalesTypeId: values?.salesOrg?.value,
         strSalesTypeName: values?.salesOrg?.label,
         intCustomerId: values?.customer?.value || 0,
@@ -182,6 +191,7 @@ export default function ServiceSalesCreate() {
         dteScheduleDateTime: _todayDate(),
         dteDueDateTime: schedule?.dueDate,
         intPaymentByPercent: +schedule?.percentage || 0,
+        numScheduleVatAmount: +schedule?.vat || 0,
         numScheduleAmount: +schedule?.amount,
         strRemarks: schedule?.remarks || "",
         strStatus: "",
@@ -226,6 +236,19 @@ export default function ServiceSalesCreate() {
           <IForm title="Create Service Sales Order" getProps={setObjprops}>
             <Form>
               <div className="form-group  global-form row">
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="distributionChannel"
+                    options={channelDDL || []}
+                    value={values?.distributionChannel}
+                    label="Distribution Channel"
+                    onChange={(valueOption) => {
+                      setFieldValue("distributionChannel", valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
                 <div className="col-lg-3">
                   <NewSelect
                     name="salesOrg"
@@ -544,6 +567,9 @@ export default function ServiceSalesCreate() {
                                   i === 0 ? 0 : i * values?.scheduleType?.range
                                 ),
                                 percentage: 0,
+                                amountWithoutVat:
+                                  (+values?.qty || 0) * (+values?.rate || 0),
+                                vat: +values?.vat || 0,
                                 amount:
                                   (() => {
                                     let amount =
@@ -686,6 +712,7 @@ export default function ServiceSalesCreate() {
                           <tr>
                             <th>SL</th>
                             <th>Due Date</th>
+                            <th>Vat</th>
                             <th>Amount</th>
                           </tr>
                         </thead>
@@ -706,6 +733,7 @@ export default function ServiceSalesCreate() {
                                   }}
                                 />
                               </td>
+                              <td className="text-right">{item?.vat}</td>
                               <td className="text-right">{item?.amount}</td>
                             </tr>
                           ))}
