@@ -121,6 +121,7 @@ export default function _Form({
   filterAdvanceReceiveGL,
   operationalZones,
   getOperationalZoneDDL,
+  AGConcernDDL,
 }) {
   const [mortageTypeDDL, setMortageTypeDDL] = useState([]);
   const [bankNameDDL, setBankNameDDL] = useState([]);
@@ -404,7 +405,10 @@ export default function _Form({
                         name="exclusivity"
                         options={[
                           { value: true, label: "Exclusive" },
-                          { value: false, label: "Non-Exclusive" },
+                          {
+                            value: false,
+                            label: "Non-Exclusive",
+                          },
                         ]}
                         value={values?.exclusivity}
                         label="Exclusivity"
@@ -420,7 +424,10 @@ export default function _Form({
                       <NewSelect
                         name="partyStatusType"
                         options={[
-                          { value: "ChannelPartner", label: "Channel Partner" },
+                          {
+                            value: "ChannelPartner",
+                            label: "Channel Partner",
+                          },
                           {
                             value: "Business Associate",
                             label: "Business Associate",
@@ -444,7 +451,10 @@ export default function _Form({
                       <NewSelect
                         name="customerCategory"
                         options={[
-                          { value: "Platinum", label: "Platinum" },
+                          {
+                            value: "Platinum",
+                            label: "Platinum",
+                          },
                           { value: "Gold", label: "Gold" },
                           { value: "Silver", label: "Silver" },
                         ]}
@@ -454,6 +464,20 @@ export default function _Form({
                           setFieldValue("customerCategory", valueOption);
                         }}
                         placeholder="Customer Category"
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                    <div className="col-lg-3 mb-2">
+                      <NewSelect
+                        name="agConcern"
+                        options={AGConcernDDL?.data || []}
+                        value={values?.agConcern}
+                        label="Akij Concern"
+                        onChange={(valueOption) => {
+                          setFieldValue("agConcern", valueOption);
+                        }}
+                        placeholder="Akij Concern"
                         errors={errors}
                         touched={touched}
                       />
@@ -1224,8 +1248,14 @@ export default function _Form({
                         <NewSelect
                           name="limitStatus"
                           options={[
-                            { value: "Short Time", label: "Short Time" },
-                            { value: "Life Time", label: "Life Time" },
+                            {
+                              value: "Short Time",
+                              label: "Short Time",
+                            },
+                            {
+                              value: "Life Time",
+                              label: "Life Time",
+                            },
                           ]}
                           value={values?.limitStatus}
                           label="Limit Status"
@@ -1239,12 +1269,18 @@ export default function _Form({
                       </div>
                       <div className="col mt-0 d-flex align-items-center justify-content-end">
                         <span
-                          style={{ cursor: "pointer", border: "1px solid" }}
+                          style={{
+                            cursor: "pointer",
+                            border: "1px solid",
+                          }}
                           className="mr-4"
                           onClick={() => setOpen(true)}
                         >
                           <i
-                            style={{ color: "#1F2937", fontSize: "20px" }}
+                            style={{
+                              color: "#1F2937",
+                              fontSize: "20px",
+                            }}
                             class="fa fa-upload"
                             aria-hidden="true"
                           ></i>
