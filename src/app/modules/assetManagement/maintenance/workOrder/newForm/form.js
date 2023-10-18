@@ -180,7 +180,7 @@ export default function _Form({
                 <div className="col-lg-3">
                   <InputField
                     value={values?.assetDate}
-                    type="date"
+                    type="datetime-local"
                     label="Date"
                     placeholder="Date"
                     name="assetDate"
