@@ -1,18 +1,18 @@
 import Axios from "axios";
 import { toast } from "react-toastify";
-import moment from 'moment';
+import moment from "moment";
 
 export const getSalesReportData = async (
-    whId, 
-    buId, 
-    fromDate, 
-    toDate, 
-    reportTypeId,
-    setLoading,
-    setter
-  ) => {
+  whId,
+  buId,
+  fromDate,
+  toDate,
+  reportTypeId,
+  setLoading,
+  setter
+) => {
   try {
-    setLoading(true)
+    setLoading(true);
     const res = await Axios.get(
       `/partner/Pos/GetPOSSalesReport?reportTypeId=${reportTypeId}&businessUnitId=${buId}&warehouseId=${whId}&fromDate=${fromDate}&toDate=${toDate}`
     );
@@ -26,27 +26,27 @@ export const getSalesReportData = async (
 };
 
 export const getSalesProfitReportData = async (
-  whId, 
+  whId,
   accId,
-  buId, 
-  fromDate, 
-  toDate, 
+  buId,
+  fromDate,
+  toDate,
   reportTypeId,
   setLoading,
   setter
 ) => {
-try {
-  setLoading(true)
-  const res = await Axios.get(
-    `/partner/Pos/GetNetProfitByWarehouse?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}&WarehouseId=${whId}&ReportType=${reportTypeId}`
-  );
-  if (res.status === 200 && res?.data) {
-    setter(res?.data);
+  try {
+    setLoading(true);
+    const res = await Axios.get(
+      `/partner/Pos/GetNetProfitByWarehouse?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}&WarehouseId=${whId}&ReportType=${reportTypeId}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+      setLoading(false);
+    }
+  } catch (error) {
     setLoading(false);
   }
-} catch (error) {
-  setLoading(false);
-}
 };
 
 export const getDeliveryReportData = async (
@@ -89,12 +89,12 @@ export const getDateWiseDeliveryReportData = async (
       `/oms/OMSPivotReport/GetPosDeliveryInfo?AccountId=${accId}&Businessunitid=${buId}&fromDate=${fromDate}&toDate=${toDate}`
     );
     if (res.status === 200 && res?.data) {
-      const responseData= await res?.data.map(itm=>{
+      const responseData = await res?.data.map((itm) => {
         return {
-          deliveryDates: moment(itm?.deliveryDate).format("L"), 
-          ...itm
-        }
-      })
+          deliveryDates: moment(itm?.deliveryDate).format("L"),
+          ...itm,
+        };
+      });
       if (res?.data?.length > 0) {
         setter(responseData);
       } else {
@@ -111,7 +111,8 @@ export const getWareHouseDDL = async (
   accountId,
   businessUnitId,
   userId,
-  setter) => {
+  setter
+) => {
   try {
     const res = await Axios.get(
       // `/wms/Warehouse/GetWarehouseDDL?AccountId=${accId}&BusinessUnitId=${buId}`
@@ -153,17 +154,18 @@ export const getDamageReportData = async (
 export const getMonthlySalesReport = async (reportType, payload, setter) => {
   try {
     const res = await Axios.post(
-      `/partner/Pos/GetMonthlySalesInfo?ReportType=${reportType}`, payload
+      `/partner/Pos/GetMonthlySalesInfo?ReportType=${reportType}`,
+      payload
     );
-    let dataByOutletCategory={}
-    for(let {outletName, ...otherProps} of res?.data){
-      if(outletName in dataByOutletCategory){
-        dataByOutletCategory[outletName].value.push(otherProps)
-      }else{
-        dataByOutletCategory[outletName]={outletName, value: [otherProps]}
+    let dataByOutletCategory = {};
+    for (let { outletName, ...otherProps } of res?.data) {
+      if (outletName in dataByOutletCategory) {
+        dataByOutletCategory[outletName].value.push(otherProps);
+      } else {
+        dataByOutletCategory[outletName] = { outletName, value: [otherProps] };
       }
     }
-    const response=Object.values(dataByOutletCategory)
+    const response = Object.values(dataByOutletCategory);
     setter(response);
   } catch (error) {
     setter([]);
@@ -197,31 +199,47 @@ export const getWarehouseDDL = async (
     );
     setter(res?.data);
   } catch (error) {
-    toast.error(error.response.data.message)
+    toast.error(error.response.data.message);
   }
 };
 
-export const getEmployeeSubLedgerData= async (empId, fromDate, toDate, setter) => {
-  try{
-    const res= await Axios.get(`/partner/Pos/GetEmployeeSubledger?FromDate=${fromDate}&ToDate=${toDate}&EmployeeId=${empId}`)
-    if(res.status === 200){
-      setter(res?.data)
+export const getEmployeeSubLedgerData = async (
+  empId,
+  fromDate,
+  toDate,
+  setter
+) => {
+  try {
+    const res = await Axios.get(
+      `/partner/Pos/GetEmployeeSubledger?FromDate=${fromDate}&ToDate=${toDate}&EmployeeId=${empId}`
+    );
+    if (res.status === 200) {
+      setter(res?.data);
     }
-  }catch(error) {
-    toast.error(error.response.data.message)
+  } catch (error) {
+    toast.error(error.response.data.message);
   }
-}
+};
 
-export const getCashBookData= async (fromDate, toDate, outletId, empId, setter, setLoading) => {
-  try{
-    setLoading(true)
-    const res= await Axios.get(`/partner/Pos/GetCashBook?FromDate=${fromDate}&ToDate=${toDate}&OutletId=${outletId}&EmployeeId=${empId}`)
-    if(res.status === 200){
-      setter(res?.data)
-      setLoading(false)
+export const getCashBookData = async (
+  fromDate,
+  toDate,
+  outletId,
+  partId,
+  setter,
+  setLoading
+) => {
+  try {
+    setLoading(true);
+    const res = await Axios.get(
+      `/partner/Pos/GetCashBook?FromDate=${fromDate}&ToDate=${toDate}&OutletId=${outletId}&Partid=${partId}`
+    );
+    if (res.status === 200) {
+      setter(res?.data);
+      setLoading(false);
     }
-  }catch(error) {
-    toast.error(error.response.data.message)
-    setLoading(false)
+  } catch (error) {
+    toast.error(error.response.data.message);
+    setLoading(false);
   }
-}
+};
