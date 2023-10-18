@@ -9,7 +9,9 @@ import InputField from "../../../_helper/_inputField";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { shallowEqual, useSelector } from "react-redux";
 
-const initData = {};
+const initData = {
+  strCardNumber: "",
+};
 const Punch = () => {
   const { id } = useParams();
   const [objProps, setObjprops] = useState({});
@@ -19,8 +21,7 @@ const Punch = () => {
     return state.authData.profileData;
   }, shallowEqual);
 
-  const saveHandler = (values) => {
-    console.log("values", values);
+  const saveHandler = (values, cb) => {
     const payload = {
       actionBy: profileData?.userId,
       cardNumber: values?.strCardNumber,
@@ -36,6 +37,8 @@ const Punch = () => {
       },
       true
     );
+
+    cb && cb();
   };
 
   const location = useLocation();
@@ -48,6 +51,8 @@ const Punch = () => {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
+          document.getElementById("cardNoInput").focus();
+          initData.strCardNumber = "";
         });
       }}
     >
