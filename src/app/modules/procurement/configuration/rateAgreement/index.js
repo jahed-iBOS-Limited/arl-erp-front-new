@@ -60,6 +60,8 @@ export default function RateAgreement() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buId]);
 
+
+
   return (
     <Formik
       enableReinitialize={true}
@@ -192,6 +194,16 @@ export default function RateAgreement() {
                     label="WareHouse"
                     onChange={(valueOption) => {
                       setFieldValue("wareHouse", valueOption);
+                      if(valueOption){
+                        getRowDto(
+                          `/procurement/PurchaseOrder/GetRateAgreement?BusinessUnitId=${buId}&PurchaseOrganisationId=${
+                            values?.purchaseOrganization?.value
+                          }&PlantId=${values?.plant?.value}&WarehouseId=${
+                            valueOption?.value
+                          }&supplierId=${values?.supplier?.value ||
+                            0}&PageNo=${pageNo}&PageSize=${pageSize}`
+                        );
+                      }
                     }}
                     placeholder="WareHouse"
                     errors={errors}
@@ -246,7 +258,7 @@ export default function RateAgreement() {
                       {rowDto?.data?.length > 0 &&
                         rowDto?.data?.map((item, index) => (
                           <tr key={index}>
-                            <td>{item?.sl}</td>
+                            <td>{index + 1}</td>
                             <td>{item?.agreementCode}</td>
                             <td>{item?.warehouseName || "Sample Name"}</td>
                             <td>{_dateTimeFormatter(item?.contactDateTime)}</td>
