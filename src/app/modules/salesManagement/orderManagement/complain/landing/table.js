@@ -4,15 +4,17 @@ import IEdit from "../../../../_helper/_helperIcons/_edit";
 import IView from "../../../../_helper/_helperIcons/_view";
 import NewSelect from "../../../../_helper/_select";
 import { useHistory } from "react-router-dom";
+import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
 
 const LandingTable = ({ obj }) => {
   const {
     gridData,
-    employeeDDL,
+    loadUserList,
     complainStatus,
     assignToAndStatusHandler,
   } = obj;
   const history = useHistory();
+
   return (
     <>
       <table className='table table-striped table-bordered global-table'>
@@ -40,7 +42,26 @@ const LandingTable = ({ obj }) => {
               <td>{item?.strComplainByEmployee || "N/A"}</td>
 
               <td>
-                <NewSelect
+                <SearchAsyncSelect
+                  selectedValue={
+                    item?.assignTo
+                      ? { value: item?.assignTo, label: item?.assignToName }
+                      : ""
+                  }
+                  isSearchIcon={true}
+                  handleChange={(valueOption) => {
+                    if (valueOption?.value) {
+                      assignToAndStatusHandler({
+                        ...item,
+                        assignTo: valueOption?.value,
+                        assignToName: valueOption?.label,
+                      });
+                    }
+                  }}
+                  loadOptions={loadUserList}
+                  isDisabled={item?.status === "Done"}
+                />
+                {/* <NewSelect
                   isClearable={false}
                   name='assignTo'
                   options={employeeDDL || []}
@@ -59,7 +80,7 @@ const LandingTable = ({ obj }) => {
                     }
                   }}
                   isDisabled={item?.statusId === 4}
-                />
+                /> */}
               </td>
               <td>
                 <NewSelect
