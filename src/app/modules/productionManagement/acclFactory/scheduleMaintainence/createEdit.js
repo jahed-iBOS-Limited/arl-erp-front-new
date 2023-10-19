@@ -1,4 +1,3 @@
-import axios from "axios";
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
@@ -7,7 +6,6 @@ import IForm from "../../../_helper/_form";
 import Loading from "../../../_helper/_loading";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import NewSelect from "../../../_helper/_select";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
 
 const initData = {
   plant: "",
@@ -24,6 +22,7 @@ const ScheduleMaintainenceCreate = () => {
   const [objProps, setObjprops] = useState({});
   const [plantDDL, getPlantDDL, plantDDLloader] = useAxiosGet();
   const [, saveData, saveDataLoader] = useAxiosPost();
+  const [machineDDL, getMachineDDL, machineDDLloader] = useAxiosGet();
 
   const { profileData } = useSelector((state) => {
     return state.authData;
@@ -45,7 +44,7 @@ const ScheduleMaintainenceCreate = () => {
 
   return (
     <IForm title="Create Schedule Maintainance" getProps={setObjprops}>
-      {plantDDLloader && <Loading />}
+      {(plantDDLloader || machineDDLloader || saveDataLoader) && <Loading />}
       <>
         <Formik
           enableReinitialize={true}
@@ -79,13 +78,32 @@ const ScheduleMaintainenceCreate = () => {
                         onChange={(valueOption) => {
                           if (valueOption) {
                             setFieldValue("plant", valueOption);
+                            getMachineDDL(
+                              `/mes/ScheduleMaintenance/GetAllmachineListDDL?BusinessUnitId=${selectedBusinessUnit?.value}`
+                            );
                           } else {
                             setFieldValue("plant", "");
                           }
                         }}
                       />
                     </div>
-                    <div className="col-lg-3">machine</div>
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="machineName"
+                        options={machineDDL || []}
+                        value={values?.machineName}
+                        label="Machine Name"
+                        onChange={(valueOption) => {
+                          if (valueOption) {
+                            setFieldValue("machineName", valueOption);
+                          } else {
+                            setFieldValue("machineName", "");
+                          }
+                        }}
+                        placeholder="Maintainence Type"
+                        errors={errors}
+                      />
+                    </div>
                     <div className="col-lg-3">
                       <NewSelect
                         name="maintainenceType"
