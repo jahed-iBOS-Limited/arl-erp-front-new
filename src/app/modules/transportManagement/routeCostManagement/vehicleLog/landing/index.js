@@ -69,7 +69,11 @@ const VehicleLogLanding = () => {
       ?.shipPoint?.value || 0}&vehicleId=${values?.vehicleNo?.value ||
       0}&pageNo=${pageNo}&pageSize=${pageSize}`;
 
-    const tripTargetUrl = `/tms/Vehicle/GetVehicleTripTarget?businessUnitId=${buId}&shipPointId=${values?.shipPoint?.value}&vehicleId=${values?.vehicleNo?.value}&yearId=${values?.year?.value}&monthId=${values?.month?.value}&pageNo=${pageNo}&pageSize=${pageSize}`;
+    const tripTargetUrl = `/tms/Vehicle/GetVehicleTripTarget?businessUnitId=${buId}&shipPointId=${
+      values?.shipPoint?.value
+    }&vehicleId=${values?.vehicleNo?.value || 0}&yearId=${
+      values?.year?.value
+    }&monthId=${values?.month?.value}&pageNo=${pageNo}&pageSize=${pageSize}`;
 
     const URL =
       typeId === 2 ? vehicleProblemUrl : typeId === 3 ? tripTargetUrl : "";
