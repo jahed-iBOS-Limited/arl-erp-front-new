@@ -423,7 +423,7 @@ export const FormatEight = ({
                         ...(fontSize && { fontSize }),
                       }}
                     >
-                      <b>{item?.strNaration}</b>
+                      <b>01724112999</b>
                     </div>
                   </td>
                   <td
