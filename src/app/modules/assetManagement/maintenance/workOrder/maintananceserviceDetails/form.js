@@ -181,7 +181,7 @@ export default function _Form({
                     label="Quantity"
                     name="quantity"
                     type="number"
-                    placeholder="Quantity"
+                    placeholder=""
                     value={values?.quantity}
                     onChange={(e)=> {
                       let newValue = e?.target?.value;
@@ -203,7 +203,7 @@ export default function _Form({
                   <InputField
                     value={values?.stockQuantity}
                     label="Stock Quantity"
-                    placeholder="Stock Quantity"
+                    placeholder=""
                     type="number"
                     name="stockQuantity"
                     disabled
@@ -213,7 +213,7 @@ export default function _Form({
                   <InputField
                     value={values?.value}
                     label="Value"
-                    placeholder="Value"
+                    placeholder=""
                     type="number"
                     name="value"
                     disabled
@@ -223,7 +223,7 @@ export default function _Form({
                   <InputField
                     value={values?.narration}
                     label="Narration"
-                    placeholder="Narration"
+                    placeholder=""
                     type="text"
                     name="narration"
                   />
@@ -232,23 +232,27 @@ export default function _Form({
                   <button
                     type="button"
                     disabled={
-                      values.warehouse === "" ||
-                      values.parts === "" ||
-                      values.quantity === "" ||
-                      values.value === ""
+                      !values.warehouse ||
+                      !values.parts ||
+                      !values.quantity ||
+                      !values.value ||
+                      !values?.stockQuantity
                     }
                     onClick={() => {
-                      if(values?.quantity <= values?.stockQuantity) {
-                        onClickForSparePArts(values);
-                        setFieldValue("warehouse", "");
-                        setFieldValue("parts", "");
-                        setFieldValue("costElement", "");
-                        setFieldValue("quantity", "");
-                        setFieldValue("stockQuantity", 0);
-                        setFieldValue("value", 0);
-                      } else {
-                        toast.warn("Quantity must be less than or equal to stock quantity!");
+                      const isItemExist = spareParts?.some(item => item?.itemId === values?.parts?.value);
+
+                      if(isItemExist) {
+                        return toast.warn("Item already exist!");
                       }
+                      if(values?.quantity > values?.stockQuantity) {
+                        return toast.warn("Quantity must be less than or equal to stock quantity!");
+                      }
+                      onClickForSparePArts(values);
+                      setFieldValue("parts", "");
+                      setFieldValue("quantity", "");
+                      setFieldValue("stockQuantity", "");
+                      setFieldValue("value", "");
+                      setFieldValue("narration", "");
                     }}
                     className="btn btn-primary"
                   >

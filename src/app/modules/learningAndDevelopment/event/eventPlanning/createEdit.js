@@ -13,6 +13,10 @@ import { toast } from "react-toastify";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
+import NewSelect from "../../../_helper/_select";
+import IView from "../../../_helper/_helperIcons/_view";
+import IViewModal from "../../../_helper/_viewModal";
+import ParticipantRowModal from "./participantRowModal";
 
 const initData = {
   eventName: "",
@@ -20,6 +24,9 @@ const initData = {
   eventPlace: "",
   eventStartDate: _todayDate(),
   eventEndDate: _todayDate(),
+  activityName: "",
+  activityStartTime: "",
+  activityEndTime: "",
   isParticipantCount: false,
 };
 
@@ -35,18 +42,23 @@ export default function EventPlanningCreateEdit() {
   const [objProps, setObjprops] = useState({});
   const [activityList, setActivityList] = useState([]);
   const [participantList, setParticipantList] = useState([]);
+  const [isShowModal, setIsShowModal] = useState(false)
+  const [participantModalData, setParticipantModalData] = useState({})
+  const [customerDDL, getCustomerDDL, getCustomerDDLLoader] = useAxiosGet();
   const [, saveData, saveDataLoader] = useAxiosPost();
   const [modifiedData, setModifiedData] = useState({});
   const [, getEditData, editDataLoader] = useAxiosGet();
-
-  const profileData = useSelector((state) => {
-    return state.authData.profileData;
+  const { selectedBusinessUnit, profileData } = useSelector((state) => {
+    return state.authData;
   }, shallowEqual);
+
+
   const { id } = useParams();
 
   const saveHandler = (values, cb) => {
     const payload = {
       eventId: id ? id : 0,
+      partnerName: values?.customerName.label,
       eventName: values?.eventName,
       eventDescription: values?.eventDescription,
       eventPlace: values?.eventPlace,
@@ -72,8 +84,8 @@ export default function EventPlanningCreateEdit() {
           activityId: 0,
           eventId: id ? +id : 0,
           activityName: values?.activityName,
-          activityStartTime: null,
-          activityEndTime: null,
+          activityStartTime: values?.activityStartTime,
+          activityEndTime: values?.activityEndTime,
           isParticipantCount: values?.isParticipantCount,
           createdBy: profileData?.employeeId,
         },
@@ -98,11 +110,22 @@ export default function EventPlanningCreateEdit() {
           eventPlace: data?.eventPlace,
           eventStartDate: _dateFormatter(data?.eventStartDate),
           eventEndDate: _dateFormatter(data?.eventEndDate),
+          customerName: { value: data?.partnerId, label: data?.partnerName }
+
         });
       });
+
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+
+  useEffect(() => {
+    const accId = profileData?.accountId;
+    const buId = selectedBusinessUnit?.value;
+    getCustomerDDL(`/partner/PManagementCommonDDL/GetBusinessPartnerbyIdDDL?AccountId=${accId}&BusinessUnitId=${buId}&PartnerTypeId=2`)
+
+  }, [profileData, selectedBusinessUnit])
+
 
   return (
     <Formik
@@ -127,11 +150,22 @@ export default function EventPlanningCreateEdit() {
         touched,
       }) => (
         <>
-          {(saveDataLoader || editDataLoader) && <Loading />}
+          {(saveDataLoader || editDataLoader || getCustomerDDLLoader) && <Loading />}
           <IForm title={"Event Planning Create"} getProps={setObjprops}>
             <Form>
               {/* header section */}
               <div className="form-group  global-form row">
+                <div className="col-lg-3 ">
+                  <NewSelect
+                    value={values?.customerName}
+                    label="Customer Name"
+                    name="customerName"
+                    options={customerDDL}
+                    onChange={(valueOption) => {
+                      setFieldValue("customerName", valueOption);
+                    }}
+                  />
+                </div>
                 <div className="col-lg-3 ">
                   <InputField
                     value={values?.eventName}
@@ -192,13 +226,13 @@ export default function EventPlanningCreateEdit() {
               </div>
               {/* activity section */}
               <div className="row">
-                <div className="col-lg-4">
+                <div className="col-lg-7">
                   <div className="global-form">
                     <div className="row">
                       <div className="col-lg-12">
                         <h4>Activity List</h4>
                       </div>
-                      <div className="col-lg-6">
+                      <div className="col-lg-4">
                         <InputField
                           value={values?.activityName}
                           label="Activity Name"
@@ -209,22 +243,47 @@ export default function EventPlanningCreateEdit() {
                           }}
                         />
                       </div>
-                      <div className="col-lg-3 d-flex mt-5">
-                        <input
-                          id="isParticipantCount"
-                          type="checkbox"
-                          name="isParticipantCount"
-                          value={values?.isParticipantCount}
+                      <div className="col-lg-2">
+                        <InputField
+                          value={values?.activityStartTime}
+                          label="Start Time"
+                          name="activityStartTime"
+                          type="time"
                           onChange={(e) => {
-                            setFieldValue(
-                              "isParticipantCount",
-                              e.target.checked
-                            );
+                            setFieldValue("activityStartTime", e.target.value);
                           }}
                         />
-                        <span htmlFor="isParticipantCount" className="ml-2">
-                          Participant Count
-                        </span>
+                      </div>
+                      <div className="col-lg-2">
+                        <InputField
+                          value={values?.activityEndTime}
+                          label="End Time"
+                          name="activityEndTime"
+                          type="time"
+                          onChange={(e) => {
+                            setFieldValue("activityEndTime", e.target.value);
+                          }}
+                        />
+                      </div>
+                      <div className="col-lg-2 d-flex  mt-2">
+                        <div className="d-flex align-items-center mt-2">
+
+                          <input
+                            id="isParticipantCount"
+                            type="checkbox"
+                            name="isParticipantCount"
+                            value={values?.isParticipantCount}
+                            onChange={(e) => {
+                              setFieldValue(
+                                "isParticipantCount",
+                                e.target.checked
+                              );
+                            }}
+                          />
+                          <span htmlFor="isParticipantCount" className="pl-2">
+                            Participant Count
+                          </span>
+                        </div>
                       </div>
                       <div
                         className="col-lg-2"
@@ -238,7 +297,7 @@ export default function EventPlanningCreateEdit() {
                           onClick={() => {
                             activityAddHandler(values, setFieldValue);
                           }}
-                          disabled={!values?.activityName}
+                          disabled={!values?.activityName || !values?.activityStartTime || !values?.activityEndTime}
                         >
                           Add
                         </button>
@@ -246,7 +305,8 @@ export default function EventPlanningCreateEdit() {
                     </div>
                   </div>
                 </div>
-                <div className="col-lg-8">
+                {/* Participant list  */}
+                <div className="col-lg-5">
                   <div className="global-form">
                     <div className="row">
                       <div className="col-lg-12">
@@ -258,15 +318,19 @@ export default function EventPlanningCreateEdit() {
               </div>
               {/* table section */}
               <div className="row">
-                <div className="col-lg-4">
+                <div className="col-lg-7">
                   <table className="table table-striped table-bordered bj-table bj-table-landing">
                     <thead>
                       <tr>
                         <th>SL</th>
                         <th>Activity Name</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
                         <th>
                           Participant <br /> Count
                         </th>
+                        <th>Taken</th>
+                        <th>Remaining</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -275,7 +339,11 @@ export default function EventPlanningCreateEdit() {
                         <tr key={index}>
                           <td>{index + 1}</td>
                           <td>{item?.activityName}</td>
+                          <td>{item?.activityStartTime ? item?.activityStartTime : ""}</td>
+                          <td>{item?.activityEndTime}</td>
                           <td>{item?.isParticipantCount ? "Yes" : "No"}</td>
+                          <td>{item?.taken}</td>
+                          <td>{item?.remaining}</td>
                           <td className="text-center">
                             <span onClick={() => deleteActivity(index)}>
                               <IDelete />
@@ -286,18 +354,19 @@ export default function EventPlanningCreateEdit() {
                     </tbody>
                   </table>
                 </div>
-                <div className="col-lg-8">
+                <div className="col-lg-5">
                   <table className="table table-striped table-bordered bj-table bj-table-landing">
                     <thead>
                       <tr>
                         <th>SL</th>
                         <th>Name</th>
                         <th>Occupation</th>
-                        <th>Organization</th>
+                        {/* <th>Organization</th>
                         <th>Phone</th>
                         <th>Email</th>
-                        <th>Address</th>
+                        <th>Address</th> */}
                         <th>Code</th>
+                        <th>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -307,15 +376,27 @@ export default function EventPlanningCreateEdit() {
                             <td>{index + 1}</td>
                             <td>{item?.participantName}</td>
                             <td>{item?.occupation}</td>
-                            <td>{item?.organaizationName}</td>
+                            {/* <td>{item?.organaizationName}</td>
                             <td>{item?.phone}</td>
                             <td>{item?.email}</td>
-                            <td>{item?.address}</td>
+                            <td>{item?.address}</td> */}
                             <td>{item?.cardNumber}</td>
+                            <td className="d-flex justify-content-center">
+                              <IView clickHandler={() => {
+
+                                setIsShowModal(true)
+                                setParticipantModalData({ sl: index + 1, ...item })
+
+                              }} />
+                            </td>
+
                           </tr>
                         ))}
+
+
                     </tbody>
                   </table>
+
                 </div>
               </div>
 
@@ -333,6 +414,14 @@ export default function EventPlanningCreateEdit() {
                 onSubmit={() => resetForm(initData)}
               ></button>
             </Form>
+            <IViewModal
+              title="Event Participant"
+              modelSize="lg"
+              show={isShowModal}
+              onHide={() => setIsShowModal(false)}
+            >
+              <ParticipantRowModal participantData={participantModalData} />
+            </IViewModal>
           </IForm>
         </>
       )}

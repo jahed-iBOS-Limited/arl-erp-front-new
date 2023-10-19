@@ -27,8 +27,8 @@ const initData = {
   parts: "",
   quantity: "",
   remarks: "",
-  stockQuantity: 0,
-  value: 0,
+  stockQuantity: "",
+  value: "",
   serviceName: "",
   serviceCost: "",
   descriptionSub: "",
@@ -44,12 +44,12 @@ export default function MaintananceServiceDetailsForm({
   const [isDisabled, setDisabled] = useState(true);
   // get user profile data from store
   const profileData = useSelector((state) => {
-    return state.authData.profileData;
+    return state?.authData?.profileData;
   }, shallowEqual);
 
   // get selected business unit from store
   const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit;
+    return state?.authData?.selectedBusinessUnit;
   }, shallowEqual);
 
   const [warehouseDDl, setWarehouseDDl] = useState([]);
@@ -60,9 +60,9 @@ export default function MaintananceServiceDetailsForm({
 
   useEffect(() => {
     getWarehouseDDL(
-      profileData.accountId,
-      selectedBusinessUnit.value,
-      singleData.plantId,
+      profileData?.accountId,
+      selectedBusinessUnit?.value,
+      singleData?.plantId,
       setWarehouseDDl
     );
     // getServiceDDL(
@@ -73,12 +73,12 @@ export default function MaintananceServiceDetailsForm({
     //   setServiceDDL
     // );
 
-    getSubTaskData(currentRowData.rowId, setSubTask);
+    getSubTaskData(currentRowData?.rowId, setSubTask);
     // getPartsDDL(profileData.accountId,
     //   selectedBusinessUnit.value,
     //   singleData.plantId,
     //   singleData.warehouseId,setSparePartsDDL)
-    getMaintanaceItemTaskData(currentRowData.rowId, setSpareParts);
+    getMaintanaceItemTaskData(currentRowData?.rowId, setSpareParts);
   }, []);
 
   useEffect(() => {
@@ -108,25 +108,24 @@ export default function MaintananceServiceDetailsForm({
 
   const onClickForSparePArts = (values) => {
     let payload = {
-      maintenanceId: currentRowData.maintenanceId,
-      mntTaskId: currentRowData.rowId,
-      itemId: values.parts.value,
-      itemName: values.parts.label,
-      uomId: values.parts.uomId,
-      uomName: values.parts.uomName,
-      numQuantity: values.quantity,
-      numPrice: +values.value,
-      numAmount: +values.value * values.quantity,
-      wareHouseId: values.warehouse.value,
-      wareHouseName: values.warehouse.label,
+      maintenanceId: currentRowData?.maintenanceId,
+      mntTaskId: currentRowData?.rowId,
+      itemId: values?.parts?.value,
+      itemName: values?.parts?.label,
+      uomId: values?.parts?.uomId,
+      uomName: values?.parts?.uomName,
+      numQuantity: +values?.quantity,
+      numPrice: +values?.value,
+      numAmount: +values?.value * values?.quantity,
+      wareHouseId: values?.warehouse?.value,
+      wareHouseName: values?.warehouse?.label,
       itemRequestId: 0,
       itemRequestCode: "",
-      // description: values.remarks,
       description: values?.narration,
-      actionBy: profileData.userId,
+      actionBy: profileData?.userId,
       intCostElementId: values?.costElement?.value,
     };
-    savesparePartsData(payload, currentRowData.rowId, setSpareParts);
+    savesparePartsData(payload, currentRowData?.rowId, setSpareParts);
   };
 
   const onClickforspareParts = (index) => {
@@ -135,7 +134,7 @@ export default function MaintananceServiceDetailsForm({
       ...data,
       numAmount: data.numQuantity * data.numPrice,
     };
-    saveItemTaskforEdit(payload, currentRowData.rowId, setSpareParts);
+    saveItemTaskforEdit(payload, currentRowData?.rowId, setSpareParts);
   };
 
   const onClickforDeletePArts = (id) => {
@@ -143,19 +142,18 @@ export default function MaintananceServiceDetailsForm({
   };
 
   const onClickForsubMntTask = (values) => {
-    //console.log(values)
     let payload = {
-      maintenanceId: currentRowData.maintenanceId,
-      mntTaskId: currentRowData.rowId,
-      serviceId: values.serviceName.value,
-      serviceName: values.serviceName.label,
-      numAmount: values.serviceCost,
-      description: values.descriptionSub,
-      insertBy: profileData.userId,
-      actionBy: profileData.userId,
+      maintenanceId: currentRowData?.maintenanceId,
+      mntTaskId: currentRowData?.rowId,
+      serviceId: values?.serviceName?.value,
+      serviceName: values?.serviceName?.label,
+      numAmount: values?.serviceCost,
+      description: values?.descriptionSub,
+      insertBy: profileData?.userId,
+      actionBy: profileData?.userId,
     };
 
-    savesubserviceCostData(payload, currentRowData.rowId, setSubTask);
+    savesubserviceCostData(payload, currentRowData?.rowId, setSubTask);
   };
 
   const onClicksubServiceParts = (index) => {

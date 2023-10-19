@@ -292,6 +292,7 @@ export function TableRow(props) {
                 <th>Problems</th>
                 <th>Priority</th>
                 <th>Status</th>
+                <th>Request By</th>
                 <th>Date</th>
                 <th className="text-right pr-3">Actions</th>
               </tr>
@@ -307,6 +308,7 @@ export function TableRow(props) {
                   <td>{item?.problems} </td>
                   <td>{item.priorityName}</td>
                   <td>{item?.status}</td>
+                  <td>{item?.actionByName} [{item?.actionBy}]</td>
                   <td>{_dateFormatter(item.dueMaintenanceDate)}</td>
                   <td className="text-center">
                     <span
