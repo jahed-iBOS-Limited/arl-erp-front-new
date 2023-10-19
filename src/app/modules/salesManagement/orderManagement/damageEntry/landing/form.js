@@ -25,7 +25,7 @@ const DamageEntryLandingForm = ({ obj }) => {
               name="viewAs"
               options={[
                 { value: 1, label: "Supervisor" },
-                { value: 2, label: "Accountant" },
+                // { value: 2, label: "Accountant" },
               ]}
               value={values?.viewAs}
               label="View As"

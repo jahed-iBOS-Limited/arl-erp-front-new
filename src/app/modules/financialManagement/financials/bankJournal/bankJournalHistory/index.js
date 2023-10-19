@@ -7,7 +7,7 @@ import IForm from "../../../../_helper/_form";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
 const initData = {};
-export default function HistoryModal({ journalId }) {
+export default function HistoryModal({ journalId, journalTypeId }) {
     const [singleJournalData, getSingleJournalData, singleJournalDataLoader] = useAxiosGet();
     const [journalHistoryData, getJournalHistoryData, journalHistoryDataLoader] = useAxiosGet();
 
@@ -17,10 +17,10 @@ export default function HistoryModal({ journalId }) {
 
     useEffect(() => {
         if (journalId) {
-            getSingleJournalData(`/fino/CommonFino/GetBankJournalReport?JournalId=${journalId}&AccountingJournalTypeId=4&BusinessUnitId=${selectedBusinessUnit?.value}`,
+            getSingleJournalData(`/fino/CommonFino/GetBankJournalReport?JournalId=${journalId}&AccountingJournalTypeId=${journalTypeId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
                 (data) => {
                     // setSingleJournalData(data?.[0]);
-                    getJournalHistoryData(`/fino/Accounting/GetAccountingJournalLOGHistory?accountingJournalId=${journalId}&accountingJournalTypeId=0`)
+                    getJournalHistoryData(`/fino/Accounting/GetAccountingJournalLOGHistory?accountingJournalId=${journalId}&accountingJournalTypeId=${journalTypeId}`)
                 })
 
         }
