@@ -33,6 +33,7 @@ export default function SalesCommissionConfigureEntryForm() {
   ] = useAxiosGet();
 
   const {
+    profileData: { userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
@@ -58,7 +59,7 @@ export default function SalesCommissionConfigureEntryForm() {
 
     const commonRate = values?.commonRate || "";
 
-    if (commissionTypeId === 16) {
+    if ([16, 20].includes(commissionTypeId)) {
       const newArray = [];
       let currentDate = new Date(values?.fromDate);
       let endDate = new Date(values?.toDate);
@@ -140,6 +141,7 @@ export default function SalesCommissionConfigureEntryForm() {
         firstSlabCommissionRate: +item?.firstSlabCommissionRate || 0,
         secondSlabCommissionRate: +item?.secondSlabCommissionRate || 0,
         thirdSlabCommissionRate: +item?.thirdSlabCommissionRate || 0,
+        actionBy: userId,
       };
     });
 
