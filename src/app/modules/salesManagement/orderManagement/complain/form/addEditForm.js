@@ -23,7 +23,7 @@ function ComplainForm() {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const [fileObjects, setFileObjects] = useState([]);
-  const { id } = useParams();
+  const { view, edit } = useParams();
   // get user profile data from store
   const {
     profileData: { accountId: accId, userId, accountName },
@@ -48,14 +48,23 @@ function ComplainForm() {
       assignBy: 0,
       statusId: 0,
       status: "",
-      remarks: values?.remarks || " ",
-      complainByName: values?.complainByName || "",
       contactNo: values?.contactNo || "",
-      complainId: +id || 0,
+      complainId: +edit || 0,
       complainByClient: "",
+      // new field
+      leadId: 0,
+      complainNo: "",
+      businessUnitId: buId,
+      assignDateTime: new Date(),
+      finishDateTime: new Date(),
+      isActive: true,
+      statusRemarks: values?.remarks || " ",
+      intComplainByEmployee: 0,
+      strComplainByEmployee: values?.complainByName || "",
+      lastActionDateTime: new Date(),
     };
 
-    if (id) {
+    if (edit) {
       updateComplain(payload, setLoading);
     } else {
       createComplain(payload, setLoading, cb);
@@ -63,10 +72,12 @@ function ComplainForm() {
   };
 
   useEffect(() => {
-    if (id) {
-      getComplainById(id, setLoading, setSingleData);
+    if (edit || view) {
+      const id = edit || view;
+      getComplainById(id, accId, buId, setLoading, setSingleData);
     }
-  }, [id]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [edit, view]);
   const isLoader = loading;
 
   return (
@@ -81,6 +92,7 @@ function ComplainForm() {
         fileObjects={fileObjects}
         setFileObjects={setFileObjects}
         setLoading={setLoading}
+        view={view}
       />
     </>
   );

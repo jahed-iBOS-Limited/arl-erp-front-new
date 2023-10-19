@@ -35,16 +35,16 @@ function Form({
   setLoading,
   accId,
   buId,
+  view,
 }) {
   const [open, setOpen] = useState(false);
   const [complainCategory, setComplainCategory] = useState([]);
   const [customerDDL, setCustomerDDL] = useState([]);
-  useEffect(() => {
-    getComplainCategory(setComplainCategory);
-  }, []);
+ 
   useEffect(() => {
     if (accId && buId) {
       customerListDDL(accId, buId, setCustomerDDL);
+      getComplainCategory(buId, setComplainCategory);
     }
   }, [accId, buId]);
 
@@ -67,19 +67,24 @@ function Form({
             backHandler={() => {
               history.goBack();
             }}
-            saveHandler={() => {
-              handleSubmit();
-            }}
+            saveHandler={
+              view
+                ? false
+                : () => {
+                    handleSubmit();
+                  }
+            }
           >
             <form>
               <div className='row global-form'>
                 <div className='col-lg-3'>
                   <InputField
                     value={values?.requestDateTime}
-                    label='date'
+                    label='Date'
                     placeholder='date'
                     name='requestDateTime'
                     type='date'
+                    disabled={view}
                   />
                 </div>
                 <div className='col-lg-3'>
@@ -94,6 +99,7 @@ function Form({
                     placeholder='Customer'
                     errors={errors}
                     touched={touched}
+                    isDisabled={view}
                   />
                 </div>
                 <div className='col-lg-3'>
@@ -103,6 +109,7 @@ function Form({
                     placeholder='Complain By'
                     name='complainByName'
                     type='text'
+                    disabled={view}
                   />
                 </div>
                 <div className='col-lg-3'>
@@ -112,6 +119,7 @@ function Form({
                     placeholder='Mobile No'
                     name='contactNo'
                     type='number'
+                    disabled={view}
                   />
                 </div>
                 <div className='col-lg-3'>
@@ -126,6 +134,7 @@ function Form({
                     placeholder='Ticket Type'
                     errors={errors}
                     touched={touched}
+                    isDisabled={view}
                   />
                 </div>
                 <div className='col-lg-3'>
@@ -135,6 +144,7 @@ function Form({
                     placeholder='Issue Title'
                     name='issueTitle'
                     type='text'
+                    disabled={view}
                   />
                 </div>
                 <div className='col-lg-3'>
@@ -146,19 +156,23 @@ function Form({
                     placeholder='Issue Description'
                     touched={touched}
                     rows='3'
+                    disabled={view}
                   />
                 </div>
                 <div className='col-lg-3 d-flex align-items-center'>
-                  <div className=''>
-                    <button
-                      className='btn btn-primary mr-2'
-                      type='button'
-                      onClick={() => setOpen(true)}
-                      style={{ padding: "4px 5px" }}
-                    >
-                      Attachment
-                    </button>
-                  </div>
+                  {!view && (
+                    <div className=''>
+                      <button
+                        className='btn btn-primary mr-2'
+                        type='button'
+                        onClick={() => setOpen(true)}
+                        style={{ padding: "4px 5px" }}
+                      >
+                        Attachment
+                      </button>
+                    </div>
+                  )}
+
                   <div>
                     {values?.attachment && (
                       <button

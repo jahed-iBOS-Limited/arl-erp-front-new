@@ -16,23 +16,33 @@ export const employeEnroll_Api = async (accId, buId, setter) => {
     }
   } catch (error) {}
 };
-export const getComplainStatus = async (setter) => {
+export const getComplainStatus = async (buId, setter) => {
   try {
-    const res = await axios.get(`/oms/SupportManagement/GetComplainStatus`);
+    const res = await axios.get(
+      `/oms/CustomerPoint/ComplainStatus?businessUnitId=${buId}`
+    );
     setter(res?.data);
   } catch (error) {}
 };
-export const getComplainCategory = async (setter) => {
+export const getComplainCategory = async (buId, setter) => {
   try {
-    const res = await axios.get(`/oms/SMEDDL/ComplainCategory`);
+    const res = await axios.get(
+      `/oms/CustomerPoint/ComplainCategory?businessUnitId=${buId}`
+    );
     setter(res?.data);
   } catch (error) {}
 };
-export const getComplainById = async (complainId, setLoaing, setSingleData) => {
+export const getComplainById = async (
+  complainId,
+  accId,
+  buId,
+  setLoaing,
+  setSingleData
+) => {
   setLoaing(true);
   try {
     const res = await axios.get(
-      `/sme/SupportManagement/GetComplainById?complainId=${complainId}`
+      `/oms/CustomerPoint/GetComplainById?complainId=${complainId}&accountId=${accId}&businessUnitId=${buId}`
     );
     setLoaing(false);
     setSingleData({
@@ -53,6 +63,7 @@ export const getComplainById = async (complainId, setLoaing, setSingleData) => {
       requestDateTime: res?.data?.requestDateTime
         ? _dateFormatter(res?.data?.requestDateTime)
         : "",
+      complainByName: res?.data?.strComplainByEmployee || "",
     });
   } catch (error) {
     setLoaing(false);
@@ -88,10 +99,7 @@ export const attachment_action = async (
 export const createComplain = async (payload, setLoading, cb) => {
   setLoading(true);
   try {
-    const res = await axios.post(
-      `/oms/SupportManagement/CreateComplain`,
-      payload
-    );
+    const res = await axios.post(`/oms/CustomerPoint/CreateComplain`, payload);
     cb();
     toast.success(res?.data?.message);
     setLoading(false);
@@ -103,7 +111,7 @@ export const createComplain = async (payload, setLoading, cb) => {
 export const updateComplain = async (payload, setLoading, cb) => {
   setLoading(true);
   try {
-    const res = await axios.put(`/SupportManagement/UpdateComplain`, payload);
+    const res = await axios.put(`/oms/CustomerPoint/UpdateComplain`, payload);
     cb && cb();
     toast.success(res?.data?.message);
     setLoading(false);
@@ -124,16 +132,19 @@ export const customerListDDL = async (accId, buId, setter) => {
 };
 export const complainLandingPasignation = async (
   accId,
+  buId,
   pageNo,
   pageSize,
   setter,
-  setLoading
+  setLoading,
+  search
 ) => {
   setLoading(true);
   setter([]);
   try {
+    const _search = search ? `&search=${search}` : "";
     const res = await axios.get(
-      `/oms/SupportManagement/ComplainLandingPasignation?accountId=${accId}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}`
+      `/oms/CustomerPoint/ComplainLandingPasignation?accountId=${accId}&businessUnitId=${buId}&leadId=0&pageNo=${pageNo}&pageSize=${pageSize}${_search}`
     );
     setter(res?.data);
     setLoading(false);

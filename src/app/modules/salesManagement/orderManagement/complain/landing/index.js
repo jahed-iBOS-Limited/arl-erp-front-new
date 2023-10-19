@@ -7,6 +7,7 @@ import ICustomCard from "../../../../_helper/_customCard";
 import Loading from "../../../../_helper/_loading";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import LandingTable from "./table";
+import PaginationSearch from "./../../../../_helper/_search";
 import {
   complainLandingPasignation,
   employeEnroll_Api,
@@ -33,7 +34,7 @@ const ComplainLanding = () => {
   useEffect(() => {
     if (accId && buId) {
       employeEnroll_Api(accId, buId, SetEmployeeDDL);
-      getComplainStatus(setComplainStatus);
+      getComplainStatus(buId, setComplainStatus);
       commonGridData();
     }
   }, [accId, buId]);
@@ -44,13 +45,19 @@ const ComplainLanding = () => {
     });
   };
 
-  const commonGridData = (_pageNo = pageNo, _pageSize = pageSize) => {
+  const commonGridData = (
+    _pageNo = pageNo,
+    _pageSize = pageSize,
+    searhValue
+  ) => {
     complainLandingPasignation(
       accId,
+      buId,
       _pageNo,
       _pageSize,
       setGridData,
-      setLoading
+      setLoading,
+      searhValue
     );
   };
   return (
@@ -67,6 +74,13 @@ const ComplainLanding = () => {
                 );
               }}
             >
+              <PaginationSearch
+                placeholder='Search .....'
+                paginationSearchHandler={(searchValue) => {
+                  commonGridData(1, pageSize, searchValue);
+                }}
+                values={values}
+              />
               <LandingTable
                 obj={{
                   values,

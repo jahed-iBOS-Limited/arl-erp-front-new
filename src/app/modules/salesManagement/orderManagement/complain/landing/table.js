@@ -98,7 +98,13 @@ const LandingTable = ({ obj }) => {
                       </span>
                     )}
 
-                    <span>
+                    <span
+                      onClick={() => {
+                        history.push(
+                          `/sales-management/ordermanagement/Complain/view/${item?.complainId}`
+                        );
+                      }}
+                    >
                       <IView />
                     </span>
                   </div>

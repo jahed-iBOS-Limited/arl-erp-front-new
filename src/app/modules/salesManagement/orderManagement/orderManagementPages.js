@@ -292,7 +292,11 @@ export function OrderManagementPages() {
         component={ComplainLanding}
       />
       <ContentRoute
-        from='/sales-management/ordermanagement/Complain/edit/:id'
+        from='/sales-management/ordermanagement/Complain/edit/:edit'
+        component={ComplainLanding}
+      />
+      <ContentRoute
+        from='/sales-management/ordermanagement/Complain/view/:view'
         component={ComplainLanding}
       />
     </Switch>
