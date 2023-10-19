@@ -288,15 +288,15 @@ export function OrderManagementPages() {
         component={ComplainForm}
       />
       <ContentRoute
-        from='/sales-management/ordermanagement/Complain'
-        component={ComplainLanding}
-      />
-      <ContentRoute
         from='/sales-management/ordermanagement/Complain/edit/:edit'
-        component={ComplainLanding}
+        component={ComplainForm}
       />
       <ContentRoute
         from='/sales-management/ordermanagement/Complain/view/:view'
+        component={ComplainForm}
+      />
+      <ContentRoute
+        from='/sales-management/ordermanagement/Complain'
         component={ComplainLanding}
       />
     </Switch>

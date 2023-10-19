@@ -83,7 +83,7 @@ const ComplainLanding = () => {
               />
               <LandingTable
                 obj={{
-                  values,
+                  gridData,
                   employeeDDL,
                   complainStatus,
                   assignToAndStatusHandler,
