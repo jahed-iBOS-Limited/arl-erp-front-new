@@ -96,6 +96,7 @@ export default function EventPlanningLanding() {
                   <thead>
                     <tr>
                       <th>SL</th>
+                      <th>Customer Name</th>
                       <th>Event Name</th>
                       <th>Event Description</th>
                       <th>Event Place</th>
@@ -109,6 +110,7 @@ export default function EventPlanningLanding() {
                       tableData?.eventDetails?.map((item, index) => (
                         <tr key={index}>
                           <td>{index + 1}</td>
+                          <td>{item?.partnerName}</td>
                           <td>{item?.eventName}</td>
                           <td>{item?.eventDescription}</td>
                           <td>{item?.eventPlace}</td>

@@ -13,7 +13,7 @@ const ViewEventDetails = () => {
   const history = useHistory();
   const { id } = useParams();
   const [objProps, setObjprops] = useState({});
-  const saveHandler = (values, cb) => {};
+  const saveHandler = (values, cb) => { };
   const [tableData, getTableData, tableDataLoader] = useAxiosGet();
 
   useEffect(() => {
@@ -73,7 +73,7 @@ const ViewEventDetails = () => {
               </div>
               {/* activity section */}
               <div className="row">
-                <div className="col-lg-4">
+                <div className="col-lg-6">
                   <div className="global-form">
                     <div className="row">
                       <div className="col-lg-12">
@@ -82,7 +82,7 @@ const ViewEventDetails = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-lg-8">
+                <div className="col-lg-6">
                   <div className="global-form">
                     <div className="row">
                       <div className="col-lg-12">
@@ -94,12 +94,19 @@ const ViewEventDetails = () => {
               </div>
               {/* table section */}
               <div className="row">
-                <div className="col-lg-4">
+                <div className="col-lg-6">
                   <table className="table table-striped table-bordered bj-table bj-table-landing">
                     <thead>
                       <tr>
                         <th>SL</th>
                         <th>Activity Name</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>
+                          Participant <br /> Count
+                        </th>
+                        <th>Taken</th>
+                        <th>Remaining</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -109,6 +116,11 @@ const ViewEventDetails = () => {
                           <tr key={index}>
                             <td>{index + 1}</td>
                             <td>{item?.activityName}</td>
+                            <td>{item?.activityStartTime ? item?.activityStartTime : ""}</td>
+                            <td>{item?.activityEndTime}</td>
+                            <td>{item?.isParticipantCount ? "Yes" : "No"}</td>
+                            <td>{item?.taken}</td>
+                            <td>{item?.remaining}</td>
                             <td className="text-center">
                               {item?.isParticipantCount ? (
                                 <span
@@ -140,7 +152,7 @@ const ViewEventDetails = () => {
                     </tbody>
                   </table>
                 </div>
-                <div className="col-lg-8">
+                <div className="col-lg-6">
                   <table className="table table-striped table-bordered bj-table bj-table-landing">
                     <thead>
                       <tr>
