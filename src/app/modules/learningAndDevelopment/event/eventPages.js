@@ -31,28 +31,28 @@ export function EventPages() {
       />
       <ContentRoute
         path="/learningDevelopment/event/EventPlanning/view/:id/punch/:activityId"
-        component={!eventPermission?.isEdit ? Punch : NotPermitted}
+        component={eventPermission?.isEdit ? Punch : NotPermitted}
       />
       <ContentRoute
         path="/learningDevelopment/event/EventPlanning/view/:id"
-        component={!eventPermission?.isEdit ? ViewEventDetails : NotPermitted}
+        component={eventPermission?.isEdit ? ViewEventDetails : NotPermitted}
       />
       <ContentRoute
         path="/learningDevelopment/event/EventPlanning/edit/:id"
         component={
-          !eventPermission?.isEdit ? EventPlanningCreateEdit : NotPermitted
+          eventPermission?.isEdit ? EventPlanningCreateEdit : NotPermitted
         }
       />
       <ContentRoute
         path="/learningDevelopment/event/EventPlanning/create"
         component={
-          !eventPermission?.isCreate ? EventPlanningCreateEdit : NotPermitted
+          eventPermission?.isCreate ? EventPlanningCreateEdit : NotPermitted
         }
       />
       <ContentRoute
         path="/learningDevelopment/event/EventPlanning"
         component={
-          !eventPermission?.isView ? EventPlanningLanding : NotPermitted
+          eventPermission?.isView ? EventPlanningLanding : NotPermitted
         }
       />
     </Switch>
