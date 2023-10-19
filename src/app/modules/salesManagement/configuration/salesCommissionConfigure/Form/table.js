@@ -33,7 +33,7 @@ const SalesCommissionConfigureFormTable = ({ obj }) => {
       {[14, 15, 19].includes(values?.commissionType?.value) && (
         <TableOne obj={{ selectedAll, allSelect, rowData, rowDataHandler }} />
       )}
-      {[16].includes(values?.commissionType?.value) && (
+      {[16, 20].includes(values?.commissionType?.value) && (
         <TableTwo obj={{ selectedAll, allSelect, rowData, rowDataHandler }} />
       )}
       {[17, 18].includes(values?.commissionType?.value) && (
@@ -137,39 +137,6 @@ const TableOne = ({ obj }) => {
                     }}
                   />
                 </td>
-                {/* <td>
-                  <InputField
-                    value={item?.salesQty}
-                    name="salesQty"
-                    placeholder="Sales Qty"
-                    type="text"
-                    onChange={(e) => {
-                      rowDataHandler(index, "salesQty", e?.target?.value);
-                    }}
-                  />
-                </td>
-                <td>
-                  <InputField
-                    value={item?.ratePerBag}
-                    name="ratePerBag"
-                    placeholder="Rate/bag"
-                    type="text"
-                    onChange={(e) => {
-                      rowDataHandler(index, "ratePerBag", e?.target?.value);
-                    }}
-                  />
-                </td>
-                <td>
-                  <InputField
-                    value={item?.commissionRate}
-                    name="commissionRate"
-                    placeholder="Commission Rate"
-                    type="text"
-                    onChange={(e) => {
-                      rowDataHandler(index, "commissionRate", e?.target?.value);
-                    }}
-                  />
-                </td> */}
               </tr>
             );
           })}
