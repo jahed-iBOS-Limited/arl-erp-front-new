@@ -654,7 +654,7 @@ const GridData = ({
       </Modal>
 
       <IViewModal show={isHistoryModal} onHide={() => setIsHistoryModal(false)}>
-        <HistoryModal journalId={historyItem?.journalId} />
+        <HistoryModal journalId={historyItem?.journalId} journalTypeId={historyItem?.intAccountingJournalTypeId} />
       </IViewModal>
 
     </>
