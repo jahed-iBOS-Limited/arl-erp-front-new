@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import axios from "axios";
 import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
@@ -6,14 +7,13 @@ import { useHistory } from "react-router-dom";
 import ICustomCard from "../../../../_helper/_customCard";
 import Loading from "../../../../_helper/_loading";
 import PaginationTable from "../../../../_helper/_tablePagination";
-import LandingTable from "./table";
-import PaginationSearch from "./../../../../_helper/_search";
 import {
   complainLandingPasignation,
-  employeEnroll_Api,
   getComplainStatus,
-  updateComplain,
+  updateComplain
 } from "../helper";
+import PaginationSearch from "./../../../../_helper/_search";
+import LandingTable from "./table";
 
 const initData = {};
 
@@ -23,7 +23,6 @@ const ComplainLanding = () => {
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const history = useHistory();
-  const [employeeDDL, SetEmployeeDDL] = useState([]);
   const [complainStatus, setComplainStatus] = useState([]);
   // get user data from store
   const {
@@ -33,7 +32,7 @@ const ComplainLanding = () => {
 
   useEffect(() => {
     if (accId && buId) {
-      employeEnroll_Api(accId, buId, SetEmployeeDDL);
+      // employeEnroll_Api(accId, buId, SetEmployeeDDL);
       getComplainStatus(buId, setComplainStatus);
       commonGridData();
     }
@@ -60,6 +59,17 @@ const ComplainLanding = () => {
       searhValue
     );
   };
+  const loadUserList = (v) => {
+    if (v?.length < 3) return [];
+    return axios
+      .get(
+        `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=${accId}&BusinessUnitId=${buId}&Search=${v}`
+      )
+      .then((res) => {
+        return res?.data;
+      })
+      .catch((err) => []);
+  };
   return (
     <>
       {loading && <Loading />}
@@ -83,8 +93,8 @@ const ComplainLanding = () => {
               />
               <LandingTable
                 obj={{
-                  values,
-                  employeeDDL,
+                  gridData,
+                  loadUserList,
                   complainStatus,
                   assignToAndStatusHandler,
                 }}
