@@ -70,6 +70,7 @@ const GhatCostInfoTable = () => {
   const [shipPointDDL, setShipPointDDL] = useState([]);
   const [destinationDDL, setDestinationDDL] = useState([]);
   const [lighters, setLighters] = useState([]);
+  const [supplierDDL, getSupplierDDL, supplierDDLLoader] = useAxiosGet();
   const [
     vehicleDemandData,
     getVehicleDemandData,
@@ -102,6 +103,7 @@ const GhatCostInfoTable = () => {
     GetDomesticPortDDL(setPortDDL);
     GetShipPointDDL(accId, buId, setShipPointDDL);
     GetLighterDestinationDDL(accId, buId, setDestinationDDL);
+    getSupplierDDL(`/wms/TransportMode/GetTransportMode?intParid=2&intBusinessUnitId=${buId}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
 
@@ -150,7 +152,7 @@ const GhatCostInfoTable = () => {
                 );
               }}
             >
-              {(loading || vehicleDemandDataLoad) && <Loading />}
+              {(loading || vehicleDemandDataLoad || supplierDDLLoader) && <Loading />}
               <form className="form form-label-right">
                 <div className="global-form row">
                   <div className="col-lg-3">
@@ -281,7 +283,7 @@ const GhatCostInfoTable = () => {
                           name="shipPoint"
                           options={[
                             { value: 0, label: "All" },
-                            ...shipPointDDL,                            
+                            ...shipPointDDL,
                           ]}
                           value={values?.shipPoint}
                           label="ShipPoint"
@@ -291,6 +293,22 @@ const GhatCostInfoTable = () => {
                           placeholder="ShipPoint"
                         />
                       </div>
+                      <div className="col-lg-3">
+                      <NewSelect
+                        name="supplier"
+                        options={
+                          [
+                            { value: 0, label: "All" },
+                            ...(supplierDDL || []),
+                          ]}
+                        value={values?.supplier}
+                        label="Supplier Name"
+                        onChange={(valueOption) => {
+                            setFieldValue("supplier", valueOption);
+                        }}
+                        placeholder="Supplier Name"
+                      />
+                    </div>
                       <div>
                         <button
                           type="button"
@@ -301,7 +319,7 @@ const GhatCostInfoTable = () => {
                           }
                           onClick={() => {
                             getVehicleDemandData(
-                              `/tms/LigterLoadUnload/GetLogisticDemandNReciveInfo?ShipPointId=${values?.shipPoint?.value}&AccountId=${accId}&BusinessUnitId=${buId}&DayDate=${values?.demandDate}`
+                              `/tms/LigterLoadUnload/GetLogisticDemandNReciveInfo?ShipPointId=${values?.shipPoint?.value}&AccountId=${accId}&BusinessUnitId=${buId}&DayDate=${values?.demandDate}&SupplierId=${values?.supplier?.value}`
                             );
                           }}
                         >
@@ -415,6 +433,7 @@ const GhatCostInfoTable = () => {
                             <tr>
                               <th style={{ width: "20px" }}>Sl</th>
                               <th>Supplier Name</th>
+                              <th>Ship Point Name</th>
                               <th>Demand Vehicle</th>
                               <th>Packing MT</th>
                               <th>Dump Qty Ton</th>
@@ -439,9 +458,10 @@ const GhatCostInfoTable = () => {
                                       <td className="text-center">
                                         {index + 1}
                                       </td>
-                                      <td className="text-center">
+                                      <td>
                                         {item?.supplierName}
                                       </td>
+                                      <td>{item?.shipPointName}</td>
                                       <td className="text-center">
                                         {item?.demandVehicle || 0}
                                       </td>

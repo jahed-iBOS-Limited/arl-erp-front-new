@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import Form from "./form";
 import IForm from "../../../../_helper/_form";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import { _todayDate, _todayDateTime12HFormet } from "../../../../_helper/_todayDate";
 import { useLocation } from "react-router-dom";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import {
@@ -125,12 +125,13 @@ export default function MaintenanceServiceForm({
       //console.log(values)
       const payload = {
         assetMaintenanceId: id,
-        status: values.status.label,
-        costCenterId: values.costCenter.value,
-        costCenterName: values.costCenter.label,
-        engineerEmployeeId: values.assignTo.value,
-        engineerName: values.assignTo.label,
-        notes: values.note || "",
+        status: values?.status?.label,
+        endDateTime: values?.status?.label === "Close" ? _todayDateTime12HFormet() : "",
+        costCenterId: values?.costCenter?.value,
+        costCenterName: values?.costCenter?.label,
+        engineerEmployeeId: values?.assignTo?.value,
+        engineerName: values?.assignTo?.label,
+        notes: values?.note || "",
         actionBy: profileData?.userId,
       };
       saveWorkOrderEdit(payload, cb, setDisabled);

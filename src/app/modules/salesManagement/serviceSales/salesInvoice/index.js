@@ -144,6 +144,7 @@ export default function SalesInvoiceLanding() {
                               item?.dteScheduleCreateDateTime,
                             dteDueDateTime: item?.dteDueDateTime,
                             numScheduleAmount: item?.numScheduleAmount,
+                            numScheduleVatAmount: item?.numScheduleVatAmount || 0,
                             //   numCollectionAmount: 0,
                             //   numPendingAmount: 0,
                             //   numAdjustPreviousAmount: 0,
