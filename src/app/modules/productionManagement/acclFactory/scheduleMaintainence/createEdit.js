@@ -14,10 +14,7 @@ import IDelete from "../../../_helper/_helperIcons/_delete";
 
 const initData = {
   plant: "",
-  machineName: {
-    value: 100,
-    label: "Machine 1",
-  },
+  machineName: "",
   // parts: "",
   maintenanceType: "",
   scheduleEndDate: _todayDate(),
