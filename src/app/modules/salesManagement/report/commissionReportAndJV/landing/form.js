@@ -11,8 +11,8 @@ import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 
 export default function CommissionReportAndJVForm({ obj }) {
   const {
-    ids,
     open,
+    idSet1,
     sbuDDL,
     values,
     getData,
@@ -64,14 +64,14 @@ export default function CommissionReportAndJVForm({ obj }) {
               />
             )}
 
-            {[5, 3, 6, 7, ...ids].includes(values?.type?.value) && (
+            {[5, 3, 6, 7, ...idSet1].includes(values?.type?.value) && (
               <>
                 <RATForm
                   obj={{
                     setFieldValue,
                     values,
-                    region: !ids.includes(values?.type?.value),
-                    area: !ids.includes(values?.type?.value),
+                    region: !idSet1.includes(values?.type?.value),
+                    area: !idSet1.includes(values?.type?.value),
                     territory: false,
                   }}
                 />
@@ -110,7 +110,7 @@ export default function CommissionReportAndJVForm({ obj }) {
                         placeholder="Select SBU"
                       />
                     </div>
-                    {!ids.includes(values?.type?.value) && (
+                    {!idSet1.includes(values?.type?.value) && (
                       <div className="col-md-3">
                         <NewSelect
                           name="transactionHead"
