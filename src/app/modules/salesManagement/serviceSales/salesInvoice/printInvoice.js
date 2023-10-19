@@ -5,7 +5,11 @@ import printIcon from "../../../_helper/images/print-icon.png";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import Loading from "../../../_helper/_loading";
 import { shallowEqual, useSelector } from "react-redux";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import {
+  _dateFormatter,
+  dateFormatWithMonthName,
+} from "../../../_helper/_dateFormate";
+import { APIUrl } from "../../../../App";
 
 const PrintInvoiceModal = ({ singleItem }) => {
   console.log("singleItem", singleItem);
@@ -57,10 +61,24 @@ const PrintInvoiceModal = ({ singleItem }) => {
         className="print-invoice-wrapper"
       >
         <div className="container">
-          <img className="logo" src="assets/logo192.png" alt="iBOS Ltd" />
+          <img
+            style={{
+              width: "100px",
+              height: "100px",
+            }}
+            className="logo"
+            src={`${APIUrl}/domain/Document/DownlloadFile?id=${selectedBusinessUnit?.imageId}`}
+            alt="iBOS Ltd"
+          />
           <div className="info">
-            <h2 className="info_item info_name ">iBOS SOFTWARE LTD.</h2>
-            <h4 className="info_item info_address ">Kazi Nazrul Islam Road</h4>
+            <h2 className="info_item info_name ">
+              {selectedBusinessUnit?.label}
+            </h2>
+            <h3 className="info_item info_address ">
+              {selectedBusinessUnit?.businessUnitAddress}
+            </h3>
+            <br />
+            <br />
             <h3 className="info_item info_invoice ">INVOICE</h3>
           </div>
           <div></div>
@@ -71,6 +89,7 @@ const PrintInvoiceModal = ({ singleItem }) => {
                 {printData[0]?.invocieHeader?.strServiceSalesInvoiceCode}
               </p>
               <p>Order No : ORD202309018 </p>
+              <p></p>
             </div>
             <div className="invoice_info__item">
               <p>
@@ -79,7 +98,14 @@ const PrintInvoiceModal = ({ singleItem }) => {
                   printData[0]?.invocieHeader?.dteInvoiceDateTime
                 )}
               </p>
-              <p>Order Date : 15-Oct-2023</p>
+              <p>
+                Order Date :{" "}
+                {_dateFormatter(printData[0]?.invocieRow[0]?.dteOrderDate)}
+              </p>
+              <p>
+                Due Date :{" "}
+                {_dateFormatter(printData[0]?.invocieRow[0]?.dteDueDateTime)}
+              </p>
             </div>
           </div>
           <div className="address">
@@ -98,24 +124,25 @@ const PrintInvoiceModal = ({ singleItem }) => {
                 Buyer Name: {printData[0]?.invocieHeader?.strCustomerName}
               </p>
               <p className="address_text">
-                Buyer Address:{" "}
-                {printData[0]?.invocieHeader?.strCustomerAddress2}
+                Buyer Address: {printData[0]?.invocieHeader?.strCustomerName}
               </p>
-              <p>Contact Person: </p>
-              <p>Contact Number: </p>
+              {/* <p>Contact Person: </p>
+              <p>Contact Number: </p> */}
             </div>
           </div>
           <div>
             <table>
               <thead>
                 <tr>
-                  <th>SL No</th>
+                  <th>SL</th>
                   <th>Item Name</th>
                   <th>UoM</th>
                   <th>Qty</th>
                   <th>Rate</th>
-                  <th>Salaes Amount</th>
-                  <th>Schedule Amount</th>
+                  <th>Order Amount</th>
+                  <th>Invoice Amount (Schedule)</th>
+                  <th>Vat Amount (Schedule)</th>
+                  <th>Net Amount</th>
                 </tr>
               </thead>
               <tbody>
@@ -129,6 +156,10 @@ const PrintInvoiceModal = ({ singleItem }) => {
                       <td>{item?.numRate}</td>
                       <td>{item?.numNetSalesAmount}</td>
                       <td>{item?.numScheduleAmount}</td>
+                      <td>{item?.numScheduleVatAmount}</td>
+                      <td>
+                        {item?.numScheduleAmount + item?.numScheduleVatAmount}
+                      </td>
                     </tr>
                   ))}
               </tbody>
@@ -140,17 +171,22 @@ const PrintInvoiceModal = ({ singleItem }) => {
           <div className="bank_details">
             <div className="bd_item">
               <h5 className="bd_title">Bank Details:</h5>
-              <p>A/C Name: </p>
-              <p>A/C Number: </p>
-              <p>Bank Name: </p>
-              <p>Bank Branch: </p>
-              <p>Routing Number: </p>
+              <p>A/C Name: iBOS Limited</p>
+              <p>A/C Number: 20502130100249715</p>
+              <p>Bank Name: Islami Bank Bangladesh Ltd</p>
+              <p>Bank Branch: Head Office Complex Corporate Branch</p>
+              <p>Routing Number: 125272689</p>
             </div>
             <div className="bd_item">
               <h5 className="bd_title">Note:</h5>
               <ul>
-                <li>Bill for the month of September, 2023</li>
-                <li>Bill for the month of September, 2023</li>
+                <li>
+                  - Schedule for -{" "}
+                  {dateFormatWithMonthName(
+                    _dateFormatter(printData[0]?.invocieRow[0]?.dteDueDateTime)
+                  )}
+                </li>
+                <li>- Tax exempted</li>
               </ul>
             </div>
           </div>
@@ -170,7 +206,7 @@ const PrintInvoiceModal = ({ singleItem }) => {
                   <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z" />
                 </svg>
               </span>{" "}
-              6/2 Kazi Nazrul Islam Rd, Lalmatia, Mohammadpur, Dhaka-1207
+              {selectedBusinessUnit?.businessUnitAddress}
             </li>
             <li>
               <span>
