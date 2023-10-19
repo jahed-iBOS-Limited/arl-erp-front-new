@@ -32,13 +32,11 @@ import SalesReturnForm from "./salesReturn/form/addEditForm";
 import SalesReturn from "./salesReturn/landing/table";
 import DamageEntryLanding from "./damageEntry/landing";
 import DamageEntryForm from "./damageEntry/form/addEditForm";
+import ComplainLanding from "./complain/landing";
+import ComplainForm from "./complain/form/addEditForm";
 
 export function OrderManagementPages() {
-
-  const { userRole } = useSelector(
-    (state) => state?.authData,
-    shallowEqual
-  );
+  const { userRole } = useSelector((state) => state?.authData, shallowEqual);
 
   let customerIncentivePermission = null;
   for (let i = 0; i < userRole.length; i++) {
@@ -77,11 +75,11 @@ export function OrderManagementPages() {
     <Switch>
       <Redirect
         exact={true}
-        from="/sales-management/ordermanagement"
-        to="/sales-management/ordermanagement/salesquotation"
+        from='/sales-management/ordermanagement'
+        to='/sales-management/ordermanagement/salesquotation'
       />
       <ContentRoute
-        from="/sales-management/ordermanagement/salesquotation/edit/:id"
+        from='/sales-management/ordermanagement/salesquotation/edit/:id'
         component={
           salesQuotation?.isEdit
             ? selectedBusinessUnit?.value === 175
@@ -91,7 +89,7 @@ export function OrderManagementPages() {
         }
       />
       <ContentRoute
-        from="/sales-management/ordermanagement/salesquotation/add"
+        from='/sales-management/ordermanagement/salesquotation/add'
         component={
           salesQuotation?.isCreate
             ? selectedBusinessUnit?.value === 175
@@ -101,7 +99,7 @@ export function OrderManagementPages() {
         }
       />
       <ContentRoute
-        from="/sales-management/ordermanagement/salesquotation"
+        from='/sales-management/ordermanagement/salesquotation'
         component={
           selectedBusinessUnit?.value === 175
             ? SalesQuotationReadyMix
@@ -111,64 +109,64 @@ export function OrderManagementPages() {
 
       {/* SalesContract Routes */}
       <ContentRoute
-        from="/sales-management/ordermanagement/salescontract/view/:view"
+        from='/sales-management/ordermanagement/salescontract/view/:view'
         component={
           salesContract?.isView ? SalesContactViewForm : NotPermittedPage
         }
       />
       <ContentRoute
-        from="/sales-management/ordermanagement/salescontract/edit/:id"
+        from='/sales-management/ordermanagement/salescontract/edit/:id'
         component={salesContract?.isEdit ? SalesContactForm : NotPermittedPage}
       />
       <ContentRoute
-        from="/sales-management/ordermanagement/salescontract/add"
+        from='/sales-management/ordermanagement/salescontract/add'
         component={
           salesContract?.isCreate ? SalesContactForm : NotPermittedPage
         }
       />
       <ContentRoute
-        from="/sales-management/ordermanagement/salescontract"
+        from='/sales-management/ordermanagement/salescontract'
         component={SalesContract}
       />
       {/* SalesOrder Routes */}
       <ContentRoute
-        from="/sales-management/ordermanagement/salesorder/edit/:id"
+        from='/sales-management/ordermanagement/salesorder/edit/:id'
         component={salesOrder?.isEdit ? SalesOrderForm : NotPermittedPage}
       />
       <ContentRoute
-        from="/sales-management/ordermanagement/salesorder/create"
+        from='/sales-management/ordermanagement/salesorder/create'
         component={salesOrder?.isCreate ? SalesOrderForm : NotPermittedPage}
       />
       <ContentRoute
-        from="/sales-management/ordermanagement/salesorder"
+        from='/sales-management/ordermanagement/salesorder'
         component={SalesOrder}
       />
 
       {/* Sales Order Report Routes */}
       <ContentRoute
-        from="/sales-management/ordermanagement/salesOrderReportVat/edit/:id"
+        from='/sales-management/ordermanagement/salesOrderReportVat/edit/:id'
         component={salesOrder?.isEdit ? SalesOrderForm : NotPermittedPage}
       />
       <ContentRoute
-        from="/sales-management/ordermanagement/salesOrderReportVat/create"
+        from='/sales-management/ordermanagement/salesOrderReportVat/create'
         component={salesOrder?.isCreate ? SalesOrderForm : NotPermittedPage}
       />
       <ContentRoute
-        from="/sales-management/ordermanagement/salesOrderReportVat"
+        from='/sales-management/ordermanagement/salesOrderReportVat'
         component={SalesOrderReportLandingPage}
       />
 
       {/* PGI Routes */}
       <ContentRoute
-        from="/sales-management/ordermanagement/pgi/add"
+        from='/sales-management/ordermanagement/pgi/add'
         component={PGIForm}
       />
       <ContentRoute
-        from="/sales-management/ordermanagement/pgi"
+        from='/sales-management/ordermanagement/pgi'
         component={PGI}
       />
       <ContentRoute
-        from="/sales-management/ordermanagement/ordertransfer"
+        from='/sales-management/ordermanagement/ordertransfer'
         component={OrdertransferLanding}
       />
 
@@ -212,7 +210,7 @@ export function OrderManagementPages() {
 
       {/* Sales Order InActive */}
       <ContentRoute
-        from="/sales-management/ordermanagement/salesorderInActive"
+        from='/sales-management/ordermanagement/salesorderInActive'
         component={
           salesOrderInactivePermission
             ? SalesOrderInActiveLanding
@@ -220,66 +218,82 @@ export function OrderManagementPages() {
         }
       />
       <ContentRoute
-        from="/sales-management/ordermanagement/partnerAllotmentChallan/create/:allotmentId"
+        from='/sales-management/ordermanagement/partnerAllotmentChallan/create/:allotmentId'
         component={PartnerAllotmentChallanForm}
       />
       <ContentRoute
-        from="/sales-management/ordermanagement/partnerAllotmentChallan"
+        from='/sales-management/ordermanagement/partnerAllotmentChallan'
         component={PartnerAllotmentChallan}
       />
       <ContentRoute
-        from="/sales-management/ordermanagement/salesReport"
+        from='/sales-management/ordermanagement/salesReport'
         component={SalesReportOMS}
       />
 
       <ContentRoute
-        from="/sales-management/ordermanagement/salesreturn/entry"
+        from='/sales-management/ordermanagement/salesreturn/entry'
         component={SalesReturnForm}
       />
       <ContentRoute
-        from="/sales-management/ordermanagement/salesreturn"
+        from='/sales-management/ordermanagement/salesreturn'
         component={SalesReturn}
       />
 
       <ContentRoute
-        from="/sales-management/ordermanagement/damageentry/entry"
+        from='/sales-management/ordermanagement/damageentry/entry'
         component={DamageEntryForm}
       />
       <ContentRoute
-        from="/sales-management/ordermanagement/damageentry"
+        from='/sales-management/ordermanagement/damageentry'
         component={DamageEntryLanding}
       />
 
       {/* Sales Order Report Routes */}
       <ContentRoute
-        from="/sales-management/ordermanagement/customerVisit/edit/:id"
+        from='/sales-management/ordermanagement/customerVisit/edit/:id'
         component={CustomerVisitForm}
       />
       <ContentRoute
-        from="/sales-management/ordermanagement/customerVisit/create"
+        from='/sales-management/ordermanagement/customerVisit/create'
         component={CustomerVisitForm}
       />
       <ContentRoute
-        from="/sales-management/ordermanagement/customerVisit"
+        from='/sales-management/ordermanagement/customerVisit'
         component={CustomerVisitLanding}
       />
 
       <ContentRoute
-        from="/sales-management/ordermanagement/hallogramprint"
+        from='/sales-management/ordermanagement/hallogramprint'
         component={HologramPrintLanding}
       />
 
       <ContentRoute
-        from="/sales-management/ordermanagement/MonthlyCollectionPlan/entry"
+        from='/sales-management/ordermanagement/MonthlyCollectionPlan/entry'
         component={MonthlyCollectionPlanEntryForm}
       />
       <ContentRoute
-        from="/sales-management/ordermanagement/MonthlyCollectionPlan"
+        from='/sales-management/ordermanagement/MonthlyCollectionPlan'
         component={MonthlyCollectionPlanLanding}
       />
       <ContentRoute
-        from="/sales-management/ordermanagement/CustomerIncentive"
-        component={customerIncentivePermission?.isView ? CustomerIncentive : NotPermittedPage}
+        from='/sales-management/ordermanagement/CustomerIncentive'
+        component={
+          customerIncentivePermission?.isView
+            ? CustomerIncentive
+            : NotPermittedPage
+        }
+      />
+      <ContentRoute
+        from='/sales-management/ordermanagement/Complain/entry'
+        component={ComplainForm}
+      />
+      <ContentRoute
+        from='/sales-management/ordermanagement/Complain'
+        component={ComplainLanding}
+      />
+      <ContentRoute
+        from='/sales-management/ordermanagement/Complain/edit/:id'
+        component={ComplainLanding}
       />
     </Switch>
   );
