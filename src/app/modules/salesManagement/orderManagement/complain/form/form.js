@@ -40,7 +40,7 @@ function Form({
   const [open, setOpen] = useState(false);
   const [complainCategory, setComplainCategory] = useState([]);
   const [customerDDL, setCustomerDDL] = useState([]);
- 
+
   useEffect(() => {
     if (accId && buId) {
       customerListDDL(accId, buId, setCustomerDDL);
@@ -151,12 +151,15 @@ function Form({
                   <label>Issue Description</label>
                   <TextArea
                     name='remarks'
-                    value={values?.remarks}
+                    value={values?.remarks || ""}
                     label='Issue Description'
                     placeholder='Issue Description'
                     touched={touched}
                     rows='3'
                     disabled={view}
+                    onChange={(e) => {
+                      setFieldValue("remarks", e.target.value);
+                    }}
                   />
                 </div>
                 <div className='col-lg-3 d-flex align-items-center'>

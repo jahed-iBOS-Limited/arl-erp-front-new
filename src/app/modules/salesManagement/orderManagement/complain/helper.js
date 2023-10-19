@@ -64,6 +64,7 @@ export const getComplainById = async (
         ? _dateFormatter(res?.data?.requestDateTime)
         : "",
       complainByName: res?.data?.strComplainByEmployee || "",
+      remarks: res?.data?.statusRemarks || "",
     });
   } catch (error) {
     setLoaing(false);
