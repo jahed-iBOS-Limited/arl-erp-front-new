@@ -41,7 +41,7 @@ const VehicleLogLandingForm = ({ obj }) => {
     const capacityId = values?.vehicleCapacity?.value;
     getVehicleList(
       `/tms/TransportMgtDDL/GetVehicleByCapacityId?Accountid=${accId}&BusinessUnitid=${buId}&VehicleTypeID=${capacityId ||
-        1}`
+        0}`
     );
   };
 
@@ -328,7 +328,7 @@ const FormThree = ({ obj }) => {
           label="Vehicle No"
           placeholder="Vehicle No"
           name="vehicleNo"
-          options={vehicleList || []}
+          options={[{ value: 0, label: "All" }, ...vehicleList] || []}
           value={values?.vehicleNo}
           onChange={(valueOption) => {
             setFieldValue("vehicleNo", valueOption);

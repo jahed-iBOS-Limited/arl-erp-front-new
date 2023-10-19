@@ -40,7 +40,7 @@ const initData = {
 };
 
 // Government subsidy ids for six business units - (bongo, batayon, arl traders, direct trading, daily trading, eureshia)
-const ids = [8, 9, 10, 11, 12, 13];
+const idSet1 = [8, 9, 10, 11, 12, 13, 15, 16, 17, 18, 19, 20];
 
 const CommissionReportAndJV = () => {
   const [loading, setLoading] = useState(false);
@@ -68,8 +68,10 @@ const CommissionReportAndJV = () => {
   }, [accId, buId]);
 
   const getData = (values) => {
-    const typeId = ids.includes(values?.type?.value) ? 8 : values?.type?.value;
-    if ([5, 3, 6, 7, ...ids].includes(values?.type?.value)) {
+    const typeId = idSet1.includes(values?.type?.value)
+      ? 8
+      : values?.type?.value;
+    if ([5, 3, 6, 7, ...idSet1].includes(values?.type?.value)) {
       getTradeCommissionData(
         // values?.type?.value,
         typeId,
@@ -129,13 +131,13 @@ const CommissionReportAndJV = () => {
   //   totalAchievement = 0;
 
   const JVCrate = (values) => {
-    if ([5, 7, ...ids].includes(values?.type?.value)) {
+    if ([5, 7, ...idSet1].includes(values?.type?.value)) {
       const selectedItems = rowData?.filter((item) => item?.isSelected);
       const totalAmount = selectedItems?.reduce(
         (a, b) => a + +b?.commissiontaka,
         0
       );
-      const commissionTypeId = ids.includes(values?.type?.value)
+      const commissionTypeId = idSet1.includes(values?.type?.value)
         ? 8
         : values?.type?.value;
       const payload = {
@@ -207,7 +209,7 @@ const CommissionReportAndJV = () => {
   const isDisabled = (values) => {
     return (
       loading ||
-      (![5, ...ids].includes(values?.type?.value) &&
+      (![5, ...idSet1].includes(values?.type?.value) &&
         !(values?.month?.value && values?.year?.value)) ||
       !values?.type ||
       (values?.type?.value === 5 && !values?.commissionRate)
@@ -264,8 +266,8 @@ const CommissionReportAndJV = () => {
                 {loading && <Loading />}
                 <CommissionReportAndJVForm
                   obj={{
-                    ids,
                     open,
+                    idSet1,
                     sbuDDL,
                     values,
                     getData,
