@@ -28,12 +28,14 @@ const CreatePermissionForm = ({ setShow, getData, formType, singleItem }) => {
   const [, postData, loading] = useAxiosPost();
   const [info, setInfo] = useState({});
   const [permissionDDL, getPermissionDDL] = useAxiosGet();
+  const [buDDL, getBuDDL] = useAxiosGet();
 
   useEffect(() => {
     // getMenuList(setPermissionMenuDDL);
     getPermissionDDL(
       `/tms/LigterLoadUnload/TransportModeDDL?intPartid=4&Unitid=${buId}`
     );
+    getBuDDL(`/hcm/HCMDDL/GetBusinessunitDDL`);
   }, [accId, buId]);
 
   const getInitData = () => {
@@ -125,7 +127,7 @@ const CreatePermissionForm = ({ setShow, getData, formType, singleItem }) => {
     // };
     const payload = {
       intEnrol: values?.employee?.value,
-      businessUnitId: buId,
+      businessUnitId: values?.businessUnit?.value,
       permissionMenu: `ysn${values?.permissionMenu?.label}`,
     };
     if (formType === "edit") {
@@ -184,13 +186,28 @@ const CreatePermissionForm = ({ setShow, getData, formType, singleItem }) => {
                         if (searchValue?.length < 3) return [];
                         return axios
                           .get(
-                            `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=${accId}&BusinessUnitId=${buId}&Search=${searchValue}`
+                            `/hcm/HCMDDL/GetEmployeeDDLSearch?AccountId=${accId}&Search=${searchValue}`
+                            // `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=${accId}&BusinessUnitId=${buId}&Search=${searchValue}`
                           )
                           .then((res) => res?.data);
                       }}
                     />
                   </div>
 
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="businessUnit"
+                      options={buDDL || []}
+                      value={values?.businessUnit}
+                      label="Business Unit"
+                      onChange={(valueOption) => {
+                        setFieldValue("businessUnit", valueOption);
+                      }}
+                      placeholder="Select Business Unit"
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
                   <div className="col-lg-3">
                     <NewSelect
                       name="permissionMenu"

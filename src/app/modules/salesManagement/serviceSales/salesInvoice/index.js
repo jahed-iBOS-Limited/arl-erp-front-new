@@ -25,7 +25,7 @@ export default function SalesInvoiceLanding() {
   const [customerList, getCustomerList] = useAxiosGet();
   const [rowData, getRowData, loader, setRowData] = useAxiosGet();
   const [itemDDL, getItemDDL] = useAxiosGet();
-  const [, saveHandler] = useAxiosPost();
+  const [, saveHandler, saveLoader] = useAxiosPost();
   const [, collectionHandler] = useAxiosGet();
 
   const [showModal, setShowModal] = useState(false);
@@ -68,7 +68,6 @@ export default function SalesInvoiceLanding() {
     <Formik
       enableReinitialize={true}
       initialValues={initData}
-      // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         console.log(values);
       }}
@@ -83,7 +82,7 @@ export default function SalesInvoiceLanding() {
         touched,
       }) => (
         <>
-          {loader && <Loading />}
+          {(loader || saveLoader) && <Loading />}
           <IForm
             title="Sales Invoice"
             isHiddenReset
@@ -98,9 +97,13 @@ export default function SalesInvoiceLanding() {
                     disabled={!rowData?.some((item) => item?.isChecked)}
                     onClick={() => {
                       let data = rowData?.filter((item) => item?.isChecked);
-
                       let payload = data.map((item) => ({
                         header: {
+                          intDistributionChannelId:
+                            item?.intDistributionChannelId,
+                          strDistributionChannelName:
+                            item?.strDistributionChannelName,
+
                           //   intServiceSalesInvoiceId: 0,
                           //   strServiceSalesInvoiceCode: "",
                           strServiceSalesOrderCode:
@@ -144,6 +147,8 @@ export default function SalesInvoiceLanding() {
                               item?.dteScheduleCreateDateTime,
                             dteDueDateTime: item?.dteDueDateTime,
                             numScheduleAmount: item?.numScheduleAmount,
+                            numScheduleVatAmount:
+                              item?.numScheduleVatAmount || 0,
                             //   numCollectionAmount: 0,
                             //   numPendingAmount: 0,
                             //   numAdjustPreviousAmount: 0,
@@ -270,6 +275,7 @@ export default function SalesInvoiceLanding() {
                                 onChange={(e) => {
                                   const data = [...rowData];
                                   data[index]["isChecked"] = e.target.checked;
+                                  console.log("data", data);
                                   setRowData(data);
                                 }}
                               />

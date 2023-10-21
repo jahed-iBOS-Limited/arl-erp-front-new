@@ -12,6 +12,7 @@ import ItemOverallCost from "./ItemOverallCost";
 import ProductionWiseRMConjunctionReport from "./productionWiseRMConjunctionReport";
 import YeildReport from "./yeildReport";
 import Yeildreport from "./yeildReportNew";
+import OeeReport from "./oeeReport";
 
 export function MesReportPages() {
   return (
@@ -53,6 +54,14 @@ export function MesReportPages() {
         path="/production-management/report/yeildreport"
         component={
           Yeildreport
+        }
+      />
+
+      {/* OEE Report (BI) */}
+      <ContentRoute
+        path="/production-management/report/OEEReport"
+        component={
+          OeeReport
         }
       />
 

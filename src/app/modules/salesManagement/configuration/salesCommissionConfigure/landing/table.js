@@ -22,6 +22,7 @@ const SalesCommissionConfigureLandingTable = ({ obj }) => {
                 <th> {">"}999% </th>
               </>
             )}
+            <th>Insert By</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -34,6 +35,7 @@ const SalesCommissionConfigureLandingTable = ({ obj }) => {
                 <td className="text-right">{item?.bpcommissionRate}</td>
                 <td className="text-right">{item?.bacommissionRate}</td>
                 <td className="text-right">{item?.cpcommissionRate}</td>
+
                 {[17, 18].includes(values?.commissionType?.value) && (
                   <>
                     <td className="text-right">
@@ -47,7 +49,7 @@ const SalesCommissionConfigureLandingTable = ({ obj }) => {
                     </td>
                   </>
                 )}
-
+                <td className="text-right">{item?.actionName}</td>
                 <td className="text-center">
                   <div className="d-flex justify-content-around">
                     <span>

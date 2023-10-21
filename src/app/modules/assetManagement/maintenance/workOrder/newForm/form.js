@@ -76,8 +76,6 @@ export default function _Form({
           isValid,
         }) => (
           <>
-            {/* {disableHandler(!isValid)} */}
-            {console.log(values, "values")}
             <Form className="form form-label-right">
               <div className="form-group row global-form">
                 <div className="col-lg-4">
@@ -180,7 +178,7 @@ export default function _Form({
                 <div className="col-lg-3">
                   <InputField
                     value={values?.assetDate}
-                    type="date"
+                    type="datetime-local"
                     label="Date"
                     placeholder="Date"
                     name="assetDate"

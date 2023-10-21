@@ -13,7 +13,7 @@ export default function VehicleDemandEditModal({
   getVehicleDemandData
 }) {
   const [supplierDDL, getSupplierDDL] = useAxiosGet();
-  const [_, saveLighterLoad] = useAxiosPost();
+  const [, saveLighterLoad] = useAxiosPost();
   const {
     profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
@@ -117,14 +117,14 @@ export default function VehicleDemandEditModal({
                   <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                     <thead>
                       <tr>
-                        <th style={{ width: "160px" }}>Supplier Name</th>
+                        <th style={{ width: "200px" }}>Supplier Name</th>
                         <th>Demand Vehicle</th>
                         <th>Packing MT</th>
                         <th>Dump Qty Ton</th>
                         <th>Labour Requirement</th>
                         <th>Labour Present</th>
                         <th>Lighter Waiting</th>
-                        
+
                       </tr>
                     </thead>
                     <tbody>
@@ -214,7 +214,7 @@ export default function VehicleDemandEditModal({
                           }}
                         />
                       </td>
-                      
+
                     </tbody>
                   </table>
                 </div>

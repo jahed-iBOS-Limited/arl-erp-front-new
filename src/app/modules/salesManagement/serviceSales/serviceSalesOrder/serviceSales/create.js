@@ -1,6 +1,5 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import * as Yup from "yup";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
@@ -15,11 +14,10 @@ import { _todayDate } from "../../../../_helper/_todayDate";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import IForm from "../../../../_helper/_form";
 import InputField from "../../../../_helper/_inputField";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { update } from "lodash";
 
 const initData = {
+  distributionChannel: "",
   salesOrg: "",
   customer: "",
   paymentType: "",
@@ -34,19 +32,6 @@ const initData = {
   vat: "",
 };
 
-// const validationSchema = Yup.object().shape({
-//   item: Yup.object()
-//     .shape({
-//       label: Yup.string().required("Item is required"),
-//       value: Yup.string().required("Item is required"),
-//     })
-//     .typeError("Item is required"),
-
-//   remarks: Yup.string().required("Remarks is required"),
-//   amount: Yup.number().required("Amount is required"),
-//   date: Yup.date().required("Date is required"),
-// });
-
 export default function ServiceSalesCreate() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
@@ -55,58 +40,37 @@ export default function ServiceSalesCreate() {
   const [objProps, setObjprops] = useState({});
   const [attachmentList, setAttachmentList] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [customerList, getCustomerList] = useAxiosGet();
-  const [itemDDL, getItemDDL] = useAxiosGet();
+  const [customerList, getCustomerList, customerListLoader] = useAxiosGet();
+  const [itemDDL, getItemDDL, itemDDLloader] = useAxiosGet();
   const [itemList, setItemList] = useState([]);
   const [validFromData, setValidFromData] = useState("");
   const [validToData, setValidToData] = useState("");
   const [scheduleList, setSheduleList] = useState([]);
   const [scheduleListFOneTime, setSheduleListFOneTime] = useState([]);
   const [netAmount, setNetAmount] = useState(0);
+  const [actualAmount, setActualAmount] = useState(0);
   const formikRef = React.useRef(null);
   const [, saveHandlerFunc, loader] = useAxiosPost();
   const [scheduleMonthRange, setScheduleMonthRange] = useState(0);
-  const [salesOrgList, getSalesOrgList] = useAxiosGet();
-
-  console.log("scheduleList", scheduleList);
-  console.log("scheduleListFOneTime", scheduleListFOneTime);
-  console.log("itemList", itemList);
+  const [salesOrgList, getSalesOrgList, salesOrgListLoader] = useAxiosGet();
+  const [channelDDL, getChannelDDL, channelDDLloader] = useAxiosGet();
 
   useEffect(() => {
     if (itemList?.length) {
       let amount = (itemList[0]?.qty || 0) * (itemList[0]?.rate || 0);
       let vat = itemList[0]?.vat || 0;
       let netAmount = amount + (amount * vat) / 100;
+      setActualAmount(amount);
       setNetAmount(netAmount);
     } else {
       setNetAmount(0);
     }
   }, [itemList]);
 
-  // useEffect(() => {
-  //   if (scheduleMonthRange && validToData && validFromData) {
-  //     const list = [];
-  //     const n =
-  //       calculateMonthDifference(validFromData, validToData) /
-  //       scheduleMonthRange;
-  //     for (let i = 0; i < n; i++) {
-  //       list.push({
-  //         dueDate: addMonthsToDate(
-  //           validFromData,
-  //           i === 0 ? 0 : i * scheduleMonthRange
-  //         ),
-  //         percentage: 0,
-  //         amount: 0,
-  //       });
-  //     }
-  //     // formikRef.current.setFieldValue("validTo", list[list.length - 1].dueDate);
-  //     setSheduleList(list);
-  //   } else {
-  //     setSheduleList([]);
-  //   }
-  // }, [scheduleMonthRange, validToData, validFromData]);
-
   useEffect(() => {
+    getChannelDDL(
+      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}`
+    );
     getSalesOrgList(
       `/oms/BusinessUnitSalesOrganization/GetBUSalesOrgDDL?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}&SBUId=0`
     );
@@ -121,6 +85,8 @@ export default function ServiceSalesCreate() {
   }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = (values, cb) => {
+    if (!values?.distributionChannel?.value)
+      return toast.warn("Distribution Channel is required");
     if (itemList?.length < 0) return toast.warn("Add at least one Item");
     if (scheduleList?.length < 0) return toast.warn("Add Schedule");
     let totalPercentage = scheduleListFOneTime.reduce(
@@ -141,6 +107,8 @@ export default function ServiceSalesCreate() {
         strServiceSalesOrderCode: "",
         intAccountId: profileData?.accountId,
         intBusinessUnitId: selectedBusinessUnit?.value,
+        intDistributionChannelId: values?.distributionChannel?.value, // add new field
+        strDistributionChannelName: values?.distributionChannel?.label, // add new field
         intSalesTypeId: values?.salesOrg?.value,
         strSalesTypeName: values?.salesOrg?.label,
         intCustomerId: values?.customer?.value || 0,
@@ -172,7 +140,7 @@ export default function ServiceSalesCreate() {
         numSalesQty: +item?.qty || 0,
         numRate: +item?.rate || 0,
         numSalesAmount: (+item?.qty || 0) * (+item?.rate || 0),
-        numSalesVatAmount: +item?.vat || 0,
+        numSalesVatAmount: item?.vatAmount,
         numNetSalesAmount: +netAmount || 0,
         isActive: true,
       })),
@@ -182,12 +150,16 @@ export default function ServiceSalesCreate() {
         dteScheduleDateTime: _todayDate(),
         dteDueDateTime: schedule?.dueDate,
         intPaymentByPercent: +schedule?.percentage || 0,
+        numScheduleVatAmount:
+          +schedule?.scheduleListFOneTimeVat || +schedule?.vatAmount,
         numScheduleAmount: +schedule?.amount,
         strRemarks: schedule?.remarks || "",
         strStatus: "",
         isActive: true,
       })),
     };
+
+    console.log("payload", payload);
 
     saveHandlerFunc(
       `oms/ServiceSales/createServiceSalesOrder`,
@@ -197,11 +169,20 @@ export default function ServiceSalesCreate() {
     );
   };
 
+  const getTotalPersecentage = (newValue, index) => {
+    scheduleListFOneTime.reduce((acc, curr, currIndex) => {
+      if (currIndex === index) {
+        return acc + newValue;
+      } else {
+        return acc + curr.percentage;
+      }
+    }, 0);
+  };
+
   return (
     <Formik
       enableReinitialize={true}
       initialValues={initData}
-      //   validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
@@ -222,10 +203,27 @@ export default function ServiceSalesCreate() {
         touched,
       }) => (
         <>
-          {loader && <Loading />}
+          {(loader ||
+            channelDDLloader ||
+            salesOrgListLoader ||
+            customerListLoader ||
+            itemDDLloader) && <Loading />}
           <IForm title="Create Service Sales Order" getProps={setObjprops}>
             <Form>
               <div className="form-group  global-form row">
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="distributionChannel"
+                    options={channelDDL || []}
+                    value={values?.distributionChannel}
+                    label="Distribution Channel"
+                    onChange={(valueOption) => {
+                      setFieldValue("distributionChannel", valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
                 <div className="col-lg-3">
                   <NewSelect
                     name="salesOrg"
@@ -287,6 +285,7 @@ export default function ServiceSalesCreate() {
                     }}
                   />
                 </div>
+
                 {[1]?.includes(values?.paymentType?.value) ? (
                   <>
                     <div className="col-lg-3">
@@ -312,7 +311,6 @@ export default function ServiceSalesCreate() {
                         touched={touched}
                       />
                     </div>
-                    {console.log(values)}
                     <div className="col-lg-3">
                       <InputField
                         value={values?.invoiceDay}
@@ -384,6 +382,7 @@ export default function ServiceSalesCreate() {
                     </div>
                   </>
                 ) : null}
+
                 <div className="col-lg-2 mt-5">
                   <AttachmentUploaderNew
                     CBAttachmentRes={(attachmentData) => {
@@ -444,44 +443,6 @@ export default function ServiceSalesCreate() {
                   />
                 </div>
                 <div className="d-flex">
-                  {/* <div style={{ marginTop: "18px" }}>
-                    <button
-                      type="button"
-                      disabled={
-                        !values?.item?.value ||
-                        !values?.qty ||
-                        !values?.rate ||
-                        !values?.vat
-                      }
-                      className="btn btn-primary ml-4"
-                      onClick={() => {
-                        setSheduleList([]);
-                        let isExist = itemList?.some(
-                          (item) => item.label === values?.item?.label
-                        );
-                        if (isExist) return toast.warn("Already exist");
-                        setItemList((prev) => [
-                          ...prev,
-                          {
-                            ...values?.item,
-                            qty: +values?.qty || 0,
-                            rate: +values?.rate || 0,
-                            vat: +values?.vat || 0,
-                            amount: (+values?.qty || 0) * (+values?.rate || 0),
-                            netAmount:
-                              (() => {
-                                let amount =
-                                  (+values?.qty || 0) * (+values?.rate || 0);
-                                let vat = +values?.vat || 0;
-                                return amount + (amount * vat) / 100;
-                              })() || 0,
-                          },
-                        ]);
-                      }}
-                    >
-                      Add
-                    </button>
-                  </div> */}
                   {[1]?.includes(values?.paymentType?.value) ? (
                     <div style={{ marginTop: "18px" }} className="ml-4">
                       <button
@@ -518,6 +479,14 @@ export default function ServiceSalesCreate() {
                                   let vat = +values?.vat || 0;
                                   return amount + (amount * vat) / 100;
                                 })() || 0,
+
+                              vatAmount:
+                                (() => {
+                                  let amount =
+                                    (+values?.qty || 0) * (+values?.rate || 0);
+                                  let vat = +values?.vat || 0;
+                                  return (amount * vat) / 100;
+                                })() || 0,
                             },
                           ]);
 
@@ -526,11 +495,6 @@ export default function ServiceSalesCreate() {
                             values?.validTo &&
                             values?.validFrom
                           ) {
-                            console.log(
-                              "scheduleType" + values.scheduleType?.range
-                            );
-                            console.log("validTo" + values.validTo);
-                            console.log("validFrom" + values.validFrom);
                             const list = [];
                             const n =
                               +calculateMonthDifference(
@@ -544,13 +508,26 @@ export default function ServiceSalesCreate() {
                                   i === 0 ? 0 : i * values?.scheduleType?.range
                                 ),
                                 percentage: 0,
+                                amountWithoutVat:
+                                  (+values?.qty || 0) * (+values?.rate || 0),
+                                vat: +values?.vat || 0,
                                 amount:
                                   (() => {
                                     let amount =
                                       (+values?.qty || 0) *
                                       (+values?.rate || 0);
                                     let vat = +values?.vat || 0;
-                                    return amount + (amount * vat) / 100;
+                                    // return amount + (amount * vat) / 100;
+                                    return amount;
+                                  })() || 0,
+
+                                vatAmount:
+                                  (() => {
+                                    let amount =
+                                      (+values?.qty || 0) *
+                                      (+values?.rate || 0);
+                                    let vat = +values?.vat || 0;
+                                    return (amount * vat) / 100;
                                   })() || 0,
                               });
                             }
@@ -598,6 +575,13 @@ export default function ServiceSalesCreate() {
                                   let vat = +values?.vat || 0;
                                   return amount + (amount * vat) / 100;
                                 })() || 0,
+                              vatAmount:
+                                (() => {
+                                  let amount =
+                                    (+values?.qty || 0) * (+values?.rate || 0);
+                                  let vat = +values?.vat || 0;
+                                  return (amount * vat) / 100;
+                                })() || 0,
                             },
                           ]);
 
@@ -607,6 +591,8 @@ export default function ServiceSalesCreate() {
                               percentage: 0,
                               amount: 0,
                               remarks: "",
+                              // calculate vat on itemList[0]?.vatAmount and percentage
+                              scheduleListFOneTimeVat: 0,
                             },
                           ]);
                         }}
@@ -617,15 +603,6 @@ export default function ServiceSalesCreate() {
                       </button>
                     </div>
                   ) : null}
-                  {/* <div style={{ marginTop: "18px" }}>
-                    <button
-                      onClick={() => setIsOpen(true)}
-                      type="button"
-                      className="btn btn-primary ml-4"
-                    >
-                      Schedule
-                    </button>
-                  </div> */}
                 </div>
               </div>
 
@@ -641,6 +618,7 @@ export default function ServiceSalesCreate() {
                           <th>Rate</th>
                           <th>Amount</th>
                           <th>Vat %</th>
+                          <th>Vat Amount</th>
                           <th>Net Amount</th>
                           <th>Action</th>
                         </tr>
@@ -654,6 +632,7 @@ export default function ServiceSalesCreate() {
                             <td className="text-center">{item?.rate}</td>
                             <td className="text-right">{item?.amount}</td>
                             <td className="text-center">{item?.vat}</td>
+                            <td className="text-center">{item?.vatAmount}</td>
                             <td className="text-right">{item?.netAmount}</td>
                             <td className="text-center">
                               <IDelete
@@ -686,6 +665,8 @@ export default function ServiceSalesCreate() {
                           <tr>
                             <th>SL</th>
                             <th>Due Date</th>
+                            <th>Vat %</th>
+                            <th>Vat Amount</th>
                             <th>Amount</th>
                           </tr>
                         </thead>
@@ -706,6 +687,8 @@ export default function ServiceSalesCreate() {
                                   }}
                                 />
                               </td>
+                              <td className="text-right">{item?.vat}</td>
+                              <td className="text-right">{item?.vatAmount}</td>
                               <td className="text-right">{item?.amount}</td>
                             </tr>
                           ))}
@@ -727,6 +710,7 @@ export default function ServiceSalesCreate() {
                             <th>Due Date</th>
                             <th>Percentage</th>
                             <th>Amount</th>
+                            <th>Actual Amount</th>
                             <th>Remarks</th>
                             <th>Action</th>
                           </tr>
@@ -747,30 +731,21 @@ export default function ServiceSalesCreate() {
                                 />
                               </td>
                               <td>
+                                {console.log("itemList", itemList)}
                                 <InputField
                                   value={item?.percentage || ""}
                                   type="number"
                                   onChange={(e) => {
                                     const newValue = +e.target.value;
-
-                                    let totalPercentage = scheduleListFOneTime.reduce(
-                                      (acc, curr, currIndex) => {
-                                        if (currIndex === index) {
-                                          return acc + newValue;
-                                        } else {
-                                          return acc + curr.percentage;
-                                        }
-                                      },
-                                      0
+                                    let totalPercentage = getTotalPersecentage(
+                                      newValue,
+                                      index
                                     );
-
                                     if (totalPercentage > 100) {
-                                      toast.warn(
+                                      return toast.warn(
                                         "Total percentage should be 100"
                                       );
-                                      return;
                                     }
-
                                     let updatedScheduleList = [
                                       ...scheduleListFOneTime,
                                     ];
@@ -779,12 +754,25 @@ export default function ServiceSalesCreate() {
                                     ].percentage = newValue;
                                     updatedScheduleList[index].amount =
                                       ((newValue || 0) / 100) *
-                                      (netAmount || 0);
+                                      (actualAmount || 0);
+
+                                    updatedScheduleList[
+                                      index
+                                    ].scheduleListFOneTimeVat =
+                                      itemList[0]?.vatAmount *
+                                        (newValue / 100) || 0;
+
                                     setSheduleListFOneTime(updatedScheduleList);
                                   }}
                                 />
                               </td>
-                              <td className="text-center">{item?.amount}</td>
+                              <td className="text-center">
+                                {((item?.percentage || 0) / 100) *
+                                  (actualAmount || 0)}
+                              </td>
+                              <td className="text-center">
+                                {item?.scheduleListFOneTimeVat}
+                              </td>
                               <td>
                                 <InputField
                                   value={item?.remarks}

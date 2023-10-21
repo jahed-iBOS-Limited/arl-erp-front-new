@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { ContentRoute, LayoutSplashScreen } from "../../../_metronic/layout";
 import { TrainingPages } from "./training/trainingPages";
 import { AssessmentPages } from "./assessment/assessmentPages";
+import { EventPages } from "./event/eventPages";
 
 export function LearningAndDevelopmentPages() {
   return (
@@ -22,6 +23,10 @@ export function LearningAndDevelopmentPages() {
           <ContentRoute
             path="/learningDevelopment/assessment"
             component={AssessmentPages}
+          />
+          <ContentRoute
+            path="/learningDevelopment/event"
+            component={EventPages}
           />
         </Switch>
       </div>

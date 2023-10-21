@@ -68,7 +68,7 @@ export default function GhatCostInfoForm() {
     setShipPointData,
   ] = useAxiosGet();
   const [supplierDDL, getSupplierDDL, supplierDDLLoader] = useAxiosGet();
-  const [_, saveLighterLoad, saveLighterLoadLoader] = useAxiosPost();
+  const [, saveLighterLoad, saveLighterLoadLoader] = useAxiosPost();
   const [toatlData, setTotalData] = useState();
   const debounce = useDebounce();
   // get user data from store
@@ -179,8 +179,8 @@ export default function GhatCostInfoForm() {
         presentLabour: item?.labourPresent || 0,
         lighterWaiting: item?.lighterWaiting || 0,
         actionBy: userId,
-        supplierId: item?.value,
-        supplierName: item?.label,
+        supplierId: values?.supplier?.value,
+        supplierName: values?.supplier?.label,
       }));
     saveLighterLoad(
       `/tms/LigterLoadUnload/CreateLogisticDemandNReciveInfo`,
