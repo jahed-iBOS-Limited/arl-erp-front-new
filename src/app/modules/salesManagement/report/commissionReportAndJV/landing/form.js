@@ -13,6 +13,7 @@ export default function CommissionReportAndJVForm({ obj }) {
   const {
     open,
     idSet1,
+    allIds,
     sbuDDL,
     values,
     getData,
@@ -64,7 +65,7 @@ export default function CommissionReportAndJVForm({ obj }) {
               />
             )}
 
-            {[5, 3, 6, 7, ...idSet1].includes(values?.type?.value) && (
+            {[5, 3, 6, 7, ...allIds].includes(values?.type?.value) && (
               <>
                 <RATForm
                   obj={{
