@@ -6,6 +6,24 @@ const RegisterNewTable = ({
   inventoryStatement,
   setIsShowModal,
 }) => {
+ 
+  let totalOpenQty = 0;
+  let totalInQty = 0;
+  let totalOutQty = 0;
+  let totalClosingQty = 0;
+  let totalClosingValue = 0;
+  let totalRate = 0;
+  
+  // eslint-disable-next-line no-unused-expressions
+  inventoryStatement?.forEach(item => {
+    totalOpenQty += item?.numOpenQty;
+    totalInQty += item?.numInQty;
+    totalOutQty += item?.numOutQty;
+    totalClosingQty += item?.numCloseQty;
+    totalClosingValue += item?.closingValues;
+    totalRate += item?.numRate;
+  });
+
   return (
     inventoryStatement?.length > 0 && (
       <div className="react-bootstrap-table table-responsive">
@@ -25,6 +43,7 @@ const RegisterNewTable = ({
                   <th style={{ minWidth: "80px" }}>Out Qty</th>
                   {/* <th style={{ minWidth: "80px" }}>Out Value</th> */}
                   <th style={{ minWidth: "80px" }}>Closing Qty</th>
+                  <th style={{ minWidth: "80px" }}>Closing Value</th>
                   {/* <th style={{ minWidth: "100px" }}>Closing Value</th> */}
                   <th style={{ minWidth: "100px" }}>Rate</th>
                   <th style={{ minWidth: "50px" }}>Action</th>
@@ -42,7 +61,9 @@ const RegisterNewTable = ({
                           <span className="pl-2">{item?.strItemName}</span>
                         </td>
                         <td>
-                          <span className="pl-2 text-center">{item?.strItemCode}</span>
+                          <span className="pl-2 text-center">
+                            {item?.strItemCode}
+                          </span>
                         </td>
                         <td>
                           <span className="pl-2">{item?.strBaseUOM}</span>
@@ -68,6 +89,11 @@ const RegisterNewTable = ({
                         <td className="text-right">
                           <span>{item?.numCloseQty}</span>
                         </td>
+                        <td className="text-right">
+                          <span>
+                            {item?.closingValues}
+                          </span>
+                        </td>
                         {/* <td className="text-right">
                           <span>{item?.numClosingValue}</span>
                         </td> */}
@@ -89,6 +115,18 @@ const RegisterNewTable = ({
                       </tr>
                     );
                   })}
+                  <tr>
+                    <td colSpan={2} className="text-right">Total</td>
+                    <td></td>
+                    <td></td>
+                    <td className="text-right">{totalOpenQty}</td>
+                    <td className="text-right">{totalInQty}</td>
+                    <td className="text-right">{totalOutQty}</td>
+                    <td className="text-right">{totalClosingQty}</td>
+                    <td className="text-right">{totalClosingValue}</td>
+                    <td className="text-right">{totalRate}</td>
+                    <td></td>
+                  </tr>
               </tbody>
             </table>
           </div>
