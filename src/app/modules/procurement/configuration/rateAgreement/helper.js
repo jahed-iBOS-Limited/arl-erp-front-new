@@ -8,3 +8,4 @@ export const rateAgreementValidationSchema = Yup.object().shape({
   deliveryAdress: Yup.string().required("Contract Date is required"),
 });
 
+
