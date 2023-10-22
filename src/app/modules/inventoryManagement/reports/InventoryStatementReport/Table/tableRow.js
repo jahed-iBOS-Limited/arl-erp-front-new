@@ -1,34 +1,34 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
+import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import PaginationSearch from "../../../../_helper/_search";
-import {
-  businessUnitPlant_api,
-  wearhouse_api,
-  inventoryStatement_api,
-  ItemSubCategory_api,
-  getItemTypeListDDL_api,
-  getItemCategoryDDLByTypeId_api,
-  getSBUList,
-} from "../helper";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import { _todayDate } from "../../../../_helper/_todayDate";
 import { _currentTime } from "../../../../_helper/_currentTime";
+import ICustomCard from "../../../../_helper/_customCard";
+import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
+import PaginationSearch from "../../../../_helper/_search";
+import NewSelect from "../../../../_helper/_select";
+import { _todayDate } from "../../../../_helper/_todayDate";
 import IViewModal from "../../../../_helper/_viewModal";
-import DetailsModal from "./detailsModal";
-import TableForDetail from "./TableForDetail";
-import TableAssetRegister from "./TableAssetRegister";
-import { SetReportsInventoryStatementAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import { generateJsonToExcel } from "../../../../_helper/excel/jsonToExcel";
-import TableForINVInOut from "./TableForINVInOut";
+import { SetReportsInventoryStatementAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import {
+  ItemSubCategory_api,
+  businessUnitPlant_api,
+  getItemCategoryDDLByTypeId_api,
+  getItemTypeListDDL_api,
+  getSBUList,
+  inventoryStatement_api,
+  wearhouse_api,
+} from "../helper";
+import PaginationTable from "./../../../../_helper/_tablePagination";
 import AVGCoverageTable from "./TableAVGCoverage";
+import TableAssetRegister from "./TableAssetRegister";
+import TableForDetail from "./TableForDetail";
+import TableForINVInOut from "./TableForINVInOut";
+import DetailsModal from "./detailsModal";
 import DetailsModalNew from "./detailsModalNew";
 import RegisterNewTable from "./registerNewTable";
 
@@ -354,12 +354,12 @@ export function TableRow(props) {
             alignment: "center:middle",
             key: "numCloseQty",
           },
-          // {
-          //   text: "Cloasing Value",
-          //   textFormat: "money",
-          //   alignment: "center:middle",
-          //   key: "numClosingValue",
-          // },
+          {
+            text: "Closing Value",
+            textFormat: "money",
+            alignment: "center:middle",
+            key: "numClosingValue",
+          },
           {
             text: "Rate",
             textFormat: "number",
@@ -373,6 +373,7 @@ export function TableRow(props) {
             _closingQty: closingQty(item),
             _cloasingValue: closingValue(item),
             sl: index + 1,
+            numClosingValue:item?.numCloseQty * item?.numRate
           };
         });
         generateJsonToExcel(values?.type?.value === 5 ? registerNewHeader : header, _data);
