@@ -43,7 +43,7 @@ const RegisterNewTable = ({
                   <th style={{ minWidth: "80px" }}>Out Qty</th>
                   {/* <th style={{ minWidth: "80px" }}>Out Value</th> */}
                   <th style={{ minWidth: "80px" }}>Closing Qty</th>
-                  <th style={{ minWidth: "80px" }}>Closing Value</th>
+                  <th style={{ minWidth: "118px" }}>Closing Value</th>
                   {/* <th style={{ minWidth: "100px" }}>Closing Value</th> */}
                   <th style={{ minWidth: "100px" }}>Rate</th>
                   <th style={{ minWidth: "50px" }}>Action</th>
@@ -116,15 +116,15 @@ const RegisterNewTable = ({
                     );
                   })}
                   <tr>
-                    <td colSpan={2} className="text-right">Total</td>
+                    <td colSpan={2} className="text-center " style={{fontWeight:"bold"}}>Total</td>
                     <td></td>
                     <td></td>
-                    <td className="text-right">{totalOpenQty}</td>
-                    <td className="text-right">{totalInQty}</td>
-                    <td className="text-right">{totalOutQty}</td>
-                    <td className="text-right">{totalClosingQty}</td>
-                    <td className="text-right">{totalClosingValue}</td>
-                    <td className="text-right">{totalRate}</td>
+                    <td className="text-right " style={{fontWeight:"bold"}}>{totalOpenQty}</td>
+                    <td className="text-right " style={{fontWeight:"bold"}}>{totalInQty}</td>
+                    <td className="text-right " style={{fontWeight:"bold"}}>{totalOutQty}</td>
+                    <td className="text-right " style={{fontWeight:"bold"}}>{totalClosingQty}</td>
+                    <td className="text-right " style={{fontWeight:"bold"}}>{totalClosingValue}</td>
+                    <td className="text-right " style={{fontWeight:"bold"}}>{totalRate}</td>
                     <td></td>
                   </tr>
               </tbody>
