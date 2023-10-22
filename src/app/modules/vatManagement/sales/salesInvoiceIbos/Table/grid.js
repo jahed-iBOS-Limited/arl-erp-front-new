@@ -32,18 +32,18 @@ const GridData = ({
   const [salesTableRowDto, setSalesTableRowDto] = useState("");
   return (
     <>
-      <div className="row cash_journal">
-        <div className="col-lg-12">
+      <div className='row cash_journal'>
+        <div className='col-lg-12'>
           <PaginationSearch
-            placeholder="Invoice Search"
+            placeholder='Invoice Search'
             paginationSearchHandler={paginationSearchHandler}
             values={values}
           />
-          <div className="react-bootstrap-table table-responsive">
+          <div className='react-bootstrap-table table-responsive'>
             {rowDto?.data?.length > 0 && (
               <table
-                id="table-to-xlsx"
-                className="table table-striped table-bordered global-table"
+                id='table-to-xlsx'
+                className='table table-striped table-bordered global-table'
               >
                 <thead>
                   <tr>
@@ -73,7 +73,7 @@ const GridData = ({
                     <tr key={index}>
                       <td> {tableData?.sl} </td>
                       <td> {tableData?.invoice || tableData?.deliveryCode} </td>
-                      <td className="text-center">
+                      <td className='text-center'>
                         {values?.status === "printed"
                           ? _dateFormatter(tableData?.transferDate)
                           : _dateFormatter(tableData?.deliveryDate)}
@@ -87,7 +87,7 @@ const GridData = ({
                         <td>{tableData?.partnerName}</td>
                       )}
 
-                      <td className="text-center">
+                      <td className='text-center'>
                         {Number(
                           (
                             tableData?.quantity ||
@@ -96,11 +96,11 @@ const GridData = ({
                           ).toFixed(3)
                         )}
                       </td>
-                      <td className="text-right">
+                      <td className='text-right'>
                         {_formatMoney(tableData?.value?.toFixed(2))}
                       </td>
                       <td>
-                        <div className="d-flex justify-content-around">
+                        <div className='d-flex justify-content-around'>
                           {values?.status === "printed" ? (
                             <>
                               <IView
@@ -122,8 +122,8 @@ const GridData = ({
                           ) : (
                             <>
                               <button
-                                type="button"
-                                className="btn btn-primary"
+                                type='button'
+                                className='btn btn-primary'
                                 onClick={() => {
                                   if (
                                     tableData?.deliveryId &&
@@ -181,11 +181,11 @@ const GridData = ({
                               >
                                 Printed
                               </button>
-                              {/* {(selectedBusinessUnit?.value === 171 ||
-                                selectedBusinessUnit?.value === 224) && ( */}
+                              {(selectedBusinessUnit?.value === 171 ||
+                                selectedBusinessUnit?.value === 224) && (
                                 <button
-                                  type="button"
-                                  className="btn btn-primary"
+                                  type='button'
+                                  className='btn btn-primary'
                                   onClick={() => {
                                     AutoTaxCompleteApi(
                                       tableData?.deliveryId,
@@ -199,7 +199,7 @@ const GridData = ({
                                 >
                                   Clear
                                 </button>
-                              {/* )} */}
+                              )}
                             </>
                           )}
                         </div>
