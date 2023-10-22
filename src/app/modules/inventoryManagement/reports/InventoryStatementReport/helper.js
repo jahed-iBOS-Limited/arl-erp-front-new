@@ -15,7 +15,7 @@ export const businessUnitPlant_api = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 //Wearhouse_api Api call
 export const wearhouse_api = async (accId, buId, userId, plantId, setter) => {
@@ -26,7 +26,7 @@ export const wearhouse_api = async (accId, buId, userId, plantId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 //InventoryStatement_api Api call
@@ -46,7 +46,7 @@ export const inventoryStatement_api = async ({
   setter,
   setLoading,
   search,
-  avgDays
+  avgDays,
 }) => {
   const searchPath = search ? `&Search=${search}` : "";
   const searchForInvNew = search ? `&search=${search}` : "";
@@ -63,7 +63,7 @@ export const inventoryStatement_api = async ({
   } else if (type?.value === 4) {
     api = `/wms/WmsReport/InventoryStatementStokeCoverage?businessUnitId=${buId}&whld=${warehouseId}&numAverageDay=${avgDays}${typeIdQuery}${categoryIdQuery}${itemSubIdQuery}&pageNo=${pageNo}&pageSize=${pageSize}${searchPath}`;
   } else if (type?.value === 5) {
-    api = `/procurement/Report/GetInventoryStatement?businessUnitId=${buId}&intPlantId=${plantId}&fromDate=${fromDate}&toDate=${toDate}&intItemTypeId=${itemtypeId}&itemId=0&warehouseId=${warehouseId}&pageNo=${pageNo}&pageSize=${pageSize}${searchForInvNew}`
+    api = `/procurement/Report/GetInventoryStatement?businessUnitId=${buId}&intPlantId=${plantId}&fromDate=${fromDate}&toDate=${toDate}&intItemTypeId=${itemtypeId}&itemId=0&warehouseId=${warehouseId}&pageNo=${pageNo}&pageSize=${pageSize}${searchForInvNew}`;
   } else {
     api = `/wms/WmsReport/InventoryRegister?AccountId=${accId}&BusinessUnitId=${buId}&warehouseId=${warehouseId}&plantId=${plantId}&fromDate=${fromDate}&toDate=${toDate}&type=${type?.value}&Itemtype=${itemtypeId}&ItemCategory=${itemcatId}&itemSubCategory=${itemSubId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc${searchPath}`;
   }
@@ -72,7 +72,15 @@ export const inventoryStatement_api = async ({
     const res = await Axios.get(api);
     setLoading(false);
     if (res.status === 200 && res?.data) {
-      setter(res?.data);
+      if (type?.value === 5) {
+        const updatedData = res?.data?.map((item) => ({
+          ...item,
+          closingValues: item?.numCloseQty * item?.numRate,
+        }));
+        setter(updatedData);
+      } else {
+        setter(res?.data);
+      }
     }
   } catch (error) {
     setLoading(false);
@@ -126,8 +134,6 @@ export const InventoryLedger_api_new = async (
   }
 };
 
-
-
 //item category Api call
 export const ItemCategory_api = async (accId, buId, setter) => {
   try {
@@ -137,7 +143,7 @@ export const ItemCategory_api = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 //ItemSubCategory_api Api call
@@ -149,7 +155,7 @@ export const ItemSubCategory_api = async (accId, buId, caId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getItemTypeListDDL_api = async (setter) => {
@@ -158,7 +164,7 @@ export const getItemTypeListDDL_api = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getItemCategoryDDLByTypeId_api = async (
@@ -174,7 +180,7 @@ export const getItemCategoryDDLByTypeId_api = async (
     if (res.status === 200 && res?.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getSBUList = async (accId, buId, setter) => {
@@ -183,5 +189,5 @@ export const getSBUList = async (accId, buId, setter) => {
       `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };

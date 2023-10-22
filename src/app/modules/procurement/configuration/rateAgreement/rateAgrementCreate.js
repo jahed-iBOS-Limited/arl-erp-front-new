@@ -13,10 +13,14 @@ import IDelete from "../../../_helper/_helperIcons/_delete";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import { _todayDate } from "../../../_helper/_todayDate";
+import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { dateFormatterForInput } from "../../../productionManagement/msilProduction/meltingProduction/helper";
 import { rateAgreementValidationSchema } from "./helper";
+import useCustomAxiosGet from "./useCustomAxiosGet";
+// import HelpModal from "./helpModal";
+import DuplicateItemsModal from "./duplicateItemsModal";
 const initData = {
   nameOfContract: "",
   termsAndCondition: "",
@@ -31,6 +35,8 @@ const initData = {
 export default function RateAgreementCreate() {
   const { id } = useParams();
   const [rowData, getRowData, rowDataLoading, setRowData] = useAxiosGet();
+  const [duplicateItems,getDuplicateItems] = useCustomAxiosGet()
+  const [isShowModal,setIsShowModal] = useState(false)
   const [objProps, setObjprops] = useState({});
   const [, postData, isLoading] = useAxiosPost();
   const [singleData, setSingleData] = useState({});
@@ -81,14 +87,25 @@ export default function RateAgreementCreate() {
         createdAt: _todayDate(),
         rows: rowData,
       };
-      postData(
-        `/procurement/PurchaseOrder/SaveAndEditRateAgreement`,
+      getDuplicateItems(
+        `/procurement/PurchaseOrder/SupplierAgreementDuplicateList`,
         payload,
-        () => {
-          cb();
-        },
-        true
-      );
+        (data)=>{
+          if(data?.length>0){
+            setIsShowModal(true)
+          }else{
+            postData(
+              `/procurement/PurchaseOrder/SaveAndEditRateAgreement`,
+              payload,
+              () => {
+                cb();
+              },
+              true
+            );
+          }
+        }
+      )
+      
     }
     if (id) {
       const payload = {
@@ -211,7 +228,7 @@ export default function RateAgreementCreate() {
 
     if (id) {
       getRowData(
-        `/procurement/PurchaseOrder/GetRateAgreementById?AgreementHeaderId=${id}`
+        `/procurement/PurchaseOrder/GetRateAgreementById?AgreementHeaderId=${id}`,
       );
     }
 
@@ -506,7 +523,12 @@ export default function RateAgreementCreate() {
                   ))}
                 </table>
               )}
-
+             <IViewModal
+             show={isShowModal}
+             onHide={()=>{setIsShowModal(false)}}
+             >
+             {<DuplicateItemsModal  duplicateItems={duplicateItems}/>}
+             </IViewModal>
               <button
                 type="submit"
                 style={{ display: "none" }}
