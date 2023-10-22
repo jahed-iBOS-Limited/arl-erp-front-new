@@ -26,7 +26,9 @@ const LandingTable = ({ obj }) => {
             <th>Ticket Type</th>
             <th>Customer</th>
             <th>Complain By</th>
-            <th>Assign To</th>
+            <th style={{
+              width: '170px'
+            }}>Assign To</th>
             <th>Status</th>
             <th>Action</th>
           </tr>
