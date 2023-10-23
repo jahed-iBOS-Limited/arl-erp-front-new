@@ -28,6 +28,7 @@ import ViewTraining from "./training/viewTraining";
 import { ItemRequest } from "./warehouse/itemRequest";
 import ItemRequestForm from "./warehouse/itemRequest/Form/addEditForm";
 import ViewItemRequestForm from "./warehouse/itemRequest/view/addEditForm";
+import BusinessGlossaryReport from "./businessGlossary";
 export function SelfServicePages() {
   const userRole = useSelector(
     (state) => state?.authData?.userRole,
@@ -166,6 +167,10 @@ export function SelfServicePages() {
           <ContentRoute
             path="/self-service/SSOTReport"
             component={AllReport}
+          />
+          <ContentRoute
+            path="/self-service/businessGlossary"
+            component={BusinessGlossaryReport}
           />
           <ContentRoute
             path="/self-service/arl-map"
