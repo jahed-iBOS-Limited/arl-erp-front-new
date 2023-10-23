@@ -16,6 +16,7 @@ export default function BufferStockvsDelivery({ rowData }) {
             <tr>
               <th>Sl</th>
               <th>Delivery Code</th>
+              <th>Delivery Code</th>
               <th>ShipPoint Name</th>
               <th>Buffer Name</th>
               <th>Mother Vessel</th>
@@ -53,6 +54,7 @@ export default function BufferStockvsDelivery({ rowData }) {
                   <>
                     <tr key={index}>
                       <td className='text-center'>{index + 1}</td>
+                      <td>{item?.strSalesOrder}</td>
                       <td>{item?.strDeliveryCode}</td>
                       <td>{item?.strShippointname}</td>
                       <td>{item?.strShipToPartnerName}</td>
@@ -97,7 +99,7 @@ export default function BufferStockvsDelivery({ rowData }) {
                 );
               })}
             <tr>
-              <td colSpan={6}>
+              <td colSpan={7}>
                 <strong>Total</strong>
               </td>
               <td className='text-center'>
