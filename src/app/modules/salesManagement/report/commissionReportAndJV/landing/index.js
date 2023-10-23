@@ -55,7 +55,7 @@ const CommissionReportAndJV = () => {
 
   // get user profile data from store
   const {
-    profileData: { accountId: accId, userId, departmentId },
+    profileData: { accountId: accId, userId, sectionId },
     selectedBusinessUnit: { value: buId, label: buName },
   } = useSelector((state) => state?.authData, shallowEqual);
 
@@ -219,7 +219,7 @@ const CommissionReportAndJV = () => {
   };
 
   // department ids for creating journal vouchers
-  const departmentIds = [299, 5, 3, 11, 357];
+  const sectionIds = [1973];
 
   return (
     <>
@@ -235,7 +235,7 @@ const CommissionReportAndJV = () => {
               <CardHeader title="Commission report and JV">
                 <CardHeaderToolbar>
                   <div className="d-flex justify-content-end">
-                    {departmentIds.includes(departmentId) && (
+                    {sectionIds.includes(sectionId) && (
                       <>
                         <button
                           className="btn btn-primary "
