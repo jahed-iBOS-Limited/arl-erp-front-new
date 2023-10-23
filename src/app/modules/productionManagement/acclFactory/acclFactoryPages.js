@@ -79,7 +79,7 @@ export function AcclFactoryPages() {
       <ContentRoute
         path="/production-management/ACCLFactory/Schedule-Maintenance/create"
         component={
-          !scheduleMaintainence?.isCreate
+          scheduleMaintainence?.isCreate
             ? ScheduleMaintainenceCreate
             : NotPermitted
         }
@@ -87,7 +87,7 @@ export function AcclFactoryPages() {
       <ContentRoute
         path="/production-management/ACCLFactory/Schedule-Maintenance"
         component={
-          !scheduleMaintainence?.isView ? ScheduleMaintainence : NotPermitted
+          scheduleMaintainence?.isView ? ScheduleMaintainence : NotPermitted
         }
       />
       <ContentRoute
