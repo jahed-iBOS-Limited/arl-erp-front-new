@@ -15,7 +15,7 @@ export default function BufferStockvsDelivery({ rowData }) {
           <thead>
             <tr>
               <th>Sl</th>
-              <th>Delivery Code</th>
+              <th>Sales Order</th>
               <th>Delivery Code</th>
               <th>ShipPoint Name</th>
               <th>Buffer Name</th>
