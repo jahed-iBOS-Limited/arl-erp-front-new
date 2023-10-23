@@ -15,6 +15,11 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { _todayDate } from "../../../_helper/_todayDate";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import PaginationTable from "../../../_helper/_tablePagination";
+import EditModal from "./editModal";
+import IDelete from "../../../_helper/_helperIcons/_delete";
+import IConfirmModal from "../../../_helper/_confirmModal";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import DetailsViewModal from "./detailsViewModal";
 
 const initData = {
   plantName: "",
@@ -25,12 +30,15 @@ const initData = {
 };
 export default function ScheduleMaintainence() {
   const history = useHistory();
-  const [isShowModal, setIsShowModal] = useState(false);
+  const [isShowCompleteModal, setIsShowCompleteModal] = useState(false);
+  const [isShowEditModal, setIsShowEditModal] = useState(false);
+  const [isShowViewModal, setIsShowViewModal] = useState(false);
   const [plantDDl, getPlantDDL, plantDDLloader] = useAxiosGet();
   const [tableData, getTableData, tableDataLoader] = useAxiosGet();
-
-  const [pageNo, setPageNo] = useState(1);
-  const [pageSize, setPageSize] = useState(15);
+  const [pageNo, setPageNo] = useState(0);
+  const [pageSize, setPageSize] = useState(25);
+  const [clickedRowData, setClickedRowData] = useState(null);
+  const [, deteleSchedule, deleteScheduleLoader] = useAxiosPost();
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
@@ -40,14 +48,18 @@ export default function ScheduleMaintainence() {
     getPlantDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
     getTableData(
-      `/mes/ScheduleMaintenance/GetScheduleMaintenanceLanding?BusinessUnitId=${selectedBusinessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&PlantId=${values?.plantName?.value}&MaintenanceTypeId=${values?.maintenanceType?.value}&Frequency=${values?.frequency?.label}`,
-      (data) => {
-        console.log("data", data);
-      }
+      `/mes/ScheduleMaintenance/GetScheduleMaintenanceLanding?BusinessUnitId=${selectedBusinessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&PlantId=${values?.plantName?.value}&MaintenanceTypeId=${values?.maintenanceType?.value}&Frequency=${values?.frequency?.label}`
+    );
+  };
+
+  const getData = (values) => {
+    getTableData(
+      `/mes/ScheduleMaintenance/GetScheduleMaintenanceLanding?BusinessUnitId=${selectedBusinessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&PlantId=${values?.plantName?.value}&MaintenanceTypeId=${values?.maintenanceType?.value}&Frequency=${values?.frequency?.label}`
     );
   };
 
@@ -67,7 +79,9 @@ export default function ScheduleMaintainence() {
         touched,
       }) => (
         <>
-          {(plantDDLloader || tableDataLoader) && <Loading />}
+          {(plantDDLloader || tableDataLoader || deleteScheduleLoader) && (
+            <Loading />
+          )}
           <IForm
             title="Schedule Maintainence"
             isHiddenReset
@@ -170,13 +184,15 @@ export default function ScheduleMaintainence() {
                       type="button"
                       className="btn btn-primary"
                       onClick={() => {
-                        getTableData(
-                          `/mes/ScheduleMaintenance/GetScheduleMaintenanceLanding?BusinessUnitId=${selectedBusinessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&PlantId=${values?.plantName?.value}&MaintenanceTypeId=${values?.maintenanceType?.value}&Frequency=${values?.frequency?.label}`,
-                          (data) => {
-                            console.log("data", data);
-                          }
-                        );
+                        getData(values);
                       }}
+                      disabled={
+                        !values?.plantName ||
+                        !values?.maintenanceType ||
+                        !values?.frequency ||
+                        !values?.fromDate ||
+                        !values?.toDate
+                      }
                     >
                       View
                     </button>
@@ -187,11 +203,11 @@ export default function ScheduleMaintainence() {
                     <thead>
                       <tr>
                         <th>SL</th>
-                        <th>Date</th>
-                        <th>Machine</th>
+                        <th>Schedule End Date</th>
+                        <th>Machine Name</th>
                         <th>Frequency</th>
                         <th>Maintenance Type</th>
-                        <th>Responsible</th>
+                        <th>Responsible Person</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -199,15 +215,67 @@ export default function ScheduleMaintainence() {
                       {tableData?.scheduleMaintenance?.map((item, index) => (
                         <tr key={index}>
                           <td>{index + 1}</td>
-                          <td>{_dateFormatter(item?.scheduleEndDateTime)}</td>
+                          <td className="text-center">
+                            {_dateFormatter(item?.scheduleEndDateTime)}
+                          </td>
                           <td>{item?.machineName || ""}</td>
                           <td>{item?.frequency}</td>
                           <td>{item?.maintenanceTypeName}</td>
                           <td>{item?.resposiblePersonName}</td>
-                          <td className="justify-content-space-between">
-                            <IEdit />
-                            <IView />
-                            <ICheckout />
+                          <td className="d-flex justify-content-around">
+                            <span
+                              onClick={() => {
+                                setClickedRowData(item);
+                                setIsShowViewModal(true);
+                              }}
+                            >
+                              <IView />
+                            </span>
+                            {item?.completedDateTime === null &&
+                              item?.scheduleEndDateTime > _todayDate() && (
+                                <span
+                                  onClick={() => {
+                                    setClickedRowData(item);
+                                    setIsShowEditModal(true);
+                                  }}
+                                >
+                                  <IEdit />
+                                </span>
+                              )}
+                            {item?.completedDateTime === null &&
+                              item?.scheduleEndDateTime > _todayDate() && (
+                                <span
+                                  className="cursor-pointer"
+                                  onClick={() => {
+                                    setClickedRowData(item);
+                                    setIsShowCompleteModal(true);
+                                  }}
+                                >
+                                  <ICheckout />
+                                </span>
+                              )}
+                            {item?.completedDateTime === null &&
+                              item?.scheduleEndDateTime > _todayDate() && (
+                                <span
+                                  onClick={() => {
+                                    IConfirmModal({
+                                      title: `Schedule Maintainence`,
+                                      message: `Are you sure to delete schedule?`,
+                                      yesAlertFunc: () => {
+                                        deteleSchedule(
+                                          `/mes/ScheduleMaintenance/DeleteScheduleMaintenance?ScheduleId=${item?.scheduleMaintenanceId}&UserId=${profileData?.userId}`,
+                                          null,
+                                          (data) => getData(values),
+                                          true
+                                        );
+                                      },
+                                      noAlertFunc: () => {},
+                                    });
+                                  }}
+                                >
+                                  <IDelete />
+                                </span>
+                              )}
                           </td>
                         </tr>
                       ))}
@@ -231,10 +299,43 @@ export default function ScheduleMaintainence() {
             </Form>
             <IViewModal
               modelSize="lg"
-              show={isShowModal}
-              onHide={() => setIsShowModal(false)}
+              show={isShowCompleteModal}
+              onHide={() => setIsShowCompleteModal(false)}
             >
-              <ScheduleStatusModal />
+              <ScheduleStatusModal
+                clickedRowData={clickedRowData}
+                profileData={profileData}
+                selectedBusinessUnit={selectedBusinessUnit}
+                setIsShowCompleteModal={setIsShowCompleteModal}
+                getData={getData}
+                landingValues={values}
+                setClickedRowData={setClickedRowData}
+              />
+            </IViewModal>
+            <IViewModal
+              modelSize="xl"
+              show={isShowEditModal}
+              onHide={() => setIsShowEditModal(false)}
+            >
+              <EditModal
+                landingValues={values}
+                getData={getData}
+                setIsShowEditModal={setIsShowEditModal}
+                profileData={profileData}
+                selectedBusinessUnit={selectedBusinessUnit}
+                clickedRowData={clickedRowData}
+                setClickedRowData={setClickedRowData}
+              />
+            </IViewModal>
+            <IViewModal
+              modelSize="xl"
+              show={isShowViewModal}
+              onHide={() => setIsShowViewModal(false)}
+            >
+              <DetailsViewModal
+                clickedRowData={clickedRowData}
+                setClickedRowData={setClickedRowData}
+              />
             </IViewModal>
           </IForm>
         </>
