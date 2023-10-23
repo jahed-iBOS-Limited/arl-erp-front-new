@@ -109,6 +109,7 @@ const ScheduleMaintainenceCreate = () => {
           onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
             saveHandler(values, () => {
               resetForm(initData);
+              setRowData([]);
             });
           }}
         >
@@ -197,10 +198,10 @@ const ScheduleMaintainenceCreate = () => {
                       <NewSelect
                         name="frequency"
                         options={[
-                          { value: 1, label: "Daily" },
-                          { value: 2, label: "Weekly" },
-                          { value: 2, label: "Monthly" },
-                          { value: 2, label: "Yearly" },
+                          { value: "Daily", label: "Daily" },
+                          { value: "Weekly", label: "Weekly" },
+                          { value: "Monthly", label: "Monthly" },
+                          { value: "Yearly", label: "Yearly" },
                         ]}
                         value={values?.frequency}
                         label="Frequency"
@@ -244,6 +245,15 @@ const ScheduleMaintainenceCreate = () => {
                         onClick={() => {
                           addhandler(values, setFieldValue);
                         }}
+                        disabled={
+                          !values?.plant ||
+                          !values?.machineName ||
+                          !values?.maintenanceType ||
+                          !values?.scheduleEndDate ||
+                          !values?.frequency ||
+                          !values?.responsiblePerson ||
+                          !values?.maintenanceTask
+                        }
                         className="btn btn-primary  mt-5"
                       >
                         Add
