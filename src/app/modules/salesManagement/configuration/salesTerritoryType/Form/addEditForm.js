@@ -1,20 +1,22 @@
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
-import {
-  saveSalesTerritoryType,
-  setControllingUnitSingleEmpty,
-  getSalesTerritoryTypeById,
-  saveEditedSalesTerritoryType,
-} from "../_redux/Actions";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import IForm from "../../../../_helper/_form";
 import Loading from "../../../../_helper/_loading";
+import {
+  getSalesTerritoryTypeById,
+  saveEditedSalesTerritoryType,
+  saveSalesTerritoryType,
+  setControllingUnitSingleEmpty,
+} from "../_redux/Actions";
+import Form from "./form";
 
 const initData = {
   id: undefined,
   territoryTypeName: "",
-  levelPosition: ""
+  levelPosition: "",
+  ddlType:"",
+  channel:""
 };
 
 export default function SalesTerritoryTypeForm({
