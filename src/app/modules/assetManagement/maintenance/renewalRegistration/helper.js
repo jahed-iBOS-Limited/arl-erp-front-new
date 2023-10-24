@@ -86,7 +86,7 @@ export const getGridData = async ({
         values?.status?.value === 0 ? 1 : 4
       }&AccountId=${accId}&UnitId=${buId}&PlantId=${0}&RenewalServiceId=${values
         ?.renewalType?.value ||
-        0}&AssetId=${0}${FromDate}${ToDate}&statusId=${values?.status?.value ||
+        0}&AssetId=${values?.vehicleNo?.value || 0}${FromDate}${ToDate}&statusId=${values?.status?.value ||
         0}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
     );
     if (res.status === 200 && res?.data) {
