@@ -15,12 +15,11 @@ import IDelete from "../../../_helper/_helperIcons/_delete";
 const initData = {
   plant: "",
   machineName: "",
-  // parts: "",
-  maintenanceType: "",
+  maintenanceType: { value: 1, label: "Electrical" },
   scheduleEndDate: _todayDate(),
-  frequency: "",
-  maintenanceTask: "",
+  frequency: { value: 1, label: "Daily" },
   responsiblePerson: "",
+  maintenanceTask: "",
 };
 
 const ScheduleMaintainenceCreate = () => {
@@ -60,20 +59,20 @@ const ScheduleMaintainenceCreate = () => {
       scheduleEndDateTime: values?.scheduleEndDate,
       machineName: values?.machineName?.label,
       machineId: values?.machineName?.value,
-      maintenanceTypeId: values?.maintainenceType?.value,
-      maintenanceTypeName: values?.maintainenceType?.label,
+      maintenanceTypeId: values?.maintenanceType?.value,
+      maintenanceTypeName: values?.maintenanceType?.label,
       plantId: values?.plant?.value,
       plantName: values?.plant?.label,
       maintainanceTask: values?.maintenanceTask,
       resposiblePersonId: values?.responsiblePerson?.value,
       resposiblePersonName: values?.responsiblePerson?.label,
-      frequency: values?.frequency?.value,
+      frequency: values?.frequency?.label,
       actionBy: profileData?.userId,
     };
     setRowData([...rowData, obj]);
 
-    setFieldValue("plant", "");
-    // setFieldValue("machineName", "");
+    // setFieldValue("plant", "");
+    setFieldValue("machineName", "");
     setFieldValue("maintainenceType", "");
     setFieldValue("scheduleEndDate", _todayDate());
     setFieldValue("frequency", "");
@@ -85,6 +84,7 @@ const ScheduleMaintainenceCreate = () => {
     getPlantDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadSupervisorAndLineManagerList = (v) => {
@@ -109,6 +109,7 @@ const ScheduleMaintainenceCreate = () => {
           onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
             saveHandler(values, () => {
               resetForm(initData);
+              setRowData([]);
             });
           }}
         >
@@ -163,18 +164,18 @@ const ScheduleMaintainenceCreate = () => {
                     </div>
                     <div className="col-lg-3">
                       <NewSelect
-                        name="maintainenceType"
+                        name="maintenanceType"
                         options={[
                           { value: 1, label: "Electrical" },
                           { value: 2, label: "Mechanical" },
                         ]}
-                        value={values?.maintainenceType}
+                        value={values?.maintenanceType}
                         label="Maintainence Type"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("maintainenceType", valueOption);
+                            setFieldValue("maintenanceType", valueOption);
                           } else {
-                            setFieldValue("maintainenceType", "");
+                            setFieldValue("maintenanceType", "");
                           }
                         }}
                         placeholder="Maintainence Type"
@@ -197,10 +198,10 @@ const ScheduleMaintainenceCreate = () => {
                       <NewSelect
                         name="frequency"
                         options={[
-                          { value: 1, label: "Daily" },
-                          { value: 2, label: "Weekly" },
-                          { value: 2, label: "Monthly" },
-                          { value: 2, label: "Yearly" },
+                          { value: "Daily", label: "Daily" },
+                          { value: "Weekly", label: "Weekly" },
+                          { value: "Monthly", label: "Monthly" },
+                          { value: "Yearly", label: "Yearly" },
                         ]}
                         value={values?.frequency}
                         label="Frequency"
@@ -215,8 +216,6 @@ const ScheduleMaintainenceCreate = () => {
                         errors={errors}
                       />
                     </div>
-                    {/* https://deverp.ibos.io/hcm/HCMDDL/GetEmployeeByAcIdDDL?AccountId=1&search=tamk
-                     */}
                     <div className="col-lg-3">
                       <label>Responsible Person</label>
                       <SearchAsyncSelect
@@ -246,6 +245,15 @@ const ScheduleMaintainenceCreate = () => {
                         onClick={() => {
                           addhandler(values, setFieldValue);
                         }}
+                        disabled={
+                          !values?.plant ||
+                          !values?.machineName ||
+                          !values?.maintenanceType ||
+                          !values?.scheduleEndDate ||
+                          !values?.frequency ||
+                          !values?.responsiblePerson ||
+                          !values?.maintenanceTask
+                        }
                         className="btn btn-primary  mt-5"
                       >
                         Add
@@ -262,9 +270,10 @@ const ScheduleMaintainenceCreate = () => {
                           <th>SL</th>
                           <th>Date</th>
                           <th>Machine</th>
+                          <th>Maintainence Type</th>
                           <th>Frequency</th>
-                          <th>Maintenance Task</th>
                           <th>Responsible</th>
+                          <th>Maintenance Task</th>
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -277,9 +286,10 @@ const ScheduleMaintainenceCreate = () => {
                                 {item?.scheduleEndDateTime}
                               </td>
                               <td>{item?.machineName}</td>
+                              <td>{item?.maintenanceTypeName}</td>
                               <td>{item?.frequency}</td>
-                              <td>{item?.maintainanceTask}</td>
                               <td>{item?.resposiblePersonName}</td>
+                              <td>{item?.maintainanceTask}</td>
                               <td className="text-center">
                                 <span
                                   onClick={() => {
