@@ -19,8 +19,8 @@ export const validationSchema = Yup.object().shape({
     value: Yup.string().required("Customer Name is required"),
   }),
   complainCategoryName: Yup.object().shape({
-    label: Yup.string().required("Ticket Type is required"),
-    value: Yup.string().required("Ticket Type is required"),
+    label: Yup.string().required("Category is required"),
+    value: Yup.string().required("Category is required"),
   }),
   requestDateTime: Yup.date().required("Date is required"),
   issueTitle: Yup.string().required("Date is required"),
@@ -127,11 +127,11 @@ function Form({
                     name='complainCategoryName'
                     options={complainCategory || []}
                     value={values?.complainCategoryName}
-                    label='Ticket Type'
+                    label='Category'
                     onChange={(valueOption) => {
                       setFieldValue("complainCategoryName", valueOption);
                     }}
-                    placeholder='Ticket Type'
+                    placeholder='Category'
                     errors={errors}
                     touched={touched}
                     isDisabled={view}
