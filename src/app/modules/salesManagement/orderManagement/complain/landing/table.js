@@ -23,7 +23,8 @@ const LandingTable = ({ obj }) => {
             <th>SL</th>
             <th>Date</th>
             <th>Ticket No</th>
-            <th>Ticket Type</th>
+            <th>Category</th>
+            <th>Issue Title</th>
             <th>Customer</th>
             <th>Complain By</th>
             <th style={{
@@ -40,6 +41,7 @@ const LandingTable = ({ obj }) => {
               <td>{_dateFormatter(item?.requestDateTime)}</td>
               <td>{item?.complainNo}</td>
               <td>{item?.complainCategoryName}</td>
+              <td>{item?.issueTitle}</td>
               <td>{item?.customerName}</td>
               <td>{item?.strComplainByEmployee || "N/A"}</td>
 

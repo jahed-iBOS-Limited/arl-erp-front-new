@@ -126,7 +126,14 @@ export const customerListDDL = async (accId, buId, setter) => {
     const res = await axios.get(
       `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${accId}&businessUnitId=${buId}`
     );
-    setter(res?.data);
+    setter(
+      res?.data?.map((itm) => {
+        return {
+          ...itm,
+          label: `${itm?.label} (${itm?.code})`,
+        };
+      })
+    );
   } catch (error) {
     setter([]);
   }
