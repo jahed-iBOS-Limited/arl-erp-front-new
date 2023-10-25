@@ -232,7 +232,7 @@ export default function ReceiveInvCreateForm({
     if (name === "quantity") {
       _sl[name] = value ? +value : value;
       _sl["tatalVat"] = (_sl?.vatValue / _sl?.refQty) * +value;
-      _sl["totalValue"] = _sl?.baseValue * +value;
+      _sl["totalValue"] = _sl?.baseValue.toFixed(2) * +value;
       _sl["netValue"] =
         (_sl?.vatValue / _sl?.refQty) * +value +
         _sl?.baseValue.toFixed(2) * +value;
