@@ -81,15 +81,27 @@ const GudamAllotmentLanding = () => {
   const getData = (values, pageNo, pageSize) => {
     const FromDate = values?.fromDate ? `&FromDate=${values?.fromDate}` : "";
     const ToDate = values?.toDate ? `&ToDate=${values?.toDate}` : "";
-    const url =
-      values?.reportType?.value === 1
-        ? `/tms/LigterLoadUnload/GetLighterShipToPartnerAllotment?BusinessUnitId=${buId}&SoldtoPartnerID=${values
-            ?.organization?.value || 0}&MotherVesselId=${values?.motherVessel
-            ?.value || 0}&PageNo=1&PageSize=100${FromDate}${ToDate}`
-        : `/tms/LigterLoadUnload/GetLighterShipToPartnerAllotmentTopsheet?BusinessUnitId=${buId}&SoldtoPartnerID=${values
-            ?.organization?.value || 0}&MotherVesselId=${values?.motherVessel
-            ?.value || 0}${FromDate}${ToDate}`;
-    getRowData(url);
+    const reportTypeId = values?.reportType?.value;
+
+    const urlForDetails = `/tms/LigterLoadUnload/GetLighterShipToPartnerAllotment?BusinessUnitId=${buId}&SoldtoPartnerID=${values
+      ?.organization?.value || 0}&MotherVesselId=${values?.motherVessel
+      ?.value || 0}&PageNo=1&PageSize=100${FromDate}${ToDate}`;
+
+    const urlForTopSheet = `/tms/LigterLoadUnload/GetLighterShipToPartnerAllotmentTopsheet?BusinessUnitId=${buId}&SoldtoPartnerID=${values
+      ?.organization?.value || 0}&MotherVesselId=${values?.motherVessel
+      ?.value || 0}${FromDate}${ToDate}`;
+
+    const urlForMismatch = `/tms/LigterLoadUnload/GetLighterShipToPartnerAllotmentMismatchTopsheet?BusinessUnitId=${buId}&SoldtoPartnerID=${values
+      ?.organization?.value || 0}&MotherVesselId=${values?.motherVessel
+      ?.value || 0}&PageNo=${pageNo}&PageSize=${pageSize}${FromDate}${ToDate}`;
+
+    const URL =
+      reportTypeId === 1
+        ? urlForDetails
+        : reportTypeId === 3
+        ? urlForMismatch
+        : urlForTopSheet;
+    getRowData(URL);
   };
 
   useEffect(() => {
@@ -244,6 +256,7 @@ const GudamAllotmentLanding = () => {
                         options={[
                           { value: 1, label: "Details" },
                           { value: 2, label: "Top Sheet" },
+                          { value: 3, label: "Mismatch Details" },
                         ]}
                         value={values?.reportType}
                         label="Report Type"
@@ -275,7 +288,7 @@ const GudamAllotmentLanding = () => {
                     </div>
                   </div>
 
-                  {values?.reportType?.value === 1 ? (
+                  {[1, 3].includes(values?.reportType?.value) ? (
                     <table
                       id="table-to-xlsx"
                       className={
