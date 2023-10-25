@@ -69,6 +69,8 @@ export default function ReceiveInvCreateForm({
   let totalValue = rowDto?.reduce((sum, data) => sum + data?.totalValue, 0);
   let netValue = rowDto?.reduce((sum, data) => sum + data?.netValue, 0);
 
+  console.log("rowDto", rowDto);
+
   //dispatch action creators
   useEffect(() => {
     dispatch(slice.setItemDDL([]));
@@ -232,7 +234,8 @@ export default function ReceiveInvCreateForm({
       _sl["tatalVat"] = (_sl?.vatValue / _sl?.refQty) * +value;
       _sl["totalValue"] = _sl?.baseValue * +value;
       _sl["netValue"] =
-        (_sl?.vatValue / _sl?.refQty) * +value + _sl?.baseValue * +value;
+        (_sl?.vatValue / _sl?.refQty) * +value +
+        _sl?.baseValue.toFixed(2) * +value;
     } else if (name === "baseValue") {
       _sl[name] = value ? +value : value;
     } else {
