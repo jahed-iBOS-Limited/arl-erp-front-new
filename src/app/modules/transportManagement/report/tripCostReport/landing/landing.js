@@ -82,6 +82,7 @@ function TripCostReportReport() {
       { name: "areaid", value: `${+values?.area?.value}` },
       { name: "territoryid", value: `${+values?.territory?.value}` },
       { name: "ReportType", value: `${+values?.reportType?.value}` },
+      { name: "intPartid", value: `${+values?.viewType?.value}` },
     ];
 
     const vehicleEfficiencyDetails = [
@@ -180,6 +181,7 @@ function TripCostReportReport() {
                           placeholder="Report Type"
                         />
                       </div>
+
                       <div className="col-lg-3">
                         <NewSelect
                           name="shipPoint"
@@ -199,16 +201,35 @@ function TripCostReportReport() {
                       </div>
 
                       {[2].includes(values?.reportType?.value) && (
-                        <RATForm
-                          obj={{
-                            values,
-                            setFieldValue,
-                            onChange: () => {
-                              setGridData([]);
-                              setBIReport(false);
-                            },
-                          }}
-                        />
+                        <>
+                          <RATForm
+                            obj={{
+                              values,
+                              setFieldValue,
+                              onChange: () => {
+                                setGridData([]);
+                                setBIReport(false);
+                              },
+                            }}
+                          />
+                          <div className="col-lg-3">
+                            <NewSelect
+                              name="viewType"
+                              options={[
+                                { value: 1, label: "Customer Base" },
+                                { value: 2, label: "Territory Base" },
+                              ]}
+                              value={values?.viewType}
+                              label="View Type"
+                              onChange={(valueOption) => {
+                                setFieldValue("viewType", valueOption);
+                                setGridData([]);
+                                setBIReport(false);
+                              }}
+                              placeholder="View Type"
+                            />
+                          </div>
+                        </>
                       )}
 
                       <FromDateToDateForm
