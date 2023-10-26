@@ -6,6 +6,7 @@ export const rateAgreementValidationSchema = Yup.object().shape({
   contractEndDate: Yup.date().required("Contract End Date is required"),
   contractDate: Yup.date().required("Contract Date is required"),
   deliveryAdress: Yup.string().required("Contract Date is required"),
+  isForRateAgreement: Yup.boolean().required("Is For Rate Agreement is required")
 });
 
 
