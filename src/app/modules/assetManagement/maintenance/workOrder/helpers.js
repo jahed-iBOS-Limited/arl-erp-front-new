@@ -164,12 +164,13 @@ export const getSingleData = async (id, setter) => {
               label: maintainData?.costCenterName,
             }
           : "",
-        assignTo: maintainData?.engineerEmployeeId
-          ? {
-              value: maintainData?.engineerEmployeeId,
-              label: maintainData?.engineerName,
-            }
-          : "",
+        assignTo: maintainData?.assign?.length > 0
+        ? maintainData?.assign?.map((item) => ({
+            value: item?.engineerEmployeeId,
+            label: item?.engineerName,
+            contactNumber: item?.engineerContact
+          }))
+        : "",
         note: maintainData?.notes,
         depService: "",
         amount: "",

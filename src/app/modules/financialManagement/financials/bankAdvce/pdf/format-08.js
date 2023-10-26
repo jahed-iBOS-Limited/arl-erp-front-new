@@ -390,8 +390,7 @@ export const FormatEight = ({
                         ...(fontSize && { fontSize }),
                       }}
                     >
-                      Akij House, 198 Bir Uttam Mir Shawkat Sarak, Tejgaon,
-                      Dhaka-1208.
+                      {item?.strPayeeAddress}
                     </div>
                   </td>
                 </tr>
@@ -437,7 +436,7 @@ export const FormatEight = ({
                         ...(fontSize && { fontSize }),
                       }}
                     >
-                      <b>{item?.strNaration}</b>
+                      <b>{item?.strPayeeContactNo}</b>
                     </div>
                   </td>
                 </tr>
