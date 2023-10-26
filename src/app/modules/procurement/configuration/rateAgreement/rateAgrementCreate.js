@@ -1,4 +1,4 @@
-import { default as Axios } from "axios";
+import axios from "axios";
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
@@ -13,30 +13,25 @@ import IDelete from "../../../_helper/_helperIcons/_delete";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import { _todayDate } from "../../../_helper/_todayDate";
-import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { dateFormatterForInput } from "../../../productionManagement/msilProduction/meltingProduction/helper";
 import { rateAgreementValidationSchema } from "./helper";
-import useCustomAxiosGet from "./useCustomAxiosGet";
-// import HelpModal from "./helpModal";
-import DuplicateItemsModal from "./duplicateItemsModal";
 const initData = {
   nameOfContract: "",
   termsAndCondition: "",
   contractStartDate: "",
   contractEndDate: "",
   contractDate: "",
-  itemName: "",
+  supplier: "",
   itemRate: "",
   vat: "",
+  isForRateAgreement: "",
 };
 
 export default function RateAgreementCreate() {
   const { id } = useParams();
   const [rowData, getRowData, rowDataLoading, setRowData] = useAxiosGet();
-  const [duplicateItems,getDuplicateItems] = useCustomAxiosGet()
-  const [isShowModal,setIsShowModal] = useState(false)
   const [objProps, setObjprops] = useState({});
   const [, postData, isLoading] = useAxiosPost();
   const [singleData, setSingleData] = useState({});
@@ -50,16 +45,18 @@ export default function RateAgreementCreate() {
     wareHouse,
     plant,
     purchaseOrganization,
-    supplier,
     agreementHeaderId,
     purchaseOrganizationId,
     purchaseOrganizationName,
-    supplierId,
-    supplierName,
     businessUnitId,
     plantId,
     warehouseId,
     warehouseName,
+    item,
+    sbu,
+    itemId,
+    itemCode,
+    itemName,
   } = location?.state || {};
   const saveHandler = (values, cb) => {
     if (!id) {
@@ -70,8 +67,10 @@ export default function RateAgreementCreate() {
         contactDateTime: values?.contractDate,
         purchaseOrganizationId: purchaseOrganization?.value,
         purchaseOrganizationName: purchaseOrganization?.label,
-        supplierId: supplier?.value,
-        supplierName: supplier?.label,
+        itemId: item?.value,
+        itemName: item?.label,
+        itemCode: item?.code,
+        isForRateAgreement: values?.isForRateAgreement,
         businessUnitId: buId,
         plantId: plant?.value,
         warehouseId: wareHouse?.value,
@@ -87,25 +86,14 @@ export default function RateAgreementCreate() {
         createdAt: _todayDate(),
         rows: rowData,
       };
-      getDuplicateItems(
-        `/procurement/PurchaseOrder/SupplierAgreementDuplicateList`,
+      postData(
+        `/procurement/PurchaseOrder/SaveAndEditRateAgreement`,
         payload,
-        (data)=>{
-          if(data?.length>0){
-            setIsShowModal(true)
-          }else{
-            postData(
-              `/procurement/PurchaseOrder/SaveAndEditRateAgreement`,
-              payload,
-              () => {
-                cb();
-              },
-              true
-            );
-          }
-        }
-      )
-      
+        () => {
+          cb(setRowData([]));
+        },
+        true
+      );
     }
     if (id) {
       const payload = {
@@ -115,13 +103,15 @@ export default function RateAgreementCreate() {
         contactDateTime: values?.contractDate,
         purchaseOrganizationId: purchaseOrganizationId,
         purchaseOrganizationName: purchaseOrganizationName,
-        supplierId: supplierId,
-        supplierName: supplierName,
+        itemId: itemId,
+        itemName: itemName,
+        itemCode: itemCode,
+        isForRateAgreement: values?.isForRateAgreement,
         businessUnitId: businessUnitId,
         plantId: plantId,
         warehouseId: warehouseId,
         warehouseName: warehouseName,
-        termsAndCondition: values?.termsAndCondition || "",
+        termsAndCondition: values?.termsAndCondition,
         warehouseAddress: values?.deliveryAdress,
         contractStartDate: values?.contractStartDate,
         contractEndDate: values?.contractEndDate,
@@ -138,7 +128,11 @@ export default function RateAgreementCreate() {
         () => {
           cb(
             getRowData(
-              `/procurement/PurchaseOrder/GetRateAgreementById?AgreementHeaderId=${id}`
+              `/procurement/PurchaseOrder/GetRateAgreementById?AgreementHeaderId=${id}`,
+              (data) => {
+                // console.log(data?.rows);
+                setRowData(data?.rows);
+              }
             )
           );
         },
@@ -147,45 +141,47 @@ export default function RateAgreementCreate() {
     }
   };
 
-  const loadUserList = (v) => {
-    if (v?.length < 3) return [];
-    return Axios.get(
-      `/wms/ItemPlantWarehouse/GetItemPlantWarehouseForPurchaseRequestSearchDDL?accountId=${accId}&businessUnitId=${buId}&plantId=${plant?.value ||
-        location?.state?.plantId}&whId=${wareHouse?.value ||
-        location?.state
-          ?.warehouseId}&purchaseOrganizationId=${purchaseOrganization?.value ||
-        location?.state?.purchaseOrganizationId}&typeId=2&searchTerm=${v}`
-      // typeId 2 pass for this standard products
-    ).then((res) => {
-      const updateList = res?.data.map((item) => ({
-        ...item,
-      }));
-      return updateList;
-    });
-  };
   const deleteRow = (index) => {
     const newRow = [...rowData];
     newRow.splice(index, 1);
     setRowData(newRow);
   };
   const addRow = (values, callBack) => {
-    if (rowData?.find((item) => item?.itemId === values?.itemName?.value)) {
-      return toast.warn("Item already added");
+    if (rowData?.find((item) => item?.supplierId === values?.supplier?.value)) {
+      return toast.warn("Supplier already added");
     }
     try {
-      const newRow = {
-        agreementRowId: 0,
-        itemId: values?.itemName?.value,
-        itemName: values?.itemName?.label,
-        itemCode: values?.itemName?.code,
-        itemRate: values?.itemRate,
-        vatPercentage: values?.vat,
-        isActive: true,
-        createdAt: _todayDate(),
-        status: "Active",
-      };
-      setRowData([...rowData, newRow]);
-      callBack();
+      if (values?.isForRateAgreement === true && rowData?.length < 1) {
+        const newRow = {
+          agreementRowId: 0,
+          supplierId: values?.supplier?.value,
+          supplierName: values?.supplier?.label,
+          itemRate: values?.itemRate,
+          vatPercentage: values?.vat,
+          isActive: true,
+          createdAt: _todayDate(),
+          status: "Active",
+          createdBy: userId,
+        };
+        setRowData([...rowData, newRow]);
+        callBack();
+      } else if (values?.isForRateAgreement === false) {
+        const newRow = {
+          agreementRowId: 0,
+          supplierId: values?.supplier?.value,
+          supplierName: values?.supplier?.label,
+          itemRate: values?.itemRate,
+          vatPercentage: values?.vat,
+          isActive: true,
+          createdAt: _todayDate(),
+          status: "Active",
+          createdBy: userId,
+        };
+        setRowData([...rowData, newRow]);
+        callBack();
+      } else {
+        toast.warning("You can not add multiple supplier");
+      }
     } catch (e) {
       console.log(e);
     }
@@ -195,13 +191,15 @@ export default function RateAgreementCreate() {
     const data = [...rowData];
     if (item?.status === "Active") {
       data[index]["status"] = "Inactive";
+      data[index]["createdBy"] = userId;
       setRowData(data);
     } else {
       data[index]["status"] = "Active";
+      data[index]["createdBy"] = userId;
       setRowData(data);
     }
   };
-  console.log(id);
+
   useEffect(() => {
     if (id) {
       const {
@@ -211,6 +209,7 @@ export default function RateAgreementCreate() {
         warehouseAddress,
         termsAndCondition,
         contactDateTime,
+        isForRateAgreement,
       } = location?.state || {};
       const editedInitData = {
         nameOfContract: nameOfContact,
@@ -219,9 +218,10 @@ export default function RateAgreementCreate() {
         contractEndDate: dateFormatterForInput(contractEndDate),
         deliveryAdress: warehouseAddress,
         contractDate: dateFormatterForInput(contactDateTime),
-        itemName: "",
+        supplier: "",
         itemRate: "",
         vat: "",
+        isForRateAgreement: isForRateAgreement,
       };
       setSingleData(editedInitData);
     }
@@ -229,6 +229,9 @@ export default function RateAgreementCreate() {
     if (id) {
       getRowData(
         `/procurement/PurchaseOrder/GetRateAgreementById?AgreementHeaderId=${id}`,
+        (data) => {
+          setRowData(data?.rows);
+        }
       );
     }
 
@@ -265,12 +268,18 @@ export default function RateAgreementCreate() {
           {(rowDataLoading || isLoading) && <Loading />}
           <IForm title="Rate Agreement Create" getProps={setObjprops}>
             <Form onSubmit={handleSubmit}>
+              <div
+                style={{ color: "red", marginTop: "8px" }}
+                className="col-lg-12"
+              >
+                Item Name : {itemName || item?.label}
+              </div>
               <div className="form-group  global-form row">
                 <div className="col-lg-3">
                   <InputField
                     name="nameOfContract"
                     value={values?.nameOfContract}
-                    disabled={id && values?.nameOfContract}
+                    // disabled={id && values?.nameOfContract}
                     label="Name Of Contract"
                     type="text"
                     placeholder="Name Of Contract"
@@ -288,6 +297,7 @@ export default function RateAgreementCreate() {
                     type="date"
                     onChange={(e) => {
                       setFieldValue("contractDate", e.target.value);
+                      setFieldValue("contractStartDate", "");
                     }}
                   />
                 </div>
@@ -300,10 +310,12 @@ export default function RateAgreementCreate() {
                     type="date"
                     onChange={(e) => {
                       setFieldValue("contractStartDate", e.target.value);
+                      setFieldValue("contractEndDate", "");
                     }}
-                    
+                    min={values?.contractDate}
                   />
                 </div>
+                {console.log(location)}
                 <div className="col-lg-3">
                   <InputField
                     name="contractEndDate"
@@ -314,14 +326,16 @@ export default function RateAgreementCreate() {
                     onChange={(e) => {
                       setFieldValue("contractEndDate", e.target.value);
                     }}
-                    
+                    min={values?.contractStartDate}
                   />
                 </div>
-                
+
                 <div className="col-lg-3">
                   <InputField
                     name="deliveryAdress"
-                    disabled={(id && values?.deliveryAdress) || values?.deliveryAdress}
+                    disabled={
+                      (id && values?.deliveryAdress) || values?.deliveryAdress
+                    }
                     value={values?.deliveryAdress}
                     label="Delivery Adress"
                     type="text"
@@ -329,7 +343,6 @@ export default function RateAgreementCreate() {
                     onChange={(e) => {
                       setFieldValue("deliveryAdress", e.target.value);
                     }}
-                   
                   />
                 </div>
                 <div className="col-lg-6">
@@ -344,22 +357,87 @@ export default function RateAgreementCreate() {
                     // disabled={viewType === "view"}
                   />
                 </div>
+
+                <div className="col-lg-3">
+                  <div style={{ marginTop: "16px" }}>
+                    Is For Rate Agreement ?
+                  </div>
+                  <div
+                    role="group"
+                    aria-labelledby="my-radio-group"
+                    style={{ gap: "10px" }}
+                    className="d-flex align-items-center"
+                  >
+                    <div style={{ gap: "2px" }} className="d-flex">
+                      <input
+                        style={{ marginTop: "5px" }}
+                        id="yes"
+                        type="radio"
+                        name="isForRateAgreement"
+                        checked={values?.isForRateAgreement === true}
+                        onChange={(e) => {
+                          setFieldValue("isForRateAgreement", true);
+                          setRowData([]);
+                        }}
+                        disabled={id}
+                      />
+                      <label htmlFor="yes">Yes</label>
+                    </div>
+
+                    <div style={{ gap: "3px" }} className="d-flex">
+                      <input
+                        style={{ marginTop: "5px" }}
+                        type="radio"
+                        id="no"
+                        name="isForRateAgreement"
+                        checked={values?.isForRateAgreement === false}
+                        onChange={(e) => {
+                          setFieldValue("isForRateAgreement", false);
+                          setRowData([]);
+                        }}
+                        disabled={id}
+                      />
+                      <label htmlFor="no">No</label>
+                    </div>
+                  </div>
+                  {touched?.isForRateAgreement &&
+                    errors?.isForRateAgreement && (
+                      <span style={{ color: "red" }}>
+                        {errors?.isForRateAgreement}
+                      </span>
+                    )}
+                </div>
               </div>
 
-              <div className="form-group  global-form row">
+              <div className={`form-group  global-form row `}>
                 <div className="col-lg-3">
-                  <label>Item Name</label>
+                  <label>Supplier Name</label>
                   <SearchAsyncSelect
-                    selectedValue={values?.itemName}
+                    selectedValue={values.supplier}
+                    isDisabled={
+                      values?.isForRateAgreement === "" ||
+                      (values?.isForRateAgreement && rowData?.length === 1)
+                    }
                     handleChange={(valueOption) => {
-                      setFieldValue("itemName", valueOption);                     
+                      setFieldValue("supplier", valueOption);
                     }}
-                    loadOptions={loadUserList}
-                    disabled={true}
+                    loadOptions={(v) => {
+                      if (v.length < 3) return [];
+                      return axios
+                        .get(
+                          `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accId}&UnitId=${buId}&SBUId=${sbu?.value}`
+                        )
+                        .then((res) => {
+                          const updateList = res?.data.map((item) => ({
+                            ...item,
+                          }));
+                          return updateList;
+                        });
+                    }}
                   />
                   <FormikError
                     errors={errors}
-                    name="itemName"
+                    name="supplierName"
                     touched={touched}
                   />
                 </div>
@@ -370,7 +448,10 @@ export default function RateAgreementCreate() {
                     name="itemRate"
                     placeholder="Item Rate"
                     type="number"
-                    // disabled={viewType === "view"}
+                    disabled={
+                      values?.isForRateAgreement === "" ||
+                      (values?.isForRateAgreement && rowData?.length === 1)
+                    }
                   />
                 </div>
                 <div className="col-lg-3">
@@ -380,7 +461,10 @@ export default function RateAgreementCreate() {
                     name="vat"
                     placeholder="Vat"
                     type="number"
-                    // disabled={viewType === "view"}
+                    disabled={
+                      values?.isForRateAgreement === "" ||
+                      (values?.isForRateAgreement && rowData?.length === 1)
+                    }
                   />
                 </div>
                 <div className="col-lg-3 mt-5">
@@ -389,13 +473,13 @@ export default function RateAgreementCreate() {
                     className="btn btn-primary"
                     onClick={() => {
                       addRow(values, () => {
-                        setFieldValue("itemName", "");
+                        setFieldValue("supplier", "");
                         setFieldValue("itemRate", "");
                         setFieldValue("vat", "");
                       });
                     }}
                     disabled={
-                      !values?.itemName || !values?.itemRate || !values?.vat
+                      !values?.supplier || !values?.itemRate || !values?.vat
                     }
                   >
                     + Add
@@ -412,12 +496,11 @@ export default function RateAgreementCreate() {
                   <thead>
                     <tr className="cursor-pointer">
                       <th>SL</th>
-                      <th>Item Code</th>
-                      <th>Item Name</th>
+                      <th>Supplier Name</th>
                       <th>Item Rate</th>
                       <th>Vat (%)</th>
                       {id && <th>Active Status</th>}
-                      <th>Action</th>
+                      {!id && <th>Action</th>}
                     </tr>
                   </thead>
                   {rowData?.map((item, index) => (
@@ -425,8 +508,7 @@ export default function RateAgreementCreate() {
                       <td className="text-center" style={{ width: "40px" }}>
                         {index + 1}
                       </td>
-                      <td className="text-center">{item?.itemId}</td>
-                      <td className="text-center">{item?.itemName}</td>
+                      <td className="text-center">{item?.supplierName}</td>
                       {item?.agreementRowId === 0 ? (
                         <td className="text-left">
                           <span style={{ paddingLeft: "16px" }}>
@@ -436,13 +518,15 @@ export default function RateAgreementCreate() {
                       ) : (
                         <td>
                           <InputField
-                            value={item?.itemRate}
+                            value={+item?.itemRate}
                             type="number"
                             onChange={(e) => {
                               const data = [...rowData];
                               data[index]["itemRate"] = +e?.target?.value;
+                              data[index]["createdBy"] = userId;
                               setRowData(data);
                             }}
+                            min={0}
                           />
                         </td>
                       )}
@@ -459,13 +543,15 @@ export default function RateAgreementCreate() {
                       ) : (
                         <td>
                           <InputField
-                            value={item?.vatPercentage}
+                            value={+item?.vatPercentage}
                             type="number"
                             onChange={(e) => {
                               const data = [...rowData];
                               data[index]["vatPercentage"] = +e?.target?.value;
+                              data[index]["createdBy"] = userId;
                               setRowData(data);
                             }}
+                            min={0}
                           />
                         </td>
                       )}
@@ -500,35 +586,21 @@ export default function RateAgreementCreate() {
                       ) : (
                         id && (
                           <td className="text-center" disabled>
-                            <span
-                              style={{ fontWeight: "bold", color: "green" }}
-                            >
-                              Active
-                            </span>
-                            <IActiveInActiveIcon
-                              title="Status"
-                              iconTyee="Active"
-                            />
+                            {item?.agreementRowId === 0 && (
+                              <IDelete remover={deleteRow} id={index} />
+                            )}
                           </td>
                         )
                       )}
-                      {item?.agreementRowId === 0 ? (
+                      {!id && (
                         <td className="text-center">
                           <IDelete remover={deleteRow} id={index} />
                         </td>
-                      ) : (
-                        <td></td>
                       )}
                     </tr>
                   ))}
                 </table>
               )}
-             <IViewModal
-             show={isShowModal}
-             onHide={()=>{setIsShowModal(false)}}
-             >
-             {<DuplicateItemsModal  duplicateItems={duplicateItems}/>}
-             </IViewModal>
               <button
                 type="submit"
                 style={{ display: "none" }}
