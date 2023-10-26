@@ -149,7 +149,7 @@ function CostOfProductionReport() {
                           <th>Actual Overhead</th>
                           <th>Budget Total Cost</th>
                           <th>Actual Total Cost</th>
-                          <th>Action</th>
+                          {/* <th>Action</th> */}
                         </tr>
                       </thead>
                       <tbody>
@@ -185,14 +185,14 @@ function CostOfProductionReport() {
                               <td className="text-right">
                                 {_formatMoney(item?.numActTotalCost)}
                               </td>
-                              <td className="text-center">
+                              {/* <td className="text-center">
                                 <IView
                                   clickHandler={() => {
                                     setSingleData(item);
                                     setIsShowModal(true);
                                   }}
                                 />
-                              </td>
+                              </td> */}
                             </tr>
                           ))}
                       </tbody>
@@ -204,10 +204,7 @@ function CostOfProductionReport() {
                   show={isShowModal}
                   onHide={() => setIsShowModal(false)}
                 >
-                  <ViewModal
-                    singleData={singleData}
-                    values={values}
-                  />
+                  <ViewModal singleData={singleData} values={values} />
                 </IViewModal>
               </CardBody>
             </Card>
