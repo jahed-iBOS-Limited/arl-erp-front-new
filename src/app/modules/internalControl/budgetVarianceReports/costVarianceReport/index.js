@@ -127,6 +127,7 @@ export default function CostVarianceReportLanding() {
                       <th>SL</th>
                       <th>Item Code</th>
                       <th>Item Name</th>
+                      <th>Uom</th>
                       <th>Budget Overhead</th>
                       <th>Act. Overhead</th>
                       <th>Budget COGS</th>
@@ -141,6 +142,7 @@ export default function CostVarianceReportLanding() {
                           <td>{index + 1}</td>
                           <td className="text-center">{item?.strItemCode}</td>
                           <td>{item?.strItemName}</td>
+                          <td>{item?.strBaseUomName}</td>
                           <td className="text-right">
                             {_formatMoney(item?.numBudOH)}
                           </td>
