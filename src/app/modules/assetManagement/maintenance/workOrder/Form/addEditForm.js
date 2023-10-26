@@ -126,13 +126,16 @@ export default function MaintenanceServiceForm({
       const payload = {
         assetMaintenanceId: id,
         status: values?.status?.label,
-        endDateTime: values?.status?.label === "Close" ? _todayDateTime12HFormet() : "",
+        dteEndDateTime: values?.status?.label === "Close" ? _todayDateTime12HFormet() : "",
         costCenterId: values?.costCenter?.value,
         costCenterName: values?.costCenter?.label,
-        engineerEmployeeId: values?.assignTo?.value,
-        engineerName: values?.assignTo?.label,
         notes: values?.note || "",
         actionBy: profileData?.userId,
+        assign: values?.assignTo?.map((item)=> ({
+          engineerEmployeeId: item?.value,
+          engineerName: item?.label,
+          engineerContact: item?.contactNumber,
+        }))
       };
       saveWorkOrderEdit(payload, cb, setDisabled);
     } else {
