@@ -215,26 +215,26 @@ const LoanRegisterLanding = () => {
                   <div></div>
                   <div className="row">
                     <div className="col-12 common-scrollable-table two-column-sticky">
-                      <div className="scroll-table _table">
+                      <div className="scroll-table _table overflow-auto">
                         <table className="table table-striped table-bordered global-table">
                           <thead className="bg-secondary">
                             <tr>
                               <th>SL</th>
                               <th>Bank</th>
-                              <th>Loan Type</th>
-                              <th>Loan Class</th>
-                              <th>Facility</th>
+                              <th style={{minWidth: "70px"}}>Loan Type</th>
+                              <th style={{minWidth: "70px"}}>Loan Class</th>
+                              <th style={{minWidth: "70px"}}>Facility</th>
                               <th>Loan Acc</th>
-                              <th>Tenure</th>
-                              <th>OpenDate</th>
-                              <th>Mature Date</th>
-                              <th>Principle</th>
-                              <th>Int.Rate</th>
-                              <th>Interst</th>
-                              <th>Total Payable</th>
-                              <th>Paid Principal</th>
-                              <th>Paid Interest</th>
-                              <th>Principal Balance</th>
+                              <th style={{minWidth: "50px"}}>Tenure</th>
+                              <th style={{minWidth: "90px"}}>OpenDate</th>
+                              <th style={{minWidth: "90px"}}>Mature Date</th>
+                              <th style={{minWidth: "100px"}}>Principle</th>
+                              <th style={{minWidth: "50px"}}>Int.Rate</th>
+                              <th style={{minWidth: "100px"}}>Interst</th>
+                              <th style={{minWidth: "100px"}}>Total Payable</th>
+                              <th style={{minWidth: "100px"}}>Paid Principal</th>
+                              <th style={{minWidth: "100px"}}>Paid Interest</th>
+                              <th style={{minWidth: "100px"}}>Principal Balance</th>
                               <th>Action</th>
                             </tr>
                           </thead>
