@@ -181,8 +181,9 @@ const GridData = ({
                               >
                                 Printed
                               </button>
-                              {(selectedBusinessUnit?.value === 171 ||
-                                selectedBusinessUnit?.value === 224) && (
+                              {[521215, 523988, 3959].includes(
+                                profileData?.userId
+                              ) && (
                                 <button
                                   type='button'
                                   className='btn btn-primary'
