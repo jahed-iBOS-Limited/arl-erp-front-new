@@ -1,19 +1,21 @@
-import React, { useEffect } from "react";
-import { Formik, Form, Field } from "formik";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import { useState } from "react";
+import { Field, Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
+import InputField from "../../../../_helper/_inputField";
+import NewSelect from "../../../../_helper/_select";
+import IViewModal from "../../../../_helper/_viewModal";
+import CreateTableRow from "../Table/CreateTableRow";
 import {
   getOrderQuantityDDL,
   getOtherOutputItemDDL,
+  getProductionItemQuantity,
   getProductionOrderDDL,
   getShopFloorDDL,
-  getProductionItemQuantity,
   getWorkCenterDDL,
 } from "../helper";
-import { toast } from "react-toastify";
-import CreateTableRow from "../Table/CreateTableRow";
+import BackCalculationModal from "./backCalculationModal";
 
 export default function _Form({
   initData,
@@ -34,6 +36,8 @@ export default function _Form({
   const [workCenterDDL, setWorkCenterDDL] = useState([]);
   const [orderQuantity, setGetOrderQuantity] = useState("");
   const [productionItemQuantity, setProductionQuantity] = useState("");
+  const [isShowModal, setIsShowModal] = useState(false);
+  const location = useLocation();
 
   // console.log("orderQuantity", orderQuantity);
   const profileData = useSelector((state) => {
@@ -99,6 +103,8 @@ export default function _Form({
     }
   };
 
+  const isBackCalculationValue = location?.state?.data?.isBackCalculation;
+
   // useEffect(() => {
   //   console.log("Row Data => ", rowData);
   // }, [rowData]);
@@ -108,14 +114,15 @@ export default function _Form({
     setRowData(deleteData);
   };
 
-
-
   return (
     <>
       <Formik
         enableReinitialize={true}
         initialValues={{
           ...initData,
+          totalAmount : "",
+          rate : "",
+          qty :""
         }}
         // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -209,7 +216,6 @@ export default function _Form({
                           touched={touched}
                           isDisabled={isEdit}
                         />
-                                 
                       </div>
                       <div className="col-lg-3">
                         <NewSelect
@@ -263,7 +269,6 @@ export default function _Form({
                           touched={touched}
                           isDisabled={isEdit}
                         />
-                                 
                       </div>
                       <div className="col-lg-3">
                         <label>Production Date</label>
@@ -295,14 +300,13 @@ export default function _Form({
                           touched={touched}
                           // isDisabled={isEdit}
                         />
-                      
                       </div>
                       <div className="col-lg-3">
                         <InputField
                           name="goodQty"
                           value={values?.goodQty >= 0 ? values?.goodQty : ""}
                           label="Good Qty"
-                          step='any'
+                          step="any"
                           onChange={(e) => {
                             setFieldValue("goodQty", e.target.value);
                           }}
@@ -312,6 +316,28 @@ export default function _Form({
                           touched={touched}
                           // disabled={isEdit}
                         />
+                      </div>
+                      <div className="col-lg-3">
+                        <button
+                          type="button"
+                          style={{ marginTop: "19px" }}
+                          className={`btn btn-primary mr-2 ${isBackCalculationValue !==
+                            2 && `d-none`}`}
+                          onClick={() => {
+                            setIsShowModal(true);
+                          }}
+                          disabled={
+                            !values?.plantName ||
+                            !values?.shopFloor ||
+                            !values?.workcenterName ||
+                            !values?.productionOrder ||
+                            !values?.dteProductionDate ||
+                            !values?.shift ||
+                            !values?.goodQty
+                          }
+                        >
+                          View Back-Calculate
+                        </button>
                       </div>
                       <div className="col-lg-12 pl-2 d-flex align-items-end">
                         <div>
@@ -432,6 +458,19 @@ export default function _Form({
                   </p>
                 </div>
               </div>
+
+              {/* Modal */}
+              <IViewModal
+                show={isShowModal}
+                onHide={() => setIsShowModal(false)}
+                btnText="Save"
+              >
+                <BackCalculationModal
+                  values={values}
+                  setFieldValue={setFieldValue}
+                />
+              </IViewModal>
+
               <button
                 type="submit"
                 style={{ display: "none" }}

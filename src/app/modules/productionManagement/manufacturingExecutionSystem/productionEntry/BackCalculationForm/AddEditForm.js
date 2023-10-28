@@ -6,27 +6,25 @@ Dont Touch Any Code without permission by Mamun Ahmed (Backend)
 
 */
 
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import IForm from "../../../../_helper/_form";
 import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
-import { toast } from "react-toastify";
 import {
-  getPlantNameDDL,
-  getShiftDDL,
-  getSingleDataById,
+  createProductionEntryForBackCalculation,
   editProductionEntry,
   getOrderQuantityDDL,
   getOtherOutputItemDDL,
+  getPlantNameDDL,
   getProductionItemQuantity,
-  createProductionEntryForBackCalculation,
+  getShiftDDL,
+  getSingleDataById,
 } from "../helper";
-import Form from "./BackCalculationForm";
 import { _dateFormatter } from "./../../../../_helper/_dateFormate";
+import Form from "./BackCalculationForm";
 
 let initData = {
   id: undefined,
@@ -70,6 +68,8 @@ export default function BackCalculationForm() {
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
+
+ 
 
   useEffect(() => {}, []);
 
@@ -271,6 +271,8 @@ export default function BackCalculationForm() {
       );
     }
   }, [initData, profileData.accountId, selectedBusinessUnit.value]);
+
+  console.log("bakccaculation form back calculaion 1",);
 
   return (
     <IForm
