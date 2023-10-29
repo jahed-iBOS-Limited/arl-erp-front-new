@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import ICustomCard from "../../../../_helper/_customCard";
 import { GetMESConfigurationBusinessUnitWiseByAccountId } from "../helper";
 import { TableRow } from "./TableRow";
-import { shallowEqual, useSelector } from "react-redux";
 
 export default function ProductionEntryTable() {
   const history = useHistory();
@@ -31,6 +31,7 @@ export default function ProductionEntryTable() {
       data: data,
     },
   };
+  // console.log("data",data);
   return (
     <ICustomCard
       renderProps={() => (

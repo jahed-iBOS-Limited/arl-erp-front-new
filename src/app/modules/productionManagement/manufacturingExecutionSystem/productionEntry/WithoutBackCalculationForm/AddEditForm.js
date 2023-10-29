@@ -6,21 +6,19 @@ Dont Touch Any Code without permission by Mamun Ahmed (Backend)
 
 */
 
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import IForm from "../../../../_helper/_form";
 import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
-import { toast } from "react-toastify";
 import {
   createProductionEntry,
+  editProductionEntry,
   getPlantNameDDL,
   getShiftDDL,
   getSingleDataById,
-  editProductionEntry,
 } from "../helper";
 import Form from "./WithoutBackCalculationForm";
 
@@ -50,7 +48,6 @@ export default function WithOutBackCalculationForm() {
   const [rowData, setRowData] = useState([]);
   const [singleData, setSingleData] = useState({});
   const params = useParams();
-
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
@@ -239,6 +236,7 @@ export default function WithOutBackCalculationForm() {
     setRowData([...xData]);
   };
 
+  
 
   return (
     <IForm
