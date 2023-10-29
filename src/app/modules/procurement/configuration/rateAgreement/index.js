@@ -126,7 +126,7 @@ export default function RateAgreement() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        `/mngProcurement/purchase-configuration/rateAgreement/create`,
+                        `/mngProcurement/purchase-configuration/rate-agreement/create`,
                         values
                       );
                     }}
@@ -288,7 +288,7 @@ export default function RateAgreement() {
                                 title="Edit"
                                 onClick={() => {
                                   history.push({
-                                    pathname: `/mngProcurement/purchase-configuration/rateAgreement/edit/${item?.agreementHeaderId}`,
+                                    pathname: `/mngProcurement/purchase-configuration/rate-agreement/edit/${item?.agreementHeaderId}`,
                                     state: {...values, ...item}
                                   });
                                 }}
