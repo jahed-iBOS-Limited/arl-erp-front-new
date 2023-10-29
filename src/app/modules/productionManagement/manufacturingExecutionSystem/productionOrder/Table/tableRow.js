@@ -588,7 +588,7 @@ export function TableRow() {
                                 </>
                               )}
 
-                              {item?.isBackCalculation === 2 && (
+                              {!item?.isBackCalculation === 2 && (
                                 <>
                                   {/* Miraj Vai Changes  */}
                                   <button

@@ -4,13 +4,13 @@ import { DropzoneDialogBase } from "material-ui-dropzone";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import ICon from "../../../chartering/_chartinghelper/icons/_icon";
-import { compressfile } from "../../../_helper/compressfile";
 import TextArea from "../../../_helper/TextArea";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
 import { _todayDate } from "../../../_helper/_todayDate";
+import { compressfile } from "../../../_helper/compressfile";
+import ICon from "../../../chartering/_chartinghelper/icons/_icon";
 import { attachFilesForBanking, fundManagementAttch } from "./helper";
 
 export default function AttachmentUploadForm({
@@ -255,8 +255,6 @@ export default function AttachmentUploadForm({
                             )}
                           </div>
                         </div>
-
-                        {loading && <Loading />}
                         <DropzoneDialogBase
                           filesLimit={5}
                           acceptedFiles={["image/*", "application/pdf"]}
@@ -278,6 +276,7 @@ export default function AttachmentUploadForm({
                           onClose={() => setOpen(false)}
                           onSave={async () => {
                             setLoading(true);
+                            setOpen(false)
 
                             const compressedFile = await compressfile(
                               fileObjects?.map((f) => f.file)
