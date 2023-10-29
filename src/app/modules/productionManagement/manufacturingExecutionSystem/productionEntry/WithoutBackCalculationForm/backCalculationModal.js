@@ -4,127 +4,163 @@ import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { Form, Formik } from "formik";
+import IForm from "../../../../_helper/_form";
+import { _formatMoney } from "../../../../_helper/_formatMoney";
 
-export default function BackCalculationModal({ values, setFieldValue }) {
+export default function BackCalculationModal({ values, setFieldValue, setIsShowModal }) {
+  const [objProps, setObjprops] = useState({});
   const [rowData, setRowData] = useState([]);
-  const [, getBomDetails, bomDetailsLoad] = useAxiosGet();
-  const [, getStockQtyList, stockQtyListLoad] = useAxiosPost();
-  // const [sumValue, setSumValue] = useState({});
+  const [, getBomDetails, bomDetailsLoader] = useAxiosGet();
+  const [, getStockQtyList, stockQtyListLoader] = useAxiosPost();
   const {
-    profileData: { accountId: accId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
+
   const bomId = values?.productionOrder?.bomId;
   const wareHouseId = values?.shopFloor?.wearHouseId;
   const goodQty = values?.goodQty;
-  const getSum = (rowData) => {
-    if (rowData?.length > 0) {
-      // let qtySum = 0;
-      // let rateSum = 0;
-      let totalRateSum = 0;
-      rowData.forEach((item) => {
-        // qtySum += item?.quantity;
-        // rateSum += item?.numStockRateByDate;
-        totalRateSum += item?.totalRate;
-      });
-      setFieldValue("totalAmount", totalRateSum.toFixed(2));
-    }
-  };
 
-  const totalRate = (item) => {
-    const totalRate = +(
-      (item?.lotSize / item?.quantity) *
-      goodQty *
-      item?.numStockRateByDate
-    ).toFixed(2);
-    return totalRate;
+  // calculate total value on required quantity change
+  const calculateTotalValue = rowData?.reduce((prevValue, currenctItem) => {
+    return prevValue + currenctItem?.requiredQuantity * currenctItem?.numStockRateByDate;
+  }, 0);
+
+  const calculateTotalExpence = () => {
+    const { lotSize, billOfExpense } = rowData?.[0] || {};
+    return (billOfExpense / lotSize) * goodQty;
   };
 
   useEffect(() => {
-    getBomDetails(
-      `/mes/BOM/GetBoMDetailsByBoMId?billOfMaterialId=${bomId}`,
-      (bomData) => {
-        const payload = bomData?.map((item) => {
+    getBomDetails(`/mes/BOM/GetBoMDetailsByBoMId?billOfMaterialId=${bomId}`, (bomData) => {
+      const payload = bomData?.map((item) => ({
+        businessUnitId: buId,
+        wareHouseId: wareHouseId,
+        itemId: item?.itemId,
+      }));
+      getStockQtyList(`/mes/ProductionEntry/GetRuningStockAndQuantityList`, payload, (data) => {
+        const newData = bomData?.map((item) => {
+          const targetItem = data.find((itm) => itm?.itemId === item?.itemId);
           return {
-            businessUnitId: buId,
-            wareHouseId: wareHouseId,
-            itemId: item.itemId,
+            ...item,
+            numStockRateByDate: targetItem?.numStockRateByDate,
+            numStockByDate: targetItem?.numStockByDate,
+            requiredQuantity: (item?.quantity / item?.lotSize) * goodQty || 0,
           };
         });
-        getStockQtyList(
-          `/mes/ProductionEntry/GetRuningStockAndQuantityList`,
-          payload,
-          (data) => {
-            const newData = bomData.map((item) => {
-              const findObject = data.find((i) => i.itemId === item.itemId);
-              return {
-                ...item,
-                numStockRateByDate: findObject.numStockRateByDate,
-                numStockByDate: findObject.numStockByDate,
-                totalRate: totalRate({ ...item, ...findObject }),
-                requireQty : +((item?.lotSize / item?.quantity) * goodQty).toFixed()
-              };
-            });
-            setRowData(newData);
-            getSum(newData);
-          }
-        );
-      }
-    );
+        setRowData(newData);
+      });
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bomId]);
+  }, [bomId, wareHouseId, goodQty]);
 
   return (
-    <>
-      {(bomDetailsLoad || stockQtyListLoad) && <Loading />}
-      <div className="row">
-        <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-          <thead>
-            <th>Sl</th>
-            <th>Item Name</th>
-            <th>UOM Name</th>
-            <th>Qty</th>
-            <th>Rate</th>
-            <th>Total Rate</th>
-          </thead>
-          <tbody>
-            {rowData?.length > 0 &&
-              rowData?.map((item, index) => (
-                <tr key={Math.random() * Math.random() * 100}>
-                  <td>{index + 1}</td>
-                  <td>{item?.itemName}</td>
-                  <td>{item?.uomName}</td>
-                  <td>
-                    {/* <InputField value={} /> */}
-                    {+((item?.lotSize / item?.quantity) * goodQty).toFixed()}
-                  </td>
-                  <td>
-                    <InputField
-                      value={item?.numStockRateByDate}
-                      min="0"
-                      onChange={(e) => {
-                        const data = [...rowData];
-                        data[index]["numStockRateByDate"] = +e?.target?.value;
-                        setRowData(data);
-                        // totalRate(item);
-                        // getSum();
-                      }}
-                    />
-                  </td>
-                  <td>{item?.totalRate}</td>
-                </tr>
-              ))}
-            <tr>
-              <td className="text-center" colSpan={3}>
-                Total Amount
-              </td>
-              <td></td>
-              <td></td>
-              <td>{values?.totalAmount}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </>
+    <Formik
+      enableReinitialize={true}
+      initialValues={{}}
+      onSubmit={(values, { setSubmitting, resetForm }) => {
+        setFieldValue("materialCost", calculateTotalValue);
+        setFieldValue("overheadCost", calculateTotalExpence());
+        setIsShowModal(false);
+      }}
+    >
+      {({ handleSubmit }) => (
+        <>
+          {(bomDetailsLoader || stockQtyListLoader) && <Loading />}
+          <IForm
+            title={"BOM Calculation"}
+            getProps={setObjprops}
+            isHiddenReset
+            isHiddenBack
+            submitBtnText="Add"
+          >
+            <Form>
+              <div className="row">
+                <table className="table table-striped table-bordered global-table">
+                  <thead>
+                    <tr>
+                      <th>Sl</th>
+                      <th>Item Name</th>
+                      <th>UOM Name</th>
+                      <th>Qty</th>
+                      <th>Rate</th>
+                      <th>Value</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rowData?.length > 0 &&
+                      rowData?.map((item, index) => (
+                        <tr key={item?.itemId}>
+                          <td>{index + 1}</td>
+                          <td>{item?.itemName}</td>
+                          <td>{item?.uomName}</td>
+                          <td>
+                            <InputField
+                              name="requiredQuantity"
+                              type="number"
+                              value={item?.requiredQuantity}
+                              onChange={(e) => {
+                                let requiredQuantity = e?.target?.value;
+                                requiredQuantity =
+                                  requiredQuantity < 0
+                                    ? Math?.abs(requiredQuantity)
+                                    : requiredQuantity;
+
+                                setRowData((prev) => {
+                                  const newRowData = [...prev];
+                                  newRowData[index] = { ...newRowData?.[index], requiredQuantity };
+                                  return newRowData;
+                                });
+                              }}
+                            />
+                          </td>
+                          <td className="text-right">{_formatMoney(item?.numStockRateByDate)}</td>
+                          <td className="text-right">
+                            {_formatMoney(item?.requiredQuantity * item?.numStockRateByDate)}
+                          </td>
+                        </tr>
+                      ))}
+                    <tr>
+                      <td className="text-center" colSpan={3}>
+                        Total Material Cost
+                      </td>
+                      <td></td>
+                      <td></td>
+                      <td className="text-right">{_formatMoney(calculateTotalValue)}</td>
+                    </tr>
+                    <tr>
+                      <td className="text-center" colSpan={3}>
+                        Total Overhead Cost
+                      </td>
+                      <td></td>
+                      <td></td>
+                      <td className="text-right">{_formatMoney(calculateTotalExpence())}</td>
+                    </tr>
+                    <tr>
+                      <td className="text-center" colSpan={3}>
+                        Total Cost
+                      </td>
+                      <td></td>
+                      <td></td>
+                      <td className="text-right">
+                        {_formatMoney(calculateTotalValue + calculateTotalExpence())}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <button
+                type="submit"
+                style={{ display: "none" }}
+                ref={objProps?.btnRef}
+                onSubmit={() => handleSubmit()}
+              ></button>
+              <button type="reset" style={{ display: "none" }} ref={objProps?.resetBtnRef}></button>
+            </Form>
+          </IForm>
+        </>
+      )}
+    </Formik>
   );
 }
