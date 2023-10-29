@@ -124,7 +124,8 @@ export default function WarehouseApproveFrom({
       othersCostRate: +values?.othersCostRate,
 
       // all quantity
-      biwtaqnt: +values?.unloadedQty,
+      biwtaqnt: 1,
+      // biwtaqnt: +values?.unloadedQty,
       shipSweepingQnt: 1,
       decScaleQnt: 1,
       dailyLaboureQnt: 1,
