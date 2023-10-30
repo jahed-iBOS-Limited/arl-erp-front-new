@@ -57,8 +57,8 @@ export default function EventPlanningCreateEdit() {
   const saveHandler = (values, cb) => {
     const payload = {
       eventId: id ? id : 0,
-      partnerId: values?.customerName.value,
-      partnerName: values?.customerName.label,
+      partnerId: values?.customerName.value || 0,
+      partnerName: values?.customerName.label || "",
       eventName: values?.eventName,
       eventDescription: values?.eventDescription,
       eventPlace: values?.eventPlace,
