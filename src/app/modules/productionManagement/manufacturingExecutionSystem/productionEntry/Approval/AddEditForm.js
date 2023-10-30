@@ -70,6 +70,9 @@ export default function ProductionEntryApprovalForm() {
             itemId: +item?.approvedintItemId,
             uomId: 0,
             isMainItem:item?.isMain,
+            materialCost: item?.materialCost || 0,
+            overheadCost: item?.overheadCost || 0,
+            totalAmount: item?.totalAmount || 0,
           };
         });
 
