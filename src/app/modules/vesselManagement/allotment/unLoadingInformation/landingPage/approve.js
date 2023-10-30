@@ -87,6 +87,7 @@ export default function WarehouseApproveFrom({
     //   ? `&godownId=${values?.godown?.value}`
     //   : "";
     getRates(
+      // `/tms/LigterLoadUnload/GetLighterLoadUnloadBillDetails?voyageId=${singleItem?.voyageNo}&lighterVesselId=${singleItem?.lighterVesselId}`,
       `/tms/LigterLoadUnload/GetGodownNOtherLabourRate?type=${1}&businessUnitId=${buId}${param}`,
       (resData) => {}
     );
