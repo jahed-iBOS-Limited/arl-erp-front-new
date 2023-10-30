@@ -22,7 +22,6 @@ import {
 } from "../helper";
 import Form from "./WithoutBackCalculationForm";
 
-
 let initData = {
   id: undefined,
   plantName: "",
@@ -50,6 +49,8 @@ export default function WithOutBackCalculationForm() {
   const [shiftDDL, setShiftDDL] = useState([]);
   const [rowData, setRowData] = useState([]);
   const [singleData, setSingleData] = useState({});
+  const [rowDataForAddConsumption, setRowDataForAddConsumption] = useState([]);
+  console.log("rowDataForAddConsumption", rowDataForAddConsumption);
   const params = useParams();
   const location = useLocation();
   const profileData = useSelector((state) => {
@@ -126,11 +127,10 @@ export default function WithOutBackCalculationForm() {
             numApprovedQuantity: item?.numApprovedQuantity,
             ...(isBackCalculationValue === 2
               ? {
-                materialCost: 1,
-                overheadCost: 1,
-              }
-              : {}
-          ),
+                  materialCost: 1,
+                  overheadCost: 1,
+                }
+              : {}),
           };
         });
 
@@ -168,12 +168,11 @@ export default function WithOutBackCalculationForm() {
                     numQuantity: +values?.goodQty,
                     ...(isBackCalculationValue === 2
                       ? {
-                        materialCost: +values?.materialCost,
-                        overheadCost: +values?.overheadCost,
-                        isLastProduction: values?.isLastProduction
-                      }
-                      : {}
-                    ),
+                          materialCost: +values?.materialCost,
+                          overheadCost: +values?.overheadCost,
+                          isLastProduction: values?.isLastProduction,
+                        }
+                      : {}),
                     numApprovedQuantity: 0,
                   },
                   ...objRowData,
@@ -189,17 +188,28 @@ export default function WithOutBackCalculationForm() {
                     uomname: values?.productionOrder?.uomName,
                     numQuantity: +values?.goodQty,
                     ...(isBackCalculationValue === 2
-                        ? {
+                      ? {
                           materialCost: +values?.materialCost,
                           overheadCost: +values?.overheadCost,
-                          isLastProduction: values?.isLastProduction
+                          isLastProduction: values?.isLastProduction,
                         }
-                        : {}
-                    ),
+                      : {}),
                     approvedintItemId: values?.productionOrder?.itemId,
                     numApprovedQuantity: 0,
                   },
                 ],
+          bomItem:
+            isBackCalculationValue === 2 && rowDataForAddConsumption?.length > 0
+              ? rowDataForAddConsumption?.map((item) => ({
+                  itemId: item?.itemId || 0,
+                  itemCode: item?.itemCode || "",
+                  itemName: item?.itemName || "",
+                  numQuantity: +item?.requiredQuantity || 0,
+                  numIssueQty: +item?.numIssueQuantity || 0,
+                  numRate: +item?.numStockRateByDate || 0,
+                  isLastProdcution:values?.isLastProduction || false,
+                }))
+              : [],
         };
 
         const isOutputZero = objRowData.every((itm) => itm?.numQuantity > 0);
@@ -211,7 +221,8 @@ export default function WithOutBackCalculationForm() {
             !values?.goodQty
           ) {
             return toast.warn("All Field Required");
-          }if(isBackCalculationValue === 2 && !values?.materialCost) {
+          }
+          if (isBackCalculationValue === 2 && !values?.materialCost) {
             return toast.warn("Please add consumption first!");
           }
           createProductionEntry(
@@ -260,8 +271,6 @@ export default function WithOutBackCalculationForm() {
     setRowData([...xData]);
   };
 
-
-
   return (
     <IForm
       title="Create Production Entry"
@@ -282,6 +291,8 @@ export default function WithOutBackCalculationForm() {
         dataHandler={dataHandler}
         profileData={profileData}
         selectedBusinessUnit={selectedBusinessUnit}
+        rowDataForAddConsumption={rowDataForAddConsumption}
+        setRowDataForAddConsumption={setRowDataForAddConsumption}
       />
     </IForm>
   );
