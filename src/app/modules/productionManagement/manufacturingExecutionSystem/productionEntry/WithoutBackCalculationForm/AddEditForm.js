@@ -82,7 +82,6 @@ export default function WithOutBackCalculationForm() {
             };
           }
         });
-        // console.log("objRowData: ",objRowData);
         const payload = {
           editHeader: {
             productionId: +params.id,
@@ -111,7 +110,6 @@ export default function WithOutBackCalculationForm() {
                   },
                 ],
         };
-        // console.log("Payload =>", payload);
         editProductionEntry(payload, setDisabled);
       } else {
         const objRowData = rowData.map((item) => {
@@ -126,6 +124,13 @@ export default function WithOutBackCalculationForm() {
             numQuantity: item?.numQuantity,
             approvedintItemId: item?.approvedItemId,
             numApprovedQuantity: item?.numApprovedQuantity,
+            ...(isBackCalculationValue === 2
+              ? {
+                materialCost: 1,
+                overheadCost: 1,
+              }
+              : {}
+          ),
           };
         });
 
@@ -221,10 +226,6 @@ export default function WithOutBackCalculationForm() {
       }
     }
   };
-
-  // useEffect(() => {
-  //   console.log("Change Row Data => ", rowData);
-  // }, [rowData]);
 
   useEffect(() => {
     getPlantNameDDL(

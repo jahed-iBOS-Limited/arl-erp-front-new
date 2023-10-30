@@ -40,7 +40,6 @@ export default function _Form({
   const [isShowModal, setIsShowModal] = useState(false);
   const location = useLocation();
 
-  // console.log("orderQuantity", orderQuantity);
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
@@ -50,7 +49,6 @@ export default function _Form({
   }, shallowEqual);
 
   useEffect(() => {
-    // console.log("Init Data => ", initData);
     if (initData?.plantId) {
       getOtherOutputItemDDL(
         profileData?.accountId,
@@ -81,7 +79,6 @@ export default function _Form({
     if (isExist) {
       toast.warn("Item already added!");
     } else {
-      // console.log("aadd handler Values", values);
       setRowData([
         ...rowData,
         {
@@ -105,10 +102,6 @@ export default function _Form({
   };
 
   const isBackCalculationValue = location?.state?.data?.isBackCalculation;
-
-  // useEffect(() => {
-  //   console.log("Row Data => ", rowData);
-  // }, [rowData]);
 
   const deleteHandler = (id) => {
     const deleteData = rowData.filter((data, index) => id !== index);
@@ -142,9 +135,6 @@ export default function _Form({
           isValid,
         }) => (
           <>
-            {/* {console.log(values)}
-             */}
-            {/* {disableHandler(!isValid)} */}
             <Form>
               <div className="row">
                 {/* backCalculation true */}
@@ -157,7 +147,6 @@ export default function _Form({
                           options={plantNameDDL}
                           value={values?.plantName}
                           onChange={(valueOption) => {
-                            // console.log(valueOption);
                             getOtherOutputItemDDL(
                               profileData?.accountId,
                               selectedBusinessUnit?.value,
@@ -253,7 +242,6 @@ export default function _Form({
                           options={productionOrderDDL}
                           value={values?.productionOrder}
                           onChange={(valueOption) => {
-                            // console.log(valueOption);
                             setProductionQuantity([]);
                             getOrderQuantityDDL(
                               profileData?.accountId,

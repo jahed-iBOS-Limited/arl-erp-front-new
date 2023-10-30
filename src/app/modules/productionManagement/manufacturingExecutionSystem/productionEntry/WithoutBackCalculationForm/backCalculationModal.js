@@ -17,7 +17,7 @@ export default function BackCalculationModal({ values, setFieldValue, setIsShowM
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  const bomId = values?.productionOrder?.bomId;
+  const productionOrderId = values?.productionOrder?.value;
   const wareHouseId = values?.shopFloor?.wearHouseId;
   const goodQty = values?.goodQty;
 
@@ -32,27 +32,30 @@ export default function BackCalculationModal({ values, setFieldValue, setIsShowM
   };
 
   useEffect(() => {
-    getBomDetails(`/mes/BOM/GetBoMDetailsByBoMId?billOfMaterialId=${bomId}`, (bomData) => {
-      const payload = bomData?.map((item) => ({
-        businessUnitId: buId,
-        wareHouseId: wareHouseId,
-        itemId: item?.itemId,
-      }));
-      getStockQtyList(`/mes/ProductionEntry/GetRuningStockAndQuantityList`, payload, (data) => {
-        const newData = bomData?.map((item) => {
-          const targetItem = data.find((itm) => itm?.itemId === item?.itemId);
-          return {
-            ...item,
-            numStockRateByDate: targetItem?.numStockRateByDate,
-            numStockByDate: targetItem?.numStockByDate,
-            requiredQuantity: (item?.quantity / item?.lotSize) * goodQty || 0,
-          };
+    getBomDetails(
+      `/mes/BOM/GetItemDtailsByProductionOrderId?productionOrderId=${productionOrderId}`,
+      (bomData) => {
+        const payload = bomData?.map((item) => ({
+          businessUnitId: buId,
+          wareHouseId: wareHouseId,
+          itemId: item?.itemId,
+        }));
+        getStockQtyList(`/mes/ProductionEntry/GetRuningStockAndQuantityList`, payload, (data) => {
+          const newData = bomData?.map((item) => {
+            const targetItem = data.find((itm) => itm?.itemId === item?.itemId);
+            return {
+              ...item,
+              numStockRateByDate: targetItem?.numStockRateByDate,
+              numStockByDate: targetItem?.numStockByDate,
+              requiredQuantity: ((item?.quantity / item?.lotSize) * goodQty)?.toFixed(4) || 0,
+            };
+          });
+          setRowData(newData);
         });
-        setRowData(newData);
-      });
-    });
+      }
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bomId, wareHouseId, goodQty]);
+  }, [productionOrderId, wareHouseId, goodQty]);
 
   return (
     <Formik
@@ -99,12 +102,10 @@ export default function BackCalculationModal({ values, setFieldValue, setIsShowM
                               name="requiredQuantity"
                               type="number"
                               value={item?.requiredQuantity}
+                              max={item?.numIssueQuantity}
                               onChange={(e) => {
                                 let requiredQuantity = e?.target?.value;
-                                requiredQuantity =
-                                  requiredQuantity < 0
-                                    ? Math?.abs(requiredQuantity)
-                                    : requiredQuantity;
+                                requiredQuantity = requiredQuantity < 0 ? Math?.abs(requiredQuantity) : requiredQuantity;
 
                                 setRowData((prev) => {
                                   const newRowData = [...prev];
