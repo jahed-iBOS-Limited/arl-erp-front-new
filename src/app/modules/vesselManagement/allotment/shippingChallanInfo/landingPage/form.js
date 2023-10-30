@@ -3,6 +3,7 @@ import PaginationSearch from "../../../../_helper/_search";
 import NewSelect from "../../../../_helper/_select";
 import IButton from "../../../../_helper/iButton";
 import { BADCBCICForm, PortAndMotherVessel } from "../../../common/components";
+import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
 
 const confirmationTypes = [
   { value: 1, label: "Receive Confirmation" },
@@ -107,6 +108,7 @@ const Form = ({ obj }) => {
                 placeholder="Confirmation Status"
               />
             </div>
+            <FromDateToDateForm obj={{ values, setFieldValue }} />
             {/* {status &&
               [2, 3].includes(values?.confirmationType?.value) &&
               rowData?.data?.length > 0 && (

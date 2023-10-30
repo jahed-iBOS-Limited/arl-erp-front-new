@@ -9,9 +9,10 @@ import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import { getGodownDDL, getTotal } from "../../../common/helper";
 import { GetShipPointDDL } from "../../loadingInformation/helper";
-import { getLandingDataForConfirmation } from "../helper";
+import { getLandingDataForConfirmation, updateSalesOrders } from "../helper";
 import Form from "./form";
 import Table from "./table";
+import { toast } from "react-toastify";
 
 const ALL = { value: 0, label: "All" };
 
@@ -24,6 +25,8 @@ const initData = {
   motherVessel: ALL,
   confirmationStatus: { value: 1, label: "Pending" },
   jvDate: _todayDate(),
+  fromDate: _todayDate(),
+  toDate: _todayDate(),
   remarks: "",
   billRef: "",
 };
@@ -39,7 +42,7 @@ const ShippingChallanInfo = () => {
 
   // get user profile data from store
   const {
-    profileData: { accountId: accId },
+    profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
@@ -93,139 +96,26 @@ const ShippingChallanInfo = () => {
   // };
 
   // _________ Approve Submit Handler __________
-  // const saveHandler = (values) => {
-  //   const selectedItems = rowData?.data?.filter((item) => item?.isSelected);
-  //   const checkBeforeSubmitData = selectedItems.find(
-  //     (item) => item?.quantity <= 0
-  //   );
-  //   if (checkBeforeSubmitData) {
-  //     toast("Please ensure Quantity value is greater than 0 on Selected Row", {
-  //       type: "warning",
-  //     });
-  //   } else {
-  //     const typeId = values?.confirmationType?.value;
-  //     const billTypeId = typeId === 2 ? 16 : typeId === 3 ? 21 : 0;
+  const saveHandler = (values) => {
+    const selectedItems = rowData?.data?.filter((item) => item?.isSelected);
+    if (selectedItems?.length < 1) {
+      return toast.warn("Please select at least one item.");
+    }
 
-  //     // _________ Payload for Receive Confirmation ___________
-  //     const payloadOne = selectedItems?.map((item) => {
-  //       return {
-  //         typeId: typeId,
-  //         confirmChallan: {
-  //           deliveryId: item?.deliveryId,
-  //           shipToPartnerId: item?.shipToPartner?.value,
-  //           shipToPartnerName: item?.shipToPartner?.label,
-  //           receiveDate: typeId === 1 ? item?.date : item?.deliveryDate,
-  //           // remarks: item?.remarks,
-  //           remarks: values?.remarks,
-  //           totalLogsticFare: +item?.totalLogsticFare || 0,
-  //           advanceLogisticeFare: +item?.advanceLogisticeFare || 0,
-  //           dueFare:
-  //             (+item?.totalLogsticFare || 0) -
-  //               (+item?.advanceLogisticeFare || 0) || 0,
-  //           unloadingSupplierId: item?.unloadingSupplierId,
-  //           unloadingSupplier: item?.unloadingSupplier,
-  //           unloadingRate: item?.unloadingRate,
-  //         },
-  //         rowObject: {
-  //           rowId: item?.rowId,
-  //           quantity: +item?.quantity,
-  //           transportRate: +item?.transportRate,
-  //           totalShippingValue: +item?.quantity * +item?.transportRate,
-  //           unloadingAmount: item?.unloadingAmount,
-  //           // "transportRate": 0,
-  //           // "totalShippingValue": 0,
-  //           goDownUnloadLabourRate: item?.godownUnloadingRate,
-  //         },
-  //       };
-  //     });
+    const payload = selectedItems?.map((item) => {
+      return {
+        objectHeader: {
+          deliveryId: item?.deliveryId,
+          actionBy: userId,
+          salesOrderCode: item?.salesOrder,
+        },
+      };
+    });
 
-  //     // _______ Payload Two types of Supervisor Confirmation ________
-  //     const payloadTwo = selectedItems?.map((item) => {
-  //       return {
-  //         typeId: 2,
-  //         // typeId: typeId,
-  //         headerObject: {
-  //           deliveryId: item?.deliveryId || 0,
-  //           shipToPartnerId: item?.shipToPartner?.value || 0,
-  //           shipToPartnerName: item?.shipToPartner?.label || "",
-  //           supplierId: item?.supplierId || 0,
-  //           supplierName: item?.supplierName || "",
-  //           lighterVesselId: 0,
-  //           motherVesselId: item?.motherVesselId,
-  //           totalLogsticFare: +item?.totalLogsticFare || 0,
-  //           advanceLogisticeFare: +item?.advanceLogisticeFare || 0,
-  //           dueFare:
-  //             (+item?.totalLogsticFare || 0) -
-  //               (+item?.advanceLogisticeFare || 0) || 0,
-
-  //           deliveryDate: [2, 3].includes(typeId)
-  //             ? item?.date
-  //             : item?.deliveryDate || _todayDate(),
-  //           isConfirmBySupervisor: [2, 3].includes(typeId),
-  //           confirmBy: userId,
-  //           updateBy: userId,
-  //           salesOrder: item?.salesOrder || "",
-  //           remarks: values?.remarks || "",
-
-  //           unloadingSupplierId: item?.godownLabourSupplier?.value || 0,
-  //           unloadingSupplier: item?.godownLabourSupplier?.label || "",
-  //           unloadingRate: item?.unloadingRate,
-  //           sbuId: item?.sbuId || 0,
-  //           salesRevenueNarration: `Challan No: ${
-  //             item?.deliveryCode
-  //           }, Partner: ${item?.shipToPartner?.label ||
-  //             ""}, Quantity: ${+item?.quantity} bag.`,
-
-  //           accountId: accId,
-  //           businessUnitId: buId,
-  //           godownLabourSupplier: item?.godownLabourSupplier?.label || "",
-  //           godownLabourSupplierId: item?.godownLabourSupplier?.value || 0,
-  //           dteDate: values?.jvDate || _todayDate(),
-
-  //           imageId: uploadedImages[0]?.id || "",
-  //           billRef: values?.billRef || "",
-  //           billTypeId: billTypeId,
-  //         },
-  //         rowObject: {
-  //           rowId: item?.rowId || 0,
-  //           quantity: +item?.quantity || 0,
-  //           transportRate: +item?.transportRate || 0,
-  //           totalShippingValue: _fixedPoint(
-  //             (+item?.transportRate + +item?.godownUnloadingRate) *
-  //               +item?.quantity || 0,
-  //             false
-  //           ),
-  //           unloadingAmount: item?.unloadingAmount || 0,
-  //           goDownUnloadLabourRate: +item?.godownUnloadingRate || 0,
-
-  //           ghatLoadUnloadLabourRate: +item?.directOrDumpRate || 0,
-  //           transPortAmount: _fixedPoint(
-  //             +item?.quantity * +item?.transportRate || 0,
-  //             false
-  //           ),
-  //           goDownLabourAmount: _fixedPoint(
-  //             +item?.quantity * +item?.godownUnloadingRate || 0,
-  //             false
-  //           ),
-  //           ghatLabourAmount: 0,
-  //           lighterCarrierAmount: 0,
-  //           isProcess: false,
-  //           deliveryId: item?.deliveryId || 0,
-  //           numItemPrice: +item?.numItemPrice || 0,
-  //           salesRevenueAmount: _fixedPoint(
-  //             ((+item?.quantity * 50) / 1000) * +item?.numItemPrice || 0,
-  //             false
-  //           ),
-  //           // salesRevenueAmount: +item?.salesRevenueAmount || 0,
-  //         },
-  //       };
-  //     });
-
-  //     const payload = typeId === 1 ? payloadOne : payloadTwo;
-
-  //     approveConfirmationHandler(payload, values);
-  //   }
-  // };
+    updateSalesOrders(payload, setLoading, () => {
+      getData(values, pageNo, pageSize);
+    });
+  };
 
   // _______ form data changing handler function _________
   const onChangeHandler = (fieldName, values, currentValue, setFieldValue) => {
@@ -316,13 +206,9 @@ const ShippingChallanInfo = () => {
   };
 
   //  _______ approve button disable handler function __________
-  // const disabled = (values) => {
-  //   return (
-  //     !values?.remarks ||
-  //     !values?.billRef ||
-  //     rowData?.data?.filter((item) => item?.isSelected)?.length < 1
-  //   );
-  // };
+  const disabled = (values) => {
+    return rowData?.data?.filter((item) => item?.isSelected)?.length < 1;
+  };
 
   //  ________ calculations of totals that showing on top the table __________
   const totalQty = getTotal(rowData?.data, "quantity", "isSelected");
@@ -363,12 +249,12 @@ const ShippingChallanInfo = () => {
           <>
             <ICard
               title="Shipping Challan Info"
-              // createHandler={() => {
-              //   saveHandler(values);
-              // }}
-              // createBtnText={"Approve"}
+              createHandler={() => {
+                saveHandler(values);
+              }}
+              createBtnText={"Update Sales Orders"}
               // createBtnClass='btn-info'
-              // disableCreateBtn={disabled(values)}
+              disableCreateBtn={disabled(values)}
             >
               {loading && <Loading />}
               <Form

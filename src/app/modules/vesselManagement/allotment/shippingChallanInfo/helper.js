@@ -13,31 +13,36 @@ export const getLandingDataForConfirmation = async (
   setLoading
 ) => {
   setLoading && setLoading(true);
-  const search = searchTerm ? `&SearchTerm=${searchTerm}` : "";
+  // const search = searchTerm ? `&SearchTerm=${searchTerm}` : "";
   try {
-    const confirmationTypeId = values?.confirmationType?.value;
+    // const confirmationTypeId = values?.confirmationType?.value;
     const soldToPartnerId =
       values?.type === "badc" ? 73244 : values?.type === "bcic" ? 73245 : 0;
 
-    const commonURL = `/tms/LigterLoadUnload/GetLighterChallanInfoConfirmation?Type=${
-      values?.confirmationStatus?.value
-    }&AccountId=${accId}&BusinessUnitId=${buId}&ShipPointId=${values?.shipPoint
-      ?.value || 0}&ShipToPartnerId=${values?.shipToPartner?.value ||
-      0}&MotherVesselId=${
-      values?.motherVessel?.value
-    }&PageNo=${pageNo}&PageSize=${pageSize}${search}&SoldToPartnerId=${soldToPartnerId}`;
+    // const commonURL = `/tms/LigterLoadUnload/GetLighterChallanInfoConfirmation?Type=${
+    //   values?.confirmationStatus?.value
+    // }&AccountId=${accId}&BusinessUnitId=${buId}&ShipPointId=${values?.shipPoint
+    //   ?.value || 0}&ShipToPartnerId=${values?.shipToPartner?.value ||
+    //   0}&MotherVesselId=${
+    //   values?.motherVessel?.value
+    // }&PageNo=${pageNo}&PageSize=${pageSize}${search}&SoldToPartnerId=${soldToPartnerId}`;
 
-    const URLForGodownUnloadBill = `/tms/LigterLoadUnload/GetGodownLabourBillInfo?Type=${
-      values?.confirmationStatus?.value
-    }&AccountId=${accId}&BusinessUnitId=${buId}&ShipPointId=${values?.shipPoint
-      ?.value || 0}&ShipToPartnerId=${values?.shipToPartner?.value ||
-      0}&MotherVesselId=${
-      values?.motherVessel?.value
-    }&PageNo=${pageNo}&PageSize=${pageSize}${search}&SoldToPartnerId=${soldToPartnerId}`;
+    // const URLForGodownUnloadBill = `/tms/LigterLoadUnload/GetGodownLabourBillInfo?Type=${
+    //   values?.confirmationStatus?.value
+    // }&AccountId=${accId}&BusinessUnitId=${buId}&ShipPointId=${values?.shipPoint
+    //   ?.value || 0}&ShipToPartnerId=${values?.shipToPartner?.value ||
+    //   0}&MotherVesselId=${
+    //   values?.motherVessel?.value
+    // }&PageNo=${pageNo}&PageSize=${pageSize}${search}&SoldToPartnerId=${soldToPartnerId}`;
 
-    const url = confirmationTypeId === 3 ? URLForGodownUnloadBill : commonURL;
+    // const url = confirmationTypeId === 3 ? URLForGodownUnloadBill : commonURL;
 
-    const res = await axios.get(url);
+    const newURL = `/tms/LigterLoadUnload/GetLighterChallanInfo?accountId=${accId}&businessUnitId=${buId}&soldToPartnerId=${soldToPartnerId}&shipPointId=${values
+      ?.shipPoint?.value || 0}&shipToPartnerId=${values?.shipToPartner?.value ||
+      0}&motherVesselId=${values?.motherVessel?.value}&fromDate=${
+      values?.fromDate
+    }&toDate=${values?.toDate}&pageNo=${pageNo}&pageSize=${pageSize}`;
+    const res = await axios.get(newURL);
 
     const modifyData = {
       ...res?.data,
@@ -132,5 +137,21 @@ export const getMotherVesselDDL = async (accId, buId, portId, setter) => {
     setter(res.data);
   } catch (error) {
     setter([]);
+  }
+};
+
+export const updateSalesOrders = async (payload, setLoading, cb) => {
+  setLoading(true);
+  try {
+    const res = await axios.put(
+      `/tms/LigterLoadUnload/EditLighterChallanShippingInfo`,
+      payload
+    );
+    toast.success(res?.data?.message);
+    cb && cb();
+    setLoading(false);
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setLoading(false);
   }
 };
