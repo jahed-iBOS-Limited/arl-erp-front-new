@@ -107,7 +107,7 @@ export const StockOutFromInventoryApproval = async (
 };
 export const StockInToInventoryApproval = async (payload, cb) => {
   try {
-    await axios.put(`tms/LigterLoadUnload/StockInToInventoryApproval`, payload);
+    await axios.put(`/tms/LigterLoadUnload/StockInToInventoryApproval`, payload);
     toast.success("Approved");
     cb();
   } catch (error) {
