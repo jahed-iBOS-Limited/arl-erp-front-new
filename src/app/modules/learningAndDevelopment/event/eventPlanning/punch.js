@@ -1,13 +1,13 @@
 import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import { useParams } from "react-router-dom";
-import { useLocation } from "react-router";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import InputField from "../../../_helper/_inputField";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import React, { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
+import { useLocation } from "react-router";
+import { useParams } from "react-router-dom";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
+import IForm from "../../../_helper/_form";
+import InputField from "../../../_helper/_inputField";
+import Loading from "../../../_helper/_loading";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 
 const initData = {
   strCardNumber: "",
@@ -15,30 +15,23 @@ const initData = {
 const Punch = () => {
   const { id } = useParams();
   const [objProps, setObjprops] = useState({});
-  const [, saveData, saveDataLoader] = useAxiosPost();
+  const [, saveData, saveDataLoader] = useAxiosGet();
 
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
 
   const saveHandler = (values, cb) => {
-    const payload = {
-      actionBy: profileData?.userId,
-      cardNumber: values?.strCardNumber,
-      activityId: location?.clickedItem?.activityId,
-      eventId: +id,
-    };
+  
     saveData(
-      "/hcm/Training/CheckParticipant",
-      payload,
+      `/hcm/Training/CheckParticipant?ActionBy=${profileData?.userId}&CardNumber=${values?.strCardNumber}&ActivityId=${location?.clickedItem?.activityId}&EventId=${+id}`,
       (res) => {
         console.log("res", res);
         setResponse(res);
-      },
-      true
+        cb && cb();
+      }
     );
 
-    cb && cb();
   };
 
   const location = useLocation();
