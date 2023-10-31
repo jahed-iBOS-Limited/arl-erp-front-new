@@ -48,7 +48,7 @@ export default function ProductionEntryApprovalForm() {
 
   const params = useParams();
 
-  console.log("params", params)
+  console.log("params", params);
 
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -72,7 +72,7 @@ export default function ProductionEntryApprovalForm() {
             outputItemQty: +item.approvedQuantity,
             itemId: +item?.approvedintItemId,
             uomId: 0,
-            isMainItem:item?.isMain,
+            isMainItem: item?.isMain,
             materialCost: item?.materialCost || 0,
             overheadCost: item?.overheadCost || 0,
             totalAmount: item?.totalAmount || 0,
@@ -95,10 +95,24 @@ export default function ProductionEntryApprovalForm() {
           editRow: objRowData,
         };
         window.paylaod = payload;
+        if(!values?.wareHouse?.value){
+          return toast.warn("Please select Warehouse")
+        }
         if (!values?.sbu?.value) {
           toast.warn("Please select a SBU");
         } else {
-          editApprovalProductionEntry(payload, setDisabled, setSaveBtnDisabled, IssueReturnHandler, values, rowData);
+          editApprovalProductionEntry({
+            payload,
+            setDisabled,
+            setSaveBtnDisabled,
+            IssueReturnHandler,
+            values,
+            rowData,
+            singleData,
+            params,
+            profileData,
+            selectedBusinessUnit
+          });
         }
       }
     }
