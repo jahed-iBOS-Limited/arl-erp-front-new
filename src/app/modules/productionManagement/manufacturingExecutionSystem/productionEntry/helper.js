@@ -413,7 +413,10 @@ export const editProductionEntry = async (payload, setDisabled) => {
 export const editApprovalProductionEntry = async (
   payload,
   setDisabled,
-  setSaveBtnDisabled
+  setSaveBtnDisabled,
+  IssueReturnHandler,
+  values,
+  rowData
 ) => {
   setDisabled(true);
   try {
@@ -426,6 +429,7 @@ export const editApprovalProductionEntry = async (
       toast.success(res?.data?.message || "Approved Successfully!");
       setDisabled(false);
       setSaveBtnDisabled(true);
+      IssueReturnHandler && IssueReturnHandler({response: res?.data, values, rowData})
     }
   } catch (error) {
     // toast.error("Sorry! Can not approve now. Try again later.");
