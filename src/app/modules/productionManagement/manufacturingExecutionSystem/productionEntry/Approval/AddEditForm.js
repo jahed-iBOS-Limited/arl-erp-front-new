@@ -107,6 +107,8 @@ export default function ProductionEntryApprovalForm() {
             rowData,
             singleData,
             params,
+            profileData,
+            selectedBusinessUnit
           });
         }
       }
