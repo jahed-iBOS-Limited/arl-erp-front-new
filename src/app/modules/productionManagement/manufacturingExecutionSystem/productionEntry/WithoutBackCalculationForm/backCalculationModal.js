@@ -78,19 +78,25 @@ export default function BackCalculationModal({
     <Formik
       enableReinitialize={true}
       initialValues={{}}
-      onSubmit={(values, { setSubmitting, resetForm }) => {
-        IConfirmModal({
-          // title: `Purchase Request`,
-          message: `Are you sure about returning the remaining quantity of the product?`,
-          yesAlertFunc: () => {
-            if (values?.isLastProduction) {
-              setFieldValue("materialCost", calculateTotalValue);
-              setFieldValue("overheadCost", calculateTotalExpence());
-              setIsShowModal(false);
-            }
-          },
-          noAlertFunc: () => {},
-        });
+      onSubmit={({ setSubmitting, resetForm }) => {
+        if (values?.isLastProduction) {
+          IConfirmModal({
+            // title: `Purchase Request`,
+            message: `Are you sure about returning the remaining quantity of the product?`,
+            yesAlertFunc: () => {
+              if (values?.isLastProduction) {
+                setFieldValue("materialCost", calculateTotalValue);
+                setFieldValue("overheadCost", calculateTotalExpence());
+                setIsShowModal(false);
+              }
+            },
+            noAlertFunc: () => {},
+          });
+        } else {
+          setFieldValue("materialCost", calculateTotalValue);
+          setFieldValue("overheadCost", calculateTotalExpence());
+          setIsShowModal(false);
+        }
       }}
     >
       {({ handleSubmit }) => (
