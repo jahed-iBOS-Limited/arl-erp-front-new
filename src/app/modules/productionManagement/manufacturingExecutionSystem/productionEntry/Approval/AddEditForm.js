@@ -95,6 +95,9 @@ export default function ProductionEntryApprovalForm() {
           editRow: objRowData,
         };
         window.paylaod = payload;
+        if(!values?.wareHouse?.value){
+          return toast.warn("Please select Warehouse")
+        }
         if (!values?.sbu?.value) {
           toast.warn("Please select a SBU");
         } else {
