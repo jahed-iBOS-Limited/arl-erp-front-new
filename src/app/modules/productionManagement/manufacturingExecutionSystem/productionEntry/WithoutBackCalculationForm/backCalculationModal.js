@@ -66,6 +66,13 @@ export default function BackCalculationModal({
                 numStockByDate: targetItem?.numStockByDate,
                 requiredQuantity:
                   ((item?.quantity / item?.lotSize) * goodQty)?.toFixed(4) || 0,
+                // requiredQuantity:(()=>{
+                //   let reqQty =  ((item?.quantity / item?.lotSize) * goodQty)?.toFixed(4) || 0;
+                //   let lotSize = item?.numLotSize;
+                //   let lotNumber = Math.ceil(reqQty / lotSize);
+                //   return lotSize * lotNumber ;
+
+                // })()
               };
             });
             setRowData(newData);
@@ -173,8 +180,8 @@ export default function BackCalculationModal({
                             <strong
                               className={
                                 (+item?.numIssueQuantity || 0) -
-                                  (+item?.requiredQuantity || 0) >
-                                0
+                                  (+item?.requiredQuantity || 0) >=
+                                1
                                   ? "text-warning"
                                   : ""
                               }
