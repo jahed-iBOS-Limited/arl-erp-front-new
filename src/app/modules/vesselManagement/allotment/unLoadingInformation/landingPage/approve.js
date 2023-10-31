@@ -17,6 +17,7 @@ import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { StockInToInventoryApproval } from "../../challanEntry/helper";
+import { updateUnloadingQtyAndRates } from "../helper";
 
 const initData = {
   supplier: "",
@@ -57,8 +58,10 @@ export default function WarehouseApproveFrom({
   pageNo,
   pageSize,
   setShow,
+  levelOfApprove,
 }) {
   const [rates, getRates, loading] = useAxiosGet();
+
   const {
     profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
@@ -86,15 +89,22 @@ export default function WarehouseApproveFrom({
     //   : type === 2
     //   ? `&godownId=${values?.godown?.value}`
     //   : "";
-    getRates(
-      // `/tms/LigterLoadUnload/GetLighterLoadUnloadBillDetails?voyageId=${singleItem?.voyageNo}&lighterVesselId=${singleItem?.lighterVesselId}`,
-      `/tms/LigterLoadUnload/GetGodownNOtherLabourRate?type=${1}&businessUnitId=${buId}${param}`,
-      (resData) => {}
-    );
+
+    const URLOne = `/tms/LigterLoadUnload/GetGodownNOtherLabourRate?type=${1}&businessUnitId=${buId}${param}`;
+    const URLTwo = `/tms/LigterLoadUnload/GetLighterLoadUnloadBillDetails?voyageId=${singleItem?.voyageNo}&lighterVesselId=${singleItem?.lighterVesselId}`;
+
+    const URL =
+      levelOfApprove === "first"
+        ? URLOne
+        : levelOfApprove === "second"
+        ? URLTwo
+        : "";
+
+    getRates(URL, (resData) => {});
   }, []);
 
   const approveSubmitHandler = (values) => {
-    const payload = {
+    const payloadOne = {
       voyageNo: singleItem?.voyageNo,
       motherVesselId: singleItem?.motherVesselId,
       lighterVesselId: singleItem?.lighterVesselId,
@@ -132,7 +142,45 @@ export default function WarehouseApproveFrom({
       dailyLaboureQnt: 1,
     };
 
-    StockInToInventoryApproval(payload, () => {
+    const payloadTwo = {
+      rowId: values?.rowId,
+      voyageNo: values?.voyageNo,
+      lighterVesselId: values?.lighterVesselId,
+      supplierId: values?.supplier?.value,
+      actionBy: userId,
+      quantity: values?.unloadedQty,
+      dumpQnt: values?.dumpDeliveryQty,
+      dumpRate: values?.dumpDeliveryRate,
+      directQnt: values?.directQty,
+      directRate: values?.directRate,
+      bolgateToDumpQnt: values?.bolgateToDamQty,
+      bolgateToDumpRate: values?.bolgateToDamRate,
+      dumpToTruckQnt: values?.damToTruckQty,
+      dumpToTruckRate: values?.damToTruckRate,
+      lighterToBolgateQnt: values?.lighterToBolgateQty,
+      lighterToBolgateRate: values?.lighterToBolgateRate,
+      truckToDumpOutsideQnt: values?.decTruckToDamOutSideQty,
+      truckToDumpOutsideRate: values?.decTruckToDamOutSideRate,
+      biwtaqnt: 1,
+      biwtarate: values?.decBiwtarate,
+      shipSweepingQnt: 1,
+      shipSweepingRate: values?.decShipSweepingRate,
+      decScaleQnt: 1,
+      scaleRate: values?.decScaleRate,
+      dailyLaboureQnt: 1,
+      dailyLaboureRate: values?.decDailyLaboureRate,
+      truckToDamQnt: values?.truckToDamQty,
+      truckToDamRate: values?.truckToDamRate,
+      othersCostQnt: 1,
+      othersCostRate: values?.othersCostRate,
+    };
+
+    StockInToInventoryApproval(payloadOne, () => {
+      setShow(false);
+      getData(preValues, pageNo, pageSize);
+    });
+
+    updateUnloadingQtyAndRates(payloadTwo, () => {
       setShow(false);
       getData(preValues, pageNo, pageSize);
     });
@@ -157,35 +205,82 @@ export default function WarehouseApproveFrom({
     setFieldValue("totalBillAmount", totalAmount);
   };
 
+  const getInitData = () => {
+    const dataSetOne = {
+      ...initData,
+      supplier: {
+        value: rates?.supplierId,
+        label: rates?.supplierName,
+      },
+      unloadedQty: _fixedPoint(singleItem?.receiveQnt, false, 2),
+      directRate: rates?.directRate,
+      dumpDeliveryRate: rates?.dumpDeliveryRate,
+      bolgateToDamRate: rates?.bolgateToDamRate,
+      damToTruckRate: rates?.damToTruckRate,
+      lighterToBolgateRate: rates?.lighterToBolgateRate,
+      truckToDamRate: rates?.truckToDamRate,
+      othersCostRate: rates?.othersCostRate,
+      decTruckToDamOutSideRate: rates?.decTruckToDamOutSideRate,
+      decBiwtarate: rates?.decBiwtarate,
+      decShipSweepingRate: rates?.decShipSweepingRate,
+      decScaleRate: rates?.decScaleRate,
+      decDailyLaboureRate: rates?.decDailyLaboureRate,
+    };
+
+    const dataSetTwo = {
+      ...initData,
+      supplier: {
+        value: rates?.supplierId,
+        label: rates?.supplierName,
+      },
+      unloadedQty: _fixedPoint(singleItem?.receiveQnt, false, 2),
+      directRate: rates?.directRate,
+      dumpDeliveryRate: rates?.dumpRate,
+      bolgateToDamRate: rates?.bolgateToDumpRate,
+      damToTruckRate: rates?.dumpToTruckRate,
+      lighterToBolgateRate: rates?.lighterToBolgateRate,
+      truckToDamRate: rates?.truckToDamRate,
+      othersCostRate: rates?.othersCostRate,
+      decTruckToDamOutSideRate: rates?.truckToDumpOutsideRate,
+      decBiwtarate: rates?.biwtarate,
+      decShipSweepingRate: rates?.shipSweepingRate,
+      decScaleRate: rates?.scaleRate,
+      decDailyLaboureRate: rates?.dailyLaboureRate,
+
+      // Quantities
+      dumpDeliveryQty: rates?.dumpQnt,
+      directQty: rates?.directQnt,
+      bolgateToDamQty: rates?.bolgateToDumpQnt,
+      damToTruckQty: rates?.dumpToTruckQnt,
+      lighterToBolgateQty: rates?.lighterToBolgateQnt,
+      truckToDamQty: rates?.truckToDamQnt,
+      othersCostQty: rates?.othersCostQnt,
+      decTruckToDamOutSideQty: rates?.truckToDumpOutsideQnt,
+      decBiwtaQty: rates?.biwtaqnt,
+      decShipSweepingQty: rates?.shipSweepingQnt,
+      decScaleQty: 1,
+      decDailyLaboureQty: rates?.dailyLaboureQnt,
+
+      // totalBillAmount: rates?.,
+    };
+
+    return levelOfApprove === "first"
+      ? dataSetOne
+      : levelOfApprove === "second"
+      ? dataSetTwo
+      : "";
+  };
+
   return (
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={{
-          ...initData,
-          supplier: {
-            value: rates?.supplierId,
-            label: rates?.supplierName,
-          },
-          unloadedQty: _fixedPoint(singleItem?.receiveQnt, false, 2),
-          directRate: rates?.directRate,
-          dumpDeliveryRate: rates?.dumpDeliveryRate,
-          bolgateToDamRate: rates?.bolgateToDamRate,
-          damToTruckRate: rates?.damToTruckRate,
-          lighterToBolgateRate: rates?.lighterToBolgateRate,
-          truckToDamRate: rates?.truckToDamRate,
-          othersCostRate: rates?.othersCostRate,
-          decTruckToDamOutSideRate: rates?.decTruckToDamOutSideRate,
-          decBiwtarate: rates?.decBiwtarate,
-          decShipSweepingRate: rates?.decShipSweepingRate,
-          decScaleRate: rates?.decScaleRate,
-          decDailyLaboureRate: rates?.decDailyLaboureRate,
-        }}
+        initialValues={getInitData()}
         onSubmit={() => {}}
       >
         {({ values, errors, touched, setFieldValue }) => (
           <>
-          {console.log("unloadedQty", values?.unloadedQty)}
+            {console.log("unloadedQty", values?.unloadedQty)}
             {loading && <Loading />}
             <Card>
               <ModalProgressBar />
@@ -247,7 +342,10 @@ export default function WarehouseApproveFrom({
                           onChange={(e) => {
                             setFieldValue("dumpDeliveryRate", e?.target?.value);
                             setTotals(
-                              { ...values, dumpDeliveryRate: e?.target?.value },
+                              {
+                                ...values,
+                                dumpDeliveryRate: e?.target?.value,
+                              },
                               setFieldValue
                             );
                           }}
@@ -263,7 +361,10 @@ export default function WarehouseApproveFrom({
                           onChange={(e) => {
                             setFieldValue("dumpDeliveryQty", e?.target?.value);
                             setTotals(
-                              { ...values, dumpDeliveryQty: e?.target?.value },
+                              {
+                                ...values,
+                                dumpDeliveryQty: e?.target?.value,
+                              },
                               setFieldValue
                             );
                           }}
@@ -280,7 +381,10 @@ export default function WarehouseApproveFrom({
                           onChange={(e) => {
                             setFieldValue("directRate", e?.target?.value);
                             setTotals(
-                              { ...values, directRate: e?.target?.value },
+                              {
+                                ...values,
+                                directRate: e?.target?.value,
+                              },
                               setFieldValue
                             );
                           }}
@@ -296,7 +400,10 @@ export default function WarehouseApproveFrom({
                           onChange={(e) => {
                             setFieldValue("directQty", e?.target?.value);
                             setTotals(
-                              { ...values, directQty: e?.target?.value },
+                              {
+                                ...values,
+                                directQty: e?.target?.value,
+                              },
                               setFieldValue
                             );
                           }}
@@ -312,7 +419,10 @@ export default function WarehouseApproveFrom({
                           onChange={(e) => {
                             setFieldValue("bolgateToDamRate", e?.target?.value);
                             setTotals(
-                              { ...values, bolgateToDamRate: e?.target?.value },
+                              {
+                                ...values,
+                                bolgateToDamRate: e?.target?.value,
+                              },
                               setFieldValue
                             );
                           }}
@@ -328,7 +438,10 @@ export default function WarehouseApproveFrom({
                           onChange={(e) => {
                             setFieldValue("bolgateToDamQty", e?.target?.value);
                             setTotals(
-                              { ...values, bolgateToDamQty: e?.target?.value },
+                              {
+                                ...values,
+                                bolgateToDamQty: e?.target?.value,
+                              },
                               setFieldValue
                             );
                           }}
@@ -344,7 +457,10 @@ export default function WarehouseApproveFrom({
                           onChange={(e) => {
                             setFieldValue("damToTruckRate", e?.target?.value);
                             setTotals(
-                              { ...values, damToTruckRate: e?.target?.value },
+                              {
+                                ...values,
+                                damToTruckRate: e?.target?.value,
+                              },
                               setFieldValue
                             );
                           }}
@@ -360,7 +476,10 @@ export default function WarehouseApproveFrom({
                           onChange={(e) => {
                             setFieldValue("damToTruckQty", e?.target?.value);
                             setTotals(
-                              { ...values, damToTruckQty: e?.target?.value },
+                              {
+                                ...values,
+                                damToTruckQty: e?.target?.value,
+                              },
                               setFieldValue
                             );
                           }}
@@ -420,7 +539,10 @@ export default function WarehouseApproveFrom({
                           onChange={(e) => {
                             setFieldValue("truckToDamRate", e?.target?.value);
                             setTotals(
-                              { ...values, truckToDamRate: e?.target?.value },
+                              {
+                                ...values,
+                                truckToDamRate: e?.target?.value,
+                              },
                               setFieldValue
                             );
                           }}
@@ -436,7 +558,10 @@ export default function WarehouseApproveFrom({
                           onChange={(e) => {
                             setFieldValue("truckToDamQty", e?.target?.value);
                             setTotals(
-                              { ...values, truckToDamQty: e?.target?.value },
+                              {
+                                ...values,
+                                truckToDamQty: e?.target?.value,
+                              },
                               setFieldValue
                             );
                           }}
@@ -489,14 +614,17 @@ export default function WarehouseApproveFrom({
                       <div className="col-lg-3">
                         <InputField
                           value={values?.decBiwtarate}
-                          label="BIWTA Rate"
-                          placeholder="BIWTA Rate"
+                          label="BIWTA Amount"
+                          placeholder="BIWTA Amount"
                           name="decBiwtarate"
                           type="number"
                           onChange={(e) => {
                             setFieldValue("decBiwtarate", e.target.value);
                             setTotals(
-                              { ...values, decBiwtarate: e?.target?.value },
+                              {
+                                ...values,
+                                decBiwtarate: e?.target?.value,
+                              },
                               setFieldValue
                             );
                           }}
@@ -536,7 +664,10 @@ export default function WarehouseApproveFrom({
                           onChange={(e) => {
                             setFieldValue("decScaleRate", e.target.value);
                             setTotals(
-                              { ...values, decScaleRate: e?.target?.value },
+                              {
+                                ...values,
+                                decScaleRate: e?.target?.value,
+                              },
                               setFieldValue
                             );
                           }}
@@ -575,7 +706,10 @@ export default function WarehouseApproveFrom({
                           onChange={(e) => {
                             setFieldValue("othersCostRate", e?.target?.value);
                             setTotals(
-                              { ...values, othersCostRate: e?.target?.value },
+                              {
+                                ...values,
+                                othersCostRate: e?.target?.value,
+                              },
                               setFieldValue
                             );
                           }}
