@@ -47,11 +47,13 @@ export default function BackCalculationModal({
       (bomData) => {
         const payload = bomData?.map((item) => ({
           businessUnitId: buId,
-          wareHouseId: wareHouseId,
+          wareHouseId: item?.warehouseId,
           itemId: item?.itemId,
+          plantId: item?.plantId,
+          dteStockDate: values?.dteProductionDate,
         }));
         getStockQtyList(
-          `/mes/ProductionEntry/GetRuningStockAndQuantityList`,
+          `/mes/ProductionEntry/StockQtyRateByWarehouseAndDate`,
           payload,
           (data) => {
             const newData = bomData?.map((item) => {
@@ -72,7 +74,7 @@ export default function BackCalculationModal({
       }
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [productionOrderId, wareHouseId, goodQty]);
+  }, [productionOrderId, wareHouseId, goodQty, values?.dteProductionDate]);
 
   return (
     <Formik
