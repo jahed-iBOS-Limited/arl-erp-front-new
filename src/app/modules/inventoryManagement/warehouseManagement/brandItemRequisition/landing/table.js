@@ -1,4 +1,5 @@
 import React from "react";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
 export default function BrandItemRequisitionLandingTable({ obj }) {
   const { rowData } = obj;
@@ -9,36 +10,29 @@ export default function BrandItemRequisitionLandingTable({ obj }) {
           <thead>
             <tr>
               <th style={{ width: "30px" }}>SL</th>
-              <th>Region</th>
+              <th>Request Code</th>
+              <th>Area Name</th>
+              <th>Territory</th>
               <th>Item Name</th>
-              <th>Target Year</th>
-              <th>Target Month</th>
-              <th>Target Quantity</th>
-              <th>Requisition Quantity</th>
+              <th>Item Code</th>
+              <th>UoM</th>
+              <th>Requested Quantity</th>
+              <th>Required Date</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
             {rowData?.map((td, index) => (
               <tr key={index}>
-                <td className="text-center">{td?.sl}</td>
-                <td>
-                  <div className="pl-2">{td?.nl5}</div>
-                </td>
-                <td>
-                  <div className="pl-2">{td?.strItemName}</div>
-                </td>
-                <td>
-                  <div className="pl-2">{td?.targetYearId}</div>
-                </td>
-                <td></td>
-
-                <td>
-                  <div className="pl-2">{td?.numTargetQuantity}</div>
-                </td>
-                <td>
-                  <div className="pl-2">{td?.numRequisitionQuantity}</div>
-                </td>
+                <td className="text-center">{index + 1}</td>
+                <td>{td?.brandRequestCode}</td>
+                <td>{td?.areaName}</td>
+                <td>{td?.territoryName}</td>
+                <td>{td?.itemName}</td>
+                <td>{td?.itemCode}</td>
+                <td>{td?.uoMname}</td>
+                <td>{td?.requestQuantity}</td>
+                <td>{_dateFormatter(td?.requiredDate)}</td> 
                 <td></td>
               </tr>
             ))}
