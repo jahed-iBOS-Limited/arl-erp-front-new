@@ -302,6 +302,7 @@ export const getSingleDataByIdApprove = async (
       let response = res?.data;
       let newObj = {
         ...response,
+        productionId,
         plantName: {
           value: response?.objHeader?.plantId,
           label: response?.objHeader?.plantName,

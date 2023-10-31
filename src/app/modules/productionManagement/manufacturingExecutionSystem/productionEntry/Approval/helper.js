@@ -8,9 +8,6 @@ export const IssueReturnHandler = async ({
   profileData,
   selectedBusinessUnit,
 }) => {
-  console.log("response", response);
-  console.log("values", values);
-  console.log("rowData", rowData);
 
   let mainAndLastProductionItem = rowData?.filter(
     (item) => item?.isMain && item.isLastProduction
@@ -35,7 +32,7 @@ export const IssueReturnHandler = async ({
         transactionTypeName: "Receive For Issue Return",
         referenceTypeId: 7,
         referenceTypeName: "Inventory Request",
-        referenceId: singleData?.productionOrder?.value,
+        referenceId: singleData?.productionId,
         referenceCode: singleData?.productionOrder?.label,
         accountId: profileData?.accountId,
         accountName: profileData?.accountName,
