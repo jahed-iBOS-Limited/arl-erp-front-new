@@ -30,6 +30,8 @@ export default function _Form({
   rowData,
   setRowData,
   dataHandler,
+  rowDataForAddConsumption,
+  setRowDataForAddConsumption,
 }) {
   const [othersOutputItemDDL, setOthersOutputItemDDL] = useState([]);
   const [productionOrderDDL, setProductionOrderDDL] = useState([]);
@@ -493,6 +495,8 @@ export default function _Form({
                   values={values}
                   setFieldValue={setFieldValue}
                   setIsShowModal={setIsShowModal}
+                  rowData={rowDataForAddConsumption}
+                  setRowData={setRowDataForAddConsumption}
                 />
               </IViewModal>
 

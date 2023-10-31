@@ -395,7 +395,7 @@ export function TableRow({ dataForBackCalculationCheck }) {
                               );
                             } else {
                               history.push(
-                                `/production-management/mes/productionentry/approval/${item?.productionId}`
+                                `/production-management/mes/productionentry/approval/${item?.productionId}/${dataForBackCalculationCheck?.isBackCalculation}`
                               );
                             }
                           }}

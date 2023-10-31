@@ -17,6 +17,7 @@ import {
 import Form from "./Form";
 import Loading from "./../../../../_helper/_loading";
 import { toast } from "react-toastify";
+import { IssueReturnHandler } from "./helper";
 
 let initData = {
   id: undefined,
@@ -46,6 +47,8 @@ export default function ProductionEntryApprovalForm() {
   const [saveBtnDisabled, setSaveBtnDisabled] = useState(false);
 
   const params = useParams();
+
+  console.log("params", params)
 
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -95,7 +98,7 @@ export default function ProductionEntryApprovalForm() {
         if (!values?.sbu?.value) {
           toast.warn("Please select a SBU");
         } else {
-          editApprovalProductionEntry(payload, setDisabled, setSaveBtnDisabled);
+          editApprovalProductionEntry(payload, setDisabled, setSaveBtnDisabled, IssueReturnHandler, values, rowData);
         }
       }
     }

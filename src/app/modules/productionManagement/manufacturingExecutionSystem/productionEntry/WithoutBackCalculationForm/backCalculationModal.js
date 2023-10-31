@@ -7,10 +7,17 @@ import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import { Form, Formik } from "formik";
 import IForm from "../../../../_helper/_form";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
+import IConfirmModal from "../../../../_helper/_confirmModal";
+import { toast } from "react-toastify";
 
-export default function BackCalculationModal({ values, setFieldValue, setIsShowModal }) {
+export default function BackCalculationModal({
+  values,
+  setFieldValue,
+  setIsShowModal,
+  rowData,
+  setRowData,
+}) {
   const [objProps, setObjprops] = useState({});
-  const [rowData, setRowData] = useState([]);
   const [, getBomDetails, bomDetailsLoader] = useAxiosGet();
   const [, getStockQtyList, stockQtyListLoader] = useAxiosPost();
   const {
@@ -23,7 +30,10 @@ export default function BackCalculationModal({ values, setFieldValue, setIsShowM
 
   // calculate total value on required quantity change
   const calculateTotalValue = rowData?.reduce((prevValue, currenctItem) => {
-    return prevValue + currenctItem?.requiredQuantity * currenctItem?.numStockRateByDate;
+    return (
+      prevValue +
+      currenctItem?.requiredQuantity * currenctItem?.numStockRateByDate
+    );
   }, 0);
 
   const calculateTotalExpence = () => {
@@ -40,18 +50,25 @@ export default function BackCalculationModal({ values, setFieldValue, setIsShowM
           wareHouseId: wareHouseId,
           itemId: item?.itemId,
         }));
-        getStockQtyList(`/mes/ProductionEntry/GetRuningStockAndQuantityList`, payload, (data) => {
-          const newData = bomData?.map((item) => {
-            const targetItem = data.find((itm) => itm?.itemId === item?.itemId);
-            return {
-              ...item,
-              numStockRateByDate: targetItem?.numStockRateByDate,
-              numStockByDate: targetItem?.numStockByDate,
-              requiredQuantity: ((item?.quantity / item?.lotSize) * goodQty)?.toFixed(4) || 0,
-            };
-          });
-          setRowData(newData);
-        });
+        getStockQtyList(
+          `/mes/ProductionEntry/GetRuningStockAndQuantityList`,
+          payload,
+          (data) => {
+            const newData = bomData?.map((item) => {
+              const targetItem = data.find(
+                (itm) => itm?.itemId === item?.itemId
+              );
+              return {
+                ...item,
+                numStockRateByDate: targetItem?.numStockRateByDate,
+                numStockByDate: targetItem?.numStockByDate,
+                requiredQuantity:
+                  ((item?.quantity / item?.lotSize) * goodQty)?.toFixed(4) || 0,
+              };
+            });
+            setRowData(newData);
+          }
+        );
       }
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -62,9 +79,18 @@ export default function BackCalculationModal({ values, setFieldValue, setIsShowM
       enableReinitialize={true}
       initialValues={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        setFieldValue("materialCost", calculateTotalValue);
-        setFieldValue("overheadCost", calculateTotalExpence());
-        setIsShowModal(false);
+        IConfirmModal({
+          // title: `Purchase Request`,
+          message: `Are you sure about returning the remaining quantity of the product?`,
+          yesAlertFunc: () => {
+            if (values?.isLastProduction) {
+              setFieldValue("materialCost", calculateTotalValue);
+              setFieldValue("overheadCost", calculateTotalExpence());
+              setIsShowModal(false);
+            }
+          },
+          noAlertFunc: () => {},
+        });
       }}
     >
       {({ handleSubmit }) => (
@@ -88,6 +114,7 @@ export default function BackCalculationModal({ values, setFieldValue, setIsShowM
                       <th>Qty</th>
                       <th>Rate</th>
                       <th>Value</th>
+                      <th>Rest Qty</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -104,20 +131,49 @@ export default function BackCalculationModal({ values, setFieldValue, setIsShowM
                               value={item?.requiredQuantity}
                               max={item?.numIssueQuantity}
                               onChange={(e) => {
+                                if (+e.target.value > item.numIssueQuantity) {
+                                  return toast.warn(
+                                    `Qty cann't be greater than ${item.numIssueQuantity}`
+                                  );
+                                }
                                 let requiredQuantity = e?.target?.value;
-                                requiredQuantity = requiredQuantity < 0 ? Math?.abs(requiredQuantity) : requiredQuantity;
+                                requiredQuantity =
+                                  requiredQuantity < 0
+                                    ? Math?.abs(requiredQuantity)
+                                    : requiredQuantity;
 
                                 setRowData((prev) => {
                                   const newRowData = [...prev];
-                                  newRowData[index] = { ...newRowData?.[index], requiredQuantity };
+                                  newRowData[index] = {
+                                    ...newRowData?.[index],
+                                    requiredQuantity,
+                                  };
                                   return newRowData;
                                 });
                               }}
                             />
                           </td>
-                          <td className="text-right">{_formatMoney(item?.numStockRateByDate)}</td>
                           <td className="text-right">
-                            {_formatMoney(item?.requiredQuantity * item?.numStockRateByDate)}
+                            {_formatMoney(item?.numStockRateByDate)}
+                          </td>
+                          <td className="text-right">
+                            {_formatMoney(
+                              item?.requiredQuantity * item?.numStockRateByDate
+                            )}
+                          </td>
+                          <td className="text-right">
+                            <strong
+                              className={
+                                (+item?.numIssueQuantity || 0) -
+                                  (+item?.requiredQuantity || 0) >
+                                0
+                                  ? "text-warning"
+                                  : ""
+                              }
+                            >
+                              {(+item?.numIssueQuantity || 0) -
+                                (+item?.requiredQuantity || 0)}
+                            </strong>
                           </td>
                         </tr>
                       ))}
@@ -127,7 +183,9 @@ export default function BackCalculationModal({ values, setFieldValue, setIsShowM
                       </td>
                       <td></td>
                       <td></td>
-                      <td className="text-right">{_formatMoney(calculateTotalValue)}</td>
+                      <td className="text-right">
+                        {_formatMoney(calculateTotalValue)}
+                      </td>
                     </tr>
                     <tr>
                       <td className="text-center" colSpan={3}>
@@ -135,7 +193,9 @@ export default function BackCalculationModal({ values, setFieldValue, setIsShowM
                       </td>
                       <td></td>
                       <td></td>
-                      <td className="text-right">{_formatMoney(calculateTotalExpence())}</td>
+                      <td className="text-right">
+                        {_formatMoney(calculateTotalExpence())}
+                      </td>
                     </tr>
                     <tr>
                       <td className="text-center" colSpan={3}>
@@ -144,7 +204,9 @@ export default function BackCalculationModal({ values, setFieldValue, setIsShowM
                       <td></td>
                       <td></td>
                       <td className="text-right">
-                        {_formatMoney(calculateTotalValue + calculateTotalExpence())}
+                        {_formatMoney(
+                          calculateTotalValue + calculateTotalExpence()
+                        )}
                       </td>
                     </tr>
                   </tbody>
@@ -157,7 +219,11 @@ export default function BackCalculationModal({ values, setFieldValue, setIsShowM
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
-              <button type="reset" style={{ display: "none" }} ref={objProps?.resetBtnRef}></button>
+              <button
+                type="reset"
+                style={{ display: "none" }}
+                ref={objProps?.resetBtnRef}
+              ></button>
             </Form>
           </IForm>
         </>
