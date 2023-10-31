@@ -28,6 +28,7 @@ import VesselOperationReport from "./vesselOperationReport/landing/form";
 import VesselRevenueInfoForm from "./vesselRevenueInfo/form/addEditForm";
 import VesselRevenueLanding from "./vesselRevenueInfo/landing/_landing";
 import VesselShipPointChange from "./vesselShipPointChange/landing/table";
+import ShippingChallanInfo from "./shippingChallanInfo/landingPage";
 export default function AllotmentPages() {
   return (
     <Switch>
@@ -177,6 +178,11 @@ export default function AllotmentPages() {
       <ContentRoute
         path="/vessel-management/allotment/ghatcostinfo"
         component={GhatCostInfoTable}
+      />
+
+      <ContentRoute
+        path="/vessel-management/allotment/shippingchallaninfo"
+        component={ShippingChallanInfo}
       />
     </Switch>
   );
