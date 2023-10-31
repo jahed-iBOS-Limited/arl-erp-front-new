@@ -42,8 +42,8 @@ export default function EventPlanningCreateEdit() {
   const [objProps, setObjprops] = useState({});
   const [activityList, setActivityList] = useState([]);
   const [participantList, setParticipantList] = useState([]);
-  const [isShowModal, setIsShowModal] = useState(false)
-  const [participantModalData, setParticipantModalData] = useState({})
+  const [isShowModal, setIsShowModal] = useState(false);
+  const [participantModalData, setParticipantModalData] = useState({});
   const [customerDDL, getCustomerDDL, getCustomerDDLLoader] = useAxiosGet();
   const [, saveData, saveDataLoader] = useAxiosPost();
   const [modifiedData, setModifiedData] = useState({});
@@ -52,13 +52,13 @@ export default function EventPlanningCreateEdit() {
     return state.authData;
   }, shallowEqual);
 
-
   const { id } = useParams();
 
   const saveHandler = (values, cb) => {
     const payload = {
       eventId: id ? id : 0,
-      partnerName: values?.customerName.label,
+      partnerId: values?.customerName.value || 0,
+      partnerName: values?.customerName.label || "",
       eventName: values?.eventName,
       eventDescription: values?.eventDescription,
       eventPlace: values?.eventPlace,
@@ -110,11 +110,9 @@ export default function EventPlanningCreateEdit() {
           eventPlace: data?.eventPlace,
           eventStartDate: _dateFormatter(data?.eventStartDate),
           eventEndDate: _dateFormatter(data?.eventEndDate),
-          customerName: { value: data?.partnerId, label: data?.partnerName }
-
+          customerName: { value: data?.partnerId, label: data?.partnerName },
         });
       });
-
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
@@ -122,10 +120,10 @@ export default function EventPlanningCreateEdit() {
   useEffect(() => {
     const accId = profileData?.accountId;
     const buId = selectedBusinessUnit?.value;
-    getCustomerDDL(`/partner/PManagementCommonDDL/GetBusinessPartnerbyIdDDL?AccountId=${accId}&BusinessUnitId=${buId}&PartnerTypeId=2`)
-
-  }, [profileData, selectedBusinessUnit])
-
+    getCustomerDDL(
+      `/partner/PManagementCommonDDL/GetBusinessPartnerbyIdDDL?AccountId=${accId}&BusinessUnitId=${buId}&PartnerTypeId=2`
+    );
+  }, [profileData, selectedBusinessUnit]);
 
   return (
     <Formik
@@ -150,7 +148,9 @@ export default function EventPlanningCreateEdit() {
         touched,
       }) => (
         <>
-          {(saveDataLoader || editDataLoader || getCustomerDDLLoader) && <Loading />}
+          {(saveDataLoader || editDataLoader || getCustomerDDLLoader) && (
+            <Loading />
+          )}
           <IForm title={"Event Planning Create"} getProps={setObjprops}>
             <Form>
               {/* header section */}
@@ -267,7 +267,6 @@ export default function EventPlanningCreateEdit() {
                       </div>
                       <div className="col-lg-2 d-flex  mt-2">
                         <div className="d-flex align-items-center mt-2">
-
                           <input
                             id="isParticipantCount"
                             type="checkbox"
@@ -297,7 +296,11 @@ export default function EventPlanningCreateEdit() {
                           onClick={() => {
                             activityAddHandler(values, setFieldValue);
                           }}
-                          disabled={!values?.activityName || !values?.activityStartTime || !values?.activityEndTime}
+                          disabled={
+                            !values?.activityName ||
+                            !values?.activityStartTime ||
+                            !values?.activityEndTime
+                          }
                         >
                           Add
                         </button>
@@ -339,7 +342,11 @@ export default function EventPlanningCreateEdit() {
                         <tr key={index}>
                           <td>{index + 1}</td>
                           <td>{item?.activityName}</td>
-                          <td>{item?.activityStartTime ? item?.activityStartTime : ""}</td>
+                          <td>
+                            {item?.activityStartTime
+                              ? item?.activityStartTime
+                              : ""}
+                          </td>
                           <td>{item?.activityEndTime}</td>
                           <td>{item?.isParticipantCount ? "Yes" : "No"}</td>
                           <td>{item?.taken}</td>
@@ -382,21 +389,20 @@ export default function EventPlanningCreateEdit() {
                             <td>{item?.address}</td> */}
                             <td>{item?.cardNumber}</td>
                             <td className="d-flex justify-content-center">
-                              <IView clickHandler={() => {
-
-                                setIsShowModal(true)
-                                setParticipantModalData({ sl: index + 1, ...item })
-
-                              }} />
+                              <IView
+                                clickHandler={() => {
+                                  setIsShowModal(true);
+                                  setParticipantModalData({
+                                    sl: index + 1,
+                                    ...item,
+                                  });
+                                }}
+                              />
                             </td>
-
                           </tr>
                         ))}
-
-
                     </tbody>
                   </table>
-
                 </div>
               </div>
 
