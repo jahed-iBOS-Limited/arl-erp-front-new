@@ -92,14 +92,14 @@ const { profileData, selectedBusinessUnit } = useSelector(
                 projectTeam={res?.projectTeam}
                 setResponsible={setResponsible}
               />
-              <ProjectExpense
+              {/* <ProjectExpense
                 project={project}
                 setProject={setProject}
                 isEdit={isEdit}
                 projectCostingExpense={res?.projectCostingExpense}
                 responsible={responsible}
                 
-              />
+              /> */}
               <ProjectInventoryCost
                 project={project}
                 setProject={setProject}
