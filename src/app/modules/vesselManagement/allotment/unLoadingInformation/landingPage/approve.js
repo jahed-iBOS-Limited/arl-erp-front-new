@@ -87,6 +87,7 @@ export default function WarehouseApproveFrom({
     //   ? `&godownId=${values?.godown?.value}`
     //   : "";
     getRates(
+      // `/tms/LigterLoadUnload/GetLighterLoadUnloadBillDetails?voyageId=${singleItem?.voyageNo}&lighterVesselId=${singleItem?.lighterVesselId}`,
       `/tms/LigterLoadUnload/GetGodownNOtherLabourRate?type=${1}&businessUnitId=${buId}${param}`,
       (resData) => {}
     );
@@ -124,7 +125,8 @@ export default function WarehouseApproveFrom({
       othersCostRate: +values?.othersCostRate,
 
       // all quantity
-      biwtaqnt: +values?.unloadedQty,
+      biwtaqnt: 1,
+      // biwtaqnt: +values?.unloadedQty,
       shipSweepingQnt: 1,
       decScaleQnt: 1,
       dailyLaboureQnt: 1,

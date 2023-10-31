@@ -10,29 +10,41 @@ import { _todayDate } from "../../../../_helper/_todayDate";
 import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
 import BrandItemRequisitionLandingTable from "./table";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
+import IButton from "../../../../_helper/iButton";
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
+  channel: "",
+  region: "",
+  area: "",
+  territory: "",
 };
 
 function BrandItemRequisitionLanding() {
-  const { profileData, selectedBusinessUnit } = useSelector(
-    (state) => state?.authData,
-    shallowEqual
-  );
+  const {
+    profileData,
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => state?.authData, shallowEqual);
+
   const history = useHistory();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
-  const [gridData, setGridData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [rowData, getRowData] = useAxiosGet();
+  const [rowData, getRowData, loader] = useAxiosGet();
 
-  const getLandingData = (values, pageNo = 0, pageSize = 15) => {};
+  const getLandingData = (values, pageNo = 0, pageSize = 15) => {
+    getRowData(
+      `/wms/ItemRequest/GetBrandItemRequest?areaid=${values?.area?.value ||
+        0}&businessId=${buId}&fromDate=${values?.fromDate}&todate=${
+        values?.toDate
+      }&PageNo=${pageNo}&PageSize=${pageSize}`
+    );
+  };
 
   useEffect(() => {
     getLandingData(initData, pageNo, pageSize);
-  }, [profileData, selectedBusinessUnit]);
+  }, [profileData, buId]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
     getLandingData(values, pageNo, pageSize);
@@ -40,7 +52,7 @@ function BrandItemRequisitionLanding() {
 
   return (
     <>
-      {loading && <Loading />}
+      {loader && <Loading />}
       <ICustomCard
         title="Brand Item Requisition"
         createHandler={() =>
@@ -50,18 +62,24 @@ function BrandItemRequisitionLanding() {
         }
       >
         <Formik enableReinitialize={true} initialValues={initData}>
-          {({ values, setFieldValue, errors, touched }) => (
+          {({ values, setFieldValue }) => (
             <>
               <form>
                 <div className="row global-form">
+                  <RATForm obj={{ values, setFieldValue }} />
                   <FromDateToDateForm obj={{ values, setFieldValue }} />
+                  <IButton
+                    onClick={() => {
+                      getLandingData(values, pageNo, pageSize);
+                    }}
+                  />
                 </div>
 
                 <BrandItemRequisitionLandingTable obj={{ rowData }} />
 
-                {gridData?.objdata?.length > 0 && (
+                {rowData?.length > 0 && (
                   <PaginationTable
-                    count={gridData?.totalCount}
+                    count={rowData?.totalCount}
                     setPositionHandler={setPositionHandler}
                     paginationState={{
                       pageNo,
