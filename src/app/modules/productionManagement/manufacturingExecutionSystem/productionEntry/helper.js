@@ -12,7 +12,7 @@ export const getGridData = async (
   pageSize,
   search,
   fromDate,
-  toDate,
+  toDate
 ) => {
   setLoading(true);
   const searchPath = search ? `searchTerm=${search}&` : "";
@@ -53,7 +53,7 @@ export const getShopFloorDDL = async (accId, buId, plantId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getProductionOrderDDL = async (
@@ -74,7 +74,7 @@ export const getProductionOrderDDL = async (
       setter(res.data);
       // console.log(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getItemNameDDL = async (accId, buId, plantId, setter) => {
@@ -86,7 +86,7 @@ export const getItemNameDDL = async (accId, buId, plantId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getShiftDDL = async (accId, buId, setter) => {
@@ -98,7 +98,7 @@ export const getShiftDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getWorkCenterDDL = async (
@@ -116,7 +116,7 @@ export const getWorkCenterDDL = async (
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const createProductionEntry = async (
@@ -223,7 +223,7 @@ export const getSingleDataById = async (
       setter(newObj);
       setRowData(newObjRow?.filter((item, index) => index !== 0));
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 //for back calculation api
 export const getSingleDataByForBackCalculation = async (
@@ -247,7 +247,7 @@ export const getSingleDataByForBackCalculation = async (
         },
         location: {
           value: response?.header?.locationData?.value,
-          label: response?.header?.locationData?.label
+          label: response?.header?.locationData?.label,
         },
         itemName: response?.header?.itemName,
         plantId: response?.header?.plantId,
@@ -274,14 +274,14 @@ export const getSingleDataByForBackCalculation = async (
           uomName: item?.uomname,
           numQuantity: item?.numQuantity,
           approvedQuantity: item?.numQuantity,
-          isMain: item?.isMain
+          isMain: item?.isMain,
         };
       });
       setter(newObj);
       setTableData(newObjRow);
       // ?.filter((item, index) => index !== 0)
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 //for ------ WITHOUT ------- back calculation approve by id
@@ -302,6 +302,7 @@ export const getSingleDataByIdApprove = async (
       let response = res?.data;
       let newObj = {
         ...response,
+        productionId,
         plantName: {
           value: response?.objHeader?.plantId,
           label: response?.objHeader?.plantName,
@@ -330,13 +331,13 @@ export const getSingleDataByIdApprove = async (
           itemName: item?.strItemName,
           numQuantity: item?.outPutQuantity,
           approvedQuantity: item?.outPutQuantity,
-          isMain: item?.isMain
+          isMain: item?.isMain,
         };
       });
       setter(newObj);
       setRowData(newObjRow);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 //for back calculation approve by id
@@ -389,7 +390,7 @@ export const getSingleDataByIdForBackCalculation = async (
       setter(newObj);
       setTableData(newObjRow?.filter((item, index) => index !== 0));
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const editProductionEntry = async (payload, setDisabled) => {
@@ -410,14 +411,18 @@ export const editProductionEntry = async (payload, setDisabled) => {
   }
 };
 
-export const editApprovalProductionEntry = async (
+export const editApprovalProductionEntry = async ({
   payload,
   setDisabled,
   setSaveBtnDisabled,
   IssueReturnHandler,
   values,
-  rowData
-) => {
+  rowData,
+  singleData,
+  params,
+  profileData,
+  selectedBusinessUnit,
+}) => {
   setDisabled(true);
   try {
     const res = await axios.put(
@@ -429,7 +434,16 @@ export const editApprovalProductionEntry = async (
       toast.success(res?.data?.message || "Approved Successfully!");
       setDisabled(false);
       setSaveBtnDisabled(true);
-      IssueReturnHandler && IssueReturnHandler({response: res?.data, values, rowData})
+      [2]?.includes(+params?.backCalculationId) &&
+        IssueReturnHandler &&
+        IssueReturnHandler({
+          response: res?.data,
+          values,
+          rowData,
+          singleData,
+          profileData,
+          selectedBusinessUnit,
+        });
     }
   } catch (error) {
     // toast.error("Sorry! Can not approve now. Try again later.");
@@ -472,7 +486,7 @@ export const getOtherOutputItemDDL = async (accId, buId, plantId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 // Plant DDL for Landing
@@ -505,7 +519,7 @@ export const getOrderQuantityDDL = async (
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getProductionItemQuantity = async (poId, itemId, setter) => {
@@ -517,7 +531,7 @@ export const getProductionItemQuantity = async (poId, itemId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const productionOrderAction = async (poId, updateRowDto, setRowDto) => {
@@ -544,7 +558,7 @@ export const GetMESConfigurationBusinessUnitWiseByAccountId = async (
       `/mes/BOM/GetMESConfigurationBusinessUnitWiseByAccountId?accountId=${accId}&businessUnitId=${buId}`
     );
     setter(res.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getItemListForBackCalculation = async (
@@ -563,10 +577,10 @@ export const getItemListForBackCalculation = async (
       ...item,
       value: item?.itemId,
       label: item?.itemName,
-      isMain: true
+      isMain: true,
     }));
     setter(data);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getRoutingToBOMDDL = async (
@@ -583,10 +597,17 @@ export const getRoutingToBOMDDL = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
-export const getWarehouseDDL = async (userId, accId, buId, plantId, orgId, setter) => {
+export const getWarehouseDDL = async (
+  userId,
+  accId,
+  buId,
+  plantId,
+  orgId,
+  setter
+) => {
   try {
     const res = await axios.get(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`
@@ -594,7 +615,7 @@ export const getWarehouseDDL = async (userId, accId, buId, plantId, orgId, sette
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 //Image Attachment
