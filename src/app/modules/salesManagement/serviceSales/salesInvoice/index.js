@@ -1,21 +1,21 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { shallowEqual, useSelector } from "react-redux";
+import IConfirmModal from "../../../_helper/_confirmModal";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IForm from "./../../../_helper/_form";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { _todayDate } from "../../../_helper/_todayDate";
-import IConfirmModal from "../../../_helper/_confirmModal";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
 import IViewModal from "../../../_helper/_viewModal";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import IForm from "./../../../_helper/_form";
 import PrintInvoiceModal from "./printInvoice";
 const initData = {
   customer: "",
   item: "",
-  type: { value: 1, label: "Pending for Invoice" },
+  type: { value: 2, label: "Pending for Collection" },
 };
 export default function SalesInvoiceLanding() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -206,7 +206,7 @@ export default function SalesInvoiceLanding() {
                     <NewSelect
                       name="type"
                       options={[
-                        { value: 1, label: "Pending for Invoice" },
+                        // { value: 1, label: "Pending for Invoice" },
                         { value: 2, label: "Pending for Collection" },
                       ]}
                       value={values?.type}
@@ -303,22 +303,24 @@ export default function SalesInvoiceLanding() {
                       <thead>
                         <tr>
                           <th>Customer</th>
+                          <th>Item Name</th>
                           <th>Address</th>
                           <th>Schedule Type</th>
                           <th>Sales Type</th>
-                          <th> S Service Sales Order Code</th>
-                          {values?.type?.value ? null : <th>Action</th>}
+                          <th>Sales Order Code</th>
+                          <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
                         {rowData?.map((item, index) => (
                           <tr key={index}>
                             <td>{item?.invocieHeader?.strCustomerName}</td>
+                            <td>{item?.strItemName}</td>
                             <td>{item?.invocieHeader?.strCustomerAddress}</td>
                             <td>{item?.invocieHeader?.strScheduleTypeName}</td>
                             <td>{item?.invocieHeader?.strSalesTypeName}</td>
                             <td>
-                              {item?.invocieHeader?.strServiceSalesOrderCode}
+                              {item?.strServiceSalesOrderCode}
                             </td>
                             <td>
                               <div className="d-flex justify-content-between">
