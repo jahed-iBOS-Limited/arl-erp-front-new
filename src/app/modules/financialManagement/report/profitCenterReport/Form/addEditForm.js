@@ -6,6 +6,8 @@ import { _todayDate } from "../../../../_helper/_todayDate";
 import Form from "./form";
 
 const initData = {
+  controllingUnit: "",
+  profitCenterGroup: "",
   profitCenter: "",
   fromDate: _todayDate(),
   toDate: _todayDate(),
