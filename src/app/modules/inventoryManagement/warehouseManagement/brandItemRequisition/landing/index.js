@@ -35,8 +35,8 @@ function BrandItemRequisitionLanding() {
 
   const getLandingData = (values, pageNo = 0, pageSize = 15) => {
     getRowData(
-      `/wms/ItemRequest/GetBrandItemRequest?areaid=${values?.area?.value ||
-        0}&businessId=${buId}&fromDate=${values?.fromDate}&todate=${
+      `/wms/ItemRequest/GetBrandItemRequest?areaId=${values?.area?.value ||
+        0}&businessUnitId=${buId}&fromDate=${values?.fromDate}&todate=${
         values?.toDate
       }&PageNo=${pageNo}&PageSize=${pageSize}`
     );
@@ -66,7 +66,7 @@ function BrandItemRequisitionLanding() {
             <>
               <form>
                 <div className="row global-form">
-                  <RATForm obj={{ values, setFieldValue }} />
+                  <RATForm obj={{ values, setFieldValue, territory: false }} />
                   <FromDateToDateForm obj={{ values, setFieldValue }} />
                   <IButton
                     onClick={() => {
