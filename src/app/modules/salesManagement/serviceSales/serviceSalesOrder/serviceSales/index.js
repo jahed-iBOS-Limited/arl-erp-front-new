@@ -1,14 +1,12 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import { shallowEqual, useSelector } from "react-redux";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../../_helper/_loading";
+import { useHistory } from "react-router-dom";
 import IForm from "../../../../_helper/_form";
+import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _todayDate } from "../../../../_helper/_todayDate";
 import PaginationTable from "../../../../_helper/_tablePagination";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const initData = {
   customer: "",
@@ -149,6 +147,7 @@ export default function ServiceSalesLanding() {
                       <tr>
                         <th>Order Code</th>
                         <th>Customer</th>
+                        <th>Item Name</th>
                         <th>Salaes Type Name</th>
                         <th>Payment Type</th>
                         <th>Schedule Type</th>
@@ -159,6 +158,7 @@ export default function ServiceSalesLanding() {
                       {scheduleList?.data?.map((item, index) => (
                         <tr key={index}>
                           <td>{item?.strServiceSalesOrderCode}</td>
+                          <td>{item?.strItemName}</td>
                           <td>{item?.strCustomerName}</td>
                           <td>{item?.strSalesTypeName}</td>
                           <td>{item?.strPaymentType}</td>
