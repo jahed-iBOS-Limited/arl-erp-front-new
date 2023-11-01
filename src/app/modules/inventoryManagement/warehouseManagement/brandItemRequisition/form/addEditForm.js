@@ -1,39 +1,43 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import Form from "./form";
-import { _todayDate } from "../../../../_helper/_todayDate";
 import Loading from "../../../../_helper/_loading";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import Form from "./form";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import { toast } from "react-toastify";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
 const initData = {
-  fromDate: _todayDate(),
-  toDate: _todayDate(),
-  distributionChannel: "",
-  area: "",
+  programType: "",
+  channel: "",
   region: "",
-  reportType: { value: 1, label: "Details" },
+  area: "",
+  territory: "",
+  itemCategory: "",
+  item: "",
+  uom: "",
+  requiredDate: "",
+  quantity: "",
+  description: "",
+  purpose: "",
 };
 
 export default function BrandItemRequisitionForm() {
   const {
-    profileData: { accountId: accId },
-    selectedBusinessUnit: { value: buId },
+    profileData: { accountId: accId, accountName: accName, userId },
+    selectedBusinessUnit: { value: buId, label: buName },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  const [isDisabled, setIsDisabled] = useState(false);
-  const [pageNo, setPageNo] = useState(0);
-  const [pageSize, setPageSize] = useState(15);
   const [rowData, setRowData] = useState([]);
   const [itemCategoryDDL, getItemCategoryDDL] = useAxiosGet();
   const [itemDDL, getItemDDL] = useAxiosGet();
   const [UOMDDL, getUOMDDL] = useAxiosGet();
-
-  const commonGridFunc = (values, _pageNo = pageNo, _pageSize = pageSize) => {};
+  const [, postData, loader] = useAxiosPost();
 
   useEffect(() => {
     getItemCategoryDDL(
-      `/item/ItemCategoryGL/GetItemCategoryDDLForConfig?AccountId=${accId}&BusinessUnitId=${buId}`
+      `/wms/ItemPlantWarehouse/GetItemCategoryDDL?accountId=${accId}&businessUnitId=${buId}`
     );
     getUOMDDL(
       `/item/ItemUOM/GetItemUOMDDL?AccountId=${accId}&BusinessUnitId=${buId}`
@@ -43,46 +47,59 @@ export default function BrandItemRequisitionForm() {
   const getItemsByCategory = (values) => {
     const categoryId = values?.itemCategory?.value;
     getItemDDL(
-      `wms/ItemPlantWarehouse/ItemByCategoryDDL?CategoryId=${categoryId}`
+      `/wms/ItemPlantWarehouse/ItemByCategoryDDL?CategoryId=${categoryId}`
     );
   };
 
-  const saveHandler = async (values) => {
+  const saveHandler = async (values, cb) => {
     const payload = {
       brandRequestId: 0,
-      brandRequestCode: "string",
-      reffNo: "string",
-      brandRequestTypeId: 0,
-      brandRequestTypeName: "string",
-      accountId: 0,
-      accountName: "string",
-      businessUnitId: 0,
-      businessUnitName: "string",
+      brandRequestCode: "",
+      reffNo: "",
+      brandRequestTypeId: values?.programType?.value,
+      brandRequestTypeName: values?.programType?.label,
+      accountId: accId,
+      accountName: accName,
+      businessUnitId: buId,
+      businessUnitName: buName,
       sbuid: 0,
-      sbuname: "string",
-      areaId: 0,
-      areaName: "string",
+      sbuname: "",
+      areaId: values?.area?.value,
+      areaName: values?.area?.label,
       brandWarehouseId: 0,
-      brandWarehouseName: "string",
-      deliveryAddress: "string",
-      supplyingWarehouseName: "string",
+      brandWarehouseName: "",
+      deliveryAddress: "",
+      supplyingWarehouseName: "",
       supplyingWarehouseId: 0,
-      requestDate: "2023-10-23T11:10:20.273Z",
-      actionBy: 0,
+      requestDate: _todayDate(),
+      actionBy: userId,
       costControlingUnitId: 0,
-      costControlingUnit: "string",
+      costControlingUnit: "",
       costCenterId: 0,
-      costCenter: "string",
+      costCenter: "",
       costElementId: 0,
-      costElement: "string",
-      purpose: "string",
-      requiredDate: "2023-10-23T11:10:20.273Z",
-      itemCategoryId: 0,
-      brandItemRows: [{}],
+      costElement: "",
+      purpose: values?.purpose,
+      requiredDate: values?.requiredDate,
+      itemCategoryId: values?.itemCategory?.value,
+      brandItemRows: rowData,
     };
+    postData(
+      `/wms/ItemRequest/CreateBrandItemRequest`,
+      payload,
+      () => {
+        setRowData([]);
+        cb();
+      },
+      true
+    );
   };
 
   const addRow = (values) => {
+    const exist = rowData?.find((item) => item?.itemId === values?.item?.value);
+    if (exist) {
+      return toast.warn("Duplicate item not allowed!");
+    }
     const newRow = {
       // rowId: 0,
       // brandRequestId: 0,
@@ -95,7 +112,9 @@ export default function BrandItemRequisitionForm() {
       remarks: values?.description,
       // restQuantity: 0,
       channelId: values?.channel?.value,
+      channelName: values?.channel?.label,
       territoryId: values?.territory?.value,
+      territoryName: values?.territory?.label,
     };
     setRowData([...rowData, newRow]);
   };
@@ -106,7 +125,7 @@ export default function BrandItemRequisitionForm() {
 
   return (
     <>
-      {isDisabled && <Loading />}
+      {loader && <Loading />}
       <Form
         initData={initData}
         saveHandler={saveHandler}

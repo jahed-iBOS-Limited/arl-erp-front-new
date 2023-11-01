@@ -22,6 +22,7 @@ const initialValues = {
   item: "",
   quantity: "",
   price: "",
+  labor:"",
 };
 const ProjectInventoryCost = ({
   project,
@@ -148,7 +149,7 @@ const ProjectInventoryCost = ({
                     <InputField
                       type="number"
                       value={values?.quantity}
-                      label="Quantity"
+                      label="Item Quantity"
                       onChange={(e) => {
                         setFieldValue("quantity", e.target.value);
                       }}
@@ -163,7 +164,7 @@ const ProjectInventoryCost = ({
                     <InputField
                       type="number"
                       value={values?.price}
-                      label="Price"
+                      label="Item Price"
                       onChange={(e) => {
                         setFieldValue("price", e.target.value);
                       }}
@@ -173,6 +174,21 @@ const ProjectInventoryCost = ({
                       errors={errors}
                       touched={touched}
                     />
+                  </div>
+                  <div className="col-md-3">
+                    <InputField
+                      type="number"
+                      value={values?.labor}
+                      label="Labor"
+                      onChange={(e) => {
+                        setFieldValue("labor", e.target.value);
+                      }}
+                    />
+                    {/* <FormikError
+                      name="labor"
+                      errors={errors}
+                      touched={touched}
+                    /> */}
                   </div>
 
                   <div className="col-md-3">
@@ -212,10 +228,13 @@ const ProjectInventoryCost = ({
                                 Quantity
                               </th>
                               <th style={{ width: "100px" }}>
-                                <div className="text-right">Price</div>
+                                <div>Price</div>
                               </th>
                               <th style={{ width: "100px" }}>
-                                <div className="text-right">Total</div>
+                                <div>Labor</div>
+                              </th>
+                              <th style={{ width: "100px" }}>
+                                <div>Total</div>
                               </th>
                               <th style={{ width: "150px" }}>Action</th>
                             </tr>
@@ -241,6 +260,9 @@ const ProjectInventoryCost = ({
                                   </td>
                                   <td className="text-right">
                                     {item?.numPrice}
+                                  </td>
+                                  <td className="text-right">
+                                    {item?.numLaborValue || ""}
                                   </td>
                                   <td className="text-right">
                                     {item?.numTotal}

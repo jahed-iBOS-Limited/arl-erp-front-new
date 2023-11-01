@@ -55,6 +55,7 @@ const UnLoadingInformationTable = () => {
   const [rowData, getRowData, isLoading] = useAxiosGet();
   const [show, setShow] = useState(false);
   const [singleData, setSingleData] = useState({});
+  const [levelOfApprove, setLevelOfApprove] = useState("");
 
   // get user profile data from store
   const {
@@ -290,7 +291,7 @@ const UnLoadingInformationTable = () => {
                                   // {!item?.isBillSubmitted ? (
                                   <span>
                                     <IApproval
-                                      title="Approve"
+                                      title="Warehouse Approve"
                                       onClick={() => {
                                         // approveSubmitHandler(
                                         //   item?.voyageNo,
@@ -299,12 +300,28 @@ const UnLoadingInformationTable = () => {
                                         // );
                                         setSingleData(item);
                                         setShow(true);
+                                        setLevelOfApprove("first");
                                         // getData(values, pageNo, pageSize);
                                       }}
                                     />
                                   </span>
                                 ) : (
-                                  <span>Approved</span>
+                                  <span>
+                                    <IApproval
+                                      title="Supervisor Approve"
+                                      onClick={() => {
+                                        // approveSubmitHandler(
+                                        //   item?.voyageNo,
+                                        //   item?.lighterVesselId,
+                                        //   values
+                                        // );
+                                        setSingleData(item);
+                                        setShow(true);
+                                        setLevelOfApprove("second");
+                                        // getData(values, pageNo, pageSize);
+                                      }}
+                                    />
+                                  </span>
                                 )}
                               </td>
                             </tr>
@@ -334,6 +351,7 @@ const UnLoadingInformationTable = () => {
                     pageSize={pageSize}
                     setShow={setShow}
                     getData={getData}
+                    levelOfApprove={levelOfApprove}
                   />
                 </IViewModal>
 

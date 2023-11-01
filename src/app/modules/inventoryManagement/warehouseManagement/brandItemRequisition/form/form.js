@@ -7,6 +7,7 @@ import BrandItemRequisitionEntryTable from "./table";
 import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
 import TextArea from "../../../../_helper/TextArea";
 import IButton from "../../../../_helper/iButton";
+import { useHistory } from "react-router-dom";
 
 export default function _Form({
   initData,
@@ -19,17 +20,27 @@ export default function _Form({
   addRow,
   removeRow,
 }) {
+  const history = useHistory();
   return (
     <>
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        onSubmit={(values) => {
-          saveHandler(values);
-        }}
+        onSubmit={() => {}}
       >
-        {({ values, errors, touched, setFieldValue, handleSubmit }) => (
-          <ICustomCard title="Brand Item Requisition Entry">
+        {({ values, errors, touched, setFieldValue, resetForm }) => (
+          <ICustomCard
+            title="Brand Item Requisition Entry"
+            backHandler={() => history.goBack()}
+            resetHandler={() => {
+              resetForm();
+            }}
+            saveHandler={() => {
+              saveHandler(values, () => {
+                resetForm();
+              });
+            }}
+          >
             <form>
               <div className="row global-form">
                 <div className="col-lg-3">
@@ -48,6 +59,25 @@ export default function _Form({
                     placeholder="Program Type"
                     errors={errors}
                     touched={touched}
+                    isDisabled={rowData?.length}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.purpose}
+                    label="Purpose"
+                    placeholder="Purpose"
+                    type="text"
+                    name="purpose"
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.requiredDate}
+                    label="Required Date"
+                    placeholder="Date"
+                    type="date"
+                    name="requiredDate"
                   />
                 </div>
                 <RATForm obj={{ values, setFieldValue }} />
@@ -97,15 +127,7 @@ export default function _Form({
                     touched={touched}
                   />
                 </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.date}
-                    label="Date"
-                    placeholder="Date"
-                    type="date"
-                    name="date"
-                  />
-                </div>
+
                 <div className="col-lg-3">
                   <InputField
                     value={values?.quantity}
@@ -117,15 +139,21 @@ export default function _Form({
                 </div>
 
                 <div className="col-lg-3">
-                  <label>Description</label>
+                  <label>Remarks</label>
                   <TextArea
                     name="description"
                     placeholder="Description"
                     value={values?.description}
-                    rows="4"
+                    rows="3"
                   />
                 </div>
-                <IButton>Add</IButton>
+                <IButton
+                  onClick={() => {
+                    addRow(values);
+                  }}
+                >
+                  Add
+                </IButton>
               </div>
               <BrandItemRequisitionEntryTable obj={{ rowData, removeRow }} />
             </form>

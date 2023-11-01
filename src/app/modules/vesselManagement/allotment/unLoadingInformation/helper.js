@@ -196,6 +196,19 @@ export const editUnloadinfo = async (data, cb) => {
   }
 };
 
+export const updateUnloadingQtyAndRates = async (data, cb) => {
+  try {
+    const res = await axios.put(
+      `/tms/LigterLoadUnload/UpdateLighterLoadUnLoadBillDetails`,
+      data
+    );
+    toast.success(res?.data?.message);
+    cb();
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+  }
+};
+
 // Validation schema
 export const validationSchema = Yup.object().shape({
   shipPoint: Yup.object().shape({

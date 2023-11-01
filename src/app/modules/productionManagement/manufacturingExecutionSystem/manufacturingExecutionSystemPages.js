@@ -117,7 +117,7 @@ export function ManufacturingExecutionSystemPages() {
       {/* PRODUCTION ENTRY */}
 
       <ContentRoute
-        from="/production-management/mes/productionentry/approval/:aId"
+        from="/production-management/mes/productionentry/approval/:aId/:backCalculationId"
         component={ProductionEntryApprovalForm}
       />
       <ContentRoute

@@ -162,7 +162,7 @@ export const onAddItemRequestForProject = (
     intUpdatedBy: 0,
     itemName: values?.item?.label,
     itemCode: values?.item?.code,
-
+    numLaborValue: +values?.labor || 0,
     strUom: values?.item?.uom,
   };
   setItemList((prev) => [...prev, newItem]);

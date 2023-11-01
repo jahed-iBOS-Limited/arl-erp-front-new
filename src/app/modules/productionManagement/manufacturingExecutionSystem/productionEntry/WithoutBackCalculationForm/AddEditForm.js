@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
-/* 
+/*
 
 Dont Touch Any Code without permission by Mamun Ahmed (Backend)
 
@@ -8,7 +8,7 @@ Dont Touch Any Code without permission by Mamun Ahmed (Backend)
 
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import IForm from "../../../../_helper/_form";
 import Loading from "../../../../_helper/_loading";
@@ -22,7 +22,6 @@ import {
 } from "../helper";
 import Form from "./WithoutBackCalculationForm";
 
-
 let initData = {
   id: undefined,
   plantName: "",
@@ -34,10 +33,13 @@ let initData = {
   itemName: "",
   workcenterName: "",
   goodQty: "",
+  materialCost: "",
+  overheadCost: "",
   goodReceivedQty: "",
   othersOutputItem: "",
   othersOutputQty: "",
   checkOutputItem: false,
+  isLastProduction: false,
 };
 
 export default function WithOutBackCalculationForm() {
@@ -47,7 +49,10 @@ export default function WithOutBackCalculationForm() {
   const [shiftDDL, setShiftDDL] = useState([]);
   const [rowData, setRowData] = useState([]);
   const [singleData, setSingleData] = useState({});
+  const [rowDataForAddConsumption, setRowDataForAddConsumption] = useState([]);
+  console.log("rowDataForAddConsumption", rowDataForAddConsumption);
   const params = useParams();
+  const location = useLocation();
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
@@ -55,6 +60,8 @@ export default function WithOutBackCalculationForm() {
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
+
+  const isBackCalculationValue = location?.state?.data?.isBackCalculation;
 
   const saveHandler = (values, cb) => {
     if (values && profileData.accountId && selectedBusinessUnit) {
@@ -76,7 +83,6 @@ export default function WithOutBackCalculationForm() {
             };
           }
         });
-        // console.log("objRowData: ",objRowData);
         const payload = {
           editHeader: {
             productionId: +params.id,
@@ -105,7 +111,6 @@ export default function WithOutBackCalculationForm() {
                   },
                 ],
         };
-        // console.log("Payload =>", payload);
         editProductionEntry(payload, setDisabled);
       } else {
         const objRowData = rowData.map((item) => {
@@ -120,6 +125,12 @@ export default function WithOutBackCalculationForm() {
             numQuantity: item?.numQuantity,
             approvedintItemId: item?.approvedItemId,
             numApprovedQuantity: item?.numApprovedQuantity,
+            ...(isBackCalculationValue === 2
+              ? {
+                  materialCost: 1,
+                  overheadCost: 1,
+                }
+              : {}),
           };
         });
 
@@ -155,6 +166,13 @@ export default function WithOutBackCalculationForm() {
                     uomid: values?.productionOrder?.uomId,
                     uomname: values?.productionOrder?.uomName,
                     numQuantity: +values?.goodQty,
+                    ...(isBackCalculationValue === 2
+                      ? {
+                          materialCost: +values?.materialCost,
+                          overheadCost: +values?.overheadCost,
+                          isLastProduction: values?.isLastProduction,
+                        }
+                      : {}),
                     numApprovedQuantity: 0,
                   },
                   ...objRowData,
@@ -169,10 +187,29 @@ export default function WithOutBackCalculationForm() {
                     uomid: values?.productionOrder?.uomId,
                     uomname: values?.productionOrder?.uomName,
                     numQuantity: +values?.goodQty,
+                    ...(isBackCalculationValue === 2
+                      ? {
+                          materialCost: +values?.materialCost,
+                          overheadCost: +values?.overheadCost,
+                          isLastProduction: values?.isLastProduction,
+                        }
+                      : {}),
                     approvedintItemId: values?.productionOrder?.itemId,
                     numApprovedQuantity: 0,
                   },
                 ],
+          bomItem:
+            isBackCalculationValue === 2 && rowDataForAddConsumption?.length > 0
+              ? rowDataForAddConsumption?.map((item) => ({
+                  itemId: item?.itemId || 0,
+                  itemCode: item?.itemCode || "",
+                  itemName: item?.itemName || "",
+                  numQuantity: +item?.requiredQuantity || 0,
+                  numIssueQty: +item?.numIssueQuantity || 0,
+                  numRate: +item?.numStockRateByDate || 0,
+                  isLastProdcution:values?.isLastProduction || false,
+                }))
+              : [],
         };
 
         const isOutputZero = objRowData.every((itm) => itm?.numQuantity > 0);
@@ -183,25 +220,23 @@ export default function WithOutBackCalculationForm() {
             !values?.shift ||
             !values?.goodQty
           ) {
-            toast.warn("All Field Required");
-          } else {
-            createProductionEntry(
-              payload,
-              cb,
-              values?.checkOutputItem,
-              setDisabled
-            );
+            return toast.warn("All Field Required");
           }
+          if (isBackCalculationValue === 2 && !values?.materialCost) {
+            return toast.warn("Please add consumption first!");
+          }
+          createProductionEntry(
+            payload,
+            cb,
+            values?.checkOutputItem,
+            setDisabled
+          );
         } else {
           toast.warn("Output Quantity For 'Item Name' Must Be Greater Than 0");
         }
       }
     }
   };
-
-  // useEffect(() => {
-  //   console.log("Change Row Data => ", rowData);
-  // }, [rowData]);
 
   useEffect(() => {
     getPlantNameDDL(
@@ -236,8 +271,6 @@ export default function WithOutBackCalculationForm() {
     setRowData([...xData]);
   };
 
-  
-
   return (
     <IForm
       title="Create Production Entry"
@@ -258,6 +291,8 @@ export default function WithOutBackCalculationForm() {
         dataHandler={dataHandler}
         profileData={profileData}
         selectedBusinessUnit={selectedBusinessUnit}
+        rowDataForAddConsumption={rowDataForAddConsumption}
+        setRowDataForAddConsumption={setRowDataForAddConsumption}
       />
     </IForm>
   );
