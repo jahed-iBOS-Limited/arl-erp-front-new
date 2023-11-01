@@ -129,7 +129,7 @@ export default function BackCalculationModal({
                       <th>Qty</th>
                       <th>Rate</th>
                       <th>Value</th>
-                      <th>Rest Qty</th>
+                      <th>{values?.isLastProduction ? "Return Qty" : "Rest Qty"}</th>
                     </tr>
                   </thead>
                   <tbody>
