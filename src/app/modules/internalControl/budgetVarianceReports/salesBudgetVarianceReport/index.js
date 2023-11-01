@@ -15,11 +15,10 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { getProfitCenterDDL } from "./helper";
 
 const initData = {
-  month: "",
-  monthId: "",
-  yearId: "",
   currentBusinessUnit: "",
-  profitCenter:""
+  profitCenter: "",
+  fromDate: "",
+  toDate: "",
 };
 const BudgetVsSalesVarient = () => {
   const [rowData, getRowData, lodar, setRowData] = useAxiosGet();
@@ -97,7 +96,7 @@ const BudgetVsSalesVarient = () => {
                         placeholder="Profit Center"
                       />
                     </div>
-                    <div className="col-lg-3">
+                    {/* <div className="col-lg-3">
                       <InputField
                         label="Month & Year"
                         placeholder="Month"
@@ -125,17 +124,41 @@ const BudgetVsSalesVarient = () => {
                         errors={errors}
                         touched={touched}
                       />
+                    </div> */}
+                    <div className="col-lg-3">
+                      <label>From Date</label>
+                      <InputField
+                        value={values?.fromDate}
+                        name="fromDate"
+                        placeholder="From Date"
+                        type="date"
+                        onChange={(e) => {
+                          setFieldValue("fromDate", e?.target?.value);
+                        }}
+                      />
                     </div>
-                    <div>
+                    <div className="col-lg-3">
+                      <label>To Date</label>
+                      <InputField
+                        value={values?.toDate}
+                        name="toDate"
+                        placeholder="To Date"
+                        type="date"
+                        onChange={(e) => {
+                          setFieldValue("toDate", e?.target?.value);
+                        }}
+                      />
+                    </div>
+                    <div className="col-lg-3">
                       <button
                         style={{ marginTop: "20px" }}
                         className="btn btn-primary ml-2"
                         disabled={
-                          !values?.currentBusinessUnit || !values?.month || !values?.profitCenter
+                          !values?.currentBusinessUnit || !values?.profitCenter || !values?.fromDate || !values?.toDate
                         }
                         onClick={() => {
                           getRowData(
-                            `/fino/CostSheet/BudgetVSSalesVarienceReport?Unitid=${values.currentBusinessUnit.value}&YearId=${values.yearId}&MonthId=${values.monthId}&ProfitCenterId=${values?.profitCenter?.value}`
+                            `/fino/CostSheet/BudgetVSSalesVarienceReport?Unitid=${values.currentBusinessUnit.value}&FromDate=${values.fromDate}&ToDate=${values.toDate}&ProfitCenterId=${values?.profitCenter?.value}`
                           );
                         }}
                       >
