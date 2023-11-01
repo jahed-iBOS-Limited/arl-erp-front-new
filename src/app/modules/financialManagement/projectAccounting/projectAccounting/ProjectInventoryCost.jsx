@@ -179,7 +179,7 @@ const ProjectInventoryCost = ({
                     <InputField
                       type="number"
                       value={values?.labor}
-                      label="Labor"
+                      label="Labor Value"
                       onChange={(e) => {
                         setFieldValue("labor", e.target.value);
                       }}
