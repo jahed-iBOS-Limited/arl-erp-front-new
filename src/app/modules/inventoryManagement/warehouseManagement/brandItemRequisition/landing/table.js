@@ -1,5 +1,6 @@
 import React from "react";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import IEdit from "../../../../_helper/_helperIcons/_edit";
 
 export default function BrandItemRequisitionLandingTable({ obj }) {
   const { rowData } = obj;
@@ -35,7 +36,9 @@ export default function BrandItemRequisitionLandingTable({ obj }) {
                 <td>{td?.uoMname}</td> */}
                 <td>{td?.requestQuantity}</td>
                 <td>{_dateFormatter(td?.requiredDate)}</td>
-                <td></td>
+                <td className="text-center">
+                  <IEdit />
+                </td>
               </tr>
             ))}
           </tbody>
