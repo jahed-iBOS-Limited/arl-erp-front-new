@@ -162,7 +162,7 @@ _Form({ initData }) {
                   </button>
                 </div>
                 {rowDto?.length > 0 &&
-                <div className="col-lg-3 mt-3">
+                <div className="col-lg-3 mt-5">
                   <ReactHtmlTableToExcel
                     id="test-table-xls-button-att-reports"
                     className="btn btn-primary"
