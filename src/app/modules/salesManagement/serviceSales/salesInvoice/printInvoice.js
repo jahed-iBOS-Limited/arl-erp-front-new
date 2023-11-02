@@ -1,15 +1,15 @@
 import React, { useEffect, useRef } from "react";
-import "./style.css";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../_helper/images/print-icon.png";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../_helper/_loading";
 import { shallowEqual, useSelector } from "react-redux";
+import ReactToPrint from "react-to-print";
+import { APIUrl } from "../../../../App";
 import {
   _dateFormatter,
   dateFormatWithMonthName,
 } from "../../../_helper/_dateFormate";
-import { APIUrl } from "../../../../App";
+import Loading from "../../../_helper/_loading";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import printIcon from "../../../_helper/images/print-icon.png";
+import "./style.css";
 
 const PrintInvoiceModal = ({ singleItem }) => {
   console.log("singleItem", singleItem);
@@ -85,25 +85,29 @@ const PrintInvoiceModal = ({ singleItem }) => {
           <div className="invoice_info">
             <div className="invoice_info__item">
               <p>
-                Invoice No:{" "}
+                <strong>Invoice No:</strong>
                 {printData[0]?.invocieHeader?.strServiceSalesInvoiceCode}
               </p>
-              <p>Order No : ORD202309018 </p>
+              <p>
+                {" "}
+                <strong>Order No :</strong> ORD202309018{" "}
+              </p>
               <p></p>
             </div>
             <div className="invoice_info__item">
               <p>
-                Invoice Date:{" "}
+                <strong> Invoice Date:</strong>
+
                 {_dateFormatter(
                   printData[0]?.invocieHeader?.dteInvoiceDateTime
                 )}
               </p>
               <p>
-                Order Date :{" "}
+                <strong> Order Date :</strong>
                 {_dateFormatter(printData[0]?.invocieRow[0]?.dteOrderDate)}
               </p>
               <p>
-                Due Date :{" "}
+                <strong> Due Date :</strong>
                 {_dateFormatter(printData[0]?.invocieRow[0]?.dteDueDateTime)}
               </p>
             </div>
@@ -112,52 +116,70 @@ const PrintInvoiceModal = ({ singleItem }) => {
             <div className="address_billing">
               <p className="address_title">BILLING ADDRESS</p>
               <p className="address_buyer">
-                Buyer Name: {printData[0]?.invocieHeader?.strCustomerName}
+                <strong>Buyer Name: </strong>{" "}
+                {printData[0]?.invocieHeader?.strCustomerName}
               </p>
               <p className="address_text">
-                Buyer Address: {printData[0]?.invocieHeader?.strCustomerAddress}
+                <strong>Buyer Address: </strong>{" "}
+                {printData[0]?.invocieHeader?.strCustomerAddress}
               </p>
             </div>
             <div className="address_shipping">
               <p className="address_title"> SHIPPING ADDRESS</p>
               <p className="address_buyer">
-                Buyer Name: {printData[0]?.invocieHeader?.strCustomerName}
+                <strong>Buyer Name: </strong>{" "}
+                {printData[0]?.invocieHeader?.strCustomerName}
               </p>
               <p className="address_text">
-                Buyer Address: {printData[0]?.invocieHeader?.strCustomerName}
+                <strong>Buyer Address: </strong>{" "}
+                {printData[0]?.invocieHeader?.strCustomerName}
               </p>
               {/* <p>Contact Person: </p>
               <p>Contact Number: </p> */}
             </div>
           </div>
           <div>
-            <table>
+            <table style={{ marginBottom: "10px" }}>
               <thead>
-                <tr>
-                  <th>SL</th>
-                  <th>Item Name</th>
+                <tr style={{ height: "30px" }}>
+                  <th style={{ width: "30px" }}>SL</th>
+                  <th style={{ width: "250px" }}>Item Name</th>
                   <th>UoM</th>
                   <th>Qty</th>
-                  <th>Rate</th>
+                  <th style={{ width: "80px" }}>Rate</th>
                   <th>Order Amount</th>
-                  <th>Invoice Amount (Schedule)</th>
-                  <th>Vat Amount (Schedule)</th>
+                  <th>
+                    Invoice Amount <br /> (Schedule)
+                  </th>
+                  <th>
+                    Vat Amount <br /> (Schedule)
+                  </th>
                   <th>Net Amount</th>
                 </tr>
               </thead>
               <tbody>
                 {printData[0]?.invocieRow?.length > 0 &&
                   printData[0]?.invocieRow?.map((item, index) => (
-                    <tr key={index}>
+                    <tr key={index} style={{ height: "30px" }}>
                       <td>{index + 1}</td>
                       <td>{item?.strItemName}</td>
                       <td>{item?.strUom}</td>
-                      <td>{item?.numSalesQty}</td>
-                      <td>{item?.numRate}</td>
-                      <td>{item?.numNetSalesAmount}</td>
-                      <td>{item?.numScheduleAmount}</td>
-                      <td>{item?.numScheduleVatAmount}</td>
-                      <td>
+                      <td style={{ textAlign: "right", paddingRight: "5px" }}>
+                        {item?.numSalesQty}
+                      </td>
+                      <td style={{ textAlign: "right", paddingRight: "5px" }}>
+                        {item?.numRate}
+                      </td>
+                      <td style={{ textAlign: "right", paddingRight: "5px" }}>
+                        {item?.numNetSalesAmount}
+                      </td>
+                      <td style={{ textAlign: "right", paddingRight: "5px" }}>
+                        {item?.numScheduleAmount}
+                      </td>
+                      <td style={{ textAlign: "right", paddingRight: "5px" }}>
+                        {item?.numScheduleVatAmount}
+                      </td>
+                      <td style={{ textAlign: "right", paddingRight: "5px" }}>
                         {item?.numScheduleAmount + item?.numScheduleVatAmount}
                       </td>
                     </tr>
@@ -171,11 +193,27 @@ const PrintInvoiceModal = ({ singleItem }) => {
           <div className="bank_details">
             <div className="bd_item">
               <h5 className="bd_title">Bank Details:</h5>
-              <p>A/C Name: iBOS Limited</p>
-              <p>A/C Number: 20502130100249715</p>
-              <p>Bank Name: Islami Bank Bangladesh Ltd</p>
-              <p>Bank Branch: Head Office Complex Corporate Branch</p>
-              <p>Routing Number: 125272689</p>
+              <p>
+                {" "}
+                <strong>A/C Name: </strong>iBOS Limited
+              </p>
+              <p>
+                {" "}
+                <strong>A/C Number: </strong> 20502130100249715
+              </p>
+              <p>
+                {" "}
+                <strong>Bank Name: </strong> Islami Bank Bangladesh Ltd
+              </p>
+              <p>
+                {" "}
+                <strong>Bank Branch: </strong> Head Office Complex Corporate
+                Branch
+              </p>
+              <p>
+                {" "}
+                <strong>Routing Number:</strong> 125272689
+              </p>
             </div>
             <div className="bd_item">
               <h5 className="bd_title">Note:</h5>
