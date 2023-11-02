@@ -21,12 +21,12 @@ const Form = ({ obj }) => {
     allSelect,
     selectedAll,
     rowDataHandler,
-    allSelect2,
-    selectedAll2,
-    rowDataHandler2,
+    // allSelect2,
+    // selectedAll2,
+    // rowDataHandler2,
     saveHandler,
     costs,
-    revenues,
+    // revenues,
     shipPointDDL,
   } = obj;
   const history = useHistory();
@@ -145,13 +145,13 @@ const Form = ({ obj }) => {
               <Table
                 obj={{
                   costs,
-                  revenues,
+                  // revenues,
                   allSelect,
                   selectedAll,
                   rowDataHandler,
-                  allSelect2,
-                  selectedAll2,
-                  rowDataHandler2,
+                  // allSelect2,
+                  // selectedAll2,
+                  // rowDataHandler2,
                 }}
               />
             </ICustomCard>
