@@ -94,54 +94,21 @@ const Form = ({ obj }) => {
 
             <div className="col-lg-3">
               <NewSelect
-                name="confirmationStatus"
+                name="status"
                 options={[
                   { value: 1, label: "Pending" },
-                  // { value: 2, label: "Approve" },
+                  { value: 2, label: "Updated" },
                 ]}
-                value={values?.confirmationStatus}
-                label="Confirmation Status"
+                value={values?.status}
+                label="Status"
                 onChange={(e) => {
-                  setFieldValue("confirmationStatus", e);
+                  setFieldValue("status", e);
                   setRowData([]);
                 }}
-                placeholder="Confirmation Status"
+                placeholder="Status"
               />
             </div>
             <FromDateToDateForm obj={{ values, setFieldValue }} />
-            {/* {status &&
-              [2, 3].includes(values?.confirmationType?.value) &&
-              rowData?.data?.length > 0 && (
-                <>
-                  <div className="col-lg-3">
-                    <InputField
-                      label="JV Date"
-                      placeholder="JV Date"
-                      value={values?.jvDate}
-                      name="jvDate"
-                      type="date"
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <InputField
-                      label="Bill Ref"
-                      placeholder="Bill Ref"
-                      value={values?.billRef}
-                      name="billRef"
-                      type="text"
-                    />
-                  </div>
-                  <div className="col-lg-6">
-                    <InputField
-                      label="Remarks"
-                      placeholder="Remarks"
-                      value={values?.remarks}
-                      name="remarks"
-                      type="text"
-                    />
-                  </div>
-                </>
-              )} */}
 
             <IButton
               colSize={"col-lg-1"}
