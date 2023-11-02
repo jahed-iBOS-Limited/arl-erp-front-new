@@ -13,6 +13,8 @@ export const getProfitCenterDDL = async (buId, setter) => {
   };
 
   export const getProfitCenterData = async ({
+    controllingUnitId,
+    profitCenterGroupId,
     pcId,
     fromDate,
     toDate,
@@ -23,7 +25,7 @@ export const getProfitCenterDDL = async (buId, setter) => {
       const res = await axios.get(
         // /financial-management/report/profitCenterReport
         // `/fino/CostSheet/ProfitRPT?ProfitCenterId=${profitCenterId}&BUId=${buId}`
-        `/fino/CostSheet/ProfitReport?PcId=${pcId}&Buid=${buId}&FromDate=${fromDate}&Todate=${toDate}`
+        `/fino/CostSheet/ProfitReport?PcId=${pcId}&ControlUnitId=${controllingUnitId}&ProficCenterGroupId=${profitCenterGroupId}&Buid=${buId}&FromDate=${fromDate}&Todate=${toDate}`
       );
       if (res.status === 200 && res?.data) {
         setter(res?.data?.Result);
@@ -31,10 +33,9 @@ export const getProfitCenterDDL = async (buId, setter) => {
     } catch (error) {}
   };
 
-  
+
   export const getProfitCenterReconcileReport = ({  getReconcileDto, selectedBusinessUnit, setReconcileDto, values }) => {
-    getReconcileDto(`/fino/CostSheet/ProfitReport?Buid=${selectedBusinessUnit?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`, (data) => {
+    getReconcileDto(`/fino/CostSheet/ProfitReport?ControlUnitId=0&ProficCenterGroupId=0&Buid=${selectedBusinessUnit?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`, (data) => {
       setReconcileDto(Array.isArray(data?.Result) ? data?.Result : []);
     });
   };
-  
