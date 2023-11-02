@@ -252,16 +252,19 @@ export default function SalesOrderView({ salesQuotationId }) {
                       )}
                     >
                       PLACE OF LOADING:{" "}
-                      {salesOrderData?.HeaderData?.SalesOfficeName.toUpperCase()}{" "}
+                      {salesOrderData?.HeaderData?.SalesOfficeName?.toUpperCase()}{" "}
                       <br />
                       PORT OF DISCHARGE:{" "}
-                      {salesOrderData?.HeaderData?.PortofDishcharge.toUpperCase()}{" "}
+                      {salesOrderData?.HeaderData?.PortofDishcharge?.toUpperCase()}{" "}
+                      <br />
+                      DESTINATION COUNTRY:{" "}
+                      {salesOrderData?.HeaderData?.ToCountryName?.toUpperCase()}{" "}
                       <br />
                       FINAL DESTINATION:{" "}
-                      {salesOrderData?.HeaderData?.FinalDestination.toUpperCase()}{" "}
+                      {salesOrderData?.HeaderData?.FinalDestination?.toUpperCase()}{" "}
                       <br />
                       ERC NO:{" "}
-                      {salesOrderData?.HeaderData?.ExPortRegNo.toUpperCase()}
+                      {salesOrderData?.HeaderData?.ExPortRegNo?.toUpperCase()}
                     </td>
                   </tr>
                   <tr>
