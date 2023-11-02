@@ -40,7 +40,7 @@ const SalesInvoiceGridData = ({
     <>
       <div className="row ">
         <div className="col-lg-12">
-          {[175, 186, 4, 94, 8].includes(buId) ? (
+          {[175, 186, 4, 94, 8, 138].includes(buId) ? (
             <table className="table table-striped table-bordered global-table table-font-size-sm">
               <thead>
                 <tr>
