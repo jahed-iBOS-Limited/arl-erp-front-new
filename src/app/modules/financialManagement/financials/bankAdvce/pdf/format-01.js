@@ -1,7 +1,6 @@
 import React from "react";
 import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
 import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import { _todayDate } from "../../../../_helper/_todayDate";
 
 const FormatOne = ({
   values,
@@ -52,7 +51,7 @@ const FormatOne = ({
               To
             </p>
             <p style={{ fontSize: "10px" }} className="font-weight-bold">
-              Date: {dateFormatWithMonthName(_todayDate())}
+              Date: {dateFormatWithMonthName(values?.dateTime)}
             </p>
           </div>
           <p style={{ fontSize: "10px" }} className="font-weight-bold">
@@ -106,7 +105,7 @@ const FormatOne = ({
                 textAlign: "center",
               }}
             >
-              Sl No 
+              Sl No
             </td>
             <td
               style={{
@@ -162,7 +161,7 @@ const FormatOne = ({
                       border: "1px solid #000",
                     }}
                   >
-                    <div className="text-center"  
+                    <div className="text-center"
                      style={{
                       ...(fontSize && { fontSize }),
                      }}

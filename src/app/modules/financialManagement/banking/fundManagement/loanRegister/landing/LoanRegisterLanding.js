@@ -102,14 +102,18 @@ const LoanRegisterLanding = () => {
     () => loanRegisterData?.data?.reduce((a, c) => a + c?.numTotalPayable, 0),
     [loanRegisterData?.data]
   );
-  const totalPaid = useMemo(
+  const totalPaidPrincipal = useMemo(
     () => loanRegisterData?.data?.reduce((a, c) => a + c?.numPaid, 0),
+    [loanRegisterData?.data]
+  );
+  const totalPaidInterest = useMemo(
+    () => loanRegisterData?.data?.reduce((a, c) => a + c?.interestAmount, 0),
     [loanRegisterData?.data]
   );
   const totalBalance = useMemo(
     () =>
       loanRegisterData?.data?.reduce(
-        (a, c) => a + (c?.numTotalPayable - c?.numPaid),
+        (a, c) => a + (c?.numPrinciple - c?.numPaid),
         0
       ),
     [loanRegisterData?.data]
@@ -210,183 +214,192 @@ const LoanRegisterLanding = () => {
                   </div>
                   <div></div>
                   <div className="row">
-                    <div className="col-12">
-                      <table className="table table-striped table-bordered global-table mt-0 table-font-size-sm mt-5">
-                        <thead className="bg-secondary">
-                          <tr>
-                            <th>SL</th>
-                            <th>Bank</th>
-                            <th>Loan Type</th>
-                            <th>Loan Class</th>
-                            <th>Facility</th>
-                            <th>Loan Acc</th>
-                            <th>Tenure</th>
-                            <th>OpenDate</th>
-                            <th>Mature Date</th>
-                            <th>Principle</th>
-                            <th>Int.Rate</th>
-                            <th>Interst</th>
-                            <th>Total Payable</th>
-                            <th>Paid</th>
-                            <th>Balance</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {loanRegisterData?.data?.map((item, index) => (
-                            <tr key={index}>
-                              <td className="text-center">{index + 1}</td>
-                              <td className="text-">{item?.strBankName}</td>
-                              <td className="text-">{item?.loanTypeName}</td>
-                              <td className="text-">{item?.loanClassName}</td>
-                              <td className="text-">{item?.facilityName}</td>
-                              <td className="text-">{item?.strLoanAccountName}</td>
-                              <td className="text-">{item?.intTenureDays}</td>
-                              <td className="text-">
-                                {_dateFormatter(item?.dteStartDate)}
-                              </td>
-                              <td className="text-">
-                                {_dateFormatter(item?.dteMaturityDate)}
-                              </td>
-                              <td className="text-right">
-                                {_formatMoney(item?.numPrinciple)}
-                              </td>
-                              <td className="text-right">
-                                {_formatMoney(item?.numInterestRate)}
-                              </td>
-                              <td className="text-right">
-                                {_formatMoney(item?.numInterest)}
-                              </td>
-                              <td className="text-right">
-                                {_formatMoney(item?.numTotalPayable)}
-                              </td>
-                              <td className="text-right">
-                                {_formatMoney(item?.numPaid)}
-                              </td>
-                              <td className="text-right">
-                                {_formatMoney(
-                                  item?.numTotalPayable - item?.numPaid
-                                )}
-                              </td>
-                              <td className="text-center">
-                                <div className="d-flex justify-content-around">
-                                  {/* <span
-                                  onClick={() =>
-                                    history.push({
-                                      pathname: `/financial-management/banking/loan-register/view/${item?.intLoanAccountId}`,
-                                    })
-                                  }
-                                >
-                                  <IView />
-                                </span> */}
-                                  <span>
-                                    <ICon
-                                      title="Attach or View your documents"
-                                      onClick={() => {
-                                        setFdrNo(item?.strLoanAccountName);
-                                        getAttachments(
-                                          buId,
-                                          2,
-                                          item?.strLoanAccountName,
-                                          setAttachments,
-                                          setLoading,
-                                          () => {
-                                            setOpen(true);
-                                          }
-                                        );
+                    <div className="col-12 common-scrollable-table two-column-sticky">
+                      <div className="scroll-table _table overflow-auto">
+                        <table className="table table-striped table-bordered global-table">
+                          <thead className="bg-secondary">
+                            <tr>
+                              <th>SL</th>
+                              <th>Bank</th>
+                              <th style={{minWidth: "70px"}}>Loan Type</th>
+                              <th style={{minWidth: "70px"}}>Loan Class</th>
+                              <th style={{minWidth: "70px"}}>Facility</th>
+                              <th>Loan Acc</th>
+                              <th style={{minWidth: "50px"}}>Tenure</th>
+                              <th style={{minWidth: "90px"}}>OpenDate</th>
+                              <th style={{minWidth: "90px"}}>Mature Date</th>
+                              <th style={{minWidth: "100px"}}>Principle</th>
+                              <th style={{minWidth: "50px"}}>Int.Rate</th>
+                              <th style={{minWidth: "100px"}}>Interst</th>
+                              <th style={{minWidth: "100px"}}>Total Payable</th>
+                              <th style={{minWidth: "100px"}}>Paid Principal</th>
+                              <th style={{minWidth: "100px"}}>Paid Interest</th>
+                              <th style={{minWidth: "100px"}}>Principal Balance</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {loanRegisterData?.data?.map((item, index) => (
+                              <tr key={index}>
+                                <td className="text-center">{index + 1}</td>
+                                <td className="text-">{item?.strBankName}</td>
+                                <td className="text-">{item?.loanTypeName}</td>
+                                <td className="text-">{item?.loanClassName}</td>
+                                <td className="text-">{item?.facilityName}</td>
+                                <td className="text-">{item?.strLoanAccountName}</td>
+                                <td className="text-">{item?.intTenureDays}</td>
+                                <td className="text-">
+                                  {_dateFormatter(item?.dteStartDate)}
+                                </td>
+                                <td className="text-">
+                                  {_dateFormatter(item?.dteMaturityDate)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(item?.numPrinciple)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(item?.numInterestRate)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(item?.numInterest)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(item?.numTotalPayable)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(item?.numPaid)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(item?.interestAmount)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(
+                                    item?.numPrinciple - item?.numPaid
+                                  )}
+                                </td>
+                                <td className="text-center">
+                                  <div className="d-flex justify-content-around">
+                                    {/* <span
+                                    onClick={() =>
+                                      history.push({
+                                        pathname: `/financial-management/banking/loan-register/view/${item?.intLoanAccountId}`,
+                                      })
+                                    }
+                                  >
+                                    <IView />
+                                  </span> */}
+                                    <span>
+                                      <ICon
+                                        title="Attach or View your documents"
+                                        onClick={() => {
+                                          setFdrNo(item?.strLoanAccountName);
+                                          getAttachments(
+                                            buId,
+                                            2,
+                                            item?.strLoanAccountName,
+                                            setAttachments,
+                                            setLoading,
+                                            () => {
+                                              setOpen(true);
+                                            }
+                                          );
+                                        }}
+                                      >
+                                        <i class="fas fa-paperclip"></i>
+                                      </ICon>
+                                    </span>
+                                    <span
+                                      className="text-primary "
+                                      style={{
+                                        marginLeft: "4px",
+                                        cursor: "pointer",
+                                      }}
+                                      onClick={() =>
+                                        history.push({
+                                          pathname: `/financial-management/banking/loan-register/repay/${item?.intLoanAccountId}`,
+                                          state: { bankId: item?.intBankId },
+                                        })
+                                      }
+                                    >
+                                      Repay
+                                    </span>
+                                    <span
+                                      className="text-primary "
+                                      style={{
+                                        marginLeft: "4px",
+                                        cursor: "pointer",
+                                      }}
+                                      onClick={() =>
+                                        history.push({
+                                          pathname: `/financial-management/banking/loan-register/re-new/${item?.intLoanAccountId}`,
+                                          state: item,
+                                        })
+                                      }
+                                    >
+                                      Renew
+                                    </span>
+                                    {/* for close */}
+                                    {item?.numPaid === 0 ? (<span
+                                      className="text-primary "
+                                      style={{
+                                        marginLeft: "4px",
+                                        cursor: "pointer",
                                       }}
                                     >
-                                      <i class="fas fa-paperclip"></i>
-                                    </ICon>
-                                  </span>
-                                  <span
-                                    className="text-primary "
-                                    style={{
-                                      marginLeft: "4px",
-                                      cursor: "pointer",
-                                    }}
-                                    onClick={() =>
-                                      history.push({
-                                        pathname: `/financial-management/banking/loan-register/repay/${item?.intLoanAccountId}`,
-                                        state: { bankId: item?.intBankId },
-                                      })
-                                    }
-                                  >
-                                    Repay
-                                  </span>
-                                  <span
-                                    className="text-primary "
-                                    style={{
-                                      marginLeft: "4px",
-                                      cursor: "pointer",
-                                    }}
-                                    onClick={() =>
-                                      history.push({
-                                        pathname: `/financial-management/banking/loan-register/re-new/${item?.intLoanAccountId}`,
-                                        state: item,
-                                      })
-                                    }
-                                  >
-                                    Renew
-                                  </span>
-                                  {/* for close */}
-                                  {item?.numPaid === 0 ? (<span
-                                    className="text-primary "
-                                    style={{
-                                      marginLeft: "4px",
-                                      cursor: "pointer",
-                                    }}
-                                  >
-                                    <IClose
-                                      closer={() => {
-                                        postCloseLoanRegister(`/fino/FundManagement/CancelLoanRegister?businessUnitId=${buId
-                                          }&loanAccountId=${item?.intLoanAccountId}&actionBy=${profileData?.userId}`, null, () => {
-                                            getLoanRegisterLanding(
-                                              profileData?.accountId,
-                                              buId,
-                                              values?.bank?.value,
-                                              values?.status?.value,
-                                              pageNo,
-                                              pageSize,
-                                              setLoanRegisterData,
-                                              setLoading
-                                            );
-                                          })
-                                      }}
-                                      title="Cancel Loan Register"
-                                    />
-                                  </span>)
-                                    :
-                                    null}
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
+                                      <IClose
+                                        closer={() => {
+                                          postCloseLoanRegister(`/fino/FundManagement/CancelLoanRegister?businessUnitId=${buId
+                                            }&loanAccountId=${item?.intLoanAccountId}&actionBy=${profileData?.userId}`, null, () => {
+                                              getLoanRegisterLanding(
+                                                profileData?.accountId,
+                                                buId,
+                                                values?.bank?.value,
+                                                values?.status?.value,
+                                                pageNo,
+                                                pageSize,
+                                                setLoanRegisterData,
+                                                setLoading
+                                              );
+                                            })
+                                        }}
+                                        title="Cancel Loan Register"
+                                      />
+                                    </span>)
+                                      :
+                                      null}
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
 
-                          <tr>
-                            <td colspan={9} className="text-right">
-                              <b>Total</b>
-                            </td>
-                            <td className="text-right">
-                              <b> {_formatMoney(totalPrincipleAmount)}</b>
-                            </td>
-                            <td className="text-right"></td>
-                            <td className="text-right">
-                              <b> {_formatMoney(totalInterestAmount)}</b>
-                            </td>
-                            <td className="text-right">
-                              <b> {_formatMoney(totalPayable)}</b>
-                            </td>
-                            <td className="text-right">
-                              <b> {_formatMoney(totalPaid)}</b>
-                            </td>
-                            <td className="text-right">
-                              <b> {_formatMoney(totalBalance)}</b>
-                            </td>
-                            <td></td>
-                          </tr>
-                        </tbody>
-                      </table>
+                            <tr>
+                              <td></td>
+                              <td className="text-center">Total</td>
+                              <td colSpan={7}></td>
+                              <td className="text-right">
+                                <b> {_formatMoney(totalPrincipleAmount)}</b>
+                              </td>
+                              <td className="text-right"></td>
+                              <td className="text-right">
+                                <b> {_formatMoney(totalInterestAmount)}</b>
+                              </td>
+                              <td className="text-right">
+                                <b> {_formatMoney(totalPayable)}</b>
+                              </td>
+                              <td className="text-right">
+                                <b> {_formatMoney(totalPaidPrincipal)}</b>
+                              </td>
+                              <td className="text-right">
+                                <b> {_formatMoney(totalPaidInterest)}</b>
+                              </td>
+                              <td className="text-right">
+                                <b> {_formatMoney(totalBalance)}</b>
+                              </td>
+                              <td></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </Form>

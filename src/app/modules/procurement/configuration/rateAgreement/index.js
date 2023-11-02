@@ -1,10 +1,10 @@
-import axios from "axios";
+import { default as Axios } from "axios";
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import { _dateTimeFormatter } from "../../../_helper/_dateFormate";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
 import IForm from "../../../_helper/_form";
 import FormikError from "../../../_helper/_formikError";
 import IEdit from "../../../_helper/_helperIcons/_edit";
@@ -17,7 +17,7 @@ const initData = {
   purchaseOrganization: "",
   plant: "",
   wareHouse: "",
-  supplier: "",
+  item: "",
 };
 export default function RateAgreement() {
   const [pageNo, setPageNo] = useState(1);
@@ -38,13 +38,22 @@ export default function RateAgreement() {
   const history = useHistory();
   const getLandingData = (pageNo, pageSize, values) => {
     getRowDto(
-      `/procurement/PurchaseOrder/GetRateAgreement?BusinessUnitId=${buId}&PurchaseOrganisationId=${
-        values?.purchaseOrganization?.value
-      }&PlantId=${values?.plant?.value}&WarehouseId=${
-        values?.wareHouse?.value
-      }&supplierId=${values?.supplier?.value ||
-        0}&PageNo=${pageNo}&PageSize=${pageSize}`
+      `/procurement/PurchaseOrder/GetRateAgreement?BusinessUnitId=${buId}&PurchaseOrganisationId=${values?.purchaseOrganization?.value}&PlantId=${values?.plant?.value}&WarehouseId=${values?.wareHouse?.value}&PageNo=${pageNo}&PageSize=${pageSize}`,
+
     );
+  };
+
+  const loadUserList = (v, values) => {
+    if (v?.length < 3) return [];
+    return Axios.get(
+      `/wms/ItemPlantWarehouse/GetItemPlantWarehouseForPurchaseRequestSearchDDL?accountId=${accId}&businessUnitId=${buId}&plantId=${values?.plant?.value}&whId=${values?.wareHouse?.value}&purchaseOrganizationId=${values?.purchaseOrganization?.value}&typeId=2&searchTerm=${v}`
+      // typeId 2 pass for this standard products
+    ).then((res) => {
+      const updateList = res?.data.map((item) => ({
+        ...item,
+      }));
+      return updateList;
+    });
   };
 
   useEffect(() => {
@@ -57,10 +66,8 @@ export default function RateAgreement() {
     getPlanListDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buId]);
-
-
 
   return (
     <Formik
@@ -83,7 +90,7 @@ export default function RateAgreement() {
         touched,
       }) => (
         <>
-          {(rowDtoLoading) && <Loading />}
+          {rowDtoLoading && <Loading />}
           <IForm
             title="Rate Agreement"
             isHiddenReset
@@ -114,12 +121,12 @@ export default function RateAgreement() {
                       !values?.purchaseOrganization ||
                       !values?.plant ||
                       !values?.wareHouse ||
-                      !values?.supplier
+                      !values?.item
                     }
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        `/mngProcurement/purchase-configuration/rateAgreement/create`,
+                        `/mngProcurement/purchase-configuration/rate-agreement/create`,
                         values
                       );
                     }}
@@ -194,14 +201,9 @@ export default function RateAgreement() {
                     label="WareHouse"
                     onChange={(valueOption) => {
                       setFieldValue("wareHouse", valueOption);
-                      if(valueOption){
+                      if (valueOption) {
                         getRowDto(
-                          `/procurement/PurchaseOrder/GetRateAgreement?BusinessUnitId=${buId}&PurchaseOrganisationId=${
-                            values?.purchaseOrganization?.value
-                          }&PlantId=${values?.plant?.value}&WarehouseId=${
-                            valueOption?.value
-                          }&supplierId=${values?.supplier?.value ||
-                            0}&PageNo=${pageNo}&PageSize=${pageSize}`
+                          `/procurement/PurchaseOrder/GetRateAgreement?BusinessUnitId=${buId}&PurchaseOrganisationId=${values?.purchaseOrganization?.value}&PlantId=${values?.plant?.value}&WarehouseId=${valueOption?.value}&PageNo=${pageNo}&PageSize=${pageSize}`
                         );
                       }
                     }}
@@ -210,31 +212,20 @@ export default function RateAgreement() {
                     touched={touched}
                   />
                 </div>
+                {console.log(values)}
                 <div className="col-lg-3">
-                  <label>Supplier Name</label>
+                  <label>Item Name</label>
                   <SearchAsyncSelect
-                    selectedValue={values.supplier}
-                    isDisabled={!values?.wareHouse?.value}
+                    selectedValue={values?.item}
                     handleChange={(valueOption) => {
-                      setFieldValue("supplier", valueOption);
+                      setFieldValue("item", valueOption);
                     }}
-                    loadOptions={(v) => {
-                      if (v.length < 3) return [];
-                      return axios
-                        .get(
-                          `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accId}&UnitId=${buId}&SBUId=${values?.sbu?.value}`
-                        )
-                        .then((res) => {
-                          const updateList = res?.data.map((item) => ({
-                            ...item,
-                          }));
-                          return updateList;
-                        });
-                    }}
+                    loadOptions={(v) => loadUserList(v, values)}
+                    isDisabled={!values?.wareHouse}
                   />
                   <FormikError
                     errors={errors}
-                    name="supplierName"
+                    name="item  "
                     touched={touched}
                   />
                 </div>
@@ -245,38 +236,65 @@ export default function RateAgreement() {
                     <thead>
                       <tr>
                         <th>Sl</th>
+                        <th>Contract Name</th>
                         <th>Contract Code</th>
                         <th>Warehouse</th>
                         <th>Contract Date</th>
-                        <th>Supplier Name</th>
+                        <th>Item Name</th>
+                        <th>Item Code</th>
+                        <th>Rate Agreement</th>
                         <th>Start Date</th>
                         <th>End Date</th>
+                        <th>Status</th>
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
                       {rowDto?.data?.length > 0 &&
                         rowDto?.data?.map((item, index) => (
-                          <tr key={index}>
+                          <tr style={{textAlign:"center"}} key={index}>
                             <td>{index + 1}</td>
+                            <td>{item?.nameOfContact}</td>
                             <td>{item?.agreementCode}</td>
-                            <td>{item?.warehouseName || "Sample Name"}</td>
-                            <td>{_dateTimeFormatter(item?.contactDateTime)}</td>
-                            <td>{item?.supplierName}</td>
-                            <td>
-                              {_dateTimeFormatter(item?.contractStartDate)}
+                            <td>{item?.warehouseName}</td>
+                            <td>{_dateFormatter(item?.contactDateTime)}</td>
+                            <td>{item?.itemName}</td>
+                            <td>{item?.itemCode}</td>
+                            <td style={{ fontWeight: "bold" }}>
+                              {item?.isForRateAgreement ? (
+                                <span style={{ color: "green" }}>Yes</span>
+                              ) : (
+                                <span style={{ color: "red" }}>No</span>
+                              )}
                             </td>
-                            <td>{_dateTimeFormatter(item?.contractEndDate)}</td>
+                            <td>{_dateFormatter(item?.contractStartDate)}</td>
+                            <td>{_dateFormatter(item?.contractEndDate)}</td>
+                            <td style={{fontWeight:"bold"}}>
+                              {item?.agreementStatus === "Active" ? (
+                                <span style={{ color: "green" }}>
+                                  {item?.agreementStatus}
+                                </span>
+                              ) : (
+                                <span style={{ color: "red" }}>
+                                  {item?.agreementStatus}
+                                </span>
+                              )}
+                            </td>
                             <td className="text-center">
-                              <IEdit
+                              {
+                                item?.agreementStatus === "Active" && 
+                                <>
+                                <IEdit
                                 title="Edit"
                                 onClick={() => {
                                   history.push({
-                                    pathname: `/mngProcurement/purchase-configuration/rateAgreement/edit/${item?.agreementHeaderId}`,
-                                    state: item,
+                                    pathname: `/mngProcurement/purchase-configuration/rate-agreement/edit/${item?.agreementHeaderId}`,
+                                    state: {...values, ...item}
                                   });
                                 }}
                               />
+                                </>
+                              }
                             </td>
                           </tr>
                         ))}

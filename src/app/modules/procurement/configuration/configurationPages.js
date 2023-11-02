@@ -46,19 +46,19 @@ export function POConfigurationPages() {
 
       {/* Rate Agreement */}
       <ContentRoute
-        from="/mngProcurement/purchase-configuration/rateAgreement/edit/:id"
+        from="/mngProcurement/purchase-configuration/rate-agreement/edit/:id"
         component={
           purchaseOrganization?.isCreate ? RateAgreementCreate : NotPermittedPage
         }
       />
       <ContentRoute
-        from="/mngProcurement/purchase-configuration/rateAgreement/create"
+        from="/mngProcurement/purchase-configuration/rate-agreement/create"
         component={
           purchaseOrganization?.isCreate ? RateAgreementCreate : NotPermittedPage
         }
       />
       <ContentRoute
-        from="/mngProcurement/purchase-configuration/rateAgreement"
+        from="/mngProcurement/purchase-configuration/rate-agreement"
         component={RateAgreement}
       />
 

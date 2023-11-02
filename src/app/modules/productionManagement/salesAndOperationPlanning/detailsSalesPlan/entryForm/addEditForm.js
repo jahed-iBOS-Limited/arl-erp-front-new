@@ -133,6 +133,10 @@ export default function DetailsSalesPlanEntry() {
     return itemData;
   };
 
+  const getMonthIdFromDate = (date) => {
+    return +date?.split("-")[1];
+  };
+
   const saveHandler = async (values, cb) => {
     if (values && profileData.accountId && selectedBusinessUnit) {
       if (location?.state?.detailsItem?.intDetailSalesPlanId) {
@@ -165,7 +169,10 @@ export default function DetailsSalesPlanEntry() {
             dteStartDateTime: values?.startDate,
             dteEndDateTime: values?.endDate,
             intYearId: values?.year?.label,
-            intMonthId: values?.horizon?.monthId,
+            // update
+            // intMonthId: values?.horizon?.monthId,
+            intMonthId: getMonthIdFromDate(values?.startDate),
+
             intAccountId: profileData?.accountId,
             intBusinessUnitId: selectedBusinessUnit?.value,
             intPlantId: values?.plant?.value,

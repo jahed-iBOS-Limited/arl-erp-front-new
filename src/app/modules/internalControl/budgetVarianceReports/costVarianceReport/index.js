@@ -127,12 +127,11 @@ export default function CostVarianceReportLanding() {
                       <th>SL</th>
                       <th>Item Code</th>
                       <th>Item Name</th>
-                      <th>Act. COGS</th>
-                      <th>Act. Overhead</th>
-                      <th>Act. Sales Qty</th>
-                      <th>Budget COGS</th>
+                      <th>Uom</th>
                       <th>Budget Overhead</th>
-                      <th>Conversion Rate</th>
+                      <th>Act. Overhead</th>
+                      <th>Budget COGS</th>
+                      <th>Act. COGS</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -143,7 +142,20 @@ export default function CostVarianceReportLanding() {
                           <td>{index + 1}</td>
                           <td className="text-center">{item?.strItemCode}</td>
                           <td>{item?.strItemName}</td>
+                          <td>{item?.strBaseUomName}</td>
                           <td className="text-right">
+                            {_formatMoney(item?.numBudOH)}
+                          </td>
+                          <td className="text-right">
+                            {_formatMoney(item?.numActOH)}
+                          </td>
+                          <td className="text-right">
+                            {_formatMoney(item?.numBudCOGS)}
+                          </td>
+                          <td className="text-right">
+                            {_formatMoney(item?.numActCOGS)}
+                          </td>
+                          {/* <td className="text-right">
                             {_formatMoney(item?.numActCOGS)}
                           </td>
                           <td className="text-right">
@@ -158,7 +170,7 @@ export default function CostVarianceReportLanding() {
                           <td className="text-right">
                             {_formatMoney(item?.numBudOH)}
                           </td>
-                          <td className="text-center">{item?.numConvRate}</td>
+                          <td className="text-center">{item?.numConvRate}</td> */}
                           <td className="text-center">
                             <IView
                               clickHandler={() => {

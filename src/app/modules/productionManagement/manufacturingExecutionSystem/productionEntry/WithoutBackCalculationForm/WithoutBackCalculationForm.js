@@ -1,19 +1,22 @@
-import React, { useEffect } from "react";
-import { Formik, Form, Field } from "formik";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import { useState } from "react";
+import { Field, Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
+import InputField from "../../../../_helper/_inputField";
+import NewSelect from "../../../../_helper/_select";
+import IViewModal from "../../../../_helper/_viewModal";
+import CreateTableRow from "../Table/CreateTableRow";
 import {
   getOrderQuantityDDL,
   getOtherOutputItemDDL,
+  getProductionItemQuantity,
   getProductionOrderDDL,
   getShopFloorDDL,
-  getProductionItemQuantity,
   getWorkCenterDDL,
 } from "../helper";
-import { toast } from "react-toastify";
-import CreateTableRow from "../Table/CreateTableRow";
+import BackCalculationModal from "./backCalculationModal";
+import { _formatMoney } from "../../../../_helper/_formatMoney";
 
 export default function _Form({
   initData,
@@ -27,6 +30,8 @@ export default function _Form({
   rowData,
   setRowData,
   dataHandler,
+  rowDataForAddConsumption,
+  setRowDataForAddConsumption,
 }) {
   const [othersOutputItemDDL, setOthersOutputItemDDL] = useState([]);
   const [productionOrderDDL, setProductionOrderDDL] = useState([]);
@@ -34,8 +39,9 @@ export default function _Form({
   const [workCenterDDL, setWorkCenterDDL] = useState([]);
   const [orderQuantity, setGetOrderQuantity] = useState("");
   const [productionItemQuantity, setProductionQuantity] = useState("");
+  const [isShowModal, setIsShowModal] = useState(false);
+  const location = useLocation();
 
-  // console.log("orderQuantity", orderQuantity);
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
@@ -45,7 +51,6 @@ export default function _Form({
   }, shallowEqual);
 
   useEffect(() => {
-    // console.log("Init Data => ", initData);
     if (initData?.plantId) {
       getOtherOutputItemDDL(
         profileData?.accountId,
@@ -76,7 +81,6 @@ export default function _Form({
     if (isExist) {
       toast.warn("Item already added!");
     } else {
-      // console.log("aadd handler Values", values);
       setRowData([
         ...rowData,
         {
@@ -99,16 +103,12 @@ export default function _Form({
     }
   };
 
-  // useEffect(() => {
-  //   console.log("Row Data => ", rowData);
-  // }, [rowData]);
+  const isBackCalculationValue = location?.state?.data?.isBackCalculation;
 
   const deleteHandler = (id) => {
     const deleteData = rowData.filter((data, index) => id !== index);
     setRowData(deleteData);
   };
-
-
 
   return (
     <>
@@ -116,6 +116,9 @@ export default function _Form({
         enableReinitialize={true}
         initialValues={{
           ...initData,
+          totalAmount : "",
+          rate : "",
+          qty :""
         }}
         // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -134,9 +137,6 @@ export default function _Form({
           isValid,
         }) => (
           <>
-            {/* {console.log(values)}
-             */}
-            {/* {disableHandler(!isValid)} */}
             <Form>
               <div className="row">
                 {/* backCalculation true */}
@@ -149,7 +149,6 @@ export default function _Form({
                           options={plantNameDDL}
                           value={values?.plantName}
                           onChange={(valueOption) => {
-                            // console.log(valueOption);
                             getOtherOutputItemDDL(
                               profileData?.accountId,
                               selectedBusinessUnit?.value,
@@ -177,9 +176,10 @@ export default function _Form({
                             );
                             setFieldValue("plantName", valueOption);
                             setFieldValue("shopFloor", "");
-                            // setFieldValue("itemName", "");
                             setFieldValue("productionOrder", "");
                             setFieldValue("othersOutputItem", "");
+                            setFieldValue("materialCost", "");
+                            setFieldValue("overheadCost", "");
                           }}
                           placeholder="Plant Name"
                           errors={errors}
@@ -194,6 +194,8 @@ export default function _Form({
                           value={values?.shopFloor}
                           onChange={(valueOption) => {
                             setFieldValue("workcenterName", "");
+                            setFieldValue("materialCost", "");
+                            setFieldValue("overheadCost", "");
                             setFieldValue("shopFloor", valueOption);
                             getWorkCenterDDL(
                               profileData?.accountId,
@@ -209,7 +211,6 @@ export default function _Form({
                           touched={touched}
                           isDisabled={isEdit}
                         />
-                                 
                       </div>
                       <div className="col-lg-3">
                         <NewSelect
@@ -218,6 +219,8 @@ export default function _Form({
                           value={values?.workcenterName}
                           onChange={(valueOption) => {
                             setFieldValue("productionOrder", "");
+                            setFieldValue("materialCost", "");
+                            setFieldValue("overheadCost", "");
                             setFieldValue("workcenterName", valueOption);
                             getProductionOrderDDL(
                               profileData.accountId,
@@ -241,7 +244,6 @@ export default function _Form({
                           options={productionOrderDDL}
                           value={values?.productionOrder}
                           onChange={(valueOption) => {
-                            // console.log(valueOption);
                             setProductionQuantity([]);
                             getOrderQuantityDDL(
                               profileData?.accountId,
@@ -256,6 +258,8 @@ export default function _Form({
                               setProductionQuantity
                             );
                             setFieldValue("productionOrder", valueOption);
+                            setFieldValue("materialCost", "");
+                            setFieldValue("overheadCost", "");
                           }}
                           placeholder="Production Order"
                           label="Production Order"
@@ -263,7 +267,6 @@ export default function _Form({
                           touched={touched}
                           isDisabled={isEdit}
                         />
-                                 
                       </div>
                       <div className="col-lg-3">
                         <label>Production Date</label>
@@ -289,22 +292,25 @@ export default function _Form({
                           value={values?.shift ? values.shift : ""}
                           onChange={(valueOption) => {
                             setFieldValue("shift", valueOption);
+                            setFieldValue("materialCost", "");
+                            setFieldValue("overheadCost", "");
                           }}
                           placeholder="Shift"
                           errors={errors}
                           touched={touched}
                           // isDisabled={isEdit}
                         />
-                      
                       </div>
                       <div className="col-lg-3">
                         <InputField
                           name="goodQty"
                           value={values?.goodQty >= 0 ? values?.goodQty : ""}
                           label="Good Qty"
-                          step='any'
+                          step="any"
                           onChange={(e) => {
                             setFieldValue("goodQty", e.target.value);
+                            setFieldValue("materialCost", "");
+                            setFieldValue("overheadCost", "");
                           }}
                           placeholder="Good Qty"
                           type="number"
@@ -313,39 +319,75 @@ export default function _Form({
                           // disabled={isEdit}
                         />
                       </div>
-                      <div className="col-lg-12 pl-2 d-flex align-items-end">
-                        <div>
-                          <label className="p-2"> Output Item</label>
+                      {isBackCalculationValue === 2 && (
+                        <div className="col-lg-3">
+                          <button
+                            type="button"
+                            style={{ marginTop: "19px" }}
+                            className={"btn btn-primary mr-2"}
+                            onClick={() => {
+                              setIsShowModal(true);
+                            }}
+                            disabled={
+                              !values?.plantName ||
+                              !values?.shopFloor ||
+                              !values?.workcenterName ||
+                              !values?.productionOrder ||
+                              !values?.dteProductionDate ||
+                              !values?.shift ||
+                              !values?.goodQty
+                            }
+                          >
+                            Add Consumption
+                          </button>
+                        </div>
+                      )}
+                      <div className="col-lg-12 pl-2 d-flex align-items-end" />
+                      <div className="col-lg-2">
+                        <label className="p-2"> Output Item</label>
+                        <Field
+                          className="p-2"
+                          type="checkbox"
+                          name="checkOutputItem"
+                          checked={
+                            values?.checkOutputItem >= 0
+                              ? values?.checkOutputItem
+                              : ""
+                          }
+                          value={
+                            values?.checkOutputItem
+                              ? values?.checkOutputItem
+                              : ""
+                          }
+                          onChange={(e) => {
+                            setFieldValue(
+                              "checkOutputItem",
+                              e.target.checked
+                            );
+                          }}
+                          disabled={
+                            !values?.plantName?.value ||
+                            !values?.productionOrder?.value ||
+                            !values?.dteProductionDate ||
+                            !values?.shift?.value ||
+                            !values?.goodQty
+                          }
+                        />
+                      </div>
+                      {isBackCalculationValue === 2 && (
+                        <div className="col-lg-3">
+                          <label className="p-2">Is Last Production</label>
                           <Field
                             className="p-2"
                             type="checkbox"
-                            name="checkOutputItem"
-                            checked={
-                              values?.checkOutputItem >= 0
-                                ? values?.checkOutputItem
-                                : ""
-                            }
-                            value={
-                              values?.checkOutputItem
-                                ? values?.checkOutputItem
-                                : ""
-                            }
+                            name="isLastProduction"
+                            checked={values?.isLastProduction}
                             onChange={(e) => {
-                              setFieldValue(
-                                "checkOutputItem",
-                                e.target.checked
-                              );
+                              setFieldValue("isLastProduction", e.target.checked);
                             }}
-                            disabled={
-                              !values?.plantName?.value ||
-                              !values?.productionOrder?.value ||
-                              !values?.dteProductionDate ||
-                              !values?.shift?.value ||
-                              !values?.goodQty
-                            }
                           />
                         </div>
-                      </div>
+                      )}
                       {values?.checkOutputItem === true ? (
                         <>
                           <div className="col-lg-12 pl-0 d-flex">
@@ -364,7 +406,6 @@ export default function _Form({
                                 errors={errors}
                                 touched={touched}
                               />
-                                       
                             </div>
                             <div className="col-lg-4">
                               <InputField
@@ -379,7 +420,6 @@ export default function _Form({
                                 placeholder="Others Output Quantity"
                                 type="number"
                               />
-                                     
                             </div>
                             <div className="col-lg-4 pt-5 mt-2">
                               <button
@@ -430,8 +470,36 @@ export default function _Form({
                   <p className="mt-3 font-weight-bold">
                     UoM: {orderQuantity[0]?.uomName}{" "}
                   </p>
+                  {isBackCalculationValue === 2 && (
+                    <>
+                      <p className="mt-3 font-weight-bold">
+                        Material Cost: {_formatMoney(values?.materialCost)}
+                      </p>
+                      <p className="mt-3 font-weight-bold">
+                        Overhead Cost: {_formatMoney(values?.overheadCost)}
+                      </p>
+                      <p className="mt-3 font-weight-bold">
+                        Grand Total: {_formatMoney(values?.materialCost + values?.overheadCost)}
+                      </p>
+                    </>
+                  )}
                 </div>
               </div>
+
+              {/* Modal */}
+              <IViewModal
+                show={isShowModal}
+                onHide={() => setIsShowModal(false)}
+              >
+                <BackCalculationModal
+                  values={values}
+                  setFieldValue={setFieldValue}
+                  setIsShowModal={setIsShowModal}
+                  rowData={rowDataForAddConsumption}
+                  setRowData={setRowDataForAddConsumption}
+                />
+              </IViewModal>
+
               <button
                 type="submit"
                 style={{ display: "none" }}

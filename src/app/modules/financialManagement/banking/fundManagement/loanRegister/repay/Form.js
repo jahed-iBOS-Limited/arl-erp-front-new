@@ -13,7 +13,7 @@ const loanRegister = Yup.object().shape({
     value: Yup.string().required("Bank is required"),
   }),
   instrumentNo: Yup.string().required("Instrument No is required"),
-  principalAmount: Yup.number().required("Principal Amount is required"),
+  // principalAmount: Yup.number().required("Principal Amount is required"),
 });
 
 export default function RepayForm({

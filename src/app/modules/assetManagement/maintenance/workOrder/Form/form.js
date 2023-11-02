@@ -14,14 +14,12 @@ import {
   saveForItemReqData,
   saveForPurchaseRequestData,
 } from "../helpers";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import FormikError from "../../../../_helper/_formikError";
 import Axios from "axios";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import IConfirmModal from "../../../../_helper/_confirmModal";
-// import IDelete from "../../../../_helper/_helperIcons/_delete";
-// import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import SearchAsyncSelectMulti from "../../../../_helper/SearchAsyncSelectMulti";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -34,10 +32,7 @@ const validationSchema = Yup.object().shape({
     label: Yup.string().required("Cost center is required"),
     value: Yup.string().required("Cost center is required"),
   }),
-  assignTo: Yup.object().shape({
-    label: Yup.string().required("Assign to is required"),
-    value: Yup.string().required("Assign to is required"),
-  }),
+  assignTo: Yup.array().required("Assign to is required!")
 });
 
 export default function _Form({
@@ -130,6 +125,7 @@ export default function _Form({
           isValid,
         }) => (
           <>
+          {console.log(values)}
             {/* {disableHandler(!isValid)} */}
             <Form className="form form-label-right">
               <div className="global-form">
@@ -197,22 +193,24 @@ export default function _Form({
                       touched={touched}
                     />
                   </div>
-
-                  {/* <div className="col-lg-3 mb-4">
-                    <InputField
-                      value={values?.service}
-                      label="Service"
-                      placeholder="Service"
-                      name="service"
-                    />
-                  </div> */}
                   <div className="col-lg-3">
+                    <InputField
+                      value={values?.note}
+                      label="Note"
+                      placeholder="Note"
+                      name="note"
+                    />
+                  </div>
+                  <div className="col-lg-12">
                     <label>Assign To</label>
-                    <SearchAsyncSelect
+                    <SearchAsyncSelectMulti
                       selectedValue={values?.assignTo}
-                      handleChange={(valueOption) => {
-                        setFieldValue("assignTo", valueOption);
-                        // onChangeForItem(valueOption);
+                      onChange={(valueOption) => {
+                        if(valueOption) {
+                          setFieldValue("assignTo", valueOption);
+                        } else {
+                          setFieldValue("assignTo", []);
+                        }
                       }}
                       loadOptions={loadEmployeeInfo}
                     />
@@ -220,25 +218,6 @@ export default function _Form({
                       errors={errors}
                       name="assignTo"
                       touched={touched}
-                    />
-                  </div>
-                  {/* <div className="col-lg-3">
-                    <ISelect
-                      label="Assign To"
-                      options={AssignTo}
-                      value={values?.assignTo}
-                      name="assignTo"
-                      setFieldValue={setFieldValue}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div> */}
-                  <div className="col-lg-3">
-                    <InputField
-                      value={values?.note}
-                      label="Note"
-                      placeholder="Note"
-                      name="note"
                     />
                   </div>
                 </div>

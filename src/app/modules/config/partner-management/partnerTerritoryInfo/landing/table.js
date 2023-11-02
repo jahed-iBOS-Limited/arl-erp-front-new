@@ -1,17 +1,17 @@
 /* eslint-disable no-unused-vars */
 import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { getChannelDDL } from "../../../../salesManagement/configuration/territoryInfo/helper";
+import { shallowEqual, useSelector } from "react-redux";
+import ICard from "../../../../_helper/_card";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import Loading from "../../../../_helper/_loading";
+import PaginationSearch from "../../../../_helper/_search";
 import NewSelect from "../../../../_helper/_select";
 import PaginationTable from "../../../../_helper/_tablePagination";
-import PartnerTerritoryInfoForm from "../form/addEditForm";
 import IViewModal from "../../../../_helper/_viewModal";
-import ICard from "../../../../_helper/_card";
+import { getChannelDDL } from "../../../../salesManagement/configuration/territoryInfo/helper";
+import PartnerTerritoryInfoForm from "../form/addEditForm";
 import { findDuplicateItems, getPartnerTerritoryInformation } from "../helper";
-import PaginationSearch from "../../../../_helper/_search";
 import { PartnerTerritoryUpdate } from "./territoryUpdate";
 
 const initData = {
@@ -156,6 +156,8 @@ export function PartnerTerritoryInformation() {
                       <th>Region</th>
                       <th>Area</th>
                       <th>Territory</th>
+                      <th>Insert By</th>
+                      <th>Insert Date</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
@@ -177,7 +179,8 @@ export function PartnerTerritoryInformation() {
                         <td>{item?.region}</td>
                         <td>{item?.area}</td>
                         <td>{item?.territory}</td>
-
+                        <td>{item?.actionBy}</td>
+                        <td>{item?.lastInsertDate}</td>
                         <td>
                           <div className="d-flex justify-content-around">
                             <button

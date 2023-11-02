@@ -5,28 +5,28 @@ import { ContentRoute } from "../../../../_metronic/layout";
 // import BillOfMaterialForm from "./billOfMaterial/Form/addEditForm";
 import ProductionEntry from "./productionEntry";
 // import ProductionEntryForm from "./productionEntry/Form/AddEditForm";
-import ProductionOrderCreateForm from "./productionOrder/create/addForm";
 import { BillOfMaterialLanding } from "./billOfMaterial";
 import BillofMaretialCreateForm from "./billOfMaterial/Create/addForm";
+import ProductionOrderCreateForm from "./productionOrder/create/addForm";
 // import BillOfMaterialForm from "./billOfMaterial/FormOld/addEditForm";
-import BillofMaretialViewForm from "./billOfMaterial/View/addForm";
-import { ProductionOrderLanding } from "./productionOrder/Table/tableHeader";
-import ProductionOrderViewForm from "./productionOrder/view/addForm";
-import ProductionEntryApprovalForm from "./productionEntry/Approval/AddEditForm";
-import CreateSubPOForm from "./productionOrder/createSubPO/addForm";
-import { ShopFloorInvTransactionTable } from "./shopFloorInvTrans/Table/tableHeader";
-import ShopFloorInvTransCreateForm from "./shopFloorInvTrans/Create/addEditForm";
 import { shallowEqual, useSelector } from "react-redux";
 import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import { ReceiveFromShopFloorTable } from "./receiveFromShopFloor/Table/tableHeader";
-import ReceiveFromShopFloorCreateForm from "./receiveFromShopFloor/Create/addEditForm";
-import ReceiveFromShopFloorViewForm from "./receiveFromShopFloor/view/addEditForm";
 import findIndex from "./../../_helper/_findIndex";
-import BackCalculationForm from "./productionEntry/BackCalculationForm/AddEditForm";
-import WithOutBackCalculationForm from './productionEntry/WithoutBackCalculationForm/AddEditForm';
+import BillofMaretialViewForm from "./billOfMaterial/View/addForm";
+import ProductionEntryApprovalForm from "./productionEntry/Approval/AddEditForm";
 import ProductionEntryBackCalculationApprovalForm from "./productionEntry/ApprovalForBackCalculation/AddEditForm";
 import BackCalculationEditForm from './productionEntry/BackCalculationEditForm/AddEditForm';
+import BackCalculationForm from "./productionEntry/BackCalculationForm/AddEditForm";
+import WithOutBackCalculationForm from './productionEntry/WithoutBackCalculationForm/AddEditForm';
+import { ProductionOrderLanding } from "./productionOrder/Table/tableHeader";
 import ProductionOrderClosed from "./productionOrder/closed/productionOrderClosed";
+import CreateSubPOForm from "./productionOrder/createSubPO/addForm";
+import ProductionOrderViewForm from "./productionOrder/view/addForm";
+import ReceiveFromShopFloorCreateForm from "./receiveFromShopFloor/Create/addEditForm";
+import { ReceiveFromShopFloorTable } from "./receiveFromShopFloor/Table/tableHeader";
+import ReceiveFromShopFloorViewForm from "./receiveFromShopFloor/view/addEditForm";
+import ShopFloorInvTransCreateForm from "./shopFloorInvTrans/Create/addEditForm";
+import { ShopFloorInvTransactionTable } from "./shopFloorInvTrans/Table/tableHeader";
 
 export function ManufacturingExecutionSystemPages() {
   const userRole = useSelector(
@@ -35,7 +35,7 @@ export function ManufacturingExecutionSystemPages() {
   );
 
   const location = useLocation();
-  console.log('location: ', location);
+  // console.log('location: ', location);
 
   const productionOrder = userRole[findIndex(userRole, "Production Order")];
   const productionEntry = userRole[findIndex(userRole, "Production Entry")];
@@ -117,7 +117,7 @@ export function ManufacturingExecutionSystemPages() {
       {/* PRODUCTION ENTRY */}
 
       <ContentRoute
-        from="/production-management/mes/productionentry/approval/:aId"
+        from="/production-management/mes/productionentry/approval/:aId/:backCalculationId"
         component={ProductionEntryApprovalForm}
       />
       <ContentRoute

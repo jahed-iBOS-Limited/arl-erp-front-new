@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
 import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import { _todayDate } from "../../../../_helper/_todayDate";
 import { APIUrl } from "../../../../../App";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
 import axios from "axios";
@@ -391,8 +390,7 @@ export const FormatEight = ({
                         ...(fontSize && { fontSize }),
                       }}
                     >
-                      Akij House, 198 Bir Uttam Mir Shawkat Sarak, Tejgaon,
-                      Dhaka-1208.
+                      {item?.strPayeeAddress}
                     </div>
                   </td>
                 </tr>
@@ -438,7 +436,7 @@ export const FormatEight = ({
                         ...(fontSize && { fontSize }),
                       }}
                     >
-                      <b>{item?.strNaration}</b>
+                      <b>{item?.strPayeeContactNo}</b>
                     </div>
                   </td>
                 </tr>

@@ -50,6 +50,8 @@ import HologramBaseDeliveryLanding from "./hologramBaseDelivery/landing/form";
 import HologramBaseDeliveryForm from "./hologramBaseDelivery/form/addEditForm";
 import InventoryLoanLandingNew from "./inventoryLoanNew";
 import InventoryLoanCreateEditNew from "./inventoryLoanNew/createEdit";
+import BrandItemRequisitionLanding from "./brandItemRequisition/landing";
+import BrandItemRequisitionForm from "./brandItemRequisition/form/addEditForm";
 
 export function WarehouseManagementPages() {
   const { userRole, selectedBusinessUnit } = useSelector(
@@ -300,11 +302,17 @@ export function WarehouseManagementPages() {
 
       <ContentRoute
         path="/inventory-management/warehouse-management/inventoryLoan/create"
-        component={inventoryLoan?.isCreate ? InventoryLoanCreateEditNew : NotPermittedPage}
+        component={
+          inventoryLoan?.isCreate
+            ? InventoryLoanCreateEditNew
+            : NotPermittedPage
+        }
       />
       <ContentRoute
         path="/inventory-management/warehouse-management/inventoryLoan"
-        component={inventoryLoan?.isView ? InventoryLoanLandingNew : NotPermittedPage}
+        component={
+          inventoryLoan?.isView ? InventoryLoanLandingNew : NotPermittedPage
+        }
       />
 
       <ContentRoute
@@ -399,6 +407,16 @@ export function WarehouseManagementPages() {
       <ContentRoute
         path="/inventory-management/warehouse-management/hallogrambasedelivery"
         component={HologramBaseDeliveryLanding}
+      />
+
+      <ContentRoute
+        path="/inventory-management/warehouse-management/branditemrequisition/entry"
+        component={BrandItemRequisitionForm}
+      />
+
+      <ContentRoute
+        path="/inventory-management/warehouse-management/branditemrequisition"
+        component={BrandItemRequisitionLanding}
       />
     </Switch>
   );

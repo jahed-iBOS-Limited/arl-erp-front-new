@@ -55,6 +55,7 @@ const UnLoadingInformationTable = () => {
   const [rowData, getRowData, isLoading] = useAxiosGet();
   const [show, setShow] = useState(false);
   const [singleData, setSingleData] = useState({});
+  const [levelOfApprove, setLevelOfApprove] = useState("");
 
   // get user profile data from store
   const {
@@ -205,6 +206,8 @@ const UnLoadingInformationTable = () => {
                                 item?.isInventoryApprove
                                   ? // item?.isBillSubmitted
                                     { backgroundColor: "#d4edda" }
+                                  : item?.isApproveBySupervisor
+                                  ? { backgroundColor: "#7fd894" }
                                   : { backgroundColor: "#f8d7da" }
                               }
                             >
@@ -290,21 +293,27 @@ const UnLoadingInformationTable = () => {
                                   // {!item?.isBillSubmitted ? (
                                   <span>
                                     <IApproval
-                                      title="Approve"
+                                      title="Warehouse Approve"
                                       onClick={() => {
-                                        // approveSubmitHandler(
-                                        //   item?.voyageNo,
-                                        //   item?.lighterVesselId,
-                                        //   values
-                                        // );
                                         setSingleData(item);
                                         setShow(true);
-                                        // getData(values, pageNo, pageSize);
+                                        setLevelOfApprove("first");
+                                      }}
+                                    />
+                                  </span>
+                                ) : !item?.isApproveBySupervisor ? (
+                                  <span>
+                                    <IApproval
+                                      title="Supervisor Approve"
+                                      onClick={() => {
+                                        setSingleData(item);
+                                        setShow(true);
+                                        setLevelOfApprove("second");
                                       }}
                                     />
                                   </span>
                                 ) : (
-                                  <span>Approved</span>
+                                  "Approved"
                                 )}
                               </td>
                             </tr>
@@ -334,6 +343,7 @@ const UnLoadingInformationTable = () => {
                     pageSize={pageSize}
                     setShow={setShow}
                     getData={getData}
+                    levelOfApprove={levelOfApprove}
                   />
                 </IViewModal>
 

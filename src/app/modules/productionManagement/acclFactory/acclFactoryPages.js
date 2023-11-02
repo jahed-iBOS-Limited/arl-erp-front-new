@@ -26,10 +26,14 @@ export function AcclFactoryPages() {
   );
 
   let millProduction = null;
+  let scheduleMaintainence = null;
 
   for (let i = 0; i < userRole.length; i++) {
     if (userRole[i]?.intFeatureId === 1266) {
       millProduction = userRole[i];
+    }
+    if (userRole[i]?.intFeatureId === 1203) {
+      scheduleMaintainence = userRole[i];
     }
   }
 
@@ -74,11 +78,17 @@ export function AcclFactoryPages() {
       />
       <ContentRoute
         path="/production-management/ACCLFactory/Schedule-Maintenance/create"
-        component={ScheduleMaintainenceCreate}
+        component={
+          scheduleMaintainence?.isCreate
+            ? ScheduleMaintainenceCreate
+            : NotPermitted
+        }
       />
       <ContentRoute
         path="/production-management/ACCLFactory/Schedule-Maintenance"
-        component={ScheduleMaintainence}
+        component={
+          scheduleMaintainence?.isView ? ScheduleMaintainence : NotPermitted
+        }
       />
       <ContentRoute
         path="/production-management/ACCLFactory/powerConsumptionAllSbu/edit/:id"
