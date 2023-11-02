@@ -22,7 +22,7 @@ export const getSalesInvoiceLanding = async (
 
   try {
     const res = await axios.get(
-      [186, 175, 4, 94, 8].includes(buId) ? urlForSomeSelectedUnit : commonURL
+      [186, 175, 4, 94, 8, 138].includes(buId) ? urlForSomeSelectedUnit : commonURL
     );
     setLoading(false);
     setter(res?.data);
