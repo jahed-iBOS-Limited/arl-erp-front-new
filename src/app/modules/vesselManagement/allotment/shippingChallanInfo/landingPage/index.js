@@ -23,7 +23,7 @@ const initData = {
   shipToPartner: ALL,
   port: ALL,
   motherVessel: ALL,
-  confirmationStatus: { value: 1, label: "Pending" },
+  status: { value: 1, label: "Pending" },
   jvDate: _todayDate(),
   fromDate: _todayDate(),
   toDate: _todayDate(),
@@ -52,7 +52,6 @@ const ShippingChallanInfo = () => {
       accId,
       buId,
       values,
-      searchTerm,
       pageNo,
       pageSize,
       setRowData,
@@ -100,6 +99,16 @@ const ShippingChallanInfo = () => {
     const selectedItems = rowData?.data?.filter((item) => item?.isSelected);
     if (selectedItems?.length < 1) {
       return toast.warn("Please select at least one item.");
+    }
+
+    const checkBeforeSubmitData = selectedItems.find(
+      (item) => !item?.salesOrder
+    );
+
+    if (checkBeforeSubmitData) {
+      return toast("Please enter sales order no on all selected rows", {
+        type: "warning",
+      });
     }
 
     const payload = selectedItems?.map((item) => {
@@ -201,7 +210,7 @@ const ShippingChallanInfo = () => {
       !values?.shipPoint ||
       !values?.shipToPartner ||
       !values?.motherVessel ||
-      !values?.confirmationStatus
+      !values?.status
     );
   };
 

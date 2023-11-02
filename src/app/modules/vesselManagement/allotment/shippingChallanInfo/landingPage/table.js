@@ -4,6 +4,7 @@ import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import PaginationTable from "../../../../_helper/_tablePagination";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
 const Table = ({ obj }) => {
   const {
@@ -46,6 +47,7 @@ const Table = ({ obj }) => {
                     )}
                     <th style={{ minWidth: "30px" }}>SL</th>
                     <th style={{ minWidth: "100px" }}>Sales Order No</th>
+                    <th style={{ minWidth: "100px" }}>Date</th>
                     <th style={{ minWidth: "180px" }}>Mother Vessel</th>
                     <th style={{ minWidth: "190px" }}>Ghat Name</th>
                     <th style={{ minWidth: "90px" }}>Vehicle No</th>
@@ -165,6 +167,7 @@ const Table = ({ obj }) => {
                             item?.salesOrder
                           )}
                         </td>
+                        <td>{_dateFormatter(item?.LastActionDateTime)}</td>
                         <td>{item?.motherVesselName}</td>
                         <td>{item?.shipPointName}</td>
                         <td>{item?.vehicleRegNo}</td>
