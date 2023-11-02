@@ -138,6 +138,8 @@ _Form({ initData }) {
                     onClick={() => {
                       setReconcileDto([])
                       getProfitCenterData({
+                        profitCenterGroupId: values?.profitCenterGroup?.value,
+                        controllingUnitId: values?.controllingUnit?.value,
                         pcId: values?.profitCenter?.value,
                         fromDate: values?.fromDate,
                         toDate: values?.toDate,

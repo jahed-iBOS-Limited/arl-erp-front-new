@@ -246,6 +246,9 @@ export default function SalesContractView({ quotationId }) {
                         <strong>PORT OF DISCHARGE:</strong>{" "}
                         {quotationData?.HeaderData?.PortofDishcharge?.toUpperCase()}{" "}
                         <br />
+                        <strong>DESTINATION COUNTRY:</strong>{" "}
+                        {quotationData?.HeaderData?.ToCountryName?.toUpperCase()}{" "}
+                        <br />
                         <strong>FINAL DESTINATION:</strong>{" "}
                         {quotationData?.HeaderData?.FinalDestination?.toUpperCase()}{" "}
                         <br />
