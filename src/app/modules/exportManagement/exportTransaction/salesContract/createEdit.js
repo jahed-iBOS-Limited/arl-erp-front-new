@@ -237,7 +237,7 @@ export default function SalesContractCreateEdit() {
     if (objRow?.length < 1) {
       return toast.error("Please add at least one item");
     }
-    if (uploadedImage?.length < 1) {
+    if (!id && uploadedImage?.length < 1) {
       return toast.error("Please attach a file!");
     }
     const payload = {
@@ -370,6 +370,7 @@ export default function SalesContractCreateEdit() {
         setObjRow([
           ...objRow,
           {
+            rowId: 0,
             sequenceNo: 0,
             salesQuotationId: id ? +id : 0,
             itemId: values?.itemList?.value,
