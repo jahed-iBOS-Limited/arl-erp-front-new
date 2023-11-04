@@ -4,13 +4,12 @@ import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IForm from "../../../../_helper/_form";
-import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
 const initData = {
 };
@@ -32,6 +31,8 @@ export default function AssessmentSubmissionForm() {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+
 
   const rowDtoHandler = (index, i) => {
     const data = [...questionsList];

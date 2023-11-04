@@ -138,6 +138,8 @@ _Form({ initData }) {
                     onClick={() => {
                       setReconcileDto([])
                       getProfitCenterData({
+                        profitCenterGroupId: values?.profitCenterGroup?.value,
+                        controllingUnitId: values?.controllingUnit?.value,
                         pcId: values?.profitCenter?.value,
                         fromDate: values?.fromDate,
                         toDate: values?.toDate,
@@ -162,7 +164,7 @@ _Form({ initData }) {
                   </button>
                 </div>
                 {rowDto?.length > 0 &&
-                <div className="col-lg-3 mt-3">
+                <div className="col-lg-3 mt-5">
                   <ReactHtmlTableToExcel
                     id="test-table-xls-button-att-reports"
                     className="btn btn-primary"
