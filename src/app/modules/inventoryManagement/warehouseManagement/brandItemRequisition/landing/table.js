@@ -1,9 +1,12 @@
 import React from "react";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
+import { useHistory } from "react-router-dom";
+import IView from "../../../../_helper/_helperIcons/_view";
 
 export default function BrandItemRequisitionLandingTable({ obj }) {
   const { rowData } = obj;
+  const history = useHistory();
   return (
     <>
       {rowData?.data?.length > 0 && (
@@ -37,7 +40,26 @@ export default function BrandItemRequisitionLandingTable({ obj }) {
                 <td>{td?.requestQuantity}</td>
                 <td>{_dateFormatter(td?.requiredDate)}</td>
                 <td className="text-center">
-                  <IEdit />
+                  <div className="d-flex justify-content-around align-items-center">
+                    <span>
+                      <IEdit
+                        onClick={() => {
+                          history.push(
+                            `/inventory-management/warehouse-management/branditemrequisition/edit/${td?.brandRequestId}`
+                          );
+                        }}
+                      />
+                    </span>
+                    <span>
+                      <IView
+                        clickHandler={() => {
+                          history.push(
+                            `/inventory-management/warehouse-management/branditemrequisition/view/${td?.brandRequestId}`
+                          );
+                        }}
+                      />
+                    </span>
+                  </div>
                 </td>
               </tr>
             ))}
