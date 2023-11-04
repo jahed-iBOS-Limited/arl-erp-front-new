@@ -34,14 +34,22 @@ export default function _Form({
           <ICustomCard
             title={title}
             backHandler={() => history.goBack()}
-            resetHandler={() => {
-              resetForm();
-            }}
-            saveHandler={() => {
-              saveHandler(values, () => {
-                resetForm();
-              });
-            }}
+            resetHandler={
+              type === "view"
+                ? ""
+                : () => {
+                    resetForm();
+                  }
+            }
+            saveHandler={
+              type === "view"
+                ? ""
+                : () => {
+                    saveHandler(values, () => {
+                      resetForm();
+                    });
+                  }
+            }
           >
             <form>
               <div className="row global-form">
@@ -120,6 +128,7 @@ export default function _Form({
                         placeholder="Item"
                         errors={errors}
                         touched={touched}
+                        isDisabled={!values?.itemCategory}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -155,6 +164,12 @@ export default function _Form({
                       />
                     </div>
                     <IButton
+                      disabled={
+                        !values?.territory ||
+                        !values?.item ||
+                        !values?.uom ||
+                        !values?.quantity
+                      }
                       onClick={() => {
                         addRow(values);
                       }}

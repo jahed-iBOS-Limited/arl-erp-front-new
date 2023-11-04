@@ -12,9 +12,10 @@ import BrandItemRequisitionLandingTable from "./table";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
 import IButton from "../../../../_helper/iButton";
+import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
 
 const initData = {
-  fromDate: _todayDate(),
+  fromDate: _firstDateofMonth(),
   toDate: _todayDate(),
   channel: "",
   region: "",

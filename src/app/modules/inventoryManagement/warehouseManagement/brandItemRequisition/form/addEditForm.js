@@ -74,9 +74,12 @@ export default function BrandItemRequisitionForm() {
   };
 
   const saveHandler = async (values, cb) => {
+    if (rowData?.length < 1) {
+      return toast.warn("Pleas add least one row!");
+    }
     const payload = {
-      brandRequestId: 0,
-      brandRequestCode: "",
+      brandRequestId: type === "edit" ? id : 0,
+      brandRequestCode: singleData?.brandRequestCode || "",
       reffNo: "",
       brandRequestTypeId: values?.programType?.value,
       brandRequestTypeName: values?.programType?.label,
