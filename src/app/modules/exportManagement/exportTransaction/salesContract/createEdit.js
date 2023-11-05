@@ -84,6 +84,7 @@ const initData = {
   modeofShipment: { value: "By Sea", label: "By Sea" },
   portofShipment: "",
   portofDishcharge: "",
+  destinationCountry: "",
   finalDestination: "",
   countryOfOrigin: "Bangladesh",
   contractFor: "",
@@ -117,6 +118,7 @@ export default function SalesContractCreateEdit() {
   const [soldToPartner, getSoldToPartner, soldToPartnerLoader] = useAxiosGet();
   const [salesOffice, getSalesOffice, salesOfficeLoader] = useAxiosGet();
   const [specification, getSpecification, specificationLoader] = useAxiosGet();
+  const [destinationDDL, getDestinationDDL, destinationDDLLoader] = useAxiosGet();
   const [, getUom, uomLoader] = useAxiosGet();
   const [, saveData, saveLoader] = useAxiosPost();
   const [, getSingleData] = useAxiosGet();
@@ -173,6 +175,14 @@ export default function SalesContractCreateEdit() {
                     label: data?.data?.objHeader?.portofDishcharge,
                   }
                 : "",
+            destinationCountry:
+              data?.data?.objHeader?.toCountryId &&
+              data?.data?.objHeader?.toCountryName
+                ? {
+                  value: data?.data?.objHeader?.toCountryId,
+                  label: data?.data?.objHeader?.toCountryName,
+                }
+                : "",
             finalDestination: data?.data?.objHeader?.finalDestination,
             countryOfOrigin: data?.data?.objHeader?.countryOfOrigin,
             contractFor: data?.data?.objHeader?.contractFor,
@@ -192,6 +202,7 @@ export default function SalesContractCreateEdit() {
                     label: data?.data?.objHeader?.strViewAs,
                   }
                 : "",
+            attachmentno: data?.data?.objHeader?.attachmentno,
           });
           setObjSpecRow(data?.data?.objSpec);
           setObjRow(data?.data?.objRow);
@@ -216,6 +227,7 @@ export default function SalesContractCreateEdit() {
     getSalesOffice(
       `/oms/SalesOffice/GetSalesOfficeDDLbyId?AccountId=1&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
+    getDestinationDDL(`/oms/TerritoryInfo/GetCountryDDL`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -237,7 +249,7 @@ export default function SalesContractCreateEdit() {
     if (objRow?.length < 1) {
       return toast.error("Please add at least one item");
     }
-    if (uploadedImage?.length < 1) {
+    if (!id && uploadedImage?.length < 1) {
       return toast.error("Please attach a file!");
     }
     const payload = {
@@ -263,6 +275,8 @@ export default function SalesContractCreateEdit() {
         portofShipment: values?.portofShipment?.label || "",
         portofDischargeId: values?.portofDishcharge?.value || 0,
         portofDishcharge: values?.portofDishcharge?.label || "",
+        toCountryId: values?.destinationCountry?.value,
+        toCountryName: values?.destinationCountry?.label,
         finalDestination: values?.finalDestination,
         countryOfOrigin: values?.countryOfOrigin,
         contractFor: values?.contractFor,
@@ -274,7 +288,7 @@ export default function SalesContractCreateEdit() {
         currencyRateBdt: +values?.currencyRateBdt,
         intViewAs: values?.viewAs?.value || 0,
         strViewAs: values?.viewAs?.label || "",
-        attachmentno: uploadedImage[0]?.id,
+        attachmentno: uploadedImage[0]?.id || values?.attachmentno || "",
       },
       objRow: objRow,
       objSpecRow: objSpecRow,
@@ -317,6 +331,14 @@ export default function SalesContractCreateEdit() {
                 },
                 portofShipment: data?.data?.objHeader?.portofShipment,
                 portofDishcharge: data?.data?.objHeader?.portofDishcharge,
+                destinationCountry:
+                  data?.data?.objHeader?.toCountryId &&
+                  data?.data?.objHeader?.toCountryName
+                    ? {
+                      value: data?.data?.objHeader?.toCountryId,
+                      label: data?.data?.objHeader?.toCountryName,
+                    }
+                    : "",
                 finalDestination: data?.data?.objHeader?.finalDestination,
                 countryOfOrigin: data?.data?.objHeader?.countryOfOrigin,
                 contractFor: data?.data?.objHeader?.contractFor,
@@ -370,6 +392,7 @@ export default function SalesContractCreateEdit() {
         setObjRow([
           ...objRow,
           {
+            rowId: 0,
             sequenceNo: 0,
             salesQuotationId: id ? +id : 0,
             itemId: values?.itemList?.value,
@@ -461,7 +484,8 @@ export default function SalesContractCreateEdit() {
             salesOfficeLoader ||
             specificationLoader ||
             uomLoader ||
-            saveLoader) && <Loading />}
+            saveLoader ||
+            destinationDDLLoader) && <Loading />}
           <IForm
             title={id ? "Edit Sales Quotation" : "Create Sales Quotation"}
             getProps={setObjprops}
@@ -661,6 +685,17 @@ export default function SalesContractCreateEdit() {
                     }}
                   />
                 </div> */}
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="destinationCountry"
+                    options={destinationDDL || []}
+                    value={values?.destinationCountry}
+                    label="Destination Country"
+                    onChange={(valueOption) => {
+                      setFieldValue("destinationCountry", valueOption);
+                    }}
+                  />
+                </div>
                 <div className="col-lg-3">
                   <InputField
                     value={values?.finalDestination}

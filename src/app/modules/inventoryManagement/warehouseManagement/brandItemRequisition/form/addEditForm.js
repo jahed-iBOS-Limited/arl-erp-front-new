@@ -7,6 +7,7 @@ import Form from "./form";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import { toast } from "react-toastify";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { useParams } from "react-router-dom";
 
 const initData = {
   programType: "",
@@ -34,6 +35,8 @@ export default function BrandItemRequisitionForm() {
   const [itemDDL, getItemDDL] = useAxiosGet();
   const [UOMDDL, getUOMDDL] = useAxiosGet();
   const [, postData, loader] = useAxiosPost();
+  const { id, type } = useParams();
+  const [singleData, getSingleData, loading, setSingleData] = useAxiosGet();
 
   useEffect(() => {
     getItemCategoryDDL(
@@ -42,6 +45,25 @@ export default function BrandItemRequisitionForm() {
     getUOMDDL(
       `/item/ItemUOM/GetItemUOMDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
+    if (type === "edit") {
+      getSingleData(
+        `/wms/ItemRequest/GetBrandItemRequestById?id=${id}`,
+        (resData) => {
+          setRowData(resData?.brandItemRows);
+
+          const modifyData = {
+            ...resData,
+            programType: {
+              value: resData?.brandRequestTypeId,
+              label: resData?.brandRequestTypeName,
+            },
+            requiredDate: resData?.requiredDate,
+            purpose: resData?.purpose,
+          };
+          setSingleData(modifyData);
+        }
+      );
+    }
   }, [accId, buId]);
 
   const getItemsByCategory = (values) => {
@@ -52,9 +74,12 @@ export default function BrandItemRequisitionForm() {
   };
 
   const saveHandler = async (values, cb) => {
+    if (rowData?.length < 1) {
+      return toast.warn("Pleas add least one row!");
+    }
     const payload = {
-      brandRequestId: 0,
-      brandRequestCode: "",
+      brandRequestId: type === "edit" ? id : 0,
+      brandRequestCode: singleData?.brandRequestCode || "",
       reffNo: "",
       brandRequestTypeId: values?.programType?.value,
       brandRequestTypeName: values?.programType?.label,
@@ -123,19 +148,30 @@ export default function BrandItemRequisitionForm() {
     setRowData(rowData?.filter((_, i) => i !== index));
   };
 
+  const isLoading = loader || loading;
+
+  const title =
+    type === "edit"
+      ? "Edit Brand Item Requisition"
+      : type === "view"
+      ? "View Brand Item Requisition"
+      : "Brand Item Requisition Entry";
+
   return (
     <>
-      {loader && <Loading />}
+      {isLoading && <Loading />}
       <Form
-        initData={initData}
-        saveHandler={saveHandler}
-        rowData={rowData}
-        itemCategoryDDL={itemCategoryDDL}
-        getItemsByCategory={getItemsByCategory}
-        itemDDL={itemDDL}
+        type={type}
+        title={title}
         UOMDDL={UOMDDL}
         addRow={addRow}
+        rowData={rowData}
+        itemDDL={itemDDL}
         removeRow={removeRow}
+        saveHandler={saveHandler}
+        itemCategoryDDL={itemCategoryDDL}
+        initData={id ? singleData : initData}
+        getItemsByCategory={getItemsByCategory}
       />
     </>
   );

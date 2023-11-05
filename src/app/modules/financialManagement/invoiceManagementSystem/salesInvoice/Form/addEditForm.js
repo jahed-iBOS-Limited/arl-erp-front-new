@@ -227,7 +227,7 @@ const AddEditForm = () => {
     let payload = [];
     for (let item of rowDto) {
       if (item?.presentStatus) {
-        if ([175, 186, 4, 94, 144]?.includes(buId)) {
+        if ([175, 186, 4, 94, 144, 138]?.includes(buId)) {
           payload.push({
             deliveryId: [175, 94, 144].includes(buId)
               ? undefined
@@ -300,7 +300,8 @@ const AddEditForm = () => {
     }
     createSalesInvoice(buId, payload, setDisabled, setInvoiceData, () => {
       cb();
-      if (buId === 186) {
+      if ([186, 138].includes(buId)) {
+        // if ( buId === 186) {
         handleInvoicePrintBluePill();
       }
       if (buId === 4) {
@@ -325,10 +326,10 @@ const AddEditForm = () => {
   });
 
   const isSaveBtnDisabled = (values) => {
-    return [175, 186, 4, 94, 8]?.includes(buId)
+    return [175, 186, 4, 94, 8, 138]?.includes(buId)
       ? !values?.refNumber ||
           !values?.projectLocation ||
-          ([4, 186]?.includes(buId) &&
+          ([4, 186, 138]?.includes(buId) &&
             (!values?.soldBy ||
               !values?.salesOrderCreatedBy ||
               !values?.paymentTerms))
@@ -336,7 +337,7 @@ const AddEditForm = () => {
   };
 
   const onSubmit = (values, resetForm) => {
-    if ([175, 186, 4, 94, 8]?.includes(buId)) {
+    if ([175, 186, 4, 94, 8, 138]?.includes(buId)) {
       invoiceHandler(values, () => {
         resetForm(invoiceInitData);
         setRowDto([]);
@@ -353,7 +354,7 @@ const AddEditForm = () => {
       <Formik
         enableReinitialize={true}
         initialValues={
-          [175, 186, 4, 94, 8]?.includes(buId) ? invoiceInitData : initData
+          [175, 186, 4, 94, 8, 138]?.includes(buId) ? invoiceInitData : initData
         }
         validationSchema={validationSchema}
         onSubmit={() => {}}
@@ -387,7 +388,7 @@ const AddEditForm = () => {
                 <CardBody>
                   {disabled && <Loading />}
                   {// Akij Ready Mix Concrete Ltd & Blue Pill Limited & Akij Cement Company Ltd
-                  [175, 186, 4, 94, 8]?.includes(buId) ? (
+                  [175, 186, 4, 94, 8, 138]?.includes(buId) ? (
                     <FormOne
                       propsObj={{
                         distributionChannelDDL,

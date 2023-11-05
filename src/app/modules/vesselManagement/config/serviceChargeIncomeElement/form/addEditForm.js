@@ -37,6 +37,9 @@ const ServiceChargeAndIncomeElementForm = () => {
       rate: "",
       typeId: item?.serviceTypeId,
       typeName: item?.serviceTypeName,
+      costCenter: "",
+      costElement: "",
+      profitCenter: "",
     }));
   };
 
@@ -87,6 +90,12 @@ const ServiceChargeAndIncomeElementForm = () => {
         typeName: item?.typeName,
         rate: +item?.rate,
         isActive: true,
+        profitCenterId: item?.profitCenter?.value,
+        profitCenterName: item?.profitCenter?.label,
+        costCenterId: item?.costCenter?.value,
+        costCenterName: item?.costCenter?.label,
+        costElementId: item?.costElement?.value,
+        costElementName: item?.costElement?.label,
       })),
     };
 
@@ -105,12 +114,12 @@ const ServiceChargeAndIncomeElementForm = () => {
     setCosts(_data);
   };
 
-  const rowDataHandler2 = (name, index, value) => {
-    let _data = [...revenues];
-    _data[index][name] = value;
+  // const rowDataHandler2 = (name, index, value) => {
+  //   let _data = [...revenues];
+  //   _data[index][name] = value;
 
-    setRevenues(_data);
-  };
+  //   setRevenues(_data);
+  // };
 
   const allSelect = (value) => {
     let _data = [...costs];
@@ -123,17 +132,17 @@ const ServiceChargeAndIncomeElementForm = () => {
 
     setCosts(modify);
   };
-  const allSelect2 = (value) => {
-    let _data = [...revenues];
-    const modify = _data.map((item) => {
-      return {
-        ...item,
-        isSelected: value,
-      };
-    });
+  // const allSelect2 = (value) => {
+  //   let _data = [...revenues];
+  //   const modify = _data.map((item) => {
+  //     return {
+  //       ...item,
+  //       isSelected: value,
+  //     };
+  //   });
 
-    setRevenues(modify);
-  };
+  //   setRevenues(modify);
+  // };
 
   const selectedAll = () => {
     return costs?.length > 0 &&
@@ -141,12 +150,12 @@ const ServiceChargeAndIncomeElementForm = () => {
       ? true
       : false;
   };
-  const selectedAll2 = () => {
-    return revenues?.length > 0 &&
-      revenues?.filter((item) => item?.isSelected)?.length === revenues?.length
-      ? true
-      : false;
-  };
+  // const selectedAll2 = () => {
+  //   return revenues?.length > 0 &&
+  //     revenues?.filter((item) => item?.isSelected)?.length === revenues?.length
+  //     ? true
+  //     : false;
+  // };
 
   const loader = saveLoader || costLoader || revenueLoader;
 
@@ -161,12 +170,12 @@ const ServiceChargeAndIncomeElementForm = () => {
           allSelect,
           selectedAll,
           rowDataHandler,
-          allSelect2,
-          selectedAll2,
-          rowDataHandler2,
+          // allSelect2,
+          // selectedAll2,
+          // rowDataHandler2,
           saveHandler,
           costs,
-          revenues,
+          // revenues,
           shipPointDDL,
         }}
       />

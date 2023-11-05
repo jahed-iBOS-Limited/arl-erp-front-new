@@ -40,7 +40,7 @@
 .print-invoice-wrapper .invoice_info {
   display: flex;
   justify-content: space-between;
-  font-size: 13px;
+  font-size: 15px;
   margin-top: 20px;
   margin-bottom: 20px;
 }
@@ -49,15 +49,14 @@
   background-color: #ebebe0;
   display: flex;
   justify-content: space-between;
-  padding: 10px 25px;
-  font-size: 13px;
-  font-weight: bold;
+  padding: 12px 25px;
+  font-size: 14px;
 }
 
 .print-invoice-wrapper .address_title {
   font-weight: 600;
   text-decoration: underline;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .print-invoice-wrapper table {
@@ -93,25 +92,31 @@
   border: none;
 }
 
-.print-invoice-wrapper .taka-in-words {
+.taka-in-words {
+  width: 100%;
   font-size: 13px;
   margin: 40px 0;
+  display: flex;
 }
 
 .print-invoice-wrapper .bd_title {
   text-decoration: underline;
 }
 .print-invoice-wrapper .bd_title {
-  font-size: 14px;
+  font-size: 20px;
+}
+
+.print-invoice-wrapper .bd_title p {
+  font-size: 13px;
+  font-weight: 800;
 }
 
 .print-invoice-wrapper .bank_details {
   display: flex;
   justify-content: space-between;
-  font-weight: 600;
 }
-.print-invoice-wrapper .bd_item {
-  font-size: 12px;
+.print-invoice-wrapper .bd_item p {
+  font-size: 13px;
 }
 
 .print-invoice-wrapper .signature {

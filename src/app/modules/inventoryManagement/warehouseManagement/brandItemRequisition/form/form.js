@@ -10,15 +10,17 @@ import IButton from "../../../../_helper/iButton";
 import { useHistory } from "react-router-dom";
 
 export default function _Form({
-  initData,
+  type,
+  title,
+  addRow,
+  UOMDDL,
+  itemDDL,
   rowData,
+  initData,
+  removeRow,
   saveHandler,
   itemCategoryDDL,
   getItemsByCategory,
-  itemDDL,
-  UOMDDL,
-  addRow,
-  removeRow,
 }) {
   const history = useHistory();
   return (
@@ -30,16 +32,24 @@ export default function _Form({
       >
         {({ values, errors, touched, setFieldValue, resetForm }) => (
           <ICustomCard
-            title="Brand Item Requisition Entry"
+            title={title}
             backHandler={() => history.goBack()}
-            resetHandler={() => {
-              resetForm();
-            }}
-            saveHandler={() => {
-              saveHandler(values, () => {
-                resetForm();
-              });
-            }}
+            resetHandler={
+              type === "view"
+                ? ""
+                : () => {
+                    resetForm();
+                  }
+            }
+            saveHandler={
+              type === "view"
+                ? ""
+                : () => {
+                    saveHandler(values, () => {
+                      resetForm();
+                    });
+                  }
+            }
           >
             <form>
               <div className="row global-form">
@@ -59,7 +69,7 @@ export default function _Form({
                     placeholder="Program Type"
                     errors={errors}
                     touched={touched}
-                    isDisabled={rowData?.length}
+                    isDisabled={rowData?.length || type === "view"}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -69,6 +79,7 @@ export default function _Form({
                     placeholder="Purpose"
                     type="text"
                     name="purpose"
+                    disabled={type === "view"}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -78,84 +89,99 @@ export default function _Form({
                     placeholder="Date"
                     type="date"
                     name="requiredDate"
+                    disabled={type === "view"}
                   />
                 </div>
-                <RATForm obj={{ values, setFieldValue }} />
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="itemCategory"
-                    options={itemCategoryDDL || []}
-                    value={values?.itemCategory}
-                    label="Item Category"
-                    onChange={(valueOption) => {
-                      setFieldValue("itemCategory", valueOption);
-                      getItemsByCategory({
-                        ...values,
-                        itemCategory: valueOption,
-                      });
-                    }}
-                    placeholder="Item Category"
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="item"
-                    options={itemDDL || []}
-                    value={values?.item}
-                    label="Item"
-                    onChange={(valueOption) => {
-                      setFieldValue("item", valueOption);
-                    }}
-                    placeholder="Item"
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="uom"
-                    options={UOMDDL || []}
-                    value={values?.uom}
-                    label="UOM"
-                    onChange={(valueOption) => {
-                      setFieldValue("uom", valueOption);
-                    }}
-                    placeholder="UOM"
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.quantity}
-                    label="Quantity"
-                    placeholder="Quantity"
-                    type="text"
-                    name="quantity"
-                  />
-                </div>
-
-                <div className="col-lg-3">
-                  <label>Remarks</label>
-                  <TextArea
-                    name="description"
-                    placeholder="Description"
-                    value={values?.description}
-                    rows="3"
-                  />
-                </div>
-                <IButton
-                  onClick={() => {
-                    addRow(values);
-                  }}
-                >
-                  Add
-                </IButton>
+                {type !== "view" && (
+                  <>
+                    <div className="col-lg-12">
+                      <hr />
+                    </div>
+                    <RATForm obj={{ values, setFieldValue }} />
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="itemCategory"
+                        options={itemCategoryDDL || []}
+                        value={values?.itemCategory}
+                        label="Item Category"
+                        onChange={(valueOption) => {
+                          setFieldValue("itemCategory", valueOption);
+                          getItemsByCategory({
+                            ...values,
+                            itemCategory: valueOption,
+                          });
+                        }}
+                        placeholder="Item Category"
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="item"
+                        options={itemDDL || []}
+                        value={values?.item}
+                        label="Item"
+                        onChange={(valueOption) => {
+                          setFieldValue("item", valueOption);
+                        }}
+                        placeholder="Item"
+                        errors={errors}
+                        touched={touched}
+                        isDisabled={!values?.itemCategory}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="uom"
+                        options={UOMDDL || []}
+                        value={values?.uom}
+                        label="UOM"
+                        onChange={(valueOption) => {
+                          setFieldValue("uom", valueOption);
+                        }}
+                        placeholder="UOM"
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <InputField
+                        value={values?.quantity}
+                        label="Quantity"
+                        placeholder="Quantity"
+                        type="text"
+                        name="quantity"
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <label>Remarks</label>
+                      <TextArea
+                        name="description"
+                        placeholder="Description"
+                        value={values?.description}
+                        rows="3"
+                      />
+                    </div>
+                    <IButton
+                      disabled={
+                        !values?.territory ||
+                        !values?.item ||
+                        !values?.uom ||
+                        !values?.quantity
+                      }
+                      onClick={() => {
+                        addRow(values);
+                      }}
+                    >
+                      Add
+                    </IButton>
+                  </>
+                )}
               </div>
-              <BrandItemRequisitionEntryTable obj={{ rowData, removeRow }} />
+              <BrandItemRequisitionEntryTable
+                obj={{ rowData, removeRow, type }}
+              />
             </form>
           </ICustomCard>
         )}
