@@ -4,15 +4,17 @@ import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useParams } from "react-router";
 // import { toast } from "react-toastify";
-import Loading from "../../../_chartinghelper/loading/_loading";
 import { _todayDate } from "../../../_chartinghelper/_todayDate";
+import Loading from "../../../_chartinghelper/loading/_loading";
 import { createTrip, editTrip, getTripDataById } from "../helper";
 import { calculateTotalExpense } from "../utils";
 import Form from "./_form";
 
 const initData = {
+  // vessel type add for new requirement order by Iqbal vai
   /* Header State */
   lighterVessel: "", // DDL
+  vesselType :"",
   loadPort: "", // DDL
   dischargePort: "", // DDL
   dteTripCommencedDate: "",
@@ -88,6 +90,7 @@ export default function TripForm() {
       const payload = {
         header: {
           lighterTripId: 0,
+          vesselType: values?.vesselType?.label,
           tripNo: values?.tripNo,
           accountId: profileData?.accountId,
           businessUnitId: selectedBusinessUnit?.value,
