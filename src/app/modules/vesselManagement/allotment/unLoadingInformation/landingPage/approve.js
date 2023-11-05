@@ -210,6 +210,7 @@ export default function WarehouseApproveFrom({
   const getInitData = () => {
     const dataSetOne = {
       ...initData,
+
       supplier: {
         value: rates?.supplierId,
         label: rates?.supplierName,
@@ -231,6 +232,7 @@ export default function WarehouseApproveFrom({
 
     const dataSetTwo = {
       ...initData,
+      ...rates,
       supplier: {
         value: rates?.supplierId,
         label: rates?.supplierName,
