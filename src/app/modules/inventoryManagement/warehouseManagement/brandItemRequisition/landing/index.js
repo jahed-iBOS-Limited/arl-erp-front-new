@@ -36,7 +36,7 @@ function BrandItemRequisitionLanding() {
   const history = useHistory();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
-  const [rowData, getRowData, loader] = useAxiosGet();
+  const [rowData, getRowData, loader, setRowData] = useAxiosGet();
   const [
     singleData,
     getSingleData,
@@ -118,8 +118,25 @@ function BrandItemRequisitionLanding() {
             <>
               <form>
                 <div className="row global-form">
-                  <RATForm obj={{ values, setFieldValue, territory: false }} />
-                  <FromDateToDateForm obj={{ values, setFieldValue }} />
+                  <RATForm
+                    obj={{
+                      values,
+                      setFieldValue,
+                      territory: false,
+                      onChange: () => {
+                        setRowData([]);
+                      },
+                    }}
+                  />
+                  <FromDateToDateForm
+                    obj={{
+                      values,
+                      setFieldValue,
+                      onChange: () => {
+                        setRowData([]);
+                      },
+                    }}
+                  />
                   <div className="col-lg-3">
                     <NewSelect
                       name="status"
@@ -133,6 +150,7 @@ function BrandItemRequisitionLanding() {
                       label="Status"
                       onChange={(valueOption) => {
                         setFieldValue("status", valueOption);
+                        setRowData([]);
                       }}
                       placeholder="Status"
                     />

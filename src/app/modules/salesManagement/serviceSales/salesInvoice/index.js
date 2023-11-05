@@ -15,7 +15,7 @@ import PrintInvoiceModal from "./printInvoice";
 const initData = {
   customer: "",
   item: "",
-  type: { value: 2, label: "Pending for Collection" },
+  type: { value: 1, label: "Pending for Invoice" },
 };
 export default function SalesInvoiceLanding() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -206,7 +206,7 @@ export default function SalesInvoiceLanding() {
                     <NewSelect
                       name="type"
                       options={[
-                        // { value: 1, label: "Pending for Invoice" },
+                        { value: 1, label: "Pending for Invoice" },
                         { value: 2, label: "Pending for Collection" },
                       ]}
                       value={values?.type}
@@ -302,6 +302,7 @@ export default function SalesInvoiceLanding() {
                     <table className="table table-striped table-bordered bj-table bj-table-landing">
                       <thead>
                         <tr>
+                          <th style={{maxWidth:"20px"}}>SL</th>
                           <th>Customer</th>
                           <th>Item Name</th>
                           <th>Address</th>
@@ -314,6 +315,7 @@ export default function SalesInvoiceLanding() {
                       <tbody>
                         {rowData?.map((item, index) => (
                           <tr key={index}>
+                            <td>{index + 1}</td>
                             <td>{item?.invocieHeader?.strCustomerName}</td>
                             <td>{item?.strItemName}</td>
                             <td>{item?.invocieHeader?.strCustomerAddress}</td>
