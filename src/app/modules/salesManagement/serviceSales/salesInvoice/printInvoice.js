@@ -138,10 +138,10 @@ const PrintInvoiceModal = ({ singleItem }) => {
               <p>Contact Number: </p> */}
             </div>
           </div>
-          <div>
-            <table style={{ marginBottom: "10px" }}>
+          <div style={{ marginBottom: "15px" }}>
+            <table>
               <thead>
-                <tr style={{ height: "30px" }}>
+                <tr style={{ height: "30px", fontSize: "14px" }}>
                   <th style={{ width: "30px" }}>SL</th>
                   <th style={{ width: "250px" }}>Item Name</th>
                   <th>UoM</th>
@@ -187,9 +187,18 @@ const PrintInvoiceModal = ({ singleItem }) => {
               </tbody>
             </table>
           </div>
-          {/* <div className="taka-in-words">
-            Words: Three Thousand One Hundred Fifty Taka Only{" "}
-          </div> */}
+          <div className="taka-in-words">
+            <strong>In Words: </strong>{" "}
+            <p
+              style={{
+                borderBottom: "1px dashed",
+                marginLeft: "3px",
+                width: "520px",
+              }}
+            >
+              
+            </p>
+          </div>
           <div className="bank_details">
             <div className="bd_item">
               <h5 className="bd_title">Bank Details:</h5>
