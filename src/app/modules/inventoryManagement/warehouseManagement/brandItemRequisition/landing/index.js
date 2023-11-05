@@ -12,19 +12,24 @@ import BrandItemRequisitionLandingTable from "./table";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
 import IButton from "../../../../_helper/iButton";
+import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
+import NewSelect from "../../../../_helper/_select";
+import IViewModal from "../../../../_helper/_viewModal";
+import BrandItemRequisitionApproveForm from "./approve";
 
 const initData = {
-  fromDate: _todayDate(),
+  fromDate: _firstDateofMonth(),
   toDate: _todayDate(),
   channel: "",
   region: "",
   area: "",
   territory: "",
+  status: { value: 0, label: "All" },
 };
 
 function BrandItemRequisitionLanding() {
   const {
-    profileData,
+    profileData: { accountId: accId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
@@ -32,27 +37,74 @@ function BrandItemRequisitionLanding() {
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [rowData, getRowData, loader] = useAxiosGet();
+  const [
+    singleData,
+    getSingleData,
+    singleDataLoader,
+    setSingleData,
+  ] = useAxiosGet();
+  const [open, setOpen] = useState(false);
 
   const getLandingData = (values, pageNo = 0, pageSize = 15) => {
-    getRowData(
-      `/wms/ItemRequest/GetBrandItemRequest?areaId=${values?.area?.value ||
-        0}&businessUnitId=${buId}&fromDate=${values?.fromDate}&todate=${
-        values?.toDate
-      }&PageNo=${pageNo}&PageSize=${pageSize}`
-    );
+    const status = values?.status?.value;
+
+    const urlForAllData = `/wms/ItemRequest/GetBrandItemRequest?areaId=${values
+      ?.area?.value || 0}&businessUnitId=${buId}&fromDate=${
+      values?.fromDate
+    }&todate=${values?.toDate}&PageNo=${pageNo}&PageSize=${pageSize}`;
+
+    const urlForPending = `/wms/ItemRequest/GetBrandItemRequestDataForApproval?accountId=${accId}&businessUnitId=${buId}&areaId=${values?.area?.value}&fromDate=${values?.fromDate}&todate=${values?.toDate}&status=1&isApproveByRM=true`;
+
+    const urlForHeadOffice = `/wms/ItemRequest/GetBrandItemRequestDataForApproval?accountId=${accId}&businessUnitId=${buId}&regionId=${
+      values?.region?.value
+    }&fromDate=${values?.fromDate}&todate=${values?.toDate}&status=${
+      status === 2 ? 1 : 2
+    }&isApproveByRM=false`;
+
+    const url =
+      status === 0
+        ? urlForAllData
+        : status === 1
+        ? urlForPending
+        : urlForHeadOffice;
+
+    getRowData(url);
   };
 
   useEffect(() => {
     getLandingData(initData, pageNo, pageSize);
-  }, [profileData, buId]);
+  }, [accId, buId]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
     getLandingData(values, pageNo, pageSize);
   };
 
+  const getSingleDataById = (id) => {
+    getSingleData(
+      `/wms/ItemRequest/GetBrandItemRequestById?id=${id}`,
+      (resData) => {
+        const modifyData = {
+          ...resData,
+          programType: {
+            value: resData?.brandRequestTypeId,
+            label: resData?.brandRequestTypeName,
+          },
+          requiredDate: resData?.requiredDate,
+          purpose: resData?.purpose,
+        };
+        setSingleData(modifyData);
+        if (resData?.brandRequestId && resData?.brandItemRows?.length > 0) {
+          setOpen(true);
+        }
+      }
+    );
+  };
+
+  const loading = singleDataLoader || loader;
+
   return (
     <>
-      {loader && <Loading />}
+      {loading && <Loading />}
       <ICustomCard
         title="Brand Item Requisition"
         createHandler={() =>
@@ -68,14 +120,34 @@ function BrandItemRequisitionLanding() {
                 <div className="row global-form">
                   <RATForm obj={{ values, setFieldValue, territory: false }} />
                   <FromDateToDateForm obj={{ values, setFieldValue }} />
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="status"
+                      options={[
+                        { value: 0, label: "All" },
+                        { value: 1, label: "Pending" },
+                        { value: 2, label: "Approved by Regional Manager" },
+                        { value: 3, label: "Approved by Head Office" },
+                      ]}
+                      value={values?.status}
+                      label="Status"
+                      onChange={(valueOption) => {
+                        setFieldValue("status", valueOption);
+                      }}
+                      placeholder="Status"
+                    />
+                  </div>
                   <IButton
+                    disabled={!values?.status}
                     onClick={() => {
                       getLandingData(values, pageNo, pageSize);
                     }}
                   />
                 </div>
 
-                <BrandItemRequisitionLandingTable obj={{ rowData }} />
+                <BrandItemRequisitionLandingTable
+                  obj={{ rowData, values, getSingleDataById }}
+                />
 
                 {rowData?.length > 0 && (
                   <PaginationTable
@@ -91,6 +163,14 @@ function BrandItemRequisitionLanding() {
                   />
                 )}
               </form>
+              <IViewModal show={open} onHide={() => setOpen(false)}>
+                <BrandItemRequisitionApproveForm
+                  getLandingData={getLandingData}
+                  singleData={singleData}
+                  setOpen={setOpen}
+                  values={values}
+                />
+              </IViewModal>
             </>
           )}
         </Formik>

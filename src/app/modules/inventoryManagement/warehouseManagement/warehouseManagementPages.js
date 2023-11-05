@@ -410,6 +410,11 @@ export function WarehouseManagementPages() {
       />
 
       <ContentRoute
+        path="/inventory-management/warehouse-management/branditemrequisition/:type/:id"
+        component={BrandItemRequisitionForm}
+      />
+      
+      <ContentRoute
         path="/inventory-management/warehouse-management/branditemrequisition/entry"
         component={BrandItemRequisitionForm}
       />
