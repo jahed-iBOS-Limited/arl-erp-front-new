@@ -95,7 +95,7 @@ export default function ProductionEntryApprovalForm() {
           editRow: objRowData,
         };
         window.paylaod = payload;
-        if(!values?.wareHouse?.value){
+        if(selectedBusinessUnit?.value !== 8  && !values?.wareHouse?.value){
           return toast.warn("Please select Warehouse")
         }
         if (!values?.sbu?.value) {
