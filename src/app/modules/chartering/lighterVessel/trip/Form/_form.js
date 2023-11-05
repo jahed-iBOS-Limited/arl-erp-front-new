@@ -3,10 +3,10 @@ import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
-  getCargoDDL,
   GetDomesticPortDDL,
   GetLighterConsigneeDDL,
   GetLighterVesselDDL,
+  getCargoDDL,
   getMotherVesselDDL,
 } from "../../../helper";
 import { validationSchemaTripCreate } from "../utils";
@@ -159,8 +159,7 @@ export default function _Form({
                 setTouched={setTouched}
                 setErrors={setErrors}
               />
-
-              {!loading ? (
+              {(!loading && values?.vesselType?.value === 2) ? (
                 <ExpenseSection
                   viewType={viewType}
                   values={values}
