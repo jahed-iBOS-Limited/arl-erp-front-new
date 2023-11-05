@@ -92,9 +92,11 @@
   border: none;
 }
 
-.print-invoice-wrapper .taka-in-words {
+.taka-in-words {
+  width: 100%;
   font-size: 13px;
   margin: 40px 0;
+  display: flex;
 }
 
 .print-invoice-wrapper .bd_title {
@@ -113,8 +115,8 @@
   display: flex;
   justify-content: space-between;
 }
-.print-invoice-wrapper .bd_item {
-  /* font-size: 12px; */
+.print-invoice-wrapper .bd_item p {
+  font-size: 13px;
 }
 
 .print-invoice-wrapper .signature {
