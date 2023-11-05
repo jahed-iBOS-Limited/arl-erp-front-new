@@ -135,8 +135,8 @@ export default function WarehouseApproveFrom({
       othersCostRate: +values?.othersCostRate,
 
       // all quantity
-      biwtaqnt: 1,
-      // biwtaqnt: +values?.unloadedQty,
+      // biwtaqnt: 1,
+      biwtaqnt: +values?.unloadedQty,
       shipSweepingQnt: 1,
       decScaleQnt: 1,
       dailyLaboureQnt: 1,
@@ -175,15 +175,17 @@ export default function WarehouseApproveFrom({
       othersCostRate: values?.othersCostRate,
     };
 
-    StockInToInventoryApproval(payloadOne, () => {
-      setShow(false);
-      getData(preValues, pageNo, pageSize);
-    });
-
-    updateUnloadingQtyAndRates(payloadTwo, () => {
-      setShow(false);
-      getData(preValues, pageNo, pageSize);
-    });
+    if (levelOfApprove === "second") {
+      updateUnloadingQtyAndRates(payloadTwo, () => {
+        setShow(false);
+        getData(preValues, pageNo, pageSize);
+      });
+    } else {
+      StockInToInventoryApproval(payloadOne, () => {
+        setShow(false);
+        getData(preValues, pageNo, pageSize);
+      });
+    }
   };
 
   const setTotals = (values, setFieldValue) => {
@@ -614,8 +616,8 @@ export default function WarehouseApproveFrom({
                       <div className="col-lg-3">
                         <InputField
                           value={values?.decBiwtarate}
-                          label="BIWTA Amount"
-                          placeholder="BIWTA Amount"
+                          label="BIWTA Rate"
+                          placeholder="BIWTA Rate"
                           name="decBiwtarate"
                           type="number"
                           onChange={(e) => {
