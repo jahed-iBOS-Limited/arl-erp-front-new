@@ -2,7 +2,7 @@ import React from "react";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 
 export default function BrandItemRequisitionEntryTable({ obj }) {
-  const { rowData, removeRow } = obj;
+  const { rowData, removeRow, type } = obj;
   return (
     <>
       {rowData?.length > 0 && (
@@ -17,7 +17,7 @@ export default function BrandItemRequisitionEntryTable({ obj }) {
               <th>Channel</th>
               <th>Territory</th>
               <th>Remarks</th>
-              <th>Action</th>
+              {type !== "view" && <th>Action</th>}
             </tr>
           </thead>
           <tbody>
@@ -32,9 +32,11 @@ export default function BrandItemRequisitionEntryTable({ obj }) {
                 <td>{td?.territoryName}</td>
                 <td>{td?.remarks}</td>
 
-                <td className="text-center">
-                  <IDelete remover={removeRow} id={index} />
-                </td>
+                {type !== "view" && (
+                  <td className="text-center">
+                    <IDelete remover={removeRow} id={index} />
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>
