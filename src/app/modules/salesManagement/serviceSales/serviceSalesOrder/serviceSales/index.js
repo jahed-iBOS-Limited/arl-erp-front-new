@@ -145,6 +145,7 @@ export default function ServiceSalesLanding() {
                   <table className="table table-striped table-bordered bj-table bj-table-landing">
                     <thead>
                       <tr>
+                      <th style={{maxWidth:"20px"}}>SL</th>
                         <th>Order Code</th>
                         <th>Customer</th>
                         <th>Item Name</th>
@@ -157,6 +158,7 @@ export default function ServiceSalesLanding() {
                     <tbody>
                       {scheduleList?.data?.map((item, index) => (
                         <tr key={index}>
+                          <td>{index + 1}</td>
                           <td>{item?.strServiceSalesOrderCode}</td>
                           <td>{item?.strItemName}</td>
                           <td>{item?.strCustomerName}</td>
