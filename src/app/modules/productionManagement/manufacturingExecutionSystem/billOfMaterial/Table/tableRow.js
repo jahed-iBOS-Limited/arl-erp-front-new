@@ -20,6 +20,7 @@ import PaginationSearch from "./../../../../_helper/_search";
 import PaginationTable from "./../../../../_helper/_tablePagination";
 import CostViewTable from "./../../../../personal/approval/commonApproval/Table/CostView/CostView";
 import CostView from "./../../../../personal/approval/commonApproval/Table/_costView";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 export function TableRow() {
   const [loading, setLoading] = useState(false);
@@ -28,6 +29,12 @@ export function TableRow() {
   const [shopFloorDDL, setShopFloorDDL] = useState([]);
   const [isShowModalForCostView, setisShowModalForCostView] = useState(false);
   const [item, setItem] = useState("");
+  const [
+    IsBackCalcualtion,
+    getIsBackCalcualtion,
+    ,
+    setIsBackCalcualtion,
+  ] = useAxiosGet();
 
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
@@ -53,6 +60,12 @@ export function TableRow() {
 
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
+      getIsBackCalcualtion(
+        `/mes/BOM/GetMESConfigurationBusinessUnitWiseByAccountId?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`,
+        (data) => {
+          setIsBackCalcualtion(data?.isBackCalculation);
+        }
+      );
       getPlantDDL(
         profileData?.userId,
         profileData?.accountId,
@@ -219,15 +232,13 @@ export function TableRow() {
                 <tbody>
                   {gridData?.data?.length > 0 &&
                     gridData?.data?.map((item, index) => (
-                     
                       <tr key={index}>
                         {/* key={item.businessUnitId} */}
                         <td>{item?.sl}</td>
                         <td>
                           <div className="text-center">{item?.itemCode}</div>
                         </td>
-                        <td>{item?.billOfMaterialName}
-                        </td>
+                        <td>{item?.billOfMaterialName}</td>
                         <td>{item?.boMItemVersionName}</td>
                         {[144, 189, 188].includes(
                           selectedBusinessUnit?.value
@@ -258,13 +269,11 @@ export function TableRow() {
                           </div>
                         </td>
                         <td>
-                          {
-                            item?.isStandardBoM ? 
+                          {item?.isStandardBoM ? (
                             <div className="text-left pl-2">Yes</div>
-                            :
+                          ) : (
                             <div className="text-left pl-2">No</div>
-                          }
-                          
+                          )}
                         </td>
                         <td>
                           <div className="d-flex justify-content-center">
@@ -280,10 +289,19 @@ export function TableRow() {
                             <span
                               className="edit mr-3 mt-1"
                               onClick={() => {
-                                history.push({
-                                  pathname: `/production-management/mes/bill-of-material/edit/${item?.billOfMaterialId}`,
-                                  state: { plantId: item.plantId },
-                                });
+                                if (
+                                  [2]?.includes(IsBackCalcualtion) &&
+                                  item?.productionOrderId?.length
+                                ) {
+                                  alert(
+                                    `Please complete the production order below then edit the bill of materials : ${item?.productionOrderId}`
+                                  );
+                                } else {
+                                  history.push({
+                                    pathname: `/production-management/mes/bill-of-material/edit/${item?.billOfMaterialId}`,
+                                    state: { plantId: item.plantId },
+                                  });
+                                }
                               }}
                             >
                               <IEdit />

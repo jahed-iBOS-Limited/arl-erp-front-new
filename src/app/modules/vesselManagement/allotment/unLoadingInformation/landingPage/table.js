@@ -206,6 +206,8 @@ const UnLoadingInformationTable = () => {
                                 item?.isInventoryApprove
                                   ? // item?.isBillSubmitted
                                     { backgroundColor: "#d4edda" }
+                                  : item?.isApproveBySupervisor
+                                  ? { backgroundColor: "#7fd894" }
                                   : { backgroundColor: "#f8d7da" }
                               }
                             >
@@ -293,35 +295,25 @@ const UnLoadingInformationTable = () => {
                                     <IApproval
                                       title="Warehouse Approve"
                                       onClick={() => {
-                                        // approveSubmitHandler(
-                                        //   item?.voyageNo,
-                                        //   item?.lighterVesselId,
-                                        //   values
-                                        // );
                                         setSingleData(item);
                                         setShow(true);
                                         setLevelOfApprove("first");
-                                        // getData(values, pageNo, pageSize);
                                       }}
                                     />
                                   </span>
-                                ) : (
+                                ) : !item?.isApproveBySupervisor ? (
                                   <span>
                                     <IApproval
                                       title="Supervisor Approve"
                                       onClick={() => {
-                                        // approveSubmitHandler(
-                                        //   item?.voyageNo,
-                                        //   item?.lighterVesselId,
-                                        //   values
-                                        // );
                                         setSingleData(item);
                                         setShow(true);
                                         setLevelOfApprove("second");
-                                        // getData(values, pageNo, pageSize);
                                       }}
                                     />
                                   </span>
+                                ) : (
+                                  "Approved"
                                 )}
                               </td>
                             </tr>

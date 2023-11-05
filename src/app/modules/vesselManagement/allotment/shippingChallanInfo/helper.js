@@ -6,43 +6,26 @@ export const getLandingDataForConfirmation = async (
   accId,
   buId,
   values,
-  searchTerm,
   pageNo,
   pageSize,
   setter,
   setLoading
 ) => {
   setLoading && setLoading(true);
-  // const search = searchTerm ? `&SearchTerm=${searchTerm}` : "";
+
   try {
-    // const confirmationTypeId = values?.confirmationType?.value;
     const soldToPartnerId =
       values?.type === "badc" ? 73244 : values?.type === "bcic" ? 73245 : 0;
 
-    // const commonURL = `/tms/LigterLoadUnload/GetLighterChallanInfoConfirmation?Type=${
-    //   values?.confirmationStatus?.value
-    // }&AccountId=${accId}&BusinessUnitId=${buId}&ShipPointId=${values?.shipPoint
-    //   ?.value || 0}&ShipToPartnerId=${values?.shipToPartner?.value ||
-    //   0}&MotherVesselId=${
-    //   values?.motherVessel?.value
-    // }&PageNo=${pageNo}&PageSize=${pageSize}${search}&SoldToPartnerId=${soldToPartnerId}`;
-
-    // const URLForGodownUnloadBill = `/tms/LigterLoadUnload/GetGodownLabourBillInfo?Type=${
-    //   values?.confirmationStatus?.value
-    // }&AccountId=${accId}&BusinessUnitId=${buId}&ShipPointId=${values?.shipPoint
-    //   ?.value || 0}&ShipToPartnerId=${values?.shipToPartner?.value ||
-    //   0}&MotherVesselId=${
-    //   values?.motherVessel?.value
-    // }&PageNo=${pageNo}&PageSize=${pageSize}${search}&SoldToPartnerId=${soldToPartnerId}`;
-
-    // const url = confirmationTypeId === 3 ? URLForGodownUnloadBill : commonURL;
-
-    const newURL = `/tms/LigterLoadUnload/GetLighterChallanInfo?accountId=${accId}&businessUnitId=${buId}&soldToPartnerId=${soldToPartnerId}&shipPointId=${values
+    const url = `/tms/LigterLoadUnload/GetLighterChallanInfo?status=${
+      values?.status?.value
+    }&accountId=${accId}&businessUnitId=${buId}&soldToPartnerId=${soldToPartnerId}&shipPointId=${values
       ?.shipPoint?.value || 0}&shipToPartnerId=${values?.shipToPartner?.value ||
       0}&motherVesselId=${values?.motherVessel?.value}&fromDate=${
       values?.fromDate
     }&toDate=${values?.toDate}&pageNo=${pageNo}&pageSize=${pageSize}`;
-    const res = await axios.get(newURL);
+
+    const res = await axios.get(url);
 
     const modifyData = {
       ...res?.data,
