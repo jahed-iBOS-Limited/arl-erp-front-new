@@ -1,23 +1,24 @@
 import React from "react";
 import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute } from "../../../../_metronic/layout";
+import { BalanceReport } from "./balanceSheetReport";
+import { CashFlowStatement } from "./cashFlowStatement/cashFlowStatement";
 import CostOfProductionReport from "./costProductionReport";
+import CostVarianceReportLanding from "./costVarianceReport";
+import DistributionPlanReport from "./distributionPlanReport";
 import DistributionQtyVariance from "./distributionQtyVarianceReport";
 import DistributionRateVariance from "./distributionRateVarianceReport";
+import { FinencialRatiosAnalysis } from "./financialRatioAnalysis/Form/addEditForm";
+import Incomestatement from "./incomeStatement";
 import { IncomeStatementReport } from "./incomeStatementReport";
 import MaterialConsumptionVarianceReport from "./materialConsumptionReport";
 import MaterialPriceVariance from "./metarialPriceVariance";
+import OverheadVarianceReport from "./overheadVarianceReport";
 import ProductionVarianceReport from "./productionVarianceReport";
 import BudgetVsSalesVarient from "./salesBudgetVarianceReport";
+import TrailBalanceReport from "./trailBalance";
 import WorkingCapitalVarianceReport from "./workingCapitalVarianceReport";
 import InventoryVarianceReport from "./workingVarianceReport";
-import Incomestatement from "./incomeStatement";
-import TrailBalanceReport from "./trailBalance";
-import { FinencialRatiosAnalysis } from "./financialRatioAnalysis/Form/addEditForm";
-import { CashFlowStatement } from "./cashFlowStatement/cashFlowStatement";
-import { BalanceReport } from "./balanceSheetReport";
-import OverheadVarianceReport from "./overheadVarianceReport";
-import CostVarianceReportLanding from "./costVarianceReport";
 
 const BudgetVarianceReportPages = () => {
   return (
@@ -98,6 +99,10 @@ const BudgetVarianceReportPages = () => {
       <ContentRoute
         path="/internal-control/budgetvariancereport/financialratiosanalysis"
         component={FinencialRatiosAnalysis}
+      />
+      <ContentRoute
+        path="/internal-control/budgetvariancereport/distributionplanreport"
+        component={DistributionPlanReport}
       />
     </Switch>
   );
