@@ -158,32 +158,47 @@ const PrintInvoiceModal = ({ singleItem }) => {
                 </tr>
               </thead>
               <tbody>
-                {printData[0]?.invocieRow?.length > 0 &&
-                  printData[0]?.invocieRow?.map((item, index) => (
-                    <tr key={index} style={{ height: "30px" }}>
-                      <td>{index + 1}</td>
-                      <td>{item?.strItemName}</td>
-                      <td>{item?.strUom}</td>
-                      <td style={{ textAlign: "right", paddingRight: "5px" }}>
-                        {item?.numSalesQty}
-                      </td>
-                      <td style={{ textAlign: "right", paddingRight: "5px" }}>
-                        {item?.numRate}
-                      </td>
-                      <td style={{ textAlign: "right", paddingRight: "5px" }}>
-                        {item?.numNetSalesAmount}
-                      </td>
-                      <td style={{ textAlign: "right", paddingRight: "5px" }}>
-                        {item?.numScheduleAmount}
-                      </td>
-                      <td style={{ textAlign: "right", paddingRight: "5px" }}>
-                        {item?.numScheduleVatAmount}
-                      </td>
-                      <td style={{ textAlign: "right", paddingRight: "5px" }}>
-                        {item?.numScheduleAmount + item?.numScheduleVatAmount}
-                      </td>
-                    </tr>
-                  ))}
+                <>
+                  {printData[0]?.invocieRow?.length > 0 &&
+                    printData[0]?.invocieRow?.map((item, index) => (
+                      <tr key={index} style={{ height: "30px" }}>
+                        <td>{index + 1}</td>
+                        <td>{item?.strItemName}</td>
+                        <td>{item?.strUom}</td>
+                        <td style={{ textAlign: "right", paddingRight: "5px" }}>
+                          {item?.numSalesQty}
+                        </td>
+                        <td style={{ textAlign: "right", paddingRight: "5px" }}>
+                          {item?.numRate}
+                        </td>
+                        <td style={{ textAlign: "right", paddingRight: "5px" }}>
+                          {item?.numNetSalesAmount}
+                        </td>
+                        <td style={{ textAlign: "right", paddingRight: "5px" }}>
+                          {item?.numScheduleAmount}
+                        </td>
+                        <td style={{ textAlign: "right", paddingRight: "5px" }}>
+                          {item?.numScheduleVatAmount}
+                        </td>
+                        <td style={{ textAlign: "right", paddingRight: "5px" }}>
+                          {item?.numScheduleAmount + item?.numScheduleVatAmount}
+                        </td>
+                      </tr>
+                    ))}
+                  <tr style={{ height: "25px", fontSize: "13px" }}>
+                    <td
+                      colspan="8"
+                      style={{
+                        textAlign: "right",
+                        fontWeight: "bold",
+                        paddingRight: "5px",
+                      }}
+                    >
+                      Total
+                    </td>
+                    <td>500</td>
+                  </tr>
+                </>
               </tbody>
             </table>
           </div>
@@ -193,10 +208,9 @@ const PrintInvoiceModal = ({ singleItem }) => {
               style={{
                 borderBottom: "1px dashed",
                 marginLeft: "3px",
-                width: "520px",
               }}
             >
-              
+              Three thousand taka only
             </p>
           </div>
           <div className="bank_details">
