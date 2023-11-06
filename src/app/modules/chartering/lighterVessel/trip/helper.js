@@ -6,6 +6,7 @@ export const getTripLandingData = async ({
   accId,
   buId,
   lighterVesselId,
+  vesselType,
   fromDate,
   toDate,
   isComplete,
@@ -21,10 +22,11 @@ export const getTripLandingData = async ({
   const isComplteteStr = isComplete ? `&IsComplete=${isComplete}` : "";
   const fromDateStr = fromDate ? `&FromDate=${fromDate}` : "";
   const toDateStr = toDate ? `&ToDate=${toDate}` : "";
+  const vesselTypeStr = vesselType ? `&vesselType=${vesselType}` : "";
 
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/LighterVesselTrip/GetLighterVesselTripLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${lighterIdStr}${isComplteteStr}${fromDateStr}${toDateStr}`
+      `https://imarine.ibos.io/domain/LighterVesselTrip/GetLighterVesselTripLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${lighterIdStr}${isComplteteStr}${fromDateStr}${toDateStr}${vesselTypeStr}`
     );
     setter(res?.data);
     setLoading(false);
