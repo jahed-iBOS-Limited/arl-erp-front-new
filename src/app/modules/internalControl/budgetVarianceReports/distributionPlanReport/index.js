@@ -50,7 +50,7 @@ export default function DistributionPlanReport() {
         touched,
       }) => (
         <>
-          {false && <Loading />}
+          {rowDataLoading && <Loading />}
           <IForm
             title="Distribution Plan Report"
             isHiddenReset
@@ -143,9 +143,9 @@ export default function DistributionPlanReport() {
                         {rowData?.length > 0 &&
                           rowData?.map((row) => (
                             <tr>
-                              <td style={{ textAlign: "center" }}>{row?.strAreaName}</td>
-                              <td style={{ textAlign: "center" }}>{row?.srtRegionName}</td>
-                              <td style={{ textAlign: "center" }}>{row?.strTerritoryName}</td>
+                              <td>{row?.strAreaName}</td>
+                              <td>{row?.srtRegionName}</td>
+                              <td>{row?.strTerritoryName}</td>
                               <td style={{ textAlign: "right" }}>{row?.DirectShipmentQty}</td>
                               <td style={{ textAlign: "right" }}>{row?.ViaShipmentQty}</td>
                               <td style={{ textAlign: "right" }}>{row?.DirectActualDeliveryQty}</td>
