@@ -159,7 +159,7 @@ const Table = ({ obj }) => {
                             item?.salesOrder
                           )}
                         </td>
-                        <td>{_dateFormatter(item?.LastActionDateTime)}</td>
+                        <td>{_dateFormatter(item?.lastActionDateTime)}</td>
                         <td>{item?.deliveryCode}</td>
                         <td>{item?.motherVesselName}</td>
                         <td>{item?.vehicleRegNo}</td>
