@@ -1,18 +1,19 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Formik } from "formik";
-import moment from "moment";
 import React, { useContext, useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import { CharteringContext } from "../../../charteringContext";
-import { GetLighterVesselDDL } from "../../../helper";
 import FormikInput from "../../../_chartinghelper/common/formikInput";
 import FormikSelect from "../../../_chartinghelper/common/formikSelect";
 import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
 import IEdit from "../../../_chartinghelper/icons/_edit";
 import IView from "../../../_chartinghelper/icons/_view";
 import Loading from "../../../_chartinghelper/loading/_loading";
-import ICustomTable from "../../../_chartinghelper/_customTable";
+import { CharteringContext } from "../../../charteringContext";
+import { GetLighterVesselDDL } from "../../../helper";
+// import ICustomTable from "../../../_chartinghelper/_customTable";
+import moment from "moment";
 import PaginationTable from "../../../_chartinghelper/_tablePagination";
 import { getTripLandingData } from "../helper";
 
@@ -58,6 +59,7 @@ export default function TripLanding() {
       accId: profileData?.accountId,
       buId: selectedBusinessUnit?.value,
       lighterVesselId: values?.lighterVessel?.value || null,
+      vesselType: values?.vesselType?.label || null,
       fromDate: values?.fromDate || null,
       toDate: values?.toDate || null,
       isComplete:
@@ -173,6 +175,24 @@ export default function TripLanding() {
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
+                    name = "vesselType"
+                    value ={values?.vesselType}
+                    label={`Vessel Type*`}
+                    options={[{value:1,label:"Rental Vessel"},{value:2,label:"Own Vessel"}]}
+                    onChange={(valueOption)=>{
+                      viewHandler(pageNo, pageSize, {
+                        ...values,
+                        vesselType: valueOption,
+                      });
+                      setFieldValue("vesselType",valueOption)
+                    }}
+                    styles={customStyles}
+                    errors={errors}
+                    touched={touched}
+                    />
+                    </div>
+                  <div className="col-lg-3">
+                    <FormikSelect
                       value={values?.status || ""}
                       isSearchable={true}
                       label={`Status`}
@@ -197,8 +217,181 @@ export default function TripLanding() {
                   </div>
                 </div>
               </div>
+              {/* table requirement change order by Asad sir Audit */}
+              {gridData?.data?.length > 0 && (
+                <div className="common-scrollable-table two-column-sticky">
+                  <div className="scroll-table _table">
+                    <table className="table table-striped table-bordered global-table">
+                      <thead>
+                        <tr>
+                          <th>SL No</th>
+                          <th>Name of Lighter Vessel</th>
+                          <th>Trip No</th>
+                          <th>Trip Start Date-Time</th>
+                          <th>Trip End Date-Time</th>
+                          <th colSpan={4}>LOADING DETAILS WITH DATE & TIME</th>
+                          <th colSpan={4}>
+                            DISCHARGING DETAILS WITH DATE & TIME
+                          </th>
+                          <th>Cargo quantity</th>
+                          <th>Mother Vessel</th>
+                          <th>Cargo</th>
+                          <th>Diesel Quantity</th>
+                          <th>Lub Quantity</th>
+                          {/* <th>Trip</th> */}
+                          {/* <th>Trip Start Date-Time</th>
+                          <th>Trip End Date-Time</th> */}
+                          <th>SR Number</th>
+                          <th>Status</th>
+                          <th>Action</th>
+                        </tr>
+                        <tr>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th>Arrival</th>
+                          <th>Loading Start</th>
+                          <th>Loading Complete</th>
+                          <th>Departure</th>
+                          <th>Arrival</th>
+                          <th>Discharging Start</th>
+                          <th>Discharging Complete</th>
+                          <th>Duration</th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {gridData?.data?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td className="text-center">
+                              {item?.lighterVesselName}
+                            </td>
+                            <td className="text-center">{item?.tripNo}</td>
+                            <td className="text-center">
+                              {moment(item?.dteTripCommencedDate).format(
+                                "YYYY-MM-DD HH:mm A"
+                              )}
+                            </td>
+                            <td className="text-center">
+                              {moment(item?.dteTripCompletionDate).format(
+                                "YYYY-MM-DD HH:mm A"
+                              )}
+                            </td>
+                            <td className="text-center">
+                              {moment(item?.arrivalCtgDate).format(
+                                "YYYY-MM-DD HH:mm A"
+                              )}
+                            </td>
+                            <td className="text-center">
+                              {moment(item?.loadCommCtgDate).format(
+                                "YYYY-MM-DD HH:mm A"
+                              )}
+                            </td>
+                            <td className="text-center">
+                              {moment(item?.loadComplCtgDate).format(
+                                "YYYY-MM-DD HH:mm A"
+                              )}
+                            </td>
+                            <td className="text-center">
+                              {moment(item?.departureCtgDate).format(
+                                "YYYY-MM-DD HH:mm A"
+                              )}
+                            </td>
+                            <td className="text-center">
+                              {moment(item?.receiveDate).format(
+                                "YYYY-MM-DD HH:mm A"
+                              )}
+                            </td>
+                            <td className="text-center">
+                              {moment(item?.dischargeStartDate).format(
+                                "YYYY-MM-DD HH:mm A"
+                              )}
+                            </td>
+                            <td className="text-center">
+                              {moment(item?.dischargeComplDate).format(
+                                "YYYY-MM-DD HH:mm A"
+                              )}
+                            </td>
+                            <td className="text-center">
+                              {item?.numTotalTripDuration} Days
+                            </td>
+                            <td className="text-center">
+                              {item?.cargoQuantity}
+                            </td>
+                            <td className="text-center">
+                              {item?.motherVesselName}
+                            </td>
+                            <td className="text-center">{item?.cargoName}</td>
+                            <td className="text-center">
+                              {item?.diselQuantity}
+                            </td>
+                            <td className="text-center">
+                              {item?.lubeOilQuantity}
+                            </td>
+                            {/* <td>{item?.tripNo}</td>
+                            <td>{item?.dteTripCommencedDate}</td>
+                            <td>{item?.dteTripCompletionDate}</td> */}
+                            <td className="text-center">{item?.srNumber}</td>
+                            <td
+                              style={{ width: "80px" }}
+                              className="text-center"
+                            >
+                              <span
+                                className={`badge badge-${
+                                  item?.isComplete ? "success" : "warning"
+                                }`}
+                              >
+                                {item?.isComplete ? "Complete" : "Not Complete"}
+                              </span>
+                            </td>
+                            <td className="text-center">
+                              <div className="d-flex justify-content-around">
+                                <IView
+                                  clickHandler={() => {
+                                    setState({
+                                      ...state,
+                                      lighterVesselLandingInitData: values,
+                                    });
+                                    history.push(
+                                      `/chartering/lighterVessel/lighterVesselVoyage/view/${item?.lighterTripId}`
+                                    );
+                                  }}
+                                />
 
-              <ICustomTable ths={headers}>
+                                {!item?.isComplete ? (
+                                  <IEdit
+                                    clickHandler={() => {
+                                      setState({
+                                        ...state,
+                                        lighterVesselLandingInitData: values,
+                                      });
+                                      history.push(
+                                        `/chartering/lighterVessel/lighterVesselVoyage/edit/${item?.lighterTripId}`
+                                      );
+                                    }}
+                                  />
+                                ) : null}
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+
+              {/* <ICustomTable ths={headers}>
                 {gridData?.data?.map((item, index) => (
                   <tr key={index}>
                     <td className="text-center">{index + 1}</td>
@@ -261,7 +454,7 @@ export default function TripLanding() {
                     </td>
                   </tr>
                 ))}
-              </ICustomTable>
+              </ICustomTable> */}
               {gridData?.data?.length > 0 && (
                 <PaginationTable
                   count={gridData?.totalCount}
