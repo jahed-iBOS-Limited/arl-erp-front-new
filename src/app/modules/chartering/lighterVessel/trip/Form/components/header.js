@@ -289,7 +289,7 @@ export function HeaderSection(props) {
           />
         </div>
 
-        <div className="col-lg-3"></div>
+        {/* <div className="col-lg-3"></div> */}
 
         <div className="col-lg-3 mt-2">
           <FormikInput
