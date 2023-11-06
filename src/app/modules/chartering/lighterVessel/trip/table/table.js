@@ -58,6 +58,7 @@ export default function TripLanding() {
       accId: profileData?.accountId,
       buId: selectedBusinessUnit?.value,
       lighterVesselId: values?.lighterVessel?.value || null,
+      vesselType: values?.vesselType?.label || null,
       fromDate: values?.fromDate || null,
       toDate: values?.toDate || null,
       isComplete:
@@ -171,6 +172,24 @@ export default function TripLanding() {
                       touched={touched}
                     />
                   </div>
+                  <div className="col-lg-3">
+                    <FormikSelect
+                    name = "vesselType"
+                    value ={values?.vesselType}
+                    label={`Vessel Type*`}
+                    options={[{value:1,label:"Rental Vessel"},{value:2,label:"Own Vessel"}]}
+                    onChange={(valueOption)=>{
+                      viewHandler(pageNo, pageSize, {
+                        ...values,
+                        vesselType: valueOption,
+                      });
+                      setFieldValue("vesselType",valueOption)
+                    }}
+                    styles={customStyles}
+                    errors={errors}
+                    touched={touched}
+                    />
+                    </div>
                   <div className="col-lg-3">
                     <FormikSelect
                       value={values?.status || ""}
