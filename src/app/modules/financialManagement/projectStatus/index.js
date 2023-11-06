@@ -1,27 +1,28 @@
 import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
+import React from "react";
 import IForm from "../../_helper/_form";
 import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
 import { shallowEqual, useSelector } from "react-redux";
+import NewSelect from "../../_helper/_select";
 const initData = {};
 export default function ProjectStatus() {
   const saveHandler = (values, cb) => {};
 
-  const { selectedBusinessUnit } = useSelector((state) => {
+  const { selectedBusinessUnit, businessUnitList } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
-  const [rwoData, getRwoData, Loading] = useAxiosGet();
+  const [rwoData, getRwoData, Loading, setRowData] = useAxiosGet();
 
-  useEffect(() => {
-    getRwoData(
-      `/fino/ProjectAccounting/GetProjectStatus?businessUnitId=${selectedBusinessUnit?.value}`
-    );
-  });
   return (
     <Formik
-      enableReinitialize={true}
-      initialValues={{}}
+      // enableReinitialize={true}
+      initialValues={{
+        businessUnit: {
+          value: selectedBusinessUnit?.value,
+          label: selectedBusinessUnit.label,
+        },
+      }}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
@@ -43,6 +44,37 @@ export default function ProjectStatus() {
           <IForm title="Project Status" isHiddenReset isHiddenBack isHiddenSave>
             <Form>
               <div>
+                <div className="form-group  global-form row mb-5">
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="businessUnit"
+                      options={businessUnitList}
+                      value={values?.businessUnit}
+                      label="Item"
+                      onChange={(valueOption) => {
+                        setFieldValue("businessUnit", valueOption);
+                        setRowData([]);
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <button
+                      disabled={!values?.businessUnit?.value}
+                      style={{ marginTop: "17px" }}
+                      className="btn btn-primary"
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        getRwoData(
+                          `/fino/ProjectAccounting/GetProjectStatus?businessUnitId=${values?.businessUnit?.value}`
+                        );
+                      }}
+                    >
+                      Show
+                    </button>
+                  </div>
+                </div>
+                {console.log("dssdfdsf")}
                 <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing mr-1">
                   <thead>
                     <tr>
@@ -60,27 +92,38 @@ export default function ProjectStatus() {
                     </tr>
                   </thead>
                   <tbody>
-                    {rwoData?.map((dataItem, dataIndex) => (
-                      <tr key={dataIndex}>
-                        <td>{dataIndex + 1}</td>
-                        <td className="text-center">{dataItem?.projectCode}</td>
-                        <td>{dataItem?.projectName}</td>
-                        <td className="text-right">
-                          {dataItem?.materialBudget}
-                        </td>
-                        <td className="text-right">{dataItem?.laborBudget}</td>
-                        <td className="text-right">{dataItem?.totalBudget}</td>
-                        <td className="text-right">
-                          {dataItem?.materialActual}
-                        </td>
-                        <td className="text-right">{dataItem?.laborActual}</td>
-                        <td className="text-right">{dataItem?.totalActual}</td>
-                        <td className="text-right">{dataItem?.variance}</td>
-                        <td className="text-right">
-                          {dataItem?.variancePercent}
-                        </td>
-                      </tr>
-                    ))}
+                    {rwoData?.length > 0 &&
+                      rwoData?.map((dataItem, dataIndex) => (
+                        <tr key={dataIndex}>
+                          <td>{dataIndex + 1}</td>
+                          <td className="text-center">
+                            {dataItem?.projectCode}
+                          </td>
+                          <td>{dataItem?.projectName}</td>
+                          <td className="text-right">
+                            {dataItem?.materialBudget}
+                          </td>
+                          <td className="text-right">
+                            {dataItem?.laborBudget}
+                          </td>
+                          <td className="text-right">
+                            {dataItem?.totalBudget}
+                          </td>
+                          <td className="text-right">
+                            {dataItem?.materialActual}
+                          </td>
+                          <td className="text-right">
+                            {dataItem?.laborActual}
+                          </td>
+                          <td className="text-right">
+                            {dataItem?.totalActual}
+                          </td>
+                          <td className="text-right">{dataItem?.variance}</td>
+                          <td className="text-right">
+                            {dataItem?.variancePercent}
+                          </td>
+                        </tr>
+                      ))}
                   </tbody>
                 </table>
               </div>
