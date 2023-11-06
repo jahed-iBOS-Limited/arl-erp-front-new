@@ -63,7 +63,7 @@ export default function ProjectStatus() {
                     {rwoData?.map((dataItem, dataIndex) => (
                       <tr key={dataIndex}>
                         <td>{dataIndex + 1}</td>
-                        <td className="text-center">{dataItem?.projectId}</td>
+                        <td className="text-center">{dataItem?.projectCode}</td>
                         <td>{dataItem?.projectName}</td>
                         <td className="text-right">
                           {dataItem?.materialBudget}

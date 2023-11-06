@@ -5,7 +5,22 @@ import ProjectAccounting from ".";
 import ProjectAccountingCreate from "./projectAccounting";
 import ProjectAccountingComplete from "./ProjectAccountingComplete";
 import ProjectStatus from "../projectStatus";
+import { shallowEqual, useSelector } from "react-redux";
+import NotPermitted from "../../performanceManagement/notPermittedPage/notPermitted";
 const ProjectAccountingPages = () => {
+
+  const userRole = useSelector(
+    (state) => state?.authData?.userRole,
+    shallowEqual
+  );
+
+  let ProjectStatus = null;
+ 
+  for (let i = 0; i < userRole.length; i++) {
+    if (userRole[i]?.intFeatureId === 1386) {
+      ProjectStatus = userRole[i];
+    }
+  }
   return (
     <Switch>
       <Redirect
@@ -31,7 +46,7 @@ const ProjectAccountingPages = () => {
       />
        <ContentRoute
         from="/financial-management/projectAccounting/ProjectStatus"
-        component={ProjectStatus}
+        component={ProjectStatus?.isView ? ProjectStatus : NotPermitted}
       />
     </Switch>
   );
