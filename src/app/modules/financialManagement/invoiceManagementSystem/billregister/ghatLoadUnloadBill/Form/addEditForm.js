@@ -85,6 +85,7 @@ export default function GhatLoadUnloadBill() {
           lighterToBolgateRate: item?.lighterToBolgateRate,
           bolgateToDamRate: item?.bolgateToDamRate,
           othersCostRate: +item?.totalRate || 0,
+          shipPointId: item?.shipPointId,
         }));
 
         const payload = {
