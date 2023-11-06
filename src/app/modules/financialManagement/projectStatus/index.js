@@ -50,7 +50,7 @@ export default function ProjectStatus() {
                       name="businessUnit"
                       options={businessUnitList}
                       value={values?.businessUnit}
-                      label="Item"
+                      label="Business Unit"
                       onChange={(valueOption) => {
                         setFieldValue("businessUnit", valueOption);
                         setRowData([]);
