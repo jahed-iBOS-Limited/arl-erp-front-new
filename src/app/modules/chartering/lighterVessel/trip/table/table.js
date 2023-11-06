@@ -175,22 +175,25 @@ export default function TripLanding() {
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                    name = "vesselType"
-                    value ={values?.vesselType}
-                    label={`Vessel Type*`}
-                    options={[{value:1,label:"Rental Vessel"},{value:2,label:"Own Vessel"}]}
-                    onChange={(valueOption)=>{
-                      viewHandler(pageNo, pageSize, {
-                        ...values,
-                        vesselType: valueOption,
-                      });
-                      setFieldValue("vesselType",valueOption)
-                    }}
-                    styles={customStyles}
-                    errors={errors}
-                    touched={touched}
+                      name="vesselType"
+                      value={values?.vesselType}
+                      label={`Vessel Type*`}
+                      options={[
+                        { value: 1, label: "Rental Vessel" },
+                        { value: 2, label: "Own Vessel" },
+                      ]}
+                      onChange={(valueOption) => {
+                        viewHandler(pageNo, pageSize, {
+                          ...values,
+                          vesselType: valueOption,
+                        });
+                        setFieldValue("vesselType", valueOption);
+                      }}
+                      styles={customStyles}
+                      errors={errors}
+                      touched={touched}
                     />
-                    </div>
+                  </div>
                   <div className="col-lg-3">
                     <FormikSelect
                       value={values?.status || ""}
@@ -200,6 +203,7 @@ export default function TripLanding() {
                         { value: null, label: "All" },
                         { value: 1, label: "Complete" },
                         { value: 2, label: "Not Complete" },
+                        { value: 3, label: "Trip End" },
                       ]}
                       styles={customStyles}
                       name="status"
@@ -278,49 +282,67 @@ export default function TripLanding() {
                             </td>
                             <td className="text-center">{item?.tripNo}</td>
                             <td className="text-center">
-                              {moment(item?.dteTripCommencedDate).format(
-                                "YYYY-MM-DD HH:mm A"
-                              )}
+                              {item?.dteTripCommencedDate
+                                ? moment(item?.dteTripCommencedDate).format(
+                                    "YYYY-MM-DD HH:mm A"
+                                  )
+                                : ""}
                             </td>
                             <td className="text-center">
-                              {moment(item?.dteTripCompletionDate).format(
-                                "YYYY-MM-DD HH:mm A"
-                              )}
+                              {item?.dteTripCompletionDate
+                                ? moment(item?.dteTripCompletionDate).format(
+                                    "YYYY-MM-DD HH:mm A"
+                                  )
+                                : ""}
                             </td>
                             <td className="text-center">
-                              {moment(item?.arrivalCtgDate).format(
-                                "YYYY-MM-DD HH:mm A"
-                              )}
+                              {item?.arrivalCtgDate
+                                ? moment(item?.arrivalCtgDate).format(
+                                    "YYYY-MM-DD HH:mm A"
+                                  )
+                                : ""}
                             </td>
                             <td className="text-center">
-                              {moment(item?.loadCommCtgDate).format(
-                                "YYYY-MM-DD HH:mm A"
-                              )}
+                              {item?.loadCommCtgDate
+                                ? moment(item?.loadCommCtgDate).format(
+                                    "YYYY-MM-DD HH:mm A"
+                                  )
+                                : ""}
                             </td>
                             <td className="text-center">
-                              {moment(item?.loadComplCtgDate).format(
-                                "YYYY-MM-DD HH:mm A"
-                              )}
+                              {item?.loadComplCtgDate
+                                ? moment(item?.loadComplCtgDate).format(
+                                    "YYYY-MM-DD HH:mm A"
+                                  )
+                                : ""}
                             </td>
                             <td className="text-center">
-                              {moment(item?.departureCtgDate).format(
-                                "YYYY-MM-DD HH:mm A"
-                              )}
+                              {item?.departureCtgDate
+                                ? moment(item?.departureCtgDate).format(
+                                    "YYYY-MM-DD HH:mm A"
+                                  )
+                                : ""}
                             </td>
                             <td className="text-center">
-                              {moment(item?.receiveDate).format(
-                                "YYYY-MM-DD HH:mm A"
-                              )}
+                              {item?.receiveDate
+                                ? moment(item?.receiveDate).format(
+                                    "YYYY-MM-DD HH:mm A"
+                                  )
+                                : ""}
                             </td>
                             <td className="text-center">
-                              {moment(item?.dischargeStartDate).format(
-                                "YYYY-MM-DD HH:mm A"
-                              )}
+                              {item?.dischargeStartDate
+                                ? moment(item?.dischargeStartDate).format(
+                                    "YYYY-MM-DD HH:mm A"
+                                  )
+                                : ""}
                             </td>
                             <td className="text-center">
-                              {moment(item?.dischargeComplDate).format(
-                                "YYYY-MM-DD HH:mm A"
-                              )}
+                              {item?.dischargeComplDate
+                                ? moment(item?.dischargeComplDate).format(
+                                    "YYYY-MM-DD HH:mm A"
+                                  )
+                                : ""}
                             </td>
                             <td className="text-center">
                               {item?.numTotalTripDuration} Days
