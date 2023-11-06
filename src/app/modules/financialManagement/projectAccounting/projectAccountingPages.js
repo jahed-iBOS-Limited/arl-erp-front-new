@@ -14,11 +14,11 @@ const ProjectAccountingPages = () => {
     shallowEqual
   );
 
-  let ProjectStatus = null;
+  let projectStatusPermission = null;
  
   for (let i = 0; i < userRole.length; i++) {
     if (userRole[i]?.intFeatureId === 1386) {
-      ProjectStatus = userRole[i];
+      projectStatusPermission = userRole[i];
     }
   }
   return (
@@ -46,7 +46,7 @@ const ProjectAccountingPages = () => {
       />
        <ContentRoute
         from="/financial-management/projectAccounting/ProjectStatus"
-        component={ProjectStatus?.isView ? ProjectStatus : NotPermitted}
+        component={projectStatusPermission?.isView ? ProjectStatus : NotPermitted}
       />
     </Switch>
   );
