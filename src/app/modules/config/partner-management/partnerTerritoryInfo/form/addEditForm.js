@@ -5,8 +5,14 @@ import {
   updatePartnerTerritory,
 } from "../helper";
 import Form from "./form";
+import { shallowEqual, useSelector } from "react-redux";
 
 const PartnerTerritoryInfoForm = ({ id, values, accId, buId, setShow }) => {
+
+  const profileData = useSelector((state) => {
+    return state.authData.profileData;
+  }, shallowEqual);
+
   const [singleData, setSingleData] = useState({});
   const [territoryDDL, setTerritoryDDL] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -22,6 +28,7 @@ const PartnerTerritoryInfoForm = ({ id, values, accId, buId, setShow }) => {
     const payload = {
       configId: id,
       territoryId: values?.territory?.value,
+      actionBy: profileData?.userId,
     };
     updatePartnerTerritory(payload, setLoading, () => {
       cb();
