@@ -4,6 +4,7 @@ import { ContentRoute } from "../../../../_metronic/layout";
 import ProjectAccounting from ".";
 import ProjectAccountingCreate from "./projectAccounting";
 import ProjectAccountingComplete from "./ProjectAccountingComplete";
+import ProjectStatus from "../projectStatus";
 const ProjectAccountingPages = () => {
   return (
     <Switch>
@@ -27,6 +28,10 @@ const ProjectAccountingPages = () => {
       <ContentRoute
         from="/financial-management/projectAccounting/projectAccounting"
         component={ProjectAccounting}
+      />
+       <ContentRoute
+        from="/financial-management/projectAccounting/ProjectStatus"
+        component={ProjectStatus}
       />
     </Switch>
   );
