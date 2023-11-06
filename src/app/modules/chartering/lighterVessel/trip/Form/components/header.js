@@ -84,7 +84,7 @@ export function HeaderSection(props) {
             />
           ) : null}
         </div>
-
+        {/* type added  based on requirement oeder by asad sir */}
         <div className="col-lg-3">
          <FormikSelect
          name = "vesselType"
