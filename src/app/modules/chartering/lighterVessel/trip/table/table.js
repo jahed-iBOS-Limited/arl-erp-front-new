@@ -62,12 +62,7 @@ export default function TripLanding() {
       vesselType: values?.vesselType?.label || null,
       fromDate: values?.fromDate || null,
       toDate: values?.toDate || null,
-      isComplete:
-        values?.status?.value === 1
-          ? "true"
-          : values?.status?.value === 2
-          ? "false"
-          : null,
+      Status: values?.status?.value ,
       pageNo,
       pageSize,
       setter: setGridData,
@@ -201,9 +196,9 @@ export default function TripLanding() {
                       label={`Status`}
                       options={[
                         { value: null, label: "All" },
-                        { value: 1, label: "Complete" },
-                        { value: 2, label: "Not Complete" },
-                        { value: 3, label: "Trip End" },
+                        { value: "Complete", label: "Complete" },
+                        { value: "Not Complete", label: "Not Complete" },
+                        { value: "Trip End", label: "Trip End" },
                       ]}
                       styles={customStyles}
                       name="status"
