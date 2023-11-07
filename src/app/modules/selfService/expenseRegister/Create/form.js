@@ -679,7 +679,6 @@ export default function _Form({
               <DropzoneDialogBase
                 filesLimit={1}
                 acceptedFiles={["image/*", "application/pdf"]}
-                fileObjects={fileObjects}
                 cancelButtonText={"cancel"}
                 submitButtonText={"submit"}
                 maxFileSize={1000000}
@@ -688,10 +687,7 @@ export default function _Form({
                   setFileObjects([].concat(newFileObjs));
                 }}
                 onDelete={(deleteFileObj) => {
-                  const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name
-                  );
-                  setFileObjects(newData);
+                  // on delete
                 }}
                 onClose={() => setOpen(false)}
                 onSave={() => {
