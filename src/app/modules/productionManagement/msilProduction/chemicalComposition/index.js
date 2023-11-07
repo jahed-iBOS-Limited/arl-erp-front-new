@@ -1,21 +1,21 @@
 import { Form, Formik } from "formik";
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IEdit from "../../../_helper/_helperIcons/_edit";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 // import { ITable } from "../../../_helper/_table";
-import { _dateFormatter } from "./../../../_helper/_dateFormate";
-import PaginationTable from "./../../../_helper/_tablePagination";
-import IForm from "../../../_helper/_form";
-import { DropzoneDialogBase } from "material-ui-dropzone";
 import axios from "axios";
+import { DropzoneDialogBase } from "material-ui-dropzone";
 import { toast } from "react-toastify";
+import IForm from "../../../_helper/_form";
 import { _monthFirstDate } from "../../../_helper/_monthFirstDate";
 import { _todayDate } from "../../../_helper/_todayDate";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { _dateFormatter } from "./../../../_helper/_dateFormate";
+import PaginationTable from "./../../../_helper/_tablePagination";
 
 const initData = {
   fromDate: _monthFirstDate(),
@@ -23,11 +23,16 @@ const initData = {
 };
 export default function ChemicalComposition() {
   const history = useHistory();
+  const [, saveData, loading] = useAxiosPost();
+
+  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
 
   // get selected business unit from store
-  const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit;
-  }, shallowEqual);
+  // const selectedBusinessUnit = useSelector((state) => {
+  //   return state.authData.selectedBusinessUnit;
+  // }, shallowEqual);
 
   const [fileObjects, setFileObjects] = useState([]);
 
@@ -57,11 +62,15 @@ export default function ChemicalComposition() {
       formData.append("files", file?.file);
     });
     try {
-      let { data } = await axios.post("/domain/Document/UploadFile", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      let { data } = await axios.post(
+        "https://qc.ibos.io/process-pdf",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       // toast.success(res?.data?.message || "Submitted Successfully");
       toast.success("Upload  successfully");
       return data;
@@ -104,10 +113,12 @@ export default function ChemicalComposition() {
                     className="btn btn-primary mr-1"
                     onClick={() => {
                       setOpen(true);
+                     
                     }}
                   >
                     Grab Data
                   </button>
+
                   <button
                     type="button"
                     className="btn btn-primary"
@@ -226,37 +237,62 @@ export default function ChemicalComposition() {
                         />
                       )}
                     </div>
-                    <DropzoneDialogBase
-                      filesLimit={1}
-                      acceptedFiles={["image/*", "application/pdf"]}
-                      fileObjects={fileObjects}
-                      cancelButtonText={"cancel"}
-                      submitButtonText={"submit"}
-                      maxFileSize={1000000}
-                      open={open}
-                      onAdd={(newFileObjs) => {
-                        setFileObjects([].concat(newFileObjs));
-                      }}
-                      onDelete={(deleteFileObj) => {
-                        const newData = fileObjects.filter(
-                          (item) => item.file.name !== deleteFileObj.file.name
-                        );
-                        setFileObjects(newData);
-                      }}
-                      onClose={() => setOpen(false)}
-                      onSave={() => {
-                        setOpen(false);
-                        attachmentAction(fileObjects).then((data) => {
-                          setUploadImage(data);
-                        });
-                      }}
-                      showPreviews={true}
-                      showFileNamesInPreview={true}
-                    />
                   </div>
                 )}
               </div>
             </Form>
+            <DropzoneDialogBase
+              filesLimit={1}
+              acceptedFiles={["application/pdf"]}
+              fileObjects={fileObjects}
+              cancelButtonText={"cancel"}
+              submitButtonText={"submit"}
+              maxFileSize={1000000}
+              open={open}
+              onAdd={(newFileObjs) => {
+                setFileObjects([].concat(newFileObjs));
+              }}
+              onDelete={(deleteFileObj) => {
+                const newData = fileObjects.filter(
+                  (item) => item.file.name !== deleteFileObj.file.name
+                );
+                setFileObjects(newData);
+              }}
+              onClose={() => setOpen(false)}
+              onSave={() => {
+                setOpen(false);
+                attachmentAction(fileObjects).then((data) => {
+                  // setUploadImage(data);
+                  //save data payload
+                  if (data) {
+                    const payload = {
+                      meltingQc: {
+                        intAutoId: 0,
+                        dteDate: data.dteDate,
+                        numC: data.numC,
+                        numCe: data.numCe,
+                        numCr: data.numCr,
+                        numCu: data.numCu,
+                        numMn: data.numMn,
+                        numNi: data.numNi,
+                        numP: data.numP,
+                        numS: data.numS,
+                        numSi: data.numSi,
+                        strHeatNo: data.strHeatNo,
+                        strSampleType: data.strSampleType,
+                        strShift: data.strShift,
+                        intInsertBy: profileData?.userId,
+                        dteInsertDate: _todayDate(),
+                        isActive: true,
+                      },
+                    };
+                    saveData(`/mes/MSIL/CreateEditMSIL`, payload, undefined, true);
+                  }
+                });
+              }}
+              showPreviews={true}
+              showFileNamesInPreview={true}
+            />
           </IForm>
         </>
       )}
