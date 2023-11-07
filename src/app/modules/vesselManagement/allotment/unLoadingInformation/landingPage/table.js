@@ -203,11 +203,10 @@ const UnLoadingInformationTable = () => {
                             <tr
                               key={index}
                               style={
-                                item?.isInventoryApprove
-                                  ? // item?.isBillSubmitted
-                                    { backgroundColor: "#d4edda" }
-                                  : item?.isApproveBySupervisor
+                                item?.isApproveBySupervisor
                                   ? { backgroundColor: "#7fd894" }
+                                  : item?.isInventoryApprove
+                                  ? { backgroundColor: "#d4edda" }
                                   : { backgroundColor: "#f8d7da" }
                               }
                             >
@@ -260,32 +259,35 @@ const UnLoadingInformationTable = () => {
                                       }}
                                     />
                                   </span>
-                                  <span
-                                    className="edit"
-                                    onClick={() => {
-                                      history.push({
-                                        pathname: `/vessel-management/allotment/unloadinginformation/modify/${item?.voyageNo}`,
-                                        state: item,
-                                      });
-                                    }}
-                                  >
-                                    <IEdit />
-                                  </span>
-                                  {!item?.unLoadingCompleteDate && (
-                                    <span>
-                                      <ICon
-                                        title="Add"
-                                        onClick={() => {
-                                          history.push({
-                                            pathname: `/vessel-management/allotment/unloadinginformation/edit/${item?.voyageNo}`,
-                                            state: item,
-                                          });
-                                        }}
-                                      >
-                                        <i class="fas fa-plus-circle"></i>
-                                      </ICon>
+                                  {!item?.isInventoryApprove && (
+                                    <span
+                                      className="edit"
+                                      onClick={() => {
+                                        history.push({
+                                          pathname: `/vessel-management/allotment/unloadinginformation/modify/${item?.voyageNo}`,
+                                          state: item,
+                                        });
+                                      }}
+                                    >
+                                      <IEdit />
                                     </span>
                                   )}
+                                  {!item?.unLoadingCompleteDate &&
+                                    !item?.isInventoryApprove && (
+                                      <span>
+                                        <ICon
+                                          title="Add"
+                                          onClick={() => {
+                                            history.push({
+                                              pathname: `/vessel-management/allotment/unloadinginformation/edit/${item?.voyageNo}`,
+                                              state: item,
+                                            });
+                                          }}
+                                        >
+                                          <i class="fas fa-plus-circle"></i>
+                                        </ICon>
+                                      </span>
+                                    )}
                                 </div>
                               </td>
                               <td className="text-center">

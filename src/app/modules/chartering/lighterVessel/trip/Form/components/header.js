@@ -1,14 +1,14 @@
 import moment from "moment";
 import React, { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import { GetDomesticPortDDL, GetLighterVesselDDL } from "../../../../helper";
+import IViewModal from "../../../../_chartinghelper/_viewModal";
 import FormikInput from "../../../../_chartinghelper/common/formikInput";
 import FormikSelect from "../../../../_chartinghelper/common/formikSelect";
 import customStyles from "../../../../_chartinghelper/common/selectCustomStyle";
-import IViewModal from "../../../../_chartinghelper/_viewModal";
+import { GetDomesticPortDDL, GetLighterVesselDDL } from "../../../../helper";
 import LighterVesselForm from "../../../lighterVesselInfo/Form/addEditForm";
-import { dateHandler } from "../../utils";
 import DomesticPortCreate from "../../_domesticPort/Form/addEditForm";
+import { dateHandler } from "../../utils";
 
 export const CreateIcon = ({ onClick }) => {
   return (
@@ -83,6 +83,21 @@ export function HeaderSection(props) {
               }}
             />
           ) : null}
+        </div>
+        {/* type added  based on requirement oeder by asad sir */}
+        <div className="col-lg-3">
+         <FormikSelect
+         name = "vesselType"
+         value ={values?.vesselType}
+         label={`Vessel Type*`}
+         options={[{value:1,label:"Rental Vessel"},{value:2,label:"Own Vessel"}]}
+         onChange={(valueOption)=>{
+          setFieldValue("vesselType",valueOption)
+         }}
+         styles={customStyles}
+         errors={errors}
+         touched={touched}
+         />
         </div>
 
         <div className="col-lg-3">
@@ -274,7 +289,7 @@ export function HeaderSection(props) {
           />
         </div>
 
-        <div className="col-lg-3"></div>
+        {/* <div className="col-lg-3"></div> */}
 
         <div className="col-lg-3 mt-2">
           <FormikInput

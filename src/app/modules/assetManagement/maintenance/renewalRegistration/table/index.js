@@ -157,7 +157,7 @@ export default function RenewalRegLanding() {
                         isClearable
                         styles={customStyles}
                         isSearchable={true}
-                        options={renewalTypeList}
+                        options={[{value:0, label:"All"}, ...renewalTypeList]}
                       />
                     </div>
                     <div className="col-md-3">
@@ -166,6 +166,7 @@ export default function RenewalRegLanding() {
                         style={{ marginTop: "18px" }}
                         onClick={(e) => setisShowModalforCreate(true)}
                         disabled={
+                          renewalRegInitData?.renewalType?.value === 0 ||
                           !renewalRegInitData?.renewalType ||
                           !renewalRegInitData?.vehicleNo
                         }
