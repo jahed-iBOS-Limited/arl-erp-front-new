@@ -64,7 +64,9 @@ export default function _Form({
                     obj={{
                       values,
                       setFieldValue,
-                      area: [16].includes(values?.commissionType?.value),
+                      area: [14, 16, 20].includes(
+                        values?.commissionType?.value
+                      ),
                       territory: false,
                       onChange: (allValues, fieldName) => {
                         setRowData([]);
