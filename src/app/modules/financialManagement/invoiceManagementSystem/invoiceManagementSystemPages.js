@@ -24,6 +24,7 @@ import SalesInvoiceLanding from "./salesInvoice";
 import AddEditForm from "./salesInvoice/Form/addEditForm";
 import ShippingBillregisterLanding from "./shippingBillRegister";
 import ShippingSupplerInvoiceForm from "./shippingBillRegister/shippingInvoice/addEditForm";
+import InvoiceWisePaymentLanding from "./invoiceWisePayment";
 // import OthersBill from "./othersBill/index"
 // import OthersBillCreateForm from "./othersBill/Form/addEditForm"
 export function InvoiceManagementSystemPages() {
@@ -183,6 +184,10 @@ export function InvoiceManagementSystemPages() {
       <ContentRoute
         from="/financial-management/invoicemanagement-system/moneyreceiptsubmit"
         component={MoneyReceiptSubmitLandingTable}
+      />
+      <ContentRoute
+        from="/financial-management/invoicemanagement-system/InvoiceWisePayment"
+        component={InvoiceWisePaymentLanding}
       />
     </Switch>
   );
