@@ -113,8 +113,9 @@ const DeliveryInquiryLanding = () => {
                         <th style={{ minWidth: "30px" }}>SL</th>
                         <th style={{ minWidth: "65px" }}>Unit</th>
                         <th style={{ minWidth: "130px" }}>Challan Number</th>
+                        <th style={{ minWidth: "130px" }}>Sales Order Code</th>
                         <th style={{ minWidth: "75px" }}>Challan Date</th>
-                        <th style={{ minWidth: "75px" }}>Out Date Time</th>
+                        <th>Out Date Time</th>
                         <th style={{ minWidth: "140px" }}>
                           Estimated Received Date Time
                         </th>
@@ -141,9 +142,10 @@ const DeliveryInquiryLanding = () => {
                           <td>{itm?.sl}</td>
                           <td>{itm?.unit}</td>
                           <td>{itm?.challanNumber}</td>
+                          <td className="text-center">{itm?.salesOrderCode}</td>
                           <td>{_dateFormatter(itm?.challanDate)}</td>
-                          <td>
-                            {moment(itm?.outDateTime).format("h:mm:ss a")}
+                          <td className="text-center">
+                            {`${itm?.outDateTime?.split("T")[0]} ${moment(itm?.outDateTime).format("h:mm:ss a")}`}
                           </td>
                           <td>
                             {_dateFormatter(itm?.estimatedReceiveDateTime)}
