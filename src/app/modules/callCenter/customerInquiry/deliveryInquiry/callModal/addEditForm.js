@@ -37,6 +37,8 @@ const DailyDeliveryStatusForm = ({
     problemDetails: "",
     remarks: "",
     challanVerify: false,
+    destinationReachTime:"",
+    isRightForm : true,
   };
 
   const validationSchema = Yup.object().shape({
@@ -97,6 +99,9 @@ const DailyDeliveryStatusForm = ({
         strProblemDetails: values?.problemDetails || "",
         strRemarks: values?.remarks || "",
         intActionBy: profileData?.userId,
+        detDestinationReachTime: values?.destinationReachTime,
+        strSalesOrderCode: clickRowData?.salesOrderCode,
+        isRightForm: values?.isRightForm,
       };
       CreateDailyDeliveryStatus_api(payload, cb, setDisabled);
     }

@@ -15,6 +15,7 @@ import Form from "./form";
 
 const initData = {
   lighterVesselName: "",
+  vesselType:"",
   capacity: "",
   costCenter: "",
   revenueCenter: "",
@@ -67,6 +68,7 @@ export default function LighterVesselForm({
       const payload = {
         lighterVesselId: 0,
         lighterVesselName: values?.lighterVesselName,
+        vesselType: values?.vesselType?.label,
         accountId: profileData?.accountId,
         businessUnitId: selectedBusinessUnit?.value,
         insertby: profileData?.userId,
