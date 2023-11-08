@@ -120,6 +120,17 @@ const _Form = ({
                     disabled
                   />
                 </div>
+                <div className="col-md-12 mt-3">
+                  <div>
+                    <strong>
+                      {" "}
+                      {` Delivery Challan - [Contact Name: ${rowDto[0]?.contactNo}] [Contact Number: ${rowDto[0]?.strShipToPartnerContactNo}]`}
+                    </strong>
+                  </div>
+                  <div>
+                    <strong>{` Customer Profile - [Contact Person: ${rowDto[0]?.strContactPerson}] [Contact Number: ${rowDto[0]?.strContactNumber2} (Contact Person)] Contact Number: ${rowDto[0]?.strContactNumber3} (Other)]`}</strong>
+                  </div>
+                </div>
                 <div className="col-lg-6">
                   <label>Problem Details</label>
                   <TextArea
@@ -206,6 +217,33 @@ const _Form = ({
                       onChange={(e) => console.log(e?.target?.checked)}
                       checked={values?.challanVerify}
                     />
+                  </div>
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    name="destinationReachTime"
+                    value={values?.destinationReachTime}
+                    label="Destination Reach Time"
+                    type="datetime-local"
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3 mt-5">
+                  <div className="d-flex">
+                    <p>
+                      <label>is Right Form</label>
+                    </p>
+                    <p className="pl-3 pt-2">
+                      <input
+                        type="checkbox"
+                        name="isRightForm"
+                        value={values?.isRightForm}
+                        onChange={(e) =>
+                          setFieldValue("isRightForm", e.target.checked)
+                        }
+                        checked={values?.isRightForm}
+                      />
+                    </p>
                   </div>
                 </div>
               </div>
