@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import IForm from "../../../../_helper/_form";
 import Loading from "../../../../_helper/_loading";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import Form from "./form";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import Form from "./form";
+import { toast } from "react-toastify";
 
 const initData = {
   channel: "",
@@ -20,7 +20,6 @@ export default function BusinessPartnerGroupForm() {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state.authData, shallowEqual);
 
-  const [objProps, setObjProps] = useState({});
   const [rowData, setRowData] = useState([]);
   const [partnerGroups, getPartnerGroups] = useAxiosGet();
   const [, postData, loader] = useAxiosPost();
@@ -33,6 +32,16 @@ export default function BusinessPartnerGroupForm() {
 
   const addHandler = (values, cb) => {
     try {
+      const exist = rowData?.find(
+        (item) =>
+          item?.businessPartnerId === values?.customer?.value &&
+          item?.businessPartnerGroupId === values?.partnerGroup?.value
+      );
+      if (exist) {
+        return toast.warn(
+          `Business partner already added in ${values?.partnerGroup?.label} group.`
+        );
+      }
       const newRow = {
         sl: 0,
         autoId: 0,
@@ -57,36 +66,36 @@ export default function BusinessPartnerGroupForm() {
   };
 
   const saveHandler = (values, cb) => {
-    postData(
-      `/partner/BusinessPartnerBasicInfo/CreateBusinessPartnerGroupDetails`,
-      rowData,
-      () => {
-        setRowData([]);
-        cb();
-      },
-      true
-    );
+    if (rowData?.length < 1) {
+      return toast.warn("Please add at least one row!");
+    } else {
+      postData(
+        `/partner/BusinessPartnerBasicInfo/CreateBusinessPartnerGroupDetails`,
+        rowData,
+        () => {
+          setRowData([]);
+          cb();
+        },
+        true
+      );
+    }
   };
 
   const isLoader = loader;
   return (
-    <IForm
-      title="Business Partner Group Entry"
-      getProps={setObjProps}
-      isDisabled={isLoader}
-    >
+    <>
       {isLoader && <Loading />}
       <Form
-        {...objProps}
         buId={buId}
         accId={accId}
         rowData={rowData}
         initData={initData}
+        setRowData={setRowData}
         addHandler={addHandler}
         saveHandler={saveHandler}
         partnerGroups={partnerGroups}
         removeHandler={removeHandler}
       />
-    </IForm>
+    </>
   );
 }
