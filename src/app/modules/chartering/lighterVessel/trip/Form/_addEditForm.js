@@ -90,7 +90,7 @@ export default function TripForm() {
       const payload = {
         header: {
           lighterTripId: 0,
-          vesselType: values?.vesselType?.label,
+          vesselType: values?.lighterVessel?.vesselType,
           tripNo: values?.tripNo,
           accountId: profileData?.accountId,
           businessUnitId: selectedBusinessUnit?.value,
