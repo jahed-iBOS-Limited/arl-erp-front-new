@@ -4,6 +4,7 @@ import * as Yup from "yup";
 
 export const validationSchema = Yup.object().shape({
   lighterVesselName: Yup.string().required("Name is required"),
+  vesselType: Yup.string().required("Vessel Type is required"),
   capacity: Yup.string().required("Capacity is required"),
 });
 

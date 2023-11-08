@@ -75,31 +75,14 @@ export function HeaderSection(props) {
             errors={errors}
             touched={touched}
           />
-
-          {viewType !== "view" ? (
+          {!["view", "edit"]?.includes(viewType) ? (
             <CreateIcon
               onClick={() => {
                 setLighterVesselCreateModal(true);
               }}
             />
           ) : null}
-        </div>
-        {/* type added  based on requirement oeder by asad sir */}
-        <div className="col-lg-3">
-         <FormikSelect
-         name = "vesselType"
-         value ={values?.vesselType}
-         label={`Vessel Type*`}
-         options={[{value:1,label:"Rental Vessel"},{value:2,label:"Own Vessel"}]}
-         onChange={(valueOption)=>{
-          setFieldValue("vesselType",valueOption)
-         }}
-         styles={customStyles}
-         errors={errors}
-         touched={touched}
-         />
-        </div>
-
+        </div>       
         <div className="col-lg-3">
           <FormikInput
             value={values?.tripNo}
