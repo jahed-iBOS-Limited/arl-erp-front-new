@@ -1,38 +1,40 @@
 import React from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute } from "../../../../_metronic/layout";
-import { SalesOrganization } from "./salesOrganization";
-import { TransportRoute } from "./transportRoute";
+import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
+import findIndex from "./../../_helper/_findIndex";
+import EmployeeIncentiveForm from "./EmployeeIncentiveConfig/createEdit.js";
+import EmployeeIncentiveLanding from "./EmployeeIncentiveConfig/index.js";
+import { DistributionChannel } from "./distributionChannel";
+import DistributionChannelForm from "./distributionChannel/Form/addEditForm";
+import LoadUnloadBillConfigLanding from "./loadUnloadBillConfig/configItemLoadUnloadBill/loadUnloadBill";
+import CreateLoadUnloadBillConfigForm from "./loadUnloadBillConfig/configItemLoadUnloadBill/loadUnloadBill/Form/addEditForm";
+import { PartnerThanaRate } from "./partnerThanaRate";
+import PartnerThanaRateForm from "./partnerThanaRate/Form/addEditForm";
 import ProductDivision from "./productDivision";
 import { ProductDivisionAddForm } from "./productDivision/Form/addEditForm";
 import { ProductDivisionType } from "./productDivisionType";
-import SalesTerritory from "./salesTerritory";
-import SalesTerritoryType from "./salesTerritoryType";
-import SalesOrganizationForm from "./salesOrganization/Form/addEditForm";
-import TransportRouteForm from "./transportRoute/Form/addEditForm";
+import ProductDivisionTypeForm from "./productDivisionType/Form/addEditForm";
+import SalesCommissionConfigureEntryForm from "./salesCommissionConfigure/Form/addEditForm";
+import SalesCommissionConfigure from "./salesCommissionConfigure/landing";
+import SalesConfig from "./salesConfig/salesConfig";
 import { SalesOffice } from "./salesOffice";
 import SalesOfficeForm from "./salesOffice/Form/addEditForm";
+import { SalesOrganization } from "./salesOrganization";
+import SalesOrganizationForm from "./salesOrganization/Form/addEditForm";
+import SalesTerritory from "./salesTerritory";
 import SalesTerritoryForm from "./salesTerritory/Form/addEditForm";
+import SalesTerritoryType from "./salesTerritoryType";
 import SalesTerritoryTypeForm from "./salesTerritoryType/Form/addEditForm";
-import ProductDivisionTypeForm from "./productDivisionType/Form/addEditForm";
-import { TerritorySalesForceConfig } from "./territorySalesforceConfig";
-import TerritorySalesForceConfigForm from "./territorySalesforceConfig/Form/addEditForm";
-import { DistributionChannel } from "./distributionChannel";
-import DistributionChannelForm from "./distributionChannel/Form/addEditForm";
-import { TransportZone } from "./transportZone.js";
-import TransportZoneForm from "./transportZone.js/Form/addEditForm";
-import { PartnerThanaRate } from "./partnerThanaRate";
-import PartnerThanaRateForm from "./partnerThanaRate/Form/addEditForm";
-import LoadUnloadBillConfigLanding from "./loadUnloadBillConfig/configItemLoadUnloadBill/loadUnloadBill";
-import CreateLoadUnloadBillConfigForm from "./loadUnloadBillConfig/configItemLoadUnloadBill/loadUnloadBill/Form/addEditForm";
-import SalesConfig from "./salesConfig/salesConfig";
-import { shallowEqual, useSelector } from "react-redux";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import findIndex from "./../../_helper/_findIndex";
 import TerritoryInfoLanding from "./territoryInfo/landing/table";
 import TerritorySetupLanding from "./territoryInfo/territorySetup/landing/table";
-import SalesCommissionConfigure from "./salesCommissionConfigure/landing";
-import SalesCommissionConfigureEntryForm from "./salesCommissionConfigure/Form/addEditForm";
+import { TerritorySalesForceConfig } from "./territorySalesforceConfig";
+import TerritorySalesForceConfigForm from "./territorySalesforceConfig/Form/addEditForm";
+import { TransportRoute } from "./transportRoute";
+import TransportRouteForm from "./transportRoute/Form/addEditForm";
+import { TransportZone } from "./transportZone.js";
+import TransportZoneForm from "./transportZone.js/Form/addEditForm";
 
 export function SalesConfigurationPages() {
   const userRole = useSelector(
@@ -306,6 +308,18 @@ export function SalesConfigurationPages() {
       <ContentRoute
         from="/sales-management/configuration/salescommissionconfigure"
         component={SalesCommissionConfigure}
+      />
+      <ContentRoute
+        from="/sales-management/configuration/EmployeeIncentiveConfig/edit/:id"
+        component={EmployeeIncentiveForm}
+      />
+      <ContentRoute
+        from="/sales-management/configuration/EmployeeIncentiveConfig/create"
+        component={EmployeeIncentiveForm}
+      />
+      <ContentRoute
+        from="/sales-management/configuration/EmployeeIncentiveConfig"
+        component={EmployeeIncentiveLanding}
       />
     </Switch>
   );
