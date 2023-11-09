@@ -155,10 +155,10 @@ const DeliveryInquiryLanding = () => {
                         <th style={{ minWidth: "100px" }}>Vehicle Type</th>
                         <th style={{ minWidth: "100px" }}>Driver Name</th>
                         <th style={{ minWidth: "100px" }}>Driver Phone</th>
-                        <th style={{ minWidth: "100px" }}>
+                        {/* <th style={{ minWidth: "100px" }}>
                           {" "}
                           Product Description
-                        </th>
+                        </th> */}
                         <th style={{ minWidth: "100px" }}>Form</th>
                       </tr>
                     </thead>
@@ -192,7 +192,7 @@ const DeliveryInquiryLanding = () => {
                           <td>{itm?.vehicleType}</td>
                           <td>{itm?.driverName}</td>
                           <td>{itm?.driverPhone}</td>
-                          <td>{itm?.productDescription}</td>
+                          {/* <td>{itm?.productDescription}</td> */}
                           <td className="text-center">
                             <button
                               className="btn btn-primary"
@@ -209,11 +209,23 @@ const DeliveryInquiryLanding = () => {
                               overlay={
                                 <Tooltip id="button-tooltip">
                                   {itemInfo?.length > 0 ? (
-                                    <ul>
-                                      {itemInfo?.map((item) => (
-                                        <li>{`${item?.label}-${item?.qty}`}</li>
+                                    // <ol style={{minWidth:"600px"}}>
+                                    //   {itemInfo?.map((item) => (
+                                    //     <li>{`${item?.label}-${item?.qty}`}</li>
+                                    //   ))}
+                                    // </ol>
+                                    <>
+                                      {itemInfo?.map((item, i) => (
+                                        <p
+                                          style={{
+                                            background: "#EFC3BA",
+                                            padding: "3px",
+                                          }}
+                                        >{`${i + 1}. ${item?.label} - ${
+                                          item?.qty
+                                        }`}</p>
                                       ))}
-                                    </ul>
+                                    </>
                                   ) : (
                                     <strong>No Data Found</strong>
                                   )}
