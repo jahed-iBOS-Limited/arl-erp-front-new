@@ -5,6 +5,7 @@ import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import TextArea from "../../../../_helper/TextArea";
 
 const Table = ({ obj }) => {
   const {
@@ -19,6 +20,7 @@ const Table = ({ obj }) => {
     selectedAll,
     loadOptions,
     setPageSize,
+    motherVessels,
     rowDataHandler,
     setPositionHandler,
   } = obj;
@@ -50,6 +52,7 @@ const Table = ({ obj }) => {
                     <th style={{ minWidth: "100px" }}>Date</th>
                     <th style={{ minWidth: "100px" }}>DO No</th>
                     <th style={{ minWidth: "180px" }}>Mother Vessel</th>
+                    <th style={{ minWidth: "180px" }}>Remarks</th>
                     <th style={{ minWidth: "90px" }}>Vehicle No</th>
                     <th style={{ minWidth: "190px" }}>Ghat Name</th>
                     <th style={{ minWidth: "90px" }}>Delivery Address</th>
@@ -161,7 +164,30 @@ const Table = ({ obj }) => {
                         </td>
                         <td>{_dateFormatter(item?.lastActionDateTime)}</td>
                         <td>{item?.deliveryCode}</td>
-                        <td>{item?.motherVesselName}</td>
+                        <td>
+                          <NewSelect
+                            name="motherVessel"
+                            value={item?.motherVessel}
+                            options={motherVessels}
+                            onChange={(e) => {
+                              rowDataHandler("motherVessel", index, e);
+                            }}
+                          />
+                          {/* {item?.motherVesselName} */}
+                        </td>
+                        <td>
+                          <TextArea
+                            name="remarks"
+                            value={item?.remarks}
+                            onChange={(e) => {
+                              rowDataHandler(
+                                "remarks",
+                                index,
+                                e?.target?.value
+                              );
+                            }}
+                          />
+                        </td>
                         <td>{item?.vehicleRegNo}</td>
                         <td>{item?.shipPointName}</td>
                         <td>{item?.address}</td>

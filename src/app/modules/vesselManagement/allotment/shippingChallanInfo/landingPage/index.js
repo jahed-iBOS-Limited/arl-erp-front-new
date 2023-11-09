@@ -13,6 +13,7 @@ import { getLandingDataForConfirmation, updateSalesOrders } from "../helper";
 import Form from "./form";
 import Table from "./table";
 import { toast } from "react-toastify";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const ALL = { value: 0, label: "All" };
 
@@ -39,6 +40,7 @@ const ShippingChallanInfo = () => {
   const [loading, setLoading] = useState(false);
   const [godownDDL, setGodownDDL] = useState([]);
   const [status, setStatus] = useState(true);
+  const [motherVessels, getMotherVessels] = useAxiosGet();
 
   // get user profile data from store
   const {
@@ -77,6 +79,9 @@ const ShippingChallanInfo = () => {
     getData(initData, pageNo, pageSize);
     GetShipPointDDL(accId, buId, setShipPointDDL);
     getGodownDDL(buId, 73244, setGodownDDL, setLoading);
+    getMotherVessels(
+      `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}&PortId=${0}`
+    );
   }, [accId, buId]);
 
   // _________ confirmation popup opening function __________
@@ -117,6 +122,8 @@ const ShippingChallanInfo = () => {
           deliveryId: item?.deliveryId,
           actionBy: userId,
           salesOrderCode: item?.salesOrder,
+          motherVesselId: item?.motherVessel?.value,
+          remarks: item?.remarks,
         },
       };
     });
@@ -300,6 +307,7 @@ const ShippingChallanInfo = () => {
                   selectedAll,
                   loadOptions,
                   setPageSize,
+                  motherVessels,
                   rowDataHandler,
                   setPositionHandler,
                 }}
