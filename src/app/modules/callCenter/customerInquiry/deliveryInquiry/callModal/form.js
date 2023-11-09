@@ -152,7 +152,7 @@ const _Form = ({
                   />
                 </div>
                 <div className="col-md-12 mt-3">
-                  <div>
+                  {/* <div>
                     <strong>
                       {" "}
                       {` Delivery Challan - [Contact Name: ${rowDto[0]?.contactNo}] [Contact Number: ${rowDto[0]?.strShipToPartnerContactNo}]`}
@@ -160,7 +160,7 @@ const _Form = ({
                   </div>
                   <div>
                     <strong>{` Customer Profile - [Contact Person: ${rowDto[0]?.strContactPerson}] [Contact Number: ${rowDto[0]?.strContactNumber2} (Contact Person)] Contact Number: ${rowDto[0]?.strContactNumber3} (Other)]`}</strong>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="col-lg-6">
                   <label>Problem Details</label>
