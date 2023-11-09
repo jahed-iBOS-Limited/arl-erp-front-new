@@ -56,7 +56,12 @@ const getHeaders = (values, gridData) => {
       isHide: !(gridData?.length && values?.fromDate && values?.toDate),
     },
     {
-      name: `Journal Amount`,
+      name: `Total JV Amount`,
+      style: { minWidth: "100px" },
+      isHide: !(gridData?.length && values?.fromDate && values?.toDate),
+    },
+    {
+      name: `Adjustment Amount`,
       style: { minWidth: "100px" },
       isHide: !(gridData?.length && values?.fromDate && values?.toDate),
     },
@@ -87,6 +92,7 @@ export default function IncomeReport() {
   const [sbuList, setSBUList] = useState([]);
   const [salesOrgList, setSalesOrgList] = useState([]);
   const [show, setShow] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [singleData, setSingleData] = useState({});
   const [, postAllJV, isLoading] = useAxiosPost();
 
@@ -114,31 +120,57 @@ export default function IncomeReport() {
     getSBUListDDL(accId, buId, setSBUList);
   }, [accId, buId]);
 
-  const JournalPost = (values, item, index) => {
-    const payload = {
-      accountId: accId,
-      businessUnitId: buId,
-      sbuId: values?.sbu?.value,
-      salesOrgId: values?.salesOrg?.value,
-      actionby: userId,
-      date: values?.journalDate,
-      totalAmount: item?.finalRevenue,
-      // totalAmount: item?.incomeInDateRange,
-      narration: `Amount debited to ${item?.chartererName} & credited to Freight Income ${item?.vesselName} as provision of freight income of ${item?.vesselName}, VOYAGE-${item?.voyageNo}`,
-      vesselId: item?.vesselId,
-      charterId: item?.chartererId,
-    };
+  const JournalPost = (values, item, index, journalType) => {
+    if (journalType === "journalVoucher") {
+      const payload = {
+        accountId: accId,
+        businessUnitId: buId,
+        sbuId: values?.sbu?.value,
+        salesOrgId: values?.salesOrg?.value,
+        actionby: userId,
+        date: values?.journalDate,
+        totalAmount: item?.finalRevenue,
+        // totalAmount: item?.incomeInDateRange,
+        narration: `Amount debited to ${item?.chartererName} & credited to Freight Income ${item?.vesselName} as provision of freight income of ${item?.vesselName}, VOYAGE-${item?.voyageNo}`,
+        vesselId: item?.vesselId,
+        charterId: item?.chartererId,
+      };
 
-    createJournal(
-      `https://imarine.ibos.io/domain/TimeCharterTransaction/IncomeSatetementJournal`,
-      payload,
-      () => {
-        let _data = [...gridData];
-        _data[index]["jvDisable"] = true;
-        setGridData(_data);
-      },
-      true
-    );
+      createJournal(
+        `https://imarine.ibos.io/domain/TimeCharterTransaction/IncomeSatetementJournal`,
+        payload,
+        () => {
+          let _data = [...gridData];
+          _data[index]["jvDisable"] = true;
+          setGridData(_data);
+        },
+        true
+      );
+    } else if (journalType === "adjustmentJournal") {
+      const payload = {
+        accountId: accId,
+        businessUnitId: buId,
+        sbuId: values?.sbu?.value,
+        salesOrgId: values?.salesOrg?.value,
+        actionby: userId,
+        date: values?.journalDate,
+        totalAmount: item?.totalJournalAmount - item?.totalIncome,
+        narration: `Amount credited to ${item?.chartererName} & debited to Freight Income ${item?.vesselName} as provision of freight income of ${item?.vesselName}, VOYAGE-${item?.voyageNo}`,
+        vesselId: item?.vesselId,
+        charterId: item?.chartererId,
+      };
+
+      createJournal(
+        `https://imarine.ibos.io/domain/TimeCharterTransaction/IncomeSatetementAdjustmentJournal`,
+        payload,
+        () => {
+          let _data = [...gridData];
+          _data[index]["ajDisable"] = true;
+          setGridData(_data);
+        },
+        true
+      );
+    }
   };
 
   const printRef = useRef();
@@ -403,6 +435,12 @@ export default function IncomeReport() {
                           <td className="text-right">
                             {_fixedPoint(item?.totalJournalAmount, true)}
                           </td>
+                          <td className="text-right">
+                            {_fixedPoint(
+                              item?.totalJournalAmount - item?.totalIncome,
+                              true
+                            )}
+                          </td>
                           <td className="text-center">
                             <div className="d-flex justify-content-around">
                               <button
@@ -421,23 +459,42 @@ export default function IncomeReport() {
                                 className="btn btn-info btn-sm"
                                 type="button"
                                 onClick={() => {
-                                  JournalPost(values, item, index);
+                                  JournalPost(
+                                    values,
+                                    item,
+                                    index,
+                                    "journalVoucher"
+                                  );
                                 }}
                               >
                                 JV
                               </button>
                               <button
-                                title={"Click to create Adjustment Journal"}
+                                title={
+                                  item?.ajDisable
+                                    ? ""
+                                    : "Click to create Adjustment Journal"
+                                }
                                 disabled={
-                                  loading || loader || isLoading || !values?.sbu
+                                  item?.ajDisable ||
+                                  loading ||
+                                  loader ||
+                                  isLoading ||
+                                  !values?.sbu
                                   // ||
                                   // !values?.salesOrg
                                 }
                                 className="btn btn-info btn-sm"
                                 type="button"
                                 onClick={() => {
-                                  setSingleData(item);
-                                  setShow(true);
+                                  // setSingleData(item);
+                                  // setShow(true);
+                                  JournalPost(
+                                    values,
+                                    item,
+                                    index,
+                                    "adjustmentJournal"
+                                  );
                                 }}
                               >
                                 AJ
