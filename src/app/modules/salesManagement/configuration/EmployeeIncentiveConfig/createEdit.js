@@ -349,7 +349,13 @@ export default function KeyRegisterLanding() {
                 type="submit"
                 style={{ display: "none" }}
                 ref={objProps?.btnRef}
-                onSubmit={() => handleSubmit()}
+                onSubmit={() =>{
+                  if(loadIncentive?.length>0){
+                    handleSubmit()
+                  }else{
+                    toast.warn("Add Minimum One Data")
+                  }
+                }}
               ></button>
 
               <button
