@@ -12,6 +12,8 @@ import PaginationTable from "./../../../../_helper/_tablePagination";
 import { _dateFormatter } from "./../../../../_helper/_dateFormate";
 import moment from "moment";
 import PaginationSearch from "./../../../../_helper/_search";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 const DeliveryInquiryLanding = () => {
   const [open, setOpen] = useState(false);
   //paginationState
@@ -24,15 +26,18 @@ const DeliveryInquiryLanding = () => {
   }, shallowEqual);
 
   const [gridData, setGridData] = useState([]);
+  const [itemInfo, getItemInfo] = useAxiosGet();
 
   const initData = {
-    date: _todayDate(),
+    fromDate: _todayDate(),
+    toDate: _todayDate(),
   };
 
   const commonGridFunc = (pageNo, pageSize, values, searchValue) => {
-    const { date } = values;
+    const { fromDate, toDate } = values;
     GetCustomerDeliveryInqueryLanding_api(
-      date,
+      fromDate,
+      toDate,
       profileData?.accountId,
       selectedBusinessUnit?.value,
       pageNo,
@@ -49,7 +54,10 @@ const DeliveryInquiryLanding = () => {
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
-      commonGridFunc(pageNo, pageSize, { date: _todayDate() });
+      commonGridFunc(pageNo, pageSize, {
+        fromDate: _todayDate(),
+        toDate: _todayDate(),
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
@@ -75,18 +83,36 @@ const DeliveryInquiryLanding = () => {
               <form>
                 <div className="form-group row global-form form form-label-right">
                   <div className="col-lg-3">
-                    <label>Date</label>
+                    <label>From Date</label>
                     <InputField
-                      value={values?.date}
-                      name="date"
-                      placeholder="Date"
+                      value={values?.fromDate}
+                      name="fromDate"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("date", e.target.value);
-                        commonGridFunc(pageNo, pageSize, {
-                          ...values,
-                          date: e.target.value,
-                        });
+                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue("toDate", "");
+                        // commonGridFunc(pageNo, pageSize, {
+                        //   ...values,
+                        //   fromDate: e.target.value,
+                        // });
+                      }}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <label>To Date</label>
+                    <InputField
+                      value={values?.toDate}
+                      name="toDate"
+                      type="date"
+                      min={values?.fromDate}
+                      onChange={(e) => {
+                        setFieldValue("toDate", e.target.value);
+                        if (values?.fromDate) {
+                          commonGridFunc(pageNo, pageSize, {
+                            ...values,
+                            toDate: e.target.value,
+                          });
+                        }
                       }}
                     />
                   </div>
@@ -129,10 +155,10 @@ const DeliveryInquiryLanding = () => {
                         <th style={{ minWidth: "100px" }}>Vehicle Type</th>
                         <th style={{ minWidth: "100px" }}>Driver Name</th>
                         <th style={{ minWidth: "100px" }}>Driver Phone</th>
-                        <th style={{ minWidth: "100px" }}>
+                        {/* <th style={{ minWidth: "100px" }}>
                           {" "}
                           Product Description
-                        </th>
+                        </th> */}
                         <th style={{ minWidth: "100px" }}>Form</th>
                       </tr>
                     </thead>
@@ -145,7 +171,9 @@ const DeliveryInquiryLanding = () => {
                           <td className="text-center">{itm?.salesOrderCode}</td>
                           <td>{_dateFormatter(itm?.challanDate)}</td>
                           <td className="text-center">
-                            {`${itm?.outDateTime?.split("T")[0]} ${moment(itm?.outDateTime).format("h:mm:ss a")}`}
+                            {`${itm?.outDateTime?.split("T")[0]} ${moment(
+                              itm?.outDateTime
+                            ).format("h:mm:ss a")}`}
                           </td>
                           <td>
                             {_dateFormatter(itm?.estimatedReceiveDateTime)}
@@ -164,7 +192,7 @@ const DeliveryInquiryLanding = () => {
                           <td>{itm?.vehicleType}</td>
                           <td>{itm?.driverName}</td>
                           <td>{itm?.driverPhone}</td>
-                          <td>{itm?.productDescription}</td>
+                          {/* <td>{itm?.productDescription}</td> */}
                           <td className="text-center">
                             <button
                               className="btn btn-primary"
@@ -175,6 +203,45 @@ const DeliveryInquiryLanding = () => {
                             >
                               Call
                             </button>
+                            <OverlayTrigger
+                              placement="left"
+                              delay={{ show: 250, hide: 400 }}
+                              overlay={
+                                <Tooltip id="button-tooltip">
+                                  {itemInfo?.length > 0 ? (
+                                    // <ol style={{minWidth:"600px"}}>
+                                    //   {itemInfo?.map((item) => (
+                                    //     <li>{`${item?.label}-${item?.qty}`}</li>
+                                    //   ))}
+                                    // </ol>
+                                    <>
+                                      {itemInfo?.map((item, i) => (
+                                        <p
+                                          style={{
+                                            background: "#EFC3BA",
+                                            padding: "3px",
+                                          }}
+                                        >{`${i + 1}. ${item?.label} - ${
+                                          item?.qty
+                                        }`}</p>
+                                      ))}
+                                    </>
+                                  ) : (
+                                    <strong>No Data Found</strong>
+                                  )}
+                                </Tooltip>
+                              }
+                            >
+                              <i
+                                class="fa fa-info-circle ml-5"
+                                aria-hidden="true"
+                                onMouseEnter={() => {
+                                  getItemInfo(
+                                    `/oms/SalesOrder/GetItemBySalesOrderIdDDL?SalesOrderId=${+itm?.salesOrderId}`
+                                  );
+                                }}
+                              ></i>
+                            </OverlayTrigger>
                           </td>
                         </tr>
                       ))}
