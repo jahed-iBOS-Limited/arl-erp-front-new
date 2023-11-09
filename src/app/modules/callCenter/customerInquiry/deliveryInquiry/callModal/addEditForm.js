@@ -37,8 +37,11 @@ const DailyDeliveryStatusForm = ({
     problemDetails: "",
     remarks: "",
     challanVerify: false,
-    destinationReachTime:"",
-    isRightForm : true,
+    destinationReachTime: "",
+    isRightForm: true,
+    contactName: rowDto[0]?.strContactPerson || "",
+    contactPhone: rowDto[0]?.contactNo || "",
+    issueType: "",
   };
 
   const validationSchema = Yup.object().shape({
@@ -57,9 +60,7 @@ const DailyDeliveryStatusForm = ({
 
     customerAddress: Yup.string().required("Customer address is required"),
     customerPhone: Yup.string().required("Customer phone is required"),
-    productDescription: Yup.string().required(
-      "Product description is required"
-    ),
+
     receivedStatus: Yup.object().shape({
       label: Yup.string().required("Received status is required"),
       value: Yup.string().required("Received status is required"),
@@ -102,6 +103,8 @@ const DailyDeliveryStatusForm = ({
         detDestinationReachTime: values?.destinationReachTime,
         strSalesOrderCode: clickRowData?.salesOrderCode,
         isRightForm: values?.isRightForm,
+        intIssueTypeID: values?.issueType?.value,
+        strIssueTypeName: values?.issueType?.label,
       };
       CreateDailyDeliveryStatus_api(payload, cb, setDisabled);
     }
@@ -117,7 +120,7 @@ const DailyDeliveryStatusForm = ({
         setDisabled
       );
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clickRowData]);
   return (
     <div>
