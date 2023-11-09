@@ -9,10 +9,10 @@ export const validationSchemaTripCreate = Yup.object().shape({
     label: Yup.string().required("Lighter Vessel is required"),
     value: Yup.string().required("Lighter Vessel is required"),
   }),
-  vesselType :Yup.object().shape({
-    label: Yup.string().required("Vessel Type is required"),
-    value: Yup.string().required("Vessel Type is required")
-  }),
+  // vesselType :Yup.object().shape({
+  //   label: Yup.string().required("Vessel Type is required"),
+  //   value: Yup.string().required("Vessel Type is required")
+  // }),
   loadPort: Yup.object().shape({
     label: Yup.string().required("Load Port is required"),
     value: Yup.string().required("Load Port is required"),

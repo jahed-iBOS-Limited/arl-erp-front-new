@@ -159,15 +159,13 @@ export default function _Form({
                 setTouched={setTouched}
                 setErrors={setErrors}
               />
-              {(!loading && values?.vesselType?.value === 2) ? (
-                <ExpenseSection
+              <ExpenseSection
                   viewType={viewType}
                   values={values}
                   errors={errors}
                   touched={touched}
                   setFieldValue={setFieldValue}
                 />
-              ) : null}
             </form>
           </>
         )}
