@@ -2,7 +2,8 @@ import Axios from "axios";
 import { toast } from "react-toastify";
 
 export const GetCustomerDeliveryInqueryLanding_api = async (
-  date,
+  fromDate,
+  toDate,
   accId,
   buId,
   pageNo,
@@ -15,7 +16,7 @@ export const GetCustomerDeliveryInqueryLanding_api = async (
   try {
     const searchPath = search ? `search=${search}&` : "";
     const res = await Axios.get(
-      `/wms/CustomerDeliveryInquery/GetCustomerDeliveryInqueryLanding?AccountId=${accId}&BusinessUnitid=${buId}&date=${date}&${searchPath}PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
+      `/wms/CustomerDeliveryInquery/GetCustomerDeliveryInqueryLanding?AccountId=${accId}&BusinessUnitid=${buId}&fromDate=${fromDate}&toDate=${toDate}&${searchPath}PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
     );
     setLoading && setLoading(false);
     setter(res?.data);
