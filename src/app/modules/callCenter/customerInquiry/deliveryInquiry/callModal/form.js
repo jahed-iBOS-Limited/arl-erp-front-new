@@ -1,10 +1,12 @@
 import { Formik } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
 import TextArea from "../../../../_helper/TextArea";
 import ICard from "../../../../_helper/_card";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import { _dateFormatter } from "./../../../../_helper/_dateFormate";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import Loading from "../../../../_helper/_loading";
 
 const _Form = ({
   initData,
@@ -24,6 +26,12 @@ const _Form = ({
       return false;
     }
   };
+  const [issueDDL, getIssueDDL, issueDDLloader] = useAxiosGet();
+  useEffect(() => {
+    getIssueDDL(`/wms/CustomerDeliveryInquery/GetIssueTypeDDL`, (data) => {
+      console.log("data", data);
+    });
+  }, []);
   return (
     <>
       <Formik
@@ -47,6 +55,7 @@ const _Form = ({
           resetForm,
         }) => (
           <ICard title="Daily Delivery Status">
+            {issueDDLloader && <Loading />}
             <form className="global-form form form-label-right">
               <div className="form-group row">
                 <div className="col-lg-3">
@@ -116,6 +125,28 @@ const _Form = ({
                     value={values?.productDescription}
                     label="Product Description"
                     placeholder="Product Description"
+                    touched={touched}
+                    onChange={(e) => {
+                      setFieldValue("productDescription", e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="col-lg-6">
+                  <InputField
+                    name="contactName"
+                    value={rowDto[0]?.strContactPerson}
+                    label="Contact Name"
+                    placeholder="Contact Name"
+                    touched={touched}
+                    disabled
+                  />
+                </div>
+                <div className="col-lg-6">
+                  <InputField
+                    name="contactNo"
+                    value={rowDto[0]?.contactNo}
+                    label="Contact No"
+                    placeholder="Contact No"
                     touched={touched}
                     disabled
                   />
@@ -245,6 +276,24 @@ const _Form = ({
                       />
                     </p>
                   </div>
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="issueType"
+                    value={values?.issueType}
+                    options={issueDDL || []}
+                    placeholder="issueType"
+                    onChange={(valuOption) => {
+                      if (valuOption) {
+                        setFieldValue("issueType", valuOption);
+                      } else {
+                        setFieldValue("issueType", "");
+                      }
+                    }}
+                    label="Issue Type"
+                    errors={errors}
+                    touched={touched}
+                  />
                 </div>
               </div>
             </form>
