@@ -145,7 +145,7 @@ export default function KeyRegisterLanding() {
       }) => (
         <>
           {loadIncentive && <Loading />}
-          <IForm title="Create EmployeeIncentive" getProps={setObjprops}>
+          <IForm title="Create Employee Incentive" getProps={setObjprops}>
             <Form>
               <div className="form-group  global-form row">
                 <div className="col-lg-3">
