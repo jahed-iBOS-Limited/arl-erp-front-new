@@ -56,6 +56,11 @@ const getHeaders = (values, gridData) => {
       isHide: !(gridData?.length && values?.fromDate && values?.toDate),
     },
     {
+      name: `Journal Amount`,
+      style: { minWidth: "100px" },
+      isHide: !(gridData?.length && values?.fromDate && values?.toDate),
+    },
+    {
       name: `Action`,
       style: { minWidth: "130px" },
       isHide: !(gridData?.length && values?.fromDate && values?.toDate),
@@ -394,6 +399,9 @@ export default function IncomeReport() {
                           </td>
                           <td className="text-right">
                             {_fixedPoint(item?.finalRevenue, true)}
+                          </td>
+                          <td className="text-right">
+                            {_fixedPoint(item?.totalJournalAmount, true)}
                           </td>
                           <td className="text-center">
                             <div className="d-flex justify-content-around">

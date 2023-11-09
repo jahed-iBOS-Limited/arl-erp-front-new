@@ -51,7 +51,7 @@ const Details = ({ obj }) => {
       qty: si?.truckToDumpOutsideQnt,
       amount: si?.truckToDumpOutsideRate * si?.truckToDumpOutsideQnt,
     },
-    { description: "BIWTA", rate: "", qty: "", amount: si?.biwtarate },
+    { description: "BIWTA", rate: "", qty: "", amount: si?.biwtaAmount },
     {
       description: "Ship Sweeping",
       rate: "",
