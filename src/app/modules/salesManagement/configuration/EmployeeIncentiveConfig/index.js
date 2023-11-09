@@ -4,7 +4,6 @@ import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { _dateFormatterTwo } from "../../../_helper/_dateFormate";
 import IForm from "../../../_helper/_form";
-import IEdit from "../../../_helper/_helperIcons/_edit";
 import IView from "../../../_helper/_helperIcons/_view";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
@@ -201,12 +200,12 @@ export default function CommonLanding() {
                               setisShowModal(true)
                               setIncentiveConfigId(item?.incentiveConfigId)
                             }}/>
-                            <IEdit
+                            {/* <IEdit
                             classes="ml-3"
                             onClick={()=>{
                               history.push(`/sales-management/configuration/EmployeeIncentiveConfig/edit/${item?.incentiveConfigId}`)
                             }}
-                            />
+                            /> */}
                             </span>
                           </td>
                         </tr>
