@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import Loading from "../../../_helper/_loading";
 import IForm from "../../../_helper/_form";
 import NewSelect from "../../../_helper/_select";
-import { _monthFirstDate } from "../../../_helper/_monthFirstDate";
 import { _todayDate } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { shallowEqual, useSelector } from "react-redux";
@@ -18,7 +17,7 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const initData = {
   businessUnit: "",
-  fromDate: _monthFirstDate(),
+  fromDate: _todayDate(),
   toDate: _todayDate(),
   status: "",
 };
@@ -215,14 +214,12 @@ const InvoiceWisePaymentLanding = () => {
                         >
                           Due <br /> Date
                         </th>
-                        {/* <th
+                        {/* delivery part start */}
+                        <th
                           style={{
-                            width: "100px !important",
+                            background: "#AFEEEE",
                           }}
                         >
-                          Partner <br /> Ref No
-                        </th> */}
-                        <th>
                           Delivery <br /> Amount
                         </th>
                         <th>
@@ -231,7 +228,13 @@ const InvoiceWisePaymentLanding = () => {
                         <th>
                           Pending <br /> Amount
                         </th>
-                        <th>
+                        {/* delivery part end */}
+                        {/* vat part start */}
+                        <th
+                          style={{
+                            background: "#F6F1E8",
+                          }}
+                        >
                           Vat <br /> Amount
                         </th>
                         <th>
@@ -274,8 +277,12 @@ const InvoiceWisePaymentLanding = () => {
                             <td className="text-center">
                               {_dateFormatter(item?.dteDueDate)}
                             </td>
-                            {/* <td>{item?.strPartnerReffNo}</td> */}
-                            <td className="text-right">
+                            <td
+                              className="text-right"
+                              style={{
+                                background: "rgb(233 255 255)",
+                              }}
+                            >
                               {_formatMoney(item?.numDeliveryAmount)}
                             </td>
                             <td className="text-right">
@@ -284,7 +291,12 @@ const InvoiceWisePaymentLanding = () => {
                             <td className="text-right">
                               {_formatMoney(item?.numDeliveryAmountPending)}
                             </td>
-                            <td className="text-right">
+                            <td
+                              className="text-right"
+                              style={{
+                                background: "rgb(255 220 220)",
+                              }}
+                            >
                               {_formatMoney(item?.numVatAmount)}
                             </td>
                             <td className="text-right">
@@ -293,7 +305,12 @@ const InvoiceWisePaymentLanding = () => {
                             <td className="text-right">
                               {_formatMoney(item?.numVatAmountPending)}
                             </td>
-                            <td className="text-right">
+                            <td
+                              className="text-right"
+                              style={{
+                                background: "rgb(232 224 255)",
+                              }}
+                            >
                               {_formatMoney(item?.numTaxAmount)}
                             </td>
                             <td className="text-right">

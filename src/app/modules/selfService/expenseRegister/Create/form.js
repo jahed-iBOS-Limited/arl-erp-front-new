@@ -698,6 +698,7 @@ export default function _Form({
                 }}
                 showPreviews={true}
                 showFileNamesInPreview={true}
+                fileObjects={fileObjects}
               />
             </Form>
           </>
