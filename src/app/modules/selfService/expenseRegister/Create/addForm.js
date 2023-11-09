@@ -259,7 +259,9 @@ export default function ExpenseRegisterCreateForm() {
         new Date(values?.expenseTo) >= new Date(values?.expenseDate)
       ) {
         if (+newobj?.expenseAmount > 499 && !newobj?.attachmentLink) {
-          return toast.warn("Attachment is required when expense amount is more or equal to 500");
+          return toast.warn(
+            "Attachment is required when expense amount is more or equal to 500"
+          );
         } else {
           setRowDto([...rowDto, newobj]);
           cb && cb();
