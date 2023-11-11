@@ -23,6 +23,10 @@ import InputField from "../../../_helper/_inputField";
 import IViewModal from "../../../_helper/_viewModal";
 import AdjustmentJournalCreateForm from "./journals/adjustmentJournal/addEditFrom";
 import IButton from "../../../_helper/iButton";
+import InfoCircle from "../../../_helper/_helperIcons/_infoCircle";
+import JournalDetails from "./journalDetails";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { toast } from "react-toastify";
 
 const getHeaders = (values, gridData) => {
   return [
@@ -95,10 +99,12 @@ export default function IncomeReport() {
   // eslint-disable-next-line no-unused-vars
   const [singleData, setSingleData] = useState({});
   const [, postAllJV, isLoading] = useAxiosPost();
+  const [showJournalDetails, setShowJournalDetails] = useState(false);
+  const [rowData, getJournalDetails, detailsLoader] = useAxiosGet();
 
   const {
     profileData: { accountId: accId, userId },
-    selectedBusinessUnit: { value: buId },
+    selectedBusinessUnit: { value: buId, label: buName, address: buAddress },
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const getGridData = (values) => {
@@ -111,6 +117,19 @@ export default function IncomeReport() {
       values?.toDate,
       setGridData,
       setLoading
+    );
+  };
+
+  const getJournalData = (item) => {
+    getJournalDetails(
+      `https://imarine.ibos.io/domain/Report/GetJvByVesselVoyage?AccountId=${accId}&BusinessUnitId=${buId}&VesselName=${item?.vesselName}&VoyageNo=${item?.voyageNo}&ChartererId=${item?.chartererId}`,
+      (resData) => {
+        if (resData?.length > 0) {
+          setShowJournalDetails(true);
+        } else {
+          toast.warn("Data not found!");
+        }
+      }
     );
   };
 
@@ -147,6 +166,11 @@ export default function IncomeReport() {
         true
       );
     } else if (journalType === "adjustmentJournal") {
+      const ajAmount =
+        item?.voyageTypeId === 1
+          ? item?.totalJournalAmount - item?.timeCharterRevinueAmount
+          : item?.totalJournalAmount - item?.totalIncome;
+
       const payload = {
         accountId: accId,
         businessUnitId: buId,
@@ -154,7 +178,7 @@ export default function IncomeReport() {
         salesOrgId: values?.salesOrg?.value,
         actionby: userId,
         date: values?.journalDate,
-        totalAmount: item?.totalJournalAmount - item?.totalIncome,
+        totalAmount: ajAmount,
         narration: `Amount credited to ${item?.chartererName} & debited to Freight Income ${item?.vesselName} as provision of freight income of ${item?.vesselName}, VOYAGE-${item?.voyageNo}`,
         vesselId: item?.vesselId,
         charterId: item?.chartererId,
@@ -175,12 +199,14 @@ export default function IncomeReport() {
 
   const printRef = useRef();
 
+  const load = detailsLoader || loading || loader || isLoading;
+
   return (
     <>
       <Formik enableReinitialize={true} initialValues={initData}>
         {({ values, errors, touched, setFieldValue }) => (
           <>
-            {(loading || loader || isLoading) && <Loading />}
+            {load && <Loading />}
             <form className="marine-form-card">
               <div className="marine-form-card-content">
                 <div className="row">
@@ -377,134 +403,157 @@ export default function IncomeReport() {
                   ths={getHeaders(values, gridData)}
                   scrollable={true}
                 >
-                  {gridData?.map((item, index) => (
-                    <tr key={index}>
-                      <td className="text-center" style={{ width: "40px" }}>
-                        {index + 1}
-                      </td>
-                      <td>{item?.vesselName}</td>
-                      <td className="text-center">{item?.voyageNo}</td>
-                      <td>{item?.voyageType}</td>
-                      <td>{item?.chartererName}</td>
-                      <td>
-                        {moment(item?.startDate).format("DD-MMM-yyyy, HH:mm")}
-                      </td>
-                      <td>
-                        {moment(item?.endDate).format("DD-MMM-yyyy, HH:mm")}
-                      </td>
-                      <td>{Number(item?.duration).toFixed(4)}</td>
-                      <td>{item?.cargo}</td>
-                      <td className="text-right">
-                        {_fixedPoint(item?.cargoQty, true, 0)}
-                      </td>
-                      <td className="text-right">
-                        {_fixedPoint(item?.rate, true)}
-                      </td>
-                      <td className="text-right">
-                        {_fixedPoint(item?.freight, true)}
-                      </td>
-                      <td className="text-right">
-                        {_fixedPoint(item?.hirePerDay, true)}
-                      </td>
-                      <td className="text-right">
-                        {_fixedPoint(item?.addrComm, true)}
-                      </td>
-                      <td className="text-right">
-                        {_fixedPoint(item?.brockComm, true)}
-                      </td>
-                      <td className="text-right">
-                        {_fixedPoint(item?.cve, true)}
-                      </td>
-                      <td className="text-right">
-                        {_fixedPoint(item?.ilohc, true)}
-                      </td>
-                      <td className="text-right">
-                        {_fixedPoint(item?.incomePerDay, true)}
-                      </td>
-                      <td className="text-right">
-                        {_fixedPoint(item?.totalIncome, true)}
-                      </td>
-                      {gridData?.length && values?.fromDate && values?.toDate && (
-                        <>
-                          <td className="text-right">
-                            {_fixedPoint(item?.incomeInDateRange, true)}
-                          </td>
-                          <td className="text-right">
-                            {_fixedPoint(item?.finalRevenue, true)}
-                          </td>
-                          <td className="text-right">
-                            {_fixedPoint(item?.totalJournalAmount, true)}
-                          </td>
-                          <td className="text-right">
-                            {_fixedPoint(
-                              item?.totalJournalAmount - item?.totalIncome,
-                              true
-                            )}
-                          </td>
-                          <td className="text-center">
-                            <div className="d-flex justify-content-around">
-                              <button
-                                title={
-                                  item?.jvDisable
-                                    ? ""
-                                    : "Click to create Journal Voucher"
-                                }
-                                disabled={
-                                  item?.jvDisable ||
-                                  loading ||
-                                  loader ||
-                                  !values?.sbu ||
-                                  !values?.salesOrg
-                                }
-                                className="btn btn-info btn-sm"
-                                type="button"
-                                onClick={() => {
-                                  JournalPost(
-                                    values,
-                                    item,
-                                    index,
-                                    "journalVoucher"
-                                  );
-                                }}
-                              >
-                                JV
-                              </button>
-                              <button
-                                title={
-                                  item?.ajDisable
-                                    ? ""
-                                    : "Click to create Adjustment Journal"
-                                }
-                                disabled={
-                                  item?.ajDisable ||
-                                  loading ||
-                                  loader ||
-                                  isLoading ||
-                                  !values?.sbu
-                                  // ||
-                                  // !values?.salesOrg
-                                }
-                                className="btn btn-info btn-sm"
-                                type="button"
-                                onClick={() => {
-                                  // setSingleData(item);
-                                  // setShow(true);
-                                  JournalPost(
-                                    values,
-                                    item,
-                                    index,
-                                    "adjustmentJournal"
-                                  );
-                                }}
-                              >
-                                AJ
-                              </button>
-                            </div>
-                          </td>
-                        </>
-                      )}
-                    </tr>
-                  ))}
+                  {gridData?.map((item, index) => {
+                    const ajAmount =
+                      item?.voyageTypeId === 1
+                        ? item?.totalJournalAmount -
+                          item?.timeCharterRevinueAmount
+                        : item?.totalJournalAmount - item?.totalIncome;
+
+                    const totalRevenue =
+                      item?.voyageTypeId === 1
+                        ? item?.timeCharterRevinueAmount
+                        : item?.totalIncome;
+
+                    return (
+                      <tr key={index}>
+                        <td className="text-center" style={{ width: "40px" }}>
+                          {index + 1}
+                        </td>
+                        <td>{item?.vesselName}</td>
+                        <td className="text-center">{item?.voyageNo}</td>
+                        <td>{item?.voyageType}</td>
+                        <td>{item?.chartererName}</td>
+                        <td>
+                          {moment(item?.startDate).format("DD-MMM-yyyy, HH:mm")}
+                        </td>
+                        <td>
+                          {moment(item?.endDate).format("DD-MMM-yyyy, HH:mm")}
+                        </td>
+                        <td>{Number(item?.duration).toFixed(4)}</td>
+                        <td>{item?.cargo}</td>
+                        <td className="text-right">
+                          {_fixedPoint(item?.cargoQty, true, 0)}
+                        </td>
+                        <td className="text-right">
+                          {_fixedPoint(item?.rate, true)}
+                        </td>
+                        <td className="text-right">
+                          {_fixedPoint(item?.freight, true)}
+                        </td>
+                        <td className="text-right">
+                          {_fixedPoint(item?.hirePerDay, true)}
+                        </td>
+                        <td className="text-right">
+                          {_fixedPoint(item?.addrComm, true)}
+                        </td>
+                        <td className="text-right">
+                          {_fixedPoint(item?.brockComm, true)}
+                        </td>
+                        <td className="text-right">
+                          {_fixedPoint(item?.cve, true)}
+                        </td>
+                        <td className="text-right">
+                          {_fixedPoint(item?.ilohc, true)}
+                        </td>
+                        <td className="text-right">
+                          {_fixedPoint(item?.incomePerDay, true)}
+                        </td>
+                        <td className="text-right">
+                          {_fixedPoint(totalRevenue, true)}
+                        </td>
+                        {/* <td className="text-right">
+                          {_fixedPoint(item?.totalIncome, true)}
+                        </td> */}
+                        {gridData?.length &&
+                          values?.fromDate &&
+                          values?.toDate && (
+                            <>
+                              <td className="text-right">
+                                {_fixedPoint(item?.incomeInDateRange, true)}
+                              </td>
+                              <td className="text-right">
+                                {_fixedPoint(item?.finalRevenue, true)}
+                              </td>
+                              <td className="text-right">
+                                {_fixedPoint(item?.totalJournalAmount, true)}
+                              </td>
+                              <td className="text-right">
+                                {_fixedPoint(ajAmount, true)}
+                              </td>
+                              <td className="text-center">
+                                <div className="d-flex justify-content-around align-items-center">
+                                  <button
+                                    title={
+                                      item?.jvDisable
+                                        ? ""
+                                        : "Click to create Journal Voucher"
+                                    }
+                                    disabled={
+                                      item?.jvDisable ||
+                                      loading ||
+                                      loader ||
+                                      !values?.sbu ||
+                                      !values?.salesOrg
+                                    }
+                                    className="btn btn-info btn-sm"
+                                    type="button"
+                                    onClick={() => {
+                                      JournalPost(
+                                        values,
+                                        item,
+                                        index,
+                                        "journalVoucher"
+                                      );
+                                    }}
+                                  >
+                                    JV
+                                  </button>
+                                  <button
+                                    title={
+                                      item?.ajDisable
+                                        ? ""
+                                        : "Click to create Adjustment Journal"
+                                    }
+                                    disabled={
+                                      item?.ajDisable ||
+                                      loading ||
+                                      loader ||
+                                      isLoading ||
+                                      !values?.sbu
+                                      // ||
+                                      // !values?.salesOrg
+                                    }
+                                    className="btn btn-info btn-sm"
+                                    type="button"
+                                    onClick={() => {
+                                      // setSingleData(item);
+                                      // setShow(true);
+                                      JournalPost(
+                                        values,
+                                        item,
+                                        index,
+                                        "adjustmentJournal"
+                                      );
+                                    }}
+                                  >
+                                    AJ
+                                  </button>
+                                  <span>
+                                    <InfoCircle
+                                      title={"Journal Details"}
+                                      clickHandler={() => {
+                                        getJournalData(item);
+                                      }}
+                                    />
+                                  </span>
+                                </div>
+                              </td>
+                            </>
+                          )}
+                      </tr>
+                    );
+                  })}
                 </ICustomTable>
               </div>
             </form>
@@ -513,6 +562,12 @@ export default function IncomeReport() {
                 preData={{ ...values, ...singleData }}
                 setShow={setShow}
               />
+            </IViewModal>
+            <IViewModal
+              show={showJournalDetails}
+              onHide={() => setShowJournalDetails(false)}
+            >
+              <JournalDetails obj={{ rowData, buName, buAddress }} />
             </IViewModal>
           </>
         )}
