@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Loading from "../../../_helper/_loading";
 import IForm from "../../../_helper/_form";
 import NewSelect from "../../../_helper/_select";
@@ -17,6 +17,7 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const initData = {
   businessUnit: "",
+  customer: "",
   fromDate: _todayDate(),
   toDate: _todayDate(),
   status: "",
@@ -26,6 +27,16 @@ const InvoiceWisePaymentLanding = () => {
     (store) => store?.authData,
     shallowEqual
   );
+  const [
+    customerDDL,
+    getCustomerDDL,
+    customerDDLloader,
+    setCustomerDDL,
+  ] = useAxiosGet();
+
+  const profileData = useSelector((state) => {
+    return state.authData.profileData;
+  }, shallowEqual);
 
   const saveHandler = (values, cb) => {};
   const [
@@ -41,11 +52,11 @@ const InvoiceWisePaymentLanding = () => {
 
   const getData = (values) => {
     getTableData(
-      // `/fino/PaymentOrReceive/GetInvoiceWisePayment?businessUnitId=${values?.businessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&status=${values?.status?.value}`,
-      `/fino/PaymentOrReceive/GetInvoiceWisePayment?partName=Report&businessUnitId=${values?.businessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&status=${values?.status?.value}`,
-      (data) => {
-        console.log("data", data);
-      }
+      `/fino/PaymentOrReceive/GetInvoiceWisePayment?partName=Report&businessUnitId=${
+        values?.businessUnit?.value
+      }&customerId${values?.customer?.value || 0}&fromDate=${
+        values?.fromDate
+      }&toDate=${values?.toDate}&status=${values?.status?.value}`
     );
   };
 
@@ -69,7 +80,7 @@ const InvoiceWisePaymentLanding = () => {
         touched,
       }) => (
         <>
-          {tableDataLoader && <Loading />}
+          {(tableDataLoader || customerDDLloader) && <Loading />}
           <IForm
             title="Invoice Wise Payment"
             isHiddenReset
@@ -91,9 +102,21 @@ const InvoiceWisePaymentLanding = () => {
                       onChange={(valueOption) => {
                         if (valueOption) {
                           setFieldValue("businessUnit", valueOption);
+                          setFieldValue("customer", "");
+                          getCustomerDDL(
+                            `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${valueOption?.value}`,
+                            (data) => {
+                              setCustomerDDL([
+                                { value: 0, label: "All" },
+                                ...data,
+                              ]);
+                            }
+                          );
                           setTableData([]);
                         } else {
                           setFieldValue("businessUnit", "");
+                          setFieldValue("customer", "");
+                          setCustomerDDL([]);
                           setTableData([]);
                         }
                       }}
@@ -101,7 +124,26 @@ const InvoiceWisePaymentLanding = () => {
                       touched={touched}
                     />
                   </div>
-                  <div className="col-lg-2">
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="customer"
+                      options={customerDDL}
+                      value={values?.customer}
+                      label="Customer"
+                      onChange={(valueOption) => {
+                        if (valueOption) {
+                          setFieldValue("customer", valueOption);
+                          setTableData([]);
+                        } else {
+                          setFieldValue("customer", "");
+                          setTableData([]);
+                        }
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
                     <InputField
                       type="date"
                       name="fromDate"
@@ -118,7 +160,7 @@ const InvoiceWisePaymentLanding = () => {
                       }}
                     />
                   </div>
-                  <div className="col-lg-2">
+                  <div className="col-lg-3">
                     <InputField
                       type="date"
                       name="toDate"
@@ -135,7 +177,7 @@ const InvoiceWisePaymentLanding = () => {
                       }}
                     />
                   </div>
-                  <div className="col-lg-2">
+                  <div className="col-lg-3">
                     <NewSelect
                       name="status"
                       options={[
@@ -167,13 +209,14 @@ const InvoiceWisePaymentLanding = () => {
                       touched={touched}
                     />
                   </div>
-                  <div className="col-lg-2">
+                  <div className="col-lg-3">
                     <button
                       style={{ marginTop: "18px" }}
                       type="button"
                       className="btn btn-primary"
                       disabled={
                         !values?.businessUnit ||
+                        !values?.customer ||
                         !values?.fromDate ||
                         !values?.toDate ||
                         !values?.status
@@ -213,6 +256,13 @@ const InvoiceWisePaymentLanding = () => {
                           }}
                         >
                           Due <br /> Date
+                        </th>
+                        <th
+                          style={{
+                            minWidth: "70px",
+                          }}
+                        >
+                          Overdue <br /> Days
                         </th>
                         {/* delivery part start */}
                         <th
@@ -276,6 +326,10 @@ const InvoiceWisePaymentLanding = () => {
                             <td>{item?.intCrDays}</td>
                             <td className="text-center">
                               {_dateFormatter(item?.dteDueDate)}
+                            </td>
+                            <td className="text-center">
+                              {/* {_dateFormatter(item?.dteDueDate)} */}
+                              {item?.intOverdueDays}
                             </td>
                             <td
                               className="text-right"
