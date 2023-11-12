@@ -17,7 +17,17 @@ import { IInput } from "../../../../_helper/_input";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import {
-  generateAdviceNo, getBankAc, getCostCenterDDL, getCostElementByCostCenterDDL, getInstrumentType, getNextBankCheque, getPartnerTypeDDL, getProfitCenterDDL, getRevenueCenterListDDL, getRevenueElementListDDL, getSendToGLBank
+  generateAdviceNo,
+  getBankAc,
+  getCostCenterDDL,
+  getCostElementByCostCenterDDL,
+  getInstrumentType,
+  getNextBankCheque,
+  getPartnerTypeDDL,
+  getProfitCenterDDL,
+  getRevenueCenterListDDL,
+  getRevenueElementListDDL,
+  getSendToGLBank,
 } from "../helper";
 import DebitCredit from "./DebitCredit";
 import ReceiveAndPaymentsTable from "./ReceiveAndPaymentsTable";
@@ -113,7 +123,12 @@ export default function _Form({
   const inputAttachFile = useRef(null);
   const dispatch = useDispatch();
 
-  const [partnerBank, getPartnerBank, partnerBankLoading, setPartnerBank] = useAxiosGet();
+  const [
+    partnerBank,
+    getPartnerBank,
+    partnerBankLoading,
+    setPartnerBank,
+  ] = useAxiosGet();
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
@@ -168,17 +183,23 @@ export default function _Form({
   };
 
   useEffect(() => {
-    if(initData?.transaction?.value){
-      getPartnerBank(`/partner/BusinessPartnerBankInfo/GetBusinessPartnerBankInfoByAccountIdBusinessUnitId?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&BusinessPartnerId=${initData?.transaction?.value}&Status=true`, (data) => {
-        let newBankAcc = data?.length > 0 ? data.map(item => ({
-          ...item,
-          value : item?.bankId,
-          label : `${item?.bankShortName}: ${item?.bankAccountNo}`,
-        })) : []
-        setPartnerBank(newBankAcc)
-      })
+    if (initData?.transaction?.value) {
+      getPartnerBank(
+        `/partner/BusinessPartnerBankInfo/GetBusinessPartnerBankInfoByAccountIdBusinessUnitId?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&BusinessPartnerId=${initData?.transaction?.value}&Status=true`,
+        (data) => {
+          let newBankAcc =
+            data?.length > 0
+              ? data.map((item) => ({
+                  ...item,
+                  value: item?.bankId,
+                  label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
+                }))
+              : [];
+          setPartnerBank(newBankAcc);
+        }
+      );
     }
-  },[initData])
+  }, [initData]);
 
   return (
     <>
@@ -194,7 +215,7 @@ export default function _Form({
           profitCenter: "",
           paidTo: "",
           receiveFrom: "",
-          partnerBankAccount : ""
+          partnerBankAccount: "",
         }}
         validationSchema={
           jorunalType === 4
@@ -214,20 +235,24 @@ export default function _Form({
                   saveHandler(values, () => {
                     // wont be reset as per requirement
                     // resetForm(initData);
-                    if(jorunalType === 6){
-                      setFieldValue("transferAmount", "")
-                      dispatch(setBankJournalCreateAction({...values, transferAmount : ""}));
+                    if (jorunalType === 6) {
+                      setFieldValue("transferAmount", "");
+                      dispatch(
+                        setBankJournalCreateAction({
+                          ...values,
+                          transferAmount: "",
+                        })
+                      );
                     }
                   });
                 },
               },
               {
-                label : "No",
-                onClick : () => ""
-              }
+                label: "No",
+                onClick: () => "",
+              },
             ],
           });
-          
         }}
       >
         {({
@@ -336,7 +361,6 @@ export default function _Form({
                             styles={customStyles}
                             placeholder="Partner Type"
                           />
-                                
                           <FormikError
                             errors={errors}
                             name="partnerType"
@@ -373,15 +397,20 @@ export default function _Form({
                               setFieldValue("transaction", valueOption);
                               setFieldValue("partnerBankAccount", "");
 
-                              getPartnerBank(`/partner/BusinessPartnerBankInfo/GetBusinessPartnerBankInfoByAccountIdBusinessUnitId?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&BusinessPartnerId=${valueOption?.value}&Status=true`, (data) => {
-                                let newBankAcc = data?.length > 0 ? data.map(item => ({
-                                  ...item,
-                                  value : item?.bankId,
-                                  label : `${item?.bankShortName}: ${item?.bankAccountNo}`,
-                                })) : []
-                                setPartnerBank(newBankAcc)
-                              })
-
+                              getPartnerBank(
+                                `/partner/BusinessPartnerBankInfo/GetBusinessPartnerBankInfoByAccountIdBusinessUnitId?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&BusinessPartnerId=${valueOption?.value}&Status=true`,
+                                (data) => {
+                                  let newBankAcc =
+                                    data?.length > 0
+                                      ? data.map((item) => ({
+                                          ...item,
+                                          value: item?.bankId,
+                                          label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
+                                        }))
+                                      : [];
+                                  setPartnerBank(newBankAcc);
+                                }
+                              );
                             }}
                             loadOptions={loadTransactionList}
                             isDisabled={!values?.partnerType}
@@ -393,21 +422,31 @@ export default function _Form({
                           />
                         </div>
                         {/* ["Supplier", "Customer", "Investment Partner"] */}
-                        {(jorunalType === 5 && ["Investment Partner"]?.includes(values?.partnerType?.label)) && <div style={{ marginBottom: "12px" }} className="col-lg-12 pl pr">
-                          <label>Partner Bank Account</label>
-                          <Select
-                            onChange={(valueOption) => {
-                              setFieldValue("partnerBankAccount", valueOption);
-                            }}
-                            // isDisabled={!values?.transaction}
-                            options={partnerBank}
-                            value={values?.partnerBankAccount}
-                            isSearchable={true}
-                            styles={customStyles}
-                            placeholder="Partner Bank Account"
-                          />
-                        </div>}
-                        
+                        {jorunalType === 5 &&
+                          ["Investment Partner"]?.includes(
+                            values?.partnerType?.label
+                          ) && (
+                            <div
+                              style={{ marginBottom: "12px" }}
+                              className="col-lg-12 pl pr"
+                            >
+                              <label>Partner Bank Account</label>
+                              <Select
+                                onChange={(valueOption) => {
+                                  setFieldValue(
+                                    "partnerBankAccount",
+                                    valueOption
+                                  );
+                                }}
+                                // isDisabled={!values?.transaction}
+                                options={partnerBank}
+                                value={values?.partnerBankAccount}
+                                isSearchable={true}
+                                styles={customStyles}
+                                placeholder="Partner Bank Account"
+                              />
+                            </div>
+                          )}
 
                         <div className="col-lg-12 pl pr">
                           <label>General Ledger</label>
@@ -422,7 +461,6 @@ export default function _Form({
                             styles={customStyles}
                             placeholder="General Ledger"
                           />
-                                
                           <FormikError
                             errors={errors}
                             name="gl"
@@ -616,12 +654,17 @@ export default function _Form({
                           <label>Cost Center</label>
                           <Select
                             onChange={(valueOption) => {
-                              if(valueOption){
+                              if (valueOption) {
                                 setFieldValue("costCenter", valueOption);
-                                getCostElementByCostCenterDDL( selectedBusinessUnit.value, profileData.accountId, valueOption?.value, setCostElementDDL);   
+                                getCostElementByCostCenterDDL(
+                                  selectedBusinessUnit.value,
+                                  profileData.accountId,
+                                  valueOption?.value,
+                                  setCostElementDDL
+                                );
                                 setFieldValue("costElement", "");
-                              }else{
-                                setCostElementDDL([])
+                              } else {
+                                setCostElementDDL([]);
                                 setFieldValue("costCenter", "");
                                 setFieldValue("costElement", "");
                               }
@@ -808,6 +851,14 @@ export default function _Form({
                               return toast.warn("Select Bank Account");
                             if (!values?.headerNarration)
                               return toast.warn("Please add header narration");
+                            // if values?.gl?.accountGroupId === 3 or 4 then profit center is required
+                            if (
+                              values?.gl?.accountGroupId === 3 ||
+                              values?.gl?.accountGroupId === 4
+                            ) {
+                              if (!values?.profitCenter)
+                                return toast.warn("Select profit center");
+                            }
                             // setFieldValue("transaction", "");
                             // setFieldValue("amount", "");
                             setter(values);

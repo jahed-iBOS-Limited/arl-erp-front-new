@@ -88,12 +88,16 @@ export default function CashJournalLanding() {
       (item) => date < _dateFormatter(item?.journalDate)
     );
 
-    if(isInvalid.length > 0) return toast.warn(`Complete date should be greather than or equal to journal date for ${isInvalid[0]?.code}`)
+    if (isInvalid.length > 0)
+      return toast.warn(
+        `Complete date should be greather than or equal to journal date for ${isInvalid[0]?.code}`
+      );
     let confirmObject = {
       title: "Are you sure?",
       message: `Do you want to post the selected journals on ${date}?`,
       yesAlertFunc: () => {
         const payload = modifyFilterRowDto.map((itm) => ({
+          businessUnitId: selectedBusinessUnit.value,
           accountingJournalId: itm.journalId,
           journalTypeId: journalTypeValue,
           transactionDate: date,
@@ -187,7 +191,7 @@ export default function CashJournalLanding() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const remover = (id,journalTypeValue) => {
+  const remover = (id, journalTypeValue) => {
     const singleData = [rowDto?.[id]];
     const updateRowDto = rowDto.filter((itm, idx) => idx !== id);
     let confirmObject = {
@@ -219,6 +223,7 @@ export default function CashJournalLanding() {
       message: `Do you want to post the selected journals on ${date}?`,
       yesAlertFunc: () => {
         const payload = singleData.map((itm) => ({
+          businessUnitId: selectedBusinessUnit?.value,
           accountingJournalId: itm?.journalId,
           journalTypeId: journalTypeValue,
           transactionDate: date,

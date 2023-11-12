@@ -8,7 +8,7 @@ import {
 } from "../_redux/Actions";
 import IConfirmModal from "./../../../../_helper/_confirmModal";
 import "../style.css";
-import {cancelJournal} from "../helper"
+import { cancelJournal } from "../helper";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { toast } from "react-toastify";
 
@@ -53,7 +53,6 @@ export default function BankJournalLanding() {
       setTotalCountRowDto(0);
     }
   }, [gridData]);
-  
 
   // one item select
   const itemSlectedHandler = (value, index) => {
@@ -83,7 +82,6 @@ export default function BankJournalLanding() {
       Setapproval(true);
     }
   };
-
 
   const gridDataLoad = (
     sbu,
@@ -172,20 +170,22 @@ export default function BankJournalLanding() {
     const modifyFilterRowDto = rowDto.filter((itm) => itm.itemCheck === true);
     const updateRowDto = rowDto.filter((itm) => itm.itemCheck !== true);
 
-
     // complete date should be greather than equal to all row journal date
     const isInvalid = modifyFilterRowDto.filter(
       (item) => date < _dateFormatter(item?.journalDate)
     );
-    
 
-    if(isInvalid.length > 0 && journalType?.label?.trim() !== "Bank Receipts") return toast.warn(`Complete date should be greather than or equal to journal date for ${isInvalid[0]?.code}`)
+    if (isInvalid.length > 0 && journalType?.label?.trim() !== "Bank Receipts")
+      return toast.warn(
+        `Complete date should be greather than or equal to journal date for ${isInvalid[0]?.code}`
+      );
 
     let confirmObject = {
       title: "Are you sure?",
       message: `Do you want to post the selected journals on ${date}?`,
       yesAlertFunc: () => {
         const payload = modifyFilterRowDto.map((itm) => ({
+          businessUnitId: selectedBusinessUnit.value,
           accountingJournalId: itm.journalId,
           journalTypeId: journalType?.value,
           transactionDate: date,
@@ -210,6 +210,7 @@ export default function BankJournalLanding() {
       message: `Do you want to post the selected journals on ${date}?`,
       yesAlertFunc: () => {
         const payload = singleData.map((itm) => ({
+          businessUnitId: selectedBusinessUnit.value,
           accountingJournalId: itm.journalId,
           journalTypeId: accountingJournalTypeId,
           transactionDate: date,
@@ -237,10 +238,10 @@ export default function BankJournalLanding() {
           selectedBusinessUnit?.value,
           profileData?.userId,
           typeStatus.toLowerCase() === "complated" ? 1 : 2,
-          ()=>{
+          () => {
             setRowDto(updateRowDto);
           }
-        )
+        );
         // dispatch(saveCancel_action(payload, updateRowDto, setRowDto));
       },
       noAlertFunc: () => {
