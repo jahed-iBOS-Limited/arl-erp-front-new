@@ -10,7 +10,7 @@ import {
   saveCompletedAdjustmentJournal,
   saveCancelAdjustmentJournal,
 } from "../_redux/Actions";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 
 export default function AddJustmentJournalLanding() {
   const [rowDto, setRowDto] = useState([]);
@@ -100,7 +100,10 @@ export default function AddJustmentJournalLanding() {
         (item) => values?.completeDate < _dateFormatter(item?.journaldate)
       );
 
-      if(isInvalid.length > 0) return toast.warn(`Complete date should be greather than or equal to journal date for ${isInvalid[0]?.code}`)
+      if (isInvalid.length > 0)
+        return toast.warn(
+          `Complete date should be greather than or equal to journal date for ${isInvalid[0]?.code}`
+        );
 
       let confirmObject = {
         title: "Are you sure?",
@@ -111,6 +114,7 @@ export default function AddJustmentJournalLanding() {
           if (approval) {
             const adjustmentJournalComplete = approval.map((itm) => {
               return {
+                businessUnitId: selectedBusinessUnit?.value,
                 accountingJournalId: itm?.journlaId,
                 journalTypeId: 7,
                 transactionDate: values?.completeDate,
@@ -283,6 +287,7 @@ export default function AddJustmentJournalLanding() {
           if (singleData) {
             const adjustmentJournalComplete = singleData.map((itm) => {
               return {
+                businessUnitId: selectedBusinessUnit?.value,
                 accountingJournalId: itm?.journlaId,
                 journalTypeId: 7,
                 transactionDate: completeDate,
