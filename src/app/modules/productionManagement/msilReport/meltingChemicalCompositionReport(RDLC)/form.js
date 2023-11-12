@@ -1,192 +1,89 @@
-import axios from "axios";
 import { Formik } from "formik";
-import { models } from "powerbi-client";
-import { PowerBIEmbed } from "powerbi-client-react";
-import React, { useEffect, useState } from "react";
-import { confirmAlert } from "react-confirm-alert"; // Import
-import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
-import { useDispatch, useSelector } from "react-redux";
-import { Card, CardBody, CardHeader, ModalProgressBar } from "../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { SetPowerBiAction } from "../../../_helper/reduxForLocalStorage/Actions";
-import Loading from "../../../_helper/_loading";
-
-import "./style.css";
-
-const initData = {};
-
+import React, { useState } from "react";
+import { _todayDate } from "../../../_helper/_todayDate";
+import ICustomCard from "../../../_helper/_customCard";
+import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
+import InputField from "../../../_helper/_inputField";
+import { shallowEqual, useSelector } from "react-redux";
+const initData = {
+  fromDate: _todayDate(),
+  toDate: _todayDate(),
+};
 const MeltingChemicalCompositionReportRDLC = () => {
-  const dispatch = useDispatch();
-  const [, getRowData, isLoading] = useAxiosGet();
-  const [loading] = useState(false);
+  const groupId = `e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`;
+  const reportId = `f96e356c-6065-4de0-a2f0-293979fa64de`;
 
-  const { powerApi: localStorageData } = useSelector(
-    (state) => state.localStorage
-  );
+  const { selectedBusinessUnit } = useSelector((state) => {
+    return state?.authData;
+  }, shallowEqual);
 
-  const [, setSeconds] = useState(0);
+  const [showReport, setShowReport] = useState(false);
 
-  const getData = () => {
-    // 1st api
-    const url = `/domain/PowerBIReport/PowerBIAccessToken`;
-    getRowData(url, async (data) => {
-      const config = {
-        headers: { Authorization: `Bearer ${data}` },
-      };
-      try {
-        // 2nd api
-        const res = await axios.get(
-          `https://api.powerbi.com/v1.0/myorg/groups/e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a/reports/f96e356c-6065-4de0-a2f0-293979fa64de`,
-          config
-        );
-        if (res?.data) {
-          const configGenerateToken = {
-            headers: { Authorization: `Bearer ${data}` },
-          };
-          try {
-            const payload = {
-              "accessLevel": "View"
-            };
-            // 3rd api
-            const resGenerateToken = await axios.post(
-              `https://api.powerbi.com/v1.0/myorg/groups/e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a/reports/f96e356c-6065-4de0-a2f0-293979fa64de/GenerateToken`,
-              payload,
-              configGenerateToken
-            );
-            if (resGenerateToken?.data) {
-              dispatch(
-                SetPowerBiAction({
-                  testReportToken: data,
-                  reportId: res?.data?.id,
-                  datasetId: res?.data?.datasetId,
-                  generateToken: resGenerateToken?.data?.token,
-                  embedUrl: res?.data?.embedUrl,
-                })
-              );
-            }
-          } catch (error) {
-            console.log(error);
-          }
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    });
+  const parameterValues = (values) => {
+    return [
+      { name: "FromDate", value: `${values?.fromDate}` },
+      { name: "ToDate", value: `${values?.toDate}` },
+      { name: "UnitId", value: `${selectedBusinessUnit?.value}` },
+    ];
   };
-
-  useEffect(() => {
-    getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const generateTokenPoppup = () => {
-    confirmAlert({
-      title: "Generate Token",
-      message: "Token excess timeout please generate token",
-      buttons: [
-        {
-          label: "Submit",
-          onClick: () => {
-            dispatch(
-              SetPowerBiAction({
-                testReportToken: "",
-                reportId: "",
-                datasetId: "",
-                generateToken: "",
-                embedUrl: "",
-              })
-            );
-            window.location.reload();
-            clearInterval(setSeconds(0));
-          },
-        },
-      ],
-    });
-  };
-
-  setTimeout(() => {
-    dispatch(
-      SetPowerBiAction({
-        testReportToken: "",
-        reportId: "",
-        datasetId: "",
-        generateToken: "",
-        embedUrl: "",
-      })
-    );
-    generateTokenPoppup();
-  }, 3000000);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setSeconds((seconds) => seconds + 1);
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <>
       <Formik enableReinitialize={true} initialValues={initData}>
-        {({ values, errors, touched, setFieldValue }) => (
-          <>
-            <Card>
-              <ModalProgressBar />
-              <CardHeader title="Melting Chemical Composition Report"></CardHeader>
-              <CardBody>
-                {(isLoading || loading) && <Loading />}
-                <form className="form form-label-right">
-                  {localStorageData?.generateToken && (
-                    <>
-                      <PowerBIEmbed
-                        embedConfig={{
-                          type: "report",
-                          id: localStorageData?.reportId,
-                          embedUrl: localStorageData?.embedUrl,
-                          accessToken: localStorageData?.generateToken,
-                          tokenType: models.TokenType.Embed,
-                          settings: {
-                            panes: {
-                              filters: {
-                                expanded: false,
-                                visible: false,
-                              },
-                            },
-                            background: models.BackgroundType.Transparent,
-                          },
-                        }}
-                        eventHandlers={
-                          new Map([
-                            [
-                              "loaded",
-                              function() {
-                                console.log("Report loaded");
-                              },
-                            ],
-                            [
-                              "rendered",
-                              function() {
-                                console.log("Report rendered");
-                              },
-                            ],
-                            [
-                              "error",
-                              function(event) {
-                                console.log(event.detail);
-                              },
-                            ],
-                          ])
-                        }
-                        cssClassName={"powerbi-report-style-class"}
-                        getEmbeddedComponent={(embeddedReport) => {
-                          window.report = embeddedReport;
-                        }}
-                      />
-                    </>
-                  )}
-                </form>
-              </CardBody>
-            </Card>
-          </>
+        {({ values, setFieldValue }) => (
+          <ICustomCard title="Melting Chemical Composition Report">
+            <form className="form form-label-right">
+              <div className="form-group row global-form">
+                <div className="col-lg-3">
+                  <label>From Date</label>
+                  <InputField
+                    value={values?.fromDate}
+                    name="fromDate"
+                    placeholder="From Date"
+                    type="date"
+                    onChange={(e) => {
+                      setShowReport(false);
+                      setFieldValue("fromDate", e?.target?.value);
+                    }}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <label>To Date</label>
+                  <InputField
+                    value={values?.toDate}
+                    name="toDate"
+                    placeholder="To Date"
+                    type="date"
+                    onChange={(e) => {
+                      setShowReport(false);
+                      setFieldValue("toDate", e?.target?.value);
+                    }}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <button
+                    onClick={() => {
+                      console.log("clicked");
+                      setShowReport(true);
+                    }}
+                    style={{ marginTop: "19px" }}
+                    className="btn btn-primary ml-2 mr-2"
+                    type="button"
+                  >
+                    View
+                  </button>
+                </div>
+              </div>
+            </form>
+            {showReport && (
+              <PowerBIReport
+                reportId={reportId}
+                groupId={groupId}
+                parameterValues={parameterValues(values)}
+                parameterPanel={false}
+              />
+            )}
+          </ICustomCard>
         )}
       </Formik>
     </>
