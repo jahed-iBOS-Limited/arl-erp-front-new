@@ -132,12 +132,11 @@ export default function _Form({
                 },
               },
               {
-                label : "No",
-                onClick : () => ""
-              }
+                label: "No",
+                onClick: () => "",
+              },
             ],
           });
-          
         }}
       >
         {({
@@ -579,6 +578,15 @@ export default function _Form({
                             return toast.error(
                               "Amount Field must be positive !"
                             );
+
+                          if (
+                            values?.gl?.accountGroupId === 3 ||
+                            values?.gl?.accountGroupId === 4
+                          ) {
+                            if (!values?.profitCenter)
+                              return toast.warn("Select profit center");
+                          }
+
                           setter(values);
                         }}
                         className="btn btn-primary"
@@ -639,8 +647,8 @@ export default function _Form({
                             </thead>
                             <tbody>
                               {rowDto.map((itm, idx) => {
-                              let str = `${itm?.amount}`;
-                              let amount = str.replace(/-/g, '');
+                                let str = `${itm?.amount}`;
+                                let amount = str.replace(/-/g, "");
                                 return (
                                   <tr key={itm?.transactionId}>
                                     <td>{idx + 1}</td>
