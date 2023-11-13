@@ -252,12 +252,6 @@ export default function ChemicalComposition() {
               onSave={() => {
                 setOpen(false);
                 attachmentAction(fileObjects).then((data) => {
-<<<<<<< HEAD
-                  console.log({data})
-                  // setUploadImage(data);
-                  //save data payload
-=======
->>>>>>> 16a809423e6293cecb32e7d0c314bb8e2d48af30
                   if (data) {
                     const payload = {
                       meltingQc: {
@@ -280,14 +274,6 @@ export default function ChemicalComposition() {
                         isActive: true,
                       },
                     };
-<<<<<<< HEAD
-                    // saveData(
-                    //   `/mes/MSIL/CreateEditMSIL`,
-                    //   payload,
-                    //   undefined,
-                    //   true
-                    // );
-=======
                     saveData(
                       `/mes/MSIL/CreateEditMSIL`,
                       payload,
@@ -296,7 +282,6 @@ export default function ChemicalComposition() {
                       },
                       true
                     );
->>>>>>> 16a809423e6293cecb32e7d0c314bb8e2d48af30
                   }
                 });
               }}
