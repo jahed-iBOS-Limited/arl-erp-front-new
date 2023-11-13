@@ -91,10 +91,13 @@ export default function CommonLanding() {
                 <div className="col-lg-3">
                   <NewSelect
                     name="salesOrganization"
-                    options={salesOrganizationDDL || []}
+                    options={[{label:"All",value:0},...salesOrganizationDDL] || []}
                     value={values?.salesOrganization}
                     label="Sales Organization"
                     onChange={(valueOption) => {
+                      if(valueOption?.value === 0){
+                        getRowData(`/oms/IncentiveConfig/GetIncentiveLanding?AccountId=${accId}&BusinessUnitId=${buId}&IntSalesOrganizationId=${0}&IntDistributionChannelId=${0}&IntIncentiveOnId=${0}`)
+                      }
                       setFieldValue("salesOrganization", valueOption);
                     }}
                     errors={errors}
