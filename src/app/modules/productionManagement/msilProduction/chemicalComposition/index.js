@@ -29,11 +29,6 @@ export default function ChemicalComposition() {
     return state.authData;
   }, shallowEqual);
 
-  // get selected business unit from store
-  // const selectedBusinessUnit = useSelector((state) => {
-  //   return state.authData.selectedBusinessUnit;
-  // }, shallowEqual);
-
   const [fileObjects, setFileObjects] = useState([]);
 
   const [pageNo, setPageNo] = useState(0);
@@ -54,8 +49,8 @@ export default function ChemicalComposition() {
   const saveHandler = (values, cb) => {};
 
   const [open, setOpen] = React.useState(false);
-  const [uploadImage, setUploadImage] = useState("");
 
+<<<<<<< HEAD
   const attachmentAction = async (attachment, cb) => {
     const formData = new FormData();
 
@@ -68,6 +63,11 @@ export default function ChemicalComposition() {
         formData.append("file", file.file);
       }
     });
+=======
+  const attachmentAction = async (fileObjects, cb) => {
+    let formData = new FormData();
+    await formData.append("file", fileObjects[0]?.file);
+>>>>>>> 16a809423e6293cecb32e7d0c314bb8e2d48af30
     try {
       let { data } = await axios.post(
         "https://qc.ibos.io/process-pdf",
@@ -78,11 +78,10 @@ export default function ChemicalComposition() {
           },
         }
       );
-      // toast.success(res?.data?.message || "Submitted Successfully");
-      toast.success("Upload  successfully");
+      toast.success("File Upload successfully");
       return data;
     } catch (error) {
-      toast.error("Document not upload");
+      toast.error("Document not uploaded");
     }
   };
 
@@ -106,7 +105,7 @@ export default function ChemicalComposition() {
         touched,
       }) => (
         <>
-          {isLoading && <Loading />}
+          {(isLoading || loading) && <Loading />}
           <IForm
             title="Chemical Composition"
             isHiddenReset
@@ -268,9 +267,12 @@ export default function ChemicalComposition() {
               onSave={() => {
                 setOpen(false);
                 attachmentAction(fileObjects).then((data) => {
+<<<<<<< HEAD
                   console.log({data})
                   // setUploadImage(data);
                   //save data payload
+=======
+>>>>>>> 16a809423e6293cecb32e7d0c314bb8e2d48af30
                   if (data) {
                     const payload = {
                       meltingQc: {
@@ -293,12 +295,23 @@ export default function ChemicalComposition() {
                         isActive: true,
                       },
                     };
+<<<<<<< HEAD
                     // saveData(
                     //   `/mes/MSIL/CreateEditMSIL`,
                     //   payload,
                     //   undefined,
                     //   true
                     // );
+=======
+                    saveData(
+                      `/mes/MSIL/CreateEditMSIL`,
+                      payload,
+                      () => {
+                        getData(values, pageNo, pageSize);
+                      },
+                      true
+                    );
+>>>>>>> 16a809423e6293cecb32e7d0c314bb8e2d48af30
                   }
                 });
               }}

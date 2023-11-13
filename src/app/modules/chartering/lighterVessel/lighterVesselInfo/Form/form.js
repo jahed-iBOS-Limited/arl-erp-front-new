@@ -58,6 +58,20 @@ export default function _Form({
                     />
                   </div>
                   <div className="col-lg-3">
+                      <FormikSelect
+                      name = "vesselType"
+                      value ={values?.vesselType}
+                      label={`Vessel Type*`}
+                      options={[{value:1,label:"Rental Vessel"},{value:2,label:"Own Vessel"}]}
+                      onChange={(valueOption)=>{
+                        setFieldValue("vesselType",valueOption)
+                      }}
+                      styles={customStyles}
+                      errors={errors}
+                      touched={touched}
+                      />
+                  </div>
+                  <div className="col-lg-3">
                     <FormikInput
                       value={values?.lastTripNo}
                       name="lastTripNo"

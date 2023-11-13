@@ -6,32 +6,44 @@ import IDelete from "../../../../_helper/_helperIcons/_delete";
 import NewSelect from "../../../../_helper/_select";
 import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
 import IButton from "../../../../_helper/iButton";
+import ICustomCard from "../../../../_helper/_customCard";
+import { useHistory } from "react-router-dom";
 
 export default function _Form({
   buId,
   accId,
-  btnRef,
   rowData,
   initData,
+  setRowData,
   addHandler,
   saveHandler,
-  resetBtnRef,
   removeHandler,
   partnerGroups,
 }) {
+  const history = useHistory();
   return (
     <>
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        onSubmit={(values, { resetForm }) => {
-          saveHandler(values, () => {
-            resetForm();
-          });
-        }}
+        onSubmit={() => {}}
       >
-        {({ handleSubmit, resetForm, values, setFieldValue }) => (
-          <>
+        {({ resetForm, values, setFieldValue }) => (
+          <ICustomCard
+            title="Business Partner Group Entry"
+            backHandler={() => {
+              history.goBack();
+            }}
+            resetHandler={() => {
+              resetForm();
+              setRowData([]);
+            }}
+            saveHandler={() => {
+              saveHandler(values, () => {
+                resetForm();
+              });
+            }}
+          >
             <form className="form form-label-right">
               {/* Form */}
               <div className="global-form">
@@ -79,6 +91,11 @@ export default function _Form({
                     />
                   </div>
                   <IButton
+                    disabled={
+                      !values?.channel ||
+                      !values?.customer ||
+                      !values?.partnerGroup
+                    }
                     onClick={() => {
                       addHandler(values, () => {
                         setFieldValue("customer", "");
@@ -121,22 +138,8 @@ export default function _Form({
                   )}
                 </div>
               </div>
-
-              <button
-                type="submit"
-                style={{ display: "none" }}
-                ref={btnRef}
-                onSubmit={() => handleSubmit()}
-              ></button>
-
-              <button
-                type="reset"
-                style={{ display: "none" }}
-                ref={resetBtnRef}
-                onSubmit={() => resetForm(initData)}
-              ></button>
             </form>
-          </>
+          </ICustomCard>
         )}
       </Formik>
     </>
