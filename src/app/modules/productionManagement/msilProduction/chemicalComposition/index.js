@@ -50,24 +50,9 @@ export default function ChemicalComposition() {
 
   const [open, setOpen] = React.useState(false);
 
-<<<<<<< HEAD
-  const attachmentAction = async (attachment, cb) => {
-    const formData = new FormData();
-
-    // Verify that 'attachment' is an array and contains valid file objects
-    attachment.forEach((file) => {
-      console.log({ file });
-      // Verify that 'file' exists and is a valid file object
-      if (file && file.file) {
-        console.log({file: file.file})
-        formData.append("file", file.file);
-      }
-    });
-=======
   const attachmentAction = async (fileObjects, cb) => {
     let formData = new FormData();
     await formData.append("file", fileObjects[0]?.file);
->>>>>>> 16a809423e6293cecb32e7d0c314bb8e2d48af30
     try {
       let { data } = await axios.post(
         "https://qc.ibos.io/process-pdf",
