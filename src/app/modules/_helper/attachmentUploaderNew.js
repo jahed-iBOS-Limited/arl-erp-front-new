@@ -1,22 +1,32 @@
-import React, { useState } from "react";
 import { DropzoneDialogBase } from "material-ui-dropzone";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { compressfile } from "./compressfile";
 import { uploadAttachment } from "../financialManagement/invoiceManagementSystem/billregister/helper";
+import { compressfile } from "./compressfile";
 
-export default function AttachmentUploaderNew({ CBAttachmentRes }) {
+export default function AttachmentUploaderNew({ CBAttachmentRes, showIcon }) {
   const [fileObjects, setFileObjects] = useState([]);
   const [open, setOpen] = useState(false);
 
   return (
     <>
-      <button
-        className="btn btn-primary"
-        type="button"
-        onClick={() => setOpen(true)}
-      >
-        Attachment
-      </button>
+      {!showIcon ? (
+        <button
+          className="btn btn-primary"
+          type="button"
+          onClick={() => setOpen(true)}
+        >
+          Attachment
+        </button>
+      ) : (
+        // <CloudUploadOutlined
+        //   onClick={() => setOpen(true)}
+        //   style={{ fontSize: "18px" }}
+        // />
+        <button onClick={() => setOpen(true)} type="button" style={{border: 'none'}}>
+          <i class="fa fa-upload" style={{fontSize: "16px"}} aria-hidden="true"></i>
+        </button>
+      )}
 
       <DropzoneDialogBase
         filesLimit={3}
