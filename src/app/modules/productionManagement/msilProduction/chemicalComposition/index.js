@@ -57,9 +57,16 @@ export default function ChemicalComposition() {
   const [uploadImage, setUploadImage] = useState("");
 
   const attachmentAction = async (attachment, cb) => {
-    let formData = new FormData();
+    const formData = new FormData();
+
+    // Verify that 'attachment' is an array and contains valid file objects
     attachment.forEach((file) => {
-      formData.append("files", file?.file);
+      console.log({ file });
+      // Verify that 'file' exists and is a valid file object
+      if (file && file.file) {
+        console.log({file: file.file})
+        formData.append("file", file.file);
+      }
     });
     try {
       let { data } = await axios.post(
@@ -113,7 +120,6 @@ export default function ChemicalComposition() {
                     className="btn btn-primary mr-1"
                     onClick={() => {
                       setOpen(true);
-                     
                     }}
                   >
                     Grab Data
@@ -243,7 +249,7 @@ export default function ChemicalComposition() {
             </Form>
             <DropzoneDialogBase
               filesLimit={1}
-              acceptedFiles={["application/pdf"]}
+              acceptedFiles={["image/*", "application/pdf"]}
               fileObjects={fileObjects}
               cancelButtonText={"cancel"}
               submitButtonText={"submit"}
@@ -262,6 +268,7 @@ export default function ChemicalComposition() {
               onSave={() => {
                 setOpen(false);
                 attachmentAction(fileObjects).then((data) => {
+                  console.log({data})
                   // setUploadImage(data);
                   //save data payload
                   if (data) {
@@ -286,7 +293,12 @@ export default function ChemicalComposition() {
                         isActive: true,
                       },
                     };
-                    saveData(`/mes/MSIL/CreateEditMSIL`, payload, undefined, true);
+                    // saveData(
+                    //   `/mes/MSIL/CreateEditMSIL`,
+                    //   payload,
+                    //   undefined,
+                    //   true
+                    // );
                   }
                 });
               }}
