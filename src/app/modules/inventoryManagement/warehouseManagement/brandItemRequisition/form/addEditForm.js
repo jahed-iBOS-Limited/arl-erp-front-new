@@ -8,6 +8,7 @@ import { _todayDate } from "../../../../_helper/_todayDate";
 import { toast } from "react-toastify";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import { useParams } from "react-router-dom";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
 const initData = {
   programType: "",
@@ -45,7 +46,7 @@ export default function BrandItemRequisitionForm() {
     getUOMDDL(
       `/item/ItemUOM/GetItemUOMDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
-    if (type === "edit") {
+    if (type) {
       getSingleData(
         `/wms/ItemRequest/GetBrandItemRequestById?id=${id}`,
         (resData) => {
@@ -57,7 +58,7 @@ export default function BrandItemRequisitionForm() {
               value: resData?.brandRequestTypeId,
               label: resData?.brandRequestTypeName,
             },
-            requiredDate: resData?.requiredDate,
+            requiredDate: _dateFormatter(resData?.requiredDate),
             purpose: resData?.purpose,
           };
           setSingleData(modifyData);
@@ -78,7 +79,7 @@ export default function BrandItemRequisitionForm() {
       return toast.warn("Pleas add least one row!");
     }
     const payload = {
-      brandRequestId: type === "edit" ? id : 0,
+      brandRequestId: type === "edit" ? +id : 0,
       brandRequestCode: singleData?.brandRequestCode || "",
       reffNo: "",
       brandRequestTypeId: values?.programType?.value,
