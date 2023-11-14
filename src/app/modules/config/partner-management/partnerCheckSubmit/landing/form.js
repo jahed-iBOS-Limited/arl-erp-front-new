@@ -125,8 +125,9 @@ const PartnerCheckSubmitLandingForm = ({ obj }) => {
                   <NewSelect
                     name="chequeStatus"
                     options={[
-                      { value: 1, label: "Pending" },
-                      { value: 2, label: "Approved" },
+                      { value: "", label: "All" },
+                      { value: "Pending", label: "Pending" },
+                      { value: "Approved", label: "Approved" },
                     ]}
                     value={values?.chequeStatus}
                     label="Status"

@@ -157,10 +157,10 @@ const ExportPaymentPostingTable = ({ obj }) => {
                         </ICon>
                       </span>
                       {((!item?.isSupervisorApproved &&
-                        employeeInfo?.departmentId === 219) ||
+                        employeeInfo?.employeeBasicInfoId === 558793) ||
                         (!item?.isAccountsApproved &&
                           item?.isSupervisorApproved &&
-                          employeeInfo?.departmentId === 1)) && (
+                          employeeInfo?.employeeBasicInfoId)) && (
                         <span>
                           <IApproval
                             title={

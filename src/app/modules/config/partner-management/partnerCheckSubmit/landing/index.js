@@ -64,7 +64,12 @@ const PartnerCheckSubmitLanding = () => {
       values?.viewType?.value === 3 ? values?.employee?.value : 0
     }&ViewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`;
 
-    const foreignSalesURL = `/partner/PartnerOverDue/GetExportPartnerPaymentInfoPagination?accountId=${accId}&businessUnitId=${buId}&soldToPartnerId=${values?.customer?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&pageNo=${pageNo}&pageSize=${pageSize}${search}&status=${values?.chequeStatus?.label}`;
+    const foreignSalesURL = `/partner/PartnerOverDue/GetExportPartnerPaymentInfoPagination?accountId=${accId}&businessUnitId=${buId}&soldToPartnerId=${
+      values?.customer?.value
+    }&fromDate=${values?.fromDate}&toDate=${
+      values?.toDate
+    }&pageNo=${pageNo}&pageSize=${pageSize}${search}&status=${values
+      ?.chequeStatus?.value || ""}`;
 
     const url =
       values?.salesType?.value === 2

@@ -117,11 +117,14 @@ export default function ExportPaymentPostingForm({
   }, [accId, buId, type]);
 
   const approver =
-    !singleData?.isSupervisorApproved && employeeInfo?.departmentId === 219
+    !singleItem?.isSupervisorApproved &&
+    employeeInfo?.employeeBasicInfoId === 558793
       ? "supervisor"
-      : !singleData?.isAccountsApproved && employeeInfo?.departmentId === 1
+      : !singleItem?.isAccountsApproved && employeeInfo?.employeeBasicInfoId
       ? "accounts"
       : "";
+
+  console.log(singleItem, "single data");
 
   const supervisor = approver === "supervisor";
   const accounts = approver === "accounts";
@@ -133,7 +136,7 @@ export default function ExportPaymentPostingForm({
   };
 
   const saveHandler = (values, cb) => {
-    if (type === "edit") {
+    if (["edit", "approve"].includes(type)) {
       const payloadForEdit = {
         objHead: {
           accountId: accId,
@@ -182,6 +185,7 @@ export default function ExportPaymentPostingForm({
         },
         objRow: rowData,
       };
+      console.log(payloadForApprove, "approve payload");
 
       const payload =
         type === "edit"
@@ -189,6 +193,8 @@ export default function ExportPaymentPostingForm({
           : type === "approve"
           ? payloadForApprove
           : {};
+
+      
 
       editExportPaymentPosting(payload, setLoading, () => {
         getData(landingFormValues);
