@@ -389,6 +389,14 @@ export const singleDataById = async (id, type, setter) => {
             label: itm?.subGLTypeName,
             reffPrtTypeId: itm?.subGLTypeId,
           },
+          costElement:
+          itm?.controlType === "Cost" && itm?.elementId
+            ? { value: itm?.elementId, label: itm?.elementName }
+            : "",
+            profitCenter: itm?.profitCenterId
+            ? { value: itm?.profitCenterId, label: itm?.profitCenterName }
+            : "",
+          
         }));
 
         const data = {
