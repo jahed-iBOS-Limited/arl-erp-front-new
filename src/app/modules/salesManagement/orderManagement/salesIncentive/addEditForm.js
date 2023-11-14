@@ -38,7 +38,7 @@ export default function SalesIncentiveForm() {
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const [incentiveData, getIncentiveData, loadIncentiveData] = useAxiosGet();
-  const [,incentiveSave,loadIncentiveSave] = useAxiosPost()
+  const [, incentiveSave, loadIncentiveSave] = useAxiosPost();
   // DDL
   const [boninessUnitDDL, getBusinessUnitDDL] = useAxiosGet();
 
@@ -59,11 +59,11 @@ export default function SalesIncentiveForm() {
       incentiveAmount: item?.numIncentiveAmount,
     }));
     incentiveSave(
-        `/oms/IncentiveConfig/SaveIncentiveConfig`,
-        payload,
-        ()=>{},
-        true
-    )
+      `/oms/IncentiveConfig/SaveIncentiveConfig`,
+      payload,
+      () => {},
+      true
+    );
   };
   useEffect(() => {
     getBusinessUnitDDL(
@@ -128,14 +128,28 @@ export default function SalesIncentiveForm() {
                     label="To Date"
                     type="date"
                     onChange={(e) => {
-                      if (e.target.value) {
-                        setFieldValue("toDate", e.target.value);
-                        getIncentiveData(
-                          `/oms/IncentiveConfig/GetIncenttiveView?businessUnitId=${values?.businessUnit?.value}&certainDate=${e.target.value}&fromDate=${values?.fromDate}&toDate=${e.target.value}`
-                        );
-                      }
+                      setFieldValue("toDate", e.target.value);
                     }}
                   />
+                </div>
+                <div>
+                  <button
+                    disabled={
+                      !values?.businessUnit?.value ||
+                      !values?.fromDate ||
+                      !values?.toDate
+                    }
+                    onClick={() => {
+                      getIncentiveData(
+                        `/oms/IncentiveConfig/GetIncenttiveView?businessUnitId=${values?.businessUnit?.value}&certainDate=${values?.toDate}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`
+                      );
+                    }}
+                    style={{ marginTop: "17px" }}
+                    className="btn btn-primary"
+                    type="button"
+                  >
+                    Show
+                  </button>
                 </div>
               </div>
 
@@ -196,11 +210,11 @@ export default function SalesIncentiveForm() {
                 style={{ display: "none" }}
                 ref={objProps?.btnRef}
                 onSubmit={() => {
-                    if(incentiveData?.length > 0){
-                        handleSubmit()
-                    }else{
-                        toast.warn("No Data found")
-                    }
+                  if (incentiveData?.length > 0) {
+                    handleSubmit();
+                  } else {
+                    toast.warn("No Data found");
+                  }
                 }}
               ></button>
 
