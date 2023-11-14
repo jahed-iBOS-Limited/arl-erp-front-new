@@ -17,12 +17,12 @@ const reportTypes = [
   { value: 7, label: "BP BA CP Analysis Report" },
 ];
 
-const partyStatusList = [
-  { value: 0, label: "All" },
-  { value: 30, label: "Regular" },
-  { value: 60, label: "IRegular" },
-  { value: 1, label: "Block" },
-];
+// const partyStatusList = [
+//   { value: 0, label: "All" },
+//   { value: 30, label: "Regular" },
+//   { value: 60, label: "IRegular" },
+//   { value: 1, label: "Block" },
+// ];
 
 const partyGroupList = [
   { value: 0, label: "All" },
@@ -201,7 +201,7 @@ export default function Form({ obj }) {
 
           {[5].includes(values?.reportType?.value) && (
             <>
-              <div className="col-lg-3">
+              {/* <div className="col-lg-3">
                 <NewSelect
                   name="partyStatus"
                   options={partyStatusList}
@@ -213,7 +213,7 @@ export default function Form({ obj }) {
                   }}
                   placeholder="Party Status"
                 />
-              </div>
+              </div> */}
               <div className="col-lg-3">
                 <NewSelect
                   name="partyGroup"
