@@ -133,21 +133,29 @@ const _Form = ({
                 </div>
                 <div className="col-lg-6">
                   <InputField
-                    name="contactName"
                     value={rowDto[0]?.strContactPerson}
-                    label="Contact Name"
-                    placeholder="Contact Name"
-                    touched={touched}
+                    label="Challan Contact Name"
                     disabled
                   />
                 </div>
                 <div className="col-lg-6">
                   <InputField
-                    name="contactNo"
                     value={rowDto[0]?.contactNo}
-                    label="Contact No"
-                    placeholder="Contact No"
-                    touched={touched}
+                    label="Challan Contact No"
+                    disabled
+                  />
+                </div>
+                <div className="col-lg-6">
+                  <InputField
+                    value={rowDto[0]?.customerName}
+                    label="Customer Contact Name"
+                    disabled
+                  />
+                </div>
+                <div className="col-lg-6">
+                  <InputField
+                    value={rowDto[0]?.customerPhoneNo}
+                    label="Customer Contact No"
                     disabled
                   />
                 </div>
