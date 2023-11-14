@@ -40,6 +40,7 @@ import IncomeStatementTaxLanding from "./incomeStatementTax";
 import ProductionVarianceReport from "./productionVarianceReport";
 import DistributionQtyVariance from "./distributionQtyVariance";
 import DistributionRateVariance from "./distributionRateVariance";
+import UnallocatedProfitCenter from "./unloadProfitCenter";
 
 export function ReportManagmentSystem() {
   const { userRole } = useSelector((state) => state?.authData, shallowEqual);
@@ -262,6 +263,10 @@ export function ReportManagmentSystem() {
       <ContentRoute
         path="/financial-management/report/DistributionRateVariance"
         component={DistributionRateVariance}
+      />
+      <ContentRoute
+        path="/financial-management/report/unallocatedprofitcenter"
+        component={UnallocatedProfitCenter}
       />
     </Switch>
   );
