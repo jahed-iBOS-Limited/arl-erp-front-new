@@ -16,6 +16,7 @@ import ICustomTable from "../../../../../_helper/_customTable";
 import IDelete from "../../../../../_helper/_helperIcons/_delete";
 import { toast } from "react-toastify";
 import { excelFileToArray } from "../../../../../_helper/excel/excelToArray";
+import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
 
 const validationSchema = Yup.object().shape({
   // payeeName: Yup.string().required("Payee Name is required"),
@@ -73,6 +74,7 @@ export default function _Form({
   const [businessTransactionDDL, setBusinessTransactionDDL] = useState([]);
   const [isExcelModalOpen, setExcelModalOpen] = useState(false);
   const [excelFiles, setExcelFiles] = useState([]);
+  const [profitCenterList, getProfitCenterList, ,setProfitCenterList ] = useAxiosGet();
 
   const ths = [
     "SL",
@@ -97,6 +99,11 @@ export default function _Form({
 
   useEffect(() => {
     getBankDDL(setBankDDL);
+    getProfitCenterList(`fino/CostSheet/ProfitCenterDetails?UnitId=${selectedBusinessUnit?.value}`, (data) => {
+      const result = data?.map((item) =>({...item, value: item.profitCenterId, label: item.profitCenterName}))
+      setProfitCenterList(result)
+    })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -318,6 +325,19 @@ export default function _Form({
                     isDisabled={rowData?.length}
                   />
                 </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="profitCenter"
+                    options={profitCenterList || []}
+                    value={values?.profitCenter}
+                    label="Profit Center"
+                    onChange={(valueOption) => {
+                      setFieldValue("profitCenter", valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
 
                 <div className="col-lg-12 align-self-end text-right mt-3">
                   <button
@@ -333,6 +353,9 @@ export default function _Form({
                     className="btn btn-primary ml-3"
                     type="button"
                     onClick={(e) => {
+                      if([3,4]?.includes(values?.businessTransaction?.accountGroupId) && !values?.profitCenter?.value){
+                        return toast.warn("Profit Center is required");
+                      }
                       setDataToRow(values, () => {
                         const copyValues = values;
                         resetForm({
