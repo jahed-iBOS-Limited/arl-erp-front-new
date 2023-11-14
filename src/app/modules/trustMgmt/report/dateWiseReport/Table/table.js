@@ -4,13 +4,26 @@ import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IView from "../../../../_helper/_helperIcons/_view";
 import numberWithCommas from "../../../../_helper/_numberWithCommas";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
 export const DateWiseReportTable = ({ landingData }) => {
+  const [_, uploadFile] = useAxiosPost();
   const dispatch = useDispatch();
   let totalAmount = landingData?.reduce(
     (sum, data) => sum + data?.monAmount,
     0
   );
+
+  const handleUploadAttachment = (file, applicationId) => {
+    const url = `/hcm/TrustManagement/UpdateDonationApplicationAttachmentById`;
+    //payload for single file upload
+    const payload = {
+      applicationId,
+      attachmentUrl: file[0]?.id,
+    };
+    uploadFile(url, payload);
+  };
   return (
     <>
       <div className="row">
@@ -84,9 +97,10 @@ export const DateWiseReportTable = ({ landingData }) => {
                               textAlign: "center",
                             }}
                           >
-                            <div className="">
+                            <div className="d-flex align-items-evaly">
                               {item?.strAttachmentUrl && (
                                 <IView
+                                style={{fontSize: "16px", marginLeft: "2px"}}
                                   clickHandler={() => {
                                     dispatch(
                                       getDownlloadFileView_Action(
@@ -96,6 +110,25 @@ export const DateWiseReportTable = ({ landingData }) => {
                                   }}
                                 />
                               )}
+                              <div style={{ marginLeft: "10px" }}>
+                                <AttachmentUploaderNew
+                                  showIcon
+                                  style={{
+                                    backgroundColor: "transparent",
+                                    color: "black",
+                                  }}
+                                  CBAttachmentRes={(attachmentData) => {
+                                    if (Array.isArray(attachmentData)) {
+                                      console.log(attachmentData);
+                                      handleUploadAttachment(
+                                        attachmentData,
+                                        item?.intApplicationID
+                                      );
+                                      // setAttachmentList(attachmentData);
+                                    }
+                                  }}
+                                />
+                              </div>
                             </div>
                           </td>
                         </tr>

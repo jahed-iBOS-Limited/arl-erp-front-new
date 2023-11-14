@@ -119,7 +119,26 @@ const PartnerCheckSubmitLandingForm = ({ obj }) => {
             )}
 
             <FromDateToDateForm obj={{ values, setFieldValue }} />
-
+            {[2].includes(values?.salesType?.value) && (
+              <>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="chequeStatus"
+                    options={[
+                      { value: "", label: "All" },
+                      { value: "Pending", label: "Pending" },
+                      { value: "Approved", label: "Approved" },
+                    ]}
+                    value={values?.chequeStatus}
+                    label="Status"
+                    onChange={(valueOption) => {
+                      setFieldValue("chequeStatus", valueOption);
+                    }}
+                    placeholder="Status"
+                  />
+                </div>
+              </>
+            )}
             <IButton
               onClick={() => {
                 getData(values, pageNo, pageSize);

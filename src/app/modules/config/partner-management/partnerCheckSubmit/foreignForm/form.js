@@ -27,6 +27,7 @@ export default function _Form({
 }) {
   const history = useHistory();
   const [open, setOpen] = useState(false);
+  const view = ["view", "approve"].includes(viewType);
   return (
     <>
       <Formik
@@ -38,12 +39,16 @@ export default function _Form({
           <>
             <ICustomCard
               title={`Export Payment Posting`}
-              saveHandler={() => {
-                saveHandler(values, () => {
-                  resetForm(initData);
-                  setRowData([]);
-                });
-              }}
+              saveHandler={
+                view
+                  ? ""
+                  : () => {
+                      saveHandler(values, () => {
+                        resetForm(initData);
+                        setRowData([]);
+                      });
+                    }
+              }
               resetHandler={
                 viewType
                   ? ""
@@ -202,7 +207,7 @@ export default function _Form({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={view}
                         onChange={(e) => {
                           setFieldValue("conversionRate", e?.target?.value);
                           if (values?.ttAmount > 0) {
@@ -235,9 +240,7 @@ export default function _Form({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={
-                          viewType === "view" || !values?.conversionRate
-                        }
+                        disabled={view || !values?.conversionRate}
                         onChange={(e) => {
                           setFieldValue("ttAmount", e?.target?.value);
                           setFieldValue(
@@ -268,9 +271,7 @@ export default function _Form({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={
-                          viewType === "view" || !values?.conversionRate
-                        }
+                        disabled={view || !values?.conversionRate}
                         onChange={(e) => {
                           setFieldValue("erqValue", e?.target?.value);
                           setFieldValue(
@@ -301,9 +302,7 @@ export default function _Form({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={
-                          viewType === "view" || !values?.conversionRate
-                        }
+                        disabled={view || !values?.conversionRate}
                         onChange={(e) => {
                           setFieldValue("orqValue", e?.target?.value);
                           setFieldValue(
@@ -325,17 +324,32 @@ export default function _Form({
                         disabled
                       />
                     </div>
-                    <div className="col-lg-3 mt-5">
-                      <button
-                        className="btn btn-primary"
-                        type="button"
-                        onClick={() => {
-                          setOpen(true);
-                        }}
-                      >
-                        Attach File
-                      </button>
-                    </div>
+                    {!viewType && (
+                      <div className="col-lg-3 mt-5">
+                        <button
+                          className="btn btn-primary"
+                          type="button"
+                          onClick={() => {
+                            setOpen(true);
+                          }}
+                        >
+                          Attach File
+                        </button>
+                      </div>
+                    )}
+                    {viewType === "approve" && (
+                      <div className="col-lg-3 mt-5">
+                        <button
+                          className="btn btn-info"
+                          type="button"
+                          onClick={() => {
+                            saveHandler(values, () => {});
+                          }}
+                        >
+                          Approve
+                        </button>
+                      </div>
+                    )}
 
                     <AttachFile obj={{ open, setOpen, setUploadedImage }} />
                   </div>
@@ -365,7 +379,7 @@ export default function _Form({
                             </td>
                             <td>{row?.expenseName}</td>
                             <td>
-                              {viewType !== "view" ? (
+                              {!view ? (
                                 <InputField
                                   value={row?.expenseAmountBdt}
                                   name="expenseAmountBdt"

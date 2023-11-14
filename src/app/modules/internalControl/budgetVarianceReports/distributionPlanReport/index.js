@@ -124,6 +124,7 @@ export default function DistributionPlanReport() {
                           <th colSpan={3}>Horizon</th>
                           <th colSpan={2}>Budget Qty with</th>
                           <th colSpan={2}>Actual Qty with Rate</th>
+                          <th colSpan={2}>Variance</th>
                         </tr>
                         <tr>
                           <th>Area</th>
@@ -137,6 +138,9 @@ export default function DistributionPlanReport() {
                           {/* <th>Rate</th> */}
                           <th>Via-Transshipment</th>
                           {/* <th>Rate</th> */}
+                          <th>Direct</th>
+                          {/* <th>Rate</th> */}
+                          <th>Via-Transshipment</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -146,10 +150,25 @@ export default function DistributionPlanReport() {
                               <td>{row?.strAreaName}</td>
                               <td>{row?.srtRegionName}</td>
                               <td>{row?.strTerritoryName}</td>
-                              <td style={{ textAlign: "right" }}>{row?.DirectShipmentQty}</td>
-                              <td style={{ textAlign: "right" }}>{row?.ViaShipmentQty}</td>
-                              <td style={{ textAlign: "right" }}>{row?.DirectActualDeliveryQty}</td>
-                              <td style={{ textAlign: "right" }}>{row?.ViaActualDeliveryQty}</td>
+                              <td style={{ textAlign: "right" }}>
+                                {row?.DirectShipmentQty}
+                              </td>
+                              <td style={{ textAlign: "right" }}>
+                                {row?.ViaShipmentQty}
+                              </td>
+                              <td style={{ textAlign: "right" }}>
+                                {row?.actDirectShipmentQty}
+                              </td>
+                              <td style={{ textAlign: "right" }}>
+                                {row?.actViaShipmentQty}
+                              </td>
+                              <td style={{ textAlign: "right" }}>
+                                {(row?.DirectShipmentQty || 0) -
+                                  (row?.actDirectShipmentQty || 0)}
+                              </td>
+                              <td style={{ textAlign: "right" }}>
+                                {(row?.ViaShipmentQty || 0) - (row?.actViaShipmentQty || 0)}
+                              </td>
                               {/* <td style={{textAlign:"right"}}>0</td>
                             <td style={{textAlign:"right"}}>0</td>
                             <td style={{textAlign:"right"}}>0</td>
