@@ -1,6 +1,6 @@
 import React from "react";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
-
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 const ReceiveAndPaymentsTable = ({
   jorunalType,
   rowDto,
@@ -83,7 +83,30 @@ const ReceiveAndPaymentsTable = ({
               )}
             </td>
             <td>
-              <div className="text-left pl-2">{item?.revenueElement?.label || item?.costElement?.label}</div>
+              <OverlayTrigger
+                overlay={
+                  <Tooltip className='mytooltip' id='info-tooltip'>
+                    {" "}
+                    {item?.profitCenter?.label &&
+                      `${item?.profitCenter?.label}, `}
+                    {item?.revenueElement?.label || item?.costElement?.label}{" "}
+                  </Tooltip>
+                }
+              >
+                <div
+                  className='text-left pl-2'
+                  style={{
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    width: "100px",
+                  }}
+                >
+                  {item?.profitCenter?.label &&
+                    `${item?.profitCenter?.label}, `}
+                  {item?.revenueElement?.label || item?.costElement?.label}{" "}
+                </div>
+              </OverlayTrigger>
             </td>
             <td className="text-center">
               <IDelete remover={remover} id={index} />
