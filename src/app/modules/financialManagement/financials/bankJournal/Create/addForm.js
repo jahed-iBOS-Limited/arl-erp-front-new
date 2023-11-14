@@ -282,10 +282,15 @@ export default function BankJournalCreateForm() {
     const count = rowDto?.filter(
       (item) => item?.transaction?.value === values?.transaction?.value
     ).length;
-    if (count === 0) {
+
+    if (location?.state?.selectedJournal?.value === 5) {
       setRowDto([...rowDto, values]);
     } else {
-      toast.warn("Not allowed to duplicate transaction");
+      if (count === 0) {
+        setRowDto([...rowDto, values]);
+      } else {
+        toast.warn("Not allowed to duplicate transaction");
+      }
     }
   };
   const remover = (index) => {
