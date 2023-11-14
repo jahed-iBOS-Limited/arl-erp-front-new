@@ -1,11 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import IApproval from "../../../../_helper/_helperIcons/_approval";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
+import IView from "../../../../_helper/_helperIcons/_view";
+import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import IViewModal from "../../../../_helper/_viewModal";
+import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
 import ExportPaymentPostingForm from "../foreignForm/addEditForm";
-import IView from "../../../../_helper/_helperIcons/_view";
 
 const headers = [
   "SL",
@@ -19,6 +23,8 @@ const headers = [
   "ORQ Value (USD)",
   "ORQ Value (BDT)",
   "Total Expense Against TT",
+  "Supervisor Approve",
+  "Accounts Approve",
   "Actions",
 ];
 
@@ -26,12 +32,17 @@ const ExportPaymentPostingTable = ({ obj }) => {
   const {
     values,
     pageNo,
+    getData,
     rowData,
     pageSize,
     setPageNo,
     setPageSize,
+    employeeInfo,
     setPositionHandler,
   } = obj;
+
+  const dispatch = useDispatch();
+
   const [singleItem, setSingleItem] = useState({});
   const [type, setType] = useState("");
   const [show, setShow] = useState(false);
@@ -61,17 +72,53 @@ const ExportPaymentPostingTable = ({ obj }) => {
                   </td>
                   <td>{item?.customerName}</td>
                   <td>{item?.salesOrderCode}</td>
-                  <td className="text-right">{_fixedPoint(item?.conversionRateBDT, true)}</td>
-                  <td className="text-right">{_fixedPoint(item?.ttamount, true)}</td>
-                  <td className="text-right">{_fixedPoint(item?.ttAmountBDT, true)}</td>
-                  <td className="text-right">{_fixedPoint(item?.erqvalue, true)}</td>
-                  <td className="text-right">{_fixedPoint(item?.erqvalueBDT, true)}</td>
-                  <td className="text-right">{_fixedPoint(item?.orqvalue, true)}</td>
-                  <td className="text-right">{_fixedPoint(item?.orqvalueBDT, true)}</td>
-                  <td className="text-right">{_fixedPoint(item?.totalExpenseAganistTt, true)}</td>
+                  <td className="text-right">
+                    {_fixedPoint(item?.conversionRateBDT, true)}
+                  </td>
+                  <td className="text-right">
+                    {_fixedPoint(item?.ttamount, true)}
+                  </td>
+                  <td className="text-right">
+                    {_fixedPoint(item?.ttAmountBDT, true)}
+                  </td>
+                  <td className="text-right">
+                    {_fixedPoint(item?.erqvalue, true)}
+                  </td>
+                  <td className="text-right">
+                    {_fixedPoint(item?.erqvalueBDT, true)}
+                  </td>
+                  <td className="text-right">
+                    {_fixedPoint(item?.orqvalue, true)}
+                  </td>
+                  <td className="text-right">
+                    {_fixedPoint(item?.orqvalueBDT, true)}
+                  </td>
+                  <td className="text-right">
+                    {_fixedPoint(item?.totalExpenseAganistTt, true)}
+                  </td>
+                  <td
+                    className="text-center"
+                    style={{
+                      backgroundColor: `${
+                        item?.isSupervisorApproved ? "#70da70" : ""
+                      }`,
+                    }}
+                  >
+                    {item?.isSupervisorApproved ? "Yes" : "No"}
+                  </td>
+                  <td
+                    className="text-center"
+                    style={{
+                      backgroundColor: `${
+                        item?.isAccountsApproved ? "#70da70" : ""
+                      }`,
+                    }}
+                  >
+                    {item?.isAccountsApproved ? "Yes" : "No"}
+                  </td>
 
-                  <td style={{ width: "80px" }} className="text-center">
-                    <div className="d-flex justify-content-around">
+                  <td style={{ width: "100px" }}>
+                    <div className="d-flex justify-content-around align-items-center">
                       <span>
                         <IEdit
                           onClick={() => {
@@ -90,6 +137,47 @@ const ExportPaymentPostingTable = ({ obj }) => {
                           }}
                         />
                       </span>
+
+                      <span>
+                        <ICon
+                          title={
+                            item?.attachment
+                              ? "Show attached file"
+                              : "File not attached"
+                          }
+                          onClick={() => {
+                            if (item?.attachment) {
+                              dispatch(
+                                getDownlloadFileView_Action(values?.fileName)
+                              );
+                            }
+                          }}
+                        >
+                          <i class="far fa-image"></i>{" "}
+                        </ICon>
+                      </span>
+                      {((!item?.isSupervisorApproved &&
+                        employeeInfo?.departmentId === 219) ||
+                        (!item?.isAccountsApproved &&
+                          item?.isSupervisorApproved &&
+                          employeeInfo?.departmentId === 1)) && (
+                        <span>
+                          <IApproval
+                            title={
+                              !item?.isSupervisorApproved
+                                ? "Supervisor Approve"
+                                : !item?.isAccountsApproved
+                                ? "Accounts Approve"
+                                : "Already Approved"
+                            }
+                            onClick={() => {
+                              setType("approve");
+                              setSingleItem(item);
+                              setShow(true);
+                            }}
+                          />
+                        </span>
+                      )}
                     </div>
                   </td>
                 </tr>
@@ -100,7 +188,13 @@ const ExportPaymentPostingTable = ({ obj }) => {
       )}
 
       <IViewModal show={show} onHide={() => setShow(false)}>
-        <ExportPaymentPostingForm type={type} singleItem={singleItem} />
+        <ExportPaymentPostingForm
+          type={type}
+          setShow={setShow}
+          getData={getData}
+          singleItem={singleItem}
+          landingFormValues={values}
+        />
       </IViewModal>
 
       {rowData?.data?.length > 0 && (
