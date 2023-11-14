@@ -14,6 +14,8 @@ import IView from "../../../_helper/_helperIcons/_view";
 import { _formatMoney } from "../../../_helper/_formatMoney";
 import ReceiveEntryModal from "./receiveEntryModal";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { exportInvoiceWisePayment } from "./helper";
+import { toast } from "react-toastify";
 
 const initData = {
   businessUnit: "",
@@ -209,7 +211,7 @@ const InvoiceWisePaymentLanding = () => {
                       touched={touched}
                     />
                   </div>
-                  <div className="col-lg-3">
+                  <div className="col-lg-4">
                     <button
                       style={{ marginTop: "18px" }}
                       type="button"
@@ -226,6 +228,20 @@ const InvoiceWisePaymentLanding = () => {
                       }}
                     >
                       Show
+                    </button>
+                    <button
+                      style={{ marginTop: "18px" }}
+                      type="button"
+                      className="btn btn-primary ml-2"
+                      onClick={(e) => {
+                        if (!tableData?.length) {
+                          return toast.warn("No data found for export excel");
+                        } else {
+                          exportInvoiceWisePayment(tableData);
+                        }
+                      }}
+                    >
+                      Export Excel
                     </button>
                   </div>
                 </div>
