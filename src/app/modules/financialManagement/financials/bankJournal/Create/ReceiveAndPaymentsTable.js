@@ -1,6 +1,6 @@
 import React from "react";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
-
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 const ReceiveAndPaymentsTable = ({
   jorunalType,
   rowDto,
@@ -8,7 +8,7 @@ const ReceiveAndPaymentsTable = ({
   netAmount,
   remover,
   rowDtoHandler,
-  isEdit
+  isEdit,
 }) => {
   return (
     <table className={jorunalType === 6 ? "d-none" : "table mt-1 bj-table"}>
@@ -28,39 +28,41 @@ const ReceiveAndPaymentsTable = ({
           <tr>
             <td>#</td>
             <td>
-              <div className="text-left pl-2">
+              <div className='text-left pl-2'>
                 {values?.bankAcc?.generalLedgerName}
               </div>
             </td>
             <td>
-              <div className="text-left pl-2">{values?.bankAcc?.label}</div>
+              <div className='text-left pl-2'>{values?.bankAcc?.label}</div>
             </td>
             <td>
               {jorunalType === 4 && (
-                <div className="text-right pr-2">{netAmount}</div>
+                <div className='text-right pr-2'>{netAmount}</div>
               )}
             </td>
             <td>
               {jorunalType !== 4 && (
-                <div className="text-right pr-2">{netAmount}</div>
+                <div className='text-right pr-2'>{netAmount}</div>
               )}
             </td>
             <td></td>
-            <td className="text-center">N/A</td>
+            <td className='text-center'>N/A</td>
           </tr>
         )}
         {rowDto?.map((item, index) => (
           <tr key={index}>
             <td>{index + 1}</td>
             <td>
-              <div className="text-left pl-2">{item?.gl?.label}</div>
+              <div className='text-left pl-2'>{item?.gl?.label}</div>
             </td>
             <td>
-              <div className="text-left pl-2">{item?.subGLName || item?.transaction?.label}</div>
+              <div className='text-left pl-2'>
+                {item?.subGLName || item?.transaction?.label}
+              </div>
             </td>
             <td>
               {jorunalType !== 4 && (
-                <div className="text-right px-2">
+                <div className='text-right px-2'>
                   <input
                     value={item.amount}
                     onChange={(e) =>
@@ -72,7 +74,7 @@ const ReceiveAndPaymentsTable = ({
             </td>
             <td>
               {jorunalType === 4 && (
-                <div className="text-right px-2">
+                <div className='text-right px-2'>
                   <input
                     value={item.amount}
                     onChange={(e) =>
@@ -83,9 +85,35 @@ const ReceiveAndPaymentsTable = ({
               )}
             </td>
             <td>
-              <div className="text-left pl-2">{item?.revenueElement?.label || item?.costElement?.label}</div>
+              <OverlayTrigger
+                overlay={
+                  <Tooltip className='mytooltip' id='info-tooltip'>
+                    {" "}
+                    {item?.profitCenter?.label && item?.profitCenter?.label}
+                    {(item?.revenueElement?.label ||
+                      item?.costElement?.label) &&
+                      `, `}
+                    {item?.revenueElement?.label || item?.costElement?.label}{" "}
+                  </Tooltip>
+                }
+              >
+                <div
+                  className='text-left pl-2'
+                  style={{
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    width: "100px",
+                  }}
+                >
+                  {item?.profitCenter?.label && item?.profitCenter?.label}
+                  {(item?.revenueElement?.label || item?.costElement?.label) &&
+                    `, `}
+                  {item?.revenueElement?.label || item?.costElement?.label}{" "}
+                </div>
+              </OverlayTrigger>
             </td>
-            <td className="text-center">
+            <td className='text-center'>
               <IDelete remover={remover} id={index} />
             </td>
           </tr>
