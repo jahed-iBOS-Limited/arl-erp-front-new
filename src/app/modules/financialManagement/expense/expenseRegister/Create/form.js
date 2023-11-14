@@ -1,37 +1,36 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/no-distracting-elements */
-import React, { useState } from "react";
 import Axios from "axios";
+import { Field, Form, Formik } from "formik";
 import { DropzoneDialogBase } from "material-ui-dropzone";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import { IInput } from "../../../../_helper/_input";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import { useEffect } from "react";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import Select from "react-select";
+import * as Yup from "yup";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import FormikError from "../../../../_helper/_formikError";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
+import { IInput } from "../../../../_helper/_input";
+import Loading from "../../../../_helper/_loading";
+import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { CostElementDDLApi } from "../../../../inventoryManagement/warehouseManagement/invTransaction/Form/issueInvantory/helper";
+import customStyles from "../../../../selectCustomStyle";
 import {
-  getTransaction,
-  getPaymentType,
+  expenseAttachment_action,
   getCategory,
   getCostCenter,
   getDisbursementCenter,
+  getPaymentType,
+  getTransaction,
   getVehicleDDL,
-  expenseAttachment_action,
 } from "../helper";
-import FormikError from "../../../../_helper/_formikError";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IView from "./../../../../_helper/_helperIcons/_view";
-import { useDispatch } from "react-redux";
 import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
+import IView from "./../../../../_helper/_helperIcons/_view";
 import InputField from "./../../../../_helper/_inputField";
 import NewSelect from "./../../../../_helper/_select";
 import { YearDDL } from "./../../../../_helper/_yearDDL";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../../_helper/_loading";
-import { CostElementDDLApi } from "../../../../inventoryManagement/warehouseManagement/invTransaction/Form/issueInvantory/helper";
 // Validation schema for bank transfer
 const validationSchema = Yup.object().shape({
   // paymentType: Yup.object().shape({
@@ -73,7 +72,7 @@ export default function _Form({
 }) {
   const [transaction, setTransaction] = useState([]);
   // payment type state
-  const [paymentType, setPaymentType] = useState([]); 
+  const [paymentType, setPaymentType] = useState([]);
   //
   //category state
   const [, setCategory] = useState([]);
@@ -170,6 +169,7 @@ export default function _Form({
             ? initData
             : {
                 ...initData,
+                // profitCenter: profitcenterDDL.length > 1 && "",
                 vehicle: {
                   value: vehicleDDL[0]?.value,
                   label: vehicleDDL[0]?.label,
@@ -453,7 +453,7 @@ export default function _Form({
                           setProfitcenterDDL([]);
                           setCostElementDDL([]);
                           if (valueOption) {
-                            setLoading(true)
+                            setLoading(true);
                             CostElementDDLApi(
                               profileData.accountId,
                               selectedBusinessUnit.value,
@@ -463,12 +463,12 @@ export default function _Form({
                             getProfitcenterDDL(
                               `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=${valueOption?.value}&businessUnitId=${selectedBusinessUnit.value}`,
                               (data) => {
-                                if (data?.length) {
+                                if (data?.length === 1) {
                                   setFieldValue("profitCenter", data[0]);
                                 }
                               }
                             );
-                            setLoading(false)
+                            setLoading(false);
                           }
                         }}
                         value={values?.costCenter || ""}
