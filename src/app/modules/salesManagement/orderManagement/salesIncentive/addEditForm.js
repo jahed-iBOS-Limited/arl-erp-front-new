@@ -33,7 +33,7 @@ const validationSchema = Yup.object().shape({
 export default function SalesIncentiveForm() {
    const [objProps, setObjprops] = useState({});
    const {
-      profileData: { accountId: accId },
+      profileData: { accountId: accId, userId: actionBy },
       // selectedBusinessUnit: { value: buId },
    } = useSelector(state => state?.authData, shallowEqual);
 
@@ -59,12 +59,13 @@ export default function SalesIncentiveForm() {
          incentiveAmount: item?.numIncentiveAmount,
       }));
       incentiveSave(
-         `/oms/IncentiveConfig/SaveIncentiveConfig`,
+         `/oms/IncentiveConfig/SaveIncentiveConfig?intActionBy=${actionBy}`,
          payload,
          () => {},
          true
       );
    };
+
    useEffect(() => {
       getBusinessUnitDDL(
          `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${accId}`
