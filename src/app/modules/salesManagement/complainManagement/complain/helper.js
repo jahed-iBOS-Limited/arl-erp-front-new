@@ -47,24 +47,34 @@ export const getComplainById = async (
     setLoaing(false);
     setSingleData({
       ...res?.data,
-      customerName: res?.data?.customerId
+      occurrenceDate: _dateFormatter(res?.data?.requestDateTime),
+      respondentType: res?.data?.respondentTypeId
         ? {
-            value: res?.data?.customerId,
-            label: res?.data?.customerName,
+            value: res?.data?.respondentTypeId,
+            label: res?.data?.respondentTypeName,
           }
         : "",
-      complainCategoryName: res?.data?.complainCategoryId
+      respondentName: res?.data?.respondentId
         ? {
-            value: res?.data?.complainCategoryId,
-            label: res?.data?.complainCategoryName,
+            value: res?.data?.respondentId,
+            label: res?.data?.respondentName,
           }
         : "",
-      attachment: res?.data?.attachment || "",
-      requestDateTime: res?.data?.requestDateTime
-        ? _dateFormatter(res?.data?.requestDateTime)
-        : "",
-      complainByName: res?.data?.strComplainByEmployee || "",
-      remarks: res?.data?.statusRemarks || "",
+      respondentContact: res?.data?.contactNo || '',
+      issueType: res?.data?.complainCategoryId ? {
+        value: res?.data?.complainCategoryId,
+        label: res?.data?.complainCategoryName,
+      } : '',
+      issueTitle: res?.data?.issueTitle || "",
+      distributionChannel: res?.data?.distributionChannelId ? {
+        value: res?.data?.distributionChannelId,
+        label: res?.data?.distributionChannelName,
+      } : '' ,
+      product: res?.data?.itemId ? {
+        value: res?.data?.itemId,
+        label: res?.data?.itemName,
+      } : '',
+      issueDetails: res?.data?.description || "",
     });
   } catch (error) {
     setLoaing(false);
@@ -147,7 +157,23 @@ export const getDistributionChannelDDL = async (accId, buId, setter) => {
   } catch (error) {
     setter([]);
   }
-};export const getItemSalesByChanneldDDLApi = async (accId, buId,dcId ,setter) => {
+};
+export const getSupplierDDLApi = async (accId, buId, setter) => {
+  try {
+    const res = await axios.get(
+      `/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${accId}&UnitId=${buId}&SBUId=${0}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) {}
+};
+export const getItemSalesByChanneldDDLApi = async (
+  accId,
+  buId,
+  dcId,
+  setter
+) => {
   try {
     const res = await axios.get(
       `/item/ItemSales/GetItemSalesByChanneldDDL?accountId=${accId}&businessUnitId=${buId}&distributionChannelId=${dcId}`
@@ -157,9 +183,14 @@ export const getDistributionChannelDDL = async (accId, buId, setter) => {
     setter([]);
   }
 };
+
 export const complainLandingPasignation = async (
   accId,
   buId,
+  respondentTypeId,
+  fromDate,
+  toDate,
+  statusId,
   pageNo,
   pageSize,
   setter,
@@ -171,7 +202,7 @@ export const complainLandingPasignation = async (
   try {
     const _search = search ? `&search=${search}` : "";
     const res = await axios.get(
-      `/oms/CustomerPoint/ComplainLandingPasignation?accountId=${accId}&businessUnitId=${buId}&leadId=0&pageNo=${pageNo}&pageSize=${pageSize}${_search}`
+      `/oms/CustomerPoint/ComplainLandingPasignation?accountId=${accId}&businessUnitId=${buId}&respondentTypeId=${respondentTypeId}&statusId=${statusId}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}${_search}`
     );
     setter(res?.data);
     setLoading(false);
@@ -179,3 +210,18 @@ export const complainLandingPasignation = async (
     setLoading(false);
   }
 };
+
+export const respondentTypeDDL = [
+  {
+    value: 1,
+    label: "End User",
+  },
+  {
+    value: 2,
+    label: "Supplier",
+  },
+  {
+    value: 3,
+    label: "Customer",
+  },
+];

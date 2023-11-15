@@ -1,11 +1,14 @@
-import TextArea from "antd/lib/input/TextArea";
+import axios from "axios";
 import { Formik } from "formik";
-import * as Yup from "yup";
 import { DropzoneDialogBase } from "material-ui-dropzone";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import * as Yup from "yup";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import ICustomCard from "../../../../_helper/_customCard";
+import FormikError from "../../../../_helper/_formikError";
 import InputField from "../../../../_helper/_inputField";
+import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import NewSelect from "../../../../_helper/_select";
 import {
   attachment_action,
@@ -13,8 +16,10 @@ import {
   getComplainCategory,
   getDistributionChannelDDL,
   getItemSalesByChanneldDDLApi,
+  getSupplierDDLApi,
+  respondentTypeDDL,
 } from "../helper";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import TextArea from "../../../../_helper/TextArea";
 export const validationSchema = Yup.object().shape({
   occurrenceDate: Yup.date().required("Occurrence Date is required"),
   respondentType: Yup.object().shape({
@@ -58,18 +63,28 @@ function Form({
   const [customerDDL, setCustomerDDL] = useState([]);
   const [itemSalesByChanneldDDL, setItemSalesByChanneldDDL] = useState([]);
   const [distributionChannelDDL, setDistributionChannelDDL] = useState([]);
+  const [supplierDDL, setSupplierDDL] = useState([]);
 
   useEffect(() => {
     if (accId && buId) {
       customerListDDL(accId, buId, setCustomerDDL);
       getComplainCategory(buId, setComplainCategory);
-      getDistributionChannelDDL(
-        accId,
-        buId,
-        setDistributionChannelDDL
-      )
+      getDistributionChannelDDL(accId, buId, setDistributionChannelDDL);
+      getSupplierDDLApi(accId, buId, setSupplierDDL);
     }
   }, [accId, buId]);
+
+  const loadEmpList = (v) => {
+    if (v?.length < 2) return [];
+    return axios
+      .get(
+        `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=${accId}&BusinessUnitId=${buId}&Search=${v}`
+      )
+      .then((res) => {
+        return res?.data;
+      })
+      .catch((err) => []);
+  };
 
   const dispatch = useDispatch();
   return (
@@ -123,26 +138,12 @@ function Form({
                 <div className='col-lg-3'>
                   <NewSelect
                     name='respondentType'
-                    options={
-                      [
-                        {
-                          value: 1,
-                          label: "Customer",
-                        },
-                        {
-                          value: 2,
-                          label: "Supplier",
-                        },
-                        {
-                          value: 3,
-                          label: "End User",
-                        },
-                      ] || []
-                    }
+                    options={respondentTypeDDL || []}
                     value={values?.respondentType}
                     label='Respondent Type'
                     onChange={(valueOption) => {
-                      setFieldValue("respondentType", valueOption);
+                      setFieldValue("respondentType", valueOption || "");
+                      setFieldValue("respondentName", "");
                     }}
                     placeholder='Respondent Type'
                     errors={errors}
@@ -150,21 +151,62 @@ function Form({
                     isDisabled={view}
                   />
                 </div>
-                <div className='col-lg-3'>
-                  <NewSelect
-                    name='respondentName'
-                    options={[]}
-                    value={values?.respondentName}
-                    label='Customer'
-                    onChange={(valueOption) => {
-                      setFieldValue("respondentName", valueOption);
-                    }}
-                    placeholder='Respondent Name'
-                    errors={errors}
-                    touched={touched}
-                    isDisabled={view}
-                  />
-                </div>
+                {/* if respondent type Customer "3" */}
+                {values?.respondentType?.value === 3 && (
+                  <div className='col-lg-3'>
+                    <NewSelect
+                      name='respondentName'
+                      options={customerDDL || []}
+                      value={values?.respondentName}
+                      label='Customer'
+                      onChange={(valueOption) => {
+                        setFieldValue("respondentName", valueOption || "");
+                      }}
+                      placeholder='Respondent Name'
+                      errors={errors}
+                      touched={touched}
+                      isDisabled={view}
+                    />
+                  </div>
+                )}
+                {/* if respondent type Supplier "2" */}
+                {values?.respondentType?.value === 2 && (
+                  <div className='col-lg-3'>
+                    <NewSelect
+                      name='respondentName'
+                      options={supplierDDL || []}
+                      value={values?.respondentName}
+                      label='Customer'
+                      onChange={(valueOption) => {
+                        setFieldValue("respondentName", valueOption || "");
+                      }}
+                      placeholder='Respondent Name'
+                      errors={errors}
+                      touched={touched}
+                      isDisabled={view}
+                    />
+                  </div>
+                )}
+
+                {/* if respondent type End User "1" */}
+                {values?.respondentType?.value === 1 && (
+                  <div className='col-lg-3'>
+                    <label>Respondent Name</label>
+                    <SearchAsyncSelect
+                      selectedValue={values?.respondentName}
+                      handleChange={(valueOption) => {
+                        setFieldValue("respondentName", valueOption || "");
+                      }}
+                      loadOptions={loadEmpList}
+                      placeholder='Search by Enroll/ID No/Name (min 3 letter)'
+                    />
+                    <FormikError
+                      name='respondentName'
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                )}
                 <div className='col-lg-3'>
                   <InputField
                     value={values?.respondentContact}
@@ -182,7 +224,7 @@ function Form({
                     value={values?.issueType}
                     label='Issue Type'
                     onChange={(valueOption) => {
-                      setFieldValue("issueType", valueOption);
+                      setFieldValue("issueType", valueOption || "");
                     }}
                     placeholder='Issue Type'
                     errors={errors}
@@ -208,15 +250,15 @@ function Form({
                     value={values?.distributionChannel}
                     label='Distribution Channel'
                     onChange={(valueOption) => {
-                      setFieldValue("distributionChannel", valueOption);
-                      setItemSalesByChanneldDDL([])
+                      setFieldValue("distributionChannel", valueOption || "");
+                      setItemSalesByChanneldDDL([]);
                       getItemSalesByChanneldDDLApi(
                         accId,
                         buId,
                         valueOption?.value,
                         setItemSalesByChanneldDDL
-                      )
-                      setFieldValue("product", "")
+                      );
+                      setFieldValue("product", "");
                     }}
                     placeholder='Distribution Channel'
                     errors={errors}
@@ -231,7 +273,7 @@ function Form({
                     value={values?.product}
                     label='Product'
                     onChange={(valueOption) => {
-                      setFieldValue("product", valueOption);
+                      setFieldValue("product", valueOption || "");
                     }}
                     placeholder='Product'
                     errors={errors}
@@ -252,6 +294,7 @@ function Form({
                     onChange={(e) => {
                       setFieldValue("issueDetails", e.target.value);
                     }}
+                    errors={errors}
                   />
                 </div>
                 <div className='col-lg-3 d-flex align-items-center'>

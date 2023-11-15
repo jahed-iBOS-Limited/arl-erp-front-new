@@ -21,15 +21,17 @@ const LandingTable = ({ obj }) => {
         <thead>
           <tr>
             <th>SL</th>
-            <th>Date</th>
-            <th>Ticket No</th>
-            <th>Category</th>
-            <th>Issue Title</th>
-            <th>Customer</th>
-            <th>Complain By</th>
-            <th style={{
-              width: '170px'
-            }}>Assign To</th>
+            <th>Issue Id</th>
+            <th>Occurrence Date</th>
+            <th>Respondent Type</th>
+            <th>Respondent Name</th>
+            <th>Create By</th>
+            <th>Create Date</th>
+            <th>Delegate By</th>
+            <th>Delegate Date</th>
+            <th>Deligate To</th>
+            <th>Investigation By</th>
+            <th>Investigation Date</th>
             <th>Status</th>
             <th>Action</th>
           </tr>
@@ -38,77 +40,24 @@ const LandingTable = ({ obj }) => {
           {gridData?.data?.map((item, index) => (
             <tr key={index}>
               <td className='text-center'> {index + 1}</td>
-              <td>{_dateFormatter(item?.requestDateTime)}</td>
               <td>{item?.complainNo}</td>
-              <td>{item?.complainCategoryName}</td>
-              <td>{item?.issueTitle}</td>
-              <td>{item?.customerName}</td>
-              <td>{item?.strComplainByEmployee || "N/A"}</td>
-
+              <td>{_dateFormatter(item?.requestDateTime)}</td>
+              <td>{item?.respondentTypeName}</td>
+              <td>{item?.respondentName}</td>
+              <td>{item?.actionByName}</td>
+              <td>{_dateFormatter(item?.lastActionDateTime)}</td>
+              <td>{item?.delegateByName}</td>
               <td>
-                <SearchAsyncSelect
-                  selectedValue={
-                    item?.assignTo
-                      ? { value: item?.assignTo, label: item?.assignToName }
-                      : ""
-                  }
-                  isSearchIcon={true}
-                  handleChange={(valueOption) => {
-                    if (valueOption?.value) {
-                      assignToAndStatusHandler({
-                        ...item,
-                        assignTo: valueOption?.value,
-                        assignToName: valueOption?.label,
-                      });
-                    }
-                  }}
-                  loadOptions={loadUserList}
-                  isDisabled={item?.status === "Done"}
-                />
-                {/* <NewSelect
-                  isClearable={false}
-                  name='assignTo'
-                  options={employeeDDL || []}
-                  value={
-                    item?.assignTo
-                      ? { value: item?.assignTo, label: item?.assignToName }
-                      : ""
-                  }
-                  onChange={(valueOption) => {
-                    if (valueOption?.value) {
-                      assignToAndStatusHandler({
-                        ...item,
-                        assignTo: valueOption?.value,
-                        assignToName: valueOption?.label,
-                      });
-                    }
-                  }}
-                  isDisabled={item?.statusId === 4}
-                /> */}
+                {item?.delegateDateTime &&
+                  _dateFormatter(item?.delegateDateTime)}
               </td>
+              <td>{item?.delegateToName}</td>
+              <td>{item?.investigatorAssignByName}</td>
               <td>
-                <NewSelect
-                  isClearable={false}
-                  name='status'
-                  options={complainStatus || []}
-                  value={
-                    item?.status
-                      ? { value: item?.statusId, label: item?.status }
-                      : ""
-                  }
-                  onChange={(valueOption) => {
-                    if (valueOption?.value) {
-                      assignToAndStatusHandler({
-                        ...item,
-                        statusId: valueOption?.value,
-                        status: valueOption?.label,
-                      });
-                    }
-                  }}
-                  isDisabled={item?.status === "Done"}
-                />
+                {item?.investigatorAssignDate &&
+                  _dateFormatter(item?.investigatorAssignDate)}
               </td>
-
+              <td>{item?.status}</td>
               <td>
                 <div className='d-flex justify-content-around'>
                   {item?.status !== "Done" && (

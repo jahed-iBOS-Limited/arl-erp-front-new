@@ -9,7 +9,10 @@ import { createComplain, getComplainById, updateComplain } from "../helper";
 
 const initData = {
   occurrenceDate: _todayDate(),
-  respondentType: "",
+  respondentType: {
+    value: 1,
+    label: "End User",
+  },
   respondentName: "",
   respondentContact: "",
   issueType: "",
@@ -27,42 +30,30 @@ function ComplainForm() {
   const { view, edit } = useParams();
   // get user profile data from store
   const {
-    profileData: { accountId: accId, userId, accountName },
+    profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const saveHandler = (values, cb) => {
     const payload = {
-      requestDateTime: values?.requestDateTime || new Date(),
-      complainCategoryId: values?.complainCategoryName?.value || 0,
-      complainCategoryName: values?.complainCategoryName?.label || "",
+      complainId: +edit || 0,
+      requestDateTime: values?.occurrenceDate || new Date(),
+      complainCategoryId: values?.issueType?.value || 0,
+      complainCategoryName: values?.issueType?.label || "",
       issueTitle: values?.issueTitle || "",
       accountId: accId,
-      accountName: accountName,
-      customerId: values?.customerName?.value || 0,
-      customerName: values?.customerName?.label || "",
-      description: values?.remarks || "",
+      businessUnitId: buId,
+      description: values?.issueDetails || "",
       attachment: values?.attachment || "",
       actionById: userId,
-      assignTo: singleData?.assignTo || 0,
-      assignToName: singleData?.assignToName || "",
-      assignBy: 0,
-      statusId: singleData?.statusId,
-      status: singleData?.status || "",
-      contactNo: values?.contactNo || "",
-      complainId: +edit || 0,
-      complainByClient: "",
-      // new field
-      leadId: 0,
-      complainNo: singleData?.complainNo || "",
-      businessUnitId: buId,
-      assignDateTime: new Date(),
-      finishDateTime: new Date(),
-      isActive: true,
-      statusRemarks: values?.remarks || " ",
-      intComplainByEmployee: 0,
-      strComplainByEmployee: values?.complainByName || "",
-      lastActionDateTime: new Date(),
+      statusRemarks: values?.issueDetails || "",
+      contactNo: values?.respondentContact || "",
+      respondentTypeId: values?.respondentType?.value || 0,
+      respondentTypeName: values?.respondentType?.label || "",
+      respondentId: values?.respondentName?.value || 0,
+      respondentName: values?.respondentName?.label || "",
+      itemId: values?.product?.value || 0,
+      distributionChannelId: values?.distributionChannel?.value || 0,
     };
 
     if (edit) {

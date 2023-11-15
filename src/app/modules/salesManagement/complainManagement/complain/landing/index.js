@@ -10,12 +10,27 @@ import PaginationTable from "../../../../_helper/_tablePagination";
 import {
   complainLandingPasignation,
   getComplainStatus,
-  updateComplain
+  respondentTypeDDL,
+  updateComplain,
 } from "../helper";
 import PaginationSearch from "../../../../_helper/_search";
 import LandingTable from "./table";
+import NewSelect from "../../../../_helper/_select";
+import InputField from "../../../../_helper/_inputField";
+import { _todayDate } from "../../../../_helper/_todayDate";
 
-const initData = {};
+const initData = {
+  respondentType: {
+    value: 0,
+    label: "All",
+  },
+  status: {
+    value: 0,
+    label: "All",
+  },
+  fromDate: _todayDate(),
+  toDate: _todayDate(),
+};
 
 const ComplainLanding = () => {
   const [gridData, setGridData] = useState([]);
@@ -34,26 +49,31 @@ const ComplainLanding = () => {
     if (accId && buId) {
       // employeEnroll_Api(accId, buId, SetEmployeeDDL);
       getComplainStatus(buId, setComplainStatus);
-      commonGridData();
+      commonGridData(pageNo, pageSize, initData);
     }
   }, [accId, buId]);
 
   const assignToAndStatusHandler = (payload) => {
-    updateComplain(payload, setLoading, () => {
-      commonGridData();
-    });
+    // updateComplain(payload, setLoading, () => {
+    //   commonGridData();
+    // });
   };
 
   const commonGridData = (
     _pageNo = pageNo,
     _pageSize = pageSize,
+    values,
     searhValue
   ) => {
     complainLandingPasignation(
       accId,
       buId,
-      _pageNo,
-      _pageSize,
+      values?.respondentType?.value || 0,
+      values?.fromDate,
+      values?.toDate,
+      values?.status?.value || 0,
+      pageNo,
+      pageSize,
       setGridData,
       setLoading,
       searhValue
@@ -74,7 +94,7 @@ const ComplainLanding = () => {
     <>
       {loading && <Loading />}
       <Formik enableReinitialize={true} initialValues={initData}>
-        {({ values, setFieldValue }) => (
+        {({ values, setFieldValue, touched, errors }) => (
           <>
             <ICustomCard
               title='Complain'
@@ -84,10 +104,91 @@ const ComplainLanding = () => {
                 );
               }}
             >
+              <div className='row global-form my-3'>
+                <div className='col-lg-3'>
+                  <NewSelect
+                    name='respondentType'
+                    options={
+                      [
+                        {
+                          value: 0,
+                          label: "All",
+                        },
+                        ...respondentTypeDDL,
+                      ] || []
+                    }
+                    value={values?.respondentType}
+                    label='Respondent Type'
+                    onChange={(valueOption) => {
+                      setFieldValue("respondentType", valueOption || "");
+                      setGridData([])
+                    }}
+                    placeholder='Respondent Type'
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className='col-lg-3'>
+                  <NewSelect
+                    name='status'
+                    options={
+                      [
+                        {
+                          value: 0,
+                          label: "All",
+                        },
+                        ...complainStatus,
+                      ] || []
+                    }
+                    value={values?.status}
+                    label='Status'
+                    onChange={(valueOption) => {
+                      setFieldValue("status", valueOption || "");
+                      setGridData([])
+                    }}
+                    placeholder='Status'
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className='col-lg-3'>
+                  <InputField
+                    value={values?.fromDate}
+                    label='From Date'
+                    name='fromDate'
+                    type='date'
+                    onChange={(e) => {
+                      setFieldValue("fromDate", e.target.value);
+                      setGridData([])
+                    }}
+                  />
+                </div>
+               
+                <div className='col-lg-3'>
+                  <InputField
+                    value={values?.toDate}
+                    label='To Date'
+                    name='toDate'
+                    type='date'
+                    onChange={(e) => {
+                      setFieldValue("toDate", e.target.value);
+                      setGridData([])
+                    }}
+                  />
+                </div>
+                <div className='col d-flex align-items-end justify-content-end'>
+                  <button className='btn btn-primary mt-3' onClick={() => {
+                    commonGridData(1, pageSize, values);
+                  }}>
+                    View
+                  </button>
+                </div>
+              </div>
+
               <PaginationSearch
-                placeholder='Search .....'
+                placeholder='Search By Issue, Code, Name'
                 paginationSearchHandler={(searchValue) => {
-                  commonGridData(1, pageSize, searchValue);
+                  commonGridData(1, pageSize, values, searchValue);
                 }}
                 values={values}
               />
@@ -104,7 +205,7 @@ const ComplainLanding = () => {
                 <PaginationTable
                   count={gridData?.totalCount}
                   setPositionHandler={(pageNo, pageSize) => {
-                    commonGridData(pageNo, pageSize);
+                    commonGridData(pageNo, pageSize, values);
                   }}
                   paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
                   values={values}
