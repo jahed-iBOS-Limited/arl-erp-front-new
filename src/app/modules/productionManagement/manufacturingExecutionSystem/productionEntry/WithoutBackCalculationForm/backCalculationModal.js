@@ -196,7 +196,7 @@ export default function BackCalculationModal({
                                   : ""
                               }
                             >
-                              {(+item?.numIssueQuantity || 0) -
+                              {(+item?.numApprovedQuantity || 0) -
                                 (+item?.requiredQuantity || 0)}
                             </strong>
                           </td>
