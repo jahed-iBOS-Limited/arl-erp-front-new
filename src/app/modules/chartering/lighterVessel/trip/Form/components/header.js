@@ -108,7 +108,7 @@ export function HeaderSection(props) {
             onChange={(valueOption) => {
               setFieldValue("loadPort", valueOption);
             }}
-            isDisabled={viewType}
+            isDisabled={viewType === "view"}
             errors={errors}
             touched={touched}
           />
