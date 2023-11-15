@@ -60,12 +60,20 @@ export default function BackCalculationModal({
               const targetItem = data.find(
                 (itm) => itm?.itemId === item?.itemId
               );
+
+              let calculatedRequiredQuantity =
+                ((item?.quantity / item?.lotSize) * goodQty)?.toFixed(4) || 0;
+
               return {
                 ...item,
                 numStockRateByDate: targetItem?.numStockRateByDate,
                 numStockByDate: targetItem?.numStockByDate,
                 requiredQuantity:
-                  ((item?.quantity / item?.lotSize) * goodQty)?.toFixed(4) || 0,
+                  values?.isLastProduction &&
+                  calculatedRequiredQuantity > item?.numApprovedQuantity
+                    ? item?.numApprovedQuantity
+                    : calculatedRequiredQuantity,
+
                 // requiredQuantity:(()=>{
                 //   let reqQty =  ((item?.quantity / item?.lotSize) * goodQty)?.toFixed(4) || 0;
                 //   let lotSize = item?.numLotSize;
@@ -129,7 +137,9 @@ export default function BackCalculationModal({
                       <th>Qty</th>
                       <th>Rate</th>
                       <th>Value</th>
-                      <th>{values?.isLastProduction ? "Return Qty" : "Rest Qty"}</th>
+                      <th>
+                        {values?.isLastProduction ? "Return Qty" : "Rest Qty"}
+                      </th>
                     </tr>
                   </thead>
                   <tbody>

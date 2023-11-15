@@ -242,7 +242,7 @@ export default function HeaderForm({ loading, setLoading }) {
       {
         label: "Dist. Channel",
         name: "distributionChannel",
-        options: distributionChannelDDL || [],
+        options: [{value: 0, label: "All"}, ...distributionChannelDDL] || [],
         isDisabled: ["sbu"],
       },
       {
