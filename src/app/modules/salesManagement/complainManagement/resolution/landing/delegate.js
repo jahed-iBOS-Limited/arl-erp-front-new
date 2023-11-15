@@ -38,6 +38,12 @@ function DelegateForm({ clickRowData, landingCB }) {
   };
 
   const saveHandler = (values, cb) => {
+    let currentTime = moment().format("HH:mm:ss");
+    let delegateDateTime =
+      moment(values?.delegateDate || undefined).format("YYYY-MM-DD") +
+      "T" +
+      currentTime;
+
     const payload = {
       complainId: clickRowData?.complainId || 0,
       respondentTypeId: clickRowData?.respondentTypeId || 0,
@@ -57,13 +63,11 @@ function DelegateForm({ clickRowData, landingCB }) {
       status: "Delegate",
       actionById: userId,
       distributionChannelId: clickRowData?.distributionChannelId || 0,
-      delegateDateTime: moment(values?.delegateDate || undefined).format(
-        "YYYY-MM-DDTHH:mm:ss"
-      ),
+      delegateDateTime: delegateDateTime,
     };
     updateComplain(payload, setLoading, () => {
       cb();
-      landingCB()
+      landingCB();
     });
   };
   return (
@@ -136,7 +140,7 @@ function DelegateForm({ clickRowData, landingCB }) {
                 <b>Create Date: </b>{" "}
                 {clickRowData?.lastActionDateTime &&
                   moment(clickRowData?.lastActionDateTime).format(
-                    "YYYY-MM-DD HH:mm A"
+                    "YYYY-MM-DD hh:mm A"
                   )}
               </p>
             </div>

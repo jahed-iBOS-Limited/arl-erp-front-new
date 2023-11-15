@@ -2,7 +2,6 @@
 import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 import ICustomCard from "../../../../_helper/_customCard";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
@@ -30,16 +29,15 @@ const initData = {
   toDate: _todayDate(),
 };
 
-const ComplainLanding = () => {
+const ResolutionLanding = () => {
   const [gridData, setGridData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
-  const history = useHistory();
   const [complainStatus, setComplainStatus] = useState([]);
   // get user data from store
   const {
-    profileData: { accountId: accId, },
+    profileData: { accountId: accId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
@@ -73,6 +71,7 @@ const ComplainLanding = () => {
       searhValue
     );
   };
+
   return (
     <>
       {loading && <Loading />}
@@ -80,12 +79,8 @@ const ComplainLanding = () => {
         {({ values, setFieldValue, touched, errors }) => (
           <>
             <ICustomCard
-              title='Complain'
-              createHandler={() => {
-                history.push(
-                  `/sales-management/complainmanagement/complain/entry`
-                );
-              }}
+              title='Resolution'
+              
             >
               <div className='row global-form my-3'>
                 <div className='col-lg-3'>
@@ -205,4 +200,4 @@ const ComplainLanding = () => {
   );
 };
 
-export default ComplainLanding;
+export default ResolutionLanding;

@@ -151,7 +151,7 @@ function InvestigateForm({ clickRowData, landingCB }) {
                 <b>Create Date: </b>{" "}
                 {clickRowData?.lastActionDateTime &&
                   moment(clickRowData?.lastActionDateTime).format(
-                    "YYYY-MM-DD HH:mm A"
+                    "YYYY-MM-DD hh:mm A"
                   )}
               </p>
             </div>
@@ -170,7 +170,7 @@ function InvestigateForm({ clickRowData, landingCB }) {
                 <b>Delegate Date:</b>{" "}
                 {clickRowData?.delegateDateTime &&
                   moment(clickRowData?.delegateDateTime).format(
-                    "YYYY-MM-DD HH:mm A"
+                    "YYYY-MM-DD hh:mm A"
                   )}
               </p>
               <p>
