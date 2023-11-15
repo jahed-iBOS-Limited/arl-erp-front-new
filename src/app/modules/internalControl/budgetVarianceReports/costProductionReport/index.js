@@ -13,17 +13,15 @@ import InputField from "../../../_helper/_inputField";
 
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
-import { _getCurrentMonthYearForInput } from "../../../_helper/_todayDate";
+import { _todayDate } from "../../../_helper/_todayDate";
+import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import "./style.css";
-import IView from "../../../_helper/_helperIcons/_view";
-import IViewModal from "../../../_helper/_viewModal";
 import ViewModal from "./viewModal";
 
 const initData = {
-  // fromDate: _todayDate(),
-  // toDate: _todayDate(),
-  monthYear: _getCurrentMonthYearForInput(),
+  fromDate: _todayDate(),
+  toDate: _todayDate(),
   currentBusinessUnit: "",
 };
 
@@ -33,33 +31,33 @@ function CostOfProductionReport() {
     return state.authData.businessUnitList;
   }, shallowEqual);
 
+  const selectedBusinessUnit = useSelector((state) => {
+    return state.authData.selectedBusinessUnit;
+  }, shallowEqual);
+
   const [isShowModal, setIsShowModal] = useState(false);
   const [singleData, setSingleData] = useState({});
 
   const getData = (values) => {
-    const [year, month] = values?.monthYear.split("-").map(Number);
-    const startDate = new Date(Date.UTC(year, month - 1, 1));
-    const endDate = new Date(Date.UTC(year, month, 0));
-    const formattedStartDate = startDate.toISOString().split("T")[0];
-    const formattedEndDate = endDate.toISOString().split("T")[0];
-
-    console.log("formattedEndDate", formattedEndDate);
-
     getRowDto(
-      `/fino/Report/GetMachineWiseCostOfProduction?intBusinessUnitId=${values?.currentBusinessUnit?.value}&fromDate=${formattedStartDate}&toDate=${formattedEndDate}`
+      `/fino/Report/GetMachineWiseCostOfProduction?intBusinessUnitId=${values
+        ?.currentBusinessUnit?.value ||
+        selectedBusinessUnit?.value}&fromDate=${values?.fromDate ||
+        _todayDate()}&toDate=${values?.toDate || _todayDate()}`
     );
   };
-
-  useEffect(() => {
-    getData(initData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <>
       <Formik
         enableReinitialize={false}
-        initialValues={initData}
+        initialValues={{
+          ...initData,
+          currentBusinessUnit: {
+            value: selectedBusinessUnit?.value,
+            label: selectedBusinessUnit?.label,
+          },
+        }}
         // validationSchema={{}}
         onSubmit={() => {}}
       >
@@ -94,14 +92,24 @@ function CostOfProductionReport() {
                     />
                   </div>
                   <div className="col-lg-3">
-                    <label>Month-Year</label>
                     <InputField
-                      value={values?.monthYear}
-                      name="monthYear"
-                      placeholder="From Date"
-                      type="month"
+                      value={values?.fromDate}
+                      label="From Date"
+                      name="fromDate"
+                      type="date"
                       onChange={(e) => {
-                        setFieldValue("monthYear", e?.target?.value);
+                        setFieldValue("fromDate", e?.target?.value);
+                      }}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <InputField
+                      value={values?.toDate}
+                      label="To Date"
+                      name="toDate"
+                      type="date"
+                      onChange={(e) => {
+                        setFieldValue("toDate", e?.target?.value);
                       }}
                     />
                   </div>
@@ -110,8 +118,7 @@ function CostOfProductionReport() {
                       style={{ marginTop: "18px" }}
                       type="button"
                       class="btn btn-primary"
-                      // disabled={!values?.fromDate || !values?.toDate}
-                      disabled={!values?.monthYear}
+                      disabled={!values?.fromDate || !values?.toDate}
                       onClick={() => {
                         getData(values);
                       }}

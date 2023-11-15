@@ -1,31 +1,31 @@
 import React, { useState } from "react";
+import Loading from "../../../../_helper/_loading";
 import {
+  getCNFPaymentPortCharge,
   getPortCharge,
   getPortChargeLanding,
   getShipmentDDL,
-  getCNFPaymentPortCharge,
 } from "../helper";
-import Loading from "../../../../_helper/_loading";
 import serviceBreakdonw from "../serviceBreakdonw.png";
 
+import Axios from "axios";
+import { Form, Formik } from "formik";
+import { shallowEqual, useSelector } from "react-redux";
 import {
   Card,
+  CardBody,
   CardHeader,
   ModalProgressBar,
-  CardBody,
 } from "../../../../../../_metronic/_partials/controls";
-import { Formik, Form } from "formik";
-import { shallowEqual, useSelector } from "react-redux";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import Axios from "axios";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import InputField from "../../../../_helper/_inputField";
+import NewSelect from "../../../../_helper/_select";
 import {
-  initData,
-  setDataToGridData,
   clickSaveBtn,
   disabledFunction,
+  initData,
+  setDataToGridData,
 } from "../utils";
 // import ICustomTable from "../../../../_helper/_customTable";
 import numberWithCommas from "../../../../_helper/_numberWithCommas";
@@ -44,6 +44,7 @@ import ClosingModal from "../closing/closing";
 
 export default function TableRow() {
   const [gridData, setGridData] = useState([]);
+  const [chargeTypeId, setSubChargeTypeId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [, setDisabled] = useState(false);
   const [shipmentDDL, setShipmentDDL] = useState([]);
@@ -259,170 +260,171 @@ export default function TableRow() {
                                 {gridData?.length > 0 &&
                                   gridData?.map((item, index) => {
                                     return (
-                                      <tr key={index}>
-                                        <td>
-                                          <span className="pl-2">
-                                            {index + 1}
-                                          </span>
-                                        </td>
-                                        <td style={{ width: "220px" }}>
-                                          <span className="pl-2">
-                                            {item?.label}
-                                          </span>
-                                        </td>
-                                        <td style={{ width: "240px" }}>
-                                          <NewSelect
-                                            name="vendor"
-                                            menuPosition="fixed"
-                                            value={
-                                              item?.status
-                                                ? {
-                                                    label: item?.providerName,
-                                                    value: item?.providerId,
-                                                  }
-                                                : item?.vendor
-                                            }
-                                            options={item?.row}
-                                            onChange={(valueOption) => {
-                                              setFieldValue(
-                                                "vendor",
-                                                valueOption
-                                              );
-                                              setDataToGridData(
-                                                "vendor",
-                                                index,
-                                                valueOption,
-                                                gridData,
-                                                setGridData,
-                                                item?.label
-                                              );
-                                              // getCNFPaymentPortCharge(
-                                              //   profileData?.accountId,
-                                              //   selectedBusinessUnit?.value,
-                                              //   valueOption?.value,
-                                              //   data?.shippmentInvoiceAmountBDT,
-                                              //   gridData,
-                                              //   setGridData,
-                                              //   index,
-                                              //   "vendor",
-                                              //   item?.label
-                                              // );
-                                            }}
-                                            errors={errors}
-                                            touched={touched}
-                                            isDisabled={
-                                              item?.status === true ||
-                                              disabledFunction(
-                                                values?.shipmentExchangeRate,
-                                                item?.label,
-                                                "vendor",
-                                                gridData,
-                                                index
-                                              )
-                                            }
-                                          />
-                                        </td>
-                                        <td>
-                                          <InputField
-                                            style={{ width: "135px" }}
-                                            name="serviceReceiveDate"
-                                            value={_dateFormatter(
-                                              item?.serviceReceiveDate
-                                            )}
-                                            onChange={(e) => {
-                                              // setFieldValue(
-                                              //   "serviceReceiveDate",
-                                              //   e?.target?.value
-                                              // );
-                                              setDataToGridData(
-                                                "serviceReceiveDate",
-                                                index,
-                                                e?.target?.value,
-                                                gridData,
-                                                setGridData,
-                                                item?.label
-                                              );
-                                            }}
-                                            placeholder=""
-                                            type="date"
-                                            disabled={item?.status === true}
-                                          />
-                                        </td>
-                                        <td style={{ width: "150px" }}>
-                                          <InputField
-                                            name="totalAmount"
-                                            value={item?.totalAmount}
-                                            onChange={(e) => {
-                                              setFieldValue(
-                                                "totalAmount",
-                                                e?.target?.value
-                                              );
-                                              setDataToGridData(
-                                                "totalAmount",
-                                                index,
-                                                e?.target?.value,
-                                                gridData,
-                                                setGridData,
-                                                item?.label
-                                              );
-                                            }}
-                                            placeholder="Amount BDT"
-                                            type="number"
-                                            disabled={item?.status === true}
-                                          />
-                                        </td>
-                                        <td style={{ width: "100px" }}>
-                                          <InputField
-                                            value={item?.vatAmount}
-                                            name="vatAmount"
-                                            onChange={(e) => {
-                                              setFieldValue(
-                                                "vatAmount",
-                                                e?.target?.value
-                                              );
-                                              setDataToGridData(
-                                                "vatAmount",
-                                                index,
-                                                e?.target?.value,
-                                                gridData,
-                                                setGridData,
-                                                item?.label
-                                              );
-                                            }}
-                                            type="number"
-                                            placeholder="VAT"
-                                            min="0"
-                                            disabled={item?.status === true}
-                                          />
-                                        </td>
+                                      <>
+                                        <tr key={index}>
+                                          <td>
+                                            <span className="pl-2">
+                                              {index + 1}
+                                            </span>
+                                          </td>
+                                          <td style={{ width: "220px" }}>
+                                            <span className="pl-2">
+                                              {item?.label}
+                                            </span>
+                                          </td>
+                                          <td style={{ width: "240px" }}>
+                                            <NewSelect
+                                              name="vendor"
+                                              menuPosition="fixed"
+                                              value={
+                                                item?.status
+                                                  ? {
+                                                      label: item?.providerName,
+                                                      value: item?.providerId,
+                                                    }
+                                                  : item?.vendor
+                                              }
+                                              options={item?.row}
+                                              onChange={(valueOption) => {
+                                                setFieldValue(
+                                                  "vendor",
+                                                  valueOption
+                                                );
+                                                setDataToGridData(
+                                                  "vendor",
+                                                  index,
+                                                  valueOption,
+                                                  gridData,
+                                                  setGridData,
+                                                  item?.label
+                                                );
+                                                // getCNFPaymentPortCharge(
+                                                //   profileData?.accountId,
+                                                //   selectedBusinessUnit?.value,
+                                                //   valueOption?.value,
+                                                //   data?.shippmentInvoiceAmountBDT,
+                                                //   gridData,
+                                                //   setGridData,
+                                                //   index,
+                                                //   "vendor",
+                                                //   item?.label
+                                                // );
+                                              }}
+                                              errors={errors}
+                                              touched={touched}
+                                              isDisabled={
+                                                item?.status === true ||
+                                                disabledFunction(
+                                                  values?.shipmentExchangeRate,
+                                                  item?.label,
+                                                  "vendor",
+                                                  gridData,
+                                                  index
+                                                )
+                                              }
+                                            />
+                                          </td>
+                                          <td>
+                                            <InputField
+                                              style={{ width: "135px" }}
+                                              name="serviceReceiveDate"
+                                              value={_dateFormatter(
+                                                item?.serviceReceiveDate
+                                              )}
+                                              onChange={(e) => {
+                                                // setFieldValue(
+                                                //   "serviceReceiveDate",
+                                                //   e?.target?.value
+                                                // );
+                                                setDataToGridData(
+                                                  "serviceReceiveDate",
+                                                  index,
+                                                  e?.target?.value,
+                                                  gridData,
+                                                  setGridData,
+                                                  item?.label
+                                                );
+                                              }}
+                                              placeholder=""
+                                              type="date"
+                                              disabled={item?.status === true}
+                                            />
+                                          </td>
+                                          <td style={{ width: "150px" }}>
+                                            <InputField
+                                              name="totalAmount"
+                                              value={item?.totalAmount}
+                                              onChange={(e) => {
+                                                setFieldValue(
+                                                  "totalAmount",
+                                                  e?.target?.value
+                                                );
+                                                setDataToGridData(
+                                                  "totalAmount",
+                                                  index,
+                                                  e?.target?.value,
+                                                  gridData,
+                                                  setGridData,
+                                                  item?.label
+                                                );
+                                              }}
+                                              placeholder="Amount BDT"
+                                              type="number"
+                                              disabled={item?.status === true}
+                                            />
+                                          </td>
+                                          <td style={{ width: "100px" }}>
+                                            <InputField
+                                              value={item?.vatAmount}
+                                              name="vatAmount"
+                                              onChange={(e) => {
+                                                setFieldValue(
+                                                  "vatAmount",
+                                                  e?.target?.value
+                                                );
+                                                setDataToGridData(
+                                                  "vatAmount",
+                                                  index,
+                                                  e?.target?.value,
+                                                  gridData,
+                                                  setGridData,
+                                                  item?.label
+                                                );
+                                              }}
+                                              type="number"
+                                              placeholder="VAT"
+                                              min="0"
+                                              disabled={item?.status === true}
+                                            />
+                                          </td>
 
-                                        <td>
-                                          <InputField
-                                            style={{ width: "135px" }}
-                                            name="dueDate"
-                                            value={_dateFormatter(
-                                              item?.dueDate
-                                            )}
-                                            onChange={(e) => {
-                                              setFieldValue(
-                                                "dueDate",
-                                                e?.target?.value
-                                              );
-                                              setDataToGridData(
-                                                "dueDate",
-                                                index,
-                                                e?.target?.value,
-                                                gridData,
-                                                setGridData,
-                                                item?.label
-                                              );
-                                            }}
-                                            placeholder=""
-                                            type="date"
-                                            disabled={item?.status === true}
-                                          />
-                                        </td>
-                                        {/* <td>
+                                          <td>
+                                            <InputField
+                                              style={{ width: "135px" }}
+                                              name="dueDate"
+                                              value={_dateFormatter(
+                                                item?.dueDate
+                                              )}
+                                              onChange={(e) => {
+                                                setFieldValue(
+                                                  "dueDate",
+                                                  e?.target?.value
+                                                );
+                                                setDataToGridData(
+                                                  "dueDate",
+                                                  index,
+                                                  e?.target?.value,
+                                                  gridData,
+                                                  setGridData,
+                                                  item?.label
+                                                );
+                                              }}
+                                              placeholder=""
+                                              type="date"
+                                              disabled={item?.status === true}
+                                            />
+                                          </td>
+                                          {/* <td>
                                       <InputField
                                         style={{ width: "135px" }}
                                         name='serviceReceiveDate'
@@ -448,122 +450,130 @@ export default function TableRow() {
                                         disabled={item?.status === true}
                                       />
                                     </td> */}
-                                        <td className="text-center">
-                                          <>
-                                            {item?.status === true &&
-                                            (item?.value === 4 ||
-                                              item?.value === 5 ||
-                                              item?.value === 6 ||
-                                              item?.value === 7 ||
-                                              item?.value === 8 ||
-                                              item?.value === 9 ||
-                                              item?.value === 10) ? (
-                                              <span
-                                                style={{ marginLeft: "3px" }}
-                                              >
-                                                {/* <span>
+                                          <td className="text-center">
+                                            <>
+                                              {item?.status === true &&
+                                              (item?.value === 4 ||
+                                                item?.value === 5 ||
+                                                item?.value === 6 ||
+                                                item?.value === 7 ||
+                                                item?.value === 8 ||
+                                                item?.value === 9 ||
+                                                item?.value === 10) ? (
+                                                <span
+                                                  style={{ marginLeft: "3px" }}
+                                                >
+                                                  {/* <span>
                                               <img width="16px" src={serviceBreakdonw} alt="" />
                                             </span> */}
-                                                <button
-                                                  className="btn mr-1 pointer"
-                                                  type="button"
-                                                  onClick={() => {
-                                                    setIsShowModal(true);
-                                                    setSupplierDDL(item.row);
-                                                    getPortCharge(
-                                                      profileData?.accountId,
-                                                      selectedBusinessUnit?.value,
-                                                      values?.poLcDDL?.poId ||
-                                                        0,
-                                                      values?.shipmentDDL
-                                                        ?.value || 0,
-                                                      setData,
-                                                      setReferenceId,
-                                                      item?.value
-                                                    );
-                                                  }}
-                                                >
-                                                  <img
-                                                    width="13px"
-                                                    src={serviceBreakdonw}
-                                                    alt=""
-                                                  />
-                                                </button>
-                                                <span
-                                                  onClick={() => {
-                                                    setIsShowClosingModal(true);
-                                                    item?.value === 5
-                                                      ? setClosingReferenceId(
-                                                          data?.surveyReferenceId
-                                                        )
-                                                      : item?.value === 6
-                                                      ? setClosingReferenceId(
-                                                          data?.unloadingReferenceId
-                                                        )
-                                                      : item?.value === 7
-                                                      ? setClosingReferenceId(
-                                                          data?.cleaningReferenceId
-                                                        )
-                                                      : item?.value === 8
-                                                      ? setClosingReferenceId(
-                                                          data?.othersReferenceId
-                                                        )
-                                                      : item?.value === 4
-                                                      ? setClosingReferenceId(
-                                                          data?.transportReferenceId
-                                                        )
-                                                      : item?.value === 9
-                                                      ? setClosingReferenceId(
-                                                          data?.hatchReferenceId
-                                                        )
-                                                      : item?.value === 10
-                                                      ? setClosingReferenceId(
-                                                          data?.scavatoryReferenceId
-                                                        )
-                                                      : setClosingReferenceId(
-                                                          0
-                                                        );
+                                                  <button
+                                                    className="btn mr-1 pointer"
+                                                    type="button"
+                                                    onClick={() => {
+                                                      setIsShowModal(true);
+                                                      setSupplierDDL(item.row);
+                                                      setSubChargeTypeId(
+                                                        item.value
+                                                      );
+                                                      getPortCharge(
+                                                        profileData?.accountId,
+                                                        selectedBusinessUnit?.value,
+                                                        values?.poLcDDL?.poId ||
+                                                          0,
+                                                        values?.shipmentDDL
+                                                          ?.value || 0,
+                                                        setData,
+                                                        setReferenceId,
+                                                        item?.value
+                                                      );
+                                                    }}
+                                                  >
+                                                    <img
+                                                      width="13px"
+                                                      src={serviceBreakdonw}
+                                                      alt=""
+                                                    />
+                                                  </button>
+                                                  <span
+                                                    onClick={() => {
+                                                      setIsShowClosingModal(
+                                                        true
+                                                      );
+                                                      item?.value === 5
+                                                        ? setClosingReferenceId(
+                                                            data?.surveyReferenceId
+                                                          )
+                                                        : item?.value === 6
+                                                        ? setClosingReferenceId(
+                                                            data?.unloadingReferenceId
+                                                          )
+                                                        : item?.value === 7
+                                                        ? setClosingReferenceId(
+                                                            data?.cleaningReferenceId
+                                                          )
+                                                        : item?.value === 8
+                                                        ? setClosingReferenceId(
+                                                            data?.othersReferenceId
+                                                          )
+                                                        : item?.value === 4
+                                                        ? setClosingReferenceId(
+                                                            data?.transportReferenceId
+                                                          )
+                                                        : item?.value === 9
+                                                        ? setClosingReferenceId(
+                                                            data?.hatchReferenceId
+                                                          )
+                                                        : item?.value === 10
+                                                        ? setClosingReferenceId(
+                                                            data?.scavatoryReferenceId
+                                                          )
+                                                        : setClosingReferenceId(
+                                                            0
+                                                          );
 
-                                                    setClosingTotalBookedAmount(
-                                                      item?.totalAmount
-                                                    );
-                                                    //confirmToCancel(item?.renewalId)
-                                                  }}
-                                                  className="btn p-0"
-                                                >
-                                                  <i class="fas fa-check-circle"></i>
+                                                      setClosingTotalBookedAmount(
+                                                        item?.totalAmount
+                                                      );
+                                                      //confirmToCancel(item?.renewalId)
+                                                    }}
+                                                    className="btn p-0"
+                                                  >
+                                                    <i class="fas fa-check-circle"></i>
+                                                  </span>
                                                 </span>
-                                              </span>
-                                            ) : (
-                                              <button
-                                                style={{
-                                                  padding: "1px 5px",
-                                                  fontSize: "11px",
-                                                  width: "85px",
-                                                }}
-                                                className="btn btn-outline-dark mr-1 pointer"
-                                                type="button"
-                                                disabled={item?.status === true}
-                                                onClick={() => {
-                                                  clickSaveBtn(
-                                                    item,
-                                                    values,
-                                                    setDisabled,
-                                                    profileData,
-                                                    selectedBusinessUnit,
-                                                    setGridData,
-                                                    setLoading,
-                                                    setData,
-                                                    setReferenceId
-                                                  );
-                                                }}
-                                              >
-                                                Save
-                                              </button>
-                                            )}
-                                          </>
-                                        </td>
-                                      </tr>
+                                              ) : (
+                                                <button
+                                                  style={{
+                                                    padding: "1px 5px",
+                                                    fontSize: "11px",
+                                                    width: "85px",
+                                                  }}
+                                                  className="btn btn-outline-dark mr-1 pointer"
+                                                  type="button"
+                                                  disabled={
+                                                    item?.status === true
+                                                  }
+                                                  onClick={() => {
+                                                    clickSaveBtn(
+                                                      item,
+                                                      values,
+                                                      setDisabled,
+                                                      profileData,
+                                                      selectedBusinessUnit,
+                                                      setGridData,
+                                                      setLoading,
+                                                      setData,
+                                                      setReferenceId
+                                                    );
+                                                  }}
+                                                >
+                                                  Save
+                                                </button>
+                                              )}
+                                            </>
+                                          </td>
+                                        </tr>
+                                      </>
                                     );
                                   })}
                               </tbody>
@@ -599,6 +609,7 @@ export default function TableRow() {
               referenceId={referenceId}
               setReferenceId={setReferenceId}
               shipmentId={shipmentId}
+              chargeTypeId={chargeTypeId}
             />
             <ClosingModal
               show={isShowClosingModal}
