@@ -119,7 +119,9 @@ function Form({
                     handleSubmit();
                   }
             }
-            resetHandler={() => {
+            resetHandler={view
+              ? false
+              : () => {
               resetForm(initData);
             }}
           >

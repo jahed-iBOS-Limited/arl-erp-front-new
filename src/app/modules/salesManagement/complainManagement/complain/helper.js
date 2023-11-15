@@ -122,7 +122,18 @@ export const createComplain = async (payload, setLoading, cb) => {
 export const updateComplain = async (payload, setLoading, cb) => {
   setLoading(true);
   try {
-    const res = await axios.put(`/oms/CustomerPoint/UpdateComplain`, payload);
+    const res = await axios.put(`/oms/CustomerPoint/UpdateAndDelegateComplain`, payload);
+    cb && cb();
+    toast.success(res?.data?.message);
+    setLoading(false);
+  } catch (err) {
+    toast.error(err?.response?.data?.message);
+    setLoading(false);
+  }
+};export const investigateComplainApi = async (payload, setLoading, cb) => {
+  setLoading(true);
+  try {
+    const res = await axios.put(`/oms/CustomerPoint/InvestigateComplain`, payload);
     cb && cb();
     toast.success(res?.data?.message);
     setLoading(false);

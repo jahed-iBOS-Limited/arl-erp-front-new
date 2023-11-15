@@ -54,6 +54,10 @@ function ComplainForm() {
       respondentName: values?.respondentName?.label || "",
       itemId: values?.product?.value || 0,
       distributionChannelId: values?.distributionChannel?.value || 0,
+      delegateToId: 0,
+      statusId: 0,
+      status: "",
+      delegateDateTime: new Date()
     };
 
     if (edit) {

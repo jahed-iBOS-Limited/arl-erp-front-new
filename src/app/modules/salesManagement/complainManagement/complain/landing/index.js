@@ -53,11 +53,7 @@ const ComplainLanding = () => {
     }
   }, [accId, buId]);
 
-  const assignToAndStatusHandler = (payload) => {
-    // updateComplain(payload, setLoading, () => {
-    //   commonGridData();
-    // });
-  };
+
 
   const commonGridData = (
     _pageNo = pageNo,
@@ -121,7 +117,7 @@ const ComplainLanding = () => {
                     label='Respondent Type'
                     onChange={(valueOption) => {
                       setFieldValue("respondentType", valueOption || "");
-                      setGridData([])
+                      setGridData([]);
                     }}
                     placeholder='Respondent Type'
                     errors={errors}
@@ -144,7 +140,7 @@ const ComplainLanding = () => {
                     label='Status'
                     onChange={(valueOption) => {
                       setFieldValue("status", valueOption || "");
-                      setGridData([])
+                      setGridData([]);
                     }}
                     placeholder='Status'
                     errors={errors}
@@ -159,11 +155,11 @@ const ComplainLanding = () => {
                     type='date'
                     onChange={(e) => {
                       setFieldValue("fromDate", e.target.value);
-                      setGridData([])
+                      setGridData([]);
                     }}
                   />
                 </div>
-               
+
                 <div className='col-lg-3'>
                   <InputField
                     value={values?.toDate}
@@ -172,14 +168,17 @@ const ComplainLanding = () => {
                     type='date'
                     onChange={(e) => {
                       setFieldValue("toDate", e.target.value);
-                      setGridData([])
+                      setGridData([]);
                     }}
                   />
                 </div>
                 <div className='col d-flex align-items-end justify-content-end'>
-                  <button className='btn btn-primary mt-3' onClick={() => {
-                    commonGridData(1, pageSize, values);
-                  }}>
+                  <button
+                    className='btn btn-primary mt-3'
+                    onClick={() => {
+                      commonGridData(1, pageSize, values);
+                    }}
+                  >
                     View
                   </button>
                 </div>
@@ -195,9 +194,9 @@ const ComplainLanding = () => {
               <LandingTable
                 obj={{
                   gridData,
-                  loadUserList,
-                  complainStatus,
-                  assignToAndStatusHandler,
+                  commonGridDataCB: () => {
+                    commonGridData(pageNo, pageSize, values);
+                  }
                 }}
               />
 
