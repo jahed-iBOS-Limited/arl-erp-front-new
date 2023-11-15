@@ -165,7 +165,8 @@ export default function HeaderForm({ loading, setLoading }) {
         pageNo,
         pageSize,
         searchValue,
-        setLoading
+        setLoading,
+        salesOrderLanding?.distributionChannel?.value
       )
     );
   };
@@ -241,7 +242,7 @@ export default function HeaderForm({ loading, setLoading }) {
       {
         label: "Dist. Channel",
         name: "distributionChannel",
-        options: distributionChannelDDL || [],
+        options: [{value: 0, label: "All"}, ...distributionChannelDDL] || [],
         isDisabled: ["sbu"],
       },
       {
@@ -281,7 +282,9 @@ export default function HeaderForm({ loading, setLoading }) {
         pageNo,
         pageSize,
         null,
-        setLoading
+        setLoading,
+        salesOrderLanding?.distributionChannel?.value
+
       )
     );
   };
@@ -359,7 +362,9 @@ export default function HeaderForm({ loading, setLoading }) {
               pageNo,
               pageSize,
               null,
-              setLoading
+              setLoading,
+              values?.distributionChannel?.value,
+
             )
           );
         }
@@ -407,7 +412,9 @@ export default function HeaderForm({ loading, setLoading }) {
           pageNo,
           1000,
           null,
-          setLoading
+          setLoading,
+          values?.distributionChannel?.value,
+
         )
       );
       // dispatch(
@@ -487,7 +494,8 @@ export default function HeaderForm({ loading, setLoading }) {
                           pageNo,
                           pageSize,
                           null,
-                          setLoading
+                          setLoading,
+                          values?.distributionChannel?.value
                         )
                       );
                       dispatch(setSalesOrderLandingAction(values));
