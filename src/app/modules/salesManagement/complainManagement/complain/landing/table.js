@@ -4,7 +4,7 @@ import IEdit from "../../../../_helper/_helperIcons/_edit";
 import IView from "../../../../_helper/_helperIcons/_view";
 import NewSelect from "../../../../_helper/_select";
 import { useHistory } from "react-router-dom";
-import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 
 const LandingTable = ({ obj }) => {
   const {
@@ -115,7 +115,7 @@ const LandingTable = ({ obj }) => {
                     <span
                       onClick={() => {
                         history.push(
-                          `/sales-management/ordermanagement/Complain/edit/${item?.complainId}`
+                          `/sales-management/complainmanagement/complain/edit/${item?.complainId}`
                         );
                       }}
                     >
@@ -126,7 +126,7 @@ const LandingTable = ({ obj }) => {
                   <span
                     onClick={() => {
                       history.push(
-                        `/sales-management/ordermanagement/Complain/view/${item?.complainId}`
+                        `/sales-management/complainmanagement/complain/view/${item?.complainId}`
                       );
                     }}
                   >

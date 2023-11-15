@@ -138,6 +138,25 @@ export const customerListDDL = async (accId, buId, setter) => {
     setter([]);
   }
 };
+export const getDistributionChannelDDL = async (accId, buId, setter) => {
+  try {
+    const res = await axios.get(
+      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accId}&BUnitId=${buId}`
+    );
+    setter(res?.data || []);
+  } catch (error) {
+    setter([]);
+  }
+};export const getItemSalesByChanneldDDLApi = async (accId, buId,dcId ,setter) => {
+  try {
+    const res = await axios.get(
+      `/item/ItemSales/GetItemSalesByChanneldDDL?accountId=${accId}&businessUnitId=${buId}&distributionChannelId=${dcId}`
+    );
+    setter(res?.data || []);
+  } catch (error) {
+    setter([]);
+  }
+};
 export const complainLandingPasignation = async (
   accId,
   buId,

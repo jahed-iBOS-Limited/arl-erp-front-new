@@ -12,7 +12,7 @@ import {
   getComplainStatus,
   updateComplain
 } from "../helper";
-import PaginationSearch from "./../../../../_helper/_search";
+import PaginationSearch from "../../../../_helper/_search";
 import LandingTable from "./table";
 
 const initData = {};
@@ -80,7 +80,7 @@ const ComplainLanding = () => {
               title='Complain'
               createHandler={() => {
                 history.push(
-                  `/sales-management/ordermanagement/Complain/entry`
+                  `/sales-management/complainmanagement/complain/entry`
                 );
               }}
             >

@@ -8,14 +8,15 @@ import { useParams } from "react-router";
 import { createComplain, getComplainById, updateComplain } from "../helper";
 
 const initData = {
-  requestDateTime: _todayDate(),
-  customerName: "",
-  complainByName: "",
-  contactNo: "",
-  complainCategoryName: "",
+  occurrenceDate: _todayDate(),
+  respondentType: "",
+  respondentName: "",
+  respondentContact: "",
+  issueType: "",
   issueTitle: "",
-  remarks: "",
-  attachment: "",
+  distributionChannel: "",
+  product: "",
+  issueDetails: "",
 };
 
 function ComplainForm() {
@@ -53,7 +54,7 @@ function ComplainForm() {
       complainByClient: "",
       // new field
       leadId: 0,
-      complainNo: singleData?.complainNo || '',
+      complainNo: singleData?.complainNo || "",
       businessUnitId: buId,
       assignDateTime: new Date(),
       finishDateTime: new Date(),
@@ -76,7 +77,7 @@ function ComplainForm() {
       const id = edit || view;
       getComplainById(id, accId, buId, setLoading, setSingleData);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [edit, view]);
   const isLoader = loading;
 

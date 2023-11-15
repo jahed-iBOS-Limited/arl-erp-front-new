@@ -11,19 +11,35 @@ import {
   attachment_action,
   customerListDDL,
   getComplainCategory,
+  getDistributionChannelDDL,
+  getItemSalesByChanneldDDLApi,
 } from "../helper";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 export const validationSchema = Yup.object().shape({
-  customerName: Yup.object().shape({
-    label: Yup.string().required("Customer Name is required"),
-    value: Yup.string().required("Customer Name is required"),
+  occurrenceDate: Yup.date().required("Occurrence Date is required"),
+  respondentType: Yup.object().shape({
+    label: Yup.string().required("Respondent Type is required"),
+    value: Yup.string().required("Respondent Type is required"),
   }),
-  complainCategoryName: Yup.object().shape({
-    label: Yup.string().required("Category is required"),
-    value: Yup.string().required("Category is required"),
+  respondentName: Yup.object().shape({
+    label: Yup.string().required("Respondent Name is required"),
+    value: Yup.string().required("Respondent Name is required"),
   }),
-  requestDateTime: Yup.date().required("Date is required"),
-  issueTitle: Yup.string().required("Date is required"),
+  respondentContact: Yup.string().required("Respondent Contact is required"),
+  issueType: Yup.object().shape({
+    label: Yup.string().required("Issue Type is required"),
+    value: Yup.string().required("Issue Type is required"),
+  }),
+  issueTitle: Yup.string().required("Issue Title is required"),
+  distributionChannel: Yup.object().shape({
+    label: Yup.string().required("Distribution Channel is required"),
+    value: Yup.string().required("Distribution Channel is required"),
+  }),
+  product: Yup.object().shape({
+    label: Yup.string().required("Product is required"),
+    value: Yup.string().required("Product is required"),
+  }),
+  issueDetails: Yup.string().required("Issue Details is required"),
 });
 
 function Form({
@@ -40,11 +56,18 @@ function Form({
   const [open, setOpen] = useState(false);
   const [complainCategory, setComplainCategory] = useState([]);
   const [customerDDL, setCustomerDDL] = useState([]);
+  const [itemSalesByChanneldDDL, setItemSalesByChanneldDDL] = useState([]);
+  const [distributionChannelDDL, setDistributionChannelDDL] = useState([]);
 
   useEffect(() => {
     if (accId && buId) {
       customerListDDL(accId, buId, setCustomerDDL);
       getComplainCategory(buId, setComplainCategory);
+      getDistributionChannelDDL(
+        accId,
+        buId,
+        setDistributionChannelDDL
+      )
     }
   }, [accId, buId]);
 
@@ -61,7 +84,14 @@ function Form({
         }}
         validationSchema={validationSchema}
       >
-        {({ values, setFieldValue, handleSubmit, errors, touched }) => (
+        {({
+          values,
+          setFieldValue,
+          handleSubmit,
+          errors,
+          touched,
+          resetForm,
+        }) => (
           <ICustomCard
             title={"Complain Entry"}
             backHandler={() => {
@@ -74,6 +104,9 @@ function Form({
                     handleSubmit();
                   }
             }
+            resetHandler={() => {
+              resetForm(initData);
+            }}
           >
             <form>
               <div className='row global-form'>
@@ -134,10 +167,10 @@ function Form({
                 </div>
                 <div className='col-lg-3'>
                   <InputField
-                    value={values?.respondentContct}
-                    label='Respondent Contct'
-                    placeholder='Respondent Contct'
-                    name='respondentContct'
+                    value={values?.respondentContact}
+                    label='Respondent Contact'
+                    placeholder='Respondent Contact'
+                    name='respondentContact'
                     type='number'
                     disabled={view}
                   />
@@ -167,15 +200,23 @@ function Form({
                     disabled={view}
                   />
                 </div>
-            
+
                 <div className='col-lg-3'>
                   <NewSelect
                     name='distributionChannel'
-                    options={complainCategory || []}
+                    options={distributionChannelDDL || []}
                     value={values?.distributionChannel}
                     label='Distribution Channel'
                     onChange={(valueOption) => {
                       setFieldValue("distributionChannel", valueOption);
+                      setItemSalesByChanneldDDL([])
+                      getItemSalesByChanneldDDLApi(
+                        accId,
+                        buId,
+                        valueOption?.value,
+                        setItemSalesByChanneldDDL
+                      )
+                      setFieldValue("product", "")
                     }}
                     placeholder='Distribution Channel'
                     errors={errors}
@@ -186,7 +227,7 @@ function Form({
                 <div className='col-lg-3'>
                   <NewSelect
                     name='product'
-                    options={[]}
+                    options={itemSalesByChanneldDDL || []}
                     value={values?.product}
                     label='Product'
                     onChange={(valueOption) => {

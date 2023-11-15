@@ -32,8 +32,6 @@ import SalesReturnForm from "./salesReturn/form/addEditForm";
 import SalesReturn from "./salesReturn/landing/table";
 import DamageEntryLanding from "./damageEntry/landing";
 import DamageEntryForm from "./damageEntry/form/addEditForm";
-import ComplainLanding from "./complain/landing";
-import ComplainForm from "./complain/form/addEditForm";
 
 export function OrderManagementPages() {
   const { userRole } = useSelector((state) => state?.authData, shallowEqual);
@@ -282,22 +280,6 @@ export function OrderManagementPages() {
             ? CustomerIncentive
             : NotPermittedPage
         }
-      />
-      <ContentRoute
-        from='/sales-management/ordermanagement/Complain/entry'
-        component={ComplainForm}
-      />
-      <ContentRoute
-        from='/sales-management/ordermanagement/Complain/edit/:edit'
-        component={ComplainForm}
-      />
-      <ContentRoute
-        from='/sales-management/ordermanagement/Complain/view/:view'
-        component={ComplainForm}
-      />
-      <ContentRoute
-        from='/sales-management/ordermanagement/Complain'
-        component={ComplainLanding}
       />
     </Switch>
   );
