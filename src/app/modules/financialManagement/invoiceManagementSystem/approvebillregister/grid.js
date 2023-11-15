@@ -18,6 +18,12 @@ import ExpenseView from "./expenseView";
 import RejectModel from "./rejectModel/form";
 import SupplerInvoiceView from "./supplerInvoiceView";
 import SupplierAdvanceView from "./supplierAdvanceView";
+import ViewG2GGodownUnloadBill from "../billregister/g2gGodownUnloadBill/view/viewBillRegister";
+import ViewGhatLoadUnloadBill from "../billregister/ghatLoadUnloadBill/view/viewBillRegister";
+import ViewCNFBill from "../billregister/cnfBill/view/table";
+import ViewStevedoreBill from "../billregister/stevedoreBill/view/table";
+import ViewSurveyorBill from "../billregister/surveyorBill/view/table";
+import ViewHatchLaborBill from "../billregister/hatchLaborBill/view/table";
 const GridData = ({
   rowDto,
   setRowDto,
@@ -261,6 +267,24 @@ const GridData = ({
             setDataFunc={girdDataFunc}
             setModalShow={setModalShow}
           />
+        )}
+        {gridItem?.billType === 21 && (
+          <ViewG2GGodownUnloadBill billRegisterId={gridItem?.billRegisterId} />
+        )}
+        {gridItem?.billType === 22 && (
+          <ViewGhatLoadUnloadBill billRegisterId={gridItem?.billRegisterId} />
+        )}
+        {gridItem?.billType === 25 && (
+          <ViewCNFBill billRegisterId={gridItem?.billRegisterId} />
+        )}
+        {gridItem?.billType === 26 && (
+          <ViewStevedoreBill billRegisterId={gridItem?.billRegisterId} />
+        )}
+        {gridItem?.billType === 27 && (
+          <ViewSurveyorBill billRegisterId={gridItem?.billRegisterId} />
+        )}
+        {gridItem?.billType === 28 && (
+          <ViewHatchLaborBill billRegisterId={gridItem?.billRegisterId} />
         )}
       </IViewModal>
       {/* RejectModel */}
