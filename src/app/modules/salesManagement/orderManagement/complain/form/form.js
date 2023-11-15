@@ -79,24 +79,54 @@ function Form({
               <div className='row global-form'>
                 <div className='col-lg-3'>
                   <InputField
-                    value={values?.requestDateTime}
-                    label='Date'
-                    placeholder='date'
-                    name='requestDateTime'
+                    value={values?.occurrenceDate}
+                    label='Occurrence Date'
+                    placeholder='Occurrence Date'
+                    name='occurrenceDate'
                     type='date'
                     disabled={view}
                   />
                 </div>
                 <div className='col-lg-3'>
                   <NewSelect
-                    name='customerName'
-                    options={customerDDL || []}
-                    value={values?.customerName}
+                    name='respondentType'
+                    options={
+                      [
+                        {
+                          value: 1,
+                          label: "Customer",
+                        },
+                        {
+                          value: 2,
+                          label: "Supplier",
+                        },
+                        {
+                          value: 3,
+                          label: "End User",
+                        },
+                      ] || []
+                    }
+                    value={values?.respondentType}
+                    label='Respondent Type'
+                    onChange={(valueOption) => {
+                      setFieldValue("respondentType", valueOption);
+                    }}
+                    placeholder='Respondent Type'
+                    errors={errors}
+                    touched={touched}
+                    isDisabled={view}
+                  />
+                </div>
+                <div className='col-lg-3'>
+                  <NewSelect
+                    name='respondentName'
+                    options={[]}
+                    value={values?.respondentName}
                     label='Customer'
                     onChange={(valueOption) => {
-                      setFieldValue("customerName", valueOption);
+                      setFieldValue("respondentName", valueOption);
                     }}
-                    placeholder='Customer'
+                    placeholder='Respondent Name'
                     errors={errors}
                     touched={touched}
                     isDisabled={view}
@@ -104,34 +134,24 @@ function Form({
                 </div>
                 <div className='col-lg-3'>
                   <InputField
-                    value={values?.complainByName}
-                    label='Complain By'
-                    placeholder='Complain By'
-                    name='complainByName'
-                    type='text'
-                    disabled={view}
-                  />
-                </div>
-                <div className='col-lg-3'>
-                  <InputField
-                    value={values?.contactNo}
-                    label='Mobile No'
-                    placeholder='Mobile No'
-                    name='contactNo'
+                    value={values?.respondentContct}
+                    label='Respondent Contct'
+                    placeholder='Respondent Contct'
+                    name='respondentContct'
                     type='number'
                     disabled={view}
                   />
                 </div>
                 <div className='col-lg-3'>
                   <NewSelect
-                    name='complainCategoryName'
+                    name='issueType'
                     options={complainCategory || []}
-                    value={values?.complainCategoryName}
-                    label='Category'
+                    value={values?.issueType}
+                    label='Issue Type'
                     onChange={(valueOption) => {
-                      setFieldValue("complainCategoryName", valueOption);
+                      setFieldValue("issueType", valueOption);
                     }}
-                    placeholder='Category'
+                    placeholder='Issue Type'
                     errors={errors}
                     touched={touched}
                     isDisabled={view}
@@ -147,18 +167,49 @@ function Form({
                     disabled={view}
                   />
                 </div>
+            
                 <div className='col-lg-3'>
-                  <label>Issue Description</label>
+                  <NewSelect
+                    name='distributionChannel'
+                    options={complainCategory || []}
+                    value={values?.distributionChannel}
+                    label='Distribution Channel'
+                    onChange={(valueOption) => {
+                      setFieldValue("distributionChannel", valueOption);
+                    }}
+                    placeholder='Distribution Channel'
+                    errors={errors}
+                    touched={touched}
+                    isDisabled={view}
+                  />
+                </div>
+                <div className='col-lg-3'>
+                  <NewSelect
+                    name='product'
+                    options={[]}
+                    value={values?.product}
+                    label='Product'
+                    onChange={(valueOption) => {
+                      setFieldValue("product", valueOption);
+                    }}
+                    placeholder='Product'
+                    errors={errors}
+                    touched={touched}
+                    isDisabled={view}
+                  />
+                </div>
+                <div className='col-lg-3'>
+                  <label>Issue Details</label>
                   <TextArea
-                    name='remarks'
-                    value={values?.remarks || ""}
-                    label='Issue Description'
-                    placeholder='Issue Description'
+                    name='issueDetails'
+                    value={values?.issueDetails || ""}
+                    label='Issue Details'
+                    placeholder='Issue Details'
                     touched={touched}
                     rows='3'
                     disabled={view}
                     onChange={(e) => {
-                      setFieldValue("remarks", e.target.value);
+                      setFieldValue("issueDetails", e.target.value);
                     }}
                   />
                 </div>
