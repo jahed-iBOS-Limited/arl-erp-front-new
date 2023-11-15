@@ -88,7 +88,7 @@ export default function KeyRegisterLanding() {
             item?.strbasedOnName === values?.basedOn?.label &&
             item?.fromSlabNum === +values?.fromSlab &&
             item?.toSlabNum === +values?.toSlab &&
-            item?.incentiveNum === values?.incentive
+            item?.incentiveNum === +values?.incentive
       );
 
       if (findData) {
@@ -100,7 +100,7 @@ export default function KeyRegisterLanding() {
             basedOn: values?.basedOn?.label,
             fromSlab: +values?.fromSlab,
             toSlab: +values?.toSlab,
-            incentivePercentage: values?.incentive,
+            incentivePercentage: +values?.incentive,
             calculation: values?.calculation?.label,
          };
          setRowDto([...rowDto, item]);
@@ -319,7 +319,7 @@ export default function KeyRegisterLanding() {
                         <div className="col-lg-2">
                            <InputField
                               name="incentive"
-                              value={+values?.incentive}
+                              value={values?.incentive}
                               type="number"
                               label={`Incentive(${
                                  values?.calculation?.value === 1
@@ -328,10 +328,13 @@ export default function KeyRegisterLanding() {
                                     ? 'Amount'
                                     : ''
                               })`}
-                              min={0}
                               pattern="^\d+$"
                               onChange={e => {
-                                 setFieldValue('incentive', +e.target.value);
+                                 if (+e.target.value < 0) {
+                                    setFieldValue('incentive', '');
+                                 } else {
+                                    setFieldValue('incentive', e.target.value);
+                                 }
                               }}
                            />
                         </div>
