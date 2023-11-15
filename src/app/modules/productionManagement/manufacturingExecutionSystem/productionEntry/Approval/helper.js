@@ -8,7 +8,6 @@ export const IssueReturnHandler = async ({
   profileData,
   selectedBusinessUnit,
 }) => {
-
   let mainAndLastProductionItem = rowData?.filter(
     (item) => item?.isMain && item.isLastProduction
   );
@@ -21,6 +20,14 @@ export const IssueReturnHandler = async ({
     console.log("resData", resData);
 
     if (!resData?.data?.length) {
+      return;
+    }
+
+    let restQtyGreaterThanZeroRowData = resData?.data?.filter(
+      (item) => item?.restQty > 0
+    );
+
+    if (!restQtyGreaterThanZeroRowData?.length) {
       return;
     }
 
@@ -68,8 +75,8 @@ export const IssueReturnHandler = async ({
         othersCharge: 0,
       },
       objRow:
-        resData?.data?.length > 0
-          ? resData?.data?.map((item) => ({
+        restQtyGreaterThanZeroRowData?.length > 0
+          ? restQtyGreaterThanZeroRowData?.map((item) => ({
               itemId: item?.itemId,
               itemName: item?.itemName,
               uoMid: item?.baseUomid,
@@ -91,7 +98,7 @@ export const IssueReturnHandler = async ({
     };
 
     const res = await axios.post(
-      `/wms/InventoryTransaction/CreateInvTransectionForIssue`,
+      `/wms/InventoryTransaction/CreateInvTransectionForIssueProduction`,
       payload
     );
   }
