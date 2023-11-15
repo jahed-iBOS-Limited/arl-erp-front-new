@@ -25,10 +25,16 @@ const initData = {
   ttAmountBDT: "",
   erqValueBDT: "",
   orqValueBDT: "",
-  finalDestination: ""
+  finalDestination: "",
 };
 
-export default function ExportPaymentPostingForm({ type, singleItem }) {
+export default function ExportPaymentPostingForm({
+  type,
+  setShow,
+  getData,
+  singleItem,
+  landingFormValues,
+}) {
   // get user data from store
   const {
     profileData: { accountId: accId, userId },
@@ -48,6 +54,7 @@ export default function ExportPaymentPostingForm({ type, singleItem }) {
   ] = useAxiosGet();
   const [soList, getSOList, soLoader] = useAxiosGet();
   const [uploadedImage, setUploadedImage] = useState([]);
+  const [employeeInfo, getEmployeeInfo] = useAxiosGet();
 
   useEffect(() => {
     if (type) {
@@ -102,7 +109,25 @@ export default function ExportPaymentPostingForm({ type, singleItem }) {
         setRowData(modifyData);
       });
     }
+    if (type === "approve") {
+      getEmployeeInfo(
+        `/partner/PartnerOverDue/GetUserInfoForExportPartnerPaymentApproval?userId=${userId}`
+      );
+    }
   }, [accId, buId, type]);
+
+  const approver =
+    !singleItem?.isSupervisorApproved &&
+    employeeInfo?.employeeBasicInfoId === 558793
+      ? "supervisor"
+      : !singleItem?.isAccountsApproved && employeeInfo?.employeeBasicInfoId
+      ? "accounts"
+      : "";
+
+  console.log(singleItem, "single data");
+
+  const supervisor = approver === "supervisor";
+  const accounts = approver === "accounts";
 
   const getSalesOrderList = (values) => {
     getSOList(
@@ -111,8 +136,8 @@ export default function ExportPaymentPostingForm({ type, singleItem }) {
   };
 
   const saveHandler = (values, cb) => {
-    if (type === "edit") {
-      const payload = {
+    if (["edit", "approve"].includes(type)) {
+      const payloadForEdit = {
         objHead: {
           accountId: accId,
           businessUnitId: buId,
@@ -120,33 +145,61 @@ export default function ExportPaymentPostingForm({ type, singleItem }) {
           ttamount: values?.ttAmount,
           erqvalue: values?.erqValue,
           orqvalue: values?.orqValue,
-
-          // sl: 0,
-
-          // salesOrderId: 0,
-          // salesOrderCode: "string",
-          // customerId: 0,
-          // customerName: "string",
-          // salesOrderRefererence: "string",
           conversionRateBDT: values?.conversionRate,
-
           ttAmountBDT: values?.ttAmountBDT,
-          // uomid: 0,
-          // uomname: "string",
-
           erqvalueBDT: values?.erqValueBDT,
-
           orqvalueBDT: values?.orqValueBDT,
-          // totalExpenseAganistTt: 0,
-          remark: "string",
+          remark: "",
           actionBy: userId,
-          // attachment: "string",
-
-          
         },
         objRow: rowData,
       };
-      editExportPaymentPosting(payload, setLoading, () => {});
+
+      const payloadForApprove = {
+        objHead: {
+          accountId: accId,
+          businessUnitId: buId,
+          paymentPrepareId: singleData?.paymentPrepareId,
+          ttamount: values?.ttAmount,
+          erqvalue: values?.erqValue,
+          orqvalue: values?.orqValue,
+          conversionRateBDT: values?.conversionRate,
+          ttAmountBDT: values?.ttAmountBDT,
+          erqvalueBDT: values?.erqValueBDT,
+          orqvalueBDT: values?.orqValueBDT,
+          remark: "",
+          actionBy: userId,
+
+          isSupervisorApproved: supervisor
+            ? true
+            : values?.isSupervisorApproved,
+          supervisorApprovedBy: supervisor
+            ? userId
+            : values?.supervisorApprovedBy,
+          supervisorApprovedDateTime: supervisor
+            ? new Date()
+            : values?.supervisorApprovedDateTime,
+          isAccountsApproved: accounts ? true : null,
+          accountsApprovedBy: accounts ? userId : 0,
+          accountsApprovedDateTime: accounts ? new Date() : "",
+        },
+        objRow: rowData,
+      };
+      console.log(payloadForApprove, "approve payload");
+
+      const payload =
+        type === "edit"
+          ? payloadForEdit
+          : type === "approve"
+          ? payloadForApprove
+          : {};
+
+      
+
+      editExportPaymentPosting(payload, setLoading, () => {
+        getData(landingFormValues);
+        setShow(false);
+      });
     } else {
       const payload = {
         objHead: {
@@ -169,7 +222,7 @@ export default function ExportPaymentPostingForm({ type, singleItem }) {
           attachment: uploadedImage[0]?.id,
 
           finalDestination: values?.country,
-          salesContractRef: values?.salesContractRef
+          salesContractRef: values?.salesContractRef,
         },
         objRow: rowData,
       };

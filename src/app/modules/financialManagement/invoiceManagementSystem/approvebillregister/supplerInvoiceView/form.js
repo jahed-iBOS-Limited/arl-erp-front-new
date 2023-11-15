@@ -27,18 +27,22 @@ import { lastPriceFunc } from "../../../../procurement/purchase-management/purch
 import { APIUrl } from "../../../../../App";
 import { AdjustmentJournalViewTableRow } from "../../../financials/adjustmentJournal/report/tableRow";
 import SupplierModal from "./supplierModal";
+import NewSelect from "../../../../_helper/_select";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { toast } from "react-toastify";
 
 const initData = {
   approveAmount: "",
   approveAmountMax: "",
   remarks: "",
+  profitCenter: "",
 };
 
 const validationSchema = Yup.object().shape({
   approveAmount: Yup.number()
     .min(0, "Minimum 0 number")
     .required("Approve amount required")
-    .test("approveAmount", "Max net payment amount", function (value) {
+    .test("approveAmount", "Max net payment amount", function(value) {
       return this.parent.approveAmountMax >= value;
     }),
 });
@@ -78,12 +82,25 @@ function _Form({ gridItem, laingValues, girdDataFunc, setModalShow }) {
   };
 
   const saveHandler = (values) => {
+    let netPaymentAmount = +parseInt(
+      singleData?.objHeaderDTO?.netPaymentAmount || 0
+    );
+    let approvalAmount = parseInt(+values?.approveAmount || 0);
+    if (
+      gridItem?.billType === 1 &&
+      netPaymentAmount !== approvalAmount &&
+      !values?.profitCenter?.value
+    ) {
+      return toast.warn("Profit Center is required");
+    }
+
     const modifyGridData = {
       billId: gridItem?.billRegisterId,
       unitId: selectedBusinessUnit?.value,
       billTypeId: gridItem?.billType,
       approvedAmount: +values?.approveAmount,
       remarks: values?.remarks || "",
+      profitCenterId: values?.profitCenter?.value || 0,
     };
     const payload = {
       bill: [modifyGridData],
@@ -101,6 +118,27 @@ function _Form({ gridItem, laingValues, girdDataFunc, setModalShow }) {
 
   const [isShowModalTwo, setIsShowModalTwo] = useState(false);
   const [currentItem, setCurrentItem] = useState("");
+  const [
+    profitCenterList,
+    getProfitCenterList,
+    ,
+    setProfitCenterList,
+  ] = useAxiosGet();
+
+  useEffect(() => {
+    getProfitCenterList(
+      `fino/CostSheet/ProfitCenterDetails?UnitId=${selectedBusinessUnit?.value}`,
+      (data) => {
+        const result = data?.map((item) => ({
+          ...item,
+          value: item.profitCenterId,
+          label: item.profitCenterName,
+        }));
+        setProfitCenterList(result);
+      }
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div>
@@ -154,10 +192,31 @@ function _Form({ gridItem, laingValues, girdDataFunc, setModalShow }) {
                     componentRef={printRef}
                     ref={printRef}
                   >
+                   
                     {laingValues?.status?.value &&
                       laingValues?.status?.value !== 2 && (
                         <div className="row global-form printSectionNone">
-                          <div className="col-lg-3 offset-lg-6">
+                          {gridItem?.billType === 1 &&
+                          parseInt(
+                            singleData?.objHeaderDTO?.netPaymentAmount || 0
+                          ) !== parseInt(+values?.approveAmount || 0) ? (
+                            <div className="col-lg-3">
+                              <NewSelect
+                                name="profitCenter"
+                                options={profitCenterList || []}
+                                value={values?.profitCenter}
+                                label="Profit Center"
+                                onChange={(valueOption) => {
+                                  setFieldValue("profitCenter", valueOption);
+                                }}
+                                errors={errors}
+                                touched={touched}
+                              />
+                            </div>
+                          ) : (
+                            <div className="col-lg-3"></div>
+                          )}
+                          <div className="col-lg-3">
                             <label>Remarks</label>
                             <InputField
                               value={values?.remarks}
@@ -173,6 +232,10 @@ function _Form({ gridItem, laingValues, girdDataFunc, setModalShow }) {
                               name="approveAmount"
                               placeholder="Approve Amount"
                               type="number"
+                              onChange={(e) => {
+                                setFieldValue("approveAmount", +e.target.value);
+                                setFieldValue("profitCenter", "");
+                              }}
                               max={singleData?.objHeaderDTO?.netPaymentAmount}
                               required
                             />
@@ -345,7 +408,8 @@ function _Form({ gridItem, laingValues, girdDataFunc, setModalShow }) {
                             )}
                           </p>
                           <p style={{ marginRight: "5px" }}>
-                            <b>Bill Code:</b> {singleData?.objHeaderDTO?.billCode}
+                            <b>Bill Code:</b>{" "}
+                            {singleData?.objHeaderDTO?.billCode}
                           </p>
                         </div>
                       </div>

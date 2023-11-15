@@ -4,9 +4,13 @@ import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute } from "../../../../_metronic/layout";
 import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
 import findIndex from "./../../_helper/_findIndex";
+import ComplainForm from "./complain/form/addEditForm";
+import ComplainLanding from "./complain/landing";
 import CustomerIncentive from "./customerIncentive";
 import { CustomerVisitLanding } from "./customerVisit";
 import { CustomerVisitForm } from "./customerVisit/Form/addEditForm";
+import DamageEntryForm from "./damageEntry/form/addEditForm";
+import DamageEntryLanding from "./damageEntry/landing";
 import HologramPrintLanding from "./hologramPrint/table/table";
 import MonthlyCollectionPlanEntryForm from "./monthlyCollectionPlan/form/addEditForm";
 import { MonthlyCollectionPlanLanding } from "./monthlyCollectionPlan/landingPage/table";
@@ -18,6 +22,8 @@ import PGIForm from "./pgi/Form/addEditForm";
 import { SalesContract } from "./salesContract";
 import SalesContactForm from "./salesContract/Form/addEditForm";
 import SalesContactViewForm from "./salesContract/ViewForm/addEditForm";
+import SalesIncentive from "./salesIncentive";
+import SalesIncentiveForm from "./salesIncentive/addEditForm";
 import { SalesOrder } from "./salesOrder";
 import SalesOrderForm from "./salesOrder/Form/addEditForm";
 import { salesOrderInActiveMenuPermissionAPI } from "./salesOrderInActive/helper";
@@ -30,8 +36,6 @@ import SalesQuotationReadyMixForm from "./salesQuotationReadyMix/Form/addEditFor
 import { SalesReportOMS } from "./salesReportOMS/index";
 import SalesReturnForm from "./salesReturn/form/addEditForm";
 import SalesReturn from "./salesReturn/landing/table";
-import DamageEntryLanding from "./damageEntry/landing";
-import DamageEntryForm from "./damageEntry/form/addEditForm";
 
 export function OrderManagementPages() {
   const { userRole } = useSelector((state) => state?.authData, shallowEqual);
@@ -280,6 +284,30 @@ export function OrderManagementPages() {
             ? CustomerIncentive
             : NotPermittedPage
         }
+      />
+      <ContentRoute
+        from='/sales-management/ordermanagement/Complain/entry'
+        component={ComplainForm}
+      />
+      <ContentRoute
+        from='/sales-management/ordermanagement/Complain/edit/:edit'
+        component={ComplainForm}
+      />
+      <ContentRoute
+        from='/sales-management/ordermanagement/Complain/view/:view'
+        component={ComplainForm}
+      />
+      <ContentRoute
+        from='/sales-management/ordermanagement/Complain'
+        component={ComplainLanding}
+      />
+      <ContentRoute
+        from='/sales-management/ordermanagement/salesincentive/create'
+        component={SalesIncentiveForm}
+      />
+      <ContentRoute
+        from='/sales-management/ordermanagement/salesincentive'
+        component={SalesIncentive}
       />
     </Switch>
   );

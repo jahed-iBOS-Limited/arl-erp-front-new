@@ -29,6 +29,7 @@ const initData = {
   toDate: _todayDate(),
   employee: "",
   salesType: { value: 1, label: "Local" },
+  chequeStatus: "",
 };
 
 const PartnerCheckSubmitLanding = () => {
@@ -40,6 +41,7 @@ const PartnerCheckSubmitLanding = () => {
   const [loading, setLoading] = useState(false);
   const [filteredData, setFilteredData] = useState(rowData);
   const [empList, setEmpList] = useState([]);
+  const [employeeInfo, getEmployeeInfo] = useAxiosGet();
 
   // get user profile data from store
   const {
@@ -47,7 +49,7 @@ const PartnerCheckSubmitLanding = () => {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  const getData = (values, pageNo, pageSize, searchTerm = "") => {
+  const getData = (values, pageNo = 0, pageSize = 100, searchTerm = "") => {
     const search = searchTerm ? `&searchTerm=${searchTerm}` : "";
 
     const detailsURL = `partner/PartnerOverDue/GetBusinessPartnerCheckLanding?AccountId=${accId}&BusniessUnitId=${buId}&BusinessPartnerId=${values
@@ -62,7 +64,12 @@ const PartnerCheckSubmitLanding = () => {
       values?.viewType?.value === 3 ? values?.employee?.value : 0
     }&ViewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`;
 
-    const foreignSalesURL = `/partner/PartnerOverDue/GetExportPartnerPaymentInfoPagination?accountId=${accId}&businessUnitId=${buId}&soldToPartnerId=${values?.customer?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&pageNo=${pageNo}&pageSize=${pageSize}${search}`;
+    const foreignSalesURL = `/partner/PartnerOverDue/GetExportPartnerPaymentInfoPagination?accountId=${accId}&businessUnitId=${buId}&soldToPartnerId=${
+      values?.customer?.value
+    }&fromDate=${values?.fromDate}&toDate=${
+      values?.toDate
+    }&pageNo=${pageNo}&pageSize=${pageSize}${search}&status=${values
+      ?.chequeStatus?.value || ""}`;
 
     const url =
       values?.salesType?.value === 2
@@ -79,6 +86,9 @@ const PartnerCheckSubmitLanding = () => {
       `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accId}&BUnitId=${buId}`
     );
     getEmployeeList(accId, buId, setEmpList, setLoading);
+    getEmployeeInfo(
+      `/partner/PartnerOverDue/GetUserInfoForExportPartnerPaymentApproval?userId=${userId}`
+    );
   }, [accId, buId]);
 
   useEffect(() => {
@@ -263,10 +273,12 @@ const PartnerCheckSubmitLanding = () => {
                     obj={{
                       values,
                       pageNo,
+                      getData,
                       rowData,
                       pageSize,
                       setPageNo,
                       setPageSize,
+                      employeeInfo,
                       setPositionHandler,
                     }}
                   />
