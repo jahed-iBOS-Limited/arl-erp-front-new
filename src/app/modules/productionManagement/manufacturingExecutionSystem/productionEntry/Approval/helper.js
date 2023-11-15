@@ -82,7 +82,7 @@ export const IssueReturnHandler = async ({
               uoMid: item?.baseUomid,
               uoMname: item?.baseUom,
               numTransactionQuantity: item?.restQty,
-              monTransactionValue: item?.monTransactionValue * -1,
+              monTransactionValue: item?.monTransactionValue,
               inventoryLocationId: item?.inventoryLocationId,
               inventoryLocationName: item?.inventoryLocationName,
               batchId: 0,
@@ -98,7 +98,7 @@ export const IssueReturnHandler = async ({
     };
 
     const res = await axios.post(
-      `/wms/InventoryTransaction/CreateInvTransectionForIssue`,
+      `/wms/InventoryTransaction/CreateInvTransectionForIssueProduction`,
       payload
     );
   }
