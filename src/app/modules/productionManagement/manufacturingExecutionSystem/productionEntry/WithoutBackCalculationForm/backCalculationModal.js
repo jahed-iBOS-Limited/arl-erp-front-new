@@ -154,11 +154,11 @@ export default function BackCalculationModal({
                               name="requiredQuantity"
                               type="number"
                               value={item?.requiredQuantity}
-                              max={item?.numIssueQuantity}
+                              max={item?.numApprovedQuantity}
                               onChange={(e) => {
-                                if (+e.target.value > item.numIssueQuantity) {
+                                if (+e.target.value > item.numApprovedQuantity) {
                                   return toast.warn(
-                                    `Qty cann't be greater than ${item.numIssueQuantity}`
+                                    `Qty cann't be greater than ${item.numApprovedQuantity}`
                                   );
                                 }
                                 let requiredQuantity = e?.target?.value;
@@ -189,7 +189,7 @@ export default function BackCalculationModal({
                           <td className="text-right">
                             <strong
                               className={
-                                (+item?.numIssueQuantity || 0) -
+                                (+item?.numApprovedQuantity || 0) -
                                   (+item?.requiredQuantity || 0) >=
                                 1
                                   ? "text-warning"
