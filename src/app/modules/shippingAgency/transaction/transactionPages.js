@@ -1,7 +1,7 @@
 import React from "react";
 import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute } from "../../../../_metronic/layout";
-import EstimatePDA from "./estimatePDA";
+import EstimatePDALanding from "./estimatePDA/landing";
 
 export function TransactionPages() {
   return (
@@ -14,7 +14,7 @@ export function TransactionPages() {
 
       <ContentRoute
         path='/ShippingAgency/Transaction/EstimatePDA'
-        component={EstimatePDA}
+        component={EstimatePDALanding}
       />
     </Switch>
   );
