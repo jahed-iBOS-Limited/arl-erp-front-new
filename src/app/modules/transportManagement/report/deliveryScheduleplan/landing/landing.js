@@ -342,14 +342,14 @@ function DeliveryScheduleplanReport() {
                                       poviderTypeId: values?.logisticBy?.value,
                                       providerTypeName:
                                         values?.logisticBy?.label,
-                                      deliveryStatus:
-                                        itm?.deliveryStatus?.label,
+                                        scheduleName:
+                                        itm?.scheduleName?.label,
                                       scheduleDate:
                                         itm?.deliveryScheduleDate || new Date(),
                                     }));
 
                                   const isDeliveryStatusSelected = payload?.every(
-                                    (item) => item.deliveryStatus
+                                    (item) => item.scheduleName !== null
                                   );
 
                                   if (!isDeliveryStatusSelected)
@@ -763,11 +763,11 @@ function DeliveryScheduleplanReport() {
                                           <NewSelect
                                             name="deliveryStatus"
                                             options={deliveryStatusDDL ?? []}
-                                            value={item?.deliveryStatus || ""}
+                                            value={item?.scheduleName ? deliveryStatusDDL?.find(i=>i.label === item?.scheduleName) : ""}
                                             onChange={(valueOption) => {
                                               let copyGridData = [...gridData];
                                               copyGridData[index][
-                                                "deliveryStatus"
+                                                "scheduleName"
                                               ] = valueOption;
                                               setGridData(copyGridData);
                                               console.log(gridData);
