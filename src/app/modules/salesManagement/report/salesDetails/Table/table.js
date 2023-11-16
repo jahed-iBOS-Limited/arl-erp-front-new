@@ -510,7 +510,7 @@ export default function SalesDetailsTable({ saveHandler }) {
                         />
 
                         <IButton
-                          colSize={"col-lg-2"}
+                          // colSize={"col-lg-2"}
                           onClick={() => {
                             setShowReport(true);
                           }}
