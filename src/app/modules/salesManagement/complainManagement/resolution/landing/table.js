@@ -81,16 +81,6 @@ const LandingTable = ({ obj }) => {
                     {item?.investigatorAssignByName?.[0]?.investigatorName}
                   </div>
                 </OverlayTrigger>
-                {/*               
-                <OverlayTrigger
-                  overlay={
-                    <Tooltip id='cs-icon'>
-                     sf
-                    </Tooltip>
-                  }
-                >
-                  {item?.investigatorAssignByName?.[0]?.investigatorName}
-                </OverlayTrigger> */}
               </td>
               <td>
                 <OverlayTrigger
