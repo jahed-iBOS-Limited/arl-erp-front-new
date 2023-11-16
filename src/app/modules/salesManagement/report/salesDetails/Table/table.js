@@ -25,6 +25,7 @@ const reports = [
   // { value: 6, label: "Daily Sales Order for Consumer Group" },
   { value: 7, label: "Sales Order and Delivery Challan" },
   { value: 8, label: "Delivery Challan and Sales Order Pending" },
+  { value: 9, label: "Order Vs Challan Duration Gap" },
 ];
 
 const getTypes = (values) => {
@@ -130,7 +131,9 @@ export default function SalesDetailsTable({ saveHandler }) {
       ? `bbabf651-9f58-41cb-91c8-c6524256b404`
       : id === 8
       ? `0fdc584e-859d-44e2-9066-b675c6fa61f6`
-      : "";
+      : id === 9 
+      ? `709ccf52-b436-4d88-ad5f-992b86e7357d`
+      :"";
   };
   const groupId = `e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`;
 
@@ -227,6 +230,15 @@ export default function SalesDetailsTable({ saveHandler }) {
       { name: "ToDate", value: `${values?.toDate}` },
     ];
 
+    const nineParams = [
+      { name: "intbusinessunitid", value: `${buId}` },
+      { name: "intshippointid", value: `${values?.shipPoint?.value}` },
+      { name: "intchannelid", value: `${values?.channel?.value}` },
+      { name: "FromDate", value: `${values?.fromDate}` },
+      { name: "ToDate", value: `${values?.toDate}` },
+      { name: "intsoldtopartnerid", value: `${values?.partner?.value}` },
+    ];
+
     return id === 1
       ? paramsForSalesDetails
       : id === 2
@@ -248,6 +260,8 @@ export default function SalesDetailsTable({ saveHandler }) {
         : seventhParams
       : id === 8
       ? eightParams
+      : id === 9
+      ? nineParams
       : [];
   };
 
@@ -308,7 +322,7 @@ export default function SalesDetailsTable({ saveHandler }) {
                             />
                           </div>
                         )}
-                        {[1, 4, 5, 6, 7, 8].includes(values?.report?.value) &&
+                        {[1, 4, 5, 6, 7, 8, 9].includes(values?.report?.value) &&
                           ![2, 4].includes(values?.reportType?.value) && (
                             <div className="col-lg-2">
                               <NewSelect
@@ -330,7 +344,7 @@ export default function SalesDetailsTable({ saveHandler }) {
                             </div>
                           )}
 
-                        {[1, 3, 4, 5, 6, 7, 8].includes(
+                        {[1, 3, 4, 5, 6, 7, 8,9].includes(
                           values?.report?.value
                         ) && (
                           <RATForm
@@ -358,7 +372,7 @@ export default function SalesDetailsTable({ saveHandler }) {
                             }}
                           />
                         )}
-                        {[2, 3, 8].includes(values?.report?.value) && (
+                        {[2, 3, 8, 9].includes(values?.report?.value) && (
                           <div className="col-lg-2">
                             <NewSelect
                               name="partner"
@@ -496,7 +510,7 @@ export default function SalesDetailsTable({ saveHandler }) {
                         />
 
                         <IButton
-                          colSize={"col-lg-2"}
+                          // colSize={"col-lg-2"}
                           onClick={() => {
                             setShowReport(true);
                           }}
