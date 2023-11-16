@@ -8,6 +8,7 @@ import { TransportManagementPages } from "./transportManagementSystem/transportM
 import { ReportManagementPages } from "./report/reportManagementPages";
 import { AcclReportPages } from "./acclReport/acclReportPages";
 import { ServiceSalesPages } from "./serviceSales/serviceSalesPages";
+import { ComplainManagementPages } from "./complainManagement/complainManagementPages";
 
 export function SalesManagementPages() {
   return (
@@ -15,34 +16,36 @@ export function SalesManagementPages() {
       <Switch>
         <Redirect
           exact={true}
-          from="/sales-management"
-          to="/sales-management/configuration/salesorganization"
+          from='/sales-management'
+          to='/sales-management/configuration/salesorganization'
         />
         <ContentRoute
-          path="/sales-management/configuration"
+          path='/sales-management/configuration'
           component={SalesConfigurationPages}
         />
-
         <ContentRoute
-          path="/sales-management/ordermanagement"
+          path='/sales-management/ordermanagement'
           component={OrderManagementPages}
         />
         <ContentRoute
-          path="/sales-management/servicesales"
+          path='/sales-management/servicesales'
           component={ServiceSalesPages}
         />
-
         <ContentRoute
-          path="/sales-management/transportmanagement"
+          path='/sales-management/transportmanagement'
           component={TransportManagementPages}
         />
         <ContentRoute
-          path="/sales-management/report"
+          path='/sales-management/report'
           component={ReportManagementPages}
         />
         <ContentRoute
-          path="/sales-management/AcclReport"
+          path='/sales-management/AcclReport'
           component={AcclReportPages}
+        />{" "}
+        <ContentRoute
+          path='/sales-management/complainmanagement'
+          component={ComplainManagementPages}
         />
       </Switch>
     </Suspense>
