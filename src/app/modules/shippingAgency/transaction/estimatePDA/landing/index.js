@@ -8,7 +8,11 @@ import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import { _todayDate } from "../../../../_helper/_todayDate";
-import { complainLandingPasignation, getSBUListDDLApi, getVesselDDL } from "../helper";
+import {
+  complainLandingPasignation,
+  getSBUListDDLApi,
+  getVesselDDL,
+} from "../helper";
 import LandingTable from "./table";
 
 const initData = {
@@ -32,7 +36,7 @@ const EstimatePDALanding = () => {
 
   useEffect(() => {
     if (accId && buId) {
-      getVesselDDL(accId, buId, setVesselDDL); 
+      getVesselDDL(accId, buId, setVesselDDL);
       getSBUListDDLApi(accId, buId, setSbuDDL);
       commonGridData(pageNo, pageSize, initData);
     }
@@ -134,6 +138,12 @@ const EstimatePDALanding = () => {
                     onClick={() => {
                       commonGridData(1, pageSize, values);
                     }}
+                    disabled={
+                      !values?.fromDate ||
+                      !values?.toDate ||
+                      !values?.sbu?.value ||
+                      !values?.vesselName?.value
+                    }
                   >
                     View
                   </button>
