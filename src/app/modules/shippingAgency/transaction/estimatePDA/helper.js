@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 // import { toast } from "react-toastify";
 // import { _dateFormatter } from "../../../_helper/_dateFormate";
 
@@ -253,5 +254,30 @@ export const getVesselDDL = async (accId, buId, setter, vesselId) => {
     setter(res.data);
   } catch (error) {
     setter([]);
+  }
+};
+export const attachment_action = async (
+  attachment,
+  setFieldValue,
+  setLoading
+) => {
+  setLoading(true);
+  let formData = new FormData();
+  attachment.forEach((file) => {
+    formData.append("files", file?.file);
+  });
+  setFieldValue("attachment", "");
+  try {
+    let { data } = await axios.post("/domain/Document/UploadFile", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    toast.success("Upload  successfully");
+    setFieldValue("attachment", data?.[0]?.id);
+    setLoading(false);
+  } catch (error) {
+    setLoading(false);
+    toast.error("Document not upload");
   }
 };
