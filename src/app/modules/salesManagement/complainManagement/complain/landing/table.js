@@ -52,10 +52,10 @@ const LandingTable = ({ obj }) => {
                   _dateFormatter(item?.delegateDateTime)}
               </td>
               <td>{item?.delegateToName}</td>
-              <td>{item?.investigatorAssignByName}</td>
+              <td>{item?.investigatorAssignByName?.[0]?.investigatorName}</td>
               <td>
-                {item?.investigatorAssignDate &&
-                  _dateFormatter(item?.investigatorAssignDate)}
+                {item?.investigatorAssignByName?.[0]?.investigationDateTime &&
+                  _dateFormatter(item?.investigatorAssignByName?.[0]?.investigationDateTime)}
               </td>
               <td>
                 <span

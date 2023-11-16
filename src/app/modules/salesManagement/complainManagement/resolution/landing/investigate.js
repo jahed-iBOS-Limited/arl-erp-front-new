@@ -2,7 +2,7 @@ import axios from "axios";
 import { Formik } from "formik";
 import { DropzoneDialogBase } from "material-ui-dropzone";
 import moment from "moment";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
@@ -14,7 +14,11 @@ import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import { _todayDate } from "../../../../_helper/_todayDate";
-import { attachment_action, investigateComplainApi } from "../helper";
+import {
+  attachment_action,
+  getInvestigateComplainbyApi,
+  investigateComplainApi,
+} from "../helper";
 export const validationSchema = Yup.object().shape({});
 
 function InvestigateForm({ clickRowData, landingCB }) {
@@ -57,6 +61,12 @@ function InvestigateForm({ clickRowData, landingCB }) {
       landingCB();
     });
   };
+
+  useEffect(() => {
+    if (clickRowData?.status === "Investigate") {
+      getInvestigateComplainbyApi(clickRowData?.complainId, setRowDto);
+    }
+  }, [clickRowData]);
   return (
     <>
       <Formik
