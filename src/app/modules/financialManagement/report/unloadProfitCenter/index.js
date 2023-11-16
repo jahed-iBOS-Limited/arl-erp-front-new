@@ -8,14 +8,17 @@ import { shallowEqual, useSelector } from "react-redux";
 import { _todayDate } from "../../../_helper/_todayDate";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import { _formatMoney } from "../../../_helper/_formatMoney";
+import NewSelect from "../../../_helper/_select";
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
+  businessUnit: "",
 };
 export default function UnallocatedProfitCenter() {
   const saveHandler = (values, cb) => {};
-  const { selectedBusinessUnit } = useSelector((state) => {
-    return state.authData;
+
+  const businessUnitList = useSelector((state) => {
+    return state.authData.businessUnitList;
   }, shallowEqual);
 
   const [
@@ -57,6 +60,17 @@ export default function UnallocatedProfitCenter() {
             <Form>
               <div>
                 <div className="form-group  global-form row">
+                  <div className="col-lg-3">
+                    <NewSelect
+                      label="Business Unit"
+                      options={businessUnitList || ""}
+                      value={values?.businessUnit}
+                      name="businessUnit"
+                      onChange={(valueOption) => {
+                        setFieldValue("businessUnit", valueOption);
+                      }}
+                    />
+                  </div>
                   <div className="col-lg-3">
                     <label>From Date</label>
                     <InputField
@@ -100,10 +114,14 @@ export default function UnallocatedProfitCenter() {
                       }}
                       className="btn btn-primary"
                       type="button"
-                      disabled={!values?.fromDate || !values?.toDate}
+                      disabled={
+                        !values?.businessUnit?.value ||
+                        !values?.fromDate ||
+                        !values?.toDate
+                      }
                       onClick={() => {
                         getTableData(
-                          `/fino/Report/GetUnAllocatedProfitCenter?businessUnitId=${selectedBusinessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`
+                          `/fino/Report/GetUnAllocatedProfitCenter?businessUnitId=${values?.businessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`
                         );
                       }}
                     >

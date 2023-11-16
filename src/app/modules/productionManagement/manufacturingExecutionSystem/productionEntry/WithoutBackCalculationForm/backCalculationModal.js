@@ -60,12 +60,20 @@ export default function BackCalculationModal({
               const targetItem = data.find(
                 (itm) => itm?.itemId === item?.itemId
               );
+
+              let calculatedRequiredQuantity =
+                ((item?.quantity / item?.lotSize) * goodQty)?.toFixed(4) || 0;
+
               return {
                 ...item,
                 numStockRateByDate: targetItem?.numStockRateByDate,
                 numStockByDate: targetItem?.numStockByDate,
                 requiredQuantity:
-                  ((item?.quantity / item?.lotSize) * goodQty)?.toFixed(4) || 0,
+                  values?.isLastProduction &&
+                  calculatedRequiredQuantity > item?.numApprovedQuantity
+                    ? item?.numApprovedQuantity
+                    : calculatedRequiredQuantity,
+
                 // requiredQuantity:(()=>{
                 //   let reqQty =  ((item?.quantity / item?.lotSize) * goodQty)?.toFixed(4) || 0;
                 //   let lotSize = item?.numLotSize;
@@ -129,7 +137,9 @@ export default function BackCalculationModal({
                       <th>Qty</th>
                       <th>Rate</th>
                       <th>Value</th>
-                      <th>{values?.isLastProduction ? "Return Qty" : "Rest Qty"}</th>
+                      <th>
+                        {values?.isLastProduction ? "Return Qty" : "Rest Qty"}
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -144,11 +154,11 @@ export default function BackCalculationModal({
                               name="requiredQuantity"
                               type="number"
                               value={item?.requiredQuantity}
-                              max={item?.numIssueQuantity}
+                              max={item?.numApprovedQuantity}
                               onChange={(e) => {
-                                if (+e.target.value > item.numIssueQuantity) {
+                                if (+e.target.value > item.numApprovedQuantity) {
                                   return toast.warn(
-                                    `Qty cann't be greater than ${item.numIssueQuantity}`
+                                    `Qty cann't be greater than ${item.numApprovedQuantity}`
                                   );
                                 }
                                 let requiredQuantity = e?.target?.value;
@@ -179,14 +189,14 @@ export default function BackCalculationModal({
                           <td className="text-right">
                             <strong
                               className={
-                                (+item?.numIssueQuantity || 0) -
+                                (+item?.numApprovedQuantity || 0) -
                                   (+item?.requiredQuantity || 0) >=
                                 1
                                   ? "text-warning"
                                   : ""
                               }
                             >
-                              {(+item?.numIssueQuantity || 0) -
+                              {(+item?.numApprovedQuantity || 0) -
                                 (+item?.requiredQuantity || 0)}
                             </strong>
                           </td>

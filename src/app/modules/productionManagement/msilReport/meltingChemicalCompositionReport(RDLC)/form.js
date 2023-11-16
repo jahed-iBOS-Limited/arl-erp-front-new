@@ -1,13 +1,16 @@
 import { Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { _todayDate } from "../../../_helper/_todayDate";
 import ICustomCard from "../../../_helper/_customCard";
 import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
 import InputField from "../../../_helper/_inputField";
 import { shallowEqual, useSelector } from "react-redux";
+import NewSelect from "../../../_helper/_select";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
+  testName:"",
 };
 const MeltingChemicalCompositionReportRDLC = () => {
   const groupId = `e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`;
@@ -18,12 +21,19 @@ const MeltingChemicalCompositionReportRDLC = () => {
   }, shallowEqual);
 
   const [showReport, setShowReport] = useState(false);
+  const [testNameList, getTestNameList] = useAxiosGet();
+
+  useEffect(() => {
+    getTestNameList(`/mes/MesDDL/GetTestNameDDL`)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
 
   const parameterValues = (values) => {
     return [
       { name: "FromDate", value: `${values?.fromDate}` },
       { name: "ToDate", value: `${values?.toDate}` },
       { name: "UnitId", value: `${selectedBusinessUnit?.value}` },
+      { name: "TestName", value: `${values?.testName?.label || ""}` },
     ];
   };
 
@@ -34,6 +44,18 @@ const MeltingChemicalCompositionReportRDLC = () => {
           <ICustomCard title="Melting Chemical Composition Report">
             <form className="form form-label-right">
               <div className="form-group row global-form">
+              <div className="col-lg-3">
+                  <NewSelect
+                    name="testName"
+                    options={testNameList || []}
+                    value={values?.testName}
+                    label="Test Name"
+                    onChange={(valueOption) => {
+                      setShowReport(false);
+                      setFieldValue("testName", valueOption);
+                    }}
+                  />
+                </div>
                 <div className="col-lg-3">
                   <label>From Date</label>
                   <InputField

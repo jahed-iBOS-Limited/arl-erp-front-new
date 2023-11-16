@@ -4,8 +4,6 @@ import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute } from "../../../../_metronic/layout";
 import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
 import findIndex from "./../../_helper/_findIndex";
-import ComplainForm from "./complain/form/addEditForm";
-import ComplainLanding from "./complain/landing";
 import CustomerIncentive from "./customerIncentive";
 import { CustomerVisitLanding } from "./customerVisit";
 import { CustomerVisitForm } from "./customerVisit/Form/addEditForm";
@@ -284,22 +282,6 @@ export function OrderManagementPages() {
             ? CustomerIncentive
             : NotPermittedPage
         }
-      />
-      <ContentRoute
-        from='/sales-management/ordermanagement/Complain/entry'
-        component={ComplainForm}
-      />
-      <ContentRoute
-        from='/sales-management/ordermanagement/Complain/edit/:edit'
-        component={ComplainForm}
-      />
-      <ContentRoute
-        from='/sales-management/ordermanagement/Complain/view/:view'
-        component={ComplainForm}
-      />
-      <ContentRoute
-        from='/sales-management/ordermanagement/Complain'
-        component={ComplainLanding}
       />
       <ContentRoute
         from='/sales-management/ordermanagement/salesincentive/create'

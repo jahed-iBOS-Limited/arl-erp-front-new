@@ -22,11 +22,12 @@ export function getGridData(
   reportTypeId,
   pageNo,
   pageSize,
-  search
+  search,
+  distributionChannelId,
 ) {
   const searchPath = search ? `searchTerm=${search}&` : "";
   return axios.get(
-    `/oms/SalesOrder/GetSalesOrderPaginationSearch?${searchPath}AccountId=${accId}&BUnitId=${buId}&ShipPointId=${shipPointId}&status=true&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&ReportTypeId=${reportTypeId || 0}`
+    `/oms/SalesOrder/GetSalesOrderPaginationSearch?${searchPath}AccountId=${accId}&BUnitId=${buId}&ShipPointId=${shipPointId}&status=true&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&ReportTypeId=${reportTypeId || 0}&DistributionChannelId=${distributionChannelId || 0}`
   );
 }
 

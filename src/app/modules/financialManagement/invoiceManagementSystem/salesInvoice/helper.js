@@ -22,7 +22,9 @@ export const getSalesInvoiceLanding = async (
 
   try {
     const res = await axios.get(
-      [186, 175, 4, 94, 8, 138].includes(buId) ? urlForSomeSelectedUnit : commonURL
+      [186, 175, 4, 94, 8, 138].includes(buId)
+        ? urlForSomeSelectedUnit
+        : commonURL
     );
     setLoading(false);
     setter(res?.data);
@@ -229,8 +231,9 @@ export const cancelSalesInvoice = async (
 export const getEmployeeList = async (accId, buId, setter, setLoading) => {
   setLoading(true);
   try {
+    const unitId = buId === 138 ? 186 : buId;
     const res = await axios.get(
-      `/domain/EmployeeBasicInformation/GetEmployeeDDL?AccountId=${accId}&BusinessUnitId=${buId}`
+      `/domain/EmployeeBasicInformation/GetEmployeeDDL?AccountId=${accId}&BusinessUnitId=${unitId}`
     );
     setter(res?.data);
     setLoading(false);

@@ -26,6 +26,7 @@ const initData = {
   amount: "",
   billRegisterDate: _todayDate(),
   businessTransaction: "",
+  profitCenter:"",
 };
 
 export default function OthersBillCreateForm() {
@@ -97,6 +98,7 @@ export default function OthersBillCreateForm() {
       subGlId: values?.businessTransaction?.businessTransactionId,
       subGlName: values?.businessTransaction?.businessTransactionName,
       subGlCode: values?.businessTransaction?.businessTransactionCode,
+      profitCenterId : values?.profitCenter?.value,
     });
     setRowData(rows);
     cb();
