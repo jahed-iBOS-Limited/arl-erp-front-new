@@ -32,6 +32,8 @@ import NewSelect from "../../../../_helper/_select";
 import BillOfMaterialTable from "./billOfMaterialTable";
 import { saveBOMApproval_api } from "./../helper";
 import InventoryAdjust from "../InventoryAdjust";
+import ImportedTableRow from '../../../../importManagement/reports/costSummary/landing/tableRow.js';
+
 export function TableRow(props) {
   const [billSubmitBtn, setBillSubmitBtn] = useState(true);
   let history = useHistory();
@@ -397,6 +399,11 @@ export function TableRow(props) {
             </div>
           )}
         </div>
+
+        {["Commercial Management"].includes(selectedModule?.label) && ["LC Cost Sheet"]?.includes(activityName?.label)? <div className="mt-5">
+        <ImportedTableRow formCommonApproval={true}/>
+        </div> : null }
+
 
         {/* All Grid */}
         {activityName?.label === "Loan Approval" ||

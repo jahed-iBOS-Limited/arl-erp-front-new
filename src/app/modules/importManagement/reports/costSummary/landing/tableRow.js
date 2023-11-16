@@ -19,8 +19,9 @@ import Print from "./Print";
 import IViewModal from "../../../../_helper/_viewModal";
 import { PurchaseOrderViewTableRow } from "../../../../procurement/purchase-management/purchaseOrder/report/tableRow";
 import ShipmenmtQuantityModal from "./shipmentQuantityModal";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
-const TableRow = () => {
+const TableRow = ({ formCommonApproval }) => {
   const [rowDto, setRowDto] = useState([]);
   const [loader, setLoader] = useState(false);
   const [shipmentDDL, setShipmentDDL] = useState([]);
@@ -29,12 +30,21 @@ const TableRow = () => {
   const [isShowModal, setIsShowModal] = useState(false);
   const [isShowShipmentQuantity, setIsShowShipmentQuantity] = useState(false);
   const printRef = useRef();
+  const [POLCNO, setPOLCNO] = useState({});
+  const [Shipment, setShipment] = useState({});
+  const [, approvalHandler] = useAxiosPost();
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
-  const header = ["SL", "Particulars", "Estimated Amount (BDT)", "Actual Amount (BDT)", "Variance (BDT)"];
+  const header = [
+    "SL",
+    "Particulars",
+    "Estimated Amount (BDT)",
+    "Actual Amount (BDT)",
+    "Variance (BDT)",
+  ];
 
   const initData = {
     shipment: { value: 0, label: "All" },
@@ -107,30 +117,54 @@ const TableRow = () => {
     <>
       {loader && <Loading />}
       <ICustomCard
-        title='LC Cost Sheet'
+        title="LC Cost Sheet"
         renderProps={() => (
           <div
             onClick={() => {
               setIsPrintable(true);
             }}
           >
-            <ReactToPrint
-              trigger={() => (
-                <button className='btn btn-primary'>
-                  <img
-                    style={{ width: "25px", paddingRight: "5px" }}
-                    src={printIcon}
-                    alt='print-icon'
-                  />
-                  Print
+            {formCommonApproval ? (
+              <div>
+                <button
+                  disabled={
+                    !POLCNO?.label || !Shipment?.label || !rowDto?.length
+                  }
+                  className="btn btn-primary"
+                  onClick={() => {
+                    approvalHandler(
+                      `/imp/ImportReport/ApproveCommercialCoating`,
+                      {
+                        shipmentId: Shipment?.value || 0,
+                        poId: POLCNO?.value || 0,
+                        approveBy: profileData?.userId,
+                      }
+                    );
+                  }}
+                  type="button"
+                >
+                  Approve
                 </button>
-              )}
-              content={() => printRef.current}
-              // onBeforeGetContent={()=>setIsPrintable(true)}
-              onAfterPrint={() => {
-                setIsPrintable(false);
-              }}
-            />
+              </div>
+            ) : (
+              <ReactToPrint
+                trigger={() => (
+                  <button className="btn btn-primary">
+                    <img
+                      style={{ width: "25px", paddingRight: "5px" }}
+                      src={printIcon}
+                      alt="print-icon"
+                    />
+                    Print
+                  </button>
+                )}
+                content={() => printRef.current}
+                // onBeforeGetContent={()=>setIsPrintable(true)}
+                onAfterPrint={() => {
+                  setIsPrintable(false);
+                }}
+              />
+            )}
           </div>
         )}
       >
@@ -143,17 +177,19 @@ const TableRow = () => {
         >
           {({ values, errors, touched, setFieldValue, dirty, isValid }) => (
             <>
-              <Form className='form form-label-right'>
-                <div className='row global-form'>
-                  <div className='col-lg-3'>
+              <Form className="form form-label-right">
+                <div className="row global-form">
+                  <div className="col-lg-3">
                     <label>PO/LC No</label>
                     <SearchAsyncSelect
                       selectedValue={values?.poLc}
                       handleChange={(valueOption) => {
                         setFieldValue("poLc", valueOption);
+                        setPOLCNO(valueOption);
                         getShipment(valueOption?.label);
                         if (!valueOption) {
                           setRowDto([]);
+                          setPOLCNO({});
                         }
                         setFieldValue("shipment", "");
                       }}
@@ -161,13 +197,14 @@ const TableRow = () => {
                       disabled={true}
                     />
                   </div>
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <NewSelect
-                      name='shipment'
+                      name="shipment"
                       options={shipmentDDL || []}
                       value={values?.shipment}
                       onChange={(valueOption) => {
                         setFieldValue("shipment", valueOption);
+                        setShipment(valueOption || {});
                         if (valueOption) {
                           setRowDto([]);
                         } else {
@@ -180,15 +217,15 @@ const TableRow = () => {
                           );
                         }
                       }}
-                      placeholder='Shipment'
+                      placeholder="Shipment"
                       errors={errors}
                       touched={touched}
                     />
                   </div>
-                  <div className='col-lg-3 pt-5 mt-1'>
+                  <div className="col-lg-3 pt-5 mt-1">
                     <button
-                      className='btn btn-primary'
-                      type='button'
+                      className="btn btn-primary"
+                      type="button"
                       onClick={() => {
                         getReport(values);
                       }}
@@ -226,7 +263,7 @@ const TableRow = () => {
                 <IViewModal
                   show={isShowShipmentQuantity}
                   onHide={() => setIsShowShipmentQuantity(false)}
-                // title="View Purchase Order"
+                  // title="View Purchase Order"
                 >
                   <ShipmenmtQuantityModal
                     shipmentId={values?.shipment?.value}
