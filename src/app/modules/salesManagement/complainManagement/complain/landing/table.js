@@ -3,11 +3,17 @@ import { useHistory } from "react-router-dom";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import IView from "../../../../_helper/_helperIcons/_view";
+import { shallowEqual, useSelector } from "react-redux";
+import { investigateComplainApi } from "../../resolution/helper";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import IConfirmModal from "../../../../_helper/_confirmModal";
 
 const LandingTable = ({ obj }) => {
-  const { gridData } = obj;
+  const { gridData, setLoading, commonGridDataCB } = obj;
   const history = useHistory();
-
+  const {
+    profileData: { userId },
+  } = useSelector((state) => state?.authData, shallowEqual);
 
   return (
     <>
@@ -46,10 +52,10 @@ const LandingTable = ({ obj }) => {
                   _dateFormatter(item?.delegateDateTime)}
               </td>
               <td>{item?.delegateToName}</td>
-              <td>{item?.investigatorAssignByName}</td>
+              <td>{item?.investigatorAssignByName?.[0]?.investigatorName}</td>
               <td>
-                {item?.investigatorAssignDate &&
-                  _dateFormatter(item?.investigatorAssignDate)}
+                {item?.investigatorAssignByName?.[0]?.investigationDateTime &&
+                  _dateFormatter(item?.investigatorAssignByName?.[0]?.investigationDateTime)}
               </td>
               <td>
                 <span
@@ -85,6 +91,7 @@ const LandingTable = ({ obj }) => {
                       <IEdit />
                     </span>
                   )}
+
                   <span
                     onClick={() => {
                       history.push(
@@ -94,6 +101,44 @@ const LandingTable = ({ obj }) => {
                   >
                     <IView />
                   </span>
+                  {item?.status === "Investigate" && (
+                    <span>
+                      <OverlayTrigger
+                        overlay={<Tooltip id='cs-icon'>Issue Close </Tooltip>}
+                      >
+                        <span
+                          onClick={() => {
+                            IConfirmModal({
+                              title: "Issue Close",
+                              message: "Are you sure you want to Issue Close?",
+                              yesAlertFunc: () => {
+                                const payload = {
+                                  complainId: item?.complainId || 0,
+                                  statusId: 4,
+                                  status: "Close",
+                                  actionById: userId,
+                                  investigationInfo: [],
+                                };
+                                investigateComplainApi(
+                                  payload,
+                                  setLoading,
+                                  () => {
+                                    commonGridDataCB();
+                                  }
+                                );
+                              },
+                              noAlertFunc: () => {},
+                            });
+                          }}
+                        >
+                          <i
+                            class='fa fa-times-circle text-danger'
+                            aria-hidden='true'
+                          ></i>
+                        </span>
+                      </OverlayTrigger>
+                    </span>
+                  )}
                 </div>
               </td>
             </tr>
