@@ -52,10 +52,72 @@ const LandingTable = ({ obj }) => {
                   _dateFormatter(item?.delegateDateTime)}
               </td>
               <td>{item?.delegateToName}</td>
-              <td>{item?.investigatorAssignByName?.[0]?.investigatorName}</td>
               <td>
-                {item?.investigatorAssignByName?.[0]?.investigationDateTime &&
-                  _dateFormatter(item?.investigatorAssignByName?.[0]?.investigationDateTime)}
+                <OverlayTrigger
+                  overlay={
+                    <Tooltip className='mytooltip' id='info-tooltip'>
+                      <>
+                        {item?.investigatorAssignByName?.map((itm, idx) => (
+                          <div
+                            style={{
+                              display: "flex",
+                              gap: "2px 8px",
+                            }}
+                          >
+                            <p>
+                              <b>Investigation By: </b>
+                              {itm?.investigatorName}
+                            </p>
+                            <p>
+                              <b>Investigation Date: </b>
+                              {_dateFormatter(itm?.investigationDateTime)}
+                            </p>
+                          </div>
+                        ))}
+                      </>
+                    </Tooltip>
+                  }
+                >
+                  <div>
+                    {item?.investigatorAssignByName?.[0]?.investigatorName}
+                  </div>
+                </OverlayTrigger>
+              </td>
+              <td>
+                <OverlayTrigger
+                  overlay={
+                    <Tooltip className='mytooltip' id='info-tooltip'>
+                      <>
+                        {item?.investigatorAssignByName?.map((itm, idx) => (
+                          <div
+                            style={{
+                              display: "flex",
+                              gap: "2px 8px",
+                            }}
+                          >
+                            <p>
+                              <b>Investigation By: </b>
+                              {itm?.investigatorName}
+                            </p>
+                            <p>
+                              <b>Investigation Date: </b>
+                              {_dateFormatter(itm?.investigationDateTime)}
+                            </p>
+                          </div>
+                        ))}
+                      </>
+                    </Tooltip>
+                  }
+                >
+                  <div>
+                    {item?.investigatorAssignByName?.[0]
+                      ?.investigationDateTime &&
+                      _dateFormatter(
+                        item?.investigatorAssignByName?.[0]
+                          ?.investigationDateTime
+                      )}
+                  </div>
+                </OverlayTrigger>
               </td>
               <td>
                 <span
