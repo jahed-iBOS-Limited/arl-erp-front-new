@@ -12,6 +12,7 @@ import moment from "moment";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import { updateComplain } from "../helper";
 import Loading from "../../../../_helper/_loading";
+import { _currentTime } from "../../../../_helper/_currentTime";
 export const validationSchema = Yup.object().shape({
   delegateDate: Yup.date().required("Delegate Date is required"),
   delegateTo: Yup.string().required("Delegate To is required"),
@@ -38,11 +39,9 @@ function DelegateForm({ clickRowData, landingCB }) {
   };
 
   const saveHandler = (values, cb) => {
-    let currentTime = moment().format("HH:mm:ss");
-    let delegateDateTime =
-      moment(values?.delegateDate || undefined).format("YYYY-MM-DD") +
-      "T" +
-      currentTime;
+    let delegateDateTime = moment(
+      `${values?.delegateDate} ${values?.delegateTime}`
+    ).format("YYYY-MM-DDTHH:mm:ss");
 
     const payload = {
       complainId: clickRowData?.complainId || 0,
@@ -78,6 +77,7 @@ function DelegateForm({ clickRowData, landingCB }) {
           delegateDate: _todayDate(),
           delegateTo: "",
           remarks: "",
+          delegateTime: _currentTime(),
         }}
         onSubmit={(values, { resetForm }) => {
           saveHandler(values, () => {
@@ -147,13 +147,28 @@ function DelegateForm({ clickRowData, landingCB }) {
             <form>
               <div className='row global-form'>
                 <div className='col-lg-3'>
-                  <InputField
-                    value={values?.delegateDate}
-                    label='Delegate Date'
-                    placeholder='Delegate Date'
-                    name='delegateDate'
-                    type='date'
-                  />
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "0px 5px",
+                      alignItems: "end",
+                    }}
+                  >
+                    <InputField
+                      value={values?.delegateDate}
+                      label='Delegate Date'
+                      placeholder='Delegate Date'
+                      name='delegateDate'
+                      type='date'
+                      disabled
+                    />
+                    <InputField
+                      value={values?.delegateTime}
+                      type='time'
+                      name='delegateTime'
+                      disabled
+                    />
+                  </div>
                 </div>
                 <div className='col-lg-3'>
                   <label>Delegate To</label>
@@ -171,7 +186,7 @@ function DelegateForm({ clickRowData, landingCB }) {
                     touched={touched}
                   />
                 </div>
-                <div className='col-lg-3'>
+                <div className='col-lg-6'>
                   <label>Remarks</label>
                   <TextArea
                     name='remarks'

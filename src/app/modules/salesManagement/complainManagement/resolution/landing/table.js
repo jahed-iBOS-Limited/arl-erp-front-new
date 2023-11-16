@@ -51,10 +51,82 @@ const LandingTable = ({ obj }) => {
                   _dateFormatter(item?.delegateDateTime)}
               </td>
               <td>{item?.delegateToName}</td>
-              <td>{item?.investigatorAssignByName}</td>
               <td>
-                {item?.investigatorAssignDate &&
-                  _dateFormatter(item?.investigatorAssignDate)}
+                <OverlayTrigger
+                  overlay={
+                    <Tooltip className='mytooltip' id='info-tooltip'>
+                      <>
+                        {item?.investigatorAssignByName?.map((itm, idx) => (
+                          <div
+                            style={{
+                              display: "flex",
+                              gap: "2px 8px",
+                            }}
+                          >
+                            <p>
+                              <b>Investigation By: </b>
+                              {itm?.investigatorName}
+                            </p>
+                            <p>
+                              <b>Investigation Date: </b>
+                              {_dateFormatter(itm?.investigationDateTime)}
+                            </p>
+                          </div>
+                        ))}
+                      </>
+                    </Tooltip>
+                  }
+                >
+                  <div>
+                    {item?.investigatorAssignByName?.[0]?.investigatorName}
+                  </div>
+                </OverlayTrigger>
+                {/*               
+                <OverlayTrigger
+                  overlay={
+                    <Tooltip id='cs-icon'>
+                     sf
+                    </Tooltip>
+                  }
+                >
+                  {item?.investigatorAssignByName?.[0]?.investigatorName}
+                </OverlayTrigger> */}
+              </td>
+              <td>
+                <OverlayTrigger
+                  overlay={
+                    <Tooltip className='mytooltip' id='info-tooltip'>
+                      <>
+                        {item?.investigatorAssignByName?.map((itm, idx) => (
+                          <div
+                            style={{
+                              display: "flex",
+                              gap: "2px 8px",
+                            }}
+                          >
+                            <p>
+                              <b>Investigation By: </b>
+                              {itm?.investigatorName}
+                            </p>
+                            <p>
+                              <b>Investigation Date: </b>
+                              {_dateFormatter(itm?.investigationDateTime)}
+                            </p>
+                          </div>
+                        ))}
+                      </>
+                    </Tooltip>
+                  }
+                >
+                  <div>
+                    {item?.investigatorAssignByName?.[0]
+                      ?.investigationDateTime &&
+                      _dateFormatter(
+                        item?.investigatorAssignByName?.[0]
+                          ?.investigationDateTime
+                      )}
+                  </div>
+                </OverlayTrigger>
               </td>
               <td>
                 <span
@@ -113,11 +185,18 @@ const LandingTable = ({ obj }) => {
                     </>
                   )}
 
-                  {item?.status === "Delegate" && (
+                  {(item?.status === "Delegate" ||
+                    item?.status === "Investigate") && (
                     <>
                       <span>
                         <OverlayTrigger
-                          overlay={<Tooltip id='cs-icon'>Investigate</Tooltip>}
+                          overlay={
+                            <Tooltip id='cs-icon'>
+                              {item?.status === "Investigate"
+                                ? "Update Investigate"
+                                : "Investigate"}
+                            </Tooltip>
+                          }
                         >
                           <span
                             onClick={() => {
@@ -125,10 +204,17 @@ const LandingTable = ({ obj }) => {
                               setClickRowData(item);
                             }}
                           >
-                            <i
-                              class='fa fa-low-vision pointer'
-                              aria-hidden='true'
-                            ></i>
+                            {item?.status === "Investigate" ? (
+                              <i
+                                class='fa fa-users pointer'
+                                aria-hidden='true'
+                              ></i>
+                            ) : (
+                              <i
+                                class='fa fa-low-vision pointer'
+                                aria-hidden='true'
+                              ></i>
+                            )}
                           </span>
                         </OverlayTrigger>
                       </span>
