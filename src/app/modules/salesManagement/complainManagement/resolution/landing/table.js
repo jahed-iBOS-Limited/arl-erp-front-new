@@ -113,11 +113,18 @@ const LandingTable = ({ obj }) => {
                     </>
                   )}
 
-                  {item?.status === "Delegate" && (
+                  {(item?.status === "Delegate" ||
+                    item?.status === "Investigate") && (
                     <>
                       <span>
                         <OverlayTrigger
-                          overlay={<Tooltip id='cs-icon'>Investigate</Tooltip>}
+                          overlay={
+                            <Tooltip id='cs-icon'>
+                              {item?.status === "Investigate"
+                                ? "Update Investigate"
+                                : "Investigate"}
+                            </Tooltip>
+                          }
                         >
                           <span
                             onClick={() => {
@@ -125,10 +132,14 @@ const LandingTable = ({ obj }) => {
                               setClickRowData(item);
                             }}
                           >
-                            <i
-                              class='fa fa-low-vision pointer'
-                              aria-hidden='true'
-                            ></i>
+                            {item?.status === "Investigate" ? (
+                              <i class='fa fa-users pointer' aria-hidden='true'></i>
+                            ) : (
+                              <i
+                                class='fa fa-low-vision pointer'
+                                aria-hidden='true'
+                              ></i>
+                            )}
                           </span>
                         </OverlayTrigger>
                       </span>
