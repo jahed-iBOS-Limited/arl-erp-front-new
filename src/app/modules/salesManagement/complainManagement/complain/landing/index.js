@@ -183,7 +183,8 @@ const ComplainLanding = () => {
                   gridData,
                   commonGridDataCB: () => {
                     commonGridData(pageNo, pageSize, values);
-                  }
+                  },
+                  setLoading
                 }}
               />
 

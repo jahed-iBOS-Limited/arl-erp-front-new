@@ -90,29 +90,6 @@ function InvestigateForm({ clickRowData, landingCB }) {
             resetHandler={() => {
               resetForm();
             }}
-            renderProps={() => {
-              return (
-                <>
-                  <button
-                    onClick={() => {
-                      const payload = {
-                        complainId: clickRowData?.complainId || 0,
-                        statusId: 4,
-                        status: "Close",
-                        actionById: userId,
-                        investigationInfo: [],
-                      };
-                      investigateComplainApi(payload, setLoading, () => {
-                        landingCB();
-                      });
-                    }}
-                    className='btn btn-danger ml-2'
-                  >
-                    Close
-                  </button>
-                </>
-              );
-            }}
           >
             {loading && <Loading />}
             <div
