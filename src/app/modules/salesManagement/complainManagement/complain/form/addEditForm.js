@@ -11,7 +11,7 @@ const initData = {
   occurrenceDate: _todayDate(),
   respondentType: {
     value: 1,
-    label: "End User",
+    label: "Employee",
   },
   respondentName: "",
   respondentContact: "",
