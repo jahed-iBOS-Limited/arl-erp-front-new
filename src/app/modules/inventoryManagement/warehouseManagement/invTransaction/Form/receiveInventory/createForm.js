@@ -712,6 +712,9 @@ export default function ReceiveInvCreateForm({
                       onChange={(value) => {
                         setFieldValue("foreignPurchase", value);
                         setRowDto([]);
+                        if(!value?.isApprove){
+                          return toast.warn("Your 'Invoice Number' invoice has not been approved, Please approve it")
+                        }
                         dispatch(
                           getItemforReceiveInvForeignPOAction(
                             profileData?.accountId,
