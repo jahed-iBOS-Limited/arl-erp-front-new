@@ -14,6 +14,7 @@ const LandingTable = ({ obj }) => {
           <tr>
             <th>SL</th>
             <th>SBU</th>
+            <th>Vessel</th>
             <th>Voyage No</th>
             <th>Working Port</th>
             <th>Customer Name</th>

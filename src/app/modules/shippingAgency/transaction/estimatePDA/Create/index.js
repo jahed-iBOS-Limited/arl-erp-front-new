@@ -1,17 +1,16 @@
 import { Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
+import { DropzoneDialogBase } from "material-ui-dropzone";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import ICustomCard from "../../../../_helper/_customCard";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
+import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import NewSelect from "../../../../_helper/_select";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import { attachment_action, getSBUListDDLApi, getVesselDDL } from "../helper";
-import { useHistory } from "react-router-dom";
-import { DropzoneDialogBase } from "material-ui-dropzone";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import RowTable from "./rowTable";
-import { useReactToPrint } from "react-to-print";
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
@@ -40,38 +39,40 @@ const EstimatePDACreate = () => {
 
   const history = useHistory();
   const dispatch = useDispatch();
-  const printRef = useRef();
-  const handlePrint = useReactToPrint({
-    content: () => printRef.current,
-    pageStyle:
-      "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}",
-  });
+
+  const saveHandler = (values, cb) => {};
   return (
     <>
       {loading && <Loading />}
-      <Formik enableReinitialize={true} initialValues={initData}>
-        {({ values, setFieldValue, touched, errors }) => (
+      <Formik
+        enableReinitialize={true}
+        initialValues={initData}
+        onSubmit={(values, { setSubmitting, resetForm }) => {
+          saveHandler(values, () => {
+            resetForm(initData);
+            setRowDto([]);
+          });
+        }}
+      >
+        {({
+          values,
+          setFieldValue,
+          touched,
+          errors,
+          resetForm,
+          handleSubmit,
+        }) => (
           <>
             <ICustomCard
               title='Estimate PDA Create'
               backHandler={() => {
                 history.goBack();
               }}
-              renderProps={() => {
-                return (
-                  <>
-                    <button
-                      className='btn btn-primary ml-2'
-                      type='button'
-                      onClick={handlePrint}
-                    >
-                      Print
-                    </button>
-                  </>
-                );
-              }}
               saveHandler={() => {
-
+                handleSubmit();
+              }}
+              resetHandler={() => {
+                resetForm(initData);
               }}
             >
               <div className='row global-form my-3'>
