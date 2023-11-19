@@ -71,12 +71,9 @@ const LandingTable = ({ obj }) => {
                               gap: "2px 8px",
                             }}
                           >
-                            <p>
-                              <b>Investigation By: </b>
-                              {itm?.investigatorName}
-                            </p>
-                            <p>
-                              <b>Investigation Date: </b>
+                           <p>
+                              <b>Investigation: </b>
+                              {itm?.investigatorName},{" "}
                               {_dateFormatter(itm?.investigationDateTime)}
                             </p>
                           </div>
