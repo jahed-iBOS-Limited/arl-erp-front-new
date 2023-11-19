@@ -64,11 +64,8 @@ const LandingTable = ({ obj }) => {
                             }}
                           >
                             <p>
-                              <b>Investigation By: </b>
-                              {itm?.investigatorName}
-                            </p>
-                            <p>
-                              <b>Investigation Date: </b>
+                              <b>Investigation: </b>
+                              {itm?.investigatorName},{" "}
                               {_dateFormatter(itm?.investigationDateTime)}
                             </p>
                           </div>
@@ -95,12 +92,8 @@ const LandingTable = ({ obj }) => {
                             }}
                           >
                             <p>
-                              <b>Investigation By: </b>
-                              {itm?.investigatorName}
-                            </p>
-                            <p>
-                              <b>Investigation Date: </b>
-                              {_dateFormatter(itm?.investigationDateTime)}
+                              <b>Investigation: </b>
+                              {itm?.investigatorName},{' '}{_dateFormatter(itm?.investigationDateTime)}
                             </p>
                           </div>
                         ))}

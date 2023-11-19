@@ -4,13 +4,20 @@ import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import IView from "../../../../_helper/_helperIcons/_view";
 import { shallowEqual, useSelector } from "react-redux";
-import { investigateComplainApi } from "../../resolution/helper";
+import {
+  investigateComplainApi,
+  saveColseComplainApi,
+} from "../../resolution/helper";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import IConfirmModal from "../../../../_helper/_confirmModal";
+import IViewModal from "../../../../_helper/_viewModal";
+import InvoiceView from "./invoiceView";
 
 const LandingTable = ({ obj }) => {
   const { gridData, setLoading, commonGridDataCB } = obj;
   const history = useHistory();
+  const [isShowModal, setIsShowModal] = React.useState(false);
+  const [clickedRow, setClickedRow] = React.useState({});
   const {
     profileData: { userId },
   } = useSelector((state) => state?.authData, shallowEqual);
@@ -64,12 +71,9 @@ const LandingTable = ({ obj }) => {
                               gap: "2px 8px",
                             }}
                           >
-                            <p>
-                              <b>Investigation By: </b>
-                              {itm?.investigatorName}
-                            </p>
-                            <p>
-                              <b>Investigation Date: </b>
+                           <p>
+                              <b>Investigation: </b>
+                              {itm?.investigatorName},{" "}
                               {_dateFormatter(itm?.investigationDateTime)}
                             </p>
                           </div>
@@ -96,11 +100,8 @@ const LandingTable = ({ obj }) => {
                             }}
                           >
                             <p>
-                              <b>Investigation By: </b>
-                              {itm?.investigatorName}
-                            </p>
-                            <p>
-                              <b>Investigation Date: </b>
+                              <b>Investigation: </b>
+                              {itm?.investigatorName},{" "}
                               {_dateFormatter(itm?.investigationDateTime)}
                             </p>
                           </div>
@@ -156,9 +157,11 @@ const LandingTable = ({ obj }) => {
 
                   <span
                     onClick={() => {
-                      history.push(
-                        `/sales-management/complainmanagement/complain/view/${item?.complainId}`
-                      );
+                      setClickedRow(item);
+                      setIsShowModal(true);
+                      // history.push(
+                      //   `/sales-management/complainmanagement/complain/view/${item?.complainId}`
+                      // );
                     }}
                   >
                     <IView />
@@ -179,9 +182,8 @@ const LandingTable = ({ obj }) => {
                                   statusId: 4,
                                   status: "Close",
                                   actionById: userId,
-                                  investigationInfo: [],
                                 };
-                                investigateComplainApi(
+                                saveColseComplainApi(
                                   payload,
                                   setLoading,
                                   () => {
@@ -207,6 +209,19 @@ const LandingTable = ({ obj }) => {
           ))}
         </tbody>
       </table>
+
+      {isShowModal && (
+        <>
+          <IViewModal
+            show={isShowModal}
+            onHide={() => {
+              setIsShowModal(false);
+            }}
+          >
+            <InvoiceView clickRowData={clickedRow} />
+          </IViewModal>
+        </>
+      )}
     </>
   );
 };
