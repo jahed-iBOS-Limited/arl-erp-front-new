@@ -9,6 +9,7 @@ export const getPdfFormatNumber = (adviceType, advice) => {
     case "14-1":
     case "14-8":
     case "15-1":
+    case "20-1":
       return 1;
 
     case "1-2":
@@ -23,6 +24,7 @@ export const getPdfFormatNumber = (adviceType, advice) => {
     case "15-8":
     case "15-9":
     case "15-4":
+    case "20-2":
       return 2;
 
     case "1-3":
@@ -31,7 +33,7 @@ export const getPdfFormatNumber = (adviceType, advice) => {
     case "14-3":
     case "15-3":
       return 3;
- // for jamuna beftn and nrbc beftn format 4 same
+    // for jamuna beftn and nrbc beftn format 4 same
     case "1-4":
     case "12-4":
     case "13-4":
