@@ -32,6 +32,7 @@ import TransferJournalToTax from "./transferJournalToTax";
 import BankLimit from "./bankLimit/table/tableRow";
 import CreateBankLimit from "./bankLimit/form";
 import ProductionCost from "./productionCosting";
+import IncentiveBillPaymentLanding from "./incentiveBillPayment";
 // import DepreciationJournal from "./depreciationJournal/table/tableHeader"
 
 export function FinalcialPages() {
@@ -46,7 +47,8 @@ export function FinalcialPages() {
   const busisnessTransaction =
     userRole[findIndex(userRole, "Business Transaction")];
 
-  const productionCostPermission = userRole[findIndex(userRole, "Production Costing")];
+  const productionCostPermission =
+    userRole[findIndex(userRole, "Production Costing")];
 
   return (
     <Switch>
@@ -221,7 +223,13 @@ export function FinalcialPages() {
       />
       <ContentRoute
         path="/financial-management/financials/ProductionCosting"
-        component={productionCostPermission?.isView ? ProductionCost : NotPermittedPage}
+        component={
+          productionCostPermission?.isView ? ProductionCost : NotPermittedPage
+        }
+      />
+      <ContentRoute
+        path="/financial-management/financials/IncentiveBillpayment"
+        component={IncentiveBillPaymentLanding}
       />
     </Switch>
   );
