@@ -26,7 +26,8 @@ export const getInstrumentDDL = async (setter) => {
       { label: "Salary Advice", value: 12 },
       { label: "Bonus Advice", value: 13 },
       { label: "Manning Advice", value: 14 },
-      { label: "Zakat Advice", value: 15 }
+      { label: "Zakat Advice", value: 15 },
+      { label: "Sales Incentive", value: 20 }
     );
     setter(res?.data);
   } catch (err) {
@@ -403,44 +404,48 @@ export const adviceMailCreate = async (data, setLoading) => {
 
 // accId=1,busId=152,isAdviceComplete=false,getDate=04-28-2021 advice=ibbl voucherPosting=all adviceType=Salary Advice
 
-
 function MailSender(parameterName, valueArr) {
-  if(parameterName === "SendTo" && valueArr?.length > 0) {
-     const queryArr = valueArr.map(value => parameterName + "=" + value);
-        return queryArr.join("&");
-  }else{
-     return (parameterName + "=" + [] )
+  if (parameterName === "SendTo" && valueArr?.length > 0) {
+    const queryArr = valueArr.map((value) => parameterName + "=" + value);
+    return queryArr.join("&");
+  } else {
+    return parameterName + "=" + [];
   }
 }
 
 function toCCMailSend(parameterName, valueArr) {
-  if(parameterName === "SendToCC" && valueArr?.length > 0 ) {
-     const queryArr = valueArr.map(value => parameterName + "=" + value);
-        return queryArr.join("&");   
-  }else{
-     return (parameterName + "=" + [] )
+  if (parameterName === "SendToCC" && valueArr?.length > 0) {
+    const queryArr = valueArr.map((value) => parameterName + "=" + value);
+    return queryArr.join("&");
+  } else {
+    return parameterName + "=" + [];
   }
 }
 
 function toBCCMailSend(parameterName, valueArr) {
-  if(parameterName === "SendToBCC" && valueArr?.length > 0 ) {
-     const queryArr = valueArr.map(value => parameterName + "=" + value);
-        return queryArr.join("&");
-  }else{
-     return (parameterName + "=" + [])
+  if (parameterName === "SendToBCC" && valueArr?.length > 0) {
+    const queryArr = valueArr.map((value) => parameterName + "=" + value);
+    return queryArr.join("&");
+  } else {
+    return parameterName + "=" + [];
   }
 }
 
-export const sendEmailPostApi = async (values, attachment, fileName, setLoading) => { 
-  console.log("attachment", attachment)
+export const sendEmailPostApi = async (
+  values,
+  attachment,
+  fileName,
+  setLoading
+) => {
+  console.log("attachment", attachment);
   //const checkMail = Array.isArray(values?.toMail)
-  const toMail = values?.toMail?.split(",")
-  const sendCCMail = values?.toCC === "" ? [] : values?.toCC?.split(",")
+  const toMail = values?.toMail?.split(",");
+  const sendCCMail = values?.toCC === "" ? [] : values?.toCC?.split(",");
 
-  const checkBCCMail = Array.isArray(values?.toBCC)
-  let sendBCCMail = []
-  if(!checkBCCMail){
-   sendBCCMail = values?.toBCC?.split(",")
+  const checkBCCMail = Array.isArray(values?.toBCC);
+  let sendBCCMail = [];
+  if (!checkBCCMail) {
+    sendBCCMail = values?.toBCC?.split(",");
   }
 
   let formData = new FormData();
@@ -448,20 +453,28 @@ export const sendEmailPostApi = async (values, attachment, fileName, setLoading)
     formData.append("files", file);
   });
   // let formData = new FormData();
-  // formData.append("files", attachment); 
+  // formData.append("files", attachment);
   setLoading && setLoading(true);
-   try {
-      let res = await axios.post(
-         `/procurement/ShipRequestForQuotation/SendEMailWithAttachmentForBankAdvice?${MailSender("SendTo", toMail)}&${toCCMailSend("SendToCC",sendCCMail)}&${toBCCMailSend("SendToBCC",sendBCCMail)}&MailSubject=${values?.subject || ""}&MailBody=${values?.message || ""}&fileName=${fileName}`, formData );
+  try {
+    let res = await axios.post(
+      `/procurement/ShipRequestForQuotation/SendEMailWithAttachmentForBankAdvice?${MailSender(
+        "SendTo",
+        toMail
+      )}&${toCCMailSend("SendToCC", sendCCMail)}&${toBCCMailSend(
+        "SendToBCC",
+        sendBCCMail
+      )}&MailSubject=${values?.subject || ""}&MailBody=${values?.message ||
+        ""}&fileName=${fileName}`,
+      formData
+    );
 
-      toast.success('Mail Send Successfully');
-      setLoading && setLoading(false);
-      return res;
-      
-   } catch (error) {
-      setLoading && setLoading(false);
-      toast.error(
-         error?.response?.data?.message || 'Mail cant not send successfully'
-      );
-   }
+    toast.success("Mail Send Successfully");
+    setLoading && setLoading(false);
+    return res;
+  } catch (error) {
+    setLoading && setLoading(false);
+    toast.error(
+      error?.response?.data?.message || "Mail cant not send successfully"
+    );
+  }
 };

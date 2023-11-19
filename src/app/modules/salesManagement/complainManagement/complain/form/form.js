@@ -30,20 +30,22 @@ export const validationSchema = Yup.object().shape({
     label: Yup.string().required("Respondent Name is required"),
     value: Yup.string().required("Respondent Name is required"),
   }),
-  respondentContact: Yup.string().required("Respondent Contact is required"),
+  respondentContact: Yup.string()
+    .required("Respondent Contact is required")
+    .matches(/^[0-9]+$/, "Must be only number"),
   issueType: Yup.object().shape({
     label: Yup.string().required("Issue Type is required"),
     value: Yup.string().required("Issue Type is required"),
   }),
   issueTitle: Yup.string().required("Issue Title is required"),
-  distributionChannel: Yup.object().shape({
-    label: Yup.string().required("Distribution Channel is required"),
-    value: Yup.string().required("Distribution Channel is required"),
-  }),
-  product: Yup.object().shape({
-    label: Yup.string().required("Product is required"),
-    value: Yup.string().required("Product is required"),
-  }),
+  // distributionChannel: Yup.object().shape({
+  //   label: Yup.string().required("Distribution Channel is required"),
+  //   value: Yup.string().required("Distribution Channel is required"),
+  // }),
+  // product: Yup.object().shape({
+  //   label: Yup.string().required("Product is required"),
+  //   value: Yup.string().required("Product is required"),
+  // }),
   issueDetails: Yup.string().required("Issue Details is required"),
 });
 
@@ -119,11 +121,13 @@ function Form({
                     handleSubmit();
                   }
             }
-            resetHandler={view
-              ? false
-              : () => {
-              resetForm(initData);
-            }}
+            resetHandler={
+              view
+                ? false
+                : () => {
+                    resetForm(initData);
+                  }
+            }
           >
             <form>
               <div className='row global-form'>
@@ -160,9 +164,13 @@ function Form({
                       name='respondentName'
                       options={customerDDL || []}
                       value={values?.respondentName}
-                      label='Customer'
+                      label='Respondent Name'
                       onChange={(valueOption) => {
                         setFieldValue("respondentName", valueOption || "");
+                        setFieldValue(
+                          "respondentContact",
+                          valueOption?.contactNo || ""
+                        );
                       }}
                       placeholder='Respondent Name'
                       errors={errors}
@@ -178,9 +186,13 @@ function Form({
                       name='respondentName'
                       options={supplierDDL || []}
                       value={values?.respondentName}
-                      label='Customer'
+                      label='Respondent Name'
                       onChange={(valueOption) => {
                         setFieldValue("respondentName", valueOption || "");
+                        setFieldValue(
+                          "respondentContact",
+                          valueOption?.contactNo || ""
+                        );
                       }}
                       placeholder='Respondent Name'
                       errors={errors}
@@ -198,6 +210,10 @@ function Form({
                       selectedValue={values?.respondentName}
                       handleChange={(valueOption) => {
                         setFieldValue("respondentName", valueOption || "");
+                        setFieldValue(
+                          "respondentContact",
+                          valueOption?.contactNo || ""
+                        );
                       }}
                       loadOptions={loadEmpList}
                       placeholder='Search by Enroll/ID No/Name (min 3 letter)'
@@ -215,8 +231,11 @@ function Form({
                     label='Respondent Contact'
                     placeholder='Respondent Contact'
                     name='respondentContact'
-                    type='number'
+                    type='text'
                     disabled={view}
+                    onChange={(e) => {
+                      setFieldValue("respondentContact", e.target.value);
+                    }}
                   />
                 </div>
                 <div className='col-lg-3'>
@@ -242,45 +261,6 @@ function Form({
                     name='issueTitle'
                     type='text'
                     disabled={view}
-                  />
-                </div>
-
-                <div className='col-lg-3'>
-                  <NewSelect
-                    name='distributionChannel'
-                    options={distributionChannelDDL || []}
-                    value={values?.distributionChannel}
-                    label='Distribution Channel'
-                    onChange={(valueOption) => {
-                      setFieldValue("distributionChannel", valueOption || "");
-                      setItemSalesByChanneldDDL([]);
-                      getItemSalesByChanneldDDLApi(
-                        accId,
-                        buId,
-                        valueOption?.value,
-                        setItemSalesByChanneldDDL
-                      );
-                      setFieldValue("product", "");
-                    }}
-                    placeholder='Distribution Channel'
-                    errors={errors}
-                    touched={touched}
-                    isDisabled={view}
-                  />
-                </div>
-                <div className='col-lg-3'>
-                  <NewSelect
-                    name='product'
-                    options={itemSalesByChanneldDDL || []}
-                    value={values?.product}
-                    label='Product'
-                    onChange={(valueOption) => {
-                      setFieldValue("product", valueOption || "");
-                    }}
-                    placeholder='Product'
-                    errors={errors}
-                    touched={touched}
-                    isDisabled={view}
                   />
                 </div>
                 <div className='col-lg-3'>
@@ -329,6 +309,46 @@ function Form({
                     )}
                   </div>
                 </div>
+                <div className='col-lg-3'>
+                  <NewSelect
+                    name='distributionChannel'
+                    options={distributionChannelDDL || []}
+                    value={values?.distributionChannel}
+                    label='Distribution Channel'
+                    onChange={(valueOption) => {
+                      setFieldValue("distributionChannel", valueOption || "");
+                      setItemSalesByChanneldDDL([]);
+                      getItemSalesByChanneldDDLApi(
+                        accId,
+                        buId,
+                        valueOption?.value,
+                        setItemSalesByChanneldDDL
+                      );
+                      setFieldValue("product", "");
+                    }}
+                    placeholder='Distribution Channel'
+                    errors={errors}
+                    touched={touched}
+                    isDisabled={view}
+                  />
+                </div>
+                <div className='col-lg-3'>
+                  <NewSelect
+                    name='product'
+                    options={itemSalesByChanneldDDL || []}
+                    value={values?.product}
+                    label='Product'
+                    onChange={(valueOption) => {
+                      setFieldValue("product", valueOption || "");
+                    }}
+                    placeholder='Product'
+                    errors={errors}
+                    touched={touched}
+                    isDisabled={view}
+                  />
+                </div>
+
+               
               </div>
             </form>
 

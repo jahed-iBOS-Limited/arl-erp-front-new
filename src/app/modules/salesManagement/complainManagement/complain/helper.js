@@ -225,7 +225,7 @@ export const complainLandingPasignation = async (
 export const respondentTypeDDL = [
   {
     value: 1,
-    label: "End User",
+    label: "Employee",
   },
   {
     value: 2,

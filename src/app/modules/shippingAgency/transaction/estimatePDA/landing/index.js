@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
@@ -6,52 +5,43 @@ import { useHistory } from "react-router-dom";
 import ICustomCard from "../../../../_helper/_customCard";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
 import NewSelect from "../../../../_helper/_select";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import {
   complainLandingPasignation,
-  getComplainStatus,
-  respondentTypeDDL
+  getSBUListDDLApi,
+  getVesselDDL,
 } from "../helper";
 import LandingTable from "./table";
 
 const initData = {
-  respondentType: {
-    value: 0,
-    label: "All",
-  },
-  status: {
-    value: 0,
-    label: "All",
-  },
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
 
-const ComplainLanding = () => {
+const EstimatePDALanding = () => {
   const [gridData, setGridData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const history = useHistory();
-  const [complainStatus, setComplainStatus] = useState([]);
+  const [vesselDDL, setVesselDDL] = useState([]);
+  const [sbuDDL, setSbuDDL] = useState([]);
   // get user data from store
   const {
-    profileData: { accountId: accId, },
+    profileData: { accountId: accId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
   useEffect(() => {
     if (accId && buId) {
-      // employeEnroll_Api(accId, buId, SetEmployeeDDL);
-      getComplainStatus(buId, setComplainStatus);
+      getVesselDDL(accId, buId, setVesselDDL);
+      getSBUListDDLApi(accId, buId, setSbuDDL);
       commonGridData(pageNo, pageSize, initData);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
-
-
 
   const commonGridData = (
     _pageNo = pageNo,
@@ -80,56 +70,39 @@ const ComplainLanding = () => {
         {({ values, setFieldValue, touched, errors }) => (
           <>
             <ICustomCard
-              title='Complaint'
+              title='Estimate PDA'
               createHandler={() => {
-                history.push(
-                  `/sales-management/complainmanagement/complain/entry`
-                );
+                history.push(`/ShippingAgency/Transaction/EstimatePDA/Create`);
               }}
             >
               <div className='row global-form my-3'>
                 <div className='col-lg-3'>
                   <NewSelect
-                    name='respondentType'
-                    options={
-                      [
-                        {
-                          value: 0,
-                          label: "All",
-                        },
-                        ...respondentTypeDDL,
-                      ] || []
-                    }
-                    value={values?.respondentType}
-                    label='Respondent Type'
+                    isSearchable={true}
+                    options={sbuDDL || []}
+                    name='sbu'
                     onChange={(valueOption) => {
-                      setFieldValue("respondentType", valueOption || "");
+                      setFieldValue("sbu", valueOption);
                       setGridData([]);
                     }}
-                    placeholder='Respondent Type'
+                    placeholder='SBU'
+                    value={values?.sbu}
                     errors={errors}
                     touched={touched}
                   />
                 </div>
                 <div className='col-lg-3'>
                   <NewSelect
-                    name='status'
-                    options={
-                      [
-                        {
-                          value: 0,
-                          label: "All",
-                        },
-                        ...complainStatus,
-                      ] || []
-                    }
-                    value={values?.status}
-                    label='Status'
+                    value={values?.vesselName || ""}
+                    isSearchable={true}
+                    options={vesselDDL || []}
+                    name='vesselName'
+                    placeholder='Vessel Name'
+                    label='Vessel Name'
                     onChange={(valueOption) => {
-                      setFieldValue("status", valueOption || "");
+                      setFieldValue("vesselName", valueOption);
                       setGridData([]);
                     }}
-                    placeholder='Status'
                     errors={errors}
                     touched={touched}
                   />
@@ -165,26 +138,31 @@ const ComplainLanding = () => {
                     onClick={() => {
                       commonGridData(1, pageSize, values);
                     }}
+                    disabled={
+                      !values?.fromDate ||
+                      !values?.toDate ||
+                      !values?.sbu?.value ||
+                      !values?.vesselName?.value
+                    }
                   >
                     View
                   </button>
                 </div>
               </div>
 
-              <PaginationSearch
+              {/* <PaginationSearch
                 placeholder='Search By Issue, Code, Name'
                 paginationSearchHandler={(searchValue) => {
                   commonGridData(1, pageSize, values, searchValue);
                 }}
                 values={values}
-              />
+              /> */}
               <LandingTable
                 obj={{
                   gridData,
                   commonGridDataCB: () => {
                     commonGridData(pageNo, pageSize, values);
                   },
-                  setLoading
                 }}
               />
 
@@ -206,4 +184,4 @@ const ComplainLanding = () => {
   );
 };
 
-export default ComplainLanding;
+export default EstimatePDALanding;

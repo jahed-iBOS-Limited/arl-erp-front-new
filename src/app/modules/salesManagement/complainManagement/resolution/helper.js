@@ -60,20 +60,26 @@ export const getComplainById = async (
             label: res?.data?.respondentName,
           }
         : "",
-      respondentContact: res?.data?.contactNo || '',
-      issueType: res?.data?.complainCategoryId ? {
-        value: res?.data?.complainCategoryId,
-        label: res?.data?.complainCategoryName,
-      } : '',
+      respondentContact: res?.data?.contactNo || "",
+      issueType: res?.data?.complainCategoryId
+        ? {
+            value: res?.data?.complainCategoryId,
+            label: res?.data?.complainCategoryName,
+          }
+        : "",
       issueTitle: res?.data?.issueTitle || "",
-      distributionChannel: res?.data?.distributionChannelId ? {
-        value: res?.data?.distributionChannelId,
-        label: res?.data?.distributionChannelName,
-      } : '' ,
-      product: res?.data?.itemId ? {
-        value: res?.data?.itemId,
-        label: res?.data?.itemName,
-      } : '',
+      distributionChannel: res?.data?.distributionChannelId
+        ? {
+            value: res?.data?.distributionChannelId,
+            label: res?.data?.distributionChannelName,
+          }
+        : "",
+      product: res?.data?.itemId
+        ? {
+            value: res?.data?.itemId,
+            label: res?.data?.itemName,
+          }
+        : "",
       issueDetails: res?.data?.description || "",
     });
   } catch (error) {
@@ -122,7 +128,10 @@ export const createComplain = async (payload, setLoading, cb) => {
 export const updateComplain = async (payload, setLoading, cb) => {
   setLoading(true);
   try {
-    const res = await axios.put(`/oms/CustomerPoint/UpdateAndDelegateComplain`, payload);
+    const res = await axios.put(
+      `/oms/CustomerPoint/UpdateAndDelegateComplain`,
+      payload
+    );
     cb && cb();
     toast.success(res?.data?.message);
     setLoading(false);
@@ -130,10 +139,30 @@ export const updateComplain = async (payload, setLoading, cb) => {
     toast.error(err?.response?.data?.message);
     setLoading(false);
   }
-};export const investigateComplainApi = async (payload, setLoading, cb) => {
+};
+export const investigateComplainApi = async (payload, setLoading, cb) => {
   setLoading(true);
   try {
-    const res = await axios.put(`/oms/CustomerPoint/InvestigateComplain`, payload);
+    const res = await axios.put(
+      `/oms/CustomerPoint/InvestigateComplain`,
+      payload
+    );
+    cb && cb();
+    toast.success(res?.data?.message);
+    setLoading(false);
+  } catch (err) {
+    toast.error(err?.response?.data?.message);
+    setLoading(false);
+  }
+};
+
+export const saveColseComplainApi = async (payload, setLoading, cb) => {
+  setLoading(true);
+  try {
+    const res = await axios.put(
+      `/oms/CustomerPoint/ColseComplain`,
+      payload
+    );
     cb && cb();
     toast.success(res?.data?.message);
     setLoading(false);
@@ -192,6 +221,16 @@ export const getItemSalesByChanneldDDLApi = async (
     setter(res?.data || []);
   } catch (error) {
     setter([]);
+  }
+};
+export const getInvestigateComplainbyApi = async (complainId, setter) => {
+  try {
+    const res = await axios.get(
+      `/oms/CustomerPoint/InvestigateComplainbyId?ComplainId=${complainId}`
+    );
+    setter(res?.data || []);
+  } catch (error) {
+    
   }
 };
 
