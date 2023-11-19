@@ -44,7 +44,8 @@ export default function _Form({
     if (v?.length < 2) return [];
     return axios
       .get(
-        `/hcm/HCMDDL/GetEmployeeDesignationDDL?accountId=${accId}&businessUnitId=${buId}&searchTerm=${v}`
+        // `/hcm/HCMDDL/GetEmployeeDesignationDDL?accountId=${accId}&businessUnitId=${buId}&searchTerm=${v}`
+        `/hcm/HCMDDL/GetEmployeeDDLSearch?AccountId=${accId}&Search=${v}`
       )
       .then((res) => {
         return res?.data;
