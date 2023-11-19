@@ -102,6 +102,7 @@ export function PumpFoodingBill() {
         attachmentUrl: values?.attachmentUrl
       };
       setRowData([...rowData, newRow]);
+      console.log({newRow})
       cb();
     } catch (error) {
       alert(error);
