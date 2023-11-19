@@ -149,15 +149,22 @@ function DeliveryScheduleplanReport() {
   };
 
   //handle delivery status update
-  const handleDeliveryStatusUpdate = () => {
+  const handleDeliveryStatusUpdate = ({
+    scheduleId,
+    autoId,
+    scheduleName,
+    updatedById,
+  }) => {
     const uri = "/wms/Delivery/UpdateDeliveryStatus";
     const payload = {
-      scheduleId: "",
-      autoId: 0,
-      scheduleName: "",
-      updatedById: "",
+      scheduleId,
+      autoId,
+      scheduleName,
+      updatedById,
     };
-    updateDeliveryStatus(uri, payload, (res) => console.log({ res }));
+
+    console.log({ payload });
+    // updateDeliveryStatus(uri, payload, (res) => console.log({ res }));
   };
 
   // one item select
@@ -368,10 +375,14 @@ function DeliveryScheduleplanReport() {
                                       providerTypeName:
                                         values?.logisticBy?.label,
                                       scheduleName: itm?.scheduleName,
-                                      scheduleId:deliveryStatusDDL.find(i=>i.label == itm?.scheduleName).value,
+                                      scheduleId: deliveryStatusDDL.find(
+                                        (i) => i.label === itm?.scheduleName
+                                      ).value,
                                       scheduleDate:
                                         itm?.deliveryScheduleDate || new Date(),
                                     }));
+
+                                  console.log({ payload });
 
                                   const isDeliveryStatusSelected = payload?.every(
                                     (item) => item.scheduleName !== null
@@ -638,17 +649,17 @@ function DeliveryScheduleplanReport() {
                                       Rest of Time{" "}
                                     </th>
                                     <th>Shipment Status</th>
+                                    <th>Updated By</th>
+                                    <th>Updated Date</th>
                                   </tr>
                                 </thead>
                                 <tbody>
                                   {gridData?.map((item, index) => {
                                     //check if the table row is saved previosly and we find a scheduleName or not. based on this wi will show the update button for delivery status
-                                   const isSubmittedPreviosly = gridDataCopy.find(
+                                    const isSubmittedPreviosly = gridDataCopy.find(
                                       (preItem) =>
                                         preItem.deliveryId === item.deliveryId
                                     )?.scheduleName;
-
-                                    console.log({ isSubmittedPreviosly });
 
                                     // deliveryScheduleDate today date check momentjs
                                     const todayDate = moment(new Date()).format(
@@ -814,14 +825,16 @@ function DeliveryScheduleplanReport() {
                                                   "scheduleName"
                                                 ] = valueOption.label;
                                                 setGridData(copyGridData);
-                                                console.log(gridData);
+                                                console.log({ gridData });
                                               }}
                                               errors={errors}
                                               touched={touched}
                                               isClearable={false}
                                             />
 
-                                            {isSubmittedPreviosly && (
+                                            {
+                                            isSubmittedPreviosly
+                                             && (
                                               <>
                                                 <SaveOutlined
                                                   onClick={() =>
@@ -836,7 +849,22 @@ function DeliveryScheduleplanReport() {
                                                   message="Are you sure, You want to update delivery status?"
                                                   onYesAction={() => {
                                                     //update data (api call)
-                                                    console.log("action");
+                                                    console.log({item})
+                                                    const payload = {
+                                                      scheduleId: deliveryStatusDDL.find(
+                                                        (i) =>
+                                                          i.label ===
+                                                          item?.scheduleName
+                                                      )?.value,
+                                                      autoId: item?.deliveryId,
+                                                      scheduleName:
+                                                        item?.scheduleName,
+                                                      updatedById:
+                                                        profileData?.accountId,
+                                                    };
+                                                    handleDeliveryStatusUpdate({
+                                                      ...payload,
+                                                    });
                                                     setShowConfirmModal(false);
                                                   }}
                                                   handleClose={
@@ -857,6 +885,8 @@ function DeliveryScheduleplanReport() {
                                         <td>{item?.spendTimeHr}</td>
                                         <td>{item?.pendingTimeHr}</td>
                                         <td>{item?.shipmentStatus || ""}</td>
+                                        <td>{item?.updatedByName || ""}</td>
+                                        <td>{item?.updateDate || ""}</td>
                                       </tr>
                                     );
                                   })}

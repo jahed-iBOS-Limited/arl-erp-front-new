@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { getTimeDifference } from "../../../../chartering/_chartinghelper/_getDateDiff";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { getTimeDifference } from "../../../../chartering/_chartinghelper/_getDateDiff";
 import { getWorkplaceDDL_api, pumpFoodingBillEntry } from "../helper";
 import Form from "./Form";
 
@@ -99,6 +99,7 @@ export function PumpFoodingBill() {
         approvedBySupervisorId: 0,
         wareHouseId: values?.warehouse?.value,
         wareHouseName: values?.warehouse?.label,
+        attachmentUrl: values?.attachmentUrl
       };
       setRowData([...rowData, newRow]);
       cb();
