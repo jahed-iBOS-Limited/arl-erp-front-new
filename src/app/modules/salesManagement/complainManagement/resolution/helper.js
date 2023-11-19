@@ -155,6 +155,22 @@ export const investigateComplainApi = async (payload, setLoading, cb) => {
     setLoading(false);
   }
 };
+
+export const saveColseComplainApi = async (payload, setLoading, cb) => {
+  setLoading(true);
+  try {
+    const res = await axios.put(
+      `/oms/CustomerPoint/ColseComplain`,
+      payload
+    );
+    cb && cb();
+    toast.success(res?.data?.message);
+    setLoading(false);
+  } catch (err) {
+    toast.error(err?.response?.data?.message);
+    setLoading(false);
+  }
+};
 export const customerListDDL = async (accId, buId, setter) => {
   try {
     const res = await axios.get(
