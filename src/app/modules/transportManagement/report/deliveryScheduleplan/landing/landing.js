@@ -1,4 +1,6 @@
+/* eslint-disable no-undef */
 import { Paper, Tab, Tabs, makeStyles } from "@material-ui/core";
+import { SaveOutlined } from "@material-ui/icons";
 import { Form, Formik } from "formik";
 import moment from "moment";
 import React, { useEffect, useMemo, useRef, useState } from "react";
@@ -17,6 +19,7 @@ import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import printIcon from "../../../../_helper/images/print-icon.png";
 import {
   CreateTransportScheduleTypeApi,
@@ -26,6 +29,7 @@ import {
 } from "../helper";
 import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
 import NewSelect from "./../../../../_helper/_select";
+import ConfirmtionModal from "./components/Modal";
 import RATForm from "./ratForm";
 import "./style.scss";
 const initData = {
@@ -82,9 +86,16 @@ function DeliveryScheduleplanReport() {
   const [shipmentType, setShipmentType] = React.useState(0);
   const [loading, setLoading] = useState(false);
   const [gridData, setGridData] = useState([]);
+  const [gridDataCopy, setGridDataCopy] = useState([]);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [gridDataWithOutFilter, setGridDataWithOutFilter] = useState([]);
   const [shipmentTypeDDl, setShipmentTypeDDl] = React.useState([]);
   const [deliveryStatusDDL, getDeliveryStatusDDL] = useAxiosGet();
+  const [
+    __skip,
+    updateDeliveryStatus,
+    updateDeliveryStatusLoading,
+  ] = useAxiosPost();
   // Get user profile data from store
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return {
@@ -115,9 +126,8 @@ function DeliveryScheduleplanReport() {
       `/oms/SalesOrganization/GetDeliveryScheduleStatusDDL?BusinessUnitId=${selectedBusinessUnit.value}`,
       (data) => console.log({ data })
     );
-    console.log({ selectedBusinessUnit });
-    console.log({ deliveryStatusDDL });
   }, [selectedBusinessUnit]);
+
   const handleChange = (newValue, values) => {
     setShipmentType(newValue);
     getDeliverySchedulePlan(
@@ -132,9 +142,29 @@ function DeliveryScheduleplanReport() {
       (restData) => {
         const filterData = commonfilterGridData(values, restData);
         setGridData(filterData);
+
         setGridDataWithOutFilter(restData);
       }
     );
+  };
+
+  //handle delivery status update
+  const handleDeliveryStatusUpdate = ({
+    scheduleId,
+    autoId,
+    scheduleName,
+    updatedById,
+  }) => {
+    const uri = "/wms/Delivery/UpdateDeliveryStatus";
+    const payload = {
+      scheduleId,
+      autoId,
+      scheduleName,
+      updatedById,
+    };
+
+    console.log({ payload });
+    // updateDeliveryStatus(uri, payload, (res) => console.log({ res }));
   };
 
   // one item select
@@ -165,6 +195,8 @@ function DeliveryScheduleplanReport() {
       (restData) => {
         const filterData = commonfilterGridData(values, restData);
         setGridData(filterData);
+        setGridDataCopy(structuredClone(filterData));
+        console.log({ filterData });
         setGridDataWithOutFilter(restData);
       }
     );
@@ -342,11 +374,15 @@ function DeliveryScheduleplanReport() {
                                       poviderTypeId: values?.logisticBy?.value,
                                       providerTypeName:
                                         values?.logisticBy?.label,
-                                        scheduleName:
-                                        itm?.scheduleName?.label,
+                                      scheduleName: itm?.scheduleName,
+                                      scheduleId: deliveryStatusDDL.find(
+                                        (i) => i.label === itm?.scheduleName
+                                      ).value,
                                       scheduleDate:
                                         itm?.deliveryScheduleDate || new Date(),
                                     }));
+
+                                  console.log({ payload });
 
                                   const isDeliveryStatusSelected = payload?.every(
                                     (item) => item.scheduleName !== null
@@ -613,10 +649,18 @@ function DeliveryScheduleplanReport() {
                                       Rest of Time{" "}
                                     </th>
                                     <th>Shipment Status</th>
+                                    <th>Updated By</th>
+                                    <th>Updated Date</th>
                                   </tr>
                                 </thead>
                                 <tbody>
                                   {gridData?.map((item, index) => {
+                                    //check if the table row is saved previosly and we find a scheduleName or not. based on this wi will show the update button for delivery status
+                                    const isSubmittedPreviosly = gridDataCopy.find(
+                                      (preItem) =>
+                                        preItem.deliveryId === item.deliveryId
+                                    )?.scheduleName;
+
                                     // deliveryScheduleDate today date check momentjs
                                     const todayDate = moment(new Date()).format(
                                       "DD-MM-YYYY"
@@ -759,23 +803,76 @@ function DeliveryScheduleplanReport() {
                                             ).format("DD-MM-YYYY hh:mm: A")}
                                         </td>
                                         <td style={{ minWidth: "150px" }}>
-                                          <div>
-                                          <NewSelect
-                                            name="deliveryStatus"
-                                            options={deliveryStatusDDL ?? []}
-                                            value={item?.scheduleName ? deliveryStatusDDL?.find(i=>i.label === item?.scheduleName) : ""}
-                                            onChange={(valueOption) => {
-                                              let copyGridData = [...gridData];
-                                              copyGridData[index][
-                                                "scheduleName"
-                                              ] = valueOption;
-                                              setGridData(copyGridData);
-                                              console.log(gridData);
-                                            }}
-                                            errors={errors}
-                                            touched={touched}
-                                            isClearable={false}
-                                          />
+                                          <div className="d-flex align-items-center">
+                                            <NewSelect
+                                              name="deliveryStatus"
+                                              options={deliveryStatusDDL ?? []}
+                                              value={
+                                                item?.scheduleName
+                                                  ? deliveryStatusDDL?.find(
+                                                      (i) =>
+                                                        i.label ===
+                                                        item?.scheduleName
+                                                    )
+                                                  : ""
+                                              }
+                                              onChange={(valueOption) => {
+                                                let copyGridData = [
+                                                  ...gridData,
+                                                ];
+                                                console.log({ gridDataCopy });
+                                                copyGridData[index][
+                                                  "scheduleName"
+                                                ] = valueOption.label;
+                                                setGridData(copyGridData);
+                                                console.log({ gridData });
+                                              }}
+                                              errors={errors}
+                                              touched={touched}
+                                              isClearable={false}
+                                            />
+
+                                            {
+                                            isSubmittedPreviosly
+                                             && (
+                                              <>
+                                                <SaveOutlined
+                                                  onClick={() =>
+                                                    setShowConfirmModal(true)
+                                                  }
+                                                  role="button"
+                                                  className="bg-dark text-white p-1 ml-2 rounded"
+                                                />
+                                                <ConfirmtionModal
+                                                  show={showConfirmModal}
+                                                  title="Update Delivery Status"
+                                                  message="Are you sure, You want to update delivery status?"
+                                                  onYesAction={() => {
+                                                    //update data (api call)
+                                                    console.log({item})
+                                                    const payload = {
+                                                      scheduleId: deliveryStatusDDL.find(
+                                                        (i) =>
+                                                          i.label ===
+                                                          item?.scheduleName
+                                                      )?.value,
+                                                      autoId: item?.deliveryId,
+                                                      scheduleName:
+                                                        item?.scheduleName,
+                                                      updatedById:
+                                                        profileData?.accountId,
+                                                    };
+                                                    handleDeliveryStatusUpdate({
+                                                      ...payload,
+                                                    });
+                                                    setShowConfirmModal(false);
+                                                  }}
+                                                  handleClose={
+                                                    setShowConfirmModal
+                                                  }
+                                                />
+                                              </>
+                                            )}
                                           </div>
                                         </td>
                                         <td>
@@ -788,6 +885,8 @@ function DeliveryScheduleplanReport() {
                                         <td>{item?.spendTimeHr}</td>
                                         <td>{item?.pendingTimeHr}</td>
                                         <td>{item?.shipmentStatus || ""}</td>
+                                        <td>{item?.updatedByName || ""}</td>
+                                        <td>{item?.updateDate || ""}</td>
                                       </tr>
                                     );
                                   })}

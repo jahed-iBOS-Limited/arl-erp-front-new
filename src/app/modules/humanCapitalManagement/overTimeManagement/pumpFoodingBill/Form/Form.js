@@ -2,17 +2,18 @@ import axios from "axios";
 import { Form, Formik } from "formik";
 import React from "react";
 import { useHistory } from "react-router-dom";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import ICustomCard from "../../../../_helper/_customCard";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
+import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
+import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { getEmpInfoById } from "../helper";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 
 export default function _Form({
   buId,
@@ -44,7 +45,8 @@ export default function _Form({
     if (v?.length < 2) return [];
     return axios
       .get(
-        `/hcm/HCMDDL/GetEmployeeDesignationDDL?accountId=${accId}&businessUnitId=${buId}&searchTerm=${v}`
+        // `/hcm/HCMDDL/GetEmployeeDesignationDDL?accountId=${accId}&businessUnitId=${buId}&searchTerm=${v}`
+        `/hcm/HCMDDL/GetEmployeeDDLSearch?AccountId=${accId}&Search=${v}`
       )
       .then((res) => {
         return res?.data;
@@ -312,6 +314,21 @@ export default function _Form({
                       label="Remarks (optional)"
                       placeholder="Remarks (optional)"
                       name="remarks"
+                    />
+                  </div>
+                  <div className="col-lg-3 d-flex align-items-center mt-5 ">
+                    <AttachmentUploaderNew
+                      style={{
+                        backgroundColor: "transparent",
+                        color: "black",
+                      }}
+                      CBAttachmentRes={(attachmentData) => {
+                        if (Array.isArray(attachmentData)) {
+                          console.log("fafa")
+                          console.log({attachmentUrl: attachmentData});
+                          setFieldValue("attachmentUrl", attachmentData?.[0]?.id)
+                        }
+                      }}
                     />
                   </div>
                   <div className="col-lg-3 mt-5">
