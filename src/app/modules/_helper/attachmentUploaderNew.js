@@ -34,7 +34,7 @@ export default function AttachmentUploaderNew({ CBAttachmentRes, showIcon }) {
         fileObjects={fileObjects}
         cancelButtonText={"cancel"}
         submitButtonText={"submit"}
-        maxFileSize={1000000}
+        maxFileSize={7000000}
         open={open}
         onAdd={(newFileObjs) => {
           setFileObjects && setFileObjects(fileObjects?.concat(newFileObjs));
