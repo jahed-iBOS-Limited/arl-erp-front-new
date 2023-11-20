@@ -1409,3 +1409,19 @@ export const common_api_for_4_types_of_bill = (
 ) => {
   return `/tms/LigterLoadUnload/GetGTOGProgramInfoBybillRegisterId?accountId=${accId}&buisinessUnitId=${buId}&billRegisterId=${billId}&billTypeId=${billTypeId}`;
 };
+
+export const getTdsVdsAmount = async (
+  accId,
+  partnerId,
+  poId,
+  reqAmount,
+  setter
+) => {
+  setter({})
+  try {
+    const res = await Axios.get(
+      `/fino/Report/GetTdsVdsAmount?businessUnitId=${accId}&partnerId=${partnerId}&poId=${poId}&reqAmount=${reqAmount}`
+    );
+    setter(res?.data?.[0]);
+  } catch (error) {}
+};
