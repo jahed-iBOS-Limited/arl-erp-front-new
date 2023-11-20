@@ -13,7 +13,8 @@ export const getAssetSchedule = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `/fino/Account/AssetSchedule?UnitId=${buId}&dteFrom=${dteFrom}&dteTo=${dteTo}`
+      // `/fino/Account/AssetSchedule?UnitId=${buId}&dteFrom=${dteFrom}&dteTo=${dteTo}`
+      `/fino/Report/GetAssetSchedule?businessUnitId=${buId}&dteFromDate=${dteFrom}&dteToDate=${dteTo}`
     );
     setLoading(false);
     setter(res?.data);
@@ -72,7 +73,7 @@ export const getBusinessUnitYearConfigData = async (
     );
     setter({
       balanceType: "3",
-    toDate: _todayDate(),
+      toDate: _todayDate(),
       fromDate: res?.data?.[0]["startDate"]
         ? _dateFormatter(res?.data?.[0]["startDate"])
         : _dateFormatter(new Date()),
