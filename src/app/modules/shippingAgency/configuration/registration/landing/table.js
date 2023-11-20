@@ -13,17 +13,20 @@ const LandingTable = ({ obj }) => {
         <thead>
           <tr>
             <th>SL</th>
-            <th>SBU</th>
-            <th>Vessel</th>
             <th>Voyage No</th>
-            <th>Working Port</th>
-            <th>Customer Name</th>
-            <th>Activity</th>
-            <th>Currency</th>
-            <th>Exchange Rate</th>
-            <th>Estimated Amount</th>
-            <th>Final Amount</th>
-            <th>Actual Amount</th>
+            <th>Vessel Type</th>
+            <th>Vessel Name</th>
+            <th>Voyage Owne</th>
+            <th>Reg</th>
+            <th>Load Por</th>
+            <th>Arrived Time</th>
+            <th>Cargo Na</th>
+            <th>Quantity</th>
+            <th>Stevedore</th>
+            <th>Cargo Own</th>
+            <th>Discharge Date</th>
+            <th>Discharge</th>
+            <th>Remark</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -31,6 +34,9 @@ const LandingTable = ({ obj }) => {
           {gridData?.data?.map((item, index) => (
             <tr key={index}>
               <td className='text-center'> {index + 1}</td>
+              <td>{item?.demo}</td>
+              <td>{item?.demo}</td>
+              <td>{item?.demo}</td>
               <td>{item?.demo}</td>
               <td>{item?.demo}</td>
               <td>{item?.demo}</td>
