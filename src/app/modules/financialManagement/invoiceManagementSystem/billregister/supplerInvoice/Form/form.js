@@ -106,67 +106,67 @@ export default function _Form({
           isValid,
         }) => (
           <>
-            <Form className="form form-label-right">
-              <div className="row">
-                <div className="col-lg-4">
-                  <div className="row bank-journal bank-journal-custom bj-left">
-                    <div className="col-lg-6 pb-3">
+            <Form className='form form-label-right'>
+              <div className='row'>
+                <div className='col-lg-4'>
+                  <div className='row bank-journal bank-journal-custom bj-left'>
+                    <div className='col-lg-6 pb-3'>
                       <NewSelect
-                        name="purchaseOrg"
+                        name='purchaseOrg'
                         options={purchaseOrg || []}
                         value={values?.purchaseOrg}
-                        label="Select Purchase Organization"
+                        label='Select Purchase Organization'
                         onChange={(valueOption) => {
                           setFieldValue("purchaseOrg", valueOption);
                         }}
-                        placeholder="Select Purchase Organization"
+                        placeholder='Select Purchase Organization'
                         errors={errors}
                         touched={touched}
                         isDisabled={true}
                       />
                     </div>
-                    <div className="col-lg-6 pb-3">
+                    <div className='col-lg-6 pb-3'>
                       <NewSelect
-                        name="warehouse"
+                        name='warehouse'
                         options={warehouse || []}
                         value={values?.warehouse}
-                        label="Select Warehouse"
+                        label='Select Warehouse'
                         onChange={(valueOption) => {
                           setFieldValue("warehouse", valueOption);
                         }}
-                        placeholder="Select Warehouse"
+                        placeholder='Select Warehouse'
                         errors={errors}
                         touched={touched}
                         isDisabled={true}
                       />
                     </div>
 
-                    <div className="col-lg-6 pb-3">
+                    <div className='col-lg-6 pb-3'>
                       <InputField
                         value={_dateFormatter(values?.invoiceDate)}
-                        label="Bill Date"
-                        type="date"
-                        name="invoiceDate"
-                        placeholder="Bill Date"
+                        label='Bill Date'
+                        type='date'
+                        name='invoiceDate'
+                        placeholder='Bill Date'
                       />
                     </div>
 
-                    <div className="col-lg-6 pb-3">
+                    <div className='col-lg-6 pb-3'>
                       <InputField
                         value={values?.invoiceNumber}
-                        label="Bill No"
-                        name="invoiceNumber"
-                        placeholder="Bill No"
+                        label='Bill No'
+                        name='invoiceNumber'
+                        placeholder='Bill No'
                       />
                     </div>
 
-                    <div className="col-lg-6 pb-3">
+                    <div className='col-lg-6 pb-3'>
                       {/* <label>Invoice Amount</label> */}
                       <InputField
                         style={{ border: "none" }}
                         value={values?.grossInvoiceAmount}
-                        label="Bill Amount"
-                        placeholder="Bill Amount"
+                        label='Bill Amount'
+                        placeholder='Bill Amount'
                         onChange={(e) => {
                           const number = String(Number(e?.target?.value));
                           if (+e?.target?.value > totalGrn) {
@@ -178,37 +178,43 @@ export default function _Form({
                             re.test(e.target.value)
                           ) {
                             setFieldValue("grossInvoiceAmount", number);
-                            if(Number(supplierAmountInfo?.poPendingAdjustment) >= number){
+                            if (
+                              Number(supplierAmountInfo?.poPendingAdjustment) >=
+                              number
+                            ) {
                               setFieldValue("new_Adv_Adjustment", number);
-                            }else{
-                              setFieldValue("new_Adv_Adjustment", Number(supplierAmountInfo?.poPendingAdjustment));
+                            } else {
+                              setFieldValue(
+                                "new_Adv_Adjustment",
+                                Number(supplierAmountInfo?.poPendingAdjustment)
+                              );
                             }
                           }
                         }}
-                        name="grossInvoiceAmount"
-                        type="number"
-                        step="any"
-                        min="0"
+                        name='grossInvoiceAmount'
+                        type='number'
+                        step='any'
+                        min='0'
                       />
                     </div>
 
-                    <div className="col-lg-6 pb-1">
+                    <div className='col-lg-6 pb-1'>
                       <InputField
                         value={_dateFormatter(values?.paymentDueDate)}
-                        label="Payment Due Date"
-                        type="date"
-                        name="paymentDueDate"
-                        placeholder="Payment Due Date"
+                        label='Payment Due Date'
+                        type='date'
+                        name='paymentDueDate'
+                        placeholder='Payment Due Date'
                       />
                     </div>
 
-                    <div className="col-lg-12 pb-1">
+                    <div className='col-lg-12 pb-1'>
                       <InputField
                         value={values?.remarks}
-                        label="Comments"
-                        name="remarks"
-                        placeholder="Comments"
-                        type="text"
+                        label='Comments'
+                        name='remarks'
+                        placeholder='Comments'
+                        type='text'
                       />
                     </div>
                     {/* <div className="col-lg-6">
@@ -245,14 +251,14 @@ export default function _Form({
                             disabled
                           />
                         </div> */}
-                      <div className="col-lg-4 pb-1">
+                      <div className='col-lg-6 pb-1'>
                         <InputField
                           value={values?.new_Adv_Adjustment}
-                          label="New Adv. Adjustment"
-                          name="new_Adv_Adjustment"
-                          placeholder="New Adv. Adjustment"
-                          type="number"
-                          min="0"
+                          label='New Adv. Adjustment'
+                          name='new_Adv_Adjustment'
+                          placeholder='New Adv. Adjustment'
+                          type='number'
+                          min='0'
                           disabled
                           onChange={(e) => {
                             if (
@@ -267,20 +273,58 @@ export default function _Form({
                           }}
                         />
                       </div>
-                      <div className="col-lg-2 d-flex flex-column justify-content-start">
-                        <p className="my-0">Remain</p>
-                        <p
-                          className="mb-0 mt-1"
-                          style={
-                            getDiff() -
-                              Number(values?.new_Adv_Adjustment || 0) >
-                            0
-                              ? { color: "red" }
-                              : { color: "green" }
-                          }
-                        >
-                          {getDiff() - Number(values?.new_Adv_Adjustment || 0)}
-                        </p>
+
+                      <div className='col-lg-6 pb-1 '>
+                        <div className='mt-5 d-flex justify-content-start align-items-center'>
+                          <input
+                            type='checkbox'
+                            id='checkbox_id'
+                            checked={values?.isTDS}
+                            name='isTDS'
+                            onChange={(event) => {
+                              setFieldValue("isTDS", event.target.checked);
+                            }}
+                          />
+                          <label for='checkbox_id' className='mr-2 ml-3'>
+                            Is TDS/VDS
+                          </label>
+                        </div>
+                      </div>
+
+                      <div
+                        className='col-lg-6 d-flex'
+                        style={{
+                          gap: "10px",
+                        }}
+                      >
+                        <div>
+                          <p className='my-0'>Remain</p>
+                          <p
+                            className='mb-0 mt-1'
+                            style={
+                              getDiff() -
+                                Number(values?.new_Adv_Adjustment || 0) >
+                              0
+                                ? { color: "red" }
+                                : { color: "green" }
+                            }
+                          >
+                            {getDiff() -
+                              Number(values?.new_Adv_Adjustment || 0)}
+                          </p>
+                        </div>
+                        {values?.isTDS && (
+                          <>
+                            <div>
+                              <p className='my-0'>TDS Amount</p>
+                              <p className='mb-0 mt-1'>0</p>
+                            </div>{" "}
+                            <div>
+                              <p className='my-0'>VDS Amount</p>
+                              <p className='mb-0 mt-1'>0</p>
+                            </div>
+                          </>
+                        )}
                       </div>
                     </>
                     {/* )} */}
@@ -300,15 +344,15 @@ export default function _Form({
                       }
                     >
                       <button
-                        className="btn btn-primary"
-                        type="button"
+                        className='btn btn-primary'
+                        type='button'
                         onClick={() => setOpen(true)}
                       >
                         Attachment
                       </button>
                       {values?.attachmentId && (
                         <IView
-                          classes="purchaseInvoiceAttachIcon"
+                          classes='purchaseInvoiceAttachIcon'
                           clickHandler={() => {
                             dispatch(
                               getDownlloadFileView_Action(values?.attachmentId)
@@ -319,74 +363,74 @@ export default function _Form({
                     </div>
                   </div>
                 </div>
-                <div className="col-lg-8 ">
-                  <div className="row global-form tableBorder m-0 py-1">
-                    <div className="col-lg-4">
-                      <div className="space-between small">
-                        <div className="customLable">Plant :</div>
+                <div className='col-lg-8 '>
+                  <div className='row global-form tableBorder m-0 py-1'>
+                    <div className='col-lg-4'>
+                      <div className='space-between small'>
+                        <div className='customLable'>Plant :</div>
                         <div> {values?.purchaseOrder?.plant}</div>
                       </div>
                     </div>
-                    <div className="col-lg-4">
-                      <div className="space-between small">
+                    <div className='col-lg-4'>
+                      <div className='space-between small'>
                         <div>
-                          <span className="customLable">Supplier : </span>
+                          <span className='customLable'>Supplier : </span>
                           {values?.purchaseOrder?.supplierName}
                         </div>
                       </div>
                     </div>
-                    <div className="col-lg-4">
-                      <div className="space-between small">
+                    <div className='col-lg-4'>
+                      <div className='space-between small'>
                         <div>
-                          <span className="customLable">Total PO Amount </span>
+                          <span className='customLable'>Total PO Amount </span>
                           {values?.purchaseOrder?.totalPOAmount}
                         </div>
                       </div>
                     </div>
 
-                    <div className="col-lg-4">
-                      <div className="space-between small">
+                    <div className='col-lg-4'>
+                      <div className='space-between small'>
                         <div>
-                          <span className="customLable">Total GRN Amount:</span>
+                          <span className='customLable'>Total GRN Amount:</span>
                           {(values?.totalGRNAmount || 0) +
                             (values?.purchaseOrder?.totalVatAmount || 0)}
                         </div>
                       </div>
                     </div>
-                    <div className="col-lg-4">
-                      <div className="space-between small">
+                    <div className='col-lg-4'>
+                      <div className='space-between small'>
                         <div>
-                          <span className="customLable">
+                          <span className='customLable'>
                             Total Ledger Balance:{" "}
                           </span>
                           {supplierAmountInfo?.ledgerBalance}
                         </div>
                       </div>
                     </div>
-                    <div className="col-lg-4">
-                      <div className="space-between small">
+                    <div className='col-lg-4'>
+                      <div className='space-between small'>
                         <div>
-                          <span className="customLable">
+                          <span className='customLable'>
                             Total Advance Against PO:
                           </span>
                           {supplierAmountInfo?.poAdvanceAmount}
                         </div>
                       </div>
                     </div>
-                    <div className="col-lg-4">
-                      <div className="space-between small">
+                    <div className='col-lg-4'>
+                      <div className='space-between small'>
                         <div>
-                          <span className="customLable">
+                          <span className='customLable'>
                             Total Bill Amount:
                           </span>
                           {values?.purchaseOrder?.totalBillAmount || 0}
                         </div>
                       </div>
                     </div>
-                    <div className="col-lg-4">
-                      <div className="space-between small">
+                    <div className='col-lg-4'>
+                      <div className='space-between small'>
                         <div>
-                          <span className="customLable">
+                          <span className='customLable'>
                             Pending Adjustment Amount:
                           </span>
                           <span
@@ -403,10 +447,10 @@ export default function _Form({
                         </div>
                       </div>
                     </div>
-                    <div className="col-lg-4">
-                      <div className="space-between small">
+                    <div className='col-lg-4'>
+                      <div className='space-between small'>
                         <div>
-                          <span className="customLable">
+                          <span className='customLable'>
                             Total Adjusted Against PO:
                           </span>
                           {supplierAmountInfo?.poAdjustedAmount || 0}
@@ -414,8 +458,8 @@ export default function _Form({
                       </div>
                     </div>
                   </div>
-                  <div className="row global-form m-0">
-                    <div className="col-lg-4 pb-3">
+                  <div className='row global-form m-0'>
+                    <div className='col-lg-4 pb-3'>
                       <label>
                         Select PO Number{" "}
                         <span
@@ -424,7 +468,7 @@ export default function _Form({
                               return toast.warn("Please select PO Number");
                             setIsShowModalThree(true);
                           }}
-                          className="text-primary pointer"
+                          className='text-primary pointer'
                         >
                           (View)
                         </span>{" "}
@@ -490,28 +534,28 @@ export default function _Form({
                       />
                       <FormikError
                         errors={errors}
-                        name="purchaseOrder"
+                        name='purchaseOrder'
                         touched={touched}
                       />
                     </div>
-                    <div className="col-lg-4">
+                    <div className='col-lg-4'>
                       <ISelect
-                        label="Select GRN"
+                        label='Select GRN'
                         options={grnDDLData}
                         value={values?.selectGRN}
-                        name="selectGRN"
+                        name='selectGRN'
                         setFieldValue={setFieldValue}
                         isDisabled={values?.checked === true}
                         errors={errors}
                         touched={touched}
                       />
                     </div>
-                    <div className="col-lg-2 no-gutters">
-                      <div className="d-flex mt-6 ml-3">
-                        <div className=" ml-2 mr-2">
+                    <div className='col-lg-2 no-gutters'>
+                      <div className='d-flex mt-6 ml-3'>
+                        <div className=' ml-2 mr-2'>
                           <Field
-                            type="checkbox"
-                            name="checked"
+                            type='checkbox'
+                            name='checked'
                             checked={values?.checked}
                           />
                         </div>
@@ -519,9 +563,9 @@ export default function _Form({
                         <label>All GRN</label>
                       </div>
                     </div>
-                    <div className="col-lg-2 mt-4">
+                    <div className='col-lg-2 mt-4'>
                       <button
-                        className="btn btn-primary mr-2"
+                        className='btn btn-primary mr-2'
                         onClick={(e) => {
                           addGRNtoTheGrid(
                             values,
@@ -530,7 +574,7 @@ export default function _Form({
                           );
                           setFieldValue("selectGRN", "");
                         }}
-                        type="button"
+                        type='button'
                         disabled={
                           values?.selectGRN || values?.checked ? false : true
                         }
@@ -541,10 +585,10 @@ export default function _Form({
                   </div>
 
                   {/* Start row part */}
-                  <div className="row mt-1 ">
-                    <div className="col-lg-12">
-                      <table className="table table-striped table-bordered global-table mt-0">
-                        <thead className="bg-secondary">
+                  <div className='row mt-1 '>
+                    <div className='col-lg-12'>
+                      <table className='table table-striped table-bordered global-table mt-0'>
+                        <thead className='bg-secondary'>
                           <tr>
                             <th>SL</th>
                             <th style={{ width: "55%" }}>GRN No.</th>
@@ -556,7 +600,7 @@ export default function _Form({
                         <tbody>
                           {grnGridData?.map((item, index) => (
                             <tr key={index}>
-                              <td className="text-center align-middle">
+                              <td className='text-center align-middle'>
                                 {index + 1}
                               </td>
                               <td
@@ -564,11 +608,11 @@ export default function _Form({
                                   setCurrentItem(item);
                                   setIsShowModalTwo(true);
                                 }}
-                                className="align-middle"
+                                className='align-middle'
                               >
                                 <div
                                   style={{ textDecoration: "underline" }}
-                                  className="pl-2 text-primary pointer"
+                                  className='pl-2 text-primary pointer'
                                 >
                                   {item?.referenceName}
                                 </div>
@@ -578,22 +622,22 @@ export default function _Form({
                                   setCurrentItem(item);
                                   setIsShowModal(true);
                                 }}
-                                className="align-middle"
+                                className='align-middle'
                               >
                                 <div
                                   style={{ textDecoration: "underline" }}
-                                  className="pl-2 text-primary pointer"
+                                  className='pl-2 text-primary pointer'
                                 >
                                   {item?.challanNo}
                                 </div>
                               </td>
 
-                              <td className="align-middle table-input">
-                                <div className="pl-2">
+                              <td className='align-middle table-input'>
+                                <div className='pl-2'>
                                   {item.referenceAmount}
                                 </div>
                               </td>
-                              <td className="text-center align-middle table-input">
+                              <td className='text-center align-middle table-input'>
                                 <span
                                   onClick={() => {
                                     remover(
@@ -614,12 +658,12 @@ export default function _Form({
                             </tr>
                           ))}
                           <tr>
-                            <td colspan="2">
+                            <td colspan='2'>
                               <b>Total Amount</b>
                             </td>
                             <td></td>
                             <td>
-                              <b className="pl-2">{totalGrn}</b>
+                              <b className='pl-2'>{totalGrn}</b>
                             </td>
                             <td></td>
                           </tr>
@@ -633,7 +677,7 @@ export default function _Form({
               <IViewModal
                 show={isShowModal}
                 onHide={() => setIsShowModal(false)}
-                title="Attachment for GRN"
+                title='Attachment for GRN'
               >
                 <AttachmentComponent currentItem={currentItem} />
               </IViewModal>
@@ -641,7 +685,7 @@ export default function _Form({
               <IViewModal
                 show={isShowModalTwo}
                 onHide={() => setIsShowModalTwo(false)}
-                title="View GRN Statement"
+                title='View GRN Statement'
               >
                 <InventoryTransactionReportViewTableRow
                   Invid={currentItem?.referenceId}
@@ -653,7 +697,7 @@ export default function _Form({
               <IViewModal
                 show={isShowModalThree}
                 onHide={() => setIsShowModalThree(false)}
-                title="View Purchase Order"
+                title='View Purchase Order'
               >
                 <PurchaseOrderViewTableRow
                   poId={values?.purchaseOrder?.value}
@@ -663,21 +707,21 @@ export default function _Form({
               </IViewModal>
 
               <button
-                type="submit"
+                type='submit'
                 style={{ display: "none" }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
-                type="reset"
+                type='reset'
                 style={{ display: "none" }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
               <DropzoneDialogBase
                 filesLimit={5}
-                acceptedFiles={["image/*","application/pdf"]}
+                acceptedFiles={["image/*", "application/pdf"]}
                 fileObjects={fileObjects}
                 cancelButtonText={"cancel"}
                 submitButtonText={"submit"}

@@ -40,6 +40,7 @@ const initData = {
   totalAdjustedBalance: "",
   new_Adv_Adjustment: "",
   curentAdjustmentBalance: "",
+  isTDS: false,
 };
 
 export default function SupplerInvoiceForm() {
