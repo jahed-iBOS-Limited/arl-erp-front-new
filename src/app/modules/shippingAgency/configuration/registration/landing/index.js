@@ -6,7 +6,12 @@ import ICustomCard from "../../../../_helper/_customCard";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import PaginationTable from "../../../../_helper/_tablePagination";
-import { getSBUListDDLApi, getVesselDDL, vesselTypeDDL } from "../helper";
+import {
+  getASLLAgencyRegistrationLandingApi,
+  getVesselDDL,
+  getVesselTypeDDL,
+  getVoyageNoDDLApi,
+} from "../helper";
 import LandingTable from "./table";
 
 const initData = {
@@ -22,7 +27,9 @@ const RegistrationLanding = () => {
   const [pageSize, setPageSize] = useState(15);
   const history = useHistory();
   const [vesselDDL, setVesselDDL] = useState([]);
-  const [sbuDDL, setSbuDDL] = useState([]);
+  const [vesselTypeDDL, setVesselTypeDDL] = useState([]);
+  const [voyageNoDDLApi, setVoyageNoDDLApi] = useState([]);
+
   // get user data from store
   const {
     profileData: { accountId: accId },
@@ -32,8 +39,13 @@ const RegistrationLanding = () => {
   useEffect(() => {
     if (accId && buId) {
       getVesselDDL(accId, buId, setVesselDDL);
-      getSBUListDDLApi(accId, buId, setSbuDDL);
-      commonGridData(pageNo, pageSize, initData);
+      getVesselTypeDDL(accId, buId, setVesselTypeDDL);
+      // commonGridData(pageNo, pageSize, initData);
+      getVoyageNoDDLApi(
+        accId,
+        buId,
+        setVoyageNoDDLApi,
+      )
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
@@ -44,19 +56,17 @@ const RegistrationLanding = () => {
     values,
     searhValue
   ) => {
-    // complainLandingPasignation(
-    //   accId,
-    //   buId,
-    //   values?.respondentType?.value || 0,
-    //   values?.fromDate,
-    //   values?.toDate,
-    //   values?.status?.value || 0,
-    //   pageNo,
-    //   pageSize,
-    //   setGridData,
-    //   setLoading,
-    //   searhValue
-    // );
+    getASLLAgencyRegistrationLandingApi(
+      accId,
+      buId,
+      values?.vesselType?.value,
+      values?.vesselName?.value,
+      values?.voyageNo?.value,
+      pageNo,
+      pageSize,
+      setGridData,
+      setLoading
+    );
   };
   return (
     <>
@@ -109,7 +119,7 @@ const RegistrationLanding = () => {
                   <NewSelect
                     value={values?.voyageNo || ""}
                     isSearchable={true}
-                    options={vesselDDL || []}
+                    options={voyageNoDDLApi || []}
                     name='voyageNo'
                     placeholder='Voyage No'
                     label='Voyage No'
