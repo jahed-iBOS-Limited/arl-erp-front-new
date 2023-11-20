@@ -87,10 +87,10 @@ export const getShopFloorDDL = (accId, buId, plantId, setter) => {
       setter(res.data);
     });
 };
-export const getBomNameDDL = (accId, buId, plantId, itemId, setter) => {
+export const getBomNameDDL = (accId, buId, plantId, itemId, shopFloorId, setter) => {
   axios
     .get(
-      `/mes/MesDDL/GetBoMNameDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&ItemId=${itemId}`
+      `/mes/MesDDL/GetBoMNameDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&ItemId=${itemId}&ShopFloorId=29`
     )
     .then((res) => {
       setter(res.data);
