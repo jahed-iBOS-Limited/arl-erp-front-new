@@ -4,16 +4,24 @@ import { toast } from "react-toastify";
 export const getMonthlyVoyageStatement = async (
   accId,
   buId,
-  date,
+  fromDate,
+  toDate,
   setter,
   setLoading
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/LighterVesselStatement/GetLighterVesselTripStatement?AccountId=${accId}&BusinessUnitId=${buId}&searchDate=${date}`
+      `https://imarine.ibos.io/domain/LighterVesselStatement/GetLighterVesselTripStatementDateWise?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}`
+      // `https://imarine.ibos.io/domain/LighterVesselStatement/GetLighterVesselTripStatement?AccountId=${accId}&BusinessUnitId=${buId}&searchDate=${date}`
     );
-    setter(res?.data?.map((item) => ({ ...item, jvDisable: false })));
+    setter(
+      res?.data?.map((item) => ({
+        ...item,
+        jvDisable: false,
+        estFreightAmount: item?.estimatedCargoQty * item?.numFreight,
+      }))
+    );
     setLoading(false);
   } catch (error) {
     setter([]);
@@ -23,7 +31,8 @@ export const getMonthlyVoyageStatement = async (
 
 export const getDieselStatement = async (
   buId,
-  date,
+  fromDate,
+  toDate,
   setter,
   setLoading,
   setTotalJVAmount,
@@ -33,7 +42,8 @@ export const getDieselStatement = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/LighterVesselTrip/GetLighterTripDisselExp?TripDate=${date}&BusinessUnitId=${buId}`
+      `https://imarine.ibos.io/domain/LighterVesselTrip/GetLighterTripDisselExpByDateWise?FromDate=${fromDate}&ToDate=${toDate}&BusinessUnitId=${buId}`
+      // `https://imarine.ibos.io/domain/LighterVesselTrip/GetLighterTripDisselExp?TripDate=${date}&BusinessUnitId=${buId}`
     );
 
     const totalJVAmount = res?.data?.reduce(
@@ -121,7 +131,8 @@ export const getDieselStatementTwo = async (
 
 export const getLineExpense = async (
   buId,
-  date,
+  fromDate,
+  toDate,
   setter,
   setLoading,
   setTotalJVAmount,
@@ -130,7 +141,8 @@ export const getLineExpense = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/LighterVesselTrip/LighterVesselTripLineExp?TripDate=${date}&BusinessUnitId=${buId}`
+      `https://imarine.ibos.io/domain/LighterVesselTrip/LighterVesselTripLineExpByDateWise?FromDate=${fromDate}&ToDate=${toDate}&BusinessUnitId=${buId}`
+      // `https://imarine.ibos.io/domain/LighterVesselTrip/LighterVesselTripLineExp?TripDate=${date}&BusinessUnitId=${buId}`
     );
 
     const totalJVAmount = res?.data?.reduce(

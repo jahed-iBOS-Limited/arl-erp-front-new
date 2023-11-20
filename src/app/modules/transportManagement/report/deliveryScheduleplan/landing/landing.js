@@ -149,22 +149,10 @@ function DeliveryScheduleplanReport() {
   };
 
   //handle delivery status update
-  const handleDeliveryStatusUpdate = ({
-    scheduleId,
-    autoId,
-    scheduleName,
-    updatedById,
-  }) => {
+  const handleDeliveryStatusUpdate = (payload) => {
     const uri = "/wms/Delivery/UpdateDeliveryStatus";
-    const payload = {
-      scheduleId,
-      autoId,
-      scheduleName,
-      updatedById,
-    };
-
     console.log({ payload });
-    // updateDeliveryStatus(uri, payload, (res) => console.log({ res }));
+    updateDeliveryStatus(uri, payload, (res) => console.log({ res }));
   };
 
   // one item select
@@ -832,9 +820,7 @@ function DeliveryScheduleplanReport() {
                                               isClearable={false}
                                             />
 
-                                            {
-                                            isSubmittedPreviosly
-                                             && (
+                                            {isSubmittedPreviosly && (
                                               <>
                                                 <SaveOutlined
                                                   onClick={() =>
@@ -849,22 +835,21 @@ function DeliveryScheduleplanReport() {
                                                   message="Are you sure, You want to update delivery status?"
                                                   onYesAction={() => {
                                                     //update data (api call)
-                                                    console.log({item})
+                                                    console.log({ item });
                                                     const payload = {
                                                       scheduleId: deliveryStatusDDL.find(
                                                         (i) =>
                                                           i.label ===
                                                           item?.scheduleName
                                                       )?.value,
-                                                      autoId: item?.deliveryId,
+                                                      autoId: 0,
+                                                      deliveryId:item?.deliveryId,
                                                       scheduleName:
                                                         item?.scheduleName,
                                                       updatedById:
                                                         profileData?.accountId,
                                                     };
-                                                    handleDeliveryStatusUpdate({
-                                                      ...payload,
-                                                    });
+                                                    handleDeliveryStatusUpdate(payload);
                                                     setShowConfirmModal(false);
                                                   }}
                                                   handleClose={

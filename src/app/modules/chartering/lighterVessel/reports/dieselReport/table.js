@@ -14,6 +14,8 @@ import { _formatMoney } from "../../../_chartinghelper/_formatMoney";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import TextArea from "../../../../_helper/TextArea";
 import * as Yup from "yup";
+import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
+import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
 
 const headers = [
   { name: "Date" },
@@ -32,6 +34,8 @@ const validationSchema = Yup.object().shape({
 
 const initData = {
   date: _todayDate(),
+  fromDate: _firstDateofMonth(),
+  toDate: _todayDate(),
   narration: "",
 };
 
@@ -47,16 +51,21 @@ export default function DieselStatement() {
     return state?.authData;
   }, shallowEqual);
 
-  useEffect(() => {
+  const getGridData = (values) => {
     getDieselStatement(
       selectedBusinessUnit?.value,
-      _todayDate(),
+      values?.fromDate,
+      values?.toDate,
       setGridData,
       setLoading,
       setTotalJVAmount,
       setGrandTotalAmount,
       setGrandTotalQty
     );
+  };
+
+  useEffect(() => {
+    getGridData(initData);
   }, [profileData, selectedBusinessUnit]);
 
   // let grandTotalAmount = 0;
@@ -88,6 +97,15 @@ export default function DieselStatement() {
             <form className="marine-form-card">
               <div className="marine-form-card-content">
                 <div className="row">
+                  <FromDateToDateForm
+                    obj={{
+                      values,
+                      setFieldValue,
+                      onChange: (allValues) => {
+                        getGridData(allValues);
+                      },
+                    }}
+                  />
                   <div className="col-lg-10">
                     <label>Narration</label>
                     <TextArea

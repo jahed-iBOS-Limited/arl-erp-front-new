@@ -1,36 +1,36 @@
+import { DropzoneDialogBase } from "material-ui-dropzone";
 import React, { useState } from "react";
-import Loading from "../../../_helper/_loading";
-import { _dateFormatter } from "./../../../_helper/_dateFormate";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { toast } from "react-toastify";
 import IView from "../../../_helper/_helperIcons/_view";
-import IViewModal from "./../../../_helper/_viewModal";
-import RejectModel from "./rejectModel/form";
-import SupplerInvoiceView from "../approvebillregister/supplerInvoiceView";
-import SupplierAdvanceView from "../approvebillregister/supplierAdvanceView";
+import Loading from "../../../_helper/_loading";
+import { compressfile } from "../../../_helper/compressfile";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import AdvForInternalView from "../approvebillregister/advForInternal";
 import ExpenseView from "../approvebillregister/expenseView";
-import ViewSalesCommission from "./salesCommission/view/viewSalesCommission";
-import ViewTransportBill from "./transportBill/view/viewBillRegister";
-import ViewFuelBill from "./fuelBill/view/viewBillRegister";
-import ViewLabourBill from "./labourBill/view/viewBillRegister";
 import FairPriceShopInvoiceView from "../approvebillregister/fairPriceShopInvoiceView";
-import OthersBillView from "./othersBillNew/view/othersBillView";
-import ViewInternalTransportBill from "./internalTransportBill/view/viewBillRegister";
+import SupplerInvoiceView from "../approvebillregister/supplerInvoiceView";
+import SupplierAdvanceView from "../approvebillregister/supplierAdvanceView";
+import { _dateFormatter } from "./../../../_helper/_dateFormate";
 import { _fixedPoint } from "./../../../_helper/_fixedPoint";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { DropzoneDialogBase } from "material-ui-dropzone";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { toast } from "react-toastify";
-import { uploadAttachment } from "./helper";
-import { compressfile } from "../../../_helper/compressfile";
-import ViewG2GCustomizeBill from "./g2gCustomizeBill/view/viewBillRegister";
-import ViewG2GCarrierBill from "./g2gCarrierBill/view/viewBillRegister";
-import ViewMotherVesselBill from "./motherVesselBill/view/viewBillRegister";
+import IViewModal from "./../../../_helper/_viewModal";
 import ViewCNFBill from "./cnfBill/view/table";
+import ViewFuelBill from "./fuelBill/view/viewBillRegister";
+import ViewG2GGodownUnloadBill from "./g2gGodownUnloadBill/view/viewBillRegister";
+import ViewG2GLighterBill from "./g2gLighterBill/view/viewBillRegister";
+import ViewG2GTruckBill from "./g2gTruckBill/view/viewBillRegister";
+import ViewGhatLoadUnloadBill from "./ghatLoadUnloadBill/view/viewBillRegister";
+import ViewHatchLaborBill from "./hatchLaborBill/view/table";
+import { uploadAttachment } from "./helper";
+import ViewInternalTransportBill from "./internalTransportBill/view/viewBillRegister";
+import ViewLabourBill from "./labourBill/view/viewBillRegister";
+import ViewMotherVesselBill from "./motherVesselBill/view/viewBillRegister";
+import OthersBillView from "./othersBillNew/view/othersBillView";
+import RejectModel from "./rejectModel/form";
+import ViewSalesCommission from "./salesCommission/view/viewSalesCommission";
 import ViewStevedoreBill from "./stevedoreBill/view/table";
 import ViewSurveyorBill from "./surveyorBill/view/table";
-import ViewHatchLaborBill from "./hatchLaborBill/view/table";
-import ViewGhatLoadUnloadBill from "./ghatLoadUnloadBill/view/viewBillRegister";
-import ViewG2GGodownUnloadBill from "./g2gGodownUnloadBill/view/viewBillRegister";
+import ViewTransportBill from "./transportBill/view/viewBillRegister";
 const GridData = ({
   rowDto,
   values,
@@ -142,17 +142,6 @@ const GridData = ({
                         />
                       )}
 
-                      {/* { tableData.billStatus !== "Approved"  &&
-                     <span
-                        className="view"
-                        onClick={() => {
-                          setIsReject(true);
-                          setGridItem(tableData);
-                        }}
-                      >
-                        <IDelete title={"Bill Cancel"} />
-                      </span> } */}
-
                       <button
                         type="button"
                         onClick={(e) => {
@@ -261,13 +250,10 @@ const GridData = ({
               />
             )}
             {gridItem?.billType === 16 && (
-              <ViewG2GCustomizeBill
-                landingValues={values}
-                gridItem={gridItem}
-              />
+              <ViewG2GTruckBill billRegisterId={gridItem?.billRegisterId} />
             )}
             {gridItem?.billType === 17 && (
-              <ViewG2GCarrierBill landingValues={values} gridItem={gridItem} />
+              <ViewG2GLighterBill landingValues={values} gridItem={gridItem} />
             )}
             {gridItem?.billType === 19 && (
               <ViewMotherVesselBill
@@ -276,10 +262,14 @@ const GridData = ({
               />
             )}
             {gridItem?.billType === 21 && (
-              <ViewG2GGodownUnloadBill billRegisterId={gridItem?.billRegisterId} />
+              <ViewG2GGodownUnloadBill
+                billRegisterId={gridItem?.billRegisterId}
+              />
             )}
             {gridItem?.billType === 22 && (
-              <ViewGhatLoadUnloadBill billRegisterId={gridItem?.billRegisterId} />
+              <ViewGhatLoadUnloadBill
+                billRegisterId={gridItem?.billRegisterId}
+              />
             )}
             {gridItem?.billType === 25 && (
               <ViewCNFBill billRegisterId={gridItem?.billRegisterId} />

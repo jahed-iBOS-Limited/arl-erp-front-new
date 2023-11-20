@@ -1,8 +1,15 @@
 import React, { useState } from "react";
-import ViewG2GCarrierBill from "../billregister/g2gCarrierBill/view/viewBillRegister";
-import ViewG2GCustomizeBill from "../billregister/g2gCustomizeBill/view/viewBillRegister";
+// import ViewG2GCustomizeBill from "../billregister/g2gCustomizeBill/view/viewBillRegister";
+import ViewCNFBill from "../billregister/cnfBill/view/table";
+import ViewG2GGodownUnloadBill from "../billregister/g2gGodownUnloadBill/view/viewBillRegister";
+import ViewG2GLighterBill from "../billregister/g2gLighterBill/view/viewBillRegister";
+import ViewG2GTruckBill from "../billregister/g2gTruckBill/view/viewBillRegister";
+import ViewGhatLoadUnloadBill from "../billregister/ghatLoadUnloadBill/view/viewBillRegister";
+import ViewHatchLaborBill from "../billregister/hatchLaborBill/view/table";
 import OthersBillView from "../billregister/othersBillNew/view/othersBillView";
 import ViewSalesCommission from "../billregister/salesCommission/view/viewSalesCommission";
+import ViewStevedoreBill from "../billregister/stevedoreBill/view/table";
+import ViewSurveyorBill from "../billregister/surveyorBill/view/table";
 import ViewTransportBill from "../billregister/transportBill/view/viewBillRegister";
 import ShippingInvoiceView from "../shippingBillRegister/shippingInvoiceView";
 import { _dateFormatter } from "./../../../_helper/_dateFormate";
@@ -18,12 +25,6 @@ import ExpenseView from "./expenseView";
 import RejectModel from "./rejectModel/form";
 import SupplerInvoiceView from "./supplerInvoiceView";
 import SupplierAdvanceView from "./supplierAdvanceView";
-import ViewG2GGodownUnloadBill from "../billregister/g2gGodownUnloadBill/view/viewBillRegister";
-import ViewGhatLoadUnloadBill from "../billregister/ghatLoadUnloadBill/view/viewBillRegister";
-import ViewCNFBill from "../billregister/cnfBill/view/table";
-import ViewStevedoreBill from "../billregister/stevedoreBill/view/table";
-import ViewSurveyorBill from "../billregister/surveyorBill/view/table";
-import ViewHatchLaborBill from "../billregister/hatchLaborBill/view/table";
 const GridData = ({
   rowDto,
   setRowDto,
@@ -253,15 +254,10 @@ const GridData = ({
           />
         )}
         {gridItem?.billType === 16 && (
-          <ViewG2GCustomizeBill
-            landingValues={values}
-            gridItem={gridItem}
-            setDataFunc={girdDataFunc}
-            setModalShow={setModalShow}
-          />
+          <ViewG2GTruckBill billRegisterId={gridItem?.billRegisterId} />
         )}
         {gridItem?.billType === 17 && (
-          <ViewG2GCarrierBill
+          <ViewG2GLighterBill
             landingValues={values}
             gridItem={gridItem}
             setDataFunc={girdDataFunc}
