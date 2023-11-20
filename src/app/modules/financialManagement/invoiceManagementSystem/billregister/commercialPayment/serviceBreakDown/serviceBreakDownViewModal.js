@@ -1,21 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
 import {
-  makeStyles,
   ExpansionPanel,
   ExpansionPanelDetails,
   ExpansionPanelSummary,
   Typography,
+  makeStyles,
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
+import { shallowEqual, useSelector } from "react-redux";
+import * as Yup from "yup";
 
 import {
-  getCommercialCostingServiceBreakdown,
   getCommercialBreakdownForAdvanceAndBill,
+  getCommercialCostingServiceBreakdown,
 } from "../helper";
 import AddAdvance from "./addAdvance";
 import AddBill from "./addBill";
@@ -56,6 +56,7 @@ const ServiceBreakDownViewModal = ({
   const [expanded1, setExpanded1] = React.useState(false);
   const [data, setData] = useState({});
   const [supplierName, setSupplierName] = useState("");
+  const [showSubChargeCol, setShowSubChargeCol] = useState("");
 
   const handleChange = (panel) => (event, isExpanded) => {
     console.log(panel);
@@ -93,8 +94,6 @@ const ServiceBreakDownViewModal = ({
     data[index].clicked = true;
     setRowDto(data);
   };
-
- 
 
   // const singleData = {
   //   ...bill,
@@ -162,6 +161,7 @@ const ServiceBreakDownViewModal = ({
                           <th>SL</th>
                           <th>Supplier</th>
                           <th>Description</th>
+                          {showSubChargeCol && <th>Sub Charge Type</th>}
                           <th>Amount</th>
                           <th>Action</th>
                         </tr>
@@ -169,6 +169,7 @@ const ServiceBreakDownViewModal = ({
                       <tbody>
                         {rowDto?.length > 0 &&
                           rowDto?.map((item, index) => {
+                            setShowSubChargeCol(item?.subChargeTypeName);
                             return (
                               <tr key={index}>
                                 <td
@@ -187,6 +188,13 @@ const ServiceBreakDownViewModal = ({
                                     {item?.description}
                                   </span>
                                 </td>
+                                {showSubChargeCol && (
+                                  <td>
+                                    <span className="pl-2">
+                                      {item?.subChargeTypeName}
+                                    </span>
+                                  </td>
+                                )}
                                 <td>
                                   <span className="pl-2">
                                     {item?.numContractedAmount}
@@ -233,7 +241,6 @@ const ServiceBreakDownViewModal = ({
                   </div>
                   <div className="mb-4">
                     <ExpansionPanel
-                      
                       className="general-ledger-collapse-custom"
                       expanded={expanded === "panel0"}
                       onChange={handleChange("panel0")}
