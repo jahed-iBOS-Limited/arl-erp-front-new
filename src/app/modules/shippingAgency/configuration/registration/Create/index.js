@@ -113,7 +113,14 @@ const EstimatePDACreate = () => {
       cargoOwner: values?.cargoOwner || "",
       remarks: values?.remarks || "",
       actionBy: userId,
-      rowDtos: rowDto || [],
+      rowDtos:
+        rowDto?.map((itm) => {
+          return {
+            ...itm,
+            rowId: itm?.rowId || 0,
+            registrationId: +editId || 0,
+          };
+        }) || [],
     };
     createUpdateASLLAgencyRegistration(payload, setLoading, () => {
       cb();
