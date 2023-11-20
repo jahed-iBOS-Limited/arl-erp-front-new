@@ -1,16 +1,15 @@
 import React from "react";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import IConfirmModal from "../../../../_helper/_confirmModal";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import IView from "../../../../_helper/_helperIcons/_view";
-import { shallowEqual, useSelector } from "react-redux";
-import {
-  investigateComplainApi,
-  saveColseComplainApi,
-} from "../../resolution/helper";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import IConfirmModal from "../../../../_helper/_confirmModal";
 import IViewModal from "../../../../_helper/_viewModal";
+import {
+  saveColseComplainApi
+} from "../../resolution/helper";
 import InvoiceView from "./invoiceView";
 
 const LandingTable = ({ obj }) => {

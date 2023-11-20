@@ -7,27 +7,22 @@ import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import {
-  complainLandingPasignation,
-  getSBUListDDLApi,
-  getVesselDDL,
-} from "../helper";
+import { categoryDDL } from "../helper";
 import LandingTable from "./table";
+import { _todayDate } from "../../../../_helper/_todayDate";
 
 const initData = {
+  category: "",
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
 
-const EstimatePDALanding = () => {
+const ExpenseParticularsLanding = () => {
   const [gridData, setGridData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const history = useHistory();
-  const [vesselDDL, setVesselDDL] = useState([]);
-  const [sbuDDL, setSbuDDL] = useState([]);
   // get user data from store
   const {
     profileData: { accountId: accId },
@@ -36,8 +31,6 @@ const EstimatePDALanding = () => {
 
   useEffect(() => {
     if (accId && buId) {
-      getVesselDDL(accId, buId, setVesselDDL);
-      getSBUListDDLApi(accId, buId, setSbuDDL);
       commonGridData(pageNo, pageSize, initData);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -70,93 +63,66 @@ const EstimatePDALanding = () => {
         {({ values, setFieldValue, touched, errors }) => (
           <>
             <ICustomCard
-              title='Estimate PDA'
+              title='Expense Particulars'
               createHandler={() => {
-                history.push(`/ShippingAgency/Transaction/EstimatePDA/Create`);
+                history.push(
+                  `/ShippingAgency/Configuration/ExpenseParticulars/Create`
+                );
               }}
             >
               <div className='row global-form my-3'>
                 <div className='col-lg-3'>
                   <NewSelect
-                    isSearchable={true}
-                    options={sbuDDL || []}
-                    name='sbu'
+                    options={categoryDDL || []}
+                    name='category'
                     onChange={(valueOption) => {
-                      setFieldValue("sbu", valueOption);
+                      setFieldValue("category", valueOption);
                       setGridData([]);
                     }}
-                    placeholder='SBU'
-                    value={values?.sbu}
+                    placeholder='Category'
+                    label='Category'
+                    value={values?.category}
                     errors={errors}
                     touched={touched}
                   />
                 </div>
                 <div className='col-lg-3'>
-                  <NewSelect
-                    value={values?.vesselName || ""}
-                    isSearchable={true}
-                    options={vesselDDL || []}
-                    name='vesselName'
-                    placeholder='Vessel Name'
-                    label='Vessel Name'
-                    onChange={(valueOption) => {
-                      setFieldValue("vesselName", valueOption);
-                      setGridData([]);
-                    }}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                <div className='col-lg-3'>
+                  <label>From Date</label>
                   <InputField
                     value={values?.fromDate}
-                    label='From Date'
                     name='fromDate'
+                    placeholder='From Date'
                     type='date'
                     onChange={(e) => {
-                      setFieldValue("fromDate", e.target.value);
-                      setGridData([]);
+                      setFieldValue("fromDate", e?.target?.value);
+                    }}
+                  />
+                </div>
+                <div className='col-lg-3'>
+                  <label>To Date</label>
+                  <InputField
+                    value={values?.toDate}
+                    name='toDate'
+                    placeholder='To Date'
+                    type='date'
+                    onChange={(e) => {
+                      setFieldValue("toDate", e?.target?.value);
                     }}
                   />
                 </div>
 
-                <div className='col-lg-3'>
-                  <InputField
-                    value={values?.toDate}
-                    label='To Date'
-                    name='toDate'
-                    type='date'
-                    onChange={(e) => {
-                      setFieldValue("toDate", e.target.value);
-                      setGridData([]);
-                    }}
-                  />
-                </div>
                 <div className='col d-flex align-items-end justify-content-end'>
                   <button
                     className='btn btn-primary mt-3'
                     onClick={() => {
                       commonGridData(1, pageSize, values);
                     }}
-                    disabled={
-                      !values?.fromDate ||
-                      !values?.toDate ||
-                      !values?.sbu?.value ||
-                      !values?.vesselName?.value
-                    }
+                    disabled={!values?.vesselName && !values?.vesselType}
                   >
                     View
                   </button>
                 </div>
               </div>
-
-              {/* <PaginationSearch
-                placeholder='Search By Issue, Code, Name'
-                paginationSearchHandler={(searchValue) => {
-                  commonGridData(1, pageSize, values, searchValue);
-                }}
-                values={values}
-              /> */}
               <LandingTable
                 obj={{
                   gridData,
@@ -184,4 +150,4 @@ const EstimatePDALanding = () => {
   );
 };
 
-export default EstimatePDALanding;
+export default ExpenseParticularsLanding;
