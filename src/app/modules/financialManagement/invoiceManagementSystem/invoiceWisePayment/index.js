@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Loading from "../../../_helper/_loading";
 import IForm from "../../../_helper/_form";
 import NewSelect from "../../../_helper/_select";
@@ -56,7 +56,7 @@ const InvoiceWisePaymentLanding = () => {
     getTableData(
       `/fino/PaymentOrReceive/GetInvoiceWisePayment?partName=Report&businessUnitId=${
         values?.businessUnit?.value
-      }&customerId${values?.customer?.value || 0}&fromDate=${
+      }&customerId=${values?.customer?.value || 0}&fromDate=${
         values?.fromDate
       }&toDate=${values?.toDate}&status=${values?.status?.value}`
     );
