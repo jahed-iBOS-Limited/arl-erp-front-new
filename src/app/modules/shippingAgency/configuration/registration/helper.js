@@ -1,25 +1,24 @@
 import axios from "axios";
 import { toast } from "react-toastify";
+import { imarineBaseUrl } from "../../../../App";
 
-export const complainLandingPasignation = async (
+export const getASLLAgencyRegistrationLandingApi = async (
   accId,
   buId,
-  respondentTypeId,
-  fromDate,
-  toDate,
-  statusId,
+  verselType,
+  verselId,
+  VoyageNo,
   pageNo,
   pageSize,
   setter,
-  setLoading,
-  search
+  setLoading
 ) => {
   setLoading(true);
   setter([]);
   try {
-    const _search = search ? `&search=${search}` : "";
+    const _VoyageNo = VoyageNo ? `&VoyageNo=${VoyageNo}` : "";
     const res = await axios.get(
-      `/oms/CustomerPoint/ComplainLandingPasignation?accountId=${accId}&businessUnitId=${buId}&respondentTypeId=${respondentTypeId}&statusId=${statusId}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}${_search}`
+      `${imarineBaseUrl}/domain/ASLLAgency/GetASLLAgencyRegistrationLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselTypeId=${verselType}&VesselId=${verselId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc${_VoyageNo}`
     );
     setter(res?.data);
     setLoading(false);
@@ -35,6 +34,48 @@ export const getSBUListDDLApi = async (accId, buId, setter) => {
     );
     setter(res?.data);
   } catch (error) {}
+};
+export const getVesselTypeDDL = async (accId, buId, setter) => {
+  try {
+    const res = await axios.get(
+      `${imarineBaseUrl}/domain/ASLLAgency/GetVesselTypeDDL`
+    );
+    setter(
+      res?.data?.map((itm) => {
+        return {
+          value: itm?.vesselTypeId,
+          label: itm?.vesselTypeName,
+        };
+      })
+    );
+  } catch (error) {}
+};
+export const getVoyageNoDDLApi = async (accId, buId, setter) => {
+  try {
+    const res = await axios.get(
+      `${imarineBaseUrl}/domain/ASLLAgency/GetVoyageNoDDL?AccountId=${accId}&BusinessUnitId=${buId}`
+    );
+    setter(
+      res?.data?.map((voyageNo, idx) => {
+        return {
+          value: voyageNo,
+          label: voyageNo,
+        };
+      })
+    );
+  } catch (error) {}
+};
+export const getASLLAgencyRegistrationById = async (id, setLoading, setter) => {
+  setLoading(true);
+  try {
+    const res = await axios.get(
+      `${imarineBaseUrl}/domain/ASLLAgency/GetASLLAgencyRegistrationById?id=${id}`
+    );
+    setLoading(false);
+    setter(res?.data);
+  } catch (error) {
+    setLoading(false);
+  }
 };
 
 export const getVesselDDL = async (accId, buId, setter, vesselId) => {
@@ -83,7 +124,28 @@ export const attachment_action = async (
   }
 };
 
-export const vesselTypeDDL  = [{value:1,label:"Rental Vessel"},{value:2,label:"Own Vessel"}]
+export const vesselTypeDDL = [
+  { value: 1, label: "Rental Vessel" },
+  { value: 2, label: "Own Vessel" },
+];
 
+export const createUpdateASLLAgencyRegistration = async (
+  payload,
+  setDisabled,
+  cb
+) => {
+  try {
+    setDisabled(true);
+    await axios.post(
+      `${imarineBaseUrl}/domain/ASLLAgency/CreateUpdateASLLAgencyRegistration`,
+      payload
+    );
 
-
+    toast.success("Submitted Successfully");
+    cb();
+    setDisabled(false);
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setDisabled(false);
+  }
+};

@@ -26,6 +26,7 @@ const reports = [
   { value: 7, label: "Sales Order and Delivery Challan" },
   { value: 8, label: "Delivery Challan and Sales Order Pending" },
   { value: 9, label: "Order Vs Challan Duration Gap" },
+  { value: 10, label: "Item Pending" },
 ];
 
 const getTypes = (values) => {
@@ -41,6 +42,11 @@ const getTypes = (values) => {
       { value: 2, label: "Top Sheet for Sales Order" },
       { value: 3, label: "Delivery Challan Details" },
       { value: 4, label: "Sales Order Details" },
+    ];
+  }else if (reportId === 10) {
+    return [
+      { value: 1, label: "Summary" },
+      { value: 2, label: "Pending" }
     ];
   } else {
     return [];
@@ -133,7 +139,9 @@ export default function SalesDetailsTable({ saveHandler }) {
       ? `0fdc584e-859d-44e2-9066-b675c6fa61f6`
       : id === 9 
       ? `709ccf52-b436-4d88-ad5f-992b86e7357d`
-      :"";
+      : id === 10 
+      ? `4e8c5f91-f84f-4b10-bf10-8304e395c2af`
+      : "";
   };
   const groupId = `e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`;
 
@@ -239,6 +247,18 @@ export default function SalesDetailsTable({ saveHandler }) {
       { name: "intsoldtopartnerid", value: `${values?.partner?.value}` },
     ];
 
+    const tenParams = [
+      { name: "intbusinessunitid", value: `${buId}` },
+      { name: "intshippointid", value: `${values?.shipPoint?.value}` },
+      { name: "intDistributionChannelId", value: `${values?.channel?.value}` },
+      { name: "sDate", value: `${values?.fromDate}` },
+      { name: "eDate", value: `${values?.toDate}` },
+      { name: "intsoldtopartnerid", value: `${values?.partner?.value}` },
+      { name: "intshippointid", value: `${values?.shipPoint?.value}` },
+      { name: "intItemId", value: `${values?.item?.value}` },
+      { name: "intpartid", value: `${values?.reportType?.value}` },
+    ];
+
     return id === 1
       ? paramsForSalesDetails
       : id === 2
@@ -262,6 +282,8 @@ export default function SalesDetailsTable({ saveHandler }) {
       ? eightParams
       : id === 9
       ? nineParams
+      : id === 10
+      ? tenParams
       : [];
   };
 
@@ -305,7 +327,7 @@ export default function SalesDetailsTable({ saveHandler }) {
                             touched={touched}
                           />
                         </div>
-                        {[2, 7].includes(values?.report?.value) && (
+                        {[2, 7, 10].includes(values?.report?.value) && (
                           <div className="col-lg-2">
                             <NewSelect
                               name="reportType"
@@ -322,7 +344,7 @@ export default function SalesDetailsTable({ saveHandler }) {
                             />
                           </div>
                         )}
-                        {[1, 4, 5, 6, 7, 8, 9].includes(values?.report?.value) &&
+                        {[1, 4, 5, 6, 7, 8, 9, 10].includes(values?.report?.value) &&
                           ![2, 4].includes(values?.reportType?.value) && (
                             <div className="col-lg-2">
                               <NewSelect
@@ -344,7 +366,7 @@ export default function SalesDetailsTable({ saveHandler }) {
                             </div>
                           )}
 
-                        {[1, 3, 4, 5, 6, 7, 8,9].includes(
+                        {[1, 3, 4, 5, 6, 7, 8,9, 10].includes(
                           values?.report?.value
                         ) && (
                           <RATForm
@@ -372,7 +394,7 @@ export default function SalesDetailsTable({ saveHandler }) {
                             }}
                           />
                         )}
-                        {[2, 3, 8, 9].includes(values?.report?.value) && (
+                        {[2, 3, 8, 9, 10].includes(values?.report?.value) && (
                           <div className="col-lg-2">
                             <NewSelect
                               name="partner"
@@ -478,6 +500,10 @@ export default function SalesDetailsTable({ saveHandler }) {
                                 isDisabled={!values?.channel}
                               />
                             </div>
+                          </>
+                        )}
+                         {[3, 10].includes(values?.report?.value) && (
+                          <>
                             <div className="col-lg-2">
                               <NewSelect
                                 name="item"

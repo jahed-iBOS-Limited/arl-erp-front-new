@@ -101,11 +101,11 @@ const ServiceChargeAndIncomeElementLanding = () => {
                           [{ value: 0, label: "All" }, ...shipPointDDL] || []
                         }
                         value={values?.warehouse}
-                        label="Warehouse"
+                        label="ShipPoint"
                         onChange={(e) => {
                           setFieldValue("warehouse", e);
                         }}
-                        placeholder="Warehouse"
+                        placeholder="ShipPoint"
                       />
                     </div>
                     <FromDateToDateForm obj={{ values, setFieldValue }} />
