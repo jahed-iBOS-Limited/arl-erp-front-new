@@ -6,7 +6,6 @@ import { CommercialPayment } from "../commercialPayment/form/addEditForm";
 import FairPriceShopForm from "../fairPriceInvoice/Form/addEditForm";
 import FuelBillForm from "../fuelBill/Form/addEditForm";
 import G2GGodownUnloadBill from "../g2gGodownUnloadBill/Form/addEditForm";
-import G2GLighterCarrierBill from "../g2gLighterCarrierBill/Form/addEditForm";
 import G2GTruckBill from "../g2gTruckBill/Form/addEditForm";
 import GhatLoadUnloadBill from "../ghatLoadUnloadBill/Form/addEditForm";
 import MotherVesselBill from "../motherVesselBill/Form/addEditForm";
@@ -22,11 +21,12 @@ import SupplerInvoiceForm from "./../supplerInvoice/Form/addEditForm";
 import SupplierAdvance from "./../supplierAdvance/supplierAdvance";
 import HeaderForm from "./Table/form";
 import HatchLaborBill from "../hatchLaborBill/Form/addEditForm";
+import G2GLighterBill from "../g2gLighterBill/Form/addEditForm";
 
 function BillregisterCreate() {
   const { state: headerData } = useLocation();
   const billType = headerData?.billType?.value;
-  console.log("billType", billType);
+
   return (
     <>
       {billType === 1 ? (
@@ -53,11 +53,9 @@ function BillregisterCreate() {
         <RenewalBillForm headerData={headerData} />
       ) : billType === 16 ? (
         <G2GTruckBill />
-      ) : // <G2GCustomizeBill />
-      billType === 17 ? (
-        <G2GLighterCarrierBill />
-      ) : // <G2GCarrierBill />
-      billType === 18 ? (
+      ) : billType === 17 ? (
+        <G2GLighterBill />
+      ) : billType === 18 ? (
         <PumpFoodingBillForm />
       ) : billType === 19 ? (
         <MotherVesselBill />

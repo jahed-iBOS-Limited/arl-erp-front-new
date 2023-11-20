@@ -6,6 +6,8 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import Loading from "../../../../_helper/_loading";
 import Form from "./form";
+import { getTargetEntryData } from "../helper";
+import { monthDDL } from "../../../../_helper/commonInputFieldsGroups/yearMonthForm";
 
 const initData = {
   type: "",
@@ -37,6 +39,7 @@ export default function ManpowerSalesTargetForm() {
   const [, postData, isLoading] = useAxiosPost();
   const [itemList, getItemList] = useAxiosGet();
   const [salesOrgs, getSalesOrgs] = useAxiosGet();
+  const [TSOList, getTSOList] = useAxiosGet();
 
   useEffect(() => {
     getSalesOrgs(
@@ -70,6 +73,34 @@ export default function ManpowerSalesTargetForm() {
     const newRow = [...rowData];
     newRow[index][key] = value;
     setRowData(newRow);
+  };
+
+  const rowDataSet = (values) => {
+    if ([1, 2, 3].includes(values?.type?.value)) {
+      getTargetEntryData(
+        buId,
+        [1, 3]?.includes(values?.type?.value) ? 8 : 6,
+        values?.channel?.value,
+        setRowData,
+        setLoading
+      );
+    } else if ([4].includes(values?.type?.value)) {
+      setRowData(
+        shipPointDDL?.map((item) => ({
+          ...item,
+          isSelected: false,
+          targetQty: "",
+        }))
+      );
+    } else if ([5].includes(values?.type?.value)) {
+      setRowData(
+        monthDDL?.map((item) => ({
+          ...item,
+          isSelected: false,
+          rate: "",
+        }))
+      );
+    }
   };
 
   const saveHandler = (values, cb) => {
@@ -155,19 +186,20 @@ export default function ManpowerSalesTargetForm() {
         <Form
           {...objProps}
           buId={buId}
-          itemList={itemList}
-          salesOrgs={salesOrgs}
-          getItems={getItems}
           accId={accId}
           viewType={type}
+          TSOList={TSOList}
           rowData={rowData}
+          getItems={getItems}
+          itemList={itemList}
           initData={initData}
+          salesOrgs={salesOrgs}
           allSelect={allSelect}
+          rowDataSet={rowDataSet}
           setRowData={setRowData}
-          setLoading={setLoading}
+          getTSOList={getTSOList}
           selectedAll={selectedAll}
           saveHandler={saveHandler}
-          shipPointDDL={shipPointDDL}
           rowDataChange={rowDataChange}
         />
       </div>
