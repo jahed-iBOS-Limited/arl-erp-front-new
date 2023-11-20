@@ -98,6 +98,7 @@ export default function MonthlyVoyageStatement() {
         new Date(values?.fromDate)?.getFullYear()}`,
       lighterVesselId: item?.lighterVesselId,
       consigneeParty: item?.consigneePartyId,
+      tripId: item?.tripId,
     };
 
     createJournal(
