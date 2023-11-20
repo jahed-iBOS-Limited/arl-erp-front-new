@@ -80,14 +80,14 @@ export default function _Form({
                 });
               }}
             >
-              <Form className="form form-label-right">
-                <div className="form-group row global-form">
-                  <div className="col-lg-3">
+              <Form className='form form-label-right'>
+                <div className='form-group row global-form'>
+                  <div className='col-lg-3'>
                     <NewSelect
                       options={plantDDL}
-                      label="Plant"
+                      label='Plant'
                       value={values?.plant}
-                      placeholder="Plant"
+                      placeholder='Plant'
                       onChange={(valueOption) => {
                         setFieldValue("plant", valueOption);
                         getWarehouseDDL(
@@ -97,19 +97,19 @@ export default function _Form({
                       // isDisabled={true}
                     />
                   </div>
-                  <div className="col-lg-3">
+                  <div className='col-lg-3'>
                     <NewSelect
                       options={warehouseDDL}
-                      label="Warehouse"
+                      label='Warehouse'
                       value={values?.warehouse}
-                      placeholder="Warehouse"
+                      placeholder='Warehouse'
                       onChange={(valueOption) => {
                         setFieldValue("warehouse", valueOption);
                       }}
                       // isDisabled={true}
                     />
                   </div>
-                  <div className="col-lg-3">
+                  <div className='col-lg-3'>
                     <label>Employee</label>
                     <SearchAsyncSelect
                       selectedValue={values?.employee}
@@ -117,17 +117,15 @@ export default function _Form({
                       handleChange={(valueOption) => {
                         getEmpInfoById(valueOption?.value, setFieldValue);
                         setFieldValue("enroll", valueOption?.value || "");
-                        setFieldValue("code", valueOption?.employeeCode || "");
-                        setFieldValue("employee", valueOption);
-                        console.log(
-                          "pre: ",
-                          values?.designationId,
-                          "next: ",
-                          valueOption?.employeeDesignationId
+                        setFieldValue(
+                          "code",
+                          valueOption?.employeeCode || valueOption?.code || ""
                         );
+                        setFieldValue("employee", valueOption);
+
                         if (
                           values?.designationId !==
-                          valueOption?.employeeDesignationId
+                          valueOption?.employeeInfoDesignationId
                         ) {
                           setFieldValue("fromDate", "");
                           setFieldValue("fromTime", "");
@@ -137,53 +135,53 @@ export default function _Form({
                         }
                         setFieldValue(
                           "designation",
-                          valueOption?.employeeDesignation
+                          valueOption?.employeeInfoDesignation
                         );
                         setFieldValue(
                           "designationId",
-                          valueOption?.employeeDesignationId
+                          valueOption?.employeeInfoDesignationId
                         );
                       }}
                       loadOptions={loadUserList}
                     />
                   </div>
-                  <div className="col-lg-3">
+                  <div className='col-lg-3'>
                     <NewSelect
                       options={workPlaceDDL}
-                      label="Work Place"
+                      label='Work Place'
                       value={values?.workPlace}
-                      placeholder="Work Place"
+                      placeholder='Work Place'
                       onChange={(valueOption) => {
                         setFieldValue("workPlace", valueOption);
                       }}
                       isDisabled={true}
                     />
                   </div>
-                  <div className="col-lg-3">
+                  <div className='col-lg-3'>
                     <InputField
                       disabled
                       value={values?.enroll}
-                      label="ERP Enroll"
-                      placeholder="ERP Enroll"
-                      name="enroll"
+                      label='ERP Enroll'
+                      placeholder='ERP Enroll'
+                      name='enroll'
                     />
                   </div>
-                  <div className="col-lg-3">
+                  <div className='col-lg-3'>
                     <InputField
                       disabled
                       value={values?.designation}
-                      label="Designation"
-                      placeholder="Designation"
-                      name="designation"
+                      label='Designation'
+                      placeholder='Designation'
+                      name='designation'
                     />
                   </div>
-                  <div className="col-lg-3">
+                  <div className='col-lg-3'>
                     <InputField
                       disabled
                       value={values?.code}
-                      label="Code"
-                      placeholder="Code"
-                      name="code"
+                      label='Code'
+                      placeholder='Code'
+                      name='code'
                     />
                   </div>
                   <FromDateToDateForm
@@ -299,24 +297,24 @@ export default function _Form({
                       name="otCount"
                     />
                   </div> */}
-                  <div className="col-lg-3">
+                  <div className='col-lg-3'>
                     <InputField
                       value={values?.taka}
-                      label="Taka"
-                      placeholder="Taka"
-                      name="taka"
+                      label='Taka'
+                      placeholder='Taka'
+                      name='taka'
                       disabled
                     />
                   </div>
-                  <div className="col-lg-3">
+                  <div className='col-lg-3'>
                     <InputField
                       value={values?.remarks}
-                      label="Remarks (optional)"
-                      placeholder="Remarks (optional)"
-                      name="remarks"
+                      label='Remarks (optional)'
+                      placeholder='Remarks (optional)'
+                      name='remarks'
                     />
                   </div>
-                  <div className="col-lg-3 d-flex align-items-center mt-5 ">
+                  <div className='col-lg-3 d-flex align-items-center mt-5 '>
                     <AttachmentUploaderNew
                       style={{
                         backgroundColor: "transparent",
@@ -324,14 +322,17 @@ export default function _Form({
                       }}
                       CBAttachmentRes={(attachmentData) => {
                         if (Array.isArray(attachmentData)) {
-                          console.log("fafa")
-                          console.log({attachmentUrl: attachmentData});
-                          setFieldValue("attachmentUrl", attachmentData?.[0]?.id)
+                          console.log("fafa");
+                          console.log({ attachmentUrl: attachmentData });
+                          setFieldValue(
+                            "attachmentUrl",
+                            attachmentData?.[0]?.id
+                          );
                         }
                       }}
                     />
                   </div>
-                  <div className="col-lg-3 mt-5">
+                  <div className='col-lg-3 mt-5'>
                     <button
                       onClick={() => {
                         addHandler(values, () => {
@@ -349,8 +350,8 @@ export default function _Form({
                         !values?.toDate ||
                         !values?.toTime
                       }
-                      type="button"
-                      className="btn btn-primary"
+                      type='button'
+                      className='btn btn-primary'
                     >
                       Add
                     </button>
@@ -358,13 +359,13 @@ export default function _Form({
                 </div>
                 {rowData?.length > 0 && (
                   <table
-                    id="table-to-xlsx"
+                    id='table-to-xlsx'
                     className={
                       "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
                     }
                   >
                     <thead>
-                      <tr className="cursor-pointer">
+                      <tr className='cursor-pointer'>
                         {headers?.map((th, index) => {
                           return <th key={index}> {th} </th>;
                         })}
@@ -377,7 +378,7 @@ export default function _Form({
                           <tr key={index}>
                             <td
                               style={{ width: "40px" }}
-                              className="text-center"
+                              className='text-center'
                             >
                               {index + 1}
                             </td>
@@ -390,13 +391,13 @@ export default function _Form({
                             <td>{_dateFormatter(item?.endDate)}</td>
                             <td>{item?.endTime}</td>
                             {/* <td>{item?.hours}</td> */}
-                            <td className="text-right">{item?.taka}</td>
+                            <td className='text-right'>{item?.taka}</td>
                             <td>{item?.remarks}</td>
                             <td
                               style={{ width: "80px" }}
-                              className="text-center"
+                              className='text-center'
                             >
-                              <div className="d-flex justify-content-around">
+                              <div className='d-flex justify-content-around'>
                                 {/* <span>
                                 <IEdit
                                   onClick={() => {
@@ -420,10 +421,10 @@ export default function _Form({
                         );
                       })}
                       <tr>
-                        <td colSpan={9} className="text-right">
+                        <td colSpan={9} className='text-right'>
                           <b>Total</b>
                         </td>
-                        <td className="text-right">
+                        <td className='text-right'>
                           <b>{_fixedPoint(totalTaka, true, 0)}</b>
                         </td>
                         <td></td>

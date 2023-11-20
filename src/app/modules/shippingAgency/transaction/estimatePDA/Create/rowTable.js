@@ -1,8 +1,12 @@
 import React from "react";
 import InputField from "../../../../_helper/_inputField";
 import IAdd from "../../../../_helper/_helperIcons/_add";
+import IViewModal from "../../../../_helper/_viewModal";
+import BillForm from "./billForm";
 
 function RowTable({ rowDto, setRowDto }) {
+  const [isBillModal, isShowBillModal] = React.useState(false);
+  const [clickRowData, setClickRowData] = React.useState({});
   return (
     <div>
       <table className='table table-striped table-bordered global-table'>
@@ -67,10 +71,11 @@ function RowTable({ rowDto, setRowDto }) {
                 <span
                   className='pointer'
                   onClick={() => {
-                    const copyRowDto = rowDto.filter(
-                      (itm, idx) => idx !== index
-                    );
-                    setRowDto(copyRowDto);
+                    isShowBillModal(true);
+                    setClickRowData({
+                      ...item,
+                      rowIdx: index,
+                    });
                   }}
                 >
                   <IAdd />
@@ -80,6 +85,21 @@ function RowTable({ rowDto, setRowDto }) {
           ))}
         </tbody>
       </table>
+
+      {// Bill Modal
+      isBillModal && (
+        <>
+          <IViewModal
+            show={isBillModal}
+            onHide={() => {
+              isShowBillModal(false);
+              setClickRowData({});
+            }}
+          >
+            <BillForm clickRowData={clickRowData} />
+          </IViewModal>
+        </>
+      )}
     </div>
   );
 }
