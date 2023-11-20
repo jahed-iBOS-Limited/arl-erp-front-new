@@ -122,6 +122,7 @@ export function RoutingForm({
         selectedBusinessUnit?.value,
         singData?.plantName.value,
         singData?.itemName.value,
+        singData.shopFloorName.value,
         setBomNameDDL
       );
     }
