@@ -124,7 +124,7 @@ export const DateWiseReportTable = ({ landingData }) => {
                                         attachmentData,
                                         item?.intApplicationID
                                       );
-                                      // setAttachmentList(attachmentData);
+                                      
                                     }
                                   }}
                                 />

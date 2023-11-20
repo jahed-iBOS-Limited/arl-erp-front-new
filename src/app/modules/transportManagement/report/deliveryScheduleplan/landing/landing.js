@@ -1,20 +1,25 @@
+/* eslint-disable no-undef */
 import { Paper, Tab, Tabs, makeStyles } from "@material-ui/core";
+import { SaveOutlined } from "@material-ui/icons";
 import { Form, Formik } from "formik";
 import moment from "moment";
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import ReactToPrint from "react-to-print";
+import { toast } from "react-toastify";
 import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
 } from "../../../../../../_metronic/_partials/controls/Card";
+import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import printIcon from "../../../../_helper/images/print-icon.png";
 import {
   CreateTransportScheduleTypeApi,
@@ -22,9 +27,10 @@ import {
   commonfilterGridData,
   getDeliverySchedulePlan,
 } from "../helper";
+import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
 import NewSelect from "./../../../../_helper/_select";
+import ConfirmtionModal from "./components/Modal";
 import RATForm from "./ratForm";
-import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
 import "./style.scss";
 const initData = {
   fromDate: _todayDate(),
@@ -80,8 +86,16 @@ function DeliveryScheduleplanReport() {
   const [shipmentType, setShipmentType] = React.useState(0);
   const [loading, setLoading] = useState(false);
   const [gridData, setGridData] = useState([]);
+  const [gridDataCopy, setGridDataCopy] = useState([]);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [gridDataWithOutFilter, setGridDataWithOutFilter] = useState([]);
   const [shipmentTypeDDl, setShipmentTypeDDl] = React.useState([]);
+  const [deliveryStatusDDL, getDeliveryStatusDDL] = useAxiosGet();
+  const [
+    __skip,
+    updateDeliveryStatus,
+    updateDeliveryStatusLoading,
+  ] = useAxiosPost();
   // Get user profile data from store
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return {
@@ -105,6 +119,15 @@ function DeliveryScheduleplanReport() {
       );
     }
   }, [profileData, selectedBusinessUnit]);
+
+  // delivery status ddl load
+  useEffect(() => {
+    getDeliveryStatusDDL(
+      `/oms/SalesOrganization/GetDeliveryScheduleStatusDDL?BusinessUnitId=${selectedBusinessUnit.value}`,
+      (data) => console.log({ data })
+    );
+  }, [selectedBusinessUnit]);
+
   const handleChange = (newValue, values) => {
     setShipmentType(newValue);
     getDeliverySchedulePlan(
@@ -119,9 +142,29 @@ function DeliveryScheduleplanReport() {
       (restData) => {
         const filterData = commonfilterGridData(values, restData);
         setGridData(filterData);
+
         setGridDataWithOutFilter(restData);
       }
     );
+  };
+
+  //handle delivery status update
+  const handleDeliveryStatusUpdate = ({
+    scheduleId,
+    autoId,
+    scheduleName,
+    updatedById,
+  }) => {
+    const uri = "/wms/Delivery/UpdateDeliveryStatus";
+    const payload = {
+      scheduleId,
+      autoId,
+      scheduleName,
+      updatedById,
+    };
+
+    console.log({ payload });
+    // updateDeliveryStatus(uri, payload, (res) => console.log({ res }));
   };
 
   // one item select
@@ -152,6 +195,8 @@ function DeliveryScheduleplanReport() {
       (restData) => {
         const filterData = commonfilterGridData(values, restData);
         setGridData(filterData);
+        setGridDataCopy(structuredClone(filterData));
+        console.log({ filterData });
         setGridDataWithOutFilter(restData);
       }
     );
@@ -187,8 +232,8 @@ function DeliveryScheduleplanReport() {
                       <ReactToPrint
                         trigger={() => (
                           <button
-                            type='button'
-                            className='btn btn-primary px-4 py-1'
+                            type="button"
+                            className="btn btn-primary px-4 py-1"
                           >
                             <img
                               style={{
@@ -196,7 +241,7 @@ function DeliveryScheduleplanReport() {
                                 paddingRight: "5px",
                               }}
                               src={printIcon}
-                              alt='print-icon'
+                              alt="print-icon"
                             />
                             Print
                           </button>
@@ -210,35 +255,35 @@ function DeliveryScheduleplanReport() {
               <CardBody>
                 <>
                   <Form>
-                    <div className='row global-form p-0 m-0 pb-1'>
-                      <div className='col-lg-3'>
+                    <div className="row global-form p-0 m-0 pb-1">
+                      <div className="col-lg-3">
                         <NewSelect
-                          name='shipPoint'
+                          name="shipPoint"
                           options={
                             [{ value: 0, label: "All" }, ...shippointDDL] || []
                           }
                           value={values?.shipPoint}
-                          label='Ship Point'
+                          label="Ship Point"
                           onChange={(valueOption) => {
                             setFieldValue("shipPoint", valueOption);
                             setGridData([]);
                           }}
-                          placeholder='Ship Point'
+                          placeholder="Ship Point"
                           errors={errors}
                           touched={touched}
                           isClearable={false}
                         />
                       </div>
 
-                      <div className='col-lg-3'>
+                      <div className="col-lg-3">
                         <NewSelect
-                          name='trackingType'
+                          name="trackingType"
                           options={[
                             { value: 1, label: "Tracking Pending" },
                             { value: 2, label: "Tracking Complete" },
                           ]}
                           value={values?.trackingType}
-                          label='Tracking Type'
+                          label="Tracking Type"
                           onChange={(valueOption) => {
                             setGridData([]);
                             setFieldValue("trackingType", valueOption);
@@ -253,7 +298,7 @@ function DeliveryScheduleplanReport() {
                               label: "All",
                             });
                           }}
-                          placeholder='Tracking Type'
+                          placeholder="Tracking Type"
                           errors={errors}
                           touched={touched}
                           isClearable={false}
@@ -261,16 +306,16 @@ function DeliveryScheduleplanReport() {
                       </div>
                       {values?.trackingType?.value === 2 && (
                         <>
-                          <div className='col-lg-3'>
+                          <div className="col-lg-3">
                             <NewSelect
-                              name='logisticByFilter'
+                              name="logisticByFilter"
                               options={[
                                 { value: 0, label: "All" },
                                 { value: 1, label: "Company" },
                                 { value: 2, label: "Supplier" },
                               ]}
                               value={values?.logisticByFilter}
-                              label='Logistic By'
+                              label="Logistic By"
                               onChange={(valueOption) => {
                                 setFieldValue("logisticByFilter", valueOption);
                                 filterGridDataFunc(
@@ -281,30 +326,30 @@ function DeliveryScheduleplanReport() {
                                   gridDataWithOutFilter
                                 );
                               }}
-                              placeholder='Logistic By'
+                              placeholder="Logistic By"
                               errors={errors}
                               touched={touched}
                             />
                           </div>
                         </>
                       )}
-                      <div className='col-lg-2'></div>
+                      <div className="col-lg-2"></div>
                       {values?.trackingType?.value === 1 && (
                         <>
-                          <div className='col-lg-4'>
-                            <div className='d-flex'>
+                          <div className="col-lg-4">
+                            <div className="d-flex">
                               <NewSelect
-                                name='logisticBy'
+                                name="logisticBy"
                                 options={[
                                   { value: 1, label: "Company" },
                                   { value: 2, label: "Supplier" },
                                 ]}
                                 value={values?.logisticBy}
-                                label='Logistic By'
+                                label="Logistic By"
                                 onChange={(valueOption) => {
                                   setFieldValue("logisticBy", valueOption);
                                 }}
-                                placeholder='Logistic By'
+                                placeholder="Logistic By"
                                 errors={errors}
                                 touched={touched}
                                 isClearable={false}
@@ -312,12 +357,12 @@ function DeliveryScheduleplanReport() {
                               />
                               <button
                                 disabled={
-                                  !values?.logisticBy?.value ||
+                                  // !values?.logisticBy?.value ||
                                   !gridData?.some((i) => i.itemCheck)
                                 }
-                                type='button'
+                                type="button"
                                 style={{ marginTop: "17px" }}
-                                className='btn btn-primary ml-2'
+                                className="btn btn-primary ml-2"
                                 onClick={() => {
                                   const payload = gridData
                                     ?.filter((i) => i?.itemCheck)
@@ -329,9 +374,24 @@ function DeliveryScheduleplanReport() {
                                       poviderTypeId: values?.logisticBy?.value,
                                       providerTypeName:
                                         values?.logisticBy?.label,
+                                      scheduleName: itm?.scheduleName,
+                                      scheduleId: deliveryStatusDDL.find(
+                                        (i) => i.label === itm?.scheduleName
+                                      ).value,
                                       scheduleDate:
                                         itm?.deliveryScheduleDate || new Date(),
                                     }));
+
+                                  console.log({ payload });
+
+                                  const isDeliveryStatusSelected = payload?.every(
+                                    (item) => item.scheduleName !== null
+                                  );
+
+                                  if (!isDeliveryStatusSelected)
+                                    return toast.warn(
+                                      "Delivery Status Must be Selected!"
+                                    );
 
                                   CreateTransportScheduleTypeApi(
                                     payload,
@@ -356,17 +416,17 @@ function DeliveryScheduleplanReport() {
                         </>
                       )}
 
-                      <div className='col-lg-12 p-0 m-0'>
+                      <div className="col-lg-12 p-0 m-0">
                         <Paper square className={classes.root}>
                           <div>
                             <Tabs
                               value={shipmentType}
-                              indicatorColor='primary'
-                              textColor='primary'
+                              indicatorColor="primary"
+                              textColor="primary"
                               onChange={(e, value) => {
                                 handleChange(value, values);
                               }}
-                              aria-label='disabled tabs example'
+                              aria-label="disabled tabs example"
                             >
                               {shipmentTypeDDl?.map((itm, idx) => {
                                 return (
@@ -379,13 +439,13 @@ function DeliveryScheduleplanReport() {
                             </Tabs>
                           </div>
 
-                          <div className='col-lg-2'>
+                          <div className="col-lg-2">
                             <label>From Date</label>
                             <InputField
                               value={values?.fromDate}
-                              name='fromDate'
-                              placeholder='From Date'
-                              type='date'
+                              name="fromDate"
+                              placeholder="From Date"
+                              type="date"
                               onChange={(e) => {
                                 setGridData([]);
                                 setFieldValue("fromDate", e.target.value);
@@ -393,13 +453,13 @@ function DeliveryScheduleplanReport() {
                             />
                           </div>
 
-                          <div className='col-lg-2'>
+                          <div className="col-lg-2">
                             <label>To Date</label>
                             <InputField
                               value={values?.toDate}
-                              name='toDate'
-                              placeholder='To Date'
-                              type='date'
+                              name="toDate"
+                              placeholder="To Date"
+                              type="date"
                               onChange={(e) => {
                                 setFieldValue("toDate", e.target.value);
                                 setGridData([]);
@@ -407,10 +467,10 @@ function DeliveryScheduleplanReport() {
                             />
                           </div>
 
-                          <div className='col'>
-                            <div className='d-flex justify-content-between align-items-center'>
+                          <div className="col">
+                            <div className="d-flex justify-content-between align-items-center">
                               <button
-                                type='button'
+                                type="button"
                                 style={{ marginTop: "17px" }}
                                 disabled={
                                   !values?.fromDate ||
@@ -426,18 +486,18 @@ function DeliveryScheduleplanReport() {
                                   setFieldValue("area", "");
                                   setFieldValue("territory", "");
                                 }}
-                                className='btn btn-primary'
+                                className="btn btn-primary"
                               >
                                 Show
                               </button>
-                              <div className='d-flex justify-content-center align-items-center'>
-                                <label className='mr-1' for='isMoreFiter'>
+                              <div className="d-flex justify-content-center align-items-center">
+                                <label className="mr-1" for="isMoreFiter">
                                   More Filter
                                 </label>
                                 <input
-                                  id='isMoreFiter'
+                                  id="isMoreFiter"
                                   value={values?.isMoreFiter}
-                                  name='isMoreFiter'
+                                  name="isMoreFiter"
                                   checked={values?.isMoreFiter}
                                   onChange={(e) => {
                                     setFieldValue(
@@ -460,8 +520,8 @@ function DeliveryScheduleplanReport() {
                                       gridDataWithOutFilter
                                     );
                                   }}
-                                  type='checkbox'
-                                  className='mt-1'
+                                  type="checkbox"
+                                  className="mt-1"
                                 />
                               </div>
                             </div>
@@ -489,25 +549,25 @@ function DeliveryScheduleplanReport() {
                     {gridData?.length > 0 && (
                       <div
                         ref={printRef}
-                        className='deliveryScheduleplanPrintSection'
+                        className="deliveryScheduleplanPrintSection"
                       >
-                        <div className='text-center my-2 headerInfo'>
+                        <div className="text-center my-2 headerInfo">
                           <h3>
                             <b> {selectedBusinessUnit?.label} </b>
                           </h3>
 
                           <h4>Delivery Schedule Plan Report</h4>
-                          <div className='d-flex justify-content-center'>
+                          <div className="d-flex justify-content-center">
                             <h5>
                               For The Month:
                               {dateFormatWithMonthName(values?.fromDate)}
                             </h5>
-                            <h5 className='ml-5'>
+                            <h5 className="ml-5">
                               To: {dateFormatWithMonthName(values?.toDate)}
                             </h5>
                           </div>
                         </div>
-                        <div className='text-right'>
+                        <div className="text-right">
                           Total Qty.:{" "}
                           <b>
                             {_fixedPoint(
@@ -520,26 +580,26 @@ function DeliveryScheduleplanReport() {
                         </div>
                         {totalSelectQty > 0 && (
                           <>
-                            <div className='text-right'>
+                            <div className="text-right">
                               Select Total Qty.: <b>{totalSelectQty}</b>
                             </div>
                           </>
                         )}
 
-                        <div className='loan-scrollable-tafble'>
-                          <div className='scroll-table _tafble'>
-                            <div className='table-responsive'>
-                              <table className='table table-striped table-bordered global-table'>
+                        <div className="loan-scrollable-tafble">
+                          <div className="scroll-table _tafble">
+                            <div className="table-responsive">
+                              <table className="table table-striped table-bordered global-table">
                                 <thead>
                                   <tr>
                                     {values?.trackingType?.value === 1 && (
                                       <th
                                         style={{ minWidth: "25px" }}
-                                        className='printSectionNone'
+                                        className="printSectionNone"
                                       >
                                         <input
-                                          type='checkbox'
-                                          id='parent'
+                                          type="checkbox"
+                                          id="parent"
                                           onChange={(event) => {
                                             allGridCheck(event.target.checked);
                                           }}
@@ -576,6 +636,9 @@ function DeliveryScheduleplanReport() {
                                       Create Date
                                     </th>
                                     <th style={{ minWidth: "65px" }}>
+                                      Delivery Status
+                                    </th>
+                                    <th style={{ minWidth: "65px" }}>
                                       Delivery Date
                                     </th>
                                     <th>Lead Time</th>
@@ -586,10 +649,18 @@ function DeliveryScheduleplanReport() {
                                       Rest of Time{" "}
                                     </th>
                                     <th>Shipment Status</th>
+                                    <th>Updated By</th>
+                                    <th>Updated Date</th>
                                   </tr>
                                 </thead>
                                 <tbody>
                                   {gridData?.map((item, index) => {
+                                    //check if the table row is saved previosly and we find a scheduleName or not. based on this wi will show the update button for delivery status
+                                    const isSubmittedPreviosly = gridDataCopy.find(
+                                      (preItem) =>
+                                        preItem.deliveryId === item.deliveryId
+                                    )?.scheduleName;
+
                                     // deliveryScheduleDate today date check momentjs
                                     const todayDate = moment(new Date()).format(
                                       "DD-MM-YYYY"
@@ -656,10 +727,10 @@ function DeliveryScheduleplanReport() {
                                         }}
                                       >
                                         {values?.trackingType?.value === 1 && (
-                                          <td className='printSectionNone'>
+                                          <td className="printSectionNone">
                                             <input
-                                              id='itemCheck'
-                                              type='checkbox'
+                                              id="itemCheck"
+                                              type="checkbox"
                                               value={item.itemCheck}
                                               checked={item.itemCheck}
                                               name={item.itemCheck}
@@ -671,7 +742,7 @@ function DeliveryScheduleplanReport() {
                                           </td>
                                         )}
 
-                                        <td className='text-center'>
+                                        <td className="text-center">
                                           {" "}
                                           {index + 1}
                                         </td>
@@ -703,13 +774,13 @@ function DeliveryScheduleplanReport() {
                                         <td>{item?.shipToPartnerName}</td>
                                         <td>{item?.shipToPartnerAddress}</td>
                                         <td>{item?.itemName}</td>
-                                        <td className='text-center'>
+                                        <td className="text-center">
                                           {item?.quantity}
                                         </td>
                                         {prvSalesOrderCode !==
                                           item?.salesOrderCode && (
                                           <td
-                                            className='text-center'
+                                            className="text-center"
                                             rowSpan={rowSpan}
                                           >
                                             {totalQty}
@@ -731,6 +802,79 @@ function DeliveryScheduleplanReport() {
                                               item?.challanDateTime
                                             ).format("DD-MM-YYYY hh:mm: A")}
                                         </td>
+                                        <td style={{ minWidth: "150px" }}>
+                                          <div className="d-flex align-items-center">
+                                            <NewSelect
+                                              name="deliveryStatus"
+                                              options={deliveryStatusDDL ?? []}
+                                              value={
+                                                item?.scheduleName
+                                                  ? deliveryStatusDDL?.find(
+                                                      (i) =>
+                                                        i.label ===
+                                                        item?.scheduleName
+                                                    )
+                                                  : ""
+                                              }
+                                              onChange={(valueOption) => {
+                                                let copyGridData = [
+                                                  ...gridData,
+                                                ];
+                                                console.log({ gridDataCopy });
+                                                copyGridData[index][
+                                                  "scheduleName"
+                                                ] = valueOption.label;
+                                                setGridData(copyGridData);
+                                                console.log({ gridData });
+                                              }}
+                                              errors={errors}
+                                              touched={touched}
+                                              isClearable={false}
+                                            />
+
+                                            {
+                                            isSubmittedPreviosly
+                                             && (
+                                              <>
+                                                <SaveOutlined
+                                                  onClick={() =>
+                                                    setShowConfirmModal(true)
+                                                  }
+                                                  role="button"
+                                                  className="bg-dark text-white p-1 ml-2 rounded"
+                                                />
+                                                <ConfirmtionModal
+                                                  show={showConfirmModal}
+                                                  title="Update Delivery Status"
+                                                  message="Are you sure, You want to update delivery status?"
+                                                  onYesAction={() => {
+                                                    //update data (api call)
+                                                    console.log({item})
+                                                    const payload = {
+                                                      scheduleId: deliveryStatusDDL.find(
+                                                        (i) =>
+                                                          i.label ===
+                                                          item?.scheduleName
+                                                      )?.value,
+                                                      autoId: item?.deliveryId,
+                                                      scheduleName:
+                                                        item?.scheduleName,
+                                                      updatedById:
+                                                        profileData?.accountId,
+                                                    };
+                                                    handleDeliveryStatusUpdate({
+                                                      ...payload,
+                                                    });
+                                                    setShowConfirmModal(false);
+                                                  }}
+                                                  handleClose={
+                                                    setShowConfirmModal
+                                                  }
+                                                />
+                                              </>
+                                            )}
+                                          </div>
+                                        </td>
                                         <td>
                                           {item?.deliveryScheduleDate &&
                                             moment(
@@ -741,6 +885,8 @@ function DeliveryScheduleplanReport() {
                                         <td>{item?.spendTimeHr}</td>
                                         <td>{item?.pendingTimeHr}</td>
                                         <td>{item?.shipmentStatus || ""}</td>
+                                        <td>{item?.updatedByName || ""}</td>
+                                        <td>{item?.updateDate || ""}</td>
                                       </tr>
                                     );
                                   })}
