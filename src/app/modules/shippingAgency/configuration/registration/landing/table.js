@@ -41,7 +41,7 @@ const LandingTable = ({ obj }) => {
               <td>{item?.voyageOwnerName}</td>
               <td>{item?.registrationNumber}</td>
               <td>{item?.loadPortName}</td>
-              <td>{moment(item?.arrivedDateTime).format('hh:mm A')}</td>
+              <td>{moment(item?.arrivedDateTime).format("hh:mm A")}</td>
               <td>{item?.cargoName}</td>
               <td>{item?.quantity}</td>
               <td>{item?.stevedore}</td>
@@ -57,7 +57,7 @@ const LandingTable = ({ obj }) => {
                   <span
                     onClick={() => {
                       history.push(
-                        `/ShippingAgency/Transaction/EstimatePDA/edit/${item?.complainId}`
+                        `/ShippingAgency/Configuration/Registration/edit/${item?.registrationId}`
                       );
                     }}
                   >

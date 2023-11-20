@@ -40,12 +40,14 @@ export const getVesselTypeDDL = async (accId, buId, setter) => {
     const res = await axios.get(
       `${imarineBaseUrl}/domain/ASLLAgency/GetVesselTypeDDL`
     );
-    setter(res?.data?.map(itm => {
-      return {
-        value: itm?.vesselTypeId,
-        label: itm?.vesselTypeName,
-      };
-    }));
+    setter(
+      res?.data?.map((itm) => {
+        return {
+          value: itm?.vesselTypeId,
+          label: itm?.vesselTypeName,
+        };
+      })
+    );
   } catch (error) {}
 };
 export const getVoyageNoDDLApi = async (accId, buId, setter) => {
@@ -53,13 +55,27 @@ export const getVoyageNoDDLApi = async (accId, buId, setter) => {
     const res = await axios.get(
       `${imarineBaseUrl}/domain/ASLLAgency/GetVoyageNoDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
-    setter(res?.data?.map((voyageNo, idx) => {
-      return {
-        value: voyageNo,
-        label: voyageNo
-      };
-    }));
+    setter(
+      res?.data?.map((voyageNo, idx) => {
+        return {
+          value: voyageNo,
+          label: voyageNo,
+        };
+      })
+    );
   } catch (error) {}
+};
+export const getASLLAgencyRegistrationById = async (id, setLoading, setter) => {
+  setLoading(true);
+  try {
+    const res = await axios.get(
+      `${imarineBaseUrl}/domain/ASLLAgency/GetASLLAgencyRegistrationById?id=${id}`
+    );
+    setLoading(false);
+    setter(res?.data);
+  } catch (error) {
+    setLoading(false);
+  }
 };
 
 export const getVesselDDL = async (accId, buId, setter, vesselId) => {

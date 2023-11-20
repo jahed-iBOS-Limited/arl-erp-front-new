@@ -41,11 +41,7 @@ const RegistrationLanding = () => {
       getVesselDDL(accId, buId, setVesselDDL);
       getVesselTypeDDL(accId, buId, setVesselTypeDDL);
       // commonGridData(pageNo, pageSize, initData);
-      getVoyageNoDDLApi(
-        accId,
-        buId,
-        setVoyageNoDDLApi,
-      )
+      getVoyageNoDDLApi(accId, buId, setVoyageNoDDLApi);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
@@ -137,7 +133,7 @@ const RegistrationLanding = () => {
                     onClick={() => {
                       commonGridData(1, pageSize, values);
                     }}
-                    disabled={!values?.vesselName && !values?.vesselType}
+                    disabled={!values?.vesselName || !values?.vesselType}
                   >
                     View
                   </button>
