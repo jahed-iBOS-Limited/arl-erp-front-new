@@ -3,24 +3,19 @@ import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import {
-  complainLandingPasignation,
-  getSBUListDDLApi,
-  getVesselDDL,
-} from "../helper";
+import { getSBUListDDLApi, getVesselDDL, vesselTypeDDL } from "../helper";
 import LandingTable from "./table";
 
 const initData = {
-  fromDate: _todayDate(),
-  toDate: _todayDate(),
+  vesselName: "",
+  vesselType: "",
+  voyageNo: "",
 };
 
-const EstimatePDALanding = () => {
+const RegistrationLanding = () => {
   const [gridData, setGridData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pageNo, setPageNo] = useState(0);
@@ -70,23 +65,25 @@ const EstimatePDALanding = () => {
         {({ values, setFieldValue, touched, errors }) => (
           <>
             <ICustomCard
-              title='Estimate PDA'
+              title='Registration'
               createHandler={() => {
-                history.push(`/ShippingAgency/Transaction/EstimatePDA/Create`);
+                history.push(
+                  `/ShippingAgency/Configuration/Registration/Create`
+                );
               }}
             >
               <div className='row global-form my-3'>
                 <div className='col-lg-3'>
                   <NewSelect
-                    isSearchable={true}
-                    options={sbuDDL || []}
-                    name='sbu'
+                    options={vesselTypeDDL || []}
+                    name='vesselType'
                     onChange={(valueOption) => {
-                      setFieldValue("sbu", valueOption);
+                      setFieldValue("vesselType", valueOption);
                       setGridData([]);
                     }}
-                    placeholder='SBU'
-                    value={values?.sbu}
+                    placeholder='Vessel Type'
+                    label='Vessel Type'
+                    value={values?.vesselType}
                     errors={errors}
                     touched={touched}
                   />
@@ -107,29 +104,21 @@ const EstimatePDALanding = () => {
                     touched={touched}
                   />
                 </div>
-                <div className='col-lg-3'>
-                  <InputField
-                    value={values?.fromDate}
-                    label='From Date'
-                    name='fromDate'
-                    type='date'
-                    onChange={(e) => {
-                      setFieldValue("fromDate", e.target.value);
-                      setGridData([]);
-                    }}
-                  />
-                </div>
 
                 <div className='col-lg-3'>
-                  <InputField
-                    value={values?.toDate}
-                    label='To Date'
-                    name='toDate'
-                    type='date'
-                    onChange={(e) => {
-                      setFieldValue("toDate", e.target.value);
+                  <NewSelect
+                    value={values?.voyageNo || ""}
+                    isSearchable={true}
+                    options={vesselDDL || []}
+                    name='voyageNo'
+                    placeholder='Voyage No'
+                    label='Voyage No'
+                    onChange={(valueOption) => {
+                      setFieldValue("voyageNo", valueOption);
                       setGridData([]);
                     }}
+                    errors={errors}
+                    touched={touched}
                   />
                 </div>
                 <div className='col d-flex align-items-end justify-content-end'>
@@ -138,25 +127,12 @@ const EstimatePDALanding = () => {
                     onClick={() => {
                       commonGridData(1, pageSize, values);
                     }}
-                    disabled={
-                      !values?.fromDate ||
-                      !values?.toDate ||
-                      !values?.sbu?.value ||
-                      !values?.vesselName?.value
-                    }
+                    disabled={!values?.vesselName && !values?.vesselType}
                   >
                     View
                   </button>
                 </div>
               </div>
-
-              {/* <PaginationSearch
-                placeholder='Search By Issue, Code, Name'
-                paginationSearchHandler={(searchValue) => {
-                  commonGridData(1, pageSize, values, searchValue);
-                }}
-                values={values}
-              /> */}
               <LandingTable
                 obj={{
                   gridData,
@@ -184,4 +160,4 @@ const EstimatePDALanding = () => {
   );
 };
 
-export default EstimatePDALanding;
+export default RegistrationLanding;
