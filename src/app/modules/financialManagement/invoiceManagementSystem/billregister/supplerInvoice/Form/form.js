@@ -163,11 +163,10 @@ export default function _Form({
                     </div>
 
                     <div className='col-lg-6 pb-3'>
-                      {/* <label>Invoice Amount</label> */}
+                      <label><b>Bill Amount</b></label>
                       <InputField
                         style={{ border: "none" }}
                         value={values?.grossInvoiceAmount}
-                        label='Bill Amount'
                         placeholder='Bill Amount'
                         onChange={(e) => {
                           const number = String(Number(e?.target?.value));
@@ -262,6 +261,7 @@ export default function _Form({
                           type='number'
                           min='0'
                           disabled
+                          style={{ border: "none" }}
                           onChange={(e) => {
                             if (
                               getDiff() - Number(e?.target?.value || 0) >=
