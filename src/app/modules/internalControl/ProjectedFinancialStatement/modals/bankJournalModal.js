@@ -42,13 +42,12 @@ const BankJournalModal = ({ id, headerData }) => {
         headerData
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, headerData, selectedBusinessUnit]);
 
   useEffect(() => {
     setGridItem(bankJournalReport?.objHeader);
   }, [bankJournalReport]);
-
-  const girdDataFunc = () => {};
 
   const printRef = useRef();
 
