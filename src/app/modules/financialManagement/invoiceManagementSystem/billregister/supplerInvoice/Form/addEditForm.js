@@ -6,6 +6,7 @@ import {
   getWarehouseDDL,
   uploadAttachment,
   getPurchaseOrgDDL,
+  getTdsVdsAmount,
 } from "../../helper";
 import { toast } from "react-toastify";
 import "./purchaseInvoice.css";
@@ -62,6 +63,7 @@ export default function SupplerInvoiceForm() {
   const [purchaseOrderDDL, setpurchaseOrderDDL] = useState([]);
   const [grnGridData, setgrnGridData] = useState([]);
   const [grnDDLData, setgrnDDLData] = useState([]);
+  const [tdsVdsAmount, setTdsVdsAmount] = useState({});
 
   const { state: headerData } = useLocation();
 
@@ -136,6 +138,13 @@ export default function SupplerInvoiceForm() {
           (total, value) => total + +value?.referenceAmount || 0,
           0
         );
+        getTdsVdsAmount(
+          profileData?.accountId,
+          values?.purchaseOrder?.supplierId,
+          values?.purchaseOrder?.value,
+          totalGrn,
+          setTdsVdsAmount
+        );
         // let totalAmount = totalGrn + values?.selectGRN?.amount;
         setFieldValue("grossInvoiceAmount", totalGrn);
         setFieldValue("paymentDueDate", values?.selectGRN?.duePaymentDate);
@@ -149,13 +158,18 @@ export default function SupplerInvoiceForm() {
             values?.totalAdjustedBalance - totalGrn
           );
         } else {
-          setFieldValue("new_Adv_Adjustment", Number(supplierAmountInfo?.poPendingAdjustment));
+          setFieldValue(
+            "new_Adv_Adjustment",
+            Number(supplierAmountInfo?.poPendingAdjustment)
+          );
           setFieldValue(
             "curentAdjustmentBalance",
             values?.totalAdjustedBalance - supplierAmountInfo?.poAdvanceAmount
           );
         }
       }
+
+    
     } else {
       let data = grnDDLData?.map((data) => {
         let refAmount =
@@ -184,6 +198,13 @@ export default function SupplerInvoiceForm() {
         (total, value) => total + +value?.referenceAmount || 0,
         0
       );
+      getTdsVdsAmount(
+        profileData?.accountId,
+        values?.purchaseOrder?.supplierId,
+        values?.purchaseOrder?.value,
+        totalGrn,
+        setTdsVdsAmount
+      );
       setFieldValue("grossInvoiceAmount", totalGrn);
       setFieldValue(
         "paymentDueDate",
@@ -199,12 +220,16 @@ export default function SupplerInvoiceForm() {
           values?.totalAdjustedBalance - totalGrn
         );
       } else {
-        setFieldValue("new_Adv_Adjustment", Number(supplierAmountInfo?.poPendingAdjustment));
+        setFieldValue(
+          "new_Adv_Adjustment",
+          Number(supplierAmountInfo?.poPendingAdjustment)
+        );
         setFieldValue(
           "curentAdjustmentBalance",
           values?.totalAdjustedBalance - supplierAmountInfo?.poAdvanceAmount
         );
       }
+
     }
   };
 
@@ -221,7 +246,10 @@ export default function SupplerInvoiceForm() {
     if (Number(supplierAmountInfo?.poPendingAdjustment) >= totalGrn) {
       setFieldValue("new_Adv_Adjustment", totalGrn);
     } else {
-      setFieldValue("new_Adv_Adjustment", Number(supplierAmountInfo?.poPendingAdjustment));
+      setFieldValue(
+        "new_Adv_Adjustment",
+        Number(supplierAmountInfo?.poPendingAdjustment)
+      );
     }
     setgrnGridData(data);
   };
@@ -382,9 +410,9 @@ export default function SupplerInvoiceForm() {
   const [objProps, setObjprops] = useState({});
 
   return (
-    <div className="purchaseInvoice">
+    <div className='purchaseInvoice'>
       <IForm
-        title="Supplier invoice"
+        title='Supplier invoice'
         getProps={setObjprops}
         isDisabled={isDisabled}
       >
@@ -413,6 +441,7 @@ export default function SupplerInvoiceForm() {
           warehouse={warehouse}
           headerData={headerData}
           purchaseOrg={purchaseOrg}
+          tdsVdsAmount={tdsVdsAmount}
         />
       </IForm>
     </div>

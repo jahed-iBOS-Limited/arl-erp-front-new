@@ -21,6 +21,7 @@ import AttachmentComponent from "./AttachmentComponent";
 import { InventoryTransactionReportViewTableRow } from "../../../../../inventoryManagement/warehouseManagement/invTransaction/report/tableRow";
 import { PurchaseOrderViewTableRow } from "../../../../../procurement/purchase-management/purchaseOrder/report/tableRow";
 import { toast } from "react-toastify";
+import { _fixedPoint } from "../../../../../_helper/_fixedPoint";
 
 const validationSchema = Yup.object().shape({
   invoiceNumber: Yup.string()
@@ -65,6 +66,7 @@ export default function _Form({
   setgrnGridData,
   warehouse,
   purchaseOrg,
+  tdsVdsAmount,
 }) {
   const [open, setOpen] = React.useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
@@ -273,26 +275,8 @@ export default function _Form({
                           }}
                         />
                       </div>
-
-                      <div className='col-lg-6 pb-1 '>
-                        <div className='mt-5 d-flex justify-content-start align-items-center'>
-                          <input
-                            type='checkbox'
-                            id='checkbox_id'
-                            checked={values?.isTDS}
-                            name='isTDS'
-                            onChange={(event) => {
-                              setFieldValue("isTDS", event.target.checked);
-                            }}
-                          />
-                          <label for='checkbox_id' className='mr-2 ml-3'>
-                            Is TDS/VDS
-                          </label>
-                        </div>
-                      </div>
-
                       <div
-                        className='col-lg-6 d-flex'
+                        className='col-lg-6 d-flex justify-content-between'
                         style={{
                           gap: "10px",
                         }}
@@ -309,22 +293,74 @@ export default function _Form({
                                 : { color: "green" }
                             }
                           >
-                            {getDiff() -
-                              Number(values?.new_Adv_Adjustment || 0)}
+                            <b>
+                              {" "}
+                              {getDiff() -
+                                Number(values?.new_Adv_Adjustment || 0)}
+                            </b>
                           </p>
                         </div>
-                        {values?.isTDS && (
-                          <>
-                            <div>
-                              <p className='my-0'>TDS Amount</p>
-                              <p className='mb-0 mt-1'>0</p>
-                            </div>{" "}
-                            <div>
-                              <p className='my-0'>VDS Amount</p>
-                              <p className='mb-0 mt-1'>0</p>
-                            </div>
-                          </>
-                        )}
+                      </div>
+                      <div className='col-lg-6 pb-1'>
+                        <InputField
+                          value={_fixedPoint(tdsVdsAmount?.numTDS || 0)}
+                          label='TDS Amount'
+                          name='numTDS'
+                          type='text'
+                          disabled
+                        />
+                      </div>{" "}
+                      <div className='col-lg-6 pb-1'>
+                        <InputField
+                          value={_fixedPoint(tdsVdsAmount?.numVDS || 0)}
+                          label='VDS Amount'
+                          name='numVDS'
+                          type='text'
+                          disabled
+                        />
+                      </div>
+                      <div className='col-lg-6 pb-1 d-flex '>
+                        <div className='d-flex justify-content-start align-items-center'>
+                          <input
+                            type='checkbox'
+                            id='checkbox_id'
+                            checked={values?.isTDS}
+                            name='isTDS'
+                            onChange={(event) => {
+                              setFieldValue("isTDS", event.target.checked);
+                            }}
+                          />
+                          <label for='checkbox_id' className='mr-2 ml-3'>
+                            Is TDS/VDS
+                          </label>
+                        </div>
+                      </div>
+                      <div className='col-lg-6 pb-1 d-flex '>
+                        <div
+                          className={
+                            "d-flex align-items-center justify-content-start pb-1 "
+                          }
+                        >
+                          <button
+                            className='btn btn-primary'
+                            type='button'
+                            onClick={() => setOpen(true)}
+                          >
+                            Attachment
+                          </button>
+                          {values?.attachmentId && (
+                            <IView
+                              classes='purchaseInvoiceAttachIcon'
+                              clickHandler={() => {
+                                dispatch(
+                                  getDownlloadFileView_Action(
+                                    values?.attachmentId
+                                  )
+                                );
+                              }}
+                            />
+                          )}
+                        </div>
                       </div>
                     </>
                     {/* )} */}
@@ -338,29 +374,6 @@ export default function _Form({
                         disabled
                       />
                     </div> */}
-                    <div
-                      className={
-                        "col-lg-6 d-flex align-items-center justify-content-start pb-1 "
-                      }
-                    >
-                      <button
-                        className='btn btn-primary'
-                        type='button'
-                        onClick={() => setOpen(true)}
-                      >
-                        Attachment
-                      </button>
-                      {values?.attachmentId && (
-                        <IView
-                          classes='purchaseInvoiceAttachIcon'
-                          clickHandler={() => {
-                            dispatch(
-                              getDownlloadFileView_Action(values?.attachmentId)
-                            );
-                          }}
-                        />
-                      )}
-                    </div>
                   </div>
                 </div>
                 <div className='col-lg-8 '>
