@@ -37,23 +37,18 @@ const validationSchema = Yup.object().shape({
     }),
 });
 
-function ViewG2GCarrierBill({
+function ViewG2GLighterBill({
   billRegisterId,
   landingValues,
   gridItem,
   setDataFunc,
   setModalShow,
 }) {
-  console.log(gridItem, "gridItem");
   // get profile data from store
-  const profileData = useSelector((state) => {
-    return state.authData.profileData;
-  }, shallowEqual);
-
-  // get selected business unit from store
-  const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit;
-  }, shallowEqual);
+  const {
+    profileData: { accountId: accId, userId },
+    selectedBusinessUnit: { value: buId, label: buName, address: buAddress },
+  } = useSelector((state) => state.authData, shallowEqual);
 
   const [loading, setLoading] = useState(false);
   const [gridData, setGridData] = useState([]);
@@ -62,18 +57,18 @@ function ViewG2GCarrierBill({
   const dispatch = useDispatch();
   useEffect(() => {
     getG2GCarrierBillById(
-      profileData?.accountId,
-      selectedBusinessUnit?.value,
+      accId,
+      buId,
       gridItem?.billRegisterId,
       setGridData,
       setLoading
     );
-  }, [profileData, selectedBusinessUnit]);
+  }, [accId, buId]);
 
   const saveHandler = (values) => {
     const modifyGridData = {
       billId: gridItem?.billRegisterId,
-      unitId: selectedBusinessUnit?.value,
+      unitId: buId,
       billTypeId: gridItem?.billType,
       approvedAmount: +values?.approveAmount,
       remarks: values?.remarks || "",
@@ -84,7 +79,7 @@ function ViewG2GCarrierBill({
     };
 
     BillApproved_api(
-      profileData?.userId,
+      userId,
       payload,
       setDisabled,
       setDataFunc,
@@ -162,8 +157,8 @@ function ViewG2GCarrierBill({
                       className="text-center "
                       style={{ position: "relative" }}
                     >
-                      <h2>{selectedBusinessUnit?.label}</h2>
-                      <h5>{selectedBusinessUnit?.address} </h5>
+                      <h2>{buName}</h2>
+                      <h5>{buAddress} </h5>
                       <h3>{"G2G Carrier Bill"}</h3>
                       {/* <button
                         style={{
@@ -263,37 +258,39 @@ function ViewG2GCarrierBill({
                                     )}
                                   </td>
                                   <td className="text-center">
-                            <OverlayTrigger
-                              overlay={
-                                <Tooltip id="cs-icon">View Attachment</Tooltip>
-                              }
-                            >
-                              <span
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                 if(item?.attachment){
-                                  dispatch(
-                                    getDownlloadFileView_Action(
-                                      item?.attachment,
-                                      null,
-                                      null,
-                                      setLoading
-                                    )
-                                  );
-                                 }else{
-                                  toast.warn("No Attachment Found")
-                                 }
-                                }}
-                                className="ml-2"
-                              >
-                                <i
-                                  style={{ fontSize: "16px" }}
-                                  className={`fa pointer fa-eye`}
-                                  aria-hidden="true"
-                                ></i>
-                              </span>
-                            </OverlayTrigger>
-                          </td>F
+                                    <OverlayTrigger
+                                      overlay={
+                                        <Tooltip id="cs-icon">
+                                          View Attachment
+                                        </Tooltip>
+                                      }
+                                    >
+                                      <span
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          if (item?.attachment) {
+                                            dispatch(
+                                              getDownlloadFileView_Action(
+                                                item?.attachment,
+                                                null,
+                                                null,
+                                                setLoading
+                                              )
+                                            );
+                                          } else {
+                                            toast.warn("No Attachment Found");
+                                          }
+                                        }}
+                                        className="ml-2"
+                                      >
+                                        <i
+                                          style={{ fontSize: "16px" }}
+                                          className={`fa pointer fa-eye`}
+                                          aria-hidden="true"
+                                        ></i>
+                                      </span>
+                                    </OverlayTrigger>
+                                  </td>
                                 </tr>
                               </>
                             );
@@ -330,4 +327,4 @@ function ViewG2GCarrierBill({
   );
 }
 
-export default ViewG2GCarrierBill;
+export default ViewG2GLighterBill;

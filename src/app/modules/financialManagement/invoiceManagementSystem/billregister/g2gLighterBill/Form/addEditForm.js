@@ -3,13 +3,13 @@ import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import { shallowEqual, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
-import { _fixedPoint } from "../../../../../_helper/_fixedPoint";
 import IForm from "../../../../../_helper/_form";
 import Loading from "../../../../../_helper/_loading";
 import { _todayDate } from "../../../../../_helper/_todayDate";
 import IWarningModal from "../../../../../_helper/_warningModal";
-import { createG2GCustomizeBill, getG2GBillData } from "../../helper";
+import { createG2GCustomizeBill } from "../../helper";
 import Form from "./form";
+import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
 
 const initData = {
   supplier: "",
@@ -20,34 +20,29 @@ const initData = {
   billAmount: "",
   toDate: _todayDate(),
   fromDate: _todayDate(),
+  port: "",
+  motherVessel: "",
+  carrierName: "",
 };
 
-export default function G2GCustomizeBill() {
+export default function G2GLighterBill() {
   const [isDisabled, setDisabled] = useState(false);
   const [uploadedImage, setUploadedImage] = useState([]);
+  const [gridData, getGridData, loader, setGridData] = useAxiosGet([]);
+
+  const { state: headerData } = useLocation();
+  const billType = headerData?.billType?.value;
+
   // get user profile data from store
   const {
     profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId, label: buName },
-  } = useSelector((state) => {
-    return state?.authData;
-  }, shallowEqual);
-
-  const [gridData, setGridData] = useState([]);
-  const { state: headerData } = useLocation();
-  const billType = headerData?.billType?.value;
+  } = useSelector((state) => state?.authData, shallowEqual);
 
   const getData = (values, searchTerm) => {
-    getG2GBillData(
-      accId,
-      buId,
-      values?.supplier?.value || 0,
-      values?.fromDate,
-      values?.toDate,
-      1,
-      setGridData,
-      setDisabled,
-      searchTerm || ""
+    const search = searchTerm ? `&SearchTerm=${searchTerm}` : "";
+    getGridData(
+      `/tms/LigterLoadUnload/PreDataForLighterVesselCarrierBillG2G?AccountId=${accId}&BusinessUnitId=${buId}&MotherVesselId=${values?.motherVessel?.value}&CarrierAgentId=${values?.carrierName?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}${search}`
     );
   };
 
@@ -58,21 +53,19 @@ export default function G2GCustomizeBill() {
       if (selectedRow.length === 0) {
         toast.warning("Please select at least one");
       } else {
+        const totalAmount = selectedRow?.reduce(
+          (total, cur) => (total += +cur?.carrierTotalAmount),
+          0
+        );
         const rows = selectedRow?.map((item) => ({
-          challanNo: "string",
+          challanNo: item?.deliveryCode,
           deliveryId: item?.deliveryId || 0,
-          quantity: +item?.quantity || 0,
-          ammount: _fixedPoint(
-            +item?.quantity * +item?.transportRate || 0,
-            false
-          ),
-          billAmount: _fixedPoint(
-            +item?.quantity * +item?.transportRate || 0,
-            false
-          ),
-          shipmentCode: "string",
-          motherVesselId: 0,
-          lighterVesselId: 0,
+          quantity: +item?.surveyQuantity || 0,
+          ammount: +item?.carrierTotalAmount,
+          billAmount: +item?.carrierTotalAmount,
+          shipmentCode: item?.deliveryCode,
+          motherVesselId: +item?.motherVesselId,
+          lighterVesselId: +item?.lighterVesselId,
           numFreightRateUSD: 0,
           numFreightRateBDT: 0,
           numCommissionRateBDT: 0,
@@ -82,15 +75,15 @@ export default function G2GCustomizeBill() {
           truckToDamRate: 0,
           lighterToBolgateRate: 0,
           bolgateToDamRate: 0,
-          othersCostRate: +item?.transportRate,
+          othersCostRate: +item?.carrierRate,
         }));
 
         const payload = {
           gtogHead: {
             billTypeId: billType || 0,
             accountId: accId,
-            supplierId: values?.supplier?.value,
-            supplierName: values?.supplier?.label,
+            supplierId: values?.carrierName?.value,
+            supplierName: values?.carrierName?.label,
             sbuId: headerData?.sbu?.value || 0,
             unitId: buId,
             unitName: buName,
@@ -98,8 +91,8 @@ export default function G2GCustomizeBill() {
             billDate: values?.billDate,
             paymentDueDate: values?.paymentDueDate,
             narration: values?.narration,
-            billAmount: 0,
-            plantId: 0,
+            billAmount: totalAmount,
+            plantId: headerData?.plant?.value || 0,
             warehouseId: 0,
             actionBy: userId,
           },
@@ -118,23 +111,23 @@ export default function G2GCustomizeBill() {
     }
   };
 
+  const loading = loader || isDisabled;
+
   const [objProps, setObjprops] = useState({});
   return (
     <div className="purchaseInvoice">
       <IForm
-        title="G2G Truck Bill"
+        title={headerData?.billType?.label}
         getProps={setObjprops}
-        isDisabled={isDisabled}
+        isDisabled={loading}
       >
-        {isDisabled && <Loading />}
+        {loading && <Loading />}
         <Form
           {...objProps}
           buId={buId}
-          accId={accId}
           getData={getData}
           gridData={gridData}
           initData={initData}
-          headerData={headerData}
           setGridData={setGridData}
           saveHandler={saveHandler}
           setUploadedImage={setUploadedImage}
