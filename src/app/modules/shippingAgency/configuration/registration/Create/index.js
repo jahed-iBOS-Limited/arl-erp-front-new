@@ -164,8 +164,8 @@ const EstimatePDACreate = () => {
               }
             : "",
 
-          arrivedTime: moment(resData?.arrivedDateTime).format("HH:mm") || "",
-          sailedTime: moment(resData?.sailedDateTime).format("HH:mm") || "",
+          arrivedTime: moment(resData?.arrivedDateTime).format("YYYY-MM-DDTHH:mm") || "",
+          sailedTime: moment(resData?.sailedDateTime).format("YYYY-MM-DDTHH:mm") || "",
           cargoName: resData?.cargoId
             ? {
                 value: resData?.cargoId,
