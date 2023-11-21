@@ -257,7 +257,7 @@ export default function _Form({
                                     selectedBusinessUnit?.value,
                                     item?.itemId,
                                     valueOption?.value,
-                                    shopFloorId,
+                                    item?.shopFloorId,
                                     setBomName
                                   );
                                 }}
