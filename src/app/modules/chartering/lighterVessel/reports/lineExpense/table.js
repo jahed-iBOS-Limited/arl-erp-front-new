@@ -15,6 +15,7 @@ import ReactToPrint from "react-to-print";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import TextArea from "../../../../_helper/TextArea";
 import * as Yup from "yup";
+import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
 
 const headers = [
   { name: "SL" },
@@ -32,7 +33,9 @@ const validationSchema = Yup.object().shape({
 });
 
 const initData = {
-  date: _firstDateofMonth(),
+  fromDate: _firstDateofMonth(),
+  toDate: _todayDate(),
+  date: _todayDate(),
   narration: "",
 };
 
@@ -47,19 +50,22 @@ export default function LineExpenseReport() {
   const {
     profileData,
     selectedBusinessUnit: { value: buId },
-  } = useSelector((state) => {
-    return state?.authData;
-  }, shallowEqual);
+  } = useSelector((state) => state?.authData, shallowEqual);
 
-  useEffect(() => {
+  const getGridData = (values) => {
     getLineExpense(
       buId,
-      _firstDateofMonth(),
+      values?.fromDate,
+      values?.toDate,
       setGridData,
       setLoading,
       setTotalJVAmount,
       setGrandTotal
     );
+  };
+
+  useEffect(() => {
+    getGridData(initData);
   }, [profileData, buId]);
 
   return (
@@ -88,6 +94,15 @@ export default function LineExpenseReport() {
             <form className="marine-form-card">
               <div className="marine-form-card-content">
                 <div className="row">
+                  <FromDateToDateForm
+                    obj={{
+                      values,
+                      setFieldValue,
+                      onChange: (allValues) => {
+                        getGridData(allValues);
+                      },
+                    }}
+                  />
                   <div className="col-lg-10">
                     <label>Narration</label>
                     <TextArea

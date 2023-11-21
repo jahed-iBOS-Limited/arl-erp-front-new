@@ -77,6 +77,8 @@ const ServiceChargeAndIncomeElementForm = () => {
       itemId: values?.item?.value,
       uomid: 0,
       wareHouseId: values?.warehouse?.value,
+      shipPointId: values?.warehouse?.value,
+      shipPointName: values?.warehouse?.label,
       businessUnitId: buId,
       date: _todayDate(),
       lastActionBy: userId,

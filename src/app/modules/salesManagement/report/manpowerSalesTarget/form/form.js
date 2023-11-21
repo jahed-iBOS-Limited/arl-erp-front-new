@@ -2,69 +2,41 @@
 import { Form, Formik } from "formik";
 import React from "react";
 import { useHistory } from "react-router";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import YearMonthForm, {
-  monthDDL,
-} from "../../../../_helper/commonInputFieldsGroups/yearMonthForm";
 import ICustomCard from "../../../../_helper/_customCard";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
-import { getTargetEntryData } from "../helper";
+import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
+import YearMonthForm from "../../../../_helper/commonInputFieldsGroups/yearMonthForm";
+import IButton from "../../../../_helper/iButton";
 import SubsidyRateTable from "./subsidyRateTable";
 
+const types = [
+  { value: 1, label: "Sales Target" },
+  { value: 2, label: "Customer Open Target" },
+  { value: 3, label: "Retailer Open Target" },
+  { value: 4, label: "ShipPoint Target" },
+  { value: 5, label: "Government Subsidy Rate" },
+];
+
 export default function _Form({
-  itemList,
-  salesOrgs,
-  getItems,
   buId,
   accId,
   rowData,
+  getItems,
   viewType,
   initData,
+  TSOList,
+  itemList,
+  salesOrgs,
   allSelect,
+  getTSOList,
+  rowDataSet,
   setRowData,
-  setLoading,
   selectedAll,
   saveHandler,
-  shipPointDDL,
   rowDataChange,
 }) {
   const history = useHistory();
-  const types = [
-    { value: 1, label: "Sales Target" },
-    { value: 2, label: "Customer Open Target" },
-    { value: 3, label: "Retailer Open Target" },
-    { value: 4, label: "ShipPoint Target" },
-    { value: 5, label: "Government Subsidy Rate" },
-  ];
-
-  const rowDataSet = (values) => {
-    if ([1, 2, 3].includes(values?.type?.value)) {
-      getTargetEntryData(
-        buId,
-        [1, 3]?.includes(values?.type?.value) ? 8 : 6,
-        values?.channel?.value,
-        setRowData,
-        setLoading
-      );
-    } else if ([4].includes(values?.type?.value)) {
-      setRowData(
-        shipPointDDL?.map((item) => ({
-          ...item,
-          isSelected: false,
-          targetQty: "",
-        }))
-      );
-    } else if ([5].includes(values?.type?.value)) {
-      setRowData(
-        monthDDL?.map((item) => ({
-          ...item,
-          isSelected: false,
-          rate: "",
-        }))
-      );
-    }
-  };
 
   const isDisabled = (values) => {
     return (
@@ -72,7 +44,9 @@ export default function _Form({
       (values?.type?.value !== 5 && !values?.month) ||
       !values?.year ||
       ([1, 3]?.includes(values?.type?.value) && !values?.zone) ||
-      ([4].includes(values?.type?.value) && !values?.item)
+      (([4].includes(values?.type?.value) ||
+        ([1]?.includes(values?.type?.value) && buId === 144)) &&
+        !values?.item)
     );
   };
 
@@ -132,53 +106,6 @@ export default function _Form({
                       />
                     </div>
 
-                    <RATForm
-                      obj={{
-                        values,
-                        setFieldValue,
-                        region: [1, 2, 3].includes(values?.type?.value),
-                        area: [1, 2, 3].includes(values?.type?.value),
-                        territory: [1, 3]?.includes(values?.type?.value),
-                        zone: [1, 3]?.includes(values?.type?.value),
-                      }}
-                    />
-
-                    {values?.type?.value === 4 && (
-                      <>
-                        <div className="col-lg-3">
-                          <NewSelect
-                            name="salesOrg"
-                            options={salesOrgs || []}
-                            value={values?.salesOrg}
-                            label="Sales Organization"
-                            onChange={(valueOption) => {
-                              setFieldValue("salesOrg", valueOption);
-                              getItems({ ...values, salesOrg: valueOption });
-                            }}
-                            placeholder="Select Sales Organization"
-                            errors={errors}
-                            touched={touched}
-                            isDisabled={viewType || !values?.channel}
-                          />
-                        </div>
-                        <div className="col-lg-3">
-                          <NewSelect
-                            name="item"
-                            options={itemList || []}
-                            value={values?.item}
-                            label="Item"
-                            onChange={(valueOption) => {
-                              setFieldValue("item", valueOption);
-                            }}
-                            placeholder="Select Item"
-                            errors={errors}
-                            touched={touched}
-                            isDisabled={viewType || !values?.salesOrg}
-                          />
-                        </div>
-                      </>
-                    )}
-
                     <YearMonthForm
                       obj={{
                         values,
@@ -187,18 +114,92 @@ export default function _Form({
                       }}
                     />
 
-                    <div className="col-lg-3 mt-5">
-                      <button
-                        className="btn btn-primary"
-                        type="button"
-                        onClick={() => {
-                          rowDataSet(values);
-                        }}
-                        disabled={isDisabled(values)}
-                      >
-                        View
-                      </button>
-                    </div>
+                    <RATForm
+                      obj={{
+                        values,
+                        setFieldValue,
+                        region: [1, 2, 3].includes(values?.type?.value),
+                        area: [1, 2, 3].includes(values?.type?.value),
+                        territory: [1, 3]?.includes(values?.type?.value),
+                        zone:
+                          [3]?.includes(values?.type?.value) ||
+                          ([1]?.includes(values?.type?.value) && buId !== 144),
+                        onChange: (allValues, fieldName) => {
+                          if (fieldName === "territory") {
+                            getTSOList(
+                              `/oms/Complains/GetTerritoryOfficerDDL?accountId=${accId}&businessUnitId=${buId}&distributionChannelId=${allValues?.channel?.value}&territoryId=${allValues?.territory?.value}`
+                            );
+                          }
+                        },
+                      }}
+                    />
+
+                    {[1]?.includes(values?.type?.value) && buId === 144 && (
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="tso"
+                          options={TSOList || []}
+                          value={values?.tso}
+                          label="Territory Sales Officer"
+                          onChange={(valueOption) => {
+                            setFieldValue("tso", valueOption);
+                          }}
+                          placeholder="Territory Sales Officer"
+                          errors={errors}
+                          touched={touched}
+                          isDisabled={viewType || !values?.territory}
+                        />
+                      </div>
+                    )}
+
+                    {values?.type?.value === 4 ||
+                      ([1]?.includes(values?.type?.value) && buId === 144 && (
+                        <>
+                          <div className="col-lg-3">
+                            <NewSelect
+                              name="salesOrg"
+                              options={salesOrgs || []}
+                              value={values?.salesOrg}
+                              label="Sales Organization"
+                              onChange={(valueOption) => {
+                                setFieldValue("salesOrg", valueOption);
+                                getItems({
+                                  ...values,
+                                  salesOrg: valueOption,
+                                });
+                              }}
+                              placeholder="Select Sales Organization"
+                              errors={errors}
+                              touched={touched}
+                              isDisabled={viewType || !values?.channel}
+                            />
+                          </div>
+                          <div className="col-lg-3">
+                            <NewSelect
+                              name="item"
+                              options={itemList || []}
+                              value={values?.item}
+                              label="Item"
+                              onChange={(valueOption) => {
+                                setFieldValue("item", valueOption);
+                              }}
+                              placeholder="Select Item"
+                              errors={errors}
+                              touched={touched}
+                              isDisabled={viewType || !values?.salesOrg}
+                            />
+                          </div>
+                        </>
+                      ))}
+
+                    <IButton
+                      disabled={isDisabled(values)}
+                      onClick={() => {
+                        rowDataSet(values);
+                      }}
+                    >
+                      {buId === 144 ? "Add" : "View"}
+                    </IButton>
                   </div>
                 </div>
               </Form>

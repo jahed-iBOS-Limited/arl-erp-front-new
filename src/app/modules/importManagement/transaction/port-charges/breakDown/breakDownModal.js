@@ -33,7 +33,8 @@ const BreakDownModal = ({
   const [rowDto, setRowDto] = useState([]);
   const [isloading, setIsLoading] = useState(false);
   const [, getSubChargeTypeDDL] = useAxiosGet();
-  const [subChargeTypeDDL, setSubChargeTypeDDL] = useState([])
+  const [subChargeTypeDDL, setSubChargeTypeDDL] = useState([]);
+  const [showSubChargeCol, setShowSubChargeCol] = useState("");
   console.log({ subChargeTypeDDL });
 
   // get selected business unit from store
@@ -131,7 +132,7 @@ const BreakDownModal = ({
                       {subChargeTypeDDL.length > 0 && (
                         <div className="col-lg-3">
                           <NewSelect
-                            label="sub Charge Type "
+                            label="Sub Charge Type "
                             options={subChargeTypeDDL || []}
                             value={values?.subChargeType}
                             placeholder="Select Sub Charge Type"
@@ -224,6 +225,9 @@ const BreakDownModal = ({
                           <th>SL</th>
                           <th>Supplier</th>
                           <th>Description</th>
+                          {
+                            showSubChargeCol && <th>Sub Charge Type</th>
+                          }
                           <th>Amount</th>
                           <th>Action</th>
                         </tr>
@@ -231,6 +235,7 @@ const BreakDownModal = ({
                       <tbody>
                         {rowDto?.length > 0 &&
                           rowDto?.map((item, index) => {
+                            setShowSubChargeCol(item?.subChargeTypeName)
                             return (
                               <tr key={index}>
                                 <td
@@ -249,6 +254,14 @@ const BreakDownModal = ({
                                     {item?.description}
                                   </span>
                                 </td>
+                                {
+                                showSubChargeCol &&
+                                    <td>
+                                      <span className="pl-2">
+                                        {item?.subChargeTypeName}
+                                      </span>
+                                    </td>
+                                }
                                 <td>
                                   <span className="pl-2">
                                     {item?.numContractedAmount}

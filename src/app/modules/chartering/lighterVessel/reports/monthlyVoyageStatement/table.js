@@ -1,27 +1,29 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import React, { useState, useEffect, useRef } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import ICustomTable from "../../../_chartinghelper/_customTable";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
-import { getMonthlyVoyageStatement, months } from "../helper";
 import { Formik } from "formik";
-import { _todayDate } from "../../../_chartinghelper/_todayDate";
-import ReactToPrint from "react-to-print";
+import React, { useEffect, useRef, useState } from "react";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import { shallowEqual, useSelector } from "react-redux";
+import ReactToPrint from "react-to-print";
+import TextArea from "../../../../_helper/TextArea";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
+import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import { getSBUListDDL } from "../../../../performanceManagement/stategyYearsPlan/helper";
+import ICustomTable from "../../../_chartinghelper/_customTable";
+import { _todayDate } from "../../../_chartinghelper/_todayDate";
+import Loading from "../../../_chartinghelper/loading/_loading";
 import { getSalesOrgList } from "../../../transaction/timeCharter/helper";
-import TextArea from "../../../../_helper/TextArea";
+import { getMonthlyVoyageStatement, months } from "../helper";
+import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
 
 const headers = [
   { name: "SL" },
   { name: "Lighter Vessel Name" },
   { name: "Voyage No (lighter vessel)" },
+  { name: "SR Number" },
   { name: "Receive Date & Time" },
   { name: "Discharging Start" },
   { name: "Discharging Complete" },
@@ -32,13 +34,15 @@ const headers = [
   { name: "Est. Quantity" },
   { name: "Final Quantity" },
   { name: "Rate" },
+  { name: "Est. Freight" },
   { name: "Freight" },
   { name: "Unloading Jetty" },
   { name: "Action" },
 ];
 
 const initData = {
-  date: _todayDate(),
+  fromDate: _firstDateofMonth(),
+  toDate: _todayDate(),
   salesOrg: "",
   sbu: "",
   journalDate: _todayDate(),
@@ -57,14 +61,19 @@ export default function MonthlyVoyageStatement() {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  useEffect(() => {
+  const getRowData = (values) => {
     getMonthlyVoyageStatement(
       accId,
       buId,
-      _todayDate(),
+      values?.fromDate,
+      values?.toDate,
       setGridData,
       setLoading
     );
+  };
+
+  useEffect(() => {
+    getRowData(initData);
     getSBUListDDL(accId, buId, setSBUList);
   }, [accId, buId]);
 
@@ -76,10 +85,20 @@ export default function MonthlyVoyageStatement() {
       salesOrgId: values?.salesOrg?.value,
       actionby: userId,
       date: values?.journalDate,
-      totalAmount: item?.numTotalFreight,
-      narration: values?.narration,
+      // totalAmount: item?.numTotalFreight,
+      totalAmount: item?.estFreightAmount,
+      narration: `Amount debited to ${
+        item?.consigneePartyName
+      } & credited to Freight Income as provision of freight income of ${
+        item?.lighterVesselName
+      }, Trip-${item?.tripNo} For the month of ${months[
+        new Date(values?.fromDate).getMonth()
+      ] +
+        "-" +
+        new Date(values?.fromDate)?.getFullYear()}`,
       lighterVesselId: item?.lighterVesselId,
       consigneeParty: item?.consigneePartyId,
+      tripId: item?.tripId,
     };
 
     createJournal(
@@ -98,6 +117,7 @@ export default function MonthlyVoyageStatement() {
 
   let totalFinalQty = 0,
     totalEstQty = 0,
+    totalEstFreight = 0,
     totalFreight = 0;
 
   const isLoading = loader || loading;
@@ -109,35 +129,23 @@ export default function MonthlyVoyageStatement() {
         initialValues={initData}
         onSubmit={() => {}}
       >
-        {({ values, errors, touched, setFieldValue }) => (
+        {({ values, setFieldValue }) => (
           <>
             {isLoading && <Loading />}
             <form className="marine-form-card">
               <div className="marine-form-card-content">
                 <div className="row">
-                  <div className="col-lg-3">
-                    <label>Date</label>
-                    <FormikInput
-                      value={values?.date}
-                      name="date"
-                      placeholder="Date"
-                      type="date"
-                      onChange={(e) => {
-                        setFieldValue("date", e.target.value);
-                        getMonthlyVoyageStatement(
-                          accId,
-                          buId,
-                          e?.target?.value,
-                          setGridData,
-                          setLoading
-                        );
-                      }}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
+                  <FromDateToDateForm
+                    obj={{
+                      values,
+                      setFieldValue,
+                      onChange: (allValues) => {
+                        getRowData(allValues);
+                      },
+                    }}
+                  />
 
-                  <div className="col-lg-9 text-right mt-5">
+                  <div className="col-lg-6 text-right mt-5">
                     <ReactHTMLTableToExcel
                       id="test-table-xls-button-att-reports"
                       className="btn btn-primary px-3 py-2 mr-2"
@@ -235,9 +243,9 @@ export default function MonthlyVoyageStatement() {
                     Monthly Voyage Statement Of Big Lighter
                     <br />
                     For the month of{" "}
-                    {months[new Date(values?.date).getMonth()] +
+                    {months[new Date(values?.fromDate).getMonth()] +
                       "-" +
-                      new Date(values?.date)?.getFullYear()}
+                      new Date(values?.fromDate)?.getFullYear()}
                   </h4>
                 </div>
                 <ICustomTable id="table-to-xlsx" ths={headers}>
@@ -247,14 +255,15 @@ export default function MonthlyVoyageStatement() {
                       Monthly Voyage Statement Of Big Lighter
                       <br />
                       For the month of{" "}
-                      {months[new Date(values?.date).getMonth()] +
+                      {months[new Date(values?.fromDate).getMonth()] +
                         "-" +
-                        new Date(values?.date)?.getFullYear()}
+                        new Date(values?.fromDate)?.getFullYear()}
                     </h4>
                   </div>
                   {gridData?.map((item, index) => {
                     totalFinalQty += item?.numActualCargoQnty;
                     totalEstQty += item?.estimatedCargoQty;
+                    totalEstFreight += item?.estFreightAmount;
                     totalFreight += item?.numTotalFreight;
                     return (
                       <tr key={index}>
@@ -263,6 +272,7 @@ export default function MonthlyVoyageStatement() {
                         </td>
                         <td>{item?.lighterVesselName}</td>
                         <td>{item?.tripNo}</td>
+                        <td>{item?.srNo}</td>
                         <td>{item?.receiveDate}</td>
                         <td>{item?.dischargeStartDate}</td>
                         <td>{item?.dischargeComplDate}</td>
@@ -280,6 +290,9 @@ export default function MonthlyVoyageStatement() {
                         </td>
                         <td className="text-right">
                           {_fixedPoint(item?.numFreight, true, 0)}
+                        </td>
+                        <td className="text-right">
+                          {_fixedPoint(item?.estFreightAmount, true, 0)}
                         </td>
                         <td className="text-right">
                           {_fixedPoint(item?.numTotalFreight, true, 0)}
@@ -306,7 +319,7 @@ export default function MonthlyVoyageStatement() {
                     );
                   })}
                   <tr>
-                    <td className="text-right" colSpan={10}>
+                    <td className="text-right" colSpan={11}>
                       <b>Total</b>
                     </td>
                     <td className="text-right">
@@ -316,6 +329,9 @@ export default function MonthlyVoyageStatement() {
                       <b>{_fixedPoint(totalFinalQty, true, 0)}</b>
                     </td>
                     <td> </td>
+                    <td>
+                      <b>{_fixedPoint(totalEstFreight, true, 0)}</b>
+                    </td>
                     <td className="text-right">
                       <b>{_fixedPoint(totalFreight, true, 0)}</b>
                     </td>

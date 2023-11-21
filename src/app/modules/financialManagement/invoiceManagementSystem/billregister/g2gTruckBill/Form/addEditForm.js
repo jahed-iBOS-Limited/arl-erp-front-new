@@ -118,7 +118,7 @@ export default function G2GTruckBill() {
   return (
     <div className="purchaseInvoice">
       <IForm
-        title="G2G Truck Bill"
+        title={headerData?.billType?.label}
         getProps={setObjprops}
         isDisabled={isDisabled}
       >
