@@ -24,7 +24,8 @@ export default function CreateSubPOForm({
   productionOrderSFG,
   productionId,
   plantName,
-  subPo
+  subPo,
+  shopFloorId
 }) {
   // console.log(productionOrderSFG,"productionOrderSFG")
 
@@ -135,6 +136,7 @@ export default function CreateSubPOForm({
         productionId={productionId}
         productionOrderSFG={productionOrderSFG}
         plantName={plantName}
+        shopFloorId={shopFloorId}
         subPo={subPo}
         paramsId={params?.id}
       />

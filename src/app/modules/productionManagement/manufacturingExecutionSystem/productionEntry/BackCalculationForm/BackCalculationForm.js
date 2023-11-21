@@ -192,7 +192,7 @@ export default function _Form({
                             );
                             setFieldValue("plantName", valueOption);
                             setFieldValue("shopFloor", "");
-                            // setFieldValue("itemName", "");
+                            setFieldValue("itemName", "");
                             setFieldValue("productionOrder", "");
                             setFieldValue("othersOutputItem", "");
                           }}
@@ -266,6 +266,7 @@ export default function _Form({
                               selectedBusinessUnit?.value,
                               valueOption?.value,
                               values?.workcenterName?.value,
+                              values?.shopFloor?.value,
                               setBomDDL
                             );
                           }}
