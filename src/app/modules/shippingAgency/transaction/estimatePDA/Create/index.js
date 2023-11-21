@@ -58,10 +58,6 @@ const validationSchema = Yup.object().shape({
     label: Yup.string().required("Currency is required"),
     value: Yup.string().required("Currency is required"),
   }),
-  exchangeRate: Yup.object().shape({
-    label: Yup.string().required("Exchange Rate is required"),
-    value: Yup.string().required("Exchange Rate is required"),
-  }),
 });
 const EstimatePDACreate = () => {
   const [loading, setLoading] = useState(false);
