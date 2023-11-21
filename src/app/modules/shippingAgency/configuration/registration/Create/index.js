@@ -28,8 +28,8 @@ const initData = {
   voyageOwnerName: "",
   regNo: "",
   loadPort: "",
-  arrivedTime: _currentTime(),
-  sailedTime: _currentTime(),
+  arrivedTime: moment().format("YYYY-MM-DDTHH:mm"),
+  sailedTime: moment().format("YYYY-MM-DDTHH:mm"),
   cargoName: "",
   quantity: "",
   stevedore: "",
@@ -103,9 +103,8 @@ const EstimatePDACreate = () => {
       registrationNumber: values?.regNo || "",
       loadPorteId: values?.loadPort?.value || 0,
       loadPortName: values?.loadPort?.label || "",
-      arrivedDateTime:
-        moment().format("YYYY-MM-DD") + "T" + values?.arrivedTime,
-      sailedDateTime: moment().format("YYYY-MM-DD") + "T" + values?.sailedTime,
+      arrivedDateTime: moment(values?.arrivedTime).format("YYYY-MM-DDTHH:mm") ,
+      sailedDateTime: moment(values?.sailedTime).format("YYYY-MM-DDTHH:mm"),
       cargoId: values?.cargoName?.value || 0,
       cargoName: values?.cargoName?.label || "",
       quantity: values?.quantity || 0,
@@ -310,7 +309,7 @@ const EstimatePDACreate = () => {
                     value={values?.arrivedTime}
                     placeholder='Arrived Time'
                     name='arrivedTime'
-                    type='time'
+                    type='datetime-local'
                     onChange={(e) => {
                       setFieldValue("arrivedTime", e.target.value);
                     }}
@@ -322,7 +321,7 @@ const EstimatePDACreate = () => {
                     value={values?.sailedTime}
                     placeholder='Sailed Time'
                     name='sailedTime'
-                    type='time'
+                    type='datetime-local'
                     onChange={(e) => {
                       setFieldValue("sailedTime", e.target.value);
                     }}

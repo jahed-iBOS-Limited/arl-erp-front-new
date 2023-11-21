@@ -126,12 +126,14 @@ const EstimatePDACreate = () => {
       activity: values?.activity || "",
       currency: values?.currency?.value || "",
       exchangeRate: +values?.exchangeRate || 0,
-      attachmentsId: values?.attachment || '',
+      attachmentsId: values?.attachment || "",
       estimatedAmount: estimatedAmount,
       finalAmount: finalAmount,
       actualAmount: actualAmount,
       isActive: true,
       actionBy: userId,
+      accountId: accId,
+      businessUnitId: buId,
       lastActionDateTime: new Date(),
       shippingAgencyEstimatePdarowDtos: rowDto?.map((item) => {
         return {
