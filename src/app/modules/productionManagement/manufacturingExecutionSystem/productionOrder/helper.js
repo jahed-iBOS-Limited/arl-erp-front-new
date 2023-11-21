@@ -67,11 +67,12 @@ export const getRoutingToBOMDDL = async (
   buId,
   itemId,
   workCenterId,
+  shopFloorId,
   setter
 ) => {
   try {
     const res = await Axios.get(
-      `/mes/MesDDL/GetRoutingToBOMDDL?AccountId=${accId}&BusinessUnitId=${buId}&ItemId=${itemId}&WorkCenterId=${workCenterId}`
+      `/mes/MesDDL/GetRoutingToBOMDDL?AccountId=${accId}&BusinessUnitId=${buId}&ItemId=${itemId}&WorkCenterId=${workCenterId}&ShopFloorId=${shopFloorId}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
