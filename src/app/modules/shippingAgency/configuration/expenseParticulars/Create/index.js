@@ -6,8 +6,13 @@ import ICustomCard from "../../../../_helper/_customCard";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
-import { categoryDDL } from "../helper";
+import {
+  categoryDDL,
+  createUpdateExpenseParticularsApi,
+  getExpenseParticularsById,
+} from "../helper";
 import * as Yup from "yup";
+import { useParams } from "react-router";
 const initData = {
   isActive: true,
   category: "",
@@ -22,10 +27,11 @@ const validationSchema = Yup.object().shape({
 });
 const ExpenseParticularsCreate = () => {
   const [loading, setLoading] = useState(false);
+  const { editId } = useParams();
 
   // get user data from store
   const {
-    profileData: { accountId: accId },
+    profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
@@ -37,11 +43,50 @@ const ExpenseParticularsCreate = () => {
 
   const history = useHistory();
 
-  const saveHandler = (values, cb) => {};
+  const saveHandler = (values, cb) => {
+    const payload = {
+      expenseParticularsId: +editId || 0,
+      category: values?.category?.label,
+      particularName: values?.particularName || "",
+      isActive: values?.isActive || false,
+      actionBy: userId,
+      lastActionDateTime: new Date(),
+    };
+
+    createUpdateExpenseParticularsApi(payload, setLoading, () => {
+      cb();
+      if (editId) {
+        commonGetById();
+      }
+    });
+  };
+
+  const formikRef = React.useRef(null);
+  useEffect(() => {
+    if (editId) {
+      commonGetById();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editId]);
+
+  const commonGetById = async () => {
+    getExpenseParticularsById(editId, setLoading, (resData) => {
+      if (formikRef.current) {
+        formikRef.current.setValues({
+          particularName: resData?.particularName || "",
+          category:
+            categoryDDL?.find((itm) => itm?.label === resData?.category) || "",
+          isActive: resData?.isActive,
+        });
+      }
+    });
+  };
+
   return (
     <>
       {loading && <Loading />}
       <Formik
+        innerRef={formikRef}
         enableReinitialize={true}
         initialValues={initData}
         onSubmit={(values, { setSubmitting, resetForm }) => {
