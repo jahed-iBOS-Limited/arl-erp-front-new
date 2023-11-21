@@ -12,6 +12,8 @@ import NewSelect from "../../../../_helper/_select";
 import {
   GetDomesticPortDDL,
   attachment_action,
+  createUpdateEstimatePDA,
+  getEstimatePDAById,
   getExpenseParticularsList,
   getSBUListDDLApi,
   getVesselDDL,
@@ -82,7 +84,6 @@ const EstimatePDACreate = () => {
       getSBUListDDLApi(accId, buId, setSbuDDL);
       getVoyageNoDDLApi(accId, buId, setVoyageNoDDL);
       GetDomesticPortDDL(setDomesticPortDDL);
-      getExpenseParticularsList(setRowDto, setLoading);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
@@ -125,7 +126,7 @@ const EstimatePDACreate = () => {
       activity: values?.activity || "",
       currency: values?.currency?.value || "",
       exchangeRate: +values?.exchangeRate || 0,
-      attachmentsId: values?.attachment || 0,
+      attachmentsId: values?.attachment || '',
       estimatedAmount: estimatedAmount,
       finalAmount: finalAmount,
       actualAmount: actualAmount,
@@ -153,25 +154,77 @@ const EstimatePDACreate = () => {
                 billDate: i?.billDate || "",
                 billType: i?.billType || "",
                 amount: +i?.amount || 0,
-                poPdFw: i?.poPdFw || '',
-                poVat: i?.poVat || '',
+                poPdFw: i?.poPdFw || "",
+                poVat: i?.poVat || "",
                 total: +i?.total || 0,
                 status: i?.status || "",
                 attachmentsId: i?.attachmentsId || "",
                 isActive: true,
                 actionBy: userId,
                 lastActionDateTime: new Date(),
+                vat: i?.vat || "",
               };
             }
           ),
         };
       }),
     };
+
+    createUpdateEstimatePDA(payload, setLoading, () => {
+      cb();
+      if (editId) {
+        commonGetById();
+      }
+    });
   };
+
+  useEffect(() => {
+    if (editId) {
+      commonGetById();
+    } else {
+      getExpenseParticularsList(setRowDto, setLoading);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editId]);
+
+  const formikRef = React.useRef(null);
+
+  const commonGetById = async () => {
+    getEstimatePDAById(editId, setLoading, (resData) => {
+      if (formikRef.current) {
+        formikRef.current.setValues({
+          sbu: resData?.sbuid
+            ? { value: resData?.sbuid, label: resData?.sbuname }
+            : "",
+          vesselName: resData?.vesselid
+            ? { value: resData?.vesselid, label: resData?.vesselName }
+            : "",
+          voyageNo: resData?.voyageNo
+            ? { value: resData?.voyageNo, label: resData?.voyageNo }
+            : "",
+          workingPort: resData?.workingPortId
+            ? { value: resData?.workingPortId, label: resData?.workingPortName }
+            : "",
+          customerName: resData?.customerId
+            ? { value: resData?.customerId, label: resData?.customerName }
+            : "",
+          activity: resData?.activity || "",
+          currency: resData?.currency
+            ? { value: resData?.currency, label: resData?.currency }
+            : "",
+          exchangeRate: resData?.exchangeRate || "",
+          attachment: resData?.attachmentsId || "",
+        });
+        setRowDto(resData?.shippingAgencyEstimatePdarowDtos || []);
+      }
+    });
+  };
+
   return (
     <>
       {loading && <Loading />}
       <Formik
+        innerRef={formikRef}
         validationSchema={validationSchema}
         enableReinitialize={true}
         initialValues={initData}
@@ -305,17 +358,17 @@ const EstimatePDACreate = () => {
                 {values?.currency?.value === "USD" && (
                   <>
                     <div className='col-lg-3'>
-                      <NewSelect
+                      <label>Exchange Rate</label>
+                      <InputField
                         value={values?.exchangeRate || ""}
-                        options={[]}
                         name='exchangeRate'
                         placeholder='Exchange Rate'
-                        label='Exchange Rate'
-                        onChange={(valueOption) => {
-                          setFieldValue("exchangeRate", valueOption);
+                        onChange={(e) => {
+                          setFieldValue("exchangeRate", e.target.value);
                         }}
                         errors={errors}
                         touched={touched}
+                        type='number'
                       />
                     </div>
                   </>

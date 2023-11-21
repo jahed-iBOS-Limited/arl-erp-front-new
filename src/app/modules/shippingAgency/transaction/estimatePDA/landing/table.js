@@ -31,17 +31,17 @@ const LandingTable = ({ obj }) => {
           {gridData?.data?.map((item, index) => (
             <tr key={index}>
               <td className='text-center'> {index + 1}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
+              <td>{item?.sbuName}</td>
+              <td>{item?.vesselName}</td>
+              <td>{item?.voyageNo}</td>
+              <td>{item?.workingPortName}</td>
+              <td>{item?.customerName}</td>
+              <td>{item?.activity}</td>
+              <td>{item?.currency}</td>
+              <td>{item?.exchangeRate}</td>
+              <td>{item?.estimatedAmount}</td>
+              <td>{item?.finalAmount}</td>
+              <td>{item?.actualAmount}</td>
               <td>
                 <div
                   className='d-flex justify-content-around'
@@ -52,7 +52,7 @@ const LandingTable = ({ obj }) => {
                   <span
                     onClick={() => {
                       history.push(
-                        `/ShippingAgency/Transaction/EstimatePDA/edit/${item?.complainId}`
+                        `/ShippingAgency/Transaction/EstimatePDA/edit/${item?.estimatePdaid}`
                       );
                     }}
                   >
