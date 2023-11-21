@@ -27,6 +27,10 @@ export function ConfigurationPages() {
         component={RegistrationLanding}
       />
       <ContentRoute
+        path='/ShippingAgency/Configuration/ExpenseParticulars/edit/:editId'
+        component={ExpenseParticularsCreate}
+      />
+      <ContentRoute
         path='/ShippingAgency/Configuration/ExpenseParticulars/Create'
         component={ExpenseParticularsCreate}
       />{" "}
