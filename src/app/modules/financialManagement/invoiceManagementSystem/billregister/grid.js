@@ -31,8 +31,7 @@ import ViewSalesCommission from "./salesCommission/view/viewSalesCommission";
 import ViewStevedoreBill from "./stevedoreBill/view/table";
 import ViewSurveyorBill from "./surveyorBill/view/table";
 import ViewTransportBill from "./transportBill/view/viewBillRegister";
-import { useDispatch } from "react-redux";
-import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
+import AttachmentListTable from "./attachmentListTable";
 const GridData = ({
   rowDto,
   values,
@@ -55,7 +54,8 @@ const GridData = ({
     []
   );
 
-  const dispatch = useDispatch();
+  const [attachmentListModal, setAttachmentListModal] = useState(false);
+  const [attachmentItemList, setAttachmentItemList] = useState([]);
 
   // attachment save actions
   const saveHandler = async () => {
@@ -148,15 +148,12 @@ const GridData = ({
                           }}
                         />
                       )}
-                      {tableData?.attatchment && (
+                      {tableData?.attatchment?.length && (
                         <IView
                           title="View Attachment"
                           clickHandler={() => {
-                            dispatch(
-                              getDownlloadFileView_Action(
-                                tableData?.attatchment
-                              )
-                            );
+                            setAttachmentItemList(tableData?.attatchment);
+                            setAttachmentListModal(true);
                           }}
                         />
                       )}
@@ -319,6 +316,17 @@ const GridData = ({
               selectedBusinessUnit={selectedBusinessUnit}
               cb={cb}
             />
+          </IViewModal>
+
+          <IViewModal
+            show={attachmentListModal}
+            onHide={() => {
+              setAttachmentListModal(false);
+              setAttachmentItemList([]);
+            }}
+            modelSize="sm"
+          >
+            <AttachmentListTable attachmentItemList={attachmentItemList} />
           </IViewModal>
 
           <DropzoneDialogBase
