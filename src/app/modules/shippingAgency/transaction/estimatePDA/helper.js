@@ -2,25 +2,25 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { imarineBaseUrl } from "../../../../App";
 
-export const complainLandingPasignation = async (
-  accId,
-  buId,
-  respondentTypeId,
+export const getExpensePDALandingApi = async (
+  sbu,
+  vesselid,
+  voyageNo,
   fromDate,
   toDate,
-  statusId,
   pageNo,
   pageSize,
+  accId,
+  buId,
   setter,
-  setLoading,
-  search
+  setLoading
 ) => {
   setLoading(true);
   setter([]);
   try {
-    const _search = search ? `&search=${search}` : "";
+    const _VoyageNo = voyageNo ? `&VoyageNo=${voyageNo}` : "";
     const res = await axios.get(
-      `/oms/CustomerPoint/ComplainLandingPasignation?accountId=${accId}&businessUnitId=${buId}&respondentTypeId=${respondentTypeId}&statusId=${statusId}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}${_search}`
+      `${imarineBaseUrl}/domain/ASLLAgency/GetExpensePDALanding?sbuID=${sbu}&Vesselid=${vesselid}&FromDate=${fromDate}&ToDate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc${_VoyageNo}&accountId=${accId}&businessUnitId=${buId}`
     );
     setter(res?.data);
     setLoading(false);
@@ -39,10 +39,9 @@ export const getSBUListDDLApi = async (accId, buId, setter) => {
 };
 
 export const getVesselDDL = async (accId, buId, setter, vesselId) => {
-  const vesselIdStr = vesselId ? `&IsVessel=${vesselId}` : ""; // first perameter so not (?)
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/Voyage/GetVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}${vesselIdStr}`
+      `/asset/Asset/GetAssetVesselDdl?IntBussinessUintId=${buId}`
     );
     setter(res.data);
   } catch (error) {
@@ -110,12 +109,42 @@ export const getExpenseParticularsList = async (setter, setLoading) => {
       res?.data?.map((item) => ({
         ...item,
         estimatedAmount: "",
-        customerFinalAmount: '',
+        customerFinalAmount: "",
         actualAmount: "",
-        estimatePDABillCreateDtos: []
+        estimatePDABillCreateDtos: [],
       }))
     );
     setLoading(false);
+  } catch (error) {
+    setLoading(false);
+  }
+};
+
+export const createUpdateEstimatePDA = async (payload, setDisabled, cb) => {
+  try {
+    setDisabled(true);
+    await axios.post(
+      `${imarineBaseUrl}/domain/ASLLAgency/CreateUpdateEstimatePDA`,
+      payload
+    );
+
+    toast.success("Submitted Successfully");
+    cb();
+    setDisabled(false);
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setDisabled(false);
+  }
+};
+
+export const getEstimatePDAById = async (id, setLoading, setter) => {
+  setLoading(true);
+  try {
+    const res = await axios.get(
+      `${imarineBaseUrl}/domain/ASLLAgency/GetEstimatePDAById?estimatePdaId=${id}`
+    );
+    setLoading(false);
+    setter(res?.data);
   } catch (error) {
     setLoading(false);
   }

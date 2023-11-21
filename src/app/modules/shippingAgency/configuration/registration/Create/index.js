@@ -21,6 +21,10 @@ import { toast } from "react-toastify";
 import moment from "moment";
 import { useParams } from "react-router";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import axios from "axios";
+import FormikError from "../../../../_helper/_formikError";
+import { imarineBaseUrl } from "../../../../../App";
 const initData = {
   vesselName: "",
   vesselType: "",
@@ -28,8 +32,8 @@ const initData = {
   voyageOwnerName: "",
   regNo: "",
   loadPort: "",
-  arrivedTime: _currentTime(),
-  sailedTime: _currentTime(),
+  arrivedTime: moment().format("YYYY-MM-DDTHH:mm"),
+  sailedTime: moment().format("YYYY-MM-DDTHH:mm"),
   cargoName: "",
   quantity: "",
   stevedore: "",
@@ -68,7 +72,6 @@ const EstimatePDACreate = () => {
   const [loading, setLoading] = useState(false);
   const [vesselDDL, setVesselDDL] = useState([]);
   const [rowDto, setRowDto] = useState([]);
-  const [portDDL, setPortDDL] = useState([]);
   const [vesselTypeDDL, setVesselTypeDDL] = useState([]);
   const { editId } = useParams();
 
@@ -81,7 +84,6 @@ const EstimatePDACreate = () => {
   useEffect(() => {
     if (accId && buId) {
       getVesselDDL(accId, buId, setVesselDDL);
-      GetDomesticPortDDL(setPortDDL);
       getVesselTypeDDL(accId, buId, setVesselTypeDDL);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -103,9 +105,8 @@ const EstimatePDACreate = () => {
       registrationNumber: values?.regNo || "",
       loadPorteId: values?.loadPort?.value || 0,
       loadPortName: values?.loadPort?.label || "",
-      arrivedDateTime:
-        moment().format("YYYY-MM-DD") + "T" + values?.arrivedTime,
-      sailedDateTime: moment().format("YYYY-MM-DD") + "T" + values?.sailedTime,
+      arrivedDateTime: moment(values?.arrivedTime).format("YYYY-MM-DDTHH:mm"),
+      sailedDateTime: moment(values?.sailedTime).format("YYYY-MM-DDTHH:mm"),
       cargoId: values?.cargoName?.value || 0,
       cargoName: values?.cargoName?.label || "",
       quantity: values?.quantity || 0,
@@ -291,18 +292,27 @@ const EstimatePDACreate = () => {
                   />
                 </div>
                 <div className='col-lg-3'>
-                  <NewSelect
-                    name='loadPort'
-                    options={portDDL || []}
-                    value={values?.loadPort}
-                    label='Load Port'
-                    onChange={(valueOption) => {
-                      setFieldValue("loadPort", valueOption);
-                    }}
-                    placeholder='Load Port'
-                    errors={errors}
-                    touched={touched}
-                  />
+                  <div>
+                    <label>Load Port</label>
+                    <SearchAsyncSelect
+                      selectedValue={values?.loadPort}
+                      handleChange={(valueOption) => {
+                        setFieldValue("loadPort", valueOption);
+                      }}
+                      placeholder='Search minimum 3 characters...'
+                      loadOptions={(v) => {
+                        if (v?.length < 3) return [];
+                        return axios
+                          .get(`${imarineBaseUrl}/domain/Stakeholder/GetPortDDL?search=${v}`)
+                          .then((res) => res?.data);
+                      }}
+                    />
+                    <FormikError
+                      errors={errors}
+                      name='loadPort'
+                      touched={touched}
+                    />
+                  </div>
                 </div>
                 <div className='col-lg-3'>
                   <label>Arrived Time</label>
@@ -310,7 +320,7 @@ const EstimatePDACreate = () => {
                     value={values?.arrivedTime}
                     placeholder='Arrived Time'
                     name='arrivedTime'
-                    type='time'
+                    type='datetime-local'
                     onChange={(e) => {
                       setFieldValue("arrivedTime", e.target.value);
                     }}
@@ -322,7 +332,7 @@ const EstimatePDACreate = () => {
                     value={values?.sailedTime}
                     placeholder='Sailed Time'
                     name='sailedTime'
-                    type='time'
+                    type='datetime-local'
                     onChange={(e) => {
                       setFieldValue("sailedTime", e.target.value);
                     }}
@@ -415,18 +425,27 @@ const EstimatePDACreate = () => {
                   />
                 </div>
                 <div className='col-lg-3'>
-                  <NewSelect
-                    name='dischargePort'
-                    options={portDDL || []}
-                    value={values?.dischargePort}
-                    label='Discharge Port'
-                    onChange={(valueOption) => {
-                      setFieldValue("dischargePort", valueOption);
-                    }}
-                    placeholder='Discharge Port'
-                    errors={errors}
-                    touched={touched}
-                  />
+                  <div>
+                    <label>Discharge Port</label>
+                    <SearchAsyncSelect
+                      selectedValue={values?.dischargePort}
+                      handleChange={(valueOption) => {
+                        setFieldValue("dischargePort", valueOption);
+                      }}
+                      placeholder='Search minimum 3 characters...'
+                      loadOptions={(v) => {
+                        if (v?.length < 3) return [];
+                        return axios
+                          .get(`${imarineBaseUrl}/domain/Stakeholder/GetPortDDL?search=${v}`)
+                          .then((res) => res?.data);
+                      }}
+                    />
+                    <FormikError
+                      errors={errors}
+                      name='dischargePort'
+                      touched={touched}
+                    />
+                  </div>
                 </div>
                 <div className='col-lg-3 mt-3'>
                   <button
