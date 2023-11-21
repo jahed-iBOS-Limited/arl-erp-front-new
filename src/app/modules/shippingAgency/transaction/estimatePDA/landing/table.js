@@ -2,13 +2,17 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import IView from "../../../../_helper/_helperIcons/_view";
+import IViewModal from "../../../../_helper/_viewModal";
+import ViewInvoice from "./viewInvoice";
 
 const LandingTable = ({ obj }) => {
   const { gridData } = obj;
   const history = useHistory();
+  const [isViewModal, setViewModal] = React.useState(false);
+  const [viewClickRowItem, setViewClickRowItem] = React.useState({});
 
   return (
-    <div className="table-responsive">
+    <div className='table-responsive'>
       <table className='table table-striped table-bordered global-table'>
         <thead>
           <tr>
@@ -59,7 +63,12 @@ const LandingTable = ({ obj }) => {
                     <IEdit />
                   </span>
 
-                  <span onClick={() => {}}>
+                  <span
+                    onClick={() => {
+                      setViewModal(true);
+                      setViewClickRowItem(item);
+                    }}
+                  >
                     <IView />
                   </span>
                 </div>
@@ -68,6 +77,19 @@ const LandingTable = ({ obj }) => {
           ))}
         </tbody>
       </table>
+      {isViewModal && (
+        <>
+          <IViewModal
+            show={isViewModal}
+            onHide={() => {
+              setViewModal(false);
+              setViewClickRowItem({});
+            }}
+          >
+            <ViewInvoice viewClickRowItem={viewClickRowItem} />
+          </IViewModal>
+        </>
+      )}
     </div>
   );
 };
