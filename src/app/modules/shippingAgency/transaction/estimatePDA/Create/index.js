@@ -20,6 +20,7 @@ import {
 import RowTable from "./rowTable";
 import axios from "axios";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import { useParams } from "react-router";
 const initData = {
   sbu: "",
   vesselName: "",
@@ -41,10 +42,10 @@ const validationSchema = Yup.object().shape({
     label: Yup.string().required("Vessel Name is required"),
     value: Yup.string().required("Vessel Name is required"),
   }),
-  voyageNo: Yup.object().shape({
-    label: Yup.string().required("Voyage No is required"),
-    value: Yup.string().required("Voyage No is required"),
-  }),
+  // voyageNo: Yup.object().shape({
+  //   label: Yup.string().required("Voyage No is required"),
+  //   value: Yup.string().required("Voyage No is required"),
+  // }),
   workingPort: Yup.object().shape({
     label: Yup.string().required("Working Port is required"),
     value: Yup.string().required("Working Port is required"),
@@ -68,9 +69,10 @@ const EstimatePDACreate = () => {
   const [voyageNoDDL, setVoyageNoDDL] = useState([]);
   const [rowDto, setRowDto] = useState([]);
   const [domesticPortDDL, setDomesticPortDDL] = useState([]);
+  const { editId } = useParams();
   // get user data from store
   const {
-    profileData: { accountId: accId },
+    profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
@@ -80,7 +82,7 @@ const EstimatePDACreate = () => {
       getSBUListDDLApi(accId, buId, setSbuDDL);
       getVoyageNoDDLApi(accId, buId, setVoyageNoDDL);
       GetDomesticPortDDL(setDomesticPortDDL);
-      getExpenseParticularsList(setRowDto,setLoading)
+      getExpenseParticularsList(setRowDto, setLoading);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
@@ -96,7 +98,76 @@ const EstimatePDACreate = () => {
       )
       .then((res) => res?.data);
   };
-  const saveHandler = (values, cb) => {};
+  const saveHandler = (values, cb) => {
+    const estimatedAmount = rowDto.reduce((acc, cur) => {
+      return acc + (+cur?.estimatedAmount || 0);
+    }, 0);
+
+    const finalAmount = rowDto.reduce((acc, cur) => {
+      return acc + (+cur?.customerFinalAmount || 0);
+    }, 0);
+
+    const actualAmount = rowDto?.reduce((acc, cur) => {
+      return acc + (+cur?.actualAmount || 0);
+    }, 0);
+
+    const payload = {
+      estimatePdaid: +editId || 0,
+      sbuid: values?.sbu?.value || 0,
+      sbuname: values?.sbu?.label || "",
+      vesselid: values?.vesselName?.value || 0,
+      vesselName: values?.vesselName?.label || "",
+      voyageNo: values?.voyageNo?.label || "",
+      workingPortId: values?.workingPort?.value || 0,
+      workingPortName: values?.workingPort?.label || "",
+      customerId: 1,
+      customerName: values?.customerName?.label || "",
+      activity: values?.activity || "",
+      currency: values?.currency?.value || "",
+      exchangeRate: +values?.exchangeRate || 0,
+      attachmentsId: values?.attachment || 0,
+      estimatedAmount: estimatedAmount,
+      finalAmount: finalAmount,
+      actualAmount: actualAmount,
+      isActive: true,
+      actionBy: userId,
+      lastActionDateTime: new Date(),
+      shippingAgencyEstimatePdarowDtos: rowDto?.map((item) => {
+        return {
+          estimatePdarowId: item?.estimatePdarowId || 0,
+          estimatePdaid: +editId || 0,
+          expenseParticularsId: item?.expenseParticularsId || 0,
+          category: item?.category || "",
+          particularName: item?.particularName || "",
+          estimatedAmount: +item?.estimatedAmount || 0,
+          customerFinalAmount: +item?.customerFinalAmount || 0,
+          actualAmount: +item?.actualAmount || 0,
+          actionBy: userId,
+          lastActionDateTime: new Date(),
+          estimatePDABillCreateDtos: item?.estimatePDABillCreateDtos?.map(
+            (i) => {
+              return {
+                billId: i?.billId || 0,
+                estimatePdarowId: item?.estimatePdarowId || 0,
+                expenseParticularId: item?.expenseParticularsId || 0,
+                billDate: i?.billDate || "",
+                billType: i?.billType || "",
+                amount: +i?.amount || 0,
+                poPdFw: i?.poPdFw || '',
+                poVat: i?.poVat || '',
+                total: +i?.total || 0,
+                status: i?.status || "",
+                attachmentsId: i?.attachmentsId || "",
+                isActive: true,
+                actionBy: userId,
+                lastActionDateTime: new Date(),
+              };
+            }
+          ),
+        };
+      }),
+    };
+  };
   return (
     <>
       {loading && <Loading />}
