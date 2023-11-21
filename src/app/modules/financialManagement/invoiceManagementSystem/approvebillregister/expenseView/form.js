@@ -38,9 +38,9 @@ const validationSchema = Yup.object().shape({
     //   return this.parent.approveAmountMax >= value;
     // })
     ,
-    netAmount: Yup.number()
-    .min(0, "Minimum 0 number")
-    .required("Net amount required"),
+    // netAmount: Yup.number()
+    // .min(0, "Minimum 0 number")
+    // .required("Net amount required"),
 });
 function _Form({ gridItem, laingValues, girdDataFunc, setModalShow }) {
   const profileData = useSelector((state) => {
