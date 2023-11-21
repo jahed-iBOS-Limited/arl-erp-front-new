@@ -2,25 +2,24 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { imarineBaseUrl } from "../../../../App";
 
-export const complainLandingPasignation = async (
-  accId,
-  buId,
-  respondentTypeId,
+export const getExpensePDALandingApi = async (
+  sbu,
+  vesselid,
+  voyageNo,
   fromDate,
   toDate,
-  statusId,
   pageNo,
   pageSize,
   setter,
   setLoading,
-  search
 ) => {
   setLoading(true);
   setter([]);
   try {
-    const _search = search ? `&search=${search}` : "";
+
+    const _VoyageNo  = voyageNo ? `&VoyageNo=${voyageNo}` : "";
     const res = await axios.get(
-      `/oms/CustomerPoint/ComplainLandingPasignation?accountId=${accId}&businessUnitId=${buId}&respondentTypeId=${respondentTypeId}&statusId=${statusId}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}${_search}`
+      `${imarineBaseUrl}/domain/ASLLAgency/GetExpensePDALanding?sbuID=${sbu}&Vesselid=${vesselid}&FromDate=${fromDate}&ToDate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc${_VoyageNo}`
     );
     setter(res?.data);
     setLoading(false);
@@ -116,6 +115,41 @@ export const getExpenseParticularsList = async (setter, setLoading) => {
       }))
     );
     setLoading(false);
+  } catch (error) {
+    setLoading(false);
+  }
+};
+
+export const createUpdateEstimatePDA = async (
+  payload,
+  setDisabled,
+  cb
+) => {
+  try {
+    setDisabled(true);
+    await axios.post(
+      `${imarineBaseUrl}/domain/ASLLAgency/CreateUpdateEstimatePDA`,
+      payload
+    );
+
+    toast.success("Submitted Successfully");
+    cb();
+    setDisabled(false);
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setDisabled(false);
+  }
+};
+
+
+export const getEstimatePDAById = async (id, setLoading, setter) => {
+  setLoading(true);
+  try {
+    const res = await axios.get(
+      `${imarineBaseUrl}/domain/ASLLAgency/GetEstimatePDAById?estimatePdaId=${id}`
+    );
+    setLoading(false);
+    setter(res?.data);
   } catch (error) {
     setLoading(false);
   }

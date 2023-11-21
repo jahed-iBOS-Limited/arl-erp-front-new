@@ -9,13 +9,18 @@ import NewSelect from "../../../../_helper/_select";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import {
-  complainLandingPasignation,
+  getExpensePDALandingApi,
   getSBUListDDLApi,
   getVesselDDL,
+  getVoyageNoDDLApi
 } from "../helper";
 import LandingTable from "./table";
 
 const initData = {
+  
+  sbu: "",
+  vesselName: "",
+  voyageNo: "",
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -28,6 +33,8 @@ const EstimatePDALanding = () => {
   const history = useHistory();
   const [vesselDDL, setVesselDDL] = useState([]);
   const [sbuDDL, setSbuDDL] = useState([]);
+  const [voyageNoDDLApi, setVoyageNoDDLApi] = useState([]);
+
   // get user data from store
   const {
     profileData: { accountId: accId },
@@ -39,6 +46,7 @@ const EstimatePDALanding = () => {
       getVesselDDL(accId, buId, setVesselDDL);
       getSBUListDDLApi(accId, buId, setSbuDDL);
       commonGridData(pageNo, pageSize, initData);
+      getVoyageNoDDLApi(accId, buId, setVoyageNoDDLApi);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
@@ -49,19 +57,17 @@ const EstimatePDALanding = () => {
     values,
     searhValue
   ) => {
-    // complainLandingPasignation(
-    //   accId,
-    //   buId,
-    //   values?.respondentType?.value || 0,
-    //   values?.fromDate,
-    //   values?.toDate,
-    //   values?.status?.value || 0,
-    //   pageNo,
-    //   pageSize,
-    //   setGridData,
-    //   setLoading,
-    //   searhValue
-    // );
+    getExpensePDALandingApi(
+      values?.sbu?.value,
+      values?.vesselName?.value,
+      values?.voyageNo?.value,
+      values?.fromDate,
+      values?.toDate,
+      pageNo,
+      pageSize,
+      setGridData,
+      setLoading,
+    )
   };
   return (
     <>
@@ -101,6 +107,22 @@ const EstimatePDALanding = () => {
                     label='Vessel Name'
                     onChange={(valueOption) => {
                       setFieldValue("vesselName", valueOption);
+                      setGridData([]);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className='col-lg-3'>
+                  <NewSelect
+                    value={values?.voyageNo || ""}
+                    isSearchable={true}
+                    options={voyageNoDDLApi || []}
+                    name='voyageNo'
+                    placeholder='Voyage No'
+                    label='Voyage No'
+                    onChange={(valueOption) => {
+                      setFieldValue("voyageNo", valueOption);
                       setGridData([]);
                     }}
                     errors={errors}
