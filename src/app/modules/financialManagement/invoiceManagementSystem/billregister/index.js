@@ -299,6 +299,7 @@ function BillregisterLanding() {
                     profileData={profileData}
                     selectedBusinessUnit={selectedBusinessUnit}
                     cb={cb}
+                    ViewOnChangeHandler={ViewOnChangeHandler}
                   />
                   {rowDto?.data?.length > 0 && (
                     <PaginationTable
