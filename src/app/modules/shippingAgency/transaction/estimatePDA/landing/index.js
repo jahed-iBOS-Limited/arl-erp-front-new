@@ -164,9 +164,7 @@ const EstimatePDALanding = () => {
                     }}
                     disabled={
                       !values?.fromDate ||
-                      !values?.toDate ||
-                      !values?.sbu?.value ||
-                      !values?.vesselName?.value
+                      !values?.toDate 
                     }
                   >
                     View
