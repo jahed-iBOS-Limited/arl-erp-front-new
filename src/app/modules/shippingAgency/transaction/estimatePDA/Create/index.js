@@ -12,6 +12,7 @@ import NewSelect from "../../../../_helper/_select";
 import {
   GetDomesticPortDDL,
   attachment_action,
+  getExpenseParticularsList,
   getSBUListDDLApi,
   getVesselDDL,
   getVoyageNoDDLApi,
@@ -69,7 +70,7 @@ const EstimatePDACreate = () => {
   const [open, setOpen] = useState(false);
   const [fileObjects, setFileObjects] = useState([]);
   const [voyageNoDDL, setVoyageNoDDL] = useState([]);
-  const [rowDto, setRowDto] = useState([1]);
+  const [rowDto, setRowDto] = useState([]);
   const [domesticPortDDL, setDomesticPortDDL] = useState([]);
   // get user data from store
   const {
@@ -83,6 +84,7 @@ const EstimatePDACreate = () => {
       getSBUListDDLApi(accId, buId, setSbuDDL);
       getVoyageNoDDLApi(accId, buId, setVoyageNoDDL);
       GetDomesticPortDDL(setDomesticPortDDL);
+      getExpenseParticularsList(setRowDto,setLoading)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
@@ -94,7 +96,7 @@ const EstimatePDACreate = () => {
     if (v?.length < 3) return [];
     return axios
       .get(
-        `/partner/PManagementCommonDDL/GetCustomerNameDDL?SearchTerm=${v}&AccountId=${accId}&BusinessUnitId=${buId}`
+        `/partner/PManagementCommonDDL/GetCustomerNameDDLByChannelId?SearchTerm=${v}&AccountId=${accId}&BusinessUnitId=${buId}&ChannelId=${0}`
       )
       .then((res) => res?.data);
   };

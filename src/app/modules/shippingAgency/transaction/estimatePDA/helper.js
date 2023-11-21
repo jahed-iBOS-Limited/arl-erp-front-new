@@ -98,3 +98,24 @@ export const GetDomesticPortDDL = async (setter) => {
     setter([]);
   }
 };
+
+export const getExpenseParticularsList = async (setter, setLoading) => {
+  // setLoading(true);
+  setter([
+    {
+      expenseParticularsId: 2,
+      category: "Gov",
+      particularName:
+        "oat hire for attending vsl at K'dia & Outer anchorage on arrival & Sailing for inward/outward formalities draft survey and PC delivery",
+    },
+  ]);
+  // try {
+  //   const res = await axios.get(
+  //     `${imarineBaseUrl}/domain/ASLLAgency/GetExpenseParticularsList`
+  //   );
+  //   setter(res?.data);
+  //   setLoading(false);
+  // } catch (error) {
+  //   setLoading(false);
+  // }
+};

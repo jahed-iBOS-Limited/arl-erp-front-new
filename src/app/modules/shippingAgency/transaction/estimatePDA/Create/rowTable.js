@@ -7,13 +7,13 @@ import BillForm from "./billForm";
 function RowTable({ rowDto, setRowDto }) {
   const [isBillModal, isShowBillModal] = React.useState(false);
   const [clickRowData, setClickRowData] = React.useState({});
+
   return (
     <div>
       <table className='table table-striped table-bordered global-table'>
         <thead>
           <tr>
             <th>SL</th>
-            <th>Code</th>
             <th>Category</th>
             <th>Expense Particulars</th>
             <th
@@ -38,9 +38,8 @@ function RowTable({ rowDto, setRowDto }) {
           {rowDto?.map((item, index) => (
             <tr key={index}>
               <td className='text-center'> {index + 1}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
+              <td>{item?.category}</td>
+              <td>{item?.particularName}</td>
               <td>
                 <InputField
                   value={item?.estimatedAmount}
