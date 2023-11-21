@@ -106,7 +106,7 @@ const ExpenseParticularsCreate = () => {
         }) => (
           <>
             <ICustomCard
-              title='Expense Particulars Create'
+              title={`Expense Particulars ${editId ? "Edit" : "Create"}`}
               backHandler={() => {
                 history.goBack();
               }}
