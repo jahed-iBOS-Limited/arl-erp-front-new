@@ -3,29 +3,76 @@ import { DropzoneDialogBase } from "material-ui-dropzone";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import * as Yup from "yup";
 import ICustomCard from "../../../../_helper/_customCard";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { attachment_action, getSBUListDDLApi, getVesselDDL } from "../helper";
+import {
+  GetDomesticPortDDL,
+  attachment_action,
+  getExpenseParticularsList,
+  getSBUListDDLApi,
+  getVesselDDL,
+  getVoyageNoDDLApi,
+} from "../helper";
 import RowTable from "./rowTable";
+import axios from "axios";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import { useParams } from "react-router";
 const initData = {
-  fromDate: _todayDate(),
-  toDate: _todayDate(),
+  sbu: "",
+  vesselName: "",
+  voyageNo: "",
+  workingPort: "",
+  customerName: "",
+  activity: "",
+  currency: "",
+  exchangeRate: "",
+  attachment: "",
 };
 
+const validationSchema = Yup.object().shape({
+  sbu: Yup.object().shape({
+    label: Yup.string().required("SBU is required"),
+    value: Yup.string().required("SBU is required"),
+  }),
+  vesselName: Yup.object().shape({
+    label: Yup.string().required("Vessel Name is required"),
+    value: Yup.string().required("Vessel Name is required"),
+  }),
+  // voyageNo: Yup.object().shape({
+  //   label: Yup.string().required("Voyage No is required"),
+  //   value: Yup.string().required("Voyage No is required"),
+  // }),
+  workingPort: Yup.object().shape({
+    label: Yup.string().required("Working Port is required"),
+    value: Yup.string().required("Working Port is required"),
+  }),
+  customerName: Yup.object().shape({
+    label: Yup.string().required("Customer Name is required"),
+    value: Yup.string().required("Customer Name is required"),
+  }),
+  activity: Yup.string().required("Activity is required"),
+  currency: Yup.object().shape({
+    label: Yup.string().required("Currency is required"),
+    value: Yup.string().required("Currency is required"),
+  }),
+});
 const EstimatePDACreate = () => {
   const [loading, setLoading] = useState(false);
   const [vesselDDL, setVesselDDL] = useState([]);
   const [sbuDDL, setSbuDDL] = useState([]);
   const [open, setOpen] = useState(false);
   const [fileObjects, setFileObjects] = useState([]);
-  const [rowDto, setRowDto] = useState([1]);
+  const [voyageNoDDL, setVoyageNoDDL] = useState([]);
+  const [rowDto, setRowDto] = useState([]);
+  const [domesticPortDDL, setDomesticPortDDL] = useState([]);
+  const { editId } = useParams();
   // get user data from store
   const {
-    profileData: { accountId: accId },
+    profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
@@ -33,6 +80,9 @@ const EstimatePDACreate = () => {
     if (accId && buId) {
       getVesselDDL(accId, buId, setVesselDDL);
       getSBUListDDLApi(accId, buId, setSbuDDL);
+      getVoyageNoDDLApi(accId, buId, setVoyageNoDDL);
+      GetDomesticPortDDL(setDomesticPortDDL);
+      getExpenseParticularsList(setRowDto, setLoading);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
@@ -40,11 +90,89 @@ const EstimatePDACreate = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const saveHandler = (values, cb) => {};
+  const loadCustomerList = (v) => {
+    if (v?.length < 3) return [];
+    return axios
+      .get(
+        `/partner/PManagementCommonDDL/GetCustomerNameDDLByChannelId?SearchTerm=${v}&AccountId=${accId}&BusinessUnitId=${buId}&ChannelId=${0}`
+      )
+      .then((res) => res?.data);
+  };
+  const saveHandler = (values, cb) => {
+    const estimatedAmount = rowDto.reduce((acc, cur) => {
+      return acc + (+cur?.estimatedAmount || 0);
+    }, 0);
+
+    const finalAmount = rowDto.reduce((acc, cur) => {
+      return acc + (+cur?.customerFinalAmount || 0);
+    }, 0);
+
+    const actualAmount = rowDto?.reduce((acc, cur) => {
+      return acc + (+cur?.actualAmount || 0);
+    }, 0);
+
+    const payload = {
+      estimatePdaid: +editId || 0,
+      sbuid: values?.sbu?.value || 0,
+      sbuname: values?.sbu?.label || "",
+      vesselid: values?.vesselName?.value || 0,
+      vesselName: values?.vesselName?.label || "",
+      voyageNo: values?.voyageNo?.label || "",
+      workingPortId: values?.workingPort?.value || 0,
+      workingPortName: values?.workingPort?.label || "",
+      customerId: 1,
+      customerName: values?.customerName?.label || "",
+      activity: values?.activity || "",
+      currency: values?.currency?.value || "",
+      exchangeRate: +values?.exchangeRate || 0,
+      attachmentsId: values?.attachment || 0,
+      estimatedAmount: estimatedAmount,
+      finalAmount: finalAmount,
+      actualAmount: actualAmount,
+      isActive: true,
+      actionBy: userId,
+      lastActionDateTime: new Date(),
+      shippingAgencyEstimatePdarowDtos: rowDto?.map((item) => {
+        return {
+          estimatePdarowId: item?.estimatePdarowId || 0,
+          estimatePdaid: +editId || 0,
+          expenseParticularsId: item?.expenseParticularsId || 0,
+          category: item?.category || "",
+          particularName: item?.particularName || "",
+          estimatedAmount: +item?.estimatedAmount || 0,
+          customerFinalAmount: +item?.customerFinalAmount || 0,
+          actualAmount: +item?.actualAmount || 0,
+          actionBy: userId,
+          lastActionDateTime: new Date(),
+          estimatePDABillCreateDtos: item?.estimatePDABillCreateDtos?.map(
+            (i) => {
+              return {
+                billId: i?.billId || 0,
+                estimatePdarowId: item?.estimatePdarowId || 0,
+                expenseParticularId: item?.expenseParticularsId || 0,
+                billDate: i?.billDate || "",
+                billType: i?.billType || "",
+                amount: +i?.amount || 0,
+                poPdFw: i?.poPdFw || '',
+                poVat: i?.poVat || '',
+                total: +i?.total || 0,
+                status: i?.status || "",
+                attachmentsId: i?.attachmentsId || "",
+                isActive: true,
+                actionBy: userId,
+                lastActionDateTime: new Date(),
+              };
+            }
+          ),
+        };
+      }),
+    };
+  };
   return (
     <>
       {loading && <Loading />}
       <Formik
+        validationSchema={validationSchema}
         enableReinitialize={true}
         initialValues={initData}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -107,7 +235,7 @@ const EstimatePDACreate = () => {
                 <div className='col-lg-3'>
                   <NewSelect
                     value={values?.voyageNo || ""}
-                    options={[]}
+                    options={voyageNoDDL || []}
                     name='vesselName'
                     placeholder='Voyage No'
                     label='Voyage No'
@@ -121,7 +249,7 @@ const EstimatePDACreate = () => {
                 <div className='col-lg-3'>
                   <NewSelect
                     value={values?.workingPort || ""}
-                    options={[]}
+                    options={domesticPortDDL || []}
                     name='workingPort'
                     placeholder='Working Port'
                     label='Working Port'
@@ -132,19 +260,19 @@ const EstimatePDACreate = () => {
                     touched={touched}
                   />
                 </div>
+
                 <div className='col-lg-3'>
-                  <NewSelect
-                    value={values?.customerName || ""}
-                    options={[]}
-                    name='customerName'
-                    placeholder='Customer Name'
-                    label='Customer Name'
-                    onChange={(valueOption) => {
-                      setFieldValue("customerName", valueOption);
-                    }}
-                    errors={errors}
-                    touched={touched}
-                  />
+                  <div>
+                    <label>Customer Name</label>
+                    <SearchAsyncSelect
+                      selectedValue={values?.customerName}
+                      handleChange={(valueOption) => {
+                        setFieldValue("customerName", valueOption);
+                      }}
+                      placeholder='Search By Code Number'
+                      loadOptions={loadCustomerList}
+                    />
+                  </div>
                 </div>
                 <div className='col-lg-3'>
                   <InputField
@@ -160,7 +288,10 @@ const EstimatePDACreate = () => {
                 <div className='col-lg-3'>
                   <NewSelect
                     value={values?.currency || ""}
-                    options={[]}
+                    options={[
+                      { value: "BDT", label: "BDT" },
+                      { value: "USD", label: "USD" },
+                    ]}
                     name='currency'
                     placeholder='Currency'
                     label='Currency'
@@ -171,20 +302,25 @@ const EstimatePDACreate = () => {
                     touched={touched}
                   />
                 </div>
-                <div className='col-lg-3'>
-                  <NewSelect
-                    value={values?.exchangeRate || ""}
-                    options={[]}
-                    name='exchangeRate'
-                    placeholder='Exchange Rate'
-                    label='Exchange Rate'
-                    onChange={(valueOption) => {
-                      setFieldValue("exchangeRate", valueOption);
-                    }}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
+                {values?.currency?.value === "USD" && (
+                  <>
+                    <div className='col-lg-3'>
+                      <NewSelect
+                        value={values?.exchangeRate || ""}
+                        options={[]}
+                        name='exchangeRate'
+                        placeholder='Exchange Rate'
+                        label='Exchange Rate'
+                        onChange={(valueOption) => {
+                          setFieldValue("exchangeRate", valueOption);
+                        }}
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                  </>
+                )}
+
                 <div className='col-lg-3 d-flex align-items-center'>
                   <div className=''>
                     <button

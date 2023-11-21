@@ -114,7 +114,6 @@ const ExpenseParticularsLanding = () => {
                       commonGridData(1, pageSize, values);
                     }}
                     disabled={
-                      !values?.category?.label ||
                       !values?.fromDate ||
                       !values?.toDate
                     }

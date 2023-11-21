@@ -40,14 +40,7 @@ export const getVesselTypeDDL = async (accId, buId, setter) => {
     const res = await axios.get(
       `${imarineBaseUrl}/domain/ASLLAgency/GetVesselTypeDDL`
     );
-    setter(
-      res?.data?.map((itm) => {
-        return {
-          value: itm?.vesselTypeId,
-          label: itm?.vesselTypeName,
-        };
-      })
-    );
+    setter(res?.data);
   } catch (error) {}
 };
 export const getVoyageNoDDLApi = async (accId, buId, setter) => {
