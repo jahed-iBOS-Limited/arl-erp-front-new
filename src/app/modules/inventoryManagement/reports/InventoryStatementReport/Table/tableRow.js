@@ -57,7 +57,7 @@ export function TableRow(props) {
   const dispatch = useDispatch();
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
-  const [pageSize, setPageSize] = React.useState(20);
+  const [pageSize, setPageSize] = React.useState(500);
   const [loading, setLoading] = useState(false);
   const [, setSearchKeyword] = useState(null);
   const [fromValues, setFromValues] = useState([]);
@@ -79,13 +79,13 @@ export function TableRow(props) {
         selectedBusinessUnit?.value,
         setSbuList
       );
-      businessUnitPlant_api(
-        profileData?.accountId,
-        selectedBusinessUnit?.value,
-        profileData?.userId,
-        7,
-        setPlantDDL
-      );
+      // businessUnitPlant_api(
+      //   profileData?.accountId,
+      //   selectedBusinessUnit?.value,
+      //   profileData?.userId,
+      //   7,
+      //   setPlantDDL
+      // );
       getItemTypeListDDL_api(setItemTypeOption);
     }
   }, [selectedBusinessUnit, profileData]);
@@ -373,10 +373,13 @@ export function TableRow(props) {
             _closingQty: closingQty(item),
             _cloasingValue: closingValue(item),
             sl: index + 1,
-            numClosingValue:item?.numCloseQty * item?.numRate
+            numClosingValue: item?.numCloseQty * item?.numRate,
           };
         });
-        generateJsonToExcel(values?.type?.value === 5 ? registerNewHeader : header, _data);
+        generateJsonToExcel(
+          values?.type?.value === 5 ? registerNewHeader : header,
+          _data
+        );
       },
       setLoading,
       avgDays: values?.avgDays,
@@ -426,6 +429,40 @@ export function TableRow(props) {
                       <div className="row global-form">
                         <div className="col-lg-3 col-xl-2">
                           <NewSelect
+                            name="type"
+                            options={[
+                              { value: 3, label: "Inventory In-Out" },
+                              { value: 4, label: "Inventory Coverage" },
+                              { value: 5, label: "Inventory Register New" },
+                            ]}
+                            value={values?.type}
+                            label="Type"
+                            onChange={(valueOption) => {
+                              setInventoryStatement([]);
+                              setFieldValue("type", valueOption);
+                              businessUnitPlant_api(
+                                profileData?.accountId,
+                                selectedBusinessUnit?.value,
+                                profileData?.userId,
+                                7,
+                                setPlantDDL,
+                                valueOption?.value
+                              );
+                              dispatch(
+                                SetReportsInventoryStatementAction({
+                                  ...values,
+                                  type: valueOption,
+                                })
+                              );
+                              setInventoryStatement([]);
+                            }}
+                            placeholder="Type"
+                            errors={errors}
+                            touched={touched}
+                          />
+                        </div>
+                        <div className="col-lg-3 col-xl-2">
+                          <NewSelect
                             name="plant"
                             options={plantDDL || []}
                             value={values?.plant}
@@ -438,7 +475,8 @@ export function TableRow(props) {
                                 selectedBusinessUnit?.value,
                                 profileData?.userId,
                                 valueOption?.value,
-                                setwareHouseDDL
+                                setwareHouseDDL,
+                                values?.type?.value
                               );
                               dispatch(
                                 SetReportsInventoryStatementAction({
@@ -457,10 +495,7 @@ export function TableRow(props) {
                         <div className="col-lg-3 col-xl-2">
                           <NewSelect
                             name="wh"
-                            options={
-                              [...wareHouseDDL] ||
-                              []
-                            }
+                            options={[...wareHouseDDL] || []}
                             value={values?.wh}
                             label="WareHouse"
                             onChange={(valueOption) => {
@@ -555,33 +590,6 @@ export function TableRow(props) {
                               setInventoryStatement([]);
                             }}
                             placeholder="Sub Category"
-                            errors={errors}
-                            touched={touched}
-                          />
-                        </div>
-                        <div className="col-lg-3 col-xl-2">
-                          <NewSelect
-                            name="type"
-                            options={[
-                              // { value: 2, label: "Inventory Register" },
-                              { value: 3, label: "Inventory In-Out" },
-                              { value: 4, label: "Inventory Coverage" },
-                              { value: 5, label: "Inventory Register New" },
-                            ]}
-                            value={values?.type}
-                            label="Type"
-                            onChange={(valueOption) => {
-                              setInventoryStatement([]);
-                              setFieldValue("type", valueOption);
-                              dispatch(
-                                SetReportsInventoryStatementAction({
-                                  ...values,
-                                  type: valueOption,
-                                })
-                              );
-                              setInventoryStatement([]);
-                            }}
-                            placeholder="Type"
                             errors={errors}
                             touched={touched}
                           />
@@ -781,18 +789,7 @@ export function TableRow(props) {
                       pageSize,
                       setPageSize,
                     }}
-                    rowsPerPageOptions={[
-                      5,
-                      10,
-                      20,
-                      50,
-                      100,
-                      200,
-                      300,
-                      400,
-                      500,
-                      1500,
-                    ]}
+                    rowsPerPageOptions={[500, 1000, 1500, 2000]}
                   />
                 )}
                 <IViewModal

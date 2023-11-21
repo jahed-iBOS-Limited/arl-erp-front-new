@@ -6,8 +6,17 @@ import NewSelect from "../../../_helper/_select";
 import InputField from "../../../_helper/_inputField";
 import { useParams } from "react-router-dom";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { _todayDate } from "../../../_helper/_todayDate";
+import IDelete from "../../../_helper/_helperIcons/_delete";
+import IView from "../../../_helper/_helperIcons/_view";
+import { toast } from "react-toastify";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { imarineBaseUrl } from "../../../../App";
+import * as Yup from "yup";
+import { DropzoneDialogBase } from "material-ui-dropzone";
+import { attachmentUploadAction } from "./helper";
+import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
 
 const initData = {
   vessel: "",
@@ -15,7 +24,6 @@ const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
   remarks: "",
-
   // for rowdto
   activity: "",
   supplier: "",
@@ -23,6 +31,16 @@ const initData = {
   budgetAmount: "",
   attachment: "",
 };
+
+const validationSchema = Yup.object().shape({
+  vessel: Yup.object().shape({
+    label: Yup.string().required("Vessel is required"),
+    value: Yup.string().required("Vessel is required"),
+  }),
+  dockyardName: Yup.string().required("Dockyard Name is required"),
+  fromDate: Yup.date().required("From Date is required"),
+  toDate: Yup.date().required("To Date is required"),
+});
 
 export default function DryDocCreateEdit() {
   const [objProps, setObjprops] = useState({});
@@ -33,14 +51,34 @@ export default function DryDocCreateEdit() {
     shallowEqual
   );
 
+  const dispatch = useDispatch();
   const [vesselDDL, getVesselDDL, vesselAssetLoader] = useAxiosGet();
   const [supplierDDL, getSupplierDDL, supplierLoader] = useAxiosGet();
   const [currencyDDL, getCurrencyDDL, currencyDDLloader] = useAxiosGet();
-
+  const [, saveData, saveDataLoader] = useAxiosPost();
   const [rowData, setRowData] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [fileObjects, setFileObjects] = useState([]);
 
   const saveHandler = (values, cb) => {
-    alert("Working...");
+    if (!rowData?.length) {
+      return toast.warn("Please add activity");
+    }
+    const payload = {
+      _header: {
+        intDocScheduleId: id ? +id : 0,
+        intBusinessUnitId: selectedBusinessUnit?.value,
+        strBusinessUnitName: selectedBusinessUnit?.label,
+        intVesselId: values?.vessel?.value,
+        strVesselName: values?.vessel?.label,
+        strDockYardName: values?.dockyardName,
+        dteFromDate: values?.fromDate,
+        dteToDate: values?.toDate,
+        reMarks: values?.remarks,
+      },
+      _rows: rowData,
+    };
+    saveData(`/fino/Expense/CreateDocSchedule`, payload, cb, true);
   };
 
   useEffect(() => {
@@ -49,17 +87,53 @@ export default function DryDocCreateEdit() {
     );
     getCurrencyDDL(`/domain/Purchase/GetBaseCurrencyList`);
     getVesselDDL(
-      `https://imarine.ibos.io/domain/Voyage/GetVesselDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
+      `${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const deleteRowDto = (index) => {
+    const filterArr = rowData?.filter((itm, idx) => idx !== index);
+    setRowData(filterArr);
+  };
+
+  const rowDtoHandler = (values, setFieldValue) => {
+    const isDuplicateActivity = rowData?.find(
+      (item) => item?.strActivity === values?.activity
+    );
+    if (isDuplicateActivity) {
+      return toast.warn("Activity already added");
+    } else {
+      const obj = {
+        intRowId: 0,
+        intDocScheduleId: id ? id : 0,
+        strActivity: values?.activity,
+        intSupplierId: values?.supplier?.value,
+        strSupplierName: values?.supplier?.label,
+        intCurrencyId: values?.currency?.value,
+        strCurrencyName: values?.currency?.label,
+        numBudgetAmount: +values?.budgetAmount,
+        strAttachmentLink: values?.attachment || "",
+        isActive: true,
+      };
+      setRowData([...rowData, obj]);
+      setFieldValue("activity", "");
+      setFieldValue("supplier", "");
+      setFieldValue("currency", "");
+      setFieldValue("budgetAmount", "");
+      setFieldValue("attachment", "");
+    }
+  };
 
   return (
     <Formik
       enableReinitialize={true}
       initialValues={initData}
+      validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
+          setRowData([]);
         });
       }}
     >
@@ -73,9 +147,10 @@ export default function DryDocCreateEdit() {
         touched,
       }) => (
         <>
-          {(vesselAssetLoader || supplierLoader || currencyDDLloader) && (
-            <Loading />
-          )}
+          {(vesselAssetLoader ||
+            supplierLoader ||
+            currencyDDLloader ||
+            saveDataLoader) && <Loading />}
           <IForm
             title={id ? "Edit Dry Doc Schedule" : "Create Dry Doc Schedule"}
             getProps={setObjprops}
@@ -148,7 +223,7 @@ export default function DryDocCreateEdit() {
               </div>
 
               <div className="form-group  global-form row mt-2">
-                <div className="col-lg-3">
+                <div className="col-lg-2">
                   <InputField
                     value={values?.activity}
                     label="Activity"
@@ -159,7 +234,7 @@ export default function DryDocCreateEdit() {
                     }}
                   />
                 </div>
-                <div className="col-lg-3">
+                <div className="col-lg-2">
                   <NewSelect
                     name="supplier"
                     options={supplierDDL}
@@ -176,7 +251,7 @@ export default function DryDocCreateEdit() {
                     touched={touched}
                   />
                 </div>
-                <div className="col-lg-3">
+                <div className="col-lg-2">
                   <NewSelect
                     name="currency"
                     options={currencyDDL}
@@ -193,7 +268,7 @@ export default function DryDocCreateEdit() {
                     touched={touched}
                   />
                 </div>
-                <div className="col-lg-3">
+                <div className="col-lg-2">
                   <InputField
                     value={values?.budgetAmount}
                     label="Budget Amount"
@@ -204,24 +279,56 @@ export default function DryDocCreateEdit() {
                     }}
                   />
                 </div>
-                <div className="col-lg-3">Attachment</div>
-                <div className="col-lg-3">
+                <div
+                  className="col-lg-2"
+                  style={{
+                    marginTop: "17px",
+                  }}
+                >
+                  <button
+                    className="btn btn-primary"
+                    type="button"
+                    onClick={() => setOpen(true)}
+                  >
+                    <i class="fas fa-file-upload"></i>
+                    Upload File
+                  </button>
+                  <DropzoneDialogBase
+                    filesLimit={10}
+                    acceptedFiles={["image/*", "application/pdf"]}
+                    fileObjects={fileObjects || []}
+                    cancelButtonText={"cancel"}
+                    submitButtonText={"submit"}
+                    maxFileSize={1000000}
+                    open={open}
+                    onAdd={(newFileObjs) => {
+                      setFileObjects([].concat(newFileObjs));
+                    }}
+                    onDelete={(deleteFileObj) => {
+                      const newData = fileObjects?.filter(
+                        (item) => item.file.name !== deleteFileObj.file.name
+                      );
+                      setFileObjects(newData);
+                    }}
+                    onClose={() => setOpen(false)}
+                    onSave={() => {
+                      setOpen(false);
+                      attachmentUploadAction(fileObjects).then((data) => {
+                        setFieldValue("attachment", data[0]?.id);
+                        setFileObjects([]);
+                      });
+                    }}
+                    showPreviews={true}
+                    showFileNamesInPreview={true}
+                  />
+                </div>
+                <div className="col-lg-2">
                   <button
                     style={{ marginTop: "17px" }}
                     type="button"
                     className="btn btn-primary"
                     onClick={() => {
-                      setRowData([
-                        ...rowData,
-                        {
-                          autoId: 0,
-                          activity: values?.activity,
-                          supplier: values?.supplier?.label,
-                          currency: values?.currency?.label,
-                          budgetAmount: values?.budgetAmount,
-                          attachment: values?.attachment,
-                        },
-                      ]);
+                      rowDtoHandler(values, setFieldValue);
                     }}
                     disabled={
                       !values?.activity ||
@@ -252,14 +359,32 @@ export default function DryDocCreateEdit() {
                       rowData?.map((item, index) => (
                         <tr key={index}>
                           <td>{index + 1}</td>
-                          <td>{item?.activity}</td>
-                          <td>{item?.supplier}</td>
-                          <td>{item?.currency}</td>
-                          <td>{item?.budgetAmount}</td>
-                          <td>
-                            <span>
-                              <i className="fa fa-trash"></i>
-                            </span>
+                          <td>{item?.strActivity}</td>
+                          <td>{item?.strSupplierName}</td>
+                          <td>{item?.strCurrencyName}</td>
+                          <td>{item?.numBudgetAmount}</td>
+                          <td className="text-center">
+                            {
+                              <div className="d-flex justify-content-around text-center">
+                                {item?.strAttachmentLink ? (
+                                  <IView
+                                    title="View Attachment"
+                                    clickHandler={() => {
+                                      dispatch(
+                                        getDownlloadFileView_Action(
+                                          item?.strAttachmentLink
+                                        )
+                                      );
+                                    }}
+                                  />
+                                ) : null}
+
+                                <IDelete
+                                  title="Delete Activity"
+                                  remover={() => deleteRowDto(index)}
+                                />
+                              </div>
+                            }
                           </td>
                         </tr>
                       ))}
