@@ -7,13 +7,13 @@ import BillForm from "./billForm";
 function RowTable({ rowDto, setRowDto }) {
   const [isBillModal, isShowBillModal] = React.useState(false);
   const [clickRowData, setClickRowData] = React.useState({});
+
   return (
-    <div>
+    <div className='table-responsive'>
       <table className='table table-striped table-bordered global-table'>
         <thead>
           <tr>
             <th>SL</th>
-            <th>Code</th>
             <th>Category</th>
             <th>Expense Particulars</th>
             <th
@@ -38,9 +38,8 @@ function RowTable({ rowDto, setRowDto }) {
           {rowDto?.map((item, index) => (
             <tr key={index}>
               <td className='text-center'> {index + 1}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
+              <td>{item?.category}</td>
+              <td>{item?.particularName}</td>
               <td>
                 <InputField
                   value={item?.estimatedAmount}
@@ -65,8 +64,11 @@ function RowTable({ rowDto, setRowDto }) {
                   }}
                 />
               </td>
-              <td></td>
-
+              <td>
+                {item?.estimatePDABillCreateDtos?.length > 0 && (
+                  <>{item?.actualAmount}</>
+                )}
+              </td>
               <td className='text-center'>
                 <span
                   className='pointer'
@@ -78,7 +80,7 @@ function RowTable({ rowDto, setRowDto }) {
                     });
                   }}
                 >
-                  <IAdd />
+                  <IAdd title={"Bill Add"} />
                 </span>
               </td>
             </tr>
@@ -96,7 +98,23 @@ function RowTable({ rowDto, setRowDto }) {
               setClickRowData({});
             }}
           >
-            <BillForm clickRowData={clickRowData} />
+            <BillForm
+              clickRowData={clickRowData}
+              estimatePDABillAddHandler={({ billRowDto, cb }) => {
+                const copyRowDto = [...rowDto];
+                copyRowDto[
+                  clickRowData?.rowIdx
+                ].estimatePDABillCreateDtos = billRowDto;
+                const actualAmount =  billRowDto?.reduce(
+                  (acc, cur) => acc + (+cur?.total || 0),
+                  0
+                ) || 0 
+                copyRowDto[clickRowData?.rowIdx].actualAmount = actualAmount;
+                setRowDto(copyRowDto);
+                isShowBillModal(false);
+                setClickRowData({});
+              }}
+            />
           </IViewModal>
         </>
       )}

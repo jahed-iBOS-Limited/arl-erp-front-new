@@ -41,8 +41,9 @@ export const getExpenseParticularsLandingApi = async (
   setLoading(true);
   setter([]);
   try {
+    const _category = category ? `&Category=${category}` : "";
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/ASLLAgency/GetExpenseParticularsLanding?Category=${category}&FromDate=${fromDate}&ToDate=${toDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+      `${imarineBaseUrl}/domain/ASLLAgency/GetExpenseParticularsLanding?FromDate=${fromDate}&ToDate=${toDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${_category}`
     );
     setter(res?.data);
     setLoading(false);

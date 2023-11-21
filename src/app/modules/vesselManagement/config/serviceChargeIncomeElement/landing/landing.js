@@ -144,7 +144,7 @@ const ServiceChargeAndIncomeElementLanding = () => {
                           <td className="text-center">
                             {item?.motherVesselName}
                           </td>
-                          <td className="text-center">{item?.strShipPoint}</td>
+                          <td className="text-center">{item?.shipPointName}</td>
                           <td className="text-center">{item?.itemName}</td>
                           <td className="text-center" style={{ width: "50px" }}>
                             <IView
