@@ -8,7 +8,7 @@ const LandingTable = ({ obj }) => {
   const history = useHistory();
 
   return (
-    <>
+    <div className="table-responsive">
       <table className='table table-striped table-bordered global-table'>
         <thead>
           <tr>
@@ -68,7 +68,7 @@ const LandingTable = ({ obj }) => {
           ))}
         </tbody>
       </table>
-    </>
+    </div>
   );
 };
 
