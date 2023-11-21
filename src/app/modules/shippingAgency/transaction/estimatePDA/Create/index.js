@@ -44,17 +44,9 @@ const validationSchema = Yup.object().shape({
     label: Yup.string().required("Vessel Name is required"),
     value: Yup.string().required("Vessel Name is required"),
   }),
-  // voyageNo: Yup.object().shape({
-  //   label: Yup.string().required("Voyage No is required"),
-  //   value: Yup.string().required("Voyage No is required"),
-  // }),
   workingPort: Yup.object().shape({
     label: Yup.string().required("Working Port is required"),
     value: Yup.string().required("Working Port is required"),
-  }),
-  customerName: Yup.object().shape({
-    label: Yup.string().required("Customer Name is required"),
-    value: Yup.string().required("Customer Name is required"),
   }),
   activity: Yup.string().required("Activity is required"),
   currency: Yup.object().shape({
@@ -126,12 +118,14 @@ const EstimatePDACreate = () => {
       activity: values?.activity || "",
       currency: values?.currency?.value || "",
       exchangeRate: +values?.exchangeRate || 0,
-      attachmentsId: values?.attachment || '',
+      attachmentsId: values?.attachment || "",
       estimatedAmount: estimatedAmount,
       finalAmount: finalAmount,
       actualAmount: actualAmount,
       isActive: true,
       actionBy: userId,
+      accountId: accId,
+      businessUnitId: buId,
       lastActionDateTime: new Date(),
       shippingAgencyEstimatePdarowDtos: rowDto?.map((item) => {
         return {

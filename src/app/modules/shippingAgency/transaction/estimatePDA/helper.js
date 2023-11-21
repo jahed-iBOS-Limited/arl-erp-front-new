@@ -10,16 +10,17 @@ export const getExpensePDALandingApi = async (
   toDate,
   pageNo,
   pageSize,
+  accId,
+  buId,
   setter,
-  setLoading,
+  setLoading
 ) => {
   setLoading(true);
   setter([]);
   try {
-
-    const _VoyageNo  = voyageNo ? `&VoyageNo=${voyageNo}` : "";
+    const _VoyageNo = voyageNo ? `&VoyageNo=${voyageNo}` : "";
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/ASLLAgency/GetExpensePDALanding?sbuID=${sbu}&Vesselid=${vesselid}&FromDate=${fromDate}&ToDate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc${_VoyageNo}`
+      `${imarineBaseUrl}/domain/ASLLAgency/GetExpensePDALanding?sbuID=${sbu}&Vesselid=${vesselid}&FromDate=${fromDate}&ToDate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc${_VoyageNo}&accountId=${accId}&businessUnitId=${buId}`
     );
     setter(res?.data);
     setLoading(false);
@@ -38,10 +39,9 @@ export const getSBUListDDLApi = async (accId, buId, setter) => {
 };
 
 export const getVesselDDL = async (accId, buId, setter, vesselId) => {
-  const vesselIdStr = vesselId ? `&IsVessel=${vesselId}` : ""; // first perameter so not (?)
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/Voyage/GetVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}${vesselIdStr}`
+      `/asset/Asset/GetAssetVesselDdl?IntBussinessUintId=${buId}`
     );
     setter(res.data);
   } catch (error) {
@@ -109,9 +109,9 @@ export const getExpenseParticularsList = async (setter, setLoading) => {
       res?.data?.map((item) => ({
         ...item,
         estimatedAmount: "",
-        customerFinalAmount: '',
+        customerFinalAmount: "",
         actualAmount: "",
-        estimatePDABillCreateDtos: []
+        estimatePDABillCreateDtos: [],
       }))
     );
     setLoading(false);
@@ -120,11 +120,7 @@ export const getExpenseParticularsList = async (setter, setLoading) => {
   }
 };
 
-export const createUpdateEstimatePDA = async (
-  payload,
-  setDisabled,
-  cb
-) => {
+export const createUpdateEstimatePDA = async (payload, setDisabled, cb) => {
   try {
     setDisabled(true);
     await axios.post(
@@ -140,7 +136,6 @@ export const createUpdateEstimatePDA = async (
     setDisabled(false);
   }
 };
-
 
 export const getEstimatePDAById = async (id, setLoading, setter) => {
   setLoading(true);
