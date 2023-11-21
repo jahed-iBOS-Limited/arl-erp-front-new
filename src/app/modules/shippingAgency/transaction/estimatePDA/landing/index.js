@@ -65,6 +65,8 @@ const EstimatePDALanding = () => {
       values?.toDate,
       pageNo,
       pageSize,
+      accId,
+      buId,
       setGridData,
       setLoading,
     )

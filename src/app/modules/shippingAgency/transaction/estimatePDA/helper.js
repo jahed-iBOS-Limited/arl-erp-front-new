@@ -10,6 +10,8 @@ export const getExpensePDALandingApi = async (
   toDate,
   pageNo,
   pageSize,
+  accId,
+  buId,
   setter,
   setLoading
 ) => {
@@ -18,7 +20,7 @@ export const getExpensePDALandingApi = async (
   try {
     const _VoyageNo = voyageNo ? `&VoyageNo=${voyageNo}` : "";
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/ASLLAgency/GetExpensePDALanding?sbuID=${sbu}&Vesselid=${vesselid}&FromDate=${fromDate}&ToDate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc${_VoyageNo}`
+      `${imarineBaseUrl}/domain/ASLLAgency/GetExpensePDALanding?sbuID=${sbu}&Vesselid=${vesselid}&FromDate=${fromDate}&ToDate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc${_VoyageNo}&accountId=${accId}&businessUnitId=${buId}`
     );
     setter(res?.data);
     setLoading(false);

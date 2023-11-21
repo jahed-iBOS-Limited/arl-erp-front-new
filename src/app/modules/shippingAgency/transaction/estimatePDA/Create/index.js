@@ -44,17 +44,9 @@ const validationSchema = Yup.object().shape({
     label: Yup.string().required("Vessel Name is required"),
     value: Yup.string().required("Vessel Name is required"),
   }),
-  // voyageNo: Yup.object().shape({
-  //   label: Yup.string().required("Voyage No is required"),
-  //   value: Yup.string().required("Voyage No is required"),
-  // }),
   workingPort: Yup.object().shape({
     label: Yup.string().required("Working Port is required"),
     value: Yup.string().required("Working Port is required"),
-  }),
-  customerName: Yup.object().shape({
-    label: Yup.string().required("Customer Name is required"),
-    value: Yup.string().required("Customer Name is required"),
   }),
   activity: Yup.string().required("Activity is required"),
   currency: Yup.object().shape({
