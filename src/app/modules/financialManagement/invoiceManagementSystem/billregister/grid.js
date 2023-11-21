@@ -31,12 +31,15 @@ import ViewSalesCommission from "./salesCommission/view/viewSalesCommission";
 import ViewStevedoreBill from "./stevedoreBill/view/table";
 import ViewSurveyorBill from "./surveyorBill/view/table";
 import ViewTransportBill from "./transportBill/view/viewBillRegister";
+import { useDispatch } from "react-redux";
+import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
 const GridData = ({
   rowDto,
   values,
   profileData,
   selectedBusinessUnit,
   cb,
+  ViewOnChangeHandler,
 }) => {
   // const billType = values?.billType?.value;
   const [mdalShow, setModalShow] = useState(false);
@@ -51,6 +54,9 @@ const GridData = ({
   const [, createBillAttachment, createBillAttachmentLoading] = useAxiosPost(
     []
   );
+
+  const dispatch = useDispatch();
+
   // attachment save actions
   const saveHandler = async () => {
     if (!fileObjects.length) return null;
@@ -72,6 +78,7 @@ const GridData = ({
           payload,
           () => {
             setFileObjects([]);
+            ViewOnChangeHandler(values);
           },
           true
         );
@@ -138,6 +145,18 @@ const GridData = ({
                               ...tableData,
                               billStatus: "Approved",
                             });
+                          }}
+                        />
+                      )}
+                      {tableData?.attatchment && (
+                        <IView
+                          title="View Attachment"
+                          clickHandler={() => {
+                            dispatch(
+                              getDownlloadFileView_Action(
+                                tableData?.attatchment
+                              )
+                            );
                           }}
                         />
                       )}
