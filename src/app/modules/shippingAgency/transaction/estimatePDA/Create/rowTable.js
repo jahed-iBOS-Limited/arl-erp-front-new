@@ -75,7 +75,7 @@ function RowTable({ rowDto, setRowDto }) {
                 <InputField
                   value={item?.estimatedAmount}
                   name='estimatedAmount'
-                  type='text'
+                  type='number'
                   onChange={(e) => {
                     const copyRowDto = [...rowDto];
                     copyRowDto[index].estimatedAmount = e.target.value;
@@ -87,7 +87,7 @@ function RowTable({ rowDto, setRowDto }) {
                 <InputField
                   value={item?.customerFinalAmount}
                   name='customerFinalAmount'
-                  type='text'
+                  type='number'
                   onChange={(e) => {
                     const copyRowDto = [...rowDto];
                     copyRowDto[index].customerFinalAmount = e.target.value;
