@@ -10,6 +10,7 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { shallowEqual, useSelector } from "react-redux";
 import { _todayDate } from "../../../_helper/_todayDate";
 import { _monthFirstDate } from "../../../_helper/_monthFirstDate";
+import { imarineBaseUrl } from "../../../../App";
 
 const initData = {
   categoryType: "",
@@ -57,7 +58,7 @@ export default function BareboatAndInsuranceCreateEdit() {
   // eslint-disable-next-line no-unused-vars
   const [, saveData, saveDataLoader] = useAxiosPost();
   useEffect(() => {
-    getVesselDDL(`https://imarine.ibos.io/domain/Voyage/GetVesselDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`)
+    getVesselDDL(`${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`)
     getProfitCenterDDL(`/fino/CostSheet/ProfitCenterDetails?UnitId=${selectedBusinessUnit?.value}`, (data) => {
       const newData = data?.map((itm) => {
         itm.value = itm?.profitCenterId;
