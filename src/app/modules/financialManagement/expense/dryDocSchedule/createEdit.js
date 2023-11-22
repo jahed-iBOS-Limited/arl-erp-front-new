@@ -115,8 +115,8 @@ export default function DryDocCreateEdit() {
         intRowId: 0,
         intDocScheduleId: id ? id : 0,
         strActivity: values?.activity,
-        intSupplierId: values?.supplier?.value,
-        strSupplierName: values?.supplier?.label,
+        intSupplierId: values?.supplier?.value || 0,
+        strSupplierName: values?.supplier?.label || "",
         intCurrencyId: values?.currency?.value,
         strCurrencyName: values?.currency?.label,
         numBudgetAmount: +values?.budgetAmount,
@@ -339,7 +339,7 @@ export default function DryDocCreateEdit() {
                     }}
                     disabled={
                       !values?.activity ||
-                      !values?.supplier ||
+                      // !values?.supplier ||
                       !values?.currency ||
                       !values?.budgetAmount
                     }
