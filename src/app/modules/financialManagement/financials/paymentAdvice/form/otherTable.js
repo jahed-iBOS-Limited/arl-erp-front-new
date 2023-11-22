@@ -1,12 +1,14 @@
 import React from "react";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IView from "../../../../_helper/_helperIcons/_view";
+import { toast } from "react-toastify";
 
 export default function OtherTableForBillType({
   values,
   allSelect,
   setAllSelect,
   rowDto,
+  setRowDto,
   selectIndividualItem,
   updateDate,
   preparepaymentIndex,
@@ -49,8 +51,10 @@ export default function OtherTableForBillType({
               <th style={{ minWidth: "70px" }}>Description</th>
               <th style={{ minWidth: "70px" }}>Audit Date</th>
               <th style={{ minWidth: "70px" }}>Payee</th>
-              <th style={{ minWidth: "70px" }}>Payee Bank Name</th>
+              <th style={{ minWidth: "70px" }}>TDS</th>
+              <th style={{ minWidth: "70px" }}>VDS</th>
               <th style={{ minWidth: "70px" }}>Amount</th>
+              <th style={{ minWidth: "70px" }}>Payee Bank Name</th>
               <th style={{ minWidth: "70px" }}>Action</th>
             </tr>
           </thead>
@@ -109,10 +113,26 @@ export default function OtherTableForBillType({
                   {_dateFormatter(item?.dteAuditDate)}
                 </td>
                 <td style={{ fontSize: 11 }}>{item?.strPayee}</td>
-                <td style={{ fontSize: 11 }}>{item?.strBankName}</td>
+                <td><input type="number" value={item?.numTds || ""} onChange={(e)=>{
+                    if(+e.target.value + +item["numVds"] > +item?.apiAmount){
+                        return toast.warn(`TDS: ${e.target.value} + VDS: ${item["numVds"]} = ${+e.target.value + +item["numVds"]} cann't be greater than ${item["apiAmount"]}`)
+                    }
+                     const gridData = [...rowDto];
+                     gridData[index]["numTds"] = +e.target.value || 0;
+                     setRowDto(gridData);
+                }}/></td>
+                <td><input type="number" value={item?.numVds || ""} onChange={(e)=>{
+                     if(+e.target.value + +item["numTds"] > +item?.apiAmount){
+                        return toast.warn(`TDS: ${item["numTds"]} + VDS: ${e.target.value} = ${+item["numTds"] + +e.target.value} cann't be greater than ${item["apiAmount"]}`)
+                    }
+                     const gridData = [...rowDto];
+                     gridData[index]["numVds"] = +e.target.value || 0;
+                     setRowDto(gridData);
+                }}/></td>
                 <td className="text-right" style={{ fontSize: 11 }}>
                   {item?.monAmount}
                 </td>
+                <td style={{ fontSize: 11 }}>{item?.strBankName}</td>
                 <td className="text-center">
                   {/* <span > */}
                   <div className="d-flex justify-content-around align-items-center">

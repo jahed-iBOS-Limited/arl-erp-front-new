@@ -518,6 +518,7 @@ export default function _Form({
                   allSelect = {allSelect}
                   setAllSelect = {setAllSelect}
                   rowDto = {rowDto}
+                  setRowDto = {setRowDto}
                   selectIndividualItem = {selectIndividualItem}
                   updateDate = {updateDate}
                   preparepaymentIndex = {preparepaymentIndex}
