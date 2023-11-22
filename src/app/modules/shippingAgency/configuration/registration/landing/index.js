@@ -38,7 +38,7 @@ const RegistrationLanding = () => {
 
   useEffect(() => {
     if (accId && buId) {
-      getVesselDDL(accId, buId, setVesselDDL);
+      getVesselDDL(accId, 0, setVesselDDL);
       getVesselTypeDDL(accId, buId, setVesselTypeDDL);
       // commonGridData(pageNo, pageSize, initData);
       getVoyageNoDDLApi(accId, buId, setVoyageNoDDLApi);
