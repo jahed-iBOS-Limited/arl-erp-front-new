@@ -18,6 +18,7 @@ import Loading from "../../../_chartinghelper/loading/_loading";
 import { getSalesOrgList } from "../../../transaction/timeCharter/helper";
 import { getMonthlyVoyageStatement, months } from "../helper";
 import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
+import { imarineBaseUrl } from "../../../../../App";
 
 const headers = [
   { name: "SL" },
@@ -102,7 +103,7 @@ export default function MonthlyVoyageStatement() {
     };
 
     createJournal(
-      `https://imarine.ibos.io/domain/LighterVesselStatement/LighterVesselIncomeSatetementJournal`,
+      `${imarineBaseUrl}/domain/LighterVesselStatement/LighterVesselIncomeSatetementJournal`,
       payload,
       () => {
         let _data = [...gridData];

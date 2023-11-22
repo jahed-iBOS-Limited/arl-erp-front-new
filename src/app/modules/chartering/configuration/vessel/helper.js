@@ -1,6 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
+import { imarineBaseUrl } from '../../../../App';
 
 // Validation schema
 export const validationSchema = Yup.object().shape({
@@ -23,7 +24,7 @@ export const CreateVessel = async (payload, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      `https://imarine.ibos.io/domain/Vessel/CreateVessel`,
+      `${imarineBaseUrl}/domain/Vessel/CreateVessel`,
       payload
     );
     toast.success(res?.data?.message);
@@ -38,7 +39,7 @@ export const CreateVessel = async (payload, setLoading, cb) => {
 export const GetOwnerDDL = async (setter) => {
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/Vessel/GetOwnerInfoDDL`
+      `${imarineBaseUrl}/domain/Vessel/GetOwnerInfoDDL`
     );
     setter(res?.data);
   } catch (error) {
@@ -61,7 +62,7 @@ export const GetVesselLandingData = async (
   const search = searchValue ? `&search=${searchValue}` : "";
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/Vessel/GetVesseLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${search}&ActiveOrInActiveg=${status}&status=${filterBy}`
+      `${imarineBaseUrl}/domain/Vessel/GetVesseLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${search}&ActiveOrInActiveg=${status}&status=${filterBy}`
     );
     setter(res?.data);
     setLoading(false);
@@ -76,7 +77,7 @@ export const activeInactiveVessel = async (id, status, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `https://imarine.ibos.io/domain/Vessel/ActiveOrInActive?vesselId=${id}&activeOrInActive=${status}`
+      `${imarineBaseUrl}/domain/Vessel/ActiveOrInActive?vesselId=${id}&activeOrInActive=${status}`
     );
     toast.success(res?.data?.message);
     cb();
@@ -91,7 +92,7 @@ export const GetVesselById = async (id, setLoading, setter) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/Vessel/GetVesselViewDetailsById?vesselId=${id}`
+      `${imarineBaseUrl}/domain/Vessel/GetVesselViewDetailsById?vesselId=${id}`
     );
     const modifyData = {
       ...res?.data,
@@ -132,7 +133,7 @@ export const UpdateVessel = async (payload, setLoading) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `https://imarine.ibos.io/domain/Vessel/EditVessel`,
+      `${imarineBaseUrl}/domain/Vessel/EditVessel`,
       payload
     );
     toast.success(res?.data?.message);
@@ -148,7 +149,7 @@ export const DeleteVessel = async (vesselId, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      `https://imarine.ibos.io/domain/Vessel/DeleteVessel?vesselId=${vesselId}`
+      `${imarineBaseUrl}/domain/Vessel/DeleteVessel?vesselId=${vesselId}`
     );
     toast.success(res?.data?.message);
     cb();

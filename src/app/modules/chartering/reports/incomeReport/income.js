@@ -27,6 +27,7 @@ import InfoCircle from "../../../_helper/_helperIcons/_infoCircle";
 import JournalDetails from "./journalDetails";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { toast } from "react-toastify";
+import { imarineBaseUrl } from "../../../../App";
 
 const getHeaders = (values, gridData) => {
   return [
@@ -122,7 +123,7 @@ export default function IncomeReport() {
 
   const getJournalData = (item) => {
     getJournalDetails(
-      `https://imarine.ibos.io/domain/Report/GetJvByVesselVoyage?AccountId=${accId}&BusinessUnitId=${buId}&VesselName=${item?.vesselName}&VoyageNo=${item?.voyageNo}&ChartererId=${item?.chartererId}`,
+      `${imarineBaseUrl}/domain/Report/GetJvByVesselVoyage?AccountId=${accId}&BusinessUnitId=${buId}&VesselName=${item?.vesselName}&VoyageNo=${item?.voyageNo}&ChartererId=${item?.chartererId}`,
       (resData) => {
         if (resData?.length > 0) {
           setShowJournalDetails(true);
@@ -156,7 +157,7 @@ export default function IncomeReport() {
       };
 
       createJournal(
-        `https://imarine.ibos.io/domain/TimeCharterTransaction/IncomeSatetementJournal`,
+        `${imarineBaseUrl}/domain/TimeCharterTransaction/IncomeSatetementJournal`,
         payload,
         () => {
           let _data = [...gridData];
@@ -185,7 +186,7 @@ export default function IncomeReport() {
       };
 
       createJournal(
-        `https://imarine.ibos.io/domain/TimeCharterTransaction/IncomeSatetementAdjustmentJournal`,
+        `${imarineBaseUrl}/domain/TimeCharterTransaction/IncomeSatetementAdjustmentJournal`,
         payload,
         () => {
           let _data = [...gridData];
@@ -387,7 +388,7 @@ export default function IncomeReport() {
                       <IButton
                         onClick={() => {
                           postAllJV(
-                            `https://imarine.ibos.io/domain/Report/CreateForceAutoJournal?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`
+                            `${imarineBaseUrl}/domain/Report/CreateForceAutoJournal?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`
                           );
                         }}
                       >
