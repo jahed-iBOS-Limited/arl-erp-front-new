@@ -1,13 +1,20 @@
 import moment from "moment";
+import Select from "react-select";
 import React, { useEffect } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { amountToWords } from "../../../../_helper/_ConvertnumberToWord";
 import Loading from "../../../../_helper/_loading";
 import { getEstimatePDAById } from "../helper";
 import "./viewInvoice.css";
+import customStyles from "../../../../selectCustomStyle";
 function PrintRef({ componentRef, estimatePdaid }) {
   const [loading, setLoading] = React.useState(false);
   const [singleData, setSingleData] = React.useState({});
+  const [viewType, setViewType] = React.useState({
+    value: 'actualAmount',
+    label: "Actual Amount",
+  });
+
   const { selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
     shallowEqual
@@ -22,6 +29,34 @@ function PrintRef({ componentRef, estimatePdaid }) {
 
   return (
     <>
+      <div className='row printSectionNone'>
+        <div className='col-lg-3 offset-lg-9'>
+          <label>Report Type</label>
+          <Select
+            placeholder='Select Renewal Type'
+            value={viewType}
+            onChange={(value) => {
+              setViewType(value);
+            }}
+            styles={customStyles}
+            isSearchable={true}
+            options={[
+              {
+                value: 'estimatedAmount',
+                label: "Estimated Amount",
+              },
+              {
+                value: 'customerFinalAmount',
+                label: "Customer Final Amount",
+              },
+              {
+                value: 'actualAmount',
+                label: "Actual Amount",
+              },
+            ]}
+          />
+        </div>
+      </div>
       {loading && <Loading />}
       <div ref={componentRef}>
         <div className='EstimatePDAView'>
@@ -120,7 +155,7 @@ function PrintRef({ componentRef, estimatePdaid }) {
                     <tr key={index}>
                       <td className='text-center'> {index + 1}</td>
                       <td>{item?.particularName}</td>
-                      <td className='text-right'>{item?.actualAmount}</td>
+                      <td className='text-right'>{item?.[`${viewType?.value}`]}</td>
                     </tr>
                   )
                 )}
@@ -131,7 +166,7 @@ function PrintRef({ componentRef, estimatePdaid }) {
                   <td className='text-right'>
                     <b>
                       {singleData?.shippingAgencyEstimatePdarowDtos?.reduce(
-                        (acc, curr) => acc + (+curr?.actualAmount || 0),
+                        (acc, curr) => acc + (+curr?.[`${viewType?.value}`] || 0),
                         0
                       )}
                     </b>
@@ -150,7 +185,7 @@ function PrintRef({ componentRef, estimatePdaid }) {
                 <b>In Word</b> :{" "}
                 {amountToWords(
                   singleData?.shippingAgencyEstimatePdarowDtos?.reduce(
-                    (acc, curr) => acc + (+curr?.actualAmount || 0),
+                    (acc, curr) => acc + (+curr?.[`${viewType?.value}`] || 0),
                     0
                   ) || 0
                 )}
