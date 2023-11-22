@@ -115,6 +115,7 @@ export const getExpenseParticularsList = async (setter, setLoading) => {
         customerFinalAmount: "",
         actualAmount: "",
         estimatePDABillCreateDtos: [],
+        isEditExpPart: false
       }))
     );
     setLoading(false);
