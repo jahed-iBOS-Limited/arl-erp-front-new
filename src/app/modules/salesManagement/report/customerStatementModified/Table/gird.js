@@ -7,6 +7,7 @@ import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
 function TableGird({ rowDto, values, buId }) {
   let GrandQuantity = 0;
   let GrandQuantityTon = 0;
+  let GrandQuantityBag = 0;
   let GrandAmount = 0;
 
   const colSpanLen =
@@ -34,6 +35,7 @@ function TableGird({ rowDto, values, buId }) {
             {values?.shippointDDL?.value === 0 && <th>Shippoint</th>}
             <th>UoM</th>
             <th>Quantity</th>
+            {buId === 4 && <th>Qnt (Bag)</th>}
             <th>Qnt (Ton)</th>
             <th>Rate</th>
             <th>Amount</th>
@@ -50,6 +52,10 @@ function TableGird({ rowDto, values, buId }) {
                 (acc, cur) => (acc += cur?.quantityInTon),
                 0
               );
+              GrandQuantityBag += itmOne?.objList?.reduce(
+                (acc, cur) => (acc += cur?.quantityInBag),
+                0
+              );
               GrandAmount += itmOne?.objList?.reduce(
                 (acc, cur) => (acc += cur?.deliveryValue),
                 0
@@ -60,10 +66,10 @@ function TableGird({ rowDto, values, buId }) {
                     <td
                       colSpan={
                         values?.shippointDDL?.value === 0
-                          ? buId === 175
+                          ? [4, 175].includes(buId)
                             ? 14
                             : 13
-                          : buId === 175
+                          : [4, 175].includes(buId)
                           ? 13
                           : 12
                       }
@@ -92,6 +98,11 @@ function TableGird({ rowDto, values, buId }) {
                         <td className="text-center">
                           {numberWithCommas(_fixedPoint(itm.deliveryQty))}
                         </td>
+                        {buId === 4 && (
+                          <td className="text-center">
+                            {numberWithCommas(itm?.quantityInBag || 0)}
+                          </td>
+                        )}
                         <td className="text-center">
                           {numberWithCommas(itm?.quantityInTon || 0)}
                         </td>
@@ -138,6 +149,24 @@ function TableGird({ rowDto, values, buId }) {
                     </td>
                     <td className="text-center">
                       <b>
+                        {_fixedPoint(
+                          itmOne?.objList?.reduce(
+                            (acc, cur) => (acc += cur?.quantityInBag),
+                            0
+                          )
+                        ) || 0}
+                      </b>
+                    </td>
+                    <td className="text-center">
+                      <b>
+                        {_fixedPoint(
+                          itmOne?.objList?.reduce(
+                            (acc, cur) => (acc += cur?.quantityInTon),
+                            0
+                          )
+                        )}
+                      </b>
+                      {/* <b>
                         {Number.isInteger(
                           _fixedPoint(
                             itmOne?.objList?.reduce(
@@ -162,7 +191,7 @@ function TableGird({ rowDto, values, buId }) {
                                 )
                               )
                             )}
-                      </b>
+                      </b> */}
                     </td>
                     <td></td>
                     <td className="text-right">
@@ -187,6 +216,9 @@ function TableGird({ rowDto, values, buId }) {
               </td>
               <td className="text-center">
                 <b>{numberWithCommas(_fixedPoint(GrandQuantity))}</b>
+              </td>
+              <td className="text-center">
+                <b>{_fixedPoint(GrandQuantityBag || 0)}</b>
               </td>
               <td className="text-center">
                 <b>{numberWithCommas(_fixedPoint(GrandQuantityTon))}</b>
