@@ -98,7 +98,7 @@ export default function _Form({
   };
 
   ///all of this code done by selim
-  console.log(gridItem);
+  
   const selectIndividualItem = (index) => {
     if (!allActivities) {
       let newRowdata = [...rowDto];
@@ -190,9 +190,7 @@ export default function _Form({
     return state.localStorage.preparepaymentIndex;
   });
 
-  const totalAmount = useCallback(
-    rowDto.reduce((acc, item) => acc + +item.monAmount, 0)
-  );
+ 
 
   const getLanding = (values) => {
     getPaymentAdviceIndoPagination(
@@ -470,6 +468,7 @@ export default function _Form({
                       disabled={!values?.billType}
                       type="button"
                       onClick={() => {
+                        setRowDto([]);
                         getLanding(values);
                       }}
                     >
@@ -527,7 +526,6 @@ export default function _Form({
                   setPreparePaymentLastAction = {setPreparePaymentLastAction}
                   setBankModelShow = {setBankModelShow}
                   setGridData = {setGridData}
-                  totalAmount = {totalAmount}
                   dispatch = {dispatch}
                /> 
                :
@@ -544,7 +542,6 @@ export default function _Form({
                   setPreparePaymentLastAction = {setPreparePaymentLastAction}
                   setBankModelShow = {setBankModelShow}
                   setGridData = {setGridData}
-                  totalAmount = {totalAmount}
                   dispatch = {dispatch}
              />
               }
