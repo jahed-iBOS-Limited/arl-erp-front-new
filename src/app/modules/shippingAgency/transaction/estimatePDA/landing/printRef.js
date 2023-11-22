@@ -11,7 +11,7 @@ function PrintRef({ componentRef, estimatePdaid }) {
   const [loading, setLoading] = React.useState(false);
   const [singleData, setSingleData] = React.useState({});
   const [viewType, setViewType] = React.useState({
-    value: 'actualAmount',
+    value: "actualAmount",
     label: "Actual Amount",
   });
 
@@ -42,15 +42,15 @@ function PrintRef({ componentRef, estimatePdaid }) {
             isSearchable={true}
             options={[
               {
-                value: 'estimatedAmount',
+                value: "estimatedAmount",
                 label: "Estimated Amount",
               },
               {
-                value: 'customerFinalAmount',
+                value: "customerFinalAmount",
                 label: "Customer Final Amount",
               },
               {
-                value: 'actualAmount',
+                value: "actualAmount",
                 label: "Actual Amount",
               },
             ]}
@@ -150,15 +150,17 @@ function PrintRef({ componentRef, estimatePdaid }) {
                 </tr>
               </thead>
               <tbody>
-                {singleData?.shippingAgencyEstimatePdarowDtos?.map(
-                  (item, index) => (
+                {singleData?.shippingAgencyEstimatePdarowDtos
+                  ?.filter((i) => i?.[`${viewType?.value}`])
+                  .map((item, index) => (
                     <tr key={index}>
                       <td className='text-center'> {index + 1}</td>
                       <td>{item?.particularName}</td>
-                      <td className='text-right'>{item?.[`${viewType?.value}`]}</td>
+                      <td className='text-right'>
+                        {item?.[`${viewType?.value}`]}
+                      </td>
                     </tr>
-                  )
-                )}
+                  ))}
                 <tr>
                   <td colSpan={2} className='text-right'>
                     <b>Total</b>
@@ -166,7 +168,8 @@ function PrintRef({ componentRef, estimatePdaid }) {
                   <td className='text-right'>
                     <b>
                       {singleData?.shippingAgencyEstimatePdarowDtos?.reduce(
-                        (acc, curr) => acc + (+curr?.[`${viewType?.value}`] || 0),
+                        (acc, curr) =>
+                          acc + (+curr?.[`${viewType?.value}`] || 0),
                         0
                       )}
                     </b>
