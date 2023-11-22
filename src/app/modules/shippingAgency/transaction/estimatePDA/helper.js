@@ -103,7 +103,6 @@ export const GetDomesticPortDDL = async (setter) => {
 
 export const getExpenseParticularsList = async (setter, setLoading) => {
   setLoading(true);
-
   try {
     const res = await axios.get(
       `${imarineBaseUrl}/domain/ASLLAgency/GetExpenseParticulars`
@@ -127,13 +126,13 @@ export const getExpenseParticularsList = async (setter, setLoading) => {
 export const createUpdateEstimatePDA = async (payload, setDisabled, cb) => {
   try {
     setDisabled(true);
-    await axios.post(
+    const res = await axios.post(
       `${imarineBaseUrl}/domain/ASLLAgency/CreateUpdateEstimatePDA`,
       payload
     );
 
     toast.success("Submitted Successfully");
-    cb();
+    cb(res?.data);
     setDisabled(false);
   } catch (error) {
     toast.error(error?.response?.data?.message);

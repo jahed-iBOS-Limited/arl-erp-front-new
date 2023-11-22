@@ -1,14 +1,18 @@
+import axios from "axios";
 import { Formik } from "formik";
 import { DropzoneDialogBase } from "material-ui-dropzone";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router";
 import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import ICustomCard from "../../../../_helper/_customCard";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import NewSelect from "../../../../_helper/_select";
+import IViewModal from "../../../../_helper/_viewModal";
 import {
   GetDomesticPortDDL,
   attachment_action,
@@ -19,10 +23,8 @@ import {
   getVesselDDL,
   getVoyageNoDDLApi,
 } from "../helper";
+import ViewInvoice from "../landing/viewInvoice";
 import RowTable from "./rowTable";
-import axios from "axios";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import { useParams } from "react-router";
 const initData = {
   sbu: "",
   vesselName: "",
@@ -69,7 +71,8 @@ const EstimatePDACreate = () => {
     profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
-
+  const [isViewModal, setViewModal] = React.useState(false);
+  const [viewClickRowItem, setViewClickRowItem] = React.useState({});
   useEffect(() => {
     if (accId && buId) {
       getVesselDDL(accId, buId, setVesselDDL);
@@ -164,11 +167,14 @@ const EstimatePDACreate = () => {
       }),
     };
 
-    createUpdateEstimatePDA(payload, setLoading, () => {
+    createUpdateEstimatePDA(payload, setLoading, (resData) => {
       cb();
       if (editId) {
         commonGetById();
       }
+      setViewClickRowItem({
+        estimatePdaid: resData?.estimatePdaId,
+      });
     });
   };
 
@@ -214,6 +220,7 @@ const EstimatePDACreate = () => {
     });
   };
 
+  console.log(viewClickRowItem)
   return (
     <>
       {loading && <Loading />}
@@ -249,6 +256,29 @@ const EstimatePDACreate = () => {
               resetHandler={() => {
                 resetForm(initData);
               }}
+              renderProps={
+                editId || !viewClickRowItem?.estimatePdaid
+                  ? false
+                  : () => {
+                      return (
+                        <>
+                          <button
+                            type='button'
+                            className='btn btn-primary px-3 py-2 ml-2'
+                            onClick={() => {
+                              setViewModal(true);
+                            }}
+                          >
+                            <i
+                              className='mr-1 fa fa-print pointer'
+                              aria-hidden='true'
+                            ></i>
+                            Print
+                          </button>
+                        </>
+                      );
+                    }
+              }
             >
               <div className='row global-form my-3'>
                 <div className='col-lg-3'>
@@ -429,6 +459,19 @@ const EstimatePDACreate = () => {
           </>
         )}
       </Formik>
+
+      {isViewModal && (
+        <>
+          <IViewModal
+            show={isViewModal}
+            onHide={() => {
+              setViewModal(false);
+            }}
+          >
+            <ViewInvoice estimatePdaid={viewClickRowItem?.estimatePdaid} />
+          </IViewModal>
+        </>
+      )}
     </>
   );
 };
