@@ -50,7 +50,7 @@ export default function HatchLaborBill() {
         values?.motherVessel?.value
       }&BillType=${billType}&PortId=${values?.port?.value || 0}&SupplierId=${
         values?.supplier?.value
-      }`,
+      }&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`,
       (resData) => {
         const modifyData = resData?.map((item) => {
           return {
