@@ -44,7 +44,10 @@ function PrintRef({ componentRef, estimatePdaid }) {
             </div>
             <div className='right'>
               <p>
-                <b>Date:</b> {}
+                <b>Date:</b>{" "}
+                {singleData?.lastActionDateTime
+                  ? moment(singleData?.lastActionDateTime).format("YYYY-MM-DD")
+                  : "N/A"}
               </p>
               <p>
                 <b>Vessel:</b> {singleData?.vesselName}
@@ -139,9 +142,11 @@ function PrintRef({ componentRef, estimatePdaid }) {
           </div>
           <div className='footer'>
             <div className='left'>
-              <p style={{
-                textTransform: "capitalize"
-              }}>
+              <p
+                style={{
+                  textTransform: "capitalize",
+                }}
+              >
                 <b>In Word</b> :{" "}
                 {amountToWords(
                   singleData?.shippingAgencyEstimatePdarowDtos?.reduce(
@@ -151,22 +156,25 @@ function PrintRef({ componentRef, estimatePdaid }) {
                 )}
               </p>
               <p>
-                <b>Beneficiary Name</b> : {selectedBusinessUnit?.label}
+                <b>Beneficiary Name</b> : {singleData?.beneficiaryName}
               </p>
               <p>
-                <b>Address </b>: {selectedBusinessUnit?.address}
+                <b>Address </b>: {singleData?.beneficiaryAddress}
               </p>
               <p>
-                <b>Bank Name</b> : Islami Bank Bangladesh Limited
+                <b>Bank Name</b> : {singleData?.bankName}
               </p>
               <p>
-                <b>Address</b> : Islami Bank Bangladesh Limited
+                <b>Address</b> : {singleData?.bankAddress}
               </p>
               <p>
-                <b>Account Number</b> : 20502130100113301
+                <b>Account Number</b> : {singleData?.bankAccNo}
               </p>
               <p>
-                <b>Account Name</b> : Akij Shipping Line Limited
+                <b>Account Name</b> : {singleData?.accountName}
+              </p>
+              <p>
+                <b>Swift Code</b> : {singleData?.swiftCode}
               </p>
             </div>
           </div>

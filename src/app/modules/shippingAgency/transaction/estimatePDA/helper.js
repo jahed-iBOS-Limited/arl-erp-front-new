@@ -152,3 +152,31 @@ export const getEstimatePDAById = async (id, setLoading, setter) => {
     setLoading(false);
   }
 };
+
+export const getBuUnitDDL = async (userId, clientId, setter) => {
+  try {
+    const res = await axios.get(`/domain/OrganizationalUnitUserPermission/GetBusinessUnitPermissionbyUser?UserId=${userId}&ClientId=${clientId}`)
+
+    if (res.status === 200 && res.data) {
+      const data = res?.data.map((itm) => ({
+        value: itm?.organizationUnitReffId,
+        label: itm?.organizationUnitReffName,
+        address: itm?.businessUnitAddress,
+      }))
+      setter(data)
+    }
+  } catch (error) {
+    
+  }
+};
+
+export const getBankAc = async (accId, BuId, setter) => {
+  try {
+    const res = await axios.get(
+      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${accId}&BusinssUnitId=${BuId}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) {}
+};

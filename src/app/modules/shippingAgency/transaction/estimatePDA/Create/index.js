@@ -17,6 +17,8 @@ import {
   GetDomesticPortDDL,
   attachment_action,
   createUpdateEstimatePDA,
+  getBankAc,
+  getBuUnitDDL,
   getEstimatePDAById,
   getExpenseParticularsList,
   getSBUListDDLApi,
@@ -35,6 +37,9 @@ const initData = {
   currency: "",
   exchangeRate: "",
   attachment: "",
+  accountNo: "",
+  beneficiaryName: "",
+  swiftCode: "",
 };
 
 const validationSchema = Yup.object().shape({
@@ -55,6 +60,15 @@ const validationSchema = Yup.object().shape({
     label: Yup.string().required("Currency is required"),
     value: Yup.string().required("Currency is required"),
   }),
+  accountNo: Yup.object().shape({
+    label: Yup.string().required("Account No is required"),
+    value: Yup.string().required("Account No is required"),
+  }),
+  beneficiaryName: Yup.object().shape({
+    label: Yup.string().required("Beneficiary Name is required"),
+    value: Yup.string().required("Beneficiary Name is required"),
+  }),
+  swiftCode: Yup.string().required("Swift Code is required"),
 });
 const EstimatePDACreate = () => {
   const [loading, setLoading] = useState(false);
@@ -65,6 +79,8 @@ const EstimatePDACreate = () => {
   const [voyageNoDDL, setVoyageNoDDL] = useState([]);
   const [rowDto, setRowDto] = useState([]);
   const [domesticPortDDL, setDomesticPortDDL] = useState([]);
+  const [unitDDL, setUnitDDL] = useState([]);
+  const [bankAcc, setBankAcc] = useState([]);
   const { editId } = useParams();
   // get user data from store
   const {
@@ -79,6 +95,8 @@ const EstimatePDACreate = () => {
       getSBUListDDLApi(accId, buId, setSbuDDL);
       getVoyageNoDDLApi(accId, buId, setVoyageNoDDL);
       GetDomesticPortDDL(setDomesticPortDDL);
+      getBuUnitDDL(userId, accId, setUnitDDL);
+      getBankAc(accId, buId, setBankAcc);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
@@ -130,6 +148,11 @@ const EstimatePDACreate = () => {
       accountId: accId,
       businessUnitId: buId,
       lastActionDateTime: new Date(),
+      beneficiaryId: values?.beneficiaryName?.value || 0,
+      beneficiaryName: values?.beneficiaryName?.label || "",
+      bankAccountId: values?.accountNo?.value || 0,
+      bankAccountName: values?.accountNo?.label || "",
+      swiftCode: values?.swiftCode || "",
       shippingAgencyEstimatePdarowDtos: rowDto?.map((item) => {
         return {
           estimatePdarowId: item?.estimatePdarowId || 0,
@@ -214,13 +237,20 @@ const EstimatePDACreate = () => {
             : "",
           exchangeRate: resData?.exchangeRate || "",
           attachment: resData?.attachmentsId || "",
+          accountNo: resData?.bankAccountId
+            ? { value: resData?.bankAccountId, label: resData?.bankAccountName }
+            : "",
+          beneficiaryName: resData?.beneficiaryId
+            ? { value: resData?.beneficiaryId, label: resData?.beneficiaryName }
+            : "",
+          swiftCode: resData?.swiftCode || "",
         });
         setRowDto(resData?.shippingAgencyEstimatePdarowDtos || []);
       }
     });
   };
 
-  console.log(viewClickRowItem)
+  console.log(viewClickRowItem);
   return (
     <>
       {loading && <Loading />}
@@ -308,7 +338,6 @@ const EstimatePDACreate = () => {
                     touched={touched}
                   />
                 </div>
-
                 <div className='col-lg-3'>
                   <NewSelect
                     value={values?.voyageNo || ""}
@@ -337,7 +366,6 @@ const EstimatePDACreate = () => {
                     touched={touched}
                   />
                 </div>
-
                 <div className='col-lg-3'>
                   <div>
                     <label>Customer Name</label>
@@ -379,6 +407,23 @@ const EstimatePDACreate = () => {
                     touched={touched}
                   />
                 </div>
+                <div className='col-lg-3'>
+                  <NewSelect
+                    value={values?.currency || ""}
+                    options={[
+                      { value: "BDT", label: "BDT" },
+                      { value: "USD", label: "USD" },
+                    ]}
+                    name='currency'
+                    placeholder='Currency'
+                    label='Currency'
+                    onChange={(valueOption) => {
+                      setFieldValue("currency", valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
                 {values?.currency?.value === "USD" && (
                   <>
                     <div className='col-lg-3'>
@@ -397,7 +442,46 @@ const EstimatePDACreate = () => {
                     </div>
                   </>
                 )}
-
+                <div className='col-lg-3'>
+                  <NewSelect
+                    value={values?.beneficiaryName || ""}
+                    options={unitDDL || []}
+                    name='beneficiaryName'
+                    placeholder='Beneficiary Name'
+                    label='Beneficiary Name'
+                    onChange={(valueOption) => {
+                      setFieldValue("beneficiaryName", valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>{" "}
+                <div className='col-lg-3'>
+                  <NewSelect
+                    value={values?.accountNo || ""}
+                    options={unitDDL || []}
+                    name='accountNo'
+                    placeholder='Account No'
+                    label='Account No'
+                    onChange={(valueOption) => {
+                      setFieldValue("accountNo", valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className='col-lg-3'>
+                  <InputField
+                    value={values?.swiftCode}
+                    label='Swift Code'
+                    placeholder='Swift Code'
+                    name='swiftCode'
+                    type='text'
+                    onChange={(e) => {
+                      setFieldValue("swiftCode", e.target.value);
+                    }}
+                  />
+                </div>
                 <div className='col-lg-3 d-flex align-items-center'>
                   <div className=''>
                     <button
