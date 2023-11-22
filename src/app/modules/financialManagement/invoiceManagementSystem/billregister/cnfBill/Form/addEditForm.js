@@ -38,7 +38,7 @@ export default function CNFBill() {
 
   const getData = (values) => {
     getGridData(
-      `/tms/LigterLoadUnload/GetGTOGProgramInfoForBillRegister?AccountId=${accId}&BusinessUnitId=${buId}&MotherVesselId=${values?.motherVessel?.value}&BillType=${billType}&SupplierId=${values?.supplier?.value}`,
+      `/tms/LigterLoadUnload/GetGTOGProgramInfoForBillRegister?AccountId=${accId}&BusinessUnitId=${buId}&MotherVesselId=${values?.motherVessel?.value}&BillType=${billType}&SupplierId=${values?.supplier?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`,
       (resData) => {
         const modifyData = resData?.map((item) => {
           return {
@@ -125,9 +125,9 @@ export default function CNFBill() {
   };
   const [objProps, setObjprops] = useState({});
   return (
-    <div className="purchaseInvoice">
+    <div className='purchaseInvoice'>
       <IForm
-        title="G2G CNF Bill"
+        title='G2G CNF Bill'
         getProps={setObjprops}
         isDisabled={loader || loading}
       >
