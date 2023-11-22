@@ -1,7 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
 
 const LandingTable = ({ obj }) => {
   const { gridData } = obj;
@@ -43,9 +42,9 @@ const LandingTable = ({ obj }) => {
                     <IEdit />
                   </span>
 
-                  <span onClick={() => {}}>
+                  {/* <span onClick={() => {}}>
                     <IView />
-                  </span>
+                  </span> */}
                 </div>
               </td>
             </tr>

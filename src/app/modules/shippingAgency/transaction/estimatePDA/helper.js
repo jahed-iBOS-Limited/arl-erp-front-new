@@ -103,7 +103,6 @@ export const GetDomesticPortDDL = async (setter) => {
 
 export const getExpenseParticularsList = async (setter, setLoading) => {
   setLoading(true);
-
   try {
     const res = await axios.get(
       `${imarineBaseUrl}/domain/ASLLAgency/GetExpenseParticulars`
@@ -115,6 +114,7 @@ export const getExpenseParticularsList = async (setter, setLoading) => {
         customerFinalAmount: "",
         actualAmount: "",
         estimatePDABillCreateDtos: [],
+        isEditExpPart: false
       }))
     );
     setLoading(false);
@@ -126,13 +126,13 @@ export const getExpenseParticularsList = async (setter, setLoading) => {
 export const createUpdateEstimatePDA = async (payload, setDisabled, cb) => {
   try {
     setDisabled(true);
-    await axios.post(
+    const res = await axios.post(
       `${imarineBaseUrl}/domain/ASLLAgency/CreateUpdateEstimatePDA`,
       payload
     );
 
     toast.success("Submitted Successfully");
-    cb();
+    cb(res?.data);
     setDisabled(false);
   } catch (error) {
     toast.error(error?.response?.data?.message);
@@ -151,4 +151,32 @@ export const getEstimatePDAById = async (id, setLoading, setter) => {
   } catch (error) {
     setLoading(false);
   }
+};
+
+export const getBuUnitDDL = async (userId, clientId, setter) => {
+  try {
+    const res = await axios.get(`/domain/OrganizationalUnitUserPermission/GetBusinessUnitPermissionbyUser?UserId=${userId}&ClientId=${clientId}`)
+
+    if (res.status === 200 && res.data) {
+      const data = res?.data.map((itm) => ({
+        value: itm?.organizationUnitReffId,
+        label: itm?.organizationUnitReffName,
+        address: itm?.businessUnitAddress,
+      }))
+      setter(data)
+    }
+  } catch (error) {
+    
+  }
+};
+
+export const getBankAc = async (accId, BuId, setter) => {
+  try {
+    const res = await axios.get(
+      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${accId}&BusinssUnitId=${BuId}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) {}
 };

@@ -1,28 +1,32 @@
+import axios from "axios";
 import { Formik } from "formik";
 import { DropzoneDialogBase } from "material-ui-dropzone";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router";
 import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import ICustomCard from "../../../../_helper/_customCard";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import NewSelect from "../../../../_helper/_select";
+import IViewModal from "../../../../_helper/_viewModal";
 import {
   GetDomesticPortDDL,
   attachment_action,
   createUpdateEstimatePDA,
+  getBankAc,
+  getBuUnitDDL,
   getEstimatePDAById,
   getExpenseParticularsList,
   getSBUListDDLApi,
   getVesselDDL,
   getVoyageNoDDLApi,
 } from "../helper";
+import ViewInvoice from "../landing/viewInvoice";
 import RowTable from "./rowTable";
-import axios from "axios";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import { useParams } from "react-router";
 const initData = {
   sbu: "",
   vesselName: "",
@@ -33,6 +37,9 @@ const initData = {
   currency: "",
   exchangeRate: "",
   attachment: "",
+  accountNo: "",
+  beneficiaryName: "",
+  swiftCode: "",
 };
 
 const validationSchema = Yup.object().shape({
@@ -53,6 +60,15 @@ const validationSchema = Yup.object().shape({
     label: Yup.string().required("Currency is required"),
     value: Yup.string().required("Currency is required"),
   }),
+  accountNo: Yup.object().shape({
+    label: Yup.string().required("Account No is required"),
+    value: Yup.string().required("Account No is required"),
+  }),
+  beneficiaryName: Yup.object().shape({
+    label: Yup.string().required("Beneficiary Name is required"),
+    value: Yup.string().required("Beneficiary Name is required"),
+  }),
+  swiftCode: Yup.string().required("Swift Code is required"),
 });
 const EstimatePDACreate = () => {
   const [loading, setLoading] = useState(false);
@@ -63,19 +79,24 @@ const EstimatePDACreate = () => {
   const [voyageNoDDL, setVoyageNoDDL] = useState([]);
   const [rowDto, setRowDto] = useState([]);
   const [domesticPortDDL, setDomesticPortDDL] = useState([]);
+  const [unitDDL, setUnitDDL] = useState([]);
+  const [bankAcc, setBankAcc] = useState([]);
   const { editId } = useParams();
   // get user data from store
   const {
     profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
-
+  const [isViewModal, setViewModal] = React.useState(false);
+  const [viewClickRowItem, setViewClickRowItem] = React.useState({});
   useEffect(() => {
     if (accId && buId) {
       getVesselDDL(accId, buId, setVesselDDL);
       getSBUListDDLApi(accId, buId, setSbuDDL);
       getVoyageNoDDLApi(accId, buId, setVoyageNoDDL);
       GetDomesticPortDDL(setDomesticPortDDL);
+      getBuUnitDDL(userId, accId, setUnitDDL);
+      getBankAc(accId, buId, setBankAcc);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
@@ -127,6 +148,11 @@ const EstimatePDACreate = () => {
       accountId: accId,
       businessUnitId: buId,
       lastActionDateTime: new Date(),
+      beneficiaryId: values?.beneficiaryName?.value || 0,
+      beneficiaryName: values?.beneficiaryName?.label || "",
+      bankAccountId: values?.accountNo?.value || 0,
+      bankAccountName: values?.accountNo?.label || "",
+      swiftCode: values?.swiftCode || "",
       shippingAgencyEstimatePdarowDtos: rowDto?.map((item) => {
         return {
           estimatePdarowId: item?.estimatePdarowId || 0,
@@ -164,11 +190,14 @@ const EstimatePDACreate = () => {
       }),
     };
 
-    createUpdateEstimatePDA(payload, setLoading, () => {
+    createUpdateEstimatePDA(payload, setLoading, (resData) => {
       cb();
       if (editId) {
         commonGetById();
       }
+      setViewClickRowItem({
+        estimatePdaid: resData?.estimatePdaId,
+      });
     });
   };
 
@@ -208,12 +237,20 @@ const EstimatePDACreate = () => {
             : "",
           exchangeRate: resData?.exchangeRate || "",
           attachment: resData?.attachmentsId || "",
+          accountNo: resData?.bankAccountId
+            ? { value: resData?.bankAccountId, label: resData?.bankAccountName }
+            : "",
+          beneficiaryName: resData?.beneficiaryId
+            ? { value: resData?.beneficiaryId, label: resData?.beneficiaryName }
+            : "",
+          swiftCode: resData?.swiftCode || "",
         });
         setRowDto(resData?.shippingAgencyEstimatePdarowDtos || []);
       }
     });
   };
 
+  console.log(viewClickRowItem);
   return (
     <>
       {loading && <Loading />}
@@ -249,6 +286,29 @@ const EstimatePDACreate = () => {
               resetHandler={() => {
                 resetForm(initData);
               }}
+              renderProps={
+                editId || !viewClickRowItem?.estimatePdaid
+                  ? false
+                  : () => {
+                      return (
+                        <>
+                          <button
+                            type='button'
+                            className='btn btn-primary px-3 py-2 ml-2'
+                            onClick={() => {
+                              setViewModal(true);
+                            }}
+                          >
+                            <i
+                              className='mr-1 fa fa-print pointer'
+                              aria-hidden='true'
+                            ></i>
+                            Print
+                          </button>
+                        </>
+                      );
+                    }
+              }
             >
               <div className='row global-form my-3'>
                 <div className='col-lg-3'>
@@ -278,7 +338,6 @@ const EstimatePDACreate = () => {
                     touched={touched}
                   />
                 </div>
-
                 <div className='col-lg-3'>
                   <NewSelect
                     value={values?.voyageNo || ""}
@@ -307,7 +366,6 @@ const EstimatePDACreate = () => {
                     touched={touched}
                   />
                 </div>
-
                 <div className='col-lg-3'>
                   <div>
                     <label>Customer Name</label>
@@ -349,6 +407,23 @@ const EstimatePDACreate = () => {
                     touched={touched}
                   />
                 </div>
+                <div className='col-lg-3'>
+                  <NewSelect
+                    value={values?.currency || ""}
+                    options={[
+                      { value: "BDT", label: "BDT" },
+                      { value: "USD", label: "USD" },
+                    ]}
+                    name='currency'
+                    placeholder='Currency'
+                    label='Currency'
+                    onChange={(valueOption) => {
+                      setFieldValue("currency", valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
                 {values?.currency?.value === "USD" && (
                   <>
                     <div className='col-lg-3'>
@@ -367,7 +442,46 @@ const EstimatePDACreate = () => {
                     </div>
                   </>
                 )}
-
+                <div className='col-lg-3'>
+                  <NewSelect
+                    value={values?.beneficiaryName || ""}
+                    options={unitDDL || []}
+                    name='beneficiaryName'
+                    placeholder='Beneficiary Name'
+                    label='Beneficiary Name'
+                    onChange={(valueOption) => {
+                      setFieldValue("beneficiaryName", valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>{" "}
+                <div className='col-lg-3'>
+                  <NewSelect
+                    value={values?.accountNo || ""}
+                    options={unitDDL || []}
+                    name='accountNo'
+                    placeholder='Account No'
+                    label='Account No'
+                    onChange={(valueOption) => {
+                      setFieldValue("accountNo", valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className='col-lg-3'>
+                  <InputField
+                    value={values?.swiftCode}
+                    label='Swift Code'
+                    placeholder='Swift Code'
+                    name='swiftCode'
+                    type='text'
+                    onChange={(e) => {
+                      setFieldValue("swiftCode", e.target.value);
+                    }}
+                  />
+                </div>
                 <div className='col-lg-3 d-flex align-items-center'>
                   <div className=''>
                     <button
@@ -429,6 +543,19 @@ const EstimatePDACreate = () => {
           </>
         )}
       </Formik>
+
+      {isViewModal && (
+        <>
+          <IViewModal
+            show={isViewModal}
+            onHide={() => {
+              setViewModal(false);
+            }}
+          >
+            <ViewInvoice estimatePdaid={viewClickRowItem?.estimatePdaid} />
+          </IViewModal>
+        </>
+      )}
     </>
   );
 };

@@ -86,7 +86,7 @@ const LandingTable = ({ obj }) => {
               setViewClickRowItem({});
             }}
           >
-            <ViewInvoice viewClickRowItem={viewClickRowItem} />
+            <ViewInvoice estimatePdaid={viewClickRowItem?.estimatePdaid} />
           </IViewModal>
         </>
       )}

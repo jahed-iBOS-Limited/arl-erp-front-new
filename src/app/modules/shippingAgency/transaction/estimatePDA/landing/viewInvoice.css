@@ -1,0 +1,25 @@
+
+.EstimatePDAView .EstimatePDAViewTopBar {
+  text-align: center;
+  display: block !important;
+}
+
+.EstimatePDAView .EstimatePDAViewTopBar h6 {
+  border-bottom: 1px solid #000;
+}
+.EstimatePDAView .EstimatePDAheaderInfo {
+  display: flex !important;
+  justify-content: space-between;
+}
+.EstimatePDAView .EstimatePDAheaderInfo p {
+  margin: 0;
+}
+.EstimatePDAView .footer p {
+  margin: 0;
+  padding: 1px 0;
+}
+
+.EstimatePDAView .footer p b{
+  width: 130px;
+  display: inline-block;
+}
