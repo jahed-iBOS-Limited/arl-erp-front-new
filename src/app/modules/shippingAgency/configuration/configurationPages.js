@@ -15,6 +15,10 @@ export function ConfigurationPages() {
         to='/ShippingAgency/Configuration'
       />
       <ContentRoute
+        path='/ShippingAgency/Configuration/Registration/view/:viewId'
+        component={EstimatePDACreate}
+      />{" "}
+      <ContentRoute
         path='/ShippingAgency/Configuration/Registration/edit/:editId'
         component={EstimatePDACreate}
       />{" "}

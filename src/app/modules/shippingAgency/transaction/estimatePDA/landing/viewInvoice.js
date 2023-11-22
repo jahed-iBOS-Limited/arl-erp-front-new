@@ -1,38 +1,42 @@
-import React, { useEffect } from "react";
+import React, { useRef } from "react";
+import { useReactToPrint } from "react-to-print";
 import ICustomCard from "../../../../_helper/_customCard";
-import { getEstimatePDAById } from "../helper";
-import Loading from "../../../../_helper/_loading";
-import { shallowEqual, useSelector } from "react-redux";
-
-function ViewInvoice({ viewClickRowItem }) {
-  const [loading, setLoading] = React.useState(false);
-  const [singleData, setSingleData] = React.useState({});
-  const { profileData, selectedBusinessUnit } = useSelector(
-    (state) => state?.authData,
-    shallowEqual
-  );
-  useEffect(() => {
-    if (viewClickRowItem?.estimatePdaid) {
-      getEstimatePDAById(
-        viewClickRowItem?.estimatePdaid,
-        setLoading,
-        (resData) => {
-          setSingleData(resData);
-        }
-      );
-    }
-  }, [viewClickRowItem]);
+import PrintRef from "./printRef";
+import "./viewInvoice.css";
+function ViewInvoice({ estimatePdaid }) {
+  
+  console.log(estimatePdaid)
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+    documentTitle: "Estimate PDA ",
+    pageStyle:
+      "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}",
+  });
 
   return (
     <>
-      {loading && <Loading />}
-      <ICustomCard title='Estimate PDA View'>
-        <div>
-          <div className='topBar'>
-            <h1>{selectedBusinessUnit?.label}</h1>
-            <h6>Final Port Disbursement Account</h6>
-          </div>
-        </div>
+      <ICustomCard
+        title='Estimate PDA View'
+        renderProps={() => {
+          return (
+            <>
+              <button
+                type='button'
+                className='btn btn-primary px-3 py-2'
+                onClick={handlePrint}
+              >
+                <i className='mr-1 fa fa-print pointer' aria-hidden='true'></i>
+                Print
+              </button>
+            </>
+          );
+        }}
+      >
+        <PrintRef
+          componentRef={componentRef}
+          estimatePdaid={estimatePdaid}
+        />
       </ICustomCard>
     </>
   );
