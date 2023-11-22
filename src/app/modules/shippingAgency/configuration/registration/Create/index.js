@@ -13,6 +13,7 @@ import {
   GetDomesticPortDDL,
   createUpdateASLLAgencyRegistration,
   getASLLAgencyRegistrationById,
+  getCargoDDL,
   getVesselDDL,
   getVesselTypeDDL,
 } from "../helper";
@@ -73,6 +74,7 @@ const EstimatePDACreate = () => {
   const [vesselDDL, setVesselDDL] = useState([]);
   const [rowDto, setRowDto] = useState([]);
   const [vesselTypeDDL, setVesselTypeDDL] = useState([]);
+  const [cargoDDL, setCargoDDL] = useState([]);
   const { editId, viewId } = useParams();
 
   // get user data from store
@@ -85,6 +87,7 @@ const EstimatePDACreate = () => {
     if (accId && buId) {
       getVesselDDL(accId, buId, setVesselDDL);
       getVesselTypeDDL(accId, buId, setVesselTypeDDL);
+      getCargoDDL(setCargoDDL);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
@@ -363,16 +366,7 @@ const EstimatePDACreate = () => {
                 <div className='col-lg-3'>
                   <NewSelect
                     value={values?.cargoName || ""}
-                    options={[
-                      {
-                        value: 1,
-                        label: "Clinker",
-                      },
-                      {
-                        value: 2,
-                        label: "Limestone",
-                      },
-                    ]}
+                    options={cargoDDL}
                     name='cargoName'
                     placeholder='Cargo Name'
                     label='Cargo Name'
