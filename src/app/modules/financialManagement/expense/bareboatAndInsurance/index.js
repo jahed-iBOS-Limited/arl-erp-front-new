@@ -1,437 +1,388 @@
-import { Field, Form, Formik } from 'formik';
-import React, { useEffect, useState } from 'react';
-import { shallowEqual, useSelector } from 'react-redux';
-import { _dateFormatter } from '../../../_helper/_dateFormate';
-import InputField from '../../../_helper/_inputField';
-import { _monthFirstDate } from '../../../_helper/_monthFirstDate';
-import NewSelect from '../../../_helper/_select';
-import PaginationTable from '../../../_helper/_tablePagination';
-import { _todayDate } from '../../../_helper/_todayDate';
-import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
-import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
-import IForm from './../../../_helper/_form';
-import Loading from './../../../_helper/_loading';
-import { _formatMoney } from '../../../_helper/_formatMoney';
+import { Field, Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
+import InputField from "../../../_helper/_inputField";
+import { _monthFirstDate } from "../../../_helper/_monthFirstDate";
+import NewSelect from "../../../_helper/_select";
+import PaginationTable from "../../../_helper/_tablePagination";
+import { _todayDate } from "../../../_helper/_todayDate";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import IForm from "./../../../_helper/_form";
+import Loading from "./../../../_helper/_loading";
+import { _formatMoney } from "../../../_helper/_formatMoney";
 
 const initData = {
-   vessel: '',
-   fromDate: _monthFirstDate(),
-   toDate: _todayDate(),
-   allSelect: false,
+  vessel: "",
+  fromDate: _monthFirstDate(),
+  toDate: _todayDate(),
+  allSelect: false,
 };
 
 export default function BareboatAndInsurancelanding() {
-   const { profileData, selectedBusinessUnit } = useSelector(state => {
-      return state.authData;
-   }, shallowEqual);
-   const [viewType, setViewType] = useState(1);
-   const [pageNo, setPageNo] = React.useState(0);
-   const [pageSize, setPageSize] = React.useState(75);
-   const [gridData, getGridData, gridLoading, setGridData] = useAxiosGet([]);
-   const [, createJournalPosting] = useAxiosPost();
-   const [
-      vesselAssetDDL,
-      getVesselAssetDDL,
-      vesselAssetLoading,
-   ] = useAxiosGet();
+  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
+  const [viewType, setViewType] = useState(1);
+  const [pageNo, setPageNo] = React.useState(0);
+  const [pageSize, setPageSize] = React.useState(75);
+  const [gridData, getGridData, gridLoading, setGridData] = useAxiosGet([]);
+  const [, createJournalPosting] = useAxiosPost();
+  const [vesselAssetDDL, getVesselAssetDDL, vesselAssetLoading] = useAxiosGet();
 
-   const landingData = values => {
-      getGridData(
-         `/fino/BareBoatManagement/BareboatAndInsuranceJournalLinding?IntCategoryId=${
-            viewType === 1 ? 1 : 2
-         }&IntBusinessUnitId=${selectedBusinessUnit?.value}&IntVesselId=${
-            values?.vessel?.value
-         }&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}&DteFromDate=${
-            values?.fromDate
-         }&DteToDate=${values?.toDate}`,
-         res => {
-            const modifyGridData = res?.data?.map(itm => ({
-               ...itm,
-               itemCheck: false,
-            }));
+  const landingData = (values) => {
+    getGridData(
+      `/fino/BareBoatManagement/BareboatAndInsuranceJournalLinding?IntCategoryId=${
+        viewType === 1 ? 1 : viewType === 2 ? 2 : 3
+      }&IntBusinessUnitId=${selectedBusinessUnit?.value}&IntVesselId=${
+        values?.vessel?.value
+      }&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}&DteFromDate=${
+        values?.fromDate
+      }&DteToDate=${values?.toDate}`,
+      (res) => {
+        const modifyGridData = res?.data?.map((itm) => ({
+          ...itm,
+          itemCheck: false,
+        }));
+        setGridData({
+          ...res,
+          data: modifyGridData,
+        });
+      }
+    );
+  };
 
-            setGridData({
-               ...res,
-               data: modifyGridData,
-            });
-         }
-      );
-   };
+  const setPositionHandler = (pageNo, pageSize, values) => {
+    getGridData(
+      `/fino/BareBoatManagement/BareboatAndInsuranceJournalLinding?IntCategoryId=${
+        viewType === 1 ? 1 : viewType === 2 ? 2 : 3
+      }&IntBusinessUnitId=${selectedBusinessUnit?.value}&IntVesselId=${
+        values?.vessel?.value
+      }&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}&DteFromDate=${
+        values?.fromDate
+      }&DteToDate=${values?.toDate}`,
+      (res) => {
+        const modifyGridData = res?.data?.map((itm) => ({
+          ...itm,
+          itemCheck: false,
+        }));
 
-   const setPositionHandler = (pageNo, pageSize, values) => {
-      getGridData(
-         `/fino/BareBoatManagement/BareboatAndInsuranceJournalLinding?IntCategoryId=${
-            viewType === 1 ? 1 : 2
-         }&IntBusinessUnitId=${selectedBusinessUnit?.value}&IntVesselId=${
-            values?.vessel?.value
-         }&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}&DteFromDate=${
-            values?.fromDate
-         }&DteToDate=${values?.toDate}`,
-         res => {
-            const modifyGridData = res?.data?.map(itm => ({
-               ...itm,
-               itemCheck: false,
-            }));
+        setGridData({
+          ...res,
+          data: modifyGridData,
+        });
+      }
+    );
+  };
+  const saveHandler = (values, cb) => {};
 
-            setGridData({
-               ...res,
-               data: modifyGridData,
-            });
-         }
-      );
-   };
-   const saveHandler = (values, cb) => {};
+  useEffect(() => {
+    getVesselAssetDDL(
+      `/asset/Asset/GetAssetVesselDdl?IntBussinessUintId=${selectedBusinessUnit?.value}`
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const itemSlectedHandler = (value, index) => {
+    const mainData = gridData;
+    const copyRowDto = [...mainData?.data];
+    copyRowDto[index].itemCheck = !copyRowDto[index].itemCheck;
+    setGridData({
+      ...mainData,
+      data: copyRowDto,
+    });
+  };
 
-   useEffect(() => {
-      getVesselAssetDDL(
-         `/asset/Asset/GetAssetVesselDdl?IntBussinessUintId=${selectedBusinessUnit?.value}`
-      );
-     
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, []);
-   const itemSlectedHandler = (value, index) => {
-      const mainData = gridData;
-      const copyRowDto = [...mainData?.data];
-      copyRowDto[index].itemCheck = !copyRowDto[index].itemCheck;
-      setGridData({
-         ...mainData,
-         data: copyRowDto,
-      });
-   };
+  const allGridCheck = (value) => {
+    const mainData = gridData;
+    const modifyGridData = mainData?.data?.map((itm) => ({
+      ...itm,
+      itemCheck: value,
+    }));
+    setGridData({
+      ...mainData,
+      data: modifyGridData,
+    });
+  };
 
-   const allGridCheck = value => {
-      const mainData = gridData;
-      const modifyGridData = mainData?.data?.map(itm => ({
-         ...itm,
-         itemCheck: value,
-      }));
-      setGridData({
-         ...mainData,
-         data: modifyGridData,
-      });
-   };
+  const totalAmount = gridData?.data?.reduce((acc, item) => {
+    if (item?.itemCheck) {
+      return acc + (item?.numAmount || 0);
+    } else {
+      return acc;
+    }
+  }, 0);
 
-   const totalAmount = gridData?.data
-      ?.reduce((acc, item) => {
-         if (item?.itemCheck) {
-            return acc + (item?.numAmount || 0);
-         } else {
-            return acc;
-         }
-      }, 0)
-    
-    const intConfigIds = gridData?.data?.filter(item => item?.itemCheck)?.map(item => item?.id)
+  const intConfigIds = gridData?.data
+    ?.filter((item) => item?.itemCheck)
+    ?.map((item) => item?.id);
 
+  return (
+    <Formik
+      enableReinitialize={true}
+      initialValues={initData}
+      onSubmit={(values, { setSubmitting, resetForm }) => {
+        saveHandler(values, () => {
+          resetForm(initData);
+        });
+      }}
+    >
+      {({
+        handleSubmit,
+        resetForm,
+        values,
+        setFieldValue,
+        isValid,
+        errors,
+        touched,
+      }) => (
+        <>
+          {(gridLoading || vesselAssetLoading) && <Loading />}
+          <IForm
+            title="Bareboat And Insurance"
+            isHiddenReset
+            isHiddenBack
+            isHiddenSave
+            renderProps={() => {
+              return <div></div>;
+            }}
+          >
+            <Form>
+              <div className="col-lg-4 mb-2 mt-5">
+                <label className="mr-3">
+                  <input
+                    type="radio"
+                    name="viewType"
+                    checked={viewType === 1}
+                    className="mr-1 pointer"
+                    style={{ position: "relative", top: "2px" }}
+                    onChange={(valueOption) => {
+                      setViewType(1);
+                      setGridData([]);
+                    }}
+                  />
+                  Bareboat Management
+                </label>
+                <label className="mr-3">
+                  <input
+                    type="radio"
+                    name="viewType"
+                    checked={viewType === 2}
+                    className="mr-1 pointer"
+                    style={{ position: "relative", top: "2px" }}
+                    onChange={(e) => {
+                      setViewType(2);
+                      setGridData([]);
+                    }}
+                  />
+                  Insurance
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="viewType"
+                    checked={viewType === 3}
+                    className="mr-1 pointer"
+                    style={{ position: "relative", top: "2px" }}
+                    onChange={(e) => {
+                      setViewType(3);
+                      setGridData([]);
+                    }}
+                  />
+                  Dry Doc
+                </label>
+              </div>
+              <div className="form-group  global-form row">
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="vessel"
+                    options={vesselAssetDDL || []}
+                    value={values?.vessel}
+                    label="Vessel"
+                    onChange={(valueOption) => {
+                      setFieldValue("vessel", valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
 
-   return (
-      <Formik
-         enableReinitialize={true}
-         initialValues={initData}
-         onSubmit={(values, { setSubmitting, resetForm }) => {
-            saveHandler(values, () => {
-               resetForm(initData);
-            });
-         }}
-      >
-         {({
-            handleSubmit,
-            resetForm,
-            values,
-            setFieldValue,
-            isValid,
-            errors,
-            touched,
-         }) => (
-            <>
-               {( gridLoading || vesselAssetLoading) && <Loading />}
-               <IForm
-                  title="Bareboat And Insurance"
-                  isHiddenReset
-                  isHiddenBack
-                  isHiddenSave
-                  renderProps={() => {
-                     return (
-                        <div>
-                           {/* <button
-                                        type="button"
-                                        className="btn btn-primary"
-                                        onClick={() => {
-                                            history.push("/financial-management/expense/VesselInsuranceNBareboat/create");
-                                        }}
-                                    >
-                                        Create
-                                    </button> */}
-                        </div>
-                     );
-                  }}
-               >
-                  <Form>
-                     <div className="col-lg-4 mb-2 mt-5">
-                        <label className="mr-3">
-                           <input
-                              type="radio"
-                              name="viewType"
-                              checked={viewType === 1}
-                              className="mr-1 pointer"
-                              style={{ position: 'relative', top: '2px' }}
-                              onChange={valueOption => {
-                                 setViewType(1);
-                                 setGridData([]);
+                <div className="col-lg-2">
+                  <label>From Date</label>
+                  <InputField
+                    value={values?.fromDate}
+                    name="fromDate"
+                    placeholder="From Date"
+                    type="date"
+                    onChange={(e) => {
+                      setFieldValue("fromDate", e?.target?.value);
+                    }}
+                  />
+                </div>
+                <div className="col-lg-2">
+                  <label>To Date</label>
+                  <InputField
+                    value={values?.toDate}
+                    name="toDate"
+                    placeholder="To Date"
+                    type="date"
+                    onChange={(e) => {
+                      setFieldValue("toDate", e?.target?.value);
+                    }}
+                  />
+                </div>
+
+                <div className="col-lg-3 d-flex mr-1">
+                  <button
+                    style={{ marginTop: "20px" }}
+                    onClick={() => {
+                      landingData(values);
+                    }}
+                    className="btn btn-primary"
+                    type="button"
+                    disabled={!values?.vessel}
+                  >
+                    Show
+                  </button>
+                  <button
+                    style={{ marginTop: "20px", marginLeft: "10px" }}
+                    onClick={() => {
+                      const payload = {
+                        intBusinessUnitId: selectedBusinessUnit?.value || 0,
+                        numAmount: +totalAmount || 0,
+                        intConfigId: intConfigIds || [],
+                        intVesselId: values?.vessel?.value || 0,
+                        dteFromDate: values?.fromDate,
+                        dteToDate: values?.toDate,
+                        intActionBy: profileData?.userId,
+                        intTypeId: viewType === 1 ? 1 : 2,
+                      };
+                      createJournalPosting(
+                        `/fino/BareBoatManagement/BareboatAndInsurenceTransaction`,
+                        payload,
+                        () => {},
+                        true
+                      );
+                    }}
+                    className="btn btn-primary"
+                    type="button"
+                    disabled={!intConfigIds || !intConfigIds?.length}
+                  >
+                    Journal Vouchar
+                  </button>
+                </div>
+                <div className="col-lg-12 text-right">
+                  <h5 className="mt-5 font-weight-bold">
+                    Total Amount: {totalAmount ? _formatMoney(totalAmount) : 0}
+                  </h5>
+                </div>
+              </div>
+
+              <table className="table table-striped table-bordered bj-table bj-table-landing mt-3">
+                <thead>
+                  <tr>
+                    <th style={{ width: "90px" }}>
+                      <input
+                        type="checkbox"
+                        id="parent"
+                        onChange={(event) => {
+                          allGridCheck(event.target.checked);
+                        }}
+                      />
+                    </th>
+                    <th>SL</th>
+                    <th>Vessel Name</th>
+                    <th>Particulars </th>
+                    <th>Fee Per Day/Month </th>
+                    <th>Dif Days</th>
+                    <th>Amount</th>
+                    <th>Base Type </th>
+                    <th>Duration </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {gridData?.data?.map((item, index) => (
+                    <tr key={index}>
+                      <td>
+                        <Field
+                          name={values.itemCheck}
+                          component={() => (
+                            <input
+                              id="itemCheck"
+                              type="checkbox"
+                              className="ml-2"
+                              value={item.itemCheck}
+                              checked={item.itemCheck}
+                              name={item.itemCheck}
+                              onChange={(e) => {
+                                itemSlectedHandler(e.target.checked, index);
                               }}
-                           />
-                           Bareboat Management
-                        </label>
-                        <label>
-                           <input
-                              type="radio"
-                              name="viewType"
-                              checked={viewType === 2}
-                              className="mr-1 pointer"
-                              style={{ position: 'relative', top: '2px' }}
-                              onChange={e => {
-                                 setViewType(2);
-                                 setGridData([]);
-                              }}
-                           />
-                           Insurance
-                        </label>
-                     </div>
-                     <div className="form-group  global-form row">
-                        <div className="col-lg-3">
-                           <NewSelect
-                              name="vessel"
-                              options={vesselAssetDDL || []}
-                              value={values?.vessel}
-                              label="Vessel"
-                              onChange={valueOption => {
-                                 setFieldValue('vessel', valueOption);
-                              }}
-                              errors={errors}
-                              touched={touched}
-                           />
-                        </div>
-
-                        <div className="col-lg-2">
-                           <label>From Date</label>
-                           <InputField
-                              value={values?.fromDate}
-                              name="fromDate"
-                              placeholder="From Date"
-                              type="date"
-                              onChange={e => {
-                                 setFieldValue('fromDate', e?.target?.value);
-                              }}
-                           />
-                        </div>
-                        <div className="col-lg-2">
-                           <label>To Date</label>
-                           <InputField
-                              value={values?.toDate}
-                              name="toDate"
-                              placeholder="To Date"
-                              type="date"
-                              onChange={e => {
-                                 setFieldValue('toDate', e?.target?.value);
-                              }}
-                           />
-                        </div>
-
-                        <div className="col-lg-3 d-flex mr-1">
-                           <button
-                              style={{ marginTop: '20px' }}
-                              onClick={() => {
-                                 landingData(values);
-                              }}
-                              className="btn btn-primary"
-                              type="button"
-                              disabled={!values?.vessel}
-                           >
-                              Show
-                           </button>
-                           <button
-                              style={{ marginTop: '20px', marginLeft: '10px' }}
-                              onClick={() => {
-                                 const payload = {
-                                    intBusinessUnitId:
-                                       selectedBusinessUnit?.value || 0,
-                                    numAmount: +totalAmount || 0,
-                                    intConfigId: intConfigIds || [],
-                                    intVesselId: values?.vessel?.value || 0,
-                                    dteFromDate: values?.fromDate,
-                                    dteToDate: values?.toDate,
-                                    intActionBy: profileData?.userId,
-                                    intTypeId: viewType === 1 ? 1 : 2
-                                 };
-                                 createJournalPosting(
-                                    `/fino/BareBoatManagement/BareboatAndInsurenceTransaction`,
-                                    payload,
-                                    () => {},
-                                    true
-                                 );
-                              }}
-                              className="btn btn-primary"
-                              type="button"
-                              disabled={!intConfigIds || !intConfigIds?.length}
-                           >
-                              Journal Vouchar
-                           </button>
-                        </div>
-                        <div className="col-lg-12 text-right">
-                           <h5 className="mt-5 font-weight-bold">
-                              Total Amount: {totalAmount ? _formatMoney(totalAmount) : 0}
-                           </h5>
-                        </div>
-                     </div>
-
-                     <table className="table table-striped table-bordered bj-table bj-table-landing mt-3">
-                        <thead>
-                           <tr>
-                              {/* <th
-                                 onClick={() => {
-                                    allSelect(!allCheck(values));
-                                 }}
-                                 className="text-center"
-                                 style={{ width: '40px' }}
-                              >
-                                 <input
-                                    type="checkbox"
-                                    name="allSelect"
-                                    id="allSelect"
-                                    checked={allCheck(values)}
-                                 />
-                              </th> */}
-                              <th style={{ width: '90px' }}>
-                                 <input
-                                    type="checkbox"
-                                    id="parent"
-                                    onChange={event => {
-                                       allGridCheck(event.target.checked);
-                                    }}
-                                 />
-                              </th>
-                              <th>SL</th>
-                              <th>Vessel Name</th>
-                              <th>Particulars </th>
-                              <th>Fee Per Day/Month </th>
-                              <th>Dif Days</th>
-                              <th>Amount</th>
-                              <th>Base Type </th>
-                              <th>Duration </th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           {gridData?.data?.map((item, index) => (
-                              <tr key={index}>
-                                 {/* <td
-                                    onClick={() => {
-                                       modifyRowData(
-                                          'isSelect',
-                                          index,
-                                          !item?.isSelect
-                                       );
-                                       allCheck(values);
-                                    }}
-                                    className="text-center"
-                                 >
-                                    <input
-                                       id="isSelect"
-                                       type="checkbox"
-                                       value={item?.isSelect}
-                                       checked={item?.isSelect}
-                                    />
-                                 </td> */}
-                                 <td>
-                                    <Field
-                                       name={values.itemCheck}
-                                       component={() => (
-                                          <input
-                                             id="itemCheck"
-                                             type="checkbox"
-                                             className="ml-2"
-                                             value={item.itemCheck}
-                                             checked={item.itemCheck}
-                                             name={item.itemCheck}
-                                             onChange={e => {
-                                                //setFieldValue("itemCheck", e.target.checked);
-                                                itemSlectedHandler(
-                                                   e.target.checked,
-                                                   index
-                                                );
-                                             }}
-                                          />
-                                       )}
-                                       label="Transshipment"
-                                    />
-                                 </td>
-                                 <td>
-                                    <div className="text-left">{index + 1}</div>
-                                 </td>
-                                 <td>
-                                    <div className="text-left">
-                                       {item?.strVesselName}
-                                    </div>
-                                 </td>
-                                 <td>
-                                    <div className="text-left">
-                                       {viewType === 1
-                                          ? item?.strBusinessTransactionName
-                                          : item?.strSupplierName}
-                                    </div>
-                                 </td>
-                                 <td>
-                                    <div className="text-right">
-                                       {item?.numRate ? _formatMoney(item?.numRate) : 0}
-                                    </div>
-                                 </td>
-                                 <td>
-                                    <div className="text-right">
-                                       {item?.daysDifference}
-                                    </div>
-                                 </td>
-                                 <td>
-                                    <div className="text-right">
-                                       {item?.numAmount ? _formatMoney(item?.numAmount) : 0}
-                                    </div>
-                                 </td>
-                                 <td>
-                                    <div className="text-center">
-                                       {item?.strBaseName}
-                                    </div>
-                                 </td>
-                                 <td>
-                                    <div className="text-center">
-                                       {viewType === 2
-                                          ? `${_dateFormatter(
-                                               item?.dteFromDate
-                                            )} - ${_dateFormatter(
-                                               item?.dteToDate
-                                            )}`
-                                          : ''}
-                                    </div>
-                                 </td>
-                              </tr>
-                           ))}
-                        </tbody>
-                     </table>
-
-                     {/* Pagination Code */}
-                     {gridData?.data?.length > 0 && (
-                        <PaginationTable
-                           count={gridData?.totalCount}
-                           values={values}
-                           setPositionHandler={setPositionHandler}
-                           paginationState={{
-                              pageNo,
-                              setPageNo,
-                              pageSize,
-                              setPageSize,
-                           }}
+                            />
+                          )}
+                          label="Transshipment"
                         />
-                     )}
-                  </Form>
-               </IForm>
-            </>
-         )}
-      </Formik>
-   );
+                      </td>
+                      <td>
+                        <div className="text-left">{index + 1}</div>
+                      </td>
+                      <td>
+                        <div className="text-left">{item?.strVesselName}</div>
+                      </td>
+                      <td>
+                        <div className="text-left">
+                          {viewType === 1
+                            ? item?.strBusinessTransactionName
+                            : item?.strSupplierName}
+                        </div>
+                      </td>
+                      <td>
+                        <div className="text-right">
+                          {item?.numRate ? _formatMoney(item?.numRate) : 0}
+                        </div>
+                      </td>
+                      <td>
+                        <div className="text-right">{item?.daysDifference}</div>
+                      </td>
+                      <td>
+                        <div className="text-right">
+                          {item?.numAmount ? _formatMoney(item?.numAmount) : 0}
+                        </div>
+                      </td>
+                      <td>
+                        <div className="text-center">{item?.strBaseName}</div>
+                      </td>
+                      <td>
+                        <div className="text-center">
+                          {viewType === 2
+                            ? `${_dateFormatter(
+                                item?.dteFromDate
+                              )} - ${_dateFormatter(item?.dteToDate)}`
+                            : ""}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              {/* Pagination Code */}
+              {gridData?.data?.length > 0 && (
+                <PaginationTable
+                  count={gridData?.totalCount}
+                  values={values}
+                  setPositionHandler={setPositionHandler}
+                  paginationState={{
+                    pageNo,
+                    setPageNo,
+                    pageSize,
+                    setPageSize,
+                  }}
+                />
+              )}
+            </Form>
+          </IForm>
+        </>
+      )}
+    </Formik>
+  );
 }
