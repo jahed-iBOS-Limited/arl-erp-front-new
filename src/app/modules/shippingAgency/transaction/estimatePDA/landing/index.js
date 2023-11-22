@@ -43,7 +43,7 @@ const EstimatePDALanding = () => {
 
   useEffect(() => {
     if (accId && buId) {
-      getVesselDDL(accId, buId, setVesselDDL);
+      getVesselDDL(accId, 0, setVesselDDL);
       getSBUListDDLApi(accId, buId, setSbuDDL);
       commonGridData(pageNo, pageSize, initData);
       getVoyageNoDDLApi(accId, buId, setVoyageNoDDLApi);
