@@ -418,23 +418,6 @@ const EstimatePDACreate = () => {
                     touched={touched}
                   />
                 </div>
-                <div className='col-lg-3'>
-                  <NewSelect
-                    value={values?.currency || ""}
-                    options={[
-                      { value: "BDT", label: "BDT" },
-                      { value: "USD", label: "USD" },
-                    ]}
-                    name='currency'
-                    placeholder='Currency'
-                    label='Currency'
-                    onChange={(valueOption) => {
-                      setFieldValue("currency", valueOption);
-                    }}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
                 {values?.currency?.value === "USD" && (
                   <>
                     <div className='col-lg-3'>
