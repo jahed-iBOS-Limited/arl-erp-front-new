@@ -141,3 +141,14 @@ export const createUpdateASLLAgencyRegistration = async (
     setDisabled(false);
   }
 };
+
+export const getCargoDDL = async (setter) => {
+  try {
+    const res = await axios.get(
+      `${imarineBaseUrl}/domain/HireOwner/GetCargoDDL`
+    );
+    setter(res.data);
+  } catch (error) {
+    setter([]);
+  }
+};
