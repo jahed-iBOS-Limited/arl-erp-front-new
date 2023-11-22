@@ -64,7 +64,11 @@ const LandingTable = ({ obj }) => {
                     <IEdit />
                   </span>
 
-                  <span onClick={() => {}}>
+                  <span onClick={() => {
+                     history.push(
+                      `/ShippingAgency/Configuration/Registration/view/${item?.registrationId}`
+                    );
+                  }}>
                     <IView />
                   </span>
                 </div>

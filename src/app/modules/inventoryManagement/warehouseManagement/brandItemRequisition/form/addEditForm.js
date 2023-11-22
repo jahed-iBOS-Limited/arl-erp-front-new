@@ -127,8 +127,8 @@ export default function BrandItemRequisitionForm() {
       return toast.warn("Duplicate item not allowed!");
     }
     const newRow = {
-      // rowId: 0,
-      // brandRequestId: 0,
+      rowId: 0,
+      brandRequestId: 0,
       itemId: values?.item?.value,
       itemName: values?.item?.label,
       itemCode: values?.item?.code,

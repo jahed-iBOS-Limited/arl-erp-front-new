@@ -38,7 +38,7 @@ export default function StevedoreBill() {
 
   const getData = (values) => {
     getGridData(
-      `/tms/LigterLoadUnload/GetGTOGProgramInfoForBillRegister?AccountId=${accId}&BusinessUnitId=${buId}&MotherVesselId=${values?.motherVessel?.value}&BillType=${billType}&SupplierId=${values?.supplier?.value}`,
+      `/tms/LigterLoadUnload/GetGTOGProgramInfoForBillRegister?AccountId=${accId}&BusinessUnitId=${buId}&MotherVesselId=${values?.motherVessel?.value}&BillType=${billType}&SupplierId=${values?.supplier?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`,
       (resData) => {
         const modifyData = resData?.map((item) => {
           return {

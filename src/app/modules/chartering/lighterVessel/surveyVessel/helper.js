@@ -1,6 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
+import { imarineBaseUrl } from "../../../../App";
 
 export const validationSchema = Yup.object().shape({
   // motherVessel: Yup.string().required("Mother Vessel is required"),
@@ -24,7 +25,7 @@ export const getSurveyVesselData = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/LighterVesselSurvey/GetCargoLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+      `${imarineBaseUrl}/domain/LighterVesselSurvey/GetCargoLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
     setter(res?.data);
     setLoading(false);
@@ -38,7 +39,7 @@ export const getSurveyVesselData = async (
 export const createSurveyVessel = async (data, cb) => {
   try {
     const res = await axios.post(
-      `https://imarine.ibos.io/domain/LighterVesselSurvey/CreateLighterVesselSurvey`,
+      `${imarineBaseUrl}/domain/LighterVesselSurvey/CreateLighterVesselSurvey`,
       data
     );
     toast.success(res?.data?.message || "Created Successfully");
@@ -57,13 +58,13 @@ export function getBUDDL(userId, clientId) {
 }
 
 export function getCargoDDL() {
-  return axios.get(`https://imarine.ibos.io/domain/HireOwner/GetCargoDDL`);
+  return axios.get(`${imarineBaseUrl}/domain/HireOwner/GetCargoDDL`);
 }
 
 export const editSurveyVessel = async (data, cb) => {
   try {
     const res = await axios.put(
-      `https://imarine.ibos.io/domain/LighterVesselSurvey/EditLighterVesselSurvey`,
+      `${imarineBaseUrl}/domain/LighterVesselSurvey/EditLighterVesselSurvey`,
       data
     );
     toast.success(res?.data?.message || "Created Successfully");

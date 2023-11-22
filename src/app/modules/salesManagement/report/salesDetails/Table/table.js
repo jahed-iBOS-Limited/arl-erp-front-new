@@ -479,7 +479,7 @@ export default function SalesDetailsTable({ saveHandler }) {
                           </>
                         )}
 
-                        {[3].includes(values?.report?.value) && (
+                        {[3, 10].includes(values?.report?.value) && (
                           <>
                             <div className="col-lg-2">
                               <NewSelect

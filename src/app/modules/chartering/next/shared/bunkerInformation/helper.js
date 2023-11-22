@@ -1,12 +1,13 @@
 import axios from "axios";
 import { toast } from "react-toastify";
+import { imarineBaseUrl } from "../../../../../App";
 // import * as Yup from "yup";
 
 export const saveBunkerInformation = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      `https://imarine.ibos.io/domain/BunkerInformation/CreateBunkerInformation`,
+      `${imarineBaseUrl}/domain/BunkerInformation/CreateBunkerInformation`,
       data
     );
     cb(res?.data?.message);
@@ -28,7 +29,7 @@ export const getPreBORInformationByVoyageId = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/BunkerInformation/GetBorInformationByVesselIdAndVoyageNo?vesselId=${vesselId}&voyageNoId=${voyageId}&accountId=${accId}&businessUnitId=${buId}`
+      `${imarineBaseUrl}/domain/BunkerInformation/GetBorInformationByVesselIdAndVoyageNo?vesselId=${vesselId}&voyageNoId=${voyageId}&accountId=${accId}&businessUnitId=${buId}`
     );
     setter(res?.data);
 
@@ -51,7 +52,7 @@ export const GetItemInfoFromPurchase = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/PurchaseBunker/GetItemInfoFromPurchase?BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}`
+      `${imarineBaseUrl}/domain/PurchaseBunker/GetItemInfoFromPurchase?BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}`
     );
     setter(res?.data);
     setLoading(false);

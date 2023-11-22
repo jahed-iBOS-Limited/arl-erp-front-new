@@ -21,6 +21,7 @@ import { _dateFormatter } from "../../../../_chartinghelper/_dateFormate";
 import SearchAsyncSelect from "../../../../../_helper/SearchAsyncSelect";
 import axios from "axios";
 import { setValue } from "../../helper";
+import { imarineBaseUrl } from "../../../../../../App";
 
 export function OperationSection(props) {
   const {
@@ -111,7 +112,7 @@ export function OperationSection(props) {
                   if (v?.length < 3) return [];
                   return axios
                     .get(
-                      `https://imarine.ibos.io/domain/LighterConsignee/GetCustomerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&searchName=${v}`
+                      `${imarineBaseUrl}/domain/LighterConsignee/GetCustomerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&searchName=${v}`
                     )
                     .then((res) => res?.data);
                 }}
@@ -162,7 +163,7 @@ export function OperationSection(props) {
                   if (v?.length < 3) return [];
                   return axios
                     .get(
-                      `https://imarine.ibos.io/domain/LighterVesselSurvey/GetLighterVesselSRDDL?BusinessUnitId=${selectedBusinessUnit?.value}&SearchSRNumber=${v}`
+                      `${imarineBaseUrl}/domain/LighterVesselSurvey/GetLighterVesselSRDDL?BusinessUnitId=${selectedBusinessUnit?.value}&SearchSRNumber=${v}`
                     )
                     .then((res) => res?.data);
                 }}
