@@ -23,9 +23,9 @@ const LandingTable = ({ obj }) => {
           {gridData?.data?.map((item, index) => (
             <tr key={index}>
               <td className='text-center'> {index + 1}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
+              <td>{item?.particularName}</td>
+              <td>{item?.category}</td>
+              <td>{item?.isActive ? "True" : "False"} </td>
               <td>
                 <div
                   className='d-flex justify-content-around'
@@ -36,7 +36,7 @@ const LandingTable = ({ obj }) => {
                   <span
                     onClick={() => {
                       history.push(
-                        `/ShippingAgency/Transaction/EstimatePDA/edit/${item?.complainId}`
+                        `/ShippingAgency/Configuration/ExpenseParticulars/edit/${item?.expenseParticularsId}`
                       );
                     }}
                   >

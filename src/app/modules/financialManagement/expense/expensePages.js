@@ -13,6 +13,8 @@ import RecivePaymentLanding from "./receivePayment/Table";
 import RecivePaymentBankForm from "./receivePayment/Bank/Form/addEditForm";
 import ExpenseInfoModify from "./expenseInfoModify";
 import BareboatAndInsurancelanding from "./bareboatAndInsurance";
+import DryDocLanding from "./dryDocSchedule";
+import DryDocCreateEdit from "./dryDocSchedule/createEdit";
 // import BareboatAndInsuranceCreateEdit from "./bareboatAndInsurance/CreateEdit";
 export function ExpensePages() {
   return (
@@ -109,6 +111,18 @@ export function ExpensePages() {
       <ContentRoute
         path="/financial-management/expense/VesselInsuranceNBareboat"
         component={BareboatAndInsurancelanding}
+      />
+      <ContentRoute
+        path="/financial-management/expense/drydocschedule/edit/:id"
+        component={DryDocCreateEdit}
+      />
+      <ContentRoute
+        path="/financial-management/expense/drydocschedule/create"
+        component={DryDocCreateEdit}
+      />
+      <ContentRoute
+        path="/financial-management/expense/drydocschedule"
+        component={DryDocLanding}
       />
     </Switch>
   );

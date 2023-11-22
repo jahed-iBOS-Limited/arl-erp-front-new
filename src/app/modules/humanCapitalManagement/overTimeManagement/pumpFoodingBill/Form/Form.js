@@ -45,8 +45,7 @@ export default function _Form({
     if (v?.length < 2) return [];
     return axios
       .get(
-        // `/hcm/HCMDDL/GetEmployeeDesignationDDL?accountId=${accId}&businessUnitId=${buId}&searchTerm=${v}`
-        `/hcm/HCMDDL/GetEmployeeDDLSearch?AccountId=${accId}&Search=${v}`
+        `/hcm/HCMDDL/GetEmployeeDesignationDDL?accountId=${accId}&businessUnitId=${buId}&searchTerm=${v}`
       )
       .then((res) => {
         return res?.data;
@@ -125,7 +124,7 @@ export default function _Form({
 
                         if (
                           values?.designationId !==
-                          valueOption?.employeeInfoDesignationId
+                          valueOption?.employeeDesignationId
                         ) {
                           setFieldValue("fromDate", "");
                           setFieldValue("fromTime", "");
@@ -135,11 +134,11 @@ export default function _Form({
                         }
                         setFieldValue(
                           "designation",
-                          valueOption?.employeeInfoDesignation
+                          valueOption?.employeeDesignation
                         );
                         setFieldValue(
                           "designationId",
-                          valueOption?.employeeInfoDesignationId
+                          valueOption?.employeeDesignationId
                         );
                       }}
                       loadOptions={loadUserList}

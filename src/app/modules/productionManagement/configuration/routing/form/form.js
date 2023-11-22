@@ -183,6 +183,7 @@ export default function _Form({
                         selectedBusinessUnit?.value,
                         values?.plantName?.value,
                         valueOption?.value,
+                        values?.shopFloorName?.value,
                         setBomNameDDL
                       );
                       setFieldValue("bomNameDDL", "");

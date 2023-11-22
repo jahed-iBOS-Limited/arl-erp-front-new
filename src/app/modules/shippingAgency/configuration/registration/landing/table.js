@@ -2,13 +2,14 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import IView from "../../../../_helper/_helperIcons/_view";
+import moment from "moment";
 
 const LandingTable = ({ obj }) => {
   const { gridData } = obj;
   const history = useHistory();
 
   return (
-    <>
+    <div className="table-responsive">
       <table className='table table-striped table-bordered global-table'>
         <thead>
           <tr>
@@ -18,14 +19,14 @@ const LandingTable = ({ obj }) => {
             <th>Vessel Name</th>
             <th>Voyage Owne</th>
             <th>Reg</th>
-            <th>Load Por</th>
+            <th>Load Port</th>
             <th>Arrived Time</th>
-            <th>Cargo Na</th>
+            <th>Cargo Name</th>
             <th>Quantity</th>
             <th>Stevedore</th>
             <th>Cargo Own</th>
-            <th>Discharge Date</th>
-            <th>Discharge</th>
+            {/* <th>Discharge Date</th>
+            <th>Discharge</th> */}
             <th>Remark</th>
             <th>Action</th>
           </tr>
@@ -34,20 +35,18 @@ const LandingTable = ({ obj }) => {
           {gridData?.data?.map((item, index) => (
             <tr key={index}>
               <td className='text-center'> {index + 1}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
+              <td>{item?.voyageNo}</td>
+              <td>{item?.vesselType}</td>
+              <td>{item?.vesselName}</td>
+              <td>{item?.voyageOwnerName}</td>
+              <td>{item?.registrationNumber}</td>
+              <td>{item?.loadPortName}</td>
+              <td>{moment(item?.arrivedDateTime).format("hh:mm A")}</td>
+              <td>{item?.cargoName}</td>
+              <td>{item?.quantity}</td>
+              <td>{item?.stevedore}</td>
+              <td>{item?.cargoOwner}</td>
+              <td>{item?.remarks}</td>
               <td>
                 <div
                   className='d-flex justify-content-around'
@@ -58,7 +57,7 @@ const LandingTable = ({ obj }) => {
                   <span
                     onClick={() => {
                       history.push(
-                        `/ShippingAgency/Transaction/EstimatePDA/edit/${item?.complainId}`
+                        `/ShippingAgency/Configuration/Registration/edit/${item?.registrationId}`
                       );
                     }}
                   >
@@ -74,7 +73,7 @@ const LandingTable = ({ obj }) => {
           ))}
         </tbody>
       </table>
-    </>
+    </div>
   );
 };
 

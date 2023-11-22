@@ -3,7 +3,11 @@ import React from "react";
 import InfoCircle from "../../../../_helper/_helperIcons/_infoCircle";
 import numberWithCommas from "../../../../_helper/_numberWithCommas";
 
-const TableForINVInOut = ({ inventoryStatement, setTableItem, setIsShowModal}) => {
+const TableForINVInOut = ({
+  inventoryStatement,
+  setTableItem,
+  setIsShowModal,
+}) => {
   return (
     inventoryStatement?.length > 0 && (
       <div className="react-bootstrap-table table-responsive">
@@ -16,15 +20,15 @@ const TableForINVInOut = ({ inventoryStatement, setTableItem, setIsShowModal}) =
                   <th>Item Name</th>
                   <th style={{ minWidth: "100px" }}>Item Code</th>
                   <th style={{ minWidth: "100px" }}>UoM Name</th>
-                  <th style={{ minWidth: "100px" }}>Location</th>
+                  <th style={{ minWidth: "100px" }}>Warehouse</th>
                   <th style={{ minWidth: "100px" }}>Opening Qty</th>
                   <th style={{ minWidth: "100px" }}>In Qty</th>
                   <th style={{ minWidth: "100px" }}>Out Qty</th>
-                  <th style={{ minWidth: "100px" }}>Transit Qty</th>
+                  {/* <th style={{ minWidth: "100px" }}>Transit Qty</th> */}
                   <th style={{ minWidth: "100px" }}>Closing Qty</th>
-                  <th style={{ minWidth: "100px" }}>Avg Rate</th>
+                  {/* <th style={{ minWidth: "100px" }}>Avg Rate</th>
                   <th style={{ minWidth: "100px" }}>Closing Value</th>
-                  <th style={{ minWidth: "70px" }}>Action</th>
+                  <th style={{ minWidth: "70px" }}>Action</th> */}
                 </tr>
               </thead>
               <tbody>
@@ -33,7 +37,7 @@ const TableForINVInOut = ({ inventoryStatement, setTableItem, setIsShowModal}) =
                     return (
                       <tr key={index}>
                         <td style={{ width: "30px" }} className="text-center">
-                          {item?.sl}
+                          {index + 1}
                         </td>
                         <td>
                           <span className="pl-2">{item?.strItemName}</span>
@@ -42,34 +46,48 @@ const TableForINVInOut = ({ inventoryStatement, setTableItem, setIsShowModal}) =
                           <span className="pl-2">{item?.strItemCode}</span>
                         </td>
                         <td>
-                          <span className="pl-2">{item?.strUomName}</span>
+                          <span className="pl-2">{item?.strBaseUomName}</span>
                         </td>
                         <td>
-                          <span className="pl-2">{item?.strLocation_BIN}</span>
+                          <span className="pl-2">{item?.strWarehouseName}</span>
                         </td>
 
                         <td className="text-right">
-                          <span>{numberWithCommas((item?.numOpenQty || 0).toFixed(2))}</span>
+                          <span>
+                            {numberWithCommas(
+                              (item?.numOpenQty || 0).toFixed(2)
+                            )}
+                          </span>
                         </td>
                         <td className="text-right">
-                          <span>{numberWithCommas((item?.numInQty || 0).toFixed(2))}</span>
+                          <span>
+                            {numberWithCommas((item?.numInQty || 0).toFixed(2))}
+                          </span>
                         </td>
                         <td className="text-right">
-                          <span>{numberWithCommas((item?.numOutQty || 0).toFixed(2))}</span>
+                          <span>
+                            {numberWithCommas(
+                              (item?.numOutQty || 0).toFixed(2)
+                            )}
+                          </span>
                         </td>
-                        <td className="text-right">
+                        {/* <td className="text-right">
                           <span>{numberWithCommas((item?.numTransitQty || 0).toFixed(2))}</span>
-                        </td>
-                        <td className="text-right">
+                        </td> */}
+                        {/* <td className="text-right">
                           <span>{numberWithCommas((item?.numClosisngQty || 0).toFixed(2))}</span>
-                        </td>
-                        <td className="text-right">
+                        </td> */}
+                        {/* <td className="text-right">
                           <span>{numberWithCommas((item?.numAvgRate || 0).toFixed(2))}</span>
-                        </td>
+                        </td> */}
                         <td className="text-right">
-                          <span>{numberWithCommas((item?.numClosisngValue || 0).toFixed(2))}</span>
+                          <span>
+                            {numberWithCommas(
+                              (item?.numCloseQty || 0).toFixed(2)
+                            )}
+                          </span>
                         </td>
-                        <td className="text-center">
+                        {/* <td className="text-center">
                           <InfoCircle
                             clickHandler={() => {
                               setIsShowModal(true);
@@ -77,7 +95,7 @@ const TableForINVInOut = ({ inventoryStatement, setTableItem, setIsShowModal}) =
                             }}
                             classes="text-primary"
                           />
-                        </td>
+                        </td> */}
                       </tr>
                     );
                   })}

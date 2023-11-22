@@ -24,11 +24,10 @@ const AssetSchedule = () => {
     toDate: _todayDate(),
   });
 
-  //get profileData from store
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
-  // get selected business unit from store
+
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
@@ -46,16 +45,7 @@ const AssetSchedule = () => {
       );
     }
   }, [profileData, selectedBusinessUnit]);
-  const costTotal = assetScheduleData.reduce((total, data) => {
-    return total + data?.numCostValue;
-  }, 0);
-  const additionTotal = assetScheduleData.reduce((total, data) => {
-    return total + data?.addition;
-  }, 0);
-  const depValueTotal = assetScheduleData.reduce((total, data) => {
-    return total + data?.numDepValue;
-  }, 0);
-  // const printRef = useRef();
+
   return (
     <ICard title="Asset Schedule" componentRef={printRef}>
       <Formik
@@ -169,26 +159,25 @@ const AssetSchedule = () => {
                       className="table table-striped table-bordered global-table table-font-size-sm"
                       style={{ width: "100%" }}
                     >
-                      <thead>
+                      {/* <thead>
                         <tr>
-                          <th>Sl</th>
-                          <th>Gl Name</th>
-                          <th>Opening Value</th>
-                          <th>Closing Value </th>
-                          <th>Addition Value </th>
-                          <th>Adjustment Value </th>
+                          <th>Asset Name</th>
+                          <th>Opening</th>
+
+                          <th>Addition</th>
+                          <th>Adjustment</th>
+                          <th>Closing</th>
                           <th>Opening Acc Dep</th>
+                          <th>Charge During The Period</th>
                           <th>Closing Acc Dep</th>
                           <th>Adj Acc Dep</th>
+                          <th>Net Asset Value</th>
                         </tr>
                       </thead>
                       <tbody>
                         {assetScheduleData?.map((data, index) => {
-                          // let totalValue = data?.numCostValue + data?.addition;
-                          // let wrtnDwnVal = totalValue - data?.numDepValue;
                           return (
                             <tr key={index}>
-                              <td>{index + 1}</td>
                               <td>
                                 <div className=" text-left pl-2">
                                   {data?.strGlName}
@@ -198,13 +187,6 @@ const AssetSchedule = () => {
                                 <div className="text-right pr-2">
                                   {numberWithCommas(
                                     Math.round(data?.numOpening)
-                                  )}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-right pr-2">
-                                  {numberWithCommas(
-                                    Math.round(data?.numClosing)
                                   )}
                                 </div>
                               </td>
@@ -225,10 +207,18 @@ const AssetSchedule = () => {
                               <td>
                                 <div className="text-right pr-2">
                                   {numberWithCommas(
+                                    Math.round(data?.numClosing)
+                                  )}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="text-right pr-2">
+                                  {numberWithCommas(
                                     Math.round(data?.numOpeningAccDep)
                                   )}
                                 </div>
                               </td>
+                              <td></td>
                               <td>
                                 <div className="text-right pr-2">
                                   {numberWithCommas(
@@ -243,6 +233,7 @@ const AssetSchedule = () => {
                                   )}
                                 </div>
                               </td>
+                              <td></td>
                             </tr>
                           );
                         })}
@@ -250,7 +241,6 @@ const AssetSchedule = () => {
                           <tr>
                             <td
                               style={{ textAlign: "right", fontWeight: "bold" }}
-                              colSpan={2}
                             >
                               Total
                             </td>
@@ -263,7 +253,6 @@ const AssetSchedule = () => {
                             </td>
                             <td>
                               <div className="text-right pr-2">
-                                {/* {numberWithCommas(additionTotal)} */}
                                 {assetScheduleData.reduce((total, data) => {
                                   return total + Math.round(data?.numClosing);
                                 }, 0)}
@@ -271,7 +260,6 @@ const AssetSchedule = () => {
                             </td>
                             <td>
                               <div className="text-right pr-2">
-                                {/* {numberWithCommas(costTotal + additionTotal)} */}
                                 {assetScheduleData.reduce((total, data) => {
                                   return total + Math.round(data?.numAddition);
                                 }, 0)}
@@ -279,7 +267,6 @@ const AssetSchedule = () => {
                             </td>
                             <td>
                               <div className="text-right pr-2">
-                                {/* {numberWithCommas(depValueTotal)} */}
                                 {assetScheduleData
                                   .reduce((total, data) => {
                                     return (
@@ -291,9 +278,6 @@ const AssetSchedule = () => {
                             </td>
                             <td>
                               <div className="text-right pr-2">
-                                {/* {numberWithCommas(
-                                  costTotal + additionTotal - depValueTotal
-                                )} */}
                                 {assetScheduleData
                                   .reduce((total, data) => {
                                     return (
@@ -321,6 +305,281 @@ const AssetSchedule = () => {
                             </td>
                           </tr>
                         )}
+                      </tbody> */}
+                      <thead>
+                        <tr style={{ fontSize: "18px" }}>
+                          <th>Asset Name</th>
+                          <th>Opening</th>
+                          <th>Addition</th>
+                          <th>Adjustment</th>
+                          <th>Closing</th>
+                          <th>Opening Acc. Dep.</th>
+                          <th>
+                            Charge During <br /> The Period
+                          </th>
+                          <th>Closing Acc. Dep.</th>
+                          <th>Net Asset Value</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {assetScheduleData?.map((item, index) => (
+                          <tr key={index}>
+                            <td
+                              style={{
+                                fontWeight: "bold",
+                                textAlign: "left",
+                                paddingLeft: "1px",
+                              }}
+                            >
+                              {item?.strGlName}
+                            </td>
+                            <td
+                              style={{
+                                fontWeight: "bold",
+                                textAlign: "end",
+                                fontSize: "12px",
+                                width: "120px",
+                              }}
+                            >
+                              {numberWithCommas(
+                                Math.round(item?.numOpening) || 0
+                              )}
+                            </td>
+                            <td
+                              style={{
+                                textAlign: "end",
+                                paddingRight: "3px",
+                                fontSize: "12px",
+                                width: "140px",
+                              }}
+                            >
+                              {numberWithCommas(
+                                Math.round(item?.numAddition) || 0
+                              )}
+                            </td>
+                            <td
+                              style={{
+                                textAlign: "end",
+                                paddingRight: "3px",
+                                fontSize: "12px",
+                              }}
+                            >
+                              {numberWithCommas(
+                                Math.round(item?.numAdjustment) || 0
+                              )}
+                            </td>
+                            <td
+                              style={{
+                                fontWeight: "bold",
+                                textAlign: "end",
+                                paddingRight: "3px",
+                                fontSize: "12px",
+                                width: "120px",
+                              }}
+                            >
+                              {numberWithCommas(
+                                Math.round(item?.numClosing) || 0
+                              )}
+                            </td>
+                            <td
+                              style={{
+                                textAlign: "end",
+                                paddingRight: "3px",
+                                fontSize: "12px",
+                                width: "140px",
+                              }}
+                            >
+                              {numberWithCommas(
+                                Math.round(item?.numOpeningAccDep) || 0
+                              )}
+                            </td>
+                            <td
+                              style={{
+                                textAlign: "end",
+                                paddingRight: "3px",
+                                fontSize: "12px",
+                                width: "130px",
+                              }}
+                            >
+                              {numberWithCommas(
+                                Math.round(item?.numChargedDurAccDep) || 0
+                              )}
+                            </td>
+                            <td
+                              style={{
+                                textAlign: "end",
+                                paddingRight: "3px",
+                                fontSize: "12px",
+                              }}
+                            >
+                              {numberWithCommas(
+                                Math.round(item?.numClosingAccDep) || 0
+                              )}
+                            </td>
+                            <td
+                              style={{
+                                fontWeight: "bold",
+                                textAlign: "end",
+                                paddingRight: "3px",
+                                fontSize: "12px",
+                              }}
+                            >
+                              {numberWithCommas(
+                                Math.round(item?.numNetAsset) || 0
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                        <tr>
+                          <td colSpan={1} style={{ textAlign: "right" }}>
+                            <strong> Total</strong>
+                          </td>
+                          <td
+                            style={{
+                              textAlign: "end",
+                              paddingRight: "3px",
+                              fontSize: "14px",
+                              paddingLeft: "4px",
+                            }}
+                          >
+                            <strong>
+                              {numberWithCommas(
+                                assetScheduleData.reduce(
+                                  (total, data) =>
+                                    total + Math.round(data?.numOpening),
+                                  0
+                                ) || 0
+                              )}
+                            </strong>
+                          </td>
+                          <td
+                            style={{
+                              textAlign: "end",
+                              paddingRight: "3px",
+                              fontSize: "14px",
+                              paddingLeft: "4px",
+                            }}
+                          >
+                            <strong>
+                              {numberWithCommas(
+                                assetScheduleData.reduce(
+                                  (total, data) =>
+                                    total + Math.round(data?.numAddition),
+                                  0
+                                ) || 0
+                              )}
+                            </strong>
+                          </td>
+                          <td
+                            style={{
+                              textAlign: "end",
+                              paddingRight: "3px",
+                              fontSize: "14px",
+                              paddingLeft: "4px",
+                            }}
+                          >
+                            <strong>
+                              {numberWithCommas(
+                                assetScheduleData.reduce(
+                                  (total, data) =>
+                                    total + Math.round(data?.numAdjustment),
+                                  0
+                                ) || 0
+                              )}
+                            </strong>
+                          </td>
+                          <td
+                            style={{
+                              textAlign: "end",
+                              paddingRight: "3px",
+                              fontSize: "14px",
+                              paddingLeft: "4px",
+                            }}
+                          >
+                            <strong>
+                              {numberWithCommas(
+                                assetScheduleData.reduce(
+                                  (total, data) =>
+                                    total + Math.round(data?.numClosing),
+                                  0
+                                ) || 0
+                              )}
+                            </strong>
+                          </td>
+                          <td
+                            style={{
+                              textAlign: "end",
+                              paddingRight: "3px",
+                              fontSize: "14px",
+                              paddingLeft: "4px",
+                            }}
+                          >
+                            <strong>
+                              {numberWithCommas(
+                                assetScheduleData.reduce(
+                                  (total, data) =>
+                                    total + Math.round(data?.numOpeningAccDep),
+                                  0
+                                ) || 0
+                              )}
+                            </strong>
+                          </td>
+                          <td
+                            style={{
+                              textAlign: "end",
+                              paddingRight: "3px",
+                              fontSize: "14px",
+                              paddingLeft: "4px",
+                            }}
+                          >
+                            <strong>
+                              {numberWithCommas(
+                                assetScheduleData.reduce(
+                                  (total, data) =>
+                                    total +
+                                    Math.round(data?.numChargedDurAccDep),
+                                  0
+                                ) || 0
+                              )}
+                            </strong>
+                          </td>
+                          <td
+                            style={{
+                              textAlign: "end",
+                              paddingRight: "3px",
+                              fontSize: "14px",
+                              paddingLeft: "4px",
+                            }}
+                          >
+                            <strong>
+                              {numberWithCommas(
+                                assetScheduleData.reduce(
+                                  (total, data) =>
+                                    total + Math.round(data?.numClosingAccDep),
+                                  0
+                                ) || 0
+                              )}
+                            </strong>
+                          </td>
+                          <td
+                            style={{
+                              textAlign: "end",
+                              paddingRight: "3px",
+                              fontSize: "14px",
+                              paddingLeft: "4px",
+                            }}
+                          >
+                            <strong>
+                              {numberWithCommas(
+                                assetScheduleData.reduce(
+                                  (total, data) =>
+                                    total + Math.round(data?.numNetAsset || 0),
+                                  0
+                                ) || 0
+                              )}
+                            </strong>
+                          </td>
+                        </tr>
                       </tbody>
                     </table>
                   </div>

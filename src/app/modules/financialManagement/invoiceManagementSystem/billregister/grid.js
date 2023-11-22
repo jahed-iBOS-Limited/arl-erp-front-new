@@ -31,12 +31,14 @@ import ViewSalesCommission from "./salesCommission/view/viewSalesCommission";
 import ViewStevedoreBill from "./stevedoreBill/view/table";
 import ViewSurveyorBill from "./surveyorBill/view/table";
 import ViewTransportBill from "./transportBill/view/viewBillRegister";
+import AttachmentListTable from "./attachmentListTable";
 const GridData = ({
   rowDto,
   values,
   profileData,
   selectedBusinessUnit,
   cb,
+  ViewOnChangeHandler,
 }) => {
   // const billType = values?.billType?.value;
   const [mdalShow, setModalShow] = useState(false);
@@ -51,6 +53,10 @@ const GridData = ({
   const [, createBillAttachment, createBillAttachmentLoading] = useAxiosPost(
     []
   );
+
+  const [attachmentListModal, setAttachmentListModal] = useState(false);
+  const [attachmentItemList, setAttachmentItemList] = useState([]);
+
   // attachment save actions
   const saveHandler = async () => {
     if (!fileObjects.length) return null;
@@ -72,6 +78,7 @@ const GridData = ({
           payload,
           () => {
             setFileObjects([]);
+            ViewOnChangeHandler(values);
           },
           true
         );
@@ -138,6 +145,15 @@ const GridData = ({
                               ...tableData,
                               billStatus: "Approved",
                             });
+                          }}
+                        />
+                      )}
+                      {tableData?.attatchment?.length && (
+                        <IView
+                          title="View Attachment"
+                          clickHandler={() => {
+                            setAttachmentItemList(tableData?.attatchment);
+                            setAttachmentListModal(true);
                           }}
                         />
                       )}
@@ -300,6 +316,17 @@ const GridData = ({
               selectedBusinessUnit={selectedBusinessUnit}
               cb={cb}
             />
+          </IViewModal>
+
+          <IViewModal
+            show={attachmentListModal}
+            onHide={() => {
+              setAttachmentListModal(false);
+              setAttachmentItemList([]);
+            }}
+            modelSize="sm"
+          >
+            <AttachmentListTable attachmentItemList={attachmentItemList} />
           </IViewModal>
 
           <DropzoneDialogBase

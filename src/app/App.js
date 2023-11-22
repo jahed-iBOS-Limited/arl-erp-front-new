@@ -12,6 +12,10 @@ import { LayoutSplashScreen, MaterialThemeProvider } from "../_metronic/layout";
 import { Routes } from "../app/Routes";
 
 const origin = window.location.origin;
+export const imarineBaseUrl =
+  process.env.NODE_ENV === "development"
+    ? "https://devimarine.ibos.io"
+    : "https://imarine.ibos.io";
 
 // live-url: https://erp.peopledesk.io
 
