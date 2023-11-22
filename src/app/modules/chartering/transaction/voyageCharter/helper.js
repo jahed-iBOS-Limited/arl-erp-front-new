@@ -2,6 +2,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { _dateFormatter } from "../../_chartinghelper/_dateFormatter";
+import { iMarineBaseURL } from "../../helper";
 
 // Validation schema
 export const validationSchema = Yup.object().shape({
@@ -29,7 +30,7 @@ export const getVoyageCharterTransactionLandingData = async (
   // const voyageNoStr = voyageId ? `` : "";
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/FreightInvoice/GetFreightInvoiceLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+      `${iMarineBaseURL}/domain/FreightInvoice/GetFreightInvoiceLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
     setter(res?.data);
     setLoading(false);
@@ -43,7 +44,7 @@ export const saveVoyageCharterTransaction = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      "https://imarine.ibos.io/domain/FreightInvoice/CreateFreightInvoice",
+      `${iMarineBaseURL}/domain/FreightInvoice/CreateFreightInvoice`,
       data
     );
     cb();
@@ -63,7 +64,7 @@ export const saveVoyageCharterTransactionIntermidiate = async (
   setLoading(true);
   try {
     const res = await axios.post(
-      "https://imarine.ibos.io/domain/FreightInvoice/CreateFreightInvoiceIntermidiate",
+      `${iMarineBaseURL}/domain/FreightInvoice/CreateFreightInvoiceIntermidiate`,
       data
     );
     cb();
@@ -79,7 +80,7 @@ export const editVoyageCharterTransaction = async (data, setLoading) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      "https://imarine.ibos.io/domain/VoyageCharter/EditVoyageCharter",
+      `${iMarineBaseURL}/domain/VoyageCharter/EditVoyageCharter`,
       data
     );
     toast.success(res?.data?.message);
@@ -99,7 +100,7 @@ export const getVoyageChartererTransactionById = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/FreightInvoice/GetFreightInvoiceById?FreightInvoiceId=${id}`
+      `${iMarineBaseURL}/domain/FreightInvoice/GetFreightInvoiceById?FreightInvoiceId=${id}`
     );
 
     setter(res?.data?.objHeader);
@@ -132,7 +133,7 @@ export const getIntermidiateInvoiceData = async (
 
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/FreightInvoice/GetFrightInvIntermidiateInfo?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&StatementNo=${statementId}&CharterId=${charterId}`
+      `${iMarineBaseURL}/domain/FreightInvoice/GetFrightInvIntermidiateInfo?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&StatementNo=${statementId}&CharterId=${charterId}`
     );
 
     const header = res?.data?.objHeaderDTO;
@@ -336,7 +337,7 @@ export const getInvoiceData = async (
 
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/FreightInvoice/GetFrightInvInfo?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&StatementNo=${statementId}&CharterId=${charterId}&CargoRowId=${cargoId}`
+      `${iMarineBaseURL}/domain/FreightInvoice/GetFrightInvInfo?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&StatementNo=${statementId}&CharterId=${charterId}&CargoRowId=${cargoId}`
     );
 
     const header = res?.data?.objHeaderDTO;
@@ -543,7 +544,7 @@ export const createJournalForVoyageCharter = async (
   );
   try {
     const res = await axios.post(
-      `https://imarine.ibos.io/domain/VoyageCharter/CreateVoyageCharterJournal`,
+      `${iMarineBaseURL}/domain/VoyageCharter/CreateVoyageCharterJournal`,
       payload
     );
     toast.success(res?.data?.message, { toastId: 234 });

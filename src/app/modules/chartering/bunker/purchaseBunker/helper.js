@@ -1,11 +1,12 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import { _dateFormatter } from "../../_chartinghelper/_dateFormatter";
+import { iMarineBaseURL } from "../../helper";
 export const savePurchaseBunker = async (data, setLoading, cb, setReturnID) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      `https://imarine.ibos.io/domain/PurchaseBunker/CreatePurchaseBunker`,
+      `${iMarineBaseURL}/domain/PurchaseBunker/CreatePurchaseBunker`,
       data
     );
     setLoading(false);
@@ -22,7 +23,7 @@ export const editPurchaseBunker = async (data, setLoading) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `https://imarine.ibos.io/domain/PurchaseBunker/EditPurchaseBunker`,
+      `${iMarineBaseURL}/domain/PurchaseBunker/EditPurchaseBunker`,
       data
     );
     toast.success(res?.data?.message);
@@ -46,7 +47,7 @@ export const getPurchaseBunkerLandingData = async (
   const search = searchValue ? `&search=${searchValue}` : "";
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/PurchaseBunker/GetPurchaseBunker?VesselId=${vesselId}&VoyageId=${voyageId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${search}`
+      `${iMarineBaseURL}/domain/PurchaseBunker/GetPurchaseBunker?VesselId=${vesselId}&VoyageId=${voyageId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${search}`
     );
     setter(res?.data);
     setLoading(false);
@@ -67,7 +68,7 @@ export const getPurchaseBunkerById = async (
 
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/PurchaseBunker/GetPurchaseBunkerViewDetailsById?purchaseBunkerHeaderId=${id}`
+      `${iMarineBaseURL}/domain/PurchaseBunker/GetPurchaseBunkerViewDetailsById?purchaseBunkerHeaderId=${id}`
     );
     const {
       vesselName,
@@ -164,7 +165,7 @@ export const deleteItemFromPurchaseBunker = async (
   setLoading(true);
   try {
     const res = await axios.delete(
-      `https://imarine.ibos.io/domain/PurchaseBunker/DeleteSchaseBunker?purchaseBunkerHeaderId=${headerId}&purchaseBunkerRowId=${rowId}`
+      `${iMarineBaseURL}/domain/PurchaseBunker/DeleteSchaseBunker?purchaseBunkerHeaderId=${headerId}&purchaseBunkerRowId=${rowId}`
     );
     toast.success(res?.data?.message);
     cb();

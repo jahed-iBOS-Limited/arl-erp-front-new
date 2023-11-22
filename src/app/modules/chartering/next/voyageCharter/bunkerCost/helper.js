@@ -1,6 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
+import { iMarineBaseURL } from "../../../helper";
 
 export const validationSchema = Yup.object().shape({
   vesselName: Yup.object().shape({
@@ -22,7 +23,7 @@ export const getConsumption = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/BunkerInformation/GetItemInfoByBunker?VesselId=${vesselId}&VoyageId=${voyageId}`
+      `${iMarineBaseURL}/domain/BunkerInformation/GetItemInfoByBunker?VesselId=${vesselId}&VoyageId=${voyageId}`
     );
     setter(res?.data[0]);
     setLoading(false);
@@ -41,7 +42,7 @@ export const getBunkerPurchaseList = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/PurchaseBunker/GetRemainingItemInfo?BusinessUnitId=${buId}&VesselId=${vesselId}`
+      `${iMarineBaseURL}/domain/PurchaseBunker/GetRemainingItemInfo?BusinessUnitId=${buId}&VesselId=${vesselId}`
     );
 
     setter(
@@ -63,7 +64,7 @@ export const saveBunkerCost = async (payload, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      `https://imarine.ibos.io/domain/BunkerCost/CreateBunkerCost`,
+      `${iMarineBaseURL}/domain/BunkerCost/CreateBunkerCost`,
       payload
     );
     toast.success(res?.data?.message);
@@ -87,7 +88,7 @@ export const getBunkerCostLandingData = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/BunkerCost/GetBunkerCostLanding?VesselId=${vesselId}&VoyageId=${voyageId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+      `${iMarineBaseURL}/domain/BunkerCost/GetBunkerCostLanding?VesselId=${vesselId}&VoyageId=${voyageId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
     setter(res?.data);
     setLoading(false);
@@ -107,7 +108,7 @@ export const GetBunkerCostById = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/BunkerCost/GetBunkerCostById?CostId=${costId}`
+      `${iMarineBaseURL}/domain/BunkerCost/GetBunkerCostById?CostId=${costId}`
     );
     const modifyList = res?.data?.objRow?.map((item) => ({
       ...item,

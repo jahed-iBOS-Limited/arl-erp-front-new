@@ -1,6 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
+import { iMarineBaseURL } from "../../helper";
 
 export const validationSchema = Yup.object().shape({
   consigneeName: Yup.string().required("Consignee Name is required"),
@@ -20,7 +21,7 @@ export const getConsigneeList = async (
       `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerLandingPagingSearch?accountId=${accId}&businessUnitId=${buId}&PartnertypeId=2&ChannleId=0&status=true&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}&approveType=1`
     );
     // const res = await axios.get(
-    //   `https://imarine.ibos.io/domain/LighterConsignee/LighterConsigneePagination?AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+    //   `${iMarineBaseURL}/domain/LighterConsignee/LighterConsigneePagination?AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     // );
     setter(res?.data);
     setLoading(false);
@@ -34,7 +35,7 @@ export const createConsignee = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      `https://imarine.ibos.io/domain/LighterConsignee/CreateLighterConsignee`,
+      `${iMarineBaseURL}/domain/LighterConsignee/CreateLighterConsignee`,
       data
     );
     toast.success(res?.data?.message);
@@ -50,7 +51,7 @@ export const saveEditedConsignee = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `https://imarine.ibos.io/domain/LighterConsignee/EditLighterConsignee`,
+      `${iMarineBaseURL}/domain/LighterConsignee/EditLighterConsignee`,
       data
     );
     toast.success(res?.data?.message);

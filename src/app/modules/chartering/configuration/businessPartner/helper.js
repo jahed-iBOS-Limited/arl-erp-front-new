@@ -2,6 +2,7 @@
 import * as Yup from "yup";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { iMarineBaseURL } from "../../helper";
 
 // Validation schema
 export const validationSchema = Yup.object().shape({
@@ -41,7 +42,7 @@ export const GetStakeholderLandingData = async (
   const search = searchValue ? `&search=${searchValue}` : "";
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/Stakeholder/GetStakeholderLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${search}&filterByStakeholderTypeId=${typeId}`
+      `${iMarineBaseURL}/domain/Stakeholder/GetStakeholderLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${search}&filterByStakeholderTypeId=${typeId}`
     );
     setter(res?.data);
     setLoading(false);
@@ -55,7 +56,7 @@ export const GetStakeholderLandingData = async (
 export const getStakeholderType = async (setter) => {
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/Stakeholder/GetStakeholderTypeDDL`
+      `${iMarineBaseURL}/domain/Stakeholder/GetStakeholderTypeDDL`
     );
     setter(res?.data);
   } catch (error) {
@@ -67,7 +68,7 @@ export const createStakeholder = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      "https://imarine.ibos.io/domain/Stakeholder/CreateStakeholder",
+      `${iMarineBaseURL}/domain/Stakeholder/CreateStakeholder`,
       data
     );
     toast.success(res?.data?.message);
@@ -83,7 +84,7 @@ export const updateStakeholder = async (data, setLoading) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      "https://imarine.ibos.io/domain/Stakeholder/EditStakeholder",
+      `${iMarineBaseURL}/domain/Stakeholder/EditStakeholder`,
       data
     );
     toast.success(res?.data?.message);
@@ -98,7 +99,7 @@ export const GetStakeholderById = async (id, setLoading, setter) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/Stakeholder/GetStakeholderViewDetailsById?stakeholderId=${id}`
+      `${iMarineBaseURL}/domain/Stakeholder/GetStakeholderViewDetailsById?stakeholderId=${id}`
     );
     const modifyData = {
       ...res?.data,
@@ -132,7 +133,7 @@ export const activeInactiveStakeholder = async (id, status, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `https://imarine.ibos.io/domain/Stakeholder/ActiveOrInActive?stakeholderId=${id}&activeOrInActive=${status}`
+      `${iMarineBaseURL}/domain/Stakeholder/ActiveOrInActive?stakeholderId=${id}&activeOrInActive=${status}`
     );
     toast.success(res?.data?.message);
     cb();
@@ -146,7 +147,7 @@ export const activeInactiveStakeholder = async (id, status, setLoading, cb) => {
 export const getBusinessPartnerList = async (accId, buId, setter) => {
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/Stakeholder/GetBusinessPartnerDDL?accountId=${accId}&businessUnitId=${buId}`
+      `${iMarineBaseURL}/domain/Stakeholder/GetBusinessPartnerDDL?accountId=${accId}&businessUnitId=${buId}`
     );
     setter(res?.data);
   } catch (error) {

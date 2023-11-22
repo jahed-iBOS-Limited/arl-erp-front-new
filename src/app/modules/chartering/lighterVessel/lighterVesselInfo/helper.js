@@ -1,6 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
+import { iMarineBaseURL } from "../../helper";
 
 export const validationSchema = Yup.object().shape({
   lighterVesselName: Yup.string().required("Name is required"),
@@ -19,7 +20,7 @@ export const getLighterVesselList = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/LighterVessel/GetLighterVesselLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+      `${iMarineBaseURL}/domain/LighterVessel/GetLighterVesselLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
     setter(res?.data);
     setLoading(false);
@@ -33,7 +34,7 @@ export const saveLighterVessel = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      `https://imarine.ibos.io/domain/LighterVessel/CreateLighterVessel`,
+      `${iMarineBaseURL}/domain/LighterVessel/CreateLighterVessel`,
       data
     );
     toast.success(res?.data?.message);
@@ -49,7 +50,7 @@ export const saveEditedLighterVessel = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `https://imarine.ibos.io/domain/LighterVessel/EditLighterVessel`,
+      `${iMarineBaseURL}/domain/LighterVessel/EditLighterVessel`,
       data
     );
     toast.success(res?.data?.message);

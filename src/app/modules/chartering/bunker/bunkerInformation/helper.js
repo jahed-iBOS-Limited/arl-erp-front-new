@@ -1,6 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
+import { iMarineBaseURL } from "../../helper";
 
 export const validationSchema = Yup.object().shape({
   vesselName: Yup.object().shape({
@@ -17,7 +18,7 @@ export const saveBunkerInformation = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      `https://imarine.ibos.io/domain/BunkerInformation/CreateBunkerInformation`,
+      `${iMarineBaseURL}/domain/BunkerInformation/CreateBunkerInformation`,
       data
     );
     toast.success(res?.data?.message);
@@ -33,7 +34,7 @@ export const editBunkerInformation = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `https://imarine.ibos.io/domain/BunkerInformation/EditBunkerInformation`,
+      `${iMarineBaseURL}/domain/BunkerInformation/EditBunkerInformation`,
       data
     );
     toast.success(res?.data?.message);
@@ -60,7 +61,7 @@ export const getBunkerInformationLandingData = async (
   const search = searchValue ? `&search=${searchValue}` : "";
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/BunkerInformation/GetBunkerInformation?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${search}`
+      `${iMarineBaseURL}/domain/BunkerInformation/GetBunkerInformation?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${search}`
     );
     setter(res?.data);
     setLoading(false);
@@ -79,7 +80,7 @@ export const getBunkerInformationByVoyageId = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/Voyage/GetBunkerInformationByVoyage?VoyageId=${voyageId}`
+      `${iMarineBaseURL}/domain/Voyage/GetBunkerInformationByVoyage?VoyageId=${voyageId}`
     );
     const {
       bodLsfoQty,
@@ -126,7 +127,7 @@ export const getPreBORInformationByVoyageId = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/BunkerInformation/GetBorInformationByVesselIdAndVoyageNo?vesselId=${vesselId}&voyageNoId=${voyageId}&accountId=${accId}&businessUnitId=${buId}`
+      `${iMarineBaseURL}/domain/BunkerInformation/GetBorInformationByVesselIdAndVoyageNo?vesselId=${vesselId}&voyageNoId=${voyageId}&accountId=${accId}&businessUnitId=${buId}`
     );
     setFieldValue("bodLsmgoQty", res?.data?.borLsmgoQty);
     setFieldValue("bodLsfo1Qty", res?.data?.borLsfo1Qty);
@@ -153,7 +154,7 @@ export const getItemRateByVoyageId = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/BunkerInformation/GetItemRateForBunker?AccountId=${accId}&BusinessUnitId=${buId}&VoyageNoId=${voyageId}&VesselId=${vesselId}`
+      `${iMarineBaseURL}/domain/BunkerInformation/GetItemRateForBunker?AccountId=${accId}&BusinessUnitId=${buId}&VoyageNoId=${voyageId}&VesselId=${vesselId}`
     );
     if (setFieldValue) {
       setFieldValue("bunkerSaleLsmgoRate", res?.data?.lsmgoPrice);
@@ -183,7 +184,7 @@ export const GetItemInfoFromPurchase = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/PurchaseBunker/GetItemInfoFromPurchase?BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}`
+      `${iMarineBaseURL}/domain/PurchaseBunker/GetItemInfoFromPurchase?BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}`
     );
     setter(res?.data);
     setLoading(false);
@@ -215,7 +216,7 @@ export const GetBunkerInformationById = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/BunkerInformation/GetBunkerInformationById?BunkerId=${bunkerId}`
+      `${iMarineBaseURL}/domain/BunkerInformation/GetBunkerInformationById?BunkerId=${bunkerId}`
     );
     cb(res?.data);
     setter(res?.data);

@@ -1,6 +1,7 @@
 import * as Yup from "yup";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { iMarineBaseURL } from "../../../helper";
 
 // Validation schema
 export const validationSchema = Yup.object().shape({
@@ -27,7 +28,7 @@ export const getAdditionalCostLandingData = async (
   const voyageID = voyageId ? `&VoyageId=${voyageId}` : "";
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/AdditionalCost/GetAddionalCostLanding?${vesselID}${voyageID}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+      `${iMarineBaseURL}/domain/AdditionalCost/GetAddionalCostLanding?${vesselID}${voyageID}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
     if (res?.data?.data?.length) {
       setter(res?.data);
@@ -47,7 +48,7 @@ export const createAdditionalCost = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      "https://imarine.ibos.io/domain/AdditionalCost/CreateAdditionalCost",
+      `${iMarineBaseURL}/domain/AdditionalCost/CreateAdditionalCost`,
       data
     );
     cb();
@@ -63,7 +64,7 @@ export const getCostTypeDDL = async (typeId, setter, setLoading) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/PortPDA/GetAdditionalCost?VoyageTypeId=${typeId}`
+      `${iMarineBaseURL}/domain/PortPDA/GetAdditionalCost?VoyageTypeId=${typeId}`
     );
     setter(res?.data);
     setLoading(false);
@@ -77,7 +78,7 @@ export const saveNewCostType = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      "https://imarine.ibos.io/domain/AdditionalCost/CreateAdditionalCostConfig",
+      `${iMarineBaseURL}/domain/AdditionalCost/CreateAdditionalCostConfig`,
       data
     );
     cb();
@@ -93,7 +94,7 @@ export const deleteAdditionalCost = async (id, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `https://imarine.ibos.io/domain/AdditionalCost/InActiveAdditionalCost?AdditionalCostId=${id}`
+      `${iMarineBaseURL}/domain/AdditionalCost/InActiveAdditionalCost?AdditionalCostId=${id}`
     );
     toast.success(res?.data?.message);
     cb();
@@ -114,7 +115,7 @@ export const getAdditionalCostById = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/AdditionalCost/GetAdditonalCostById?VesselId=${vesselId}&VoyageId=${voyageId}`
+      `${iMarineBaseURL}/domain/AdditionalCost/GetAdditonalCostById?VesselId=${vesselId}&VoyageId=${voyageId}`
     );
     setter(res?.data);
     cb && cb(res?.data[0]);
@@ -135,7 +136,7 @@ export const getBusinessPartnerDDL = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/Stakeholder/GetVoyageStackHolderInfo?BusinessUnitId=${buId}&VoyageId=${voyageId}&StackTypeId=${stackHolderTypeId}`
+      `${iMarineBaseURL}/domain/Stakeholder/GetVoyageStackHolderInfo?BusinessUnitId=${buId}&VoyageId=${voyageId}&StackTypeId=${stackHolderTypeId}`
     );
     const modifyData = res?.data?.map((item) => {
       return {
@@ -155,7 +156,7 @@ export const editOrCashReceive = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      "https://imarine.ibos.io/domain/AdditionalCost/EditAdditionalCost",
+      `${iMarineBaseURL}/domain/AdditionalCost/EditAdditionalCost`,
       data
     );
     cb();

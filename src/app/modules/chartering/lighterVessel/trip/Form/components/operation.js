@@ -14,7 +14,7 @@ import {
 } from "../../utils";
 import { CreateIcon } from "./header";
 import MotherVesselCreate from "../../_motherVessel/Form/addEditForm";
-import { GetLighterConsigneeDDL, getMotherVesselDDL } from "../../../../helper";
+import { GetLighterConsigneeDDL, getMotherVesselDDL, iMarineBaseURL } from "../../../../helper";
 import { shallowEqual, useSelector } from "react-redux";
 import ConsigneeForm from "../../../consignee/Form/addEditForm";
 import { _dateFormatter } from "../../../../_chartinghelper/_dateFormate";
@@ -111,7 +111,7 @@ export function OperationSection(props) {
                   if (v?.length < 3) return [];
                   return axios
                     .get(
-                      `https://imarine.ibos.io/domain/LighterConsignee/GetCustomerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&searchName=${v}`
+                      `${iMarineBaseURL}/domain/LighterConsignee/GetCustomerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&searchName=${v}`
                     )
                     .then((res) => res?.data);
                 }}
@@ -162,7 +162,7 @@ export function OperationSection(props) {
                   if (v?.length < 3) return [];
                   return axios
                     .get(
-                      `https://imarine.ibos.io/domain/LighterVesselSurvey/GetLighterVesselSRDDL?BusinessUnitId=${selectedBusinessUnit?.value}&SearchSRNumber=${v}`
+                      `${iMarineBaseURL}/domain/LighterVesselSurvey/GetLighterVesselSRDDL?BusinessUnitId=${selectedBusinessUnit?.value}&SearchSRNumber=${v}`
                     )
                     .then((res) => res?.data);
                 }}

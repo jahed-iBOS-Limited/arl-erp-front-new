@@ -1,6 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
+import { iMarineBaseURL } from "../../helper";
 
 // Validation schema
 export const validationSchema = Yup.object().shape({
@@ -23,7 +24,7 @@ export const GetCargoLandingData = async (
   const search = searchValue ? `&search=${searchValue}` : "";
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/Cargo/GetCargoLandingPagination?viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${search}`
+      `${iMarineBaseURL}/domain/Cargo/GetCargoLandingPagination?viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${search}`
     );
     setter(res.data);
     setLoading(false);
@@ -37,7 +38,7 @@ export const createCargo = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      "https://imarine.ibos.io/domain/Cargo/CreateCargo",
+      `${iMarineBaseURL}/domain/Cargo/CreateCargo`,
       data
     );
     cb();
@@ -53,7 +54,7 @@ export const editCargo = async (data, setLoading) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      "https://imarine.ibos.io/domain/Cargo/EditCargo",
+      `${iMarineBaseURL}/domain/Cargo/EditCargo`,
       data
     );
 
@@ -69,7 +70,7 @@ export const DeleteCargo = async (id, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.delete(
-      `https://imarine.ibos.io/domain/Cargo/DeleteCargo?cargoId=${id}`
+      `${iMarineBaseURL}/domain/Cargo/DeleteCargo?cargoId=${id}`
     );
     toast.success(res?.data?.message);
     cb();
@@ -84,7 +85,7 @@ export const activeInactiveCargo = async (id, status, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `https://imarine.ibos.io/domain/Cargo/ActiveOrInActive?cargoId=${id}&activeOrInActive=${status}`
+      `${iMarineBaseURL}/domain/Cargo/ActiveOrInActive?cargoId=${id}&activeOrInActive=${status}`
     );
     toast.success(res?.data?.message);
     cb();

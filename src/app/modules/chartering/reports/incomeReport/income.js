@@ -9,7 +9,7 @@ import Loading from "../../_chartinghelper/loading/_loading";
 import ICustomTable from "../../_chartinghelper/_customTable";
 import { getIncomeReport } from "./helper";
 import FormikSelect from "../../_chartinghelper/common/formikSelect";
-import { getVesselDDL, getVoyageDDLNew } from "../../helper";
+import { getVesselDDL, getVoyageDDLNew, iMarineBaseURL } from "../../helper";
 import customStyles from "../../_chartinghelper/common/selectCustomStyle";
 import moment from "moment";
 import { _fixedPoint } from "../../../_helper/_fixedPoint";
@@ -122,7 +122,7 @@ export default function IncomeReport() {
 
   const getJournalData = (item) => {
     getJournalDetails(
-      `https://imarine.ibos.io/domain/Report/GetJvByVesselVoyage?AccountId=${accId}&BusinessUnitId=${buId}&VesselName=${item?.vesselName}&VoyageNo=${item?.voyageNo}&ChartererId=${item?.chartererId}`,
+      `${iMarineBaseURL}/domain/Report/GetJvByVesselVoyage?AccountId=${accId}&BusinessUnitId=${buId}&VesselName=${item?.vesselName}&VoyageNo=${item?.voyageNo}&ChartererId=${item?.chartererId}`,
       (resData) => {
         if (resData?.length > 0) {
           setShowJournalDetails(true);
@@ -156,7 +156,7 @@ export default function IncomeReport() {
       };
 
       createJournal(
-        `https://imarine.ibos.io/domain/TimeCharterTransaction/IncomeSatetementJournal`,
+        `${iMarineBaseURL}/domain/TimeCharterTransaction/IncomeSatetementJournal`,
         payload,
         () => {
           let _data = [...gridData];
@@ -185,7 +185,7 @@ export default function IncomeReport() {
       };
 
       createJournal(
-        `https://imarine.ibos.io/domain/TimeCharterTransaction/IncomeSatetementAdjustmentJournal`,
+        `${iMarineBaseURL}/domain/TimeCharterTransaction/IncomeSatetementAdjustmentJournal`,
         payload,
         () => {
           let _data = [...gridData];
@@ -387,7 +387,7 @@ export default function IncomeReport() {
                       <IButton
                         onClick={() => {
                           postAllJV(
-                            `https://imarine.ibos.io/domain/Report/CreateForceAutoJournal?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`
+                            `${iMarineBaseURL}/domain/Report/CreateForceAutoJournal?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`
                           );
                         }}
                       >

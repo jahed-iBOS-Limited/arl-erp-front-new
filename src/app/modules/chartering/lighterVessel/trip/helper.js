@@ -1,6 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import { _dateFormatter } from "../../_chartinghelper/_dateFormatter";
+import { iMarineBaseURL } from "../../helper";
 
 export const getTripLandingData = async ({
   accId,
@@ -26,7 +27,7 @@ export const getTripLandingData = async ({
 
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/LighterVesselTrip/GetLighterVesselTripLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${lighterIdStr}${statusStr}${fromDateStr}${toDateStr}${vesselTypeStr}`
+      `${iMarineBaseURL}/domain/LighterVesselTrip/GetLighterVesselTripLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${lighterIdStr}${statusStr}${fromDateStr}${toDateStr}${vesselTypeStr}`
     );
     setter(res?.data);
     setLoading(false);
@@ -39,7 +40,7 @@ export const getTripLandingData = async ({
 export const updateOilRateApi = async (payload) => {
   try {
     const res = await axios.put(
-      `https://imarine.ibos.io/domain/LighterVessel/EditLighterVesselOilRate`,
+      `${iMarineBaseURL}/domain/LighterVessel/EditLighterVesselOilRate`,
       payload
     );
     toast.success(res?.data?.message, { toastId: 34567890 });
@@ -53,7 +54,7 @@ export const updateOilRateApi = async (payload) => {
 export const getOilRateApi = async ({ values, setFieldValue }) => {
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/LighterVessel/GetLighterVesselOilRate`
+      `${iMarineBaseURL}/domain/LighterVessel/GetLighterVesselOilRate`
     );
 
     setFieldValue("numDieselRate", res?.data[0]?.numOilRate);
@@ -90,7 +91,7 @@ export const getItemRateForBunker = async ({
   setLoading(true);
   try {
     const { data } = await axios.get(
-      `https://imarine.ibos.io/domain/BunkerInformation/GetItemRateForBunker?AccountId=${accId}&BusinessUnitId=${buId}&VoyageNoId=${voyageId}&VesselId=${vesselId}`
+      `${iMarineBaseURL}/domain/BunkerInformation/GetItemRateForBunker?AccountId=${accId}&BusinessUnitId=${buId}&VoyageNoId=${voyageId}&VesselId=${vesselId}`
     );
     setter("lsfotripRate", data?.lsifoPrice);
     setter("lsmgotripRate", data?.lsmgoPrice);
@@ -105,7 +106,7 @@ export const createTrip = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      "https://imarine.ibos.io/domain/LighterVesselTrip/CreateLighterVesselTrip",
+      `${iMarineBaseURL}/domain/LighterVesselTrip/CreateLighterVesselTrip`,
       data
     );
     cb();
@@ -121,7 +122,7 @@ export const editTrip = async (data, setLoading) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      "https://imarine.ibos.io/domain/LighterVesselTrip/EditLighterVesselTrip",
+      `${iMarineBaseURL}/domain/LighterVesselTrip/EditLighterVesselTrip`,
       data
     );
     if (res?.status === 200) {
@@ -147,7 +148,7 @@ export const getTripDataById = async ({
   setLoading(true);
   try {
     const { data } = await axios.get(
-      `https://imarine.ibos.io/domain/LighterVesselTrip/LighterVesselTripGetById?LighterTripId=${id}`
+      `${iMarineBaseURL}/domain/LighterVesselTrip/LighterVesselTripGetById?LighterTripId=${id}`
     );
 
     const exp = data?.exp;
@@ -236,7 +237,7 @@ export const setValue = async (
 ) => {
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/LighterVesselSurvey/GetLighterVesselSurveyByID?SurveyId=${id}`
+      `${iMarineBaseURL}/domain/LighterVesselSurvey/GetLighterVesselSurveyByID?SurveyId=${id}`
     );
   if(res?.data){
     setFieldValue("eta", _dateFormatter(res?.data?.arrivalDate));

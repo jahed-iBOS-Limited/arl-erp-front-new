@@ -18,6 +18,7 @@ import Loading from "../../../_chartinghelper/loading/_loading";
 import { getSalesOrgList } from "../../../transaction/timeCharter/helper";
 import { getMonthlyVoyageStatement, months } from "../helper";
 import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
+import { iMarineBaseURL } from "../../../helper";
 
 const headers = [
   { name: "SL" },
@@ -77,7 +78,7 @@ export default function MonthlyVoyageStatement() {
     getSBUListDDL(accId, buId, setSBUList);
   }, [accId, buId]);
 
-  const JournalPost = (values, item, index) => {
+  const JournalPost = (values, item, index, journalType) => {
     const payload = {
       accountId: accId,
       businessUnitId: buId,
@@ -102,7 +103,7 @@ export default function MonthlyVoyageStatement() {
     };
 
     createJournal(
-      `https://imarine.ibos.io/domain/LighterVesselStatement/LighterVesselIncomeSatetementJournal`,
+      `${iMarineBaseURL}/domain/LighterVesselStatement/LighterVesselIncomeSatetementJournal`,
       payload,
       () => {
         let _data = [...gridData];
@@ -299,21 +300,35 @@ export default function MonthlyVoyageStatement() {
                         </td>
                         <td>{item?.dischargePortName}</td>
                         <td>
-                          <button
-                            className="btn btn-sm btn-info"
-                            type="button"
-                            onClick={() => {
-                              JournalPost(values, item, index);
-                            }}
-                            disabled={
-                              item?.jvDisable ||
-                              isLoading ||
-                              !values?.sbu ||
-                              !values?.salesOrg
-                            }
-                          >
-                            JV
-                          </button>
+                          <div className="d-flex justify-content-around align-items-center">
+                            <button
+                              className="btn btn-sm btn-info"
+                              type="button"
+                              onClick={() => {
+                                JournalPost(values, item, index, "jv");
+                              }}
+                              disabled={
+                                item?.jvDisable ||
+                                isLoading ||
+                                !values?.sbu ||
+                                !values?.salesOrg
+                              }
+                            >
+                              JV
+                            </button>
+                            <button
+                              className="btn btn-sm btn-info"
+                              type="button"
+                              onClick={() => {
+                                JournalPost(values, item, index, "aj");
+                              }}
+                              disabled={
+                                isLoading || !values?.sbu || !values?.salesOrg
+                              }
+                            >
+                              A.J.
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     );

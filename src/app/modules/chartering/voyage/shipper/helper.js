@@ -1,6 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
+import { iMarineBaseURL } from "../../helper";
 
 // Validation schema
 export const validationSchema = Yup.object().shape({
@@ -25,7 +26,7 @@ export const getShipperLandingData = async ({
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/HireCargoInfo/GetHireCargoInfoLanding?VoyageId=${voyageId}&VesselId=${vesselId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+      `${iMarineBaseURL}/domain/HireCargoInfo/GetHireCargoInfoLanding?VoyageId=${voyageId}&VesselId=${vesselId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
     setter(res?.data);
     setLoading(false);
@@ -39,7 +40,7 @@ export const getShipperDDLbyVoyageId = async (voyageId, setter, setLoading) => {
   setLoading && setLoading(true);
   try {
     const { data } = await axios.get(
-      `https://imarine.ibos.io/domain/HireCargoInfo/GetShipperDDlByVoyage?VoyageId=${voyageId}`
+      `${iMarineBaseURL}/domain/HireCargoInfo/GetShipperDDlByVoyage?VoyageId=${voyageId}`
     );
     setter(data);
     setLoading && setLoading(false);
@@ -58,7 +59,7 @@ export const getCargoDDLbyChartererId = async (
   setLoading && setLoading(true);
   try {
     const { data } = await axios.get(
-      `https://imarine.ibos.io/domain/HireCargoInfo/GetCargoDDl?CharterId=${chartererId}&VoyageId=${voyageId}`
+      `${iMarineBaseURL}/domain/HireCargoInfo/GetCargoDDl?CharterId=${chartererId}&VoyageId=${voyageId}`
     );
     setter(data);
     setLoading && setLoading(false);
@@ -78,7 +79,7 @@ export const getCargoDDLbyChartererIdForInvoice = async (
   setLoading && setLoading(true);
   try {
     const { data } = await axios.get(
-      `https://imarine.ibos.io/domain/FreightInvoice/GetInvoiceCargoDDL?VoyageId=${voyageId}&ChartererId=${chartererId}`
+      `${iMarineBaseURL}/domain/FreightInvoice/GetInvoiceCargoDDL?VoyageId=${voyageId}&ChartererId=${chartererId}`
     );
     setter(data);
     setLoading && setLoading(false);
@@ -99,7 +100,7 @@ export const getItemRateForBunker = async ({
   setLoading(true);
   try {
     const { data } = await axios.get(
-      `https://imarine.ibos.io/domain/BunkerInformation/GetItemRateForBunker?AccountId=${accId}&BusinessUnitId=${buId}&VoyageNoId=${voyageId}&VesselId=${vesselId}`
+      `${iMarineBaseURL}/domain/BunkerInformation/GetItemRateForBunker?AccountId=${accId}&BusinessUnitId=${buId}&VoyageNoId=${voyageId}&VesselId=${vesselId}`
     );
     setter("lsfoballastRate", data?.lsifoPrice);
     setter("lsmgoballastRate", data?.lsmgoPrice);
@@ -114,7 +115,7 @@ export const createShipper = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      "https://imarine.ibos.io/domain/HireCargoInfo/CreateCargoHireInfo",
+      `${iMarineBaseURL}/domain/HireCargoInfo/CreateCargoHireInfo`,
       data
     );
     cb();
@@ -130,7 +131,7 @@ export const editShipper = async (data, setLoading) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      "https://imarine.ibos.io/domain/HireCargoInfo/EditCargoHireInfo",
+      `${iMarineBaseURL}/domain/HireCargoInfo/EditCargoHireInfo`,
       data
     );
 
@@ -153,7 +154,7 @@ export const getSingleData = async ({
   setLoading(true);
   try {
     const { data } = await axios.get(
-      `https://imarine.ibos.io/domain/HireCargoInfo/GetCargoHireInfoById?CargoHireId=${id}`
+      `${iMarineBaseURL}/domain/HireCargoInfo/GetCargoHireInfoById?CargoHireId=${id}`
     );
 
     const objHeaderDTO = data?.objHeaderDTO;

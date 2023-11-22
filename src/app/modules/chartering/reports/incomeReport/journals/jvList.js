@@ -12,6 +12,7 @@ import ICustomTable from "../../../_chartinghelper/_customTable";
 import { _dateFormatter } from "../../../_chartinghelper/_dateFormatter";
 import { _todayDate } from "../../../_chartinghelper/_todayDate";
 import Loading from "../../../_chartinghelper/loading/_loading";
+import { iMarineBaseURL } from "../../../helper";
 
 const initData = { fromDate: _firstDateofMonth(), toDate: _todayDate() };
 
@@ -26,7 +27,7 @@ export default function JVListTable() {
 
   const getData = (values) => {
     getGridData(
-      `https://imarine.ibos.io/domain/Report/VesselVoyageWiseJournalReport?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`
+      `${iMarineBaseURL}/domain/Report/VesselVoyageWiseJournalReport?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`
     );
   };
 
