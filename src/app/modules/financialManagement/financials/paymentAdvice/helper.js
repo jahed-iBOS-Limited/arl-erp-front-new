@@ -109,6 +109,11 @@ export const getPaymentAdviceIndoPagination = async (
     let newdata =  res?.data.map(item =>{
       return {
         ...item,
+        apiAmount: +item?.monAmount,
+        monAmount: [1, 2]?.includes(+billType)
+          ? (+item?.monAmount || 0) -
+            ((+item?.numTds || 0) + (+item?.numVds || 0))
+          : +item?.monAmount,
         paymentDate: _todayDate()
       }
     })
