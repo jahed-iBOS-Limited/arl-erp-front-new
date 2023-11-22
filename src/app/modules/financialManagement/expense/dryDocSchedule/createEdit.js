@@ -59,6 +59,13 @@ export default function DryDocCreateEdit() {
   const [rowData, setRowData] = useState([]);
   const [open, setOpen] = useState(false);
   const [fileObjects, setFileObjects] = useState([]);
+  const [modifiedData, setModifiedData] = useState({});
+
+  useEffect(() => {
+    if (id) {
+      // setModifiedData here
+    }
+  }, [id]);
 
   const saveHandler = (values, cb) => {
     if (!rowData?.length) {

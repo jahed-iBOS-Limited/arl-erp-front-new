@@ -29,10 +29,10 @@ const ProductEditSchema = Yup.object().shape({
     label: Yup.string().required("Purchase organization is required"),
     value: Yup.string().required("Purchase organization is required"),
   }),
-  priceStructure: Yup.object().shape({
-    label: Yup.string().required("Price structure is required"),
-    value: Yup.string().required("Price structure is required"),
-  }),
+  // priceStructure: Yup.object().shape({
+  //   label: Yup.string().required("Price structure is required"),
+  //   value: Yup.string().required("Price structure is required"),
+  // }),
 });
 
 export default function _Form({
@@ -273,7 +273,7 @@ export default function _Form({
                     }}
                   />
                 </div>
-                <div className="col-lg-3">
+                {/* <div className="col-lg-3">
                   <NewSelect
                     label="Price structure"
                     options={priceDDL || []}
@@ -285,7 +285,7 @@ export default function _Form({
                       setFieldValue("priceStructure", valueOption);
                     }}
                   />
-                </div>
+                </div> */}
                 <div className="col-lg-3">
                   <NewSelect
                     label="AC Payable GL"

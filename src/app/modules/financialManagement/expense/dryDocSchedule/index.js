@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import Loading from "../../../_helper/_loading";
 import IForm from "../../../_helper/_form";
@@ -8,6 +8,11 @@ import NewSelect from "../../../_helper/_select";
 import { _todayDate } from "../../../_helper/_todayDate";
 import InputField from "../../../_helper/_inputField";
 import { shallowEqual, useSelector } from "react-redux";
+import IEdit from "../../../_helper/_helperIcons/_edit";
+import IView from "../../../_helper/_helperIcons/_view";
+import IViewModal from "../../../_helper/_viewModal";
+import ActivityListModal from "./activityListModal";
+import { imarineBaseUrl } from "../../../../App";
 const initData = {
   vessel: "",
   fromDate: _todayDate(),
@@ -29,14 +34,19 @@ export default function DryDocLanding() {
     tableDataLoader,
     setTableData,
   ] = useAxiosGet();
+  const [activityListModal, setActivityListModal] = useState(false);
+  const [clickedItem, setClickedItem] = useState(null);
 
   useEffect(() => {
     getVesselDDL(
-      `https://imarine.ibos.io/domain/Voyage/GetVesselDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
+      `${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const getData = (values) => {};
+  const getData = (values) => {
+    // getTableData()
+  };
 
   return (
     <Formik
@@ -133,7 +143,7 @@ export default function DryDocLanding() {
                     type="button"
                     className="btn btn-primary"
                     onClick={() => {
-                      // getTableData()
+                      getData(values);
                     }}
                     disabled={
                       !values?.vessel || !values?.fromDate || !values?.toDate
@@ -157,8 +167,43 @@ export default function DryDocLanding() {
                       <th>Action</th>
                     </tr>
                   </thead>
+                  <tbody>
+                    {tableData?.length > 0 &&
+                      tableData?.map((item, index) => (
+                        <tr key={index}>
+                          <td>{index + 1}</td>
+                          <td>{item?.vesselName}</td>
+                          <td>{item?.dockyardName}</td>
+                          <td>{item?.fromDate}</td>
+                          <td>{item?.toDate}</td>
+                          <td>{item?.remarks}</td>
+                          <td>{item?.budgetAmount}</td>
+                          <td className="text-center">
+                            <IView
+                              clickHandler={() => {
+                                setClickedItem(item);
+                                setActivityListModal(true);
+                              }}
+                            />
+                            <IEdit
+                              onClick={() => {
+                                console.log("edit clicked");
+                              }}
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
                 </table>
               </div>
+
+              <IViewModal
+                show={activityListModal}
+                onHide={() => setActivityListModal(false)}
+                modelSize="lg"
+              >
+                <ActivityListModal clickedItem={clickedItem} />
+              </IViewModal>
             </Form>
           </IForm>
         </>
