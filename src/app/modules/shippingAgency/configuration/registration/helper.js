@@ -71,10 +71,21 @@ export const getASLLAgencyRegistrationById = async (id, setLoading, setter) => {
   }
 };
 
+// export const getVesselDDL = async (accId, buId, setter, vesselId) => {
+//   try {
+//     const res = await axios.get(
+//       `/asset/Asset/GetAssetVesselDdl?IntBussinessUintId=${buId}`
+//     );
+//     setter(res.data);
+//   } catch (error) {
+//     setter([]);
+//   }
+// };
 export const getVesselDDL = async (accId, buId, setter, vesselId) => {
+  const vesselIdStr = vesselId ? `&IsVessel=${vesselId}` : ""; // first perameter so not (?)
   try {
     const res = await axios.get(
-      `/asset/Asset/GetAssetVesselDdl?IntBussinessUintId=${buId}`
+      `${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}${vesselIdStr}`
     );
     setter(res.data);
   } catch (error) {
