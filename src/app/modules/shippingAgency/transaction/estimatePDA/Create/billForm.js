@@ -47,7 +47,7 @@ function BillForm({ clickRowData, estimatePDABillAddHandler }) {
       cb,
     });
   };
-  
+
   const rowAddHandelar = (values, setFieldValue) => {
     const obj = {
       billId: 0,
@@ -57,8 +57,8 @@ function BillForm({ clickRowData, estimatePDABillAddHandler }) {
       billType: values?.billType?.label || "",
       amount: +values?.amount || 0,
       vat: +values?.vat || 0,
-      poPdFw: +values?.popdandfw || 0,
-      poVat: +values?.povat || 0,
+      poPdFw: values?.popdandfw || 0,
+      poVat: values?.povat || 0,
       total: +values?.total || 0,
       status: values?.status?.label || "",
       attachmentsId: values?.attachment || "",
@@ -176,6 +176,12 @@ function BillForm({ clickRowData, estimatePDABillAddHandler }) {
                       type='number'
                       errors={errors}
                       touched={touched}
+                      onChange={(e) => {
+                        setFieldValue("amount", e.target.value);
+                        const amount  =  +e.target.value || 0;
+                        const vat  =  +values?.vat || 0;
+                        setFieldValue("total", amount + vat);
+                      }}
                     />
                   </div>
                   <div className='col-lg-3'>
@@ -187,6 +193,12 @@ function BillForm({ clickRowData, estimatePDABillAddHandler }) {
                       type='number'
                       errors={errors}
                       touched={touched}
+                      onChange={(e) => {
+                        setFieldValue("vat", e.target.value);
+                        const amount  =  +values?.amount || 0;
+                        const vat  =  +e.target.value || 0;
+                        setFieldValue("total", amount + vat);
+                      }}
                     />
                   </div>
 

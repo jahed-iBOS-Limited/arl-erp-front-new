@@ -1,5 +1,6 @@
 import axios from "axios";
 import { toast } from "react-toastify";
+import { imarineBaseUrl } from "../../../../App";
 
 export const getIncomeStatement = async (
   vesselId,
@@ -12,7 +13,7 @@ export const getIncomeStatement = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/HireStatement/GetHireStatementInfo?VeseelId=${vesselId}&VoyageId=${voyageId}&HireType=${hireType}`
+      `${imarineBaseUrl}/domain/HireStatement/GetHireStatementInfo?VeseelId=${vesselId}&VoyageId=${voyageId}&HireType=${hireType}`
     );
     hireType === 1 && cb();
     setter(res?.data);
@@ -34,7 +35,7 @@ export const getAdditionalCostById = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/AdditionalCost/GetAdditonalCostById?VesselId=${vesselId}&VoyageId=${voyageId}`
+      `${imarineBaseUrl}/domain/AdditionalCost/GetAdditonalCostById?VesselId=${vesselId}&VoyageId=${voyageId}`
     );
     setter(res?.data);
     cb && cb(res?.data[0]);
@@ -57,7 +58,7 @@ export const getIncomeStatementNew = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/HireStatement/GetHireStatementInfoNew?VeseelId=${vesselId}&VoyageId=${voyageId}&HireType=${hireType}`
+      `${imarineBaseUrl}/domain/HireStatement/GetHireStatementInfoNew?VeseelId=${vesselId}&VoyageId=${voyageId}&HireType=${hireType}`
     );
     hireType === 1 && cb();
     setter(res?.data);
@@ -80,7 +81,7 @@ export const getIncomeStatementForVoyageCharter = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/HireStatement/GetHireStatementInfoVoyagge?VeseelId=${vesselId}&VoyageId=${voyageId}&HireType=${hireType}`
+      `${imarineBaseUrl}/domain/HireStatement/GetHireStatementInfoVoyagge?VeseelId=${vesselId}&VoyageId=${voyageId}&HireType=${hireType}`
     );
     setter(res?.data);
     cb();
@@ -103,7 +104,7 @@ export const GetTransactionDetailsForStatement = async (
   // setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/TimeCharterTransaction/GetTransactionDetails?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&HireTrasaction=16`
+      `${imarineBaseUrl}/domain/TimeCharterTransaction/GetTransactionDetails?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&HireTrasaction=16`
     );
     setter(res?.data?.previousTransaciton);
     // setLoading(false);
@@ -122,7 +123,7 @@ export const GetVesselBunkerInvInfo = async (
   // setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/BunkerCost/GetVesselBunkerInvInfo?VesselId=${vesselId}&VoyageId=${voyageId}&TransTypeId=2`
+      `${imarineBaseUrl}/domain/BunkerCost/GetVesselBunkerInvInfo?VesselId=${vesselId}&VoyageId=${voyageId}&TransTypeId=2`
     );
     setter(res?.data);
     // setLoading(false);

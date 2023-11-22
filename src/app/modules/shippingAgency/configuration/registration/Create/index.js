@@ -1,30 +1,29 @@
+import axios from "axios";
 import { Formik } from "formik";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
+import { useParams } from "react-router";
 import { useHistory } from "react-router-dom";
-import { _currentTime } from "../../../../_helper/_currentTime";
+import { toast } from "react-toastify";
+import * as Yup from "yup";
+import { imarineBaseUrl } from "../../../../../App";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import ICustomCard from "../../../../_helper/_customCard";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import FormikError from "../../../../_helper/_formikError";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import {
-  GetDomesticPortDDL,
   createUpdateASLLAgencyRegistration,
   getASLLAgencyRegistrationById,
+  getCargoDDL,
   getVesselDDL,
-  getVesselTypeDDL,
+  getVesselTypeDDL
 } from "../helper";
-import * as Yup from "yup";
-import { toast } from "react-toastify";
-import moment from "moment";
-import { useParams } from "react-router";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import axios from "axios";
-import FormikError from "../../../../_helper/_formikError";
-import { imarineBaseUrl } from "../../../../../App";
 const initData = {
   vesselName: "",
   vesselType: "",
@@ -73,6 +72,7 @@ const EstimatePDACreate = () => {
   const [vesselDDL, setVesselDDL] = useState([]);
   const [rowDto, setRowDto] = useState([]);
   const [vesselTypeDDL, setVesselTypeDDL] = useState([]);
+  const [cargoDDL, setCargoDDL] = useState([]);
   const { editId, viewId } = useParams();
 
   // get user data from store
@@ -83,8 +83,9 @@ const EstimatePDACreate = () => {
 
   useEffect(() => {
     if (accId && buId) {
-      getVesselDDL(accId, buId, setVesselDDL);
+      getVesselDDL(accId, 0, setVesselDDL);
       getVesselTypeDDL(accId, buId, setVesselTypeDDL);
+      getCargoDDL(setCargoDDL);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
@@ -363,16 +364,7 @@ const EstimatePDACreate = () => {
                 <div className='col-lg-3'>
                   <NewSelect
                     value={values?.cargoName || ""}
-                    options={[
-                      {
-                        value: 1,
-                        label: "Clinker",
-                      },
-                      {
-                        value: 2,
-                        label: "Limestone",
-                      },
-                    ]}
+                    options={cargoDDL}
                     name='cargoName'
                     placeholder='Cargo Name'
                     label='Cargo Name'

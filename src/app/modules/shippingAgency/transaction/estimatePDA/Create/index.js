@@ -6,15 +6,16 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
+import { imarineBaseUrl } from "../../../../../App";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import ICustomCard from "../../../../_helper/_customCard";
+import FormikError from "../../../../_helper/_formikError";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import NewSelect from "../../../../_helper/_select";
 import IViewModal from "../../../../_helper/_viewModal";
 import {
-  GetDomesticPortDDL,
   attachment_action,
   createUpdateEstimatePDA,
   getBankAc,
@@ -23,7 +24,7 @@ import {
   getExpenseParticularsList,
   getSBUListDDLApi,
   getVesselDDL,
-  getVoyageNoDDLApi,
+  getVoyageNoDDLApi
 } from "../helper";
 import ViewInvoice from "../landing/viewInvoice";
 import RowTable from "./rowTable";
@@ -78,7 +79,6 @@ const EstimatePDACreate = () => {
   const [fileObjects, setFileObjects] = useState([]);
   const [voyageNoDDL, setVoyageNoDDL] = useState([]);
   const [rowDto, setRowDto] = useState([]);
-  const [domesticPortDDL, setDomesticPortDDL] = useState([]);
   const [unitDDL, setUnitDDL] = useState([]);
   const [bankAcc, setBankAcc] = useState([]);
   const { editId } = useParams();
@@ -91,10 +91,9 @@ const EstimatePDACreate = () => {
   const [viewClickRowItem, setViewClickRowItem] = React.useState({});
   useEffect(() => {
     if (accId && buId) {
-      getVesselDDL(accId, buId, setVesselDDL);
+      getVesselDDL(accId, 0, setVesselDDL);
       getSBUListDDLApi(accId, buId, setSbuDDL);
       getVoyageNoDDLApi(accId, buId, setVoyageNoDDL);
-      GetDomesticPortDDL(setDomesticPortDDL);
       getBuUnitDDL(userId, accId, setUnitDDL);
       getBankAc(accId, buId, setBankAcc);
     }
@@ -151,7 +150,7 @@ const EstimatePDACreate = () => {
       beneficiaryId: values?.beneficiaryName?.value || 0,
       beneficiaryName: values?.beneficiaryName?.label || "",
       bankAccountId: values?.accountNo?.value || 0,
-      bankAccountName: values?.accountNo?.label || "",
+      bankAccountNo: values?.accountNo?.label || "",
       swiftCode: values?.swiftCode || "",
       shippingAgencyEstimatePdarowDtos: rowDto?.map((item) => {
         return {
@@ -353,18 +352,29 @@ const EstimatePDACreate = () => {
                   />
                 </div>
                 <div className='col-lg-3'>
-                  <NewSelect
-                    value={values?.workingPort || ""}
-                    options={domesticPortDDL || []}
-                    name='workingPort'
-                    placeholder='Working Port'
-                    label='Working Port'
-                    onChange={(valueOption) => {
-                      setFieldValue("workingPort", valueOption);
-                    }}
-                    errors={errors}
-                    touched={touched}
-                  />
+                  <div>
+                    <label>Working Port</label>
+                    <SearchAsyncSelect
+                      selectedValue={values?.workingPort}
+                      handleChange={(valueOption) => {
+                        setFieldValue("workingPort", valueOption);
+                      }}
+                      placeholder='Search minimum 3 characters...'
+                      loadOptions={(v) => {
+                        if (v?.length < 3) return [];
+                        return axios
+                          .get(
+                            `${imarineBaseUrl}/domain/Stakeholder/GetPortDDL?search=${v}`
+                          )
+                          .then((res) => res?.data);
+                      }}
+                    />
+                    <FormikError
+                      errors={errors}
+                      name='workingPort'
+                      touched={touched}
+                    />
+                  </div>
                 </div>
                 <div className='col-lg-3'>
                   <div>
@@ -388,23 +398,6 @@ const EstimatePDACreate = () => {
                     onChange={(e) => {
                       setFieldValue("activity", e.target.value);
                     }}
-                  />
-                </div>
-                <div className='col-lg-3'>
-                  <NewSelect
-                    value={values?.currency || ""}
-                    options={[
-                      { value: "BDT", label: "BDT" },
-                      { value: "USD", label: "USD" },
-                    ]}
-                    name='currency'
-                    placeholder='Currency'
-                    label='Currency'
-                    onChange={(valueOption) => {
-                      setFieldValue("currency", valueOption);
-                    }}
-                    errors={errors}
-                    touched={touched}
                   />
                 </div>
                 <div className='col-lg-3'>
@@ -459,7 +452,7 @@ const EstimatePDACreate = () => {
                 <div className='col-lg-3'>
                   <NewSelect
                     value={values?.accountNo || ""}
-                    options={unitDDL || []}
+                    options={bankAcc || []}
                     name='accountNo'
                     placeholder='Account No'
                     label='Account No'
