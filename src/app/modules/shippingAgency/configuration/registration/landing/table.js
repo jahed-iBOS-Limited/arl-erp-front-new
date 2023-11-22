@@ -9,7 +9,7 @@ const LandingTable = ({ obj }) => {
   const history = useHistory();
 
   return (
-    <>
+    <div className="table-responsive">
       <table className='table table-striped table-bordered global-table'>
         <thead>
           <tr>
@@ -64,7 +64,11 @@ const LandingTable = ({ obj }) => {
                     <IEdit />
                   </span>
 
-                  <span onClick={() => {}}>
+                  <span onClick={() => {
+                     history.push(
+                      `/ShippingAgency/Configuration/Registration/view/${item?.registrationId}`
+                    );
+                  }}>
                     <IView />
                   </span>
                 </div>
@@ -73,7 +77,7 @@ const LandingTable = ({ obj }) => {
           ))}
         </tbody>
       </table>
-    </>
+    </div>
   );
 };
 

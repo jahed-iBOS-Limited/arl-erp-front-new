@@ -160,7 +160,7 @@ export default function PartnerPurchase() {
           businessUnitId: businessunitid,
           sbuid: values?.sbu?.value,
           businessPartnerId: +id,
-          priceStructureId: values?.priceStructure?.value,
+          priceStructureId: values?.priceStructure?.value || 0,
           purchaseOrganizationId: values?.purchaseOrganization?.value,
           acPayGLId: values?.generalLedgerName?.value,
           advanceGLId: values?.advancedGeneralLedgerName?.value,

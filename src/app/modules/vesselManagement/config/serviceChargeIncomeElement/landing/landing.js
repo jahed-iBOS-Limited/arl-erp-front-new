@@ -129,7 +129,7 @@ const ServiceChargeAndIncomeElementLanding = () => {
                         SL
                       </th>
                       <th>Mother Vessel</th>
-                      <th>Warehouse</th>
+                      <th>Ship Point </th>
                       <th>Item</th>
                       <th style={{ minWidth: "70px" }}>Actions</th>
                     </tr>
@@ -144,7 +144,7 @@ const ServiceChargeAndIncomeElementLanding = () => {
                           <td className="text-center">
                             {item?.motherVesselName}
                           </td>
-                          <td className="text-center">{item?.wareHouseName}</td>
+                          <td className="text-center">{item?.shipPointName}</td>
                           <td className="text-center">{item?.itemName}</td>
                           <td className="text-center" style={{ width: "50px" }}>
                             <IView

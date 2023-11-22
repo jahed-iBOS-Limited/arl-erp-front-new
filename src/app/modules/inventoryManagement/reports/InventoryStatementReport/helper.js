@@ -6,25 +6,55 @@ export const businessUnitPlant_api = async (
   buId,
   userId,
   plantId,
-  setter
+  setter,
+  typeId = 0
 ) => {
   try {
     const res = await Axios.get(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=${plantId}`
     );
     if (res.status === 200 && res?.data) {
-      setter(res?.data);
+      if (typeId === 3) {
+        const updatedData = [
+          {
+            value: 0,
+            label: "All",
+          },
+          ...res?.data,
+        ];
+        setter(updatedData);
+      } else {
+        setter(res?.data);
+      }
     }
   } catch (error) {}
 };
 //Wearhouse_api Api call
-export const wearhouse_api = async (accId, buId, userId, plantId, setter) => {
+export const wearhouse_api = async (
+  accId,
+  buId,
+  userId,
+  plantId,
+  setter,
+  typeId = 0
+) => {
   try {
     const res = await Axios.get(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`
     );
     if (res.status === 200 && res?.data) {
-      setter(res?.data);
+      if (typeId === 3) {
+        const updatedData = [
+          {
+            value: 0,
+            label: "All",
+          },
+          ...res?.data,
+        ];
+        setter(updatedData);
+      } else {
+        setter(res?.data);
+      }
     }
   } catch (error) {}
 };
@@ -59,7 +89,8 @@ export const inventoryStatement_api = async ({
   if (type?.value === 2) {
     api = `/wms/WmsReport/InventoryStatementNew?businessUnitId=${buId}&warehouseId=${warehouseId}${typeIdQuery}${categoryIdQuery}${itemSubIdQuery}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}${searchPath}`;
   } else if (type?.value === 3) {
-    api = `/wms/WmsReport/InventoryRegister?AccountId=${accId}&businessUnitId=${buId}&warehouseId=${warehouseId}&fromDate=${fromDate}&toDate=${toDate}${typeIdQuery}${categoryIdQuery}${itemSubIdQuery}&pageNo=${pageNo}&pageSize=${pageSize}${searchPath}`;
+    // api = `/wms/WmsReport/InventoryRegister?AccountId=${accId}&businessUnitId=${buId}&warehouseId=${warehouseId}&fromDate=${fromDate}&toDate=${toDate}${typeIdQuery}${categoryIdQuery}${itemSubIdQuery}&pageNo=${pageNo}&pageSize=${pageSize}${searchPath}`;
+    api = `/wms/InventoryTransaction/GetInvnetoryInOutReport?intUnit=${buId}&dteFromDate=${fromDate}&dteToDate=${toDate}&intPlantId=${plantId}&intItemTypeId=${itemtypeId}&intItemId=0&intWarehouseId=${warehouseId}&strSearch=${searchPath}&PageNo=${pageNo}&PageSize=${pageSize}`;
   } else if (type?.value === 4) {
     api = `/wms/WmsReport/InventoryStatementStokeCoverage?businessUnitId=${buId}&whld=${warehouseId}&numAverageDay=${avgDays}${typeIdQuery}${categoryIdQuery}${itemSubIdQuery}&pageNo=${pageNo}&pageSize=${pageSize}${searchPath}`;
   } else if (type?.value === 5) {

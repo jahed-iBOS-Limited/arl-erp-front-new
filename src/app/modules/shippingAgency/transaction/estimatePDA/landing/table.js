@@ -2,13 +2,17 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import IView from "../../../../_helper/_helperIcons/_view";
+import IViewModal from "../../../../_helper/_viewModal";
+import ViewInvoice from "./viewInvoice";
 
 const LandingTable = ({ obj }) => {
   const { gridData } = obj;
   const history = useHistory();
+  const [isViewModal, setViewModal] = React.useState(false);
+  const [viewClickRowItem, setViewClickRowItem] = React.useState({});
 
   return (
-    <>
+    <div className='table-responsive'>
       <table className='table table-striped table-bordered global-table'>
         <thead>
           <tr>
@@ -31,17 +35,17 @@ const LandingTable = ({ obj }) => {
           {gridData?.data?.map((item, index) => (
             <tr key={index}>
               <td className='text-center'> {index + 1}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
+              <td>{item?.sbuName}</td>
+              <td>{item?.vesselName}</td>
+              <td>{item?.voyageNo}</td>
+              <td>{item?.workingPortName}</td>
+              <td>{item?.customerName}</td>
+              <td>{item?.activity}</td>
+              <td>{item?.currency}</td>
+              <td>{item?.exchangeRate}</td>
+              <td>{item?.estimatedAmount}</td>
+              <td>{item?.finalAmount}</td>
+              <td>{item?.actualAmount}</td>
               <td>
                 <div
                   className='d-flex justify-content-around'
@@ -52,14 +56,19 @@ const LandingTable = ({ obj }) => {
                   <span
                     onClick={() => {
                       history.push(
-                        `/ShippingAgency/Transaction/EstimatePDA/edit/${item?.complainId}`
+                        `/ShippingAgency/Transaction/EstimatePDA/edit/${item?.estimatePdaid}`
                       );
                     }}
                   >
                     <IEdit />
                   </span>
 
-                  <span onClick={() => {}}>
+                  <span
+                    onClick={() => {
+                      setViewModal(true);
+                      setViewClickRowItem(item);
+                    }}
+                  >
                     <IView />
                   </span>
                 </div>
@@ -68,7 +77,20 @@ const LandingTable = ({ obj }) => {
           ))}
         </tbody>
       </table>
-    </>
+      {isViewModal && (
+        <>
+          <IViewModal
+            show={isViewModal}
+            onHide={() => {
+              setViewModal(false);
+              setViewClickRowItem({});
+            }}
+          >
+            <ViewInvoice estimatePdaid={viewClickRowItem?.estimatePdaid} />
+          </IViewModal>
+        </>
+      )}
+    </div>
   );
 };
 

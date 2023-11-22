@@ -1,19 +1,20 @@
 import React from "react";
-import InputField from "../../../../_helper/_inputField";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import IAdd from "../../../../_helper/_helperIcons/_add";
+import InputField from "../../../../_helper/_inputField";
 import IViewModal from "../../../../_helper/_viewModal";
 import BillForm from "./billForm";
-
+import moment from "moment";
 function RowTable({ rowDto, setRowDto }) {
   const [isBillModal, isShowBillModal] = React.useState(false);
   const [clickRowData, setClickRowData] = React.useState({});
+
   return (
-    <div>
+    <div className='table-responsive'>
       <table className='table table-striped table-bordered global-table'>
         <thead>
           <tr>
             <th>SL</th>
-            <th>Code</th>
             <th>Category</th>
             <th>Expense Particulars</th>
             <th
@@ -38,14 +39,43 @@ function RowTable({ rowDto, setRowDto }) {
           {rowDto?.map((item, index) => (
             <tr key={index}>
               <td className='text-center'> {index + 1}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
-              <td>{item?.demo}</td>
+              <td>{item?.category}</td>
+              <td>
+                {item?.isEditExpPart ? (
+                  <InputField
+                    value={item?.particularName}
+                    name='particularName'
+                    type='text'
+                    onChange={(e) => {
+                      const copyRowDto = [...rowDto];
+                      copyRowDto[index].particularName = e.target.value;
+                      setRowDto(copyRowDto);
+                    }}
+                  />
+                ) : (
+                  item?.particularName
+                )}
+                {!item?.isEditExpPart && (
+                  <span
+                    onClick={() => {
+                      const copyRowDto = [...rowDto];
+                      copyRowDto[index].isEditExpPart = !item?.isEditExpPart;
+                      setRowDto(copyRowDto);
+                    }}
+                    style={{
+                      paddingLeft: "6px",
+                      display: "inline-block",
+                    }}
+                  >
+                    <i class='fa fa-pencil-square-o' aria-hidden='true'></i>
+                  </span>
+                )}
+              </td>
               <td>
                 <InputField
                   value={item?.estimatedAmount}
                   name='estimatedAmount'
-                  type='text'
+                  type='number'
                   onChange={(e) => {
                     const copyRowDto = [...rowDto];
                     copyRowDto[index].estimatedAmount = e.target.value;
@@ -57,7 +87,7 @@ function RowTable({ rowDto, setRowDto }) {
                 <InputField
                   value={item?.customerFinalAmount}
                   name='customerFinalAmount'
-                  type='text'
+                  type='number'
                   onChange={(e) => {
                     const copyRowDto = [...rowDto];
                     copyRowDto[index].customerFinalAmount = e.target.value;
@@ -65,8 +95,66 @@ function RowTable({ rowDto, setRowDto }) {
                   }}
                 />
               </td>
-              <td></td>
-
+              <td>
+                <OverlayTrigger
+                  overlay={
+                    <Tooltip className='mytooltip' id='info-tooltip'>
+                      <div>
+                        {item?.estimatePDABillCreateDtos?.map((itm, idx) => {
+                          return (
+                            <>
+                              <div>
+                                <p
+                                  style={{
+                                    margin: "0",
+                                    color:
+                                      itm?.status === "Paid"
+                                        ? "green"
+                                        : "orange",
+                                  }}
+                                >
+                                  <b>
+                                    {idx + 1}{" "}
+                                    <span
+                                      style={{
+                                        display: "inline-block",
+                                        padding: "0 5px",
+                                      }}
+                                    >
+                                      |
+                                    </span>{" "}
+                                    {moment(itm?.billDate).format("YYYY-MM-DD")}{" "}
+                                    <span
+                                      style={{
+                                        display: "inline-block",
+                                        padding: "0 5px",
+                                      }}
+                                    >
+                                      |
+                                    </span>{" "}
+                                    {itm?.total}
+                                  </b>
+                                </p>
+                              </div>
+                            </>
+                          );
+                        })}
+                      </div>
+                    </Tooltip>
+                  }
+                >
+                  <b
+                    style={{
+                      color: "blue",
+                      textDecoration: "underline",
+                      cursor: "pointer",
+                    }}
+                  >
+                    {item?.estimatePDABillCreateDtos?.length > 0 &&
+                      item?.actualAmount}
+                  </b>
+                </OverlayTrigger>
+              </td>
               <td className='text-center'>
                 <span
                   className='pointer'
@@ -78,7 +166,7 @@ function RowTable({ rowDto, setRowDto }) {
                     });
                   }}
                 >
-                  <IAdd />
+                  <IAdd title={"Bill Add"} />
                 </span>
               </td>
             </tr>
@@ -96,7 +184,24 @@ function RowTable({ rowDto, setRowDto }) {
               setClickRowData({});
             }}
           >
-            <BillForm clickRowData={clickRowData} />
+            <BillForm
+              clickRowData={clickRowData}
+              estimatePDABillAddHandler={({ billRowDto, cb }) => {
+                const copyRowDto = [...rowDto];
+                copyRowDto[
+                  clickRowData?.rowIdx
+                ].estimatePDABillCreateDtos = billRowDto;
+                const actualAmount =
+                  billRowDto?.reduce(
+                    (acc, cur) => acc + (+cur?.total || 0),
+                    0
+                  ) || 0;
+                copyRowDto[clickRowData?.rowIdx].actualAmount = actualAmount;
+                setRowDto(copyRowDto);
+                isShowBillModal(false);
+                setClickRowData({});
+              }}
+            />
           </IViewModal>
         </>
       )}

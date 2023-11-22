@@ -249,6 +249,7 @@ export default function _Form({
                           selectedBusinessUnit.value,
                           values?.itemName?.value,
                           valueOption?.value,
+                          values?.shopFloor?.value,
                           setBomName
                         );
                       }}
@@ -446,6 +447,7 @@ export default function _Form({
                   productionId={productionId}
                   plantName={values?.plantName?.value}
                   subPo={subPo}
+                  shopFloorId ={values?.shopFloor?.value}
                 />
               ) : null}
             </Form>

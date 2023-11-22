@@ -1,26 +1,29 @@
+import axios from "axios";
 import { Formik } from "formik";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
+import { useParams } from "react-router";
 import { useHistory } from "react-router-dom";
-import { _currentTime } from "../../../../_helper/_currentTime";
+import { toast } from "react-toastify";
+import * as Yup from "yup";
+import { imarineBaseUrl } from "../../../../../App";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import ICustomCard from "../../../../_helper/_customCard";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import FormikError from "../../../../_helper/_formikError";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import {
-  GetDomesticPortDDL,
   createUpdateASLLAgencyRegistration,
   getASLLAgencyRegistrationById,
+  getCargoDDL,
   getVesselDDL,
-  getVesselTypeDDL,
+  getVesselTypeDDL
 } from "../helper";
-import * as Yup from "yup";
-import { toast } from "react-toastify";
-import moment from "moment";
-import { useParams } from "react-router";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
 const initData = {
   vesselName: "",
   vesselType: "",
@@ -28,8 +31,8 @@ const initData = {
   voyageOwnerName: "",
   regNo: "",
   loadPort: "",
-  arrivedTime: _currentTime(),
-  sailedTime: _currentTime(),
+  arrivedTime: moment().format("YYYY-MM-DDTHH:mm"),
+  sailedTime: moment().format("YYYY-MM-DDTHH:mm"),
   cargoName: "",
   quantity: "",
   stevedore: "",
@@ -68,9 +71,9 @@ const EstimatePDACreate = () => {
   const [loading, setLoading] = useState(false);
   const [vesselDDL, setVesselDDL] = useState([]);
   const [rowDto, setRowDto] = useState([]);
-  const [portDDL, setPortDDL] = useState([]);
   const [vesselTypeDDL, setVesselTypeDDL] = useState([]);
-  const { editId } = useParams();
+  const [cargoDDL, setCargoDDL] = useState([]);
+  const { editId, viewId } = useParams();
 
   // get user data from store
   const {
@@ -80,9 +83,9 @@ const EstimatePDACreate = () => {
 
   useEffect(() => {
     if (accId && buId) {
-      getVesselDDL(accId, buId, setVesselDDL);
-      GetDomesticPortDDL(setPortDDL);
+      getVesselDDL(accId, 0, setVesselDDL);
       getVesselTypeDDL(accId, buId, setVesselTypeDDL);
+      getCargoDDL(setCargoDDL);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
@@ -103,9 +106,8 @@ const EstimatePDACreate = () => {
       registrationNumber: values?.regNo || "",
       loadPorteId: values?.loadPort?.value || 0,
       loadPortName: values?.loadPort?.label || "",
-      arrivedDateTime:
-        moment().format("YYYY-MM-DD") + "T" + values?.arrivedTime,
-      sailedDateTime: moment().format("YYYY-MM-DD") + "T" + values?.sailedTime,
+      arrivedDateTime: moment(values?.arrivedTime).format("YYYY-MM-DDTHH:mm"),
+      sailedDateTime: moment(values?.sailedTime).format("YYYY-MM-DDTHH:mm"),
       cargoId: values?.cargoName?.value || 0,
       cargoName: values?.cargoName?.label || "",
       quantity: values?.quantity || 0,
@@ -131,14 +133,14 @@ const EstimatePDACreate = () => {
   };
   const formikRef = React.useRef(null);
   useEffect(() => {
-    if (editId) {
+    if (editId || viewId) {
       commonGetById();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editId]);
+  }, [editId, viewId]);
 
   const commonGetById = async () => {
-    getASLLAgencyRegistrationById(editId, setLoading, (resData) => {
+    getASLLAgencyRegistrationById(editId || viewId, setLoading, (resData) => {
       if (formikRef.current) {
         formikRef.current.setValues({
           vesselType: resData?.vesselTypeId
@@ -163,8 +165,10 @@ const EstimatePDACreate = () => {
               }
             : "",
 
-          arrivedTime: moment(resData?.arrivedDateTime).format("HH:mm") || "",
-          sailedTime: moment(resData?.sailedDateTime).format("HH:mm") || "",
+          arrivedTime:
+            moment(resData?.arrivedDateTime).format("YYYY-MM-DDTHH:mm") || "",
+          sailedTime:
+            moment(resData?.sailedDateTime).format("YYYY-MM-DDTHH:mm") || "",
           cargoName: resData?.cargoId
             ? {
                 value: resData?.cargoId,
@@ -214,16 +218,26 @@ const EstimatePDACreate = () => {
         }) => (
           <>
             <ICustomCard
-              title={`Registration ${editId ? "Edit" : "Create"}`}
+              title={`Registration ${
+                editId ? "Edit" : viewId ? "View" : "Create"
+              }`}
               backHandler={() => {
                 history.goBack();
               }}
-              saveHandler={() => {
-                handleSubmit();
-              }}
-              resetHandler={() => {
-                resetForm(initData);
-              }}
+              saveHandler={
+                viewId
+                  ? false
+                  : () => {
+                      handleSubmit();
+                    }
+              }
+              resetHandler={
+                viewId
+                  ? false
+                  : () => {
+                      resetForm(initData);
+                    }
+              }
             >
               <div className='row global-form my-3'>
                 <div className='col-lg-3'>
@@ -238,6 +252,7 @@ const EstimatePDACreate = () => {
                     value={values?.vesselType}
                     errors={errors}
                     touched={touched}
+                    isDisabled={viewId}
                   />
                 </div>
                 <div className='col-lg-3'>
@@ -252,6 +267,7 @@ const EstimatePDACreate = () => {
                     }}
                     errors={errors}
                     touched={touched}
+                    isDisabled={viewId}
                   />
                 </div>
                 <div className='col-lg-3'>
@@ -264,6 +280,7 @@ const EstimatePDACreate = () => {
                       setFieldValue("voyageNo", e.target.value);
                     }}
                     placeholder='Voyage No'
+                    disabled={viewId}
                   />
                 </div>{" "}
                 <div className='col-lg-3'>
@@ -276,6 +293,7 @@ const EstimatePDACreate = () => {
                     onChange={(e) => {
                       setFieldValue("voyageOwnerName", e.target.value);
                     }}
+                    disabled={viewId}
                   />
                 </div>{" "}
                 <div className='col-lg-3'>
@@ -288,21 +306,34 @@ const EstimatePDACreate = () => {
                     onChange={(e) => {
                       setFieldValue("regNo", e.target.value);
                     }}
+                    disabled={viewId}
                   />
                 </div>
                 <div className='col-lg-3'>
-                  <NewSelect
-                    name='loadPort'
-                    options={portDDL || []}
-                    value={values?.loadPort}
-                    label='Load Port'
-                    onChange={(valueOption) => {
-                      setFieldValue("loadPort", valueOption);
-                    }}
-                    placeholder='Load Port'
-                    errors={errors}
-                    touched={touched}
-                  />
+                  <div>
+                    <label>Load Port</label>
+                    <SearchAsyncSelect
+                      selectedValue={values?.loadPort}
+                      handleChange={(valueOption) => {
+                        setFieldValue("loadPort", valueOption);
+                      }}
+                      placeholder='Search minimum 3 characters...'
+                      loadOptions={(v) => {
+                        if (v?.length < 3) return [];
+                        return axios
+                          .get(
+                            `${imarineBaseUrl}/domain/Stakeholder/GetPortDDL?search=${v}`
+                          )
+                          .then((res) => res?.data);
+                      }}
+                      isDisabled={viewId}
+                    />
+                    <FormikError
+                      errors={errors}
+                      name='loadPort'
+                      touched={touched}
+                    />
+                  </div>
                 </div>
                 <div className='col-lg-3'>
                   <label>Arrived Time</label>
@@ -310,10 +341,11 @@ const EstimatePDACreate = () => {
                     value={values?.arrivedTime}
                     placeholder='Arrived Time'
                     name='arrivedTime'
-                    type='time'
+                    type='datetime-local'
                     onChange={(e) => {
                       setFieldValue("arrivedTime", e.target.value);
                     }}
+                    disabled={viewId}
                   />
                 </div>
                 <div className='col-lg-3'>
@@ -322,25 +354,17 @@ const EstimatePDACreate = () => {
                     value={values?.sailedTime}
                     placeholder='Sailed Time'
                     name='sailedTime'
-                    type='time'
+                    type='datetime-local'
                     onChange={(e) => {
                       setFieldValue("sailedTime", e.target.value);
                     }}
+                    disabled={viewId}
                   />
                 </div>
                 <div className='col-lg-3'>
                   <NewSelect
                     value={values?.cargoName || ""}
-                    options={[
-                      {
-                        value: 1,
-                        label: "Clinker",
-                      },
-                      {
-                        value: 2,
-                        label: "Limestone",
-                      },
-                    ]}
+                    options={cargoDDL}
                     name='cargoName'
                     placeholder='Cargo Name'
                     label='Cargo Name'
@@ -349,6 +373,7 @@ const EstimatePDACreate = () => {
                     }}
                     errors={errors}
                     touched={touched}
+                    isDisabled={viewId}
                   />
                 </div>
                 <div className='col-lg-3'>
@@ -361,6 +386,7 @@ const EstimatePDACreate = () => {
                     onChange={(e) => {
                       setFieldValue("quantity", e.target.value);
                     }}
+                    disabled={viewId}
                   />
                 </div>
                 <div className='col-lg-3'>
@@ -373,6 +399,7 @@ const EstimatePDACreate = () => {
                     onChange={(e) => {
                       setFieldValue("stevedore", e.target.value);
                     }}
+                    disabled={viewId}
                   />
                 </div>{" "}
                 <div className='col-lg-3'>
@@ -385,6 +412,7 @@ const EstimatePDACreate = () => {
                     onChange={(e) => {
                       setFieldValue("cargoOwner", e.target.value);
                     }}
+                    disabled={viewId}
                   />
                 </div>
                 <div className='col-lg-3'>
@@ -397,63 +425,82 @@ const EstimatePDACreate = () => {
                     onChange={(e) => {
                       setFieldValue("remarks", e.target.value);
                     }}
+                    disabled={viewId}
                   />
                 </div>
                 <div className='col-lg-12'>
                   <hr />
                 </div>
-                <div className='col-lg-3'>
-                  <label>Completion Date</label>
-                  <InputField
-                    value={values?.completionDate || ""}
-                    placeholder='Completion Date'
-                    name='completionDate'
-                    type='date'
-                    onChange={(e) => {
-                      setFieldValue("completionDate", e.target.value);
-                    }}
-                  />
-                </div>
-                <div className='col-lg-3'>
-                  <NewSelect
-                    name='dischargePort'
-                    options={portDDL || []}
-                    value={values?.dischargePort}
-                    label='Discharge Port'
-                    onChange={(valueOption) => {
-                      setFieldValue("dischargePort", valueOption);
-                    }}
-                    placeholder='Discharge Port'
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                <div className='col-lg-3 mt-3'>
-                  <button
-                    className='btn btn-primary mt-3'
-                    onClick={() => {
-                      const obj = {
-                        rowId: 0,
-                        registrationId: 0,
-                        completionDate: values?.completionDate,
-                        dischargePortId: values?.dischargePort?.value,
-                        dischargePortName: values?.dischargePort?.label,
-                      };
+                {!viewId && (
+                  <>
+                    <div className='col-lg-3'>
+                      <label>Completion Date</label>
+                      <InputField
+                        value={values?.completionDate || ""}
+                        placeholder='Completion Date'
+                        name='completionDate'
+                        type='date'
+                        onChange={(e) => {
+                          setFieldValue("completionDate", e.target.value);
+                        }}
+                      />
+                    </div>
+                    <div className='col-lg-3'>
+                      <div>
+                        <label>Discharge Port</label>
+                        <SearchAsyncSelect
+                          selectedValue={values?.dischargePort}
+                          handleChange={(valueOption) => {
+                            setFieldValue("dischargePort", valueOption);
+                          }}
+                          placeholder='Search minimum 3 characters...'
+                          loadOptions={(v) => {
+                            if (v?.length < 3) return [];
+                            return axios
+                              .get(
+                                `${imarineBaseUrl}/domain/Stakeholder/GetPortDDL?search=${v}`
+                              )
+                              .then((res) => res?.data);
+                          }}
+                        />
+                        <FormikError
+                          errors={errors}
+                          name='dischargePort'
+                          touched={touched}
+                        />
+                      </div>
+                    </div>
+                    <div className='col-lg-3 mt-3'>
+                      <button
+                        className='btn btn-primary mt-3'
+                        onClick={() => {
+                          const obj = {
+                            rowId: 0,
+                            registrationId: 0,
+                            completionDate: values?.completionDate,
+                            dischargePortId: values?.dischargePort?.value,
+                            dischargePortName: values?.dischargePort?.label,
+                          };
 
-                      // duplicate check
-                      const duplicateCheck = rowDto?.some(
-                        (item) => item?.dischargePortId === obj?.dischargePortId
-                      );
-                      if (duplicateCheck)
-                        return toast.warn("Duplicate data found");
+                          // duplicate check
+                          const duplicateCheck = rowDto?.some(
+                            (item) =>
+                              item?.dischargePortId === obj?.dischargePortId
+                          );
+                          if (duplicateCheck)
+                            return toast.warn("Duplicate data found");
 
-                      setRowDto([...rowDto, obj]);
-                    }}
-                    disabled={!values?.completionDate || !values?.dischargePort}
-                  >
-                    Add
-                  </button>
-                </div>
+                          setRowDto([...rowDto, obj]);
+                        }}
+                        disabled={
+                          !values?.completionDate || !values?.dischargePort
+                        }
+                      >
+                        Add
+                      </button>
+                    </div>
+                  </>
+                )}
               </div>
               <table className='table table-striped table-bordered global-table'>
                 <thead>
@@ -461,7 +508,7 @@ const EstimatePDACreate = () => {
                     <th>SL</th>
                     <th>Completion Date</th>
                     <th>Discharge Port</th>
-                    <th>Action</th>
+                    {!viewId && <th>Action</th>}
                   </tr>
                 </thead>
                 <tbody>
@@ -470,24 +517,27 @@ const EstimatePDACreate = () => {
                       <td className='text-center'> {index + 1}</td>
                       <td>{item?.completionDate}</td>
                       <td>{item?.dischargePortName}</td>
-                      <td>
-                        <div
-                          className='d-flex justify-content-around'
-                          style={{
-                            gap: "8px",
-                          }}
-                        >
-                          <span
-                            onClick={() => {
-                              const copyRowDto = [...rowDto];
-                              copyRowDto.splice(index, 1);
-                              setRowDto(copyRowDto);
+
+                      {!viewId && (
+                        <td>
+                          <div
+                            className='d-flex justify-content-around'
+                            style={{
+                              gap: "8px",
                             }}
                           >
-                            <IDelete />
-                          </span>
-                        </div>
-                      </td>
+                            <span
+                              onClick={() => {
+                                const copyRowDto = [...rowDto];
+                                copyRowDto.splice(index, 1);
+                                setRowDto(copyRowDto);
+                              }}
+                            >
+                              <IDelete />
+                            </span>
+                          </div>
+                        </td>
+                      )}
                     </tr>
                   ))}
                 </tbody>

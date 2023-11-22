@@ -15,6 +15,10 @@ export function ConfigurationPages() {
         to='/ShippingAgency/Configuration'
       />
       <ContentRoute
+        path='/ShippingAgency/Configuration/Registration/view/:viewId'
+        component={EstimatePDACreate}
+      />{" "}
+      <ContentRoute
         path='/ShippingAgency/Configuration/Registration/edit/:editId'
         component={EstimatePDACreate}
       />{" "}
@@ -25,6 +29,10 @@ export function ConfigurationPages() {
       <ContentRoute
         path='/ShippingAgency/Configuration/Registration'
         component={RegistrationLanding}
+      />
+      <ContentRoute
+        path='/ShippingAgency/Configuration/ExpenseParticulars/edit/:editId'
+        component={ExpenseParticularsCreate}
       />
       <ContentRoute
         path='/ShippingAgency/Configuration/ExpenseParticulars/Create'

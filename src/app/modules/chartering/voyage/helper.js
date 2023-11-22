@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { _dateFormatter } from "../_chartinghelper/_dateFormatter";
 import { _todayDate } from "../_chartinghelper/_todayDate";
+import { imarineBaseUrl } from "../../../App";
 
 const validateTimeCharterer = (voyageType, name) => {
   if (+voyageType?.value === 1) {
@@ -114,7 +115,7 @@ export const getVoyageLandingData = async (
 
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/Voyage/GetVoyageLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}${voyageNoStr}${statusStr}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${vesselNameStr}`
+      `${imarineBaseUrl}/domain/Voyage/GetVoyageLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}${voyageNoStr}${statusStr}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${vesselNameStr}`
     );
 
     setter(res?.data);
@@ -130,7 +131,7 @@ export const createVoyage = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      `https://imarine.ibos.io/domain/Voyage/CreateVoyage`,
+      `${imarineBaseUrl}/domain/Voyage/CreateVoyage`,
       data
     );
     cb(res?.data);
@@ -145,7 +146,7 @@ export const editVoyage = async (data, setLoading) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `https://imarine.ibos.io/domain/Voyage/EditVoyage`,
+      `${imarineBaseUrl}/domain/Voyage/EditVoyage`,
       data
     );
     toast.success(res?.data?.message, { toastId: 456789 });
@@ -159,7 +160,7 @@ export const editVoyage = async (data, setLoading) => {
 export const editVoyageRow = async (data, getByIdCalled, cb) => {
   try {
     const res = await axios.put(
-      `https://imarine.ibos.io/domain/Voyage/EditVoyageRow`,
+      `${imarineBaseUrl}/domain/Voyage/EditVoyageRow`,
       data
     );
     toast.success(res?.data?.message, { toastId: 456 });
@@ -176,7 +177,7 @@ export const editVoyageTimeCharterer = async (data, setLoading) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `https://imarine.ibos.io/domain/Voyage/EditVoyageForTimeChtr`,
+      `${imarineBaseUrl}/domain/Voyage/EditVoyageForTimeChtr`,
       data
     );
     setLoading(false);
@@ -193,7 +194,7 @@ export const DeleteVoyage = async (id, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.delete(
-      `https://imarine.ibos.io/domain/Voyage/DeleteVoyage?voyageId=${id}`
+      `${imarineBaseUrl}/domain/Voyage/DeleteVoyage?voyageId=${id}`
     );
     if (res?.status === 200) {
       cb();
@@ -208,7 +209,7 @@ export const activeInactiveVoyage = async (id, status, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `https://imarine.ibos.io/domain/Voyage/ActiveOrInActive?voyageId=${id}&activeOrInActive=${status}`
+      `${imarineBaseUrl}/domain/Voyage/ActiveOrInActive?voyageId=${id}&activeOrInActive=${status}`
     );
     toast.success(res?.data?.message);
     cb();
@@ -227,7 +228,7 @@ export const GetOwnerVesselCharterVoyageID = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/PortPDA/GetOwnerVesselCharterVoyageID?vesselId=${vesselId}`
+      `${imarineBaseUrl}/domain/PortPDA/GetOwnerVesselCharterVoyageID?vesselId=${vesselId}`
     );
     setFieldValue("chartererVoyageCode", res?.data);
     setLoading(false);
@@ -247,7 +248,7 @@ export const getVoyageById = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/Voyage/GetVoyageByIdNew?VoyageId=${id}`
+      `${imarineBaseUrl}/domain/Voyage/GetVoyageByIdNew?VoyageId=${id}`
     );
 
     const headerData = res?.data?.objVoyage;
@@ -385,7 +386,7 @@ export const getVoyageCompletionChecklist = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/Voyage/GetVoyageListIsComplete?VoyageId=${voyageId}&VesselId=${vesselId}&VoyageTypeId=${voyageTypeId}`
+      `${imarineBaseUrl}/domain/Voyage/GetVoyageListIsComplete?VoyageId=${voyageId}&VesselId=${vesselId}&VoyageTypeId=${voyageTypeId}`
     );
     setter(res?.data);
     setLoading(false);
@@ -399,7 +400,7 @@ export const getVoyageCompletionChecklist = async (
 export const getBusinessPartnerType = async (setter) => {
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/Stakeholder/GetStakeholderTypeForVoyageDDL`
+      `${imarineBaseUrl}/domain/Stakeholder/GetStakeholderTypeForVoyageDDL`
     );
     setter(res?.data);
   } catch (error) {

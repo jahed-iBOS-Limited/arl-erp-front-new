@@ -113,6 +113,10 @@ export function ExpensePages() {
         component={BareboatAndInsurancelanding}
       />
       <ContentRoute
+        path="/financial-management/expense/drydocschedule/edit/:id"
+        component={DryDocCreateEdit}
+      />
+      <ContentRoute
         path="/financial-management/expense/drydocschedule/create"
         component={DryDocCreateEdit}
       />

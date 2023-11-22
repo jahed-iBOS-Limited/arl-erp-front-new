@@ -13,6 +13,9 @@ export function TransactionPages() {
         to='/ShippingAgency/Transaction'
       />
       <ContentRoute
+        path='/ShippingAgency/Transaction/EstimatePDA/edit/:editId'
+        component={EstimatePDACreate}
+      />  <ContentRoute
         path='/ShippingAgency/Transaction/EstimatePDA/Create'
         component={EstimatePDACreate}
       />

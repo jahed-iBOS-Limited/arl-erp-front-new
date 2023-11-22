@@ -35,6 +35,7 @@ export default function _Form({
   plantName,
   subPo,
   paramsId,
+  shopFloorId
 }) {
   // grid data from getProductionOrderSFGById
   // single data from landing
@@ -102,10 +103,10 @@ export default function _Form({
           <>
             <Form>
               <div
-                className="table-responsive"
+                className='table-responsive'
                 style={{ padding: ".5rem 0", minHeight: "300px" }}
               >
-                <table className="table table-striped table-bordered bj-table bj-table-landing">
+                <table className='table table-striped table-bordered bj-table bj-table-landing'>
                   <thead>
                     <tr>
                       <th>SL</th>
@@ -127,17 +128,17 @@ export default function _Form({
                     {gridData?.length > 0 &&
                       gridData?.map((item, index) => (
                         <tr>
-                          <td className="text-center">
+                          <td className='text-center'>
                             <div style={{ width: "30px" }}>{index + 1}</div>
                           </td>
                           <td>
-                            <div style={{ width: "120px" }} className="pl-2">
+                            <div style={{ width: "120px" }} className='pl-2'>
                               {item?.itemName}
                             </div>
                           </td>
                           <td>
                             <div
-                              className="text-center"
+                              className='text-center'
                               style={{ width: "40px" }}
                             >
                               {item?.uomName}
@@ -146,7 +147,7 @@ export default function _Form({
                           <td>
                             <div
                               style={{ width: "40px" }}
-                              className="text-center"
+                              className='text-center'
                             >
                               {/* {item?.orderQty} */}
                               {item?.bomQty}
@@ -155,8 +156,8 @@ export default function _Form({
                           <td>
                             <IInput
                               value={item?.startDate}
-                              name="startDate"
-                              type="date"
+                              name='startDate'
+                              type='date'
                               onChange={(e) =>
                                 rowDtoHandler(
                                   e.target.name,
@@ -167,11 +168,11 @@ export default function _Form({
                             />
                           </td>
                           <td>
-                            <div className="">
+                            <div className=''>
                               <IInput
                                 value={item?.startTime}
-                                name="startTime"
-                                type="time"
+                                name='startTime'
+                                type='time'
                                 onChange={(e) =>
                                   rowDtoHandler(
                                     e.target.name,
@@ -183,12 +184,12 @@ export default function _Form({
                             </div>
                           </td>
                           <td>
-                            <div className="">
+                            <div className=''>
                               <IInput
                                 min={item?.startDate}
                                 value={item?.endDate}
-                                name="endDate"
-                                type="date"
+                                name='endDate'
+                                type='date'
                                 onChange={(e) =>
                                   rowDtoHandler(
                                     e.target.name,
@@ -200,11 +201,11 @@ export default function _Form({
                             </div>
                           </td>
                           <td>
-                            <div className="">
+                            <div className=''>
                               <IInput
                                 value={item?.endTime}
-                                name="endTime"
-                                type="time"
+                                name='endTime'
+                                type='time'
                                 onChange={(e) =>
                                   rowDtoHandler(
                                     e.target.name,
@@ -215,10 +216,10 @@ export default function _Form({
                               />
                             </div>
                           </td>
-                          <td className="sub-po-dropdown">
+                          <td className='sub-po-dropdown'>
                             <div style={{ width: "100px" }}>
                               <NewSelect
-                                name="prtNumber"
+                                name='prtNumber'
                                 options={prtNumber || []}
                                 value={item?.prtNumber || ""}
                                 onChange={(valueOption) => {
@@ -234,10 +235,10 @@ export default function _Form({
                             </div>
                           </td>
 
-                          <td className="sub-po-dropdown">
+                          <td className='sub-po-dropdown'>
                             <div style={{ width: "100px" }}>
                               <NewSelect
-                                name="workCenter"
+                                name='workCenter'
                                 options={
                                   item?.getRoutingToWorkCenterDDL || []
                                   // workCenter
@@ -256,6 +257,7 @@ export default function _Form({
                                     selectedBusinessUnit?.value,
                                     item?.itemId,
                                     valueOption?.value,
+                                    item?.shopFloorId,
                                     setBomName
                                   );
                                 }}
@@ -265,10 +267,10 @@ export default function _Form({
                             </div>
                           </td>
 
-                          <td className="sub-po-dropdown">
+                          <td className='sub-po-dropdown'>
                             <div style={{ width: "100px" }}>
                               <NewSelect
-                                name="bomName"
+                                name='bomName'
                                 options={bomName || []}
                                 value={item?.bomName || ""}
                                 onChange={(valueOption) => {
@@ -294,11 +296,11 @@ export default function _Form({
                             </div>
                           </td>
                           <td>
-                            <div className="text-center">
+                            <div className='text-center'>
                               <IInput
                                 style={{ width: "80px" }}
                                 value={item?.proOrderQty}
-                                name="proOrderQty"
+                                name='proOrderQty'
                                 onChange={(e) => {
                                   rowDtoHandler(
                                     "proOrderQty",
@@ -314,14 +316,14 @@ export default function _Form({
                             {!item?.poStatus ? (
                               <div
                                 style={{ width: "100px" }}
-                                className="d-flex justify-content-around"
+                                className='d-flex justify-content-around'
                               >
                                 <button
                                   onClick={() => {
                                     createSFGProductionOrder(item);
                                     // getGrid();
                                   }}
-                                  className="btn btn-primary btn-sm"
+                                  className='btn btn-primary btn-sm'
                                 >
                                   Create PO
                                 </button>
@@ -329,11 +331,11 @@ export default function _Form({
                             ) : (
                               <div
                                 style={{ width: "100px" }}
-                                className="d-flex justify-content-around"
+                                className='d-flex justify-content-around'
                               >
                                 <button
-                                  type="button"
-                                  className="btn btn-primary btn-sm"
+                                  type='button'
+                                  className='btn btn-primary btn-sm'
                                   disabled
                                 >
                                   Create PO
@@ -361,14 +363,14 @@ export default function _Form({
               </div>
 
               <button
-                type="submit"
+                type='submit'
                 style={{ display: "none" }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
-                type="reset"
+                type='reset'
                 style={{ display: "none" }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}

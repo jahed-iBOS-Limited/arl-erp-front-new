@@ -7,7 +7,7 @@ import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import PaginationTable from "../../../../_helper/_tablePagination";
-import { categoryDDL } from "../helper";
+import { categoryDDL, getExpenseParticularsLandingApi } from "../helper";
 import LandingTable from "./table";
 import { _todayDate } from "../../../../_helper/_todayDate";
 
@@ -42,19 +42,15 @@ const ExpenseParticularsLanding = () => {
     values,
     searhValue
   ) => {
-    // complainLandingPasignation(
-    //   accId,
-    //   buId,
-    //   values?.respondentType?.value || 0,
-    //   values?.fromDate,
-    //   values?.toDate,
-    //   values?.status?.value || 0,
-    //   pageNo,
-    //   pageSize,
-    //   setGridData,
-    //   setLoading,
-    //   searhValue
-    // );
+    getExpenseParticularsLandingApi(
+      values?.category?.label,
+      values?.fromDate,
+      values?.toDate,
+      pageNo,
+      pageSize,
+      setGridData,
+      setLoading
+    );
   };
   return (
     <>
@@ -117,7 +113,10 @@ const ExpenseParticularsLanding = () => {
                     onClick={() => {
                       commonGridData(1, pageSize, values);
                     }}
-                    disabled={!values?.vesselName && !values?.vesselType}
+                    disabled={
+                      !values?.fromDate ||
+                      !values?.toDate
+                    }
                   >
                     View
                   </button>

@@ -40,14 +40,7 @@ export const getVesselTypeDDL = async (accId, buId, setter) => {
     const res = await axios.get(
       `${imarineBaseUrl}/domain/ASLLAgency/GetVesselTypeDDL`
     );
-    setter(
-      res?.data?.map((itm) => {
-        return {
-          value: itm?.vesselTypeId,
-          label: itm?.vesselTypeName,
-        };
-      })
-    );
+    setter(res?.data);
   } catch (error) {}
 };
 export const getVoyageNoDDLApi = async (accId, buId, setter) => {
@@ -78,11 +71,21 @@ export const getASLLAgencyRegistrationById = async (id, setLoading, setter) => {
   }
 };
 
+// export const getVesselDDL = async (accId, buId, setter, vesselId) => {
+//   try {
+//     const res = await axios.get(
+//       `/asset/Asset/GetAssetVesselDdl?IntBussinessUintId=${buId}`
+//     );
+//     setter(res.data);
+//   } catch (error) {
+//     setter([]);
+//   }
+// };
 export const getVesselDDL = async (accId, buId, setter, vesselId) => {
   const vesselIdStr = vesselId ? `&IsVessel=${vesselId}` : ""; // first perameter so not (?)
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/Voyage/GetVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}${vesselIdStr}`
+      `${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}${vesselIdStr}`
     );
     setter(res.data);
   } catch (error) {
@@ -147,5 +150,16 @@ export const createUpdateASLLAgencyRegistration = async (
   } catch (error) {
     toast.error(error?.response?.data?.message);
     setDisabled(false);
+  }
+};
+
+export const getCargoDDL = async (setter) => {
+  try {
+    const res = await axios.get(
+      `${imarineBaseUrl}/domain/HireOwner/GetCargoDDL`
+    );
+    setter(res.data);
+  } catch (error) {
+    setter([]);
   }
 };
