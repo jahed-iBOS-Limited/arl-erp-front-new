@@ -1,6 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
+import { imarineBaseUrl } from '../../../../App';
 
 // Validation schema
 export const validationSchema = Yup.object().shape({
@@ -24,7 +25,7 @@ export const getPortLandingData = async (
   const port = portName ? `&searchByPortName=${portName}` : "";
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/Port/GetPortLandingPagination?viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${port}${country}`
+      `${imarineBaseUrl}/domain/Port/GetPortLandingPagination?viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${port}${country}`
     );
     setter(res?.data);
     setLoading(false);
@@ -38,7 +39,7 @@ export const createPort = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      "https://imarine.ibos.io/domain/Port/CreatePort",
+      "${imarineBaseUrl}/domain/Port/CreatePort",
       data
     );
     toast.success(res?.data?.message);
@@ -54,7 +55,7 @@ export const updatePort = async (data, setLoading) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      "https://imarine.ibos.io/domain/Port/EditPort",
+      "${imarineBaseUrl}/domain/Port/EditPort",
       data
     );
     toast.success(res?.data?.message);
@@ -69,7 +70,7 @@ export const deletePort = async (id, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.delete(
-      `https://imarine.ibos.io/domain/Port/DeletePort?porteId=${id}`
+      `${imarineBaseUrl}/domain/Port/DeletePort?porteId=${id}`
     );
     toast.success(res?.data?.message);
     cb();
@@ -84,7 +85,7 @@ export const activeInactivePort = async (id, status, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `https://imarine.ibos.io/domain/Port/ActiveOrInActive?porteId=${id}&activeOrInActive=${status}`
+      `${imarineBaseUrl}/domain/Port/ActiveOrInActive?porteId=${id}&activeOrInActive=${status}`
     );
     toast.success(res?.data?.message);
     cb();

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { toast } from "react-toastify";
+import { imarineBaseUrl } from "../../../../App";
 
 export const getMonthlyVoyageStatement = async (
   accId,
@@ -12,8 +13,8 @@ export const getMonthlyVoyageStatement = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/LighterVesselStatement/GetLighterVesselTripStatementDateWise?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}`
-      // `https://imarine.ibos.io/domain/LighterVesselStatement/GetLighterVesselTripStatement?AccountId=${accId}&BusinessUnitId=${buId}&searchDate=${date}`
+      `${imarineBaseUrl}/domain/LighterVesselStatement/GetLighterVesselTripStatementDateWise?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}`
+      // `${imarineBaseUrl}/domain/LighterVesselStatement/GetLighterVesselTripStatement?AccountId=${accId}&BusinessUnitId=${buId}&searchDate=${date}`
     );
     setter(
       res?.data?.map((item) => ({
@@ -42,8 +43,8 @@ export const getDieselStatement = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/LighterVesselTrip/GetLighterTripDisselExpByDateWise?FromDate=${fromDate}&ToDate=${toDate}&BusinessUnitId=${buId}`
-      // `https://imarine.ibos.io/domain/LighterVesselTrip/GetLighterTripDisselExp?TripDate=${date}&BusinessUnitId=${buId}`
+      `${imarineBaseUrl}/domain/LighterVesselTrip/GetLighterTripDisselExpByDateWise?FromDate=${fromDate}&ToDate=${toDate}&BusinessUnitId=${buId}`
+      // `${imarineBaseUrl}/domain/LighterVesselTrip/GetLighterTripDisselExp?TripDate=${date}&BusinessUnitId=${buId}`
     );
 
     const totalJVAmount = res?.data?.reduce(
@@ -95,7 +96,7 @@ export const getDieselStatementTwo = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/LighterVesselTrip/GetLighterTripDisselExpInDateRange?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}`
+      `${imarineBaseUrl}/domain/LighterVesselTrip/GetLighterTripDisselExpInDateRange?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}`
     );
 
     const grandTotalAmount = res?.data?.reduce(
@@ -141,8 +142,8 @@ export const getLineExpense = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/LighterVesselTrip/LighterVesselTripLineExpByDateWise?FromDate=${fromDate}&ToDate=${toDate}&BusinessUnitId=${buId}`
-      // `https://imarine.ibos.io/domain/LighterVesselTrip/LighterVesselTripLineExp?TripDate=${date}&BusinessUnitId=${buId}`
+      `${imarineBaseUrl}/domain/LighterVesselTrip/LighterVesselTripLineExpByDateWise?FromDate=${fromDate}&ToDate=${toDate}&BusinessUnitId=${buId}`
+      // `${imarineBaseUrl}/domain/LighterVesselTrip/LighterVesselTripLineExp?TripDate=${date}&BusinessUnitId=${buId}`
     );
 
     const totalJVAmount = res?.data?.reduce(
@@ -190,7 +191,7 @@ export const getStoreExpense = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/LighterVesselTrip/GetLighterVesselMonthlyStoreExp?accountId=${accId}&businessUnitId=${buId}&monthId=${new Date(
+      `${imarineBaseUrl}/domain/LighterVesselTrip/GetLighterVesselMonthlyStoreExp?accountId=${accId}&businessUnitId=${buId}&monthId=${new Date(
         date
       ).getMonth()}&yearid=${new Date(date).getFullYear()}`
     );
@@ -241,7 +242,7 @@ export const CreateJournalVoucher = async (
 
   const storeExp = `/domain/LighterVesselTrip/LighterVesselStoreExpJV?accountId=${accId}&businessUnitId=${buId}&monthId=${monthId}&yearid=${yearId}&Narration=${narration}&Actionby=${actionBy}`;
 
-  const url = `https://imarine.ibos.io${
+  const url = `${imarineBaseUrl}${
     type === "diesel" ? diesel : type === "storeExp" ? storeExp : lineExp
   }`;
 
