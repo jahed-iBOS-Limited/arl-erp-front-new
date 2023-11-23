@@ -106,7 +106,7 @@ export const createTrip = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      "${imarineBaseUrl}/domain/LighterVesselTrip/CreateLighterVesselTrip",
+      `${imarineBaseUrl}/domain/LighterVesselTrip/CreateLighterVesselTrip`,
       data
     );
     cb();
@@ -122,7 +122,7 @@ export const editTrip = async (data, setLoading) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      "${imarineBaseUrl}/domain/LighterVesselTrip/EditLighterVesselTrip",
+      `${imarineBaseUrl}/domain/LighterVesselTrip/EditLighterVesselTrip`,
       data
     );
     if (res?.status === 200) {
