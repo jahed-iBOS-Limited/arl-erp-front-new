@@ -12,6 +12,7 @@ import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
 import { _formatMoney } from "../../../_helper/_formatMoney";
+import IConfirmModal from "../../../_helper/_confirmModal";
 
 const initData = {
   vessel: "",
@@ -28,7 +29,7 @@ export default function BareboatAndInsurancelanding() {
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(75);
   const [gridData, getGridData, gridLoading, setGridData] = useAxiosGet([]);
-  const [, createJournalPosting] = useAxiosPost();
+  const [, createJournalPosting, loaderOnCreateJournalPosting] = useAxiosPost();
   const [vesselAssetDDL, getVesselAssetDDL, vesselAssetLoading] = useAxiosGet();
 
   const landingData = (values) => {
@@ -117,6 +118,35 @@ export default function BareboatAndInsurancelanding() {
     ?.filter((item) => item?.itemCheck)
     ?.map((item) => item?.id);
 
+  const confirmToCancel = (values) => {
+    let confirmObject = {
+      title: "Are you sure?",
+      message: "If you create journal, it can not be undone",
+      yesAlertFunc: async () => {
+        const payload = {
+          intBusinessUnitId: selectedBusinessUnit?.value || 0,
+          numAmount: +totalAmount || 0,
+          intConfigId: intConfigIds || [],
+          intVesselId: values?.vessel?.value || 0,
+          dteFromDate: values?.fromDate,
+          dteToDate: values?.toDate,
+          intActionBy: profileData?.userId,
+          intTypeId: viewType === 1 ? 1 : 2,
+        };
+        createJournalPosting(
+          `/fino/BareBoatManagement/BareboatAndInsurenceTransaction`,
+          payload,
+          () => {},
+          true
+        );
+      },
+      noAlertFunc: () => {
+        "";
+      },
+    };
+    IConfirmModal(confirmObject);
+  };
+
   return (
     <Formik
       enableReinitialize={true}
@@ -137,7 +167,9 @@ export default function BareboatAndInsurancelanding() {
         touched,
       }) => (
         <>
-          {(gridLoading || vesselAssetLoading) && <Loading />}
+          {(gridLoading ||
+            vesselAssetLoading ||
+            loaderOnCreateJournalPosting) && <Loading />}
           <IForm
             title="Bareboat And Insurance"
             isHiddenReset
@@ -247,22 +279,23 @@ export default function BareboatAndInsurancelanding() {
                   <button
                     style={{ marginTop: "20px", marginLeft: "10px" }}
                     onClick={() => {
-                      const payload = {
-                        intBusinessUnitId: selectedBusinessUnit?.value || 0,
-                        numAmount: +totalAmount || 0,
-                        intConfigId: intConfigIds || [],
-                        intVesselId: values?.vessel?.value || 0,
-                        dteFromDate: values?.fromDate,
-                        dteToDate: values?.toDate,
-                        intActionBy: profileData?.userId,
-                        intTypeId: viewType === 1 ? 1 : 2,
-                      };
-                      createJournalPosting(
-                        `/fino/BareBoatManagement/BareboatAndInsurenceTransaction`,
-                        payload,
-                        () => {},
-                        true
-                      );
+                      confirmToCancel(values);
+                      // const payload = {
+                      //   intBusinessUnitId: selectedBusinessUnit?.value || 0,
+                      //   numAmount: +totalAmount || 0,
+                      //   intConfigId: intConfigIds || [],
+                      //   intVesselId: values?.vessel?.value || 0,
+                      //   dteFromDate: values?.fromDate,
+                      //   dteToDate: values?.toDate,
+                      //   intActionBy: profileData?.userId,
+                      //   intTypeId: viewType === 1 ? 1 : 2,
+                      // };
+                      // createJournalPosting(
+                      //   `/fino/BareBoatManagement/BareboatAndInsurenceTransaction`,
+                      //   payload,
+                      //   () => {},
+                      //   true
+                      // );
                     }}
                     className="btn btn-primary"
                     type="button"

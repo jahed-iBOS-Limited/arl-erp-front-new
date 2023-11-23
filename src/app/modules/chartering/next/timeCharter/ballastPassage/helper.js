@@ -74,7 +74,7 @@ export const createBallastPassage = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      "${imarineBaseUrl}/domain/BallastPassage/CreateBallastPassage",
+      `${imarineBaseUrl}/domain/BallastPassage/CreateBallastPassage`,
       data
     );
     cb();
@@ -90,7 +90,7 @@ export const editBallastPassge = async (data, setLoading) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      "${imarineBaseUrl}/domain/BallastPassage/EditBallastPassage",
+      `${imarineBaseUrl}/domain/BallastPassage/EditBallastPassage`,
       data
     );
 

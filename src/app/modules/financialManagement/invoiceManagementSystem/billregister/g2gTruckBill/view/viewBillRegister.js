@@ -7,8 +7,21 @@ import IForm from "../../../../../_helper/_form";
 import Loading from "../../../../../_helper/_loading";
 import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
 import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
+import BillApproveForm from "../../../approvebillregister/approveForm";
 
-export default function ViewG2GTruckBill({ billRegisterId }) {
+const initData = {
+  approveAmount: "",
+  approveAmountMax: "",
+  remarks: "",
+};
+
+export default function ViewG2GTruckBill({
+  billRegisterId,
+  gridItem,
+  landingValues,
+  setModalShow,
+  gridDataFunc,
+}) {
   const [loading, setLoading] = useState(false);
   const [gridData, getGridData, gridDataLoading] = useAxiosGet();
   const dispatch = useDispatch();
@@ -29,10 +42,14 @@ export default function ViewG2GTruckBill({ billRegisterId }) {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={{}}
+      initialValues={{
+        ...initData,
+        approveAmount: gridItem?.monTotalAmount,
+        approveAmountMax: gridItem?.monTotalAmount,
+      }}
       onSubmit={(values) => {}}
     >
-      {() => (
+      {({ values }) => (
         <IForm
           title="View G2G Truck Bill"
           isHiddenReset
@@ -42,6 +59,15 @@ export default function ViewG2GTruckBill({ billRegisterId }) {
         >
           {(gridDataLoading || loading) && <Loading />}
           <form className="form form-label-right ">
+            <BillApproveForm
+              obj={{
+                values,
+                gridItem,
+                gridDataFunc,
+                landingValues,
+                setModalShow,
+              }}
+            />
             <div className="common-scrollable-table two-column-sticky">
               <div className="scroll-table _table overflow-auto">
                 <table className="table table-striped table-bordered global-table">

@@ -11,6 +11,7 @@ import { _todayDate } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { dateFormatterForInput } from "../../../productionManagement/msilProduction/meltingProduction/helper";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
 
 const initData = {
   vessel: "",
@@ -111,8 +112,6 @@ export default function BareboatChartererConfigCreateEdit() {
     setDateRangeDDL,
   ] = useAxiosGet();
 
-  //   const [, getRateForDryDoc, rateForDryDocLoading] = useAxiosGet();
-
   const [modifyData, setModifyData] = useState({});
   const { id } = useParams();
 
@@ -140,6 +139,15 @@ export default function BareboatChartererConfigCreateEdit() {
               value: res?.vesselId,
               label: res?.vesselName,
             },
+            dateRange:
+              res?.intCategoryTypeId === 3
+                ? {
+                    value: 4,
+                    label: `${_dateFormatter(
+                      res?.dteFromDate
+                    )} - ${_dateFormatter(res?.dteToDate)}`,
+                  }
+                : "",
             baseType: {
               value: res?.baseType,
               label: res?.baseName,
@@ -207,6 +215,20 @@ export default function BareboatChartererConfigCreateEdit() {
             `/procurement/PurchaseOrder/GetCostElementByCostCenter?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&CostCenterId=${res?.intCostCenterId}`
           );
 
+          getDateRangeDDL(
+            `/fino/Expense/GetDocScheduleListByVesselId?businessUnitId=${selectedBusinessUnit?.value}&vesselId=${res?.vesselId}`,
+            (data) => {
+              const modifiedData = data?.map((item) => {
+                return {
+                  ...item,
+                  value: 4,
+                  label: item?.strScheduleRange,
+                };
+              });
+              setDateRangeDDL(modifiedData);
+            }
+          );
+
           if (res?.isTransfer) {
             getTransferProfitCenterDDL(
               `/fino/CostSheet/ProfitCenterDetails?UnitId=${res?.intTransferBusinessId}`,
@@ -235,11 +257,7 @@ export default function BareboatChartererConfigCreateEdit() {
     getVesselAssetDDL(
       `/asset/Asset/GetAssetVesselDdl?IntBussinessUintId=${selectedBusinessUnit?.value}`
     );
-    // GetLighterVesselDDL(
-    //    profileData?.accountId,
-    //    selectedBusinessUnit?.value,
-    //    setLighterVesselDDL
-    // );
+
     getBaseTypeDDL(`/fino/BareBoatManagement/GetBaseTypeDDL`);
 
     getProfitCenterDDL(
@@ -274,14 +292,6 @@ export default function BareboatChartererConfigCreateEdit() {
   }, [id, selectedBusinessUnit, profileData]);
 
   const [objProps, setObjprops] = useState({});
-
-  // const rateCalculateFromDateRange = (date1, date2, rate) => {
-  //   const date1MS = new Date(date1).getTime();
-  //   const date2MS = new Date(date2).getTime();
-  //   const dateDiff = date2MS - date1MS;
-  //   const dateDiffInDays = dateDiff / (1000 * 3600 * 24);
-  //   return rate / dateDiffInDays;
-  // };
 
   const rateCalculateFromDateRange = (date1, date2, rate) => {
     const start = new Date(date1);
@@ -347,6 +357,25 @@ export default function BareboatChartererConfigCreateEdit() {
       );
     }
   };
+
+  function formatDateRange(dateRange) {
+    const [startDateStr, endDateStr] = dateRange.split(" - ");
+    const startDate = new Date(startDateStr);
+    const endDate = new Date(endDateStr);
+
+    const formattedStartDate = startDate.toLocaleDateString("en-US", {
+      month: "numeric",
+      day: "numeric",
+      year: "numeric",
+    });
+    const formattedEndDate = endDate.toLocaleDateString("en-US", {
+      month: "numeric",
+      day: "numeric",
+      year: "numeric",
+    });
+
+    return `${formattedStartDate} - ${formattedEndDate}`;
+  }
 
   return (
     <Formik
@@ -463,7 +492,7 @@ export default function BareboatChartererConfigCreateEdit() {
                               return {
                                 ...item,
                                 value: 4,
-                                label: item?.strScheduleRange,
+                                label: formatDateRange(item?.strScheduleRange),
                               };
                             });
                             setDateRangeDDL(modifiedData);

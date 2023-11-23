@@ -44,7 +44,7 @@ export const saveVoyageCharterTransaction = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      "${imarineBaseUrl}/domain/FreightInvoice/CreateFreightInvoice",
+      `${imarineBaseUrl}/domain/FreightInvoice/CreateFreightInvoice`,
       data
     );
     cb();
@@ -64,7 +64,7 @@ export const saveVoyageCharterTransactionIntermidiate = async (
   setLoading(true);
   try {
     const res = await axios.post(
-      "${imarineBaseUrl}/domain/FreightInvoice/CreateFreightInvoiceIntermidiate",
+      `${imarineBaseUrl}/domain/FreightInvoice/CreateFreightInvoiceIntermidiate`,
       data
     );
     cb();
@@ -80,7 +80,7 @@ export const editVoyageCharterTransaction = async (data, setLoading) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      "${imarineBaseUrl}/domain/VoyageCharter/EditVoyageCharter",
+      `${imarineBaseUrl}/domain/VoyageCharter/EditVoyageCharter`,
       data
     );
     toast.success(res?.data?.message);
