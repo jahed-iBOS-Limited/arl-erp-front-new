@@ -101,7 +101,7 @@ export const saveTimeCharterTransaction = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      "${imarineBaseUrl}/domain/TimeCharterTransaction/SaveTimeCharterTransaction",
+      `${imarineBaseUrl}/domain/TimeCharterTransaction/SaveTimeCharterTransaction`,
       data
     );
     cb();

@@ -39,7 +39,7 @@ export const createPort = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      "${imarineBaseUrl}/domain/Port/CreatePort",
+      `${imarineBaseUrl}/domain/Port/CreatePort`,
       data
     );
     toast.success(res?.data?.message);
@@ -55,7 +55,7 @@ export const updatePort = async (data, setLoading) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      "${imarineBaseUrl}/domain/Port/EditPort",
+      `${imarineBaseUrl}/domain/Port/EditPort`,
       data
     );
     toast.success(res?.data?.message);

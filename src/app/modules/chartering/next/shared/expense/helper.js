@@ -48,7 +48,7 @@ export const createAdditionalCost = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      "${imarineBaseUrl}/domain/AdditionalCost/CreateAdditionalCost",
+      `${imarineBaseUrl}/domain/AdditionalCost/CreateAdditionalCost`,
       data
     );
     cb();
@@ -78,7 +78,7 @@ export const saveNewCostType = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      "${imarineBaseUrl}/domain/AdditionalCost/CreateAdditionalCostConfig",
+      `${imarineBaseUrl}/domain/AdditionalCost/CreateAdditionalCostConfig`,
       data
     );
     cb();
@@ -156,7 +156,7 @@ export const editOrCashReceive = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      "${imarineBaseUrl}/domain/AdditionalCost/EditAdditionalCost",
+      `${imarineBaseUrl}/domain/AdditionalCost/EditAdditionalCost`,
       data
     );
     cb();

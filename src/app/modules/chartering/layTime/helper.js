@@ -98,7 +98,7 @@ export const saveLayTime = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      "${imarineBaseUrl}/domain/LayTimeInfo/CreateLayTimeInfo",
+      `${imarineBaseUrl}/domain/LayTimeInfo/CreateLayTimeInfo`,
       data
     );
     cb();
@@ -116,7 +116,7 @@ export const editLayTime = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      "${imarineBaseUrl}/domain/LayTimeInfo/EditLayTimeInfo",
+      `${imarineBaseUrl}/domain/LayTimeInfo/EditLayTimeInfo`,
       data
     );
     cb();
