@@ -8,6 +8,7 @@ import Loading from "../../../../../_helper/_loading";
 import { _todayDate } from "../../../../../_helper/_todayDate";
 import { getWarehouseDDL } from "../../helper";
 import Form from "./form";
+import { toast } from "react-toastify";
 
 const initData = {
   billNo: "",
@@ -77,6 +78,10 @@ export default function PumpFoodingBillForm() {
     //   (total, row) => total + row.billAmount,
     //   0
     // );
+    if(!selectedItems?.length){
+      return toast.warn("Please select at least one row");
+    }
+    
     const payload = {
       billRegister: selectedItems?.map((item) => ({
         autoId: item?.autoId,
