@@ -12,7 +12,7 @@ import ICustomTable from "../../../_chartinghelper/_customTable";
 import { _dateFormatter } from "../../../_chartinghelper/_dateFormatter";
 import { _todayDate } from "../../../_chartinghelper/_todayDate";
 import Loading from "../../../_chartinghelper/loading/_loading";
-import { iMarineBaseURL } from "../../../helper";
+import { imarineBaseUrl } from "../../../../../App";
 
 const initData = { fromDate: _firstDateofMonth(), toDate: _todayDate() };
 
@@ -27,7 +27,7 @@ export default function JVListTable() {
 
   const getData = (values) => {
     getGridData(
-      `${iMarineBaseURL}/domain/Report/VesselVoyageWiseJournalReport?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`
+      `${imarineBaseUrl}/domain/Report/VesselVoyageWiseJournalReport?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`
     );
   };
 

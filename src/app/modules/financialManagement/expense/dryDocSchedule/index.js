@@ -41,7 +41,8 @@ export default function DryDocLanding() {
 
   useEffect(() => {
     getVesselDDL(
-      `${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
+      // `${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
+      `/asset/Asset/GetAssetVesselDdl?IntBussinessUintId=${selectedBusinessUnit?.value}`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -1,32 +1,33 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import React, { useState, useEffect, useRef } from "react";
-import { shallowEqual, useSelector } from "react-redux";
 import { Formik } from "formik";
+import React, { useEffect, useRef, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 // import ReactToPrint from "react-to-print";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import Loading from "../../_chartinghelper/loading/_loading";
-import ICustomTable from "../../_chartinghelper/_customTable";
-import { getIncomeReport } from "./helper";
-import FormikSelect from "../../_chartinghelper/common/formikSelect";
-import { getVesselDDL, getVoyageDDLNew, iMarineBaseURL } from "../../helper";
-import customStyles from "../../_chartinghelper/common/selectCustomStyle";
 import moment from "moment";
-import { _fixedPoint } from "../../../_helper/_fixedPoint";
-import FormikInput from "../../_chartinghelper/common/formikInput";
-import { _todayDate } from "../../_chartinghelper/_todayDate";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { getSBUListDDL } from "../../../financialManagement/invoiceManagementSystem/billregister/othersBillNew/helper";
-import { getSalesOrgList } from "../../transaction/timeCharter/helper";
-import NewSelect from "../../../_helper/_select";
-import InputField from "../../../_helper/_inputField";
-import IViewModal from "../../../_helper/_viewModal";
-import AdjustmentJournalCreateForm from "./journals/adjustmentJournal/addEditFrom";
-import IButton from "../../../_helper/iButton";
-import InfoCircle from "../../../_helper/_helperIcons/_infoCircle";
-import JournalDetails from "./journalDetails";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { toast } from "react-toastify";
+import { imarineBaseUrl } from "../../../../App";
+import { _fixedPoint } from "../../../_helper/_fixedPoint";
+import InfoCircle from "../../../_helper/_helperIcons/_infoCircle";
+import InputField from "../../../_helper/_inputField";
+import NewSelect from "../../../_helper/_select";
+import IViewModal from "../../../_helper/_viewModal";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import IButton from "../../../_helper/iButton";
+import { getSBUListDDL } from "../../../financialManagement/invoiceManagementSystem/billregister/othersBillNew/helper";
+import ICustomTable from "../../_chartinghelper/_customTable";
+import { _todayDate } from "../../_chartinghelper/_todayDate";
+import FormikInput from "../../_chartinghelper/common/formikInput";
+import FormikSelect from "../../_chartinghelper/common/formikSelect";
+import customStyles from "../../_chartinghelper/common/selectCustomStyle";
+import Loading from "../../_chartinghelper/loading/_loading";
+import { getVesselDDL, getVoyageDDLNew } from "../../helper";
+import { getSalesOrgList } from "../../transaction/timeCharter/helper";
+import { getIncomeReport } from "./helper";
+import JournalDetails from "./journalDetails";
+import AdjustmentJournalCreateForm from "./journals/adjustmentJournal/addEditFrom";
 
 const getHeaders = (values, gridData, buId) => {
   return [
@@ -145,7 +146,7 @@ export default function IncomeReport() {
 
   const getJournalData = (item) => {
     getJournalDetails(
-      `${iMarineBaseURL}/domain/Report/GetJvByVesselVoyage?AccountId=${accId}&BusinessUnitId=${buId}&VesselName=${item?.vesselName}&VoyageNo=${item?.voyageNo}&ChartererId=${item?.chartererId}`,
+      `${imarineBaseUrl}/domain/Report/GetJvByVesselVoyage?AccountId=${accId}&BusinessUnitId=${buId}&VesselName=${item?.vesselName}&VoyageNo=${item?.voyageNo}&ChartererId=${item?.chartererId}`,
       (resData) => {
         if (resData?.length > 0) {
           setShowJournalDetails(true);
@@ -185,7 +186,7 @@ export default function IncomeReport() {
       };
 
       createJournal(
-        `${iMarineBaseURL}/domain/TimeCharterTransaction/IncomeSatetementJournal`,
+        `${imarineBaseUrl}/domain/TimeCharterTransaction/IncomeSatetementJournal`,
         payload,
         () => {
           let _data = [...gridData];
@@ -220,7 +221,7 @@ export default function IncomeReport() {
       };
 
       createJournal(
-        `${iMarineBaseURL}/domain/TimeCharterTransaction/IncomeSatetementAdjustmentJournal`,
+        `${imarineBaseUrl}/domain/TimeCharterTransaction/IncomeSatetementAdjustmentJournal`,
         payload,
         () => {
           let _data = [...gridData];
@@ -426,7 +427,7 @@ export default function IncomeReport() {
                       <IButton
                         onClick={() => {
                           postAllJV(
-                            `${iMarineBaseURL}/domain/Report/CreateForceAutoJournal?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`
+                            `${imarineBaseUrl}/domain/Report/CreateForceAutoJournal?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`
                           );
                         }}
                       >

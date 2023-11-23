@@ -1,12 +1,12 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import { _dateFormatter } from "../../_chartinghelper/_dateFormatter";
-import { iMarineBaseURL } from "../../helper";
+import { imarineBaseUrl } from '../../../../App';
 export const savePurchaseBunker = async (data, setLoading, cb, setReturnID) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      `${iMarineBaseURL}/domain/PurchaseBunker/CreatePurchaseBunker`,
+      `${imarineBaseUrl}/domain/PurchaseBunker/CreatePurchaseBunker`,
       data
     );
     setLoading(false);
@@ -23,7 +23,7 @@ export const editPurchaseBunker = async (data, setLoading) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `${iMarineBaseURL}/domain/PurchaseBunker/EditPurchaseBunker`,
+      `${imarineBaseUrl}/domain/PurchaseBunker/EditPurchaseBunker`,
       data
     );
     toast.success(res?.data?.message);
@@ -47,7 +47,7 @@ export const getPurchaseBunkerLandingData = async (
   const search = searchValue ? `&search=${searchValue}` : "";
   try {
     const res = await axios.get(
-      `${iMarineBaseURL}/domain/PurchaseBunker/GetPurchaseBunker?VesselId=${vesselId}&VoyageId=${voyageId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${search}`
+      `${imarineBaseUrl}/domain/PurchaseBunker/GetPurchaseBunker?VesselId=${vesselId}&VoyageId=${voyageId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${search}`
     );
     setter(res?.data);
     setLoading(false);
@@ -68,7 +68,7 @@ export const getPurchaseBunkerById = async (
 
   try {
     const res = await axios.get(
-      `${iMarineBaseURL}/domain/PurchaseBunker/GetPurchaseBunkerViewDetailsById?purchaseBunkerHeaderId=${id}`
+      `${imarineBaseUrl}/domain/PurchaseBunker/GetPurchaseBunkerViewDetailsById?purchaseBunkerHeaderId=${id}`
     );
     const {
       vesselName,
@@ -165,7 +165,7 @@ export const deleteItemFromPurchaseBunker = async (
   setLoading(true);
   try {
     const res = await axios.delete(
-      `${iMarineBaseURL}/domain/PurchaseBunker/DeleteSchaseBunker?purchaseBunkerHeaderId=${headerId}&purchaseBunkerRowId=${rowId}`
+      `${imarineBaseUrl}/domain/PurchaseBunker/DeleteSchaseBunker?purchaseBunkerHeaderId=${headerId}&purchaseBunkerRowId=${rowId}`
     );
     toast.success(res?.data?.message);
     cb();

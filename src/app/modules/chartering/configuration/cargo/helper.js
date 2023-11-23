@@ -1,7 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { iMarineBaseURL } from "../../helper";
+import { imarineBaseUrl } from '../../../../App';
 
 // Validation schema
 export const validationSchema = Yup.object().shape({
@@ -24,7 +24,7 @@ export const GetCargoLandingData = async (
   const search = searchValue ? `&search=${searchValue}` : "";
   try {
     const res = await axios.get(
-      `${iMarineBaseURL}/domain/Cargo/GetCargoLandingPagination?viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${search}`
+      `${imarineBaseUrl}/domain/Cargo/GetCargoLandingPagination?viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${search}`
     );
     setter(res.data);
     setLoading(false);
@@ -38,7 +38,7 @@ export const createCargo = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      `${iMarineBaseURL}/domain/Cargo/CreateCargo`,
+      `${imarineBaseUrl}/domain/Cargo/CreateCargo`,
       data
     );
     cb();
@@ -54,7 +54,7 @@ export const editCargo = async (data, setLoading) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `${iMarineBaseURL}/domain/Cargo/EditCargo`,
+      `${imarineBaseUrl}/domain/Cargo/EditCargo`,
       data
     );
 
@@ -70,7 +70,7 @@ export const DeleteCargo = async (id, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.delete(
-      `${iMarineBaseURL}/domain/Cargo/DeleteCargo?cargoId=${id}`
+      `${imarineBaseUrl}/domain/Cargo/DeleteCargo?cargoId=${id}`
     );
     toast.success(res?.data?.message);
     cb();
@@ -85,7 +85,7 @@ export const activeInactiveCargo = async (id, status, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `${iMarineBaseURL}/domain/Cargo/ActiveOrInActive?cargoId=${id}&activeOrInActive=${status}`
+      `${imarineBaseUrl}/domain/Cargo/ActiveOrInActive?cargoId=${id}&activeOrInActive=${status}`
     );
     toast.success(res?.data?.message);
     cb();

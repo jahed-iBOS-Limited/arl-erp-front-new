@@ -1,5 +1,5 @@
 import axios from "axios";
-import { iMarineBaseURL } from "../../../chartering/helper";
+import { imarineBaseUrl } from "../../../../App";
 export const getShippointDDL = async (accId, buId, setter) => {
   try {
     const res = await axios.get(
@@ -37,7 +37,7 @@ export const GetLighterVesselDDL = async (motherVesselId, setter) => {
 export const GetDomesticPortDDL = async (setter) => {
   try {
     const res = await axios.get(
-      `${iMarineBaseURL}/domain/LighterVessel/GetDomesticPortDDL`
+      `${imarineBaseUrl}/domain/LighterVessel/GetDomesticPortDDL`
     );
     setter(res?.data);
   } catch (error) {

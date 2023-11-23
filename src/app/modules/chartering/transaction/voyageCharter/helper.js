@@ -2,7 +2,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { _dateFormatter } from "../../_chartinghelper/_dateFormatter";
-import { iMarineBaseURL } from "../../helper";
+import { imarineBaseUrl } from "../../../../App";
 
 // Validation schema
 export const validationSchema = Yup.object().shape({
@@ -30,7 +30,7 @@ export const getVoyageCharterTransactionLandingData = async (
   // const voyageNoStr = voyageId ? `` : "";
   try {
     const res = await axios.get(
-      `${iMarineBaseURL}/domain/FreightInvoice/GetFreightInvoiceLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+      `${imarineBaseUrl}/domain/FreightInvoice/GetFreightInvoiceLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
     setter(res?.data);
     setLoading(false);
@@ -44,7 +44,7 @@ export const saveVoyageCharterTransaction = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      `${iMarineBaseURL}/domain/FreightInvoice/CreateFreightInvoice`,
+      `${imarineBaseUrl}/domain/FreightInvoice/CreateFreightInvoice`,
       data
     );
     cb();
@@ -64,7 +64,7 @@ export const saveVoyageCharterTransactionIntermidiate = async (
   setLoading(true);
   try {
     const res = await axios.post(
-      `${iMarineBaseURL}/domain/FreightInvoice/CreateFreightInvoiceIntermidiate`,
+      `${imarineBaseUrl}/domain/FreightInvoice/CreateFreightInvoiceIntermidiate`,
       data
     );
     cb();
@@ -80,7 +80,7 @@ export const editVoyageCharterTransaction = async (data, setLoading) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `${iMarineBaseURL}/domain/VoyageCharter/EditVoyageCharter`,
+      `${imarineBaseUrl}/domain/VoyageCharter/EditVoyageCharter`,
       data
     );
     toast.success(res?.data?.message);
@@ -100,7 +100,7 @@ export const getVoyageChartererTransactionById = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `${iMarineBaseURL}/domain/FreightInvoice/GetFreightInvoiceById?FreightInvoiceId=${id}`
+      `${imarineBaseUrl}/domain/FreightInvoice/GetFreightInvoiceById?FreightInvoiceId=${id}`
     );
 
     setter(res?.data?.objHeader);
@@ -133,7 +133,7 @@ export const getIntermidiateInvoiceData = async (
 
   try {
     const res = await axios.get(
-      `${iMarineBaseURL}/domain/FreightInvoice/GetFrightInvIntermidiateInfo?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&StatementNo=${statementId}&CharterId=${charterId}`
+      `${imarineBaseUrl}/domain/FreightInvoice/GetFrightInvIntermidiateInfo?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&StatementNo=${statementId}&CharterId=${charterId}`
     );
 
     const header = res?.data?.objHeaderDTO;
@@ -337,7 +337,7 @@ export const getInvoiceData = async (
 
   try {
     const res = await axios.get(
-      `${iMarineBaseURL}/domain/FreightInvoice/GetFrightInvInfo?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&StatementNo=${statementId}&CharterId=${charterId}&CargoRowId=${cargoId}`
+      `${imarineBaseUrl}/domain/FreightInvoice/GetFrightInvInfo?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&StatementNo=${statementId}&CharterId=${charterId}&CargoRowId=${cargoId}`
     );
 
     const header = res?.data?.objHeaderDTO;
@@ -544,7 +544,7 @@ export const createJournalForVoyageCharter = async (
   );
   try {
     const res = await axios.post(
-      `${iMarineBaseURL}/domain/VoyageCharter/CreateVoyageCharterJournal`,
+      `${imarineBaseUrl}/domain/VoyageCharter/CreateVoyageCharterJournal`,
       payload
     );
     toast.success(res?.data?.message, { toastId: 234 });

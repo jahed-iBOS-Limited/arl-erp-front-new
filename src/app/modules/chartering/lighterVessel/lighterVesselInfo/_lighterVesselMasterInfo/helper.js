@@ -1,7 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { iMarineBaseURL } from "../../../helper";
+import { imarineBaseUrl } from "../../../../../App";
 
 export const validationSchema = Yup.object().shape({
   mvesselName: Yup.string().required("Mother Vessel is required"),
@@ -11,7 +11,7 @@ export const createMotherVessel = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      `${iMarineBaseURL}/domain/LighterVessel/CreateLighterMotherVessel`,
+      `${imarineBaseUrl}/domain/LighterVessel/CreateLighterMotherVessel`,
       data
     );
     toast.success(res?.data?.message);
@@ -27,8 +27,8 @@ export const saveMasterBankInformation = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      `${iMarineBaseURL}/domain/LighterVessel/CRUDLighterVesselMastersBankInfo`,
-      // `${iMarineBaseURL}/domain/LighterVessel/CreateLighterVesselMastersBankInfo`,
+      `${imarineBaseUrl}/domain/LighterVessel/CRUDLighterVesselMastersBankInfo`,
+      // `${imarineBaseUrl}/domain/LighterVessel/CreateLighterVesselMastersBankInfo`,
       data
     );
     toast.success(res?.data?.message);
@@ -44,7 +44,7 @@ export const saveEditedMasterBankInformation = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `${iMarineBaseURL}/domain/LighterVessel/EditLighterVesselMastersBankInfo`,
+      `${imarineBaseUrl}/domain/LighterVessel/EditLighterVesselMastersBankInfo`,
       data
     );
     toast.success(res?.data?.message);
@@ -66,7 +66,7 @@ export const getMasterBankInformation = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `${iMarineBaseURL}/domain/LighterVessel/GetLighterVesselMastersBankInfoByid?LighterVesselId=${vesselId}`
+      `${imarineBaseUrl}/domain/LighterVessel/GetLighterVesselMastersBankInfoByid?LighterVesselId=${vesselId}`
     );
     // const data = res?.data.map((item) => ({
     //   ...item,
@@ -91,7 +91,7 @@ export const editMasterBankInformation = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `${iMarineBaseURL}/domain/LighterVessel/EditLighterVesselMastersBankInfo`,
+      `${imarineBaseUrl}/domain/LighterVessel/EditLighterVesselMastersBankInfo`,
       data
     );
     toast.success(res?.data?.message);
@@ -109,7 +109,7 @@ export const changeBankInfoStatus = async (id, value, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `${iMarineBaseURL}/domain/LighterVessel/ActiveOrInActive?Id=${id}&activeOrInActive=${value}`
+      `${imarineBaseUrl}/domain/LighterVessel/ActiveOrInActive?Id=${id}&activeOrInActive=${value}`
     );
     toast.success(res?.data?.message);
     cb();

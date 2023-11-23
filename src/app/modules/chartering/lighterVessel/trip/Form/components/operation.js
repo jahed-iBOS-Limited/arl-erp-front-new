@@ -1,10 +1,19 @@
+import axios from "axios";
 import React, { useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { imarineBaseUrl } from "../../../../../../App";
+import SearchAsyncSelect from "../../../../../_helper/SearchAsyncSelect";
+import { _dateFormatter } from "../../../../_chartinghelper/_dateFormate";
+import IDelete from "../../../../_chartinghelper/_delete";
+import IViewModal from "../../../../_chartinghelper/_viewModal";
 import FormikInput from "../../../../_chartinghelper/common/formikInput";
 import FormikSelect from "../../../../_chartinghelper/common/formikSelect";
 import customStyles from "../../../../_chartinghelper/common/selectCustomStyle";
 import IEdit from "../../../../_chartinghelper/icons/_edit";
-import IDelete from "../../../../_chartinghelper/_delete";
-import IViewModal from "../../../../_chartinghelper/_viewModal";
+import { GetLighterConsigneeDDL, getMotherVesselDDL } from "../../../../helper";
+import ConsigneeForm from "../../../consignee/Form/addEditForm";
+import MotherVesselCreate from "../../_motherVessel/Form/addEditForm";
+import { setValue } from "../../helper";
 import {
   editRowDataClick,
   removeRowData,
@@ -13,14 +22,6 @@ import {
   setOperationFieldClear,
 } from "../../utils";
 import { CreateIcon } from "./header";
-import MotherVesselCreate from "../../_motherVessel/Form/addEditForm";
-import { GetLighterConsigneeDDL, getMotherVesselDDL, iMarineBaseURL } from "../../../../helper";
-import { shallowEqual, useSelector } from "react-redux";
-import ConsigneeForm from "../../../consignee/Form/addEditForm";
-import { _dateFormatter } from "../../../../_chartinghelper/_dateFormate";
-import SearchAsyncSelect from "../../../../../_helper/SearchAsyncSelect";
-import axios from "axios";
-import { setValue } from "../../helper";
 
 export function OperationSection(props) {
   const {
@@ -111,7 +112,7 @@ export function OperationSection(props) {
                   if (v?.length < 3) return [];
                   return axios
                     .get(
-                      `${iMarineBaseURL}/domain/LighterConsignee/GetCustomerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&searchName=${v}`
+                      `${imarineBaseUrl}/domain/LighterConsignee/GetCustomerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&searchName=${v}`
                     )
                     .then((res) => res?.data);
                 }}
@@ -162,7 +163,7 @@ export function OperationSection(props) {
                   if (v?.length < 3) return [];
                   return axios
                     .get(
-                      `${iMarineBaseURL}/domain/LighterVesselSurvey/GetLighterVesselSRDDL?BusinessUnitId=${selectedBusinessUnit?.value}&SearchSRNumber=${v}`
+                      `${imarineBaseUrl}/domain/LighterVesselSurvey/GetLighterVesselSRDDL?BusinessUnitId=${selectedBusinessUnit?.value}&SearchSRNumber=${v}`
                     )
                     .then((res) => res?.data);
                 }}

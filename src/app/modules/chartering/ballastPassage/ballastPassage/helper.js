@@ -2,7 +2,7 @@ import axios from "axios";
 import moment from "moment";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { iMarineBaseURL } from "../../helper";
+import { imarineBaseUrl } from "../../../../App";
 
 // Validation schema
 export const validationSchema = Yup.object().shape({
@@ -40,7 +40,7 @@ export const getBallastPassageLandingData = async ({
   setLoading(true);
   try {
     const res = await axios.get(
-      `${iMarineBaseURL}/domain/BallastPassage/GetBallastPassageLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+      `${imarineBaseUrl}/domain/BallastPassage/GetBallastPassageLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
     setter(res?.data);
     setLoading(false);
@@ -61,7 +61,7 @@ export const getItemRateForBunker = async ({
   setLoading(true);
   try {
     const { data } = await axios.get(
-      `${iMarineBaseURL}/domain/BunkerInformation/GetItemRateForBunker?AccountId=${accId}&BusinessUnitId=${buId}&VoyageNoId=${voyageId}&VesselId=${vesselId}`
+      `${imarineBaseUrl}/domain/BunkerInformation/GetItemRateForBunker?AccountId=${accId}&BusinessUnitId=${buId}&VoyageNoId=${voyageId}&VesselId=${vesselId}`
     );
     setter("lsfoballastRate", data?.lsifoPrice);
     setter("lsmgoballastRate", data?.lsmgoPrice);
@@ -76,7 +76,7 @@ export const createBallastPassge = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      `${iMarineBaseURL}/domain/BallastPassage/CreateBallastPassage`,
+      "${imarineBaseUrl}/domain/BallastPassage/CreateBallastPassage",
       data
     );
     cb();
@@ -92,7 +92,7 @@ export const editBallastPassge = async (data, setLoading) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `${iMarineBaseURL}/domain/BallastPassage/EditBallastPassage`,
+      "${imarineBaseUrl}/domain/BallastPassage/EditBallastPassage",
       data
     );
 
@@ -110,7 +110,7 @@ export const getSingleBallastDataById = async ({ id, setLoading, setter }) => {
   setLoading(true);
   try {
     const { data } = await axios.get(
-      `${iMarineBaseURL}/domain/BallastPassage/GetBallastPassage?BallastId=${id}`
+      `${imarineBaseUrl}/domain/BallastPassage/GetBallastPassage?BallastId=${id}`
     );
 
     setter({

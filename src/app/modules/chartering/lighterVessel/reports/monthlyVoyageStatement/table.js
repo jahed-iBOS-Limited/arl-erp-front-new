@@ -18,7 +18,7 @@ import Loading from "../../../_chartinghelper/loading/_loading";
 import { getSalesOrgList } from "../../../transaction/timeCharter/helper";
 import { getMonthlyVoyageStatement, months } from "../helper";
 import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
-import { iMarineBaseURL } from "../../../helper";
+import { imarineBaseUrl } from "../../../../../App";
 
 const headers = [
   { name: "SL" },
@@ -121,7 +121,7 @@ export default function MonthlyVoyageStatement() {
         : "";
 
     createJournal(
-      `${iMarineBaseURL}/domain/LighterVesselStatement/${apiName}`,
+      `${imarineBaseUrl}/domain/LighterVesselStatement/${apiName}`,
       payload,
       () => {
         const field =
