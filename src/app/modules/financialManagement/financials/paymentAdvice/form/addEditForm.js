@@ -150,7 +150,9 @@ export default function PaymentAdviceForm({
           transectionTypeName: "",
           actionById: profileData?.userId,
           actionByName:profileData?.userName,
-          numAmount: data?.monAmount
+          numAmount: data?.monAmount,
+          numTds: +data?.numTds || 0,
+          numVds: +data?.numVds ||0,
           }
       })
         // console.log(payload)
