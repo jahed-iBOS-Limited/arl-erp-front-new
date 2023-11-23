@@ -1,66 +1,80 @@
-import React from "react";
-import { Switch } from "react-router-dom";
-import { LayoutSplashScreen, ContentRoute } from "../../../_metronic/layout";
-import { Suspense } from "react";
-import InsuranceLanding from "./transaction/insurance/landing/table";
-import InsuranceAmendmentLanding from "./transaction/insuranceAmendment/landing/table";
-import LcOpenLanding from "./transaction/lc-open/landing/tableHeader";
-import InsurancePolicyCollapsePanel from "./transaction/insurance/Collapse";
-import DocumentReleaseForm from "./transaction/documentRelease/form/addEditForm";
-import DocumentReleaseLanding from "./transaction/documentRelease/landing/table";
-import CustomDutyForm from "./transaction/customDuty/form/addEditForm";
-import CustomDutyLanding from "./transaction/customDuty/landing/table";
-import InsuranceAmendmentForm from "./transaction/insuranceAmendment/form/addEditForm";
-import ListOfDiferredLC from "./transaction/list-of-diferred-LC/landing/table";
-import LCAmendmentLanding from "./transaction/LCAmendment/landing/table";
-import LCAmendmentForm from "./transaction/LCAmendment/form/addEditForm";
-import LCSummaryCollapsePanel from "./transaction/LCSummary/Collapse";
-import InsuranceBillLanding from "./transaction/insurance-bill/landing/tableHeader";
-import InsurancePaymentLanding from "./transaction/insurance-payment/landing/tableHeader";
-import LCCostSumary from "./transaction/lcCostSumary/landing/tableHeader";
-import shipmentAndPackingForm from "./transaction/shipmentAndPacking/Collapse";
-import shipmentAndPackingLanding from "./transaction/shipmentAndPacking/landing/tableHeader";
-import CleaningCharges from "./transaction/cleaning-charges/landing/tableHeader";
-import CleainingChargeForm from "./transaction/cleaning-charges/form/addEditForm";
-import UnloadingCharges from "./transaction/unloading-charges/landing/tableHeader";
-import UnloadingChargesForm from "./transaction/unloading-charges/form/addEditForm";
-import PortCharges from "./transaction/port-charges/landing/tableHeader";
-import ShippingChargesLanding from "./transaction/shipping-charges/landing/table";
-import LCOpenForm from "./transaction/lc-open/form/addEditForm";
-import InspectionAndSurveyLanding from "./transaction/inspectionAndSurvey/landing/table";
-import InspectionAndSurveyForm from "./transaction/inspectionAndSurvey/form/addEditForm";
-import TransportChargesLanding from "./transaction/transportCharges/landing/table";
-import TransportChargesForm from "./transaction/transportCharges/form/addEditForm";
-import CnFServiceList from "./transaction/CnFServiceList/landing/table";
-import CnFChargesLanding from "./transaction/CnFCharges/landing/table";
-import CnFChargesForm from "./transaction/CnFCharges/form/addEditForm";
-import LCBusinessPartnerLanding from "./transaction/lcBusinessPartner/landing/table";
-import LCBusinessPartnerForm from "./transaction/lcBusinessPartner/form/addEditForm";
-import ShippingChargeForm from "./transaction/shipping-charges/form/addEditForm";
-import IndentPoLc from "./reports/indentPoLc/landing/tableHeader";
-import InsuranceCoverNote from "./reports/insuranceCoverNote/landing/tableHeader";
-import InsuranceBill from "./reports/insuranceBill/landing/tableHeader";
+import React, { Suspense } from "react";
+import { Redirect, Switch } from "react-router-dom";
+import { ContentRoute, LayoutSplashScreen } from "../../../_metronic/layout";
+import CnFDetails from "./reports/CnFDetails/landing/tableHeader";
+import ItemWiseStock from "./reports/ItemWiseStock/landing/tableHeader";
+import LcCostSheetPartnerWise from "./reports/LcCostSheetPartnerWise";
+import CnfPaymentDetails from "./reports/cnfDetailsReport/landing/tableHeader";
+import CostSummary from "./reports/costSummary/landing/tableHeader";
 import DocumentRelease from "./reports/documentRelease/landing/tableHeader";
 import DutySummary from "./reports/dutySummary/landing/tableHeader";
-import CostSummary from "./reports/costSummary/landing/tableHeader";
-import LCSummary from "./reports/lcSummary/landing/tableHeader";
-import CnFDetails from "./reports/CnFDetails/landing/tableHeader";
-import PerformanceGuarantee from "./transaction/performance-guarantee/form/addEditForm";
-import ItemWiseStock from "./reports/ItemWiseStock/landing/tableHeader";
 import FundRequisition from "./reports/fundRequisition/landing/tableHeader";
-import ProformaInvoiceLanding from "./transaction/proforma-invoice/landing/tableHeader";
-import ProformaInvoiceForm from "./transaction/proforma-invoice/form/addEditForm";
+import IndentPoLc from "./reports/indentPoLc/landing/tableHeader";
+import InsuranceBill from "./reports/insuranceBill/landing/tableHeader";
+import InsuranceCoverNote from "./reports/insuranceCoverNote/landing/tableHeader";
+import LCSummary from "./reports/lcSummary/landing/tableHeader";
 import OutStandingLc from "./reports/outstandingLc/landing/tableHeader";
-import CnfPaymentDetails from "./reports/cnfDetailsReport/landing/tableHeader";
+import CnFChargesForm from "./transaction/CnFCharges/form/addEditForm";
+import CnFChargesLanding from "./transaction/CnFCharges/landing/table";
+import CnFServiceList from "./transaction/CnFServiceList/landing/table";
+import LCAmendmentForm from "./transaction/LCAmendment/form/addEditForm";
+import LCAmendmentLanding from "./transaction/LCAmendment/landing/table";
+import LCSummaryCollapsePanel from "./transaction/LCSummary/Collapse";
+import CleainingChargeForm from "./transaction/cleaning-charges/form/addEditForm";
+import CleaningCharges from "./transaction/cleaning-charges/landing/tableHeader";
 import OutstandingPayment from "./transaction/commercialCosting/landing/tableHeader";
-import LcCostSheetPartnerWise from "./reports/LcCostSheetPartnerWise";
+import CustomDutyForm from "./transaction/customDuty/form/addEditForm";
+import CustomDutyLanding from "./transaction/customDuty/landing/table";
 import CustomDutyAdvancePayment from "./transaction/customDutyAdvancePay";
 import CustomDutyAdvancePayCreateEdit from "./transaction/customDutyAdvancePay/createAndEdit";
+import DocumentReleaseForm from "./transaction/documentRelease/form/addEditForm";
+import DocumentReleaseLanding from "./transaction/documentRelease/landing/table";
+import InspectionAndSurveyForm from "./transaction/inspectionAndSurvey/form/addEditForm";
+import InspectionAndSurveyLanding from "./transaction/inspectionAndSurvey/landing/table";
+import InsuranceBillLanding from "./transaction/insurance-bill/landing/tableHeader";
+import InsurancePaymentLanding from "./transaction/insurance-payment/landing/tableHeader";
+import InsurancePolicyCollapsePanel from "./transaction/insurance/Collapse";
+import InsuranceLanding from "./transaction/insurance/landing/table";
+import InsuranceAmendmentForm from "./transaction/insuranceAmendment/form/addEditForm";
+import InsuranceAmendmentLanding from "./transaction/insuranceAmendment/landing/table";
+import LCOpenForm from "./transaction/lc-open/form/addEditForm";
+import LcOpenLanding from "./transaction/lc-open/landing/tableHeader";
+import LCBusinessPartnerForm from "./transaction/lcBusinessPartner/form/addEditForm";
+import LCBusinessPartnerLanding from "./transaction/lcBusinessPartner/landing/table";
+import LCCostSumary from "./transaction/lcCostSumary/landing/tableHeader";
+import ListOfDiferredLC from "./transaction/list-of-diferred-LC/landing/table";
+import PerformanceGuarantee from "./transaction/performance-guarantee/form/addEditForm";
+import PortCharges from "./transaction/port-charges/landing/tableHeader";
+import ProformaInvoiceForm from "./transaction/proforma-invoice/form/addEditForm";
+import ProformaInvoiceLanding from "./transaction/proforma-invoice/landing/tableHeader";
+import shipmentAndPackingForm from "./transaction/shipmentAndPacking/Collapse";
+import shipmentAndPackingLanding from "./transaction/shipmentAndPacking/landing/tableHeader";
+import ShippingChargeForm from "./transaction/shipping-charges/form/addEditForm";
+import ShippingChargesLanding from "./transaction/shipping-charges/landing/table";
+import TransportChargesForm from "./transaction/transportCharges/form/addEditForm";
+import TransportChargesLanding from "./transaction/transportCharges/landing/table";
+import UnloadingChargesForm from "./transaction/unloading-charges/form/addEditForm";
+import UnloadingCharges from "./transaction/unloading-charges/landing/tableHeader";
+
+
+
+
+
+
 
 export function importManagementPages() {
   return (
     <Suspense fallback={<LayoutSplashScreen />}>
       <Switch>
+      <Redirect
+          exact={true}
+          from="/transport-management"
+          to="/managementImport/transaction"
+        />
+
+     
+
+
         {/* Insurance Policy */}
         <ContentRoute
           path="/managementImport/transaction/insurance-policy/create"
