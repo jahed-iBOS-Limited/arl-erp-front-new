@@ -109,7 +109,10 @@ export default function DryDocCreateEdit() {
           ? rowData?.reduce((acc, cur) => acc + cur?.numBudgetAmount, 0)
           : 0,
       },
-      _rows: rowData,
+      _rows: rowData?.map((item) => ({
+        ...item,
+        isActive: true,
+      })),
     };
     saveData(`/fino/Expense/CreateDocSchedule`, payload, cb, true);
   };
