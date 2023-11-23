@@ -132,7 +132,7 @@ export const editShipper = async (data, setLoading) => {
   try {
     const res = await axios.put(
       `${imarineBaseUrl}/domain/HireCargoInfo/EditCargoHireInfo",
-      data
+      data`
     );
 
     toast.success(res?.data?.message, { toastId: 123 });
