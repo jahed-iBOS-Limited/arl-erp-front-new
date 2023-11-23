@@ -153,7 +153,11 @@ function BillForm({ clickRowData, estimatePDABillAddHandler }) {
                         },
                         {
                           value: 3,
-                          label: "WTR",
+                          label: "Levy",
+                        },
+                        {
+                          value: 4,
+                          label: "Watchman",
                         },
                       ]}
                       name='billType'
