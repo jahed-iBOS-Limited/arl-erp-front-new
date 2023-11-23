@@ -190,20 +190,24 @@ function Form({
                         setSupplierDDL([]);
                         getSupplierDDLApi(
                           accId,
-                          valueOption?.value,
+                          values?.respondentBusinessUnit?.value,
                           setSupplierDDL
                         );
                       }
                       // if type customer
                       if (valueOption?.value === 3) {
                         setCustomerDDL([]);
-                        customerListDDL(accId, buId, setCustomerDDL);
+                        customerListDDL(
+                          accId,
+                          values?.respondentBusinessUnit?.value,
+                          setCustomerDDL
+                        );
                       }
                     }}
                     placeholder='Respondent Type'
                     errors={errors}
                     touched={touched}
-                    isDisabled={view}
+                    isDisabled={!values?.respondentBusinessUnit || view} 
                   />
                 </div>
                 {/* if respondent type Customer "3" */}
@@ -464,7 +468,41 @@ function Form({
                     isDisabled={!values?.respondentBusinessUnit || view}
                   />
                 </div>
-                <div className='col-lg-3'>
+
+                {[2, 3].includes(values?.respondentType?.value) && (
+                  <div className='col-lg-3'>
+                    <label>Challan/PO</label>
+                    <SearchAsyncSelect
+                      selectedValue={values?.challanOrPO}
+                      handleChange={(valueOption) => {
+                        setFieldValue("challanOrPO", valueOption || "");
+                      }}
+                      loadOptions={(v) => {
+                        if (v?.length < 2) return [];
+                        const apiPath =
+                          values?.respondentType?.value === 2
+                            ? `/wms/InventoryTransaction/GetAllPoWithGrnDDL?businessUnitId=${values?.respondentBusinessUnit?.value}&Search=${v}`
+                            : `/oms/Shipment/GetCompletedShipmentList?Businessunitid=${values?.respondentBusinessUnit?.value}&AccountId=${accId}&Search=${v}}`;
+
+                        return axios
+                          .get(apiPath)
+                          .then((res) => {
+                            return res?.data;
+                          })
+                          .catch((err) => []);
+                      }}
+                      placeholder='Search (min 3 letter)'
+                      isDisabled={!values?.respondentBusinessUnit || view}
+                    />
+                    <FormikError
+                      name='respondentName'
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                )}
+
+                {/* <div className='col-lg-3'>
                   <NewSelect
                     name='challanOrPO'
                     options={[] || []}
@@ -478,7 +516,7 @@ function Form({
                     touched={touched}
                     isDisabled={!values?.respondentType || view}
                   />
-                </div>
+                </div> */}
 
                 <div className='col-lg-3'>
                   <InputField
