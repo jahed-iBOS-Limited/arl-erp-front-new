@@ -245,13 +245,13 @@ export const getBusinessUnitDDLApi = async (buId, setter) => {
     setter(res?.data);
   } catch (error) {}
 };
-export const getItemCategoryDDL = async (accId, buId, setLoading) => {
+export const getItemCategoryDDL = async (accId, buId, setLoading, setter) => {
   setLoading(true);
   try {
-    const res = await axios.put(
+    const res = await axios.get(
       `/wms/ItemPlantWarehouse/GetItemCategoryDDL?accountId=${accId}&businessUnitId=${buId}`
     );
-    toast.success(res?.data?.message);
+    setter(res?.data);
     setLoading(false);
   } catch (error) {
     toast.error(error?.response?.data?.message);

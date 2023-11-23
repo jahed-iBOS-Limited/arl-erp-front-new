@@ -70,8 +70,7 @@ function Form({
     if (accId && buId) {
       getComplainCategory(buId, setComplainCategory);
       getDistributionChannelDDL(accId, buId, setDistributionChannelDDL);
-
-      getBusinessUnitDDLApi(accId, 0, setBusinessUnitDDL);
+      getBusinessUnitDDLApi( 0, setBusinessUnitDDL);
     }
   }, [accId, buId]);
 
@@ -478,7 +477,7 @@ function Form({
                         setFieldValue("challanOrPO", valueOption || "");
                       }}
                       loadOptions={(v) => {
-                        if (v?.length < 2) return [];
+                        if (v?.length < 3) return [];
                         const apiPath =
                           values?.respondentType?.value === 2
                             ? `/wms/InventoryTransaction/GetAllPoWithGrnDDL?businessUnitId=${values?.respondentBusinessUnit?.value}&Search=${v}`
