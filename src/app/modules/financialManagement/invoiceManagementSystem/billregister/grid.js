@@ -148,7 +148,7 @@ const GridData = ({
                           }}
                         />
                       )}
-                      {tableData?.attatchment?.length && (
+                      {tableData?.attatchment?.length ? (
                         <IView
                           title="View Attachment"
                           clickHandler={() => {
@@ -156,7 +156,7 @@ const GridData = ({
                             setAttachmentListModal(true);
                           }}
                         />
-                      )}
+                      ) : null}
 
                       <button
                         type="button"
