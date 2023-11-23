@@ -279,10 +279,10 @@ export const getExpenseById = async (expId, setter, setRowDto, setLoding) => {
                   value: data?.objHeader?.instrumentId,
                   label: data?.objHeader?.instrumentName,
                },
-               disbursmentCenter: {
+               disbursmentCenter: data?.objHeader?.disbursementCenterId && data?.objHeader?.disbursementCenterName ? {
                   value: data?.objHeader?.disbursementCenterId,
                   label: data?.objHeader?.disbursementCenterName,
-               },
+               } : "",
                expenseGroup:
                   data?.objHeader?.expenseGroup === 'TaDa'
                      ? {
