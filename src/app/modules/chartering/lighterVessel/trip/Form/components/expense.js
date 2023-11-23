@@ -23,9 +23,9 @@ export function ExpenseSection(props) {
   const [rateUpdateModal, setRateUpdateModal] = useState(false);
 
   useEffect(() => {
-    if (viewType !== "view" || viewType !== "edit") {
-      getOilRateApi({ values, setFieldValue });
-    }
+    getOilRateApi({ values, setFieldValue });
+    // if (viewType !== "view" || viewType !== "edit") {
+    // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -119,7 +119,7 @@ export const saveTimeCharterTransaction = async (data, setLoading, cb) => {
 //   setLoading(true);
 //   try {
 //     const res = await axios.put(
-//       "${imarineBaseUrl}/domain/Transaction/EditTransaction",
+//       `${imarineBaseUrl}/domain/Transaction/EditTransaction`,
 //       data
 //     );
 //     toast.success(res?.data?.message);
