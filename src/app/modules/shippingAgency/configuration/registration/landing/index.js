@@ -133,7 +133,7 @@ const RegistrationLanding = () => {
                     onClick={() => {
                       commonGridData(1, pageSize, values);
                     }}
-                    disabled={!values?.vesselName || !values?.vesselType}
+                    disabled={ !values?.vesselType}
                   >
                     View
                   </button>

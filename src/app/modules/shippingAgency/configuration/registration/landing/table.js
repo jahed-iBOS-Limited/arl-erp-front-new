@@ -9,7 +9,7 @@ const LandingTable = ({ obj }) => {
   const history = useHistory();
 
   return (
-    <div className="table-responsive">
+    <div className='table-responsive'>
       <table className='table table-striped table-bordered global-table'>
         <thead>
           <tr>
@@ -19,14 +19,13 @@ const LandingTable = ({ obj }) => {
             <th>Vessel Name</th>
             <th>Voyage Owne</th>
             <th>Reg</th>
+            <th>Custom SL</th>
             <th>Load Port</th>
             <th>Arrived Time</th>
             <th>Cargo Name</th>
             <th>Quantity</th>
             <th>Stevedore</th>
             <th>Cargo Own</th>
-            {/* <th>Discharge Date</th>
-            <th>Discharge</th> */}
             <th>Remark</th>
             <th>Action</th>
           </tr>
@@ -40,6 +39,7 @@ const LandingTable = ({ obj }) => {
               <td>{item?.vesselName}</td>
               <td>{item?.voyageOwnerName}</td>
               <td>{item?.registrationNumber}</td>
+              <td>{item?.customSl}</td>
               <td>{item?.loadPortName}</td>
               <td>{moment(item?.arrivedDateTime).format("hh:mm A")}</td>
               <td>{item?.cargoName}</td>
@@ -64,11 +64,13 @@ const LandingTable = ({ obj }) => {
                     <IEdit />
                   </span>
 
-                  <span onClick={() => {
-                     history.push(
-                      `/ShippingAgency/Configuration/Registration/view/${item?.registrationId}`
-                    );
-                  }}>
+                  <span
+                    onClick={() => {
+                      history.push(
+                        `/ShippingAgency/Configuration/Registration/view/${item?.registrationId}`
+                      );
+                    }}
+                  >
                     <IView />
                   </span>
                 </div>

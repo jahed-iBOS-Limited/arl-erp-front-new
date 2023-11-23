@@ -56,7 +56,7 @@ const validationSchema = Yup.object().shape({
     label: Yup.string().required("Working Port is required"),
     value: Yup.string().required("Working Port is required"),
   }),
-  activity: Yup.string().required("Activity is required"),
+  // activity: Yup.string().required("Activity is required"),
   currency: Yup.object().shape({
     label: Yup.string().required("Currency is required"),
     value: Yup.string().required("Currency is required"),
@@ -389,7 +389,7 @@ const EstimatePDACreate = () => {
                     />
                   </div>
                 </div>
-                <div className='col-lg-3'>
+                {/* <div className='col-lg-3'>
                   <InputField
                     value={values?.activity}
                     label='Activity'
@@ -399,7 +399,7 @@ const EstimatePDACreate = () => {
                       setFieldValue("activity", e.target.value);
                     }}
                   />
-                </div>
+                </div> */}
                 <div className='col-lg-3'>
                   <NewSelect
                     value={values?.currency || ""}
