@@ -40,10 +40,10 @@ const validationSchema = Yup.object().shape({
   expenseGroup: Yup.mixed().required("Expense Group is required"),
   expenseFrom: Yup.date().required("Amount is required"),
   expenseTo: Yup.date().required("Instrument no is required"),
-  disbursmentCenter: Yup.object().shape({
-    label: Yup.string().required("disbursmentCenter type is required"),
-    value: Yup.string().required("disbursmentCenter type is required"),
-  }),
+  // disbursmentCenter: Yup.object().shape({
+  //   label: Yup.string().required("disbursmentCenter type is required"),
+  //   value: Yup.string().required("disbursmentCenter type is required"),
+  // }),
   comments1: Yup.string(),
 });
 
@@ -208,11 +208,11 @@ export default function _Form({
                         placeholder="Disbursement Center"
                         isDisabled={isEdit}
                       />
-                      <FormikError
+                      {/* <FormikError
                         errors={errors}
                         name="disbursmentCenter"
                         touched={touched}
-                      />
+                      /> */}
                     </div>
                     <div className="col-lg-12 pr-1 pl mb-1">
                       <div>Expense Period From</div>
