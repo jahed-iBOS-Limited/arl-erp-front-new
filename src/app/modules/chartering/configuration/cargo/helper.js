@@ -38,7 +38,7 @@ export const createCargo = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      "${imarineBaseUrl}/domain/Cargo/CreateCargo",
+      `${imarineBaseUrl}/domain/Cargo/CreateCargo`,
       data
     );
     cb();
@@ -54,7 +54,7 @@ export const editCargo = async (data, setLoading) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      "${imarineBaseUrl}/domain/Cargo/EditCargo",
+      `${imarineBaseUrl}/domain/Cargo/EditCargo`,
       data
     );
 

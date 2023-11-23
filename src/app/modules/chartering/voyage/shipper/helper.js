@@ -115,7 +115,7 @@ export const createShipper = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      "${imarineBaseUrl}/domain/HireCargoInfo/CreateCargoHireInfo",
+      `${imarineBaseUrl}/domain/HireCargoInfo/CreateCargoHireInfo`,
       data
     );
     cb();
@@ -131,8 +131,8 @@ export const editShipper = async (data, setLoading) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      "${imarineBaseUrl}/domain/HireCargoInfo/EditCargoHireInfo",
-      data
+      `${imarineBaseUrl}/domain/HireCargoInfo/EditCargoHireInfo",
+      data`
     );
 
     toast.success(res?.data?.message, { toastId: 123 });

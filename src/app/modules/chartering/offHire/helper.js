@@ -46,7 +46,7 @@ export const createOffHire = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      "${imarineBaseUrl}/domain/OffHire/CreateOffHire",
+      `${imarineBaseUrl}/domain/OffHire/CreateOffHire`,
       data
     );
     cb();
@@ -62,7 +62,7 @@ export const editOffHire = async (data, setLoading) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      "${imarineBaseUrl}/domain/OffHire/EditOffHire",
+      `${imarineBaseUrl}/domain/OffHire/EditOffHire`,
       data
     );
     toast.success(res?.data?.message);
