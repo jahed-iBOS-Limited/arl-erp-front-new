@@ -1,14 +1,13 @@
 /* eslint-disable no-unused-vars */
-import axios from "axios";
 import React, { lazy, Suspense, useEffect } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { LayoutSplashScreen } from "../_metronic/layout";
+import { useKeyPress } from "./modules/_helper/useKeyPress";
 import PaymentPages from "./modules/payment/PaymentPages";
 import SelfServicePages from "./modules/selfService/SelfServicePages";
 import TokenExpiredPopUp from "./TokenExpiredPopUp";
-import { useKeyPress } from "./modules/_helper/useKeyPress";
 
 const procurementPages = lazy(() =>
   import("./modules/procurement/procurementPages")
@@ -67,6 +66,9 @@ const RtmManagementPages = lazy(() =>
 
 const ImportManagementPages = lazy(() =>
   import("./modules/importManagement/importManagementPages")
+);
+const ImportManagementPagesNew = lazy(() =>
+  import("./modules/importManagement/importManagementPagesNew.js")
 );
 const AttachmentViewer = lazy(() =>
   import("./modules/_helper/attachmentViewer")
@@ -184,7 +186,8 @@ const BasePage = () => {
           component={TransportManagementPages}
         />
         <Route path='/rtm-management' component={RtmManagementPages} />
-        <Route path='/managementImport' component={ImportManagementPages} />
+        <Route path='/managementImport' component={ImportManagementPagesNew} />
+        {/* <Route path='/managementImport' component={ImportManagementPages} /> */}
         <Route path='/pos-management' component={PosManagementPages} />
         <Route path='/call-center-management' component={CallCenterPages} />
         <Route path='/vessel-management' component={VesselManagementPages} />
