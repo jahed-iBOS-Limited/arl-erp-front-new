@@ -236,3 +236,25 @@ export const respondentTypeDDL = [
     label: "Customer",
   },
 ];
+
+export const getBusinessUnitDDLApi = async (buId, setter) => {
+  try {
+    const res = await axios.get(
+      `/domain/BusinessUnitDomain/GetBusinessUnitDDL?AccountId=1&BusinessUnitId=0`
+    );
+    setter(res?.data);
+  } catch (error) {}
+};
+export const getItemCategoryDDL = async (accId, buId, setLoading) => {
+  setLoading(true);
+  try {
+    const res = await axios.put(
+      `/wms/ItemPlantWarehouse/GetItemCategoryDDL?accountId=${accId}&businessUnitId=${buId}`
+    );
+    toast.success(res?.data?.message);
+    setLoading(false);
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setLoading(false);
+  }
+};

@@ -20,6 +20,17 @@ const initData = {
   distributionChannel: "",
   product: "",
   issueDetails: "",
+  // new add
+  occurrenceTime: "",
+  respondentBusinessUnit: "",
+  respondent: "",
+  respondentOrg: "",
+  designationOrRelationship: "",
+  additionalCommentAndSuggestion: "",
+  itemCategory: "",
+  challanOrPO: "",
+  deliveryDate: "",
+  reference: "",
 };
 
 function ComplainForm() {
@@ -57,7 +68,7 @@ function ComplainForm() {
       delegateToId: 0,
       statusId: 0,
       status: "",
-      delegateDateTime: new Date()
+      delegateDateTime: new Date(),
     };
 
     if (edit) {
