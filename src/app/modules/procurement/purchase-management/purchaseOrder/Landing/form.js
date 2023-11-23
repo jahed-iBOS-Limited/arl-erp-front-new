@@ -1,30 +1,29 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import { ISelect } from "../../../../_helper/_inputDropDown";
 import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import {
-  getSbuDDLAction,
   getPurchaseOrgDDLAction,
+  getSbuDDLAction,
 } from "../../../../_helper/_redux/Actions";
-import {
-  getOrderTypeListDDLAction,
-  getPoReferenceTypeDDLAction,
-  getPlantListDDLAction,
-  getGridAction,
-} from "../_redux/Actions";
-import { useHistory } from "react-router-dom";
-import GridData from "./grid";
-import { getWareHouseDDLAction } from "../_redux/Actions";
+import NewSelect from "../../../../_helper/_select";
 import { setPOLandingDataAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import {
+  getGridAction,
+  getOrderTypeListDDLAction,
+  getPlantListDDLAction,
+  getPoReferenceTypeDDLAction,
+  getWareHouseDDLAction,
+} from "../_redux/Actions";
+import GridData from "./grid";
 
 import ILoader from "../../../../_helper/loader/_loader";
 // eslint-disable-next-line no-unused-vars
-import PaginationSearch from "./../../../../_helper/_search";
 const initData = {
   orderType: "",
   refType: "",
@@ -320,12 +319,14 @@ export default function HeaderForm() {
                   !values?.refType ||
                   !values?.orderType ||
                   (selectedBusinessUnit?.value !== 184 &&
-                    values?.orderType?.label === "Standard PO" &&
+                    // values?.orderType?.label === "Standard PO" &&
+                    values?.orderType?.label === "" && 
                     values?.purchaseOrg?.label === "Local Procurement")
                 }
                 type="button"
                 className="btn btn-primary ml-3"
                 onClick={() => {
+                  console.log({values})
                   history.push({
                     pathname: `/mngProcurement/purchase-management/purchaseorder/create`,
                     search: `?potype=${values.orderType?.value}`,

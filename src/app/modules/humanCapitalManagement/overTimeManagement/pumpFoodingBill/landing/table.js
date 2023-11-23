@@ -24,6 +24,8 @@ const initData = {
   fromDate: _firstDateofMonth(),
   toDate: _todayDate(),
   status: { value: "", label: "All" },
+  workplace: {value: 0, label: "All"},
+  warehouse: {value: 0, label: "All"},
 };
 
 export const headers = [
@@ -50,6 +52,8 @@ const PumpFoodingBillLanding = () => {
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [rowData, getRowData, isLoading, setRowData] = useAxiosGet();
+  const [workplaceDDL, getWorkplaceDDL, isWorkpalceDDLLoading, setWorkplaceDDL] = useAxiosGet();
+  const [wareHouseDDL, getWareHouseDDL, isWareHouseDDLLoading, setWareHouseDDL] = useAxiosGet();
   const [loading, setLoading] = useState(false);
 
   // get user profile data from store
@@ -59,7 +63,8 @@ const PumpFoodingBillLanding = () => {
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const getData = (values, pageNo, pageSize) => {
-    const url = `/hcm/MenuListOfFoodCorner/GetPumpFoodingBillPagination?BusinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&PageNo=${pageNo}&PageSize=${pageSize}&ViewOrder=desc&Status=${values?.status?.value}`;
+    const url = `/hcm/MenuListOfFoodCorner/GetPumpFoodingBillPagination?BusinessUnitId=${buId}&warehouseId=${values?.warehouse?.value}&WorkPlaceId=${values?.workplace?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&PageNo=${pageNo}&PageSize=${pageSize}&ViewOrder=desc&Status=${values?.status?.value}`;
+
     getRowData(url, (resData) => {
       setRowData({
         ...resData,
@@ -76,6 +81,22 @@ const PumpFoodingBillLanding = () => {
   useEffect(() => {
     getData(initData, pageNo, pageSize);
   }, [accId, buId]);
+
+  //Load DDL
+  useEffect(()=>{
+    //fetch workplace
+    getWorkplaceDDL(`/hcm/HCMDDL/GetWorkPlaceDDL?AccountId=${accId}&BusinessUnitId=${buId}`, (data)=>{
+      const DDL = [{value: 0, label: "All"}, ...data];
+      setWorkplaceDDL(DDL);
+    })
+
+    //get warehouse DDL
+    getWareHouseDDL(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=0&OrgUnitTypeId=8`, (data) => {
+    
+      const DDL = [{value: 0, label: "All"}, ...data];
+      setWareHouseDDL(DDL);
+    })
+  }, [accId, buId, userId])
 
   // set PositionHandler
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -206,6 +227,32 @@ const PumpFoodingBillLanding = () => {
                       name="status"
                       onChange={(e) => {
                         setFieldValue("status", e);
+                        setRowData([]);
+                      }}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      options={workplaceDDL || []}
+                      label="Workplace"
+                      placeholder="Workplace"
+                      value={values?.workplace}
+                      name="Workplace"
+                      onChange={(e) => {
+                        setFieldValue("workplace", e);
+                        setRowData([]);
+                      }}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      options={wareHouseDDL || []}
+                      label="Warehouse"
+                      placeholder="Warehouse"
+                      value={values?.warehouse}
+                      name="Warehouse"
+                      onChange={(e) => {
+                        setFieldValue("warehouse", e);
                         setRowData([]);
                       }}
                     />
@@ -350,7 +397,9 @@ const PumpFoodingBillLanding = () => {
                                         id={item?.autoId}
                                       />
                                     </span>
-                                    <span className="cursor-pointer">
+                                    {
+                                    item?.attachmentUrl &&
+                                      <span className="cursor-pointer">
                                       <OverlayTrigger
                                         overlay={
                                           <Tooltip id="cs-icon">
@@ -374,6 +423,7 @@ const PumpFoodingBillLanding = () => {
                                         </span>
                                       </OverlayTrigger>
                                     </span>
+                                    }
                                   </>
                                 )}
                               </div>
