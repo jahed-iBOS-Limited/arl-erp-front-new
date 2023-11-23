@@ -70,9 +70,9 @@ function PrintRef({ componentRef, estimatePdaid }) {
               <p>
                 <b>Working Port:</b> {singleData?.workingPortName}
               </p>
-              <p>
+              {/* <p>
                 <b>Activity in Vessel:</b> {singleData?.activity}
-              </p>
+              </p> */}
               <p>
                 <b>Customer:</b> {singleData?.customerName}
               </p>
