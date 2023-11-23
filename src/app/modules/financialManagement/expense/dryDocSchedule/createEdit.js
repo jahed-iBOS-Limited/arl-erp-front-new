@@ -168,7 +168,7 @@ export default function DryDocCreateEdit() {
         saveHandler(values, () => {
           resetForm(initData);
           setRowData([]);
-          !id && modifyDataFromApi();
+          id && modifyDataFromApi();
         });
       }}
     >
@@ -220,7 +220,7 @@ export default function DryDocCreateEdit() {
                     onChange={(e) => {
                       setFieldValue("dockyardName", e.target.value);
                     }}
-                    // disabled={id}
+                    disabled={id}
                   />
                 </div>
                 <div className="col-lg-3">
