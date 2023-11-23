@@ -12,7 +12,6 @@ import IEdit from "../../../_helper/_helperIcons/_edit";
 import IView from "../../../_helper/_helperIcons/_view";
 import IViewModal from "../../../_helper/_viewModal";
 import ActivityListModal from "./activityListModal";
-import { imarineBaseUrl } from "../../../../App";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import numberWithCommas from "../../../_helper/_numberWithCommas";
 const initData = {
@@ -24,7 +23,7 @@ export default function DryDocLanding() {
   const saveHandler = (values, cb) => {};
   const history = useHistory();
 
-  const { profileData, selectedBusinessUnit } = useSelector(
+  const { selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
     shallowEqual
   );
@@ -41,7 +40,6 @@ export default function DryDocLanding() {
 
   useEffect(() => {
     getVesselDDL(
-      // `${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
       `/asset/Asset/GetAssetVesselDdl?IntBussinessUintId=${selectedBusinessUnit?.value}`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -49,7 +47,7 @@ export default function DryDocLanding() {
 
   const getData = (values) => {
     getTableData(
-      `/fino/Expense/GetDocScheduleList?businessUnitId=${selectedBusinessUnit?.value}`
+      `/fino/Expense/GetDocScheduleList?businessUnitId=${selectedBusinessUnit?.value}&vesselId=${values?.vessel?.value}`
     );
   };
 
@@ -75,7 +73,7 @@ export default function DryDocLanding() {
         <>
           {(vesselAssetLoader || tableDataLoader) && <Loading />}
           <IForm
-            title="Dry Doc Schedule"
+            title="Dry Dock Schedule"
             isHiddenReset
             isHiddenBack
             isHiddenSave
@@ -200,7 +198,9 @@ export default function DryDocLanding() {
                             />
                             <IEdit
                               onClick={() => {
-                                console.log("edit clicked");
+                                history.push(
+                                  `/financial-management/expense/drydocschedule/edit/${item?.intDocScheduleId}`
+                                );
                               }}
                             />
                           </td>
