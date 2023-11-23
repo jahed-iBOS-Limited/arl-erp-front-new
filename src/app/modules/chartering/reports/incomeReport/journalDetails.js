@@ -6,8 +6,6 @@ import { _fixedPoint } from "../../../_helper/_fixedPoint";
 const JournalDetails = ({ obj }) => {
   const { rowData, buName, buAddress } = obj;
 
-  let totalAmount = 0;
-
   return (
     <>
       <Formik enableReinitialize={true} initialValues={{}} onSubmit={() => {}}>
@@ -49,7 +47,6 @@ const JournalDetails = ({ obj }) => {
                       </thead>
                       <tbody>
                         {rowData?.map((item, index) => {
-                          totalAmount += item?.numAmount;
                           return (
                             <tr key={index}>
                               <td className="text-center">{index + 1}</td>
@@ -69,7 +66,16 @@ const JournalDetails = ({ obj }) => {
                             <b>Total</b>
                           </td>
                           <td className="text-right">
-                            <b> {_fixedPoint(totalAmount, true)}</b>
+                            <b>
+                              {" "}
+                              {_fixedPoint(
+                                rowData?.reduce(
+                                  (total, curr) => (total += curr?.numAmount),
+                                  0
+                                ),
+                                true
+                              )}
+                            </b>
                           </td>
                         </tr>
                       </tbody>
