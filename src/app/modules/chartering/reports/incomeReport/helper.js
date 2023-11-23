@@ -29,6 +29,7 @@ export const getIncomeReport = async (
               jvDisable: false,
               ajDisable: false,
               finalRevenue: elem?.netRevinue,
+              dollarConversionRate: "",
               // _fixedPoint(
               //   elem?.incomeInDateRange +
               //     elem?.addrComm +

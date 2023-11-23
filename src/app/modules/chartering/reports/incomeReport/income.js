@@ -28,7 +28,7 @@ import JournalDetails from "./journalDetails";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { toast } from "react-toastify";
 
-const getHeaders = (values, gridData) => {
+const getHeaders = (values, gridData, buId) => {
   return [
     { name: "SL", style: { minWidth: "30px" } },
     { name: "Vessel Name", style: { minWidth: "130px" } },
@@ -60,6 +60,20 @@ const getHeaders = (values, gridData) => {
       isHide: !(gridData?.length && values?.fromDate && values?.toDate),
     },
     {
+      name: `$ Conversion Rate`,
+      style: { minWidth: "100px" },
+      isHide:
+        buId !== 17 ||
+        !(gridData?.length && values?.fromDate && values?.toDate),
+    },
+    {
+      name: `Converted Amount`,
+      style: { minWidth: "100px" },
+      isHide:
+        buId !== 17 ||
+        !(gridData?.length && values?.fromDate && values?.toDate),
+    },
+    {
       name: `Total JV Amount`,
       style: { minWidth: "100px" },
       isHide: !(gridData?.length && values?.fromDate && values?.toDate),
@@ -68,6 +82,13 @@ const getHeaders = (values, gridData) => {
       name: `Adjustment Amount`,
       style: { minWidth: "100px" },
       isHide: !(gridData?.length && values?.fromDate && values?.toDate),
+    },
+    {
+      name: `Converted AJ Amount`,
+      style: { minWidth: "100px" },
+      isHide:
+        buId !== 17 ||
+        !(gridData?.length && values?.fromDate && values?.toDate),
     },
     {
       name: `Action`,
@@ -88,6 +109,13 @@ const initData = {
 };
 
 export default function IncomeReport() {
+  const printRef = useRef();
+
+  const {
+    profileData: { accountId: accId, userId },
+    selectedBusinessUnit: { value: buId, label: buName, address: buAddress },
+  } = useSelector((state) => state?.authData, shallowEqual);
+
   const [gridData, setGridData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [vesselDDL, setVesselDDL] = useState([]);
@@ -101,11 +129,6 @@ export default function IncomeReport() {
   const [, postAllJV, isLoading] = useAxiosPost();
   const [showJournalDetails, setShowJournalDetails] = useState(false);
   const [rowData, getJournalDetails, detailsLoader] = useAxiosGet();
-
-  const {
-    profileData: { accountId: accId, userId },
-    selectedBusinessUnit: { value: buId, label: buName, address: buAddress },
-  } = useSelector((state) => state?.authData, shallowEqual);
 
   const getGridData = (values) => {
     getIncomeReport(
@@ -141,6 +164,11 @@ export default function IncomeReport() {
 
   const JournalPost = (values, item, index, journalType) => {
     if (journalType === "journalVoucher") {
+      const totalAmount =
+        buId === 17
+          ? Number((item?.finalRevenue * item?.dollarConversionRate).toFixed(2))
+          : item?.finalRevenue;
+
       const payload = {
         accountId: accId,
         businessUnitId: buId,
@@ -148,7 +176,8 @@ export default function IncomeReport() {
         salesOrgId: values?.salesOrg?.value,
         actionby: userId,
         date: values?.journalDate,
-        totalAmount: item?.finalRevenue,
+        totalAmount: totalAmount,
+        // totalAmount: item?.finalRevenue,
         // totalAmount: item?.incomeInDateRange,
         narration: `Amount debited to ${item?.chartererName} & credited to Freight Income ${item?.vesselName} as provision of freight income of ${item?.vesselName}, VOYAGE-${item?.voyageNo}`,
         vesselId: item?.vesselId,
@@ -168,7 +197,13 @@ export default function IncomeReport() {
     } else if (journalType === "adjustmentJournal") {
       const ajAmount =
         item?.voyageTypeId === 1
-          ? item?.totalJournalAmount - item?.timeCharterRevinueAmount
+          ? buId === 17
+            ? (item?.totalJournalAmount - item?.timeCharterRevinueAmount) *
+              item?.dollarConversionRate
+            : item?.totalJournalAmount - item?.timeCharterRevinueAmount
+          : buId === 17
+          ? (item?.totalJournalAmount - item?.totalIncome) *
+            item?.dollarConversionRate
           : item?.totalJournalAmount - item?.totalIncome;
 
       const payload = {
@@ -197,7 +232,11 @@ export default function IncomeReport() {
     }
   };
 
-  const printRef = useRef();
+  const rowDataHandler = (index, key, value) => {
+    let _data = [...gridData];
+    _data[index][key] = value;
+    setGridData(_data);
+  };
 
   const load = detailsLoader || loading || loader || isLoading;
 
@@ -400,7 +439,7 @@ export default function IncomeReport() {
               <div ref={printRef}>
                 <ICustomTable
                   id="table-to-xlsx"
-                  ths={getHeaders(values, gridData)}
+                  ths={getHeaders(values, gridData, buId)}
                   scrollable={true}
                 >
                   {gridData?.map((item, index) => {
@@ -475,12 +514,44 @@ export default function IncomeReport() {
                               <td className="text-right">
                                 {_fixedPoint(item?.finalRevenue, true)}
                               </td>
+                              {buId === 17 && (
+                                <>
+                                  <td className="text-right">
+                                    <InputField
+                                      name="dollarConversionRate"
+                                      value={item?.dollarConversionRate}
+                                      onChange={(e) => {
+                                        rowDataHandler(
+                                          index,
+                                          "dollarConversionRate",
+                                          e?.target?.value
+                                        );
+                                      }}
+                                    />
+                                  </td>
+                                  <td className="text-right">
+                                    {_fixedPoint(
+                                      item?.finalRevenue *
+                                        item?.dollarConversionRate,
+                                      true
+                                    )}
+                                  </td>
+                                </>
+                              )}
                               <td className="text-right">
                                 {_fixedPoint(item?.totalJournalAmount, true)}
                               </td>
                               <td className="text-right">
                                 {_fixedPoint(ajAmount, true)}
                               </td>
+                              {buId === 17 && (
+                                <td className="text-right">
+                                  {_fixedPoint(
+                                    ajAmount * item?.dollarConversionRate,
+                                    true
+                                  )}
+                                </td>
+                              )}
                               <td className="text-center">
                                 <div className="d-flex justify-content-around align-items-center">
                                   <button
