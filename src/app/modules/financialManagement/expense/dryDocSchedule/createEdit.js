@@ -17,6 +17,8 @@ import * as Yup from "yup";
 import { DropzoneDialogBase } from "material-ui-dropzone";
 import { attachmentUploadAction } from "./helper";
 import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
+import numberWithCommas from "../../../_helper/_numberWithCommas";
 
 const initData = {
   vessel: "",
@@ -60,10 +62,31 @@ export default function DryDocCreateEdit() {
   const [open, setOpen] = useState(false);
   const [fileObjects, setFileObjects] = useState([]);
   const [modifiedData, setModifiedData] = useState({});
+  const [, getScheduleById, loaderOnGetScheduleId] = useAxiosGet();
+
+  const modifyDataFromApi = () => {
+    getScheduleById(
+      `/fino/Expense/GetDocScheduleBudgetList?DocScheduleId=${id}`,
+      (data) => {
+        const obj = {
+          vessel: {
+            value: data?._header?.intVesselId,
+            label: data?._header?.strVesselName,
+          },
+          dockyardName: data?._header?.strDockYardName,
+          fromDate: _dateFormatter(data?._header?.dteFromDate),
+          toDate: _dateFormatter(data?._header?.dteToDate),
+          remarks: data?._header?.reMarks,
+        };
+        setModifiedData(obj);
+        setRowData(data?._rows);
+      }
+    );
+  };
 
   useEffect(() => {
     if (id) {
-      // setModifiedData here
+      modifyDataFromApi();
     }
   }, [id]);
 
@@ -82,6 +105,9 @@ export default function DryDocCreateEdit() {
         dteFromDate: values?.fromDate,
         dteToDate: values?.toDate,
         reMarks: values?.remarks,
+        numRate: id
+          ? rowData?.reduce((acc, cur) => acc + cur?.numBudgetAmount, 0)
+          : 0,
       },
       _rows: rowData,
     };
@@ -114,7 +140,7 @@ export default function DryDocCreateEdit() {
     } else {
       const obj = {
         intRowId: 0,
-        intDocScheduleId: id ? id : 0,
+        intDocScheduleId: id ? +id : 0,
         strActivity: values?.activity,
         intSupplierId: values?.supplier?.value || 0,
         strSupplierName: values?.supplier?.label || "",
@@ -136,12 +162,13 @@ export default function DryDocCreateEdit() {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={initData}
+      initialValues={id ? modifiedData : initData}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
           setRowData([]);
+          !id && modifyDataFromApi();
         });
       }}
     >
@@ -158,9 +185,10 @@ export default function DryDocCreateEdit() {
           {(vesselAssetLoader ||
             supplierLoader ||
             currencyDDLloader ||
-            saveDataLoader) && <Loading />}
+            saveDataLoader ||
+            loaderOnGetScheduleId) && <Loading />}
           <IForm
-            title={id ? "Edit Dry Doc Schedule" : "Create Dry Doc Schedule"}
+            title={id ? "Edit Dry Dock Schedule" : "Create Dry Dock Schedule"}
             getProps={setObjprops}
           >
             <Form>
@@ -180,6 +208,7 @@ export default function DryDocCreateEdit() {
                     }}
                     errors={errors}
                     touched={touched}
+                    isDisabled={id}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -191,6 +220,7 @@ export default function DryDocCreateEdit() {
                     onChange={(e) => {
                       setFieldValue("dockyardName", e.target.value);
                     }}
+                    // disabled={id}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -203,6 +233,7 @@ export default function DryDocCreateEdit() {
                     onChange={(e) => {
                       setFieldValue("fromDate", e.target.value);
                     }}
+                    disabled={id}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -340,7 +371,6 @@ export default function DryDocCreateEdit() {
                     }}
                     disabled={
                       !values?.activity ||
-                      // !values?.supplier ||
                       !values?.currency ||
                       !values?.budgetAmount
                     }
@@ -370,7 +400,9 @@ export default function DryDocCreateEdit() {
                           <td>{item?.strActivity}</td>
                           <td>{item?.strSupplierName}</td>
                           <td>{item?.strCurrencyName}</td>
-                          <td>{item?.numBudgetAmount}</td>
+                          <td className="text-right">
+                            {numberWithCommas(item?.numBudgetAmount)}
+                          </td>
                           <td className="text-center">
                             {
                               <div className="d-flex justify-content-around text-center">

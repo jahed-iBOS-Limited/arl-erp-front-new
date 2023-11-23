@@ -73,7 +73,7 @@ export default function DryDocLanding() {
         <>
           {(vesselAssetLoader || tableDataLoader) && <Loading />}
           <IForm
-            title="Dry Doc Schedule"
+            title="Dry Dock Schedule"
             isHiddenReset
             isHiddenBack
             isHiddenSave
@@ -198,7 +198,9 @@ export default function DryDocLanding() {
                             />
                             <IEdit
                               onClick={() => {
-                                console.log("edit clicked");
+                                history.push(
+                                  `/financial-management/expense/drydocschedule/edit/${item?.intDocScheduleId}`
+                                );
                               }}
                             />
                           </td>
