@@ -6,8 +6,21 @@ import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
 import IForm from "../../../../../_helper/_form";
+import BillApproveForm from "../../../approvebillregister/approveForm";
 
-export default function ViewGhatLoadUnloadBill({ billRegisterId }) {
+const initData = {
+  approveAmount: "",
+  approveAmountMax: "",
+  remarks: "",
+};
+
+export default function ViewGhatLoadUnloadBill({
+  billRegisterId,
+  gridItem,
+  landingValues,
+  setModalShow,
+  gridDataFunc,
+}) {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [gridData, getGridData, gridDataLoading] = useAxiosGet();
@@ -28,8 +41,16 @@ export default function ViewGhatLoadUnloadBill({ billRegisterId }) {
   }, [accId, buId]);
 
   return (
-    <Formik enableReinitialize={true} initialValues={{}} onSubmit={(values) => {}}>
-      {() => (
+    <Formik
+      enableReinitialize={true}
+      initialValues={{
+        ...initData,
+        approveAmount: gridItem?.monTotalAmount,
+        approveAmountMax: gridItem?.monTotalAmount,
+      }}
+      onSubmit={(values) => {}}
+    >
+      {({ values }) => (
         <IForm
           title="View Ghat Load Unload Bill"
           isHiddenReset
@@ -39,6 +60,15 @@ export default function ViewGhatLoadUnloadBill({ billRegisterId }) {
         >
           {(gridDataLoading || loading) && <Loading />}
           <form className="form form-label-right ">
+            <BillApproveForm
+              obj={{
+                values,
+                gridItem,
+                gridDataFunc,
+                landingValues,
+                setModalShow,
+              }}
+            />
             <div className="common-scrollable-table two-column-sticky">
               <div className="scroll-table _table overflow-auto">
                 <table className="table table-striped table-bordered global-table">
@@ -82,20 +112,38 @@ export default function ViewGhatLoadUnloadBill({ billRegisterId }) {
                           <td>{item?.ghatLabourSupplierName}</td>
                           <td className="text-right">{item?.directAmount}</td>
                           <td className="text-right">{item?.dumpAmount}</td>
-                          <td className="text-right">{item?.dumpToTruckAmount}</td>
-                          <td className="text-right">{item?.lighterToBolgateAmount}</td>
-                          <td className="text-right">{item?.bolgateToDamAmount}</td>
-                          <td className="text-right">{item?.truckToDumpOutsideAmount}</td>
-                          <td className="text-right">{item?.truckToDamAmount}</td>
-                          <td className="text-right">{item?.othersCostAmount}</td>
+                          <td className="text-right">
+                            {item?.dumpToTruckAmount}
+                          </td>
+                          <td className="text-right">
+                            {item?.lighterToBolgateAmount}
+                          </td>
+                          <td className="text-right">
+                            {item?.bolgateToDamAmount}
+                          </td>
+                          <td className="text-right">
+                            {item?.truckToDumpOutsideAmount}
+                          </td>
+                          <td className="text-right">
+                            {item?.truckToDamAmount}
+                          </td>
+                          <td className="text-right">
+                            {item?.othersCostAmount}
+                          </td>
                           <td className="text-right">{item?.biwtaAmount}</td>
-                          <td className="text-right">{item?.shipSweepingRate}</td>
+                          <td className="text-right">
+                            {item?.shipSweepingRate}
+                          </td>
                           <td className="text-right">{item?.scaleRate}</td>
-                          <td className="text-right">{item?.dailyLaboureRate}</td>
+                          <td className="text-right">
+                            {item?.dailyLaboureRate}
+                          </td>
                           <td className="text-right">{item?.totalAmount}</td>
                           <td className="text-center">
                             <OverlayTrigger
-                              overlay={<Tooltip id="cs-icon">View Attachment</Tooltip>}
+                              overlay={
+                                <Tooltip id="cs-icon">View Attachment</Tooltip>
+                              }
                             >
                               <span
                                 onClick={(e) => {
