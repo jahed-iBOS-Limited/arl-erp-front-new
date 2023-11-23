@@ -148,7 +148,8 @@ const GridData = ({
                           }}
                         />
                       )}
-                      {tableData?.attatchment?.length ? (
+                      {tableData?.billType === 5 &&
+                      tableData?.attatchment?.length ? (
                         <IView
                           title="View Attachment"
                           clickHandler={() => {
