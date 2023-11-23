@@ -847,7 +847,7 @@ function DeliveryScheduleplanReport() {
                                                       scheduleName:
                                                         item?.scheduleName,
                                                       updatedById:
-                                                        profileData?.accountId,
+                                                        profileData?.userId,
                                                     };
                                                     handleDeliveryStatusUpdate(payload);
                                                     setShowConfirmModal(false);
