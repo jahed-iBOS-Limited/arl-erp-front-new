@@ -409,7 +409,17 @@ export default function AssetLiabilityPlanCreateEdit() {
                                     }}
                                   />
                                 ) : (
-                                  item?.julAmount
+                                  <InputField
+                                    value={item?.julAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].julAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
+                                    }}
+                                  />
                                 )}
                               </td>
                               <td>
@@ -438,7 +448,17 @@ export default function AssetLiabilityPlanCreateEdit() {
                                     }}
                                   />
                                 ) : (
-                                  item?.augAmount
+                                  <InputField
+                                    value={item?.augAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].augAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
+                                    }}
+                                  />
                                 )}
                               </td>
                               <td>
@@ -468,7 +488,17 @@ export default function AssetLiabilityPlanCreateEdit() {
                                     }}
                                   />
                                 ) : (
-                                  item?.sepAmount
+                                  <InputField
+                                  value={item?.sepAmount}
+                                  type="number"
+                                  name="entryTypeValue"
+                                  onChange={(e) => {
+                                    const updatedData = [...tableData];
+                                    updatedData[index].sepAmount =
+                                      e.target.value;
+                                    setTableData(updatedData);
+                                  }}
+                                />
                                 )}
                               </td>
                               <td>
@@ -497,7 +527,17 @@ export default function AssetLiabilityPlanCreateEdit() {
                                     }}
                                   />
                                 ) : (
-                                  item?.octAmount
+                                  <InputField
+                                    value={item?.octAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].octAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
+                                    }}
+                                  />
                                 )}
                               </td>
                               <td>
@@ -526,7 +566,17 @@ export default function AssetLiabilityPlanCreateEdit() {
                                     }}
                                   />
                                 ) : (
-                                  item?.novAmount
+                                  <InputField
+                                    value={item?.novAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].novAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
+                                    }}
+                                  />
                                 )}
                               </td>
                               <td>
@@ -556,7 +606,17 @@ export default function AssetLiabilityPlanCreateEdit() {
                                     }}
                                   />
                                 ) : (
-                                  item?.decAmount
+                                  <InputField
+                                    value={item?.decAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].decAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
+                                    }}
+                                  />
                                 )}
                               </td>
                               <td>
@@ -585,7 +645,17 @@ export default function AssetLiabilityPlanCreateEdit() {
                                     }}
                                   />
                                 ) : (
-                                  item?.janAmount
+                                  <InputField
+                                    value={item?.janAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].janAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
+                                    }}
+                                  />
                                 )}
                               </td>
                               <td>
@@ -614,7 +684,17 @@ export default function AssetLiabilityPlanCreateEdit() {
                                     }}
                                   />
                                 ) : (
-                                  item?.febAmount
+                                  <InputField
+                                    value={item?.febAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].febAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
+                                    }}
+                                  />
                                 )}
                               </td>
                               <td>
@@ -643,7 +723,17 @@ export default function AssetLiabilityPlanCreateEdit() {
                                     }}
                                   />
                                 ) : (
-                                  item?.marAmount
+                                  <InputField
+                                    value={item?.marAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].marAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
+                                    }}
+                                  />
                                 )}
                               </td>
                               <td>
@@ -672,7 +762,17 @@ export default function AssetLiabilityPlanCreateEdit() {
                                     }}
                                   />
                                 ) : (
-                                  item?.aprAmount
+                                  <InputField
+                                    value={item?.aprAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].aprAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
+                                    }}
+                                  />
                                 )}
                               </td>
                               <td>
@@ -701,7 +801,17 @@ export default function AssetLiabilityPlanCreateEdit() {
                                     }}
                                   />
                                 ) : (
-                                  item?.mayAmount
+                                  <InputField
+                                    value={item?.mayAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].mayAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
+                                    }}
+                                  />
                                 )}
                               </td>
                               <td>
@@ -730,7 +840,17 @@ export default function AssetLiabilityPlanCreateEdit() {
                                     }}
                                   />
                                 ) : (
-                                  item?.junAmount
+                                  <InputField
+                                    value={item?.junAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].junAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
+                                    }}
+                                  />
                                 )}
                               </td>
                             </tr>
