@@ -1,16 +1,15 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { useParams } from "react-router";
+import { toast } from "react-toastify";
 import IForm from "../../../../_helper/_form";
 import Loading from "../../../../_helper/_loading";
-import Form from "./form";
-import { addDaysToDate, createPI, getSingleData, updatePi } from "../helper";
-import { useParams } from "react-router";
 import { _todayDate } from "../../../../_helper/_todayDate";
-import { toast } from "react-toastify";
+import { createPI, getSingleData, updatePi } from "../helper";
+import Form from "./form";
 // import { setter } from "../utils";
 const initData = {
   plantDDL: "",
@@ -40,6 +39,9 @@ const initData = {
   sbuDDL: "",
   purchaseRequestNo: "",
   isAllItem: false,
+  referenceType: "",
+  purchaseContractNo: "",
+  etaDate: _todayDate(),
 };
 
 export default function AddEditForm() {
@@ -61,17 +63,17 @@ export default function AddEditForm() {
       getSingleData(params?.pid, setSingleData, setRowDto, setDisabled);
     }
   }, []);
-  // console.log("params", params);
 
   const setDataToGrid = (values, cb) => {
     let data = [...rowDto];
-    if (data.find((item) => item.itemId === values?.itemDDL.value)) {
+    if (data.find((item) => item?.itemId === values?.itemDDL.value)) {
       return toast.error("Item is already added");
     } else {
       const obj = {
         itemId: values?.itemDDL.value,
         label: values?.itemDDL.label,
         itemName: values?.itemDDL.label,
+        refQty: values?.itemDDL.refQty,
         uom: { value: values?.itemDDL?.uomId, label: values?.itemDDL?.uomName },
         uomId: values?.itemDDL?.uomId,
         uomName: values?.itemDDL?.uomName,
@@ -84,9 +86,25 @@ export default function AddEditForm() {
     }
   };
 
-  const remover = (id) => {
-    let data = rowDto.filter((itm, index) => index !== id);
+  const remover = (index) => {
+    let data = [...rowDto];
+    data.splice(index, 1);
     setRowDto(data);
+  };
+
+  const checkItemValidity = () => {
+    let validationMessage;
+    rowDto.forEach((i) => {
+      if (!i?.hscode || i.hscode ==="0") {
+        validationMessage = "HS code not found";
+      } else if (!i?.quantity) {
+        validationMessage = "Qty Will be grater than 0";
+      } else if (!i?.rate) {
+        validationMessage = "Rate Will be grater than 0";
+      }
+    });
+    
+   return validationMessage;
   };
 
   const saveHandler = async (values, cb) => {
@@ -95,15 +113,22 @@ export default function AddEditForm() {
       return;
     }
     if (params?.pid) {
+      const checkItemValidation = checkItemValidity()
+      if(checkItemValidation){
+       return toast.warn(checkItemValidation)
+      }
       return updatePi(setDisabled, values, rowDto);
     }
     if (!purchaseRequestValidity) {
       toast.warn("Purchase Request No is not valid");
       return;
     }
-    if(rowDto.find(item=>!item?.hscode)){
-      return   toast.warn("HS code not found");
+
+    const checkItemValidation = checkItemValidity()
+    if(checkItemValidation){
+     return  toast.warn(checkItemValidation)
     }
+
     return createPI(
       setDisabled,
       profileData,
@@ -140,6 +165,7 @@ export default function AddEditForm() {
         remover={remover}
         purchaseRequestValidity={purchaseRequestValidity}
         setPurchaseRequestValidity={setPurchaseRequestValidity}
+        params={params}
         // setter={setter}
       />
     </IForm>
