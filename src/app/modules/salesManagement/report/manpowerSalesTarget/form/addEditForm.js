@@ -8,6 +8,7 @@ import Loading from "../../../../_helper/_loading";
 import Form from "./form";
 import { getTargetEntryData } from "../helper";
 import { monthDDL } from "../../../../_helper/commonInputFieldsGroups/yearMonthForm";
+import { toast } from "react-toastify";
 
 const initData = {
   type: "",
@@ -76,7 +77,16 @@ export default function ManpowerSalesTargetForm() {
   };
 
   const rowDataSet = (values) => {
-    if ([1, 2, 3].includes(values?.type?.value)) {
+    if (buId === 144 && [1].includes(values?.type?.value)) {
+      setRowData(
+        TSOList?.map((item) => ({
+          ...item,
+          isSelected: false,
+          chiniguraQty: "",
+          nonChiniguraQty: "",
+        }))
+      );
+    } else if ([1, 2, 3].includes(values?.type?.value)) {
       getTargetEntryData(
         buId,
         [1, 3]?.includes(values?.type?.value) ? 8 : 6,
@@ -105,60 +115,102 @@ export default function ManpowerSalesTargetForm() {
 
   const saveHandler = (values, cb) => {
     if (!id) {
-      const payloadOne = rowData
-        ?.filter((e) => e?.isSelected)
-        ?.map((item) => {
-          return {
-            intId: 0,
-            accountId: accId,
-            businessUnitId: buId,
-            targetMonthId: values?.month?.value,
-            targetYearId: values?.year?.value,
-            channelId: values?.channel?.value,
-            channelName: values?.channel?.label,
-            setupPKId: item?.zoneId,
-            setupPkName: item?.zoneName,
-            // setupPKId: values?.zone?.value,
-            // setupPkName: values?.zone?.label,
-            territoryTypeId: 74,
-            territoryTypeName: "Point",
-            employeeEnroll: item?.employeeId,
-            targeQnt: +item?.targetQty,
-            targeAmount: 0,
-            actionBy: userId,
-            typeId: values?.type?.value,
-            entryTypeName: values?.type?.label,
-          };
-        });
+      const selectedItems = rowData?.filter((e) => e?.isSelected);
+      if (selectedItems?.length < 1) {
+        return toast.warn("Please select at least one row!");
+      }
+      const payloadForAEL = [];
 
-      const payloadTwo = rowData
-        ?.filter((e) => e?.isSelected)
-        ?.map((item) => {
-          return {
-            intId: 0,
-            accountId: accId,
-            businessUnitId: buId,
-            targetMonthId: [4].includes(values?.type?.value)
-              ? values?.month?.value
-              : item?.value,
-            targetYearId: values?.year?.value,
-            channelId: 0,
-            setupPKId: 0,
-            setupPkName: "",
-            channelName: "",
-            territoryTypeId: 0,
-            territoryTypeName: "",
-            employeeEnroll: 0,
-            targeQnt: [4].includes(values?.type?.value)
-              ? +item?.targetQty
-              : +item?.rate,
-            targeAmount: 0,
-            actionBy: userId,
-            typeId: values?.type?.value || 0,
-            entryTypeName: values?.type?.label || "",
-            shippingPointId: item?.value || 0,
-          };
-        });
+      if (buId === 144 && [1].includes(values?.type?.value)) {
+        for (let i = 0; i < selectedItems.length; i++) {
+          const item = selectedItems[i];
+          for (let index = 1; index < 3; index++) {
+            const newRow = {
+              intId: 0,
+              accountId: accId,
+              businessUnitId: buId,
+              targetMonthId: values?.month?.value,
+              targetYearId: values?.year?.value,
+              channelId: values?.channel?.value,
+              channelName: values?.channel?.label,
+              setupPKId: item?.zoneId,
+              setupPkName: item?.zoneName,
+              // setupPKId: values?.zone?.value,
+              // setupPkName: values?.zone?.label,
+              territoryTypeId: 74,
+              territoryTypeName: "Point",
+              employeeEnroll: item?.employeeId,
+              targeQnt:
+                index === 1
+                  ? +item?.chiniguraQty
+                  : index === 2
+                  ? +item?.nonChiniguraQty
+                  : 0,
+              targeAmount: 0,
+              actionBy: userId,
+              typeId: values?.type?.value,
+              entryTypeName: values?.type?.label,
+              targetItemGroupId: index,
+            };
+
+            payloadForAEL.push(newRow);
+          }
+        }
+      }
+
+      const payloadOne =
+        buId === 144
+          ? payloadForAEL
+          : selectedItems.map((item) => {
+              return {
+                intId: 0,
+                accountId: accId,
+                businessUnitId: buId,
+                targetMonthId: values?.month?.value,
+                targetYearId: values?.year?.value,
+                channelId: values?.channel?.value,
+                channelName: values?.channel?.label,
+                setupPKId: item?.zoneId,
+                setupPkName: item?.zoneName,
+                // setupPKId: values?.zone?.value,
+                // setupPkName: values?.zone?.label,
+                territoryTypeId: 74,
+                territoryTypeName: "Point",
+                employeeEnroll: item?.employeeId,
+                targeQnt: +item?.targetQty,
+                targeAmount: 0,
+                actionBy: userId,
+                typeId: values?.type?.value,
+                entryTypeName: values?.type?.label,
+              };
+            });
+
+      const payloadTwo = selectedItems.map((item) => {
+        return {
+          intId: 0,
+          accountId: accId,
+          businessUnitId: buId,
+          targetMonthId: [4].includes(values?.type?.value)
+            ? values?.month?.value
+            : item?.value,
+          targetYearId: values?.year?.value,
+          channelId: 0,
+          setupPKId: 0,
+          setupPkName: "",
+          channelName: "",
+          territoryTypeId: 0,
+          territoryTypeName: "",
+          employeeEnroll: 0,
+          targeQnt: [4].includes(values?.type?.value)
+            ? +item?.targetQty
+            : +item?.rate,
+          targeAmount: 0,
+          actionBy: userId,
+          typeId: values?.type?.value || 0,
+          entryTypeName: values?.type?.label || "",
+          shippingPointId: item?.value || 0,
+        };
+      });
 
       const payload = [1, 2, 3].includes(values?.type?.value)
         ? payloadOne
