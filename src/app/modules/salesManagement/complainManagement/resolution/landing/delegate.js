@@ -64,6 +64,7 @@ function DelegateForm({ clickRowData, landingCB }) {
       status: "Delegate",
       delegateDateTime: delegateDateTime,
       actionById: userId,
+      investigationList: rowDto || [],
     };
     delegateComplainApi(payload, setLoading, () => {
       cb();
@@ -300,6 +301,11 @@ function DelegateForm({ clickRowData, landingCB }) {
                         investigationDueDate: moment(
                           values?.investigationDueDate || undefined
                         ).format("YYYY-MM-DD"),
+                        investigationDateTime: '',
+                        rootCause: "",
+                        correctiveAction: "",
+                        attachment: "",
+                        isActive: true,
                       };
                       setRowDto([...rowDto, obj]);
                       setFieldValue("investigationPerson", "");
@@ -307,7 +313,7 @@ function DelegateForm({ clickRowData, landingCB }) {
                     }}
                     disabled={
                       !values?.investigationPerson ||
-                      !values?.investigationDueDate 
+                      !values?.investigationDueDate
                     }
                   >
                     Add
