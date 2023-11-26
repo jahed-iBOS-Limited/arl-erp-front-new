@@ -41,7 +41,7 @@ function ComplainForm() {
   const { view, edit } = useParams();
   // get user profile data from store
   const {
-    profileData: { accountId: accId, userId },
+    profileData: { accountId: accId, userId, userName },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
@@ -69,6 +69,36 @@ function ComplainForm() {
       statusId: 0,
       status: "",
       delegateDateTime: new Date(),
+      complainNo: singleData?.complainNo || "",
+      actionByName: userName,
+      distributionChannelName: values?.distributionChannel?.label || "",
+      respondentBusinessUnitId: values?.respondentBusinessUnit?.value || 0,
+      respondentBusinessUnitIdName: values?.respondentBusinessUnit?.label || "",
+      respondentOrg: values?.respondentOrg || "",
+      strDesignationOrRelationship: values?.designationOrRelationship || "",
+      commentAndSuggestion: values?.additionalCommentAndSuggestion || "",
+      itemCategoryId: values?.itemCategory?.value || 0,
+      itemCategoryName: values?.itemCategory?.label || "",
+      challanOrPoId: values?.challanOrPO?.value || 0,
+      challanOrPoName: values?.challanOrPO?.label || "",
+      deliveryDate: values?.deliveryDate || "",
+      reference: values?.reference || "",
+      occurrenceTime: values?.occurrenceTime || "",
+      
+      sl: 0,
+      itemName: "",
+      delegateToName: "",
+      delegateById: 0,
+      delegateByName: "",
+      investigatorAssignById: 0,
+      investigatorAssignByName: {},
+      investigatorAssignDate: "",
+      finishDateTime: "",
+      isActive: true,
+      lastActionDateTime: "",
+      totalTime: "",
+      isReopen: true,
+      respondentType: "",
     };
 
     if (edit) {

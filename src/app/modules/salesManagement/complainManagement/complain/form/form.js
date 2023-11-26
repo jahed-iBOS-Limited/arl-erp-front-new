@@ -70,7 +70,7 @@ function Form({
     if (accId && buId) {
       getComplainCategory(buId, setComplainCategory);
       getDistributionChannelDDL(accId, buId, setDistributionChannelDDL);
-      getBusinessUnitDDLApi( 0, setBusinessUnitDDL);
+      getBusinessUnitDDLApi(0, setBusinessUnitDDL);
     }
   }, [accId, buId]);
 
@@ -165,6 +165,7 @@ function Form({
                       setFieldValue("respondentContact", "");
                       setFieldValue("respondentContact", "");
                       setFieldValue("itemCategory", "");
+                      setFieldValue("challanOrPO", "");
                     }}
                     placeholder='Business Unit'
                     errors={errors}
@@ -183,6 +184,7 @@ function Form({
                       setFieldValue("respondentType", valueOption || "");
                       setFieldValue("respondentName", "");
                       setFieldValue("respondentContact", "");
+                      setFieldValue("challanOrPO", "");
 
                       // if type supplier
                       if (valueOption?.value === 2) {
@@ -206,7 +208,7 @@ function Form({
                     placeholder='Respondent Type'
                     errors={errors}
                     touched={touched}
-                    isDisabled={!values?.respondentBusinessUnit || view} 
+                    isDisabled={!values?.respondentBusinessUnit || view}
                   />
                 </div>
                 {/* if respondent type Customer "3" */}
@@ -481,7 +483,7 @@ function Form({
                         const apiPath =
                           values?.respondentType?.value === 2
                             ? `/wms/InventoryTransaction/GetAllPoWithGrnDDL?businessUnitId=${values?.respondentBusinessUnit?.value}&Search=${v}`
-                            : `/oms/Shipment/GetCompletedShipmentList?Businessunitid=${values?.respondentBusinessUnit?.value}&AccountId=${accId}&Search=${v}}`;
+                            : `/oms/Shipment/GetCompletedShipmentList?Businessunitid=${values?.respondentBusinessUnit?.value}&AccountId=${accId}&Search=${v}`;
 
                         return axios
                           .get(apiPath)

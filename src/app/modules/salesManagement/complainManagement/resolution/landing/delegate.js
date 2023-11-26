@@ -23,7 +23,7 @@ function DelegateForm({ clickRowData, landingCB }) {
   //   const [open, setOpen] = useState(false);
   const [loading, setLoading] = React.useState(false);
   const {
-    profileData: { accountId: accId, userId },
+    profileData: { accountId: accId, userId, userName },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const loadEmpList = (v) => {
@@ -63,6 +63,40 @@ function DelegateForm({ clickRowData, landingCB }) {
       actionById: userId,
       distributionChannelId: clickRowData?.distributionChannelId || 0,
       delegateDateTime: delegateDateTime,
+
+
+      complainCategoryName: clickRowData?.complainCategoryName || "",
+      accountId: accId,
+      businessUnitId: buId,
+      complainNo: clickRowData?.complainNo || "",
+      actionByName: userName,
+      distributionChannelName: clickRowData?.distributionChannelName || "",
+      respondentBusinessUnitId: clickRowData?.respondentBusinessUnitId || 0,
+      respondentBusinessUnitIdName: clickRowData?.respondentBusinessUnitIdName || "",
+      respondentOrg: clickRowData?.respondentOrg || "",
+      strDesignationOrRelationship:clickRowData?.strDesignationOrRelationship  || "",
+      commentAndSuggestion: clickRowData?.commentAndSuggestion || "",
+      itemCategoryId: clickRowData?.itemCategoryId || 0,
+      itemCategoryName: clickRowData?.itemCategoryName || "",
+      challanOrPoId: clickRowData?.challanOrPoId || 0,
+      challanOrPoName: clickRowData?.challanOrPoName || "",
+      deliveryDate: clickRowData?.deliveryDate || "",
+      reference: clickRowData?.reference || "",
+      occurrenceTime: clickRowData?.occurrenceTime || "",
+      sl: 0,
+      itemName: "",
+      delegateToName: "",
+      delegateById: 0,
+      delegateByName: "",
+      investigatorAssignById: 0,
+      investigatorAssignByName: {},
+      investigatorAssignDate: "",
+      finishDateTime: "",
+      isActive: true,
+      lastActionDateTime: "",
+      totalTime: "",
+      isReopen: true,
+      respondentType: "",
     };
     updateComplain(payload, setLoading, () => {
       cb();
