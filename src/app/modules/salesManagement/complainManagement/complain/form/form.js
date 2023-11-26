@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Formik } from "formik";
 import { DropzoneDialogBase } from "material-ui-dropzone";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, } from "react";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
@@ -74,6 +74,38 @@ function Form({
   }, [accId, buId]);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (initData?.respondentType?.value) {
+      // if type supplier
+      if (initData?.respondentType?.value === 2) {
+        setSupplierDDL([]);
+        getSupplierDDLApi(
+          accId,
+          initData?.respondentBusinessUnit?.value,
+          setSupplierDDL
+        );
+      }
+      // if type customer
+      if (initData?.respondentType?.value === 3) {
+        setCustomerDDL([]);
+        customerListDDL(
+          accId,
+          initData?.respondentBusinessUnit?.value,
+          setCustomerDDL
+        );
+      }
+    }
+
+    if( initData?.respondentBusinessUnit?.value){
+      getItemCategoryDDL(
+        accId,
+        initData?.respondentBusinessUnit?.value,
+        setLoading,
+        setItemCategoryDDL
+      );
+    }
+  }, [initData]);
   return (
     <>
       <Formik
@@ -114,9 +146,7 @@ function Form({
                   }
             }
           >
-            {
-              console.log("errors", errors)
-            }
+            {console.log("errors", errors)}
             <form>
               <div className='row global-form'>
                 <div className='col-lg-12'>
@@ -461,11 +491,11 @@ function Form({
                     name='itemCategory'
                     options={itemCategoryDDL || []}
                     value={values?.itemCategory}
-                    label='Item Category'
+                    label='Product Category'
                     onChange={(valueOption) => {
                       setFieldValue("itemCategory", valueOption);
                     }}
-                    placeholder='Item Category'
+                    placeholder='Product Category'
                     errors={errors}
                     touched={touched}
                     isDisabled={!values?.respondentBusinessUnit || view}
