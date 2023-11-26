@@ -60,21 +60,56 @@ export const getComplainById = async (
             label: res?.data?.respondentName,
           }
         : "",
-      respondentContact: res?.data?.contactNo || '',
-      issueType: res?.data?.complainCategoryId ? {
-        value: res?.data?.complainCategoryId,
-        label: res?.data?.complainCategoryName,
-      } : '',
+      respondentContact: res?.data?.contactNo || "",
+      issueType: res?.data?.complainCategoryId
+        ? {
+            value: res?.data?.complainCategoryId,
+            label: res?.data?.complainCategoryName,
+          }
+        : "",
       issueTitle: res?.data?.issueTitle || "",
-      distributionChannel: res?.data?.distributionChannelId ? {
-        value: res?.data?.distributionChannelId,
-        label: res?.data?.distributionChannelName,
-      } : '' ,
-      product: res?.data?.itemId ? {
-        value: res?.data?.itemId,
-        label: res?.data?.itemName,
-      } : '',
+      distributionChannel: res?.data?.distributionChannelId
+        ? {
+            value: res?.data?.distributionChannelId,
+            label: res?.data?.distributionChannelName,
+          }
+        : "",
+      product: res?.data?.itemId
+        ? {
+            value: res?.data?.itemId,
+            label: res?.data?.itemName,
+          }
+        : "",
       issueDetails: res?.data?.description || "",
+
+      occurrenceTime: res?.data?.requestDateTime || "",
+      respondentBusinessUnit: res?.data?.respondentBusinessUnitId
+        ? {
+            value: res?.data?.respondentBusinessUnitId,
+            label: res?.data?.respondentBusinessUnitIdName,
+          }
+        : "",
+      respondent: res?.data?.respondentType || "",
+      respondentOrg: res?.data?.respondentOrg || "",
+      designationOrRelationship: res?.data?.designationOrRelationship || "",
+      additionalCommentAndSuggestion:
+        res?.data?.additionalCommentAndSuggestion || "",
+      itemCategory: res?.data?.itemCategoryId
+        ? {
+            value: res?.data?.itemCategoryId,
+            label: res?.data?.itemCategoryName,
+          }
+        : "",
+      challanOrPO: res?.data?.challanOrPoId
+        ? {
+            value: res?.data?.challanOrPoId,
+            label: res?.data?.challanOrPoName,
+          }
+        : "",
+      deliveryDate: res?.data?.deliveryDate
+        ? _dateFormatter(res?.data?.deliveryDate)
+        : "",
+      reference: res?.data?.reference || "",
     });
   } catch (error) {
     setLoaing(false);
@@ -110,7 +145,10 @@ export const attachment_action = async (
 export const createComplain = async (payload, setLoading, cb) => {
   setLoading(true);
   try {
-    const res = await axios.post(`/oms/CustomerPoint/CreateComplain`, payload);
+    const res = await axios.post(
+      `/oms/CustomerPoint/CreateAndUpdateComplain`,
+      payload
+    );
     cb();
     toast.success(res?.data?.message);
     setLoading(false);
@@ -122,7 +160,10 @@ export const createComplain = async (payload, setLoading, cb) => {
 export const updateComplain = async (payload, setLoading, cb) => {
   setLoading(true);
   try {
-    const res = await axios.put(`/oms/CustomerPoint/UpdateAndDelegateComplain`, payload);
+    const res = await axios.put(
+      `/oms/CustomerPoint/UpdateAndDelegateComplain`,
+      payload
+    );
     cb && cb();
     toast.success(res?.data?.message);
     setLoading(false);
@@ -130,10 +171,14 @@ export const updateComplain = async (payload, setLoading, cb) => {
     toast.error(err?.response?.data?.message);
     setLoading(false);
   }
-};export const investigateComplainApi = async (payload, setLoading, cb) => {
+};
+export const investigateComplainApi = async (payload, setLoading, cb) => {
   setLoading(true);
   try {
-    const res = await axios.put(`/oms/CustomerPoint/InvestigateComplain`, payload);
+    const res = await axios.put(
+      `/oms/CustomerPoint/InvestigateComplain`,
+      payload
+    );
     cb && cb();
     toast.success(res?.data?.message);
     setLoading(false);

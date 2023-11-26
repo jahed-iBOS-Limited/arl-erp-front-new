@@ -57,25 +57,23 @@ function ComplainForm() {
       description: values?.issueDetails || "",
       attachment: values?.attachment || "",
       actionById: userId,
-      statusRemarks: values?.issueDetails || "",
       contactNo: values?.respondentContact || "",
       respondentTypeId: values?.respondentType?.value || 0,
       respondentTypeName: values?.respondentType?.label || "",
       respondentId: values?.respondentName?.value || 0,
       respondentName: values?.respondentName?.label || "",
-      itemId: values?.product?.value || 0,
       distributionChannelId: values?.distributionChannel?.value || 0,
-      delegateToId: 0,
-      statusId: 0,
-      status: "",
-      delegateDateTime: new Date(),
-      complainNo: singleData?.complainNo || "",
+      delegateToId: singleData?.delegateToId || 0,
+      delegateToName: singleData?.delegateToName || "",
+      statusId: singleData?.statusId || 0,
+      status: singleData?.status || "",
+      delegateDateTime: singleData?.delegateDateTime || "",
       actionByName: userName,
       distributionChannelName: values?.distributionChannel?.label || "",
       respondentBusinessUnitId: values?.respondentBusinessUnit?.value || 0,
       respondentBusinessUnitIdName: values?.respondentBusinessUnit?.label || "",
       respondentOrg: values?.respondentOrg || "",
-      strDesignationOrRelationship: values?.designationOrRelationship || "",
+      designationOrRelationship: values?.designationOrRelationship || "",
       commentAndSuggestion: values?.additionalCommentAndSuggestion || "",
       itemCategoryId: values?.itemCategory?.value || 0,
       itemCategoryName: values?.itemCategory?.label || "",
@@ -84,28 +82,10 @@ function ComplainForm() {
       deliveryDate: values?.deliveryDate || "",
       reference: values?.reference || "",
       occurrenceTime: values?.occurrenceTime || "",
-      
-      sl: 0,
-      itemName: "",
-      delegateToName: "",
-      delegateById: 0,
-      delegateByName: "",
-      investigatorAssignById: 0,
-      investigatorAssignByName: {},
-      investigatorAssignDate: "",
-      finishDateTime: "",
       isActive: true,
       lastActionDateTime: new Date(),
-      totalTime: "",
-      isReopen: true,
-      respondentType: "",
     };
-
-    if (edit) {
-      updateComplain(payload, setLoading);
-    } else {
-      createComplain(payload, setLoading, cb);
-    }
+    createComplain(payload, setLoading, cb);
   };
 
   useEffect(() => {
