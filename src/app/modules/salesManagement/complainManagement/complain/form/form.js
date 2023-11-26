@@ -472,7 +472,11 @@ function Form({
 
                 {[2, 3].includes(values?.respondentType?.value) && (
                   <div className='col-lg-3'>
-                    <label>Challan/PO</label>
+                    <label>
+                      {values?.respondentType?.value === 2
+                        ? "PO No"
+                        : "Challan No"}
+                    </label>
                     <SearchAsyncSelect
                       selectedValue={values?.challanOrPO}
                       handleChange={(valueOption) => {
@@ -496,28 +500,12 @@ function Form({
                       isDisabled={!values?.respondentBusinessUnit || view}
                     />
                     <FormikError
-                      name='respondentName'
+                      name='challanOrPO'
                       errors={errors}
                       touched={touched}
                     />
                   </div>
                 )}
-
-                {/* <div className='col-lg-3'>
-                  <NewSelect
-                    name='challanOrPO'
-                    options={[] || []}
-                    value={values?.challanOrPO}
-                    label='Challan/PO'
-                    onChange={(valueOption) => {
-                      setFieldValue("challanOrPO", valueOption);
-                    }}
-                    placeholder='Challan/PO'
-                    errors={errors}
-                    touched={touched}
-                    isDisabled={!values?.respondentType || view}
-                  />
-                </div> */}
 
                 <div className='col-lg-3'>
                   <InputField
