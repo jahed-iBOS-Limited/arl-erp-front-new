@@ -213,7 +213,7 @@ export default function BareboatAndInsurancelanding() {
         <>
           {(gridLoading || vesselAssetLoading || loading) && <Loading />}
           <IForm
-            title="Bareboat And Insurance"
+            title="Bareboat, Insurance & Dry Dock"
             isHiddenReset
             isHiddenBack
             isHiddenSave
