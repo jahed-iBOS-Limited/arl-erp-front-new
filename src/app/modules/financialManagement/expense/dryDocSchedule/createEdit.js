@@ -109,7 +109,10 @@ export default function DryDocCreateEdit() {
           ? rowData?.reduce((acc, cur) => acc + cur?.numBudgetAmount, 0)
           : 0,
       },
-      _rows: rowData,
+      _rows: rowData?.map((item) => ({
+        ...item,
+        isActive: true,
+      })),
     };
     saveData(`/fino/Expense/CreateDocSchedule`, payload, cb, true);
   };
@@ -168,7 +171,7 @@ export default function DryDocCreateEdit() {
         saveHandler(values, () => {
           resetForm(initData);
           setRowData([]);
-          !id && modifyDataFromApi();
+          id && modifyDataFromApi();
         });
       }}
     >
@@ -220,7 +223,7 @@ export default function DryDocCreateEdit() {
                     onChange={(e) => {
                       setFieldValue("dockyardName", e.target.value);
                     }}
-                    // disabled={id}
+                    disabled={id}
                   />
                 </div>
                 <div className="col-lg-3">

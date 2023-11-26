@@ -68,7 +68,7 @@ export const createStakeholder = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      "${imarineBaseUrl}/domain/Stakeholder/CreateStakeholder",
+      `${imarineBaseUrl}/domain/Stakeholder/CreateStakeholder`,
       data
     );
     toast.success(res?.data?.message);
@@ -84,7 +84,7 @@ export const updateStakeholder = async (data, setLoading) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      "${imarineBaseUrl}/domain/Stakeholder/EditStakeholder",
+      `${imarineBaseUrl}/domain/Stakeholder/EditStakeholder`,
       data
     );
     toast.success(res?.data?.message);

@@ -12,6 +12,7 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import IForm from "./../../../_helper/_form";
 import PrintInvoiceModal from "./printInvoice";
+import InputField from "../../../_helper/_inputField";
 const initData = {
   customer: "",
   item: "",
@@ -122,6 +123,7 @@ export default function SalesInvoiceLanding() {
                           intScheduleTypeId: item?.intScheduleTypeId,
                           strScheduleTypeName: item?.strScheduleTypeName,
                           intActionBy: profileData?.userId,
+                          strRemarks:item?.remarks || ""
                         },
                         // row: data?.map((item) => ({
                         //   //   intServiceSalesInvoiceRowId: 0,
@@ -262,6 +264,7 @@ export default function SalesInvoiceLanding() {
                           <th>Due Date</th>
                           <th>Payment Percent</th>
                           <th>Schedule Amount</th>
+                          <th>Remarks</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -292,6 +295,11 @@ export default function SalesInvoiceLanding() {
                             <td className="text-right">
                               {item?.numScheduleAmount}
                             </td>
+                            <td><InputField type="text"  onChange={(e) => {
+                                  const data = [...rowData];
+                                  data[index]["remarks"] = e.target.value || "";
+                                  setRowData(data);
+                                }}/></td>
                           </tr>
                         ))}
                       </tbody>

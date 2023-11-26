@@ -137,7 +137,7 @@ export default function BareboatInsuranceConfig() {
                       setViewType(3);
                     }}
                   />
-                  Dry Doc
+                  Dry Dock
                 </label>
               </div>
               <table className="table table-striped table-bordered bj-table bj-table-landing">
