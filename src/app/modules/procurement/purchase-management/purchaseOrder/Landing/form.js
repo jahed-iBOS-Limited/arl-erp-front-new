@@ -319,8 +319,7 @@ export default function HeaderForm() {
                   !values?.refType ||
                   !values?.orderType ||
                   (selectedBusinessUnit?.value !== 184 &&
-                    // values?.orderType?.label === "Standard PO" &&
-                    values?.orderType?.label === "" && 
+                    values?.orderType?.label === "Standard PO" &&
                     values?.purchaseOrg?.label === "Local Procurement")
                 }
                 type="button"
