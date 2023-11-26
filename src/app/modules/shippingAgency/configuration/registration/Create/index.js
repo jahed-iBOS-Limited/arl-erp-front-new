@@ -22,7 +22,7 @@ import {
   getASLLAgencyRegistrationById,
   getCargoDDL,
   getVesselDDL,
-  getVesselTypeDDL
+  getVesselTypeDDL,
 } from "../helper";
 const initData = {
   vesselName: "",
@@ -40,6 +40,7 @@ const initData = {
   remarks: "",
   completionDate: _todayDate(),
   dischargePort: "",
+  customSl: "",
 };
 const validationSchema = Yup.object().shape({
   vesselType: Yup.object().shape({
@@ -52,20 +53,17 @@ const validationSchema = Yup.object().shape({
   }),
   voyageNo: Yup.string().required("Voyage No is required"),
   voyageOwnerName: Yup.string().required("Voyage Owner Name is required"),
-  regNo: Yup.string().required("REG No is required"),
+  // regNo: Yup.string().required("REG No is required"),
   loadPort: Yup.object().shape({
     label: Yup.string().required("Load Port is required"),
     value: Yup.string().required("Load Port is required"),
   }),
   arrivedTime: Yup.string().required("Arrived Time is required"),
   sailedTime: Yup.string().required("Sailed Time is required"),
-  cargoName: Yup.object().shape({
-    label: Yup.string().required("Cargo Name is required"),
-    value: Yup.string().required("Cargo Name is required"),
-  }),
-  quantity: Yup.number().required("Quantity is required"),
+
+  // quantity: Yup.number().required("Quantity is required"),
   stevedore: Yup.string().required("Stevedore is required"),
-  cargoOwner: Yup.string().required("Cargo Owner is required"),
+  // cargoOwner: Yup.string().required("Cargo Owner is required"),
 });
 const EstimatePDACreate = () => {
   const [loading, setLoading] = useState(false);
@@ -110,11 +108,15 @@ const EstimatePDACreate = () => {
       sailedDateTime: moment(values?.sailedTime).format("YYYY-MM-DDTHH:mm"),
       cargoId: values?.cargoName?.value || 0,
       cargoName: values?.cargoName?.label || "",
-      quantity: values?.quantity || 0,
+      quantity: rowDto?.reduce((acc, cur) => acc + (+cur?.quantity || 0), 0),
       stevedore: values?.stevedore || "",
       cargoOwner: values?.cargoOwner || "",
       remarks: values?.remarks || "",
       actionBy: userId,
+      customSl: values?.customSl || "",
+      lastActionDateTime: moment().format("YYYY-MM-DDTHH:mm"),
+      serverDateTime: moment().format("YYYY-MM-DDTHH:mm"),
+      isActive: true,
       rowDtos:
         rowDto?.map((itm) => {
           return {
@@ -143,6 +145,7 @@ const EstimatePDACreate = () => {
     getASLLAgencyRegistrationById(editId || viewId, setLoading, (resData) => {
       if (formikRef.current) {
         formikRef.current.setValues({
+          customSl: resData?.customSl || "",
           vesselType: resData?.vesselTypeId
             ? {
                 value: resData?.vesselTypeId,
@@ -175,7 +178,6 @@ const EstimatePDACreate = () => {
                 label: resData?.cargoName,
               }
             : "",
-          quantity: resData?.quantity || "",
           stevedore: resData?.stevedore || "",
           cargoOwner: resData?.cargoOwner || "",
           remarks: resData?.remarks || "",
@@ -310,6 +312,19 @@ const EstimatePDACreate = () => {
                   />
                 </div>
                 <div className='col-lg-3'>
+                  <label>Custom SL</label>
+                  <InputField
+                    value={values?.customSl}
+                    placeholder='Custom SL'
+                    name='customSl'
+                    type='text'
+                    onChange={(e) => {
+                      setFieldValue("customSl", e.target.value);
+                    }}
+                    disabled={viewId}
+                  />
+                </div>
+                <div className='col-lg-3'>
                   <div>
                     <label>Load Port</label>
                     <SearchAsyncSelect
@@ -362,34 +377,6 @@ const EstimatePDACreate = () => {
                   />
                 </div>
                 <div className='col-lg-3'>
-                  <NewSelect
-                    value={values?.cargoName || ""}
-                    options={cargoDDL}
-                    name='cargoName'
-                    placeholder='Cargo Name'
-                    label='Cargo Name'
-                    onChange={(valueOption) => {
-                      setFieldValue("cargoName", valueOption);
-                    }}
-                    errors={errors}
-                    touched={touched}
-                    isDisabled={viewId}
-                  />
-                </div>
-                <div className='col-lg-3'>
-                  <label>Quantity</label>
-                  <InputField
-                    value={values?.quantity}
-                    placeholder='Quantity'
-                    name='quantity'
-                    type='number'
-                    onChange={(e) => {
-                      setFieldValue("quantity", e.target.value);
-                    }}
-                    disabled={viewId}
-                  />
-                </div>
-                <div className='col-lg-3'>
                   <label>Stevedore</label>
                   <InputField
                     value={values?.stevedore}
@@ -402,19 +389,6 @@ const EstimatePDACreate = () => {
                     disabled={viewId}
                   />
                 </div>{" "}
-                <div className='col-lg-3'>
-                  <label>Cargo Owner</label>
-                  <InputField
-                    value={values?.cargoOwner}
-                    placeholder='Cargo Owner'
-                    name='cargoOwner'
-                    type='text'
-                    onChange={(e) => {
-                      setFieldValue("cargoOwner", e.target.value);
-                    }}
-                    disabled={viewId}
-                  />
-                </div>
                 <div className='col-lg-3'>
                   <label>Remarks</label>
                   <InputField
@@ -470,6 +444,47 @@ const EstimatePDACreate = () => {
                         />
                       </div>
                     </div>
+                    <div className='col-lg-3'>
+                      <NewSelect
+                        value={values?.cargoName || ""}
+                        options={cargoDDL}
+                        name='cargoName'
+                        placeholder='Cargo Name'
+                        label='Cargo Name'
+                        onChange={(valueOption) => {
+                          setFieldValue("cargoName", valueOption);
+                        }}
+                        errors={errors}
+                        touched={touched}
+                        isDisabled={viewId}
+                      />
+                    </div>
+                    <div className='col-lg-3'>
+                      <label>Cargo Owner</label>
+                      <InputField
+                        value={values?.cargoOwner}
+                        placeholder='Cargo Owner'
+                        name='cargoOwner'
+                        type='text'
+                        onChange={(e) => {
+                          setFieldValue("cargoOwner", e.target.value);
+                        }}
+                        disabled={viewId}
+                      />
+                    </div>
+                    <div className='col-lg-3'>
+                      <label>Quantity</label>
+                      <InputField
+                        value={values?.quantity}
+                        placeholder='Quantity'
+                        name='quantity'
+                        type='number'
+                        onChange={(e) => {
+                          setFieldValue("quantity", e.target.value);
+                        }}
+                        disabled={viewId}
+                      />
+                    </div>
                     <div className='col-lg-3 mt-3'>
                       <button
                         className='btn btn-primary mt-3'
@@ -480,8 +495,11 @@ const EstimatePDACreate = () => {
                             completionDate: values?.completionDate,
                             dischargePortId: values?.dischargePort?.value,
                             dischargePortName: values?.dischargePort?.label,
+                            cargoId: values?.cargoName?.value || 0,
+                            cargoName: values?.cargoName?.label || "",
+                            cargoOwner: values?.cargoOwner || "",
+                            quantity: +values?.quantity || 0,
                           };
-
                           // duplicate check
                           const duplicateCheck = rowDto?.some(
                             (item) =>
@@ -493,7 +511,11 @@ const EstimatePDACreate = () => {
                           setRowDto([...rowDto, obj]);
                         }}
                         disabled={
-                          !values?.completionDate || !values?.dischargePort
+                          !values?.completionDate ||
+                          !values?.dischargePort ||
+                          !values?.cargoName ||
+                          !values?.cargoOwner ||
+                          !values?.quantity
                         }
                       >
                         Add
@@ -508,6 +530,9 @@ const EstimatePDACreate = () => {
                     <th>SL</th>
                     <th>Completion Date</th>
                     <th>Discharge Port</th>
+                    <th>Cargo Name</th>
+                    <th>Cargo Owner</th>
+                    <th>Quantity</th>
                     {!viewId && <th>Action</th>}
                   </tr>
                 </thead>
@@ -515,9 +540,11 @@ const EstimatePDACreate = () => {
                   {rowDto?.map((item, index) => (
                     <tr key={index}>
                       <td className='text-center'> {index + 1}</td>
-                      <td>{item?.completionDate}</td>
+                      <td>{_dateFormatter(item?.completionDate)}</td>
                       <td>{item?.dischargePortName}</td>
-
+                      <td>{item?.cargoName}</td>
+                      <td>{item?.cargoOwner}</td>
+                      <td>{item?.quantity}</td>
                       {!viewId && (
                         <td>
                           <div
@@ -540,6 +567,20 @@ const EstimatePDACreate = () => {
                       )}
                     </tr>
                   ))}
+                  <tr>
+                    <td className='text-right' colSpan={5}>
+                      <b>Total</b>
+                    </td>
+                    <td>
+                      <b>
+                        {rowDto?.reduce(
+                          (acc, cur) => acc + (+cur?.quantity || 0),
+                          0
+                        )}
+                      </b>
+                    </td>
+                    {!viewId && <td></td>}
+                  </tr>
                 </tbody>
               </table>
             </ICustomCard>

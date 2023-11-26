@@ -3,13 +3,17 @@ import { useHistory } from "react-router-dom";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import IView from "../../../../_helper/_helperIcons/_view";
 import moment from "moment";
+import IViewModal from "./../../../../_helper/_viewModal";
+import ViewRegistrationInvoice from "./viewInvoice";
 
 const LandingTable = ({ obj }) => {
+  const [isViewModal, setIsViewModal] = React.useState(false);
+  const [clickRowData, setClickRowData] = React.useState({});
   const { gridData } = obj;
   const history = useHistory();
 
   return (
-    <div className="table-responsive">
+    <div className='table-responsive'>
       <table className='table table-striped table-bordered global-table'>
         <thead>
           <tr>
@@ -19,14 +23,13 @@ const LandingTable = ({ obj }) => {
             <th>Vessel Name</th>
             <th>Voyage Owne</th>
             <th>Reg</th>
+            <th>Custom SL</th>
             <th>Load Port</th>
             <th>Arrived Time</th>
             <th>Cargo Name</th>
             <th>Quantity</th>
             <th>Stevedore</th>
             <th>Cargo Own</th>
-            {/* <th>Discharge Date</th>
-            <th>Discharge</th> */}
             <th>Remark</th>
             <th>Action</th>
           </tr>
@@ -40,8 +43,11 @@ const LandingTable = ({ obj }) => {
               <td>{item?.vesselName}</td>
               <td>{item?.voyageOwnerName}</td>
               <td>{item?.registrationNumber}</td>
+              <td>{item?.customSl}</td>
               <td>{item?.loadPortName}</td>
-              <td>{moment(item?.arrivedDateTime).format("hh:mm A")}</td>
+              <td>
+                {moment(item?.arrivedDateTime).format("YYYY-DD-MM, hh:mm A")}
+              </td>
               <td>{item?.cargoName}</td>
               <td>{item?.quantity}</td>
               <td>{item?.stevedore}</td>
@@ -64,11 +70,12 @@ const LandingTable = ({ obj }) => {
                     <IEdit />
                   </span>
 
-                  <span onClick={() => {
-                     history.push(
-                      `/ShippingAgency/Configuration/Registration/view/${item?.registrationId}`
-                    );
-                  }}>
+                  <span
+                    onClick={() => {
+                      setIsViewModal(true);
+                      setClickRowData(item);
+                    }}
+                  >
                     <IView />
                   </span>
                 </div>
@@ -77,6 +84,20 @@ const LandingTable = ({ obj }) => {
           ))}
         </tbody>
       </table>
+
+      {isViewModal && (
+        <>
+          <IViewModal
+            show={isViewModal}
+            onHide={() => {
+              setIsViewModal(false);
+              setClickRowData({});
+            }}
+          >
+            <ViewRegistrationInvoice registrationId={clickRowData?.registrationId}/>
+          </IViewModal>
+        </>
+      )}
     </div>
   );
 };

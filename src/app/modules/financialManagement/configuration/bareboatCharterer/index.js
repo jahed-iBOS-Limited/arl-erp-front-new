@@ -76,7 +76,7 @@ export default function BareboatInsuranceConfig() {
         <>
           {gridLoading && <Loading />}
           <IForm
-            title="Bareboat Management, Insurance and Dry Doc Configuration"
+            title="Bareboat Management, Insurance and Dry Dock Configuration"
             isHiddenReset
             isHiddenBack
             isHiddenSave

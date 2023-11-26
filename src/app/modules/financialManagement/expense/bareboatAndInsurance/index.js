@@ -8,11 +8,12 @@ import NewSelect from "../../../_helper/_select";
 import PaginationTable from "../../../_helper/_tablePagination";
 import { _todayDate } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
 import { _formatMoney } from "../../../_helper/_formatMoney";
 import IConfirmModal from "../../../_helper/_confirmModal";
+import { toast } from "react-toastify";
+import { dryDockSaveHandler } from "./helper";
 
 const initData = {
   vessel: "",
@@ -29,8 +30,8 @@ export default function BareboatAndInsurancelanding() {
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(75);
   const [gridData, getGridData, gridLoading, setGridData] = useAxiosGet([]);
-  const [, createJournalPosting, loaderOnCreateJournalPosting] = useAxiosPost();
   const [vesselAssetDDL, getVesselAssetDDL, vesselAssetLoading] = useAxiosGet();
+  const [loading, setLoading] = useState(false);
 
   const landingData = (values) => {
     getGridData(
@@ -118,27 +119,70 @@ export default function BareboatAndInsurancelanding() {
     ?.filter((item) => item?.itemCheck)
     ?.map((item) => item?.id);
 
+  const getDateDifference = (date1, date2) => {
+    const start = new Date(date1);
+    const end = new Date(date2);
+    const dateDiffInDays = Math.floor((end - start) / (1000 * 3600 * 24)) + 1;
+    return dateDiffInDays;
+  };
+
+  const actualCheckedItemsRate = () => {
+    const rate = gridData?.data?.reduce((total, item) => {
+      if (item?.itemCheck) {
+        const ratePerDay = item?.numRate;
+        const fromDate = item?.dteFromDate;
+        const toDate = item?.dteToDate;
+        const dateDifference = getDateDifference(fromDate, toDate);
+        return total + ratePerDay * dateDifference;
+      }
+      return total;
+    }, 0);
+    return rate || 0;
+  };
+
+  const checkIfToDateIsSame = (values) => {
+    const getToDate = _dateFormatter(
+      gridData?.data
+        ?.filter((item) => item?.itemCheck)
+        ?.map((item) => item?.dteToDate)
+    );
+    return values?.toDate <= getToDate;
+  };
+
   const confirmToCancel = (values) => {
     let confirmObject = {
       title: "Are you sure?",
       message: "If you create journal, it can not be undone",
       yesAlertFunc: async () => {
-        const payload = {
-          intBusinessUnitId: selectedBusinessUnit?.value || 0,
-          numAmount: +totalAmount || 0,
-          intConfigId: intConfigIds || [],
-          intVesselId: values?.vessel?.value || 0,
-          dteFromDate: values?.fromDate,
-          dteToDate: values?.toDate,
-          intActionBy: profileData?.userId,
-          intTypeId: viewType === 1 ? 1 : 2,
-        };
-        createJournalPosting(
-          `/fino/BareBoatManagement/BareboatAndInsurenceTransaction`,
-          payload,
-          () => {},
-          true
-        );
+        if (viewType === 3 && totalAmount > actualCheckedItemsRate()) {
+          return toast.warn("Total Amount can not be more than Budget Amount");
+        } else {
+          if (viewType === 3 && !checkIfToDateIsSame(values)) {
+            return toast.warn("Not in date range");
+          } else {
+            const payload = {
+              intBusinessUnitId: selectedBusinessUnit?.value || 0,
+              numAmount: +totalAmount || 0,
+              intConfigId: intConfigIds || [],
+              intVesselId: values?.vessel?.value || 0,
+              dteFromDate: values?.fromDate,
+              dteToDate: values?.toDate,
+              intActionBy: profileData?.userId,
+              intTypeId: viewType === 1 ? 1 : viewType === 2 ? 2 : 3,
+            };
+            dryDockSaveHandler(setLoading, payload, () => {
+              landingData(values);
+            });
+            // createJournalPosting(
+            //   `/fino/BareBoatManagement/BareboatAndInsurenceTransaction`,
+            //   payload,
+            //   () => {
+            //     landingData(values);
+            //   },
+            //   true
+            // );
+          }
+        }
       },
       noAlertFunc: () => {
         "";
@@ -167,9 +211,7 @@ export default function BareboatAndInsurancelanding() {
         touched,
       }) => (
         <>
-          {(gridLoading ||
-            vesselAssetLoading ||
-            loaderOnCreateJournalPosting) && <Loading />}
+          {(gridLoading || vesselAssetLoading || loading) && <Loading />}
           <IForm
             title="Bareboat And Insurance"
             isHiddenReset
@@ -221,7 +263,7 @@ export default function BareboatAndInsurancelanding() {
                       setGridData([]);
                     }}
                   />
-                  Dry Doc
+                  Dry Dock
                 </label>
               </div>
               <div className="form-group  global-form row">
@@ -232,13 +274,18 @@ export default function BareboatAndInsurancelanding() {
                     value={values?.vessel}
                     label="Vessel"
                     onChange={(valueOption) => {
-                      setFieldValue("vessel", valueOption);
+                      if (valueOption) {
+                        setFieldValue("vessel", valueOption);
+                        setGridData([]);
+                      } else {
+                        setFieldValue("vessel", "");
+                        setGridData([]);
+                      }
                     }}
                     errors={errors}
                     touched={touched}
                   />
                 </div>
-
                 <div className="col-lg-2">
                   <label>From Date</label>
                   <InputField
@@ -280,22 +327,6 @@ export default function BareboatAndInsurancelanding() {
                     style={{ marginTop: "20px", marginLeft: "10px" }}
                     onClick={() => {
                       confirmToCancel(values);
-                      // const payload = {
-                      //   intBusinessUnitId: selectedBusinessUnit?.value || 0,
-                      //   numAmount: +totalAmount || 0,
-                      //   intConfigId: intConfigIds || [],
-                      //   intVesselId: values?.vessel?.value || 0,
-                      //   dteFromDate: values?.fromDate,
-                      //   dteToDate: values?.toDate,
-                      //   intActionBy: profileData?.userId,
-                      //   intTypeId: viewType === 1 ? 1 : 2,
-                      // };
-                      // createJournalPosting(
-                      //   `/fino/BareBoatManagement/BareboatAndInsurenceTransaction`,
-                      //   payload,
-                      //   () => {},
-                      //   true
-                      // );
                     }}
                     className="btn btn-primary"
                     type="button"
@@ -363,7 +394,7 @@ export default function BareboatAndInsurancelanding() {
                       </td>
                       <td>
                         <div className="text-left">
-                          {viewType === 1
+                          {viewType === 1 || viewType === 3
                             ? item?.strBusinessTransactionName
                             : item?.strSupplierName}
                         </div>
@@ -386,7 +417,7 @@ export default function BareboatAndInsurancelanding() {
                       </td>
                       <td>
                         <div className="text-center">
-                          {viewType === 2
+                          {viewType === 2 || viewType === 3
                             ? `${_dateFormatter(
                                 item?.dteFromDate
                               )} - ${_dateFormatter(item?.dteToDate)}`

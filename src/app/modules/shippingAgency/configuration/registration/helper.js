@@ -17,8 +17,9 @@ export const getASLLAgencyRegistrationLandingApi = async (
   setter([]);
   try {
     const _VoyageNo = VoyageNo ? `&VoyageNo=${VoyageNo}` : "";
+    const _verselId = verselId ? `&VesselId=${verselId}` : "";
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/ASLLAgency/GetASLLAgencyRegistrationLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselTypeId=${verselType}&VesselId=${verselId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc${_VoyageNo}`
+      `${imarineBaseUrl}/domain/ASLLAgency/GetASLLAgencyRegistrationLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselTypeId=${verselType}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc${_VoyageNo}${_verselId}`
     );
     setter(res?.data);
     setLoading(false);

@@ -133,7 +133,7 @@ export default function BareboatChartererConfigCreateEdit() {
                   ? "Bareboat Management"
                   : res?.intCategoryTypeId === 2
                   ? "Insurance"
-                  : "Dry Doc",
+                  : "Dry Dock",
             },
             vessel: {
               value: res?.vesselId,
@@ -339,7 +339,6 @@ export default function BareboatChartererConfigCreateEdit() {
       intTransferRevenueCenterId: values?.transferRevenueCenter?.value || 0,
       intTransferRevenueElementId: values?.transferRevenueElement?.value || 0,
     };
-    console.log("edit");
 
     if (id) {
       bareboatManagementAndInsuranceCreate(
@@ -398,7 +397,6 @@ export default function BareboatChartererConfigCreateEdit() {
         touched,
       }) => (
         <>
-          {console.log(errors)}
           {(singleLoading ||
             supplierLoading ||
             baseTypeLoading ||
@@ -416,8 +414,8 @@ export default function BareboatChartererConfigCreateEdit() {
           <IForm
             title={
               id
-                ? "Edit Bareboat Management, Insurance And Dry Doc"
-                : "Create Bareboat Management, Insurance And Dry Doc"
+                ? "Edit Bareboat Management, Insurance And Dry Dock"
+                : "Create Bareboat Management, Insurance And Dry Dock"
             }
             getProps={setObjprops}
           >
@@ -759,13 +757,11 @@ export default function BareboatChartererConfigCreateEdit() {
                           getTransferProfitCenterDDL(
                             `/fino/CostSheet/ProfitCenterDetails?UnitId=${valueOption?.value}`,
                             (res) => {
-                              console.log("resres", res);
                               const newData = res?.map((itm) => {
                                 itm.value = itm?.profitCenterId;
                                 itm.label = itm?.profitCenterName;
                                 return itm;
                               });
-                              console.log(newData, "hhh");
                               setTransferProfitCenterDDL(newData);
                             }
                           );
