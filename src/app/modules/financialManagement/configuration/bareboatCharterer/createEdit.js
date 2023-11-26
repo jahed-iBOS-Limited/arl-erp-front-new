@@ -430,7 +430,7 @@ export default function BareboatChartererConfigCreateEdit() {
                         label: "Bareboat Management",
                       },
                       { value: 2, label: "Insurance" },
-                      { value: 3, label: "Dry Doc" },
+                      { value: 3, label: "Dry Dock" },
                     ]}
                     label="Category Type"
                     value={values?.categoryType}
