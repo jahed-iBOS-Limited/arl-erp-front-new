@@ -58,6 +58,7 @@ const exportUoMs = [
   { value: 4, label: "LB" },
   { value: 5, label: "Pound" },
   { value: 6, label: "Inches" },
+  { value: 7, label: "Kilogram" },
 ];
 
 const initData = {
