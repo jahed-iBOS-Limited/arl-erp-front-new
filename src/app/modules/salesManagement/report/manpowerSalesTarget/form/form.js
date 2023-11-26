@@ -3,12 +3,12 @@ import { Form, Formik } from "formik";
 import React from "react";
 import { useHistory } from "react-router";
 import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
 import YearMonthForm from "../../../../_helper/commonInputFieldsGroups/yearMonthForm";
 import IButton from "../../../../_helper/iButton";
 import SubsidyRateTable from "./subsidyRateTable";
+import ManpowerSalesTargetFormTable from "./table";
 
 const types = [
   { value: 1, label: "Sales Target" },
@@ -43,10 +43,11 @@ export default function _Form({
       ([1, 2, 3].includes(values?.type?.value) && !values?.channel) ||
       (values?.type?.value !== 5 && !values?.month) ||
       !values?.year ||
-      ([1, 3]?.includes(values?.type?.value) && !values?.zone) ||
-      (([4].includes(values?.type?.value) ||
-        ([1]?.includes(values?.type?.value) && buId === 144)) &&
-        !values?.item)
+      ([1, 3]?.includes(values?.type?.value) &&
+        !values?.zone &&
+        buId !== 144) ||
+      [4].includes(values?.type?.value) ||
+      ([1]?.includes(values?.type?.value) && buId === 144 && !values?.area)
     );
   };
 
@@ -120,21 +121,26 @@ export default function _Form({
                         setFieldValue,
                         region: [1, 2, 3].includes(values?.type?.value),
                         area: [1, 2, 3].includes(values?.type?.value),
-                        territory: [1, 3]?.includes(values?.type?.value),
+                        territory:
+                          [3]?.includes(values?.type?.value) ||
+                          ([1]?.includes(values?.type?.value) && buId !== 144),
+                        // territory: [1, 3]?.includes(values?.type?.value),
                         zone:
                           [3]?.includes(values?.type?.value) ||
                           ([1]?.includes(values?.type?.value) && buId !== 144),
                         onChange: (allValues, fieldName) => {
-                          if (fieldName === "territory") {
+                          if (fieldName === "area") {
                             getTSOList(
-                              `/oms/Complains/GetTerritoryOfficerDDL?accountId=${accId}&businessUnitId=${buId}&distributionChannelId=${allValues?.channel?.value}&territoryId=${allValues?.territory?.value}`
+                              `/oms/Complains/GetTerritoryOfficerDDL?accountId=${accId}&businessUnitId=${buId}&distributionChannelId=${
+                                allValues?.channel?.value
+                              }&territoryId=${0}`
                             );
                           }
                         },
                       }}
                     />
 
-                    {[1]?.includes(values?.type?.value) && buId === 144 && (
+                    {/* {[1]?.includes(values?.type?.value) && buId === 144 && (
                       <div className="col-lg-3">
                         <NewSelect
                           name="tso"
@@ -150,47 +156,46 @@ export default function _Form({
                           isDisabled={viewType || !values?.territory}
                         />
                       </div>
-                    )}
+                    )} */}
 
-                    {values?.type?.value === 4 ||
-                      ([1]?.includes(values?.type?.value) && buId === 144 && (
-                        <>
-                          <div className="col-lg-3">
-                            <NewSelect
-                              name="salesOrg"
-                              options={salesOrgs || []}
-                              value={values?.salesOrg}
-                              label="Sales Organization"
-                              onChange={(valueOption) => {
-                                setFieldValue("salesOrg", valueOption);
-                                getItems({
-                                  ...values,
-                                  salesOrg: valueOption,
-                                });
-                              }}
-                              placeholder="Select Sales Organization"
-                              errors={errors}
-                              touched={touched}
-                              isDisabled={viewType || !values?.channel}
-                            />
-                          </div>
-                          <div className="col-lg-3">
-                            <NewSelect
-                              name="item"
-                              options={itemList || []}
-                              value={values?.item}
-                              label="Item"
-                              onChange={(valueOption) => {
-                                setFieldValue("item", valueOption);
-                              }}
-                              placeholder="Select Item"
-                              errors={errors}
-                              touched={touched}
-                              isDisabled={viewType || !values?.salesOrg}
-                            />
-                          </div>
-                        </>
-                      ))}
+                    {values?.type?.value === 4 && (
+                      <>
+                        <div className="col-lg-3">
+                          <NewSelect
+                            name="salesOrg"
+                            options={salesOrgs || []}
+                            value={values?.salesOrg}
+                            label="Sales Organization"
+                            onChange={(valueOption) => {
+                              setFieldValue("salesOrg", valueOption);
+                              getItems({
+                                ...values,
+                                salesOrg: valueOption,
+                              });
+                            }}
+                            placeholder="Select Sales Organization"
+                            errors={errors}
+                            touched={touched}
+                            isDisabled={viewType || !values?.channel}
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <NewSelect
+                            name="item"
+                            options={itemList || []}
+                            value={values?.item}
+                            label="Item"
+                            onChange={(valueOption) => {
+                              setFieldValue("item", valueOption);
+                            }}
+                            placeholder="Select Item"
+                            errors={errors}
+                            touched={touched}
+                            isDisabled={viewType || !values?.salesOrg}
+                          />
+                        </div>
+                      </>
+                    )}
 
                     <IButton
                       disabled={isDisabled(values)}
@@ -198,96 +203,21 @@ export default function _Form({
                         rowDataSet(values);
                       }}
                     >
-                      {buId === 144 ? "Add" : "View"}
+                      View
                     </IButton>
                   </div>
                 </div>
               </Form>
-              {rowData?.length > 0 &&
-                [1, 2, 3, 4].includes(values?.type?.value) && (
-                  <table
-                    className={
-                      "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                    }
-                  >
-                    <thead>
-                      <tr className="cursor-pointer">
-                        <th
-                          className="text-center cursor-pointer"
-                          style={{ width: "40px" }}
-                          onClick={() => allSelect(!selectedAll())}
-                        >
-                          <input
-                            type="checkbox"
-                            value={selectedAll()}
-                            checked={selectedAll()}
-                            onChange={() => {}}
-                          />
-                        </th>
-                        <th>SL</th>
-                        {[1, 2, 3].includes(values?.type?.value) ? (
-                          <>
-                            <th>Employee Name</th>
-                            <th>Employee ID</th>
-                          </>
-                        ) : (
-                          <th>ShipPoint</th>
-                        )}
-                        {[1, 3]?.includes(values?.type?.value) && (
-                          <th>Zone Name</th>
-                        )}
-                        <th>Target Qty</th>
-                      </tr>
-                    </thead>
-                    {rowData?.map((row, index) => (
-                      <tr key={index}>
-                        <td
-                          onClick={() => {
-                            rowDataChange(index, "isSelected", !row.isSelected);
-                          }}
-                          className="text-center"
-                        >
-                          <input
-                            type="checkbox"
-                            value={row?.isSelected}
-                            checked={row?.isSelected}
-                            // onChange={() => {}}
-                          />
-                        </td>
-                        <td className="text-center" style={{ width: "40px" }}>
-                          {index + 1}
-                        </td>
-                        {[1, 2, 3].includes(values?.type?.value) ? (
-                          <>
-                            <td>{row?.employeeName}</td>
-                            <td>{row?.employeeId}</td>
-                          </>
-                        ) : (
-                          <td>{row?.label}</td>
-                        )}
-                        {[1, 3]?.includes(values?.type?.value) && (
-                          <td>{row?.zoneName}</td>
-                        )}
-                        <td className="text-right" style={{ width: "150px" }}>
-                          <InputField
-                            value={row?.targetQty}
-                            name="targetQty"
-                            type="number"
-                            errors={errors}
-                            touched={touched}
-                            onChange={(e) => {
-                              rowDataChange(
-                                index,
-                                "targetQty",
-                                e?.target?.value
-                              );
-                            }}
-                          />
-                        </td>
-                      </tr>
-                    ))}
-                  </table>
-                )}
+              <ManpowerSalesTargetFormTable
+                obj={{
+                  buId,
+                  values,
+                  rowData,
+                  allSelect,
+                  selectedAll,
+                  rowDataChange,
+                }}
+              />
               {[5].includes(values?.type?.value) && (
                 <SubsidyRateTable
                   obj={{
