@@ -1,0 +1,21 @@
+@media print {
+  .Registration .global-table thead tr th {
+    color: #000 !important;
+    font-size: 12px !important;
+  }
+  .Registration .global-table tbody tr td {
+    color: #000 !important;
+    font-size: 12px !important;
+  }
+}
+.Registration .RegistrationInfo p {
+  margin: 0;
+  color: #000 !important;
+}
+.Registration .RegistrationTopBar {
+  text-align: center;
+}
+.Registration .RegistrationInfo {
+  display: flex !important;
+  justify-content: space-between;
+}
