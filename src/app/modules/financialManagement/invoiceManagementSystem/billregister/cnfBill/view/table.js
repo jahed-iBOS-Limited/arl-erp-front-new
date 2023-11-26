@@ -9,8 +9,21 @@ import Loading from "../../../../../_helper/_loading";
 import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
 import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
 import { common_api_for_4_types_of_bill } from "../../helper";
+import BillApproveForm from "../../../approvebillregister/approveForm";
 
-function ViewCNFBill({ billRegisterId }) {
+const initData = {
+  approveAmount: "",
+  approveAmountMax: "",
+  remarks: "",
+};
+
+function ViewCNFBill({
+  billRegisterId,
+  gridItem,
+  landingValues,
+  setModalShow,
+  gridDataFunc,
+}) {
   // get profile data from store
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -32,14 +45,27 @@ function ViewCNFBill({ billRegisterId }) {
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={{}}
+        initialValues={{
+          ...initData,
+          approveAmount: gridItem?.monTotalAmount,
+          approveAmountMax: gridItem?.monTotalAmount,
+        }}
         onSubmit={(values) => {}}
       >
-        {() => (
+        {({ values }) => (
           <ICard title={`View CNF Bill`}>
             {(loadingGridData || loading) && <Loading />}
 
             <form className="form form-label-right ">
+              <BillApproveForm
+                obj={{
+                  values,
+                  gridItem,
+                  gridDataFunc,
+                  landingValues,
+                  setModalShow,
+                }}
+              />
               <table className="table global-table">
                 <thead>
                   <tr>
@@ -80,18 +106,18 @@ function ViewCNFBill({ billRegisterId }) {
                               <span
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                 if(item?.attachment){
-                                  dispatch(
-                                    getDownlloadFileView_Action(
-                                      item?.attachment,
-                                      null,
-                                      null,
-                                      setLoading
-                                    )
-                                  );
-                                 }else{
-                                  toast.warn("No Attachment Found")
-                                 }
+                                  if (item?.attachment) {
+                                    dispatch(
+                                      getDownlloadFileView_Action(
+                                        item?.attachment,
+                                        null,
+                                        null,
+                                        setLoading
+                                      )
+                                    );
+                                  } else {
+                                    toast.warn("No Attachment Found");
+                                  }
                                 }}
                                 className="ml-2"
                               >

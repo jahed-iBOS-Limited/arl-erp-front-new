@@ -1,6 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
+import { imarineBaseUrl } from "../../../../App";
 
 export const validationSchema = Yup.object().shape({
   billNo: Yup.string().required("Bill No is required"),
@@ -10,7 +11,7 @@ export const getSurveyNoDDL = async (accId, buId, setter, setLoading) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/LighterVessel/GetLighterVssSurveyNoDDL?AccountId=${accId}&BusinessUnitId=${buId}`
+      `${imarineBaseUrl}/domain/LighterVessel/GetLighterVssSurveyNoDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
 
     setter(
@@ -36,7 +37,7 @@ export const getTripInformation = async (
   setLoading(true);
   try {
         const res = await axios.get(
-          `https://imarine.ibos.io/domain/LighterVessel/GetLighterVesselTripBySurveyNo?AccountId=${accId}&BusinessUnitId=${buId}&SurveyNo=${surveyNo}&fromDate=${fromDate}&toDate=${toDate}`
+          `${imarineBaseUrl}/domain/LighterVessel/GetLighterVesselTripBySurveyNo?AccountId=${accId}&BusinessUnitId=${buId}&SurveyNo=${surveyNo}&fromDate=${fromDate}&toDate=${toDate}`
         );
         // &ReportDate=${reportDate}
         setter(res?.data);
@@ -52,7 +53,7 @@ export const saveInvoice = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      `https://imarine.ibos.io/domain/LighterInvoice/CreateLighterInvoice`,
+      `${imarineBaseUrl}/domain/LighterInvoice/CreateLighterInvoice`,
       data
     );
     cb();
@@ -81,7 +82,7 @@ export const getInvoiceList = async (
   const to = toDate ? `&ToDate=${toDate}` : "";
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/LighterInvoice/GetLighterInVoiceLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}${search}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${from}${to}`
+      `${imarineBaseUrl}/domain/LighterInvoice/GetLighterInVoiceLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}${search}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${from}${to}`
     );
 
     setter(res?.data);
@@ -96,7 +97,7 @@ export async function getInvoiceById(id, setter, setLoading, cb) {
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/LighterInvoice/GetLighterInVoiceById?InvoiceId=${id}`
+      `${imarineBaseUrl}/domain/LighterInvoice/GetLighterInVoiceById?InvoiceId=${id}`
     );
     setter(res?.data);
     cb();

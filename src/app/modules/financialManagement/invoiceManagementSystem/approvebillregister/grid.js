@@ -254,24 +254,43 @@ const GridData = ({
           />
         )}
         {gridItem?.billType === 16 && (
-          <ViewG2GTruckBill billRegisterId={gridItem?.billRegisterId} />
+          <ViewG2GTruckBill
+            billRegisterId={gridItem?.billRegisterId}
+            landingValues={values}
+            gridItem={gridItem}
+            setModalShow={setModalShow}
+            gridDataFunc={girdDataFunc}
+          />
         )}
         {gridItem?.billType === 17 && (
           <ViewG2GLighterBill
+            billRegisterId={gridItem?.billRegisterId}
             landingValues={values}
             gridItem={gridItem}
-            setDataFunc={girdDataFunc}
             setModalShow={setModalShow}
+            girdDataFunc={girdDataFunc}
           />
         )}
         {gridItem?.billType === 21 && (
           <ViewG2GGodownUnloadBill billRegisterId={gridItem?.billRegisterId} />
         )}
         {gridItem?.billType === 22 && (
-          <ViewGhatLoadUnloadBill billRegisterId={gridItem?.billRegisterId} />
+          <ViewGhatLoadUnloadBill
+            billRegisterId={gridItem?.billRegisterId}
+            landingValues={values}
+            gridItem={gridItem}
+            setModalShow={setModalShow}
+            gridDataFunc={girdDataFunc}
+          />
         )}
         {gridItem?.billType === 25 && (
-          <ViewCNFBill billRegisterId={gridItem?.billRegisterId} />
+          <ViewCNFBill
+            billRegisterId={gridItem?.billRegisterId}
+            landingValues={values}
+            gridItem={gridItem}
+            setModalShow={setModalShow}
+            gridDataFunc={girdDataFunc}
+          />
         )}
         {gridItem?.billType === 26 && (
           <ViewStevedoreBill billRegisterId={gridItem?.billRegisterId} />

@@ -1,27 +1,31 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Formik } from "formik";
 import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IButton from "../../../../_helper/iButton";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 import ICard from "../../../../_helper/_card";
+import IConfirmModal from "../../../../_helper/_confirmModal";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { useHistory } from "react-router-dom";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import { approvePumpFoodingBill, deletePumpFoodingBill } from "../helper";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import NewSelect from "../../../../_helper/_select";
-import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
-import { toast } from "react-toastify";
+import PaginationTable from "../../../../_helper/_tablePagination";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import IButton from "../../../../_helper/iButton";
+import { approvePumpFoodingBill, deletePumpFoodingBill } from "../helper";
 
 const initData = {
   fromDate: _firstDateofMonth(),
   toDate: _todayDate(),
   status: { value: "", label: "All" },
+  workplace: {value: 0, label: "All"},
+  warehouse: {value: 0, label: "All"},
 };
 
 export const headers = [
@@ -44,9 +48,12 @@ export const headers = [
 const PumpFoodingBillLanding = () => {
   const history = useHistory();
   const printRef = useRef();
+  const dispatch = useDispatch();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [rowData, getRowData, isLoading, setRowData] = useAxiosGet();
+  const [workplaceDDL, getWorkplaceDDL, isWorkpalceDDLLoading, setWorkplaceDDL] = useAxiosGet();
+  const [wareHouseDDL, getWareHouseDDL, isWareHouseDDLLoading, setWareHouseDDL] = useAxiosGet();
   const [loading, setLoading] = useState(false);
 
   // get user profile data from store
@@ -56,7 +63,8 @@ const PumpFoodingBillLanding = () => {
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const getData = (values, pageNo, pageSize) => {
-    const url = `/hcm/MenuListOfFoodCorner/GetPumpFoodingBillPagination?BusinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&PageNo=${pageNo}&PageSize=${pageSize}&ViewOrder=desc&Status=${values?.status?.value}`;
+    const url = `/hcm/MenuListOfFoodCorner/GetPumpFoodingBillPagination?BusinessUnitId=${buId}&warehouseId=${values?.warehouse?.value}&WorkPlaceId=${values?.workplace?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&PageNo=${pageNo}&PageSize=${pageSize}&ViewOrder=desc&Status=${values?.status?.value}`;
+
     getRowData(url, (resData) => {
       setRowData({
         ...resData,
@@ -73,6 +81,22 @@ const PumpFoodingBillLanding = () => {
   useEffect(() => {
     getData(initData, pageNo, pageSize);
   }, [accId, buId]);
+
+  //Load DDL
+  useEffect(()=>{
+    //fetch workplace
+    getWorkplaceDDL(`/hcm/HCMDDL/GetWorkPlaceDDL?AccountId=${accId}&BusinessUnitId=${buId}`, (data)=>{
+      const DDL = [{value: 0, label: "All"}, ...data];
+      setWorkplaceDDL(DDL);
+    })
+
+    //get warehouse DDL
+    getWareHouseDDL(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=0&OrgUnitTypeId=8`, (data) => {
+    
+      const DDL = [{value: 0, label: "All"}, ...data];
+      setWareHouseDDL(DDL);
+    })
+  }, [accId, buId, userId])
 
   // set PositionHandler
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -203,6 +227,32 @@ const PumpFoodingBillLanding = () => {
                       name="status"
                       onChange={(e) => {
                         setFieldValue("status", e);
+                        setRowData([]);
+                      }}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      options={workplaceDDL || []}
+                      label="Workplace"
+                      placeholder="Workplace"
+                      value={values?.workplace}
+                      name="Workplace"
+                      onChange={(e) => {
+                        setFieldValue("workplace", e);
+                        setRowData([]);
+                      }}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      options={wareHouseDDL || []}
+                      label="Warehouse"
+                      placeholder="Warehouse"
+                      value={values?.warehouse}
+                      name="Warehouse"
+                      onChange={(e) => {
+                        setFieldValue("warehouse", e);
                         setRowData([]);
                       }}
                     />
@@ -338,14 +388,43 @@ const PumpFoodingBillLanding = () => {
                                 />
                               </span> */}
                                 {item?.approveAmount < 1 && (
-                                  <span>
-                                    <IDelete
-                                      remover={(id) => {
-                                        deleteHandler(id, values);
-                                      }}
-                                      id={item?.autoId}
-                                    />
-                                  </span>
+                                  <>
+                                    <span>
+                                      <IDelete
+                                        remover={(id) => {
+                                          deleteHandler(id, values);
+                                        }}
+                                        id={item?.autoId}
+                                      />
+                                    </span>
+                                    {
+                                    item?.attachmentUrl &&
+                                      <span className="cursor-pointer">
+                                      <OverlayTrigger
+                                        overlay={
+                                          <Tooltip id="cs-icon">
+                                            View Attachment
+                                          </Tooltip>
+                                        }
+                                      >
+                                        <span
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            dispatch(
+                                              getDownlloadFileView_Action(item?.attachmentUrl)
+                                            );
+                                          }}
+                                          className="ml-2"
+                                        >
+                                          <i
+                                            class="fa fa-paperclip"
+                                            aria-hidden="true"
+                                          ></i>
+                                        </span>
+                                      </OverlayTrigger>
+                                    </span>
+                                    }
+                                  </>
                                 )}
                               </div>
                             </td>

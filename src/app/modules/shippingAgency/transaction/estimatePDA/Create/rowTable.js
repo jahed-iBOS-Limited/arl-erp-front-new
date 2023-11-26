@@ -75,7 +75,7 @@ function RowTable({ rowDto, setRowDto }) {
                 <InputField
                   value={item?.estimatedAmount}
                   name='estimatedAmount'
-                  type='text'
+                  type='number'
                   onChange={(e) => {
                     const copyRowDto = [...rowDto];
                     copyRowDto[index].estimatedAmount = e.target.value;
@@ -87,7 +87,7 @@ function RowTable({ rowDto, setRowDto }) {
                 <InputField
                   value={item?.customerFinalAmount}
                   name='customerFinalAmount'
-                  type='text'
+                  type='number'
                   onChange={(e) => {
                     const copyRowDto = [...rowDto];
                     copyRowDto[index].customerFinalAmount = e.target.value;
@@ -171,6 +171,36 @@ function RowTable({ rowDto, setRowDto }) {
               </td>
             </tr>
           ))}
+          <tr>
+            <td colSpan={3}>
+              <b>Total</b>
+            </td>
+            <td>
+              <b>
+                {rowDto?.reduce(
+                  (acc, cur) => acc + (+cur?.estimatedAmount || 0),
+                  0
+                ) || 0}
+              </b>
+            </td>
+            <td>
+              <b>
+                {rowDto?.reduce(
+                  (acc, cur) => acc + (+cur?.customerFinalAmount || 0),
+                  0
+                ) || 0}
+              </b>
+            </td>
+            <td>
+              <b>
+                {rowDto?.reduce(
+                  (acc, cur) => acc + (+cur?.actualAmount || 0),
+                  0
+                ) || 0}
+              </b>
+            </td>
+            <td></td>
+          </tr>
         </tbody>
       </table>
 

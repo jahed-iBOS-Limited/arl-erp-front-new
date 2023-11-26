@@ -18,6 +18,7 @@ import Loading from "../../../_chartinghelper/loading/_loading";
 import { getSalesOrgList } from "../../../transaction/timeCharter/helper";
 import { getMonthlyVoyageStatement, months } from "../helper";
 import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
+import { imarineBaseUrl } from "../../../../../App";
 
 const headers = [
   { name: "SL" },
@@ -77,7 +78,26 @@ export default function MonthlyVoyageStatement() {
     getSBUListDDL(accId, buId, setSBUList);
   }, [accId, buId]);
 
-  const JournalPost = (values, item, index) => {
+  const JournalPost = (values, item, index, journalType) => {
+    const amount =
+      journalType === "jv"
+        ? item?.estFreightAmount
+        : journalType === "aj"
+        ? item?.estFreightAmount - item?.numTotalFreight
+        : 0;
+
+    const narration = `Amount ${
+      journalType === "jv" ? "debited" : "credited"
+    } to ${item?.consigneePartyName} & ${
+      journalType === "jv" ? "credited" : "debited"
+    } to Freight Income as provision of freight income of ${
+      item?.lighterVesselName
+    }, Trip-${item?.tripNo} For the month of ${months[
+      new Date(values?.fromDate).getMonth()
+    ] +
+      "-" +
+      new Date(values?.fromDate)?.getFullYear()}`;
+
     const payload = {
       accountId: accId,
       businessUnitId: buId,
@@ -86,27 +106,32 @@ export default function MonthlyVoyageStatement() {
       actionby: userId,
       date: values?.journalDate,
       // totalAmount: item?.numTotalFreight,
-      totalAmount: item?.estFreightAmount,
-      narration: `Amount debited to ${
-        item?.consigneePartyName
-      } & credited to Freight Income as provision of freight income of ${
-        item?.lighterVesselName
-      }, Trip-${item?.tripNo} For the month of ${months[
-        new Date(values?.fromDate).getMonth()
-      ] +
-        "-" +
-        new Date(values?.fromDate)?.getFullYear()}`,
+      totalAmount: amount,
+      narration: narration,
       lighterVesselId: item?.lighterVesselId,
       consigneeParty: item?.consigneePartyId,
-      tripId: item?.tripId,
+      tripId: item?.lighterTripId,
     };
 
+    const apiName =
+      journalType === "jv"
+        ? `LighterVesselIncomeSatetementJournal`
+        : journalType === "aj"
+        ? `LighterVesselIncomeSatetementAdjustmentJournal`
+        : "";
+
     createJournal(
-      `https://imarine.ibos.io/domain/LighterVesselStatement/LighterVesselIncomeSatetementJournal`,
+      `${imarineBaseUrl}/domain/LighterVesselStatement/${apiName}`,
       payload,
       () => {
+        const field =
+          journalType === "jv"
+            ? "jvDisable"
+            : journalType === "aj"
+            ? "ajDisable"
+            : "";
         let _data = [...gridData];
-        _data[index]["jvDisable"] = true;
+        _data[index][field] = true;
         setGridData(_data);
       },
       true
@@ -121,6 +146,9 @@ export default function MonthlyVoyageStatement() {
     totalFreight = 0;
 
   const isLoading = loader || loading;
+  const journalBtnDisable = (values) => {
+    return isLoading || !values?.sbu || !values?.salesOrg;
+  };
 
   return (
     <>
@@ -299,21 +327,32 @@ export default function MonthlyVoyageStatement() {
                         </td>
                         <td>{item?.dischargePortName}</td>
                         <td>
-                          <button
-                            className="btn btn-sm btn-info"
-                            type="button"
-                            onClick={() => {
-                              JournalPost(values, item, index);
-                            }}
-                            disabled={
-                              item?.jvDisable ||
-                              isLoading ||
-                              !values?.sbu ||
-                              !values?.salesOrg
-                            }
-                          >
-                            JV
-                          </button>
+                          <div className="d-flex justify-content-around align-items-center">
+                            <button
+                              className="btn btn-sm btn-info mr-1"
+                              type="button"
+                              onClick={() => {
+                                JournalPost(values, item, index, "jv");
+                              }}
+                              disabled={
+                                item?.jvDisable || journalBtnDisable(values)
+                              }
+                            >
+                              JV
+                            </button>
+                            <button
+                              className="btn btn-sm btn-info ml-1"
+                              type="button"
+                              onClick={() => {
+                                JournalPost(values, item, index, "aj");
+                              }}
+                              disabled={
+                                item?.ajDisable || journalBtnDisable(values)
+                              }
+                            >
+                              AJ
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     );

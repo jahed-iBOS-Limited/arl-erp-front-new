@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { _dateFormatter } from "../_chartinghelper/_dateFormatter";
 import { _todayDate } from "../_chartinghelper/_todayDate";
+import { imarineBaseUrl } from '../../../App';
 
 // Validation schema
 export const validationSchema = Yup.object().shape({
@@ -47,7 +48,7 @@ export const validationSchema = Yup.object().shape({
 export const getPortDDL = async (voyageId, chartererId, setter) => {
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/LayTime/GetPortDDL?VoyageId=${voyageId}&PartnerId=${chartererId}`
+      `${imarineBaseUrl}/domain/LayTime/GetPortDDL?VoyageId=${voyageId}&PartnerId=${chartererId}`
     );
     setter(res?.data);
   } catch (error) {
@@ -58,7 +59,7 @@ export const getPortDDL = async (voyageId, chartererId, setter) => {
 export const getCargoDDL = async (voyageId, type, chartererId, setter) => {
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/LayTime/GetCargoDDL?VoyageId=${voyageId}&PartnerType=${type}&PartnerId=${chartererId}`
+      `${imarineBaseUrl}/domain/LayTime/GetCargoDDL?VoyageId=${voyageId}&PartnerType=${type}&PartnerId=${chartererId}`
     );
     setter(res?.data);
   } catch (error) {
@@ -82,7 +83,7 @@ export const getTimeCharterLandingData = async (
   const voyageNoStr = voyageId ? `&VoyageId=${voyageId}` : "";
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/TimeCharterTransaction/GetTimeCharterLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId ||
+      `${imarineBaseUrl}/domain/TimeCharterTransaction/GetTimeCharterLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId ||
         0}${voyageNoStr}${search}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
     setter(res?.data);
@@ -97,7 +98,7 @@ export const saveLayTime = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      "https://imarine.ibos.io/domain/LayTimeInfo/CreateLayTimeInfo",
+      `${imarineBaseUrl}/domain/LayTimeInfo/CreateLayTimeInfo`,
       data
     );
     cb();
@@ -115,7 +116,7 @@ export const editLayTime = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      "https://imarine.ibos.io/domain/LayTimeInfo/EditLayTimeInfo",
+      `${imarineBaseUrl}/domain/LayTimeInfo/EditLayTimeInfo`,
       data
     );
     cb();
@@ -144,7 +145,7 @@ export const getLayTime = async (
   setLoading(true);
   try {
     const { data } = await axios.get(
-      `https://imarine.ibos.io/domain/LayTimeInfo/GetLayTimeByVesselVoyage?VesselId=${vesselId}&VoyageId=${voyageId}&TypeId=${layTimeTypeId}&CargoId=${cargoId}&BusinessPartnerType=${partnerTypeId}&BusinessPartnerId=${partnerId}`
+      `${imarineBaseUrl}/domain/LayTimeInfo/GetLayTimeByVesselVoyage?VesselId=${vesselId}&VoyageId=${voyageId}&TypeId=${layTimeTypeId}&CargoId=${cargoId}&BusinessPartnerType=${partnerTypeId}&BusinessPartnerId=${partnerId}`
     );
 
     if (!data?.objHeader?.layTimeId) {

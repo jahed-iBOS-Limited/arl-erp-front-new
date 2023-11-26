@@ -1,0 +1,5 @@
+.colorOnHoverForLcAndPo:hover {
+    color: #0696BB;
+    cursor: pointer;
+    text-decoration: underline;
+}

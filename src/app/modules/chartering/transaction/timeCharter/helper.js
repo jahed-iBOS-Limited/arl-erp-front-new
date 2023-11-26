@@ -3,6 +3,7 @@ import moment from "moment";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { _dateFormatter } from "../../_chartinghelper/_dateFormatter";
+import { imarineBaseUrl } from "../../../../App";
 
 const getKey = (description) => {
   switch (description) {
@@ -85,7 +86,7 @@ export const getTimeCharterLandingData = async (
   const voyageNoStr = voyageId ? `&VoyageId=${voyageId}` : "";
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/TimeCharterTransaction/GetTimeCharterLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId ||
+      `${imarineBaseUrl}/domain/TimeCharterTransaction/GetTimeCharterLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId ||
         0}${voyageNoStr}${search}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
     setter(res?.data);
@@ -100,7 +101,7 @@ export const saveTimeCharterTransaction = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      "https://imarine.ibos.io/domain/TimeCharterTransaction/SaveTimeCharterTransaction",
+      `${imarineBaseUrl}/domain/TimeCharterTransaction/SaveTimeCharterTransaction`,
       data
     );
     cb();
@@ -118,7 +119,7 @@ export const saveTimeCharterTransaction = async (data, setLoading, cb) => {
 //   setLoading(true);
 //   try {
 //     const res = await axios.put(
-//       "https://imarine.ibos.io/domain/Transaction/EditTransaction",
+//       `${imarineBaseUrl}/domain/Transaction/EditTransaction`,
 //       data
 //     );
 //     toast.success(res?.data?.message);
@@ -134,7 +135,7 @@ export const saveTimeCharterTransaction = async (data, setLoading, cb) => {
 export const GetTransactionNameList = async (setter) => {
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/Transaction/GetTransactionListDDL`
+      `${imarineBaseUrl}/domain/Transaction/GetTransactionListDDL`
     );
     setter(res?.data);
   } catch (err) {
@@ -146,7 +147,7 @@ export const GetTransactionNameList = async (setter) => {
 export const getTransactionById = async (id, setter, setDataForEdit, cb) => {
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/TimeCharterTransaction/GetTimeCharterByTcTransactionId?TcTrasactionId=${id}`
+      `${imarineBaseUrl}/domain/TimeCharterTransaction/GetTimeCharterByTcTransactionId?TcTrasactionId=${id}`
     );
 
     setter(res?.data);
@@ -184,7 +185,7 @@ export const getPreOffHires = async (
 ) => {
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/TimeCharterTransaction/GetTransactionDetails?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&HireTrasaction=${transactionId}&TcTransactionId=${tcTransactionId}`
+      `${imarineBaseUrl}/domain/TimeCharterTransaction/GetTransactionDetails?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&HireTrasaction=${transactionId}&TcTransactionId=${tcTransactionId}`
     );
     const totalOffHireDuration = res?.data?.offHires?.reduce(
       (a, b) => a + b?.offHireDurOnPercentage,
@@ -204,7 +205,7 @@ export const getTimeCharterTransaction = async (
 ) => {
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/TimeCharterTransaction/GetTimeCharterById?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&HireTrasaction=${transactionId}`
+      `${imarineBaseUrl}/domain/TimeCharterTransaction/GetTimeCharterById?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&HireTrasaction=${transactionId}`
     );
     setter(res?.data);
   } catch (err) {
@@ -229,11 +230,11 @@ export const GetTransactionDetails = async (
   setLoading(true);
   try {
     const resInvoiceTransaction = await axios.get(
-      `https://imarine.ibos.io/domain/TimeCharterTransaction/GetTimeCharterById?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&HireTrasaction=${transactionId}`
+      `${imarineBaseUrl}/domain/TimeCharterTransaction/GetTimeCharterById?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&HireTrasaction=${transactionId}`
     );
 
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/TimeCharterTransaction/GetTransactionDetails?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&HireTrasaction=${transactionId}`
+      `${imarineBaseUrl}/domain/TimeCharterTransaction/GetTransactionDetails?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&HireTrasaction=${transactionId}`
     );
 
     cb(resInvoiceTransaction?.data?.objHeader);
@@ -571,7 +572,7 @@ export const GetTransactionDetails = async (
 export const getTimeCharterHirePaid = async (vesselId, voyageId, setter) => {
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/Transaction/GetTimeCharterHirePaid?VesselId=${vesselId}&VoyageId=${voyageId}`
+      `${imarineBaseUrl}/domain/Transaction/GetTimeCharterHirePaid?VesselId=${vesselId}&VoyageId=${voyageId}`
     );
     setter(res?.data);
   } catch (err) {
@@ -582,7 +583,7 @@ export const getTimeCharterHirePaid = async (vesselId, voyageId, setter) => {
 export const getOwnerBankInfoDetailsById = async (ownerId, setter) => {
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/Stakeholder/GetStakeholderViewDetailsById?stakeholderId=${ownerId}`
+      `${imarineBaseUrl}/domain/Stakeholder/GetStakeholderViewDetailsById?stakeholderId=${ownerId}`
     );
     setter(res?.data);
   } catch (err) {
@@ -599,7 +600,7 @@ export const timeCharterReceiveAmountUpdate = async (
 ) => {
   try {
     const res = await axios.put(
-      `https://imarine.ibos.io/domain/TimeCharterTransaction/EditTimeCharterTrnsReceiveAmount?BusinessUnitId=${buId}&TctransactionId=${tcTransactionId}&TotalReceivedAmount=${amount}&ReceiveDate=${date}`
+      `${imarineBaseUrl}/domain/TimeCharterTransaction/EditTimeCharterTrnsReceiveAmount?BusinessUnitId=${buId}&TctransactionId=${tcTransactionId}&TotalReceivedAmount=${amount}&ReceiveDate=${date}`
     );
     toast.success(res?.data?.message, { toastId: 234 });
     cb();
@@ -651,7 +652,7 @@ export const createJournalForTimeCharter = async (
   );
   try {
     const res = await axios.post(
-      `https://imarine.ibos.io/domain/TimeCharterTransaction/TimeCharterJournal`,
+      `${imarineBaseUrl}/domain/TimeCharterTransaction/TimeCharterJournal`,
       payload
     );
     toast.success(res?.data?.message, { toastId: 234 });
@@ -695,7 +696,7 @@ export const editTimeCharterTransaction = async (payload, setLoading) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `https://imarine.ibos.io/domain/TimeCharterTransaction/EditTimeCharterTransaction`,
+      `${imarineBaseUrl}/domain/TimeCharterTransaction/EditTimeCharterTransaction`,
       payload
     );
     toast.success(res?.data?.message);

@@ -17,8 +17,9 @@ export const getASLLAgencyRegistrationLandingApi = async (
   setter([]);
   try {
     const _VoyageNo = VoyageNo ? `&VoyageNo=${VoyageNo}` : "";
+    const _verselId = verselId ? `&VesselId=${verselId}` : "";
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/ASLLAgency/GetASLLAgencyRegistrationLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselTypeId=${verselType}&VesselId=${verselId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc${_VoyageNo}`
+      `${imarineBaseUrl}/domain/ASLLAgency/GetASLLAgencyRegistrationLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselTypeId=${verselType}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc${_VoyageNo}${_verselId}`
     );
     setter(res?.data);
     setLoading(false);
@@ -71,10 +72,21 @@ export const getASLLAgencyRegistrationById = async (id, setLoading, setter) => {
   }
 };
 
+// export const getVesselDDL = async (accId, buId, setter, vesselId) => {
+//   try {
+//     const res = await axios.get(
+//       `/asset/Asset/GetAssetVesselDdl?IntBussinessUintId=${buId}`
+//     );
+//     setter(res.data);
+//   } catch (error) {
+//     setter([]);
+//   }
+// };
 export const getVesselDDL = async (accId, buId, setter, vesselId) => {
+  const vesselIdStr = vesselId ? `&IsVessel=${vesselId}` : ""; // first perameter so not (?)
   try {
     const res = await axios.get(
-      `/asset/Asset/GetAssetVesselDdl?IntBussinessUintId=${buId}`
+      `${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}${vesselIdStr}`
     );
     setter(res.data);
   } catch (error) {
@@ -139,5 +151,16 @@ export const createUpdateASLLAgencyRegistration = async (
   } catch (error) {
     toast.error(error?.response?.data?.message);
     setDisabled(false);
+  }
+};
+
+export const getCargoDDL = async (setter) => {
+  try {
+    const res = await axios.get(
+      `${imarineBaseUrl}/domain/HireOwner/GetCargoDDL`
+    );
+    setter(res.data);
+  } catch (error) {
+    setter([]);
   }
 };

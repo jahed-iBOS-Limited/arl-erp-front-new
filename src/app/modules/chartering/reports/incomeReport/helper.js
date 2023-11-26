@@ -1,5 +1,6 @@
 import axios from "axios";
 import { toast } from "react-toastify";
+import { imarineBaseUrl } from "../../../../App";
 
 export const getIncomeReport = async (
   accId,
@@ -16,7 +17,7 @@ export const getIncomeReport = async (
   const ToDate = toDate ? `&ToDate=${toDate}` : "";
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/Report/GetRevenueReportByVesselVoyage?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}${FromDate}${ToDate}`
+      `${imarineBaseUrl}/domain/Report/GetRevenueReportByVesselVoyage?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}${FromDate}${ToDate}`
     );
     if (fromDate && toDate) {
       setter(
@@ -28,6 +29,7 @@ export const getIncomeReport = async (
               jvDisable: false,
               ajDisable: false,
               finalRevenue: elem?.netRevinue,
+              dollarConversionRate: "",
               // _fixedPoint(
               //   elem?.incomeInDateRange +
               //     elem?.addrComm +
@@ -67,7 +69,7 @@ export const getExpenseReport = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `https://imarine.ibos.io/domain/Report/GetCostReportByVesselVoyage?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}`
+      `${imarineBaseUrl}/domain/Report/GetCostReportByVesselVoyage?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}`
     );
     setter(res?.data);
     setLoading(false);
