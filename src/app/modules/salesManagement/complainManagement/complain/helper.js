@@ -1,6 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
+import moment from "moment";
 
 export const employeEnroll_Api = async (accId, buId, setter) => {
   try {
@@ -45,6 +46,7 @@ export const getComplainById = async (
       `/oms/CustomerPoint/GetComplainById?complainId=${complainId}&accountId=${accId}&businessUnitId=${buId}`
     );
     setLoaing(false);
+
     setSingleData({
       ...res?.data,
       occurrenceDate: _dateFormatter(res?.data?.requestDateTime),
@@ -82,7 +84,9 @@ export const getComplainById = async (
         : "",
       issueDetails: res?.data?.description || "",
 
-      occurrenceTime: res?.data?.requestDateTime || "",
+      occurrenceTime: res?.data?.occurrenceTime
+        ? moment(res?.data?.occurrenceTime, "HH:mm:ss").format("HH:mm:ss")
+        : "",
       respondentBusinessUnit: res?.data?.respondentBusinessUnitId
         ? {
             value: res?.data?.respondentBusinessUnitId,
@@ -93,7 +97,7 @@ export const getComplainById = async (
       respondentOrg: res?.data?.respondentOrg || "",
       designationOrRelationship: res?.data?.designationOrRelationship || "",
       additionalCommentAndSuggestion:
-        res?.data?.additionalCommentAndSuggestion || "",
+        res?.data?.commentAndSuggestion || "",
       itemCategory: res?.data?.itemCategoryId
         ? {
             value: res?.data?.itemCategoryId,

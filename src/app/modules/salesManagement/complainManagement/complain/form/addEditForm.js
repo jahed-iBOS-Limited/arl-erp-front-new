@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
+import { useParams } from "react-router";
 import { useHistory } from "react-router-dom";
 import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import { createComplain, getComplainById } from "../helper";
 import Form from "./form";
-import { useParams } from "react-router";
-import { createComplain, getComplainById, updateComplain } from "../helper";
 
 const initData = {
   occurrenceDate: _todayDate(),
@@ -84,8 +84,13 @@ function ComplainForm() {
       occurrenceTime: values?.occurrenceTime || "",
       isActive: true,
       lastActionDateTime: new Date(),
+      respondentType: values?.respondent || "",
     };
-    createComplain(payload, setLoading, cb);
+    createComplain(payload, setLoading, () => {
+      if (!edit) {
+        cb();
+      }
+    });
   };
 
   useEffect(() => {
