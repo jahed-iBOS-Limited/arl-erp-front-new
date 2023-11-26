@@ -95,7 +95,7 @@ function ComplainForm() {
       investigatorAssignDate: "",
       finishDateTime: "",
       isActive: true,
-      lastActionDateTime: "",
+      lastActionDateTime: new Date(),
       totalTime: "",
       isReopen: true,
       respondentType: "",

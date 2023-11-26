@@ -42,7 +42,6 @@ export const validationSchema = Yup.object().shape({
     label: Yup.string().required("Issue Type is required"),
     value: Yup.string().required("Issue Type is required"),
   }),
-  issueTitle: Yup.string().required("Issue Title is required"),
   issueDetails: Yup.string().required("Issue Details is required"),
   respondent: Yup.string().required("Respondent Name is required"),
 });
@@ -115,6 +114,9 @@ function Form({
                   }
             }
           >
+            {
+              console.log("errors", errors)
+            }
             <form>
               <div className='row global-form'>
                 <div className='col-lg-12'>
