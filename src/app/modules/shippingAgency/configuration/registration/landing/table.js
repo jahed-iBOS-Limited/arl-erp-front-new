@@ -3,8 +3,12 @@ import { useHistory } from "react-router-dom";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import IView from "../../../../_helper/_helperIcons/_view";
 import moment from "moment";
+import IViewModal from "./../../../../_helper/_viewModal";
+import ViewRegistrationInvoice from "./viewInvoice";
 
 const LandingTable = ({ obj }) => {
+  const [isViewModal, setIsViewModal] = React.useState(false);
+  const [clickRowData, setClickRowData] = React.useState({});
   const { gridData } = obj;
   const history = useHistory();
 
@@ -41,7 +45,9 @@ const LandingTable = ({ obj }) => {
               <td>{item?.registrationNumber}</td>
               <td>{item?.customSl}</td>
               <td>{item?.loadPortName}</td>
-              <td>{moment(item?.arrivedDateTime).format("hh:mm A")}</td>
+              <td>
+                {moment(item?.arrivedDateTime).format("YYYY-DD-MM, hh:mm A")}
+              </td>
               <td>{item?.cargoName}</td>
               <td>{item?.quantity}</td>
               <td>{item?.stevedore}</td>
@@ -66,9 +72,8 @@ const LandingTable = ({ obj }) => {
 
                   <span
                     onClick={() => {
-                      history.push(
-                        `/ShippingAgency/Configuration/Registration/view/${item?.registrationId}`
-                      );
+                      setIsViewModal(true);
+                      setClickRowData(item);
                     }}
                   >
                     <IView />
@@ -79,6 +84,20 @@ const LandingTable = ({ obj }) => {
           ))}
         </tbody>
       </table>
+
+      {isViewModal && (
+        <>
+          <IViewModal
+            show={isViewModal}
+            onHide={() => {
+              setIsViewModal(false);
+              setClickRowData({});
+            }}
+          >
+            <ViewRegistrationInvoice registrationId={clickRowData?.registrationId}/>
+          </IViewModal>
+        </>
+      )}
     </div>
   );
 };

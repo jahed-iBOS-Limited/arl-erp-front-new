@@ -1,18 +1,25 @@
 import axios from "axios";
 import { Formik } from "formik";
-import React from "react";
+import moment from "moment";
+import { DropzoneDialogBase } from "material-ui-dropzone";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import TextArea from "../../../../_helper/TextArea";
+import { _currentTime } from "../../../../_helper/_currentTime";
 import ICustomCard from "../../../../_helper/_customCard";
 import FormikError from "../../../../_helper/_formikError";
 import InputField from "../../../../_helper/_inputField";
-import { shallowEqual, useSelector } from "react-redux";
-import moment from "moment";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { updateComplain } from "../helper";
 import Loading from "../../../../_helper/_loading";
-import { _currentTime } from "../../../../_helper/_currentTime";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import {
+  attachment_action,
+  delegateComplainApi,
+  getComplainByIdWidthOutModify,
+} from "../helper";
+import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 export const validationSchema = Yup.object().shape({
   delegateDate: Yup.date().required("Delegate Date is required"),
   delegateTo: Yup.string().required("Delegate To is required"),
@@ -20,12 +27,18 @@ export const validationSchema = Yup.object().shape({
 });
 
 function DelegateForm({ clickRowData, landingCB }) {
-  //   const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [singleData, setSingleData] = React.useState({});
   const [loading, setLoading] = React.useState(false);
+  const [fileObjects, setFileObjects] = useState([]);
+  const [rowDto, setRowDto] = useState([]);
   const {
     profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
+
+  const dispatch = useDispatch();
+
   const loadEmpList = (v) => {
     if (v?.length < 2) return [];
     return axios
@@ -44,31 +57,27 @@ function DelegateForm({ clickRowData, landingCB }) {
     ).format("YYYY-MM-DDTHH:mm:ss");
 
     const payload = {
-      complainId: clickRowData?.complainId || 0,
-      respondentTypeId: clickRowData?.respondentTypeId || 0,
-      respondentTypeName: clickRowData?.respondentTypeName || "",
-      respondentId: clickRowData?.respondentId || 0,
-      respondentName: clickRowData?.respondentName || "",
-      contactNo: clickRowData?.contactNo || "",
-      itemId: clickRowData?.itemId || 0,
-      requestDateTime: clickRowData?.requestDateTime || new Date(),
-      complainCategoryId: clickRowData?.complainCategoryId || 0,
-      issueTitle: clickRowData?.issueTitle || "",
+      complainId: singleData?.complainId || 0,
       statusRemarks: values?.remarks || "",
-      description: clickRowData?.description || "",
-      attachment: clickRowData?.attachment || "",
       delegateToId: values?.delegateTo?.value || 0,
       statusId: 2,
       status: "Delegate",
-      actionById: userId,
-      distributionChannelId: clickRowData?.distributionChannelId || 0,
       delegateDateTime: delegateDateTime,
+      actionById: userId,
+      investigationList: rowDto || [],
     };
-    updateComplain(payload, setLoading, () => {
+    delegateComplainApi(payload, setLoading, () => {
       cb();
       landingCB();
     });
   };
+  useEffect(() => {
+    if (clickRowData?.complainId) {
+      const id = clickRowData?.complainId;
+      getComplainByIdWidthOutModify(id, accId, buId, setLoading, setSingleData);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [clickRowData]);
   return (
     <>
       <Formik
@@ -78,6 +87,8 @@ function DelegateForm({ clickRowData, landingCB }) {
           delegateTo: "",
           remarks: "",
           delegateTime: _currentTime(),
+          investigationPerson: "",
+          investigationDueDate: "",
         }}
         onSubmit={(values, { resetForm }) => {
           saveHandler(values, () => {
@@ -108,41 +119,61 @@ function DelegateForm({ clickRowData, landingCB }) {
               style={{
                 display: "flex",
                 flexWrap: "wrap",
-                gap: "2px 35px",
+                justifyContent: "space-between",
               }}
             >
-              <p>
-                <b>Issue Id:</b> {clickRowData?.complainNo}
-              </p>
-              <p>
-                <b>Issue Title:</b> {clickRowData?.issueTitle}
-              </p>
-              <p>
-                <b>Respondent Type:</b> {clickRowData?.respondentTypeName}
-              </p>
-              <p>
-                <b>Respondent Name:</b> {clickRowData?.respondentName}
-              </p>
-              <p>
-                <b>Distribution Channel:</b>{" "}
-                {clickRowData?.distributionChannelName}
-              </p>
-              <p>
-                <b>Product:</b> {clickRowData?.itemName}
-              </p>
-              <p>
-                <b>Contact: </b> {clickRowData?.contactNo}
-              </p>
-              <p>
-                <b>Create By: </b> {clickRowData?.actionByName}
-              </p>
-              <p>
-                <b>Create Date: </b>{" "}
-                {clickRowData?.lastActionDateTime &&
-                  moment(clickRowData?.lastActionDateTime).format(
-                    "YYYY-MM-DD hh:mm A"
-                  )}
-              </p>
+              <div>
+                <p>
+                  <b>Issue Id:</b> {singleData?.complainNo}
+                </p>
+                <p>
+                  <b>Occurrence Date Time: </b>{" "}
+                  {singleData?.requestDateTime &&
+                    moment(singleData?.requestDateTime).format(
+                      "YYYY-MM-DD"
+                    )}{" "}
+                  {singleData?.occurrenceTime &&
+                    moment(singleData?.occurrenceTime, "HH:mm:ss").format(
+                      "hh:mm A"
+                    )}
+                </p>
+
+                <p>
+                  <b>Issue Details:</b> {singleData?.description}
+                </p>
+                <p>
+                  <b>Respondent Type:</b> {singleData?.respondentTypeName}
+                </p>
+                <p>
+                  <b>Respondent Name:</b> {singleData?.respondentName}
+                </p>
+                <p>
+                  <b>Respondent Contact:</b> {singleData?.contactNo}
+                </p>
+              </div>
+              <div>
+                <p>
+                  <b>Business Unit:</b>{" "}
+                  {singleData?.respondentBusinessUnitIdName}
+                </p>
+                <p>
+                  <b>Create By: </b> {singleData?.actionByName}
+                </p>
+                <p>
+                  <b>Create Date: </b>{" "}
+                  {singleData?.lastActionDateTime &&
+                    moment(singleData?.lastActionDateTime).format(
+                      "YYYY-MM-DD hh:mm A"
+                    )}
+                </p>
+                <p>
+                  <b>Distribution Channel:</b>{" "}
+                  {singleData?.distributionChannelName}
+                </p>
+                <p>
+                  <b>Product Category:</b> {singleData?.itemCategoryName}
+                </p>
+              </div>
             </div>
             <form>
               <div className='row global-form'>
@@ -193,26 +224,24 @@ function DelegateForm({ clickRowData, landingCB }) {
                     value={values?.remarks || ""}
                     placeholder='Remarks'
                     touched={touched}
-                    rows='3'
+                    rows='1'
                     onChange={(e) => {
                       setFieldValue("remarks", e.target.value);
                     }}
                     errors={errors}
                   />
                 </div>
-                {/* <div className='col-lg-3 d-flex align-items-center'>
-                  {!view && (
-                    <div className=''>
-                      <button
-                        className='btn btn-primary mr-2'
-                        type='button'
-                        onClick={() => setOpen(true)}
-                        style={{ padding: "4px 5px" }}
-                      >
-                        Attachment
-                      </button>
-                    </div>
-                  )}
+                <div className='col-lg-3 d-flex align-items-center'>
+                  <div className=''>
+                    <button
+                      className='btn btn-primary mr-2'
+                      type='button'
+                      onClick={() => setOpen(true)}
+                      style={{ padding: "4px 5px" }}
+                    >
+                      Attachment
+                    </button>
+                  </div>
 
                   <div>
                     {values?.attachment && (
@@ -229,10 +258,108 @@ function DelegateForm({ clickRowData, landingCB }) {
                       </button>
                     )}
                   </div>
-                </div> */}
+                </div>
+                <div className='col-lg-12'>
+                  <hr />
+                </div>
+
+                <div className='col-lg-3'>
+                  <label>Investigation Person</label>
+                  <SearchAsyncSelect
+                    selectedValue={values?.investigationPerson}
+                    handleChange={(valueOption) => {
+                      setFieldValue("investigationPerson", valueOption || "");
+                    }}
+                    loadOptions={loadEmpList}
+                    placeholder='Search by Enroll/ID No/Name (min 3 letter)'
+                  />
+                  <FormikError
+                    name='investigationPerson'
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className='col-lg-3'>
+                  <InputField
+                    value={values?.investigationDueDate}
+                    label='Investigation Date'
+                    placeholder='Investigation Date'
+                    name='investigationDueDate'
+                    type='date'
+                  />
+                </div>
+                <div className='col d-flex align-items-center justify-content-end'>
+                  <button
+                    className='btn btn-primary'
+                    type='button'
+                    onClick={() => {
+                      const obj = {
+                        autoId: 0,
+                        investigatorId: values?.investigationPerson?.value || 0,
+                        investigatorName:
+                          values?.investigationPerson?.label || "",
+                        investigationDueDate: moment(
+                          values?.investigationDueDate || undefined
+                        ).format("YYYY-MM-DD"),
+                        investigationDateTime: '',
+                        rootCause: "",
+                        correctiveAction: "",
+                        attachment: "",
+                        isActive: true,
+                      };
+                      setRowDto([...rowDto, obj]);
+                      setFieldValue("investigationPerson", "");
+                      setFieldValue("investigationDueDate", "");
+                    }}
+                    disabled={
+                      !values?.investigationPerson ||
+                      !values?.investigationDueDate
+                    }
+                  >
+                    Add
+                  </button>
+                </div>
               </div>
+
+              <table className='table table-striped table-bordered global-table'>
+                <thead>
+                  <tr>
+                    <th>SL</th>
+                    <th>Investigation Person</th>
+                    <th>Investigation Due Date</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rowDto?.map((item, index) => (
+                    <tr key={index}>
+                      <td className='text-center'> {index + 1}</td>
+                      <td>{item?.investigatorName}</td>
+                      <td>{_dateFormatter(item?.investigationDueDate)}</td>
+
+                      <td>
+                        <div className='d-flex align-items-center justify-content-center'>
+                          <span
+                            onClick={() => {
+                              const newData = rowDto.filter(
+                                (itm, idx) => idx !== index
+                              );
+                              setRowDto(newData);
+                            }}
+                          >
+                            <i
+                              class='fa fa-trash pointer'
+                              aria-hidden='true'
+                            ></i>
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </form>
-            {/* 
+
             <DropzoneDialogBase
               filesLimit={1}
               acceptedFiles={["image/*", "application/pdf"]}
@@ -257,7 +384,7 @@ function DelegateForm({ clickRowData, landingCB }) {
               }}
               showPreviews={true}
               showFileNamesInPreview={true}
-            /> */}
+            />
           </ICustomCard>
         )}
       </Formik>
