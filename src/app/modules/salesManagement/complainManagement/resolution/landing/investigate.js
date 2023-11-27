@@ -16,6 +16,7 @@ import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions"
 import { _todayDate } from "../../../../_helper/_todayDate";
 import {
   attachment_action,
+  getComplainByIdWidthOutModify,
   getInvestigateComplainbyApi,
   investigateComplainApi,
 } from "../helper";
@@ -27,6 +28,7 @@ function InvestigateForm({ clickRowData, landingCB }) {
   const dispatch = useDispatch();
   const [fileObjects, setFileObjects] = useState([]);
   const [rowDto, setRowDto] = useState([]);
+  const [singleData, setSingleData] = React.useState({});
   const {
     profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
@@ -35,10 +37,13 @@ function InvestigateForm({ clickRowData, landingCB }) {
     if (v?.length < 2) return [];
     return axios
       .get(
-        `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=${accId}&BusinessUnitId=${buId}&Search=${v}`
+        `/asset/DropDown/GetEmployeeByEmpIdDDL?AccountId=${accId}&BusinessUnitId=0&searchTearm=${v}`
       )
       .then((res) => {
-        return res?.data;
+        return res?.data?.map((itm) => ({
+          value: itm?.value,
+          label: `${itm?.level} [${itm?.employeeCode}]`,
+        }));
       })
       .catch((err) => []);
   };
@@ -66,7 +71,14 @@ function InvestigateForm({ clickRowData, landingCB }) {
     if (clickRowData?.status === "Investigate") {
       getInvestigateComplainbyApi(clickRowData?.complainId, setRowDto);
     }
+    if (clickRowData?.complainId) {
+      const id = clickRowData?.complainId;
+      getComplainByIdWidthOutModify(id, accId, buId, setLoading, setSingleData);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clickRowData]);
+
+
   return (
     <>
       <Formik
@@ -106,63 +118,61 @@ function InvestigateForm({ clickRowData, landingCB }) {
               style={{
                 display: "flex",
                 flexWrap: "wrap",
-                gap: "5px 35px",
+                justifyContent: "space-between",
               }}
             >
-              <p>
-                <b>Issue Id:</b> {clickRowData?.complainNo}
-              </p>
-              <p>
-                <b>Issue Title:</b> {clickRowData?.issueTitle}
-              </p>
-              <p>
-                <b>Respondent Type:</b> {clickRowData?.respondentTypeName}
-              </p>
-              <p>
-                <b>Respondent Name:</b> {clickRowData?.respondentName}
-              </p>
-              <p>
-                <b>Distribution Channel:</b>{" "}
-                {clickRowData?.distributionChannelName}
-              </p>
-              <p>
-                <b>Product:</b> {clickRowData?.itemName}
-              </p>
-              <p>
-                <b>Contact: </b> {clickRowData?.contactNo}
-              </p>
-              <p>
-                <b>Create By: </b> {clickRowData?.actionByName}
-              </p>
-              <p>
-                <b>Create Date: </b>{" "}
-                {clickRowData?.lastActionDateTime &&
-                  moment(clickRowData?.lastActionDateTime).format(
-                    "YYYY-MM-DD hh:mm A"
-                  )}
-              </p>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "2px 35px",
-                marginTop: "15px",
-              }}
-            >
-              <p>
-                <b>Delegate By:</b> {clickRowData?.delegateByName}
-              </p>
-              <p>
-                <b>Delegate Date:</b>{" "}
-                {clickRowData?.delegateDateTime &&
-                  moment(clickRowData?.delegateDateTime).format(
-                    "YYYY-MM-DD hh:mm A"
-                  )}
-              </p>
-              <p>
-                <b>Remarks: </b> {clickRowData?.statusRemarks}
-              </p>
+              <div>
+                <p>
+                  <b>Issue Id:</b> {singleData?.complainNo}
+                </p>
+                <p>
+                  <b>Occurrence Date Time: </b>{" "}
+                  {singleData?.requestDateTime &&
+                    moment(singleData?.requestDateTime).format(
+                      "YYYY-MM-DD"
+                    )}{" "}
+                  {singleData?.occurrenceTime &&
+                    moment(singleData?.occurrenceTime, "HH:mm:ss").format(
+                      "hh:mm A"
+                    )}
+                </p>
+
+                <p>
+                  <b>Issue Details:</b> {singleData?.description}
+                </p>
+                <p>
+                  <b>Respondent Type:</b> {singleData?.respondentTypeName}
+                </p>
+                <p>
+                  <b>Respondent Name:</b> {singleData?.respondentName}
+                </p>
+                <p>
+                  <b>Respondent Contact:</b> {singleData?.contactNo}
+                </p>
+              </div>
+              <div>
+                <p>
+                  <b>Business Unit:</b>{" "}
+                  {singleData?.respondentBusinessUnitIdName}
+                </p>
+                <p>
+                  <b>Create By: </b> {singleData?.actionByName}
+                </p>
+                <p>
+                  <b>Create Date: </b>{" "}
+                  {singleData?.lastActionDateTime &&
+                    moment(singleData?.lastActionDateTime).format(
+                      "YYYY-MM-DD hh:mm A"
+                    )}
+                </p>
+                <p>
+                  <b>Distribution Channel:</b>{" "}
+                  {singleData?.distributionChannelName}
+                </p>
+                <p>
+                  <b>Product Category:</b> {singleData?.itemCategoryName}
+                </p>
+              </div>
             </div>
             <form>
               <div className='row global-form'>

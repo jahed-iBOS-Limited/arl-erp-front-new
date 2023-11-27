@@ -6,8 +6,14 @@ import IEdit from "../../../../_helper/_helperIcons/_edit";
 import IViewModal from "../../../../_helper/_viewModal";
 import DelegateForm from "./delegate";
 import InvestigateForm from "./investigate";
+import { shallowEqual, useSelector } from "react-redux";
 
 const LandingTable = ({ obj }) => {
+  const {
+    profileData: { accountId: accId, employeeId },
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => state?.authData, shallowEqual);
+
   const { gridData, commonGridDataCB } = obj;
   const history = useHistory();
   const [delegatModalShow, setDelegatModalShow] = React.useState(false);
@@ -36,177 +42,185 @@ const LandingTable = ({ obj }) => {
           </tr>
         </thead>
         <tbody>
-          {gridData?.data?.map((item, index) => (
-            <tr key={index}>
-              <td className='text-center'> {index + 1}</td>
-              <td>{item?.complainNo}</td>
-              <td>{_dateFormatter(item?.requestDateTime)}</td>
-              <td>{item?.respondentTypeName}</td>
-              <td>{item?.respondentName}</td>
-              <td>{item?.actionByName}</td>
-              <td>{_dateFormatter(item?.lastActionDateTime)}</td>
-              <td>{item?.delegateByName}</td>
-              <td>
-                {item?.delegateDateTime &&
-                  _dateFormatter(item?.delegateDateTime)}
-              </td>
-              <td>{item?.delegateToName}</td>
-              <td>
-                <OverlayTrigger
-                  overlay={
-                    <Tooltip className='mytooltip' id='info-tooltip'>
+          {gridData?.data?.map((item, index) => {
+            const isSameEmployeeId = item?.investigatorAssignByName
+              ?.map((itm) => itm?.investigatorId)
+              .includes(employeeId);
+
+            return (
+              <tr key={index}>
+                <td className='text-center'> {index + 1}</td>
+                <td>{item?.complainNo}</td>
+                <td>{_dateFormatter(item?.requestDateTime)}</td>
+                <td>{item?.respondentTypeName}</td>
+                <td>{item?.respondentName}</td>
+                <td>{item?.actionByName}</td>
+                <td>{_dateFormatter(item?.lastActionDateTime)}</td>
+                <td>{item?.delegateByName}</td>
+                <td>
+                  {item?.delegateDateTime &&
+                    _dateFormatter(item?.delegateDateTime)}
+                </td>
+                <td>{item?.delegateToName}</td>
+                <td>
+                  <OverlayTrigger
+                    overlay={
+                      <Tooltip className='mytooltip' id='info-tooltip'>
+                        <>
+                          {item?.investigatorAssignByName?.map((itm, idx) => (
+                            <div
+                              style={{
+                                display: "flex",
+                                gap: "2px 8px",
+                              }}
+                            >
+                              <p>
+                                <b>Investigation: </b>
+                                {itm?.investigatorName},{" "}
+                                {_dateFormatter(itm?.investigationDateTime)}
+                              </p>
+                            </div>
+                          ))}
+                        </>
+                      </Tooltip>
+                    }
+                  >
+                    <div>
+                      {item?.investigatorAssignByName?.[0]?.investigatorName}
+                    </div>
+                  </OverlayTrigger>
+                </td>
+                <td>
+                  <OverlayTrigger
+                    overlay={
+                      <Tooltip className='mytooltip' id='info-tooltip'>
+                        <>
+                          {item?.investigatorAssignByName?.map((itm, idx) => (
+                            <div
+                              style={{
+                                display: "flex",
+                                gap: "2px 8px",
+                              }}
+                            >
+                              <p>
+                                <b>Investigation: </b>
+                                {itm?.investigatorName},{" "}
+                                {_dateFormatter(itm?.investigationDateTime)}
+                              </p>
+                            </div>
+                          ))}
+                        </>
+                      </Tooltip>
+                    }
+                  >
+                    <div>
+                      {item?.investigatorAssignByName?.[0]
+                        ?.investigationDateTime &&
+                        _dateFormatter(
+                          item?.investigatorAssignByName?.[0]
+                            ?.investigationDateTime
+                        )}
+                    </div>
+                  </OverlayTrigger>
+                </td>
+                <td>
+                  <span
+                    style={{
+                      color:
+                        item?.status === "Open"
+                          ? "red"
+                          : item?.status === "Delegate"
+                          ? "blue"
+                          : item?.status === "Investigate"
+                          ? "orrage"
+                          : "green",
+                    }}
+                  >
+                    {item?.status}
+                  </span>
+                </td>
+                <td>
+                  <div
+                    className='d-flex justify-content-around'
+                    style={{
+                      gap: "8px",
+                    }}
+                  >
+                    {item?.status === "Open" && (
+                      <span
+                        onClick={() => {
+                          history.push(
+                            `/sales-management/complainmanagement/complain/edit/${item?.complainId}`
+                          );
+                        }}
+                      >
+                        <IEdit />
+                      </span>
+                    )}
+
+                    {item?.status === "Open" && (
                       <>
-                        {item?.investigatorAssignByName?.map((itm, idx) => (
-                          <div
-                            style={{
-                              display: "flex",
-                              gap: "2px 8px",
-                            }}
+                        <span>
+                          <OverlayTrigger
+                            overlay={<Tooltip id='cs-icon'>Delegate</Tooltip>}
                           >
-                            <p>
-                              <b>Investigation: </b>
-                              {itm?.investigatorName},{" "}
-                              {_dateFormatter(itm?.investigationDateTime)}
-                            </p>
-                          </div>
-                        ))}
+                            <span
+                              onClick={() => {
+                                setDelegatModalShow(true);
+                                setClickRowData(item);
+                              }}
+                            >
+                              <i
+                                class='fa fa-user-plus pointer'
+                                aria-hidden='true'
+                              ></i>
+                            </span>
+                          </OverlayTrigger>
+                        </span>
                       </>
-                    </Tooltip>
-                  }
-                >
-                  <div>
-                    {item?.investigatorAssignByName?.[0]?.investigatorName}
-                  </div>
-                </OverlayTrigger>
-              </td>
-              <td>
-                <OverlayTrigger
-                  overlay={
-                    <Tooltip className='mytooltip' id='info-tooltip'>
-                      <>
-                        {item?.investigatorAssignByName?.map((itm, idx) => (
-                          <div
-                            style={{
-                              display: "flex",
-                              gap: "2px 8px",
-                            }}
-                          >
-                            <p>
-                              <b>Investigation: </b>
-                              {itm?.investigatorName},{' '}{_dateFormatter(itm?.investigationDateTime)}
-                            </p>
-                          </div>
-                        ))}
-                      </>
-                    </Tooltip>
-                  }
-                >
-                  <div>
-                    {item?.investigatorAssignByName?.[0]
-                      ?.investigationDateTime &&
-                      _dateFormatter(
-                        item?.investigatorAssignByName?.[0]
-                          ?.investigationDateTime
+                    )}
+
+                    {(item?.status === "Delegate" ||
+                      item?.status === "Investigate") &&
+                      isSameEmployeeId && (
+                        <>
+                          <span>
+                            <OverlayTrigger
+                              overlay={
+                                <Tooltip id='cs-icon'>
+                                  {item?.status === "Investigate"
+                                    ? "Update Investigate"
+                                    : "Investigate"}
+                                </Tooltip>
+                              }
+                            >
+                              <span
+                                onClick={() => {
+                                  setInvestigateModalShow(true);
+                                  setClickRowData(item);
+                                }}
+                              >
+                                {item?.status === "Investigate" ? (
+                                  <i
+                                    class='fa fa-users pointer'
+                                    aria-hidden='true'
+                                  ></i>
+                                ) : (
+                                  <i
+                                    class='fa fa-low-vision pointer'
+                                    aria-hidden='true'
+                                  ></i>
+                                )}
+                              </span>
+                            </OverlayTrigger>
+                          </span>
+                        </>
                       )}
                   </div>
-                </OverlayTrigger>
-              </td>
-              <td>
-                <span
-                  style={{
-                    color:
-                      item?.status === "Open"
-                        ? "red"
-                        : item?.status === "Delegate"
-                        ? "blue"
-                        : item?.status === "Investigate"
-                        ? "orrage"
-                        : "green",
-                  }}
-                >
-                  {item?.status}
-                </span>
-              </td>
-              <td>
-                <div
-                  className='d-flex justify-content-around'
-                  style={{
-                    gap: "8px",
-                  }}
-                >
-                  {item?.status === "Open" && (
-                    <span
-                      onClick={() => {
-                        history.push(
-                          `/sales-management/complainmanagement/complain/edit/${item?.complainId}`
-                        );
-                      }}
-                    >
-                      <IEdit />
-                    </span>
-                  )}
-
-                  {item?.status === "Open" && (
-                    <>
-                      <span>
-                        <OverlayTrigger
-                          overlay={<Tooltip id='cs-icon'>Delegate</Tooltip>}
-                        >
-                          <span
-                            onClick={() => {
-                              setDelegatModalShow(true);
-                              setClickRowData(item);
-                            }}
-                          >
-                            <i
-                              class='fa fa-user-plus pointer'
-                              aria-hidden='true'
-                            ></i>
-                          </span>
-                        </OverlayTrigger>
-                      </span>
-                    </>
-                  )}
-
-                  {(item?.status === "Delegate" ||
-                    item?.status === "Investigate") && (
-                    <>
-                      <span>
-                        <OverlayTrigger
-                          overlay={
-                            <Tooltip id='cs-icon'>
-                              {item?.status === "Investigate"
-                                ? "Update Investigate"
-                                : "Investigate"}
-                            </Tooltip>
-                          }
-                        >
-                          <span
-                            onClick={() => {
-                              setInvestigateModalShow(true);
-                              setClickRowData(item);
-                            }}
-                          >
-                            {item?.status === "Investigate" ? (
-                              <i
-                                class='fa fa-users pointer'
-                                aria-hidden='true'
-                              ></i>
-                            ) : (
-                              <i
-                                class='fa fa-low-vision pointer'
-                                aria-hidden='true'
-                              ></i>
-                            )}
-                          </span>
-                        </OverlayTrigger>
-                      </span>
-                    </>
-                  )}
-                </div>
-              </td>
-            </tr>
-          ))}
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
       {delegatModalShow && (
