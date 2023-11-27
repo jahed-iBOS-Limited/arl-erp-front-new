@@ -1,3 +1,4 @@
+import moment from "moment";
 import React from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { shallowEqual, useSelector } from "react-redux";
@@ -7,15 +8,16 @@ import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import IView from "../../../../_helper/_helperIcons/_view";
 import IViewModal from "../../../../_helper/_viewModal";
+import feedbackIcon from "../../../../_helper/images/feedback.png";
 import { saveColseComplainApi } from "../../resolution/helper";
+import FeedbackModal from "../../resolution/landing/feedbackModal";
 import InvoiceView from "./invoiceView";
-import moment from "moment";
-
 const LandingTable = ({ obj }) => {
   const {
     profileData: { accountId: accId, employeeId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
+  const [isFeedbackModalShow, setIsFeedbackModalShow] = React.useState(false);
 
   const { gridData, setLoading, commonGridDataCB } = obj;
   const history = useHistory();
@@ -218,6 +220,26 @@ const LandingTable = ({ obj }) => {
                         </OverlayTrigger>
                       </span>
                     )}
+                    {item?.status === "Close" && (
+                      <>
+                        <span
+                          onClick={() => {
+                            setIsFeedbackModalShow(true);
+                            setClickedRow(item);
+                          }}
+                        >
+                          <img
+                            className='pointer'
+                            src={feedbackIcon}
+                            alt='feedbackIcon'
+                            style={{
+                              width: "20px",
+                              height: "20px",
+                            }}
+                          />
+                        </span>
+                      </>
+                    )}
                   </div>
                 </td>
               </tr>
@@ -235,6 +257,27 @@ const LandingTable = ({ obj }) => {
             }}
           >
             <InvoiceView clickRowData={clickedRow} />
+          </IViewModal>
+        </>
+      )}
+      {isFeedbackModalShow && (
+        <>
+          <IViewModal
+            show={isFeedbackModalShow}
+            onHide={() => {
+              setIsFeedbackModalShow(false);
+              setClickedRow({});
+            }}
+            modelSize={"sm"}
+          >
+            <FeedbackModal
+              clickRowData={clickedRow}
+              landingCB={() => {
+                setIsFeedbackModalShow(false);
+                setClickedRow({});
+                commonGridDataCB();
+              }}
+            />
           </IViewModal>
         </>
       )}
