@@ -10,7 +10,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { useHistory, useLocation, useParams } from "react-router-dom";
 import ICustomCard from "../../../_helper/_customCard";
 import ShipmentForm from "./collapsePanels/shipment/form/addEditForm";
-import PackingForm from "./collapsePanels/packing/form/addEditForm"
+import PackingForm from "./collapsePanels/packing/form/addEditForm";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,14 +34,11 @@ export default function InsurancePolicyCollapsePanel() {
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
-const {type, id} = useParams();
+  const { type, id } = useParams();
   const location = useLocation();
   const { state } = location;
-  const{shipmentId} = state;
+  const { shipmentId } = state;
 
-  // console.log("id", id);
-  // console.log(state, "state")
-  // console.log(type, location,"test")
   useEffect(() => {
     if (state?.checkbox === "shipmentInformation") {
       setExpanded("panel2");
@@ -56,9 +53,12 @@ const {type, id} = useParams();
   };
   return (
     <div className={classes.root}>
-      <ICustomCard title="Shipment And Packing Policy" backHandler={backHandler}>
+      <ICustomCard
+        title="Shipment And Packing Policy"
+        backHandler={backHandler}
+      >
         {/* Insurance Information */}
-        {state?.checkbox === "shipmentInformation" &&
+        {state?.checkbox === "shipmentInformation" && (
           <ExpansionPanel
             className="general-ledger-collapse-custom"
             expanded={expanded === "panel2"}
@@ -75,13 +75,18 @@ const {type, id} = useParams();
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
               <div>
-                <ShipmentForm type={type} id={id} poNumber={location?.state?.ponumber} lcNumber={location?.state?.lcnumber} />
+                <ShipmentForm
+                  type={type}
+                  id={id}
+                  poNumber={location?.state?.ponumber}
+                  lcNumber={location?.state?.lcnumber}
+                />
               </div>
             </ExpansionPanelDetails>
           </ExpansionPanel>
-        }
+        )}
         {/* Shipment Wise Policy */}
-        {state?.checkbox === "packingInformation" && 
+        {state?.checkbox === "packingInformation" && (
           <ExpansionPanel
             className="general-ledger-collapse-custom"
             expanded={expanded === "panel3"}
@@ -92,9 +97,7 @@ const {type, id} = useParams();
               aria-controls="panel3bh-content"
               id="panel3bh-header"
             >
-              <Typography className={classes.heading}>
-                Packing
-              </Typography>
+              <Typography className={classes.heading}>Packing</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
               <div>
@@ -102,7 +105,7 @@ const {type, id} = useParams();
               </div>
             </ExpansionPanelDetails>
           </ExpansionPanel>
-        }
+        )}
       </ICustomCard>
     </div>
   );

@@ -49,6 +49,7 @@ export default function _Form({
   getTotalAmount,
   shipmentId,
   getTotalShippedAmount,
+  motherVesselDDl,
 }) {
   const [isPartial, setIsPartial] = useState(false);
   useEffect(() => {
@@ -56,8 +57,6 @@ export default function _Form({
       toast.warn("You exceeded the Tolerance amount");
     }
   }, [rowDto]);
-
-  // console.log('shipmentId: ', shipmentId);
 
   const checkTollerence = (data, key) => {
     const po = getTotalAmount(rowDto, "poquantity");
@@ -67,15 +66,10 @@ export default function _Form({
       getTotalAmount(rowDto, "shippedQuantity");
     return sum < newAddedAmountg;
   };
-
-  // useEffect(() => {}, [rowDto]);
   const dispatch = useDispatch();
-
   const addQuantityHandler = (rowDto, e, index, values, setFieldValue) => {
     const data = [...rowDto];
     data[index]["shippedQuantity"] = e.target.value;
-    // ? parseInt(e.target.value)
-    // : "";
     data[index]["totalQuantity"] =
       parseInt(data[index]["shippedQuantity"]) +
       parseInt(data[index]["addedQuantity"]);
@@ -115,9 +109,7 @@ export default function _Form({
           isValid,
         }) => (
           <>
-            {/* {console.log(values, "values")} */}
             <Card>
-              {/* {disableHandler(!isValid)} */}
               {true && <ModalProgressBar />}
               <CardHeader
                 title={
@@ -130,17 +122,6 @@ export default function _Form({
               >
                 <CardHeaderToolbar>
                   <>
-                    {/* <button
-                      onClick={() => {
-                        setEdit(false);
-                        resetForm(initData);
-                      }}
-                      className="btn btn-light "
-                      type="button"
-                    >
-                      <i className="fas fa-times pointer"></i>
-                      Close
-                    </button> */}
                     {type === "view" ? (
                       false
                     ) : (
@@ -341,6 +322,47 @@ export default function _Form({
                               setFieldValue("cnfProvider", valueOption);
                             }}
                             placeholder="Select CnF Provider"
+                            errors={errors}
+                            touched={touched}
+                            isDisabled={type === "view"}
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <label>Eta Date</label>
+                          <InputField
+                            value={values?.dteEta}
+                            name="dteEta"
+                            placeholder="dteEta"
+                            type="date"
+                            disabled={type === "view"}
+                            onChange={(e) => {
+                              setFieldValue("dteEta", e.target.value);
+                            }}
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <label>Ata Date</label>
+                          <InputField
+                            value={values?.dteAta}
+                            name="dteAta"
+                            placeholder="dteAta"
+                            type="date"
+                            disabled={type === "view"}
+                            onChange={(e) => {
+                              setFieldValue("dteAta", e.target.value);
+                            }}
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <NewSelect
+                            name="motherVessel"
+                            options={motherVesselDDl || []}
+                            value={values?.motherVessel}
+                            label="Mother Vessel"
+                            onChange={(valueOption) => {
+                              setFieldValue("motherVessel", valueOption);
+                            }}
+                            placeholder="Select Mother Vessel"
                             errors={errors}
                             touched={touched}
                             isDisabled={type === "view"}

@@ -20,6 +20,8 @@ import {
   getShipmentInfo,
   GetCNFAgencyDDL,
 } from "../helper";
+import useAxiosGet from "../../../../../../_helper/customHooks/useAxiosGet";
+import { imarineBaseUrl } from "../../../../../../../App";
 
 const initData = {
   shipBy: "",
@@ -35,6 +37,9 @@ const initData = {
   freightCharge: "",
   cnfProvider: "",
   vasselName: "",
+  dteEta: "",
+  dteAta: "",
+  motherVessel: "",
 };
 
 export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
@@ -49,8 +54,6 @@ export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
   const [singleData, setSingleData] = useState([]);
   const [index, setIndex] = useState("");
   const [shippedQuantity, setShippedQuantity] = useState("");
-  // const [poNumber, setPoNumber] = useState("");
-  // const [lcNumber, setLcNumber] = useState("");
   const [tollerence, setTollerence] = useState(0);
   const [totalPoAmount, setTotalPoAmount] = useState(0);
   const [totalShippedAmount, setTotalShippedAmount] = useState(0);
@@ -61,6 +64,13 @@ export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
   const [uploadImage, setUploadImage] = useState([]);
   const [initialInvoiceAmount, setInitialInvoiceAmount] = useState(0);
 
+  const [
+    motherVesselDDl,
+    getMotherVesselDDL,
+    loadingOnMotherVesselDDl,
+    setMotherVesselDDL,
+  ] = useAxiosGet();
+
   const params = useParams();
   const { shipmentId } = params;
 
@@ -68,21 +78,18 @@ export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
 
   const location = useLocation();
   const { state } = location;
-  console.log("location",location);
-  // console.log("params id: ", id);
 
-  //   // get user profile data from store
+  // get user profile data from store
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
 
-  //   // get selected business unit from store
+  // get selected business unit from store
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
   useEffect(() => {
-    // const poNumber = localStorage.getItem("poNumber");
     if (selectedBusinessUnit?.value && profileData.accountId) {
       getShipByDDL(setShipByDDL);
       getCurrencyDDL(setCurrencyDDL);
@@ -96,6 +103,10 @@ export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
         selectedBusinessUnit?.value,
         setCnfAgencyDDL
       );
+    getMotherVesselDDL(
+      `${imarineBaseUrl}/domain/LighterVessel/GetMotherVesselDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
+    );
+    // setMotherVesselDDL
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   useEffect(() => {
@@ -126,22 +137,20 @@ export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
     }
   };
 
-  const InitialInvoiceAmountHandler = (data) =>{
+  const InitialInvoiceAmountHandler = (data) => {
     const result = data.reduce((acc, item) => {
       return Number(
         (acc + Number(item["poquantity"]) * Number(item["rate"])).toFixed(2)
       );
     }, 0);
-
     setInitialInvoiceAmount(result);
-  }
+  };
 
   useEffect(() => {
     if (state?.values?.poDDL?.poNumber && state?.values?.poDDL?.lcNumber) {
       getTollarence(
         profileData.accountId,
         selectedBusinessUnit?.value,
-        // localStorage.getItem("poNumber"),
         state?.values?.poDDL?.poNumber,
         setTollerence
       );
@@ -175,7 +184,6 @@ export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
     }, 0);
   };
 
-
   const getTotalShippedAmount = (data, values, key) => {
     let packingCharge = Number(values?.packingCharge);
     let freightCharge = +values?.freightCharge;
@@ -192,9 +200,6 @@ export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
   };
 
   const saveHandler = async (values, cb) => {
-    // const poNumber = localStorage.getItem("poNumber");
-    // const lcNumber = localStorage.getItem("lcNumber");
-    // const currencyId = localStorage.getItem("currencyId");
     if (shipmentId || id) {
       const payload = {
         objHeader: {
@@ -206,18 +211,19 @@ export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
           invoiceNumber: values?.invoiceNumber,
           invoiceDate: values?.invoiceDate,
           vasselName: values?.vasselName,
-          // invoiceAmount: values?.invoiceAmount,
-          // currencyId: values.currencyId,
-          docReceiveByBank: values?.docReceiveByBank ? values?.docReceiveByBank : "",
-          // packingCharge: +values?.packingCharge || 0,
-          // freightCharge: +values?.freightCharge || 0,
+          docReceiveByBank: values?.docReceiveByBank
+            ? values?.docReceiveByBank
+            : "",
           shipmentDocumentId: uploadImage[0]?.id || "",
           lastActionBy: profileData?.userId,
           dueDate: values?.dueDate,
           cnfPartnerId: values?.cnfProvider?.value,
           cnfPartnerName: values?.cnfProvider?.label,
+          dteEta: values?.dteEta,
+          dteAta: values?.dteAta,
+          motherVesselId: values?.motherVessel?.value,
+          motherVesselName: values?.motherVessel?.label,
         },
-        // objRow: rowDto,
       };
       EditShipment(payload);
     } else {
@@ -253,6 +259,10 @@ export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
           dueDate: values?.dueDate,
           cnFPartnerId: values?.cnfProvider?.value,
           cnFPartnerName: values?.cnfProvider?.label,
+          dteEta: values?.dteEta,
+          dteAta: values?.dteAta,
+          motherVesselId: values?.motherVessel?.value,
+          motherVesselName: values?.motherVessel?.label,
         },
         objRow: await getQuantityItem(),
       };
@@ -289,14 +299,13 @@ export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
         (acc + Number(item["poquantity"]) * Number(item["rate"])).toFixed(2)
       );
     }, 0);
-    setFieldValue("invoiceAmount", invoiceAmount)
+    setFieldValue("invoiceAmount", invoiceAmount);
     setRowDto(filterArr);
   };
 
   return (
     <>
-      {isDisabled && <Loading />}
-      {/* {data && ( */}
+      {loadingOnMotherVesselDDl && <Loading />}
       <div className="mt-0">
         <Form
           {...objProps}
@@ -340,9 +349,9 @@ export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
           getTotalAmount={getTotalAmount}
           shipmentId={id}
           getTotalShippedAmount={getTotalShippedAmount}
+          motherVesselDDl={motherVesselDDl}
         />
       </div>
-      {/* )} */}
     </>
   );
 }

@@ -1,11 +1,11 @@
 import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { _todayDate } from "../../../_helper/_todayDate";
-import ICustomCard from "../../../_helper/_customCard";
-import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import InputField from "../../../_helper/_inputField";
 import { shallowEqual, useSelector } from "react-redux";
+import ICustomCard from "../../../_helper/_customCard";
+import InputField from "../../../_helper/_inputField";
 import NewSelect from "../../../_helper/_select";
+import { _todayDate } from "../../../_helper/_todayDate";
+import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 const initData = {
   fromDate: _todayDate(),
@@ -24,7 +24,7 @@ const MeltingChemicalCompositionReportRDLC = () => {
   const [testNameList, getTestNameList] = useAxiosGet();
 
   useEffect(() => {
-    getTestNameList(`/mes/MesDDL/GetTestNameDDL`)
+    getTestNameList(`/mes/MesDDL/GetTestNameDDL?BusinessUnitId=${selectedBusinessUnit?.value}`)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
