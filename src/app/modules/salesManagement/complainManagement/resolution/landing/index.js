@@ -201,3 +201,4 @@ const ResolutionLanding = () => {
 };
 
 export default ResolutionLanding;
+

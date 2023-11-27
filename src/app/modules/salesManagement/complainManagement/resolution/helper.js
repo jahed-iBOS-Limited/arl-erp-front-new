@@ -166,6 +166,21 @@ export const updateComplain = async (payload, setLoading, cb) => {
     setLoading(false);
   }
 };
+export const investigateReviewApi = async (payload, setLoading, cb) => {
+  setLoading(true);
+  try {
+    const res = await axios.put(
+      `/oms/CustomerPoint/InvestigateReview`,
+      payload
+    );
+    cb && cb();
+    toast.success(res?.data?.message);
+    setLoading(false);
+  } catch (err) {
+    toast.error(err?.response?.data?.message);
+    setLoading(false);
+  }
+};
 export const delegateComplainApi = async (payload, setLoading, cb) => {
   setLoading(true);
   try {
