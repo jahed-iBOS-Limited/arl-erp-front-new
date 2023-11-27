@@ -89,6 +89,17 @@ export const getSingleData = async (id, setter, setRowDto, setDisabled) => {
         value: objHeader?.purchaseRequestNo,
         label: objHeader?.purchaseRequestNo,
       },
+      referenceType: {
+        label: objHeader?.purchaseContractId
+          ? "Purchase Contract"
+          : "Purchase Request",
+        value: objHeader?.purchaseContractId ? 1 : 2,
+      },
+      purchaseContractNo: {
+        label: objHeader?.purchaseContractNo,
+        value: objHeader?.purchaseContractId,
+      },
+      etaDate: _dateFormatter(objHeader?.dteEta),
       //  objHeader?.purchaseRequestNo || 0,
     };
 
@@ -100,7 +111,6 @@ export const getSingleData = async (id, setter, setRowDto, setDisabled) => {
         uom: { value: item?.uomId, label: item?.uomName },
       }));
       setRowDto(modifyData);
-      console.log(modifyData);
     }
     // setRowDto()
   } catch (error) {
@@ -187,8 +197,11 @@ const createPayloadChange = (
       metarialTypeId: values?.materialTypeDDL?.value,
       metarialTypeName: values?.materialTypeDDL?.label,
       sbuId: values?.sbuDDL?.value,
-      purchaseRequestNo: values?.purchaseRequestNo?.label,
+      purchaseRequestNo: values?.purchaseRequestNo?.label || "",
       purchaseRequestId: values?.purchaseRequestNo?.value || 0,
+      purchaseContractId: values?.purchaseContractNo?.value || 0,
+      purchaseContractNo: values?.purchaseContractNo?.label || "",
+      dteEta: values?.etaDate,
     },
     objRow: modifyArray,
   };
@@ -255,6 +268,7 @@ const updatePayloadChange = (values, rowDto) => {
       metarialTypeId: values?.materialTypeDDL?.value,
       metarialTypeName: values?.materialTypeDDL?.label,
       sbuId: values?.sbuDDL?.value,
+      dteEta: values?.etaDate,
     },
     objRow: modifyArray,
   };
@@ -423,6 +437,15 @@ export function addDaysToDate(date, days) {
 //     var res = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 180);
 //     return res.;
 // }
+// const purchaseRequestNoSchema = Yup.object().shape({
+//   value: Yup.number().required('Purchase Request Number is required'),
+//   label: Yup.string().required('Purchase Request Number is required'),
+// });
+
+// const purchaseContractNoSchema = Yup.object().shape({
+//   value: Yup.number().required('Purchase Contract Number is required'),
+//   label: Yup.string().required('Purchase Contract Number is required'),
+// });
 
 export const validationSchema = Yup.object().shape({
   sbuDDL: Yup.object().shape({
@@ -463,7 +486,14 @@ export const validationSchema = Yup.object().shape({
   //   .required("Tolarance is required"),
   // usance: Yup.string().required("Usance is required"),
   // presentation: Yup.string().required("Presentation  is required"),
-  purchaseRequestNo: Yup.string().required("Purchase request no  is required"),
+  // purchaseRequestNo: Yup.object().when(['purchaseContractNo.value'], {
+  //   is: (purchaseContractNoValue) => !purchaseContractNoValue,
+  //   then: purchaseRequestNoSchema,
+  // }),
+  // purchaseContractNo: Yup.object().when(['purchaseRequestNo.value'], {
+  //   is: (purchaseRequestNoValue) => !purchaseRequestNoValue,
+  //   then:purchaseContractNoSchema,
+  // }),
 });
 
 export const checkPurchaseRequestNo = (
@@ -538,12 +568,18 @@ export const checkItemFromPurchaseRequest = async (
 
 //item ddl;
 // /imp/ImportCommonDDL/GetItemListForPI?accountId=2&businessUnitId=164
-export const getItemDDL = async (purchaseRequestId, setter) => {
+export const getItemDDL = async (
+  purchaseRequestOrContractId,
+  refType,
+  setter
+) => {
   try {
     const res = await Axios.get(
       // `/imp/ImportCommonDDL/GetItemListForPI?accountId=${accId}&businessUnitId=${buId}`
-      `/imp/ImportCommonDDL/GetItemListForPI?purhaseRequestNo=${purchaseRequestId ||
-        null}`
+      `/imp/ImportCommonDDL/GetItemListForPI?code=${purchaseRequestOrContractId ||
+        null}&referenceType=${
+        refType === 1 ? "PurchaseContract" : "PurchaseRequest"
+      }`
     );
     const modifyData = res?.data?.map((data) => ({
       ...data,
@@ -551,6 +587,8 @@ export const getItemDDL = async (purchaseRequestId, setter) => {
       itemId: data.value,
       label: data.label,
       itemName: data.label,
+      refQty: data?.quantity,
+      quantity: "",
     }));
     setter(modifyData);
     // setter(res?.data);

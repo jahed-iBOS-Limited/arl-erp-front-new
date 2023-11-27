@@ -14,6 +14,7 @@ import SupplierAdvanceView from "../approvebillregister/supplierAdvanceView";
 import { _dateFormatter } from "./../../../_helper/_dateFormate";
 import { _fixedPoint } from "./../../../_helper/_fixedPoint";
 import IViewModal from "./../../../_helper/_viewModal";
+import AttachmentListTable from "./attachmentListTable";
 import ViewCNFBill from "./cnfBill/view/table";
 import ViewFuelBill from "./fuelBill/view/viewBillRegister";
 import ViewG2GGodownUnloadBill from "./g2gGodownUnloadBill/view/viewBillRegister";
@@ -26,12 +27,12 @@ import ViewInternalTransportBill from "./internalTransportBill/view/viewBillRegi
 import ViewLabourBill from "./labourBill/view/viewBillRegister";
 import ViewMotherVesselBill from "./motherVesselBill/view/viewBillRegister";
 import OthersBillView from "./othersBillNew/view/othersBillView";
+import ViewPumpFoodingBill from "./pumpFoodingBill/view/viewPumpFoodingBill";
 import RejectModel from "./rejectModel/form";
 import ViewSalesCommission from "./salesCommission/view/viewSalesCommission";
 import ViewStevedoreBill from "./stevedoreBill/view/table";
 import ViewSurveyorBill from "./surveyorBill/view/table";
 import ViewTransportBill from "./transportBill/view/viewBillRegister";
-import AttachmentListTable from "./attachmentListTable";
 const GridData = ({
   rowDto,
   values,
@@ -87,7 +88,6 @@ const GridData = ({
       }
     });
   };
-
   return (
     <>
       <div className="row ">
@@ -271,6 +271,9 @@ const GridData = ({
             )}
             {gridItem?.billType === 17 && (
               <ViewG2GLighterBill landingValues={values} gridItem={gridItem} />
+            )}
+            {gridItem?.billType === 18 && (
+              <ViewPumpFoodingBill billRegisterId={gridItem?.billRegisterId} />
             )}
             {gridItem?.billType === 19 && (
               <ViewMotherVesselBill

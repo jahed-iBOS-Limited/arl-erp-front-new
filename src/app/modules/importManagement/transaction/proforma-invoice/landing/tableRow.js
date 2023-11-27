@@ -1,25 +1,25 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { getLandingData } from "../helper";
-import Loading from "../../../../_helper/_loading";
 import Axios from "axios";
+import { Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import {
   Card,
+  CardBody,
   CardHeader,
   CardHeaderToolbar,
-  CardBody,
 } from "../../../../../../_metronic/_partials/controls";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import ICustomTable from "../../../../_helper/_customTable";
-import { Formik } from "formik";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import IView from "../../../../_helper/_helperIcons/_view";
+import ICustomTable from "../../../../_helper/_customTable";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
+import IEdit from "../../../../_helper/_helperIcons/_edit";
+import IView from "../../../../_helper/_helperIcons/_view";
+import Loading from "../../../../_helper/_loading";
+import PaginationTable from "../../../../_helper/_tablePagination";
 import IViewModal from "../../../../_helper/_viewModal";
 import PurchaseOrder from "../../purchase-order/form/addEditForm";
+import { getLandingData } from "../helper";
 // import IWarningModal from "../../../../_helper/_warningModal";
 import { getSingleDataForPoView } from "../../purchase-order/helper";
 
@@ -207,7 +207,7 @@ const TableRow = () => {
                             style={{ width: "110px" }}
                             className="text-center"
                           >
-                            {item?.purchaseRequestrNo}
+                            {item?.purchaseRequestrNo ?item?.purchaseRequestrNo : item?.purchaseContractNo} 
                           </td>
                           <td
                             style={{ width: "110px" }}

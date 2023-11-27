@@ -248,6 +248,7 @@ const PrintInvoiceModal = ({ singleItem }) => {
                   )}
                 </li>
                 <li>- Tax exempted</li>
+                <li>- {printData[0]?.invocieHeader?.strRemarks}</li>
               </ul>
             </div>
           </div>

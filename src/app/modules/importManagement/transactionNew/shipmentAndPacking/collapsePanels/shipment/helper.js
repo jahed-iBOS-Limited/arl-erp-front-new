@@ -24,7 +24,13 @@ export const createShipment = async (payload, cb) => {
   }
 };
 
-export const getShipmentItemDDL = async (accId, buId, poNo, setter, InitialInvoiceAmountHandler) => {
+export const getShipmentItemDDL = async (
+  accId,
+  buId,
+  poNo,
+  setter,
+  InitialInvoiceAmountHandler
+) => {
   try {
     const res = await axios.get(
       `/imp/ImportCommonDDL/GetItemInfoForShipmentDDL?accountId=${accId}&businessUnitId=${buId}&PONo=${poNo}`
@@ -161,6 +167,12 @@ export const getShipmentDataById = async (
           label: response?.objHeader?.cnFPartnerName,
         },
         shipmentDocumentId: response?.objHeader?.shipmentDocumentId,
+        dteEta: _dateFormatter(response?.objHeader?.dteEta),
+        dteAta: _dateFormatter(response?.objHeader?.dteAta),
+        motherVessel: {
+          value: response?.objHeader?.motherVesselId,
+          label: response?.objHeader?.motherVesselName,
+        },
       };
       headerSetter(header);
       setTollerence(response?.objHeader?.tolarance);
