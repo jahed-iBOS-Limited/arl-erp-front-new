@@ -10,17 +10,19 @@ import Loading from "../../../../_helper/_loading";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import {
-  getInvestigateComplainbyApi,
+  getComplainByIdWidthOutModify,
   investigateComplainApi,
 } from "../../resolution/helper";
 export const validationSchema = Yup.object().shape({});
 
 function InvoiceView({ clickRowData }) {
+  const [singleData, setSingleData] = React.useState({});
   const [loading, setLoading] = React.useState(false);
   const dispatch = useDispatch();
   const [rowDto, setRowDto] = useState([]);
   const {
-    profileData: { userId },
+    profileData: { accountId: accId, userId, employeeId },
+    selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const saveHandler = (values, cb) => {
@@ -42,12 +44,14 @@ function InvoiceView({ clickRowData }) {
   };
 
   useEffect(() => {
-    if (
-      clickRowData?.status === "Investigate" ||
-      clickRowData?.status === "Close"
-    ) {
-      getInvestigateComplainbyApi(clickRowData?.complainId, setRowDto);
+    if (clickRowData?.complainId) {
+      const id = clickRowData?.complainId;
+      getComplainByIdWidthOutModify(id, accId, buId, setLoading, (resData) => {
+        setSingleData(resData);
+        setRowDto(resData?.investigationInfo || []);
+      });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clickRowData]);
   return (
     <>
@@ -80,70 +84,78 @@ function InvoiceView({ clickRowData }) {
               style={{
                 display: "flex",
                 flexWrap: "wrap",
-                gap: "5px 35px",
+                justifyContent: "space-between",
               }}
             >
-              <p>
-                <b>Issue Id:</b> {clickRowData?.complainNo}
-              </p>
-              <p>
-                <b>Issue Title:</b> {clickRowData?.issueTitle}
-              </p>
-              <p>
-                <b>Respondent Type:</b> {clickRowData?.respondentTypeName}
-              </p>
-              <p>
-                <b>Respondent Name:</b> {clickRowData?.respondentName}
-              </p>
-              <p>
-                <b>Distribution Channel:</b>{" "}
-                {clickRowData?.distributionChannelName}
-              </p>
-              <p>
-                <b>Product:</b> {clickRowData?.itemName}
-              </p>
-              <p>
-                <b>Contact: </b> {clickRowData?.contactNo}
-              </p>
-              <p>
-                <b>Create By: </b> {clickRowData?.actionByName}
-              </p>
-              <p>
-                <b>Create Date: </b>{" "}
-                {clickRowData?.lastActionDateTime &&
-                  moment(clickRowData?.lastActionDateTime).format(
-                    "YYYY-MM-DD hh:mm A"
-                  )}
-              </p>
+              <div>
+                <p>
+                  <b>Issue Id:</b> {singleData?.complainNo}
+                </p>
+                <p>
+                  <b>Occurrence Date Time: </b>{" "}
+                  {singleData?.requestDateTime &&
+                    moment(singleData?.requestDateTime).format(
+                      "YYYY-MM-DD"
+                    )}{" "}
+                  {singleData?.occurrenceTime &&
+                    moment(singleData?.occurrenceTime, "HH:mm:ss").format(
+                      "hh:mm A"
+                    )}
+                </p>
+
+                <p>
+                  <b>Issue Details:</b> {singleData?.description}
+                </p>
+                <p>
+                  <b>Respondent Type:</b> {singleData?.respondentTypeName}
+                </p>
+                <p>
+                  <b>Respondent Name:</b> {singleData?.respondentName}
+                </p>
+                <p>
+                  <b>Respondent Contact:</b> {singleData?.contactNo}
+                </p>
+              </div>
+              <div>
+                <p>
+                  <b>Business Unit:</b>{" "}
+                  {singleData?.respondentBusinessUnitIdName}
+                </p>
+                <p>
+                  <b>Create By: </b> {singleData?.actionByName}
+                </p>
+                <p>
+                  <b>Create Date: </b>{" "}
+                  {singleData?.lastActionDateTime &&
+                    moment(singleData?.lastActionDateTime).format(
+                      "YYYY-MM-DD hh:mm A"
+                    )}
+                </p>
+                <p>
+                  <b>Distribution Channel:</b>{" "}
+                  {singleData?.distributionChannelName}
+                </p>
+                <p>
+                  <b>Product Category:</b> {singleData?.itemCategoryName}
+                </p>
+                <p>
+                  <b>Delegate Date Time:</b>{" "}
+                  {singleData?.delegateDateTime &&
+                    moment(singleData?.delegateDateTime).format(
+                      "YYYY-MM-DD, HH:mm A"
+                    )}
+                </p>
+                <p>
+                  <b>Delegate To:</b> {singleData?.delegateToName}
+                </p>
+                <p>
+                  <b> Remarks:</b> {singleData?.statusRemarks}
+                </p>
+                <p>
+                  <b>Attachment: </b>
+                </p>
+              </div>
             </div>
-            {(clickRowData?.status === "Delegate" ||
-              clickRowData?.status === "Close" ||
-              clickRowData?.status === "Investigate") && (
-              <>
-                <div
-                  style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    gap: "2px 35px",
-                    marginTop: "15px",
-                  }}
-                >
-                  <p>
-                    <b>Delegate By:</b> {clickRowData?.delegateByName}
-                  </p>
-                  <p>
-                    <b>Delegate Date:</b>{" "}
-                    {clickRowData?.delegateDateTime &&
-                      moment(clickRowData?.delegateDateTime).format(
-                        "YYYY-MM-DD hh:mm A"
-                      )}
-                  </p>
-                  <p>
-                    <b>Remarks: </b> {clickRowData?.statusRemarks}
-                  </p>
-                </div>
-              </>
-            )}
 
             {rowDto?.length > 0 && (
               <>
@@ -162,7 +174,11 @@ function InvoiceView({ clickRowData }) {
                     {rowDto?.map((item, index) => (
                       <tr key={index}>
                         <td className='text-center'> {index + 1}</td>
-                        <td>{_dateFormatter(item?.investigationDateTime)}</td>
+                        <td>
+                          { item?.investigationDateTime &&moment(item?.investigationDateTime).format(
+                            "YYYY-MM-DD HH:mm A"
+                          )}
+                        </td>
                         <td>{item?.investigatorName}</td>
                         <td>{item?.rootCause}</td>
                         <td>{item?.correctiveAction}</td>

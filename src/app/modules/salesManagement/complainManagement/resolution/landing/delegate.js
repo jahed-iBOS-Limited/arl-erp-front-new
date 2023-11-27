@@ -1,36 +1,47 @@
 import axios from "axios";
 import { Formik } from "formik";
-import moment from "moment";
 import { DropzoneDialogBase } from "material-ui-dropzone";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import TextArea from "../../../../_helper/TextArea";
-import { _currentTime } from "../../../../_helper/_currentTime";
 import ICustomCard from "../../../../_helper/_customCard";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import FormikError from "../../../../_helper/_formikError";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
+import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import {
   attachment_action,
+  attachment_actionTwo,
   delegateComplainApi,
   getComplainByIdWidthOutModify,
 } from "../helper";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
 export const validationSchema = Yup.object().shape({
   delegateDate: Yup.date().required("Delegate Date is required"),
   delegateTo: Yup.string().required("Delegate To is required"),
   remarks: Yup.string().required("Remarks is required"),
 });
-
+const initialValues = {
+  delegateDate: _todayDate(),
+  delegateTo: "",
+  remarks: "",
+  delegateTime: moment().format("HH:mm"),
+  investigationPerson: "",
+  investigationDueDate: "",
+  attachmentRow: "",
+};
 function DelegateForm({ clickRowData, landingCB }) {
   const [open, setOpen] = useState(false);
   const [singleData, setSingleData] = React.useState({});
   const [loading, setLoading] = React.useState(false);
   const [fileObjects, setFileObjects] = useState([]);
+  const [fileObjectsRow, setFileObjectsRow] = useState([]);
+  const [openRow, setOpenRow] = useState(false);
   const [rowDto, setRowDto] = useState([]);
   const {
     profileData: { accountId: accId, userId },
@@ -43,10 +54,13 @@ function DelegateForm({ clickRowData, landingCB }) {
     if (v?.length < 2) return [];
     return axios
       .get(
-        `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=${accId}&BusinessUnitId=${buId}&Search=${v}`
+        `/asset/DropDown/GetEmployeeByEmpIdDDL?AccountId=${accId}&BusinessUnitId=0&searchTearm=${v}`
       )
       .then((res) => {
-        return res?.data;
+        return res?.data?.map((itm) => ({
+          value: itm?.value,
+          label: `${itm?.level} [${itm?.employeeCode}]`,
+        }));
       })
       .catch((err) => []);
   };
@@ -56,6 +70,10 @@ function DelegateForm({ clickRowData, landingCB }) {
       `${values?.delegateDate} ${values?.delegateTime}`
     ).format("YYYY-MM-DDTHH:mm:ss");
 
+    // rowDto empty check
+    if (rowDto?.length === 0) {
+      return toast.warn("Please Add Investigation Person");
+    }
     const payload = {
       complainId: singleData?.complainId || 0,
       statusRemarks: values?.remarks || "",
@@ -82,14 +100,7 @@ function DelegateForm({ clickRowData, landingCB }) {
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={{
-          delegateDate: _todayDate(),
-          delegateTo: "",
-          remarks: "",
-          delegateTime: _currentTime(),
-          investigationPerson: "",
-          investigationDueDate: "",
-        }}
+        initialValues={initialValues}
         onSubmit={(values, { resetForm }) => {
           saveHandler(values, () => {
             resetForm();
@@ -234,7 +245,7 @@ function DelegateForm({ clickRowData, landingCB }) {
                 <div className='col-lg-3 d-flex align-items-center'>
                   <div className=''>
                     <button
-                      className='btn btn-primary mr-2'
+                      className='btn btn-primary mr-2 mt-2'
                       type='button'
                       onClick={() => setOpen(true)}
                       style={{ padding: "4px 5px" }}
@@ -270,7 +281,20 @@ function DelegateForm({ clickRowData, landingCB }) {
                     handleChange={(valueOption) => {
                       setFieldValue("investigationPerson", valueOption || "");
                     }}
-                    loadOptions={loadEmpList}
+                    loadOptions={(v) => {
+                      if (v?.length < 2) return [];
+                      return axios
+                        .get(
+                          `/asset/DropDown/GetEmployeeByEmpIdDDL?AccountId=${accId}&BusinessUnitId=0&searchTearm=${v}`
+                        )
+                        .then((res) => {
+                          return res?.data?.map((itm) => ({
+                            value: itm?.value,
+                            label: `${itm?.level} [${itm?.employeeCode}]`,
+                          }));
+                        })
+                        .catch((err) => []);
+                    }}
                     placeholder='Search by Enroll/ID No/Name (min 3 letter)'
                   />
                   <FormikError
@@ -282,12 +306,41 @@ function DelegateForm({ clickRowData, landingCB }) {
                 <div className='col-lg-3'>
                   <InputField
                     value={values?.investigationDueDate}
-                    label='Investigation Date'
-                    placeholder='Investigation Date'
+                    label='Investigation Due Date'
+                    placeholder='Investigation Due Date'
                     name='investigationDueDate'
                     type='date'
                   />
                 </div>
+                <div className='col-lg-3 d-flex align-items-center'>
+                  <div className=''>
+                    <button
+                      className='btn btn-primary mr-2 mt-3'
+                      type='button'
+                      onClick={() => setOpenRow(true)}
+                      style={{ padding: "4px 5px" }}
+                    >
+                      Attachment
+                    </button>
+                  </div>
+
+                  <div>
+                    {values?.attachmentRow && (
+                      <button
+                        className='btn btn-primary mt-3'
+                        type='button'
+                        onClick={() => {
+                          dispatch(
+                            getDownlloadFileView_Action(values?.attachmentRow)
+                          );
+                        }}
+                      >
+                        Attachment View
+                      </button>
+                    )}
+                  </div>
+                </div>
+
                 <div className='col d-flex align-items-center justify-content-end'>
                   <button
                     className='btn btn-primary'
@@ -301,15 +354,23 @@ function DelegateForm({ clickRowData, landingCB }) {
                         investigationDueDate: moment(
                           values?.investigationDueDate || undefined
                         ).format("YYYY-MM-DD"),
-                        investigationDateTime: '',
+                        investigationDateTime: "",
                         rootCause: "",
                         correctiveAction: "",
-                        attachment: "",
+                        attachment: values?.attachmentRow || "",
                         isActive: true,
                       };
+                      // duplicate check
+                      const duplicateCheck = rowDto?.some(
+                        (itm) => itm?.investigatorId === obj?.investigatorId
+                      );
+                      if (duplicateCheck) {
+                        return toast.warn("Investigation Person Already Added");
+                      }
                       setRowDto([...rowDto, obj]);
                       setFieldValue("investigationPerson", "");
                       setFieldValue("investigationDueDate", "");
+                      setFieldValue("attachmentRow", "");
                     }}
                     disabled={
                       !values?.investigationPerson ||
@@ -336,9 +397,22 @@ function DelegateForm({ clickRowData, landingCB }) {
                       <td className='text-center'> {index + 1}</td>
                       <td>{item?.investigatorName}</td>
                       <td>{_dateFormatter(item?.investigationDueDate)}</td>
-
                       <td>
                         <div className='d-flex align-items-center justify-content-center'>
+                          {item?.attachment && (
+                            <span
+                              onClick={() => {
+                                dispatch(
+                                  getDownlloadFileView_Action(item?.attachment)
+                                );
+                              }}
+                            >
+                              <i
+                                class='fa fa-paperclip pointer'
+                                aria-hidden='true'
+                              ></i>
+                            </span>
+                          )}
                           <span
                             onClick={() => {
                               const newData = rowDto.filter(
@@ -381,6 +455,32 @@ function DelegateForm({ clickRowData, landingCB }) {
               onSave={() => {
                 setOpen(false);
                 attachment_action(fileObjects, setFieldValue, setLoading);
+              }}
+              showPreviews={true}
+              showFileNamesInPreview={true}
+            />
+
+            <DropzoneDialogBase
+              filesLimit={1}
+              acceptedFiles={["image/*", "application/pdf"]}
+              fileObjects={fileObjectsRow}
+              cancelButtonText={"cancel"}
+              submitButtonText={"submit"}
+              maxFileSize={1000000}
+              open={openRow}
+              onAdd={(newFileObjs) => {
+                setFileObjectsRow([].concat(newFileObjs));
+              }}
+              onDelete={(deleteFileObj) => {
+                const newData = fileObjectsRow.filter(
+                  (item) => item.file.name !== deleteFileObj.file.name
+                );
+                setFileObjectsRow(newData);
+              }}
+              onClose={() => setOpenRow(false)}
+              onSave={() => {
+                setOpenRow(false);
+                attachment_actionTwo(fileObjectsRow, setFieldValue, setLoading);
               }}
               showPreviews={true}
               showFileNamesInPreview={true}

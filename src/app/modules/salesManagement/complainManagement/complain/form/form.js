@@ -306,10 +306,13 @@ function Form({
                         if (v?.length < 2) return [];
                         return axios
                           .get(
-                            `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=${accId}&BusinessUnitId=${values?.respondentBusinessUnit?.value}&Search=${v}`
+                            `/asset/DropDown/GetEmployeeByEmpIdDDL?AccountId=${accId}&BusinessUnitId=0&searchTearm=${v}`
                           )
                           .then((res) => {
-                            return res?.data;
+                            return res?.data?.map((itm) => ({
+                              value: itm?.value,
+                              label: `${itm?.level} [${itm?.employeeCode}]`,
+                            }));
                           })
                           .catch((err) => []);
                       }}
