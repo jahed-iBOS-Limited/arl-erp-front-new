@@ -140,6 +140,18 @@ export const updateComplain = async (payload, setLoading, cb) => {
     setLoading(false);
   }
 };
+export const delegateComplainApi = async (payload, setLoading, cb) => {
+  setLoading(true);
+  try {
+    const res = await axios.put(`/oms/CustomerPoint/DelegateComplain`, payload);
+    cb && cb();
+    toast.success(res?.data?.message);
+    setLoading(false);
+  } catch (err) {
+    toast.error(err?.response?.data?.message);
+    setLoading(false);
+  }
+};
 export const investigateComplainApi = async (payload, setLoading, cb) => {
   setLoading(true);
   try {
@@ -159,10 +171,7 @@ export const investigateComplainApi = async (payload, setLoading, cb) => {
 export const saveColseComplainApi = async (payload, setLoading, cb) => {
   setLoading(true);
   try {
-    const res = await axios.put(
-      `/oms/CustomerPoint/ColseComplain`,
-      payload
-    );
+    const res = await axios.put(`/oms/CustomerPoint/ColseComplain`, payload);
     cb && cb();
     toast.success(res?.data?.message);
     setLoading(false);
@@ -229,9 +238,7 @@ export const getInvestigateComplainbyApi = async (complainId, setter) => {
       `/oms/CustomerPoint/InvestigateComplainbyId?ComplainId=${complainId}`
     );
     setter(res?.data || []);
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const complainLandingPasignation = async (
@@ -275,3 +282,24 @@ export const respondentTypeDDL = [
     label: "Customer",
   },
 ];
+export const getComplainByIdWidthOutModify = async (
+  complainId,
+  accId,
+  buId,
+  setLoaing,
+  setSingleData
+) => {
+  setLoaing(true);
+  try {
+    const res = await axios.get(
+      `/oms/CustomerPoint/GetComplainById?complainId=${complainId}&accountId=${accId}&businessUnitId=${buId}`
+    );
+    setLoaing(false);
+
+    setSingleData({
+      ...res?.data,
+    });
+  } catch (error) {
+    setLoaing(false);
+  }
+};

@@ -63,13 +63,36 @@ export function PumpFoodingBill() {
 
   const addHandler = (values, cb) => {
     try {
-      const exists = rowData?.filter(
-        (item) =>
-          item?.employeeId === values?.employee?.value &&
-          values?.date === item?.date
-      );
+      const exists = rowData?.filter((item) => {
+        const compareTimeIntervals = () => {
+          const fromDateTime = new Date(
+            `${values.fromDate} ${values.fromTime}`
+          ).getTime();
+          const toDateTime = new Date(
+            `${values.toDate} ${values.toTime}`
+          ).getTime();
+          const preFromDateTime = new Date(
+            `${item?.date} ${item?.startTime}`
+          ).getTime();
+          const preToDateTime = new Date(
+            `${item?.endDate} ${item?.endTime}`
+          ).getTime();
+
+          //check is the employee is available in this intervale of date time
+          const isAddable =
+            (preFromDateTime >= fromDateTime &&
+              preFromDateTime <= toDateTime) ||
+            (preToDateTime >= fromDateTime && preToDateTime <= toDateTime);
+
+          if (isAddable) {
+            return true;
+          } else return false;
+        };
+
+        return compareTimeIntervals();
+      });
       if (exists?.length > 0) {
-        return toast.warn("Duplicate item not allowed!");
+        return toast.warn("Employee is not available in this time interval!");
       }
 
       const diff = getTimeDifference(
@@ -99,10 +122,10 @@ export function PumpFoodingBill() {
         approvedBySupervisorId: 0,
         wareHouseId: values?.warehouse?.value,
         wareHouseName: values?.warehouse?.label,
-        attachmentUrl: values?.attachmentUrl
+        attachmentUrl: values?.attachmentUrl,
       };
       setRowData([...rowData, newRow]);
-      console.log({newRow})
+      console.log({ newRow });
       cb();
     } catch (error) {
       alert(error);
