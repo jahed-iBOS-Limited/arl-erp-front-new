@@ -38,7 +38,9 @@ const initData = {
 };
 export default function ProjectedFinancialStatement() {
   const [buDDL, getBuDDL, buDDLloader, setBuDDL] = useAxiosGet();
+
   const saveHandler = (values, cb) => {};
+  
   const { profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -887,8 +889,9 @@ export default function ProjectedFinancialStatement() {
                       }
                       if ([8]?.includes(values?.reportType?.value)) {
                         getRowData(
-                          `/fino/Report/GetPlannedFundRequirement?businessUnitId=${values?.subDivisionBusinessUnit?.value}&strYear=${values?.year?.label}`
+                          `/fino/Report/GetPlannedFundRequirement?businessUnitId=${values?.subDivisionBusinessUnit?.value}&strYear=${values?.year?.label}&businessUnitGroup=${values?.enterpriseDivision?.value}&subGroup=${values?.subDivision?.value}`
                         );
+                        
                       }
                     }}
                     className="btn btn-primary"

@@ -113,6 +113,32 @@ export const attachment_action = async (
   }
 };
 
+export const attachment_actionTwo = async (
+  attachment,
+  setFieldValue,
+  setLoading
+) => {
+  setLoading(true);
+  let formData = new FormData();
+  attachment.forEach((file) => {
+    formData.append("files", file?.file);
+  });
+  setFieldValue("attachment", "");
+  try {
+    let { data } = await axios.post("/domain/Document/UploadFile", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    toast.success("Upload  successfully");
+    setFieldValue("attachmentRow", data?.[0]?.id);
+    setLoading(false);
+  } catch (error) {
+    setLoading(false);
+    toast.error("Document not upload");
+  }
+};
+
 export const createComplain = async (payload, setLoading, cb) => {
   setLoading(true);
   try {
@@ -130,6 +156,21 @@ export const updateComplain = async (payload, setLoading, cb) => {
   try {
     const res = await axios.put(
       `/oms/CustomerPoint/UpdateAndDelegateComplain`,
+      payload
+    );
+    cb && cb();
+    toast.success(res?.data?.message);
+    setLoading(false);
+  } catch (err) {
+    toast.error(err?.response?.data?.message);
+    setLoading(false);
+  }
+};
+export const investigateReviewApi = async (payload, setLoading, cb) => {
+  setLoading(true);
+  try {
+    const res = await axios.put(
+      `/oms/CustomerPoint/InvestigateReview`,
       payload
     );
     cb && cb();

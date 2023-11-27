@@ -7,6 +7,7 @@ import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 import { _todayDate } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import TdsVdsJvDataTable from "./components/dataTable";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -64,9 +65,11 @@ export default function _Form({ saveHandler, bankDDL}) {
     //fetch bill type DDL
     getBillTypeDDL(`/fino/FinanceCommonDDL/GetBillTypeDDL`, data => {
       const firstTwo = data.slice(0, 2);
+      console.log({firstTwo})
       setBillTypeDDL(firstTwo);
     });
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit])
 
   return (
@@ -217,6 +220,7 @@ export default function _Form({ saveHandler, bankDDL}) {
                 // onClick={() => setRowDto([])}
               ></button>
             </Form>
+            <TdsVdsJvDataTable setFieldValue={setFieldValue} values={values} errors={errors} touched={touched}/>
           </>
         )}
       </Formik>
