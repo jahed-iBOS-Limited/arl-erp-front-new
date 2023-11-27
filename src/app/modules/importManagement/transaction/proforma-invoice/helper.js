@@ -95,11 +95,11 @@ export const getSingleData = async (id, setter, setRowDto, setDisabled) => {
           : "Purchase Request",
         value: objHeader?.purchaseContractId ? 1 : 2,
       },
-      purchaseContractNo:{
-        label:objHeader?.purchaseContractNo,
-        value:objHeader?.purchaseContractId
+      purchaseContractNo: {
+        label: objHeader?.purchaseContractNo,
+        value: objHeader?.purchaseContractId,
       },
-      etaDate : _dateFormatter(objHeader?.dteEta)
+      etaDate: _dateFormatter(objHeader?.dteEta),
       //  objHeader?.purchaseRequestNo || 0,
     };
 
@@ -268,6 +268,7 @@ const updatePayloadChange = (values, rowDto) => {
       metarialTypeId: values?.materialTypeDDL?.value,
       metarialTypeName: values?.materialTypeDDL?.label,
       sbuId: values?.sbuDDL?.value,
+      dteEta: values?.etaDate,
     },
     objRow: modifyArray,
   };
@@ -567,7 +568,11 @@ export const checkItemFromPurchaseRequest = async (
 
 //item ddl;
 // /imp/ImportCommonDDL/GetItemListForPI?accountId=2&businessUnitId=164
-export const getItemDDL = async (purchaseRequestOrContractId, refType, setter) => {
+export const getItemDDL = async (
+  purchaseRequestOrContractId,
+  refType,
+  setter
+) => {
   try {
     const res = await Axios.get(
       // `/imp/ImportCommonDDL/GetItemListForPI?accountId=${accId}&businessUnitId=${buId}`
@@ -582,10 +587,9 @@ export const getItemDDL = async (purchaseRequestOrContractId, refType, setter) =
       itemId: data.value,
       label: data.label,
       itemName: data.label,
-      refQty : data?.quantity,
-      quantity:""
+      refQty: data?.quantity,
+      quantity: "",
     }));
-    console.log("modified Data",modifyData);
     setter(modifyData);
     // setter(res?.data);
   } catch (error) {
