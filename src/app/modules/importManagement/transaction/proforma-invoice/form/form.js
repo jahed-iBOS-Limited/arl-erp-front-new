@@ -465,6 +465,9 @@ export default function _Form({
                       name="etaDate"
                       type="date"
                       disabled={viewType === "view"}
+                      onChange={(e) => {
+                        setFieldValue("etaDate", e.target.value);
+                      }}
                     />
                   </div>
 
@@ -709,7 +712,6 @@ export default function _Form({
                         ]
                   }
                 >
-                 
                   {rowDto?.length > 0 &&
                     rowDto?.map((item, index) => {
                       return (

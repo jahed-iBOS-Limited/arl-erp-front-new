@@ -540,7 +540,7 @@ const EstimatePDACreate = () => {
                   {rowDto?.map((item, index) => (
                     <tr key={index}>
                       <td className='text-center'> {index + 1}</td>
-                      <td>{item?.completionDate}</td>
+                      <td>{_dateFormatter(item?.completionDate)}</td>
                       <td>{item?.dischargePortName}</td>
                       <td>{item?.cargoName}</td>
                       <td>{item?.cargoOwner}</td>

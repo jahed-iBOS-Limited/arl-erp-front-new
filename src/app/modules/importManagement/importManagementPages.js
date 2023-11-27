@@ -56,25 +56,15 @@ import TransportChargesLanding from "./transaction/transportCharges/landing/tabl
 import UnloadingChargesForm from "./transaction/unloading-charges/form/addEditForm";
 import UnloadingCharges from "./transaction/unloading-charges/landing/tableHeader";
 
-
-
-
-
-
-
 export function importManagementPages() {
   return (
     <Suspense fallback={<LayoutSplashScreen />}>
       <Switch>
-      <Redirect
+        <Redirect
           exact={true}
           from="/transport-management"
           to="/managementImport/transaction"
         />
-
-     
-
-
         {/* Insurance Policy */}
         <ContentRoute
           path="/managementImport/transaction/insurance-policy/create"
@@ -312,7 +302,7 @@ export function importManagementPages() {
           component={LCBusinessPartnerLanding}
         />
         {/* Commercial Payment */}
-       
+
         {/* Reports - Indent PO LC */}
         <ContentRoute
           path="/managementImport/reports/indent-po-lc"
@@ -391,7 +381,6 @@ export function importManagementPages() {
           component={ProformaInvoiceLanding}
         />
 
-
         <ContentRoute
           path="/managementImport/transaction/advance-payment-customs-duty/edit/:id"
           component={CustomDutyAdvancePayCreateEdit}
@@ -404,8 +393,6 @@ export function importManagementPages() {
           path="/managementImport/transaction/advance-payment-customs-duty"
           component={CustomDutyAdvancePayment}
         />
-
-
       </Switch>
     </Suspense>
   );
