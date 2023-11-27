@@ -4,7 +4,6 @@ import { DropzoneDialogBase } from "material-ui-dropzone";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import * as Yup from "yup";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import ICustomCard from "../../../../_helper/_customCard";
@@ -13,16 +12,18 @@ import FormikError from "../../../../_helper/_formikError";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import { _todayDate } from "../../../../_helper/_todayDate";
 import {
   attachment_action,
   getComplainByIdWidthOutModify,
-  getInvestigateComplainbyApi,
   investigateComplainApi,
 } from "../helper";
-export const validationSchema = Yup.object().shape({});
+export const validationSchema = Yup.object().shape({
+  investigationDateTime: Yup.string().required(
+    "Investigation Date is required"
+  ),
+});
 const initData = {
-  investigationDate: _todayDate(),
+  investigationDateTime: "",
   investigationPerson: "",
   rootCause: "",
   correctiveAction: "",
@@ -35,38 +36,25 @@ function InvestigateForm({ clickRowData, landingCB }) {
   const [loading, setLoading] = React.useState(false);
   const dispatch = useDispatch();
   const [fileObjects, setFileObjects] = useState([]);
-  const [rowDto, setRowDto] = useState([]);
   const [singleData, setSingleData] = React.useState({});
   const {
     profileData: { accountId: accId, userId, employeeId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
-  const loadEmpList = (v) => {
-    if (v?.length < 2) return [];
-    return axios
-      .get(
-        `/asset/DropDown/GetEmployeeByEmpIdDDL?AccountId=${accId}&BusinessUnitId=0&searchTearm=${v}`
-      )
-      .then((res) => {
-        return res?.data?.map((itm) => ({
-          value: itm?.value,
-          label: `${itm?.level} [${itm?.employeeCode}]`,
-        }));
-      })
-      .catch((err) => []);
-  };
 
   const saveHandler = (values, cb) => {
-    // rowDto empty check
-    if (rowDto.length === 0) {
-      return toast.error("Please add at least one row");
-    }
     let payload = {
       complainId: clickRowData?.complainId || 0,
       statusId: 3,
       status: "Investigate",
       actionById: userId,
-      investigationInfo: rowDto || [],
+      autoId: values?.autoId || 0,
+      rootCause: values?.rootCause || "",
+      correctiveAction: values?.correctiveAction || "",
+      attachment: values?.attachment || "",
+      investigationDateTime: moment(values?.investigationDateTime).format(
+        "YYYY-MM-DDTHH:mm"
+      ),
     };
 
     investigateComplainApi(payload, setLoading, () => {
@@ -76,9 +64,6 @@ function InvestigateForm({ clickRowData, landingCB }) {
   };
   const formikRef = React.useRef(null);
   useEffect(() => {
-    if (clickRowData?.status === "Investigate") {
-      getInvestigateComplainbyApi(clickRowData?.complainId, setRowDto);
-    }
     if (clickRowData?.complainId) {
       const id = clickRowData?.complainId;
       getComplainByIdWidthOutModify(id, accId, buId, setLoading, (resData) => {
@@ -86,7 +71,7 @@ function InvestigateForm({ clickRowData, landingCB }) {
         const matchEmployee = resData?.investigationInfo?.find(
           (itm) => itm?.investigatorId === employeeId
         );
-  
+
         if (formikRef.current) {
           formikRef.current.setFieldValue(
             "investigationPerson",
@@ -99,7 +84,32 @@ function InvestigateForm({ clickRowData, landingCB }) {
           );
           formikRef.current.setFieldValue(
             "investigationDueDate",
-            _dateFormatter(resData?.investigationInfo?.investigationDueDate)
+            _dateFormatter(matchEmployee?.investigationDueDate)
+          );
+
+          formikRef.current.setFieldValue(
+            "attachment",
+            matchEmployee?.attachment || ""
+          );
+          formikRef.current.setFieldValue(
+            "autoId",
+            matchEmployee?.autoId || ""
+          );
+          formikRef.current.setFieldValue(
+            "rootCause",
+            matchEmployee?.rootCause || ""
+          );
+          formikRef.current.setFieldValue(
+            "correctiveAction",
+            matchEmployee?.correctiveAction || ""
+          );
+          formikRef.current.setFieldValue(
+            "investigationDateTime",
+            matchEmployee?.investigationDateTime
+              ? moment(matchEmployee?.investigationDateTime).format(
+                  "YYYY-MM-DDTHH:mm"
+                )
+              : ""
           );
         }
       });
@@ -219,10 +229,11 @@ function InvestigateForm({ clickRowData, landingCB }) {
                 <div className='col-lg-3'>
                   <InputField
                     value={values?.investigationDueDate}
-                    label='Investigation Date'
-                    placeholder='Investigation Date'
+                    label='Investigation Due Date'
+                    placeholder='Investigation Due Date'
                     name='investigationDueDate'
                     type='date'
+                    disabled
                   />
                 </div>
                 <div className='col-lg-3'>
@@ -258,11 +269,11 @@ function InvestigateForm({ clickRowData, landingCB }) {
 
                 <div className='col-lg-3'>
                   <InputField
-                    value={values?.investigationDate}
+                    value={values?.investigationDateTime}
                     label='Investigation Date'
                     placeholder='Investigation Date'
-                    name='investigationDate'
-                    type='date'
+                    name='investigationDateTime'
+                    type='datetime-local'
                   />
                 </div>
 

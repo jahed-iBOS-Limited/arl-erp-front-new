@@ -306,8 +306,8 @@ function DelegateForm({ clickRowData, landingCB }) {
                 <div className='col-lg-3'>
                   <InputField
                     value={values?.investigationDueDate}
-                    label='Investigation Date'
-                    placeholder='Investigation Date'
+                    label='Investigation Due Date'
+                    placeholder='Investigation Due Date'
                     name='investigationDueDate'
                     type='date'
                   />

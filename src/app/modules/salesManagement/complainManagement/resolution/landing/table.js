@@ -44,13 +44,12 @@ const LandingTable = ({ obj }) => {
         </thead>
         <tbody>
           {gridData?.data?.map((item, index) => {
-            const isSameEmployeeId = item?.investigatorAssignByName
-              ?.map((itm) => itm?.investigatorId)
-              .includes(employeeId);
+            const matchEmployeeId = item?.investigatorAssignByName
+              ?.find((itm) => itm?.investigatorId === employeeId)
 
             return (
               <tr key={index}>
-                <td className='text-center'> {index + 1}</td>
+               <td className='text-center'> {index + 1}</td>
                 <td>{item?.complainNo}</td>
                 <td>{_dateFormatter(item?.requestDateTime)}</td>
                 <td>{item?.respondentTypeName}</td>
@@ -80,7 +79,9 @@ const LandingTable = ({ obj }) => {
                               <p>
                                 <b>Investigation: </b>
                                 {itm?.investigatorName},{" "}
-                                {_dateFormatter(itm?.investigationDateTime)}
+                                {itm?.investigationDateTime &&moment(itm?.investigationDateTime).format(
+                                  "YYYY-MM-DD, HH:mm A"
+                                )}
                               </p>
                             </div>
                           ))}
@@ -108,7 +109,9 @@ const LandingTable = ({ obj }) => {
                               <p>
                                 <b>Investigation: </b>
                                 {itm?.investigatorName},{" "}
-                                {_dateFormatter(itm?.investigationDateTime)}
+                                {itm?.investigationDateTime && moment(itm?.investigationDateTime).format(
+                                  "YYYY-MM-DD, HH:mm A"
+                                )}
                               </p>
                             </div>
                           ))}
@@ -117,11 +120,9 @@ const LandingTable = ({ obj }) => {
                     }
                   >
                     <div>
-                      {item?.investigatorAssignByName?.[0]
-                        ?.investigationDateTime &&
-                        _dateFormatter(
-                          item?.investigatorAssignByName?.[0]
-                            ?.investigationDateTime
+                      {matchEmployeeId?.investigationDateTime &&
+                        moment(matchEmployeeId?.investigationDateTime).format(
+                          "YYYY-MM-DD, HH:mm A"
                         )}
                     </div>
                   </OverlayTrigger>
@@ -185,7 +186,7 @@ const LandingTable = ({ obj }) => {
 
                     {(item?.status === "Delegate" ||
                       item?.status === "Investigate") &&
-                      isSameEmployeeId && (
+                      matchEmployeeId && (
                         <>
                           <span>
                             <OverlayTrigger
