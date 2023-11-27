@@ -10,6 +10,7 @@ import feedbackIcon from "../../../../_helper/images/feedback.png";
 import DelegateForm from "./delegate";
 import FeedbackModal from "./feedbackModal";
 import InvestigateForm from "./investigate";
+import { useParams } from 'react-router';
 
 const LandingTable = ({ obj }) => {
   const {
@@ -24,6 +25,8 @@ const LandingTable = ({ obj }) => {
   const [isFeedbackModalShow, setIsFeedbackModalShow] = React.useState(false);
   const [clickRowData, setClickRowData] = React.useState({});
 
+  const isMyComplaint =
+  window.location.pathname === "/self-service/my-complaint"
   return (
     <>
       <table className='table table-striped table-bordered global-table'>
@@ -156,7 +159,7 @@ const LandingTable = ({ obj }) => {
                       gap: "8px",
                     }}
                   >
-                    {item?.status === "Open" && (
+                    {item?.status === "Open" && !isMyComplaint && (
                       <span
                         onClick={() => {
                           history.push(
@@ -168,7 +171,7 @@ const LandingTable = ({ obj }) => {
                       </span>
                     )}
 
-                    {item?.status === "Open" && (
+                    {item?.status === "Open"&& !isMyComplaint && (
                       <>
                         <span>
                           <OverlayTrigger

@@ -12,7 +12,7 @@ import { _todayDate } from "../../../../_helper/_todayDate";
 import {
   complainLandingPasignation,
   getComplainStatus,
-  respondentTypeDDL
+  respondentTypeDDL,
 } from "../helper";
 import LandingTable from "./table";
 
@@ -49,8 +49,6 @@ const ResolutionLanding = () => {
     }
   }, [accId, buId]);
 
-
-
   const commonGridData = (
     _pageNo = pageNo,
     _pageSize = pageSize,
@@ -72,16 +70,17 @@ const ResolutionLanding = () => {
     );
   };
 
+  const title =
+    window.location.pathname === "/self-service/my-complaint"
+      ? "My Complaint"
+      : "Resolution";
   return (
     <>
       {loading && <Loading />}
       <Formik enableReinitialize={true} initialValues={initData}>
         {({ values, setFieldValue, touched, errors }) => (
           <>
-            <ICustomCard
-              title='Resolution'
-              
-            >
+            <ICustomCard title={title}>
               <div className='row global-form my-3'>
                 <div className='col-lg-3'>
                   <NewSelect
@@ -178,7 +177,7 @@ const ResolutionLanding = () => {
                   gridData,
                   commonGridDataCB: () => {
                     commonGridData(pageNo, pageSize, values);
-                  }
+                  },
                 }}
               />
 
@@ -201,4 +200,3 @@ const ResolutionLanding = () => {
 };
 
 export default ResolutionLanding;
-
