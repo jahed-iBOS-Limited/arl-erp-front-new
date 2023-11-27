@@ -1,6 +1,6 @@
 import React from "react";
-import { Redirect, Switch } from "react-router-dom";
 import { shallowEqual, useSelector } from "react-redux";
+import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute } from "../../../../_metronic/layout";
 import { AdjustmentJournal } from "./adjustmentJournal";
 import AdjustmentJournalCreateForm from "./adjustmentJournal/Form/addEditForm";
@@ -8,31 +8,32 @@ import { CashJournal } from "./cashJournal";
 import CashJournaForm from "./cashJournal/Form/addEditForm";
 
 import BankJournalCreateForm from "./bankJournal/Create/addForm";
-import CashJournaEditForm from "./cashJournal/EditForm/addEditForm";
-import BankJournalLanding from "./bankJournal/Table/index";
 import BankJournalEditForm from "./bankJournal/EditForm/addForm";
+import BankJournalLanding from "./bankJournal/Table/index";
+import CashJournaEditForm from "./cashJournal/EditForm/addEditForm";
 
-import { BusinessUnitTransaction } from "./BusinessUnitTransaction/index";
-import BusinessUnitForm from "./BusinessUnitTransaction/Form/addEditForm";
-import BulkBankReceive from "./bulkBankReceive/Form/addEditForm";
-import AccountClosingCreateForm from "./accountingClosing/Form/addEditForm";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import BankAdvice from "./bankAdvce/table/BankAdvice";
-import BankStateMentCorrectionLanding from "./BankStateMentCorrection/landing/tableHeader";
-import ManualReconcileLanding from "./ManualReconcile/landing/tableHeader";
-import BankStatement from "./bankStatement/table/tableHeader";
-import PaymentAdviceForm from "./paymentAdvice/form/addEditForm";
-import { CustomerBankReceive } from "./customerBankReceive";
 import findIndex from "../../_helper/_findIndex";
-import { BudgetEntryLanding } from "./budgetEntry/Landing/addEditForm";
-import { BudgetEntryCreate } from "./budgetEntry/Create/addEditForm";
-import ReconciliationJournal from "./reconciliationJournal/table/tableHeader";
-import BulkJVLanding from "./bulkJV/table/tableHeader";
-import TransferJournalToTax from "./transferJournalToTax";
-import BankLimit from "./bankLimit/table/tableRow";
+import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
+import BankStateMentCorrectionLanding from "./BankStateMentCorrection/landing/tableHeader";
+import BusinessUnitForm from "./BusinessUnitTransaction/Form/addEditForm";
+import { BusinessUnitTransaction } from "./BusinessUnitTransaction/index";
+import ManualReconcileLanding from "./ManualReconcile/landing/tableHeader";
+import TdsVdsJvLanding from "./TDS_VDS_JV_create/landing";
+import AccountClosingCreateForm from "./accountingClosing/Form/addEditForm";
+import BankAdvice from "./bankAdvce/table/BankAdvice";
 import CreateBankLimit from "./bankLimit/form";
-import ProductionCost from "./productionCosting";
+import BankLimit from "./bankLimit/table/tableRow";
+import BankStatement from "./bankStatement/table/tableHeader";
+import { BudgetEntryCreate } from "./budgetEntry/Create/addEditForm";
+import { BudgetEntryLanding } from "./budgetEntry/Landing/addEditForm";
+import BulkBankReceive from "./bulkBankReceive/Form/addEditForm";
+import BulkJVLanding from "./bulkJV/table/tableHeader";
+import { CustomerBankReceive } from "./customerBankReceive";
 import IncentiveBillPaymentLanding from "./incentiveBillPayment";
+import PaymentAdviceForm from "./paymentAdvice/form/addEditForm";
+import ProductionCost from "./productionCosting";
+import ReconciliationJournal from "./reconciliationJournal/table/tableHeader";
+import TransferJournalToTax from "./transferJournalToTax";
 // import DepreciationJournal from "./depreciationJournal/table/tableHeader"
 
 export function FinalcialPages() {
@@ -173,6 +174,11 @@ export function FinalcialPages() {
       <ContentRoute
         path="/financial-management/financials/paymentAdvice"
         component={PaymentAdviceForm}
+      />
+      {/* TDS VDS JV Create */}
+      <ContentRoute
+        path="/financial-management/financials/TdsVdsJVCreate"
+        component={TdsVdsJvLanding}
       />
 
       {/* Customer Bank Receive*/}

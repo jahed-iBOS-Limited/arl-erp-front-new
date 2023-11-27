@@ -76,7 +76,8 @@ export default function CreateInventoryLoanForm({ loanType }) {
         numItemAmount: (+values?.itemRate * +values?.quantity) || 0,
         strNarration: values?.narration,
         intActionBy: profileData?.userId,
-        intFromOrToBusinessUnitId: values?.partner?.value,
+        // intFromOrToBusinessUnitId: values?.partner?.value,
+        intFromOrToBusinessUnitId: 0,
         strFromOrToBusinessUnitName: values?.partner?.label,
         intLoanId: 0,
       };

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Formik } from "formik";
 import { DropzoneDialogBase } from "material-ui-dropzone";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, } from "react";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
@@ -13,9 +13,10 @@ import NewSelect from "../../../../_helper/_select";
 import {
   attachment_action,
   customerListDDL,
+  getBusinessUnitDDLApi,
   getComplainCategory,
   getDistributionChannelDDL,
-  getItemSalesByChanneldDDLApi,
+  getItemCategoryDDL,
   getSupplierDDLApi,
   respondentTypeDDL,
 } from "../helper";
@@ -27,8 +28,12 @@ export const validationSchema = Yup.object().shape({
     value: Yup.string().required("Respondent Type is required"),
   }),
   respondentName: Yup.object().shape({
-    label: Yup.string().required("Respondent Name is required"),
-    value: Yup.string().required("Respondent Name is required"),
+    label: Yup.string().required("Field is required"),
+    value: Yup.string().required("Field is required"),
+  }),
+  respondentBusinessUnit: Yup.object().shape({
+    label: Yup.string().required("Respondent BusinessUnit is required"),
+    value: Yup.string().required("Respondent BusinessUnit is required"),
   }),
   respondentContact: Yup.string()
     .required("Respondent Contact is required")
@@ -37,16 +42,8 @@ export const validationSchema = Yup.object().shape({
     label: Yup.string().required("Issue Type is required"),
     value: Yup.string().required("Issue Type is required"),
   }),
-  issueTitle: Yup.string().required("Issue Title is required"),
-  // distributionChannel: Yup.object().shape({
-  //   label: Yup.string().required("Distribution Channel is required"),
-  //   value: Yup.string().required("Distribution Channel is required"),
-  // }),
-  // product: Yup.object().shape({
-  //   label: Yup.string().required("Product is required"),
-  //   value: Yup.string().required("Product is required"),
-  // }),
   issueDetails: Yup.string().required("Issue Details is required"),
+  respondent: Yup.string().required("Respondent Name is required"),
 });
 
 function Form({
@@ -63,32 +60,53 @@ function Form({
   const [open, setOpen] = useState(false);
   const [complainCategory, setComplainCategory] = useState([]);
   const [customerDDL, setCustomerDDL] = useState([]);
-  const [itemSalesByChanneldDDL, setItemSalesByChanneldDDL] = useState([]);
   const [distributionChannelDDL, setDistributionChannelDDL] = useState([]);
+  const [itemCategoryDDL, setItemCategoryDDL] = useState([]);
+  const [businessUnitDDL, setBusinessUnitDDL] = useState([]);
   const [supplierDDL, setSupplierDDL] = useState([]);
 
   useEffect(() => {
     if (accId && buId) {
-      customerListDDL(accId, buId, setCustomerDDL);
       getComplainCategory(buId, setComplainCategory);
       getDistributionChannelDDL(accId, buId, setDistributionChannelDDL);
-      getSupplierDDLApi(accId, buId, setSupplierDDL);
+      getBusinessUnitDDLApi(0, setBusinessUnitDDL);
     }
   }, [accId, buId]);
 
-  const loadEmpList = (v) => {
-    if (v?.length < 2) return [];
-    return axios
-      .get(
-        `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=${accId}&BusinessUnitId=${buId}&Search=${v}`
-      )
-      .then((res) => {
-        return res?.data;
-      })
-      .catch((err) => []);
-  };
-
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (initData?.respondentType?.value) {
+      // if type supplier
+      if (initData?.respondentType?.value === 2) {
+        setSupplierDDL([]);
+        getSupplierDDLApi(
+          accId,
+          initData?.respondentBusinessUnit?.value,
+          setSupplierDDL
+        );
+      }
+      // if type customer
+      if (initData?.respondentType?.value === 3) {
+        setCustomerDDL([]);
+        customerListDDL(
+          accId,
+          initData?.respondentBusinessUnit?.value,
+          setCustomerDDL
+        );
+      }
+    }
+
+    if( initData?.respondentBusinessUnit?.value){
+      getItemCategoryDDL(
+        accId,
+        initData?.respondentBusinessUnit?.value,
+        setLoading,
+        setItemCategoryDDL
+      );
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initData]);
   return (
     <>
       <Formik
@@ -129,8 +147,13 @@ function Form({
                   }
             }
           >
+            {console.log("errors", errors)}
             <form>
               <div className='row global-form'>
+                <div className='col-lg-12'>
+                  <h6>General Information</h6>
+                </div>
+
                 <div className='col-lg-3'>
                   <InputField
                     value={values?.occurrenceDate}
@@ -142,6 +165,49 @@ function Form({
                   />
                 </div>
                 <div className='col-lg-3'>
+                  <InputField
+                    value={values?.occurrenceTime}
+                    label='Occurrence Time'
+                    placeholder='Occurrence Time'
+                    name='occurrenceTime'
+                    type='time'
+                    disabled={view}
+                  />
+                </div>
+
+                <div className='col-lg-3'>
+                  <NewSelect
+                    name='respondentBusinessUnit'
+                    options={businessUnitDDL || []}
+                    value={values?.respondentBusinessUnit}
+                    label='Respondent Business Unit'
+                    onChange={(valueOption) => {
+                      setFieldValue(
+                        "respondentBusinessUnit",
+                        valueOption || ""
+                      );
+                      setItemCategoryDDL([]);
+                      getItemCategoryDDL(
+                        accId,
+                        valueOption?.value,
+                        setLoading,
+                        setItemCategoryDDL
+                      );
+                      setFieldValue("respondentType", "");
+                      setFieldValue("respondentName", "");
+                      setFieldValue("respondentContact", "");
+                      setFieldValue("respondentContact", "");
+                      setFieldValue("itemCategory", "");
+                      setFieldValue("challanOrPO", "");
+                    }}
+                    placeholder='Business Unit'
+                    errors={errors}
+                    touched={touched}
+                    isDisabled={view}
+                  />
+                </div>
+
+                <div className='col-lg-3'>
                   <NewSelect
                     name='respondentType'
                     options={respondentTypeDDL || []}
@@ -150,11 +216,32 @@ function Form({
                     onChange={(valueOption) => {
                       setFieldValue("respondentType", valueOption || "");
                       setFieldValue("respondentName", "");
+                      setFieldValue("respondentContact", "");
+                      setFieldValue("challanOrPO", "");
+
+                      // if type supplier
+                      if (valueOption?.value === 2) {
+                        setSupplierDDL([]);
+                        getSupplierDDLApi(
+                          accId,
+                          values?.respondentBusinessUnit?.value,
+                          setSupplierDDL
+                        );
+                      }
+                      // if type customer
+                      if (valueOption?.value === 3) {
+                        setCustomerDDL([]);
+                        customerListDDL(
+                          accId,
+                          values?.respondentBusinessUnit?.value,
+                          setCustomerDDL
+                        );
+                      }
                     }}
                     placeholder='Respondent Type'
                     errors={errors}
                     touched={touched}
-                    isDisabled={view}
+                    isDisabled={!values?.respondentBusinessUnit || view}
                   />
                 </div>
                 {/* if respondent type Customer "3" */}
@@ -164,7 +251,7 @@ function Form({
                       name='respondentName'
                       options={customerDDL || []}
                       value={values?.respondentName}
-                      label='Respondent Name'
+                      label={`${values?.respondentType?.label} Name`}
                       onChange={(valueOption) => {
                         setFieldValue("respondentName", valueOption || "");
                         setFieldValue(
@@ -172,7 +259,7 @@ function Form({
                           valueOption?.contactNo || ""
                         );
                       }}
-                      placeholder='Respondent Name'
+                      placeholder={`${values?.respondentType?.label} Name`}
                       errors={errors}
                       touched={touched}
                       isDisabled={view}
@@ -186,7 +273,7 @@ function Form({
                       name='respondentName'
                       options={supplierDDL || []}
                       value={values?.respondentName}
-                      label='Respondent Name'
+                      label={`${values?.respondentType?.label} Name`}
                       onChange={(valueOption) => {
                         setFieldValue("respondentName", valueOption || "");
                         setFieldValue(
@@ -194,7 +281,7 @@ function Form({
                           valueOption?.contactNo || ""
                         );
                       }}
-                      placeholder='Respondent Name'
+                      placeholder={`${values?.respondentType?.label} Name`}
                       errors={errors}
                       touched={touched}
                       isDisabled={view}
@@ -205,7 +292,7 @@ function Form({
                 {/* if respondent type End User "1" */}
                 {values?.respondentType?.value === 1 && (
                   <div className='col-lg-3'>
-                    <label>Respondent Name</label>
+                    <label>{`${values?.respondentType?.label} Name`}</label>
                     <SearchAsyncSelect
                       selectedValue={values?.respondentName}
                       handleChange={(valueOption) => {
@@ -215,7 +302,17 @@ function Form({
                           valueOption?.contactNo || ""
                         );
                       }}
-                      loadOptions={loadEmpList}
+                      loadOptions={(v) => {
+                        if (v?.length < 2) return [];
+                        return axios
+                          .get(
+                            `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=${accId}&BusinessUnitId=${values?.respondentBusinessUnit?.value}&Search=${v}`
+                          )
+                          .then((res) => {
+                            return res?.data;
+                          })
+                          .catch((err) => []);
+                      }}
                       placeholder='Search by Enroll/ID No/Name (min 3 letter)'
                     />
                     <FormikError
@@ -225,6 +322,19 @@ function Form({
                     />
                   </div>
                 )}
+                <div className='col-lg-3'>
+                  <InputField
+                    value={values?.respondent}
+                    label='Respondent Name'
+                    placeholder='Respondent Name'
+                    name='respondent'
+                    type='text'
+                    disabled={view}
+                    onChange={(e) => {
+                      setFieldValue("respondent", e.target.value);
+                    }}
+                  />
+                </div>
                 <div className='col-lg-3'>
                   <InputField
                     value={values?.respondentContact}
@@ -239,44 +349,45 @@ function Form({
                   />
                 </div>
                 <div className='col-lg-3'>
-                  <NewSelect
-                    name='issueType'
-                    options={complainCategory || []}
-                    value={values?.issueType}
-                    label='Issue Type'
-                    onChange={(valueOption) => {
-                      setFieldValue("issueType", valueOption || "");
+                  <InputField
+                    value={values?.respondentOrg}
+                    label='Respondent Organization'
+                    placeholder='Respondent Organization'
+                    name='respondentOrg'
+                    type='text'
+                    disabled={view}
+                    onChange={(e) => {
+                      setFieldValue("respondentOrg", e.target.value);
                     }}
-                    placeholder='Issue Type'
-                    errors={errors}
-                    touched={touched}
-                    isDisabled={view}
                   />
                 </div>
                 <div className='col-lg-3'>
                   <InputField
-                    value={values?.issueTitle}
-                    label='Issue Title'
-                    placeholder='Issue Title'
-                    name='issueTitle'
+                    value={values?.respondentAddress}
+                    label='Respondent Address'
+                    placeholder='Respondent Address'
+                    name='respondentAddress'
                     type='text'
                     disabled={view}
+                    onChange={(e) => {
+                      setFieldValue("respondentAddress", e.target.value);
+                    }}
                   />
                 </div>
                 <div className='col-lg-3'>
-                  <label>Issue Details</label>
-                  <TextArea
-                    name='issueDetails'
-                    value={values?.issueDetails || ""}
-                    label='Issue Details'
-                    placeholder='Issue Details'
-                    touched={touched}
-                    rows='3'
+                  <InputField
+                    value={values?.designationOrRelationship}
+                    label='Designation/Relationship'
+                    placeholder='Designation/Relationship'
+                    name='designationOrRelationship'
+                    type='text'
                     disabled={view}
                     onChange={(e) => {
-                      setFieldValue("issueDetails", e.target.value);
+                      setFieldValue(
+                        "designationOrRelationship",
+                        e.target.value
+                      );
                     }}
-                    errors={errors}
                   />
                 </div>
                 <div className='col-lg-3 d-flex align-items-center'>
@@ -309,6 +420,58 @@ function Form({
                     )}
                   </div>
                 </div>
+                <div className='col-lg-12'>
+                  <hr />
+                  <h6>Issue</h6>
+                </div>
+
+                <div className='col-lg-3'>
+                  <NewSelect
+                    name='issueType'
+                    options={complainCategory || []}
+                    value={values?.issueType}
+                    label='Issue Type'
+                    onChange={(valueOption) => {
+                      setFieldValue("issueType", valueOption || "");
+                    }}
+                    placeholder='Issue Type'
+                    errors={errors}
+                    touched={touched}
+                    isDisabled={view}
+                  />
+                </div>
+                <div className='col-lg-3'>
+                  <label>Issue Details</label>
+                  <TextArea
+                    name='issueDetails'
+                    value={values?.issueDetails || ""}
+                    label='Issue Details'
+                    placeholder='Issue Details'
+                    touched={touched}
+                    rows='1'
+                    disabled={view}
+                    onChange={(e) => {
+                      setFieldValue("issueDetails", e.target.value);
+                    }}
+                    errors={errors}
+                  />
+                </div>
+                <div className='col-lg-3'>
+                  <InputField
+                    value={values?.additionalCommentAndSuggestion}
+                    label='Additional Comment & Suggestion'
+                    placeholder='Additional Comment & Suggestion'
+                    name='additionalCommentAndSuggestion'
+                    type='text'
+                    disabled={view}
+                  />
+                </div>
+
+                <div className='col-lg-12'>
+                  <hr />
+                  <h6>Product Information</h6>
+                </div>
+
                 <div className='col-lg-3'>
                   <NewSelect
                     name='distributionChannel'
@@ -317,14 +480,6 @@ function Form({
                     label='Distribution Channel'
                     onChange={(valueOption) => {
                       setFieldValue("distributionChannel", valueOption || "");
-                      setItemSalesByChanneldDDL([]);
-                      getItemSalesByChanneldDDLApi(
-                        accId,
-                        buId,
-                        valueOption?.value,
-                        setItemSalesByChanneldDDL
-                      );
-                      setFieldValue("product", "");
                     }}
                     placeholder='Distribution Channel'
                     errors={errors}
@@ -334,21 +489,77 @@ function Form({
                 </div>
                 <div className='col-lg-3'>
                   <NewSelect
-                    name='product'
-                    options={itemSalesByChanneldDDL || []}
-                    value={values?.product}
-                    label='Product'
+                    name='itemCategory'
+                    options={itemCategoryDDL || []}
+                    value={values?.itemCategory}
+                    label='Product Category'
                     onChange={(valueOption) => {
-                      setFieldValue("product", valueOption || "");
+                      setFieldValue("itemCategory", valueOption);
                     }}
-                    placeholder='Product'
+                    placeholder='Product Category'
                     errors={errors}
                     touched={touched}
-                    isDisabled={view}
+                    isDisabled={!values?.respondentBusinessUnit || view}
                   />
                 </div>
 
-               
+                {[2, 3].includes(values?.respondentType?.value) && (
+                  <div className='col-lg-3'>
+                    <label>
+                      {values?.respondentType?.value === 2
+                        ? "PO No"
+                        : "Challan No"}
+                    </label>
+                    <SearchAsyncSelect
+                      selectedValue={values?.challanOrPO}
+                      handleChange={(valueOption) => {
+                        setFieldValue("challanOrPO", valueOption || "");
+                      }}
+                      loadOptions={(v) => {
+                        if (v?.length < 3) return [];
+                        const apiPath =
+                          values?.respondentType?.value === 2
+                            ? `/wms/InventoryTransaction/GetAllPoWithGrnDDL?businessUnitId=${values?.respondentBusinessUnit?.value}&Search=${v}`
+                            : `/oms/Shipment/GetCompletedShipmentList?Businessunitid=${values?.respondentBusinessUnit?.value}&AccountId=${accId}&Search=${v}`;
+
+                        return axios
+                          .get(apiPath)
+                          .then((res) => {
+                            return res?.data;
+                          })
+                          .catch((err) => []);
+                      }}
+                      placeholder='Search (min 3 letter)'
+                      isDisabled={!values?.respondentBusinessUnit || view}
+                    />
+                    <FormikError
+                      name='challanOrPO'
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                )}
+
+                <div className='col-lg-3'>
+                  <InputField
+                    value={values?.deliveryDate}
+                    label='Delivery Date'
+                    placeholder='Delivery Date'
+                    name='deliveryDate'
+                    type='date'
+                    disabled={view}
+                  />
+                </div>
+                <div className='col-lg-3'>
+                  <InputField
+                    value={values?.reference}
+                    label='Reference (Factory/Batch/Number)'
+                    placeholder='Reference (Factory/Batch/Number)'
+                    name='reference'
+                    type='text'
+                    disabled={view}
+                  />
+                </div>
               </div>
             </form>
 
