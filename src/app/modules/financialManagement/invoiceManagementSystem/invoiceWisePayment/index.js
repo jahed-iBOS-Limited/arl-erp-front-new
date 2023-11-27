@@ -16,6 +16,8 @@ import ReceiveEntryModal from "./receiveEntryModal";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { exportInvoiceWisePayment } from "./helper";
 import { toast } from "react-toastify";
+import IEdit from "../../../_helper/_helperIcons/_edit";
+import AitEntryModal from "./aitEntryModal";
 
 const initData = {
   businessUnit: "",
@@ -51,6 +53,7 @@ const InvoiceWisePaymentLanding = () => {
   const [clickedItem, setClickedItem] = useState("");
   const [viewModal, setViewModal] = useState(false);
   const [receiveModal, setReceiveModal] = useState(false);
+  const [aitEntryModal, setAitEntryModal] = useState(false);
 
   const getData = (values) => {
     getTableData(
@@ -294,8 +297,6 @@ const InvoiceWisePaymentLanding = () => {
                         <th>
                           Pending <br /> Amount
                         </th>
-                        {/* delivery part end */}
-                        {/* vat part start */}
                         <th
                           style={{
                             background: "#F6F1E8",
@@ -321,7 +322,7 @@ const InvoiceWisePaymentLanding = () => {
                         </th>
                         <th
                           style={{
-                            width: "50px",
+                            width: "80px",
                           }}
                         >
                           Action
@@ -389,14 +390,17 @@ const InvoiceWisePaymentLanding = () => {
                             <td className="text-right">
                               {_formatMoney(item?.numTaxAmountPending)}
                             </td>
-                            <td
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-around",
-                                alignItems: "center",
-                                height: "auto",
-                              }}
-                            >
+                            <td className="text-center d-flex justify-content-around align-items-center">
+                              {values?.businessUnit?.value === 186 ? (
+                                <span
+                                  onClick={() => {
+                                    setClickedItem(item);
+                                    setAitEntryModal(true);
+                                  }}
+                                >
+                                  <IEdit title={"Edit AIT Amount"} />
+                                </span>
+                              ) : null}
                               <span
                                 onClick={() => {
                                   setClickedItem(item);
@@ -458,6 +462,21 @@ const InvoiceWisePaymentLanding = () => {
                 }}
               >
                 <ReceiveEntryModal
+                  clickedItem={clickedItem}
+                  getData={getData}
+                  landingValues={values}
+                  setReceiveModal={setReceiveModal}
+                />
+              </IViewModal>
+              <IViewModal
+                show={aitEntryModal}
+                onHide={() => {
+                  setAitEntryModal(false);
+                  setClickedItem("");
+                }}
+                modelSize="lg"
+              >
+                <AitEntryModal
                   clickedItem={clickedItem}
                   getData={getData}
                   landingValues={values}
