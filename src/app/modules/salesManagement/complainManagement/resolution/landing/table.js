@@ -7,6 +7,7 @@ import IViewModal from "../../../../_helper/_viewModal";
 import DelegateForm from "./delegate";
 import InvestigateForm from "./investigate";
 import { shallowEqual, useSelector } from "react-redux";
+import moment from "moment";
 
 const LandingTable = ({ obj }) => {
   const {
@@ -59,7 +60,9 @@ const LandingTable = ({ obj }) => {
                 <td>{item?.delegateByName}</td>
                 <td>
                   {item?.delegateDateTime &&
-                    _dateFormatter(item?.delegateDateTime)}
+                    moment(item?.delegateDateTime).format(
+                      "YYYY-MM-DD, HH:mm A"
+                    )}
                 </td>
                 <td>{item?.delegateToName}</td>
                 <td>

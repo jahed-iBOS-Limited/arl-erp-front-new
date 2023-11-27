@@ -21,6 +21,14 @@ import {
   investigateComplainApi,
 } from "../helper";
 export const validationSchema = Yup.object().shape({});
+const initData = {
+  investigationDate: _todayDate(),
+  investigationPerson: "",
+  rootCause: "",
+  correctiveAction: "",
+  attachment: "",
+  investigationDueDate: "",
+};
 
 function InvestigateForm({ clickRowData, landingCB }) {
   const [open, setOpen] = useState(false);
@@ -30,7 +38,7 @@ function InvestigateForm({ clickRowData, landingCB }) {
   const [rowDto, setRowDto] = useState([]);
   const [singleData, setSingleData] = React.useState({});
   const {
-    profileData: { accountId: accId, userId },
+    profileData: { accountId: accId, userId, employeeId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const loadEmpList = (v) => {
@@ -66,35 +74,51 @@ function InvestigateForm({ clickRowData, landingCB }) {
       landingCB();
     });
   };
-
+  const formikRef = React.useRef(null);
   useEffect(() => {
     if (clickRowData?.status === "Investigate") {
       getInvestigateComplainbyApi(clickRowData?.complainId, setRowDto);
     }
     if (clickRowData?.complainId) {
       const id = clickRowData?.complainId;
-      getComplainByIdWidthOutModify(id, accId, buId, setLoading, setSingleData);
+      getComplainByIdWidthOutModify(id, accId, buId, setLoading, (resData) => {
+        setSingleData(resData);
+        const matchEmployee = resData?.investigationInfo?.find(
+          (itm) => itm?.investigatorId === employeeId
+        );
+  
+        if (formikRef.current) {
+          formikRef.current.setFieldValue(
+            "investigationPerson",
+            matchEmployee
+              ? {
+                  value: matchEmployee?.investigatorId,
+                  label: matchEmployee?.investigatorName,
+                }
+              : ""
+          );
+          formikRef.current.setFieldValue(
+            "investigationDueDate",
+            _dateFormatter(resData?.investigationInfo?.investigationDueDate)
+          );
+        }
+      });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clickRowData]);
-
 
   return (
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={{
-          investigationDate: _todayDate(),
-          investigationPerson: "",
-          rootCause: "",
-          correctiveAction: "",
-        }}
+        initialValues={initData}
         onSubmit={(values, { resetForm }) => {
           saveHandler(values, () => {
             resetForm();
           });
         }}
         validationSchema={validationSchema}
+        innerRef={formikRef}
       >
         {({
           values,
@@ -172,16 +196,32 @@ function InvestigateForm({ clickRowData, landingCB }) {
                 <p>
                   <b>Product Category:</b> {singleData?.itemCategoryName}
                 </p>
+                <p>
+                  <b>Delegate Date Time:</b>{" "}
+                  {singleData?.delegateDateTime &&
+                    moment(singleData?.delegateDateTime).format(
+                      "YYYY-MM-DD, HH:mm A"
+                    )}
+                </p>
+                <p>
+                  <b>Delegate To:</b> {singleData?.delegateToName}
+                </p>
+                <p>
+                  <b> Remarks:</b> {singleData?.statusRemarks}
+                </p>
+                <p>
+                  <b>Attachment: </b>
+                </p>
               </div>
             </div>
             <form>
               <div className='row global-form'>
                 <div className='col-lg-3'>
                   <InputField
-                    value={values?.investigationDate}
+                    value={values?.investigationDueDate}
                     label='Investigation Date'
                     placeholder='Investigation Date'
-                    name='investigationDate'
+                    name='investigationDueDate'
                     type='date'
                   />
                 </div>
@@ -192,8 +232,22 @@ function InvestigateForm({ clickRowData, landingCB }) {
                     handleChange={(valueOption) => {
                       setFieldValue("investigationPerson", valueOption || "");
                     }}
-                    loadOptions={loadEmpList}
+                    loadOptions={(v) => {
+                      if (v?.length < 2) return [];
+                      return axios
+                        .get(
+                          `/asset/DropDown/GetEmployeeByEmpIdDDL?AccountId=${accId}&BusinessUnitId=0&searchTearm=${v}`
+                        )
+                        .then((res) => {
+                          return res?.data?.map((itm) => ({
+                            value: itm?.value,
+                            label: `${itm?.level} [${itm?.employeeCode}]`,
+                          }));
+                        })
+                        .catch((err) => []);
+                    }}
                     placeholder='Search by Enroll/ID No/Name (min 3 letter)'
+                    isDisabled
                   />
                   <FormikError
                     name='investigationPerson'
@@ -201,6 +255,17 @@ function InvestigateForm({ clickRowData, landingCB }) {
                     touched={touched}
                   />
                 </div>
+
+                <div className='col-lg-3'>
+                  <InputField
+                    value={values?.investigationDate}
+                    label='Investigation Date'
+                    placeholder='Investigation Date'
+                    name='investigationDate'
+                    type='date'
+                  />
+                </div>
+
                 <div className='col-lg-3'>
                   <InputField
                     value={values?.rootCause}
@@ -247,101 +312,7 @@ function InvestigateForm({ clickRowData, landingCB }) {
                     )}
                   </div>
                 </div>
-
-                <div className='col d-flex align-items-center justify-content-end'>
-                  <button
-                    className='btn btn-primary'
-                    type='button'
-                    onClick={() => {
-                      const obj = {
-                        autoId: 0,
-                        investigatorId: values?.investigationPerson?.value || 0,
-                        investigatorName:
-                          values?.investigationPerson?.label || "",
-                        investigationDateTime: moment(
-                          values?.investigationDate || undefined
-                        ).format("YYYY-MM-DD"),
-                        rootCause: values?.rootCause || "",
-                        correctiveAction: values?.correctiveAction || "",
-                        attachment: values?.attachment || "",
-                      };
-                      setRowDto([...rowDto, obj]);
-                      setFieldValue("investigationPerson", "");
-                      setFieldValue("rootCause", "");
-                      setFieldValue("correctiveAction", "");
-                      setFieldValue("attachment", "");
-                    }}
-                    disabled={
-                      !values?.investigationPerson ||
-                      !values?.investigationDate ||
-                      !values?.rootCause ||
-                      !values?.correctiveAction
-                    }
-                  >
-                    Add
-                  </button>
-                </div>
               </div>
-
-              <table className='table table-striped table-bordered global-table'>
-                <thead>
-                  <tr>
-                    <th>SL</th>
-                    <th>Investigation Date</th>
-                    <th>Investigation Person</th>
-                    <th>Root Cause</th>
-                    <th>Corrective Action</th>
-                    <th>Attachment</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rowDto?.map((item, index) => (
-                    <tr key={index}>
-                      <td className='text-center'> {index + 1}</td>
-                      <td>{_dateFormatter(item?.investigationDateTime)}</td>
-                      <td>{item?.investigatorName}</td>
-                      <td>{item?.rootCause}</td>
-                      <td>{item?.correctiveAction}</td>
-                      <td>
-                        <div className='d-flex align-items-center justify-content-center'>
-                          {item?.attachment && (
-                            <span
-                              onClick={() => {
-                                dispatch(
-                                  getDownlloadFileView_Action(item?.attachment)
-                                );
-                              }}
-                            >
-                              <i
-                                class='fa fa-paperclip pointer'
-                                aria-hidden='true'
-                              ></i>
-                            </span>
-                          )}
-                        </div>
-                      </td>
-                      <td>
-                        <div className='d-flex align-items-center justify-content-center'>
-                          <span
-                            onClick={() => {
-                              const newData = rowDto.filter(
-                                (itm, idx) => idx !== index
-                              );
-                              setRowDto(newData);
-                            }}
-                          >
-                            <i
-                              class='fa fa-trash pointer'
-                              aria-hidden='true'
-                            ></i>
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
             </form>
 
             <DropzoneDialogBase
