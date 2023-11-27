@@ -45,8 +45,8 @@ import LCCostSumary from "./transactionNew/lcCostSumary/landing/tableHeader";
 import ListOfDiferredLC from "./transactionNew/list-of-diferred-LC/landing/table";
 import PerformanceGuarantee from "./transactionNew/performance-guarantee/form/addEditForm";
 import PortCharges from "./transactionNew/port-charges/landing/tableHeader";
-import ProformaInvoiceForm from "./transactionNew/proforma-invoice/form/addEditForm";
-import ProformaInvoiceLanding from "./transactionNew/proforma-invoice/landing/tableHeader";
+import ProformaInvoiceForm from "./transaction/proforma-invoice/form/addEditForm";
+import ProformaInvoiceLanding from "./transaction/proforma-invoice/landing/tableHeader";
 import shipmentAndPackingForm from "./transactionNew/shipmentAndPacking/Collapse";
 import shipmentAndPackingLanding from "./transactionNew/shipmentAndPacking/landing/tableHeader";
 import ShippingChargeForm from "./transactionNew/shipping-charges/form/addEditForm";
@@ -56,8 +56,19 @@ import TransportChargesLanding from "./transactionNew/transportCharges/landing/t
 import UnloadingChargesForm from "./transactionNew/unloading-charges/form/addEditForm";
 import UnloadingCharges from "./transactionNew/unloading-charges/landing/tableHeader";
 
-
 const oldTransactionroutes = [
+  {
+    path: "/managementImport/transaction/proforma-invoice/:type/:pid",
+    Component: ProformaInvoiceForm,
+  },
+  {
+    path: "/managementImport/transaction/proforma-invoice/add",
+    Component: ProformaInvoiceForm,
+  },
+  {
+    path: "/managementImport/transaction/proforma-invoice",
+    Component: ProformaInvoiceLanding,
+  },
   {
     path: "/managementImport/transaction/insurance-policy/create",
     Component: InsurancePolicyCollapsePanel,
@@ -235,7 +246,8 @@ const oldTransactionroutes = [
     Component: LCBusinessPartnerForm,
   },
   {
-    path: "/managementImport/transaction/lc-business-partner/:type/:businessID/:businessPartnerTypeId",
+    path:
+      "/managementImport/transaction/lc-business-partner/:type/:businessID/:businessPartnerTypeId",
     Component: LCBusinessPartnerForm,
   },
   {
@@ -244,38 +256,29 @@ const oldTransactionroutes = [
   },
 ];
 
-
-
 export function importManagementPagesNew() {
   return (
     <Suspense fallback={<LayoutSplashScreen />}>
       <Switch>
-      <Redirect
+        <Redirect
           exact={true}
           from="/transport-management"
           to="/managementImport/transactionNew/insurance-policy"
         />
 
+        {/* #Old routes start - temporary */}
 
-           {/* #Old routes start - temporary */}
-        
-           {
-          /* #Old routes start - temporary
+        {/* #Old routes start - temporary
             #must be deleted after developing the new feature
           */
-          oldTransactionroutes.map(route=>{
-            const {path, Component} = route;
-            return <ContentRoute
-            path={path}
-            component={Component}
-          />
-          })
-          }
+        oldTransactionroutes.map((route) => {
+          const { path, Component } = route;
+          return <ContentRoute path={path} component={Component} />;
+        })}
 
         {/* Old routes end - temporary */}
 
-
-        {/* Insurance Policy */} 
+        {/* Insurance Policy */}
         <ContentRoute
           path="/managementImport/transactionNew/insurance-policy/create"
           component={InsurancePolicyCollapsePanel}
@@ -512,7 +515,7 @@ export function importManagementPagesNew() {
           component={LCBusinessPartnerLanding}
         />
         {/* Commercial Payment */}
-       
+
         {/* Reports - Indent PO LC */}
         <ContentRoute
           path="/managementImport/reports/indent-po-lc"
@@ -578,7 +581,7 @@ export function importManagementPagesNew() {
           component={FundRequisition}
         />
         {/* Proforma Invoice */}
-        <ContentRoute
+        {/* <ContentRoute
           path="/managementImport/transactionNew/proforma-invoice/:type/:pid"
           component={ProformaInvoiceForm}
         />
@@ -589,8 +592,7 @@ export function importManagementPagesNew() {
         <ContentRoute
           path="/managementImport/transactionNew/proforma-invoice"
           component={ProformaInvoiceLanding}
-        />
-
+        /> */}
 
         <ContentRoute
           path="/managementImport/transactionNew/advance-payment-customs-duty/edit/:id"
@@ -604,8 +606,6 @@ export function importManagementPagesNew() {
           path="/managementImport/transactionNew/advance-payment-customs-duty"
           component={CustomDutyAdvancePayment}
         />
-
-
       </Switch>
     </Suspense>
   );

@@ -95,7 +95,7 @@ export default function AddEditForm() {
   const checkItemValidity = () => {
     let validationMessage;
     rowDto.forEach((i) => {
-      if (!i?.hscode || i.hscode ==="0") {
+      if (!i?.hscode || i.hscode === "0") {
         validationMessage = "HS code not found";
       } else if (!i?.quantity) {
         validationMessage = "Qty Will be grater than 0";
@@ -103,19 +103,20 @@ export default function AddEditForm() {
         validationMessage = "Rate Will be grater than 0";
       }
     });
-    
-   return validationMessage;
+
+    return validationMessage;
   };
 
   const saveHandler = async (values, cb) => {
+    console.log("saveHandler values", values);
     if (rowDto.length === 0) {
       toast.warn("Please add at least one Item");
       return;
     }
     if (params?.pid) {
-      const checkItemValidation = checkItemValidity()
-      if(checkItemValidation){
-       return toast.warn(checkItemValidation)
+      const checkItemValidation = checkItemValidity();
+      if (checkItemValidation) {
+        return toast.warn(checkItemValidation);
       }
       return updatePi(setDisabled, values, rowDto);
     }
@@ -124,9 +125,9 @@ export default function AddEditForm() {
       return;
     }
 
-    const checkItemValidation = checkItemValidity()
-    if(checkItemValidation){
-     return  toast.warn(checkItemValidation)
+    const checkItemValidation = checkItemValidity();
+    if (checkItemValidation) {
+      return toast.warn(checkItemValidation);
     }
 
     return createPI(
