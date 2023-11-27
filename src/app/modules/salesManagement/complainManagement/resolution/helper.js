@@ -113,6 +113,32 @@ export const attachment_action = async (
   }
 };
 
+export const attachment_actionTwo = async (
+  attachment,
+  setFieldValue,
+  setLoading
+) => {
+  setLoading(true);
+  let formData = new FormData();
+  attachment.forEach((file) => {
+    formData.append("files", file?.file);
+  });
+  setFieldValue("attachment", "");
+  try {
+    let { data } = await axios.post("/domain/Document/UploadFile", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    toast.success("Upload  successfully");
+    setFieldValue("attachmentRow", data?.[0]?.id);
+    setLoading(false);
+  } catch (error) {
+    setLoading(false);
+    toast.error("Document not upload");
+  }
+};
+
 export const createComplain = async (payload, setLoading, cb) => {
   setLoading(true);
   try {
