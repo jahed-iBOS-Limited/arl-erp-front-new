@@ -98,3 +98,18 @@ export const editTenderInfo = async (payload) => {
     toast.error(error?.response?.data?.message);
   }
 };
+
+export const tenderInfoApprove = async (payload, setLoading) => {
+  setLoading(true);
+  try {
+    const res = await Axios.put(
+      `/tms/LigterLoadUnload/ApproveGTOGProgramInfo`,
+      payload
+    );
+    toast.success(res?.data?.message);
+    setLoading(false);
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setLoading(false);
+  }
+};
