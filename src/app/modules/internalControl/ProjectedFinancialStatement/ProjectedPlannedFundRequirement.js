@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import InputField from "../../_helper/_inputField";
 import numberWithCommas from "../../_helper/_numberWithCommas";
-export default function ProjectedPlannedFundRequirement({ rowData }) {
+import ProjectedPlannedFundRequirementForAll from "./ProjectedPlannedFundRequirementForAll";
+export default function ProjectedPlannedFundRequirement({ rowData, values }) {
   const [listData, setListData] = useState({
     typeOne: [],
     typeTwo: [],
@@ -11,6 +12,12 @@ export default function ProjectedPlannedFundRequirement({ rowData }) {
   const [financialCostOne, setFinancialCostOne] = useState(0);
   // eslint-disable-next-line no-unused-vars
   const [financialCostTwo, setFinancialCostTwo] = useState(0);
+  console.log({ values });
+
+  //check condition for dynamic table
+  const isDynamicTable =
+    values?.reportType?.value === 8 &&
+    values?.subDivisionBusinessUnit?.value === 0;
 
   useEffect(() => {
     if (rowData?.length) {
@@ -25,7 +32,7 @@ export default function ProjectedPlannedFundRequirement({ rowData }) {
   }, [rowData]);
   return (
     <>
-      {rowData?.length > 0 ? (
+      {rowData?.length > 0 && !isDynamicTable ? (
         <div className="row">
           <div>
             <h4 className="mt-5 ml-5">
@@ -135,6 +142,10 @@ export default function ProjectedPlannedFundRequirement({ rowData }) {
         </div>
       ) : null}
 
+      {rowData?.length > 0 && isDynamicTable && (
+        <ProjectedPlannedFundRequirementForAll rowData={rowData} />
+      )}
+
       {rowData?.length > 0 ? (
         <div className="row">
           <div>
@@ -237,11 +248,15 @@ export default function ProjectedPlannedFundRequirement({ rowData }) {
                             0
                           );
 
-                        setFinancialCostOne((total * Math.round(+e.target.value)) / 12);
+                        setFinancialCostOne(
+                          (total * Math.round(+e.target.value)) / 12
+                        );
                       }}
                     />
                   </td>
-                  <td>{numberWithCommas(Math.round(financialCostOne)) || ""}</td>
+                  <td>
+                    {numberWithCommas(Math.round(financialCostOne)) || ""}
+                  </td>
                 </tr>
                 <tr>
                   <td>LTL</td>

@@ -20,6 +20,7 @@ import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { lastPriceFunc } from "../../../../procurement/purchase-management/purchaseOrder/helper";
 import numberWithCommas from "../../../../_helper/_numberWithCommas";
 import { GetCommercialInvoiceById_api } from "./helper";
+import printIcon from "../../../../_helper/images/print-icon.png";
 
 const initData = {
   approveAmount: "",
@@ -289,8 +290,8 @@ const CommercialBillTypeDetails = ({
                                     width: "25px",
                                     paddingRight: "5px",
                                   }}
-                                  //   src={printIcon}
-                                  alt="print-icon"
+                                  src={printIcon}
+                                  alt="print"
                                 />
                                 Print
                               </button>
