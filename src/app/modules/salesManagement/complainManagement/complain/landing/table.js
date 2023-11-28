@@ -85,11 +85,23 @@ const LandingTable = ({ obj }) => {
                             >
                               <p>
                                 <b>Investigation: </b>
-                                {itm?.investigatorName},{" "}
-                                {itm?.investigationDateTime &&
-                                  moment(itm?.investigationDateTime).format(
-                                    "YYYY-MM-DD, HH:mm A"
-                                  )}
+                                {itm?.investigatorName}
+                                {itm?.investigationDueDate && (
+                                  <>
+                                    , Due:
+                                    {moment(itm?.investigationDueDate).format(
+                                      "YYYY-MM-DD"
+                                    )}
+                                  </>
+                                )}
+                                {itm?.investigationDateTime && (
+                                  <>
+                                    , Actual:
+                                    {moment(itm?.investigationDateTime).format(
+                                      "YYYY-MM-DD, HH:mm A"
+                                    )}
+                                  </>
+                                )}
                               </p>
                             </div>
                           ))}
@@ -116,11 +128,23 @@ const LandingTable = ({ obj }) => {
                             >
                               <p>
                                 <b>Investigation: </b>
-                                {itm?.investigatorName},{" "}
-                                {itm?.investigationDateTime &&
-                                  moment(itm?.investigationDateTime).format(
-                                    "YYYY-MM-DD, HH:mm A"
-                                  )}
+                                {itm?.investigatorName}
+                                {itm?.investigationDueDate && (
+                                  <>
+                                    , Due:
+                                    {moment(itm?.investigationDueDate).format(
+                                      "YYYY-MM-DD"
+                                    )}
+                                  </>
+                                )}
+                                {itm?.investigationDateTime && (
+                                  <>
+                                    , Actual:
+                                    {moment(itm?.investigationDateTime).format(
+                                      "YYYY-MM-DD, HH:mm A"
+                                    )}
+                                  </>
+                                )}
                               </p>
                             </div>
                           ))}
