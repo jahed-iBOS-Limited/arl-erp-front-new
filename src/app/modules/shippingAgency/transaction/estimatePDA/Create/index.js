@@ -24,7 +24,7 @@ import {
   getExpenseParticularsList,
   getSBUListDDLApi,
   getVesselDDL,
-  getVoyageNoDDLApi
+  getVoyageNoDDLApi,
 } from "../helper";
 import ViewInvoice from "../landing/viewInvoice";
 import RowTable from "./rowTable";
@@ -197,6 +197,9 @@ const EstimatePDACreate = () => {
       setViewClickRowItem({
         estimatePdaid: resData?.estimatePdaId,
       });
+      history.push(
+        `/ShippingAgency/Transaction/EstimatePDA/edit/${resData?.estimatePdaid}`
+      );
     });
   };
 
@@ -249,7 +252,6 @@ const EstimatePDACreate = () => {
     });
   };
 
-  console.log(viewClickRowItem);
   return (
     <>
       {loading && <Loading />}
@@ -286,7 +288,7 @@ const EstimatePDACreate = () => {
                 resetForm(initData);
               }}
               renderProps={
-                editId || !viewClickRowItem?.estimatePdaid
+                !editId
                   ? false
                   : () => {
                       return (
