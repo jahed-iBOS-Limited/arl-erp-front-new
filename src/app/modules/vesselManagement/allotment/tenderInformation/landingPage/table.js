@@ -15,6 +15,7 @@ import { GetDomesticPortDDL } from "../../loadingInformation/helper";
 import { deleteTenderInfo, getMotherVesselDDL } from "../helper";
 import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { toast } from "react-toastify";
 
 const initData = {
   motherVessel: "",
@@ -27,10 +28,11 @@ export default function TenderInformationLandingTable() {
   //paginationState
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
-  const [gridData, getGridData, loading] = useAxiosGet();
+  const [gridData, getGridData, loading, setGridData] = useAxiosGet();
   const [isLoading, setIsLoading] = useState(false);
   const [portDDL, setPortDDL] = useState([]);
   const [, billGenerate, billGenerateLoader] = useAxiosPost();
+  const [unloadStarted, getIsUnloadStarted, usLoader] = useAxiosGet();
 
   const {
     profileData: { accountId: accId },
@@ -62,6 +64,9 @@ export default function TenderInformationLandingTable() {
   };
 
   const generateBills = (item, billType) => {
+    if (!unloadStarted) {
+      return toast.warn("Mother vessel unloading has not started yet!");
+    }
     const cnfURL = `/tms/LigterLoadUnload/G2GStandardCostingCNF?motherVesselId=${item?.motherVesselId}`;
     const steveDoreURL = `/tms/LigterLoadUnload/G2GStandardCostingStevdore?motherVesselId=${item?.motherVesselId}`;
     const surveyorURL = `/tms/LigterLoadUnload/G2GStandardCostingServeyor?motherVesselId=${item?.motherVesselId}`;
@@ -90,7 +95,7 @@ export default function TenderInformationLandingTable() {
     billGenerate(URL, {}, () => {});
   };
 
-  const loader = loading || isLoading || billGenerateLoader;
+  const loader = loading || isLoading || billGenerateLoader || usLoader;
 
   const billIcons = [
     { title: "Generate CNF Bill", billType: "cnf" },
@@ -123,6 +128,7 @@ export default function TenderInformationLandingTable() {
                     onChange={(valueOption) => {
                       setFieldValue("port", valueOption);
                       setFieldValue("motherVessel", "");
+                      setGridData([])
                       getMotherVesselDDL(
                         accId,
                         buId,
@@ -141,6 +147,10 @@ export default function TenderInformationLandingTable() {
                     label="Mother Vessel"
                     onChange={(valueOption) => {
                       setFieldValue("motherVessel", valueOption);
+                      setGridData([]);
+                      getIsUnloadStarted(
+                        `/tms/LigterLoadUnload/MotherVesselInLoadingState?businessUnitId=${buId}&motherVesselId=${valueOption?.value}`
+                      );
                     }}
                     placeholder="Mother Vessel"
                     isDisabled={!values?.port}
