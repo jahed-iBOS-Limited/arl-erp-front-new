@@ -307,16 +307,20 @@ const InvoiceWisePaymentLanding = () => {
                         <th>
                           Pending <br /> Vat
                         </th>
-                        <th>
-                          AIT <br /> Amount
-                        </th>
+                        {values?.businessUnit?.value !== 186 ? (
+                          <th>
+                            AIT <br /> Amount
+                          </th>
+                        ) : null}
                         <th>
                           Collected <br /> AIT
                         </th>
-                        <th>
-                          Pending AIT <br />
-                          Amount
-                        </th>
+                        {values?.businessUnit?.value !== 186 ? (
+                          <th>
+                            Pending AIT <br />
+                            Amount
+                          </th>
+                        ) : null}
                         <th
                           style={{
                             width: "80px",
@@ -373,20 +377,24 @@ const InvoiceWisePaymentLanding = () => {
                             <td className="text-right">
                               {_formatMoney(item?.numVatAmountPending)}
                             </td>
-                            <td
-                              className="text-right"
-                              style={{
-                                background: "rgb(232 224 255)",
-                              }}
-                            >
-                              {_formatMoney(item?.numTaxAmount)}
-                            </td>
+                            {values?.businessUnit?.value !== 186 ? (
+                              <td
+                                className="text-right"
+                                style={{
+                                  background: "rgb(232 224 255)",
+                                }}
+                              >
+                                {_formatMoney(item?.numTaxAmount)}
+                              </td>
+                            ) : null}
                             <td className="text-right">
                               {_formatMoney(item?.numTaxAmountCollected)}
                             </td>
-                            <td className="text-right">
-                              {_formatMoney(item?.numTaxAmountPending)}
-                            </td>
+                            {values?.businessUnit?.value !== 186 ? (
+                              <td className="text-right">
+                                {_formatMoney(item?.numTaxAmountPending)}
+                              </td>
+                            ) : null}
                             <td className="text-center d-flex justify-content-around align-items-center">
                               <span
                                 onClick={() => {
