@@ -40,7 +40,7 @@ export default function ProjectedFinancialStatement() {
   const [buDDL, getBuDDL, buDDLloader, setBuDDL] = useAxiosGet();
 
   const saveHandler = (values, cb) => {};
-  
+
   const { profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -681,6 +681,7 @@ export default function ProjectedFinancialStatement() {
                         label="Enterprise Division"
                         onChange={(valueOption) => {
                           if (valueOption) {
+                            setRowData([]);
                             setFieldValue("enterpriseDivision", valueOption);
                             setFieldValue("subDivision", "");
                             setFieldValue("subDivisionBusinessUnit", "");
@@ -689,6 +690,7 @@ export default function ProjectedFinancialStatement() {
                               `/hcm/HCMDDL/GetBusinessUnitSubGroup?AccountId=1&BusinessUnitGroup=${valueOption?.label}`
                             );
                           } else {
+                            setRowData([]);
                             setFieldValue("enterpriseDivision", "");
                             setFieldValue("subDivision", "");
                             setFieldValue("subDivisionBusinessUnit", "");
@@ -704,11 +706,13 @@ export default function ProjectedFinancialStatement() {
                         label="Sub Division"
                         onChange={(valueOption) => {
                           if (valueOption) {
+                            setRowData([]);
                             setFieldValue("subDivision", valueOption);
                             setFieldValue("subDivisionBusinessUnit", "");
                             getBusinessUnitBySubDivisionDDL(`/hcm/HCMDDL/GetBusinessUnitByBusinessUnitGroupDDL?AccountId=${profileData?.accountId}&BusinessUnitGroup=${values?.enterpriseDivision?.value}&SubGroup=${valueOption?.value}
                           `);
                           } else {
+                            setRowData([]);
                             setFieldValue("subDivision", "");
                             setFieldValue("subDivisionBusinessUnit", "");
                           }
@@ -727,8 +731,10 @@ export default function ProjectedFinancialStatement() {
                               "subDivisionBusinessUnit",
                               valueOption
                             );
+                            setRowData([]);
                           } else {
                             setFieldValue("subDivisionBusinessUnit", "");
+                            setRowData([]);
                           }
                         }}
                       />
@@ -891,7 +897,6 @@ export default function ProjectedFinancialStatement() {
                         getRowData(
                           `/fino/Report/GetPlannedFundRequirement?businessUnitId=${values?.subDivisionBusinessUnit?.value}&strYear=${values?.year?.label}&businessUnitGroup=${values?.enterpriseDivision?.value}&subGroup=${values?.subDivision?.value}`
                         );
-                        
                       }
                     }}
                     className="btn btn-primary"
@@ -943,11 +948,16 @@ export default function ProjectedFinancialStatement() {
                   />
                 ) : null}
                 {[7]?.includes(values?.reportType?.value) ? (
-                  <ProjectedPlannedAssetSchedule rowData={rowData} toDate={values?.toDate} />
+                  <ProjectedPlannedAssetSchedule
+                    rowData={rowData}
+                    toDate={values?.toDate}
+                  />
                 ) : null}
-                {console.log(values?.toDate)}
                 {[8]?.includes(values?.reportType?.value) ? (
-                  <ProjectedPlannedFundRequirement rowData={rowData} />
+                  <ProjectedPlannedFundRequirement
+                    rowData={rowData}
+                    values={values}
+                  />
                 ) : null}
               </div>
             </Form>
