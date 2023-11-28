@@ -1,13 +1,16 @@
+import moment from "moment";
 import React from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import IViewModal from "../../../../_helper/_viewModal";
+import feedbackIcon from "../../../../_helper/images/feedback.png";
 import DelegateForm from "./delegate";
+import FeedbackModal from "./feedbackModal";
 import InvestigateForm from "./investigate";
-import { shallowEqual, useSelector } from "react-redux";
-import moment from "moment";
+import { useParams } from 'react-router';
 
 const LandingTable = ({ obj }) => {
   const {
@@ -19,8 +22,11 @@ const LandingTable = ({ obj }) => {
   const history = useHistory();
   const [delegatModalShow, setDelegatModalShow] = React.useState(false);
   const [investigateModalShow, setInvestigateModalShow] = React.useState(false);
+  const [isFeedbackModalShow, setIsFeedbackModalShow] = React.useState(false);
   const [clickRowData, setClickRowData] = React.useState({});
 
+  const isMyComplaint =
+  window.location.pathname === "/self-service/my-complaint"
   return (
     <>
       <table className='table table-striped table-bordered global-table'>
@@ -44,12 +50,13 @@ const LandingTable = ({ obj }) => {
         </thead>
         <tbody>
           {gridData?.data?.map((item, index) => {
-            const matchEmployeeId = item?.investigatorAssignByName
-              ?.find((itm) => itm?.investigatorId === employeeId)
+            const matchEmployeeId = item?.investigatorAssignByName?.find(
+              (itm) => itm?.investigatorId === employeeId
+            );
 
             return (
               <tr key={index}>
-               <td className='text-center'> {index + 1}</td>
+                <td className='text-center'> {index + 1}</td>
                 <td>{item?.complainNo}</td>
                 <td>{_dateFormatter(item?.requestDateTime)}</td>
                 <td>{item?.respondentTypeName}</td>
@@ -79,9 +86,10 @@ const LandingTable = ({ obj }) => {
                               <p>
                                 <b>Investigation: </b>
                                 {itm?.investigatorName},{" "}
-                                {itm?.investigationDateTime &&moment(itm?.investigationDateTime).format(
-                                  "YYYY-MM-DD, HH:mm A"
-                                )}
+                                {itm?.investigationDateTime &&
+                                  moment(itm?.investigationDateTime).format(
+                                    "YYYY-MM-DD, HH:mm A"
+                                  )}
                               </p>
                             </div>
                           ))}
@@ -109,9 +117,10 @@ const LandingTable = ({ obj }) => {
                               <p>
                                 <b>Investigation: </b>
                                 {itm?.investigatorName},{" "}
-                                {itm?.investigationDateTime && moment(itm?.investigationDateTime).format(
-                                  "YYYY-MM-DD, HH:mm A"
-                                )}
+                                {itm?.investigationDateTime &&
+                                  moment(itm?.investigationDateTime).format(
+                                    "YYYY-MM-DD, HH:mm A"
+                                  )}
                               </p>
                             </div>
                           ))}
@@ -150,7 +159,7 @@ const LandingTable = ({ obj }) => {
                       gap: "8px",
                     }}
                   >
-                    {item?.status === "Open" && (
+                    {item?.status === "Open" && !isMyComplaint && (
                       <span
                         onClick={() => {
                           history.push(
@@ -162,7 +171,7 @@ const LandingTable = ({ obj }) => {
                       </span>
                     )}
 
-                    {item?.status === "Open" && (
+                    {item?.status === "Open"&& !isMyComplaint && (
                       <>
                         <span>
                           <OverlayTrigger
@@ -218,6 +227,22 @@ const LandingTable = ({ obj }) => {
                               </span>
                             </OverlayTrigger>
                           </span>
+                          <span
+                            onClick={() => {
+                              setIsFeedbackModalShow(true);
+                              setClickRowData(item);
+                            }}
+                          >
+                            <img
+                              className='pointer'
+                              src={feedbackIcon}
+                              alt='feedbackIcon'
+                              style={{
+                                width: "20px",
+                                height: "20px",
+                              }}
+                            />
+                          </span>
                         </>
                       )}
                   </div>
@@ -260,6 +285,27 @@ const LandingTable = ({ obj }) => {
               clickRowData={clickRowData}
               landingCB={() => {
                 setInvestigateModalShow(false);
+                setClickRowData({});
+                commonGridDataCB();
+              }}
+            />
+          </IViewModal>
+        </>
+      )}
+      {isFeedbackModalShow && (
+        <>
+          <IViewModal
+            show={isFeedbackModalShow}
+            onHide={() => {
+              setIsFeedbackModalShow(false);
+              setClickRowData({});
+            }}
+            modelSize={"sm"}
+          >
+            <FeedbackModal
+              clickRowData={clickRowData}
+              landingCB={() => {
+                setIsFeedbackModalShow(false);
                 setClickRowData({});
                 commonGridDataCB();
               }}

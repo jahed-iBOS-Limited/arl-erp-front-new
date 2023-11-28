@@ -294,8 +294,6 @@ const InvoiceWisePaymentLanding = () => {
                         <th>
                           Pending <br /> Amount
                         </th>
-                        {/* delivery part end */}
-                        {/* vat part start */}
                         <th
                           style={{
                             background: "#F6F1E8",
@@ -321,7 +319,7 @@ const InvoiceWisePaymentLanding = () => {
                         </th>
                         <th
                           style={{
-                            width: "50px",
+                            width: "80px",
                           }}
                         >
                           Action
@@ -389,14 +387,7 @@ const InvoiceWisePaymentLanding = () => {
                             <td className="text-right">
                               {_formatMoney(item?.numTaxAmountPending)}
                             </td>
-                            <td
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-around",
-                                alignItems: "center",
-                                height: "auto",
-                              }}
-                            >
+                            <td className="text-center d-flex justify-content-around align-items-center">
                               <span
                                 onClick={() => {
                                   setClickedItem(item);
