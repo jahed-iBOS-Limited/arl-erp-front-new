@@ -10,7 +10,6 @@ import feedbackIcon from "../../../../_helper/images/feedback.png";
 import DelegateForm from "./delegate";
 import FeedbackModal from "./feedbackModal";
 import InvestigateForm from "./investigate";
-import { useParams } from 'react-router';
 
 const LandingTable = ({ obj }) => {
   const {
@@ -26,7 +25,7 @@ const LandingTable = ({ obj }) => {
   const [clickRowData, setClickRowData] = React.useState({});
 
   const isMyComplaint =
-  window.location.pathname === "/self-service/my-complaint"
+    window.location.pathname === "/self-service/my-complaint";
   return (
     <>
       <table className='table table-striped table-bordered global-table'>
@@ -84,12 +83,24 @@ const LandingTable = ({ obj }) => {
                               }}
                             >
                               <p>
-                                <b>Investigation: </b>
-                                {itm?.investigatorName},{" "}
-                                {itm?.investigationDateTime &&
-                                  moment(itm?.investigationDateTime).format(
-                                    "YYYY-MM-DD, HH:mm A"
-                                  )}
+                                <b> </b>
+                                {itm?.investigatorName}
+                                {itm?.investigationDueDate && (
+                                  <>
+                                    , Due:
+                                    {moment(itm?.investigationDueDate).format(
+                                      "YYYY-MM-DD"
+                                    )}
+                                  </>
+                                )}
+                                {itm?.investigationDateTime && (
+                                  <>
+                                    , Actual:
+                                    {moment(itm?.investigationDateTime).format(
+                                      "YYYY-MM-DD, HH:mm A"
+                                    )}
+                                  </>
+                                )}
                               </p>
                             </div>
                           ))}
@@ -116,11 +127,23 @@ const LandingTable = ({ obj }) => {
                             >
                               <p>
                                 <b>Investigation: </b>
-                                {itm?.investigatorName},{" "}
-                                {itm?.investigationDateTime &&
-                                  moment(itm?.investigationDateTime).format(
-                                    "YYYY-MM-DD, HH:mm A"
-                                  )}
+                                {itm?.investigatorName}
+                                {itm?.investigationDueDate && (
+                                  <>
+                                    , Due:
+                                    {moment(itm?.investigationDueDate).format(
+                                      "YYYY-MM-DD"
+                                    )}
+                                  </>
+                                )}
+                                {itm?.investigationDateTime && (
+                                  <>
+                                    , Actual:
+                                    {moment(itm?.investigationDateTime).format(
+                                      "YYYY-MM-DD, HH:mm A"
+                                    )}
+                                  </>
+                                )}
                               </p>
                             </div>
                           ))}
@@ -171,7 +194,7 @@ const LandingTable = ({ obj }) => {
                       </span>
                     )}
 
-                    {item?.status === "Open"&& !isMyComplaint && (
+                    {item?.status === "Open" && !isMyComplaint && (
                       <>
                         <span>
                           <OverlayTrigger
