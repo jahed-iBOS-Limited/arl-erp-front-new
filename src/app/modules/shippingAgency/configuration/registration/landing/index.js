@@ -40,7 +40,7 @@ const RegistrationLanding = () => {
     if (accId && buId) {
       getVesselDDL(accId, 0, setVesselDDL);
       getVesselTypeDDL(accId, buId, setVesselTypeDDL);
-      commonGridData(pageNo, pageSize, initData);
+      // commonGridData(pageNo, pageSize, initData);
       getVoyageNoDDLApi(accId, buId, setVoyageNoDDLApi);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
