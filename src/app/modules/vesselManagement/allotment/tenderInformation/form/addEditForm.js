@@ -4,11 +4,7 @@ import { useLocation, useParams } from "react-router-dom";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import Loading from "../../../../_helper/_loading";
 import { GetDomesticPortDDL } from "../../loadingInformation/helper";
-import {
-  editTenderInfo,
-  GetLighterCNFDDL,
-  GetLighterStevedoreDDL,
-} from "../helper";
+import { editTenderInfo, tenderInfoApprove } from "../helper";
 import Form from "./form";
 
 const initData = {
@@ -35,15 +31,11 @@ const initData = {
 export default function TenderInformationCreateForm() {
   const { id, type } = useParams();
   const [isDisabled, setDisabled] = useState(false);
-  const [lighterCNFDDL, setLighterCNFDDL] = useState([]);
-  const [lighterStevedoreDDL, setLighterStevedoreDDL] = useState([]);
   const [motherVesselDDL, setMotherVesselDDL] = useState([]);
   const [singleData, setSingleData] = useState({});
   const [, postData, loading] = useAxiosPost();
   const [portDDL, setPortDDL] = useState([]);
   const { state } = useLocation();
-
-  console.log(state, "state info");
 
   // get user data from store
   const {
@@ -53,8 +45,6 @@ export default function TenderInformationCreateForm() {
 
   useEffect(() => {
     GetDomesticPortDDL(setPortDDL);
-    GetLighterCNFDDL(setLighterCNFDDL);
-    GetLighterStevedoreDDL(setLighterStevedoreDDL);
 
     if (id) {
       const {
@@ -182,6 +172,28 @@ export default function TenderInformationCreateForm() {
     }
   };
 
+  const approveTenderInformation = (values) => {
+    const payload = {
+      programId: +id,
+      cnfid: values?.cnf?.value || 0,
+      cnfname: values?.cnf?.label || "",
+      stevdoreId: values?.steveDore?.value || 0,
+      stevdoreName: values?.steveDore?.label || "",
+      programQnt: +values?.programQuantity || 0,
+      netWeight: values?.weight || 0,
+      actionby: userId,
+      serveyorId: values?.surveyor?.value,
+      serveyorName: values?.surveyor?.label,
+      cnfrate: values?.cnfRate,
+      stevdorRate: values?.steveDoreRate,
+      serveyorRate: values?.surveyorRate,
+      hatchLabourId: values?.hatchLabour?.value,
+      hatchLabour: values?.hatchLabour?.label,
+      hatchLabourRate: values?.hatchLabourRate,
+    };
+    tenderInfoApprove(payload, setDisabled);
+  };
+
   const title = `${
     type === "Edit" ? "Edit" : type === "view" ? "View" : "Create"
   } Tender Information`;
@@ -206,10 +218,9 @@ export default function TenderInformationCreateForm() {
         portDDL={portDDL}
         setLoading={setDisabled}
         saveHandler={saveHandler}
-        lighterCNFDDL={lighterCNFDDL}
         motherVesselDDL={motherVesselDDL}
         setMotherVesselDDL={setMotherVesselDDL}
-        lighterStevedoreDDL={lighterStevedoreDDL}
+        approveTenderInformation={approveTenderInformation}
         initData={
           id ? singleData : state?.type === "redirect" ? preData : initData
         }
