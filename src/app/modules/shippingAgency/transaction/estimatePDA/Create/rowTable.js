@@ -5,9 +5,11 @@ import InputField from "../../../../_helper/_inputField";
 import IViewModal from "../../../../_helper/_viewModal";
 import BillForm from "./billForm";
 import moment from "moment";
-function RowTable({ rowDto, setRowDto }) {
+import POPreview from "./poPreview";
+function RowTable({ rowDto, setRowDto, editId }) {
   const [isBillModal, isShowBillModal] = React.useState(false);
   const [clickRowData, setClickRowData] = React.useState({});
+  const [modalShow, setModalShow] = React.useState(false);
 
   return (
     <div className='table-responsive'>
@@ -178,6 +180,35 @@ function RowTable({ rowDto, setRowDto }) {
                   >
                     <IAdd title={"Bill Add"} />
                   </span>
+                  {editId && (
+                    <>
+                      <span className='ml-2'>
+                        <OverlayTrigger
+                          overlay={<Tooltip id='cs-icon'>PO Create</Tooltip>}
+                        >
+                          <span
+                            onClick={() => {
+                              setModalShow(true);
+
+                              let list = [];
+
+                              if (item?.category === "Operation") {
+                                list =
+                                  rowDto?.filter(
+                                    (itm) => itm?.category === "Operation"
+                                  ) || [];
+                              } else {
+                                list = [item];
+                              }
+                              setClickRowData(list);
+                            }}
+                          >
+                            <i class='fa fa-share' aria-hidden='true'></i>
+                          </span>
+                        </OverlayTrigger>
+                      </span>
+                    </>
+                  )}
                 </td>
               </tr>
             );
@@ -250,6 +281,19 @@ function RowTable({ rowDto, setRowDto }) {
                 setClickRowData({});
               }}
             />
+          </IViewModal>
+        </>
+      )}
+      {modalShow && (
+        <>
+          <IViewModal
+            show={modalShow}
+            onHide={() => {
+              setModalShow(false);
+              setClickRowData({});
+            }}
+          >
+            <POPreview  clickRowData={clickRowData}/>
           </IViewModal>
         </>
       )}

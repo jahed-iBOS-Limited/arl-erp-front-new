@@ -457,7 +457,7 @@ function Form({
                     label='Issue Details'
                     placeholder='Issue Details'
                     touched={touched}
-                    rows='1'
+                    rows='2'
                     disabled={view}
                     onChange={(e) => {
                       setFieldValue("issueDetails", e.target.value);

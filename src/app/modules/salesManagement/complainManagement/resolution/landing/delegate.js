@@ -262,7 +262,7 @@ function DelegateForm({ clickRowData, landingCB }) {
                     value={values?.remarks || ""}
                     placeholder='Remarks'
                     touched={touched}
-                    rows='1'
+                    rows='2'
                     onChange={(e) => {
                       setFieldValue("remarks", e.target.value);
                     }}
