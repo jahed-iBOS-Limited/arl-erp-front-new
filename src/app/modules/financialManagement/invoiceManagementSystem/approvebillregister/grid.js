@@ -25,6 +25,7 @@ import ExpenseView from "./expenseView";
 import RejectModel from "./rejectModel/form";
 import SupplerInvoiceView from "./supplerInvoiceView";
 import SupplierAdvanceView from "./supplierAdvanceView";
+import CommercialBillTypeDetails from "./commercialBillType";
 const GridData = ({
   rowDto,
   setRowDto,
@@ -129,7 +130,7 @@ const GridData = ({
                   <td> {tableData?.billStatus} </td>
                   <td> {tableData.remarks} </td>
                   <td>
-                    {tableData?.billType !== 5 && (
+                    {
                       <div className="d-flex justify-content-around align-items-center">
                         <span className="view">
                           <IView
@@ -152,7 +153,7 @@ const GridData = ({
                           </span>
                         )}
                       </div>
-                    )}
+                    }
                   </td>
                 </tr>
               ))}
@@ -187,6 +188,14 @@ const GridData = ({
         )}
         {gridItem?.billType === 4 && (
           <ExpenseView
+            gridItem={gridItem}
+            laingValues={values}
+            girdDataFunc={girdDataFunc}
+            setModalShow={setModalShow}
+          />
+        )}
+        {gridItem?.billType === 5 && (
+          <CommercialBillTypeDetails
             gridItem={gridItem}
             laingValues={values}
             girdDataFunc={girdDataFunc}

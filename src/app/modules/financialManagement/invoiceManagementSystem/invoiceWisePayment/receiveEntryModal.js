@@ -1,6 +1,5 @@
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
-import * as Yup from "yup";
 import Loading from "../../../_helper/_loading";
 import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
@@ -16,8 +15,6 @@ const initData = {
   receiveAmount: "",
   reference: "",
 };
-
-const validationSchema = Yup.object().shape({});
 
 export default function ReceiveEntryModal({
   clickedItem,
@@ -68,7 +65,6 @@ export default function ReceiveEntryModal({
     <Formik
       enableReinitialize={true}
       initialValues={initData}
-      validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
