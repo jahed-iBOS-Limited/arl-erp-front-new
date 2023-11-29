@@ -14,7 +14,7 @@ const initData = {
   // vessel type add for new requirement order by Iqbal vai
   /* Header State */
   lighterVessel: "", // DDL
-  vesselType :"",
+  vesselType: "",
   loadPort: "", // DDL
   dischargePort: "", // DDL
   dteTripCommencedDate: "",
@@ -30,6 +30,8 @@ const initData = {
   loadingCommenceAtCtg: "",
   loadingCompleteAtCtg: "",
   departureAtCtg: "",
+  lcNo: "",
+  shipmentNo: "",
 
   /* Row State */
   motherVessel: "", // DDL
@@ -39,6 +41,7 @@ const initData = {
   numBlqty: 0,
   consigneeParty: "", // DDL
   lcnumber: "",
+  shipment: "",
   cargo: "", // DDL
   numEstimatedCargoQty: 0,
   numFreight: 0,

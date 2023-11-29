@@ -2,6 +2,7 @@ import moment from "moment";
 import * as Yup from "yup";
 import { getDifference } from "../../_chartinghelper/_getDateDiff";
 import { updateOilRateApi } from "./helper";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
 
 // Validation schema For Trip Create
 export const validationSchemaTripCreate = Yup.object().shape({
@@ -74,7 +75,7 @@ const RowDatasField = [
   { label: "eta", type: "string" },
   { label: "numBlqty", type: "number" },
   { label: "consigneeParty", type: "string" },
-  { label: "lcnumber", type: "string" },
+  // { label: "lcnumber", type: "string" },
   { label: "cargo", type: "string" },
   // { label: "numEstimatedCargoQty", type: "number" },
   { label: "numFreight", type: "number" },
@@ -101,6 +102,18 @@ export const editRowDataClick = (
 ) => {
   const formikValuesPayload = {
     ...item,
+    lcnumber: item?.intLcId
+      ? {
+          label: item?.lcnumber,
+          value: item?.intLcId,
+        }
+      : "",
+    shipment: item?.intShipmentId
+      ? {
+          label: item?.strShipmentCode,
+          value: item?.intShipmentId,
+        }
+      : "",
     srnumber: item?.srnumber
       ? {
           label: item?.srnumber,
@@ -131,6 +144,7 @@ export const editRowDataClick = (
           value: item?.cargoId,
         }
       : "",
+    eta: item?.eta ? _dateFormatter(item?.eta) : "",
     isEdit: true,
   };
 
@@ -175,7 +189,8 @@ export const rowDataAddHandler = (
     numBlqty: +values?.numBlqty,
     consigneePartyId: values?.consigneeParty?.value || 1,
     consigneePartyName: values?.consigneeParty?.label || "consigneePartyName",
-    lcnumber: values?.lcnumber,
+    lcnumber: values?.lcnumber?.label,
+    // lcnumber: values?.lcnumber,
     cargoId: values?.cargo?.value || 1,
     cargoName: values?.cargo?.label || "cargoName",
     numEstimatedCargoQty: +values?.numEstimatedCargoQty,
@@ -183,6 +198,9 @@ export const rowDataAddHandler = (
     numActualCargoQty: +values?.numActualCargoQty,
     numTotalFreight: +values?.numTotalFreight,
     isEdit: false,
+    intShipmentId: values?.shipment?.value,
+    strShipmentCode: values?.shipment?.label,
+    intLcId: values?.lcnumber?.value,
   };
 
   setRowData([...rowData, payload]);
@@ -243,7 +261,8 @@ export const rowDataEditHandler = (
     numBlqty: +values?.numBlqty,
     consigneePartyId: values?.consigneeParty?.value || 1,
     consigneePartyName: values?.consigneeParty?.label || "consigneePartyName",
-    lcnumber: values?.lcnumber,
+    lcnumber: values?.lcnumber?.label,
+    // lcnumber: values?.lcnumber,
     cargoId: values?.cargo?.value || 1,
     cargoName: values?.cargo?.label || "cargoName",
     numEstimatedCargoQty: +values?.numEstimatedCargoQty,
@@ -252,6 +271,9 @@ export const rowDataEditHandler = (
     numTotalFreight: +values?.numTotalFreight,
     isEdit: false,
     consigneePartyCode: values?.consigneeParty?.code || "",
+    intShipmentId: values?.shipment?.value,
+    strShipmentCode: values?.shipment?.label,
+    intLcId: values?.lcnumber?.value,
   };
 
   const copy = [...rowData];
@@ -265,12 +287,16 @@ const addRowValidation = (values, setTouched, setErrors) => {
   if (
     !values?.motherVessel?.value ||
     !values?.consigneeParty?.value ||
-    !values?.cargo?.value
+    !values?.cargo?.value ||
+    !values?.lcnumber ||
+    !values?.shipment
   ) {
     setTouched({
       motherVessel: !values?.motherVessel?.value ? true : false,
       consigneeParty: !values?.consigneeParty?.value ? true : false,
       cargo: !values?.cargo?.value ? true : false,
+      lcnumber: !values?.lcnumber?.value ? true : false,
+      shipment: !values?.shipment?.value ? true : false,
     });
 
     setTimeout(() => {
@@ -278,6 +304,8 @@ const addRowValidation = (values, setTouched, setErrors) => {
         motherVessel: "Mother Vessel is required",
         consigneeParty: "Field is required",
         cargo: "Cargo is required",
+        lcnumber: "LC No is required",
+        shipment: "Shipment No is required",
       });
     }, 50);
 
