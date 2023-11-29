@@ -35,6 +35,8 @@ export default function CreateForm({
   resetBtnRef,
   disableHandler,
   isEdit,
+  selectedBusinessUnit,
+  estimatePDAPOPage,
 }) {
   const location = useLocation();
 
@@ -51,7 +53,6 @@ export default function CreateForm({
   const [profitCenterListTwo, setProfitCenterListTwo] = useState([]);
   const [attachmentList, setAttachmentList] = useState([]);
 
-
   // const location = useLocation();
 
   // redux store data
@@ -65,7 +66,6 @@ export default function CreateForm({
       poItemsDDL: state.purchaseOrder.poItemsDDL,
       uomDDL: state.commonDDL.uomDDL,
       profileData: state.authData.profileData,
-      selectedBusinessUnit: state.authData.selectedBusinessUnit,
     };
   }, shallowEqual);
 
@@ -76,13 +76,12 @@ export default function CreateForm({
     poItemsDDL,
     uomDDL,
     profileData,
-    selectedBusinessUnit,
   } = storeData;
 
   const addRowDtoData = (values) => {
     // if reference, can't add same reference and same item multiple
     // if not reference, can't add multiple item
-     let arr;
+    let arr;
 
     if (values?.referenceNo) {
       arr = rowDto?.filter(
@@ -93,36 +92,38 @@ export default function CreateForm({
     } else {
       arr = rowDto?.filter((item) => item?.item?.value === values?.item?.value);
     }
-    if (arr?.length > 0 && ![12,17,102,117,208].includes(selectedBusinessUnit?.value)) {
+    if (
+      arr?.length > 0 &&
+      ![12, 17, 102, 117, 208].includes(selectedBusinessUnit?.value)
+    ) {
       return toast.warn("Not allowed to duplicate items");
     }
 
-      // const priceStructure = values?.item?.priceStructure?.map((item) => ({
-      //   ...item,
-      //   value: item?.value || 0,
-      //   amount: item?.amount || 0,
-      // }));
+    // const priceStructure = values?.item?.priceStructure?.map((item) => ({
+    //   ...item,
+    //   value: item?.value || 0,
+    //   amount: item?.amount || 0,
+    // }));
 
-      const newData = {
-        ...values,
-        desc: "",
-        selectedUom: {
-          value: values?.item?.uoMId,
-          label: values?.item?.uoMName,
-        },
-        orderQty: 0,
-        restofQty: values?.item?.restofQty || 0,
-        refQty: values?.item?.refQty,
-        basicPrice: 0,
-        lastPrice: lastPriceFunc(values?.item?.lastPoInfo) || 0,
-        netValue: 0,
-        vat: 0,
-        userGivenVatAmount: "",
-        vatAmount: 0,
-        priceStructure: [], //priceStructure,
-      };
-      setRowDto([...rowDto, newData]);
-    
+    const newData = {
+      ...values,
+      desc: "",
+      selectedUom: {
+        value: values?.item?.uoMId,
+        label: values?.item?.uoMName,
+      },
+      orderQty: 0,
+      restofQty: values?.item?.restofQty || 0,
+      refQty: values?.item?.refQty,
+      basicPrice: 0,
+      lastPrice: lastPriceFunc(values?.item?.lastPoInfo) || 0,
+      netValue: 0,
+      vat: 0,
+      userGivenVatAmount: "",
+      vatAmount: 0,
+      priceStructure: [], //priceStructure,
+    };
+    setRowDto([...rowDto, newData]);
   };
 
   // remove single data from rowDto
@@ -229,15 +230,27 @@ export default function CreateForm({
   }, [selectedBusinessUnit]);
   const getIsDisabledAddBtn = (values) => {
     if (values.isTransfer) {
-      if (!values?.controllingUnit || !values?.item || !values?.costElement|| !values?.costCenter || !values?.profitCenter) {
+      if (
+        !values?.controllingUnit ||
+        !values?.item ||
+        !values?.costElement ||
+        !values?.costCenter ||
+        !values?.profitCenter
+      ) {
         return true;
       }
     } else {
-      if (!values?.controllingUnit || !values?.costElementTwo || !values?.costCenterTwo || !values?.profitCenterTwo || !values?.item) {
+      if (
+        !values?.controllingUnit ||
+        !values?.costElementTwo ||
+        !values?.costCenterTwo ||
+        !values?.profitCenterTwo ||
+        !values?.item
+      ) {
         return true;
       }
     }
-  }
+  };
   return (
     <>
       <Formik
@@ -249,7 +262,7 @@ export default function CreateForm({
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler({...values, attachmentList}, rowDto, () => {
+          saveHandler({ ...values, attachmentList }, rowDto, () => {
             resetForm(initData);
             setAttachmentList([]);
             setRowDto([]);
@@ -267,9 +280,23 @@ export default function CreateForm({
           setTouched,
         }) => (
           <>
+            {estimatePDAPOPage && (
+              <>
+                <span
+                  style={{
+                    color: "red",
+                    position: "absolute",
+                    left: "300px",
+                    top: "17px",
+                  }}
+                >
+                  <h6>Estimate PDA</h6>
+                </span>
+              </>
+            )}
             {loading && <Loading />}
-            <Form className="form form-label-right po-label">
-              <div className="global-form">
+            <Form className='form form-label-right po-label'>
+              <div className='global-form'>
                 {values?.supplierName?.label && (
                   <div style={{ color: "blue" }}>
                     <b>Supplier : {values?.supplierName?.label} , </b>
@@ -278,8 +305,8 @@ export default function CreateForm({
                     </b>
                   </div>
                 )}
-                <div className="form-group row">
-                  <div className="col-lg-2">
+                <div className='form-group row'>
+                  <div className='col-lg-2'>
                     <label>Supplier Name</label>
                     <SearchAsyncSelect
                       selectedValue={values.supplierName}
@@ -306,7 +333,7 @@ export default function CreateForm({
                     />
                     <FormikError
                       errors={errors}
-                      name="supplierName"
+                      name='supplierName'
                       touched={touched}
                     />
                   </div>
@@ -341,89 +368,89 @@ export default function CreateForm({
                       touched={touched}
                     />
                   </div> */}
-                  <div className="col-lg-2">
+                  <div className='col-lg-2'>
                     <label>Delivery Address</label>
                     <InputField
                       value={values?.deliveryAddress}
-                      name="deliveryAddress"
-                      placeholder="Delivery Address"
-                      type="text"
+                      name='deliveryAddress'
+                      placeholder='Delivery Address'
+                      type='text'
                     />
                   </div>
-                  <div className="col-lg-2">
+                  <div className='col-lg-2'>
                     <label>Order Date</label>
                     <InputField
                       value={values?.orderDate}
-                      name="orderDate"
-                      placeholder="Order Date"
-                      type="date"
+                      name='orderDate'
+                      placeholder='Order Date'
+                      type='date'
                       disabled={true}
                     />
                   </div>
-                  <div className="col-lg-2">
+                  <div className='col-lg-2'>
                     <label>Last Shipment Date</label>
                     <InputField
                       value={values?.lastShipmentDate}
-                      name="lastShipmentDate"
-                      placeholder="Last Shipment Date"
-                      type="date"
+                      name='lastShipmentDate'
+                      placeholder='Last Shipment Date'
+                      type='date'
                     />
                   </div>
-                  <div className="col-lg-2">
+                  <div className='col-lg-2'>
                     <NewSelect
-                      name="currency"
+                      name='currency'
                       options={currencyDDL}
                       value={values?.currency}
-                      label="Currency"
+                      label='Currency'
                       onChange={(valueOption) => {
                         setFieldValue("currency", valueOption);
                       }}
-                      placeholder="Currency"
+                      placeholder='Currency'
                       errors={errors}
                       touched={touched}
                     />
                   </div>
-                  <div className="col-lg-2">
+                  <div className='col-lg-2'>
                     <NewSelect
-                      name="paymentTerms"
+                      name='paymentTerms'
                       options={paymentTermsDDL}
                       value={values?.paymentTerms}
                       onChange={(valueOption) => {
                         setFieldValue("cash", "");
                         setFieldValue("paymentTerms", valueOption);
                       }}
-                      label="Payment Terms"
-                      placeholder="Payment Terms"
+                      label='Payment Terms'
+                      placeholder='Payment Terms'
                       errors={errors}
                       touched={touched}
                     />
                   </div>
-                  <div className="col-lg-2">
+                  <div className='col-lg-2'>
                     <label>Cash/Advance(%)</label>
                     <InputField
                       value={values?.cash}
-                      name="cash"
-                      step="any"
-                      min="0"
-                      max="100"
+                      name='cash'
+                      step='any'
+                      min='0'
+                      max='100'
                       disabled={values?.paymentTerms?.label === "Credit"}
-                      placeholder="Cash/Advance(%)"
-                      type="number"
+                      placeholder='Cash/Advance(%)'
+                      type='number'
                     />
                   </div>
-                  <div className="col-lg-2">
+                  <div className='col-lg-2'>
                     <label>Pay Days (After MRR)</label>
                     <InputField
                       value={values?.payDays}
-                      name="payDays"
-                      placeholder="Pay Days"
-                      type="number"
-                      min="0"
+                      name='payDays'
+                      placeholder='Pay Days'
+                      type='number'
+                      min='0'
                     />
                   </div>
-                  <div className="col-lg-2">
+                  <div className='col-lg-2'>
                     <NewSelect
-                      name="incoterms"
+                      name='incoterms'
                       options={incoTermsDDL}
                       value={values?.incoterms}
                       isDisabled={
@@ -433,49 +460,49 @@ export default function CreateForm({
                       onChange={(valueOption) => {
                         setFieldValue("incoterms", valueOption);
                       }}
-                      label="Incoterms"
-                      placeholder="Incoterms"
+                      label='Incoterms'
+                      placeholder='Incoterms'
                       errors={errors}
                       touched={touched}
                     />
                   </div>
-                  <div className="col-lg-2">
+                  <div className='col-lg-2'>
                     <label>Supplier Reference</label>
                     <InputField
                       value={values?.supplierReference}
-                      name="supplierReference"
-                      placeholder="Supplier Reference"
-                      type="text"
+                      name='supplierReference'
+                      placeholder='Supplier Reference'
+                      type='text'
                     />
                   </div>
-                  <div className="col-lg-2">
+                  <div className='col-lg-2'>
                     <label>Reference Date</label>
                     <InputField
                       value={values?.referenceDate}
-                      name="referenceDate"
-                      placeholder="Reference Date"
-                      type="date"
+                      name='referenceDate'
+                      placeholder='Reference Date'
+                      type='date'
                     />
                   </div>
-                  <div className="col-lg-2">
+                  <div className='col-lg-2'>
                     <label>Validity</label>
                     <InputField
                       value={values?.validity}
-                      name="validity"
-                      placeholder="Validity"
-                      type="date"
+                      name='validity'
+                      placeholder='Validity'
+                      type='date'
                     />
                   </div>
-                  <div className="col-lg-2">
+                  <div className='col-lg-2'>
                     <label>Freight/Transport</label>
                     <InputField
                       value={values.freight}
                       placeholder={"Freight"}
                       name={"freight"}
-                      type="number"
+                      type='number'
                     />
                   </div>
-                  <div className="col-lg-2">
+                  <div className='col-lg-2'>
                     <label>Gross Discount</label>
                     <InputField
                       value={values.discount}
@@ -484,7 +511,7 @@ export default function CreateForm({
                       type={"number"}
                     />
                   </div>
-                  <div className="col-lg-2">
+                  <div className='col-lg-2'>
                     <label>Commission</label>
                     <InputField
                       value={values.commision}
@@ -493,40 +520,40 @@ export default function CreateForm({
                       type={"number"}
                     />
                   </div>
-                  <div className="col-lg-2">
+                  <div className='col-lg-2'>
                     <label>Others Charge</label>
                     <InputField
                       value={values?.othersCharge}
-                      name="othersCharge"
-                      type="number"
-                      placeholder="Others Charge"
+                      name='othersCharge'
+                      type='number'
+                      placeholder='Others Charge'
                     />
                   </div>
-                  <div className="col-lg-2">
+                  <div className='col-lg-2'>
                     <label>Lead Time (Days)</label>
                     <InputField
                       value={values?.leadTimeDays}
-                      name="leadTimeDays"
-                      type="number"
-                      placeholder="Lead Time (Days)"
+                      name='leadTimeDays'
+                      type='number'
+                      placeholder='Lead Time (Days)'
                     />
                   </div>
-                  <div className="col-lg-2">
+                  <div className='col-lg-2'>
                     <NewSelect
-                      name="controllingUnit"
+                      name='controllingUnit'
                       options={cuList}
                       value={values?.controllingUnit}
                       onChange={(valueOption) => {
                         setFieldValue("controllingUnit", valueOption);
                         setFieldValue("costElement", "");
                       }}
-                      label="Controlling Unit"
-                      placeholder="Controlling Unit"
+                      label='Controlling Unit'
+                      placeholder='Controlling Unit'
                       errors={errors}
                       touched={touched}
                     />
                   </div>
-                  <div className="col-lg-10">
+                  <div className='col-lg-10'>
                     {/* <label>Other Terms</label>
                     <InputField
                       value={values?.otherTerms}
@@ -537,34 +564,36 @@ export default function CreateForm({
                     <label>Other Terms</label>
                     <TextArea
                       value={values?.otherTerms}
-                      name="otherTerms"
-                      placeholder="Other Terms"
-                      rows="1"
+                      name='otherTerms'
+                      placeholder='Other Terms'
+                      rows='1'
                       max={1000}
                       errors={errors}
                       touched={touched}
                     />
                   </div>
-                  <div className="col-lg-2 mt-5">
-                    <AttachmentUploaderNew CBAttachmentRes={(attachmentData)=>{
-                      if(Array.isArray(attachmentData)){
-                        setAttachmentList(attachmentData);
-                      }
-                    }}/>
+                  <div className='col-lg-2 mt-5'>
+                    <AttachmentUploaderNew
+                      CBAttachmentRes={(attachmentData) => {
+                        if (Array.isArray(attachmentData)) {
+                          setAttachmentList(attachmentData);
+                        }
+                      }}
+                    />
                   </div>
-                  <div className="col-lg-2">
+                  <div className='col-lg-2'>
                     <div
                       style={{ marginTop: "23px" }}
-                      className="d-flex align-items-center"
+                      className='d-flex align-items-center'
                     >
-                      <span className="mr-2">Is Transfer</span>
+                      <span className='mr-2'>Is Transfer</span>
                       <Field
-                        type="checkbox"
-                        name="isTransfer"
+                        type='checkbox'
+                        name='isTransfer'
                         checked={values.isTransfer}
                         onChange={(e) => {
                           setFieldValue("isTransfer", e.target.checked);
-                          setRowDto([])
+                          setRowDto([]);
                           setFieldValue("transferBusinessUnit", "");
                           setFieldValue("costCenter", "");
                           setFieldValue("costElement", "");
@@ -585,12 +614,12 @@ export default function CreateForm({
                   </div>
                   {values.isTransfer && (
                     <>
-                      <div className="col-lg-2">
+                      <div className='col-lg-2'>
                         <ISelect
-                          label="Transfer Business unit"
+                          label='Transfer Business unit'
                           options={businessUnitDDL}
                           value={values?.transferBusinessUnit}
-                          name="transferBusinessUnit"
+                          name='transferBusinessUnit'
                           isDisabled={!values?.isTransfer}
                           setFieldValue={setFieldValue}
                           dependencyFunc={(
@@ -622,28 +651,28 @@ export default function CreateForm({
                           touched={touched}
                         />
                       </div>
-                      <div className="col-lg-2">
+                      <div className='col-lg-2'>
                         <NewSelect
-                          name="profitCenter"
+                          name='profitCenter'
                           options={profitCenterList || []}
                           value={values?.profitCenter}
                           onChange={(valueOption) => {
                             setFieldValue("profitCenter", valueOption);
                           }}
-                          label="Profit Center"
-                          placeholder="Profit Center"
+                          label='Profit Center'
+                          placeholder='Profit Center'
                           errors={errors}
                           touched={touched}
                           isDisabled={!values?.isTransfer}
                         />
                       </div>
-                      <div className="col-lg-2">
+                      <div className='col-lg-2'>
                         <NewSelect
-                          name="costCenter"
+                          name='costCenter'
                           options={costCenterList}
                           value={values?.costCenter}
-                          onChange={(valueOption) => {                          
-                            if(valueOption){
+                          onChange={(valueOption) => {
+                            if (valueOption) {
                               setFieldValue("costCenter", valueOption);
                               setFieldValue("costElement", "");
                               getCostElementDDL(
@@ -652,29 +681,29 @@ export default function CreateForm({
                                 valueOption?.value,
                                 setCostElementList
                               );
-                            }else{
+                            } else {
                               setFieldValue("costCenter", "");
                               setFieldValue("costElement", "");
                               setCostElementList([]);
                             }
                           }}
-                          label="Cost Center"
-                          placeholder="Cost Center"
+                          label='Cost Center'
+                          placeholder='Cost Center'
                           errors={errors}
                           touched={touched}
                           isDisabled={!values?.isTransfer}
                         />
                       </div>
-                      <div className="col-lg-2">
+                      <div className='col-lg-2'>
                         <NewSelect
-                          name="costElement"
+                          name='costElement'
                           options={costElementList}
                           value={values?.costElement}
                           onChange={(valueOption) => {
                             setFieldValue("costElement", valueOption);
                           }}
-                          label="Cost Element"
-                          placeholder="Cost Element"
+                          label='Cost Element'
+                          placeholder='Cost Element'
                           errors={errors}
                           touched={touched}
                           isDisabled={!values?.isTransfer}
@@ -696,72 +725,72 @@ export default function CreateForm({
                   </div>
                 )} */}
 
-                <div className="row mt-2">
-                  {values.isTransfer ? "":(
+                <div className='row mt-2'>
+                  {values.isTransfer ? (
+                    ""
+                  ) : (
                     <>
-                      <div className="col-lg-2">
+                      <div className='col-lg-2'>
                         <NewSelect
-                          name="profitCenterTwo"
+                          name='profitCenterTwo'
                           options={profitCenterListTwo || []}
                           value={values?.profitCenterTwo}
                           onChange={(valueOption) => {
                             setFieldValue("profitCenterTwo", valueOption);
                           }}
-                          label="Profit Center"
-                          placeholder="Profit Center"
+                          label='Profit Center'
+                          placeholder='Profit Center'
                           errors={errors}
                           touched={touched}
-                        
                         />
                       </div>
-                    
-                      <div className="col-lg-2">
+
+                      <div className='col-lg-2'>
                         <NewSelect
-                          name="costCenterTwo"
+                          name='costCenterTwo'
                           options={costCenterListTwo}
                           value={values?.costCenterTwo}
                           onChange={(valueOption) => {
-                            
-                            if(valueOption){
+                            if (valueOption) {
                               setFieldValue("costCenterTwo", valueOption);
                               setFieldValue("costElementTwo", "");
                               getCostElementDDL(
                                 selectedBusinessUnit?.value,
-                                profileData?.accountId,                                
+                                profileData?.accountId,
                                 valueOption?.value,
                                 setCostElementListTwo
                               );
-                            }else{
+                            } else {
                               setFieldValue("costCenterTwo", "");
                               setFieldValue("costElementTwo", "");
                               setCostElementListTwo([]);
                             }
                           }}
-                          label="Cost Center"
-                          placeholder="Cost Center"
+                          label='Cost Center'
+                          placeholder='Cost Center'
                           errors={errors}
                           touched={touched}
                         />
                       </div>
-                      <div className="col-lg-2">
+                      <div className='col-lg-2'>
                         <NewSelect
-                          name="costElementTwo"
+                          name='costElementTwo'
                           options={costElementListTwo}
                           value={values?.costElementTwo}
                           onChange={(valueOption) => {
                             setFieldValue("costElementTwo", valueOption);
                           }}
-                          label="Cost Element"
-                          placeholder="Cost Element"
+                          label='Cost Element'
+                          placeholder='Cost Element'
                           errors={errors}
                           touched={touched}
                         />
-                      </div> 
+                      </div>
                     </>
                   )}
-                  <div className="col-lg-2">
+                  <div className='col-lg-2'>
                     <NewSelect
-                      name="referenceNo"
+                      name='referenceNo'
                       options={refNoDDL}
                       value={values?.referenceNo}
                       isDisabled={
@@ -779,15 +808,15 @@ export default function CreateForm({
                           );
                         }
                       }}
-                      label="Reference No"
-                      placeholder="Reference No"
+                      label='Reference No'
+                      placeholder='Reference No'
                       errors={errors}
                       touched={touched}
                     />
                   </div>
 
                   {location.state?.refType?.value === 3 ? (
-                    <div className="col-lg-2">
+                    <div className='col-lg-2'>
                       <label>Item</label>
                       <SearchAsyncSelect
                         selectedValue={values.item}
@@ -828,14 +857,14 @@ export default function CreateForm({
                       />
                       <FormikError
                         errors={errors}
-                        name="item"
+                        name='item'
                         touched={touched}
                       />
                     </div>
                   ) : (
-                    <div className="col-lg-4">
+                    <div className='col-lg-4'>
                       <NewSelect
-                        name="item"
+                        name='item'
                         // load service if wihtout ref selected
                         options={poItemsDDL}
                         value={values?.item}
@@ -846,25 +875,25 @@ export default function CreateForm({
                         onChange={(valueOption) => {
                           setFieldValue("item", valueOption);
                         }}
-                        label="Item"
-                        placeholder="Item"
+                        label='Item'
+                        placeholder='Item'
                         errors={errors}
                         touched={touched}
                       />
                     </div>
                   )}
-                  <div className="col-lg-2">
+                  <div className='col-lg-2'>
                     <div
                       style={{ marginTop: "19px" }}
-                      className="d-flex align-items-center"
+                      className='d-flex align-items-center'
                     >
                       <button
-                        type="button"
+                        type='button'
                         onClick={() => {
                           addRowDtoData(values);
                         }}
-                        disabled={ getIsDisabledAddBtn(values)}
-                        className="btn btn-primary"
+                        disabled={getIsDisabledAddBtn(values)}
+                        className='btn btn-primary'
                       >
                         Add
                       </button>
@@ -888,14 +917,14 @@ export default function CreateForm({
               />
 
               <button
-                type="submit"
+                type='submit'
                 style={{ display: "none" }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
-                type="reset"
+                type='reset'
                 style={{ display: "none" }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}

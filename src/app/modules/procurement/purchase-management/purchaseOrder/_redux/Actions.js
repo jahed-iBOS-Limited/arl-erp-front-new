@@ -1,9 +1,10 @@
 import * as requestFromServer from "./Api";
-import { setLastPoDataAction } from '../../../../_helper/reduxForLocalStorage/Actions'
+import { setLastPoDataAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import { purchaseOrderSlice } from "./Slice";
 import { toast } from "react-toastify";
+import axios from "axios";
+import { imarineBaseUrl } from "../../../../../App";
 const { actions: slice } = purchaseOrderSlice;
-
 
 export const getSupplierNameDDLAction = (accId, buId, sbuId) => (dispatch) => {
   return requestFromServer
@@ -46,13 +47,17 @@ export const getPoReferenceTypeDDLAction = (orderTypeId) => (dispatch) => {
 };
 
 // get POReferenceNoDDL
-export const getPOReferenceNoDDLAction = (id, wareHouseId,orderTypeId) => (dispatch) => {
-  return requestFromServer.getPOReferenceNoDDL(id, wareHouseId,orderTypeId).then((res) => {
-    const { status, data } = res;
-    if (status === 200 && data) {
-      dispatch(slice.SetPoReferenceNoDDL(data));
-    }
-  });
+export const getPOReferenceNoDDLAction = (id, wareHouseId, orderTypeId) => (
+  dispatch
+) => {
+  return requestFromServer
+    .getPOReferenceNoDDL(id, wareHouseId, orderTypeId)
+    .then((res) => {
+      const { status, data } = res;
+      if (status === 200 && data) {
+        dispatch(slice.SetPoReferenceNoDDL(data));
+      }
+    });
 };
 
 // get item based on reference or without reference
@@ -84,18 +89,17 @@ export const getPOItemDDLAction = (
     .then((res) => {
       const { status, data } = res;
       if (status === 200 && data) {
-        let newData =[];
-        data.forEach(item=>{
-          let index=newData.findIndex(x=>x.label===item.label)
-          if(index===-1){
-            newData.push(item)
+        let newData = [];
+        data.forEach((item) => {
+          let index = newData.findIndex((x) => x.label === item.label);
+          if (index === -1) {
+            newData.push(item);
           }
-        })
+        });
         dispatch(slice.SetPoItemsDDL(newData));
       }
     });
 };
-
 
 // get service item based on reference or without reference
 export const getPOItemForStandradItemDDLAction = (
@@ -125,11 +129,10 @@ export const getPOItemForStandradItemDDLAction = (
     )
     .then((res) => {
       const { data } = res;
-      let newData = data?.filter(item => item?.restofQty > 0)
+      let newData = data?.filter((item) => item?.restofQty > 0);
       dispatch(slice.SetPoItemsDDL(newData));
     });
 };
-
 
 // get service item based on reference or without reference
 export const getPOItemForContractItemDDLAction = (
@@ -165,7 +168,6 @@ export const getPOItemForContractItemDDLAction = (
     });
 };
 
-
 // get service item based on service po
 export const getPOItemForServiceItemDDLAction = (
   orId,
@@ -194,7 +196,7 @@ export const getPOItemForServiceItemDDLAction = (
     )
     .then((res) => {
       const { data } = res;
-      let newData = data?.filter(item => item?.restofQty > 0)
+      let newData = data?.filter((item) => item?.restofQty > 0);
       dispatch(slice.SetPoItemsDDL(newData));
     });
 };
@@ -227,7 +229,7 @@ export const getPOItemForAssetItemDDLAction = (
     )
     .then((res) => {
       const { data } = res;
-      let newData = data?.filter(item => item?.restofQty > 0)
+      let newData = data?.filter((item) => item?.restofQty > 0);
       dispatch(slice.SetPoItemsDDL(newData));
     });
 };
@@ -266,8 +268,6 @@ export const getPOItemForReturnItemDDLAction = (
     });
 };
 
-
-
 // get service item based on reference or without reference
 export const getPOWihoutServiceItemDDLAction = (
   accId,
@@ -292,11 +292,10 @@ export const getPOWihoutServiceItemDDLAction = (
     )
     .then((res) => {
       const { data } = res;
-      let newData = data?.filter(item => item?.restofQty > 0)
+      let newData = data?.filter((item) => item?.restofQty > 0);
       dispatch(slice.SetPoItemsDDL(newData));
     });
 };
-
 
 // get item based on reference or without reference
 export const getPOItemWithoutRefDDLAction = (
@@ -327,7 +326,6 @@ export const getPOItemWithoutRefDDLAction = (
       }
     });
 };
-
 
 // get payment terms list ddl
 export const getPaymentTermsListDDLAction = () => (dispatch) => {
@@ -391,17 +389,17 @@ export const getGridAction = (
 ) => (dispatch) => {
   setLoading(true);
 
-  if(fromDate){
-    if(!toDate){
+  if (fromDate) {
+    if (!toDate) {
       setLoading(false);
-      return toast.warning("To date is Required")
+      return toast.warning("To date is Required");
     }
   }
 
-  if(toDate){
-    if(!fromDate){
+  if (toDate) {
+    if (!fromDate) {
       setLoading(false);
-      return toast.warning("From date is Required")
+      return toast.warning("From date is Required");
     }
   }
 
@@ -471,16 +469,31 @@ export const savePurchaseOrderForAssetStandardService = (
           },
         };
         payload.IConfirmModal(obj);
+
+        if (payload.estimatePDAPOPage) {
+          const estimatePdaid =
+            payload.estimatePDAPOPage?.estimatePDAList?.[0]?.estimatePdaid;
+          savePoEstimatePDARowApi({
+            payload,
+            message: res.data?.message,
+            setDisabled: payload.setDisabled,
+            cb: () => {
+              setTimeout(() => {
+                payload.history.push(
+                  `/ShippingAgency/Transaction/EstimatePDA/edit/${estimatePdaid}`
+                );
+              }, 2000);
+            },
+          });
+        }
       }
-      dispatch(setLastPoDataAction(res.data?.message))
+      dispatch(setLastPoDataAction(res.data?.message));
     })
     .catch((err) => {
-     
       payload.setDisabled(false);
       toast.error(err?.response?.data?.message);
     });
 };
-
 
 export const savePurchaseOrderForReturnStandardService = (
   payload,
@@ -502,8 +515,7 @@ export const savePurchaseOrderForReturnStandardService = (
       }
     })
     .catch((err) => {
-     
-     // payload.setDisabled(false);
+      // payload.setDisabled(false);
       toast.error(err?.response?.data?.message);
     });
 };
@@ -528,10 +540,45 @@ export const saveCreateDataForPurchaseContractAction = (
       }
     })
     .catch((err) => {
-     
       payload.setDisabled(false);
       toast.error(err?.response?.data?.message);
     });
+};
+
+const savePoEstimatePDARowApi = async ({
+  payload,
+  message,
+  setDisabled,
+  cb,
+}) => {
+  const estimatePDAList =
+    payload.estimatePDAPOPage?.estimatePDAList?.map(
+      (itm) => itm?.estimatePdarowId
+    ) || [];
+
+  const splitMessage = message.split(":");
+  const purchaseOrderNo = splitMessage[1].trim();
+
+  const _payload = {
+    poCode: purchaseOrderNo,
+    estimatePdaid: payload.estimatePdaid,
+    estimatePdarowId: estimatePDAList,
+  };
+
+  try {
+    setDisabled(true);
+    const res = await axios.post(
+      `${imarineBaseUrl}/domain/ASLLAgency/SavePoEstimatePDARow`,
+      _payload
+    );
+
+    toast.success("Submitted Successfully");
+    cb(res?.data);
+    setDisabled(false);
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setDisabled(false);
+  }
 };
 
 // Edit
@@ -544,11 +591,10 @@ export const editPurchaseOrderForAssetStandardService = (payload) => () => {
         toast.success(res.data?.message || "Submitted successfully");
         payload.cb();
         payload.setDisabled(false);
-        payload.singleCB()
+        payload.singleCB();
       }
     })
     .catch((err) => {
-     
       toast.error(err?.response?.data?.message);
       payload.setDisabled(false);
     });
@@ -562,11 +608,10 @@ export const editPurchaseReturn = (payload) => () => {
         toast.success(res.data?.message || "Submitted successfully");
         payload.cb();
         //payload.setDisabled(false);
-        payload.singlereturnCB()
+        payload.singlereturnCB();
       }
     })
     .catch((err) => {
-     
       toast.error(err?.response?.data?.message);
       //payload.setDisabled(false);
     });
@@ -583,7 +628,6 @@ export const editCreateDataForPurchaseContractAction = (payload) => () => {
       }
     })
     .catch((err) => {
-     
       toast.error(err?.response?.data?.message);
       payload.setDisabled(false);
     });
