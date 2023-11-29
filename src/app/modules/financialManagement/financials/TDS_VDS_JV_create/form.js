@@ -24,6 +24,8 @@ const initData = {
 export default function _Form({ bankDDL, setDisabled, btnRef }) {
   //to manage prepare all voucher button
   const [, setIsAble] = useState("");
+  const [pageNo, setPageNo] = useState(0);
+  const [pageSize, setPageSize] = useState(15);
 
   const [accountNoDDL, getAccountNoDDL, isAcconutNoDDLLoading] = useAxiosGet();
   const [
@@ -150,14 +152,19 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
 
   //const prepare payload for save
   const prepareSavePayload = (listData, values) => {
+    
     const selectedList = listData.filter((data) => data.isSelect);
     if (!selectedList.length) return [];
+    console.log({values})
     const defaults = {
       businessUnitId: buId,
       profitCenterId: values?.profitCenter?.value,
       costCenterId: values?.costCenter?.value,
       costElementId: values?.costElement?.value,
       bankAccountNo: values?.accountNo?.bankAccNo,
+      bankAccountId: values?.accountNo?.value,
+      costCenterName: values?.costCenter?.label,
+      costElementName: values?.costElement?.label
     };
     const payload = selectedList?.map((item) => {
       return {
@@ -170,6 +177,11 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
     });
     return payload;
   };
+
+  
+
+
+
 
   //handle save data
   const saveHandler = (values, cb) => {
