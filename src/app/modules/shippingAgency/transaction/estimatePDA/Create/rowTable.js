@@ -328,7 +328,7 @@ function RowTable({ rowDto, setRowDto, editId }) {
         >
           <PurchaseOrderViewTableRow
             poId={clickRowData?.poId}
-            orId={clickRowData?.poType}
+            orId={clickRowData?.poTypeId}
             isHiddenBackBtn={true}
           />
         </IViewModal>
