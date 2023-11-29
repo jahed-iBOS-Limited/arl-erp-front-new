@@ -180,6 +180,7 @@ const EstimatePDACreate = () => {
             poCode: item?.poCode || "",
             poType: item?.poType || "",
             isPo: item?.isPo || false,
+            poTypeId: item?.poTypeId || 0,
           },
           estimatePDABillCreateDtos: item?.estimatePDABillCreateDtos?.map(
             (i) => {
@@ -271,17 +272,25 @@ const EstimatePDACreate = () => {
             : "",
           swiftCode: resData?.swiftCode || "",
         });
-        setRowDto(resData?.shippingAgencyEstimatePdarowDtos?.map(item => {
-          return {
-            ...item,
-            actualAmount: +item?.actualAmount || +item?.podetails?.actualAmount || 0,
-            poId: item?.poId || +item?.podetails?.poId || 0,
-            poCode: item?.poCode || item?.podetails?.poCode || "",
-            poType: item?.poType || item?.podetails?.poType || "",
-            isPo: item?.isPo || item?.podetails?.isPo || false,
-          }
-
-        }) || []);
+        setRowDto(
+          resData?.shippingAgencyEstimatePdarowDtos?.map((item) => {
+            const poId = item?.poId || +item?.podetails?.poId || 0;
+            const actualAmount =
+              +item?.actualAmount || +item?.podetails?.actualAmount || 0;
+            const poCode = item?.poCode || item?.podetails?.poCode || "";
+            const poType = item?.poType || item?.podetails?.poType || "";
+            const poTypeId = item?.poTypeId || item?.podetails?.poTypeId || 0;
+            return {
+              ...item,
+              actualAmount,
+              poId,
+              poCode,
+              poType,
+              poTypeId,
+              isPo: poId ? true : false,
+            };
+          }) || []
+        );
       }
     });
   };

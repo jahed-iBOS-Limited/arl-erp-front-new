@@ -1,0 +1,7 @@
+.estimatePDARowTable .isEditExpPartIcon {
+  opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+.estimatePDARowTable tbody tr:hover .isEditExpPartIcon {
+    opacity: 1;
+}
