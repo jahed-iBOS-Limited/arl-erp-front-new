@@ -24,6 +24,7 @@ import { toast } from "react-toastify";
 import Loading from "./../../../../_helper/_loading";
 import { confirmAlert } from "react-confirm-alert";
 import AssetPOCreateForm from "./assetPoForm/createForm";
+import { useHistory } from "react-router-dom";
 
 // id 1 = purchase contract
 // id 2 = request
@@ -38,7 +39,9 @@ export function POFormByOrderType() {
 
   const potype = IQueryParser("potype");
   const location = useLocation();
-
+  const estimatePDAPOPage = location?.state?.estimatePDAPOPage || "";
+  console.log(estimatePDAPOPage);
+  const history = useHistory();
   // redux store data
   const storeData = useSelector((state) => {
     return {
@@ -51,7 +54,11 @@ export function POFormByOrderType() {
     (state) => state?.localStorage?.lastPOData?.split("No")[1]
   );
 
-  const { profileData, selectedBusinessUnit } = storeData;
+  const { profileData } = storeData;
+
+  const selectedBusinessUnit = estimatePDAPOPage?.values?.businessUnit?.value
+    ? estimatePDAPOPage?.values?.businessUnit
+    : storeData?.selectedBusinessUnit;
 
   useEffect(() => {
     if (
@@ -151,10 +158,18 @@ export function POFormByOrderType() {
           controllingUnitId: +item?.controllingUnit?.value || 0,
           bomId: 0,
           controllingUnitName: item?.controllingUnit?.label || "",
-          costCenterId:values?.isTransfer ? +item?.costCenter?.value || 0: +item?.costCenterTwo?.value || 0,
-          costCenterName:values?.isTransfer ? item?.costCenter?.label: item?.costCenterTwo?.label || "",
-          costElementId:values?.isTransfer ? +item?.costElement?.value || 0: +item?.costElementTwo?.value || 0,
-          costElementName:values?.isTransfer ? item?.costElement?.label: item?.costElementTwo?.label || "",
+          costCenterId: values?.isTransfer
+            ? +item?.costCenter?.value || 0
+            : +item?.costCenterTwo?.value || 0,
+          costCenterName: values?.isTransfer
+            ? item?.costCenter?.label
+            : item?.costCenterTwo?.label || "",
+          costElementId: values?.isTransfer
+            ? +item?.costElement?.value || 0
+            : +item?.costElementTwo?.value || 0,
+          costElementName: values?.isTransfer
+            ? item?.costElement?.label
+            : item?.costElementTwo?.label || "",
           purchaseDescription: item?.desc || "",
           orderQty: +item?.orderQty || 0,
           basePrice: +item?.basicPrice || 0,
@@ -166,7 +181,9 @@ export function POFormByOrderType() {
           vatAmount: +item?.vatAmount || 0,
           baseVatAmount: +item?.userGivenVatAmount || 0,
           discount: 0,
-          profitCenterId:values?.isTransfer ? item?.profitCenter?.value|| 0 : item?.profitCenterTwo?.value || 0,
+          profitCenterId: values?.isTransfer
+            ? item?.profitCenter?.value || 0
+            : item?.profitCenterTwo?.value || 0,
           // objPriceRowListDTO:
           //   item?.priceStructure?.map((item2, index) => ({
           //     rowId: 0,
@@ -230,9 +247,9 @@ export function POFormByOrderType() {
             profitCenterId: values?.profitCenter?.value || 0,
           },
           objRowListDTO,
-          objImageListDTO:  values?.attachmentList?.map((attachment) => ({
+          objImageListDTO: values?.attachmentList?.map((attachment) => ({
             imageId: attachment?.id || "",
-         })) 
+          })),
         };
         dispatch(
           savePurchaseOrderForAssetStandardService({
@@ -240,6 +257,8 @@ export function POFormByOrderType() {
             cb,
             setDisabled,
             IConfirmModal,
+            estimatePDAPOPage,
+            history,
           })
         );
       }
@@ -407,6 +426,8 @@ export function POFormByOrderType() {
               disableHandler={disableHandler}
               saveHandler={saveHandler}
               {...objProps}
+              selectedBusinessUnit={selectedBusinessUnit}
+              estimatePDAPOPage={estimatePDAPOPage}
             />
           );
           setTitle(

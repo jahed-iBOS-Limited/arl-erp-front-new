@@ -300,7 +300,7 @@ const EstimatePDACreate = () => {
             <ICustomCard
               title={`Estimate PDA ${editId ? "Edit" : "Create"}`}
               backHandler={() => {
-                history.goBack();
+                history.push("/ShippingAgency/Transaction/EstimatePDA");
               }}
               saveHandler={() => {
                 handleSubmit();
