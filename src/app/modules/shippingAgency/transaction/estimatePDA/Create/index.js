@@ -134,7 +134,7 @@ const EstimatePDACreate = () => {
       voyageNo: values?.voyageNo?.label || "",
       workingPortId: values?.workingPort?.value || 0,
       workingPortName: values?.workingPort?.label || "",
-      customerId: 1,
+      customerId: values?.customerName?.value || 0,
       customerName: values?.customerName?.label || "",
       activity: values?.activity || "",
       currency: values?.currency?.value || "",
@@ -153,7 +153,6 @@ const EstimatePDACreate = () => {
       bankAccountId: values?.accountNo?.value || 0,
       bankAccountNo: values?.accountNo?.label || "",
       swiftCode: values?.swiftCode || "",
-
       bankName: singleData?.bankName || "",
       accountName: singleData?.accountName || "",
       bankAddress: singleData?.bankAddress || "",
@@ -161,6 +160,7 @@ const EstimatePDACreate = () => {
       beneficiaryAddress: singleData?.beneficiaryAddress || "",
       arrivedDateTime: singleData?.arrivedDateTime || "",
       sailedDateTime: singleData?.sailedDateTime || "",
+
       shippingAgencyEstimatePdarowDtos: rowDto?.map((item) => {
         return {
           estimatePdarowId: item?.estimatePdarowId || 0,
@@ -174,9 +174,13 @@ const EstimatePDACreate = () => {
           actionBy: userId,
           lastActionDateTime: new Date(),
           isPo: item?.isPo || false,
-          poId: item?.poId || 0,
-          poCode: item?.poCode || "",
-
+          podetails: {
+            actualAmount: +item?.actualAmount || 0,
+            poId: item?.poId || 0,
+            poCode: item?.poCode || "",
+            poType: item?.poType || "",
+            isPo: item?.isPo || false,
+          },
           estimatePDABillCreateDtos: item?.estimatePDABillCreateDtos?.map(
             (i) => {
               return {
@@ -267,7 +271,17 @@ const EstimatePDACreate = () => {
             : "",
           swiftCode: resData?.swiftCode || "",
         });
-        setRowDto(resData?.shippingAgencyEstimatePdarowDtos || []);
+        setRowDto(resData?.shippingAgencyEstimatePdarowDtos?.map(item => {
+          return {
+            ...item,
+            actualAmount: +item?.actualAmount || +item?.podetails?.actualAmount || 0,
+            poId: item?.poId || +item?.podetails?.poId || 0,
+            poCode: item?.poCode || item?.podetails?.poCode || "",
+            poType: item?.poType || item?.podetails?.poType || "",
+            isPo: item?.isPo || item?.podetails?.isPo || false,
+          }
+
+        }) || []);
       }
     });
   };
