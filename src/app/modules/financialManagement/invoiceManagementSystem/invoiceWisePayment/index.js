@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Loading from "../../../_helper/_loading";
 import IForm from "../../../_helper/_form";
 import NewSelect from "../../../_helper/_select";
@@ -29,6 +29,9 @@ const InvoiceWisePaymentLanding = () => {
     (store) => store?.authData,
     shallowEqual
   );
+
+  const [teritoryDDL, getTeritoryDDL, teritoryDDLloader] = useAxiosGet();
+
   const [
     customerDDL,
     getCustomerDDL,
@@ -39,6 +42,11 @@ const InvoiceWisePaymentLanding = () => {
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
+
+  const { selectedBusinessUnit } = useSelector(
+    (state) => state?.authData,
+    shallowEqual
+  );
 
   const saveHandler = (values, cb) => {};
   const [
@@ -58,7 +66,9 @@ const InvoiceWisePaymentLanding = () => {
         values?.businessUnit?.value
       }&customerId=${values?.customer?.value || 0}&fromDate=${
         values?.fromDate
-      }&toDate=${values?.toDate}&status=${values?.status?.value}`
+      }&toDate=${values?.toDate}&status=${
+        values?.status?.value
+      }&TerritoryId=${values?.teritory?.value || 0}`
     );
   };
 
@@ -82,7 +92,9 @@ const InvoiceWisePaymentLanding = () => {
         touched,
       }) => (
         <>
-          {(tableDataLoader || customerDDLloader) && <Loading />}
+          {(tableDataLoader || customerDDLloader || teritoryDDLloader) && (
+            <Loading />
+          )}
           <IForm
             title="Invoice Wise Payment"
             isHiddenReset
@@ -114,11 +126,33 @@ const InvoiceWisePaymentLanding = () => {
                               ]);
                             }
                           );
+                          getTeritoryDDL(
+                            `/oms/TerritoryInfo/GetTerritoryByBusinessUnitDDL?businessUnitId=${valueOption?.value}&distributionChannelId=0`
+                          );
                           setTableData([]);
                         } else {
                           setFieldValue("businessUnit", "");
                           setFieldValue("customer", "");
                           setCustomerDDL([]);
+                          setTableData([]);
+                        }
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="teritory"
+                      options={teritoryDDL}
+                      value={values?.teritory}
+                      label="Teritory"
+                      onChange={(valueOption) => {
+                        if (valueOption) {
+                          setFieldValue("teritory", valueOption);
+                          setTableData([]);
+                        } else {
+                          setFieldValue("teritory", "");
                           setTableData([]);
                         }
                       }}
@@ -430,6 +464,105 @@ const InvoiceWisePaymentLanding = () => {
                             </td>
                           </tr>
                         ))}
+                      {tableData?.length > 0 ? (
+                        <tr>
+                          <td colSpan={7}>Total</td>
+                          <td
+                            className="text-right"
+                            style={{
+                              background: "rgb(233 255 255)",
+                            }}
+                          >
+                            {_formatMoney(
+                              tableData?.reduce(
+                                (acc, cur) => acc + cur?.numDeliveryAmount,
+                                0
+                              )
+                            )}
+                          </td>
+                          <td className="text-right">
+                            {_formatMoney(
+                              tableData?.reduce(
+                                (acc, cur) =>
+                                  acc + cur?.numDeliveryAmountCollected,
+                                0
+                              )
+                            )}
+                          </td>
+                          <td className="text-right">
+                            {_formatMoney(
+                              tableData?.reduce(
+                                (acc, cur) =>
+                                  acc + cur?.numDeliveryAmountPending,
+                                0
+                              )
+                            )}
+                          </td>
+                          <td
+                            className="text-right"
+                            style={{
+                              background: "rgb(255 220 220)",
+                            }}
+                          >
+                            {_formatMoney(
+                              tableData?.reduce(
+                                (acc, cur) => acc + cur?.numVatAmount,
+                                0
+                              )
+                            )}
+                          </td>
+                          <td className="text-right">
+                            {_formatMoney(
+                              tableData?.reduce(
+                                (acc, cur) => acc + cur?.numVatAmountCollected,
+                                0
+                              )
+                            )}
+                          </td>
+                          <td className="text-right">
+                            {_formatMoney(
+                              tableData?.reduce(
+                                (acc, cur) => acc + cur?.numVatAmountPending,
+                                0
+                              )
+                            )}
+                          </td>
+                          {values?.businessUnit?.value !== 186 ? (
+                            <td
+                              className="text-right"
+                              style={{
+                                background: "rgb(232 224 255)",
+                              }}
+                            >
+                              {_formatMoney(
+                                tableData?.reduce(
+                                  (acc, cur) => acc + cur?.numTaxAmount,
+                                  0
+                                )
+                              )}
+                            </td>
+                          ) : null}
+                          <td className="text-right">
+                            {_formatMoney(
+                              tableData?.reduce(
+                                (acc, cur) => acc + cur?.numTaxAmountCollected,
+                                0
+                              )
+                            )}
+                          </td>
+                          {values?.businessUnit?.value !== 186 ? (
+                            <td className="text-right">
+                              {_formatMoney(
+                                tableData?.reduce(
+                                  (acc, cur) => acc + cur?.numTaxAmountPending,
+                                  0
+                                )
+                              )}
+                            </td>
+                          ) : null}
+                          <td></td>
+                        </tr>
+                      ) : null}
                     </tbody>
                   </table>
                 </div>
