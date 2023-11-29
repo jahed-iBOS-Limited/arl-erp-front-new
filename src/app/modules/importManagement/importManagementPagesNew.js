@@ -55,6 +55,7 @@ import TransportChargesForm from "./transactionNew/transportCharges/form/addEdit
 import TransportChargesLanding from "./transactionNew/transportCharges/landing/table";
 import UnloadingChargesForm from "./transactionNew/unloading-charges/form/addEditForm";
 import UnloadingCharges from "./transactionNew/unloading-charges/landing/tableHeader";
+import PurchasePlanningAndScheduling from "./reports/purchasePlanning";
 
 const oldTransactionroutes = [
   {
@@ -559,6 +560,10 @@ export function importManagementPagesNew() {
         <ContentRoute
           path="/managementImport/reports/lc-cost-sheet-partnerwise"
           component={LcCostSheetPartnerWise}
+        />
+        <ContentRoute
+          path="/managementImport/reports/PurchasePlanningScheduling"
+          component={PurchasePlanningAndScheduling}
         />
         {/* Outstanding LC */}
         <ContentRoute
