@@ -22,7 +22,7 @@ const LandingTable = ({ obj }) => {
             <th>Voyage No</th>
             <th>Working Port</th>
             <th>Customer Name</th>
-            <th>Activity</th>
+            {/* <th>Activity</th> */}
             <th>Currency</th>
             <th>Exchange Rate</th>
             <th>Estimated Amount</th>
@@ -40,7 +40,7 @@ const LandingTable = ({ obj }) => {
               <td>{item?.voyageNo}</td>
               <td>{item?.workingPortName}</td>
               <td>{item?.customerName}</td>
-              <td>{item?.activity}</td>
+              {/* <td>{item?.activity}</td> */}
               <td>{item?.currency}</td>
               <td>{item?.exchangeRate}</td>
               <td>{item?.estimatedAmount}</td>
