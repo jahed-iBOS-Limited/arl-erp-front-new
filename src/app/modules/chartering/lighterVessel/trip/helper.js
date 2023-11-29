@@ -176,6 +176,14 @@ export const getTripDataById = async ({
       numStoreExpense: 0, // It is no longer to used. It will add monthly for a single Lighter Vessel
 
       /* Header State */
+      lcNo: {
+        value: rows[0]?.intLcId,
+        label: rows[0]?.lcnumber,
+      }, // DDL
+      shipmentNo: {
+        value: rows[0]?.intShipmentId,
+        label: rows[0]?.strShipmentCode,
+      }, // DDL
       lighterVessel: {
         value: header?.lighterVesselId,
         label: header?.lighterVesselName,
