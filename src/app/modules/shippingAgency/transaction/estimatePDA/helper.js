@@ -192,8 +192,9 @@ export const getBankAc = async (accId, BuId, setter) => {
     }
   } catch (error) {}
 };
-export const getBusinessUnitDDL_api = async (actionBy, accountId, setter) => {
+export const getBusinessUnitDDL_api = async (actionBy, accountId,setLoading, setter) => {
   try {
+    setLoading(true);
     const res = await axios.get(
       `/domain/OrganizationalUnitUserPermission/GetBusinessUnitPermissionbyUser?UserId=${actionBy}&ClientId=${accountId}`
     );
@@ -206,7 +207,8 @@ export const getBusinessUnitDDL_api = async (actionBy, accountId, setter) => {
       });
       setter(newdata);
     }
+    setLoading(false);
   } catch (error) {
-    
+    setLoading(false);
   }
 };
