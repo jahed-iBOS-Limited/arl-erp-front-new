@@ -75,6 +75,7 @@ const EstimatePDACreate = () => {
   const [loading, setLoading] = useState(false);
   const [vesselDDL, setVesselDDL] = useState([]);
   const [sbuDDL, setSbuDDL] = useState([]);
+  const [singleData, setSingleData] = useState("");
   const [open, setOpen] = useState(false);
   const [fileObjects, setFileObjects] = useState([]);
   const [voyageNoDDL, setVoyageNoDDL] = useState([]);
@@ -152,6 +153,14 @@ const EstimatePDACreate = () => {
       bankAccountId: values?.accountNo?.value || 0,
       bankAccountNo: values?.accountNo?.label || "",
       swiftCode: values?.swiftCode || "",
+
+      bankName: singleData?.bankName || "",
+      accountName: singleData?.accountName || "",
+      bankAddress: singleData?.bankAddress || "",
+      bankAccNo: singleData?.bankAccNo || "",
+      beneficiaryAddress: singleData?.beneficiaryAddress || "",
+      arrivedDateTime: singleData?.arrivedDateTime || "",
+      sailedDateTime: singleData?.sailedDateTime || "",
       shippingAgencyEstimatePdarowDtos: rowDto?.map((item) => {
         return {
           estimatePdarowId: item?.estimatePdarowId || 0,
@@ -164,6 +173,10 @@ const EstimatePDACreate = () => {
           actualAmount: +item?.actualAmount || 0,
           actionBy: userId,
           lastActionDateTime: new Date(),
+          isPo: item?.isPo || false,
+          poId: item?.poId || 0,
+          poCode: item?.poCode || "",
+
           estimatePDABillCreateDtos: item?.estimatePDABillCreateDtos?.map(
             (i) => {
               return {
@@ -181,7 +194,7 @@ const EstimatePDACreate = () => {
                 isActive: true,
                 actionBy: userId,
                 lastActionDateTime: new Date(),
-                vat: i?.vat || "",
+                vat: i?.vat || 0,
               };
             }
           ),
@@ -223,6 +236,7 @@ const EstimatePDACreate = () => {
     });
     getEstimatePDAById(editId, setLoading, (resData) => {
       if (formikRef.current) {
+        setSingleData(resData);
         formikRef.current.setValues({
           sbu: resData?.sbuid
             ? { value: resData?.sbuid, label: resData?.sbuname }
@@ -528,7 +542,7 @@ const EstimatePDACreate = () => {
                 </div>
               </div>
 
-              <RowTable rowDto={rowDto} setRowDto={setRowDto} editId={editId}/>
+              <RowTable rowDto={rowDto} setRowDto={setRowDto} editId={editId} />
 
               <DropzoneDialogBase
                 filesLimit={1}

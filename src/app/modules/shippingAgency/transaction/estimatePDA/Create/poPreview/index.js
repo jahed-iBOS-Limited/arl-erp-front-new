@@ -136,7 +136,7 @@ export default function POPreview({ estimatePDAList }) {
                                 values: { ...values },
                               };
                               history.push({
-                                pathname: `/mngProcurement/purchase-management/shippingpurchaseorder`,
+                                pathname: `/mngProcurement/purchase-management/purchaseorder`,
                                 state: estimatePDAPOPage,
                               });
                             }}
