@@ -293,7 +293,7 @@ function RowTable({ rowDto, setRowDto, editId }) {
               setClickRowData({});
             }}
           >
-            <POPreview  clickRowData={clickRowData}/>
+            <POPreview  estimatePDAList={clickRowData}/>
           </IViewModal>
         </>
       )}

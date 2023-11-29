@@ -1,23 +1,25 @@
 import { Formik } from "formik";
 import React, { useEffect } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import ICustomCard from "../../../../../_helper/_customCard";
 import Loading from "../../../../../_helper/_loading";
 import NewSelect from "../../../../../_helper/_select";
 import { getBusinessUnitDDL_api } from "../../helper";
-import { shallowEqual, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 const initData = {};
-export default function POPreview({ clickRowData }) {
+export default function POPreview({ estimatePDAList }) {
   const {
     profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const [rowDto, setRowDto] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
+
   const formikRef = React.useRef(null);
   const [businessUnitDDL, setBusinessUnitDDL] = React.useState([]);
 
   useEffect(() => {
-    getBusinessUnitDDL_api(userId, accId, (resData) => {
+    getBusinessUnitDDL_api(userId, accId, setLoading, (resData) => {
       setBusinessUnitDDL(resData);
       const find = resData?.find((itm) => itm?.value === buId);
       if (find) {
@@ -30,20 +32,21 @@ export default function POPreview({ clickRowData }) {
   }, [accId]);
 
   useEffect(() => {
-    if (useEffect?.length > 0) {
-      setRowDto(clickRowData);
+    if (estimatePDAList?.length > 0) {
+      setRowDto(estimatePDAList);
     } else {
       setRowDto([]);
     }
-  }, [clickRowData]);
+  }, [estimatePDAList]);
   const saveHandler = async (values, cb) => {};
+
+  const history = useHistory();
   return (
     <>
       <>
         {loading && <Loading />}
         <Formik
           innerRef={formikRef}
-          validationSchema={{}}
           enableReinitialize={true}
           initialValues={initData}
           onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -127,8 +130,21 @@ export default function POPreview({ clickRowData }) {
                         </td>
                         <td>
                           <button
+                            onClick={() => {
+                              // const estimatePDAPOPage = {
+                              //   estimatePDAList,
+                              //   values: { ...values },
+                              // };
+                              // history.push({
+                              //   pathname: `/mngProcurement/purchase-management/shippingpurchaseorder`,
+                              //   state: estimatePDAPOPage,
+                              // });
+                            }}
                             type='button'
                             className='btn btn-primary px-3 py-2 ml-2'
+                            disabled={
+                              rowDto?.length === 0 || !values?.businessUnit
+                            }
                           >
                             Create PO
                           </button>
