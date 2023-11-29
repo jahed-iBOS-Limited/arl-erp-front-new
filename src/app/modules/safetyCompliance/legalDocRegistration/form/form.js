@@ -4,9 +4,6 @@ import React, { useRef } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import ButtonStyleOne from "../../../_helper/button/ButtonStyleOne";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import placeholderImg from "../../../_helper/images/placeholderImg.png";
 import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
 import TextArea from "../../../_helper/TextArea";
 import ICustomTable from "../../../_helper/_customTable";
@@ -15,6 +12,9 @@ import IDelete from "../../../_helper/_helperIcons/_delete";
 import InputField from "../../../_helper/_inputField";
 import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
 import NewSelect from "../../../_helper/_select";
+import ButtonStyleOne from "../../../_helper/button/ButtonStyleOne";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import placeholderImg from "../../../_helper/images/placeholderImg.png";
 import { attachment_action, nameCutter } from "../helper";
 import "./form.css";
 
@@ -70,15 +70,17 @@ export default function _Form({
     inputAttachFile.current.click();
   };
 
-  const { profileData } = useSelector((state) => {
-    return state?.authData;
-  }, shallowEqual);
+  // get user profile data from store
+  const {
+    profileData: { accountId: accId },
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => state.authData, shallowEqual);
 
   const loadEmpList = (v) => {
     if (v?.length < 2) return [];
     return axios
       .get(
-        `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=${profileData?.accountId}&BusinessUnitId=${businessUnit}&Search=${v}`
+        `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=${accId}&BusinessUnitId=${buId}&Search=${v}`
       )
       .then((res) => {
         return res?.data;
