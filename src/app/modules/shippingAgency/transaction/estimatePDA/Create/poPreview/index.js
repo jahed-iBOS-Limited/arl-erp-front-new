@@ -66,7 +66,32 @@ export default function POPreview({ estimatePDAList }) {
             setValues,
           }) => (
             <>
-              <ICustomCard title={"PO Preview"}>
+              <ICustomCard
+                title={"PO Preview"}
+                renderProps={() => {
+                  return (
+                    <>
+                      <button
+                        onClick={() => {
+                          const estimatePDAPOPage = {
+                            estimatePDAList,
+                            values: { ...values },
+                          };
+                          history.push({
+                            pathname: `/mngProcurement/purchase-management/purchaseorder`,
+                            state: estimatePDAPOPage,
+                          });
+                        }}
+                        type='button'
+                        className='btn btn-primary px-3 py-2 ml-2'
+                        disabled={rowDto?.length === 0 || !values?.businessUnit}
+                      >
+                        Create PO
+                      </button>
+                    </>
+                  );
+                }}
+              >
                 <div className='row global-form my-3'>
                   <div className='col-lg-3'>
                     <NewSelect
@@ -128,27 +153,7 @@ export default function POPreview({ estimatePDAList }) {
                             )}
                           </b>
                         </td>
-                        <td>
-                          <button
-                            onClick={() => {
-                              // const estimatePDAPOPage = {
-                              //   estimatePDAList,
-                              //   values: { ...values },
-                              // };
-                              // history.push({
-                              //   pathname: `/mngProcurement/purchase-management/shippingpurchaseorder`,
-                              //   state: estimatePDAPOPage,
-                              // });
-                            }}
-                            type='button'
-                            className='btn btn-primary px-3 py-2 ml-2'
-                            disabled={
-                              rowDto?.length === 0 || !values?.businessUnit
-                            }
-                          >
-                            Create PO
-                          </button>
-                        </td>
+                        <td></td>
                       </tr>
                     </tbody>
                   </table>

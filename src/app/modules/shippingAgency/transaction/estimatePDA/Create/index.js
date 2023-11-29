@@ -75,6 +75,7 @@ const EstimatePDACreate = () => {
   const [loading, setLoading] = useState(false);
   const [vesselDDL, setVesselDDL] = useState([]);
   const [sbuDDL, setSbuDDL] = useState([]);
+  const [singleData, setSingleData] = useState("");
   const [open, setOpen] = useState(false);
   const [fileObjects, setFileObjects] = useState([]);
   const [voyageNoDDL, setVoyageNoDDL] = useState([]);
@@ -133,7 +134,7 @@ const EstimatePDACreate = () => {
       voyageNo: values?.voyageNo?.label || "",
       workingPortId: values?.workingPort?.value || 0,
       workingPortName: values?.workingPort?.label || "",
-      customerId: 1,
+      customerId: values?.customerName?.value || 0,
       customerName: values?.customerName?.label || "",
       activity: values?.activity || "",
       currency: values?.currency?.value || "",
@@ -152,6 +153,14 @@ const EstimatePDACreate = () => {
       bankAccountId: values?.accountNo?.value || 0,
       bankAccountNo: values?.accountNo?.label || "",
       swiftCode: values?.swiftCode || "",
+      bankName: singleData?.bankName || "",
+      accountName: singleData?.accountName || "",
+      bankAddress: singleData?.bankAddress || "",
+      bankAccNo: singleData?.bankAccNo || "",
+      beneficiaryAddress: singleData?.beneficiaryAddress || "",
+      arrivedDateTime: singleData?.arrivedDateTime || "",
+      sailedDateTime: singleData?.sailedDateTime || "",
+
       shippingAgencyEstimatePdarowDtos: rowDto?.map((item) => {
         return {
           estimatePdarowId: item?.estimatePdarowId || 0,
@@ -164,6 +173,14 @@ const EstimatePDACreate = () => {
           actualAmount: +item?.actualAmount || 0,
           actionBy: userId,
           lastActionDateTime: new Date(),
+          isPo: item?.isPo || false,
+          podetails: {
+            actualAmount: +item?.actualAmount || 0,
+            poId: item?.poId || 0,
+            poCode: item?.poCode || "",
+            poType: item?.poType || "",
+            isPo: item?.isPo || false,
+          },
           estimatePDABillCreateDtos: item?.estimatePDABillCreateDtos?.map(
             (i) => {
               return {
@@ -181,7 +198,7 @@ const EstimatePDACreate = () => {
                 isActive: true,
                 actionBy: userId,
                 lastActionDateTime: new Date(),
-                vat: i?.vat || "",
+                vat: i?.vat || 0,
               };
             }
           ),
@@ -223,6 +240,7 @@ const EstimatePDACreate = () => {
     });
     getEstimatePDAById(editId, setLoading, (resData) => {
       if (formikRef.current) {
+        setSingleData(resData);
         formikRef.current.setValues({
           sbu: resData?.sbuid
             ? { value: resData?.sbuid, label: resData?.sbuname }
@@ -253,7 +271,17 @@ const EstimatePDACreate = () => {
             : "",
           swiftCode: resData?.swiftCode || "",
         });
-        setRowDto(resData?.shippingAgencyEstimatePdarowDtos || []);
+        setRowDto(resData?.shippingAgencyEstimatePdarowDtos?.map(item => {
+          return {
+            ...item,
+            actualAmount: +item?.actualAmount || +item?.podetails?.actualAmount || 0,
+            poId: item?.poId || +item?.podetails?.poId || 0,
+            poCode: item?.poCode || item?.podetails?.poCode || "",
+            poType: item?.poType || item?.podetails?.poType || "",
+            isPo: item?.isPo || item?.podetails?.isPo || false,
+          }
+
+        }) || []);
       }
     });
   };
@@ -286,7 +314,7 @@ const EstimatePDACreate = () => {
             <ICustomCard
               title={`Estimate PDA ${editId ? "Edit" : "Create"}`}
               backHandler={() => {
-                history.goBack();
+                history.push("/ShippingAgency/Transaction/EstimatePDA");
               }}
               saveHandler={() => {
                 handleSubmit();
@@ -528,7 +556,7 @@ const EstimatePDACreate = () => {
                 </div>
               </div>
 
-              <RowTable rowDto={rowDto} setRowDto={setRowDto} editId={editId}/>
+              <RowTable rowDto={rowDto} setRowDto={setRowDto} editId={editId} />
 
               <DropzoneDialogBase
                 filesLimit={1}
