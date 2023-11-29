@@ -100,6 +100,7 @@ export const getSingleData = async (id, setter, setRowDto, setDisabled) => {
         value: objHeader?.purchaseContractId,
       },
       etaDate: _dateFormatter(objHeader?.dteEta),
+      dteEstimatedLaycanDate: _dateFormatter(objHeader?.dteEstimatedLaycanDate),
       //  objHeader?.purchaseRequestNo || 0,
     };
 
@@ -202,6 +203,7 @@ const createPayloadChange = (
       purchaseContractId: values?.purchaseContractNo?.value || 0,
       purchaseContractNo: values?.purchaseContractNo?.label || "",
       dteEta: values?.etaDate,
+      dteEstimatedLaycanDate: values?.dteEstimatedLaycanDate,
     },
     objRow: modifyArray,
   };
@@ -269,6 +271,7 @@ const updatePayloadChange = (values, rowDto) => {
       metarialTypeName: values?.materialTypeDDL?.label,
       sbuId: values?.sbuDDL?.value,
       dteEta: values?.etaDate,
+      dteEstimatedLaycanDate: values?.dteEstimatedLaycanDate,
     },
     objRow: modifyArray,
   };
