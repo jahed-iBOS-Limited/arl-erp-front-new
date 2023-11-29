@@ -13,6 +13,9 @@ import NewSelect from "../../../../_helper/_select";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import { GetDomesticPortDDL } from "../../loadingInformation/helper";
 import { deleteTenderInfo, getMotherVesselDDL } from "../helper";
+import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { toast } from "react-toastify";
 
 const initData = {
   motherVessel: "",
@@ -25,9 +28,11 @@ export default function TenderInformationLandingTable() {
   //paginationState
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
-  const [gridData, getGridData, loading] = useAxiosGet();
+  const [gridData, getGridData, loading, setGridData] = useAxiosGet();
   const [isLoading, setIsLoading] = useState(false);
   const [portDDL, setPortDDL] = useState([]);
+  const [, billGenerate, billGenerateLoader] = useAxiosPost();
+  const [unloadStarted, getIsUnloadStarted, usLoader] = useAxiosGet();
 
   const {
     profileData: { accountId: accId },
@@ -58,6 +63,47 @@ export default function TenderInformationLandingTable() {
     IConfirmModal(objProps);
   };
 
+  const generateBills = (item, billType) => {
+    if (!unloadStarted) {
+      return toast.warn("Mother vessel unloading has not started yet!");
+    }
+    const cnfURL = `/tms/LigterLoadUnload/G2GStandardCostingCNF?motherVesselId=${item?.motherVesselId}`;
+    const steveDoreURL = `/tms/LigterLoadUnload/G2GStandardCostingStevdore?motherVesselId=${item?.motherVesselId}`;
+    const surveyorURL = `/tms/LigterLoadUnload/G2GStandardCostingServeyor?motherVesselId=${item?.motherVesselId}`;
+    const hatchLabourURL = `/tms/LigterLoadUnload/G2GStandardCostingHatchLabour?motherVesselId=${item?.motherVesselId}`;
+
+    let URL = ``;
+
+    switch (billType) {
+      case "cnf":
+        URL = cnfURL;
+        break;
+      case "steveDore":
+        URL = steveDoreURL;
+        break;
+      case "surveyor":
+        URL = surveyorURL;
+        break;
+      case "hatchLabour":
+        URL = hatchLabourURL;
+        break;
+
+      default:
+        break;
+    }
+
+    billGenerate(URL, {}, () => {});
+  };
+
+  const loader = loading || isLoading || billGenerateLoader || usLoader;
+
+  const billIcons = [
+    { title: "Generate CNF Bill", billType: "cnf" },
+    { title: "Generate SteveDore Bill", billType: "steveDore" },
+    { title: "Generate Surveyor Bill", billType: "surveyor" },
+    { title: "Generate Hatch Labour Bill", billType: "hatchLabour" },
+  ];
+
   return (
     <>
       <Formik initialValues={initData} onSubmit={() => {}}>
@@ -82,6 +128,7 @@ export default function TenderInformationLandingTable() {
                     onChange={(valueOption) => {
                       setFieldValue("port", valueOption);
                       setFieldValue("motherVessel", "");
+                      setGridData([])
                       getMotherVesselDDL(
                         accId,
                         buId,
@@ -100,6 +147,10 @@ export default function TenderInformationLandingTable() {
                     label="Mother Vessel"
                     onChange={(valueOption) => {
                       setFieldValue("motherVessel", valueOption);
+                      setGridData([]);
+                      getIsUnloadStarted(
+                        `/tms/LigterLoadUnload/MotherVesselInLoadingState?businessUnitId=${buId}&motherVesselId=${valueOption?.value}`
+                      );
                     }}
                     placeholder="Mother Vessel"
                     isDisabled={!values?.port}
@@ -120,7 +171,7 @@ export default function TenderInformationLandingTable() {
                 </div>
               </div>
               <div className="row cash_journal">
-                {(loading || isLoading) && <Loading />}
+                {loader && <Loading />}
                 <div className="col-lg-12">
                   <table className="table table-striped table-bordered global-table">
                     <thead>
@@ -143,6 +194,7 @@ export default function TenderInformationLandingTable() {
                         <th>Remaining Quantity</th>
                         <th>Weight</th>
                         <th>Action</th>
+                        <th>Bill Generate</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -205,20 +257,32 @@ export default function TenderInformationLandingTable() {
                                 </span>
                               </div>
                             </td>
+                            {index === 0 && (
+                              <td
+                                className="text-center"
+                                rowSpan={gridData?.data?.length}
+                              >
+                                <div className="d-flex justify-content-around align-items-center">
+                                  {billIcons?.map((e) => {
+                                    return (
+                                      <span className="p-1">
+                                        <ICon
+                                          title={e?.title}
+                                          onClick={() => {
+                                            generateBills(item, e?.billType);
+                                          }}
+                                        >
+                                          <i class="fas fa-file-invoice-dollar"></i>{" "}
+                                        </ICon>
+                                      </span>
+                                    );
+                                  })}
+                                </div>
+                              </td>
+                            )}
                           </tr>
                         );
                       })}
-                      {/* {gridData?.data?.length > 0 && (
-                        <tr style={{ fontWeight: "bold" }}>
-                          <td className="text-right" colSpan={6}>
-                            Total
-                          </td>
-                          <td className="text-right">
-                            {_fixedPoint(totalQty, true)}
-                          </td>
-                          <td></td>
-                        </tr>
-                      )} */}
                     </tbody>
                   </table>
                 </div>

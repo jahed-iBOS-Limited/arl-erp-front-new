@@ -3,6 +3,7 @@ import axios from "axios";
 import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import ICard from "../../../../_helper/_card";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import Loading from "../../../../_helper/_loading";
@@ -12,8 +13,6 @@ import { GetShipPointDDL } from "../../loadingInformation/helper";
 import { getLandingDataForConfirmation, updateSalesOrders } from "../helper";
 import Form from "./form";
 import Table from "./table";
-import { toast } from "react-toastify";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const ALL = { value: 0, label: "All" };
 
@@ -40,7 +39,7 @@ const ShippingChallanInfo = () => {
   const [loading, setLoading] = useState(false);
   const [godownDDL, setGodownDDL] = useState([]);
   const [status, setStatus] = useState(true);
-  const [motherVessels, getMotherVessels] = useAxiosGet();
+  // const [motherVessels, getMotherVessels] = useAxiosGet();
 
   // get user profile data from store
   const {
@@ -79,9 +78,9 @@ const ShippingChallanInfo = () => {
     getData(initData, pageNo, pageSize);
     GetShipPointDDL(accId, buId, setShipPointDDL);
     getGodownDDL(buId, 73244, setGodownDDL, setLoading);
-    getMotherVessels(
-      `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}&PortId=${0}`
-    );
+    // getMotherVessels(
+    //   `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}&PortId=${0}`
+    // );
   }, [accId, buId]);
 
   // _________ confirmation popup opening function __________
@@ -307,7 +306,7 @@ const ShippingChallanInfo = () => {
                   selectedAll,
                   loadOptions,
                   setPageSize,
-                  motherVessels,
+                  // motherVessels,
                   rowDataHandler,
                   setPositionHandler,
                 }}

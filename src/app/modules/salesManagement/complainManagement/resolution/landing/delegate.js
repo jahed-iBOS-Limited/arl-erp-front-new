@@ -70,16 +70,12 @@ function DelegateForm({ clickRowData, landingCB }) {
       `${values?.delegateDate} ${values?.delegateTime}`
     ).format("YYYY-MM-DDTHH:mm:ss");
 
-    // rowDto empty check
-    if (rowDto?.length === 0) {
-      return toast.warn("Please Add Investigation Person");
-    }
     const payload = {
       complainId: singleData?.complainId || 0,
       statusRemarks: values?.remarks || "",
       delegateToId: values?.delegateTo?.value || 0,
-      statusId: 2,
-      status: "Delegate",
+      statusId: rowDto?.length === 0 ? 1 : 2,
+      status: rowDto?.length === 0 ? "Open" : "Delegate",
       delegateDateTime: delegateDateTime,
       actionById: userId,
       investigationList: rowDto || [],
@@ -89,16 +85,47 @@ function DelegateForm({ clickRowData, landingCB }) {
       landingCB();
     });
   };
+  const formikRef = React.useRef(null);
   useEffect(() => {
     if (clickRowData?.complainId) {
       const id = clickRowData?.complainId;
-      getComplainByIdWidthOutModify(id, accId, buId, setLoading, setSingleData);
+      getComplainByIdWidthOutModify(id, accId, buId, setLoading, (resData) => {
+        setSingleData(resData);
+        if (formikRef.current) {
+          formikRef.current.setFieldValue(
+            "remarks",
+            resData?.statusRemarks || ""
+          );
+          formikRef.current.setFieldValue(
+            "delegateTo",
+            resData?.delegateToId
+              ? {
+                  value: resData?.delegateToId,
+                  label: resData?.delegateToName,
+                }
+              : ""
+          );
+          formikRef.current.setFieldValue(
+            "delegateDate",
+            resData?.delegateDateTime
+              ? moment(resData?.delegateDateTime).format("YYYY-MM-DD")
+              : _todayDate()
+          );
+          formikRef.current.setFieldValue(
+            "delegateTime",
+            resData?.delegateDateTime
+              ? moment(resData?.delegateDateTime).format("HH:mm")
+              : moment().format("HH:mm")
+          );
+        }
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clickRowData]);
   return (
     <>
       <Formik
+        innerRef={formikRef}
         enableReinitialize={true}
         initialValues={initialValues}
         onSubmit={(values, { resetForm }) => {
@@ -235,7 +262,7 @@ function DelegateForm({ clickRowData, landingCB }) {
                     value={values?.remarks || ""}
                     placeholder='Remarks'
                     touched={touched}
-                    rows='1'
+                    rows='2'
                     onChange={(e) => {
                       setFieldValue("remarks", e.target.value);
                     }}

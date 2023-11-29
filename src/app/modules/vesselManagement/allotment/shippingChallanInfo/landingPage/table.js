@@ -1,11 +1,10 @@
 import React from "react";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import PaginationTable from "../../../../_helper/_tablePagination";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import TextArea from "../../../../_helper/TextArea";
 
 const Table = ({ obj }) => {
   const {
@@ -20,7 +19,7 @@ const Table = ({ obj }) => {
     selectedAll,
     loadOptions,
     setPageSize,
-    motherVessels,
+    // motherVessels,
     rowDataHandler,
     setPositionHandler,
   } = obj;
@@ -52,7 +51,7 @@ const Table = ({ obj }) => {
                     <th style={{ minWidth: "100px" }}>Date</th>
                     <th style={{ minWidth: "100px" }}>DO No</th>
                     <th style={{ minWidth: "180px" }}>Mother Vessel</th>
-                    <th style={{ minWidth: "180px" }}>Remarks</th>
+                    {/* <th style={{ minWidth: "180px" }}>Remarks</th> */}
                     <th style={{ minWidth: "90px" }}>Vehicle No</th>
                     <th style={{ minWidth: "190px" }}>Ghat Name</th>
                     <th style={{ minWidth: "90px" }}>Delivery Address</th>
@@ -165,17 +164,17 @@ const Table = ({ obj }) => {
                         <td>{_dateFormatter(item?.lastActionDateTime)}</td>
                         <td>{item?.deliveryCode}</td>
                         <td>
-                          <NewSelect
+                          {/* <NewSelect
                             name="motherVessel"
                             value={item?.motherVessel}
                             options={motherVessels}
                             onChange={(e) => {
                               rowDataHandler("motherVessel", index, e);
                             }}
-                          />
-                          {/* {item?.motherVesselName} */}
+                          /> */}
+                          {item?.motherVesselName}
                         </td>
-                        <td>
+                        {/* <td>
                           <TextArea
                             name="remarks"
                             value={item?.remarks}
@@ -187,7 +186,7 @@ const Table = ({ obj }) => {
                               );
                             }}
                           />
-                        </td>
+                        </td> */}
                         <td>{item?.vehicleRegNo}</td>
                         <td>{item?.shipPointName}</td>
                         <td>{item?.address}</td>

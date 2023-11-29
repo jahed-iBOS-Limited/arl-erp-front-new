@@ -24,7 +24,7 @@ import {
   getExpenseParticularsList,
   getSBUListDDLApi,
   getVesselDDL,
-  getVoyageNoDDLApi
+  getVoyageNoDDLApi,
 } from "../helper";
 import ViewInvoice from "../landing/viewInvoice";
 import RowTable from "./rowTable";
@@ -88,7 +88,7 @@ const EstimatePDACreate = () => {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const [isViewModal, setViewModal] = React.useState(false);
-  const [viewClickRowItem, setViewClickRowItem] = React.useState({});
+  const [viewClickRowItem, setViewClickRowItem] = React.useState("");
   useEffect(() => {
     if (accId && buId) {
       getVesselDDL(accId, 0, setVesselDDL);
@@ -188,7 +188,7 @@ const EstimatePDACreate = () => {
         };
       }),
     };
-
+    setViewClickRowItem("");
     createUpdateEstimatePDA(payload, setLoading, (resData) => {
       cb();
       if (editId) {
@@ -197,6 +197,12 @@ const EstimatePDACreate = () => {
       setViewClickRowItem({
         estimatePdaid: resData?.estimatePdaId,
       });
+
+      if (!editId) {
+        history.push(
+          `/ShippingAgency/Transaction/EstimatePDA/edit/${resData?.estimatePdaId}`
+        );
+      }
     });
   };
 
@@ -212,6 +218,9 @@ const EstimatePDACreate = () => {
   const formikRef = React.useRef(null);
 
   const commonGetById = async () => {
+    setViewClickRowItem({
+      estimatePdaid: editId,
+    });
     getEstimatePDAById(editId, setLoading, (resData) => {
       if (formikRef.current) {
         formikRef.current.setValues({
@@ -237,7 +246,7 @@ const EstimatePDACreate = () => {
           exchangeRate: resData?.exchangeRate || "",
           attachment: resData?.attachmentsId || "",
           accountNo: resData?.bankAccountId
-            ? { value: resData?.bankAccountId, label: resData?.bankAccountName }
+            ? { value: resData?.bankAccountId, label: resData?.bankAccountNo }
             : "",
           beneficiaryName: resData?.beneficiaryId
             ? { value: resData?.beneficiaryId, label: resData?.beneficiaryName }
@@ -249,7 +258,6 @@ const EstimatePDACreate = () => {
     });
   };
 
-  console.log(viewClickRowItem);
   return (
     <>
       {loading && <Loading />}
@@ -272,10 +280,11 @@ const EstimatePDACreate = () => {
           errors,
           resetForm,
           handleSubmit,
+          setValues,
         }) => (
           <>
             <ICustomCard
-              title='Estimate PDA Create'
+              title={`Estimate PDA ${editId ? "Edit" : "Create"}`}
               backHandler={() => {
                 history.goBack();
               }}
@@ -285,29 +294,43 @@ const EstimatePDACreate = () => {
               resetHandler={() => {
                 resetForm(initData);
               }}
-              renderProps={
-                editId || !viewClickRowItem?.estimatePdaid
-                  ? false
-                  : () => {
-                      return (
-                        <>
-                          <button
-                            type='button'
-                            className='btn btn-primary px-3 py-2 ml-2'
-                            onClick={() => {
-                              setViewModal(true);
-                            }}
-                          >
-                            <i
-                              className='mr-1 fa fa-print pointer'
-                              aria-hidden='true'
-                            ></i>
-                            Print
-                          </button>
-                        </>
-                      );
-                    }
-              }
+              renderProps={() => {
+                return (
+                  <>
+                    {viewClickRowItem && (
+                      <button
+                        type='button'
+                        className='btn btn-primary px-3 py-2 ml-2'
+                        onClick={() => {
+                          setViewModal(true);
+                        }}
+                      >
+                        <i
+                          className='mr-1 fa fa-print pointer'
+                          aria-hidden='true'
+                        ></i>
+                        Print
+                      </button>
+                    )}
+
+                    {editId && (
+                      <button
+                        type='button'
+                        className='btn btn-primary px-3 py-2 ml-2'
+                        onClick={() => {
+                          setValues(initData);
+                          setRowDto([]);
+                          history.push(
+                            `/ShippingAgency/Transaction/EstimatePDA/Create`
+                          );
+                        }}
+                      >
+                        Create
+                      </button>
+                    )}
+                  </>
+                );
+              }}
             >
               <div className='row global-form my-3'>
                 <div className='col-lg-3'>
@@ -505,7 +528,7 @@ const EstimatePDACreate = () => {
                 </div>
               </div>
 
-              <RowTable rowDto={rowDto} setRowDto={setRowDto} />
+              <RowTable rowDto={rowDto} setRowDto={setRowDto} editId={editId}/>
 
               <DropzoneDialogBase
                 filesLimit={1}

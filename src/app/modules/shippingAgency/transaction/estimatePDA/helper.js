@@ -192,3 +192,23 @@ export const getBankAc = async (accId, BuId, setter) => {
     }
   } catch (error) {}
 };
+export const getBusinessUnitDDL_api = async (actionBy, accountId,setLoading, setter) => {
+  try {
+    setLoading(true);
+    const res = await axios.get(
+      `/domain/OrganizationalUnitUserPermission/GetBusinessUnitPermissionbyUser?UserId=${actionBy}&ClientId=${accountId}`
+    );
+    if (res.status === 200 && res?.data) {
+      const newdata = res?.data.map((itm) => {
+        return {
+          value: itm?.organizationUnitReffId,
+          label: itm?.organizationUnitReffName,
+        };
+      });
+      setter(newdata);
+    }
+    setLoading(false);
+  } catch (error) {
+    setLoading(false);
+  }
+};

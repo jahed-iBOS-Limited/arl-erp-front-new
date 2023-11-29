@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Formik } from "formik";
 import { DropzoneDialogBase } from "material-ui-dropzone";
-import React, { useEffect, useState, } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
@@ -67,9 +67,8 @@ function Form({
 
   useEffect(() => {
     if (accId && buId) {
-      getComplainCategory(buId, setComplainCategory);
-      getDistributionChannelDDL(accId, buId, setDistributionChannelDDL);
       getBusinessUnitDDLApi(0, setBusinessUnitDDL);
+      getComplainCategory(buId, setComplainCategory);
     }
   }, [accId, buId]);
 
@@ -97,7 +96,7 @@ function Form({
       }
     }
 
-    if( initData?.respondentBusinessUnit?.value){
+    if (initData?.respondentBusinessUnit?.value) {
       getItemCategoryDDL(
         accId,
         initData?.respondentBusinessUnit?.value,
@@ -105,7 +104,7 @@ function Form({
         setItemCategoryDDL
       );
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initData]);
   return (
     <>
@@ -193,12 +192,19 @@ function Form({
                         setLoading,
                         setItemCategoryDDL
                       );
+                      setDistributionChannelDDL([]);
+                      getDistributionChannelDDL(
+                        accId,
+                        valueOption?.value,
+                        setDistributionChannelDDL
+                      );
                       setFieldValue("respondentType", "");
                       setFieldValue("respondentName", "");
                       setFieldValue("respondentContact", "");
                       setFieldValue("respondentContact", "");
                       setFieldValue("itemCategory", "");
                       setFieldValue("challanOrPO", "");
+                      setFieldValue("distributionChannel", "");
                     }}
                     placeholder='Business Unit'
                     errors={errors}
@@ -451,7 +457,7 @@ function Form({
                     label='Issue Details'
                     placeholder='Issue Details'
                     touched={touched}
-                    rows='1'
+                    rows='2'
                     disabled={view}
                     onChange={(e) => {
                       setFieldValue("issueDetails", e.target.value);

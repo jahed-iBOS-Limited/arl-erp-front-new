@@ -31,7 +31,7 @@ const DetailsTable = ({ obj }) => {
     <>
       {loading && <Loading />}
       <div className="row">
-        <div className="col-lg-6">
+        <div className="col-lg-12">
           <div className="react-bootstrap-table table-responsive">
             <table
               className={"table table-striped table-bordered global-table "}
@@ -90,7 +90,7 @@ const DetailsTable = ({ obj }) => {
             </table>
           </div>
         </div>
-        <div className="col-lg-6">
+        {/* <div className="col-lg-6">
           <div className="react-bootstrap-table table-responsive">
             <table
               className={"table table-striped table-bordered global-table "}
@@ -145,7 +145,7 @@ const DetailsTable = ({ obj }) => {
               </tbody>
             </table>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );
