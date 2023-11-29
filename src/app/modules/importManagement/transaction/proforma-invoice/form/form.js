@@ -470,6 +470,18 @@ export default function _Form({
                       }}
                     />
                   </div>
+                  <div className="col-lg-3 ">
+                    <label>Estimated Laycan Date</label>
+                    <InputField
+                      value={values?.dteEstimatedLaycanDate}
+                      name="dteEstimatedLaycanDate"
+                      type="date"
+                      disabled={viewType === "view"}
+                      onChange={(e) => {
+                        setFieldValue("dteEstimatedLaycanDate", e.target.value);
+                      }}
+                    />
+                  </div>
 
                   <div className="col-lg-3 ">
                     <NewSelect

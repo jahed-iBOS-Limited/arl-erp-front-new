@@ -42,6 +42,7 @@ const initData = {
   referenceType: "",
   purchaseContractNo: "",
   etaDate: _todayDate(),
+  dteEstimatedLaycanDate: _todayDate(),
 };
 
 export default function AddEditForm() {
@@ -94,16 +95,15 @@ export default function AddEditForm() {
 
   const checkItemValidity = () => {
     let validationMessage;
-    rowDto.forEach((i) => {
-      if (!i?.hscode || i.hscode === "0") {
+    rowDto.forEach((item) => {
+      if (!item?.hscode || item.hscode === "0") {
         validationMessage = "HS code not found";
-      } else if (!i?.quantity) {
+      } else if (!item?.quantity) {
         validationMessage = "Qty Will be grater than 0";
-      } else if (!i?.rate) {
+      } else if (!item?.rate) {
         validationMessage = "Rate Will be grater than 0";
       }
     });
-
     return validationMessage;
   };
 
