@@ -131,14 +131,14 @@ export default function POPreview({ estimatePDAList }) {
                         <td>
                           <button
                             onClick={() => {
-                              // const estimatePDAPOPage = {
-                              //   estimatePDAList,
-                              //   values: { ...values },
-                              // };
-                              // history.push({
-                              //   pathname: `/mngProcurement/purchase-management/shippingpurchaseorder`,
-                              //   state: estimatePDAPOPage,
-                              // });
+                              const estimatePDAPOPage = {
+                                estimatePDAList,
+                                values: { ...values },
+                              };
+                              history.push({
+                                pathname: `/mngProcurement/purchase-management/shippingpurchaseorder`,
+                                state: estimatePDAPOPage,
+                              });
                             }}
                             type='button'
                             className='btn btn-primary px-3 py-2 ml-2'
