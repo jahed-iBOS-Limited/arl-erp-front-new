@@ -13,6 +13,8 @@ import { validationSchemaTripCreate } from "../utils";
 import { ExpenseSection } from "./components/expense";
 import { HeaderSection } from "./components/header";
 import { OperationSection } from "./components/operation";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
 export default function _Form({
   title,
@@ -32,6 +34,8 @@ export default function _Form({
   const [consigneePartyDDL, setConsigneePartyDDL] = useState([]);
   const [cargoDDL, setCargoDDL] = useState([]);
   const [editMode, setEditMode] = useState({ mode: false });
+  const [shipmentDDL, getShipmentDDL] = useAxiosGet();
+  const [, getShipmentInfo] = useAxiosGet();
 
   // get user profile data from store
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -57,6 +61,26 @@ export default function _Form({
     );
     getCargoDDL(setCargoDDL);
   }, [profileData, selectedBusinessUnit]);
+
+  const getInfoByShipmentId = (shipmentId, setFieldValue) => {
+    getShipmentInfo(
+      `/imp/Shipment/GetShipmentById?shipmentId=${shipmentId}`,
+      (resData) => {
+        setCargoDDL(
+          resData?.objRow?.map((item) => ({
+            ...item,
+            value: item?.itemId,
+            label: item?.itemName,
+          }))
+        );
+        setFieldValue("eta", _dateFormatter(resData?.objHeader?.dteEta));
+        setFieldValue("motherVessel", {
+          value: resData?.objHeader?.motherVesselId,
+          label: resData?.objHeader?.motherVesselName,
+        });
+      }
+    );
+  };
 
   return (
     <>
@@ -132,6 +156,9 @@ export default function _Form({
                   touched={touched}
                   setFieldValue={setFieldValue}
                   setPortDDL={setPortDDL}
+                  getShipmentDDL={getShipmentDDL}
+                  shipmentDDL={shipmentDDL}
+                  getInfoByShipmentId={getInfoByShipmentId}
                 />
               </div>
 
@@ -160,12 +187,12 @@ export default function _Form({
                 setErrors={setErrors}
               />
               <ExpenseSection
-                  viewType={viewType}
-                  values={values}
-                  errors={errors}
-                  touched={touched}
-                  setFieldValue={setFieldValue}
-                />
+                viewType={viewType}
+                values={values}
+                errors={errors}
+                touched={touched}
+                setFieldValue={setFieldValue}
+              />
             </form>
           </>
         )}
