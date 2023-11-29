@@ -118,6 +118,12 @@ export function POEditFormByOrderType() {
   };
 
   const saveHandler = async (values, rowDto, cb) => {
+    if (+singleData?.objHeaderDTO?.purchaseOrganizationId === 12 && 
+        !values?.incoterms
+      ) {
+      return toast.warn("Incoterm is required");
+    }
+
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       // for asset , standard, service PO, subcontract PO, return po,
       if (
@@ -146,10 +152,18 @@ export function POEditFormByOrderType() {
           uoMname: item?.selectedUom?.label || "",
           controllingUnitId: +item?.controllingUnit?.value || 0,
           controllingUnitName: item?.controllingUnit?.label || "",
-          costCenterId: values?.isTransfer ? +item?.costCenter?.value || 0 : +item?.costCenterTwo?.value || 0,
-          costCenterName: values?.isTransfer ? item?.costCenter?.label : item?.costCenterTwo?.label || "",
-          costElementId: values?.isTransfer ? +item?.costElement?.value || 0 : +item?.costElementTwo?.value || 0,
-          costElementName: values?.isTransfer ? item?.costElement?.label : item?.costElementTwo?.label || "",
+          costCenterId: values?.isTransfer
+            ? +item?.costCenter?.value || 0
+            : +item?.costCenterTwo?.value || 0,
+          costCenterName: values?.isTransfer
+            ? item?.costCenter?.label
+            : item?.costCenterTwo?.label || "",
+          costElementId: values?.isTransfer
+            ? +item?.costElement?.value || 0
+            : +item?.costElementTwo?.value || 0,
+          costElementName: values?.isTransfer
+            ? item?.costElement?.label
+            : item?.costElementTwo?.label || "",
           purchaseDescription: item?.desc || "",
           orderQty: +item?.orderQty || 0,
           basePrice: +item?.basicPrice || 0,
@@ -159,7 +173,9 @@ export function POEditFormByOrderType() {
           vatAmount: +item?.vatAmount || 0,
           baseVatAmount: +item?.userGivenVatAmount || 0,
           discount: 0,
-          profitCenterId: values?.isTransfer ? item?.profitCenter?.value || 0 : item?.profitCenterTwo?.value || 0,
+          profitCenterId: values?.isTransfer
+            ? item?.profitCenter?.value || 0
+            : item?.profitCenterTwo?.value || 0,
           // objPriceRowListDTO:
           //   item?.priceStructure?.map((item2, index) => ({
           //     rowId: item2?.rowId || 0,
