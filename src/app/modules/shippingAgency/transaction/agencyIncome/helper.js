@@ -33,18 +33,19 @@ export const createShippingAgencyJVApi = async ({
   fromDate,
   toDate,
   setLoading,
-  cb
+  vasselTypeId,
+  cb,
 }) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      `/fino/AdjustmentJournal/CreateShippingAgencyJV?customerId=${customerId}&customerName=${customerName}&vesselId=${vesselId}&vesselName=${vesselName}&voyageNo=${voyageNo}&amount=${amount}&fromDate=${fromDate}&toDate=${toDate}`
+      `/fino/AdjustmentJournal/CreateShippingAgencyJV?customerId=${customerId}&customerName=${customerName}&vesselId=${vesselId}&vesselName=${vesselName}&voyageNo=${voyageNo}&amount=${amount}&fromDate=${fromDate}&toDate=${toDate}&VasselTypeId=${vasselTypeId}`
     );
     toast.success(res.data?.message || "Submitted successfully");
-    cb()
+    cb();
     setLoading(false);
   } catch (error) {
-    toast.error(error?.response?.data?.message || 'Submitted failed');
+    toast.error(error?.response?.data?.message || "Submitted failed");
     setLoading(false);
   }
 };
