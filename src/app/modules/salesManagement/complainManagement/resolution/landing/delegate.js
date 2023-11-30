@@ -75,7 +75,7 @@ function DelegateForm({ clickRowData, landingCB }) {
       statusRemarks: values?.remarks || "",
       delegateToId: values?.delegateTo?.value || 0,
       statusId: rowDto?.length === 0 ? 1 : 2,
-      status: rowDto?.length === 0 ? "Open" : "Delegate",
+      status: rowDto?.length === 0 ? "Delegate" : "Investigate",
       delegateDateTime: delegateDateTime,
       actionById: userId,
       investigationList: rowDto || [],
