@@ -4,8 +4,9 @@ import { shallowEqual, useSelector } from "react-redux";
 import ICustomCard from "../../../../_helper/_customCard";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
 import { _todayDate } from "../../../../_helper/_todayDate";
-import { getExpensePDALandingApi } from "../helper";
+import { getASLLAgencyBill } from "../helper";
 import LandingTable from "./table";
 
 const initData = {
@@ -30,17 +31,12 @@ const AgencyIncomeLanding = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
 
-  const commonGridData = (
-    values,
-  ) => {
-    getExpensePDALandingApi(
-      values?.sbu?.value,
-      values?.vesselName?.value,
-      values?.voyageNo?.value,
+  const commonGridData = (values) => {
+    getASLLAgencyBill(
+      values?.type?.value,
+      buId,
       values?.fromDate,
       values?.toDate,
-      accId,
-      buId,
       setGridData,
       setLoading
     );
@@ -51,10 +47,33 @@ const AgencyIncomeLanding = () => {
       <Formik enableReinitialize={true} initialValues={initData}>
         {({ values, setFieldValue, touched, errors }) => (
           <>
-            <ICustomCard title='Agency Income' saveHandler={() => {
-
-            }}>
+            <ICustomCard title='Agency Income'>
               <div className='row global-form my-3'>
+                <div className='col-lg-3'>
+                  <NewSelect
+                    isSearchable={true}
+                    options={
+                      [
+                        {
+                          value: 1,
+                          label: "Own",
+                        },
+                        {
+                          value: 2,
+                          label: "PDA",
+                        },
+                      ] || []
+                    }
+                    name='type'
+                    onChange={(valueOption) => {
+                      setFieldValue("type", valueOption);
+                    }}
+                    placeholder='Type'
+                    value={values?.type}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
                 <div className='col-lg-3'>
                   <InputField
                     value={values?.fromDate}
@@ -84,9 +103,9 @@ const AgencyIncomeLanding = () => {
                   <button
                     className='btn btn-primary mt-3'
                     onClick={() => {
-                      commonGridData( values);
+                      commonGridData(values);
                     }}
-                    disabled={!values?.fromDate || !values?.toDate}
+                    disabled={!values?.fromDate || !values?.toDate || !values?.type}
                   >
                     View
                   </button>
@@ -96,11 +115,8 @@ const AgencyIncomeLanding = () => {
               <LandingTable
                 obj={{
                   gridData,
-                
                 }}
               />
-
-        
             </ICustomCard>
           </>
         )}
