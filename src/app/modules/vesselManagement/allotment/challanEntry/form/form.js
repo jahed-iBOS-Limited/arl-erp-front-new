@@ -41,6 +41,7 @@ export default function _Form({
   setVehicleDDL,
   motherVesselDDL,
   onChangeHandler,
+  isTransportBill,
 }) {
   const [isShowModal, setIsShowModal] = useState(false);
   const [isRestQtyModalShow, setIsResetModalShow] = useState(false);
@@ -49,6 +50,7 @@ export default function _Form({
   const [altSuppliers, getaltSuppliers] = useAxiosGet();
   const [, getRates, loader] = useAxiosGet();
   const [restQty, getRestQty, restQtyLoader] = useAxiosGet();
+
   const { state } = useLocation();
   const { id } = useParams();
   console.log("state", state);
@@ -236,7 +238,7 @@ export default function _Form({
                           placeholder="Port"
                           errors={errors}
                           touched={touched}
-                          isDisabled={disableHandler() }
+                          isDisabled={disableHandler()}
                           // isDisabled={disableHandler() || id}
                         />
                       </div>
@@ -503,7 +505,9 @@ export default function _Form({
                           value={values?.transportRate}
                           name="transportRate"
                           type="number"
-                          disabled={disableHandler()}
+                          disabled={
+                            disableHandler() || !isTransportBill?.hasTransport
+                          }
                           placeholder="Transport Rate"
                         />
                       </div>{" "}
@@ -572,7 +576,11 @@ export default function _Form({
                         <button
                           className="btn btn-primary"
                           type="button"
-                          disabled ={!values?.port || !values?.motherVessel || !values?.godown}
+                          disabled={
+                            !values?.port ||
+                            !values?.motherVessel ||
+                            !values?.godown
+                          }
                           onClick={() => {
                             setIsResetModalShow(true);
                             getRestQty(

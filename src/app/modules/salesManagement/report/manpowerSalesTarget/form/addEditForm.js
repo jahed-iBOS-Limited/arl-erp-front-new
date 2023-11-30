@@ -137,8 +137,8 @@ export default function ManpowerSalesTargetForm() {
               setupPkName: item?.zoneName,
               // setupPKId: values?.zone?.value,
               // setupPkName: values?.zone?.label,
-              territoryTypeId: 74,
-              territoryTypeName: "Point",
+              territoryTypeId: item?.territoryTypeId,
+              territoryTypeName: item?.territoryTypeName,
               employeeEnroll: item?.employeeId,
               targeQnt:
                 index === 1
@@ -151,6 +151,8 @@ export default function ManpowerSalesTargetForm() {
               typeId: values?.type?.value,
               entryTypeName: values?.type?.label,
               targetItemGroupId: index,
+              areaId: item?.areaId,
+              territoryId: item?.territoryId,
             };
 
             payloadForAEL.push(newRow);
