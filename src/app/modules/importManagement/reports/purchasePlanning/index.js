@@ -156,31 +156,31 @@ export default function PurchasePlanningAndScheduling() {
                     <table className="table table-striped table-bordered global-table">
                       <thead>
                         <tr>
-                          <td>Date</td>
-                          <td>Item Id</td>
-                          <td>Item Name</td>
-                          <td>Uom</td>
-                          <td>Booking Qty(Contract Qty)</td>
-                          <td>PI Qty</td>
-                          <td>
+                          <th>Date</th>
+                          <th>Item Id</th>
+                          <th>Item Name</th>
+                          <th>Uom</th>
+                          <th>Booking Qty(Contract Qty)</th>
+                          <th>PI Qty</th>
+                          <th>
                             Inco-term <br /> FOB/CFR
-                          </td>
-                          <td>Price FC</td>
-                          <td>Value FC</td>
-                          <td>Estimated Laycan Date</td>
-                          <td>ETA BD Port</td>
-                          <td>
+                          </th>
+                          <th>Price FC</th>
+                          <th>Value FC</th>
+                          <th>Estimated Laycan Date</th>
+                          <th>ETA BD Port</th>
+                          <th>
                             Estimated <br />
                             Survive Days
-                          </td>
-                          <td>
+                          </th>
+                          <th>
                             Estimated <br /> Survive DT
-                          </td>
-                          <td>Supplier Name</td>
-                          <td>Country of Origin</td>
-                          <td>Load Port</td>
-                          <td>LC Issued Qty</td>
-                          <td>LC Pending Qty</td>
+                          </th>
+                          <th>Supplier Name</th>
+                          <th>Country of Origin</th>
+                          <th>Load Port</th>
+                          <th>LC Issued Qty</th>
+                          <th>LC Pending Qty</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -224,27 +224,27 @@ export default function PurchasePlanningAndScheduling() {
                 ) : values?.type?.value === 2 ? (
                   <div className="row">
                     <div className="col-lg-12">
-                      <table className="table table-striped table-bordered global-table able-font-size-sm mt-5 common-scrollable-table">
+                      <table className="table table-striped table-bordered global-table able-font-size-sm mt-5">
                         <thead>
                           <tr>
-                            <td>ITem ID</td>
-                            <td>Comodity/Item</td>
-                            <td>UOM </td>
-                            <td>Monthly Required Qty </td>
-                            <td>Silo / Current Stock ( MT)</td>
-                            <td>Balance on factory Ghat (MT) </td>
-                            <td>Stock in Transit(BD Port-MV) </td>
-                            <td>LC opened Qunatity (MT) </td>
-                            <td>Last ETA CTG Date-PI </td>
-                            <td>Total QNT in (MT) </td>
-                            <td>Avarage Consumption (MT)</td>
-                            <td>Total Survival DayS</td>
-                            <td>LC & Stock Coverage</td>
-                            <td>LC Pending Qty.</td>
-                            <td>PI Coverage </td>
-                            <td>PI Pending Qty</td>
-                            <td>Booking Coverage</td>
-                            <td>Load start to Factory Lead time</td>
+                            <th>ITem ID</th>
+                            <th>Comodity/Item</th>
+                            <th>UOM </th>
+                            <th>Monthly Required Qty </th>
+                            <th>Silo / Current Stock ( MT)</th>
+                            <th>Balance on factory Ghat (MT) </th>
+                            <th>Stock in Transit(BD Port-MV) </th>
+                            <th>LC opened Qunatity (MT) </th>
+                            <th>Last ETA CTG Date-PI </th>
+                            <th>Total QNT in (MT) </th>
+                            <th>Avarage Consumption (MT)</th>
+                            <th>Total Survival DayS</th>
+                            <th>LC & Stock Coverage</th>
+                            <th>LC Pending Qty.</th>
+                            <th>PI Coverage </th>
+                            <th>PI Pending Qty</th>
+                            <th>Booking Coverage</th>
+                            <th>Load start to Factory Lead time</th>
                           </tr>
                         </thead>
                         <tbody>
