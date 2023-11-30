@@ -347,6 +347,22 @@ export default function _Form({
                     type="number"
                   />
                 </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="haveTransportBill"
+                    options={[
+                      { value: true, label: "Yes" },
+                      { value: false, label: "No" },
+                    ]}
+                    value={values?.haveTransportBill}
+                    label="Have Transport Bill"
+                    onChange={(valueOption) => {
+                      setFieldValue("hasTransportBill", valueOption);
+                    }}
+                    placeholder="Have Transport Bill"
+                    isDisabled={type}
+                  />
+                </div>
               </div>
             </Form>
           </ICustomCard>

@@ -88,6 +88,7 @@ export default function ChallanEntryForm() {
   const [shipPointDDL, setShipPointDDL] = useState([]);
   const [godownDDL, setGodownDDL] = useState([]);
   const [vehicleDDL, setVehicleDDL] = useState([]);
+  const [isTransportBill, getIsTransportBill] = useAxiosGet();
   // const [allotmentDDL, setAllotmentDDL] = useState([]);
   const [
     motherVesselDDL,
@@ -144,7 +145,10 @@ export default function ChallanEntryForm() {
         shipToPartnerContactNo: "",
         // transportRate: 0,
         emptyBag: +values?.emptyBag,
-        transportRate: values?.transportRate,
+        transportRate: isTransportBill?.hasTransport
+          ? values?.transportRate
+          : 0,
+        // transportRate:  values?.transportRate,
         ghatLoadUnloadLabourRate:
           values?.deliveryType?.label === "Direct"
             ? values?.directRate
@@ -218,7 +222,10 @@ export default function ChallanEntryForm() {
         supplierName: values?.supplier?.label,
         isDirectDelivery: values?.deliveryType?.value,
         portId: values?.port?.value,
-        transportRate: values?.transportRate,
+        transportRate: isTransportBill?.hasTransport
+          ? values?.transportRate
+          : 0,
+        // transportRate: values?.transportRate,
         // ghatLoadUnloadLabourRate: values?.labourRate,
         ghatLoadUnloadLabourRate:
           values?.deliveryType?.label === "Direct"
@@ -269,7 +276,9 @@ export default function ChallanEntryForm() {
         setFieldValue("motherVessel", currentValue);
         setFieldValue("programNo", currentValue?.programNo);
         setFieldValue("lighterVessel", "");
-
+        getIsTransportBill(
+          `/tms/LigterLoadUnload/CheckTransportForChallan?businessUnitId=${buId}&motherVesselId=${currentValue?.value}&portId=${values?.port?.value}`
+        );
         setFieldValue("item", {
           value: currentValue?.intProductId,
           label: currentValue?.strProductName,
@@ -545,7 +554,7 @@ export default function ChallanEntryForm() {
   return (
     <>
       {(loading || isLoading) && <Loading />}
-      <div className='mt-0'>
+      <div className="mt-0">
         <Form
           {...objProps}
           id={id}
@@ -569,6 +578,7 @@ export default function ChallanEntryForm() {
           setVehicleDDL={setVehicleDDL}
           motherVesselDDL={motherVesselDDL}
           onChangeHandler={onChangeHandler}
+          isTransportBill={isTransportBill}
           initData={id ? singleData : initData}
         />
       </div>
