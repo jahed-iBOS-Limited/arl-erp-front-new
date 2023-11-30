@@ -9,9 +9,6 @@ import { GetDomesticPortDDL, GetLighterVesselDDL } from "../../../../helper";
 import LighterVesselForm from "../../../lighterVesselInfo/Form/addEditForm";
 import DomesticPortCreate from "../../_domesticPort/Form/addEditForm";
 import { dateHandler } from "../../utils";
-import NewSelect from "../../../../../_helper/_select";
-import SearchAsyncSelect from "../../../../../_helper/SearchAsyncSelect";
-import axios from "axios";
 
 export const CreateIcon = ({ onClick }) => {
   return (
@@ -35,9 +32,6 @@ export function HeaderSection(props) {
     portDDL,
     setLighterDDL,
     setPortDDL,
-    getShipmentDDL,
-    shipmentDDL,
-    getInfoByShipmentId,
   } = props;
 
   const [lighterVesselCreateModal, setLighterVesselCreateModal] = useState(
@@ -51,63 +45,11 @@ export function HeaderSection(props) {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  const loadLCList = (v) => {
-    if (v?.length < 3) return [];
-    return axios
-      .get(
-        `/imp/ImportCommonDDL/GetLCDDL?accountId=${accId}&businessUnitId=${0}&searchByLc=${v}`
-      )
-      .then((res) => res?.data);
-  };
-
   //localhost:44396/imp/ImportCommonDDL/GetInfoFromPoLcDDL?accId=1&buId=4&searchTerm=aaaa
 
   return (
     <div className="marine-form-card-content">
       <div className="row">
-        <div className="col-lg-3">
-          <label>LC No</label>
-          <SearchAsyncSelect
-            selectedValue={values?.lcNo}
-            isSearchIcon={true}
-            paddingRight={10}
-            name="lcNo"
-            loadOptions={loadLCList}
-            isDisabled={viewType}
-            handleChange={(valueOption) => {
-              setFieldValue("lcNo", valueOption);
-              setFieldValue("lcnumber", valueOption);
-              setFieldValue("shipmentNo", "");
-              setFieldValue("shipment", "");
-              getShipmentDDL(
-                `/imp/ImportCommonDDL/GetInfoFromPoLcDDL?accId=${accId}&buId=${0}&searchTerm=${
-                  valueOption?.label
-                }`
-              );
-            }}
-          />
-        </div>
-        <div className="col-lg-3">
-          <NewSelect
-            name="shipmentNo"
-            value={values?.shipmentNo}
-            label={"Shipment No"}
-            placeholder={"Shipment No"}
-            options={shipmentDDL || []}
-            isDisabled={viewType}
-            onChange={(valueOption) => {
-              setFieldValue("shipmentNo", valueOption);
-              setFieldValue("shipment", valueOption);
-              setFieldValue("motherVessel", "");
-              setFieldValue("eta", "");
-              setFieldValue("cargo", "");
-              setFieldValue("numEstimatedCargoQty", "");
-
-              getInfoByShipmentId(valueOption?.value, setFieldValue);
-            }}
-          />
-        </div>
-        <div className="col-lg-6"></div>
         <div className="col-lg-3 relative">
           <FormikSelect
             value={values?.lighterVessel || ""}

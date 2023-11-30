@@ -43,6 +43,9 @@ export function OperationSection(props) {
     setValues,
     setMotherVesselDDL,
     setConsigneePartyDDL,
+    getShipmentDDL,
+    shipmentDDL,
+    getInfoByShipmentId,
   } = props;
 
   const [motherVesselCreateModal, setMotherVesselCreateModal] = useState(false);
@@ -53,6 +56,17 @@ export function OperationSection(props) {
     return state?.authData;
   }, shallowEqual);
 
+  const loadLCList = (v) => {
+    if (v?.length < 3) return [];
+    return axios
+      .get(
+        `/imp/ImportCommonDDL/GetLCDDL?accountId=${
+          profileData?.accountId
+        }&businessUnitId=${0}&searchByLc=${v}`
+      )
+      .then((res) => res?.data);
+  };
+
   return (
     <div className="marine-form-card mt-4">
       <div className="marine-form-card-heading">
@@ -62,6 +76,46 @@ export function OperationSection(props) {
       {viewType === "view" ? null : (
         <div className="marine-form-card-content">
           <div className="row mt-4">
+            <div className="col-lg-3">
+              <label>LC No</label>
+              <SearchAsyncSelect
+                selectedValue={values?.lcNo}
+                isSearchIcon={true}
+                paddingRight={10}
+                name="lcNo"
+                loadOptions={loadLCList}
+                isDisabled={viewType === "view"}
+                handleChange={(valueOption) => {
+                  setFieldValue("lcnumber", valueOption);
+                  setFieldValue("shipment", "");
+                  getShipmentDDL(
+                    `/imp/ImportCommonDDL/GetInfoFromPoLcDDL?accId=${
+                      profileData?.accountId
+                    }&buId=${0}&searchTerm=${valueOption?.label}`
+                  );
+                }}
+              />
+            </div>
+            <div className="col-lg-3">
+              <NewSelect
+                name="shipment"
+                value={values?.shipment}
+                label={"Shipment No"}
+                placeholder={"Shipment No"}
+                options={shipmentDDL || []}
+                isDisabled={viewType === "view"}
+                onChange={(valueOption) => {
+                  setFieldValue("shipment", valueOption);
+                  setFieldValue("motherVessel", "");
+                  setFieldValue("eta", "");
+                  setFieldValue("cargo", "");
+                  setFieldValue("numEstimatedCargoQty", "");
+
+                  getInfoByShipmentId(valueOption?.value, setFieldValue);
+                }}
+              />
+            </div>
+            <div className="col-lg-6"></div>
             {/* <div className="col-lg-3">
               <label>LC No</label>
               <FormikInput
@@ -74,7 +128,7 @@ export function OperationSection(props) {
                 disabled
               />
             </div> */}
-            <div className="col-lg-3">
+            {/* <div className="col-lg-3">
               <NewSelect
                 name="lcnumber"
                 value={values?.lcnumber}
@@ -97,7 +151,7 @@ export function OperationSection(props) {
                 errors={errors}
                 touched={touched}
               />
-            </div>
+            </div> */}
             <div className="col-lg-3">
               <FormikSelect
                 value={values?.motherVessel || ""}
@@ -403,6 +457,12 @@ export function OperationSection(props) {
                           setValues,
                           setEditMode,
                           index
+                        );
+                        getInfoByShipmentId(item?.intShipmentId);
+                        getShipmentDDL(
+                          `/imp/ImportCommonDDL/GetInfoFromPoLcDDL?accId=${
+                            profileData?.accountId
+                          }&buId=${0}&searchTerm=${item?.lcnumber}`
                         );
                       }}
                       className="mr-2"

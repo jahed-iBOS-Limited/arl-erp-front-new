@@ -210,7 +210,7 @@ const ManpowerSalesTargetTable = () => {
                         </tr>
                       </thead>
                       {rowData?.data?.map((item, index) => {
-                        totalTarget += item?.targeQnt;
+                        totalTarget += +item?.targeQnt;
                         return (
                           <tr key={index}>
                             <td className="text-center">{index + 1}</td>

@@ -73,11 +73,13 @@ export default function _Form({
             label: item?.itemName,
           }))
         );
-        setFieldValue("eta", _dateFormatter(resData?.objHeader?.dteEta));
-        setFieldValue("motherVessel", {
-          value: resData?.objHeader?.motherVesselId,
-          label: resData?.objHeader?.motherVesselName,
-        });
+        if (setFieldValue) {
+          setFieldValue("eta", _dateFormatter(resData?.objHeader?.dteEta));
+          setFieldValue("motherVessel", {
+            value: resData?.objHeader?.motherVesselId,
+            label: resData?.objHeader?.motherVesselName,
+          });
+        }
       }
     );
   };
@@ -156,9 +158,6 @@ export default function _Form({
                   touched={touched}
                   setFieldValue={setFieldValue}
                   setPortDDL={setPortDDL}
-                  getShipmentDDL={getShipmentDDL}
-                  shipmentDDL={shipmentDDL}
-                  getInfoByShipmentId={getInfoByShipmentId}
                 />
               </div>
 
@@ -185,6 +184,9 @@ export default function _Form({
                 setValues={setValues}
                 setTouched={setTouched}
                 setErrors={setErrors}
+                getShipmentDDL={getShipmentDDL}
+                shipmentDDL={shipmentDDL}
+                getInfoByShipmentId={getInfoByShipmentId}
               />
               <ExpenseSection
                 viewType={viewType}
