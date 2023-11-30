@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
-
+import PaginationTable from "../../../../_helper/_tablePagination";
 
 export default function TdsVdsJvDataTable({
   values,
@@ -16,6 +16,8 @@ export default function TdsVdsJvDataTable({
   touched,
 }) {
   const [selectAll, setSelectAll] = useState(false);
+  const [pageNo, setPageNo] = useState(0);
+  const [pageSize, setPageSize] = useState(15);
 
   const {
     profileData: { accountId: accId },
@@ -26,7 +28,8 @@ export default function TdsVdsJvDataTable({
     const activeStatus =
       values?.costCenter?.value &&
       values?.costElement?.value &&
-      values?.profitCenter?.value &&values?.accountNo?.value;
+      values?.profitCenter?.value &&
+      values?.accountNo?.value;
     setDisabled(!activeStatus);
     //  if(activeStatus){
     //   setDisabled(false)
@@ -34,6 +37,10 @@ export default function TdsVdsJvDataTable({
     //   setDisabled(true)
     //  }
   }, [values]);
+
+  const setPositionHandler = (pageNo, pageSize, values) => {
+    // getLandingData(values, pageNo, pageSize);
+  };
 
   const handleSelectTableRow = (tableData, index) => {
     const modifiedData = [...tableData];
@@ -46,6 +53,7 @@ export default function TdsVdsJvDataTable({
   };
 
   return (
+    <>
     <div className="loan-scrollable-table employee-overall-status">
       <div style={{ maxHeight: "450px" }} className="scroll-table _table">
         <table className=" table table-striped table-bordered table-font-size-sm">
@@ -132,16 +140,29 @@ export default function TdsVdsJvDataTable({
                       {item?.vdsamount}
                     </td>
                     <td className="text-center" style={{ fontSize: 11 }}>
-                      <div>
-                        {/* <IView /> */}
-                      </div>
+                      <div>{/* <IView /> */}</div>
                     </td>
                   </tr>
                 );
               })}
           </tbody>
         </table>
+        
       </div>
     </div>
+    {true && (
+          <PaginationTable
+            count={editableData?.length}
+            setPositionHandler={setPositionHandler}
+            paginationState={{
+              pageNo,
+              setPageNo,
+              pageSize,
+              setPageSize,
+            }}
+            values={values}
+          />
+        )}
+    </>
   );
 }
