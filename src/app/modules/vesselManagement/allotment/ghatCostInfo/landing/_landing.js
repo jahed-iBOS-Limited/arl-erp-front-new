@@ -103,7 +103,9 @@ const GhatCostInfoTable = () => {
     GetDomesticPortDDL(setPortDDL);
     GetShipPointDDL(accId, buId, setShipPointDDL);
     GetLighterDestinationDDL(accId, buId, setDestinationDDL);
-    getSupplierDDL(`/wms/TransportMode/GetTransportMode?intParid=2&intBusinessUnitId=${buId}`);
+    getSupplierDDL(
+      `/wms/TransportMode/GetTransportMode?intParid=2&intBusinessUnitId=${buId}`
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
 
@@ -134,6 +136,7 @@ const GhatCostInfoTable = () => {
   let totalLabourRequirement = 0;
   let totalLabourPresent = 0;
   let totalLighterWaiting = 0;
+  let totalReceiveVehicle = 0;
 
   return (
     <>
@@ -152,7 +155,9 @@ const GhatCostInfoTable = () => {
                 );
               }}
             >
-              {(loading || vehicleDemandDataLoad || supplierDDLLoader) && <Loading />}
+              {(loading || vehicleDemandDataLoad || supplierDDLLoader) && (
+                <Loading />
+              )}
               <form className="form form-label-right">
                 <div className="global-form row">
                   <div className="col-lg-3">
@@ -294,29 +299,26 @@ const GhatCostInfoTable = () => {
                         />
                       </div>
                       <div className="col-lg-3">
-                      <NewSelect
-                        name="supplier"
-                        options={
-                          [
+                        <NewSelect
+                          name="supplier"
+                          options={[
                             { value: 0, label: "All" },
                             ...(supplierDDL || []),
                           ]}
-                        value={values?.supplier}
-                        label="Supplier Name"
-                        onChange={(valueOption) => {
+                          value={values?.supplier}
+                          label="Supplier Name"
+                          onChange={(valueOption) => {
                             setFieldValue("supplier", valueOption);
-                        }}
-                        placeholder="Supplier Name"
-                      />
-                    </div>
+                          }}
+                          placeholder="Supplier Name"
+                        />
+                      </div>
                       <div>
                         <button
                           type="button"
                           style={{ marginTop: "20px" }}
                           className="btn btn-primary ml-2"
-                          disabled={
-                            !values?.demandDate || !values?.shipPoint
-                          }
+                          disabled={!values?.demandDate || !values?.shipPoint}
                           onClick={() => {
                             getVehicleDemandData(
                               `/tms/LigterLoadUnload/GetLogisticDemandNReciveInfo?ShipPointId=${values?.shipPoint?.value}&AccountId=${accId}&BusinessUnitId=${buId}&DayDate=${values?.demandDate}&SupplierId=${values?.supplier?.value}`
@@ -435,8 +437,9 @@ const GhatCostInfoTable = () => {
                               <th>Supplier Name</th>
                               <th>Ship Point Name</th>
                               <th>Demand Vehicle</th>
-                              <th>Packing MT</th>
-                              <th>Dump Qty Ton</th>
+                              <th>Receive Vehicle</th>
+                              {/* <th>Packing MT</th> */}
+                              {/* <th>Dump Qty Ton</th> */}
                               <th>Labour Requirement</th>
                               <th>Labour Present</th>
                               <th>Lighter Waiting</th>
@@ -447,30 +450,32 @@ const GhatCostInfoTable = () => {
                             {vehicleDemandData?.length > 0 &&
                               vehicleDemandData?.map((item, index) => {
                                 totalDemandVehicle += item?.demandVehicle;
-                                totalPackingMT += item?.packingQntMt;
-                                totalDumpQtyTon += item?.bufferQntMt;
+                                // totalPackingMT += item?.packingQntMt;
+                                // totalDumpQtyTon += item?.bufferQntMt;
                                 totalLabourRequirement += item?.labourRequired;
                                 totalLabourPresent += item?.presentLabour;
                                 totalLighterWaiting += item?.lighterWaiting;
+                                totalReceiveVehicle += item?.receiveVehicle;
                                 return (
                                   <>
                                     <tr key={index}>
                                       <td className="text-center">
                                         {index + 1}
                                       </td>
-                                      <td>
-                                        {item?.supplierName}
-                                      </td>
+                                      <td>{item?.supplierName}</td>
                                       <td>{item?.shipPointName}</td>
                                       <td className="text-center">
                                         {item?.demandVehicle || 0}
                                       </td>
                                       <td className="text-center">
+                                        {item?.receiveVehicle || 0}
+                                      </td>
+                                      {/* <td className="text-center">
                                         {item?.packingQntMt || 0}
-                                      </td>
-                                      <td className="text-center">
+                                      </td> */}
+                                      {/* <td className="text-center">
                                         {item?.bufferQntMt || 0}
-                                      </td>
+                                      </td> */}
                                       <td className="text-center">
                                         {item?.labourRequired || 0}
                                       </td>
@@ -502,6 +507,7 @@ const GhatCostInfoTable = () => {
                               >
                                 Total
                               </td>
+                              <td></td>
                               <td
                                 style={{ fontWeight: "bold" }}
                                 className="text-center"
@@ -512,14 +518,20 @@ const GhatCostInfoTable = () => {
                                 style={{ fontWeight: "bold" }}
                                 className="text-center"
                               >
-                                {totalPackingMT}
+                                {totalReceiveVehicle}
                               </td>
-                              <td
+                              {/* <td
+                                style={{ fontWeight: "bold" }}
+                                className="text-center"
+                              >
+                                {totalPackingMT}
+                              </td> */}
+                              {/* <td
                                 style={{ fontWeight: "bold" }}
                                 className="text-center"
                               >
                                 {totalDumpQtyTon}
-                              </td>
+                              </td> */}
                               <td
                                 style={{ fontWeight: "bold" }}
                                 className="text-center"
