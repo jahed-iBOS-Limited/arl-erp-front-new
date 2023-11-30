@@ -30,7 +30,12 @@ const InvoiceWisePaymentLanding = () => {
     shallowEqual
   );
 
-  const [teritoryDDL, getTeritoryDDL, teritoryDDLloader] = useAxiosGet();
+  const [
+    teritoryDDL,
+    getTeritoryDDL,
+    teritoryDDLloader,
+    setTeritoryDDL,
+  ] = useAxiosGet();
 
   const [
     customerDDL,
@@ -127,7 +132,14 @@ const InvoiceWisePaymentLanding = () => {
                             }
                           );
                           getTeritoryDDL(
-                            `/oms/TerritoryInfo/GetTerritoryByBusinessUnitDDL?businessUnitId=${valueOption?.value}&distributionChannelId=0`
+                            `/oms/TerritoryInfo/GetTerritoryByBusinessUnitDDL?businessUnitId=${valueOption?.value}&distributionChannelId=0`,
+                            (data) => {
+                              // add {value: 0, label: "All"} on top of the data
+                              setTeritoryDDL([
+                                { value: 0, label: "All" },
+                                ...data,
+                              ]);
+                            }
                           );
                           setTableData([]);
                         } else {
