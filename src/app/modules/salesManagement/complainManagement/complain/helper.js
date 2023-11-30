@@ -286,10 +286,10 @@ export const respondentTypeDDL = [
   },
 ];
 
-export const getBusinessUnitDDLApi = async (buId, setter) => {
+export const getBusinessUnitDDLApi = async (accId, setter) => {
   try {
     const res = await axios.get(
-      `/domain/BusinessUnitDomain/GetBusinessUnitDDL?AccountId=1&BusinessUnitId=0`
+      `/domain/BusinessUnitDomain/GetBusinessUnitDDL?AccountId=${accId}&BusinessUnitId=0`
     );
     setter(res?.data);
   } catch (error) {}

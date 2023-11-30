@@ -10,7 +10,7 @@ import NewSelect from "../../../../_helper/_select";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import {
-  complainLandingPasignation,
+  complainLandingPasignationByEmployeeId,
   getComplainStatus,
   respondentTypeDDL,
 } from "../helper";
@@ -37,7 +37,7 @@ const ResolutionLanding = () => {
   const [complainStatus, setComplainStatus] = useState([]);
   // get user data from store
   const {
-    profileData: { accountId: accId },
+    profileData: { accountId: accId, employeeId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
@@ -55,7 +55,8 @@ const ResolutionLanding = () => {
     values,
     searhValue
   ) => {
-    complainLandingPasignation(
+   
+    complainLandingPasignationByEmployeeId(
       accId,
       buId,
       values?.respondentType?.value || 0,
@@ -66,7 +67,8 @@ const ResolutionLanding = () => {
       pageSize,
       setGridData,
       setLoading,
-      searhValue
+      searhValue,
+      employeeId
     );
   };
 
@@ -178,6 +180,7 @@ const ResolutionLanding = () => {
                   commonGridDataCB: () => {
                     commonGridData(pageNo, pageSize, values);
                   },
+                  setLoading
                 }}
               />
 
