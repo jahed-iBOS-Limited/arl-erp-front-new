@@ -3,15 +3,13 @@ import React from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import IConfirmModal from "../../../../_helper/_confirmModal";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import IView from "../../../../_helper/_helperIcons/_view";
 import IViewModal from "../../../../_helper/_viewModal";
-import feedbackIcon from "../../../../_helper/images/feedback.png";
-import { saveColseComplainApi } from "../../resolution/helper";
 import FeedbackModal from "../../resolution/landing/feedbackModal";
 import InvoiceView from "./invoiceView";
+import { saveColseComplainApi } from "../../resolution/helper";
 const LandingTable = ({ obj }) => {
   const {
     profileData: { accountId: accId, employeeId },
@@ -85,11 +83,23 @@ const LandingTable = ({ obj }) => {
                             >
                               <p>
                                 <b>Investigation: </b>
-                                {itm?.investigatorName},{" "}
-                                {itm?.investigationDateTime &&
-                                  moment(itm?.investigationDateTime).format(
-                                    "YYYY-MM-DD, HH:mm A"
-                                  )}
+                                {itm?.investigatorName}
+                                {itm?.investigationDueDate && (
+                                  <>
+                                    , Due:
+                                    {moment(itm?.investigationDueDate).format(
+                                      "YYYY-MM-DD"
+                                    )}
+                                  </>
+                                )}
+                                {itm?.investigationDateTime && (
+                                  <>
+                                    , Actual:
+                                    {moment(itm?.investigationDateTime).format(
+                                      "YYYY-MM-DD, HH:mm A"
+                                    )}
+                                  </>
+                                )}
                               </p>
                             </div>
                           ))}
@@ -116,11 +126,23 @@ const LandingTable = ({ obj }) => {
                             >
                               <p>
                                 <b>Investigation: </b>
-                                {itm?.investigatorName},{" "}
-                                {itm?.investigationDateTime &&
-                                  moment(itm?.investigationDateTime).format(
-                                    "YYYY-MM-DD, HH:mm A"
-                                  )}
+                                {itm?.investigatorName}
+                                {itm?.investigationDueDate && (
+                                  <>
+                                    , Due:
+                                    {moment(itm?.investigationDueDate).format(
+                                      "YYYY-MM-DD"
+                                    )}
+                                  </>
+                                )}
+                                {itm?.investigationDateTime && (
+                                  <>
+                                    , Actual:
+                                    {moment(itm?.investigationDateTime).format(
+                                      "YYYY-MM-DD, HH:mm A"
+                                    )}
+                                  </>
+                                )}
                               </p>
                             </div>
                           ))}
@@ -175,9 +197,6 @@ const LandingTable = ({ obj }) => {
                       onClick={() => {
                         setClickedRow(item);
                         setIsShowModal(true);
-                        // history.push(
-                        //   `/sales-management/complainmanagement/complain/view/${item?.complainId}`
-                        // );
                       }}
                     >
                       <IView />
@@ -189,26 +208,11 @@ const LandingTable = ({ obj }) => {
                         >
                           <span
                             onClick={() => {
-                              IConfirmModal({
-                                title: "Issue Close",
-                                message:
-                                  "Are you sure you want to Issue Close?",
-                                yesAlertFunc: () => {
-                                  const payload = {
-                                    complainId: item?.complainId || 0,
-                                    statusId: 4,
-                                    status: "Close",
-                                    actionById: userId,
-                                  };
-                                  saveColseComplainApi(
-                                    payload,
-                                    setLoading,
-                                    () => {
-                                      commonGridDataCB();
-                                    }
-                                  );
-                                },
-                                noAlertFunc: () => {},
+                              setIsFeedbackModalShow(true);
+                              setClickedRow({
+                                ...item,
+                                status: "Close",
+                                statusId: 4,
                               });
                             }}
                           >
@@ -219,26 +223,6 @@ const LandingTable = ({ obj }) => {
                           </span>
                         </OverlayTrigger>
                       </span>
-                    )}
-                    {item?.status === "Close" && (
-                      <>
-                        <span
-                          onClick={() => {
-                            setIsFeedbackModalShow(true);
-                            setClickedRow(item);
-                          }}
-                        >
-                          <img
-                            className='pointer'
-                            src={feedbackIcon}
-                            alt='feedbackIcon'
-                            style={{
-                              width: "20px",
-                              height: "20px",
-                            }}
-                          />
-                        </span>
-                      </>
                     )}
                   </div>
                 </td>
@@ -273,9 +257,23 @@ const LandingTable = ({ obj }) => {
             <FeedbackModal
               clickRowData={clickedRow}
               landingCB={() => {
-                setIsFeedbackModalShow(false);
-                setClickedRow({});
-                commonGridDataCB();
+                if (clickedRow?.status === "Close") {
+                  const payload = {
+                    complainId: clickedRow?.complainId || 0,
+                    statusId: 4,
+                    status: "Close",
+                    actionById: userId,
+                  };
+                  saveColseComplainApi(payload, setLoading, () => {
+                    setIsFeedbackModalShow(false);
+                    setClickedRow({});
+                    commonGridDataCB();
+                  });
+                } else {
+                  setIsFeedbackModalShow(false);
+                  setClickedRow({});
+                  commonGridDataCB();
+                }
               }}
             />
           </IViewModal>

@@ -1,21 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import React, { useState, useEffect, useRef } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import ICustomTable from "../../../_chartinghelper/_customTable";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
-import { CreateJournalVoucher, getLineExpense } from "../helper";
 import { Formik } from "formik";
-import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
 import moment from "moment";
+import React, { useEffect, useRef, useState } from "react";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import { shallowEqual, useSelector } from "react-redux";
+import ReactToPrint from "react-to-print";
+import * as Yup from "yup";
+import TextArea from "../../../../_helper/TextArea";
+import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
+import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
+import ICustomTable from "../../../_chartinghelper/_customTable";
 import { _formatMoney } from "../../../_chartinghelper/_formatMoney";
 import { _todayDate } from "../../../_chartinghelper/_todayDate";
-import ReactToPrint from "react-to-print";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import TextArea from "../../../../_helper/TextArea";
-import * as Yup from "yup";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
+import Loading from "../../../_chartinghelper/loading/_loading";
+import { CreateJournalVoucher, getLineExpense } from "../helper";
 
 const headers = [
   { name: "SL" },
@@ -131,7 +130,7 @@ export default function LineExpenseReport() {
                       <b>Total JV Amount: {_formatMoney(totalJVAmount)} </b>
                     </p>
                   </div>
-                  <div className="col-lg-3">
+                  {/* <div className="col-lg-3">
                     <label>Date</label>
                     <FormikInput
                       value={values?.date}
@@ -152,7 +151,7 @@ export default function LineExpenseReport() {
                       errors={errors}
                       touched={touched}
                     />
-                  </div>
+                  </div> */}
                   <div className="col-lg-9 text-right mt-5">
                     <ReactHTMLTableToExcel
                       id="test-table-xls-button-att-reports"

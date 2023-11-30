@@ -12,6 +12,7 @@ import {
   getMotherVesselInfo,
   validationSchema,
 } from "../helper";
+import IButton from "../../../../_helper/iButton";
 
 export default function _Form({
   type,
@@ -22,10 +23,9 @@ export default function _Form({
   initData,
   setLoading,
   saveHandler,
-  lighterCNFDDL,
   motherVesselDDL,
   setMotherVesselDDL,
-  lighterStevedoreDDL,
+  approveTenderInformation,
 }) {
   const radioStyle = { height: "25px", width: "25px" };
   const history = useHistory();
@@ -73,7 +73,7 @@ export default function _Form({
           >
             <Form className="form form-label-right">
               <div className="row global-form global-form-custom">
-                <div className="col-12 mt-3 d-flex">
+                <div className="col-9 mt-3 d-flex">
                   <div className="d-flex align-items-center mr-5">
                     <input
                       style={radioStyle}
@@ -109,6 +109,17 @@ export default function _Form({
                     </label>
                   </div>
                 </div>
+                {type === "edit" && (
+                  <IButton
+                    className={"btn-info"}
+                    colSize={"col-lg-3"}
+                    onClick={() => {
+                      approveTenderInformation(values);
+                    }}
+                  >
+                    Approve
+                  </IButton>
+                )}
                 <div className="col-lg-3">
                   <NewSelect
                     name="port"

@@ -5,8 +5,8 @@ import { useLocation, useParams } from "react-router-dom";
 import IForm from "../../../../_helper/_form";
 import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
-import Form from "./form";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import Form from "./form";
 
 const initData = {
   sbu: "",
@@ -77,7 +77,7 @@ export default function CreateInventoryLoanForm({ loanType }) {
         strNarration: values?.narration,
         intActionBy: profileData?.userId,
         // intFromOrToBusinessUnitId: values?.partner?.value,
-        intFromOrToBusinessUnitId: 0,
+        intFromOrToBusinessUnitId:values?.createType === 1 ? 0 : values?.partner?.value,
         strFromOrToBusinessUnitName: values?.partner?.label,
         intLoanId: 0,
       };

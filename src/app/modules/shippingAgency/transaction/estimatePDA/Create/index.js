@@ -24,7 +24,7 @@ import {
   getExpenseParticularsList,
   getSBUListDDLApi,
   getVesselDDL,
-  getVoyageNoDDLApi
+  getVoyageNoDDLApi,
 } from "../helper";
 import ViewInvoice from "../landing/viewInvoice";
 import RowTable from "./rowTable";
@@ -75,6 +75,7 @@ const EstimatePDACreate = () => {
   const [loading, setLoading] = useState(false);
   const [vesselDDL, setVesselDDL] = useState([]);
   const [sbuDDL, setSbuDDL] = useState([]);
+  const [singleData, setSingleData] = useState("");
   const [open, setOpen] = useState(false);
   const [fileObjects, setFileObjects] = useState([]);
   const [voyageNoDDL, setVoyageNoDDL] = useState([]);
@@ -88,7 +89,7 @@ const EstimatePDACreate = () => {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const [isViewModal, setViewModal] = React.useState(false);
-  const [viewClickRowItem, setViewClickRowItem] = React.useState({});
+  const [viewClickRowItem, setViewClickRowItem] = React.useState("");
   useEffect(() => {
     if (accId && buId) {
       getVesselDDL(accId, 0, setVesselDDL);
@@ -133,7 +134,7 @@ const EstimatePDACreate = () => {
       voyageNo: values?.voyageNo?.label || "",
       workingPortId: values?.workingPort?.value || 0,
       workingPortName: values?.workingPort?.label || "",
-      customerId: 1,
+      customerId: values?.customerName?.value || 0,
       customerName: values?.customerName?.label || "",
       activity: values?.activity || "",
       currency: values?.currency?.value || "",
@@ -152,6 +153,14 @@ const EstimatePDACreate = () => {
       bankAccountId: values?.accountNo?.value || 0,
       bankAccountNo: values?.accountNo?.label || "",
       swiftCode: values?.swiftCode || "",
+      bankName: singleData?.bankName || "",
+      accountName: singleData?.accountName || "",
+      bankAddress: singleData?.bankAddress || "",
+      bankAccNo: singleData?.bankAccNo || "",
+      beneficiaryAddress: singleData?.beneficiaryAddress || "",
+      arrivedDateTime: singleData?.arrivedDateTime || "",
+      sailedDateTime: singleData?.sailedDateTime || "",
+
       shippingAgencyEstimatePdarowDtos: rowDto?.map((item) => {
         return {
           estimatePdarowId: item?.estimatePdarowId || 0,
@@ -164,6 +173,15 @@ const EstimatePDACreate = () => {
           actualAmount: +item?.actualAmount || 0,
           actionBy: userId,
           lastActionDateTime: new Date(),
+          isPo: item?.isPo || false,
+          podetails: {
+            actualAmount: +item?.actualAmount || 0,
+            poId: item?.poId || 0,
+            poCode: item?.poCode || "",
+            poType: item?.poType || "",
+            isPo: item?.isPo || false,
+            poTypeId: item?.poTypeId || 0,
+          },
           estimatePDABillCreateDtos: item?.estimatePDABillCreateDtos?.map(
             (i) => {
               return {
@@ -181,14 +199,14 @@ const EstimatePDACreate = () => {
                 isActive: true,
                 actionBy: userId,
                 lastActionDateTime: new Date(),
-                vat: i?.vat || "",
+                vat: i?.vat || 0,
               };
             }
           ),
         };
       }),
     };
-
+    setViewClickRowItem("");
     createUpdateEstimatePDA(payload, setLoading, (resData) => {
       cb();
       if (editId) {
@@ -197,6 +215,12 @@ const EstimatePDACreate = () => {
       setViewClickRowItem({
         estimatePdaid: resData?.estimatePdaId,
       });
+
+      if (!editId) {
+        history.push(
+          `/ShippingAgency/Transaction/EstimatePDA/edit/${resData?.estimatePdaId}`
+        );
+      }
     });
   };
 
@@ -212,8 +236,12 @@ const EstimatePDACreate = () => {
   const formikRef = React.useRef(null);
 
   const commonGetById = async () => {
+    setViewClickRowItem({
+      estimatePdaid: editId,
+    });
     getEstimatePDAById(editId, setLoading, (resData) => {
       if (formikRef.current) {
+        setSingleData(resData);
         formikRef.current.setValues({
           sbu: resData?.sbuid
             ? { value: resData?.sbuid, label: resData?.sbuname }
@@ -237,19 +265,36 @@ const EstimatePDACreate = () => {
           exchangeRate: resData?.exchangeRate || "",
           attachment: resData?.attachmentsId || "",
           accountNo: resData?.bankAccountId
-            ? { value: resData?.bankAccountId, label: resData?.bankAccountName }
+            ? { value: resData?.bankAccountId, label: resData?.bankAccountNo }
             : "",
           beneficiaryName: resData?.beneficiaryId
             ? { value: resData?.beneficiaryId, label: resData?.beneficiaryName }
             : "",
           swiftCode: resData?.swiftCode || "",
         });
-        setRowDto(resData?.shippingAgencyEstimatePdarowDtos || []);
+        setRowDto(
+          resData?.shippingAgencyEstimatePdarowDtos?.map((item) => {
+            const poId = item?.poId || +item?.podetails?.poId || 0;
+            const actualAmount =
+              +item?.actualAmount || +item?.podetails?.actualAmount || 0;
+            const poCode = item?.poCode || item?.podetails?.poCode || "";
+            const poType = item?.poType || item?.podetails?.poType || "";
+            const poTypeId = item?.poTypeId || item?.podetails?.poTypeId || 0;
+            return {
+              ...item,
+              actualAmount,
+              poId,
+              poCode,
+              poType,
+              poTypeId,
+              isPo: poId ? true : false,
+            };
+          }) || []
+        );
       }
     });
   };
 
-  console.log(viewClickRowItem);
   return (
     <>
       {loading && <Loading />}
@@ -272,12 +317,13 @@ const EstimatePDACreate = () => {
           errors,
           resetForm,
           handleSubmit,
+          setValues,
         }) => (
           <>
             <ICustomCard
-              title='Estimate PDA Create'
+              title={`Estimate PDA ${editId ? "Edit" : "Create"}`}
               backHandler={() => {
-                history.goBack();
+                history.push("/ShippingAgency/Transaction/EstimatePDA");
               }}
               saveHandler={() => {
                 handleSubmit();
@@ -285,29 +331,43 @@ const EstimatePDACreate = () => {
               resetHandler={() => {
                 resetForm(initData);
               }}
-              renderProps={
-                editId || !viewClickRowItem?.estimatePdaid
-                  ? false
-                  : () => {
-                      return (
-                        <>
-                          <button
-                            type='button'
-                            className='btn btn-primary px-3 py-2 ml-2'
-                            onClick={() => {
-                              setViewModal(true);
-                            }}
-                          >
-                            <i
-                              className='mr-1 fa fa-print pointer'
-                              aria-hidden='true'
-                            ></i>
-                            Print
-                          </button>
-                        </>
-                      );
-                    }
-              }
+              renderProps={() => {
+                return (
+                  <>
+                    {viewClickRowItem && (
+                      <button
+                        type='button'
+                        className='btn btn-primary px-3 py-2 ml-2'
+                        onClick={() => {
+                          setViewModal(true);
+                        }}
+                      >
+                        <i
+                          className='mr-1 fa fa-print pointer'
+                          aria-hidden='true'
+                        ></i>
+                        Print
+                      </button>
+                    )}
+
+                    {editId && (
+                      <button
+                        type='button'
+                        className='btn btn-primary px-3 py-2 ml-2'
+                        onClick={() => {
+                          setValues(initData);
+                          setRowDto([]);
+                          history.push(
+                            `/ShippingAgency/Transaction/EstimatePDA/Create`
+                          );
+                        }}
+                      >
+                        Create
+                      </button>
+                    )}
+                  </>
+                );
+              }}
             >
               <div className='row global-form my-3'>
                 <div className='col-lg-3'>
@@ -505,7 +565,7 @@ const EstimatePDACreate = () => {
                 </div>
               </div>
 
-              <RowTable rowDto={rowDto} setRowDto={setRowDto} />
+              <RowTable rowDto={rowDto} setRowDto={setRowDto} editId={editId} />
 
               <DropzoneDialogBase
                 filesLimit={1}

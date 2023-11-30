@@ -22,6 +22,7 @@ import {
   setOperationFieldClear,
 } from "../../utils";
 import { CreateIcon } from "./header";
+import NewSelect from "../../../../../_helper/_select";
 
 export function OperationSection(props) {
   const {
@@ -61,6 +62,42 @@ export function OperationSection(props) {
       {viewType === "view" ? null : (
         <div className="marine-form-card-content">
           <div className="row mt-4">
+            {/* <div className="col-lg-3">
+              <label>LC No</label>
+              <FormikInput
+                value={values?.lcnumber}
+                name="lcnumber"
+                placeholder="LC No"
+                type="text"
+                errors={errors}
+                touched={touched}
+                disabled
+              />
+            </div> */}
+            <div className="col-lg-3">
+              <NewSelect
+                name="lcnumber"
+                value={values?.lcnumber}
+                label={"LC No"}
+                placeholder={"LC No"}
+                options={[]}
+                isDisabled
+                errors={errors}
+                touched={touched}
+              />
+            </div>
+            <div className="col-lg-3">
+              <NewSelect
+                name="shipment"
+                value={values?.shipment}
+                label={"Shipment No"}
+                placeholder={"Shipment No"}
+                options={[]}
+                isDisabled
+                errors={errors}
+                touched={touched}
+              />
+            </div>
             <div className="col-lg-3">
               <FormikSelect
                 value={values?.motherVessel || ""}
@@ -101,24 +138,7 @@ export function OperationSection(props) {
                 touched={touched}
               />
             </div>
-            {/* <div className="col-lg-3">
-              <label>Consignee Party</label>
-              <SearchAsyncSelect
-                selectedValue={values?.consigneeParty}
-                handleChange={(valueOption) => {
-                  setFieldValue("consigneeParty", valueOption);
-                }}
-                loadOptions={(v) => {
-                  if (v?.length < 3) return [];
-                  return axios
-                    .get(
-                      `${imarineBaseUrl}/domain/LighterConsignee/GetCustomerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&searchName=${v}`
-                    )
-                    .then((res) => res?.data);
-                }}
-                disabled={true}
-              />
-            </div> */}
+
             <div className="col-lg-3 relative">
               <FormikSelect
                 value={values?.consigneeParty || ""}
@@ -182,6 +202,27 @@ export function OperationSection(props) {
               />
             </div>
             <div className="col-lg-3">
+              <FormikSelect
+                value={values?.cargo || ""}
+                isSearchable={true}
+                options={cargoDDL}
+                styles={customStyles}
+                name="cargo"
+                label="Cargo"
+                placeholder="Cargo"
+                onChange={(valueOption) => {
+                  setFieldValue("cargo", valueOption);
+                  setFieldValue(
+                    "numEstimatedCargoQty",
+                    valueOption?.shippedQuantity
+                  );
+                }}
+                isDisabled={viewType === "view" || !values?.shipment}
+                errors={errors}
+                touched={touched}
+              />
+            </div>
+            <div className="col-lg-3">
               <label>B/L Qty</label>
               <FormikInput
                 value={values?.numBlqty}
@@ -193,34 +234,6 @@ export function OperationSection(props) {
               />
             </div>
 
-            <div className="col-lg-3">
-              <label>LC No</label>
-              <FormikInput
-                value={values?.lcnumber}
-                name="lcnumber"
-                placeholder="LC No"
-                type="text"
-                errors={errors}
-                touched={touched}
-              />
-            </div>
-            <div className="col-lg-3">
-              <FormikSelect
-                value={values?.cargo || ""}
-                isSearchable={true}
-                options={cargoDDL}
-                styles={customStyles}
-                name="cargo"
-                label="Cargo"
-                placeholder="Cargo"
-                onChange={(valueOption) => {
-                  setFieldValue("cargo", valueOption);
-                }}
-                isDisabled={viewType === "view"}
-                errors={errors}
-                touched={touched}
-              />
-            </div>
             <div className="col-lg-3">
               <label>Estimated Cargo</label>
               <FormikInput
@@ -346,14 +359,15 @@ export function OperationSection(props) {
         <table className="table mt-6 bj-table bj-table-landing">
           <thead>
             <tr>
-              <th>SR Number</th>
+              <th>LC No</th>
+              <th>Shipment No</th>
               <th>Mother Vessel</th>
-              <th>ETA</th>
-              <th>B/L Qty</th>
               <th>Voyage No</th>
               <th>Consignee Party</th>
-              <th>LC No</th>
+              <th>SR Number</th>
+              <th>ETA</th>
               <th>Cargo</th>
+              <th>B/L Qty</th>
               <th>Estimated Cargo</th>
               <th>Freight</th>
               <th>Actual Cargo Qty</th>
@@ -364,16 +378,17 @@ export function OperationSection(props) {
           <tbody>
             {rowData?.map((item, index) => (
               <tr key={index}>
-                <td className="text-center">{item?.srnumber || "-"}</td>
+                <td className="text-center">{item?.lcnumber || "-"}</td>
+                <td className="text-center">{item?.strShipmentCode || "-"}</td>
                 <td>{item?.motherVesselName}</td>
+                <td className="text-center">{item?.voyageNo || "-"}</td>
+                <td>{item?.consigneePartyName}</td>
+                <td className="text-center">{item?.srnumber || "-"}</td>
                 <td className="text-center">
                   {_dateFormatter(item?.eta) || "-"}
                 </td>
-                <td className="text-center">{item?.numBlqty}</td>
-                <td className="text-center">{item?.voyageNo || "-"}</td>
-                <td>{item?.consigneePartyName}</td>
-                <td className="text-center">{item?.lcnumber || "-"}</td>
                 <td>{item?.cargoName}</td>
+                <td className="text-center">{item?.numBlqty}</td>
                 <td className="text-center">{item?.numEstimatedCargoQty}</td>
                 <td className="text-right">{item?.numFreight}</td>
                 <td className="text-center">{item?.numActualCargoQty}</td>

@@ -4,29 +4,28 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
 import IViewModal from "../../../../_helper/_viewModal";
 import feedbackIcon from "../../../../_helper/images/feedback.png";
 import DelegateForm from "./delegate";
 import FeedbackModal from "./feedbackModal";
 import InvestigateForm from "./investigate";
-import { useParams } from 'react-router';
+import { saveColseComplainApi } from "../helper";
 
 const LandingTable = ({ obj }) => {
   const {
-    profileData: { accountId: accId, employeeId },
+    profileData: { accountId: accId, employeeId,userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  const { gridData, commonGridDataCB } = obj;
+  const { gridData, commonGridDataCB,setLoading } = obj;
   const history = useHistory();
   const [delegatModalShow, setDelegatModalShow] = React.useState(false);
   const [investigateModalShow, setInvestigateModalShow] = React.useState(false);
   const [isFeedbackModalShow, setIsFeedbackModalShow] = React.useState(false);
   const [clickRowData, setClickRowData] = React.useState({});
 
-  const isMyComplaint =
-  window.location.pathname === "/self-service/my-complaint"
+  // const isMyComplaint =
+  //   window.location.pathname === "/self-service/my-complaint";
   return (
     <>
       <table className='table table-striped table-bordered global-table'>
@@ -84,12 +83,24 @@ const LandingTable = ({ obj }) => {
                               }}
                             >
                               <p>
-                                <b>Investigation: </b>
-                                {itm?.investigatorName},{" "}
-                                {itm?.investigationDateTime &&
-                                  moment(itm?.investigationDateTime).format(
-                                    "YYYY-MM-DD, HH:mm A"
-                                  )}
+                                <b> </b>
+                                {itm?.investigatorName}
+                                {itm?.investigationDueDate && (
+                                  <>
+                                    , Due:
+                                    {moment(itm?.investigationDueDate).format(
+                                      "YYYY-MM-DD"
+                                    )}
+                                  </>
+                                )}
+                                {itm?.investigationDateTime && (
+                                  <>
+                                    , Actual:
+                                    {moment(itm?.investigationDateTime).format(
+                                      "YYYY-MM-DD, HH:mm A"
+                                    )}
+                                  </>
+                                )}
                               </p>
                             </div>
                           ))}
@@ -116,11 +127,23 @@ const LandingTable = ({ obj }) => {
                             >
                               <p>
                                 <b>Investigation: </b>
-                                {itm?.investigatorName},{" "}
-                                {itm?.investigationDateTime &&
-                                  moment(itm?.investigationDateTime).format(
-                                    "YYYY-MM-DD, HH:mm A"
-                                  )}
+                                {itm?.investigatorName}
+                                {itm?.investigationDueDate && (
+                                  <>
+                                    , Due:
+                                    {moment(itm?.investigationDueDate).format(
+                                      "YYYY-MM-DD"
+                                    )}
+                                  </>
+                                )}
+                                {itm?.investigationDateTime && (
+                                  <>
+                                    , Actual:
+                                    {moment(itm?.investigationDateTime).format(
+                                      "YYYY-MM-DD, HH:mm A"
+                                    )}
+                                  </>
+                                )}
                               </p>
                             </div>
                           ))}
@@ -145,7 +168,7 @@ const LandingTable = ({ obj }) => {
                           : item?.status === "Delegate"
                           ? "blue"
                           : item?.status === "Investigate"
-                          ? "orrage"
+                          ? "orange"
                           : "green",
                     }}
                   >
@@ -159,7 +182,7 @@ const LandingTable = ({ obj }) => {
                       gap: "8px",
                     }}
                   >
-                    {item?.status === "Open" && !isMyComplaint && (
+                    {/* {item?.status === "Open" && !isMyComplaint && (
                       <span
                         onClick={() => {
                           history.push(
@@ -169,9 +192,10 @@ const LandingTable = ({ obj }) => {
                       >
                         <IEdit />
                       </span>
-                    )}
+                    )} */}
 
-                    {item?.status === "Open"&& !isMyComplaint && (
+                    {(item?.status === "Open" ||
+                      item?.status === "Delegate") && (
                       <>
                         <span>
                           <OverlayTrigger
@@ -192,59 +216,81 @@ const LandingTable = ({ obj }) => {
                         </span>
                       </>
                     )}
+                   
 
-                    {(item?.status === "Delegate" ||
-                      item?.status === "Investigate") &&
-                      matchEmployeeId && (
-                        <>
-                          <span>
-                            <OverlayTrigger
-                              overlay={
-                                <Tooltip id='cs-icon'>
-                                  {item?.status === "Investigate"
-                                    ? "Update Investigate"
-                                    : "Investigate"}
-                                </Tooltip>
-                              }
+                    {item?.status === "Investigate" && matchEmployeeId && (
+                      <>
+                        <span>
+                          <OverlayTrigger
+                            overlay={
+                              <Tooltip id='cs-icon'>
+                                {item?.status === "Investigate"
+                                  ? "Update Investigate"
+                                  : "Investigate"}
+                              </Tooltip>
+                            }
+                          >
+                            <span
+                              onClick={() => {
+                                setInvestigateModalShow(true);
+                                setClickRowData(item);
+                              }}
                             >
-                              <span
-                                onClick={() => {
-                                  setInvestigateModalShow(true);
-                                  setClickRowData(item);
-                                }}
-                              >
-                                {item?.status === "Investigate" ? (
-                                  <i
-                                    class='fa fa-users pointer'
-                                    aria-hidden='true'
-                                  ></i>
-                                ) : (
-                                  <i
-                                    class='fa fa-low-vision pointer'
-                                    aria-hidden='true'
-                                  ></i>
-                                )}
-                              </span>
-                            </OverlayTrigger>
-                          </span>
+                              {item?.status === "Investigate" ? (
+                                <i
+                                  class='fa fa-users pointer'
+                                  aria-hidden='true'
+                                ></i>
+                              ) : (
+                                <i
+                                  class='fa fa-low-vision pointer'
+                                  aria-hidden='true'
+                                ></i>
+                              )}
+                            </span>
+                          </OverlayTrigger>
+                        </span>
+                        <span
+                          onClick={() => {
+                            setIsFeedbackModalShow(true);
+                            setClickRowData(item);
+                          }}
+                        >
+                          <img
+                            className='pointer'
+                            src={feedbackIcon}
+                            alt='feedbackIcon'
+                            style={{
+                              width: "20px",
+                              height: "20px",
+                            }}
+                          />
+                        </span>
+                      </>
+                    )}
+                     {item?.status === "Investigate" && (
+                      <span>
+                        <OverlayTrigger
+                          overlay={<Tooltip id='cs-icon'>Issue Close </Tooltip>}
+                        >
                           <span
                             onClick={() => {
                               setIsFeedbackModalShow(true);
-                              setClickRowData(item);
+                              setClickRowData({
+                                ...item,
+                                status: "Close",
+                                statusId: 4,
+                              });
                             }}
                           >
-                            <img
-                              className='pointer'
-                              src={feedbackIcon}
-                              alt='feedbackIcon'
-                              style={{
-                                width: "20px",
-                                height: "20px",
-                              }}
-                            />
+                            <i
+                              class='fa fa-times-circle text-danger'
+                              aria-hidden='true'
+                            ></i>
                           </span>
-                        </>
-                      )}
+                        </OverlayTrigger>
+                      </span>
+                    )}
                   </div>
                 </td>
               </tr>
@@ -305,9 +351,23 @@ const LandingTable = ({ obj }) => {
             <FeedbackModal
               clickRowData={clickRowData}
               landingCB={() => {
-                setIsFeedbackModalShow(false);
-                setClickRowData({});
-                commonGridDataCB();
+                if (clickRowData?.status === "Close") {
+                  const payload = {
+                    complainId: clickRowData?.complainId || 0,
+                    statusId: 4,
+                    status: "Close",
+                    actionById: userId,
+                  };
+                  saveColseComplainApi(payload, setLoading, () => {
+                    setIsFeedbackModalShow(false);
+                    setClickRowData({});
+                    commonGridDataCB();
+                  });
+                } else {
+                  setIsFeedbackModalShow(false);
+                  setClickRowData({});
+                  commonGridDataCB();
+                }
               }}
             />
           </IViewModal>

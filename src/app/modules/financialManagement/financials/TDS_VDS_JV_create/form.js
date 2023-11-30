@@ -1,87 +1,216 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import * as Yup from "yup";
+import { toast } from "react-toastify";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 import { _todayDate } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import TdsVdsJvDataTable from "./components/dataTable";
 
-// Validation schema
-const validationSchema = Yup.object().shape({
-  sbuUnit: Yup.object().shape({
-    label: Yup.string().required("Sbu is required"),
-    value: Yup.string().required("Sbu is required"),
-  }),
-  billType: Yup.object().shape({
-    label: Yup.string().required("Bill Type is required"),
-    value: Yup.string().required("Bill Type is required"),
-  }),
-  cashGl: Yup.string().when("type", {
-    is: (status) => status === "Cash",
-    then: Yup.string()
-      .required("Cash is required")
-      .typeError("Cash is required"),
-  }),
-  accountNo: Yup.string().when("type", {
-    is: (status) => status === "Online",
-    then: Yup.string()
-      .required("Account No is required")
-      .typeError("Account No required"),
-  }),
-  payDate: Yup.date().required("Pay Date is required"),
-});
-
 const initData = {
-  fromDate: _todayDate(),
   accountNo: "",
   status: "",
   billType: "",
+  fromDate: _todayDate(),
   toDate: _todayDate(),
+  costCenter: "",
+  costElement: "",
+  profitCenter: "",
 };
 
-export default function _Form({ saveHandler, bankDDL}) {
+export default function _Form({ bankDDL, setDisabled, btnRef }) {
   //to manage prepare all voucher button
-  const [, setIsAble] = useState(""); 
+  const [, setIsAble] = useState("");
+  const [pageNo, setPageNo] = useState(0);
+  const [pageSize, setPageSize] = useState(15);
 
-  const [accountNoDDL, getAccountNoDDL, isAcconutNoDDLLoading] =  useAxiosGet();
-  const [billTypeDDL, getBillTypeDDL, isBillTypeDDLLoading, setBillTypeDDL] = useAxiosGet();
+  const [accountNoDDL, getAccountNoDDL, isAcconutNoDDLLoading] = useAxiosGet();
+  const [
+    billTypeDDL,
+    getBillTypeDDL,
+    isBillTypeDDLLoading,
+    setBillTypeDDL,
+  ] = useAxiosGet();
 
-  console.log({billTypeDDL})
 
-    // get user profile data from store
-    const {profileData, selectedBusinessUnit} = useSelector((state) => state.authData, shallowEqual);
+  const [rowData, getRowData, isRowDataLoading, setRowData] = useAxiosGet();
+  const [editableData, setEditableData] = useState([]);
+  const [
+    costCenterDDL,
+    getCostCenterDDL,
+    isCostCenterDDLLoading,
+  ] = useAxiosGet();
 
+
+  const [
+    costElementDDL,
+    getCostElementDDL,
+    isCostElementDDLLoading,
+  ] = useAxiosGet();
+
+
+  const [
+    profitCenterDDL,
+    getProfitCenterDDL,
+    isProfitCenterDDLLoading,
+    setProfitCenterDDL
+  ] = useAxiosGet();
+
+
+  const [sbuId, getSbuId, sbuIdLoading, setSbuId] = useAxiosGet();
+
+  const [, saveData, isSavignData] = useAxiosPost()
+
+  // get user profile data from store
+  const {
+    profileData: { accountId: accId },
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => state.authData, shallowEqual);
+
+  //get data for table
+  const handleGetTableData = ({ billType, fromDate, toDate, status, pageNo=1, pageSize=50 }) => {
+    const tableDataApi = `/fino/PaymentRequest/GetTdsVdsJv?BusinessUnitId=${buId}&RefType=${billType}&FromDate=${fromDate}&ToDate=${toDate}&Status=${status}&PageNo=${pageNo}&PageSize=${pageSize}`;
+    getRowData(tableDataApi, (res) => {
+      setEditableData(res?.data);
+      if(res?.data?.length === 0 ) {
+        toast.warn("Data Not Found!")
+      }
+      console.log({ tableData: res });
+    });
+  };
+
+  // Fetch cost center dropdown list
+  const fetchCostCenterDDL = (sbuId) => {
+    const costCenterApi = `/costmgmt/CostCenter/GetCostCenterDDL?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${sbuId}`;
+
+    getCostCenterDDL(costCenterApi, (data) => {
+      console.log({ costCenterDDL: data });
+    });
+  };
+
+  // Fetch profit center dropdown list for cost center Id
+  const fetchProfitCenterDDL = () => {
+    // costCenterId --> costCenter-selected-dropdown-list-item-value
+    const profitCenterApi = `/fino/CostSheet/ProfitCenterDetails?UnitId=${buId}`;
+
+    getProfitCenterDDL(profitCenterApi, (data) => {
+      const ddl = data?.map(item => {
+        return {
+          label: item?.profitCenterName,
+          value: item?.profitCenterId
+        }
+      })
+      console.log({ddl})
+      setProfitCenterDDL(ddl);
+    });
+  };
+
+  // Fetch cost element dropdown list
+  const fetchCostElementDDL = () => {
+    // costCenterId --> costCenter selected dropdown list item value
+    const costElementApi = `/procurement/PurchaseOrder/GetCostElement?AccountId=${accId}&UnitId=${buId}`;
+    getCostElementDDL(costElementApi, (data) => {
+      console.log({ costElementDDL: data });
+    });
+  };
+
+  useEffect(() => {
+    const sbuApi = `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`;
+    fetchCostElementDDL();
+    fetchProfitCenterDDL();
+
+    getSbuId(sbuApi, (data) => {
+      const sbuId = data[0]?.value;
+      if (sbuId) {
+        setSbuId(sbuId);
+        fetchCostCenterDDL(sbuId);
+      }
+    });
+  }, [accId, buId]);
 
   //Load ddsl
-  useEffect(()=>{
-    let accId = profileData?.accountId;
-    let buId = selectedBusinessUnit?.value
-    // fetch account No DDL 
-    getAccountNoDDL( `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${accId}&BusinssUnitId=${buId}`, data => console.log({ddL:data}));
+  useEffect(() => {
+    // fetch account No DDL
+    getAccountNoDDL(
+      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${accId}&BusinssUnitId=${buId}`,
+      (data) => console.log({ ddL: data })
+    );
 
     //fetch bill type DDL
-    getBillTypeDDL(`/fino/FinanceCommonDDL/GetBillTypeDDL`, data => {
+    getBillTypeDDL(`/fino/FinanceCommonDDL/GetBillTypeDDL`, (data) => {
+      //Only show first two
       const firstTwo = data.slice(0, 2);
-      console.log({firstTwo})
       setBillTypeDDL(firstTwo);
     });
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profileData, selectedBusinessUnit])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [accId, buId]);
+  console.log({ editableData });
+
+  //const prepare payload for save
+  const prepareSavePayload = (listData, values) => {
+    
+    const selectedList = listData.filter((data) => data.isSelect);
+    if (!selectedList.length) return [];
+    console.log({values})
+    const defaults = {
+      businessUnitId: buId,
+      profitCenterId: values?.profitCenter?.value,
+      costCenterId: values?.costCenter?.value,
+      costElementId: values?.costElement?.value,
+      bankAccountNo: values?.accountNo?.bankAccNo,
+      bankAccountId: values?.accountNo?.value,
+      costCenterName: values?.costCenter?.label,
+      costElementName: values?.costElement?.label
+    };
+    const payload = selectedList?.map((item) => {
+      return {
+        paymentRequestId: item?.paymentRequestId,
+        partnerId: item?.partnerId,
+        tdsAmount: item?.tdsamount,
+        vdsAmount: item?.vdsamount,
+        ...defaults,
+      };
+    });
+    return payload;
+  };
+
+  
+
+
+
+
+  //handle save data
+  const saveHandler = (values, cb) => {
+    setDisabled(true)
+    const saveReqApi = `/fino/PaymentRequest/CreateTdsVdsJournalVoucher`
+    const savePayload = prepareSavePayload(editableData, values);
+    saveData(saveReqApi, savePayload, (res)=>{
+      if(res?.statuscode ===200 ){
+        // setDisabled(false)
+        cb()
+      }
+    }, true )
+
+    console.log({ savePayload });
+    console.log(JSON.stringify(savePayload));
+  };
 
   return (
     <>
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        validationSchema={validationSchema}
+        // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          // console.log("Test handler")
           saveHandler(values, () => {
-            // resetForm(initData);
+            setSubmitting(true)
+            resetForm(initData);
+            setRowData([]);
+            setEditableData([]);
           });
         }}
       >
@@ -94,7 +223,14 @@ export default function _Form({ saveHandler, bankDDL}) {
           setFieldValue,
         }) => (
           <>
-          { (isAcconutNoDDLLoading || isBillTypeDDLLoading) && <Loading />}
+            {(isAcconutNoDDLLoading ||
+              isBillTypeDDLLoading ||
+              isRowDataLoading ||
+              isCostCenterDDLLoading ||
+              isCostElementDDLLoading ||
+              isProfitCenterDDLLoading ||
+              isSavignData ||
+              isCostCenterDDLLoading) && <Loading />}
             <Form className="form form-label-right">
               <div className="global-form p-2">
                 <div className="form-group row">
@@ -110,6 +246,15 @@ export default function _Form({ saveHandler, bankDDL}) {
                       }}
                       errors={errors}
                       touched={touched}
+                      isDisabled={(()=>{
+                        const selectedList = editableData?.filter(item => item?.isSelect);
+                        
+                        if(selectedList && selectedList?.length > 0){
+                          return false;
+                        }else{
+                          return true;
+                        }
+                      })()}
                     />
                   </div>
 
@@ -120,10 +265,11 @@ export default function _Form({ saveHandler, bankDDL}) {
                         { value: 1, label: "Pending" },
                         { value: 2, label: "Complete" },
                       ]}
-                        value={values?.status}
+                      value={values?.status}
                       label="Status"
                       onChange={(valueOption) => {
                         setFieldValue("status", valueOption);
+                        setEditableData([])
                       }}
                       errors={errors}
                       touched={touched}
@@ -133,7 +279,7 @@ export default function _Form({ saveHandler, bankDDL}) {
                     <NewSelect
                       name="billType"
                       options={billTypeDDL || []}
-                        value={values?.billType}
+                      value={values?.billType}
                       label="Bill Type"
                       onChange={(valueOption) => {
                         setFieldValue("billType", valueOption);
@@ -145,7 +291,7 @@ export default function _Form({ saveHandler, bankDDL}) {
                   <div className="col-lg-2">
                     <label>From Date</label>
                     <InputField
-                        value={values?.fromDate}
+                      value={values?.fromDate}
                       name="fromDate"
                       placeholder="From Date"
                       type="date"
@@ -157,7 +303,7 @@ export default function _Form({ saveHandler, bankDDL}) {
                   <div className="col-lg-2">
                     <label>To Date</label>
                     <InputField
-                        value={values?.toDate}
+                      value={values?.toDate}
                       name="toDate"
                       placeholder="To Date"
                       type="date"
@@ -167,11 +313,65 @@ export default function _Form({ saveHandler, bankDDL}) {
                       }}
                     />
                   </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      value={values?.profitCenter || ""}
+                      isSearchable={true}
+                      options={profitCenterDDL || []}
+                      // styles={customStyles}
+                      placeholder="Profit Center"
+                      name="Profit Center"
+                      onChange={(valueOption) => {
+                        setFieldValue("profitCenter", valueOption);
+                      }}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      onChange={(valueOption) => {
+                        setFieldValue("costCenter", valueOption);
+                      }}
+                      value={values?.costCenter || ""}
+                      isSearchable={true}
+                      options={costCenterDDL || []}
+                      placeholder="Cost Center"
+                      name="costCenter"
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      onChange={(valueOption) => {
+                        setFieldValue("costElement", valueOption);
+                      }}
+                      value={values?.costElement || ""}
+                      isSearchable={true}
+                      options={costElementDDL || []}
+                      // styles={customStyles}
+                      placeholder="Cost Element"
+                      name="costElement"
+                    />
+                  </div>
+
                   <div style={{ marginTop: "22px" }} className="col-lg-1">
                     <button
                       className="btn btn-primary"
-                      disabled={!values?.billType}
+                      disabled={
+                        !(values?.billType?.value && values?.status?.value)
+                      }
                       type="button"
+                      onClick={() => {
+                        console.log({
+                          v1: values?.billType?.value,
+                          v2: values?.status?.value,
+                        });
+                        handleGetTableData({
+                          billType: values?.billType.value,
+                          fromDate: values?.fromDate,
+                          toDate: values?.toDate,
+                          status:
+                            values?.status?.label === "Pending" ? false : true,
+                        });
+                      }}
                     >
                       Show
                     </button>
@@ -192,7 +392,7 @@ export default function _Form({ saveHandler, bankDDL}) {
                       type="submit"
                       onSubmit={() => {
                         saveHandler(values, () => {
-                          resetForm(initData); 
+                          resetForm(initData);
                         });
                       }}
                     >
@@ -203,12 +403,25 @@ export default function _Form({ saveHandler, bankDDL}) {
               </div>
 
               {/* Data table */}
-
+              {editableData.length > 0 ? (
+              <TdsVdsJvDataTable
+                setFieldValue={setFieldValue}
+                values={values}
+                setDisabled={setDisabled}
+                errors={errors}
+                touched={touched}
+                rowData={rowData}
+                editableData={editableData}
+                setEditableData={setEditableData}
+                handleGetTableData={handleGetTableData}
+                totalCount={rowData?.totalCount}
+              />
+            ) : null}
 
               <button
                 type="submit"
                 style={{ display: "none" }}
-                // ref={btnRef}
+                ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
@@ -220,7 +433,7 @@ export default function _Form({ saveHandler, bankDDL}) {
                 // onClick={() => setRowDto([])}
               ></button>
             </Form>
-            <TdsVdsJvDataTable setFieldValue={setFieldValue} values={values} errors={errors} touched={touched}/>
+           
           </>
         )}
       </Formik>
