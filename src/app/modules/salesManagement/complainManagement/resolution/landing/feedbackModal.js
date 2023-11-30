@@ -14,17 +14,18 @@ function FeedbackModal({ clickRowData, landingCB }) {
   } = useSelector((state) => state?.authData, shallowEqual);
   const formikRef = React.useRef(null);
 
+
   useEffect(() => {
     if (clickRowData?.complainId) {
       const id = clickRowData?.complainId;
       getComplainByIdWidthOutModify(id, accId, buId, setLoading, (resData) => {
-        if (resData?.status === "Close") {
+        if (clickRowData?.status === "Close") {
           formikRef.current.setFieldValue(
             "feedback",
             resData?.closingReviewMessage || ""
           );
           setReview(resData?.closingReview || 0);
-          formikRef.current.setFieldValue("status", resData?.status || "");
+          formikRef.current.setFieldValue("status", 'Close');
         } else {
           const matchEmployee = resData?.investigationInfo?.find(
             (itm) => itm?.investigatorId === employeeId
@@ -47,7 +48,6 @@ function FeedbackModal({ clickRowData, landingCB }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clickRowData]);
 
-  console.log(review);
   return (
     <>
       {loading && <Loading />}
@@ -60,8 +60,7 @@ function FeedbackModal({ clickRowData, landingCB }) {
       >
         {({ values, setFieldValue, touched, errors }) => (
           <div className='row'>
-            {console.log("values", values)}
-            <div className='col-lg-12'>
+            <div className='col-lg-12 mt-3'>
               <p>
                 Do you want to <b>{clickRowData?.status}</b>{" "}
                 <b

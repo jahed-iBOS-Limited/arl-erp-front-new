@@ -71,14 +71,14 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
   } = useSelector((state) => state.authData, shallowEqual);
 
   //get data for table
-  const handleGetTableData = ({ billType, fromDate, toDate, status }) => {
-    const tableDataApi = `/fino/PaymentRequest/GetTdsVdsJv?BusinessUnitId=${buId}&RefType=${billType}&FromDate=${fromDate}&ToDate=${toDate}&Status=${status}`;
-    getRowData(tableDataApi, (data) => {
-      setEditableData(data);
-      if(data?.length === 0 ) {
+  const handleGetTableData = ({ billType, fromDate, toDate, status, pageNo=1, pageSize=50 }) => {
+    const tableDataApi = `/fino/PaymentRequest/GetTdsVdsJv?BusinessUnitId=${buId}&RefType=${billType}&FromDate=${fromDate}&ToDate=${toDate}&Status=${status}&PageNo=${pageNo}&PageSize=${pageSize}`;
+    getRowData(tableDataApi, (res) => {
+      setEditableData(res?.data);
+      if(res?.data?.length === 0 ) {
         toast.warn("Data Not Found!")
       }
-      console.log({ tableData: data });
+      console.log({ tableData: res });
     });
   };
 
@@ -185,10 +185,12 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
 
   //handle save data
   const saveHandler = (values, cb) => {
+    setDisabled(true)
     const saveReqApi = `/fino/PaymentRequest/CreateTdsVdsJournalVoucher`
     const savePayload = prepareSavePayload(editableData, values);
     saveData(saveReqApi, savePayload, (res)=>{
       if(res?.statuscode ===200 ){
+        // setDisabled(false)
         cb()
       }
     }, true )
@@ -205,7 +207,7 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
         // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
-            // toast.success("Saved!");
+            setSubmitting(true)
             resetForm(initData);
             setRowData([]);
             setEditableData([]);
@@ -267,6 +269,7 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
                       label="Status"
                       onChange={(valueOption) => {
                         setFieldValue("status", valueOption);
+                        setEditableData([])
                       }}
                       errors={errors}
                       touched={touched}
@@ -410,6 +413,8 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
                 rowData={rowData}
                 editableData={editableData}
                 setEditableData={setEditableData}
+                handleGetTableData={handleGetTableData}
+                totalCount={rowData?.totalCount}
               />
             ) : null}
 
