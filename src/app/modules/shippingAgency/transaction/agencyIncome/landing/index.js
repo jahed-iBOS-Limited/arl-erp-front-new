@@ -67,6 +67,7 @@ const AgencyIncomeLanding = () => {
                     name='type'
                     onChange={(valueOption) => {
                       setFieldValue("type", valueOption);
+                      setGridData([]);
                     }}
                     placeholder='Type'
                     value={values?.type}

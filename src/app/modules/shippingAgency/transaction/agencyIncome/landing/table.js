@@ -33,11 +33,13 @@ const LandingTable = ({ obj }) => {
               <td>{item?.vesselType}</td>
               <td>{item?.vesselName}</td>
               <td>{item?.customerName}</td>
-              <td className="text-right">{item?.exchangeRate}</td>
-              <td className="text-right">{item?.estimatedAmount}</td>
-              <td className="text-right">{item?.totalBill}</td>
+              <td className='text-right'>{item?.exchangeRate}</td>
+              <td className='text-right'>{item?.estimatedAmount}</td>
+              <td className='text-right'>{item?.totalBill}</td>
               <td>
-                <button className='btn btn-primary'>JV</button>
+                <div className="d-flex justify-content-center align-items-center">
+                  <button className='btn btn-primary' type="button">JV</button>
+                </div>
               </td>
             </tr>
           ))}
