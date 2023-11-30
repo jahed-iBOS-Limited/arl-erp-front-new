@@ -1,7 +1,7 @@
 import React from "react";
 
 const LandingTable = ({ obj }) => {
-  const { gridData } = obj;
+  const { gridData,JVSaveHandler } = obj;
 
   return (
     <div className='table-responsive'>
@@ -37,8 +37,16 @@ const LandingTable = ({ obj }) => {
               <td className='text-right'>{item?.estimatedAmount}</td>
               <td className='text-right'>{item?.totalBill}</td>
               <td>
-                <div className="d-flex justify-content-center align-items-center">
-                  <button className='btn btn-primary' type="button">JV</button>
+                <div className='d-flex justify-content-center align-items-center'>
+                  <button
+                    className='btn btn-primary'
+                    type='button'
+                    onClick={() => {
+                    JVSaveHandler(item);
+                    }}
+                  >
+                    JV
+                  </button>
                 </div>
               </td>
             </tr>

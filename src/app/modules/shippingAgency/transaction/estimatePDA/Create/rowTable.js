@@ -8,7 +8,8 @@ import moment from "moment";
 import POPreview from "./poPreview";
 import { PurchaseOrderViewTableRow } from "../../../../procurement/purchase-management/purchaseOrder/report/tableRow";
 import "./rowTable.css";
-function RowTable({ rowDto, setRowDto, editId }) {
+import { toast } from "react-toastify";
+function RowTable({ rowDto, setRowDto, editId, widthOutModfifyRowDto }) {
   const [isBillModal, isShowBillModal] = React.useState(false);
   const [showViewModal, setShowViewModal] = React.useState(false);
   const [clickRowData, setClickRowData] = React.useState({});
@@ -193,6 +194,16 @@ function RowTable({ rowDto, setRowDto, editId }) {
                           <span
                             onClick={() => {
                               setModalShow(true);
+                              // const prvRow = JSON.stringify(
+                              //   widthOutModfifyRowDto
+                              // );
+                              // const prvRowDto =JSON.stringify(rowDto);
+
+                              // if (prvRow !== prvRowDto) {
+                              //   return toast.error(
+                              //     "Please Save Previous Row First"
+                              //   );
+                              // }
 
                               let list = [];
 
@@ -200,13 +211,13 @@ function RowTable({ rowDto, setRowDto, editId }) {
                                 list =
                                   rowDto?.filter(
                                     (itm) =>
-                                     ( itm?.category === "Operation") &&
-                                      (+itm?.estimatedAmount > 0)
+                                      itm?.category === "Operation" &&
+                                      +itm?.estimatedAmount > 0
                                   ) || [];
                               } else {
                                 list = [item];
                               }
-                              console.log(list)
+                              console.log(list);
                               setClickRowData(list);
                             }}
                           >

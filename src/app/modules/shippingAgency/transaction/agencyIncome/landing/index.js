@@ -6,7 +6,7 @@ import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import { _todayDate } from "../../../../_helper/_todayDate";
-import { getASLLAgencyBill } from "../helper";
+import { createShippingAgencyJVApi, getASLLAgencyBill } from "../helper";
 import LandingTable from "./table";
 
 const initData = {
@@ -106,7 +106,9 @@ const AgencyIncomeLanding = () => {
                     onClick={() => {
                       commonGridData(values);
                     }}
-                    disabled={!values?.fromDate || !values?.toDate || !values?.type}
+                    disabled={
+                      !values?.fromDate || !values?.toDate || !values?.type
+                    }
                   >
                     View
                   </button>
@@ -116,6 +118,23 @@ const AgencyIncomeLanding = () => {
               <LandingTable
                 obj={{
                   gridData,
+                  setLoading,
+                  JVSaveHandler: (item) => {
+                    createShippingAgencyJVApi({
+                      customerId: item?.customerId,
+                      customerName: item?.customerName,
+                      vesselId: item?.vesselId,
+                      vesselName: item?.vesselName,
+                      voyageNo: item?.voyageNo,
+                      amount: item?.totalBill,
+                      fromDate: values?.fromDate,
+                      toDate: values?.toDate,
+                      setLoading,
+                      cb: () => {
+                        commonGridData(values);
+                      },
+                    });
+                  },
                 }}
               />
             </ICustomCard>
