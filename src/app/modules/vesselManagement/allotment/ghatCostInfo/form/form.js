@@ -12,6 +12,7 @@ import YearMonthForm from "../../../../_helper/commonInputFieldsGroups/yearMonth
 import IButton from "../../../../_helper/iButton";
 import Select from "react-select";
 
+// there are some import issue thats why i write the code here
 const customStyles = {
   control: (provided, state) => ({
     ...provided,
@@ -296,7 +297,7 @@ export default function _Form({
                         name="shipPoint"
                         options={shipPointDDL}
                         value={values?.shipPoint}
-                        label="ShipPoint"
+                        label="Ship Point"
                         onChange={(e) => {
                           onChangeHandler(
                             "shipPoint",
@@ -305,7 +306,7 @@ export default function _Form({
                             setFieldValue
                           );
                         }}
-                        placeholder="ShipPoint"
+                        placeholder="Ship Point"
                         errors={errors}
                         touched={touched}
                         isDisabled={type === "view"}
