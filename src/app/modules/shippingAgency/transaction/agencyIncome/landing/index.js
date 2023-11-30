@@ -129,6 +129,7 @@ const AgencyIncomeLanding = () => {
                       amount: item?.totalBill,
                       fromDate: values?.fromDate,
                       toDate: values?.toDate,
+                      vasselTypeId: values?.type?.value,
                       setLoading,
                       cb: () => {
                         commonGridData(values);
