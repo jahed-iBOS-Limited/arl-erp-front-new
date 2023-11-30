@@ -81,7 +81,7 @@ export default function BareboatAndInsurancelanding() {
 
   useEffect(() => {
     getVesselAssetDDL(
-      `/asset/Asset/GetAssetVesselDdl?IntBussinessUintId=${selectedBusinessUnit?.value}`
+      `/asset/Asset/GetAssetLighterVesselDdl?IntBussinessUintId=${selectedBusinessUnit?.value}`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
