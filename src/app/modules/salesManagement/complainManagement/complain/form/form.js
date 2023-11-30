@@ -67,7 +67,7 @@ function Form({
 
   useEffect(() => {
     if (accId && buId) {
-      getBusinessUnitDDLApi(0, setBusinessUnitDDL);
+      getBusinessUnitDDLApi(accId, setBusinessUnitDDL);
       getComplainCategory(buId, setComplainCategory);
     }
   }, [accId, buId]);

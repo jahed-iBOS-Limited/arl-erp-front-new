@@ -217,7 +217,7 @@ export const saveColseComplainApi = async (payload, setLoading, cb) => {
     toast.success(res?.data?.message);
     setLoading(false);
   } catch (err) {
-    toast.error(err?.response?.data?.message);
+    // toast.error(err?.response?.data?.message);
     setLoading(false);
   }
 };
@@ -282,7 +282,7 @@ export const getInvestigateComplainbyApi = async (complainId, setter) => {
   } catch (error) {}
 };
 
-export const complainLandingPasignation = async (
+export const complainLandingPasignationByEmployeeId = async (
   accId,
   buId,
   respondentTypeId,
@@ -293,14 +293,16 @@ export const complainLandingPasignation = async (
   pageSize,
   setter,
   setLoading,
-  search
+  search,
+  employeeId
 ) => {
   setLoading(true);
   setter([]);
   try {
     const _search = search ? `&search=${search}` : "";
+    const _employeeId = employeeId ? `&employeeId=${employeeId}` : "";
     const res = await axios.get(
-      `/oms/CustomerPoint/ComplainLandingPasignation?accountId=${accId}&businessUnitId=${buId}&respondentTypeId=${respondentTypeId}&statusId=${statusId}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}${_search}`
+      `/oms/CustomerPoint/ComplainLandingPasignationByEmployeeId?accountId=${accId}&businessUnitId=${buId}&respondentTypeId=${respondentTypeId}&statusId=${statusId}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}${_search}${_employeeId}`
     );
     setter(res?.data);
     setLoading(false);
