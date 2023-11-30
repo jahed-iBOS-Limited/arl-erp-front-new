@@ -42,6 +42,7 @@ import DiscountOfferGroupLandingTable from "./discountOfferGroup/landing/table";
 import DiscountOfferGroupForm from "./discountOfferGroup/form/addEditFrom";
 import ItemBridge from "./../../vatManagement/configuration/itemBridge/table/table";
 import BulkUpload from "./itemBasicInfo/basicInfornationTable/bulkUpload";
+import PriceApprove from "./priceApprove";
 
 export function MaterialPages() {
   const userRole = useSelector(
@@ -114,7 +115,9 @@ export function MaterialPages() {
       />
       <ContentRoute
         from="/config/material-management/item-basic-info/bulk-upload"
-        component={itemProfilePermission?.isCreate ? BulkUpload : NotPermittedPage}
+        component={
+          itemProfilePermission?.isCreate ? BulkUpload : NotPermittedPage
+        }
       />
       <ContentRoute
         from="/config/material-management/item-basic-info"
@@ -217,6 +220,10 @@ export function MaterialPages() {
       <ContentRoute
         from="/config/material-management/pricesetup"
         component={PriceSetup}
+      />
+      <ContentRoute
+        from="/config/material-management/priceapprove"
+        component={PriceApprove}
       />
       {/* Trade offer item group */}
       <ContentRoute
