@@ -114,7 +114,7 @@ export const CreateCustomsDuty = async (
     plantID
   );
   try {
-    const res = await axios.post(`/imp/CustomDuty/CreateCustomDuty`, payload);
+    const res = await axios.post(`/imp/CustomDuty/CreateCustomDutyNew`, payload);
     if (res.status === 200) {
       toast.success(res?.message || "Created Successfully");
       cb();
