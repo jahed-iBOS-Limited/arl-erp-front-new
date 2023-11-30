@@ -161,27 +161,55 @@ export default function GhatCostInfoForm() {
 
   const shipPointSaveHandler = (shipPointData, values) => {
     const data = [...shipPointData];
-    const payload = data
-      ?.filter((item) => item.isSelected)
-      ?.map((item) => ({
-        automId: 0,
-        shipPointId: item?.value,
-        shipPointName: item?.label,
-        accountId: accId,
-        businessUnitId: buId,
-        demandDate: values?.demandDate || 0,
-        demandVehicle: item?.demandVehicle || 0,
-        receiveVehicle: item?.receiveVehicle || 0,
-        truckLoaded: item?.truckLoaded || 0,
-        packingQntMt: item?.packingMt || 0,
-        bufferQntMt: item?.bufferQty || 0,
-        labourRequired: item?.labourRequired || 0,
-        presentLabour: item?.labourPresent || 0,
-        lighterWaiting: item?.lighterWaiting || 0,
-        actionBy: userId,
-        supplierId: values?.supplier?.value,
-        supplierName: values?.supplier?.label,
-      }));
+    const payload = [];
+    const selectedSuppliers = values?.supplier || [];
+    selectedSuppliers.forEach((selectedSupplier) => {
+      const supplierData = data
+        ?.filter((item) => item.isSelected)
+        ?.map((item) => ({
+          automId: 0,
+          shipPointId: item?.value,
+          shipPointName: item?.label,
+          accountId: accId,
+          businessUnitId: buId,
+          demandDate: values?.demandDate || 0,
+          demandVehicle: item?.demandVehicle || 0,
+          receiveVehicle: item?.receiveVehicle || 0,
+          truckLoaded: item?.truckLoaded || 0,
+          packingQntMt: item?.packingMt || 0,
+          bufferQntMt: item?.bufferQty || 0,
+          labourRequired: item?.labourRequired || 0,
+          presentLabour: item?.labourPresent || 0,
+          lighterWaiting: item?.lighterWaiting || 0,
+          actionBy: userId,
+          supplierId: selectedSupplier?.value,
+          supplierName: selectedSupplier?.label,
+        }));
+
+      payload.push(...supplierData);
+    });
+
+    // const payload = data
+    //   ?.filter((item) => item.isSelected)
+    //   ?.map((item) => ({
+    //     automId: 0,
+    //     shipPointId: item?.value,
+    //     shipPointName: item?.label,
+    //     accountId: accId,
+    //     businessUnitId: buId,
+    //     demandDate: values?.demandDate || 0,
+    //     demandVehicle: item?.demandVehicle || 0,
+    //     receiveVehicle: item?.receiveVehicle || 0,
+    //     truckLoaded: item?.truckLoaded || 0,
+    //     packingQntMt: item?.packingMt || 0,
+    //     bufferQntMt: item?.bufferQty || 0,
+    //     labourRequired: item?.labourRequired || 0,
+    //     presentLabour: item?.labourPresent || 0,
+    //     lighterWaiting: item?.lighterWaiting || 0,
+    //     actionBy: userId,
+    //     supplierId: values?.supplier?.value,
+    //     supplierName: values?.supplier?.label,
+    //   }));
     saveLighterLoad(
       `/tms/LigterLoadUnload/CreateLogisticDemandNReciveInfo`,
       payload,
