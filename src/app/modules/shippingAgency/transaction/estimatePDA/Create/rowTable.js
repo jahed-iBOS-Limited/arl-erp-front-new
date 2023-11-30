@@ -199,11 +199,14 @@ function RowTable({ rowDto, setRowDto, editId }) {
                               if (item?.category === "Operation") {
                                 list =
                                   rowDto?.filter(
-                                    (itm) => itm?.category === "Operation"
+                                    (itm) =>
+                                     ( itm?.category === "Operation") &&
+                                      (+itm?.estimatedAmount > 0)
                                   ) || [];
                               } else {
                                 list = [item];
                               }
+                              console.log(list)
                               setClickRowData(list);
                             }}
                           >
