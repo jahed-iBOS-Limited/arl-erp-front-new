@@ -26,6 +26,7 @@ const initData = {
   steveDoreRate: "",
   hatchLabour: "",
   hatchLabourRate: "",
+  haveTransportBill: { value: true, label: "Yes" },
 };
 
 export default function TenderInformationCreateForm() {
@@ -190,6 +191,7 @@ export default function TenderInformationCreateForm() {
       hatchLabourId: values?.hatchLabour?.value,
       hatchLabour: values?.hatchLabour?.label,
       hatchLabourRate: values?.hatchLabourRate,
+      isTruckBill: values?.haveTransportBill?.value,
     };
     tenderInfoApprove(payload, setDisabled);
   };
