@@ -59,8 +59,8 @@ const CreateBaddebt = ({ tableData }) => {
                     className="btn btn-primary"
                     onClick={() => {
                       IConfirmModal({
-                        title: "Delete Cost",
-                        message: "Are you sure you want to delete this cost?",
+                        title: "Create Journal",
+                        message: "Are you sure about creating the journal?",
                         yesAlertFunc: () => {
                           handleSaveJournal(item);
                         },

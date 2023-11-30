@@ -70,14 +70,21 @@ const ReconciliationJournal = () => {
     baddebtRowData,
     getBaddebtRowData,
     isGetBaddebtRowDataLoading,
+    setBaddebtRowData,
   ] = useAxiosGet();
 
   const handleGetBaddebtRowData = (values) => {
-    const [year, month] = values?.monthYear?.split("-").map(Number);
-    const startDate = new Date(Date.UTC(year, month - 1, 1));
-    const endDate = new Date(Date.UTC(year, month, 0));
-    const formattedStartDate = startDate.toISOString().split("T")[0];
-    const formattedEndDate = endDate.toISOString().split("T")[0];
+    const [year, month] = values?.monthYear?.split("-")?.map(Number) || [];
+    let startDate;
+    let endDate;
+    let formattedStartDate;
+    let formattedEndDate;
+    if (year && month) {
+      startDate = new Date(Date.UTC(year, month - 1, 1));
+      endDate = new Date(Date.UTC(year, month, 0));
+      formattedStartDate = startDate.toISOString().split("T")[0];
+      formattedEndDate = endDate.toISOString().split("T")[0];
+    }
 
     const api = ["Create"]?.includes(values?.tableMode?.label)
       ? `/fino/Expense/GetMonthlyBaddebtAmount?businessUnitId=${buId}&dteFromDate=${formattedStartDate}&dteToDate=${formattedEndDate}`
@@ -423,6 +430,7 @@ const ReconciliationJournal = () => {
                             label="Mode"
                             onChange={(valueOption) => {
                               setFieldValue("tableMode", valueOption);
+                              setBaddebtRowData([]);
                               // dispatch(
                               //   SetFinancialsInventoryJournalAction({
                               //     ...values,
@@ -434,18 +442,20 @@ const ReconciliationJournal = () => {
                             touched={touched}
                           />
                         </div>
-                        <div className="col-lg-3">
-                          <label>Month-Year</label>
-                          <InputField
-                            value={values?.monthYear}
-                            name="monthYear"
-                            placeholder="From Date"
-                            type="month"
-                            onChange={(e) => {
-                              setFieldValue("monthYear", e?.target?.value);
-                            }}
-                          />
-                        </div>
+                        {["Create"].includes(values.tableMode?.label) && (
+                          <div className="col-lg-3">
+                            <label>Month-Year</label>
+                            <InputField
+                              value={values?.monthYear}
+                              name="monthYear"
+                              placeholder="From Date"
+                              type="month"
+                              onChange={(e) => {
+                                setFieldValue("monthYear", e?.target?.value);
+                              }}
+                            />
+                          </div>
+                        )}
                         {/* <div className="col-lg-2">
                           <label>From Date</label>
                           <InputField
@@ -586,6 +596,20 @@ const ReconciliationJournal = () => {
                       <button
                         className="btn btn-primary mr-2"
                         type="button"
+                        disabled={(() => {
+                          if ([5].includes(values.type?.value)) {
+                            if (
+                              ["Create"].includes(values.tableMode?.label) &&
+                              values?.monthYear
+                            ) {
+                              return false;
+                            } else if (
+                              ["View"].includes(values.tableMode?.label)
+                            ) {
+                              return false;
+                            } else return true;
+                          }
+                        })()}
                         onClick={(_) => {
                           setDataToRow(values);
                         }}
