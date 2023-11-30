@@ -41,7 +41,7 @@ const statusData = [
   { label: "Close", value: "Close" },
 ];
 
-export default function HeaderForm() {
+export default function HeaderForm({selectedBusinessUnit, estimatePDAPOPage}) {
   let [controlls, setControlls] = useState([]);
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
@@ -65,11 +65,6 @@ export default function HeaderForm() {
     shallowEqual
   );
 
-  // get selected business unit from store
-  const selectedBusinessUnit = useSelector(
-    (state) => state.authData.selectedBusinessUnit,
-    shallowEqual
-  );
 
   // loading
   const [loading, setLoading] = useState(false);
@@ -259,7 +254,6 @@ export default function HeaderForm() {
     }
   }, [newGrid]);
 
-  console.log("data::::", data);
 
   return (
     <>
@@ -329,7 +323,10 @@ export default function HeaderForm() {
                   history.push({
                     pathname: `/mngProcurement/purchase-management/purchaseorder/create`,
                     search: `?potype=${values.orderType?.value}`,
-                    state: values,
+                    state: {
+                      ...values,
+                      estimatePDAPOPage: estimatePDAPOPage
+                    },
                   });
                   dispatch(setPOLandingDataAction(values));
                 }}

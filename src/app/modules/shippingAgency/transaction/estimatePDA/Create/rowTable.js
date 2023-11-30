@@ -6,13 +6,16 @@ import IViewModal from "../../../../_helper/_viewModal";
 import BillForm from "./billForm";
 import moment from "moment";
 import POPreview from "./poPreview";
+import { PurchaseOrderViewTableRow } from "../../../../procurement/purchase-management/purchaseOrder/report/tableRow";
+import "./rowTable.css";
 function RowTable({ rowDto, setRowDto, editId }) {
   const [isBillModal, isShowBillModal] = React.useState(false);
+  const [showViewModal, setShowViewModal] = React.useState(false);
   const [clickRowData, setClickRowData] = React.useState({});
   const [modalShow, setModalShow] = React.useState(false);
 
   return (
-    <div className='table-responsive'>
+    <div className='table-responsive estimatePDARowTable'>
       <table className='table table-striped table-bordered global-table'>
         <thead>
           <tr>
@@ -76,6 +79,7 @@ function RowTable({ rowDto, setRowDto, editId }) {
                         paddingLeft: "6px",
                         display: "inline-block",
                       }}
+                      className='pointer isEditExpPartIcon'
                     >
                       <i class='fa fa-pencil-square-o' aria-hidden='true'></i>
                     </span>
@@ -180,7 +184,7 @@ function RowTable({ rowDto, setRowDto, editId }) {
                   >
                     <IAdd title={"Bill Add"} />
                   </span>
-                  {editId && (
+                  {editId && !item?.isPo && (
                     <>
                       <span className='ml-2'>
                         <OverlayTrigger
@@ -208,6 +212,23 @@ function RowTable({ rowDto, setRowDto, editId }) {
                         </OverlayTrigger>
                       </span>
                     </>
+                  )}
+
+                  {item?.isPo && (
+                    <span className='ml-2'>
+                      <OverlayTrigger
+                        overlay={<Tooltip id='cs-icon'>View PO</Tooltip>}
+                      >
+                        <span
+                          onClick={() => {
+                            setShowViewModal(true);
+                            setClickRowData(item);
+                          }}
+                        >
+                          <i class='fa fa-eye' aria-hidden='true'></i>
+                        </span>
+                      </OverlayTrigger>
+                    </span>
                   )}
                 </td>
               </tr>
@@ -293,9 +314,26 @@ function RowTable({ rowDto, setRowDto, editId }) {
               setClickRowData({});
             }}
           >
-            <POPreview  estimatePDAList={clickRowData}/>
+            <POPreview estimatePDAList={clickRowData} />
           </IViewModal>
         </>
+      )}
+
+      {showViewModal && (
+        <IViewModal
+          show={showViewModal}
+          onHide={() => {
+            setShowViewModal(false);
+            setClickRowData({});
+          }}
+          title='View Purchase Order'
+        >
+          <PurchaseOrderViewTableRow
+            poId={clickRowData?.poId}
+            orId={clickRowData?.poTypeId}
+            isHiddenBackBtn={true}
+          />
+        </IViewModal>
       )}
     </div>
   );

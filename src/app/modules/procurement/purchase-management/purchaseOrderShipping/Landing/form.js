@@ -32,7 +32,7 @@ const initData = {
   purchaseOrg: "",
   plant: "",
   warehouse: "",
-};
+}
 // Validation schema
 const validationSchema = Yup.object().shape({});
 
@@ -42,7 +42,7 @@ const statusData = [
   { label: "Close", value: "Close" },
 ];
 
-export default function HeaderForm({ estimatePDAPOPage }) {
+export default function HeaderForm() {
   let [controlls, setControlls] = useState([]);
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
@@ -67,11 +67,10 @@ export default function HeaderForm({ estimatePDAPOPage }) {
   );
 
   // get selected business unit from store
-  const authData = useSelector((state) => state.authData, shallowEqual);
-
-  const selectedBusinessUnit = estimatePDAPOPage?.values?.businessUnit?.value
-    ? estimatePDAPOPage?.values?.businessUnit
-    : authData?.selectedBusinessUnit;
+  const selectedBusinessUnit = useSelector(
+    (state) => state.authData.selectedBusinessUnit,
+    shallowEqual
+  );
 
   // loading
   const [loading, setLoading] = useState(false);
@@ -119,7 +118,7 @@ export default function HeaderForm({ estimatePDAPOPage }) {
           pageNo,
           pageSize,
           null,
-          poLandingInitData?.status?.label
+          poLandingInitData?.status?.label,
         )
       );
       getWarehouseDDL(poLandingInitData?.plant?.value);
@@ -145,7 +144,7 @@ export default function HeaderForm({ estimatePDAPOPage }) {
         pageNo,
         pageSize,
         null,
-        poLandingInitData?.status?.label
+        poLandingInitData?.status?.label,
       )
     );
   };
@@ -186,7 +185,7 @@ export default function HeaderForm({ estimatePDAPOPage }) {
         pageNo,
         pageSize,
         searchValue,
-        poLandingInitData?.status?.label
+        poLandingInitData?.status?.label,
       )
     );
   };
@@ -229,9 +228,7 @@ export default function HeaderForm({ estimatePDAPOPage }) {
       {
         label: "Reference Type",
         name: "refType",
-        options: poReferenceTypeDDL.filter((item) =>
-          [2, 3, 4].includes(item.value)
-        ),
+        options: poReferenceTypeDDL.filter((item) => [2, 3, 4].includes(item.value)),
         isDisabled: ["orderType"],
       },
     ]);
@@ -258,16 +255,18 @@ export default function HeaderForm({ estimatePDAPOPage }) {
   useEffect(() => {
     if (newGrid?.length > 0) {
       setData([...newGrid]);
-    } else {
+    }else {
       setData([]);
     }
   }, [newGrid]);
+
+  console.log("poReferenceTypeDDL", poReferenceTypeDDL);
 
   return (
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={{ ...initData, ...poLandingInitData }}
+        initialValues={{...initData,...poLandingInitData}}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
@@ -275,7 +274,7 @@ export default function HeaderForm({ estimatePDAPOPage }) {
           <>
             <div
               style={{ transform: "translateY(-40px)" }}
-              className='text-right'
+              className="text-right"
             >
               {/* <button
                 disabled={
@@ -321,16 +320,13 @@ export default function HeaderForm({ estimatePDAPOPage }) {
                   !values?.refType ||
                   !values?.orderType
                 }
-                type='button'
-                className='btn btn-primary ml-3'
+                type="button"
+                className="btn btn-primary ml-3"
                 onClick={() => {
                   history.push({
                     pathname: `/mngProcurement/purchase-management/shippingpurchaseorder/create`,
                     search: `?potype=${values.orderType?.value}`,
-                    state: {
-                      ...values,
-                      estimatePDAPOPage,
-                    },
+                    state: values,
                   });
                   dispatch(setPOLandingDataAction(values));
                 }}
@@ -340,13 +336,13 @@ export default function HeaderForm({ estimatePDAPOPage }) {
             </div>
             <div
               style={{ transform: "translateY(-34px)" }}
-              className='global-form'
+              className="global-form"
             >
-              <Form className='form form-label-right'>
-                <div className='form-group row'>
+              <Form className="form form-label-right">
+                <div className="form-group row">
                   {controlls.map((itm, idx) => {
                     return (
-                      <div className='col-lg-2' key={idx}>
+                      <div className="col-lg-2" key={idx}>
                         <ISelect
                           dependencyFunc={itm.dependencyFunc}
                           label={itm.label}
@@ -368,44 +364,44 @@ export default function HeaderForm({ estimatePDAPOPage }) {
                       </div>
                     );
                   })}
-                  <div className='col-lg-2'>
+                  <div className="col-lg-2">
                     <NewSelect
-                      name='status'
+                      name="status"
                       options={statusData || []}
                       value={values?.status}
-                      label='Status'
+                      label="Status"
                       onChange={(v) => {
-                        setData([]);
+                        setData([])
                         setFieldValue("status", v);
                       }}
-                      placeholder='Status'
+                      placeholder="Status"
                       errors={errors}
                       touched={touched}
                     />
                   </div>
-                  <div className='col-lg-2'>
+                  <div className="col-lg-2">
                     <label>From Date</label>
-                    <div className='d-flex'>
+                    <div className="d-flex">
                       <InputField
                         value={values?.fromDate}
-                        name='fromDate'
-                        placeholder='From date'
-                        type='date'
+                        name="fromDate"
+                        placeholder="From date"
+                        type="date"
                       />
                     </div>
                   </div>
-                  <div className='col-lg-2'>
+                  <div className="col-lg-2">
                     <label>To Date</label>
-                    <div className='d-flex'>
+                    <div className="d-flex">
                       <InputField
                         value={values?.toDate}
-                        name='toDate'
-                        placeholder='To date'
-                        type='date'
+                        name="toDate"
+                        placeholder="To date"
+                        type="date"
                       />
                     </div>
                   </div>
-                  <div className='col-lg-3' style={{ marginTop: 22 }}>
+                  <div className="col-lg-3" style={{ marginTop: 22 }}>
                     <button
                       disabled={
                         !values?.warehouse ||
@@ -415,8 +411,8 @@ export default function HeaderForm({ estimatePDAPOPage }) {
                         !values?.refType ||
                         !values?.orderType
                       }
-                      type='submit'
-                      className='btn btn-primary'
+                      type="submit"
+                      className="btn btn-primary"
                       onClick={() => {
                         dispatch(
                           getGridAction(
@@ -435,7 +431,7 @@ export default function HeaderForm({ estimatePDAPOPage }) {
                             pageNo,
                             pageSize,
                             null,
-                            values?.status?.value
+                            values?.status?.value,
                           )
                         );
                         dispatch(setPOLandingDataAction(values));
@@ -451,7 +447,7 @@ export default function HeaderForm({ estimatePDAPOPage }) {
             {loading ? (
               <ILoader />
             ) : (
-              <div className='pagination_disable_relative'>
+              <div className="pagination_disable_relative">
                 <GridData
                   values={values}
                   POorderType={values?.orderType?.value}
