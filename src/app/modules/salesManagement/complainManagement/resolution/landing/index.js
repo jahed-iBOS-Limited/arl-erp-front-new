@@ -55,7 +55,6 @@ const ResolutionLanding = () => {
     values,
     searhValue
   ) => {
-   
     complainLandingPasignationByEmployeeId(
       accId,
       buId,
@@ -75,7 +74,13 @@ const ResolutionLanding = () => {
   const title =
     window.location.pathname === "/self-service/my-complaint"
       ? "My Complaint"
-      : "Resolution";
+      : window.location.pathname ===
+        "/sales-management/complainmanagement/Delegate"
+      ? "Delegate"
+      : window.location.pathname ===
+        "/sales-management/complainmanagement/investigate"
+      ? "Investigate"
+      : "";
   return (
     <>
       {loading && <Loading />}
@@ -180,7 +185,7 @@ const ResolutionLanding = () => {
                   commonGridDataCB: () => {
                     commonGridData(pageNo, pageSize, values);
                   },
-                  setLoading
+                  setLoading,
                 }}
               />
 

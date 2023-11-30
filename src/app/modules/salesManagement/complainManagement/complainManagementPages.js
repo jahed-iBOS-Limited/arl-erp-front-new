@@ -30,7 +30,11 @@ export function ComplainManagementPages() {
         component={ComplainLanding}
       />{" "}
       <ContentRoute
-        from='/sales-management/complainmanagement/resolution'
+        from='/sales-management/complainmanagement/Delegate'
+        component={ResolutionLanding}
+      />
+      <ContentRoute
+        from='/sales-management/complainmanagement/investigate'
         component={ResolutionLanding}
       />
     </Switch>
