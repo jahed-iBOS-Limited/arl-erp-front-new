@@ -350,7 +350,30 @@ export default function _Form({
                       showFileNamesInPreview={true}
                     />
                   </div>
-
+                  <div className="d-flex justify-content-center align-items-center">
+                      <div className="mr-5">
+                          <strong style={{fontSize:"14px"}}>Total Bill Amount (with VAT) : {rowDto?.length > 0 ?  rowDto.reduce(
+                            (accumulator, currentValue) => accumulator +  +currentValue?.totalBilledAmount || 0,
+                            0,
+                          ) : 0
+                          }</strong>
+                      </div>
+                      <div>
+                      <InputField
+                                name="vat"
+                                placeholder="Modify Vat"
+                                type="number"
+                                className="form-control"
+                                disabled={!rowDto?.filter(item => item?.isSelect)?.length}
+                                onChange={(e) => {
+                                  const modifyData = rowDto?.map(item => (
+                                    item?.isSelect ? { ...item,  vatamount: +e?.target?.value,  totalBilledAmount: (parseFloat(+item?.totalAmount.replace(/,/g, '')) || 0) + (+e?.target?.value || 0), } : item
+                                  ));
+                                  setRowDto(modifyData);
+                                }}
+                              />
+                      </div>
+                  </div>
                   <div
                     style={{ maxHeight: "900px" }}
                     className="scroll-table-auto"
