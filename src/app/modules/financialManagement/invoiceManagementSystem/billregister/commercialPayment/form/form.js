@@ -352,7 +352,7 @@ export default function _Form({
                   </div>
                   <div className="d-flex justify-content-center align-items-center">
                       <div className="mr-5">
-                          <strong style={{fontSize:"14px"}}>Total Bill Amount (with VAT) : {rowDto?.length > 0 ?  rowDto.reduce(
+                          <strong style={{fontSize:"14px"}}>Total Bill Amount (with VAT) : {rowDto?.length > 0 ?  rowDto?.filter(item => item?.isSelect)?.reduce(
                             (accumulator, currentValue) => accumulator +  +currentValue?.totalBilledAmount || 0,
                             0,
                           ) : 0
