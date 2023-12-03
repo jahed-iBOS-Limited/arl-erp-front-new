@@ -135,7 +135,7 @@ export default function DieselStatement() {
                     </p>
                   </div>
                   <div className="col-lg-3">
-                    <label>Date</label>
+                    <label>Journal Date</label>
                     <FormikInput
                       value={values?.date}
                       name="date"
@@ -143,15 +143,6 @@ export default function DieselStatement() {
                       type="date"
                       onChange={(e) => {
                         setFieldValue("date", e.target.value);
-                        getDieselStatement(
-                          selectedBusinessUnit?.value,
-                          e?.target?.value,
-                          setGridData,
-                          setLoading,
-                          setTotalJVAmount,
-                          setGrandTotalAmount,
-                          setGrandTotalQty
-                        );
                       }}
                       errors={errors}
                       touched={touched}
