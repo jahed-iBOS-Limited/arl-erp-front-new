@@ -108,7 +108,8 @@ const LandingTable = ({ obj }) => {
                     }
                   >
                     <div>
-                      {item?.investigatorAssignByName?.[0]?.investigatorName}
+                      {matchEmployeeId?.investigatorAssignByName &&
+                        matchEmployeeId?.investigatorAssignByName}
                     </div>
                   </OverlayTrigger>
                 </td>
