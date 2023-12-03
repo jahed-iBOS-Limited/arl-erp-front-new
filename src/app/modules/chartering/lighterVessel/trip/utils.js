@@ -145,6 +145,8 @@ export const editRowDataClick = (
         }
       : "",
     eta: item?.eta ? _dateFormatter(item?.eta) : "",
+    dispatchRate: item?.despachRate ? item?.despachRate : "",
+    demurrageRate: item?.demageRate ? item?.demageRate : "",
     isEdit: true,
   };
 
@@ -201,6 +203,8 @@ export const rowDataAddHandler = (
     intShipmentId: values?.shipment?.value,
     strShipmentCode: values?.shipment?.label,
     intLcId: values?.lcnumber?.value,
+    despachRate: values?.dispatchRate,
+    demageRate: values?.demurrageRate,
   };
 
   setRowData([...rowData, payload]);
@@ -274,6 +278,8 @@ export const rowDataEditHandler = (
     intShipmentId: values?.shipment?.value,
     strShipmentCode: values?.shipment?.label,
     intLcId: values?.lcnumber?.value,
+    despachRate: values?.dispatchRate,
+    demageRate: values?.demurrageRate,
   };
 
   const copy = [...rowData];
