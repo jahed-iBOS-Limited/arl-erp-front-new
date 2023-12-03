@@ -8,15 +8,24 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import InputField from "../../../_helper/_inputField";
 import PaginationTable from "../../../_helper/_tablePagination";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
+import { _formatMoney } from "../../../_helper/_formatMoney";
+import IViewModal from "../../../_helper/_viewModal";
+import ApprovalModal from "./approvalModal";
+import { _todayDate } from "../../../_helper/_todayDate";
 const initData = {
   soldToPatner: "",
   item: "",
   startDate: "",
-  endDate: "",
-  status: "",
+  endDate: _todayDate(),
+  status: {
+    value: 2,
+    label: "Pending",
+  },
 };
 export default function PriceApprove() {
   const saveHandler = (values, cb) => {};
+
+  const [isShowApprovalModal, setIsShowApprovalModal] = useState(false);
 
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(25);
@@ -58,8 +67,25 @@ export default function PriceApprove() {
     getTableData(
       `/item/PriceSetup/GetItemApprovePagination?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}&CustomerId=${values?.soldToPatner?.value}&ItemId=${values?.item?.value}&ConditionTypeId=4&FromDate=${values?.startDate}&ToDate=${values?.endDate}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}&status=${values?.status?.value}`,
       (data) => {
-        setPageNo(data?.currentPage);
-        setPageSize(data?.pageSize);
+        console.log("data", data);
+      }
+    );
+  };
+
+  const getTableDataFromApi = (values) => {
+    getTableData(
+      `/item/PriceSetup/GetItemApprovePagination?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}&CustomerId=${values?.soldToPatner?.value}&ItemId=${values?.item?.value}&ConditionTypeId=4&FromDate=${values?.startDate}&ToDate=${values?.endDate}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}&Status=${values?.status?.value}`,
+      (resData) => {
+        setTableData({
+          ...resData,
+          data: resData?.data?.map((item) => {
+            return {
+              ...item,
+              isChecked: false,
+            };
+          }),
+        });
+        console.log("tabledata", tableData);
       }
     );
   };
@@ -198,9 +224,7 @@ export default function PriceApprove() {
                     <button
                       className="btn btn-primary"
                       onClick={() => {
-                        getTableData(
-                          `/item/PriceSetup/GetItemApprovePagination?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}&CustomerId=0&ItemId=0&ConditionTypeId=4&FromDate=${values?.startDate}&ToDate=${values?.endDate}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}&Status=${values?.status?.value}`
-                        );
+                        getTableDataFromApi(values);
                       }}
                       disabled={
                         !values?.soldToPatner ||
@@ -213,31 +237,101 @@ export default function PriceApprove() {
                       View
                     </button>
                   </div>
+                  <div
+                    className="col-lg-8 text-right"
+                    style={{
+                      marginTop: "18px",
+                    }}
+                  >
+                    <button
+                      className="btn btn-primary ml-2"
+                      onClick={() => {
+                        setIsShowApprovalModal(true);
+                      }}
+                      disabled={!tableData?.data?.length}
+                    >
+                      Approve
+                    </button>
+                  </div>
                 </div>
                 <div className="table-responsive">
                   <table className="table global-table">
                     <thead>
                       <tr>
+                        <th>
+                          <input
+                            type="checkbox"
+                            name="checkAll"
+                            checked={
+                              tableData?.data?.length > 0 &&
+                              tableData?.data?.every((item) => item?.isChecked)
+                            }
+                            onChange={(e) => {
+                              setTableData({
+                                ...tableData,
+                                data: tableData?.data?.map((item) => {
+                                  return {
+                                    ...item,
+                                    isChecked: e?.target?.checked,
+                                  };
+                                }),
+                              });
+                            }}
+                            disabled={
+                              !tableData?.data?.length &&
+                              values?.status?.value === 1
+                            }
+                          />
+                        </th>
                         <th>SL</th>
                         <th>Condition Type</th>
                         <th>Item Name</th>
                         <th>Price</th>
                         <th>Start Date</th>
                         <th>End Date</th>
-                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
                       {tableData?.data?.map((item, index) => {
                         return (
                           <tr key={index}>
+                            <td>
+                              <input
+                                type="checkbox"
+                                name="isChecked"
+                                checked={item?.isChecked}
+                                onChange={(e) => {
+                                  console.log("tabledata", tableData);
+                                  console.log("item", item);
+                                  setTableData({
+                                    ...tableData,
+                                    data: tableData?.data?.map((i, idx) => {
+                                      if (index === idx) {
+                                        return {
+                                          ...i,
+                                          isChecked: e?.target?.checked,
+                                        };
+                                      } else {
+                                        return i;
+                                      }
+                                    }),
+                                  });
+                                }}
+                                disabled={values?.status?.value === 1}
+                              />
+                            </td>
                             <td>{index + 1}</td>
                             <td>{item?.conditionTypeName}</td>
                             <td>{item?.itemName}</td>
-                            <td>{item?.price}</td>
-                            <td>{_dateFormatter(item?.startDate)}</td>
-                            <td>{_dateFormatter(item?.endDate)}</td>
-                            <td>X</td>
+                            <td className="text-right">
+                              {_formatMoney(item?.price)}
+                            </td>
+                            <td className="text-right">
+                              {_dateFormatter(item?.startDate)}
+                            </td>
+                            <td className="text-right">
+                              {_dateFormatter(item?.endDate)}
+                            </td>
                           </tr>
                         );
                       })}
@@ -258,6 +352,19 @@ export default function PriceApprove() {
                   />
                 )}
               </div>
+
+              <IViewModal
+                show={isShowApprovalModal}
+                onHide={() => {
+                  setIsShowApprovalModal(false);
+                }}
+              >
+                <ApprovalModal
+                  tableData={tableData}
+                  setTableData={setTableData}
+                  values={values}
+                />
+              </IViewModal>
             </Form>
           </IForm>
         </>
