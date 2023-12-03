@@ -109,8 +109,8 @@ const LandingTable = ({ obj }) => {
                     }
                   >
                     <div>
-                      {matchEmployeeId?.investigatorAssignByName &&
-                        matchEmployeeId?.investigatorAssignByName}
+                      {matchEmployeeId?.investigatorName &&
+                        matchEmployeeId?.investigatorName}
                     </div>
                   </OverlayTrigger>
                 </td>
@@ -268,7 +268,7 @@ const LandingTable = ({ obj }) => {
                         </span>
                       </>
                     )}
-                    {item?.status === "Investigate" && (
+                    {item?.status === "Investigate" && matchEmployeeId && (
                       <span>
                         <OverlayTrigger
                           overlay={<Tooltip id='cs-icon'>Issue Close </Tooltip>}
