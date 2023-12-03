@@ -28,162 +28,165 @@ const LandingTable = ({ obj }) => {
   //   window.location.pathname === "/self-service/my-complaint";
   return (
     <>
-      <table className='table table-striped table-bordered global-table'>
-        <thead>
-          <tr>
-            <th>SL</th>
-            <th>Issue Id</th>
-            <th>Occurrence Date</th>
-            <th>Respondent Type</th>
-            <th>Respondent Name</th>
-            <th>Create By</th>
-            <th>Create Date</th>
-            <th>Delegate By</th>
-            <th>Delegate Date</th>
-            <th>Deligate To</th>
-            <th>Investigation By</th>
-            <th>Investigation Date</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {gridData?.data?.map((item, index) => {
-            const matchEmployeeId = item?.investigatorAssignByName?.find(
-              (itm) => itm?.investigatorId === employeeId
-            );
+      <div className='table-responsive'>
+        <table className='table table-striped table-bordered global-table'>
+          <thead>
+            <tr>
+              <th>SL</th>
+              <th>Issue Id</th>
+              <th>Issue Type</th>
+              <th>Occurrence Date</th>
+              <th>Respondent Type</th>
+              <th>Respondent Name</th>
+              <th>Create By</th>
+              <th>Create Date</th>
+              <th>Delegate By</th>
+              <th>Delegate Date</th>
+              <th>Deligate To</th>
+              <th>Investigation By</th>
+              <th>Investigation Date</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {gridData?.data?.map((item, index) => {
+              const matchEmployeeId = item?.investigatorAssignByName?.find(
+                (itm) => itm?.investigatorId === employeeId
+              );
 
-            return (
-              <tr key={index}>
-                <td className='text-center'> {index + 1}</td>
-                <td>{item?.complainNo}</td>
-                <td>{_dateFormatter(item?.requestDateTime)}</td>
-                <td>{item?.respondentTypeName}</td>
-                <td>{item?.respondentName}</td>
-                <td>{item?.actionByName}</td>
-                <td>{_dateFormatter(item?.lastActionDateTime)}</td>
-                <td>{item?.delegateByName}</td>
-                <td>
-                  {item?.delegateDateTime &&
-                    moment(item?.delegateDateTime).format(
-                      "YYYY-MM-DD, HH:mm A"
-                    )}
-                </td>
-                <td>{item?.delegateToName}</td>
-                <td>
-                  <OverlayTrigger
-                    overlay={
-                      <Tooltip className='mytooltip' id='info-tooltip'>
-                        <>
-                          {item?.investigatorAssignByName?.map((itm, idx) => (
-                            <div
-                              style={{
-                                display: "flex",
-                                gap: "2px 8px",
-                              }}
-                            >
-                              <p>
-                                <b> </b>
-                                {itm?.investigatorName}
-                                {itm?.investigationDueDate && (
-                                  <>
-                                    , Due:
-                                    {moment(itm?.investigationDueDate).format(
-                                      "YYYY-MM-DD"
-                                    )}
-                                  </>
-                                )}
-                                {itm?.investigationDateTime && (
-                                  <>
-                                    , Actual:
-                                    {moment(itm?.investigationDateTime).format(
-                                      "YYYY-MM-DD, HH:mm A"
-                                    )}
-                                  </>
-                                )}
-                              </p>
-                            </div>
-                          ))}
-                        </>
-                      </Tooltip>
-                    }
-                  >
-                    <div>
-                      {matchEmployeeId?.investigatorName &&
-                        matchEmployeeId?.investigatorName}
-                    </div>
-                  </OverlayTrigger>
-                </td>
-                <td>
-                  <OverlayTrigger
-                    overlay={
-                      <Tooltip className='mytooltip' id='info-tooltip'>
-                        <>
-                          {item?.investigatorAssignByName?.map((itm, idx) => (
-                            <div
-                              style={{
-                                display: "flex",
-                                gap: "2px 8px",
-                              }}
-                            >
-                              <p>
-                                <b>Investigation: </b>
-                                {itm?.investigatorName}
-                                {itm?.investigationDueDate && (
-                                  <>
-                                    , Due:
-                                    {moment(itm?.investigationDueDate).format(
-                                      "YYYY-MM-DD"
-                                    )}
-                                  </>
-                                )}
-                                {itm?.investigationDateTime && (
-                                  <>
-                                    , Actual:
-                                    {moment(itm?.investigationDateTime).format(
-                                      "YYYY-MM-DD, HH:mm A"
-                                    )}
-                                  </>
-                                )}
-                              </p>
-                            </div>
-                          ))}
-                        </>
-                      </Tooltip>
-                    }
-                  >
-                    <div>
-                      {matchEmployeeId?.investigationDateTime &&
-                        moment(matchEmployeeId?.investigationDateTime).format(
-                          "YYYY-MM-DD, HH:mm A"
-                        )}
-                    </div>
-                  </OverlayTrigger>
-                </td>
-                <td>
-                  <span
-                    style={{
-                      color:
-                        item?.status === "Open"
-                          ? "red"
-                          : item?.status === "Delegate"
-                          ? "blue"
-                          : item?.status === "Investigate"
-                          ? "orange"
-                          : "green",
-                    }}
-                  >
-                    {item?.status}
-                  </span>
-                </td>
-                <td>
-                  <div
-                    className='d-flex justify-content-around'
-                    style={{
-                      gap: "8px",
-                    }}
-                  >
-                    {/* {item?.status === "Open" && !isMyComplaint && (
+              return (
+                <tr key={index}>
+                  <td className='text-center'> {index + 1}</td>
+                  <td>{item?.complainNo}</td>
+                  <td>{item?.issueType}</td>
+                  <td>{_dateFormatter(item?.requestDateTime)}</td>
+                  <td>{item?.respondentTypeName}</td>
+                  <td>{item?.respondentName}</td>
+                  <td>{item?.actionByName}</td>
+                  <td>{_dateFormatter(item?.lastActionDateTime)}</td>
+                  <td>{item?.delegateByName}</td>
+                  <td>
+                    {item?.delegateDateTime &&
+                      moment(item?.delegateDateTime).format(
+                        "YYYY-MM-DD, HH:mm A"
+                      )}
+                  </td>
+                  <td>{item?.delegateToName}</td>
+                  <td>
+                    <OverlayTrigger
+                      overlay={
+                        <Tooltip className='mytooltip' id='info-tooltip'>
+                          <>
+                            {item?.investigatorAssignByName?.map((itm, idx) => (
+                              <div
+                                style={{
+                                  display: "flex",
+                                  gap: "2px 8px",
+                                }}
+                              >
+                                <p>
+                                  <b> </b>
+                                  {itm?.investigatorName}
+                                  {itm?.investigationDueDate && (
+                                    <>
+                                      , Due:
+                                      {moment(itm?.investigationDueDate).format(
+                                        "YYYY-MM-DD"
+                                      )}
+                                    </>
+                                  )}
+                                  {itm?.investigationDateTime && (
+                                    <>
+                                      , Actual:
+                                      {moment(
+                                        itm?.investigationDateTime
+                                      ).format("YYYY-MM-DD, HH:mm A")}
+                                    </>
+                                  )}
+                                </p>
+                              </div>
+                            ))}
+                          </>
+                        </Tooltip>
+                      }
+                    >
+                      <div>
+                        {matchEmployeeId?.investigatorName &&
+                          matchEmployeeId?.investigatorName}
+                      </div>
+                    </OverlayTrigger>
+                  </td>
+                  <td>
+                    <OverlayTrigger
+                      overlay={
+                        <Tooltip className='mytooltip' id='info-tooltip'>
+                          <>
+                            {item?.investigatorAssignByName?.map((itm, idx) => (
+                              <div
+                                style={{
+                                  display: "flex",
+                                  gap: "2px 8px",
+                                }}
+                              >
+                                <p>
+                                  <b>Investigation: </b>
+                                  {itm?.investigatorName}
+                                  {itm?.investigationDueDate && (
+                                    <>
+                                      , Due:
+                                      {moment(itm?.investigationDueDate).format(
+                                        "YYYY-MM-DD"
+                                      )}
+                                    </>
+                                  )}
+                                  {itm?.investigationDateTime && (
+                                    <>
+                                      , Actual:
+                                      {moment(
+                                        itm?.investigationDateTime
+                                      ).format("YYYY-MM-DD, HH:mm A")}
+                                    </>
+                                  )}
+                                </p>
+                              </div>
+                            ))}
+                          </>
+                        </Tooltip>
+                      }
+                    >
+                      <div>
+                        {matchEmployeeId?.investigationDateTime &&
+                          moment(matchEmployeeId?.investigationDateTime).format(
+                            "YYYY-MM-DD, HH:mm A"
+                          )}
+                      </div>
+                    </OverlayTrigger>
+                  </td>
+                  <td>
+                    <span
+                      style={{
+                        color:
+                          item?.status === "Open"
+                            ? "red"
+                            : item?.status === "Delegate"
+                            ? "blue"
+                            : item?.status === "Investigate"
+                            ? "orange"
+                            : "green",
+                      }}
+                    >
+                      {item?.status}
+                    </span>
+                  </td>
+                  <td>
+                    <div
+                      className='d-flex justify-content-around'
+                      style={{
+                        gap: "8px",
+                      }}
+                    >
+                      {/* {item?.status === "Open" && !isMyComplaint && (
                       <span
                         onClick={() => {
                           history.push(
@@ -195,109 +198,112 @@ const LandingTable = ({ obj }) => {
                       </span>
                     )} */}
 
-                    {(item?.status === "Open" ||
-                      item?.status === "Delegate") && (
-                      <>
+                      {(item?.status === "Open" ||
+                        item?.status === "Delegate") && (
+                        <>
+                          <span>
+                            <OverlayTrigger
+                              overlay={<Tooltip id='cs-icon'>Delegate</Tooltip>}
+                            >
+                              <span
+                                onClick={() => {
+                                  setDelegatModalShow(true);
+                                  setClickRowData(item);
+                                }}
+                              >
+                                <i
+                                  class='fa fa-user-plus pointer'
+                                  aria-hidden='true'
+                                ></i>
+                              </span>
+                            </OverlayTrigger>
+                          </span>
+                        </>
+                      )}
+
+                      {item?.status === "Investigate" && matchEmployeeId && (
+                        <>
+                          <span>
+                            <OverlayTrigger
+                              overlay={
+                                <Tooltip id='cs-icon'>
+                                  {item?.status === "Investigate"
+                                    ? "Update Investigate"
+                                    : "Investigate"}
+                                </Tooltip>
+                              }
+                            >
+                              <span
+                                onClick={() => {
+                                  setInvestigateModalShow(true);
+                                  setClickRowData(item);
+                                }}
+                              >
+                                {item?.status === "Investigate" ? (
+                                  <i
+                                    class='fa fa-users pointer'
+                                    aria-hidden='true'
+                                  ></i>
+                                ) : (
+                                  <i
+                                    class='fa fa-low-vision pointer'
+                                    aria-hidden='true'
+                                  ></i>
+                                )}
+                              </span>
+                            </OverlayTrigger>
+                          </span>
+                          <span
+                            onClick={() => {
+                              setIsFeedbackModalShow(true);
+                              setClickRowData(item);
+                            }}
+                          >
+                            <img
+                              className='pointer'
+                              src={feedbackIcon}
+                              alt='feedbackIcon'
+                              style={{
+                                width: "20px",
+                                height: "20px",
+                              }}
+                            />
+                          </span>
+                        </>
+                      )}
+                      {item?.status === "Investigate" && matchEmployeeId && (
                         <span>
                           <OverlayTrigger
-                            overlay={<Tooltip id='cs-icon'>Delegate</Tooltip>}
+                            overlay={
+                              <Tooltip id='cs-icon'>Issue Close </Tooltip>
+                            }
                           >
                             <span
                               onClick={() => {
-                                setDelegatModalShow(true);
-                                setClickRowData(item);
+                                setIsFeedbackModalShow(true);
+                                setClickRowData({
+                                  ...item,
+                                  status: "Close",
+                                  statusId: 4,
+                                });
                               }}
                             >
                               <i
-                                class='fa fa-user-plus pointer'
+                                class='fa fa-times-circle text-danger'
                                 aria-hidden='true'
                               ></i>
                             </span>
                           </OverlayTrigger>
                         </span>
-                      </>
-                    )}
-
-                    {item?.status === "Investigate" && matchEmployeeId && (
-                      <>
-                        <span>
-                          <OverlayTrigger
-                            overlay={
-                              <Tooltip id='cs-icon'>
-                                {item?.status === "Investigate"
-                                  ? "Update Investigate"
-                                  : "Investigate"}
-                              </Tooltip>
-                            }
-                          >
-                            <span
-                              onClick={() => {
-                                setInvestigateModalShow(true);
-                                setClickRowData(item);
-                              }}
-                            >
-                              {item?.status === "Investigate" ? (
-                                <i
-                                  class='fa fa-users pointer'
-                                  aria-hidden='true'
-                                ></i>
-                              ) : (
-                                <i
-                                  class='fa fa-low-vision pointer'
-                                  aria-hidden='true'
-                                ></i>
-                              )}
-                            </span>
-                          </OverlayTrigger>
-                        </span>
-                        <span
-                          onClick={() => {
-                            setIsFeedbackModalShow(true);
-                            setClickRowData(item);
-                          }}
-                        >
-                          <img
-                            className='pointer'
-                            src={feedbackIcon}
-                            alt='feedbackIcon'
-                            style={{
-                              width: "20px",
-                              height: "20px",
-                            }}
-                          />
-                        </span>
-                      </>
-                    )}
-                    {item?.status === "Investigate" && matchEmployeeId && (
-                      <span>
-                        <OverlayTrigger
-                          overlay={<Tooltip id='cs-icon'>Issue Close </Tooltip>}
-                        >
-                          <span
-                            onClick={() => {
-                              setIsFeedbackModalShow(true);
-                              setClickRowData({
-                                ...item,
-                                status: "Close",
-                                statusId: 4,
-                              });
-                            }}
-                          >
-                            <i
-                              class='fa fa-times-circle text-danger'
-                              aria-hidden='true'
-                            ></i>
-                          </span>
-                        </OverlayTrigger>
-                      </span>
-                    )}
-                  </div>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
       {delegatModalShow && (
         <>
           <IViewModal
