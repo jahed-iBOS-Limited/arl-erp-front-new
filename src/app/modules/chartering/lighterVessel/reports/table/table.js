@@ -35,6 +35,13 @@ export default function LighterVesselReportsTable() {
       path: "/chartering/lighterVessel/lighterVesselReport/dieselStatementTwo",
       isActive: false,
     },
+    {
+      id: 6,
+      title: "Dispatch and Demurrage",
+      path:
+        "/chartering/lighterVessel/lighterVesselReport/lighterDispatchDemurrage",
+      isActive: false,
+    },
   ]);
 
   const changeStatus = (id) => {

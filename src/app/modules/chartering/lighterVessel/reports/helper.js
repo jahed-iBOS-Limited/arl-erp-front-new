@@ -13,7 +13,7 @@ export const getMonthlyVoyageStatement = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/LighterVesselStatement/GetLighterVesselTripStatementDateWise?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}`
+      `${imarineBaseUrl}/domain/LighterVesselTrip/GetLighterVesselDispatchDamarage?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}`
       // `${imarineBaseUrl}/domain/LighterVesselStatement/GetLighterVesselTripStatement?AccountId=${accId}&BusinessUnitId=${buId}&searchDate=${date}`
     );
     setter(
