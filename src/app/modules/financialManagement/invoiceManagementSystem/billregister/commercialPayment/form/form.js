@@ -1,25 +1,24 @@
-import React, { useEffect } from "react";
-import { Formik, Form } from "formik";
 import axios from "axios";
-import InputField from "../../../../../_helper/_inputField";
+import { Form, Formik } from "formik";
+import { DropzoneDialogBase } from "material-ui-dropzone";
+import React, { useEffect, useState } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
 } from "../../../../../../../_metronic/_partials/controls";
-import { useHistory, useLocation } from "react-router-dom";
-import { useState } from "react";
-import { DropzoneDialogBase } from "material-ui-dropzone";
 import SearchAsyncSelect from "../../../../../_helper/SearchAsyncSelect";
+import InputField from "../../../../../_helper/_inputField";
 import NewSelect from "../../../../../_helper/_select";
+import PaginationTable from "../../../../../_helper/_tablePagination";
 import { empAttachment_action } from "../../../../../humanCapitalManagement/humanResource/employeeInformation/helper";
 import { getLandingData } from "../helper";
-import PaginationTable from "../../../../../_helper/_tablePagination";
 // import { _dateFormatter } from "../../../../../_helper/_dateFormate";
 // import { _formatMoney } from "../../../../../_helper/_formatMoney";
-import ServiceBreakDownViewModal from "../serviceBreakDown/serviceBreakDownViewModal";
 import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
+import ServiceBreakDownViewModal from "../serviceBreakDown/serviceBreakDownViewModal";
 
 export default function _Form({
   initData,
@@ -154,7 +153,7 @@ export default function _Form({
                             values?.supplier?.value,
                             0,
                             values?.chargeType?.label || "",
-                            valueOption?.value || 0
+                            values?.subChargeType?.value || 0
                           );
                         }}
                         loadOptions={loadPoLcList || []}
