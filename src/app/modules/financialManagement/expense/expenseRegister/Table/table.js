@@ -6,7 +6,7 @@ import {
   BillSubmit_Api,
   getCountry,
   getCurrency,
-  getExpensePlantDDLAction,
+  // getExpensePlantDDLAction,
   getSBU,
   getExpenseLandingPagination,
 } from "../helper";
@@ -59,7 +59,7 @@ const ExpenseRegisterLanding = () => {
   const formikRef = React.useRef(null);
   const [loading, setLoading] = useState(false);
   const [sbu, setSbu] = useState([]);
-  const [plantDDL, setPlantDDL] = useState([]);
+  // const [plantDDL, setPlantDDL] = useState([]);
   // const [expenseFor, setExpenseFor] = useState([]);
   const [country, setCountry] = useState([]);
   const [currency, setCurrency] = useState([]);
@@ -128,7 +128,7 @@ const ExpenseRegisterLanding = () => {
   };
 
   const gridDataCB = (values, pageNo, pageSize, billSubmit, approval) => {
-    if (values?.sbu && values?.country && values?.currency && values?.plant) {
+    if (values?.sbu && values?.country && values?.currency) {
       getExpenseLandingPagination(
         profileData?.accountId,
         selectedBusinessUnit?.value,
@@ -151,6 +151,7 @@ const ExpenseRegisterLanding = () => {
   };
 
   const girdDataFunc = (values, pageNo, pageSize) => {
+    console.log("girdDataFunc", values);
     if (values?.billSubmit) {
       gridDataCB(values, pageNo, pageSize, true, false);
     } else if (values?.approval) {
@@ -228,7 +229,7 @@ const ExpenseRegisterLanding = () => {
           sbu: sbu[0] || "",
           country: country[17] || "",
           currency: currency[0] || "",
-          plant: plantDDL?.[0] || "",
+          plant: "",
         };
         formikRef.current.setValues(initialRedirectHR);
 
@@ -256,7 +257,7 @@ const ExpenseRegisterLanding = () => {
           currency: personalExpRegLanding?.currency
             ? personalExpRegLanding?.currency
             : currency[0] || "",
-          plant: plantDDL?.[0] || "",
+          plant: "",
         };
         formikRef.current.setValues(initialValues);
         if (
@@ -270,7 +271,7 @@ const ExpenseRegisterLanding = () => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sbu, country, currency, plantDDL]);
+  }, [sbu, country, currency]);
 
   return (
     <>
@@ -632,13 +633,16 @@ const ExpenseRegisterLanding = () => {
                           Submited Expense
                         </button>
                       )}
+                      {console.log("error", errors)}
                       <button
                         onClick={() => {
+                          console.log("values", values);
                           dispatch(
                             setPersonalExpRegLandingAction({
                               ...values,
                             })
                           );
+                          console.log("values2", values);
                           setPageNo(0);
                           setPageSize(20);
                           girdDataFunc(
@@ -654,7 +658,6 @@ const ExpenseRegisterLanding = () => {
                           !values?.sbu ||
                           !values?.country ||
                           !values?.currency ||
-                          !values?.plant ||
                           !values?.supervisor
                         }
                         className="btn btn-primary ml-2"

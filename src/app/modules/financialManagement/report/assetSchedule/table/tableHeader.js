@@ -317,6 +317,7 @@ const AssetSchedule = () => {
                           <th>
                             Charge During <br /> The Period
                           </th>
+                          <th>Adjustment</th>
                           <th>Closing Acc. Dep.</th>
                           <th>Net Asset Value</th>
                         </tr>
@@ -403,6 +404,17 @@ const AssetSchedule = () => {
                             >
                               {numberWithCommas(
                                 Math.round(item?.numChargedDurAccDep) || 0
+                              )}
+                            </td>
+                            <td
+                              style={{
+                                textAlign: "end",
+                                paddingRight: "3px",
+                                fontSize: "12px",
+                              }}
+                            >
+                              {numberWithCommas(
+                                Math.round(item?.numAdjustment) || 0
                               )}
                             </td>
                             <td
@@ -538,6 +550,24 @@ const AssetSchedule = () => {
                                   (total, data) =>
                                     total +
                                     Math.round(data?.numChargedDurAccDep),
+                                  0
+                                ) || 0
+                              )}
+                            </strong>
+                          </td>
+                          <td
+                            style={{
+                              textAlign: "end",
+                              paddingRight: "3px",
+                              fontSize: "14px",
+                              paddingLeft: "4px",
+                            }}
+                          >
+                            <strong>
+                              {numberWithCommas(
+                                assetScheduleData.reduce(
+                                  (total, data) =>
+                                    total + Math.round(data?.numAdjustment),
                                   0
                                 ) || 0
                               )}
