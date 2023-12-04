@@ -333,7 +333,7 @@ export const documentReleaseCreate = async (
   try {
     if (values?.lcType?.label === "At Sight") {
       let res = await axios.post(
-        `/imp/DocumentRelease/CreateDocumentRelease`,
+        `/imp/DocumentRelease/CreateDocumentReleaseNew`,
         obj
       );
       // console.log("res", res)
@@ -341,7 +341,7 @@ export const documentReleaseCreate = async (
     } else {
       if (rowDto?.length > 0) {
         let response = await axios.post(
-          `/imp/DocumentRelease/CreateDocumentReleaseSchedule`,
+          `/imp/DocumentRelease/CreateDocumentReleaseScheduleNew`,
           withoutAtSightpayload
         );
         toast.success(response?.data?.message || "create successfully");

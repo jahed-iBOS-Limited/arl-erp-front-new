@@ -1,29 +1,29 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import TdsVdsJvDataTable from "./components/dataTable";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import TdsVdsJvDataTable from './components/dataTable';
 
 const initData = {
-  accountNo: "",
-  status: "",
-  billType: "",
+  accountNo: '',
+  status: '',
+  billType: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  costCenter: "",
-  costElement: "",
-  profitCenter: "",
+  costCenter: '',
+  costElement: '',
+  profitCenter: '',
 };
 
 export default function _Form({ bankDDL, setDisabled, btnRef }) {
   //to manage prepare all voucher button
-  const [, setIsAble] = useState("");
+  const [, setIsAble] = useState('');
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
 
@@ -35,7 +35,6 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
     setBillTypeDDL,
   ] = useAxiosGet();
 
-
   const [rowData, getRowData, isRowDataLoading, setRowData] = useAxiosGet();
   const [editableData, setEditableData] = useState([]);
   const [
@@ -44,25 +43,22 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
     isCostCenterDDLLoading,
   ] = useAxiosGet();
 
-
   const [
     costElementDDL,
     getCostElementDDL,
     isCostElementDDLLoading,
   ] = useAxiosGet();
 
-
   const [
     profitCenterDDL,
     getProfitCenterDDL,
     isProfitCenterDDLLoading,
-    setProfitCenterDDL
+    setProfitCenterDDL,
   ] = useAxiosGet();
-
 
   const [sbuId, getSbuId, sbuIdLoading, setSbuId] = useAxiosGet();
 
-  const [, saveData, isSavignData] = useAxiosPost()
+  const [, saveData, isSavignData] = useAxiosPost();
 
   // get user profile data from store
   const {
@@ -71,12 +67,19 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
   } = useSelector((state) => state.authData, shallowEqual);
 
   //get data for table
-  const handleGetTableData = ({ billType, fromDate, toDate, status, pageNo=1, pageSize=50 }) => {
+  const handleGetTableData = ({
+    billType,
+    fromDate,
+    toDate,
+    status,
+    pageNo = 1,
+    pageSize = 50,
+  }) => {
     const tableDataApi = `/fino/PaymentRequest/GetTdsVdsJv?BusinessUnitId=${buId}&RefType=${billType}&FromDate=${fromDate}&ToDate=${toDate}&Status=${status}&PageNo=${pageNo}&PageSize=${pageSize}`;
     getRowData(tableDataApi, (res) => {
       setEditableData(res?.data);
-      if(res?.data?.length === 0 ) {
-        toast.warn("Data Not Found!")
+      if (res?.data?.length === 0) {
+        toast.warn('Data Not Found!');
       }
       console.log({ tableData: res });
     });
@@ -97,13 +100,13 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
     const profitCenterApi = `/fino/CostSheet/ProfitCenterDetails?UnitId=${buId}`;
 
     getProfitCenterDDL(profitCenterApi, (data) => {
-      const ddl = data?.map(item => {
+      const ddl = data?.map((item) => {
         return {
           label: item?.profitCenterName,
-          value: item?.profitCenterId
-        }
-      })
-      console.log({ddl})
+          value: item?.profitCenterId,
+        };
+      });
+      console.log({ ddl });
       setProfitCenterDDL(ddl);
     });
   };
@@ -133,16 +136,13 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
 
   //Load ddsl
   useEffect(() => {
-    // fetch account No DDL
     getAccountNoDDL(
       `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${accId}&BusinssUnitId=${buId}`,
-      (data) => console.log({ ddL: data })
+      (data) => console.log({ ddL: data }),
     );
 
-    //fetch bill type DDL
     getBillTypeDDL(`/fino/FinanceCommonDDL/GetBillTypeDDL`, (data) => {
-      //Only show first two
-      const firstTwo = data.slice(0, 2);
+      const firstTwo = data.slice(0, 2); //Show only first two
       setBillTypeDDL(firstTwo);
     });
 
@@ -152,10 +152,8 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
 
   //const prepare payload for save
   const prepareSavePayload = (listData, values) => {
-    
     const selectedList = listData.filter((data) => data.isSelect);
     if (!selectedList.length) return [];
-    console.log({values})
     const defaults = {
       businessUnitId: buId,
       profitCenterId: values?.profitCenter?.value,
@@ -164,7 +162,7 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
       bankAccountNo: values?.accountNo?.bankAccNo,
       bankAccountId: values?.accountNo?.value,
       costCenterName: values?.costCenter?.label,
-      costElementName: values?.costElement?.label
+      costElementName: values?.costElement?.label,
     };
     const payload = selectedList?.map((item) => {
       return {
@@ -178,25 +176,23 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
     return payload;
   };
 
-  
-
-
-
-
   //handle save data
   const saveHandler = (values, cb) => {
-    setDisabled(true)
-    const saveReqApi = `/fino/PaymentRequest/CreateTdsVdsJournalVoucher`
+    setDisabled(true);
+    const saveReqApi = `/fino/PaymentRequest/CreateTdsVdsJournalVoucher`;
     const savePayload = prepareSavePayload(editableData, values);
-    saveData(saveReqApi, savePayload, (res)=>{
-      if(res?.statuscode ===200 ){
-        // setDisabled(false)
-        cb()
-      }
-    }, true )
+    saveData(
+      saveReqApi,
+      savePayload,
+      (res) => {
+        if (res?.statuscode === 200) {
+          // setDisabled(false)
+          cb();
+        }
+      },
+      true,
+    );
 
-    console.log({ savePayload });
-    console.log(JSON.stringify(savePayload));
   };
 
   return (
@@ -207,7 +203,7 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
         // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
-            setSubmitting(true)
+            setSubmitting(true);
             resetForm(initData);
             setRowData([]);
             setEditableData([]);
@@ -242,16 +238,18 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
                       placeholder="Account No"
                       label="Account No(Online)"
                       onChange={(valueOption) => {
-                        setFieldValue("accountNo", valueOption);
+                        setFieldValue('accountNo', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
-                      isDisabled={(()=>{
-                        const selectedList = editableData?.filter(item => item?.isSelect);
-                        
-                        if(selectedList && selectedList?.length > 0){
+                      isDisabled={(() => {
+                        const selectedList = editableData?.filter(
+                          (item) => item?.isSelect,
+                        );
+
+                        if (selectedList && selectedList?.length > 0) {
                           return false;
-                        }else{
+                        } else {
                           return true;
                         }
                       })()}
@@ -262,14 +260,14 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
                     <NewSelect
                       name="status"
                       options={[
-                        { value: 1, label: "Pending" },
-                        { value: 2, label: "Complete" },
+                        { value: 1, label: 'Pending' },
+                        { value: 2, label: 'Complete' },
                       ]}
                       value={values?.status}
                       label="Status"
                       onChange={(valueOption) => {
-                        setFieldValue("status", valueOption);
-                        setEditableData([])
+                        setFieldValue('status', valueOption);
+                        setEditableData([]);
                       }}
                       errors={errors}
                       touched={touched}
@@ -282,7 +280,7 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
                       value={values?.billType}
                       label="Bill Type"
                       onChange={(valueOption) => {
-                        setFieldValue("billType", valueOption);
+                        setFieldValue('billType', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -296,7 +294,7 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
                       placeholder="From Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                       }}
                     />
                   </div>
@@ -309,29 +307,29 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
                       type="date"
                       min={values?.fromDate}
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                       }}
                     />
                   </div>
                   <div className="col-lg-3">
                     <NewSelect
-                      value={values?.profitCenter || ""}
+                      value={values?.profitCenter || ''}
                       isSearchable={true}
                       options={profitCenterDDL || []}
                       // styles={customStyles}
                       placeholder="Profit Center"
                       name="Profit Center"
                       onChange={(valueOption) => {
-                        setFieldValue("profitCenter", valueOption);
+                        setFieldValue('profitCenter', valueOption);
                       }}
                     />
                   </div>
                   <div className="col-lg-3">
                     <NewSelect
                       onChange={(valueOption) => {
-                        setFieldValue("costCenter", valueOption);
+                        setFieldValue('costCenter', valueOption);
                       }}
-                      value={values?.costCenter || ""}
+                      value={values?.costCenter || ''}
                       isSearchable={true}
                       options={costCenterDDL || []}
                       placeholder="Cost Center"
@@ -341,9 +339,9 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
                   <div className="col-lg-3">
                     <NewSelect
                       onChange={(valueOption) => {
-                        setFieldValue("costElement", valueOption);
+                        setFieldValue('costElement', valueOption);
                       }}
-                      value={values?.costElement || ""}
+                      value={values?.costElement || ''}
                       isSearchable={true}
                       options={costElementDDL || []}
                       // styles={customStyles}
@@ -352,7 +350,7 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
                     />
                   </div>
 
-                  <div style={{ marginTop: "22px" }} className="col-lg-1">
+                  <div style={{ marginTop: '22px' }} className="col-lg-1">
                     <button
                       className="btn btn-primary"
                       disabled={
@@ -360,16 +358,12 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
                       }
                       type="button"
                       onClick={() => {
-                        console.log({
-                          v1: values?.billType?.value,
-                          v2: values?.status?.value,
-                        });
                         handleGetTableData({
                           billType: values?.billType.value,
                           fromDate: values?.fromDate,
                           toDate: values?.toDate,
                           status:
-                            values?.status?.label === "Pending" ? false : true,
+                            values?.status?.label === 'Pending' ? false : true,
                         });
                       }}
                     >
@@ -377,11 +371,11 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
                     </button>
                   </div>
                   <div
-                    style={{ marginTop: "22px", marginLeft: "6px" }}
+                    style={{ marginTop: '22px', marginLeft: '6px' }}
                     className="col-lg-2"
                   >
                     <button
-                      style={{ display: "none" }}
+                      style={{ display: 'none' }}
                       className="btn btn-primary"
                       disabled={
                         !values?.sbuUnit
@@ -404,36 +398,35 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
 
               {/* Data table */}
               {editableData.length > 0 ? (
-              <TdsVdsJvDataTable
-                setFieldValue={setFieldValue}
-                values={values}
-                setDisabled={setDisabled}
-                errors={errors}
-                touched={touched}
-                rowData={rowData}
-                editableData={editableData}
-                setEditableData={setEditableData}
-                handleGetTableData={handleGetTableData}
-                totalCount={rowData?.totalCount}
-              />
-            ) : null}
+                <TdsVdsJvDataTable
+                  setFieldValue={setFieldValue}
+                  values={values}
+                  setDisabled={setDisabled}
+                  errors={errors}
+                  touched={touched}
+                  rowData={rowData}
+                  editableData={editableData}
+                  setEditableData={setEditableData}
+                  handleGetTableData={handleGetTableData}
+                  totalCount={rowData?.totalCount}
+                />
+              ) : null}
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 // ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
                 // onClick={() => setRowDto([])}
               ></button>
             </Form>
-           
           </>
         )}
       </Formik>

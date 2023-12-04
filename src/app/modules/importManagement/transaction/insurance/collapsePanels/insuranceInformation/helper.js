@@ -64,7 +64,7 @@ export const GetPaymentTypeDDL = async (setter) => {
 export const CreateInsuranceCoverNote = async (data, cb) => {
   try {
     const res = await axios.post(
-      "/imp/InsurancePolicy/CreateInsuranceInformation",
+      "/imp/InsurancePolicy/CreateInsuranceInformationNew",
       data
     );
     if (res.status === 200 && res.data) {

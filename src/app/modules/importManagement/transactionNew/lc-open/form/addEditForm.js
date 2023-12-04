@@ -1,23 +1,23 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { useParams } from "react-router";
+import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IForm from "../../../../_helper/_form";
 import Loading from "../../../../_helper/_loading";
-import Form from "./form";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import {
   createLCOpen,
   currencyLoadByPoId,
   getSingleData,
   updateLCOpen,
 } from "../helper";
-import { useParams } from "react-router";
-import { useLocation } from "react-router-dom";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { toast } from "react-toastify";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import Form from "./form";
 
 const initData = {
   poNo: "",
@@ -162,7 +162,7 @@ export default function AddEditForm() {
               value: poNo?.destinationPortId,
             }
           : "",
-        tolarance: poNo?.tolerance,
+        tolarance: poNo?.tolerance ?? 0,
         PIAmountFC: poNo?.piAmount,
         description: poNo?.description,
         sbuId: searchableLandingPoNo?.sbuId,

@@ -81,7 +81,10 @@ function PrintRef({ componentRef, registrationId }) {
                 {singleData?.rowDtos?.map((item, index) => (
                   <tr key={index}>
                     <td className='text-center'> {index + 1}</td>
-                    <td>{item?.completionDate}</td>
+                    <td>
+                      {item?.completionDate &&
+                        moment(item?.completionDate).format("YYYY-MM-DD")}
+                    </td>
                     <td>{item?.dischargePortName}</td>
                     <td>{item?.cargoName}</td>
                     <td>{item?.cargoOwner}</td>

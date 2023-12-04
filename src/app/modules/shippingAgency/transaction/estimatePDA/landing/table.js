@@ -30,7 +30,9 @@ const LandingTable = ({ obj }) => {
             <th>Estimated Amount</th>
             <th>Final Amount</th>
             <th>Actual Amount</th>
-            <th>Action</th>
+            <th style={{
+              width: '70px'
+            }}>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -50,7 +52,7 @@ const LandingTable = ({ obj }) => {
               <td>{item?.actualAmount}</td>
               <td>
                 <div
-                  className='d-flex justify-content-around'
+                  className='d-flex'
                   style={{
                     gap: "8px",
                   }}
@@ -77,7 +79,7 @@ const LandingTable = ({ obj }) => {
                     <span
                       onClick={() => {
                         setIsViewModalReg(true);
-                        setIsViewModalReg(item);
+                        setViewClickRowItem(item);
                       }}
                     >
                       <IView title='Registration View' />
