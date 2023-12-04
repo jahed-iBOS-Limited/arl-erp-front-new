@@ -77,7 +77,7 @@ const LandingTable = ({ obj }) => {
                     <span
                       onClick={() => {
                         setIsViewModalReg(true);
-                        setIsViewModalReg(item);
+                        setViewClickRowItem(item);
                       }}
                     >
                       <IView title='Registration View' />
