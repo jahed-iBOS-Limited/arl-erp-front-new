@@ -79,10 +79,10 @@ export function OperationSection(props) {
             <div className="col-lg-3">
               <label>LC No</label>
               <SearchAsyncSelect
-                selectedValue={values?.lcNo}
+                selectedValue={values?.lcnumber}
                 isSearchIcon={true}
                 paddingRight={10}
-                name="lcNo"
+                name="lcnumber"
                 loadOptions={loadLCList}
                 isDisabled={viewType === "view"}
                 handleChange={(valueOption) => {
@@ -348,6 +348,28 @@ export function OperationSection(props) {
                 disabled={true}
               />
             </div>
+            <div className="col-lg-3">
+              <label>Dispatch Rate</label>
+              <FormikInput
+                value={values?.dispatchRate}
+                name="dispatchRate"
+                placeholder="Dispatch Rate"
+                type="number"
+                errors={errors}
+                touched={touched}
+              />
+            </div>
+            <div className="col-lg-3">
+              <label>Demurrage Rate</label>
+              <FormikInput
+                value={values?.demurrageRate}
+                name="demurrageRate"
+                placeholder="Demurrage Rate"
+                type="number"
+                errors={errors}
+                touched={touched}
+              />
+            </div>
 
             {editMode?.mode ? (
               <div className="col-lg-12 d-flex justify-content-end">
@@ -426,6 +448,8 @@ export function OperationSection(props) {
               <th>Freight</th>
               <th>Actual Cargo Qty</th>
               <th>Total Freight</th>
+              <th>Dispatch Rate</th>
+              <th>Demurrage Rate</th>
               {viewType !== "view" ? <th>Action</th> : null}
             </tr>
           </thead>
@@ -447,6 +471,8 @@ export function OperationSection(props) {
                 <td className="text-right">{item?.numFreight}</td>
                 <td className="text-center">{item?.numActualCargoQty}</td>
                 <td className="text-right">{item?.numTotalFreight}</td>
+                <td className="text-right">{item?.despachRate}</td>
+                <td className="text-right">{item?.demageRate}</td>
                 {viewType !== "view" ? (
                   <td className="text-center d-flex justify-content-center">
                     <span

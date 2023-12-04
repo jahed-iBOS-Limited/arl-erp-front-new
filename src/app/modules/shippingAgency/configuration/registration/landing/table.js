@@ -26,10 +26,10 @@ const LandingTable = ({ obj }) => {
             <th>Custom SL</th>
             <th>Load Port</th>
             <th>Arrived Time</th>
-            <th>Cargo Name</th>
+            {/* <th>Cargo Name</th> */}
             <th>Quantity</th>
             <th>Stevedore</th>
-            <th>Cargo Own</th>
+            {/* <th>Cargo Own</th> */}
             <th>Remark</th>
             <th>Action</th>
           </tr>
@@ -48,10 +48,10 @@ const LandingTable = ({ obj }) => {
               <td>
                 {moment(item?.arrivedDateTime).format("YYYY-DD-MM, hh:mm A")}
               </td>
-              <td>{item?.cargoName}</td>
+              {/* <td>{item?.cargoName}</td> */}
               <td>{item?.quantity}</td>
               <td>{item?.stevedore}</td>
-              <td>{item?.cargoOwner}</td>
+              {/* <td>{item?.cargoOwner}</td> */}
               <td>{item?.remarks}</td>
               <td>
                 <div

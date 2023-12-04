@@ -86,11 +86,11 @@ const ExpenseRegisterLanding = () => {
       getSBU(profileData.accountId, selectedBusinessUnit.value, setSbu);
       getCountry(setCountry);
       getCurrency(selectedBusinessUnit.value, setCurrency);
-      getExpensePlantDDLAction(
-        profileData?.accountId,
-        selectedBusinessUnit.value,
-        setPlantDDL
-      );
+      // getExpensePlantDDLAction(
+      //   profileData?.accountId,
+      //   selectedBusinessUnit.value,
+      //   setPlantDDL
+      // );
     }
   }, [profileData, selectedBusinessUnit]);
   const expenseForDDLFunc = (isPublic) => {
@@ -273,8 +273,8 @@ const ExpenseRegisterLanding = () => {
                       !values?.expenseFor ||
                       !values?.sbu ||
                       !values?.country ||
-                      !values?.currency ||
-                      !values?.plant
+                      !values?.currency
+                      // || !values?.plant
                     }
                   >
                     Create
@@ -282,7 +282,7 @@ const ExpenseRegisterLanding = () => {
                 </CardHeaderToolbar>
 
                 <marquee
-                  direction='left'
+                  direction="left"
                   style={{
                     fontSize: "15px",
                     fontWeight: "bold",
@@ -291,7 +291,8 @@ const ExpenseRegisterLanding = () => {
                     right: "95px",
                   }}
                 >
-                  Please select respective unit for 'Expense Approve' & See the TADA Policy before submitting your expenses
+                  Please select respective unit for 'Expense Approve' & See the
+                  TADA Policy before submitting your expenses
                 </marquee>
               </CardHeader>
               <CardBody>
@@ -375,7 +376,12 @@ const ExpenseRegisterLanding = () => {
                         className="btn btn-success"
                         onClick={() => {
                           dispatch(
-                            getDownlloadFileView_Action("638323656050908814_ARL_TADA_POLICY.pdf", null, null, setLoading)
+                            getDownlloadFileView_Action(
+                              "638323656050908814_ARL_TADA_POLICY.pdf",
+                              null,
+                              null,
+                              setLoading
+                            )
                           );
                         }}
                       >

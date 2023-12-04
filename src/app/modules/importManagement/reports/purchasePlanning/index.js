@@ -4,11 +4,14 @@ import Loading from "../../../_helper/_loading";
 import IForm from "../../../_helper/_form";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import NewSelect from "../../../_helper/_select";
-import InputField from "../../../_helper/_inputField";
+// import InputField from "../../../_helper/_inputField";
 import PaginationTable from "../../../_helper/_tablePagination";
 import { shallowEqual, useSelector } from "react-redux";
 import { _todayDate } from "../../../_helper/_todayDate";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
+import Axios from "axios";
+import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
+
 const initData = {
   type: "",
   item: "",
@@ -19,7 +22,7 @@ export default function PurchasePlanningAndScheduling() {
     return state?.authData;
   }, shallowEqual);
 
-  const [pageNo, setPageNo] = useState(1);
+  const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
 
   const saveHandler = (values, cb) => {};
@@ -33,15 +36,33 @@ export default function PurchasePlanningAndScheduling() {
   const getData = (pageNo, pageSize, values) => {
     const url =
       values?.type?.value === 1
-        ? // `/imp/ImportReport/PurchasePlanningAndSchedulingReport?partName=ItemWiseSchedulingReport&businessUnitId=${selectedBusinessUnit?.value}&asOnDate=${values?.date}&itemId=${values?.item?.value}&pageNo=${pageNo}&pageSize=${pageSize}`
-          `/imp/ImportReport/PurchasePlanningAndSchedulingReport?partName=ItemWiseSchedulingReport&businessUnitId=164&asOnDate=2023-01-01&itemId=7469&pageNo=2&pageSize=2`
-        : `/imp/ImportReport/PurchasePlanningAndSchedulingReport?partName=PurchasePlanningNSchedulingReport&businessUnitId=${selectedBusinessUnit?.value}&asOnDate=${values?.date}&itemId=${values?.item?.value}&pageNo=${pageNo}&pageSize=${pageSize}`;
+        ? `/imp/ImportReport/PurchasePlanningAndSchedulingReport?partName=ItemWiseSchedulingReport&businessUnitId=${
+            selectedBusinessUnit?.value
+          }&asOnDate=${values?.date}&itemId=${values?.item?.value ||
+            0}&pageNo=${pageNo}&pageSize=${pageSize}`
+        : `/imp/ImportReport/PurchasePlanningAndSchedulingReport?partName=PurchasePlanningNSchedulingReport&businessUnitId=${
+            selectedBusinessUnit?.value
+          }&asOnDate=${values?.date}&itemId=${values?.item?.value ||
+            0}&pageNo=${pageNo}&pageSize=${pageSize}`;
 
     getTableData(url);
   };
 
   const setPositionHandler = (pageNo, pageSize, values) => {
     getData(pageNo, pageSize, values);
+  };
+
+  const loadUserList = (v, resolve) => {
+    if (v?.length < 3) return [];
+    return Axios.get(
+      `/imp/ImportCommonDDL/GetItemDDL?AccountId=1&BusinessUnitId=4&search=${v}`
+    ).then((res) => {
+      const updateList = res?.data.map((item) => ({
+        ...item,
+        label: `${item?.label} (${item?.code})`,
+      }));
+      resolve(updateList);
+    });
   };
 
   return (
@@ -81,7 +102,7 @@ export default function PurchasePlanningAndScheduling() {
                     <NewSelect
                       name="type"
                       options={[
-                        { value: 1, label: "Itemwise Scheduling" },
+                        { value: 1, label: "Item Wise Scheduling" },
                         { value: 2, label: "Purchase Planning" },
                       ]}
                       value={values?.type}
@@ -89,13 +110,15 @@ export default function PurchasePlanningAndScheduling() {
                       onChange={(valueOption) => {
                         if (valueOption) {
                           setFieldValue("type", valueOption);
+                          setFieldValue("item", "");
                           setTableData([]);
-                          setPageNo(1);
+                          setPageNo(0);
                           setPageSize(15);
                         } else {
                           setFieldValue("type", "");
+                          setFieldValue("item", "");
                           setTableData([]);
-                          setPageNo(1);
+                          setPageNo(0);
                           setPageSize(15);
                         }
                       }}
@@ -103,46 +126,33 @@ export default function PurchasePlanningAndScheduling() {
                       touched={touched}
                     />
                   </div>
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="item"
-                      options={[
-                        { value: 7469, label: "Item-1" },
-                        { value: 2, label: "Item-2" },
-                      ]}
-                      value={values?.item}
-                      label="Item"
-                      onChange={(valueOption) => {
-                        if (valueOption) {
-                          setFieldValue("item", valueOption);
-                          setTableData([]);
-                        } else {
-                          setFieldValue("item", "");
-                          setTableData([]);
-                        }
-                      }}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <InputField
-                      value={values?.date}
-                      label="Date"
-                      name="date"
-                      placeholder="Date"
-                      type="date"
-                      onChange={(e) => {
-                        setFieldValue("date", e.target.value);
-                        setTableData([]);
-                      }}
-                    />
-                  </div>
+                  {values?.type?.value === 1 ? (
+                    <div className="col-lg-3">
+                      <label>Item</label>
+                      <SearchAsyncSelect
+                        selectedValue={values?.item}
+                        isDebounce
+                        handleChange={(valueOption) => {
+                          if (valueOption) {
+                            setFieldValue("item", valueOption);
+                            setTableData([]);
+                            setPageNo(0);
+                            setPageSize(15);
+                          } else {
+                            setFieldValue("item", "");
+                            setTableData([]);
+                            setPageNo(0);
+                            setPageSize(15);
+                          }
+                        }}
+                        loadOptions={loadUserList}
+                      />
+                    </div>
+                  ) : null}
                   <button
                     style={{ marginTop: "18px" }}
                     className="btn btn-primary"
                     type="button"
-                    disabled={!values?.item || !values?.date}
                     onClick={() => {
                       getData(pageNo, pageSize, values);
                     }}
@@ -157,18 +167,34 @@ export default function PurchasePlanningAndScheduling() {
                       <thead>
                         <tr>
                           <th>Date</th>
-                          <th>Item Id</th>
-                          <th>Item Name</th>
+                          <th>
+                            Item <br />
+                            Code
+                          </th>
+                          <th>
+                            Item <br />
+                            Name
+                          </th>
                           <th>Uom</th>
-                          <th>Booking Qty(Contract Qty)</th>
+                          <th>
+                            Booking Qty
+                            <br />
+                            (Contract Qty)
+                          </th>
                           <th>PI Qty</th>
                           <th>
                             Inco-term <br /> FOB/CFR
                           </th>
                           <th>Price FC</th>
                           <th>Value FC</th>
-                          <th>Estimated Laycan Date</th>
-                          <th>ETA BD Port</th>
+                          <th>
+                            Estimated <br />
+                            Laycan Date
+                          </th>
+                          <th>
+                            ETA <br />
+                            BD Port
+                          </th>
                           <th>
                             Estimated <br />
                             Survive Days
@@ -176,37 +202,52 @@ export default function PurchasePlanningAndScheduling() {
                           <th>
                             Estimated <br /> Survive DT
                           </th>
-                          <th>Supplier Name</th>
-                          <th>Country of Origin</th>
-                          <th>Load Port</th>
-                          <th>LC Issued Qty</th>
-                          <th>LC Pending Qty</th>
+                          <th>
+                            Supplier
+                            <br /> Name
+                          </th>
+                          <th>
+                            Country <br />
+                            of Origin
+                          </th>
+                          <th>
+                            Load
+                            <br /> Port
+                          </th>
+                          <th>
+                            LC Issued <br />
+                            Qty
+                          </th>
+                          <th>
+                            LC Pending
+                            <br /> Qty
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
                         {tableData?.length > 0 &&
                           tableData?.map((item, index) => (
                             <tr key={index}>
-                              <td>
+                              <td className="text-center">
                                 {_dateFormatter(
                                   item?.dtePurchaseContractDate
                                 ) || "N/A"}
                               </td>
-                              <td>{item?.intItemId || "N/A"}</td>
+                              <td>{item?.strItemCode || "N/A"}</td>
                               <td>{item?.strItemName || "N/A"}</td>
                               <td>{item?.strUoMName || "N/A"}</td>
-                              <td>{item?.numContractQty || "N/A"}</td>
-                              <td>{item?.numPiQty || "N/A"}</td>
+                              <td>{item?.numContractQty || 0}</td>
+                              <td>{item?.numPiQty || 0}</td>
                               <td>{item?.strIncotermName || "N/A"}</td>
-                              <td>{item?.numPriceFc || "N/A"}</td>
-                              <td>{item?.numValueFc || "N/A"}</td>
-                              <td>
+                              <td>{item?.numPriceFc || 0}</td>
+                              <td>{item?.numValueFc || 0}</td>
+                              <td className="text-center">
                                 {_dateFormatter(item?.dteEstimatedLaycanDate) ||
                                   "N/A"}
                               </td>
                               <td>{item?.dteEta || "N/A"}</td>
                               <td>{item?.intEstimatedSurviveDays || "N/A"}</td>
-                              <td>
+                              <td className="text-center">
                                 {_dateFormatter(
                                   item?.dteEstimatedSurviveDate
                                 ) || "N/A"}
@@ -227,31 +268,74 @@ export default function PurchasePlanningAndScheduling() {
                       <table className="table table-striped table-bordered global-table able-font-size-sm mt-5">
                         <thead>
                           <tr>
-                            <th>ITem ID</th>
+                            <th>
+                              Item <br /> Code
+                            </th>
                             <th>Comodity/Item</th>
                             <th>UOM </th>
-                            <th>Monthly Required Qty </th>
-                            <th>Silo / Current Stock ( MT)</th>
-                            <th>Balance on factory Ghat (MT) </th>
-                            <th>Stock in Transit(BD Port-MV) </th>
-                            <th>LC opened Qunatity (MT) </th>
-                            <th>Last ETA CTG Date-PI </th>
-                            <th>Total QNT in (MT) </th>
-                            <th>Avarage Consumption (MT)</th>
-                            <th>Total Survival DayS</th>
-                            <th>LC & Stock Coverage</th>
-                            <th>LC Pending Qty.</th>
-                            <th>PI Coverage </th>
-                            <th>PI Pending Qty</th>
-                            <th>Booking Coverage</th>
-                            <th>Load start to Factory Lead time</th>
+                            <th>
+                              Monthly <br />
+                              Required Qty{" "}
+                            </th>
+                            <th>
+                              Current Stock <br />( MT)
+                            </th>
+                            <th>
+                              Balance on <br />
+                              factory Ghat <br />
+                              (MT){" "}
+                            </th>
+                            <th>
+                              Stock in <br />
+                              Transit(BD Port-MV){" "}
+                            </th>
+                            <th>
+                              LC opened <br />
+                              Qty (MT){" "}
+                            </th>
+                            <th>
+                              Last ETA <br />
+                              Date{" "}
+                            </th>
+                            <th>
+                              Total Qty
+                              <br /> in (MT){" "}
+                            </th>
+                            <th>
+                              Avarage <br />
+                              Consumption (MT)
+                            </th>
+                            <th>
+                              Total <br />
+                              Survival DayS
+                            </th>
+                            <th>
+                              LC & Stock
+                              <br /> Coverage
+                            </th>
+                            <th>
+                              LC Pending
+                              <br /> Qty
+                            </th>
+                            <th>
+                              PI <br />
+                              Coverage{" "}
+                            </th>
+                            <th>
+                              PI Pending <br />
+                              Qty
+                            </th>
+                            <th>
+                              Booking
+                              <br /> Coverage
+                            </th>
                           </tr>
                         </thead>
                         <tbody>
                           {tableData?.length > 0 &&
                             tableData?.map((item, index) => (
                               <tr key={index}>
-                                <td>{item?.intItemId || "N/A"}</td>
+                                <td>{item?.strItemCode || "N/A"}</td>
                                 <td>{item?.strItemName || "N/A"}</td>
                                 <td>{item?.strUom || "N/A"}</td>
                                 <td>{item?.monthlyReqQty || 0}</td>
@@ -259,21 +343,25 @@ export default function PurchasePlanningAndScheduling() {
                                 <td>{item?.balanceOnGhat || 0}</td>
                                 <td>{item?.stockInTransit || 0}</td>
                                 <td>{item?.lcOpenedQty || 0}</td>
-                                <td>{item?.lastEtaDate || 0}</td>
-
-                                <td>{item?.totalQntIn}</td>
-                                <td>{item?.averageConsumption}</td>
-                                <td>{item?.totalSurviveDays}</td>
-                                <td>
-                                  {_dateFormatter(item?.lcAndStockCoverageDate)}
+                                <td>{item?.lastEtaDate || "N/A"}</td>
+                                <td>{item?.totalQntIn || 0}</td>
+                                <td>{item?.averageConsumption || 0}</td>
+                                <td>{item?.totalSurviveDays || 0}</td>
+                                <td className="text-center">
+                                  {_dateFormatter(
+                                    item?.lcAndStockCoverageDate
+                                  ) || "N/A"}
                                 </td>
-                                <td>{item?.lcPendingQty}</td>
-                                <td>{_dateFormatter(item?.piCoverageDate)}</td>
+                                <td>{item?.lcPendingQty || 0}</td>
+                                <td className="text-center">
+                                  {_dateFormatter(item?.piCoverageDate) ||
+                                    "N/A"}
+                                </td>
                                 <td>{item?.piPendingQty}</td>
-                                <td>
-                                  {_dateFormatter(item?.bookingCoverageDate)}
+                                <td className="text-center">
+                                  {_dateFormatter(item?.bookingCoverageDate) ||
+                                    "N/A"}
                                 </td>
-                                <td>{item?.loadFactoryLeadeTime}</td>
                               </tr>
                             ))}
                         </tbody>

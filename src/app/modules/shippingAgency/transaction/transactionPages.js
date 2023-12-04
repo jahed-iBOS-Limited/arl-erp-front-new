@@ -3,6 +3,7 @@ import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute } from "../../../../_metronic/layout";
 import EstimatePDALanding from "./estimatePDA/landing";
 import EstimatePDACreate from "./estimatePDA/Create";
+import AgencyIncomeLanding from "./agencyIncome/landing";
 
 export function TransactionPages() {
   return (
@@ -22,6 +23,10 @@ export function TransactionPages() {
       <ContentRoute
         path='/ShippingAgency/Transaction/EstimatePDA'
         component={EstimatePDALanding}
+      />{" "}
+       <ContentRoute
+        path='/ShippingAgency/Transaction/agency-income'
+        component={AgencyIncomeLanding}
       />{" "}
     </Switch>
   );

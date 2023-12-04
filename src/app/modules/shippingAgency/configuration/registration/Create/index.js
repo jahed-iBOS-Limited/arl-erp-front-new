@@ -503,7 +503,9 @@ const EstimatePDACreate = () => {
                           // duplicate check
                           const duplicateCheck = rowDto?.some(
                             (item) =>
-                              item?.dischargePortId === obj?.dischargePortId
+                              item?.dischargePortId === obj?.dischargePortId &&
+                              item?.cargoId === obj?.cargoId &&
+                              item?.cargoOwner === obj?.cargoOwner
                           );
                           if (duplicateCheck)
                             return toast.warn("Duplicate data found");

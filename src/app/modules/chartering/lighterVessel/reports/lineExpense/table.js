@@ -15,6 +15,7 @@ import { _formatMoney } from "../../../_chartinghelper/_formatMoney";
 import { _todayDate } from "../../../_chartinghelper/_todayDate";
 import Loading from "../../../_chartinghelper/loading/_loading";
 import { CreateJournalVoucher, getLineExpense } from "../helper";
+import FormikInput from "../../../_chartinghelper/common/formikInput";
 
 const headers = [
   { name: "SL" },
@@ -130,8 +131,8 @@ export default function LineExpenseReport() {
                       <b>Total JV Amount: {_formatMoney(totalJVAmount)} </b>
                     </p>
                   </div>
-                  {/* <div className="col-lg-3">
-                    <label>Date</label>
+                  <div className="col-lg-3">
+                    <label>Journal Date</label>
                     <FormikInput
                       value={values?.date}
                       name="date"
@@ -139,19 +140,11 @@ export default function LineExpenseReport() {
                       type="date"
                       onChange={(e) => {
                         setFieldValue("date", e.target.value);
-                        getLineExpense(
-                          buId,
-                          e?.target?.value,
-                          setGridData,
-                          setLoading,
-                          setTotalJVAmount,
-                          setGrandTotal
-                        );
                       }}
                       errors={errors}
                       touched={touched}
                     />
-                  </div> */}
+                  </div>
                   <div className="col-lg-9 text-right mt-5">
                     <ReactHTMLTableToExcel
                       id="test-table-xls-button-att-reports"
