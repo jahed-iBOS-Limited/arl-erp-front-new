@@ -44,6 +44,7 @@ function ComplainForm() {
   const {
     profileData: { accountId: accId, userId, userName },
     selectedBusinessUnit: { value: buId },
+    tokenData: { token },
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const saveHandler = (values, cb) => {
@@ -88,6 +89,7 @@ function ComplainForm() {
       isActive: true,
       lastActionDateTime: new Date(),
       respondentType: values?.respondent || "",
+      jwtToken: token ? `Bearer ${token}` : "",
     };
     createComplain(payload, setLoading, () => {
       if (!edit) {
