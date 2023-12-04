@@ -71,12 +71,14 @@ function DamageEntryForm() {
     }
 
     const qtyCheck = selectedItems?.filter((header) => {
-      return header?.rowData?.find((row) => row?.returnQty > row?.quantity);
+      return header?.rowData?.find(
+        (row) => row?.returnQty > row?.quantity || row?.returnQty < 0.2
+      );
     });
 
     if (qtyCheck?.length) {
       toast.warn(`Please check return quantities!
-      Return qty can not be greater than delivery qty`);
+      Return qty can not be greater than delivery qty and Less than 0.2`);
       return;
     }
 
