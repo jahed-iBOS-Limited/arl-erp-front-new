@@ -209,11 +209,11 @@ const ExpenseRegisterLanding = () => {
       getSBU(profileData.accountId, selectedBusinessUnit.value, setSbu);
       getCountry(setCountry);
       getCurrency(selectedBusinessUnit.value, setCurrency);
-      getExpensePlantDDLAction(
-        profileData?.accountId,
-        selectedBusinessUnit.value,
-        setPlantDDL
-      );
+      // getExpensePlantDDLAction(
+      //   profileData?.accountId,
+      //   selectedBusinessUnit.value,
+      //   setPlantDDL
+      // );
     }
   }, [profileData, selectedBusinessUnit]);
 
@@ -302,13 +302,13 @@ const ExpenseRegisterLanding = () => {
                         },
                       });
                     }}
-                    className='btn btn-primary'
+                    className="btn btn-primary"
                     disabled={
                       !values?.expenseFor?.value ||
                       !values?.sbu?.value ||
                       !values?.country?.value ||
-                      !values?.currency?.value ||
-                      !values?.plant?.value
+                      !values?.currency?.value
+                      // || !values?.plant?.value
                     }
                   >
                     Create
@@ -316,7 +316,7 @@ const ExpenseRegisterLanding = () => {
                 </CardHeaderToolbar>
 
                 <marquee
-                  direction='left'
+                  direction="left"
                   style={{
                     fontSize: "15px",
                     fontWeight: "bold",
@@ -325,20 +325,21 @@ const ExpenseRegisterLanding = () => {
                     right: "95px",
                   }}
                 >
-                  Please select respective unit for 'Expense Approve' & See the TADA Policy before submitting your expenses
+                  Please select respective unit for 'Expense Approve' & See the
+                  TADA Policy before submitting your expenses
                 </marquee>
               </CardHeader>
               <CardBody>
-                <Form className='form form-label-right'>
-                  <div className='row global-form'>
-                    <div className='col-lg-1 d-flex pr-0 pl-0 justify-content-around'>
-                      <div className='d-flex flex-column mr-1 align-items-center'>
+                <Form className="form form-label-right">
+                  <div className="row global-form">
+                    <div className="col-lg-1 d-flex pr-0 pl-0 justify-content-around">
+                      <div className="d-flex flex-column mr-1 align-items-center">
                         <label>Public</label>
                         <input
                           checked={values?.checkPublic}
                           value={values?.checkPublic}
-                          type='checkbox'
-                          name='checkPublic'
+                          type="checkbox"
+                          name="checkPublic"
                           onChange={(e) => {
                             setFieldValue("checkPublic", e.target.checked);
                             setRowDto([]);
@@ -348,7 +349,7 @@ const ExpenseRegisterLanding = () => {
                               setFieldValue("expenseFor", expenseBy_Default);
                             }
                           }}
-                          className='ml-2'
+                          className="ml-2"
                         />
                       </div>
                     </div>
@@ -369,7 +370,7 @@ const ExpenseRegisterLanding = () => {
                         isDisabled={!values?.checkPublic}
                       />
                     </div> */}
-                    <div className='col-lg-2 pr-0'>
+                    <div className="col-lg-2 pr-0">
                       <label>Expense By</label>
                       <SearchAsyncSelect
                         selectedValue={values?.expenseFor}
@@ -378,10 +379,10 @@ const ExpenseRegisterLanding = () => {
                           setRowDto([]);
                         }}
                         loadOptions={loadSupervisorAndLineManagerList}
-                        placeholder='Search by Enroll/ID No/Name (min 3 letter)'
+                        placeholder="Search by Enroll/ID No/Name (min 3 letter)"
                       />
                       <FormikError
-                        name='expenseFor'
+                        name="expenseFor"
                         errors={errors}
                         touched={touched}
                       />
@@ -402,47 +403,47 @@ const ExpenseRegisterLanding = () => {
                         touched={touched}
                       />
                     </div> */}
-                    <div className='col-lg-2 pr-0'>
+                    <div className="col-lg-2 pr-0">
                       <NewSelect
-                        name='sbu'
+                        name="sbu"
                         options={sbu || []}
                         value={values?.sbu}
-                        label='SBU'
+                        label="SBU"
                         onChange={(valueOption) => {
                           setRowDto([]);
                           setFieldValue("sbu", valueOption);
                         }}
-                        placeholder='SBU'
+                        placeholder="SBU"
                         errors={errors}
                         touched={touched}
                       />
                     </div>
-                    <div className='col-lg-2 pr-0'>
+                    <div className="col-lg-2 pr-0">
                       <NewSelect
-                        name='country'
+                        name="country"
                         options={country || []}
                         value={values?.country}
-                        label='Country'
+                        label="Country"
                         onChange={(valueOption) => {
                           setRowDto([]);
                           setFieldValue("country", valueOption);
                         }}
-                        placeholder='Country'
+                        placeholder="Country"
                         errors={errors}
                         touched={touched}
                       />
                     </div>
-                    <div className='col-lg-2 pr-0'>
+                    <div className="col-lg-2 pr-0">
                       <NewSelect
-                        name='currency'
+                        name="currency"
                         options={currency || []}
                         value={values?.currency}
-                        label='Currency'
+                        label="Currency"
                         onChange={(valueOption) => {
                           setRowDto([]);
                           setFieldValue("currency", valueOption);
                         }}
-                        placeholder='Currency'
+                        placeholder="Currency"
                         errors={errors}
                         touched={touched}
                       />
@@ -452,7 +453,12 @@ const ExpenseRegisterLanding = () => {
                         className="btn btn-success"
                         onClick={() => {
                           dispatch(
-                            getDownlloadFileView_Action("638323656050908814_ARL_TADA_POLICY.pdf", null, null, setLoading)
+                            getDownlloadFileView_Action(
+                              "638323656050908814_ARL_TADA_POLICY.pdf",
+                              null,
+                              null,
+                              setLoading
+                            )
                           );
                         }}
                       >
@@ -460,17 +466,17 @@ const ExpenseRegisterLanding = () => {
                       </button>
                     </div>
 
-                    <div className='col-lg-5 col-xl-5 d-flex justify-content-between align-items-center mt-2 p-0 flex-wrap '>
+                    <div className="col-lg-5 col-xl-5 d-flex justify-content-between align-items-center mt-2 p-0 flex-wrap ">
                       <div
-                        role='group'
-                        aria-labelledby='my-radio-group'
-                        className=' mt-1 d-flex'
+                        role="group"
+                        aria-labelledby="my-radio-group"
+                        className=" mt-1 d-flex"
                       >
-                        <div className='bill-submit d-flex justify-content-center align-items-center mr-4'>
+                        <div className="bill-submit d-flex justify-content-center align-items-center mr-4">
                           <input
-                            className='mr-1'
-                            id='unsubmitedExpense'
-                            type='checkbox'
+                            className="mr-1"
+                            id="unsubmitedExpense"
+                            type="checkbox"
                             checked={values?.unsubmitedExpense}
                             onChange={(event) => {
                               setRowDto([]);
@@ -491,15 +497,15 @@ const ExpenseRegisterLanding = () => {
                               );
                             }}
                           />
-                          <label for='unsubmitedExpense' className='pt-0'>
+                          <label for="unsubmitedExpense" className="pt-0">
                             <strong>Unsubmited Expense</strong>
                           </label>
                         </div>
-                        <div className='bill-submit d-flex justify-content-center ml-2 align-items-center mr-4'>
+                        <div className="bill-submit d-flex justify-content-center ml-2 align-items-center mr-4">
                           <input
-                            className='mr-1'
-                            id='submitedExpense'
-                            type='checkbox'
+                            className="mr-1"
+                            id="submitedExpense"
+                            type="checkbox"
                             checked={values?.billSubmit}
                             onChange={(event) => {
                               setRowDto([]);
@@ -526,16 +532,16 @@ const ExpenseRegisterLanding = () => {
                               );
                             }}
                           />
-                          <label for='submitedExpense' className='pt-0'>
+                          <label for="submitedExpense" className="pt-0">
                             <strong>Unapproved Expense</strong>
                           </label>
                         </div>
 
-                        <div className='bill-submit d-flex justify-content-center ml-2 align-items-center mr-4'>
+                        <div className="bill-submit d-flex justify-content-center ml-2 align-items-center mr-4">
                           <input
-                            className='mr-1'
-                            type='checkbox'
-                            id='approvedExpense'
+                            className="mr-1"
+                            type="checkbox"
+                            id="approvedExpense"
                             checked={values?.approval}
                             onChange={(event) => {
                               setRowDto([]);
@@ -563,46 +569,46 @@ const ExpenseRegisterLanding = () => {
                               );
                             }}
                           />
-                          <label for='approvedExpense' className='pt-0'>
+                          <label for="approvedExpense" className="pt-0">
                             <strong>Approved Expense</strong>
                           </label>
                         </div>
                       </div>
                     </div>
-                    <div className='col-lg-2 pr-0'>
+                    <div className="col-lg-2 pr-0">
                       <NewSelect
-                        name='supervisor'
+                        name="supervisor"
                         options={[
                           { value: true, label: "Supervisor" },
                           { value: false, label: "Line Manager" },
                         ]}
                         value={values?.supervisor}
-                        label='View As'
+                        label="View As"
                         onChange={(valueOption) => {
                           setRowDto([]);
                           setFieldValue("supervisor", valueOption);
                         }}
-                        placeholder='View As'
+                        placeholder="View As"
                         errors={errors}
                         touched={touched}
                         isClearable={false}
                       />
                     </div>
                     {[521235, 1056, 470548].includes(profileData?.userId) && (
-                      <div className='col-lg-2 pr-0'>
+                      <div className="col-lg-2 pr-0">
                         <NewSelect
-                          name='approveType'
+                          name="approveType"
                           options={[
                             { value: 0, label: "Regular" },
                             { value: 1, label: "Forcefully " },
                           ]}
                           value={values?.approveType}
-                          label='Approve Type'
+                          label="Approve Type"
                           onChange={(valueOption) => {
                             setRowDto([]);
                             setFieldValue("approveType", valueOption);
                           }}
-                          placeholder='Approve Type'
+                          placeholder="Approve Type"
                           errors={errors}
                           touched={touched}
                           isClearable={false}
@@ -614,13 +620,13 @@ const ExpenseRegisterLanding = () => {
                         obj={{ values, setFieldValue, colSize: "col-lg-2" }}
                       />
                     )}
-                    <div className=' col d-flex justify-content-end align-items-end pr-0'>
+                    <div className=" col d-flex justify-content-end align-items-end pr-0">
                       {!values?.billSubmit && !values?.approval && (
                         <button
                           onClick={() => {
                             billSubmitlHandler(setFieldValue, values);
                           }}
-                          className='btn btn-primary ml-1'
+                          className="btn btn-primary ml-1"
                           disabled={billSubmitBtn}
                         >
                           Submited Expense
@@ -651,7 +657,7 @@ const ExpenseRegisterLanding = () => {
                           !values?.plant ||
                           !values?.supervisor
                         }
-                        className='btn btn-primary ml-2'
+                        className="btn btn-primary ml-2"
                       >
                         View
                       </button>
@@ -659,18 +665,18 @@ const ExpenseRegisterLanding = () => {
                   </div>
 
                   {/* Table Start */}
-                  <div className='row'>
-                    <div className='col-lg-12'>
+                  <div className="row">
+                    <div className="col-lg-12">
                       {loading && <Loading />}
-                      <div className='table-responsive'>
-                        <table className='table table-striped table-bordered  bj-table bj-table-landing table-font-size-sm'>
+                      <div className="table-responsive">
+                        <table className="table table-striped table-bordered  bj-table bj-table-landing table-font-size-sm">
                           <thead>
                             <tr>
                               {!values?.billSubmit && !values?.approval && (
                                 <th style={{ width: "20px" }}>
                                   <input
-                                    type='checkbox'
-                                    id='parent'
+                                    type="checkbox"
+                                    id="parent"
                                     onChange={(event) => {
                                       allGridCheck(event.target.checked);
                                     }}
@@ -695,15 +701,15 @@ const ExpenseRegisterLanding = () => {
                               <th style={{ width: "40px" }}>Actions</th>
                             </tr>
                           </thead>
-                          <tbody className='expenseRegisterTable'>
+                          <tbody className="expenseRegisterTable">
                             {rowDto?.map((item, index) => (
                               <tr key={index}>
                                 {!values?.billSubmit && !values?.approval && (
                                   <td>
                                     <input
-                                      id='itemCheck'
-                                      type='checkbox'
-                                      className=''
+                                      id="itemCheck"
+                                      type="checkbox"
+                                      className=""
                                       value={item.itemCheck}
                                       checked={item.itemCheck}
                                       name={item.itemCheck}
@@ -718,39 +724,39 @@ const ExpenseRegisterLanding = () => {
                                   </td>
                                 )}
 
-                                <td className='text-center'>{index + 1}</td>
+                                <td className="text-center">{index + 1}</td>
                                 <td>
-                                  <div className='pl-2'>
+                                  <div className="pl-2">
                                     {item?.expenseCode}
                                   </div>
                                 </td>
                                 <td>
-                                  <div className='pl-2'>{item?.expenseBy}</div>
+                                  <div className="pl-2">{item?.expenseBy}</div>
                                 </td>
                                 {values?.approval && (
                                   <td>
-                                    <div className='pl-2'>{item?.billCode}</div>
+                                    <div className="pl-2">{item?.billCode}</div>
                                   </td>
                                 )}
 
                                 <td>
-                                  <div className='pl-2'>
+                                  <div className="pl-2">
                                     {_dateFormatter(item?.fromDate)}
                                   </div>
                                 </td>
-                                <td className='pl-2'>
-                                  <div className='pl-2'>
+                                <td className="pl-2">
+                                  <div className="pl-2">
                                     {_dateFormatter(item?.toDate)}
                                   </div>
                                 </td>
 
                                 <td>
-                                  <div className='pl-2'>
+                                  <div className="pl-2">
                                     {item?.disbursementCenterName}
                                   </div>
                                 </td>
                                 <td>
-                                  <div className='pr-2 text-right'>
+                                  <div className="pr-2 text-right">
                                     {/* "Supervisor === true" or Line Manager===false  */}
                                     {(values?.supervisor?.value
                                       ? item?.totalSupervisorAmount ||
@@ -761,8 +767,8 @@ const ExpenseRegisterLanding = () => {
                                   </div>
                                 </td>
                                 <td>
-                                  <div className='d-flex justify-content-around'>
-                                    <span className='view'>
+                                  <div className="d-flex justify-content-around">
+                                    <span className="view">
                                       <IView
                                         clickHandler={() =>
                                           history.push({
@@ -840,14 +846,14 @@ const ExpenseRegisterLanding = () => {
                                         >
                                           <OverlayTrigger
                                             overlay={
-                                              <Tooltip id='cs-icon'>
+                                              <Tooltip id="cs-icon">
                                                 {"Approval"}
                                               </Tooltip>
                                             }
                                           >
                                             <span>
                                               <i
-                                                class='far fa-check-circle pointer approval'
+                                                class="far fa-check-circle pointer approval"
                                                 style={{ fontSize: "14px" }}
                                               ></i>
                                             </span>

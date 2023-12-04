@@ -22,8 +22,12 @@ p {
   margin: 0 50px;
   font-size: 14px !important;
   display: none;
-  margin-top: 20px;
+  margin-top: 10px;
   /* border: 1px solid black; */
+}
+
+.print_invoice_wrapper_cement p {
+  margin-bottom: 0px;
 }
 .print_invoice_wrapper_cement .header {
   display: flex;
@@ -73,7 +77,7 @@ p {
 .print_invoice_wrapper_cement .signature_wrapper {
   display: flex;
   justify-content: space-between;
-  margin-top: 120px;
+  margin-top: 80px;
 }
 .print_invoice_wrapper_cement .signature_wrapper .signature p {
   position: relative;
