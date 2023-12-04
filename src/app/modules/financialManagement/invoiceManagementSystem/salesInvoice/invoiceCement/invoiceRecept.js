@@ -1,10 +1,10 @@
 import React from "react";
-import "./InvoiceRecept.css";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { ToWords } from "to-words";
 import { shallowEqual, useSelector } from "react-redux";
-import cement_header from "../../../../_helper/images/cement_header.svg";
+import { ToWords } from "to-words";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import logo from "../../../../_helper/images/akij_cement_logo.png";
+import "./InvoiceRecept.css";
 
 const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
   const toWords = new ToWords({
@@ -38,7 +38,7 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
   return (
     <div className="print_invoice_wrapper_cement" ref={printRef}>
       <div className="header">
-        <img src={cement_header} alt="logo" width={"100%"} />
+        {/* <img src={cement_header} alt="logo" width={"100%"} /> */}
         {/* <div style={{ display: 'flex' }}>
           <img src={logo} alt="logo" />
           <div className="office_info ml-2" style={{ color: '' }}>
@@ -49,16 +49,22 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
               AKIJ CEMENT COMPANY LTD
             </p>
           </div>
-        </div>
+        </div> */}
 
         <div>
-          <p style={{ color: 'rgb(75, 25, 176)', marginBottom: '0' }}>
+          <p style={{ marginBottom: "0" }}>
             Akij House, 198 Bir Uttam Mir Shawkat Sarak <br /> (Gulshan Link
             Road), Tejgaon, Dhaka-1208 <br />
             Phone: 09613313131, 09604313131 <br />
             Factory: Nabiganj, Kadam Rasul, Narayangonj.
           </p>
-        </div> */}
+        </div>
+        <img
+          src={logo}
+          alt="logo"
+          width={"30%"}
+          style={{ alignContent: "end" }}
+        />
       </div>
       <div
         style={{
@@ -117,7 +123,7 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
               }`}</th>
               {channelId === 43 && <th style={getStyle}>Net Qty</th>}
               <th style={{ ...getStyle, width: "90px" }}>
-                Unit Price (TK/Bag)
+                Unit Price (TK/{`${channelId === 43 ? "M.T" : "Bag"}`})
               </th>
               <th style={getStyle}>Total Amount</th>
             </tr>
@@ -161,8 +167,8 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
               <td>{/* {_fixedPoint(totalItemRate, true)} */}</td>
               <td>{_fixedPoint(grandTotal, true)}</td>
             </tr>
-            <tr style={{ fontWeight: "bold" }}>
-              <td colSpan={channelId === 43 ? 10 : 9}>
+            <tr style={{ fontWeight: "bold", textAlign: "left" }}>
+              <td colSpan={channelId === 43 ? 10 : 9} className="text-left">
                 IN WORDS: {toWords.convert(grandTotal?.toFixed(0))}
               </td>
             </tr>
@@ -183,6 +189,18 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
           <b>Enclose</b>
         </p>
         <p>1. Delivery Invoice</p>
+      </div>
+      <div style={{ position: "relative" }}>
+        <p
+          style={{
+            bottom: "0px",
+            textAlign: "center",
+            position: "fixed",
+            width: "100%",
+          }}
+        >
+          This is an automatically generated invoice, no signature is required.
+        </p>
       </div>
     </div>
   );
