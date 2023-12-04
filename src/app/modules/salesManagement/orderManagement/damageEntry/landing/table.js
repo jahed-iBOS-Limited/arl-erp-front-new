@@ -7,6 +7,9 @@ import IApproval from "../../../../_helper/_helperIcons/_approval";
 import IClose from "../../../../_helper/_helperIcons/_close";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import InputField from "../../../../_helper/_inputField";
+import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
+import { useDispatch } from "react-redux";
+import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 
 const DamageEntryLandingTable = ({ obj }) => {
   const {
@@ -17,6 +20,8 @@ const DamageEntryLandingTable = ({ obj }) => {
     dataChangeHandler,
     salesReturnApprove,
   } = obj;
+
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -122,6 +127,24 @@ const DamageEntryLandingTable = ({ obj }) => {
                             )}
                         </>
                       )}
+                    <span>
+                      <ICon
+                        title={
+                          item?.attatchment
+                            ? "Show attached file"
+                            : "File not attached"
+                        }
+                        onClick={() => {
+                          if (item?.attatchment) {
+                            dispatch(
+                              getDownlloadFileView_Action(item?.attatchment)
+                            );
+                          }
+                        }}
+                      >
+                        <i class="far fa-image"></i>{" "}
+                      </ICon>
+                    </span>
                   </div>
                 </td>
               </tr>
