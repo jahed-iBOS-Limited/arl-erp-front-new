@@ -185,7 +185,7 @@ export default function TdsVdsJvDataTable({
             border: "1px solid gray",
           }}
         >
-          {true && (
+          {editableData.length > 0 && (
             <PaginationTable
               count={totalCount}
               setPositionHandler={setPositionHandler}
