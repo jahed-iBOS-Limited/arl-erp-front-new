@@ -21,6 +21,8 @@ import { Sbu } from "./sbu/index";
 // import AllGlExtendPage from './generalLedger/allGlExtend/Table/tableRow'
 import findIndex from "../../_helper/_findIndex";
 import BankBranch from "./bankBranch/index";
+import BankBranchLanding from "./bankBranch/landing/landing";
+import BankStatementAutomation from "./bankStatementAutomation";
 import BareboatInsuranceConfig from "./bareboatCharterer";
 import BareboatChartererConfigCreateEdit from "./bareboatCharterer/createEdit";
 import ChequePrintSetupForm from "./chequePrintSetup/Form/addEditForm";
@@ -28,7 +30,6 @@ import { ChequePrintSetup } from "./chequePrintSetup/index";
 import AllextendGLForm from "./generalLedger/allGlExtend/allGLExtend/Form/addEditForm";
 import SalaryJvConfigLanding from "./salaryJvConfig";
 import SalaryJvConfigCreateEdit from "./salaryJvConfig/createEdit";
-import BankStatementAutomation from "./bankStatementAutomation";
 
 export function FinConfigurationPages() {
   const userRole = useSelector(
@@ -163,8 +164,12 @@ export function FinConfigurationPages() {
       />
       {/* Bank Branch routes */}
       <ContentRoute
-        path='/financial-management/configuration/bankbranch'
+        path='/financial-management/configuration/bankbranch/create'
         component={BankBranch}
+      />
+      <ContentRoute
+        path='/financial-management/configuration/bankbranch'
+        component={BankBranchLanding}
       />
 
       {/* Cheque Print routes */}
