@@ -86,7 +86,7 @@ export const createShipmentCharge = async (
   };
   setDisabled(true);
   try {
-    let res = await Axios.post(`/imp/AllCharge/AllChargeCreate`, obj);
+    let res = await Axios.post(`/imp/AllChargeNew/AllChargeCreate`, obj);
     setDisabled(false);
     toast.success(res?.data?.message || "Create successfully");
     cb && cb();
@@ -108,7 +108,7 @@ export const getPortCharge = async (
   console.log(value);
   try {
     const res = await Axios.get(
-      `/imp/AllCharge/GetPoInfoForAllCharge?accountId=${accountId}&businessUnitId=${businessUnitId}&poId=${poId}&shipmentId=${shipmentId}`
+      `/imp/AllChargeNew/GetPoInfoForAllCharge?accountId=${accountId}&businessUnitId=${businessUnitId}&poId=${poId}&shipmentId=${shipmentId}`
     );
     setter(res?.data);
     if (value === 4) {
@@ -166,7 +166,7 @@ export const saveServicezbreakdown = async (
   try {
     setIsLoading(true);
     const res = await Axios.post(
-      "/imp/AllCharge/CreateCommercialCostingServiceBreakdown",
+      "/imp/AllChargeNew/CreateCommercialCostingServiceBreakdown",
       payload
     );
     if (res.status === 200 && res?.data) {
@@ -187,7 +187,7 @@ export const getCommercialCostingServiceBreakdown = async (
 ) => {
   try {
     const res = await Axios.get(
-      `/imp/AllCharge/GetCommercialCostingServiceBreakdown?referenceId=${referenceId}`
+      `/imp/AllChargeNew/GetCommercialCostingServiceBreakdown?referenceId=${referenceId}`
     );
     setter(res?.data);
   } catch (error) {

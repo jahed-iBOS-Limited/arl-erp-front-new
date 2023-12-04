@@ -186,8 +186,8 @@ const BasePage = () => {
           component={TransportManagementPages}
         />
         <Route path='/rtm-management' component={RtmManagementPages} />
-        <Route path='/managementImport' component={ImportManagementPagesNew} />
-        {/* <Route path='/managementImport' component={ImportManagementPages} /> */}
+        {/* <Route path='/managementImport' component={ImportManagementPagesNew} /> */}
+        <Route path='/managementImport' component={ImportManagementPages} />
         <Route path='/pos-management' component={PosManagementPages} />
         <Route path='/call-center-management' component={CallCenterPages} />
         <Route path='/vessel-management' component={VesselManagementPages} />
