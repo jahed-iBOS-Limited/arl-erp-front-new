@@ -7,20 +7,12 @@ import { _dateFormatter } from "../../../_helper/_dateFormate";
 const initData = {};
 
 export default function ApprovalModal({ tableData, values, setTableData }) {
-  console.log(
-    "🚀 ~ file: approvalModal.js:10 ~ ApprovalModal ~ tableData:",
-    tableData
-  );
   const [objProps, setObjprops] = useState({});
-
   const filterTableData = tableData?.data?.filter((data) => data?.isChecked);
-
   const saveHandler = (values, cb) => {
     console.log("filterTableData", filterTableData);
   };
-
   const handleUpdateTableData = (field, value) => {
-    console.log("field", field, "value", value);
     const cloneTableData = [...tableData?.data];
     const index = cloneTableData?.findIndex((data) => data?.isChecked);
     cloneTableData[index][field] = value;

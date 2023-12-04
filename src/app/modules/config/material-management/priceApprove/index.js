@@ -24,9 +24,7 @@ const initData = {
 };
 export default function PriceApprove() {
   const saveHandler = (values, cb) => {};
-
   const [isShowApprovalModal, setIsShowApprovalModal] = useState(false);
-
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(25);
 
@@ -43,9 +41,7 @@ export default function PriceApprove() {
     getSoldToPartnerDDL,
     loadingOnSoldToPartnerDDL,
   ] = useAxiosGet();
-
   const [itemListDDL, getItemListDDL, loadingOnItemListDDL] = useAxiosGet();
-
   const [
     tableData,
     getTableData,
@@ -65,10 +61,7 @@ export default function PriceApprove() {
 
   const setPositionHandler = (pageNo, pageSize, values) => {
     getTableData(
-      `/item/PriceSetup/GetItemApprovePagination?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}&CustomerId=${values?.soldToPatner?.value}&ItemId=${values?.item?.value}&ConditionTypeId=4&FromDate=${values?.startDate}&ToDate=${values?.endDate}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}&status=${values?.status?.value}`,
-      (data) => {
-        console.log("data", data);
-      }
+      `/item/PriceSetup/GetItemApprovePagination?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}&CustomerId=${values?.soldToPatner?.value}&ItemId=${values?.item?.value}&ConditionTypeId=4&FromDate=${values?.startDate}&ToDate=${values?.endDate}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}&status=${values?.status?.value}`
     );
   };
 
@@ -85,7 +78,6 @@ export default function PriceApprove() {
             };
           }),
         });
-        console.log("tabledata", tableData);
       }
     );
   };
