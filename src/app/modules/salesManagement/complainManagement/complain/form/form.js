@@ -15,6 +15,7 @@ import {
   customerListDDL,
   getBusinessUnitDDLApi,
   getComplainCategory,
+  getComplainSubcategoryApi,
   getDistributionChannelDDL,
   getItemCategoryDDL,
   getSupplierDDLApi,
@@ -42,6 +43,10 @@ export const validationSchema = Yup.object().shape({
     label: Yup.string().required("Issue Type is required"),
     value: Yup.string().required("Issue Type is required"),
   }),
+  issueSubType: Yup.object().shape({
+    label: Yup.string().required("Sub Issue Type is required"),
+    value: Yup.string().required("Sub Issue Type is required"),
+  }),
   issueDetails: Yup.string().required("Issue Details is required"),
   respondent: Yup.string().required("Respondent Name is required"),
 });
@@ -64,6 +69,7 @@ function Form({
   const [itemCategoryDDL, setItemCategoryDDL] = useState([]);
   const [businessUnitDDL, setBusinessUnitDDL] = useState([]);
   const [supplierDDL, setSupplierDDL] = useState([]);
+  const [complainSubCategory, setComplainSubCategory] = useState([]);
 
   useEffect(() => {
     if (accId && buId) {
@@ -102,6 +108,14 @@ function Form({
         initData?.respondentBusinessUnit?.value,
         setLoading,
         setItemCategoryDDL
+      );
+    }
+
+    if (initData?.respondentBusinessUnit?.value && initData?.issueType?.value) {
+      getComplainSubcategoryApi(
+        initData?.respondentBusinessUnit?.value,
+        initData?.issueType?.value,
+        setComplainSubCategory
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -146,7 +160,6 @@ function Form({
                   }
             }
           >
-            {console.log("errors", errors)}
             <form>
               <div className='row global-form'>
                 <div className='col-lg-12'>
@@ -205,6 +218,8 @@ function Form({
                       setFieldValue("itemCategory", "");
                       setFieldValue("challanOrPO", "");
                       setFieldValue("distributionChannel", "");
+                      setFieldValue("issueType", "");
+                      setFieldValue("issueSubType", "");
                     }}
                     placeholder='Business Unit'
                     errors={errors}
@@ -442,8 +457,29 @@ function Form({
                     label='Issue Type'
                     onChange={(valueOption) => {
                       setFieldValue("issueType", valueOption || "");
+                      setFieldValue("issueSubType", "");
+                      getComplainSubcategoryApi(
+                        values?.respondentBusinessUnit?.value,
+                        valueOption?.value,
+                        setComplainSubCategory
+                      );
                     }}
                     placeholder='Issue Type'
+                    errors={errors}
+                    touched={touched}
+                    isDisabled={view || !values?.respondentBusinessUnit}
+                  />
+                </div>
+                <div className='col-lg-3'>
+                  <NewSelect
+                    name='issueSubType'
+                    options={complainSubCategory || []}
+                    value={values?.issueSubType}
+                    label='Sub Issue Type'
+                    onChange={(valueOption) => {
+                      setFieldValue("issueSubType", valueOption || "");
+                    }}
+                    placeholder='Sub Issue Type'
                     errors={errors}
                     touched={touched}
                     isDisabled={view}

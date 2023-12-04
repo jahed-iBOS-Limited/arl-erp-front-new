@@ -92,6 +92,12 @@ function InvoiceView({ clickRowData }) {
                   <b>Issue Id:</b> {singleData?.complainNo}
                 </p>
                 <p>
+                  <b>Issue Type:</b> {singleData?.complainCategoryName}
+                </p>
+                <p>
+                  <b>Sub Issue Type:</b> {singleData?.complainSubCategoryName}
+                </p>
+                <p>
                   <b>Occurrence Date Time: </b>{" "}
                   {singleData?.requestDateTime &&
                     moment(singleData?.requestDateTime).format(
@@ -158,7 +164,7 @@ function InvoiceView({ clickRowData }) {
             </div>
 
             {rowDto?.length > 0 && (
-              <>
+             <div className="table-responsive">
                 <table className='table table-striped table-bordered global-table'>
                   <thead>
                     <tr>
@@ -206,7 +212,7 @@ function InvoiceView({ clickRowData }) {
                     ))}
                   </tbody>
                 </table>
-              </>
+              </div>
             )}
           </ICustomCard>
         )}
