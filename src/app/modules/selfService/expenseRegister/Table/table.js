@@ -311,7 +311,7 @@ const ExpenseRegisterLanding = () => {
                         isDisabled={!values?.checkPublic}
                       />
                     </div>
-                    <div className="col-lg-2 pr-0">
+                    {/* <div className="col-lg-2 pr-0">
                       <NewSelect
                         name="plant"
                         options={plantDDL || []}
@@ -325,7 +325,7 @@ const ExpenseRegisterLanding = () => {
                         errors={errors}
                         touched={touched}
                       />
-                    </div>
+                    </div> */}
                     <div className="col-lg-2 pr-0">
                       <NewSelect
                         name="sbu"
