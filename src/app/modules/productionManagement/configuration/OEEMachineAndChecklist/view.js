@@ -79,7 +79,8 @@ export default function CheckListView() {
         <>
           {(tableDataLoader || saveDataLoader) && <Loading />}
           <IForm
-            customTitle="View OEE Machine And Checklist"
+            customTitle="Machine And Checklist"
+            isHiddenReset={true}
             getProps={setObjprops}
           >
             <Form>
@@ -104,7 +105,7 @@ export default function CheckListView() {
                             <td>{item?.strCheckListCriteriaType}</td>
                             <td>{item?.strCheckListCriteria}</td>
                             <td>{item?.strStandardValue}</td>
-                            <td className="text-center">
+                            <td className="d-flex justify-content-around">
                               {item?.strImageUrl ? (
                                 <IView
                                   title="View Attachment"
@@ -116,67 +117,64 @@ export default function CheckListView() {
                                     );
                                   }}
                                 />
-                              ) : (
-                                <>
-                                  <span
-                                    onClick={() => {
-                                      setOpen(true);
-                                    }}
-                                  >
-                                    <i class="fa fa-upload" aria-hidden="true">
-                                      upload
-                                    </i>
-                                  </span>
+                              ) : null}
+                              <>
+                                <span
+                                  className="cursor-pointer"
+                                  onClick={() => {
+                                    setOpen(true);
+                                  }}
+                                >
+                                  <i class="fa fa-upload" aria-hidden="true">
+                                    upload
+                                  </i>
+                                </span>
 
-                                  <DropzoneDialogBase
-                                    filesLimit={1}
-                                    acceptedFiles={[
-                                      "image/*",
-                                      "application/pdf",
-                                    ]}
-                                    fileObjects={fileObjects || []}
-                                    cancelButtonText={"cancel"}
-                                    submitButtonText={"submit"}
-                                    maxFileSize={1000000}
-                                    open={open}
-                                    onAdd={(newFileObjs) => {
-                                      setFileObjects([].concat(newFileObjs));
-                                    }}
-                                    onDelete={(deleteFileObj) => {
-                                      const newData = fileObjects?.filter(
-                                        (item) =>
-                                          item.file.name !==
-                                          deleteFileObj.file.name
-                                      );
-                                      setFileObjects(newData);
-                                    }}
-                                    onClose={() => setOpen(false)}
-                                    onSave={() => {
-                                      setOpen(false);
-                                      attachmentUploadAction(fileObjects).then(
-                                        (data) => {
-                                          console.log("data", data);
-                                          const newData = tableData?.map(
-                                            (item, i) => {
-                                              if (i === index) {
-                                                return {
-                                                  ...item,
-                                                  strImageUrl: data[0].id,
-                                                };
-                                              }
-                                              return item;
+                                <DropzoneDialogBase
+                                  filesLimit={1}
+                                  acceptedFiles={["image/*", "application/pdf"]}
+                                  fileObjects={fileObjects || []}
+                                  cancelButtonText={"cancel"}
+                                  submitButtonText={"submit"}
+                                  maxFileSize={1000000}
+                                  open={open}
+                                  onAdd={(newFileObjs) => {
+                                    setFileObjects([].concat(newFileObjs));
+                                  }}
+                                  onDelete={(deleteFileObj) => {
+                                    const newData = fileObjects?.filter(
+                                      (item) =>
+                                        item.file.name !==
+                                        deleteFileObj.file.name
+                                    );
+                                    setFileObjects(newData);
+                                  }}
+                                  onClose={() => setOpen(false)}
+                                  onSave={() => {
+                                    setOpen(false);
+                                    attachmentUploadAction(fileObjects).then(
+                                      (data) => {
+                                        console.log("data", data);
+                                        const newData = tableData?.map(
+                                          (item, i) => {
+                                            if (i === index) {
+                                              return {
+                                                ...item,
+                                                strImageUrl: data[0].id,
+                                              };
                                             }
-                                          );
-                                          setTableData(newData);
-                                          setFileObjects([]);
-                                        }
-                                      );
-                                    }}
-                                    showPreviews={true}
-                                    showFileNamesInPreview={true}
-                                  />
-                                </>
-                              )}
+                                            return item;
+                                          }
+                                        );
+                                        setTableData(newData);
+                                        setFileObjects([]);
+                                      }
+                                    );
+                                  }}
+                                  showPreviews={true}
+                                  showFileNamesInPreview={true}
+                                />
+                              </>
                             </td>
                           </tr>
                         ))
