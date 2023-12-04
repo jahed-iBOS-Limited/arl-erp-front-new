@@ -33,6 +33,14 @@ export const getComplainCategory = async (buId, setter) => {
     setter(res?.data);
   } catch (error) {}
 };
+export const getComplainSubcategoryApi = async (buId, ctgId, setter) => {
+  try {
+    const res = await axios.get(
+      `/oms/CustomerPoint/ComplainSubcategory?BusinessUnitId=${buId}&ComplainCategoryId=${ctgId}`
+    );
+    setter(res?.data);
+  } catch (error) {}
+};
 export const getComplainById = async (
   complainId,
   accId,
@@ -69,6 +77,12 @@ export const getComplainById = async (
             label: res?.data?.complainCategoryName,
           }
         : "",
+      issueSubType: res?.data?.complainSubCategoryId
+        ? {
+            value: res?.data?.complainSubCategoryId,
+            label: res?.data?.complainSubCategoryName,
+          }
+        : "",
       issueTitle: res?.data?.issueTitle || "",
       distributionChannel: res?.data?.distributionChannelId
         ? {
@@ -96,8 +110,7 @@ export const getComplainById = async (
       respondent: res?.data?.respondentType || "",
       respondentOrg: res?.data?.respondentOrg || "",
       designationOrRelationship: res?.data?.designationOrRelationship || "",
-      additionalCommentAndSuggestion:
-        res?.data?.commentAndSuggestion || "",
+      additionalCommentAndSuggestion: res?.data?.commentAndSuggestion || "",
       itemCategory: res?.data?.itemCategoryId
         ? {
             value: res?.data?.itemCategoryId,
