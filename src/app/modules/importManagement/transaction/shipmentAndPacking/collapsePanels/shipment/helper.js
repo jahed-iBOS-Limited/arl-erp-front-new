@@ -15,7 +15,7 @@ export const getShipByDDL = async (setter) => {
 
 export const createShipment = async (payload, cb) => {
   try {
-    const res = await axios.post(`/imp/Shipment/CreateShipmentNew`, payload);
+    const res = await axios.post(`/imp/Shipment/CreateShipment`, payload);
 
     toast.success(res.data.message);
     cb();

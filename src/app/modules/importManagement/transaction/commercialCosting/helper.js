@@ -33,12 +33,12 @@ export const getCommercialCostingLanding = async ({
     let dteFromDate = isCompleted ? `&fromDate=${fromDate}` : "";
     let dteToDate = isCompleted ? `&toDate=${toDate}` : "";
     const res = await axios.get(
-      `/imp/AllChargeNew/GetCommercialCosting?accountId=${accId}&businessUnitId=${buId}${dteFromDate}${dteToDate}&isCompleted=${isCompleted}&bankId=${bank?.value ||
+      `/imp/AllCharge/GetCommercialCosting?accountId=${accId}&businessUnitId=${buId}${dteFromDate}${dteToDate}&isCompleted=${isCompleted}&bankId=${bank?.value ||
         0}&PageNo=${pageNo}&PageSize=${pageSize}`
     );
     setLoading(false);
     setter(res?.data);
-    getExcelData(`/imp/AllChargeNew/GetCommercialCosting?accountId=${accId}&businessUnitId=${buId}${dteFromDate}${dteToDate}&isCompleted=${isCompleted}&bankId=${bank?.value ||
+    getExcelData(`/imp/AllCharge/GetCommercialCosting?accountId=${accId}&businessUnitId=${buId}${dteFromDate}${dteToDate}&isCompleted=${isCompleted}&bankId=${bank?.value ||
       0}&PageNo=${pageNo}&PageSize=${res?.data?.totalCount}`)
   } catch (error) {
     setLoading(false);
@@ -54,7 +54,7 @@ export const updateCommercialCost = async (data, setDisabled) => {
   };
   setDisabled(true);
   try {
-    let res = await Axios.post(`/imp/AllChargeNew/UpdateCommercialCost`, newData);
+    let res = await Axios.post(`/imp/AllCharge/UpdateCommercialCost`, newData);
     setDisabled(false);
     toast.success(res?.data?.message || "Updated successfully");
   } catch (error) {
