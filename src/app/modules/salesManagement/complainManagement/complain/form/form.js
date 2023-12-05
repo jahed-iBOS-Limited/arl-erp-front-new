@@ -289,7 +289,7 @@ function Form({
                         );
                         setFieldValue(
                           "respondent",
-                          valueOption?.proprietor || ""
+                          valueOption?.propitor || ""
                         );
                       }}
                       placeholder={`${values?.respondentType?.label} Name`}
@@ -316,7 +316,7 @@ function Form({
                         );
                         setFieldValue(
                           "respondent",
-                          valueOption?.proprietor || ""
+                          valueOption?.propitor || ""
                         );
                       }}
                       placeholder={`${values?.respondentType?.label} Name`}
@@ -347,7 +347,7 @@ function Form({
                         setFieldValue("respondentName", valueOption || "");
                         setFieldValue(
                           "respondentContact",
-                          valueOption?.contactNo || ""
+                          valueOption?.contactNumber || ""
                         );
                         setFieldValue("respondent", valueOption?.label || "");
                       }}
