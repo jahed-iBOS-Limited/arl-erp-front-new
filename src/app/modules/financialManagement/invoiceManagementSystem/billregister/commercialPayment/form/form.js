@@ -1,23 +1,23 @@
-import React from "react";
-import { Formik, Form } from "formik";
 import axios from "axios";
-import InputField from "../../../../../_helper/_inputField";
+import { Form, Formik } from "formik";
+import { DropzoneDialogBase } from "material-ui-dropzone";
+import React, { useEffect, useState } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
 } from "../../../../../../../_metronic/_partials/controls";
-import { useHistory, useLocation } from "react-router-dom";
-import { useState } from "react";
-import { DropzoneDialogBase } from "material-ui-dropzone";
 import SearchAsyncSelect from "../../../../../_helper/SearchAsyncSelect";
+import InputField from "../../../../../_helper/_inputField";
 import NewSelect from "../../../../../_helper/_select";
+import PaginationTable from "../../../../../_helper/_tablePagination";
 import { empAttachment_action } from "../../../../../humanCapitalManagement/humanResource/employeeInformation/helper";
 import { getLandingData } from "../helper";
-import PaginationTable from "../../../../../_helper/_tablePagination";
 // import { _dateFormatter } from "../../../../../_helper/_dateFormate";
 // import { _formatMoney } from "../../../../../_helper/_formatMoney";
+import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
 import ServiceBreakDownViewModal from "../serviceBreakDown/serviceBreakDownViewModal";
 
 export default function _Form({
@@ -53,6 +53,13 @@ export default function _Form({
   const [lcNumber, setLcNumber] = useState("");
   const [referenceId, setReferenceId] = useState("");
   const [itemData, setItemData] = useState("");
+  const [chargeTypeDDL, getChargeTypeDDL] = useAxiosGet();
+  const [subChargeTypeDDL, getSubChargeTypeDDL, ,setSubChargeTypeDDL] = useAxiosGet();
+
+  useEffect(()=>{
+    getChargeTypeDDL(`/imp/ImportCommonDDL/getChargeTypeDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[profileData, selectedBusinessUnit])
 
   const loadPoLcList = (v) => {
     if (v?.length < 3) return [];
@@ -144,7 +151,9 @@ export default function _Form({
                           getLandingDataForCommercialBill(
                             valueOption?.label,
                             values?.supplier?.value,
-                            0
+                            0,
+                            values?.chargeType?.label || "",
+                            values?.subChargeType?.value || 0
                           );
                         }}
                         loadOptions={loadPoLcList || []}
@@ -163,7 +172,9 @@ export default function _Form({
                           getLandingDataForCommercialBill(
                             values?.poLc?.label,
                             valueOption?.value,
-                            0
+                            0,
+                            values?.chargeType?.label || "",
+                            valueOption?.value || 0
                           );
                         }}
                       />
@@ -188,6 +199,63 @@ export default function _Form({
                         }}
                       />
                     </div> */}
+                 
+
+                    <div className="col-lg-2">
+                      <NewSelect
+                        options={chargeTypeDDL || []}
+                        label="Charge Type"
+                        name="chargeType"
+                        value={values?.chargeType}
+                        onChange={(valueOption) => {
+                        if(valueOption){
+                          setFieldValue("chargeType", valueOption);
+                          getSubChargeTypeDDL(`/imp/ImportCommonDDL/SubChargeTypeDDL?ChargeTypeId=${valueOption?.value}`, (data)=>{
+                            const result = data.map((item)=>({...item, value: item?.subChargeTypeId, label: item?.subChargeTypeName}))
+                            setSubChargeTypeDDL(result);
+                          })
+                          getLandingDataForCommercialBill(
+                            values?.poLc?.label,
+                            values?.supplier?.value || 0,
+                            0,
+                            valueOption?.label,
+                            0
+                          );
+                        }else{
+                          setFieldValue("chargeType", "");
+                          setFieldValue("subChargeType", "");
+                          setSubChargeTypeDDL([]);
+                          getLandingDataForCommercialBill(
+                            values?.poLc?.label,
+                            values?.supplier?.value || 0,
+                            0,
+                            "",
+                            values?.subChargeType?.value || 0
+                          );
+                        }
+                        }}
+                      />
+                    </div>
+                    {subChargeTypeDDL?.length > 0 ? (<div className="col-lg-2">
+                      <NewSelect
+                        options={subChargeTypeDDL || []}
+                        label="Sub Charge Type"
+                        name="subChargeType"
+                        value={values?.subChargeType}
+                        onChange={(valueOption) => {
+                          setFieldValue("subChargeType", valueOption);
+                          getLandingDataForCommercialBill(
+                            values?.poLc?.label,
+                            valueOption?.value,
+                            0,
+                            values?.chargeType?.label || "",
+                            valueOption?.value || 0
+                          );
+                        }}
+                      />
+                    </div>) : ""}
+                    
+
                     {values?.billingStatus?.value === 0 && (
                       <div className="col-lg-2">
                         <label>Bill No</label>
@@ -281,7 +349,30 @@ export default function _Form({
                       showFileNamesInPreview={true}
                     />
                   </div>
-
+                  <div className="d-flex justify-content-center align-items-center">
+                      <div className="mr-5">
+                          <strong style={{fontSize:"14px"}}>Total Bill Amount (with VAT) : {rowDto?.length > 0 ?  rowDto?.filter(item => item?.isSelect)?.reduce(
+                            (accumulator, currentValue) => accumulator +  +currentValue?.totalBilledAmount || 0,
+                            0,
+                          ) : 0
+                          }</strong>
+                      </div>
+                      <div>
+                      <InputField
+                                name="vat"
+                                placeholder="Modify Vat"
+                                type="number"
+                                className="form-control"
+                                disabled={!rowDto?.filter(item => item?.isSelect)?.length}
+                                onChange={(e) => {
+                                  const modifyData = rowDto?.map(item => (
+                                    item?.isSelect ? { ...item,  vatamount: +e?.target?.value,  totalBilledAmount: (parseFloat(+item?.totalAmount.replace(/,/g, '')) || 0) + (+e?.target?.value || 0), } : item
+                                  ));
+                                  setRowDto(modifyData);
+                                }}
+                              />
+                      </div>
+                  </div>
                   <div
                     style={{ maxHeight: "900px" }}
                     className="scroll-table-auto"
@@ -304,6 +395,7 @@ export default function _Form({
                           <th style={{ minWidth: "100px" }}>PO No</th>
                           <th style={{ minWidth: "100px" }}>LC No</th>
                           <th style={{ minWidth: "100px" }}>Shipment</th>
+                          <th style={{ minWidth: "100px" }}>Sub Charge Type</th>
                           <th style={{ minWidth: "100px" }}>Supplier</th>
                           <th style={{ minWidth: "80px" }}>Booked Amount</th>
                           <th style={{ minWidth: "130px" }}>
@@ -318,7 +410,7 @@ export default function _Form({
                           <tr 
                             key={index} 
                             style={{cursor: "pointer"}} 
-                            onClick={()=>{
+                            onClick={(e)=>{
                               if(item.costTypeId===12 || item.costTypeId===21 || item.costTypeId===22 || item.costTypeId===13 || item.costTypeId===14 || item.costTypeId===15 || item.costTypeId===20){
                                 setIsShowModal(true)
                                 setPoNumber(item?.ponumber)
@@ -333,10 +425,14 @@ export default function _Form({
                               <input
                                 type="checkbox"
                                 name="isSelect"
-                                disabled={item.costTypeId===12 || item.costTypeId===21 || 
-                                  item.costTypeId===22 || item.costTypeId===13 || item.costTypeId===14 || item.costTypeId===15 || item.costTypeId===20
-                                }
+                                // disabled={item.costTypeId===12 || item.costTypeId===21 || 
+                                //   item.costTypeId===22 || item.costTypeId===13 || item.costTypeId===14 || item.costTypeId===15 || item.costTypeId===20
+                                // }
                                 checked={item?.isSelect}
+                                onClick={(e)=>{
+                                  e.stopPropagation();
+
+                                }}
                                 onChange={(valueOption) => {
                                   rowDtoHandler(
                                     "isSelect",
@@ -355,6 +451,7 @@ export default function _Form({
                             <td className="text-center">
                               {item?.shipmentCode ? item.shipmentCode : "-"}
                             </td>
+                            <td>{item?.subChargeTypeName}</td>
                             <td className="text-center">
                               {item?.businessPartnerName}
                             </td>
@@ -367,11 +464,15 @@ export default function _Form({
                                 name="totalBilledAmount"
                                 type="number"
                                 className="form-control"
-                                disabled={item.costTypeId===12 || item.costTypeId===21 || 
-                                  item.costTypeId===22 || item.costTypeId===13 || item.costTypeId===14 || item.costTypeId===15 || item.costTypeId===20
-                                }
+                                // disabled={item.costTypeId===12 || item.costTypeId===21 || 
+                                //   item.costTypeId===22 || item.costTypeId===13 || item.costTypeId===14 || item.costTypeId===15 || item.costTypeId===20
+                                // }
                                 value={item?.totalBilledAmount}
                                 placeholder="Total Billed Amount"
+                                onClick={(e)=>{
+                                  e.stopPropagation();
+
+                                }}
                                 onChange={(valueOption) => {
                                   rowDtoHandler(
                                     "totalBilledAmount",
@@ -390,15 +491,24 @@ export default function _Form({
                                 name="vatamount"
                                 placeholder="VAT"
                                 value={rowDto[index]?.vatamount}
-                                disabled={item.costTypeId===12 || item.costTypeId===21 || 
-                                  item.costTypeId===22 || item.costTypeId===13 || item.costTypeId===14 || item.costTypeId===15 || item.costTypeId===20
-                                }
-                                onChange={(valueOption) => {
+                                // disabled={item.costTypeId===12 || item.costTypeId===21 || 
+                                //   item.costTypeId===22 || item.costTypeId===13 || item.costTypeId===14 || item.costTypeId===15 || item.costTypeId===20
+                                // }
+                                onClick={(e)=>{
+                                  e.stopPropagation();
+
+                                }}
+                                onChange={(e) => {
                                   rowDtoHandler(
                                     "vatamount",
-                                    valueOption?.target?.value,
+                                    e?.target?.value,
                                     index
                                   );
+                
+                                  let data = [...rowDto]
+                                  let numericTotalAmount = parseFloat(item?.totalAmount.replace(/,/g, ''))
+                                  data[index]["totalBilledAmount"] = (numericTotalAmount|| 0) + (+e?.target?.value || 0);
+                                  setRowDto(data);
                                 }}
                               />
                               {/* )} */}
@@ -412,6 +522,10 @@ export default function _Form({
                                 type="date"
                                 name="dueDate"
                                 className="form-control"
+                                onClick={(e)=>{
+                                  e.stopPropagation();
+
+                                }}
                                 onChange={(valueOption) => {
                                   rowDtoHandler(
                                     "dueDate",

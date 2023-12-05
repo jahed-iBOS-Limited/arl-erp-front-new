@@ -34,7 +34,9 @@ export const getLandingData = async (
   pageNo,
   pageSize,
   setDisabled,
-  setTotalCount
+  setTotalCount,
+  chargeTypeName,
+  subChargeTypeId
 ) => {
   const poLc = PoLcLabel ? PoLcLabel : "";
   let supplier = supplierId ? supplierId : "";
@@ -42,12 +44,13 @@ export const getLandingData = async (
 
   const searchTerm = poLc ? `&searchTerm=${poLc}` : "";
   supplier = supplier ? `supplierId=${supplier}&` : "";
+  const ChargeTypeName = chargeTypeName ? `&ChargeTypeName=${chargeTypeName}` : "";
 
   setDisabled(true);
 
   try {
     const res = await axios.get(
-      `/imp/ImportReport/CommercialPaymentLandingPasignation?accountId=${accId}&businessUnitId=${buId}${searchTerm}&${supplier}billingStatus=${billingStatus}&pageSize=${pageSize}&pageNo=${pageNo}&viewOrder=desc`
+      `/imp/ImportReport/CommercialPaymentLandingPasignation?accountId=${accId}&businessUnitId=${buId}${searchTerm}&${supplier}billingStatus=${billingStatus}${ChargeTypeName}&subChargeTypeId=${subChargeTypeId}&pageSize=${pageSize}&pageNo=${pageNo}&viewOrder=desc`
     );
     setTotalCount(res?.data?.totalCount);
     const modify = res?.data?.data?.map((item) => {
@@ -55,7 +58,7 @@ export const getLandingData = async (
         ...item,
         dueDate: _dateFormatter(item?.dueDate),
         isSelect: false,
-        totalBilledAmount: "",
+        totalBilledAmount: (+item?.totalAmount || 0) + (+item?.vatamount || 0),
         tempVatAmount: "",
         totalAmount: numberWithCommas((item?.totalAmount || 0).toFixed(2)),
         vatAmount: item?.vatamount?.toFixed(2),
@@ -90,7 +93,13 @@ export const saveCommercialPayment = async (
   const filterByBillAmount = rowDto?.reduce((acc,item) => acc+item?.totalBilledAmount,0)
   const supplierId = filterData?.length>0 && filterData[0]["businessPartnerId"]
   try {
-    if (!filterData?.every(item=>item?.businessPartnerId === supplierId)) {
+    if (!filterData?.every(item=>item?.costTypeName === filterData[0]?.costTypeName)) {
+      return toast.error("Charge Type Should Be Same");
+    }
+    if (!filterData?.every(item=>item?.subChargeTypeName === filterData[0]?.subChargeTypeName)) {
+      return toast.error("Sub Charge Type Should Be Same");
+    }
+    if (!filterData?.every(item=>item?.businessPartnerName === filterData[0]?.businessPartnerName)) {
       toast.error("Supplier Name Should Be Same");
       return
     } else if (filterByBillAmount <= 0) {

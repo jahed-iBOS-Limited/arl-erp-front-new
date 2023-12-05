@@ -48,7 +48,7 @@ export function TableRow(props) {
   const [pageSize, setPageSize] = React.useState(15);
 
   //setPositionHandler
-  const setPositionHandler = (pageNo, pageSize,searchValue) => {
+  const setPositionHandler = (pageNo, pageSize, searchValue) => {
     getGridData(
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -102,15 +102,15 @@ export function TableRow(props) {
     <>
       <ICustomCard
         title="Asset Parking"
-        renderProps={() => (
-          <button
-            className="btn btn-primary"
-            disabled={!sbuName || !plantName || !warehouseName}
-            onClick={(e) => setisShowModalforCreate(true)}
-          >
-            Create new
-          </button>
-        )}
+        // renderProps={() => (
+        //   <button
+        //     className="btn btn-primary"
+        //     disabled={!sbuName || !plantName || !warehouseName}
+        //     onClick={(e) => setisShowModalforCreate(true)}
+        //   >
+        //     Create new
+        //   </button>
+        // )}
       >
         {loading && <Loading />}
         <div className="row global-form my-3">

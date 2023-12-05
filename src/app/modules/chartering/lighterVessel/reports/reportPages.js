@@ -6,6 +6,7 @@ import LineExpenseReport from "./lineExpense/table";
 import MonthlyVoyageStatement from "./monthlyVoyageStatement/table";
 import StoreExpenseReport from "./storeExpense/table";
 import LighterVesselReportsTable from "./table/table";
+import DispatchAndDemurrage from "./dispatchDemurrage/table";
 export function LighterVesselReportPages() {
   return (
     <>
@@ -36,6 +37,10 @@ export function LighterVesselReportPages() {
         <Route
           path="/chartering/lighterVessel/lighterVesselReport/storeExpense"
           component={StoreExpenseReport}
+        />
+        <Route
+          path="/chartering/lighterVessel/lighterVesselReport/lighterDispatchDemurrage"
+          component={DispatchAndDemurrage}
         />
       </Switch>
     </>

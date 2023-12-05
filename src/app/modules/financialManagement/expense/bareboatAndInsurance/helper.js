@@ -9,7 +9,7 @@ export const dryDockSaveHandler = async (setLoading, payload, cb) => {
       payload
     );
     cb && cb();
-    toast.success(res?.data);
+    toast.success(res?.message);
     setLoading(false);
   } catch (err) {
     toast.error(err?.response?.data?.message);

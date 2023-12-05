@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
 import { _todayDate } from "../../../../../_helper/_todayDate";
 import { _dateFormatter } from "../../../../../_helper/_dateFormate";
+import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
 
 let initData = {
   polcNo: "",
@@ -20,7 +21,9 @@ let initData = {
   billNo: "",
   fromDate:_dateFormatter(new Date(new Date().setDate(new Date().getDate()-7))),
   toDate:_todayDate(),
-  vatamount: ""
+  vatamount: "",
+  chargeType:"",
+  subChargeType:"",
 };
 
 const statusOption = [
@@ -38,6 +41,7 @@ export function CommercialPayment() {
   const [objProps] = useState({});
   const [totalCount, setTotalCount] = useState("");
   const { state } = useLocation();
+  
 
   const [supplierDDL, setSupplierDDL] = useState([]);
 
@@ -93,7 +97,7 @@ export function CommercialPayment() {
     }
   }, [profileData, selectedBusinessUnit]);
 
-  const getLandingDataForCommercialBill = (poLc, supplierId, billingStatus) => {
+  const getLandingDataForCommercialBill = (poLc, supplierId, billingStatus, chargeTypeName = "", subChargeTypeId = 0) => {
     getLandingData(
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -104,7 +108,9 @@ export function CommercialPayment() {
       pageNo,
       pageSize,
       setDisabled,
-      setTotalCount
+      setTotalCount,
+      chargeTypeName,
+      subChargeTypeId
     );
   };
 
@@ -122,7 +128,7 @@ export function CommercialPayment() {
         rowDto,
         setDisabled,
         cb,
-        () => getLandingDataForCommercialBill("", "", 0)
+        () => getLandingDataForCommercialBill("", "", 0, "", 0)
       );
     } else {
       toast.error("Please Enter Bill No");
