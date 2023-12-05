@@ -19,11 +19,12 @@ const NewSelect = (props) => {
     setClear,
     isHiddenLabel,
     isHiddenToolTip,
-    labelIcon
+    labelIcon,
+    isRequiredSymbol,
   } = props;
   return (
     <div
-      className="newSelectWrapper"
+      className='newSelectWrapper'
       ref={target}
       onMouseEnter={() => setShow(true)}
       onMouseLeave={() => setShow(false)}
@@ -32,10 +33,10 @@ const NewSelect = (props) => {
         <Overlay
           target={target.current}
           show={value?.value && show}
-          placement="top-start"
+          placement='top-start'
         >
           {(props) => (
-            <Tooltip id="overlay-example" {...props}>
+            <Tooltip id='overlay-example' {...props}>
               {value?.label}
             </Tooltip>
           )}
@@ -43,7 +44,10 @@ const NewSelect = (props) => {
       )}
 
       {!isHiddenLabel && (label || placeholder) && (
-        <label> {label || placeholder} {labelIcon && labelIcon()} </label>
+        <label>
+          {isRequiredSymbol && <b style={{ color: "red" }}>*</b>}{" "}
+          {label || placeholder} {labelIcon && labelIcon()}{" "}
+        </label>
       )}
 
       <div>
@@ -62,7 +66,7 @@ const NewSelect = (props) => {
 
         {setClear && (
           <i
-            class="far fa-times-circle globalCircleIcon"
+            class='far fa-times-circle globalCircleIcon'
             onClick={() => {
               setClear(name, "");
             }}

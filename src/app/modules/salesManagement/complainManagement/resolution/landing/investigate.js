@@ -274,9 +274,12 @@ function InvestigateForm({ clickRowData, landingCB }) {
                 </div>
 
                 <div className='col-lg-3'>
+                  <label><b style={{
+                    color: "red",
+                  }}>*</b> Investigation Date</label>
                   <InputField
                     value={values?.investigationDateTime}
-                    label='Investigation Date'
+                    
                     placeholder='Investigation Date'
                     name='investigationDateTime'
                     type='datetime-local'
