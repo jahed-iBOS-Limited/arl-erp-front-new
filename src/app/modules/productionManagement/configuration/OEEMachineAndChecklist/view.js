@@ -18,6 +18,7 @@ export default function CheckListView() {
   const [objProps, setObjprops] = useState({});
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
+  const [rowClickData, steRowClickData] = useState({});
   const [
     tableData,
     getTableData,
@@ -120,57 +121,16 @@ export default function CheckListView() {
                                   className="cursor-pointer"
                                   onClick={() => {
                                     setOpen(true);
+                                    steRowClickData({
+                                      ...rowClickData,
+                                      rowIdx: index,
+                                    });
                                   }}
                                 >
                                   <i class="fa fa-upload" aria-hidden="true">
                                     upload
                                   </i>
                                 </span>
-
-                                <DropzoneDialogBase
-                                  filesLimit={1}
-                                  acceptedFiles={["image/*", "application/pdf"]}
-                                  fileObjects={fileObjects || []}
-                                  cancelButtonText={"cancel"}
-                                  submitButtonText={"submit"}
-                                  maxFileSize={1000000}
-                                  open={open}
-                                  onAdd={(newFileObjs) => {
-                                    setFileObjects([].concat(newFileObjs));
-                                  }}
-                                  onDelete={(deleteFileObj) => {
-                                    const newData = fileObjects?.filter(
-                                      (item) =>
-                                        item.file.name !==
-                                        deleteFileObj.file.name
-                                    );
-                                    setFileObjects(newData);
-                                  }}
-                                  onClose={() => setOpen(false)}
-                                  onSave={() => {
-                                    setOpen(false);
-                                    attachmentUploadAction(fileObjects).then(
-                                      (data) => {
-                                        console.log("data", data);
-                                        const newData = tableData?.map(
-                                          (item, i) => {
-                                            if (i === index) {
-                                              return {
-                                                ...item,
-                                                strImageUrl: data[0].id,
-                                              };
-                                            }
-                                            return item;
-                                          }
-                                        );
-                                        setTableData(newData);
-                                        setFileObjects([]);
-                                      }
-                                    );
-                                  }}
-                                  showPreviews={true}
-                                  showFileNamesInPreview={true}
-                                />
                               </>
                             </td>
                           </tr>
@@ -193,6 +153,37 @@ export default function CheckListView() {
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
+              <DropzoneDialogBase
+                filesLimit={1}
+                acceptedFiles={["image/*", "application/pdf"]}
+                fileObjects={fileObjects || []}
+                cancelButtonText={"cancel"}
+                submitButtonText={"submit"}
+                maxFileSize={1000000}
+                open={open}
+                onAdd={(newFileObjs) => {
+                  setFileObjects([].concat(newFileObjs));
+                }}
+                onDelete={(deleteFileObj) => {
+                  const newData = fileObjects?.filter(
+                    (item) => item.file.name !== deleteFileObj.file.name
+                  );
+                  setFileObjects(newData);
+                }}
+                onClose={() => setOpen(false)}
+                onSave={() => {
+                  setOpen(false);
+                  attachmentUploadAction(fileObjects).then((data) => {
+                    const copyData = [...tableData];
+                    copyData[rowClickData?.rowIdx].strImageUrl =
+                      data?.[0].id || "";
+                    setTableData(copyData);
+                    setFileObjects([]);
+                  });
+                }}
+                showPreviews={true}
+                showFileNamesInPreview={true}
+              />
             </Form>
           </IForm>
         </>

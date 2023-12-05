@@ -136,12 +136,19 @@ export default function OEEMachineAndChecklistLanding() {
                 </table>
               </div>
               <div>
-                <PaginationTable
-                  count={tabledata?.totalCount}
-                  setPositionHandler={setPositionHandler}
-                  paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
-                  rowsPerPageOptions={[25, 50, 100, 200, 400, 600]}
-                />
+                {tabledata?.data?.length > 0 && (
+                  <PaginationTable
+                    count={tabledata?.totalCount}
+                    setPositionHandler={setPositionHandler}
+                    paginationState={{
+                      pageNo,
+                      setPageNo,
+                      pageSize,
+                      setPageSize,
+                    }}
+                    rowsPerPageOptions={[25, 50, 100, 200, 400, 600]}
+                  />
+                )}
               </div>
             </Form>
           </IForm>
