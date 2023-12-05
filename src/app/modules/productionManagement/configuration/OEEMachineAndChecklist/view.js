@@ -14,8 +14,6 @@ import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 
 const initData = {};
 
-const validationSchema = Yup.object().shape({});
-
 export default function CheckListView() {
   const [objProps, setObjprops] = useState({});
   const dispatch = useDispatch();
@@ -60,7 +58,6 @@ export default function CheckListView() {
     <Formik
       enableReinitialize={true}
       initialValues={initData}
-      validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
