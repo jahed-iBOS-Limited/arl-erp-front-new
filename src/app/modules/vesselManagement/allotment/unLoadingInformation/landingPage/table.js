@@ -207,6 +207,8 @@ const UnLoadingInformationTable = () => {
                                   ? { backgroundColor: "#7fd894" }
                                   : item?.isInventoryApprove
                                   ? { backgroundColor: "#d4edda" }
+                                  : item?.isDumpApproveLM
+                                  ? { backgroundColor: "#FFF2B2" }
                                   : { backgroundColor: "#f8d7da" }
                               }
                             >
@@ -311,6 +313,17 @@ const UnLoadingInformationTable = () => {
                                         setSingleData(item);
                                         setShow(true);
                                         setLevelOfApprove("second");
+                                      }}
+                                    />
+                                  </span>
+                                ) : !item?.isDumpApproveLM ? (
+                                  <span>
+                                    <IApproval
+                                      title="Dump Approve (LM)"
+                                      onClick={() => {
+                                        setSingleData(item);
+                                        setShow(true);
+                                        setLevelOfApprove("third");
                                       }}
                                     />
                                   </span>

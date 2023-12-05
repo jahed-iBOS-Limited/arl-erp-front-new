@@ -21,6 +21,7 @@ import { lastPriceFunc } from "../../../../procurement/purchase-management/purch
 import numberWithCommas from "../../../../_helper/_numberWithCommas";
 import { GetCommercialInvoiceById_api } from "./helper";
 import printIcon from "../../../../_helper/images/print-icon.png";
+import { BillApproved_api } from "../helper";
 
 const initData = {
   approveAmount: "",
@@ -94,14 +95,14 @@ const CommercialBillTypeDetails = ({
       bill: [modifyGridData],
       row: [],
     };
-    // BillApproved_api(
-    //   profileData?.userId,
-    //   payload,
-    //   setDisabled,
-    //   girdDataFunc,
-    //   values,
-    //   setModalShow
-    // );
+    BillApproved_api(
+      profileData?.userId,
+      payload,
+      setDisabled,
+      girdDataFunc,
+      values,
+      setModalShow
+    );
   };
 
   const [isShowModalTwo, setIsShowModalTwo] = useState(false);
@@ -390,7 +391,7 @@ const CommercialBillTypeDetails = ({
                           <p>
                             <b>Bill Date:</b>{" "}
                             {_dateFormatter(
-                              singleData?.objHeaderDTO?.billPaymentDate
+                              singleData?.objHeaderDTO?.billEntryDate
                             )}
                           </p>
                           <p style={{ marginRight: "5px" }}>
