@@ -561,10 +561,10 @@ export function importManagementPagesNew() {
           path="/managementImport/reports/lc-cost-sheet-partnerwise"
           component={LcCostSheetPartnerWise}
         />
-        <ContentRoute
+        {/* <ContentRoute
           path="/managementImport/reports/PurchasePlanningScheduling"
           component={PurchasePlanningAndScheduling}
-        />
+        /> */}
         {/* Outstanding LC */}
         <ContentRoute
           path="/managementImport/reports/outstanding-lc"

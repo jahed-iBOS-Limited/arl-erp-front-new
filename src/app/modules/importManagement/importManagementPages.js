@@ -55,6 +55,7 @@ import TransportChargesForm from "./transaction/transportCharges/form/addEditFor
 import TransportChargesLanding from "./transaction/transportCharges/landing/table";
 import UnloadingChargesForm from "./transaction/unloading-charges/form/addEditForm";
 import UnloadingCharges from "./transaction/unloading-charges/landing/tableHeader";
+import PurchasePlanningAndScheduling from "./reports/purchasePlanning";
 
 export function importManagementPages() {
   return (
@@ -78,7 +79,6 @@ export function importManagementPages() {
           path="/managementImport/transaction/insurance-policy"
           component={InsuranceLanding}
         />
-
         {/* Insurance Amendment */}
         <ContentRoute
           path="/managementImport/transaction/insurance-amendment/create"
@@ -88,13 +88,11 @@ export function importManagementPages() {
           path="/managementImport/transaction/insurance-amendment"
           component={InsuranceAmendmentLanding}
         />
-
         {/* List of Diferred LC */}
         <ContentRoute
           path="/managementImport/transaction/list-of-diferred-LC"
           component={ListOfDiferredLC}
         />
-
         {/* LC Amendment */}
         <ContentRoute
           path="/managementImport/transaction/lc-amendment/:type/:pid"
@@ -108,14 +106,12 @@ export function importManagementPages() {
           path="/managementImport/transaction/lc-amendment"
           component={LCAmendmentLanding}
         />
-
         {/* LC Summary */}
         <ContentRoute
           path="/managementImport/transaction/lc-summary"
           component={LCSummaryCollapsePanel}
         />
         {/* LC open start */}
-
         <ContentRoute
           path="/managementImport/transaction/lc-open/:type/:pid"
           component={LCOpenForm}
@@ -129,7 +125,6 @@ export function importManagementPages() {
           component={LcOpenLanding}
         />
         {/* LC open finished */}
-
         <ContentRoute
           path="/managementImport/transaction/document-release/create"
           component={DocumentReleaseForm}
@@ -143,7 +138,6 @@ export function importManagementPages() {
           component={DocumentReleaseLanding}
         />
         {/* Document Release Finished */}
-
         <ContentRoute
           path="/managementImport/transaction/customs-duty/create"
           component={CustomDutyForm}
@@ -162,21 +156,18 @@ export function importManagementPages() {
           component={InsuranceBillLanding}
         />
         {/* Insurance Bill finished */}
-
         {/* Insurance Payment start */}
         <ContentRoute
           path="/managementImport/transaction/insurance-payment"
           component={InsurancePaymentLanding}
         />
         {/* Insurance Payment finished */}
-
         {/*LC Cost Sumary start */}
         <ContentRoute
           path="/managementImport/transaction/lc-cost-summary"
           component={LCCostSumary}
         />
         {/*LC Cost Sumary finished */}
-
         {/* Shipment And Packing start */}
         <ContentRoute
           path="/managementImport/transaction/shipment/create"
@@ -201,7 +192,6 @@ export function importManagementPages() {
           component={PerformanceGuarantee}
         />
         {/* performance guarantee end */}
-
         {/* washing and cleaing charge start */}
         <ContentRoute
           path="/managementImport/transaction/cleaning-charges/create"
@@ -212,7 +202,6 @@ export function importManagementPages() {
           component={CleaningCharges}
         />
         {/* washing and cleaing charge finished */}
-
         {/* unloading charge start */}
         <ContentRoute
           path="/managementImport/transaction/unloading-charges/create"
@@ -223,7 +212,6 @@ export function importManagementPages() {
           component={UnloadingCharges}
         />
         {/* unloading charge finished */}
-
         {/* port charge start */}
         <ContentRoute
           path="/managementImport/transaction/all-charge"
@@ -235,7 +223,6 @@ export function importManagementPages() {
           component={OutstandingPayment}
         />
         {/* port charge finished */}
-
         {/* Shipping charge start */}
         <ContentRoute
           path="/managementImport/transaction/shipping-charges/create"
@@ -250,7 +237,6 @@ export function importManagementPages() {
           component={ShippingChargesLanding}
         />
         {/* Shipping charge finished */}
-
         {/* Inspection And Survey */}
         <ContentRoute
           path="/managementImport/transaction/inspection-and-survey/create"
@@ -260,7 +246,6 @@ export function importManagementPages() {
           path="/managementImport/transaction/inspection-and-survey"
           component={InspectionAndSurveyLanding}
         />
-
         {/* Transport Charges */}
         <ContentRoute
           path="/managementImport/transaction/transport-charges/create"
@@ -270,13 +255,11 @@ export function importManagementPages() {
           path="/managementImport/transaction/transport-charges"
           component={TransportChargesLanding}
         />
-
         {/* CnF Service List */}
         <ContentRoute
           path="/managementImport/transaction/cnf-service-list"
           component={CnFServiceList}
         />
-
         {/* CnF Charges */}
         <ContentRoute
           path="/managementImport/transaction/cnf-charges/create"
@@ -286,7 +269,6 @@ export function importManagementPages() {
           path="/managementImport/transaction/cnf-charges"
           component={CnFChargesLanding}
         />
-
         {/* LC Business Partner Landing */}
         <ContentRoute
           path="/managementImport/transaction/lc-business-partner/create"
@@ -302,7 +284,6 @@ export function importManagementPages() {
           component={LCBusinessPartnerLanding}
         />
         {/* Commercial Payment */}
-
         {/* Reports - Indent PO LC */}
         <ContentRoute
           path="/managementImport/reports/indent-po-lc"
@@ -347,7 +328,11 @@ export function importManagementPages() {
           path="/managementImport/reports/lc-cost-sheet-partnerwise"
           component={LcCostSheetPartnerWise}
         />
-        {/* Outstanding LC */}
+        <ContentRoute
+          path="/managementImport/reports/PurchasePlanningScheduling"
+          component={PurchasePlanningAndScheduling}
+        />
+        d{/* Outstanding LC */}
         <ContentRoute
           path="/managementImport/reports/outstanding-lc"
           component={OutStandingLc}
@@ -380,7 +365,6 @@ export function importManagementPages() {
           path="/managementImport/transaction/proforma-invoice"
           component={ProformaInvoiceLanding}
         />
-
         <ContentRoute
           path="/managementImport/transaction/advance-payment-customs-duty/edit/:id"
           component={CustomDutyAdvancePayCreateEdit}
