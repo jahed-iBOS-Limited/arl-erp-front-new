@@ -345,6 +345,7 @@ function Form({
                       selectedValue={values?.respondentName}
                       handleChange={(valueOption) => {
                         setFieldValue("respondentName", valueOption || "");
+                       
                         setFieldValue(
                           "respondentContact",
                           valueOption?.contactNumber || ""
@@ -359,6 +360,7 @@ function Form({
                           )
                           .then((res) => {
                             return res?.data?.map((itm) => ({
+                              ...itm,
                               value: itm?.value,
                               label: `${itm?.level} [${itm?.employeeCode}]`,
                             }));

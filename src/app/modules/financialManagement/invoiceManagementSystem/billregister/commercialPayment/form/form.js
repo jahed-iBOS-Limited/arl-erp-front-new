@@ -42,7 +42,7 @@ export default function _Form({
   setDisabled,
   setTotalCount,
   totalCount,
-  state
+  state,
 }) {
   const { state: headerData } = useLocation();
   const [fileObjects, setFileObjects] = useState([]);
@@ -54,12 +54,19 @@ export default function _Form({
   const [referenceId, setReferenceId] = useState("");
   const [itemData, setItemData] = useState("");
   const [chargeTypeDDL, getChargeTypeDDL] = useAxiosGet();
-  const [subChargeTypeDDL, getSubChargeTypeDDL, ,setSubChargeTypeDDL] = useAxiosGet();
+  const [
+    subChargeTypeDDL,
+    getSubChargeTypeDDL,
+    ,
+    setSubChargeTypeDDL,
+  ] = useAxiosGet();
 
-  useEffect(()=>{
-    getChargeTypeDDL(`/imp/ImportCommonDDL/getChargeTypeDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[profileData, selectedBusinessUnit])
+  useEffect(() => {
+    getChargeTypeDDL(
+      `/imp/ImportCommonDDL/getChargeTypeDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profileData, selectedBusinessUnit]);
 
   const loadPoLcList = (v) => {
     if (v?.length < 3) return [];
@@ -119,17 +126,17 @@ export default function _Form({
               >
                 <CardHeaderToolbar>
                   <button
-                    type="button"
+                    type='button'
                     onClick={backHandler}
                     className={"btn btn-light"}
                   >
-                    <i className="fa fa-arrow-left"></i>
+                    <i className='fa fa-arrow-left'></i>
                     Back
                   </button>
                   <button
                     onClick={handleSubmit}
-                    className="btn btn-primary ml-2"
-                    type="submit"
+                    className='btn btn-primary ml-2'
+                    type='submit'
                     disabled={values?.billingStatus?.label === "Done"}
                   >
                     Save
@@ -137,14 +144,14 @@ export default function _Form({
                 </CardHeaderToolbar>
               </CardHeader>
               <CardBody>
-                <Form className="form form-label-right">
-                  <div className=" row global-form">
-                    <div className="col-lg-2">
+                <Form className='form form-label-right'>
+                  <div className=' row global-form'>
+                    <div className='col-lg-2'>
                       <label>PO/LC</label>
                       <SearchAsyncSelect
                         selectedValue={values?.poLc}
                         isSearchIcon={true}
-                        name="poLc"
+                        name='poLc'
                         handleChange={(valueOption) => {
                           setFieldValue("poLc", valueOption);
                           setFieldValue("supplier", "");
@@ -157,15 +164,15 @@ export default function _Form({
                           );
                         }}
                         loadOptions={loadPoLcList || []}
-                        placeholder="Search by PO/LC Id"
+                        placeholder='Search by PO/LC Id'
                       />
                     </div>
-                    <div className="col-lg-2">
+                    <div className='col-lg-2'>
                       <NewSelect
                         options={supplierDDL || []}
-                        label="Supplier"
-                        placeholder="Supplier"
-                        name="supplier"
+                        label='Supplier'
+                        placeholder='Supplier'
+                        name='supplier'
                         value={values?.supplier}
                         onChange={(valueOption) => {
                           setFieldValue("supplier", valueOption);
@@ -199,71 +206,80 @@ export default function _Form({
                         }}
                       />
                     </div> */}
-                 
 
-                    <div className="col-lg-2">
+                    <div className='col-lg-2'>
                       <NewSelect
                         options={chargeTypeDDL || []}
-                        label="Charge Type"
-                        name="chargeType"
+                        label='Charge Type'
+                        name='chargeType'
                         value={values?.chargeType}
                         onChange={(valueOption) => {
-                        if(valueOption){
-                          setFieldValue("chargeType", valueOption);
-                          getSubChargeTypeDDL(`/imp/ImportCommonDDL/SubChargeTypeDDL?ChargeTypeId=${valueOption?.value}`, (data)=>{
-                            const result = data.map((item)=>({...item, value: item?.subChargeTypeId, label: item?.subChargeTypeName}))
-                            setSubChargeTypeDDL(result);
-                          })
-                          getLandingDataForCommercialBill(
-                            values?.poLc?.label,
-                            values?.supplier?.value || 0,
-                            0,
-                            valueOption?.label,
-                            0
-                          );
-                        }else{
-                          setFieldValue("chargeType", "");
-                          setFieldValue("subChargeType", "");
-                          setSubChargeTypeDDL([]);
-                          getLandingDataForCommercialBill(
-                            values?.poLc?.label,
-                            values?.supplier?.value || 0,
-                            0,
-                            "",
-                            values?.subChargeType?.value || 0
-                          );
-                        }
+                          if (valueOption) {
+                            setFieldValue("chargeType", valueOption);
+                            getSubChargeTypeDDL(
+                              `/imp/ImportCommonDDL/SubChargeTypeDDL?ChargeTypeId=${valueOption?.value}`,
+                              (data) => {
+                                const result = data.map((item) => ({
+                                  ...item,
+                                  value: item?.subChargeTypeId,
+                                  label: item?.subChargeTypeName,
+                                }));
+                                setSubChargeTypeDDL(result);
+                              }
+                            );
+                            getLandingDataForCommercialBill(
+                              values?.poLc?.label,
+                              values?.supplier?.value || 0,
+                              0,
+                              valueOption?.label,
+                              0
+                            );
+                          } else {
+                            setFieldValue("chargeType", "");
+                            setFieldValue("subChargeType", "");
+                            setSubChargeTypeDDL([]);
+                            getLandingDataForCommercialBill(
+                              values?.poLc?.label,
+                              values?.supplier?.value || 0,
+                              0,
+                              "",
+                              values?.subChargeType?.value || 0
+                            );
+                          }
                         }}
                       />
                     </div>
-                    {subChargeTypeDDL?.length > 0 ? (<div className="col-lg-2">
-                      <NewSelect
-                        options={subChargeTypeDDL || []}
-                        label="Sub Charge Type"
-                        name="subChargeType"
-                        value={values?.subChargeType}
-                        onChange={(valueOption) => {
-                          setFieldValue("subChargeType", valueOption);
-                          getLandingDataForCommercialBill(
-                            values?.poLc?.label,
-                            valueOption?.value,
-                            0,
-                            values?.chargeType?.label || "",
-                            valueOption?.value || 0
-                          );
-                        }}
-                      />
-                    </div>) : ""}
-                    
+                    {subChargeTypeDDL?.length > 0 ? (
+                      <div className='col-lg-2'>
+                        <NewSelect
+                          options={subChargeTypeDDL || []}
+                          label='Sub Charge Type'
+                          name='subChargeType'
+                          value={values?.subChargeType}
+                          onChange={(valueOption) => {
+                            setFieldValue("subChargeType", valueOption);
+                            getLandingDataForCommercialBill(
+                              values?.poLc?.label,
+                              valueOption?.value,
+                              0,
+                              values?.chargeType?.label || "",
+                              valueOption?.value || 0
+                            );
+                          }}
+                        />
+                      </div>
+                    ) : (
+                      ""
+                    )}
 
                     {values?.billingStatus?.value === 0 && (
-                      <div className="col-lg-2">
+                      <div className='col-lg-2'>
                         <label>Bill No</label>
                         <InputField
                           value={values?.billNo}
-                          name="billNo"
-                          placeholder="Bill No"
-                          type="text"
+                          name='billNo'
+                          placeholder='Bill No'
+                          type='text'
                           // disabled={values?.billingStatus?.label === "Done"}
                         />
                       </div>
@@ -310,10 +326,10 @@ export default function _Form({
                       />
                     </div> */}
                     {/* {values?.billingStatus?.value === 0 && ( */}
-                    <div className="col-lg-2">
+                    <div className='col-lg-2'>
                       <button
-                        className="btn btn-primary mr-2 mt-5"
-                        type="button"
+                        className='btn btn-primary mr-2 mt-5'
+                        type='button'
                         onClick={() => setOpen(true)}
                       >
                         Attachment
@@ -349,42 +365,61 @@ export default function _Form({
                       showFileNamesInPreview={true}
                     />
                   </div>
-                  <div className="d-flex justify-content-center align-items-center">
-                      <div className="mr-5">
-                          <strong style={{fontSize:"14px"}}>Total Bill Amount (with VAT) : {rowDto?.length > 0 ?  rowDto?.filter(item => item?.isSelect)?.reduce(
-                            (accumulator, currentValue) => accumulator +  +currentValue?.totalBilledAmount || 0,
-                            0,
-                          ) : 0
-                          }</strong>
-                      </div>
-                      <div>
+                  <div className='d-flex justify-content-center align-items-center'>
+                    <div className='mr-5'>
+                      <strong style={{ fontSize: "14px" }}>
+                        Total Bill Amount (with VAT) :{" "}
+                        {rowDto?.length > 0
+                          ? rowDto
+                              ?.filter((item) => item?.isSelect)
+                              ?.reduce(
+                                (accumulator, currentValue) =>
+                                  accumulator +
+                                    +currentValue?.totalBilledAmount || 0,
+                                0
+                              )
+                          : 0}
+                      </strong>
+                    </div>
+                    <div>
                       <InputField
-                                name="vat"
-                                placeholder="Modify Vat"
-                                type="number"
-                                className="form-control"
-                                disabled={!rowDto?.filter(item => item?.isSelect)?.length}
-                                onChange={(e) => {
-                                  const modifyData = rowDto?.map(item => (
-                                    item?.isSelect ? { ...item,  vatamount: +e?.target?.value,  totalBilledAmount: (parseFloat(+item?.totalAmount.replace(/,/g, '')) || 0) + (+e?.target?.value || 0), } : item
-                                  ));
-                                  setRowDto(modifyData);
-                                }}
-                              />
-                      </div>
+                        name='vat'
+                        placeholder='Modify Vat'
+                        type='number'
+                        className='form-control'
+                        disabled={
+                          !rowDto?.filter((item) => item?.isSelect)?.length
+                        }
+                        onChange={(e) => {
+                          const modifyData = rowDto?.map((item) =>
+                            item?.isSelect
+                              ? {
+                                  ...item,
+                                  vatamount: +e?.target?.value,
+                                  totalBilledAmount:
+                                    (parseFloat(
+                                      +item?.totalAmount.replace(/,/g, "")
+                                    ) || 0) + (+e?.target?.value || 0),
+                                }
+                              : item
+                          );
+                          setRowDto(modifyData);
+                        }}
+                      />
+                    </div>
                   </div>
                   <div
                     style={{ maxHeight: "900px" }}
-                    className="scroll-table-auto"
+                    className='scroll-table-auto'
                   >
-                    <table className="table table-striped table-bordered global-table">
+                    <table className='table table-striped table-bordered global-table'>
                       <thead>
                         <tr>
                           {/* {values?.billingStatus?.label !== "Done" && ( */}
                           <th style={{ minWidth: "35px" }}>
                             <input
-                              type="checkbox"
-                              name="allCheck"
+                              type='checkbox'
+                              name='allCheck'
                               onClick={() => {
                                 setAllCheck();
                               }}
@@ -405,33 +440,46 @@ export default function _Form({
                           <th style={{ minWidth: "60px" }}>Due Date</th>
                         </tr>
                       </thead>
-                      <tbody className="">
+                      <tbody className=''>
                         {rowDto?.map((item, index) => (
-                          <tr 
-                            key={index} 
-                            style={{cursor: "pointer"}} 
-                            onClick={(e)=>{
-                              if(item.costTypeId===12 || item.costTypeId===21 || item.costTypeId===22 || item.costTypeId===13 || item.costTypeId===14 || item.costTypeId===15 || item.costTypeId===20){
-                                setIsShowModal(true)
-                                setPoNumber(item?.ponumber)
-                                setShipmentNo(item?.shipmentCode)
-                                setLcNumber(item?.lcnumber)
-                                setReferenceId(item?.costId)
-                                setItemData(item)
+                          <tr
+                            key={index}
+                            style={{ cursor: "pointer" }}
+                            onClick={(e) => {
+                              if (
+                                item.costTypeId === 12 ||
+                                item.costTypeId === 21 ||
+                                item.costTypeId === 22 ||
+                                item.costTypeId === 13 ||
+                                item.costTypeId === 14 ||
+                                item.costTypeId === 15 ||
+                                item.costTypeId === 20
+                              ) {
+                                setIsShowModal(true);
+                                setPoNumber(item?.ponumber);
+                                setShipmentNo(item?.shipmentCode);
+                                setLcNumber(item?.lcnumber);
+                                setReferenceId(item?.costId);
+                                setItemData(item);
                               }
                             }}
                           >
-                            <td className="text-center">
+                            <td className='text-center'>
                               <input
-                                type="checkbox"
-                                name="isSelect"
-                                // disabled={item.costTypeId===12 || item.costTypeId===21 || 
-                                //   item.costTypeId===22 || item.costTypeId===13 || item.costTypeId===14 || item.costTypeId===15 || item.costTypeId===20
-                                // }
+                                type='checkbox'
+                                name='isSelect'
+                                disabled={
+                                  item.costTypeId === 12 ||
+                                  item.costTypeId === 21 ||
+                                  item.costTypeId === 22 ||
+                                  item.costTypeId === 13 ||
+                                  item.costTypeId === 14 ||
+                                  item.costTypeId === 15 ||
+                                  item.costTypeId === 20
+                                }
                                 checked={item?.isSelect}
-                                onClick={(e)=>{
+                                onClick={(e) => {
                                   e.stopPropagation();
-
                                 }}
                                 onChange={(valueOption) => {
                                   rowDtoHandler(
@@ -443,35 +491,34 @@ export default function _Form({
                               />
                             </td>
                             {/* )} */}
-                            <td className="text-center">
+                            <td className='text-center'>
                               {item?.costTypeName}
                             </td>
-                            <td className="text-center">{item?.ponumber}</td>
-                            <td className="text-center">{item?.lcnumber}</td>
-                            <td className="text-center">
+                            <td className='text-center'>{item?.ponumber}</td>
+                            <td className='text-center'>{item?.lcnumber}</td>
+                            <td className='text-center'>
                               {item?.shipmentCode ? item.shipmentCode : "-"}
                             </td>
                             <td>{item?.subChargeTypeName}</td>
-                            <td className="text-center">
+                            <td className='text-center'>
                               {item?.businessPartnerName}
                             </td>
-                            <td className="text-right">{item?.totalAmount}</td>
-                            <td className="text-right">
+                            <td className='text-right'>{item?.totalAmount}</td>
+                            <td className='text-right'>
                               {/* {values?.billingStatus?.label === "Done" &&
                                 _formatMoney(item?.actualAmount)} */}
                               {/* {values?.billingStatus?.label !== "Done" && ( */}
                               <InputField
-                                name="totalBilledAmount"
-                                type="number"
-                                className="form-control"
-                                // disabled={item.costTypeId===12 || item.costTypeId===21 || 
+                                name='totalBilledAmount'
+                                type='number'
+                                className='form-control'
+                                // disabled={item.costTypeId===12 || item.costTypeId===21 ||
                                 //   item.costTypeId===22 || item.costTypeId===13 || item.costTypeId===14 || item.costTypeId===15 || item.costTypeId===20
                                 // }
                                 value={item?.totalBilledAmount}
-                                placeholder="Total Billed Amount"
-                                onClick={(e)=>{
+                                placeholder='Total Billed Amount'
+                                onClick={(e) => {
                                   e.stopPropagation();
-
                                 }}
                                 onChange={(valueOption) => {
                                   rowDtoHandler(
@@ -483,20 +530,19 @@ export default function _Form({
                               />
                               {/* )} */}
                             </td>
-                            <td className="text-right">
+                            <td className='text-right'>
                               {/* {values?.billingStatus?.label === "Done" &&
                                 _formatMoney(item?.actualVat)} */}
                               {/* {values?.billingStatus?.label !== "Done" && ( */}
                               <InputField
-                                name="vatamount"
-                                placeholder="VAT"
+                                name='vatamount'
+                                placeholder='VAT'
                                 value={rowDto[index]?.vatamount}
-                                // disabled={item.costTypeId===12 || item.costTypeId===21 || 
+                                // disabled={item.costTypeId===12 || item.costTypeId===21 ||
                                 //   item.costTypeId===22 || item.costTypeId===13 || item.costTypeId===14 || item.costTypeId===15 || item.costTypeId===20
                                 // }
-                                onClick={(e)=>{
+                                onClick={(e) => {
                                   e.stopPropagation();
-
                                 }}
                                 onChange={(e) => {
                                   rowDtoHandler(
@@ -504,27 +550,30 @@ export default function _Form({
                                     e?.target?.value,
                                     index
                                   );
-                
-                                  let data = [...rowDto]
-                                  let numericTotalAmount = parseFloat(item?.totalAmount.replace(/,/g, ''))
-                                  data[index]["totalBilledAmount"] = (numericTotalAmount|| 0) + (+e?.target?.value || 0);
+
+                                  let data = [...rowDto];
+                                  let numericTotalAmount = parseFloat(
+                                    item?.totalAmount.replace(/,/g, "")
+                                  );
+                                  data[index]["totalBilledAmount"] =
+                                    (numericTotalAmount || 0) +
+                                    (+e?.target?.value || 0);
                                   setRowDto(data);
                                 }}
                               />
                               {/* )} */}
                             </td>
-                            <td className="text-center">
+                            <td className='text-center'>
                               {/* {values?.billingStatus?.label === "Done" &&
                                 _dateFormatter(item?.dueDate)} */}
                               {/* {values?.billingStatus?.label !== "Done" && ( */}
                               <InputField
                                 value={item?.dueDate}
-                                type="date"
-                                name="dueDate"
-                                className="form-control"
-                                onClick={(e)=>{
+                                type='date'
+                                name='dueDate'
+                                className='form-control'
+                                onClick={(e) => {
                                   e.stopPropagation();
-
                                 }}
                                 onChange={(valueOption) => {
                                   rowDtoHandler(
@@ -546,14 +595,14 @@ export default function _Form({
                   </div>
 
                   <button
-                    type="submit"
+                    type='submit'
                     style={{ display: "none" }}
                     ref={btnRef}
                     onSubmit={() => handleSubmit()}
                   ></button>
 
                   <button
-                    type="reset"
+                    type='reset'
                     style={{ display: "none" }}
                     ref={resetBtnRef}
                     onSubmit={() => resetForm(initData)}
@@ -571,7 +620,7 @@ export default function _Form({
             </Card>
             <ServiceBreakDownViewModal
               show={isShowModal}
-              onHide={() => setIsShowModal(false)} 
+              onHide={() => setIsShowModal(false)}
               supplierDDL={supplierDDL}
               poNumber={poNumber}
               shipmentNo={shipmentNo}
