@@ -88,18 +88,18 @@ function ShipToPartnerAnalysisReport() {
     <>
       <Formik enableReinitialize={true} initialValues={initData}>
         {({ values, setFieldValue }) => (
-          <ICard title="Ship to Partner Analysis Report">
-            <form className="form form-label-right">
-              <div className="form-group row global-form">
-                <div className="col-lg-2">
+          <ICard title='Ship to Partner Analysis Report'>
+            <form className='form form-label-right'>
+              <div className='form-group row global-form'>
+                <div className='col-lg-2'>
                   <NewSelect
-                    name="reportName"
-                    label="Report Name"
+                    name='reportName'
+                    label='Report Name'
                     options={[
                       { value: 1, label: "Ship to Partner Analysis" },
                       { value: 2, label: "Net to Company" },
                     ]}
-                    placeholder="Report Name"
+                    placeholder='Report Name'
                     value={values?.reportName}
                     onChange={(e) => {
                       setFieldValue("reportName", e);
@@ -122,12 +122,20 @@ function ShipToPartnerAnalysisReport() {
                 />
                 {values?.reportName?.value === 2 && (
                   <>
-                    <div className="col-lg-2">
+                    <div className='col-lg-2'>
                       <NewSelect
-                        name="shipPoint"
-                        label="ShipPoint"
-                        options={shipPointDDL || []}
-                        placeholder="ShipPoint"
+                        name='shipPoint'
+                        label='ShipPoint'
+                        options={
+                          [
+                            {
+                              value: 0,
+                              label: "All",
+                            },
+                            ...shipPointDDL,
+                          ] || []
+                        }
+                        placeholder='ShipPoint'
                         value={values?.shipPoint}
                         onChange={(e) => {
                           setFieldValue("shipPoint", e);
@@ -135,7 +143,7 @@ function ShipToPartnerAnalysisReport() {
                         }}
                       />
                     </div>
-                    <div className="col-lg-2">
+                    <div className='col-lg-2'>
                       <label>Customer</label>
                       <SearchAsyncSelect
                         selectedValue={values?.customer}
@@ -144,16 +152,27 @@ function ShipToPartnerAnalysisReport() {
                           setShowReport(false);
                         }}
                         isDisabled={!values?.channel}
-                        placeholder="Search Customer"
-                        loadOptions={(v) => {
+                        placeholder='Search Customer'
+                        loadOptions={async (v) => {
                           const searchValue = v.trim();
                           if (searchValue?.length < 3 || !searchValue)
-                            return [];
+                            return [
+                              {
+                                value: 0,
+                                label: "All",
+                              },
+                            ];
                           return axios
                             .get(
                               `/partner/PManagementCommonDDL/GetCustomerNameDDLByChannelId?SearchTerm=${searchValue}&AccountId=${accId}&BusinessUnitId=${buId}&ChannelId=${values?.channel?.value}`
                             )
-                            .then((res) => res?.data);
+                            .then((res) => [
+                              {
+                                value: 0,
+                                label: "All",
+                              },
+                              ...res?.data,
+                            ]);
                         }}
                       />
                     </div>
@@ -169,15 +188,15 @@ function ShipToPartnerAnalysisReport() {
                     colSize: "col-lg-2",
                   }}
                 />
-                <div className="col-lg-2">
+                <div className='col-lg-2'>
                   <NewSelect
-                    name="viewType"
-                    label="View Type"
+                    name='viewType'
+                    label='View Type'
                     options={[
                       { value: 1, label: "Graph View" },
                       { value: 2, label: "Detail View" },
                     ]}
-                    placeholder="View Type"
+                    placeholder='View Type'
                     value={values?.viewType}
                     onChange={(e) => {
                       setFieldValue("viewType", e);
