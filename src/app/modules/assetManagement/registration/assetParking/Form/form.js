@@ -63,7 +63,10 @@ export default function _Form({
           ...initData,
           transactionQuantity: assetDetais?.transactionQuantity,
           assetName: assetDetais?.itemName,
-          itemCategory:{ value: currentRowData?.itemCategoryId, label: currentRowData?.itemCategoryName }
+          itemCategory: {
+            value: currentRowData?.itemCategoryId,
+            label: currentRowData?.itemCategoryName,
+          },
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -82,7 +85,6 @@ export default function _Form({
           isValid,
         }) => (
           <>
-            {/* {disableHandler(!isValid)} */}
             <Form className="form form-label-right">
               <div className="form-group row global-form">
                 <div className="col-lg-3">
@@ -98,6 +100,7 @@ export default function _Form({
                     errors={errors}
                     touched={touched}
                     placeholder="Category"
+                    isDisabled={true}
                   />
                 </div>
                 <div className="col-lg-3 mb-4">
@@ -330,9 +333,9 @@ export default function _Form({
                     name="lifeTimeYear"
                     min="0"
                     onChange={(e) => {
-                      if(e.target.value < 0){
+                      if (e.target.value < 0) {
                         return setFieldValue("lifeTimeYear", "");
-                      }else{
+                      } else {
                         setFieldValue("lifeTimeYear", e.target.value);
                       }
                     }}
@@ -347,9 +350,9 @@ export default function _Form({
                     name="depRunRate"
                     min="0"
                     onChange={(e) => {
-                      if(e.target.value < 0){
+                      if (e.target.value < 0) {
                         return setFieldValue("depRunRate", "");
-                      }else{
+                      } else {
                         setFieldValue("depRunRate", e.target.value);
                       }
                     }}
@@ -367,7 +370,6 @@ export default function _Form({
                     touched={touched}
                   />
                 </div>
-
               </div>
               <div className="form-group row">
                 <div className="col-lg-12">
