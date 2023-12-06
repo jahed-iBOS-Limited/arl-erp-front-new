@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import { createShipmentCharge, getPortChargeLanding, getPortCharge } from "./helper";
+import { createShipmentCharge, getPortCharge, getPortChargeLanding } from "./helper";
 
 export const setDataToGridData = (key, index, value, grid, setter, label) => {
   let data = [...grid];
@@ -82,7 +82,7 @@ export const clickSaveBtn = (
       !item?.dueDate ||
       !item?.serviceReceiveDate ||
       !item?.totalAmount ||
-      !item?.vendor ||
+      (item.isMultipleSupplier ? false : !item?.vendor) ||
       !values?.shipmentDDL ||
       !values?.poLcDDL
     ) {
