@@ -9,17 +9,20 @@ import { useParams } from "react-router-dom";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { shallowEqual, useSelector } from "react-redux";
+import { _todayDate } from "../../../_helper/_todayDate";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
 
 const initData = {
   depositeType: "",
-  partnerName: "",
+  partner: "",
   securityNumber: "",
   amount: "",
-  issueDate: "",
+  issueDate: _todayDate(),
   endDate: "",
   tDays: "",
   purpose: "",
   bankAccountNo: "",
+  transactionDate: "",
 };
 
 const validationSchema = Yup.object().shape({
@@ -27,47 +30,73 @@ const validationSchema = Yup.object().shape({
     label: Yup.string().required("Deposite Type is required"),
     value: Yup.string().required("Deposite Type is required"),
   }),
-  partnerName: Yup.string().required("Partner Name is required"),
+  partner: Yup.object().shape({
+    label: Yup.string().required("Partner is required"),
+    value: Yup.string().required("Partner is required"),
+  }),
   securityNumber: Yup.string().required("Security Number is required"),
   amount: Yup.number().required("Amount is required"),
   issueDate: Yup.string().required("Issue Date is required"),
-  endDate: Yup.string().required("End Date is required"),
-  tDays: Yup.number().required("T Days is required"),
+  // endDate: Yup.string().required("End Date is required"),
+  tDays: Yup.string().required("T Days is required"),
   purpose: Yup.string().required("Purpose is required"),
   bankAccountNo: Yup.object().shape({
     label: Yup.string().required("Bank Account No is required"),
     value: Yup.string().required("Bank Account No is required"),
   }),
+  transactionDate: Yup.string().required("Transaction Date is required"),
 });
 
 export default function NonBankingFundCreateEdit() {
   const [objProps, setObjprops] = useState({});
+
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
     shallowEqual
   );
   const [, saveData, saveDataLaoder] = useAxiosPost();
-  const [, getSingleData, getSingleDataLoader] = useAxiosGet();
+  const [
+    depositeTypeDDL,
+    getDepositeTypeDDL,
+    depositeTypeDDLloader,
+  ] = useAxiosGet();
+  const [partnerDDL, getPartnerDDL, partnerDDLloader] = useAxiosGet();
   const [
     bankAccountDDL,
     getbankAccountDDL,
     bankAccountDDLloader,
   ] = useAxiosGet();
-  const [modifiedData, setModifiedData] = useState({});
   const { id } = useParams();
 
   useEffect(() => {
-    getbankAccountDDL(`https://erp.ibos.io/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}
+    getbankAccountDDL(`/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}
+    `);
+    getDepositeTypeDDL(`/fino/FundManagement/GetDepositTypeDDL`);
+    getPartnerDDL(`/fino/FundManagement/GetNonBankingPartnerDDL?businessUnitId=${selectedBusinessUnit?.value}
     `);
   }, []);
-  useEffect(() => {
-    // getSingleData()
-  }, [id]);
 
   const saveHandler = (values, cb) => {
-    // const payload = {};
-    // saveData("", payload, cb, true)
+    const payload = {
+      depositLoanId: 0,
+      businessUnitId: selectedBusinessUnit?.value,
+      depositTypeId: values?.depositeType?.value,
+      depositTypeName: values?.depositeType?.label,
+      nonBankingPartnerId: values?.partner?.value,
+      nonBankingPartnerName: values?.partner?.label,
+      securityNumber: values?.securityNumber,
+      issueDate: values?.issueDate,
+      endDate: values?.endDate || null,
+      tdays: values?.tDays,
+      purpose: values?.purpose,
+      createdBy: profileData?.userId,
+      bankAccountId: values?.bankAccountNo?.value,
+      transactionDate: values?.transactionDate,
+      amount: +values?.amount,
+    };
+    saveData(`/fino/FundManagement/CreateNonBankingFund`, payload, cb, true);
   };
+
   return (
     <Formik
       enableReinitialize={true}
@@ -89,9 +118,10 @@ export default function NonBankingFundCreateEdit() {
         touched,
       }) => (
         <>
-          {(saveDataLaoder || getSingleDataLoader || bankAccountDDLloader) && (
-            <Loading />
-          )}
+          {(saveDataLaoder ||
+            bankAccountDDLloader ||
+            depositeTypeDDLloader ||
+            partnerDDLloader) && <Loading />}
           <IForm
             title={id ? "Edit Non Banking Fund" : "Create Non Banking Fund"}
             getProps={setObjprops}
@@ -101,10 +131,7 @@ export default function NonBankingFundCreateEdit() {
                 <div className="col-lg-3">
                   <NewSelect
                     name="depositeType"
-                    options={[
-                      { value: 1, label: "depositeType-1" },
-                      { value: 2, label: "depositeType-2" },
-                    ]}
+                    options={depositeTypeDDL || []}
                     value={values?.depositeType}
                     label="Deposite Type"
                     onChange={(valueOption) => {
@@ -115,14 +142,16 @@ export default function NonBankingFundCreateEdit() {
                   />
                 </div>
                 <div className="col-lg-3">
-                  <InputField
-                    value={values?.partnerName}
-                    label="Partner Name"
-                    name="partnerName"
-                    type="text"
-                    onChange={(e) => {
-                      setFieldValue("partnerName", e.target.value);
+                  <NewSelect
+                    name="partner"
+                    options={partnerDDL || []}
+                    value={values?.partner}
+                    label="Partner"
+                    onChange={(valueOption) => {
+                      setFieldValue("partner", valueOption);
                     }}
+                    errors={errors}
+                    touched={touched}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -134,6 +163,19 @@ export default function NonBankingFundCreateEdit() {
                     onChange={(e) => {
                       setFieldValue("securityNumber", e.target.value);
                     }}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="bankAccountNo"
+                    options={bankAccountDDL || []}
+                    value={values?.bankAccountNo}
+                    label="Bank Account No"
+                    onChange={(valueOption) => {
+                      setFieldValue("bankAccountNo", valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -158,7 +200,6 @@ export default function NonBankingFundCreateEdit() {
                     }}
                   />
                 </div>
-
                 <div className="col-lg-3">
                   <InputField
                     value={values?.issueDate}
@@ -186,23 +227,21 @@ export default function NonBankingFundCreateEdit() {
                     value={values?.tDays}
                     label="T Days"
                     name="tDays"
-                    type="number"
+                    type="text"
                     onChange={(e) => {
                       setFieldValue("tDays", e.target.value);
                     }}
                   />
                 </div>
                 <div className="col-lg-3">
-                  <NewSelect
-                    name="bankAccountNo"
-                    options={bankAccountDDL || []}
-                    value={values?.bankAccountNo}
-                    label="Bank Account No"
-                    onChange={(valueOption) => {
-                      setFieldValue("bankAccountNo", valueOption);
+                  <InputField
+                    value={values?.transactionDate}
+                    label="Transaction Date"
+                    name="transactionDate"
+                    type="date"
+                    onChange={(e) => {
+                      setFieldValue("transactionDate", e.target.value);
                     }}
-                    errors={errors}
-                    touched={touched}
                   />
                 </div>
               </div>
