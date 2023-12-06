@@ -42,7 +42,8 @@ export default function _Form({
   setDisabled,
   setTotalCount,
   totalCount,
-  state
+  state,
+  rowDtoSelectHandler
 }) {
   const { state: headerData } = useLocation();
   const [fileObjects, setFileObjects] = useState([]);
@@ -366,7 +367,7 @@ export default function _Form({
                                 disabled={!rowDto?.filter(item => item?.isSelect)?.length}
                                 onChange={(e) => {
                                   const modifyData = rowDto?.map(item => (
-                                    item?.isSelect ? { ...item,  vatamount: +e?.target?.value,  totalBilledAmount: (parseFloat(+item?.totalAmount.replace(/,/g, '')) || 0) + (+e?.target?.value || 0), } : item
+                                    item?.isSelect ? { ...item,  vatamount: +e?.target?.value,  totalBilledAmount: (parseFloat(+item?.totalAmount.replace(/,/g, '')) || 0) + (parseFloat(+item?.totalAmount.replace(/,/g, '')) * +e?.target?.value || 0) /100, } : item
                                   ));
                                   setRowDto(modifyData);
                                 }}
@@ -434,7 +435,8 @@ export default function _Form({
 
                                 }}
                                 onChange={(valueOption) => {
-                                  rowDtoHandler(
+                                  rowDtoSelectHandler(
+                                    item?.costTypeName,
                                     "isSelect",
                                     !item?.isSelect,
                                     index
@@ -507,7 +509,7 @@ export default function _Form({
                 
                                   let data = [...rowDto]
                                   let numericTotalAmount = parseFloat(item?.totalAmount.replace(/,/g, ''))
-                                  data[index]["totalBilledAmount"] = (numericTotalAmount|| 0) + (+e?.target?.value || 0);
+                                  data[index]["totalBilledAmount"] = (numericTotalAmount|| 0) + (numericTotalAmount * +e?.target?.value /100 || 0);
                                   setRowDto(data);
                                 }}
                               />
