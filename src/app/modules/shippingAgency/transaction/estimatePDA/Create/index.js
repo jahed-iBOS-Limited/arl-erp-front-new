@@ -80,6 +80,7 @@ const EstimatePDACreate = () => {
   const [fileObjects, setFileObjects] = useState([]);
   const [voyageNoDDL, setVoyageNoDDL] = useState([]);
   const [rowDto, setRowDto] = useState([]);
+  const [widthOutModfifyRowDto, setWidthOutModfifyRowDto] = useState([]);
   const [unitDDL, setUnitDDL] = useState([]);
   const [bankAcc, setBankAcc] = useState([]);
   const { editId } = useParams();
@@ -272,7 +273,7 @@ const EstimatePDACreate = () => {
             : "",
           swiftCode: resData?.swiftCode || "",
         });
-        setRowDto(
+        const rowList =
           resData?.shippingAgencyEstimatePdarowDtos?.map((item) => {
             const poId = item?.poId || +item?.podetails?.poId || 0;
             const actualAmount =
@@ -289,8 +290,9 @@ const EstimatePDACreate = () => {
               poTypeId,
               isPo: poId ? true : false,
             };
-          }) || []
-        );
+          }) || [];
+        setRowDto(rowList);
+        setWidthOutModfifyRowDto(rowList);
       }
     });
   };
@@ -565,7 +567,7 @@ const EstimatePDACreate = () => {
                 </div>
               </div>
 
-              <RowTable rowDto={rowDto} setRowDto={setRowDto} editId={editId} />
+              <RowTable rowDto={rowDto} setRowDto={setRowDto} editId={editId} widthOutModfifyRowDto={widthOutModfifyRowDto}/>
 
               <DropzoneDialogBase
                 filesLimit={1}

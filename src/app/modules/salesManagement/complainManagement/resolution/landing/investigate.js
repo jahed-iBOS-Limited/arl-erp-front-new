@@ -160,6 +160,12 @@ function InvestigateForm({ clickRowData, landingCB }) {
                   <b>Issue Id:</b> {singleData?.complainNo}
                 </p>
                 <p>
+                  <b>Issue Type:</b> {singleData?.complainCategoryName}
+                </p>
+                <p>
+                  <b>Sub Issue Type:</b> {singleData?.complainSubCategoryName}
+                </p>
+                <p>
                   <b>Occurrence Date Time: </b>{" "}
                   {singleData?.requestDateTime &&
                     moment(singleData?.requestDateTime).format(
@@ -268,9 +274,12 @@ function InvestigateForm({ clickRowData, landingCB }) {
                 </div>
 
                 <div className='col-lg-3'>
+                  <label><b style={{
+                    color: "red",
+                  }}>*</b> Investigation Date</label>
                   <InputField
                     value={values?.investigationDateTime}
-                    label='Investigation Date'
+                    
                     placeholder='Investigation Date'
                     name='investigationDateTime'
                     type='datetime-local'

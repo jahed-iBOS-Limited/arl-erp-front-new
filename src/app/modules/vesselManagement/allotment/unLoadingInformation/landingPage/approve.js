@@ -84,20 +84,18 @@ export default function WarehouseApproveFrom({
 
   useEffect(() => {
     const param = `&shippointId=${singleItem?.shipPointId}`;
-    // type === 1
-    //   ? `&shippointId=${singleItem?.shipPointId}`
-    //   : type === 2
-    //   ? `&godownId=${values?.godown?.value}`
-    //   : "";
 
     const URLOne = `/tms/LigterLoadUnload/GetGodownNOtherLabourRate?type=${1}&businessUnitId=${buId}${param}`;
     const URLTwo = `/tms/LigterLoadUnload/GetLighterLoadUnloadBillDetails?voyageId=${singleItem?.voyageNo}&lighterVesselId=${singleItem?.lighterVesselId}`;
+    const URLThree = "";
 
     const URL =
       levelOfApprove === "first"
         ? URLOne
         : levelOfApprove === "second"
         ? URLTwo
+        : levelOfApprove === "third"
+        ? URLThree
         : "";
 
     getRates(URL, (resData) => {});
@@ -181,6 +179,8 @@ export default function WarehouseApproveFrom({
         setShow(false);
         getData(preValues, pageNo, pageSize);
       });
+    } else if (levelOfApprove === "third") {
+      console.log("third");
     } else {
       StockInToInventoryApproval(payloadOne, () => {
         setShow(false);
@@ -211,7 +211,6 @@ export default function WarehouseApproveFrom({
   const getInitData = () => {
     const dataSetOne = {
       ...initData,
-
       supplier: {
         value: rates?.supplierId,
         label: rates?.supplierName,
@@ -265,14 +264,17 @@ export default function WarehouseApproveFrom({
       decShipSweepingQty: rates?.shipSweepingQnt,
       decScaleQty: 1,
       decDailyLaboureQty: rates?.dailyLaboureQnt,
-
       // totalBillAmount: rates?.,
     };
+
+    const dataSetThree = {};
 
     return levelOfApprove === "first"
       ? dataSetOne
       : levelOfApprove === "second"
       ? dataSetTwo
+      : levelOfApprove === "third"
+      ? dataSetThree
       : "";
   };
 

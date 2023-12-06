@@ -16,6 +16,9 @@ import HorizonForm from "./horizon/form/addEditForm";
 import { shallowEqual, useSelector } from "react-redux";
 import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
 import findIndex from "./../../_helper/_findIndex";
+import OEEMachineAndChecklistLanding from "./OEEMachineAndChecklist";
+import OEEMachineAndChecklistLandingCreateEdit from "./OEEMachineAndChecklist/createEdit";
+import CheckListView from "./OEEMachineAndChecklist/view";
 
 export function ConfigurationPages() {
   const userRole = useSelector(
@@ -113,6 +116,18 @@ export function ConfigurationPages() {
       <ContentRoute
         path="/production-management/configuration/horizon"
         component={HorizonLanding}
+      />
+      <ContentRoute
+        path="/production-management/configuration/OEEMachineNChecklist/view/:id"
+        component={CheckListView}
+      />
+      <ContentRoute
+        path="/production-management/configuration/OEEMachineNChecklist/create"
+        component={OEEMachineAndChecklistLandingCreateEdit}
+      />
+      <ContentRoute
+        path="/production-management/configuration/OEEMachineNChecklist"
+        component={OEEMachineAndChecklistLanding}
       />
     </Switch>
   );

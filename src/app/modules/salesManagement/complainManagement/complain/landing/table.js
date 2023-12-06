@@ -27,211 +27,217 @@ const LandingTable = ({ obj }) => {
 
   return (
     <>
-      <table className='table table-striped table-bordered global-table'>
-        <thead>
-          <tr>
-            <th>SL</th>
-            <th>Issue Id</th>
-            <th>Occurrence Date</th>
-            <th>Respondent Type</th>
-            <th>Respondent Name</th>
-            <th>Create By</th>
-            <th>Create Date</th>
-            <th>Delegate By</th>
-            <th>Delegate Date</th>
-            <th>Deligate To</th>
-            <th>Investigation By</th>
-            <th>Investigation Date</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {gridData?.data?.map((item, index) => {
-            const matchEmployeeId = item?.investigatorAssignByName?.find(
-              (itm) => itm?.investigatorId === employeeId
-            );
+      <div className='table-responsive'>
+        <table className='table table-striped table-bordered global-table'>
+          <thead>
+            <tr>
+              <th>SL</th>
+              <th>Issue Id</th>
+              <th>Issue Type</th>
+              <th>Occurrence Date</th>
+              <th>Respondent Type</th>
+              <th>Respondent Name</th>
+              <th>Create By</th>
+              <th>Create Date</th>
+              <th>Delegate By</th>
+              <th>Delegate Date</th>
+              <th>Deligate To</th>
+              <th>Investigation By</th>
+              <th>Investigation Date</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {gridData?.data?.map((item, index) => {
+              const matchEmployeeId = item?.investigatorAssignByName?.find(
+                (itm) => itm?.investigatorId === employeeId
+              );
 
-            return (
-              <tr key={index}>
-                <td className='text-center'> {index + 1}</td>
-                <td>{item?.complainNo}</td>
-                <td>{_dateFormatter(item?.requestDateTime)}</td>
-                <td>{item?.respondentTypeName}</td>
-                <td>{item?.respondentName}</td>
-                <td>{item?.actionByName}</td>
-                <td>{_dateFormatter(item?.lastActionDateTime)}</td>
-                <td>{item?.delegateByName}</td>
-                <td>
-                  {item?.delegateDateTime &&
-                    moment(item?.delegateDateTime).format(
-                      "YYYY-MM-DD, HH:mm A"
-                    )}
-                </td>
-                <td>{item?.delegateToName}</td>
-                <td>
-                  <OverlayTrigger
-                    overlay={
-                      <Tooltip className='mytooltip' id='info-tooltip'>
-                        <>
-                          {item?.investigatorAssignByName?.map((itm, idx) => (
-                            <div
-                              style={{
-                                display: "flex",
-                                gap: "2px 8px",
-                              }}
-                            >
-                              <p>
-                                <b>Investigation: </b>
-                                {itm?.investigatorName}
-                                {itm?.investigationDueDate && (
-                                  <>
-                                    , Due:
-                                    {moment(itm?.investigationDueDate).format(
-                                      "YYYY-MM-DD"
-                                    )}
-                                  </>
-                                )}
-                                {itm?.investigationDateTime && (
-                                  <>
-                                    , Actual:
-                                    {moment(itm?.investigationDateTime).format(
-                                      "YYYY-MM-DD, HH:mm A"
-                                    )}
-                                  </>
-                                )}
-                              </p>
-                            </div>
-                          ))}
-                        </>
-                      </Tooltip>
-                    }
-                  >
-                    <div>
-                      {item?.investigatorAssignByName?.[0]?.investigatorName}
-                    </div>
-                  </OverlayTrigger>
-                </td>
-                <td>
-                  <OverlayTrigger
-                    overlay={
-                      <Tooltip className='mytooltip' id='info-tooltip'>
-                        <>
-                          {item?.investigatorAssignByName?.map((itm, idx) => (
-                            <div
-                              style={{
-                                display: "flex",
-                                gap: "2px 8px",
-                              }}
-                            >
-                              <p>
-                                <b>Investigation: </b>
-                                {itm?.investigatorName}
-                                {itm?.investigationDueDate && (
-                                  <>
-                                    , Due:
-                                    {moment(itm?.investigationDueDate).format(
-                                      "YYYY-MM-DD"
-                                    )}
-                                  </>
-                                )}
-                                {itm?.investigationDateTime && (
-                                  <>
-                                    , Actual:
-                                    {moment(itm?.investigationDateTime).format(
-                                      "YYYY-MM-DD, HH:mm A"
-                                    )}
-                                  </>
-                                )}
-                              </p>
-                            </div>
-                          ))}
-                        </>
-                      </Tooltip>
-                    }
-                  >
-                    <div>
-                      {matchEmployeeId?.investigationDateTime &&
-                        moment(matchEmployeeId?.investigationDateTime).format(
-                          "YYYY-MM-DD, HH:mm A"
-                        )}
-                    </div>
-                  </OverlayTrigger>
-                </td>
-                <td>
-                  <span
-                    style={{
-                      color:
-                        item?.status === "Open"
-                          ? "red"
-                          : item?.status === "Delegate"
-                          ? "blue"
-                          : item?.status === "Investigate"
-                          ? "orrage"
-                          : "green",
-                    }}
-                  >
-                    {item?.status}
-                  </span>
-                </td>
-                <td>
-                  <div
-                    className='d-flex justify-content-around'
-                    style={{
-                      gap: "8px",
-                    }}
-                  >
-                    {item?.status === "Open" && (
-                      <span
-                        onClick={() => {
-                          history.push(
-                            `/sales-management/complainmanagement/complain/edit/${item?.complainId}`
-                          );
-                        }}
-                      >
-                        <IEdit />
-                      </span>
-                    )}
-
+              return (
+                <tr key={index}>
+                  <td className='text-center'> {index + 1}</td>
+                  <td>{item?.complainNo}</td>
+                  <td>{item?.complainCategoryName}</td>
+                  <td>{_dateFormatter(item?.requestDateTime)}</td>
+                  <td>{item?.respondentTypeName}</td>
+                  <td>{item?.respondentName}</td>
+                  <td>{item?.actionByName}</td>
+                  <td>{_dateFormatter(item?.lastActionDateTime)}</td>
+                  <td>{item?.delegateByName}</td>
+                  <td>
+                    {item?.delegateDateTime &&
+                      moment(item?.delegateDateTime).format(
+                        "YYYY-MM-DD, HH:mm A"
+                      )}
+                  </td>
+                  <td>{item?.delegateToName}</td>
+                  <td>
+                    <OverlayTrigger
+                      overlay={
+                        <Tooltip className='mytooltip' id='info-tooltip'>
+                          <>
+                            {item?.investigatorAssignByName?.map((itm, idx) => (
+                              <div
+                                style={{
+                                  display: "flex",
+                                  gap: "2px 8px",
+                                }}
+                              >
+                                <p>
+                                  <b>Investigation: </b>
+                                  {itm?.investigatorName}
+                                  {itm?.investigationDueDate && (
+                                    <>
+                                      , Due:
+                                      {moment(itm?.investigationDueDate).format(
+                                        "YYYY-MM-DD"
+                                      )}
+                                    </>
+                                  )}
+                                  {itm?.investigationDateTime && (
+                                    <>
+                                      , Actual:
+                                      {moment(
+                                        itm?.investigationDateTime
+                                      ).format("YYYY-MM-DD, HH:mm A")}
+                                    </>
+                                  )}
+                                </p>
+                              </div>
+                            ))}
+                          </>
+                        </Tooltip>
+                      }
+                    >
+                      <div>
+                        {matchEmployeeId?.investigatorName &&
+                          matchEmployeeId?.investigatorName}
+                      </div>
+                    </OverlayTrigger>
+                  </td>
+                  <td>
+                    <OverlayTrigger
+                      overlay={
+                        <Tooltip className='mytooltip' id='info-tooltip'>
+                          <>
+                            {item?.investigatorAssignByName?.map((itm, idx) => (
+                              <div
+                                style={{
+                                  display: "flex",
+                                  gap: "2px 8px",
+                                }}
+                              >
+                                <p>
+                                  <b>Investigation: </b>
+                                  {itm?.investigatorName}
+                                  {itm?.investigationDueDate && (
+                                    <>
+                                      , Due:
+                                      {moment(itm?.investigationDueDate).format(
+                                        "YYYY-MM-DD"
+                                      )}
+                                    </>
+                                  )}
+                                  {itm?.investigationDateTime && (
+                                    <>
+                                      , Actual:
+                                      {moment(
+                                        itm?.investigationDateTime
+                                      ).format("YYYY-MM-DD, HH:mm A")}
+                                    </>
+                                  )}
+                                </p>
+                              </div>
+                            ))}
+                          </>
+                        </Tooltip>
+                      }
+                    >
+                      <div>
+                        {matchEmployeeId?.investigationDateTime &&
+                          moment(matchEmployeeId?.investigationDateTime).format(
+                            "YYYY-MM-DD, HH:mm A"
+                          )}
+                      </div>
+                    </OverlayTrigger>
+                  </td>
+                  <td>
                     <span
-                      onClick={() => {
-                        setClickedRow(item);
-                        setIsShowModal(true);
+                      style={{
+                        color:
+                          item?.status === "Open"
+                            ? "red"
+                            : item?.status === "Delegate"
+                            ? "blue"
+                            : item?.status === "Investigate"
+                            ? "orrage"
+                            : "green",
                       }}
                     >
-                      <IView />
+                      {item?.status}
                     </span>
-                    {item?.status === "Investigate" && (
-                      <span>
-                        <OverlayTrigger
-                          overlay={<Tooltip id='cs-icon'>Issue Close </Tooltip>}
+                  </td>
+                  <td>
+                    <div
+                      className='d-flex justify-content-around'
+                      style={{
+                        gap: "8px",
+                      }}
+                    >
+                      {item?.status === "Open" && (
+                        <span
+                          onClick={() => {
+                            history.push(
+                              `/sales-management/complainmanagement/complain/edit/${item?.complainId}`
+                            );
+                          }}
                         >
-                          <span
-                            onClick={() => {
-                              setIsFeedbackModalShow(true);
-                              setClickedRow({
-                                ...item,
-                                status: "Close",
-                                statusId: 4,
-                              });
-                            }}
-                          >
-                            <i
-                              class='fa fa-times-circle text-danger'
-                              aria-hidden='true'
-                            ></i>
-                          </span>
-                        </OverlayTrigger>
-                      </span>
-                    )}
-                  </div>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                          <IEdit />
+                        </span>
+                      )}
 
+                      <span
+                        onClick={() => {
+                          setClickedRow(item);
+                          setIsShowModal(true);
+                        }}
+                      >
+                        <IView />
+                      </span>
+                      {item?.status === "Investigate" && matchEmployeeId && (
+                        <span>
+                          <OverlayTrigger
+                            overlay={
+                              <Tooltip id='cs-icon'>Issue Close </Tooltip>
+                            }
+                          >
+                            <span
+                              onClick={() => {
+                                setIsFeedbackModalShow(true);
+                                setClickedRow({
+                                  ...item,
+                                  status: "Close",
+                                  statusId: 4,
+                                });
+                              }}
+                            >
+                              <i
+                                class='fa fa-times-circle text-danger'
+                                aria-hidden='true'
+                              ></i>
+                            </span>
+                          </OverlayTrigger>
+                        </span>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
       {isShowModal && (
         <>
           <IViewModal

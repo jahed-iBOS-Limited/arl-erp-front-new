@@ -94,6 +94,7 @@ export default function PartialChallanTable({ obj }) {
                               name="returnQty"
                               placeholder="Return qty"
                               type="number"
+                              min={"0.2"}
                               onChange={(e) => {
                                 dataChangeHandler(
                                   index,
@@ -106,6 +107,12 @@ export default function PartialChallanTable({ obj }) {
                                 if (+e?.target?.value > element?.quantity) {
                                   toast.warn(
                                     "Return qty can not be greater than delivery qty"
+                                  );
+                                }
+
+                                if (+e?.target?.value < 0.2) {
+                                  toast.warn(
+                                    "Return qty can not be less than 0.2"
                                   );
                                 }
                               }}

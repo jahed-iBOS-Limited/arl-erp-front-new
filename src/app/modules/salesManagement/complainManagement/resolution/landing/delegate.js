@@ -24,7 +24,6 @@ import {
 export const validationSchema = Yup.object().shape({
   delegateDate: Yup.date().required("Delegate Date is required"),
   delegateTo: Yup.string().required("Delegate To is required"),
-  remarks: Yup.string().required("Remarks is required"),
 });
 const initialValues = {
   delegateDate: _todayDate(),
@@ -165,6 +164,12 @@ function DelegateForm({ clickRowData, landingCB }) {
                   <b>Issue Id:</b> {singleData?.complainNo}
                 </p>
                 <p>
+                  <b>Issue Type:</b> {singleData?.complainCategoryName}
+                </p>
+                <p>
+                  <b>Sub Issue Type:</b> {singleData?.complainSubCategoryName}
+                </p>
+                <p>
                   <b>Occurrence Date Time: </b>{" "}
                   {singleData?.requestDateTime &&
                     moment(singleData?.requestDateTime).format(
@@ -223,14 +228,16 @@ function DelegateForm({ clickRowData, landingCB }) {
                       alignItems: "end",
                     }}
                   >
-                    <InputField
-                      value={values?.delegateDate}
-                      label='Delegate Date'
-                      placeholder='Delegate Date'
-                      name='delegateDate'
-                      type='date'
-                      disabled
-                    />
+                    <div>
+                      <label><b style={{color: 'red'}}>* </b> Delegate Date</label>
+                      <InputField
+                        value={values?.delegateDate}
+                        placeholder='Delegate Date'
+                        name='delegateDate'
+                        type='date'
+                        disabled
+                      />
+                    </div>
                     <InputField
                       value={values?.delegateTime}
                       type='time'
@@ -240,7 +247,9 @@ function DelegateForm({ clickRowData, landingCB }) {
                   </div>
                 </div>
                 <div className='col-lg-3'>
-                  <label>Delegate To</label>
+                  <label><b style={{
+                    color: 'red'
+                  }}>* </b>Delegate To</label>
                   <SearchAsyncSelect
                     selectedValue={values?.delegateTo}
                     handleChange={(valueOption) => {
@@ -408,57 +417,60 @@ function DelegateForm({ clickRowData, landingCB }) {
                   </button>
                 </div>
               </div>
-
-              <table className='table table-striped table-bordered global-table'>
-                <thead>
-                  <tr>
-                    <th>SL</th>
-                    <th>Investigation Person</th>
-                    <th>Investigation Due Date</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rowDto?.map((item, index) => (
-                    <tr key={index}>
-                      <td className='text-center'> {index + 1}</td>
-                      <td>{item?.investigatorName}</td>
-                      <td>{_dateFormatter(item?.investigationDueDate)}</td>
-                      <td>
-                        <div className='d-flex align-items-center justify-content-center'>
-                          {item?.attachment && (
+              <div className='table-responsive'>
+                <table className='table table-striped table-bordered global-table'>
+                  <thead>
+                    <tr>
+                      <th>SL</th>
+                      <th>Investigation Person</th>
+                      <th>Investigation Due Date</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rowDto?.map((item, index) => (
+                      <tr key={index}>
+                        <td className='text-center'> {index + 1}</td>
+                        <td>{item?.investigatorName}</td>
+                        <td>{_dateFormatter(item?.investigationDueDate)}</td>
+                        <td>
+                          <div className='d-flex align-items-center justify-content-center'>
+                            {item?.attachment && (
+                              <span
+                                onClick={() => {
+                                  dispatch(
+                                    getDownlloadFileView_Action(
+                                      item?.attachment
+                                    )
+                                  );
+                                }}
+                              >
+                                <i
+                                  class='fa fa-paperclip pointer'
+                                  aria-hidden='true'
+                                ></i>
+                              </span>
+                            )}
                             <span
                               onClick={() => {
-                                dispatch(
-                                  getDownlloadFileView_Action(item?.attachment)
+                                const newData = rowDto.filter(
+                                  (itm, idx) => idx !== index
                                 );
+                                setRowDto(newData);
                               }}
                             >
                               <i
-                                class='fa fa-paperclip pointer'
+                                class='fa fa-trash pointer'
                                 aria-hidden='true'
                               ></i>
                             </span>
-                          )}
-                          <span
-                            onClick={() => {
-                              const newData = rowDto.filter(
-                                (itm, idx) => idx !== index
-                              );
-                              setRowDto(newData);
-                            }}
-                          >
-                            <i
-                              class='fa fa-trash pointer'
-                              aria-hidden='true'
-                            ></i>
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </form>
 
             <DropzoneDialogBase

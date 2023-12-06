@@ -4,12 +4,14 @@ import IEdit from "../../../../_helper/_helperIcons/_edit";
 import IView from "../../../../_helper/_helperIcons/_view";
 import IViewModal from "../../../../_helper/_viewModal";
 import ViewInvoice from "./viewInvoice";
+import ViewRegistrationInvoice from "../../../configuration/registration/landing/viewInvoice";
 
 const LandingTable = ({ obj }) => {
   const { gridData } = obj;
   const history = useHistory();
   const [isViewModal, setViewModal] = React.useState(false);
   const [viewClickRowItem, setViewClickRowItem] = React.useState({});
+  const [isViewModalReg, setIsViewModalReg] = React.useState(false);
 
   return (
     <div className='table-responsive'>
@@ -28,7 +30,9 @@ const LandingTable = ({ obj }) => {
             <th>Estimated Amount</th>
             <th>Final Amount</th>
             <th>Actual Amount</th>
-            <th>Action</th>
+            <th style={{
+              width: '70px'
+            }}>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -48,7 +52,7 @@ const LandingTable = ({ obj }) => {
               <td>{item?.actualAmount}</td>
               <td>
                 <div
-                  className='d-flex justify-content-around'
+                  className='d-flex'
                   style={{
                     gap: "8px",
                   }}
@@ -71,6 +75,16 @@ const LandingTable = ({ obj }) => {
                   >
                     <IView />
                   </span>
+                  {item?.registrationId ? (
+                    <span
+                      onClick={() => {
+                        setIsViewModalReg(true);
+                        setViewClickRowItem(item);
+                      }}
+                    >
+                      <IView title='Registration View' />
+                    </span>
+                  ) : null}
                 </div>
               </td>
             </tr>
@@ -87,6 +101,21 @@ const LandingTable = ({ obj }) => {
             }}
           >
             <ViewInvoice estimatePdaid={viewClickRowItem?.estimatePdaid} />
+          </IViewModal>
+        </>
+      )}
+      {isViewModalReg && (
+        <>
+          <IViewModal
+            show={isViewModalReg}
+            onHide={() => {
+              setIsViewModalReg(false);
+              setViewClickRowItem({});
+            }}
+          >
+            <ViewRegistrationInvoice
+              registrationId={viewClickRowItem?.registrationId}
+            />
           </IViewModal>
         </>
       )}

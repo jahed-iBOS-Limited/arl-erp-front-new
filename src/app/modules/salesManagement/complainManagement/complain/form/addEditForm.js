@@ -16,6 +16,7 @@ const initData = {
   respondentName: "",
   respondentContact: "",
   issueType: "",
+  issueSubType: "",
   issueTitle: "",
   distributionChannel: "",
   product: "",
@@ -43,6 +44,7 @@ function ComplainForm() {
   const {
     profileData: { accountId: accId, userId, userName },
     selectedBusinessUnit: { value: buId },
+    tokenData: { token },
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const saveHandler = (values, cb) => {
@@ -51,6 +53,8 @@ function ComplainForm() {
       requestDateTime: values?.occurrenceDate || new Date(),
       complainCategoryId: values?.issueType?.value || 0,
       complainCategoryName: values?.issueType?.label || "",
+      complainSubCategoryId: values?.issueSubType?.value || 0,
+      complainSubCategoryName: values?.issueSubType?.label || "",
       issueTitle: values?.issueTitle || "",
       accountId: accId,
       businessUnitId: buId,
@@ -85,6 +89,7 @@ function ComplainForm() {
       isActive: true,
       lastActionDateTime: new Date(),
       respondentType: values?.respondent || "",
+      jwtToken: token ? `Bearer ${token}` : "",
     };
     createComplain(payload, setLoading, () => {
       if (!edit) {
