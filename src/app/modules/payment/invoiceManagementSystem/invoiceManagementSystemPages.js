@@ -1,11 +1,11 @@
 import React from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute } from "../../../../_metronic/layout";
-import { shallowEqual, useSelector } from "react-redux";
 import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import BillregisterCreate from "../../financialManagement/invoiceManagementSystem/billregister/billCreate";
+import ApproveapprovebillregLanding from "../../financialManagement/invoiceManagementSystem/approvebillregister/index";
 import BillregisterLanding from "../../financialManagement/invoiceManagementSystem/billregister";
-import ApproveapprovebillregLanding from "../../financialManagement/invoiceManagementSystem/approvebillregister/index"
+import BillregisterCreate from "../../financialManagement/invoiceManagementSystem/billregister/billCreate";
 
 export function InvoiceManagementSystemPages() {
   const userRole = useSelector(
@@ -30,6 +30,7 @@ export function InvoiceManagementSystemPages() {
       />
       <ContentRoute
         from="/payment/invoicemanagement-system/billregister/create"
+        ///financial-management/invoicemanagement-system/billregister/create
         component={billRegister?.[0]?.isCreate ? BillregisterCreate : NotPermittedPage}
       />
       <ContentRoute
