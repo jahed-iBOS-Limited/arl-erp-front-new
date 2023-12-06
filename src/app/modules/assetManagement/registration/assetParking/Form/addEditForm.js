@@ -12,7 +12,7 @@ import {
   saveAssetData,
   getDepartmenttDDL,
   getBrtaDDL,
-  getAssetCategoryList
+  getAssetCategoryList,
 } from "../helper";
 import IForm from "../../../../_helper/_form";
 import { _todayDate } from "../../../../_helper/_todayDate";
@@ -47,14 +47,14 @@ const initData = {
   resPerson: "",
   assetDes: "",
   departnemt: "",
-  brtaType:"",
-  assetName:"",
-  category:"",
+  brtaType: "",
+  assetName: "",
+  category: "",
   lifeTimeYear: "",
   depRunRate: "",
 };
 
-export default function AssetParkingForm({ currentRowData,setIsShowModal }) {
+export default function AssetParkingForm({ currentRowData, setIsShowModal }) {
   const location = useLocation();
   const [isDisabled, setDisabled] = useState(false);
 
@@ -74,12 +74,16 @@ export default function AssetParkingForm({ currentRowData,setIsShowModal }) {
   const [responsiblePerson, setResponsiblePerson] = useState([]);
   const [brtaList, setbrtaList] = useState([]);
   const [department, setDepartment] = useState([]);
-  const [categoryDDL, setCategoryDDL] = useState([])
-  const [profitCenterDDL, getProfitCenterDDL, profitCenterLoading, setProfitCenterDDL] = useAxiosGet() 
+  const [categoryDDL, setCategoryDDL] = useState([]);
+  const [
+    profitCenterDDL,
+    getProfitCenterDDL,
+    profitCenterLoading,
+    setProfitCenterDDL,
+  ] = useAxiosGet();
 
-  
-   //save event Modal (code see)
-   const IConfirmModal = (props) => {
+  //save event Modal (code see)
+  const IConfirmModal = (props) => {
     const { title, message, noAlertFunc } = props;
     return confirmAlert({
       title: title,
@@ -94,14 +98,15 @@ export default function AssetParkingForm({ currentRowData,setIsShowModal }) {
   };
 
   useEffect(() => {
-    getAssetCategoryList(setCategoryDDL)
-  },[])
+    getAssetCategoryList(setCategoryDDL);
+  }, []);
 
   useEffect(() => {
     getAssetReceiveDDL(
       currentRowData.assetReceiveId,
       currentRowData.itemId,
-      setAssetDetais
+      setAssetDetais,
+      initData
     );
     getDepartmenttDDL(
       profileData?.accountId,
@@ -109,16 +114,18 @@ export default function AssetParkingForm({ currentRowData,setIsShowModal }) {
       profileData.userId,
       setDepartment
     );
-    getBrtaDDL(setbrtaList)
-    getProfitCenterDDL(`/fino/CostSheet/ProfitCenterDetails?UnitId=${selectedBusinessUnit?.value}`,
-    data => {
-      const newData = data?.map(itm => {
-         itm.value = itm?.profitCenterId;
-         itm.label = itm?.profitCenterName;
-         return itm;
-      });
-      setProfitCenterDDL(newData);
-   })
+    getBrtaDDL(setbrtaList);
+    getProfitCenterDDL(
+      `/fino/CostSheet/ProfitCenterDetails?UnitId=${selectedBusinessUnit?.value}`,
+      (data) => {
+        const newData = data?.map((itm) => {
+          itm.value = itm?.profitCenterId;
+          itm.label = itm?.profitCenterName;
+          return itm;
+        });
+        setProfitCenterDDL(newData);
+      }
+    );
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   useEffect(() => {
@@ -141,7 +148,7 @@ export default function AssetParkingForm({ currentRowData,setIsShowModal }) {
   const saveHandler = async (values, cb) => {
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       const payload = {
-        assetId:0,
+        assetId: 0,
         assetDescription: values.assetDes || "",
         accountId: profileData?.accountId,
         plantId: assetDetais.plantId || 0,
@@ -156,7 +163,7 @@ export default function AssetParkingForm({ currentRowData,setIsShowModal }) {
         itemCode: assetDetais.itemCode || 0,
         itemName: assetDetais.itemName || "",
         nameManufacturer: values.manuName || "",
-        inventoryTransectionId:assetDetais.assetReceiveId || 0,
+        inventoryTransectionId: assetDetais.assetReceiveId || 0,
         countryOrigin: values.countryOrigin || "",
         supplierId: assetDetais.businessPartnerId || 0,
         supplierName: assetDetais.businessPartnerName || "",
@@ -193,7 +200,7 @@ export default function AssetParkingForm({ currentRowData,setIsShowModal }) {
         profitCenterName: values?.profitCenter?.label || "",
       };
       // console.log(payload,"payload")
-      saveAssetData(payload, cb , setIsShowModal,setDisabled ,IConfirmModal);
+      saveAssetData(payload, cb, setIsShowModal, setDisabled, IConfirmModal);
     }
   };
 
