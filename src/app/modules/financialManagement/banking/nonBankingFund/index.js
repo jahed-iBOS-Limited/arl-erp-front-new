@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
@@ -7,6 +7,14 @@ import NewSelect from "../../../_helper/_select";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { shallowEqual, useSelector } from "react-redux";
 import PaginationTable from "../../../_helper/_tablePagination";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
+import IEdit from "../../../_helper/_helperIcons/_edit";
+import { _formatMoney } from "../../../_helper/_formatMoney";
+import IView from "../../../_helper/_helperIcons/_view";
+import IViewModal from "../../../_helper/_viewModal";
+import RepayModal from "./repayModal";
+import IExtend from "../../../_helper/_helperIcons/_extend";
+import ViewModal from "./viewModal";
 const initData = {
   partner: "",
   depositeType: "",
@@ -17,19 +25,40 @@ export default function NonBankingFund() {
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [tableData, geTableData, tableDataLoader, setTableData] = useAxiosGet();
+  const [partnerDDl, getPartnerDDL, partnerDDLloader] = useAxiosGet();
+  const [
+    depositeTypeDDL,
+    getDepositeTypeDDL,
+    depositeTypeDDLloader,
+  ] = useAxiosGet();
+
+  const [showRepayModal, setShowRepayModal] = useState(false);
+  const [viewModal, setViewModal] = useState(false);
+  const [clickedItem, setClickedItem] = useState(null);
+
   const history = useHistory();
-  const { profileData, selectedBusinessUnit } = useSelector(
+  const { selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
     shallowEqual
   );
 
   const getLandingData = (values, pageNo, pageSize) => {
-    // geTableData()
+    geTableData(
+      `/fino/FundManagement/GetNonBankingFundLanding?businessUnitId=${selectedBusinessUnit?.value}&partnerId=${values?.partner?.value}&depositeTypeId=${values?.depositeType?.value}&status=${values?.status?.value}&pageNo=${pageNo}&pageSize=${pageSize}`
+    );
   };
 
   const setPositionHandler = (pageNo, pageSize, values) => {
     getLandingData(values, pageNo, pageSize);
   };
+
+  useEffect(() => {
+    getPartnerDDL(
+      `/fino/FundManagement/GetNonBankingPartnerDDL?businessUnitId=${selectedBusinessUnit?.value}`
+    );
+    getDepositeTypeDDL(`/fino/FundManagement/GetDepositTypeDDL`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Formik
@@ -51,7 +80,9 @@ export default function NonBankingFund() {
         touched,
       }) => (
         <>
-          {tableDataLoader && <Loading />}
+          {(tableDataLoader || partnerDDLloader || depositeTypeDDLloader) && (
+            <Loading />
+          )}
           <IForm
             title="Non Banking Fund"
             isHiddenReset
@@ -81,14 +112,12 @@ export default function NonBankingFund() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="partner"
-                      options={[
-                        { value: 1, label: "partner-1" },
-                        { value: 2, label: "partner-2" },
-                      ]}
+                      options={partnerDDl || []}
                       value={values?.partner}
                       label="Partner"
                       onChange={(valueOption) => {
                         setFieldValue("partner", valueOption);
+                        setTableData([]);
                       }}
                       errors={errors}
                       touched={touched}
@@ -97,14 +126,12 @@ export default function NonBankingFund() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="depositeType"
-                      options={[
-                        { value: 1, label: "depositeType-1" },
-                        { value: 2, label: "depositeType-2" },
-                      ]}
+                      options={depositeTypeDDL || []}
                       value={values?.depositeType}
                       label="Deposite Type"
                       onChange={(valueOption) => {
                         setFieldValue("depositeType", valueOption);
+                        setTableData([]);
                       }}
                       errors={errors}
                       touched={touched}
@@ -114,13 +141,15 @@ export default function NonBankingFund() {
                     <NewSelect
                       name="status"
                       options={[
+                        { value: 0, label: "All" },
                         { value: 1, label: "Active" },
-                        { value: 2, label: "Close" },
+                        { value: 2, label: "Closed" },
                       ]}
                       value={values?.status}
                       label="Status"
                       onChange={(valueOption) => {
                         setFieldValue("status", valueOption);
+                        setTableData([]);
                       }}
                       errors={errors}
                       touched={touched}
@@ -131,7 +160,7 @@ export default function NonBankingFund() {
                       className="btn btn-primary mt-5"
                       type="button"
                       onClick={() => {
-                        console.log("clicked");
+                        getLandingData(values, pageNo, pageSize);
                       }}
                     >
                       View
@@ -155,7 +184,49 @@ export default function NonBankingFund() {
                         <th>Action</th>
                       </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                      {tableData?.data?.map((item, index) => (
+                        <tr key={index}>
+                          <td>{index + 1}</td>
+                          <td>{item?.nonBankingPartnerName}</td>
+                          <td>{item?.depositTypeName}</td>
+                          <td>{item?.securityNumber}</td>
+                          <td className="text-center">
+                            {_dateFormatter(item?.issueDate)}
+                          </td>
+                          <td className="text-center">
+                            {_dateFormatter(item?.endDate)}
+                          </td>
+                          <td className="text-center">{item?.tdays}</td>
+                          <td>{item?.purpose}</td>
+                          <td className="text-right">
+                            {_formatMoney(item?.amount)}
+                          </td>
+                          <td>
+                            <div className="d-flex justify-content-around ">
+                              <span>
+                                <IView
+                                  clickHandler={() => {
+                                    setClickedItem(item);
+                                    setViewModal(true);
+                                  }}
+                                />
+                              </span>
+                              {!item?.isComplete ? (
+                                <span
+                                  onClick={() => {
+                                    setClickedItem(item);
+                                    setShowRepayModal(true);
+                                  }}
+                                >
+                                  <IExtend />
+                                </span>
+                              ) : null}
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
                   </table>
                   {tableData?.data?.length > 0 && (
                     <PaginationTable
@@ -171,6 +242,34 @@ export default function NonBankingFund() {
                     />
                   )}
                 </div>
+                <IViewModal
+                  show={viewModal}
+                  onHide={() => {
+                    setClickedItem(null);
+                    setViewModal(false);
+                  }}
+                >
+                  <ViewModal
+                    clickedItem={clickedItem}
+                    setClickedItem={setClickedItem}
+                  />
+                </IViewModal>
+                <IViewModal
+                  show={showRepayModal}
+                  onHide={() => {
+                    setClickedItem(null);
+                    setShowRepayModal(false);
+                  }}
+                >
+                  <RepayModal
+                    clickedItem={clickedItem}
+                    getLandingData={() =>
+                      getLandingData(values, pageNo, pageSize)
+                    }
+                    setClickedItem={setClickedItem}
+                    setShowRepayModal={setShowRepayModal}
+                  />
+                </IViewModal>
               </div>
             </Form>
           </IForm>
