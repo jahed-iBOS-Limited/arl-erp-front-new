@@ -9,9 +9,7 @@ export const getAssetPlantDDL = async (userId, accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getAssetSBUDDL = async (accId, buId, setter) => {
@@ -22,23 +20,16 @@ export const getAssetSBUDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
-
 
 export const getBrtaDDL = async (setter) => {
   try {
-    const res = await Axios.get(
-      `/asset/DropDown/GetBRTAVehicleType`
-    );
+    const res = await Axios.get(`/asset/DropDown/GetBRTAVehicleType`);
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getassetWarehouseData = async (
@@ -55,9 +46,7 @@ export const getassetWarehouseData = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getGridData = async (
@@ -74,20 +63,19 @@ export const getGridData = async (
   try {
     const searchPath = search ? `searchTearm=${search}&` : "";
     setLoading(true);
-    const res = await Axios.get(  
-     `/asset/LandingView/GetAssetReceiveListForRegistration?Accountid=${accId}&BusinessUnitId=${buId}&PlantId=${plId}&WhId=${whId}&${searchPath}PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
+    const res = await Axios.get(
+      `/asset/LandingView/GetAssetReceiveListForRegistration?Accountid=${accId}&BusinessUnitId=${buId}&PlantId=${plId}&WhId=${whId}&${searchPath}PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
       setLoading(false);
     }
   } catch (error) {
-    
     setLoading(false);
   }
 };
 
-export const getAssetReceiveDDL = async (Id, itemId, setter) => {
+export const getAssetReceiveDDL = async (Id, itemId, setter, initData) => {
   try {
     const res = await Axios.get(
       `/asset/DetalisView/GetAssetReceive?AssReceiveId=${Id}&ItemId=${itemId}`
@@ -106,13 +94,18 @@ export const getAssetReceiveDDL = async (Id, itemId, setter) => {
         itemCode: row.itemCode,
         objLast: res.data.objLast,
         itemCategoryName: row?.itemCategoryName,
-        brtaType:""
+        brtaType: "",
       };
+      // update category in initData
+      initData.category = {
+        value: row?.itemCategoryId,
+        label: row?.itemCategoryName,
+      };
+
       setter(newData);
+      console.log("initData", initData);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getAssignToDDL = async (accId, buId, sbuId, setter) => {
@@ -123,9 +116,7 @@ export const getAssignToDDL = async (accId, buId, sbuId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getresponsiblePersonDDL = async (accId, buId, sbuId, setter) => {
@@ -136,19 +127,23 @@ export const getresponsiblePersonDDL = async (accId, buId, sbuId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
-export const saveAssetData = async (data, cb, setIsShowModal,setDisabled,IConfirmModal) => {
+export const saveAssetData = async (
+  data,
+  cb,
+  setIsShowModal,
+  setDisabled,
+  IConfirmModal
+) => {
   try {
     setDisabled(true);
     const res = await Axios.post(`/asset/Asset/CreateAsset`, data);
     if (res.status === 200) {
       toast.success(res?.data?.message || "Submitted successfully");
       setDisabled(false);
-      setIsShowModal(false)
+      setIsShowModal(false);
       cb();
       const obj = {
         title: "Asset Code",
@@ -156,7 +151,6 @@ export const saveAssetData = async (data, cb, setIsShowModal,setDisabled,IConfir
         noAlertFunc: () => {},
       };
       IConfirmModal(obj);
-      
     }
   } catch (error) {
     toast.error(error?.response?.data?.message);
@@ -164,7 +158,14 @@ export const saveAssetData = async (data, cb, setIsShowModal,setDisabled,IConfir
   }
 };
 
-export const saveAssetForData = async (data, cb, setter, setDisabled, setIsShowModal,IConfirmModal) => {
+export const saveAssetForData = async (
+  data,
+  cb,
+  setter,
+  setDisabled,
+  setIsShowModal,
+  IConfirmModal
+) => {
   try {
     setDisabled(true);
     const res = await Axios.post(`/asset/Asset/CreateAsset`, data);
@@ -195,9 +196,7 @@ export const getDepartmenttDDL = async (accId, buId, userId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getAssignToDDLforCreate = async (accId, buId, sbuId, setter) => {
@@ -208,9 +207,7 @@ export const getAssignToDDLforCreate = async (accId, buId, sbuId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getresponsiblePersonDDLforCreate = async (
@@ -226,9 +223,7 @@ export const getresponsiblePersonDDLforCreate = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getItemDDLforCreate = async (accId, buId, plId, whId, setter) => {
@@ -239,9 +234,7 @@ export const getItemDDLforCreate = async (accId, buId, plId, whId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getSupplierDDLforCreate = async (accId, buId, setter) => {
@@ -252,9 +245,7 @@ export const getSupplierDDLforCreate = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getItemAttributeforCreate = async (
@@ -271,9 +262,7 @@ export const getItemAttributeforCreate = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getUOMList = async (
@@ -302,16 +291,11 @@ export const getUOMList = async (
   } catch (error) {}
 };
 
-
 export const getAssetCategoryList = async (setter) => {
   try {
-    const res = await Axios.get(
-      `/asset/Asset/AssetCategory`
-    );
+    const res = await Axios.get(`/asset/Asset/AssetCategory`);
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
