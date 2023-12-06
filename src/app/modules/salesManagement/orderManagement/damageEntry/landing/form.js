@@ -11,6 +11,8 @@ const DamageEntryLandingForm = ({ obj }) => {
     pageNo,
     sbuDDL,
     pageSize,
+    gridData,
+    editHandler,
     setGridData,
     setFieldValue,
     salesReturnLandingActions,
@@ -91,6 +93,16 @@ const DamageEntryLandingForm = ({ obj }) => {
               !values?.viewAs || (values?.viewAs?.value === 2 && !values?.sbu)
             }
           />
+          {gridData?.data?.length > 0 && values?.status?.value === 2 && (
+            <IButton
+              className={"btn-info"}
+              onClick={() => {
+                editHandler(values);
+              }}
+            >
+              Update & Approve
+            </IButton>
+          )}
         </div>
       </form>
     </>

@@ -12,7 +12,11 @@ import { _todayDate } from "../../../../_helper/_todayDate";
 import IViewModal from "../../../../_helper/_viewModal";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { getSBUDDL } from "../../../../transportManagement/report/productWiseShipmentReport/helper";
-import { salesReturnApprove_api, salesReturnCancel } from "../helper";
+import {
+  editSalesReturn,
+  salesReturnApprove_api,
+  salesReturnCancel,
+} from "../helper";
 import EditAndApprove from "./editAndApprove";
 import DamageEntryLandingForm from "./form";
 import DamageEntryLandingTable from "./table";
@@ -21,7 +25,7 @@ const initData = {
   fromDate: _firstDateofMonth(),
   toDate: _todayDate(),
   status: { value: 0, label: "All" },
-  viewAs: "",
+  viewAs: { value: 1, label: "Supervisor" },
   narration: "",
   returnType: "",
   sbu: "",
@@ -40,7 +44,7 @@ const DamageEntryLanding = () => {
 
   // get user data from store
   const {
-    profileData: { accountId: accId, userId },
+    profileData: { accountId: accId, userId, employeeId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
@@ -49,7 +53,7 @@ const DamageEntryLanding = () => {
   }, [accId, buId]);
 
   const salesReturnLandingActions = (values, _pageNo = 0, _pageSize = 15) => {
-    const url = `/oms/SalesReturnAndCancelProcess/GetSalesReturnLandingPaginationNew?Type=${
+    const url = `/oms/SalesReturnAndCancelProcess/GetDamageReturnPagination?Type=${
       values?.viewAs?.value
     }&accId=${accId}&status=${
       values?.status?.value
@@ -127,6 +131,96 @@ const DamageEntryLanding = () => {
     salesReturnLandingActions(values, pageNo, pageSize);
   };
 
+  const allSelect = (value) => {
+    let _data = [...gridData?.data];
+    const modify = _data.map((item) => {
+      return {
+        ...item,
+        isSelected: item?.isApprovedBySupervisor ? false : value,
+      };
+    });
+    setGridData({ ...gridData, data: modify });
+  };
+
+  const selectedAll = () => {
+    return gridData?.data?.filter((item) => item.isSelected)?.length ===
+      gridData?.data?.length && gridData?.data?.length > 0
+      ? true
+      : false;
+  };
+
+  const editHandler = (values) => {
+    const selectedItems = gridData?.data?.filter((item) => item?.isSelected);
+    if (selectedItems?.length < 1) {
+      return toast.warn("Please select at least one row!");
+    }
+    // const payload = {
+    //   head: {
+    //     intSalesReturnId: selectedItems[0]?.salesReturnId,
+    //   },
+    //   row: selectedItems?.map((item) => {
+    //     return {
+    //       intRowId: item?.rowId,
+    //       numReturnQty: +item?.totalReturnQty,
+    //     };
+    //   }),
+    // };
+    const payloadForEdit = selectedItems?.map((item) => {
+      return {
+        head: {
+          intSalesReturnId: item?.salesReturnId,
+        },
+        row: [
+          {
+            intRowId: item?.rowId,
+            intSalesReturnId: item?.salesReturnId,
+            numBasePrice: item?.basePrice,
+            numReturnQty: item?.totalReturnQty,
+            numReturnAmount: item?.totalReturnAmount,
+          },
+        ],
+      };
+    });
+    const cb = () => {
+      // const payloadForApprove = {
+      //   header: {
+      //     salesReturnId: selectedItems[0]?.salesReturnId,
+      //     intApproveBySupervisor: employeeId,
+      //   },
+      //   row: selectedItems?.map((element) => ({
+      //     rowId: element?.rowId,
+      //     supervisorAprvQnt: element?.totalReturnQty,
+      //   })),
+      // };
+
+      const payloadForApprove = selectedItems?.map((item) => {
+        return {
+          header: {
+            salesReturnId: item?.salesReturnId,
+            intApproveBySupervisor: employeeId,
+          },
+          row: [
+            {
+              rowId: item?.rowId,
+              salesReturnId: item?.salesReturnId,
+              supervisorAprvQnt: item?.totalReturnQty,
+            },
+          ],
+        };
+      });
+      salesReturnApprove_api(
+        `/oms/SalesReturnAndCancelProcess/SalesReturnApprovalBySupervisor`,
+        payloadForApprove,
+        () => {
+          salesReturnLandingActions(values);
+          //  setOpen(false);
+        },
+        setLoading
+      );
+    };
+    editSalesReturn(payloadForEdit, cb, setLoading);
+  };
+
   return (
     <>
       {(loading || loader) && <Loading />}
@@ -147,6 +241,8 @@ const DamageEntryLanding = () => {
                   pageNo,
                   sbuDDL,
                   pageSize,
+                  gridData,
+                  editHandler,
                   setGridData,
                   setFieldValue,
                   salesReturnLandingActions,
@@ -157,6 +253,9 @@ const DamageEntryLanding = () => {
                   values,
                   getRows,
                   gridData,
+                  allSelect,
+                  selectedAll,
+                  setGridData,
                   cancelHandler,
                   dataChangeHandler,
                   salesReturnApprove,
