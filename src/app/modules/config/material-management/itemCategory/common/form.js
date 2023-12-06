@@ -63,6 +63,20 @@ export default function _Form({
       }
     } catch (error) {}
   };
+  const getGeneralLedgerDDL_api_forAsset = async (groupId) => {
+    try {
+      const res = await Axios.get(
+        `/domain/BusinessUnitGeneralLedger/GetAssetDepreciationGLDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
+      );
+      if (res.status === 200 && res?.data) {
+        const newData = res?.data?.map((itm) => ({
+          value: itm?.generalLedgerId,
+          label: itm?.generalLedgerName,
+        }));
+        setGeneralLedgerDDL(newData);
+      }
+    } catch (error) {}
+  };
 
   useEffect(() => {
     const itemTypes = [];
@@ -115,7 +129,6 @@ export default function _Form({
                 </div>
                 <div className="col-lg-4">
                   <label>Item Type Name</label>
-
                   <Field
                     name="itemTypeName"
                     component={() => (
@@ -125,7 +138,11 @@ export default function _Form({
                         value={values.itemTypeName}
                         onChange={(valueOption) => {
                           setFieldValue("generalLedger", "");
-                          getGeneralLedgerDDL_api(valueOption?.value);
+                          valueOption?.value === 10
+                            ? getGeneralLedgerDDL_api_forAsset(
+                                valueOption?.value
+                              )
+                            : getGeneralLedgerDDL_api(valueOption?.value);
                           setFieldValue("itemTypeName", valueOption);
                         }}
                         isSearchable={true}
