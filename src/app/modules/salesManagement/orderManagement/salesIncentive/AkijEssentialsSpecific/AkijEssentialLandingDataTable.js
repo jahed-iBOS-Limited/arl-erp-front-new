@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AkijEssentialLandingDataTable = (rowData = []) => {
+const AkijEssentialLandingDataTable = ({rowData = []}) => {
   return (
     <div>
       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">

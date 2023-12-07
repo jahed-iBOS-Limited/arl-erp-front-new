@@ -8,16 +8,18 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { shallowEqual, useSelector } from "react-redux";
 import PaginationTable from "../../../_helper/_tablePagination";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IEdit from "../../../_helper/_helperIcons/_edit";
 import { _formatMoney } from "../../../_helper/_formatMoney";
 import IView from "../../../_helper/_helperIcons/_view";
 import IViewModal from "../../../_helper/_viewModal";
-import RepayModal from "./repayModal";
 import IExtend from "../../../_helper/_helperIcons/_extend";
 import ViewModal from "./viewModal";
 const initData = {
   partner: "",
-  depositeType: "",
+  depositeType: {
+    value: 1,
+    label: "Security Deposit",
+    code: null,
+  },
   status: "",
 };
 export default function NonBankingFund() {
@@ -32,7 +34,6 @@ export default function NonBankingFund() {
     depositeTypeDDLloader,
   ] = useAxiosGet();
 
-  const [showRepayModal, setShowRepayModal] = useState(false);
   const [viewModal, setViewModal] = useState(false);
   const [clickedItem, setClickedItem] = useState(null);
 
@@ -135,6 +136,7 @@ export default function NonBankingFund() {
                       }}
                       errors={errors}
                       touched={touched}
+                      isDisabled={true}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -162,12 +164,17 @@ export default function NonBankingFund() {
                       onClick={() => {
                         getLandingData(values, pageNo, pageSize);
                       }}
+                      disabled={
+                        !values?.partner ||
+                        !values?.depositeType ||
+                        !values?.status
+                      }
                     >
                       View
                     </button>
                   </div>
                 </div>
-                {/* table */}
+
                 <div className="mt-3">
                   <table className="table table-striped table-bordered bj-table bj-table-landing">
                     <thead>
@@ -215,11 +222,14 @@ export default function NonBankingFund() {
                               {!item?.isComplete ? (
                                 <span
                                   onClick={() => {
-                                    setClickedItem(item);
-                                    setShowRepayModal(true);
+                                    history.push({
+                                      pathname: `/financial-management/banking/NonBankingFund/repay/${item?.depositLoanId}`,
+                                      state: item,
+                                      landinValues: values,
+                                    });
                                   }}
                                 >
-                                  <IExtend />
+                                  <IExtend title={"Repay"} />
                                 </span>
                               ) : null}
                             </div>
@@ -243,6 +253,7 @@ export default function NonBankingFund() {
                   )}
                 </div>
                 <IViewModal
+                  title="Non Banking Fund Repay Details"
                   show={viewModal}
                   onHide={() => {
                     setClickedItem(null);
@@ -252,22 +263,7 @@ export default function NonBankingFund() {
                   <ViewModal
                     clickedItem={clickedItem}
                     setClickedItem={setClickedItem}
-                  />
-                </IViewModal>
-                <IViewModal
-                  show={showRepayModal}
-                  onHide={() => {
-                    setClickedItem(null);
-                    setShowRepayModal(false);
-                  }}
-                >
-                  <RepayModal
-                    clickedItem={clickedItem}
-                    getLandingData={() =>
-                      getLandingData(values, pageNo, pageSize)
-                    }
-                    setClickedItem={setClickedItem}
-                    setShowRepayModal={setShowRepayModal}
+                    landingValues={values}
                   />
                 </IViewModal>
               </div>

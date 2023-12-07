@@ -87,8 +87,8 @@ export default function WarehouseApproveFrom({
     const param = `&shippointId=${singleItem?.shipPointId}`;
 
     const URLOne = `/tms/LigterLoadUnload/GetGodownNOtherLabourRate?type=${1}&businessUnitId=${buId}${param}`;
-    const URLTwo = `/tms/LigterLoadUnload/GetLighterLoadUnloadBillDetails?voyageId=${singleItem?.voyageNo}&lighterVesselId=${singleItem?.lighterVesselId}`;
-    const URLThree = `/tms/LigterLoadUnload/GetLighterLoadUnloadBillDetails?voyageId=${singleItem?.voyageNo}&lighterVesselId=${singleItem?.lighterVesselId}`;
+    const URLTwo = `/tms/LigterLoadUnload/GetLighterLoadUnloadBillDetails?voyageId=${singleItem?.voyageNo}&lighterVesselId=${singleItem?.lighterVesselId}&shipPointId=${singleItem?.shipPointId}`;
+    const URLThree = `/tms/LigterLoadUnload/GetLighterLoadUnloadBillDetails?voyageId=${singleItem?.voyageNo}&lighterVesselId=${singleItem?.lighterVesselId}&shipPointId=${singleItem?.shipPointId}`;
 
     const URL =
       levelOfApprove === "first"
@@ -172,6 +172,7 @@ export default function WarehouseApproveFrom({
       truckToDamRate: values?.truckToDamRate,
       othersCostQnt: 1,
       othersCostRate: values?.othersCostRate,
+      shipPointId: singleItem?.shipPointId,
     };
     const payloadThree = {
       rowId: values?.rowId,

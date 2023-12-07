@@ -13,7 +13,11 @@ import { _todayDate } from "../../../_helper/_todayDate";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 
 const initData = {
-  depositeType: "",
+  depositeType: {
+    value: 1,
+    label: "Security Deposit",
+    code: null,
+  },
   partner: "",
   securityNumber: "",
   amount: "",
@@ -38,7 +42,7 @@ const validationSchema = Yup.object().shape({
   amount: Yup.number().required("Amount is required"),
   issueDate: Yup.string().required("Issue Date is required"),
   // endDate: Yup.string().required("End Date is required"),
-  tDays: Yup.string().required("T Days is required"),
+  // tDays: Yup.string().required("T Days is required"),
   purpose: Yup.string().required("Purpose is required"),
   bankAccountNo: Yup.object().shape({
     label: Yup.string().required("Bank Account No is required"),
@@ -87,7 +91,6 @@ export default function NonBankingFundCreateEdit() {
       securityNumber: values?.securityNumber,
       issueDate: values?.issueDate,
       endDate: values?.endDate || null,
-      tdays: values?.tDays,
       purpose: values?.purpose,
       createdBy: profileData?.userId,
       bankAccountId: values?.bankAccountNo?.value,
@@ -139,6 +142,7 @@ export default function NonBankingFundCreateEdit() {
                     }}
                     errors={errors}
                     touched={touched}
+                    isDisabled={true}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -219,17 +223,6 @@ export default function NonBankingFundCreateEdit() {
                     type="date"
                     onChange={(e) => {
                       setFieldValue("endDate", e.target.value);
-                    }}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.tDays}
-                    label="T Days"
-                    name="tDays"
-                    type="text"
-                    onChange={(e) => {
-                      setFieldValue("tDays", e.target.value);
                     }}
                   />
                 </div>

@@ -21,8 +21,8 @@ import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "./../../../../_helper/_todayDate";
 import { EditVehiclePartnerDistenceKM_api } from "./../helper";
 import { GetShipmentCostEntryStatus_api } from "./../helper";
-import { useHistory } from 'react-router-dom';
-import { _currentTime } from './../../../../_helper/_currentTime';
+import { useHistory } from "react-router-dom";
+import { _currentTime } from "./../../../../_helper/_currentTime";
 import moment from "moment";
 const initData = {
   vehicleNo: "",
@@ -100,21 +100,29 @@ export default function ShipmentCostForm() {
         id,
         setEntryStatus
       );
-      if (reportTypeComplete) {
-        getShipmentByID(
-          id,
-          setSingleData,
-          setRowDto,
-          setDisabled,
-          setAttachmentGrid,
-          reportTypeComplete
-        );
-      } else {
-        getShipmentByID(id, setSingleData, null, setDisabled, null);
-      }
+      // if (reportTypeComplete) {
+      //   getShipmentByID(
+      //     id,
+      //     setSingleData,
+      //     setRowDto,
+      //     setDisabled,
+      //     setAttachmentGrid,
+      //     reportTypeComplete
+      //   );
+      // } else {
+      //   getShipmentByID(id, setSingleData, null, setDisabled, null);
+      // }
+      getShipmentByID(
+        id,
+        setSingleData,
+        setRowDto,
+        setDisabled,
+        setAttachmentGrid,
+        reportTypeComplete
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [id]);
 
   //netPayableCalculatorFunc
   const netPayableCalculatorFunc = (
@@ -170,22 +178,22 @@ export default function ShipmentCostForm() {
 
   const fuleCostSaveCB = () => {
     CreateFuelConstInfo_api(fuleCost);
-    history.push("/transport-management/routecostmanagement/shipmentcost")
+    history.push("/transport-management/routecostmanagement/shipmentcost");
   };
 
   const saveHandler = async (values, cb) => {
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
-      const vehicleInDate = moment(`${values?.vehicleInDate} ${values?.vehicleInTime}`).format(
-        "YYYY-MM-DDTHH:mm:ss"
-      );
+      const vehicleInDate = moment(
+        `${values?.vehicleInDate} ${values?.vehicleInTime}`
+      ).format("YYYY-MM-DDTHH:mm:ss");
 
       if (id) {
         const row = rowDto.map((item) => {
           return {
-            actualCost: +item.actualCost,
-            standardCost: +item.standardCost,
-            transportRouteCostComponent: item.transportRouteCostComponent,
-            transportRouteCostComponentId: item.transportRouteCostComponentId,
+            actualCost: +item.actualCost || 0,
+            standardCost: +item.standardCost || 0,
+            transportRouteCostComponent: item.transportRouteCostComponent || '',
+            transportRouteCostComponentId: item.transportRouteCostComponentId || 0,
             id: 0,
           };
         });
@@ -277,21 +285,21 @@ export default function ShipmentCostForm() {
   };
 
   // if Report type panding
-  useEffect(() => {
-    if (!reportTypeComplete && buMilage?.configid) {
-      let amount =
-        +singleData?.distanceKm < +buMilage?.milage
-          ? +singleData?.distanceKm * +buMilage?.minimumAmount
-          : +singleData?.distanceKm * +buMilage?.maximumAmount;
-      let obj = {
-        transportRouteCostComponentId: buMilage?.configid,
-        transportRouteCostComponent: buMilage?.componentName,
-        standardCost: amount,
-        actualCost: amount,
-      };
-      setRowDto([obj]);
-    }
-  }, [buMilage, singleData]);
+  // useEffect(() => {
+  //   if (!reportTypeComplete && buMilage?.configid) {
+  //     let amount =
+  //       +singleData?.distanceKm < +buMilage?.milage
+  //         ? +singleData?.distanceKm * +buMilage?.minimumAmount
+  //         : +singleData?.distanceKm * +buMilage?.maximumAmount;
+  //     let obj = {
+  //       transportRouteCostComponentId: buMilage?.configid,
+  //       transportRouteCostComponent: buMilage?.componentName,
+  //       standardCost: amount,
+  //       actualCost: amount,
+  //     };
+  //     setRowDto([obj]);
+  //   }
+  // }, [buMilage, singleData]);
 
   useEffect(() => {
     if (singleData?.shipmentId) {
@@ -423,8 +431,7 @@ export default function ShipmentCostForm() {
       vehicleId: singleData?.vehicleId,
       vehicleNumber: singleData?.vehicleNo,
       attachmentFileId: uploadImage?.id || "",
-      fuelMemoNo: values?.fuelMemoNo || ""
-
+      fuelMemoNo: values?.fuelMemoNo || "",
     };
     // if (duplicateCheck?.length > 0) {
     //   toast.warning("Not allow duplicate ");
@@ -484,9 +491,9 @@ export default function ShipmentCostForm() {
         initData={
           id
             ? {
-              ...singleData,
-              downTripAllowns: downTripData?.downTripAllowance,
-            }
+                ...singleData,
+                downTripAllowns: downTripData?.downTripAllowance,
+              }
             : initData
         }
         saveHandler={saveHandler}
