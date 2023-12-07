@@ -18,7 +18,6 @@ import Loading from "../../../../_helper/_loading";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { StockInToInventoryApproval } from "../../challanEntry/helper";
 import { CreateLighterDumpBill, updateUnloadingQtyAndRates } from "../helper";
-import TextArea from "../../../../_helper/TextArea";
 
 const initData = {
   supplier: "",
@@ -228,21 +227,36 @@ export default function WarehouseApproveFrom({
   };
 
   const setTotals = (values, setFieldValue) => {
-    const totalRate =
-      +values?.directRate +
-      +values?.dumpDeliveryRate +
-      +values?.bolgateToDamRate +
-      +values?.damToTruckRate +
-      +values?.lighterToBolgateRate +
-      +values?.truckToDamRate +
-      +values?.decTruckToDamOutSideRate +
-      +values?.decBiwtarate +
-      +values?.decShipSweepingRate +
-      +values?.decScaleRate +
-      +values?.decDailyLaboureRate +
-      +values?.othersCostRate;
+    const directAmount = +values?.directRate * +values?.directQty;
+    const dumpAmount = +values?.dumpDeliveryRate * +values?.dumpDeliveryQty;
+    const bolgateToDumpAmount =
+      +values?.bolgateToDamRate * +values?.bolgateToDamQty;
+    const dumpToTruckAmount = +values?.damToTruckRate * +values?.damToTruckQty;
+    const lighterToBolgateAmount =
+      +values?.lighterToBolgateRate * +values?.lighterToBolgateQty;
+    const truckToDumpAmount = +values?.truckToDamRate * +values?.truckToDamQty;
+    const truckToDumpOutsideAmount =
+      +values?.decTruckToDamOutSideRate * +values?.decTruckToDamOutSideQty;
+    const biwtaAmount = +values?.decBiwtarate * +values?.unloadedQty;
+    const shipSweepingAmount = +values?.decShipSweepingRate * 1;
+    const scaleAmount = +values?.decScaleRate * 1;
+    const dailyLaborAmount = +values?.decDailyLaboureRate * 1;
+    const otherCostAmount = +values?.othersCostRate * 1;
 
-    const totalAmount = +values?.unloadedQty * +totalRate;
+    const totalAmount =
+      directAmount +
+      dumpAmount +
+      bolgateToDumpAmount +
+      dumpToTruckAmount +
+      lighterToBolgateAmount +
+      truckToDumpAmount +
+      truckToDumpOutsideAmount +
+      biwtaAmount +
+      shipSweepingAmount +
+      scaleAmount +
+      dailyLaborAmount +
+      otherCostAmount;
+    // const totalAmount = +values?.unloadedQty * +totalRate;
     setFieldValue("totalBillAmount", totalAmount);
   };
 
