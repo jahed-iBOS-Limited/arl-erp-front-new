@@ -109,14 +109,14 @@ export function RouteManagementPage() {
           }
         />
 
-        <ContentRoute
+        {/* <ContentRoute
           path="/transport-management/routecostmanagement/shipmentcost/create"
           component={
             shipmentCostPermission?.isCreate
               ? ShipmentCostForm
               : NotPermittedPage
           }
-        />
+        /> */}
 
         <ContentRoute
           path="/transport-management/routecostmanagement/shipmentcost"
