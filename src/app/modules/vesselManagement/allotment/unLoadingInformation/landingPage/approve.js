@@ -173,6 +173,7 @@ export default function WarehouseApproveFrom({
       truckToDamRate: values?.truckToDamRate,
       othersCostQnt: 1,
       othersCostRate: values?.othersCostRate,
+      shipPointId: singleItem?.shipPointId,
     };
     const payloadThree = {
       rowId: values?.rowId,
