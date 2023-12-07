@@ -253,6 +253,13 @@ export const validationSchema = Yup.object().shape({
   //   then: Yup.string().required("Unloading completion date is required"),
   //   otherwise: false,
   // }),
+
+  // Unloading Completion Date is required only values?.unloadingComplete is true
+  unloadingComplete: Yup.string().when("isComplete", {
+    is: true,
+    then: Yup.string().required("Unloading completion date is required"),
+    otherwise: false,
+  }),
 });
 
 export const GetLighterDestinationDDL = async (accId, buId, setter) => {
