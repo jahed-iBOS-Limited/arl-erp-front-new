@@ -15,7 +15,11 @@ import IExtend from "../../../_helper/_helperIcons/_extend";
 import ViewModal from "./viewModal";
 const initData = {
   partner: "",
-  depositeType: "",
+  depositeType: {
+    value: 1,
+    label: "Security Deposit",
+    code: null,
+  },
   status: "",
 };
 export default function NonBankingFund() {
@@ -30,7 +34,6 @@ export default function NonBankingFund() {
     depositeTypeDDLloader,
   ] = useAxiosGet();
 
-  const [showRepayModal, setShowRepayModal] = useState(false);
   const [viewModal, setViewModal] = useState(false);
   const [clickedItem, setClickedItem] = useState(null);
 
@@ -133,6 +136,7 @@ export default function NonBankingFund() {
                       }}
                       errors={errors}
                       touched={touched}
+                      isDisabled={true}
                     />
                   </div>
                   <div className="col-lg-3">
