@@ -75,6 +75,7 @@ export default function UnLoadingInformationForm() {
     if (id) {
       if (type === "edit") {
         getUnloadingInformationById(
+          state?.rowId,
           id,
           state?.lighterVesselId,
           setSingleData,
@@ -279,6 +280,7 @@ export default function UnLoadingInformationForm() {
           dateWiseQuantity={dateWiseQuantity}
           getDateWiseQuantity={getDateWiseQuantity}
           setDateWiseQuantity={setDateWiseQuantity}
+          state={state}
         />
       </div>
     </>

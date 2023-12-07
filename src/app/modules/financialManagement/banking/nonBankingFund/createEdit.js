@@ -13,7 +13,11 @@ import { _todayDate } from "../../../_helper/_todayDate";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 
 const initData = {
-  depositeType: "",
+  depositeType: {
+    value: 1,
+    label: "Security Deposit",
+    code: null,
+  },
   partner: "",
   securityNumber: "",
   amount: "",
@@ -138,6 +142,7 @@ export default function NonBankingFundCreateEdit() {
                     }}
                     errors={errors}
                     touched={touched}
+                    isDisabled={true}
                   />
                 </div>
                 <div className="col-lg-3">

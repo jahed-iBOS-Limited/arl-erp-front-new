@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import * as Yup from "yup";
 
 export const getUnloadingInformationById = async (
+  rowId,
   voyageId,
   lvId,
   setter,
@@ -12,7 +13,7 @@ export const getUnloadingInformationById = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `/tms/LigterLoadUnload/GetLighterUnloadingInfoById?VoyageNo=${voyageId}&LighterVesselId=${lvId}`
+      `/tms/LigterLoadUnload/GetLighterUnloadingInfoById?VoyageNo=${voyageId}&LighterVesselId=${lvId}&RowId=${rowId}`
     );
     const {
       shipPointName,
