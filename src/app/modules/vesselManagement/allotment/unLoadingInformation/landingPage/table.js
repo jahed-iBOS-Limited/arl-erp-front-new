@@ -202,15 +202,15 @@ const UnLoadingInformationTable = () => {
                           return (
                             <tr
                               key={index}
-                              // style={
-                              //   item?.isApproveBySupervisor
-                              //     ? { backgroundColor: "#7fd894" }
-                              //     : item?.isInventoryApprove
-                              //     ? { backgroundColor: "#d4edda" }
-                              //     : item?.isDumpApproveLM
-                              //     ? { backgroundColor: "#FFF2B2" }
-                              //     : ""
-                              // }
+                              style={
+                                !item?.isInventoryApprove
+                                  ? { backgroundColor: "#FFF8DC" }
+                                  : !item?.isApproveBySupervisor
+                                  ? { backgroundColor: "#F0FFFF" }
+                                  : !item?.isDumpApproveLM
+                                  ? { backgroundColor: "#B0E0E6" }
+                                  : { backgroundColor: "#00FA9A" }
+                              }
                             >
                               <td
                                 style={{ width: "40px" }}
