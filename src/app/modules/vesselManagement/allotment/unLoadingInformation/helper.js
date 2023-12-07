@@ -208,6 +208,18 @@ export const updateUnloadingQtyAndRates = async (data, cb) => {
     toast.error(error?.response?.data?.message);
   }
 };
+export const CreateLighterDumpBill = async (data, cb) => {
+  try {
+    const res = await axios.post(
+      `/tms/LigterLoadUnload/CreateLighterDumpBill`,
+      data
+    );
+    toast.success(res?.data?.message);
+    cb();
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+  }
+};
 
 // Validation schema
 export const validationSchema = Yup.object().shape({
