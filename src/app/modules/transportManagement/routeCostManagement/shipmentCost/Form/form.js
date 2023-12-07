@@ -108,25 +108,37 @@ export default function _Form({
   const [supplierFuelStationDDL, setSupplierFuelStationDDL] = useState([]);
   const history = useHistory();
 
-
-  const [profitCenterDDL, getProfitCenterDDL, profitCenterDDlloader, setProfitCenterDDL] = useAxiosGet();
+  const [
+    profitCenterDDL,
+    getProfitCenterDDL,
+    profitCenterDDlloader,
+    setProfitCenterDDL,
+  ] = useAxiosGet();
   const [costCenterDDL, getCostCenterDDL, costCenterDDlloader] = useAxiosGet();
-  const [costElementDDL, getCostElementDDL, costElementDDlloader] = useAxiosGet();
-
+  const [
+    costElementDDL,
+    getCostElementDDL,
+    costElementDDlloader,
+  ] = useAxiosGet();
 
   const [total, setTotal] = useState({ totalStandardCost: 0, totalActual: 0 });
   const dispatch = useDispatch();
   useEffect(() => {
-    getProfitCenterDDL(`/fino/CostSheet/ProfitCenterDetails?UnitId=${selectedBusinessUnit?.value}`, (data) => {
-      if (data?.length > 0) {
-        const newData = data?.map((item) => ({
-          value: item?.profitCenterId,
-          label: item?.profitCenterName,
-        }));
-        setProfitCenterDDL(newData);
+    getProfitCenterDDL(
+      `/fino/CostSheet/ProfitCenterDetails?UnitId=${selectedBusinessUnit?.value}`,
+      (data) => {
+        if (data?.length > 0) {
+          const newData = data?.map((item) => ({
+            value: item?.profitCenterId,
+            label: item?.profitCenterName,
+          }));
+          setProfitCenterDDL(newData);
+        }
       }
-    })
-    getCostCenterDDL(`/procurement/PurchaseOrder/GetCostCenter?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}`)
+    );
+    getCostCenterDDL(
+      `/procurement/PurchaseOrder/GetCostCenter?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}`
+    );
 
     if (profileData.accountId) {
       getComponentDDL(profileData.accountId, setComponentDDL);
@@ -231,7 +243,7 @@ export default function _Form({
                 setRowDto([]);
               });
             },
-            noAlertFunc: () => { },
+            noAlertFunc: () => {},
           };
           IConfirmModal(confirmObject);
         }}
@@ -247,29 +259,29 @@ export default function _Form({
           isValid,
         }) => (
           <ICustomCard
-            title="Create Shipment Cost"
+            title='Create Shipment Cost'
             renderProps={() => (
               <>
                 <button
-                  type="button"
+                  type='button'
                   className={"btn btn-light"}
                   onClick={(e) => {
                     history.goBack();
                   }}
                 >
-                  <i className="fa fa-arrow-left"></i>
+                  <i className='fa fa-arrow-left'></i>
                   Back
                 </button>
                 <button
                   onClick={() => resetForm()}
                   className={"btn btn-light ml-2"}
                 >
-                  <i className="fa fa-redo"></i>
+                  <i className='fa fa-redo'></i>
                   Reset
                 </button>
                 {reportTypeComplete ? (
                   <button
-                    type="submit"
+                    type='submit'
                     className={"btn btn-primary ml-2"}
                     onClick={() => {
                       setFieldValue("handleType", "in");
@@ -280,7 +292,7 @@ export default function _Form({
                   </button>
                 ) : (
                   <button
-                    type="submit"
+                    type='submit'
                     className={"btn btn-primary ml-2"}
                     onClick={() => {
                       setFieldValue("handleType", "out");
@@ -294,69 +306,67 @@ export default function _Form({
             )}
           >
             <>
-              {(costElementDDlloader || costCenterDDlloader || profitCenterDDlloader) && <Loading />}
-              <Form className="form form-label-right position-relative">
+              {(costElementDDlloader ||
+                costCenterDDlloader ||
+                profitCenterDDlloader) && <Loading />}
+              <Form className='form form-label-right position-relative'>
                 <p style={{ position: "absolute", top: "-46px", left: "45%" }}>
                   <b>Pay to Driver: </b>
                   {netPayable}
                 </p>
-                <div className="row global-form">
-                  <div className="col-lg-12">
+                <div className='row global-form'>
+                  <div className='col-lg-12'>
                     <div
-                      className="row bank-journal  "
+                      className='row bank-journal  '
                       style={{ paddingBottom: "20px 0" }}
                     >
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
-                          label="Vehicle No"
+                          label='Vehicle No'
                           value={values?.vehicleNo}
-                          name="vehicleNo"
-                          placeholder="vehial No"
-                          type="text"
+                          name='vehicleNo'
+                          placeholder='vehial No'
+                          type='text'
                           disabled={true}
                         />
                       </div>
-
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
-                          label="Driver Name"
+                          label='Driver Name'
                           value={values?.driverName}
-                          name="driverName"
-                          placeholder="Driver Name"
-                          type="text"
+                          name='driverName'
+                          placeholder='Driver Name'
+                          type='text'
                           disabled={true}
                         />
                       </div>
-
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
-                          label="Route Name"
+                          label='Route Name'
                           value={values?.routeName}
-                          name="routeName"
-                          placeholder="Route Name"
-                          type="text"
+                          name='routeName'
+                          placeholder='Route Name'
+                          type='text'
                           disabled={true}
                         />
                       </div>
-
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
-                          label="Distance (KM)"
+                          label='Distance (KM)'
                           value={values?.distanceKm}
-                          name="distanceKm"
-                          placeholder="Distance Km"
-                          type="number"
+                          name='distanceKm'
+                          placeholder='Distance Km'
+                          type='number'
                           disabled={true}
                         />
                       </div>
-
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
-                          label="Extra Millage (KM)"
+                          label='Extra Millage (KM)'
                           value={values?.extraMillage}
-                          name="extraMillage"
-                          placeholder="Extra Millage"
-                          type="number"
+                          name='extraMillage'
+                          placeholder='Extra Millage'
+                          type='number'
                           onChange={(e) => {
                             setFieldValue("extraMillage", e.target.value);
                             const totalMillage =
@@ -368,65 +378,60 @@ export default function _Form({
                           }}
                         />
                       </div>
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
-                          label="Reason For Extra Millage (KM)"
+                          label='Reason For Extra Millage (KM)'
                           value={values?.extraMillageReason || ""}
-                          name="extraMillageReason"
-                          placeholder="Reason For Extra Millage"
-                          type="text"
+                          name='extraMillageReason'
+                          placeholder='Reason For Extra Millage'
+                          type='text'
                         />
                       </div>
-
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
                           value={values?.shipmentDate}
-                          label="Shipment Date"
-                          type="date"
-                          name="shipmentDate"
-                          placeholder=""
+                          label='Shipment Date'
+                          type='date'
+                          name='shipmentDate'
+                          placeholder=''
                           disabled={true}
                         />
                       </div>
-
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
-                          label="Start Millage"
+                          label='Start Millage'
                           value={values?.startMillage}
-                          name="startMillage"
-                          placeholder="Start Millage"
-                          type="number"
+                          name='startMillage'
+                          placeholder='Start Millage'
+                          type='number'
                         />
                       </div>
-
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
-                          label="End Millage"
+                          label='End Millage'
                           value={values?.endMillage}
-                          name="endMillage"
-                          placeholder="End Millage"
-                          type="number"
+                          name='endMillage'
+                          placeholder='End Millage'
+                          type='number'
                         />
                       </div>
-
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
-                          label="Total Standard Cost"
+                          label='Total Standard Cost'
                           value={total.totalStandardCost}
-                          name="totalStandardCost"
-                          placeholder="Total Standard Cost"
-                          type="number"
+                          name='totalStandardCost'
+                          placeholder='Total Standard Cost'
+                          type='number'
                           disabled={true}
                         />
                       </div>
-
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
-                          label="Advance Amount"
+                          label='Advance Amount'
                           value={values?.advanceAmount}
-                          name="advanceAmount"
-                          placeholder="Advane Amount"
-                          type="number"
+                          name='advanceAmount'
+                          placeholder='Advane Amount'
+                          type='number'
                           onChange={(e) => {
                             setFieldValue("advanceAmount", e.target.value);
                             setAdvanceAmount(e.target.value);
@@ -437,22 +442,21 @@ export default function _Form({
                           min={0}
                         />
                       </div>
-
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
-                          label="Total Actual"
+                          label='Total Actual'
                           value={total?.totalActual}
-                          name="totalActualCost"
-                          placeholder="Total Actual"
-                          type="number"
+                          name='totalActualCost'
+                          placeholder='Total Actual'
+                          type='number'
                           disabled={true}
                         />
                       </div>
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
-                          label="DA Quantity"
+                          label='DA Quantity'
                           value={values?.daQuantity}
-                          name="daQuantity"
+                          name='daQuantity'
                           onChange={(e) => {
                             setFieldValue(
                               "daAmount",
@@ -460,28 +464,28 @@ export default function _Form({
                             );
                             setFieldValue("daQuantity", e.target.value);
                           }}
-                          placeholder="DA Quantity"
-                          type="number"
+                          placeholder='DA Quantity'
+                          type='number'
                         />
                       </div>
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
-                          label="DA Amount"
+                          label='DA Amount'
                           value={values?.daAmount}
-                          name="daAmount"
-                          placeholder="Total Actual"
-                          type="number"
+                          name='daAmount'
+                          placeholder='Total Actual'
+                          type='number'
                           disabled={true}
                         />
                       </div>
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
-                          label="Down Trip Cash"
+                          label='Down Trip Cash'
                           value={values?.downTripCash}
-                          name="downTripCash"
-                          placeholder="Down Trip Cash"
-                          type="number"
-                          min="0"
+                          name='downTripCash'
+                          placeholder='Down Trip Cash'
+                          type='number'
+                          min='0'
                           onChange={(e) => {
                             setFieldValue("downTripCash", e.target.value);
                             netPayableCalculatorFunc(
@@ -493,9 +497,9 @@ export default function _Form({
                           }}
                         />
                       </div>
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
-                          label="Down Trip Credit"
+                          label='Down Trip Credit'
                           value={values?.downTripCredit}
                           onChange={(e) => {
                             setFieldValue("downTripCredit", e.target.value);
@@ -506,78 +510,86 @@ export default function _Form({
                               +values?.downTripCash
                             );
                           }}
-                          name="downTripCredit"
-                          placeholder="Down Trip Credit"
-                          type="number"
-                          min="0"
+                          name='downTripCredit'
+                          placeholder='Down Trip Credit'
+                          type='number'
+                          min='0'
                         />
                       </div>
                       {reportTypeComplete && (
                         <>
-                          <div className="col-lg-3">
+                          <div className='col-lg-3'>
                             <label>Vehicle In Date</label>
                             <InputField
                               value={values?.vehicleInDate}
-                              name="vehicleInDate"
-                              placeholder="Vehicle In Date"
-                              type="date"
+                              name='vehicleInDate'
+                              placeholder='Vehicle In Date'
+                              type='date'
                             />
                           </div>
-                          <div className="col-lg-3">
+                          <div className='col-lg-3'>
                             <label>Vehicle In Time</label>
                             <InputField
                               value={values?.vehicleInTime}
-                              name="vehicleInTime"
-                              placeholder="Vehicle In Time"
-                              type="time"
+                              name='vehicleInTime'
+                              placeholder='Vehicle In Time'
+                              type='time'
                               required
                             />
                           </div>{" "}
                         </>
                       )}
-
                       {+values?.downTripCredit > 0 && (
-                        <div className="col-lg-3 pl pr-1 mb-1">
+                        <div className='col-lg-3 pl pr-1 mb-1'>
                           <NewSelect
-                            name="businessUnitName"
+                            name='businessUnitName'
                             options={businessUnitName}
                             value={values?.businessUnitName}
-                            label="Business Unit Name"
+                            label='Business Unit Name'
                             onChange={(valueOption) => {
                               setFieldValue("businessUnitName", valueOption);
                             }}
-                            placeholder="Business Unit Name"
+                            placeholder='Business Unit Name'
                             errors={errors}
                             touched={touched}
                           />
                         </div>
                       )}
-
-                      <div className="col-lg-3" style={{ marginTop: "18px" }}>
+                      <div className='col-lg-3'>
+                        <label>Total Fuel Cost</label>
+                        <InputField
+                          value={values?.totalFuelCost}
+                          name='totalFuelCost'
+                          placeholder='Total Fuel Cost'
+                          type='text'
+                          disabled={true}
+                        />
+                      </div>{" "}
+                      <div className='col-lg-3' style={{ marginTop: "18px" }}>
                         <Field
-                          type="checkbox"
-                          name="downTraip"
+                          type='checkbox'
+                          name='downTraip'
                           checked={values?.downTraip}
                         />
-                        <label className="ml-2">is Down Trip Allowance?</label>
+                        <label className='ml-2'>is Down Trip Allowance?</label>
                       </div>
                       {values?.downTraip === true ? (
-                        <div className="col-lg-3 pl pr-1 mb-1">
+                        <div className='col-lg-3 pl pr-1 mb-1'>
                           <InputField
-                            label="Down Trip Allowance"
+                            label='Down Trip Allowance'
                             value={values?.downTripAllowns}
-                            name="downTripAllowns"
-                            placeholder="Down Trip Allowance"
-                            type="number"
+                            name='downTripAllowns'
+                            placeholder='Down Trip Allowance'
+                            type='number'
                           />
                         </div>
                       ) : (
                         ""
                       )}
-                      <div className="col-lg-2 pl pr-1 mb-1">
+                      <div className='col-lg-2 pl pr-1 mb-1'>
                         <button
-                          class="btn btn-primary ml-2"
-                          type="button"
+                          class='btn btn-primary ml-2'
+                          type='button'
                           style={{ marginTop: "13px" }}
                           onClick={() => {
                             costComponenClickFunc(values, setFieldValue);
@@ -589,81 +601,80 @@ export default function _Form({
                     </div>
                   </div>
 
-                  <div className="col-lg-3">
+                  <div className='col-lg-3'>
                     <NewSelect
-                      name="profitCenter"
+                      name='profitCenter'
                       options={profitCenterDDL}
                       value={values?.profitCenter}
-                      label="Profit Center"
+                      label='Profit Center'
                       onChange={(valueOption) => {
                         setFieldValue("profitCenter", valueOption);
                       }}
-                      placeholder="Profit Center"
+                      placeholder='Profit Center'
                       errors={errors}
                       touched={touched}
                     />
                   </div>
-                  <div className="col-lg-3">
+                  <div className='col-lg-3'>
                     <NewSelect
-                      name="costCenter"
+                      name='costCenter'
                       options={costCenterDDL}
                       value={values?.costCenter}
-                      label="Cost Center"
+                      label='Cost Center'
                       onChange={(valueOption) => {
                         if (valueOption) {
                           setFieldValue("costCenter", valueOption);
                           setFieldValue("costElement", "");
-                          getCostElementDDL(`/procurement/PurchaseOrder/GetCostElementByCostCenter?AccountId=${profileData?.accountId
-                            }&UnitId=${selectedBusinessUnit?.value
-                            }&CostCenterId=${valueOption?.value}`)
+                          getCostElementDDL(
+                            `/procurement/PurchaseOrder/GetCostElementByCostCenter?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&CostCenterId=${valueOption?.value}`
+                          );
                         } else {
                           setFieldValue("costCenter", "");
                           setFieldValue("costElement", "");
                         }
-
                       }}
-                      placeholder="Cost Center"
+                      placeholder='Cost Center'
                       errors={errors}
                       touched={touched}
                     />
                   </div>
-                  <div className="col-lg-3">
+                  <div className='col-lg-3'>
                     <NewSelect
-                      name="costElement"
+                      name='costElement'
                       options={costElementDDL}
                       value={values?.costElement}
-                      label="Cost Element"
+                      label='Cost Element'
                       onChange={(valueOption) => {
                         setFieldValue("costElement", valueOption);
                       }}
-                      placeholder="Cost Element"
+                      placeholder='Cost Element'
                       errors={errors}
                       touched={touched}
                     />
                   </div>
 
                   {/* Item Input */}
-                  <div className="col-md-12">
-                    <div className="row " style={{ paddingTop: "20px" }}>
-                      <div className="col-lg-2 pl pr-1 mb-1">
+                  <div className='col-md-12'>
+                    <div className='row ' style={{ paddingTop: "20px" }}>
+                      <div className='col-lg-2 pl pr-1 mb-1'>
                         <NewSelect
-                          name="costComponent"
+                          name='costComponent'
                           options={componentDDL}
                           value={values?.costComponent}
-                          label="Cost Component"
+                          label='Cost Component'
                           onChange={(valueOption) => {
                             setFieldValue("costComponent", valueOption);
                           }}
-                          placeholder="Cost Component"
+                          placeholder='Cost Component'
                           errors={errors}
                           touched={touched}
                         />
                       </div>
 
-                      <div className="col-lg-2 pl pr-1 mb-1">
+                      <div className='col-lg-2 pl pr-1 mb-1'>
                         <button
-                          class="btn btn-primary ml-2"
-                          type="button"
+                          class='btn btn-primary ml-2'
+                          type='button'
                           style={{ marginTop: "13px" }}
                           onClick={() => {
                             let obj = {
@@ -688,9 +699,9 @@ export default function _Form({
                   </div>
                 </div>
 
-                <div className="row">
-                  <div className="col-lg-12">
-                    <div className="table-responsive">
+                <div className='row'>
+                  <div className='col-lg-12'>
+                    <div className='table-responsive'>
                       <table className={"table global-table"}>
                         <thead>
                           <tr>
@@ -705,18 +716,18 @@ export default function _Form({
                           {rowDto?.map((item, index) => (
                             <tr key={index}>
                               <td>{index + 1}</td>
-                              <td className="align-middle">
-                                <div className="text-left pl-2">
+                              <td className='align-middle'>
+                                <div className='text-left pl-2'>
                                   {item?.transportRouteCostComponent}
                                 </div>
                               </td>
                               <td>
-                                <div className="text-left pl-2">
+                                <div className='text-left pl-2'>
                                   <input
-                                    type="number"
-                                    className="form-control"
+                                    type='number'
+                                    className='form-control'
                                     value={item.standardCost}
-                                    name="standardCost"
+                                    name='standardCost'
                                     onChange={(e) => {
                                       dataHandler(
                                         "standardCost",
@@ -728,12 +739,12 @@ export default function _Form({
                                 </div>
                               </td>
                               <td>
-                                <div className="text-center">
+                                <div className='text-center'>
                                   <input
-                                    type="number"
-                                    className="form-control"
+                                    type='number'
+                                    className='form-control'
                                     value={item.actualCost}
-                                    name="actualCost"
+                                    name='actualCost'
                                     onChange={(e) => {
                                       dataHandler(
                                         "actualCost",
@@ -745,7 +756,7 @@ export default function _Form({
                                 </div>
                               </td>
 
-                              <td className="text-center align-middle">
+                              <td className='text-center align-middle'>
                                 <IDelete remover={remover} id={index} />
                               </td>
                             </tr>
@@ -757,14 +768,14 @@ export default function _Form({
                 </div>
 
                 <>
-                  <h5 className="mt-1">Fuel Cost</h5>
-                  <div className="row global-form">
-                    <div className="col-lg-3">
+                  <h5 className='mt-1'>Fuel Cost</h5>
+                  <div className='row global-form'>
+                    <div className='col-lg-3'>
                       <NewSelect
-                        name="Supplier"
+                        name='Supplier'
                         options={supplierListDDL || []}
                         value={values?.supplier}
-                        label="Supplier"
+                        label='Supplier'
                         onChange={(valueOption) => {
                           setFieldValue("supplier", valueOption);
                           setFieldValue("fuelStationName", "");
@@ -774,58 +785,57 @@ export default function _Form({
                             selectedBusinessUnit?.value,
                             setSupplierFuelStationDDL
                           );
-
                         }}
-                        placeholder="Supplier"
+                        placeholder='Supplier'
                         errors={errors}
                         touched={touched}
                       />
                     </div>
-                    <div className="col-lg-3">
+                    <div className='col-lg-3'>
                       <NewSelect
-                        name="fuelStationName"
+                        name='fuelStationName'
                         options={supplierFuelStationDDL || []}
                         value={values?.fuelStationName}
-                        label="Fuel Station Name"
+                        label='Fuel Station Name'
                         onChange={(valueOption) => {
                           setFieldValue("fuelStationName", valueOption);
                         }}
-                        placeholder="Fuel Station Name"
+                        placeholder='Fuel Station Name'
                         errors={errors}
                         touched={touched}
                       />
                     </div>
-                    <div className="col-lg-3">
+                    <div className='col-lg-3'>
                       <NewSelect
-                        name="fuelType"
+                        name='fuelType'
                         options={vhicleFuelTypeDDL || []}
                         value={values?.fuelType}
-                        label="Fuel Type"
+                        label='Fuel Type'
                         onChange={(valueOption) => {
                           setFieldValue("fuelType", valueOption);
                         }}
-                        placeholder="Fuel Type"
+                        placeholder='Fuel Type'
                         errors={errors}
                         touched={touched}
                       />
                     </div>
-                    <div className="col-lg-3">
+                    <div className='col-lg-3'>
                       <label>Litter</label>
                       <InputField
                         value={values?.fuelQty}
-                        name="fuelQty"
-                        placeholder="Litter"
-                        type="number"
+                        name='fuelQty'
+                        placeholder='Litter'
+                        type='number'
                         min={0}
                       />
                     </div>
-                    <div className="col-lg-3">
+                    <div className='col-lg-3'>
                       <label>Amount</label>
                       <InputField
                         value={values?.fuelAmount}
-                        name="fuelAmount"
-                        placeholder="Amount"
-                        type="number"
+                        name='fuelAmount'
+                        placeholder='Amount'
+                        type='number'
                         min={0}
                         onChange={(e) => {
                           if (values?.purchaseType === "Credit") {
@@ -835,66 +845,66 @@ export default function _Form({
                         }}
                       />
                     </div>
-                    <div className="col-lg-3">
+                    <div className='col-lg-3'>
                       <label>Date</label>
                       <InputField
                         value={values?.fuelDate}
-                        name="fuelDate"
-                        placeholder="Date"
-                        type="date"
+                        name='fuelDate'
+                        placeholder='Date'
+                        type='date'
                       />
                     </div>
-                    <div className="col-lg-3">
+                    <div className='col-lg-3'>
                       <div
-                        role="group"
-                        aria-labelledby="my-radio-group"
-                        className="d-flex justify-content-between mt-5"
+                        role='group'
+                        aria-labelledby='my-radio-group'
+                        className='d-flex justify-content-between mt-5'
                       >
-                        <label className="d-flex">
+                        <label className='d-flex'>
                           <Field
-                            type="radio"
-                            name="purchaseType"
-                            value="Cash"
-                            id="Cash"
+                            type='radio'
+                            name='purchaseType'
+                            value='Cash'
+                            id='Cash'
                             onChange={(e) => {
                               setFieldValue("credit", "");
                               setFieldValue("purchaseType", e.target.value);
                             }}
                           />
-                          <span className="pl-1">Cash</span>
+                          <span className='pl-1'>Cash</span>
                         </label>
-                        <label className="d-flex">
+                        <label className='d-flex'>
                           <Field
-                            type="radio"
-                            name="purchaseType"
-                            value="Credit"
-                            id="Credit"
+                            type='radio'
+                            name='purchaseType'
+                            value='Credit'
+                            id='Credit'
                             onChange={(e) => {
                               setFieldValue("credit", values?.fuelAmount);
                               setFieldValue("purchaseType", e.target.value);
                             }}
                           />
-                          <span className="pl-1">Credit</span>
+                          <span className='pl-1'>Credit</span>
                         </label>
-                        <label className="d-flex">
+                        <label className='d-flex'>
                           <Field
-                            type="radio"
-                            name="purchaseType"
-                            value="Both"
-                            id="Both"
+                            type='radio'
+                            name='purchaseType'
+                            value='Both'
+                            id='Both'
                             onChange={(e) => {
                               setFieldValue("credit", "");
                               setFieldValue("purchaseType", e.target.value);
                             }}
                           />
-                          <span className="pl-1">Both</span>
+                          <span className='pl-1'>Both</span>
                         </label>
                       </div>
                     </div>
-                    <div className="col-lg-3 mt-5">
+                    <div className='col-lg-3 mt-5'>
                       <button
-                        className="btn btn-primary"
-                        type="button"
+                        className='btn btn-primary'
+                        type='button'
                         onClick={() =>
                           setOpen({ type: "fuelCost", isOpen: true })
                         }
@@ -904,42 +914,42 @@ export default function _Form({
                     </div>
                     {(values?.purchaseType === "Cash" ||
                       values?.purchaseType === "Both") && (
-                        <div className="col-lg-3">
-                          <label>Cash</label>
-                          <InputField
-                            value={values?.cash}
-                            name="cash"
-                            placeholder="Cash"
-                            type="text"
-                          />
-                        </div>
-                      )}
+                      <div className='col-lg-3'>
+                        <label>Cash</label>
+                        <InputField
+                          value={values?.cash}
+                          name='cash'
+                          placeholder='Cash'
+                          type='text'
+                        />
+                      </div>
+                    )}
                     {(values?.purchaseType === "Credit" ||
                       values?.purchaseType === "Both") && (
-                        <div className="col-lg-3">
-                          <label>Credit</label>
-                          <InputField
-                            value={values?.credit}
-                            name="credit"
-                            placeholder="Credit"
-                            type="text"
-                          />
-                        </div>
-                      )}
-                    <div className="col-lg-3">
+                      <div className='col-lg-3'>
+                        <label>Credit</label>
+                        <InputField
+                          value={values?.credit}
+                          name='credit'
+                          placeholder='Credit'
+                          type='text'
+                        />
+                      </div>
+                    )}
+                    <div className='col-lg-3'>
                       <label>Fuel Memo No</label>
                       <InputField
                         value={values?.fuelMemoNo}
-                        name="fuelMemoNo"
-                        placeholder="Fuel Memo No"
-                        type="text"
+                        name='fuelMemoNo'
+                        placeholder='Fuel Memo No'
+                        type='text'
                       />
                     </div>
 
-                    <div className="col-lg-2 pl pr-1 mb-1">
+                    <div className='col-lg-2 pl pr-1 mb-1'>
                       <button
-                        class="btn btn-primary ml-2"
-                        type="button"
+                        class='btn btn-primary ml-2'
+                        type='button'
                         style={{ marginTop: "13px" }}
                         onClick={() => {
                           // don't check fuel amount with triple equal, it will make issues / bug
@@ -954,7 +964,7 @@ export default function _Form({
                           if (
                             values?.purchaseType === "Both" &&
                             values?.fuelAmount !=
-                            +values?.credit + +values?.cash
+                              +values?.credit + +values?.cash
                           )
                             return toast.warn(
                               "Credit and cash should be equal to amount"
@@ -979,9 +989,9 @@ export default function _Form({
                   </div>
                 </>
 
-                <div className="row">
-                  <div className="col-lg-12">
-                    <div className="table-responsive">
+                <div className='row'>
+                  <div className='col-lg-12'>
+                    <div className='table-responsive'>
                       <table className={"table global-table"}>
                         <thead>
                           <tr>
@@ -1012,7 +1022,7 @@ export default function _Form({
                               <td>{item?.purchaseCashAmount}</td>
                               <td>{item?.purchaseCreditAmount}</td>
                               <td>{item?.fuelMemoNo || ""}</td>
-                              <td className="text-center">
+                              <td className='text-center'>
                                 {item?.attachmentFileId && (
                                   <IView
                                     clickHandler={() => {
@@ -1025,7 +1035,7 @@ export default function _Form({
                                   />
                                 )}
                               </td>
-                              <td className="text-center align-middle">
+                              <td className='text-center align-middle'>
                                 <IDelete remover={removerTwo} id={index} />
                               </td>
                             </tr>
@@ -1036,17 +1046,17 @@ export default function _Form({
                   </div>
                 </div>
 
-                <div className="row">
-                  <div className="col-lg-6 mt-2">
-                    <h5 className="mt-1">Distance KM</h5>
+                <div className='row'>
+                  <div className='col-lg-6 mt-2'>
+                    <h5 className='mt-1'>Distance KM</h5>
                   </div>
-                  <div className="col-lg-6 mt-2">
+                  <div className='col-lg-6 mt-2'>
                     {" "}
-                    <h5 className="mt-1">Vehicle Rent</h5>
+                    <h5 className='mt-1'>Vehicle Rent</h5>
                   </div>
                   {/* distanceKM talbe */}
-                  <div className="col-lg-6">
-                    <div className="table-responsive">
+                  <div className='col-lg-6'>
+                    <div className='table-responsive'>
                       <table className={"table global-table"}>
                         <thead>
                           <tr>
@@ -1068,10 +1078,10 @@ export default function _Form({
                               <td>
                                 <InputField
                                   value={item?.numDistanceKM}
-                                  name="names"
-                                  placeholder="Distance KM"
-                                  type="number"
-                                  min="1"
+                                  name='names'
+                                  placeholder='Distance KM'
+                                  type='number'
+                                  min='1'
                                   required
                                   onChange={(e) => {
                                     distanceKMOnChangeFunc(
@@ -1083,11 +1093,11 @@ export default function _Form({
                                 />
                               </td>
                               {!reportTypeComplete && (
-                                <td className="text-center align-middle">
+                                <td className='text-center align-middle'>
                                   {item?.isUpdateBtnClick ? null : (
                                     <button
-                                      className="btn btn-danger"
-                                      type="button"
+                                      className='btn btn-danger'
+                                      type='button'
                                       onClick={() => {
                                         distanceKMOUpdateFunc(
                                           item,
@@ -1110,7 +1120,7 @@ export default function _Form({
                   </div>
 
                   {/* Vehicle Reant table */}
-                  <div className="col-lg-6">
+                  <div className='col-lg-6'>
                     <table className={"table global-table"}>
                       <thead>
                         <tr>
@@ -1133,10 +1143,10 @@ export default function _Form({
                             <td>
                               <InputField
                                 value={item?.rentAmount}
-                                name="names"
-                                placeholder="Rent Amount"
-                                type="number"
-                                min="1"
+                                name='names'
+                                placeholder='Rent Amount'
+                                type='number'
+                                min='1'
                                 onChange={(e) => {
                                   vehicleReantOnChangeFunc(
                                     e?.target?.value,
@@ -1151,11 +1161,11 @@ export default function _Form({
                             </td>
                             {!reportTypeComplete &&
                               selectedBusinessUnit?.value !== 4 && (
-                                <td className="text-center align-middle">
+                                <td className='text-center align-middle'>
                                   {item?.isUpdateBtnClick ? null : (
                                     <button
-                                      className="btn btn-danger"
-                                      type="button"
+                                      className='btn btn-danger'
+                                      type='button'
                                       onClick={() => {
                                         vehicleReantUpdateFunc(item, index);
                                       }}
@@ -1189,14 +1199,14 @@ export default function _Form({
                 </div>
 
                 <button
-                  type="submit"
+                  type='submit'
                   style={{ display: "none" }}
                   ref={btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
-                  type="reset"
+                  type='reset'
                   style={{ display: "none" }}
                   ref={resetBtnRef}
                   onSubmit={() => resetForm(initData)}
