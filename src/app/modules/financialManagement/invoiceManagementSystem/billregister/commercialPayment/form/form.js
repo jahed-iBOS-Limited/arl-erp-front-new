@@ -447,13 +447,14 @@ export default function _Form({
                             style={{ cursor: "pointer" }}
                             onClick={(e) => {
                               if (
-                                item.costTypeId === 12 ||
-                                item.costTypeId === 21 ||
-                                item.costTypeId === 22 ||
-                                item.costTypeId === 13 ||
-                                item.costTypeId === 14 ||
-                                item.costTypeId === 15 ||
-                                item.costTypeId === 20
+                                // item.costTypeId === 12 ||
+                                // item.costTypeId === 21 ||
+                                // item.costTypeId === 22 ||
+                                // item.costTypeId === 13 ||
+                                // item.costTypeId === 14 ||
+                                // item.costTypeId === 15 ||
+                                // item.costTypeId === 20
+                                item.isMultipleSupplier
                               ) {
                                 setIsShowModal(true);
                                 setPoNumber(item?.ponumber);
