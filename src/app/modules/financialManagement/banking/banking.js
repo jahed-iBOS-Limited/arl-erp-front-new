@@ -27,6 +27,7 @@ import PayableReport from "../report/payableReport";
 import BankAdvice from "./bankAdvce/table/BankAdvice";
 import NonBankingFund from "./nonBankingFund";
 import NonBankingFundCreateEdit from "./nonBankingFund/createEdit";
+import Repay from "./nonBankingFund/repay";
 
 export function Banking() {
   return (
@@ -158,6 +159,10 @@ export function Banking() {
       <ContentRoute
         path="/financial-management/banking/BankAdviceForBanking"
         component={BankAdvice}
+      />
+      <ContentRoute
+        path="/financial-management/banking/NonBankingFund/repay/:id"
+        component={Repay}
       />
       <ContentRoute
         path="/financial-management/banking/NonBankingFund/create"
