@@ -38,7 +38,7 @@ export const getPlantList = async (userId, accId, buId, setter) => {
     const res = await Axios.get(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
-    setter(res?.data);
+    setter([{value:0, label: 'All'}, ...res?.data]);
   } catch (error) {}
 };
 export const getRequestTypeList = async (setter) => {
@@ -58,12 +58,14 @@ export const GetPurchaseInfoByItem_api = async (
   whId,
   buId,
   setter,
-  setLoading
+  setLoading,
+  fromDate,
+  toDate
 ) => {
   try {
     setLoading(true);
     const res = await Axios.get(
-      `/procurement/PurchaseOrder/GetPurchaseInfoByItem?itemId=${itemId}&wareHouseId=${whId}&businessUnitId=${buId}`
+      `/procurement/PurchaseOrder/GetPurchaseInfoByItem?itemId=${itemId}&wareHouseId=${whId}&businessUnitId=${buId}&fromDate=${fromDate}&toDate=${toDate}`
     );
     setLoading(false);
     if (res?.data?.length === 0) return toast.warn("Data not found");
@@ -78,12 +80,14 @@ export const GetPOInfoBySupplier_api = async (
   whId,
   buId,
   setter,
-  setLoading
+  setLoading,
+  fromDate,
+  toDate
 ) => {
   try {
     setLoading(true);
     const res = await Axios.get(
-      `/procurement/PurchaseOrder/GetPOInfoBySupplier?wareHouseId=${whId}&businessUnitId=${buId}&businessPartnerId=${supplierId}`
+      `/procurement/PurchaseOrder/GetPOInfoBySupplier?wareHouseId=${whId}&businessUnitId=${buId}&businessPartnerId=${supplierId}&fromDate=${fromDate}&toDate=${toDate}`
     );
     setLoading(false);
     if (res?.data?.length === 0) return toast.warn("Data not found");
@@ -112,3 +116,5 @@ export const getSBUList = async (accId, buId, setter) => {
     setter(res?.data);
   } catch (error) { }
 };
+
+
