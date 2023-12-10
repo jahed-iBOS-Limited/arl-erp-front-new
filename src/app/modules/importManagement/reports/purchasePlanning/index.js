@@ -1,16 +1,14 @@
 import { Form, Formik } from 'formik';
-import React, { useState } from 'react';
-import Loading from '../../../_helper/_loading';
+import React, { useEffect, useState } from 'react';
 import IForm from '../../../_helper/_form';
-import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../_helper/_loading';
 import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 // import InputField from "../../../_helper/_inputField";
-import PaginationTable from '../../../_helper/_tablePagination';
 import { shallowEqual, useSelector } from 'react-redux';
-import { _todayDate } from '../../../_helper/_todayDate';
 import { _dateFormatter } from '../../../_helper/_dateFormate';
-import Axios from 'axios';
-import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _todayDate } from '../../../_helper/_todayDate';
 
 const initData = {
    type: '',
@@ -18,12 +16,26 @@ const initData = {
    date: _todayDate(),
 };
 export default function PurchasePlanningAndScheduling() {
-   const { selectedBusinessUnit } = useSelector(state => {
+   const { selectedBusinessUnit, profileData } = useSelector(state => {
       return state?.authData;
    }, shallowEqual);
 
    const [pageNo, setPageNo] = useState(0);
    const [pageSize, setPageSize] = useState(15);
+   const [itemList, getItemList, , setItemList] = useAxiosGet();
+   
+
+   useEffect(()=>{
+      getItemList(`/imp/ImportCommonDDL/GetItemDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`, (data)=>{
+         const updateList = data?.map(item => ({
+            ...item,
+            label: `${item?.label} (${item?.code})`,
+         }));
+
+         setItemList(updateList)
+      })
+   // eslint-disable-next-line react-hooks/exhaustive-deps
+   },[])
 
    const saveHandler = (values, cb) => {};
    const [
@@ -50,19 +62,6 @@ export default function PurchasePlanningAndScheduling() {
 
    const setPositionHandler = (pageNo, pageSize, values) => {
       getData(pageNo, pageSize, values);
-   };
-
-   const loadUserList = (v, resolve) => {
-      if (v?.length < 3) return [];
-      return Axios.get(
-         `/imp/ImportCommonDDL/GetItemDDL?AccountId=1&BusinessUnitId=4&search=${v}`
-      ).then(res => {
-         const updateList = res?.data.map(item => ({
-            ...item,
-            label: `${item?.label} (${item?.code})`,
-         }));
-         resolve(updateList);
-      });
    };
 
    return (
@@ -128,11 +127,12 @@ export default function PurchasePlanningAndScheduling() {
                            </div>
                            {values?.type?.value === 1 ? (
                               <div className="col-lg-3">
-                                 <label>Item</label>
-                                 <SearchAsyncSelect
-                                    selectedValue={values?.item}
-                                    isDebounce
-                                    handleChange={valueOption => {
+                                 <NewSelect
+                                    name="item"
+                                    options={itemList}
+                                    value={values?.item}
+                                    label="Item"
+                                    onChange={valueOption => {
                                        if (valueOption) {
                                           setFieldValue('item', valueOption);
                                           setTableData([]);
@@ -145,9 +145,10 @@ export default function PurchasePlanningAndScheduling() {
                                           setPageSize(15);
                                        }
                                     }}
-                                    loadOptions={loadUserList}
+                                    errors={errors}
+                                    touched={touched}
                                  />
-                              </div>
+                           </div>
                            ) : null}
                            <button
                               style={{ marginTop: '18px' }}
