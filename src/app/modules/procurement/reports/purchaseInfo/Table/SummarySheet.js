@@ -1,37 +1,5 @@
 import React from "react";
-
-const fakeData = [
-    {
-      plantName: 'Plant 1',
-      warehouseName: 'Warehouse A',
-      itemName: 'Item X',
-      orderValue: 100,
-      orderQuantity: 50,
-      costPerUom: 2.5,
-      costPerMaunds: 5,
-    },
-    {
-      plantName: 'Plant 2',
-      warehouseName: 'Warehouse B',
-      itemName: 'Item Y',
-      orderValue: 150,
-      orderQuantity: 30,
-      costPerUom: 3.0,
-      costPerMaunds: 6,
-    },
-    {
-      plantName: 'Plant 3',
-      warehouseName: 'Warehouse C',
-      itemName: 'Item Z',
-      orderValue: 200,
-      orderQuantity: 20,
-      costPerUom: 3.5,
-      costPerMaunds: 7,
-    },
-  ];
-  
-
-
+import { _formatMoney } from "../../../../_helper/_formatMoney";
 
 function SummarySheet({ gridData }) {
   let numVatAmount = 0,
@@ -39,6 +7,8 @@ function SummarySheet({ gridData }) {
     numBasePrice = 0,
     numOrderQty = 0,
     numTotalValue = 0;
+
+  console.log("gridData", gridData);
   return (
     <>
       <div className="row ">
@@ -59,9 +29,7 @@ function SummarySheet({ gridData }) {
                 </tr>
               </thead>
               <tbody>
-
-
-              {/* [
+                {/* [
                 {
                     "plantId": 17,
                     "plantName": "Akij House",
@@ -78,32 +46,25 @@ function SummarySheet({ gridData }) {
                     "costPerMaunds": 0
                 }] */}
 
-
-                {fakeData?.map((item, index) => {
+                {gridData?.map((item, index) => {
                   return (
                     <tr key={index}>
                       <td className="text-center">{index + 1}</td>
                       <td className="text-center">{item.plantName}</td>
-                      <td className="text-left">
-                        {item?.warehouseName}
-                      </td>
-                      <td className="text-center">
-                        {item.itemName}
+                      <td className="text-left">{item?.warehouseName}</td>
+                      <td className="text-center">{item.itemName}</td>
+                      <td className="text-right">{item.uomName}</td>
+                      <td className="text-right">
+                        {_formatMoney(item.orderQuantity.toFixed(0))}
                       </td>
                       <td className="text-right">
-                        {item.uomName}
+                        {_formatMoney(item.orderValue.toFixed(2))}
                       </td>
                       <td className="text-right">
-                        {item.orderQuantity}
+                        {_formatMoney(item.costPerUom.toFixed(2))}
                       </td>
                       <td className="text-right">
-                        {item.orderValue}
-                      </td>
-                      <td className="text-right">
-                        {item.costPerUom}
-                      </td>
-                      <td className="text-right">
-                        {item.costPerMaunds}
+                        {_formatMoney(item.costPerMaunds.toFixed(2))}
                       </td>
                     </tr>
                   );

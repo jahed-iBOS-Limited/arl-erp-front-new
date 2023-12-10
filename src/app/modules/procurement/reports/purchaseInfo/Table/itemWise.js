@@ -1,6 +1,6 @@
 import React from "react";
+import { _formatMoney } from "../../../../_helper/_formatMoney";
 import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
 
 function ItemWise({ gridData }) {
   let numVatAmount = 0,
@@ -45,19 +45,19 @@ function ItemWise({ gridData }) {
                         {_dateFormatter(td?.dtePurchaseOrderDate)}
                       </td>
                       <td className="text-right">
-                        {_fixedPoint(td?.numVatAmount)}
+                        {_formatMoney(td?.numVatAmount.toFixed(2))}
                       </td>
                       <td className="text-right">
-                        {_fixedPoint(td?.numVatPercentage)}
+                        {_formatMoney(td?.numVatPercentage.toFixed(2))}
                       </td>
                       <td className="text-right">
-                        {_fixedPoint(td?.numBasePrice)}
+                        {_formatMoney(td?.numBasePrice.toFixed(2))}
                       </td>
                       <td className="text-right">
-                        {_fixedPoint(td?.numOrderQty)}
+                        {_formatMoney(td?.numOrderQty)}
                       </td>
                       <td className="text-right">
-                        {_fixedPoint(td?.numTotalValue)}
+                        {_formatMoney(td?.numTotalValue.toFixed(2))}
                       </td>
                     </tr>
                   );
@@ -66,13 +66,23 @@ function ItemWise({ gridData }) {
                   <td className="text-right" colspan="4">
                     Total
                   </td>
-                  <td className="text-right">{_fixedPoint(numVatAmount)}</td>
+                  <td className="text-right">{
+                  _formatMoney(numVatAmount.toFixed(2))
+                  }</td>
                   <td className="text-right">
-                    {_fixedPoint(numVatPercentage)}
+                    {
+                    _formatMoney(numVatPercentage.toFixed(2))
+                    }
                   </td>
-                  <td className="text-right">{_fixedPoint(numBasePrice)}</td>
-                  <td className="text-right">{_fixedPoint(numOrderQty)}</td>
-                  <td className="text-right">{_fixedPoint(numTotalValue)}</td>
+                  <td className="text-right">{
+                  _formatMoney(numBasePrice.toFixed(2))
+                  }</td>
+                  <td className="text-right">{
+                  _formatMoney(numOrderQty.toFixed(2))
+                  }</td>
+                  <td className="text-right">{
+                  _formatMoney(numTotalValue.toFixed(2))
+                  }</td>
                 </tr>
               </tbody>
             </table>
