@@ -9,6 +9,11 @@ export const SaveInventoryLoanValidationSchema = Yup.object().shape({
     value: Yup.string().required("Partner is required"),
   }),
 
+  plant: Yup.object().shape({
+    label: Yup.string().required("Plant is required"),
+    value: Yup.string().required("Plant is required"),
+  }),
+
   issueFrom: Yup.object().when("createType", {
     is: 1,
     then: Yup.object()
@@ -19,9 +24,7 @@ export const SaveInventoryLoanValidationSchema = Yup.object().shape({
       .typeError("This Field is required"),
     otherwise: Yup.object(),
   }),
-
   warehouse: Yup.object().when("issueFrom", (issueFrom) => {
-    console.log("Issue From validation", issueFrom);
     if (+issueFrom?.value === 1) {
       return Yup.object().shape({
         value: Yup.string().required("Warehouse is required"),
@@ -48,6 +51,7 @@ export const SaveInventoryLoanValidationSchema = Yup.object().shape({
     value: Yup.string().required("Item is required"),
   }),
   quantity: Yup.number().required("Quantity is required"),
+
 });
 
 export const getLandingPaginationData = async (
