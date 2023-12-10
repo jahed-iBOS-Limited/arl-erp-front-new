@@ -1,28 +1,27 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
+import React, { useEffect, useRef, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
-import Form from "./form";
 import Loading from "../../../../_helper/_loading";
+import Form from "./form";
 // import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import {
-  GetHsCodeByShipmentIdDDL,
+  CreateCustomsDuty,
+  EditCustomsDuty,
+  GetBankDDL,
+  GetCNFAgencyDDL,
   // GetHsCodeInfo,
   GetCustomsNameDDL,
-  GetPaidByDDL,
+  GetHSCodeInfoForCustomDuty,
+  GetHsCodeByShipmentIdDDL,
   // GetBankListDDL,
   GetInstrumentTypeDDL,
-  CreateCustomsDuty,
+  GetPaidByDDL,
   getSingleData,
-  EditCustomsDuty,
-  GetCNFAgencyDDL,
-  GetBankDDL,
-  GetHSCodeInfoForCustomDuty,
 } from "../helper";
 // import { toast } from "react-toastify";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
 import { _todayDate } from "../../../../_helper/_todayDate";
 
 export default function CustomDutyForm() {
@@ -61,6 +60,8 @@ export default function CustomDutyForm() {
     bank: "",
     instrumentType: "",
     grandTotal: hsCodeInfo?.sum || "",
+    guarantee78Amount: "",
+    is78Guarantee:false
   };
 
   // All states
