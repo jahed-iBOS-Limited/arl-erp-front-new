@@ -22,6 +22,7 @@ import {
   respondentTypeDDL,
 } from "../helper";
 import TextArea from "../../../../_helper/TextArea";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 export const validationSchema = Yup.object().shape({
   occurrenceDate: Yup.date().required("Occurrence Date is required"),
   respondentType: Yup.object().shape({
@@ -167,9 +168,11 @@ function Form({
                 </div>
 
                 <div className='col-lg-3'>
+                  <label>
+                    <b style={{ color: "red" }}>* </b>Occurrence Date
+                  </label>
                   <InputField
                     value={values?.occurrenceDate}
-                    label='Occurrence Date'
                     placeholder='Occurrence Date'
                     name='occurrenceDate'
                     type='date'
@@ -189,6 +192,7 @@ function Form({
 
                 <div className='col-lg-3'>
                   <NewSelect
+                    isRequiredSymbol={true}
                     name='respondentBusinessUnit'
                     options={businessUnitDDL || []}
                     value={values?.respondentBusinessUnit}
@@ -230,6 +234,7 @@ function Form({
 
                 <div className='col-lg-3'>
                   <NewSelect
+                    isRequiredSymbol={true}
                     name='respondentType'
                     options={respondentTypeDDL || []}
                     value={values?.respondentType}
@@ -239,6 +244,8 @@ function Form({
                       setFieldValue("respondentName", "");
                       setFieldValue("respondentContact", "");
                       setFieldValue("challanOrPO", "");
+                      setFieldValue("respondent", "");
+                      setFieldValue("deliveryDate", "");
 
                       // if type supplier
                       if (valueOption?.value === 2) {
@@ -269,6 +276,7 @@ function Form({
                 {values?.respondentType?.value === 3 && (
                   <div className='col-lg-3'>
                     <NewSelect
+                      isRequiredSymbol={true}
                       name='respondentName'
                       options={customerDDL || []}
                       value={values?.respondentName}
@@ -278,6 +286,10 @@ function Form({
                         setFieldValue(
                           "respondentContact",
                           valueOption?.contactNo || ""
+                        );
+                        setFieldValue(
+                          "respondent",
+                          valueOption?.propitor || ""
                         );
                       }}
                       placeholder={`${values?.respondentType?.label} Name`}
@@ -291,6 +303,7 @@ function Form({
                 {values?.respondentType?.value === 2 && (
                   <div className='col-lg-3'>
                     <NewSelect
+                      isRequiredSymbol={true}
                       name='respondentName'
                       options={supplierDDL || []}
                       value={values?.respondentName}
@@ -300,6 +313,10 @@ function Form({
                         setFieldValue(
                           "respondentContact",
                           valueOption?.contactNo || ""
+                        );
+                        setFieldValue(
+                          "respondent",
+                          valueOption?.propitor || ""
                         );
                       }}
                       placeholder={`${values?.respondentType?.label} Name`}
@@ -313,15 +330,27 @@ function Form({
                 {/* if respondent type End User "1" */}
                 {values?.respondentType?.value === 1 && (
                   <div className='col-lg-3'>
-                    <label>{`${values?.respondentType?.label} Name`}</label>
+                    <label>
+                      {" "}
+                      <b
+                        style={{
+                          color: "red",
+                        }}
+                      >
+                        *
+                      </b>{" "}
+                      {`${values?.respondentType?.label} Name`}
+                    </label>
                     <SearchAsyncSelect
                       selectedValue={values?.respondentName}
                       handleChange={(valueOption) => {
                         setFieldValue("respondentName", valueOption || "");
+                       
                         setFieldValue(
                           "respondentContact",
-                          valueOption?.contactNo || ""
+                          valueOption?.contactNumber || ""
                         );
+                        setFieldValue("respondent", valueOption?.label || "");
                       }}
                       loadOptions={(v) => {
                         if (v?.length < 2) return [];
@@ -331,6 +360,7 @@ function Form({
                           )
                           .then((res) => {
                             return res?.data?.map((itm) => ({
+                              ...itm,
                               value: itm?.value,
                               label: `${itm?.level} [${itm?.employeeCode}]`,
                             }));
@@ -347,9 +377,11 @@ function Form({
                   </div>
                 )}
                 <div className='col-lg-3'>
+                  <label>
+                    <b style={{ color: "red" }}>*</b> Respondent Name
+                  </label>
                   <InputField
                     value={values?.respondent}
-                    label='Respondent Name'
                     placeholder='Respondent Name'
                     name='respondent'
                     type='text'
@@ -360,9 +392,11 @@ function Form({
                   />
                 </div>
                 <div className='col-lg-3'>
+                  <label>
+                    <b style={{ color: "red" }}>*</b> Respondent Contact
+                  </label>
                   <InputField
                     value={values?.respondentContact}
-                    label='Respondent Contact'
                     placeholder='Respondent Contact'
                     name='respondentContact'
                     type='text'
@@ -451,6 +485,7 @@ function Form({
 
                 <div className='col-lg-3'>
                   <NewSelect
+                    isRequiredSymbol={true}
                     name='issueType'
                     options={complainCategory || []}
                     value={values?.issueType}
@@ -472,6 +507,7 @@ function Form({
                 </div>
                 <div className='col-lg-3'>
                   <NewSelect
+                    isRequiredSymbol={true}
                     name='issueSubType'
                     options={complainSubCategory || []}
                     value={values?.issueSubType}
@@ -486,7 +522,16 @@ function Form({
                   />
                 </div>
                 <div className='col-lg-3'>
-                  <label>Issue Details</label>
+                  <label>
+                    <b
+                      style={{
+                        color: "red",
+                      }}
+                    >
+                      *
+                    </b>{" "}
+                    Issue Details
+                  </label>
                   <TextArea
                     name='issueDetails'
                     value={values?.issueDetails || ""}
@@ -559,6 +604,20 @@ function Form({
                       selectedValue={values?.challanOrPO}
                       handleChange={(valueOption) => {
                         setFieldValue("challanOrPO", valueOption || "");
+
+                        if (values?.respondentType?.value === 2) {
+                          const poDate = valueOption?.poDate
+                            ? _dateFormatter(valueOption?.poDate)
+                            : "";
+                          setFieldValue("deliveryDate", poDate);
+                        }
+
+                        if (values?.respondentType?.value === 3) {
+                          const deliveryDate = valueOption?.deliveryDate
+                            ? _dateFormatter(valueOption?.deliveryDate)
+                            : "";
+                          setFieldValue("deliveryDate", deliveryDate);
+                        }
                       }}
                       loadOptions={(v) => {
                         if (v?.length < 3) return [];
@@ -588,7 +647,9 @@ function Form({
                 <div className='col-lg-3'>
                   <InputField
                     value={values?.deliveryDate}
-                    label='Delivery Date'
+                    label={`${
+                      values?.respondentType?.value === 2 ? "PO" : "Challan"
+                    } Date`}
                     placeholder='Delivery Date'
                     name='deliveryDate'
                     type='date'

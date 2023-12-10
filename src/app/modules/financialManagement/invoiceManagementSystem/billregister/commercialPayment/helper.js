@@ -50,7 +50,7 @@ export const getLandingData = async (
 
   try {
     const res = await axios.get(
-      `/imp/ImportReport/CommercialPaymentLandingPasignationNew?accountId=${accId}&businessUnitId=${buId}${searchTerm}&${supplier}billingStatus=${billingStatus}${ChargeTypeName}&subChargeTypeId=${subChargeTypeId}&pageSize=${pageSize}&pageNo=${pageNo}&viewOrder=desc`
+      `/imp/ImportReport/CommercialPaymentLandingPasignation?accountId=${accId}&businessUnitId=${buId}${searchTerm}&${supplier}billingStatus=${billingStatus}${ChargeTypeName}&subChargeTypeId=${subChargeTypeId}&pageSize=${pageSize}&pageNo=${pageNo}&viewOrder=desc`
     );
     setTotalCount(res?.data?.totalCount);
     const modify = res?.data?.data?.map((item) => {

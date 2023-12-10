@@ -6,8 +6,10 @@ import { CommercialPayment } from "../commercialPayment/form/addEditForm";
 import FairPriceShopForm from "../fairPriceInvoice/Form/addEditForm";
 import FuelBillForm from "../fuelBill/Form/addEditForm";
 import G2GGodownUnloadBill from "../g2gGodownUnloadBill/Form/addEditForm";
+import G2GLighterBill from "../g2gLighterBill/Form/addEditForm";
 import G2GTruckBill from "../g2gTruckBill/Form/addEditForm";
 import GhatLoadUnloadBill from "../ghatLoadUnloadBill/Form/addEditForm";
+import HatchLaborBill from "../hatchLaborBill/Form/addEditForm";
 import MotherVesselBill from "../motherVesselBill/Form/addEditForm";
 import OthersBillCreateForm from "../othersBillNew/Form/addEditForm";
 import PumpFoodingBillForm from "../pumpFoodingBill/Form/addEditForm";
@@ -20,13 +22,11 @@ import LabourBillForm from "./../labourBill/Form/addEditForm";
 import SupplerInvoiceForm from "./../supplerInvoice/Form/addEditForm";
 import SupplierAdvance from "./../supplierAdvance/supplierAdvance";
 import HeaderForm from "./Table/form";
-import HatchLaborBill from "../hatchLaborBill/Form/addEditForm";
-import G2GLighterBill from "../g2gLighterBill/Form/addEditForm";
 
 function BillregisterCreate() {
   const { state: headerData } = useLocation();
   const billType = headerData?.billType?.value;
-
+console.log({billType})
   return (
     <>
       {billType === 1 ? (

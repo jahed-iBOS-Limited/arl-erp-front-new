@@ -8,7 +8,7 @@ import {
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-  ModalProgressBar
+  ModalProgressBar,
 } from "../../../../../../_metronic/_partials/controls";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
@@ -32,28 +32,21 @@ export default function _Form({
   dateWiseQuantity,
   getDateWiseQuantity,
   setDateWiseQuantity,
+  state,
 }) {
   // const [unloadedQty, setUnloadedQty] = useState("");
   useEffect(() => {
     if (initData?.voyageNo && initData?.lighterVessel?.value) {
       getDateWiseQuantity(
-        `/tms/LigterLoadUnload/ViewLighterUnloadingInfoByVoyageNo?VoyageNo=${initData?.voyageNo}&LighterVesselId=${initData?.lighterVessel?.value}`,
-        (data) => {
-          // const sum = data.rowDataList
-          //   .map((item) =>
-          //     item.unLoadDetails.map((i) => i.receiveQuantityDeatails)
-          //   )
-          //   .flat()
-          //   .reduce((acc, curr) => acc + curr, 0);
-
-          // setUnloadedQty(sum || "");
-        }
+        `/tms/LigterLoadUnload/ViewLighterUnloadingInfoByVoyageNo?VoyageNo=${initData?.voyageNo}&LighterVesselId=${initData?.lighterVessel?.value}&shipPointId=${initData?.shipPointId}&RowId=${state?.rowId}`
       );
     }
   }, [initData?.voyageNo, initData?.lighterVesselId]);
   const history = useHistory();
   const disableHandler = () => {
     if (viewType === "modify") {
+      return false;
+    } else if (viewType === "edit") {
       return false;
     } else if (viewType) {
       return true;
@@ -78,9 +71,7 @@ export default function _Form({
       <Formik
         enableReinitialize={true}
         validationSchema={validationSchema}
-        initialValues={
-          viewType === "modify" ? { ...initData} : initData
-        }
+        initialValues={viewType === "modify" ? { ...initData } : initData}
         onSubmit={(values, { resetForm }) => {
           if (!values?.unloadingDate)
             return toast.warn("Unloading Date is required");
@@ -281,6 +272,13 @@ export default function _Form({
                               e,
                               setFieldValue
                             );
+                            getDateWiseQuantity(
+                              `/tms/LigterLoadUnload/ViewLighterUnloadingInfoByVoyageNo?VoyageNo=${values?.voyageNo ||
+                                0}&LighterVesselId=${
+                                values?.lighterVessel?.value
+                              }&shipPointId=${e?.value}&RowId=${state?.rowId ||
+                                0}`
+                            );
                           }}
                           placeholder="ShipPoint"
                           errors={errors}
@@ -471,11 +469,14 @@ export default function _Form({
                       >
                         <thead>
                           <tr className="cursor-pointer">
-                            {["SL", "Date", "Unloaded Quantity"]?.map(
-                              (th, index) => {
-                                return <th key={index}> {th} </th>;
-                              }
-                            )}
+                            {[
+                              "SL",
+                              "Date",
+                              "Unloaded Quantity",
+                              "ShipPoint",
+                            ]?.map((th, index) => {
+                              return <th key={index}> {th} </th>;
+                            })}
                           </tr>
                         </thead>
                         <tbody>
@@ -526,6 +527,9 @@ export default function _Form({
                                           );
                                         }}
                                       />
+                                    </td>
+                                    <td className="text-center">
+                                      {data?.shipPointName}
                                     </td>
                                   </tr>
                                 ))

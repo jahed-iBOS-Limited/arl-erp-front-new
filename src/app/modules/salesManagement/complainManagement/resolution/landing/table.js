@@ -59,7 +59,7 @@ const LandingTable = ({ obj }) => {
                 <tr key={index}>
                   <td className='text-center'> {index + 1}</td>
                   <td>{item?.complainNo}</td>
-                  <td>{item?.issueType}</td>
+                  <td>{item?.complainCategoryName}</td>
                   <td>{_dateFormatter(item?.requestDateTime)}</td>
                   <td>{item?.respondentTypeName}</td>
                   <td>{item?.respondentName}</td>

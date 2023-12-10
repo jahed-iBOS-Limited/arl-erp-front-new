@@ -168,7 +168,7 @@ export const createLCOpen = async (
   try {
     setDisabled(true);
     const res = await Axios.post(
-      `/imp/LetterOfCredit/CreateLetterOfCreditNew`,
+      `/imp/LetterOfCredit/CreateLetterOfCredit`,
       obj
     );
     setDisabled(false);

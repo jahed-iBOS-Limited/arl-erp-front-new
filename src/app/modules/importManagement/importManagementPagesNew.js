@@ -14,6 +14,8 @@ import InsuranceBill from "./reports/insuranceBill/landing/tableHeader";
 import InsuranceCoverNote from "./reports/insuranceCoverNote/landing/tableHeader";
 import LCSummary from "./reports/lcSummary/landing/tableHeader";
 import OutStandingLc from "./reports/outstandingLc/landing/tableHeader";
+import ProformaInvoiceForm from "./transaction/proforma-invoice/form/addEditForm";
+import ProformaInvoiceLanding from "./transaction/proforma-invoice/landing/tableHeader";
 import CnFChargesForm from "./transactionNew/CnFCharges/form/addEditForm";
 import CnFChargesLanding from "./transactionNew/CnFCharges/landing/table";
 import CnFServiceList from "./transactionNew/CnFServiceList/landing/table";
@@ -45,8 +47,6 @@ import LCCostSumary from "./transactionNew/lcCostSumary/landing/tableHeader";
 import ListOfDiferredLC from "./transactionNew/list-of-diferred-LC/landing/table";
 import PerformanceGuarantee from "./transactionNew/performance-guarantee/form/addEditForm";
 import PortCharges from "./transactionNew/port-charges/landing/tableHeader";
-import ProformaInvoiceForm from "./transaction/proforma-invoice/form/addEditForm";
-import ProformaInvoiceLanding from "./transaction/proforma-invoice/landing/tableHeader";
 import shipmentAndPackingForm from "./transactionNew/shipmentAndPacking/Collapse";
 import shipmentAndPackingLanding from "./transactionNew/shipmentAndPacking/landing/tableHeader";
 import ShippingChargeForm from "./transactionNew/shipping-charges/form/addEditForm";
@@ -55,7 +55,6 @@ import TransportChargesForm from "./transactionNew/transportCharges/form/addEdit
 import TransportChargesLanding from "./transactionNew/transportCharges/landing/table";
 import UnloadingChargesForm from "./transactionNew/unloading-charges/form/addEditForm";
 import UnloadingCharges from "./transactionNew/unloading-charges/landing/tableHeader";
-import PurchasePlanningAndScheduling from "./reports/purchasePlanning";
 
 const oldTransactionroutes = [
   {
@@ -195,7 +194,7 @@ const oldTransactionroutes = [
     Component: UnloadingCharges,
   },
   {
-    path: "/managementImport/transaction/all-charge",
+    path: "/managementImport/transaction/all-charge", 
     Component: PortCharges,
   },
   {
@@ -561,10 +560,10 @@ export function importManagementPagesNew() {
           path="/managementImport/reports/lc-cost-sheet-partnerwise"
           component={LcCostSheetPartnerWise}
         />
-        <ContentRoute
+        {/* <ContentRoute
           path="/managementImport/reports/PurchasePlanningScheduling"
           component={PurchasePlanningAndScheduling}
-        />
+        /> */}
         {/* Outstanding LC */}
         <ContentRoute
           path="/managementImport/reports/outstanding-lc"

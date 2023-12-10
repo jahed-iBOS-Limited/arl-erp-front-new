@@ -17,7 +17,7 @@ import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { StockInToInventoryApproval } from "../../challanEntry/helper";
-import { updateUnloadingQtyAndRates } from "../helper";
+import { CreateLighterDumpBill, updateUnloadingQtyAndRates } from "../helper";
 
 const initData = {
   supplier: "",
@@ -49,6 +49,7 @@ const initData = {
   decDailyLaboureQty: "",
 
   totalBillAmount: "",
+  remainingDumpQnt: "",
 };
 
 export default function WarehouseApproveFrom({
@@ -84,20 +85,18 @@ export default function WarehouseApproveFrom({
 
   useEffect(() => {
     const param = `&shippointId=${singleItem?.shipPointId}`;
-    // type === 1
-    //   ? `&shippointId=${singleItem?.shipPointId}`
-    //   : type === 2
-    //   ? `&godownId=${values?.godown?.value}`
-    //   : "";
 
     const URLOne = `/tms/LigterLoadUnload/GetGodownNOtherLabourRate?type=${1}&businessUnitId=${buId}${param}`;
-    const URLTwo = `/tms/LigterLoadUnload/GetLighterLoadUnloadBillDetails?voyageId=${singleItem?.voyageNo}&lighterVesselId=${singleItem?.lighterVesselId}`;
+    const URLTwo = `/tms/LigterLoadUnload/GetLighterLoadUnloadBillDetails?voyageId=${singleItem?.voyageNo}&lighterVesselId=${singleItem?.lighterVesselId}&shipPointId=${singleItem?.shipPointId}`;
+    const URLThree = `/tms/LigterLoadUnload/GetLighterLoadUnloadBillDetails?voyageId=${singleItem?.voyageNo}&lighterVesselId=${singleItem?.lighterVesselId}&shipPointId=${singleItem?.shipPointId}`;
 
     const URL =
       levelOfApprove === "first"
         ? URLOne
         : levelOfApprove === "second"
         ? URLTwo
+        : levelOfApprove === "third"
+        ? URLThree
         : "";
 
     getRates(URL, (resData) => {});
@@ -141,7 +140,6 @@ export default function WarehouseApproveFrom({
       decScaleQnt: 1,
       dailyLaboureQnt: 1,
     };
-
     const payloadTwo = {
       rowId: values?.rowId,
       voyageNo: values?.voyageNo,
@@ -174,10 +172,50 @@ export default function WarehouseApproveFrom({
       truckToDamRate: values?.truckToDamRate,
       othersCostQnt: 1,
       othersCostRate: values?.othersCostRate,
+      shipPointId: singleItem?.shipPointId,
+    };
+    const payloadThree = {
+      rowId: values?.rowId,
+      voyageNo: values?.voyageNo,
+      lighterVesselId: values?.lighterVesselId,
+      supplierId: values?.supplier?.value,
+      actionBy: userId,
+      quantity: values?.unloadedQty,
+      dumpQnt: values?.dumpDeliveryQty,
+      dumpRate: values?.dumpDeliveryRate,
+      directQnt: values?.directQty,
+      directRate: values?.directRate,
+      bolgateToDumpQnt: values?.bolgateToDamQty,
+      bolgateToDumpRate: values?.bolgateToDamRate,
+      dumpToTruckQnt: +values?.damToTruckQty,
+      dumpToTruckRate: +values?.damToTruckRate,
+      lighterToBolgateQnt: values?.lighterToBolgateQty,
+      lighterToBolgateRate: values?.lighterToBolgateRate,
+      truckToDumpOutsideQnt: values?.decTruckToDamOutSideQty,
+      truckToDumpOutsideRate: values?.decTruckToDamOutSideRate,
+      biwtaqnt: +values?.unloadedQty,
+      // biwtaqnt: 1,
+      biwtarate: values?.decBiwtarate,
+      shipSweepingQnt: 1,
+      shipSweepingRate: values?.decShipSweepingRate,
+      decScaleQnt: 1,
+      scaleRate: values?.decScaleRate,
+      dailyLaboureQnt: 1,
+      dailyLaboureRate: values?.decDailyLaboureRate,
+      truckToDamQnt: values?.truckToDamQty,
+      truckToDamRate: values?.truckToDamRate,
+      othersCostQnt: 1,
+      othersCostRate: values?.othersCostRate,
+      shipPointId: singleItem?.shipPointId,
     };
 
     if (levelOfApprove === "second") {
       updateUnloadingQtyAndRates(payloadTwo, () => {
+        setShow(false);
+        getData(preValues, pageNo, pageSize);
+      });
+    } else if (levelOfApprove === "third") {
+      CreateLighterDumpBill(payloadThree, () => {
         setShow(false);
         getData(preValues, pageNo, pageSize);
       });
@@ -190,28 +228,42 @@ export default function WarehouseApproveFrom({
   };
 
   const setTotals = (values, setFieldValue) => {
-    const totalRate =
-      +values?.directRate +
-      +values?.dumpDeliveryRate +
-      +values?.bolgateToDamRate +
-      +values?.damToTruckRate +
-      +values?.lighterToBolgateRate +
-      +values?.truckToDamRate +
-      +values?.decTruckToDamOutSideRate +
-      +values?.decBiwtarate +
-      +values?.decShipSweepingRate +
-      +values?.decScaleRate +
-      +values?.decDailyLaboureRate +
-      +values?.othersCostRate;
+    const directAmount = +values?.directRate * +values?.directQty;
+    const dumpAmount = +values?.dumpDeliveryRate * +values?.dumpDeliveryQty;
+    const bolgateToDumpAmount =
+      +values?.bolgateToDamRate * +values?.bolgateToDamQty;
+    const dumpToTruckAmount = +values?.damToTruckRate * +values?.damToTruckQty;
+    const lighterToBolgateAmount =
+      +values?.lighterToBolgateRate * +values?.lighterToBolgateQty;
+    const truckToDumpAmount = +values?.truckToDamRate * +values?.truckToDamQty;
+    const truckToDumpOutsideAmount =
+      +values?.decTruckToDamOutSideRate * +values?.decTruckToDamOutSideQty;
+    const biwtaAmount = +values?.decBiwtarate * +values?.unloadedQty;
+    const shipSweepingAmount = +values?.decShipSweepingRate * 1;
+    const scaleAmount = +values?.decScaleRate * 1;
+    const dailyLaborAmount = +values?.decDailyLaboureRate * 1;
+    const otherCostAmount = +values?.othersCostRate * 1;
 
-    const totalAmount = +values?.unloadedQty * +totalRate;
+    const totalAmount =
+      directAmount +
+      dumpAmount +
+      bolgateToDumpAmount +
+      dumpToTruckAmount +
+      lighterToBolgateAmount +
+      truckToDumpAmount +
+      truckToDumpOutsideAmount +
+      biwtaAmount +
+      shipSweepingAmount +
+      scaleAmount +
+      dailyLaborAmount +
+      otherCostAmount;
+    // const totalAmount = +values?.unloadedQty * +totalRate;
     setFieldValue("totalBillAmount", totalAmount);
   };
 
   const getInitData = () => {
     const dataSetOne = {
       ...initData,
-
       supplier: {
         value: rates?.supplierId,
         label: rates?.supplierName,
@@ -265,14 +317,53 @@ export default function WarehouseApproveFrom({
       decShipSweepingQty: rates?.shipSweepingQnt,
       decScaleQty: 1,
       decDailyLaboureQty: rates?.dailyLaboureQnt,
-
       // totalBillAmount: rates?.,
+    };
+
+    const dataSetThree = {
+      ...initData,
+      ...rates,
+      supplier: {
+        value: rates?.supplierId,
+        label: rates?.supplierName,
+      },
+      unloadedQty: _fixedPoint(singleItem?.receiveQnt, false, 2),
+      directRate: rates?.directRate,
+      dumpDeliveryRate: rates?.dumpRate,
+      bolgateToDamRate: rates?.bolgateToDumpRate,
+      damToTruckRate: rates?.dumpToTruckRate,
+      lighterToBolgateRate: rates?.lighterToBolgateRate,
+      truckToDamRate: rates?.truckToDamRate,
+      othersCostRate: rates?.othersCostRate,
+      decTruckToDamOutSideRate: rates?.truckToDumpOutsideRate,
+      decBiwtarate: rates?.biwtarate,
+      decShipSweepingRate: rates?.shipSweepingRate,
+      decScaleRate: rates?.scaleRate,
+      decDailyLaboureRate: rates?.dailyLaboureRate,
+
+      // Quantities
+      dumpDeliveryQty: rates?.dumpQnt,
+      directQty: rates?.directQnt,
+      bolgateToDamQty: rates?.bolgateToDumpQnt,
+      damToTruckQty: rates?.dumpToTruckQnt,
+      lighterToBolgateQty: rates?.lighterToBolgateQnt,
+      truckToDamQty: rates?.truckToDamQnt,
+      othersCostQty: rates?.othersCostQnt,
+      decTruckToDamOutSideQty: rates?.truckToDumpOutsideQnt,
+      decBiwtaQty: rates?.biwtaqnt,
+      decShipSweepingQty: rates?.shipSweepingQnt,
+      decScaleQty: 1,
+      decDailyLaboureQty: rates?.dailyLaboureQnt,
+      // totalBillAmount: rates?.,
+      remainingDumpQnt: +rates?.remainingDumpQnt,
     };
 
     return levelOfApprove === "first"
       ? dataSetOne
       : levelOfApprove === "second"
       ? dataSetTwo
+      : levelOfApprove === "third"
+      ? dataSetThree
       : "";
   };
 
@@ -285,7 +376,6 @@ export default function WarehouseApproveFrom({
       >
         {({ values, errors, touched, setFieldValue }) => (
           <>
-            {console.log("unloadedQty", values?.unloadedQty)}
             {loading && <Loading />}
             <Card>
               <ModalProgressBar />
@@ -319,6 +409,7 @@ export default function WarehouseApproveFrom({
                             setFieldValue("supplier", valueOption);
                           }}
                           loadOptions={loadOptions}
+                          isDisabled={levelOfApprove === "third" ? true : false}
                         />
                         <FormikError
                           errors={errors}
@@ -354,6 +445,7 @@ export default function WarehouseApproveFrom({
                               setFieldValue
                             );
                           }}
+                          disabled={levelOfApprove === "third" ? true : false}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -373,6 +465,7 @@ export default function WarehouseApproveFrom({
                               setFieldValue
                             );
                           }}
+                          disabled={levelOfApprove === "third" ? true : false}
                         />
                       </div>
 
@@ -393,6 +486,7 @@ export default function WarehouseApproveFrom({
                               setFieldValue
                             );
                           }}
+                          disabled={levelOfApprove === "third" ? true : false}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -412,6 +506,7 @@ export default function WarehouseApproveFrom({
                               setFieldValue
                             );
                           }}
+                          disabled={levelOfApprove === "third" ? true : false}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -431,6 +526,7 @@ export default function WarehouseApproveFrom({
                               setFieldValue
                             );
                           }}
+                          disabled={levelOfApprove === "third" ? true : false}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -450,6 +546,7 @@ export default function WarehouseApproveFrom({
                               setFieldValue
                             );
                           }}
+                          disabled={levelOfApprove === "third" ? true : false}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -510,6 +607,7 @@ export default function WarehouseApproveFrom({
                               setFieldValue
                             );
                           }}
+                          disabled={levelOfApprove === "third" ? true : false}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -532,6 +630,7 @@ export default function WarehouseApproveFrom({
                               setFieldValue
                             );
                           }}
+                          disabled={levelOfApprove === "third" ? true : false}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -551,6 +650,7 @@ export default function WarehouseApproveFrom({
                               setFieldValue
                             );
                           }}
+                          disabled={levelOfApprove === "third" ? true : false}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -570,6 +670,7 @@ export default function WarehouseApproveFrom({
                               setFieldValue
                             );
                           }}
+                          disabled={levelOfApprove === "third" ? true : false}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -592,6 +693,7 @@ export default function WarehouseApproveFrom({
                               setFieldValue
                             );
                           }}
+                          disabled={levelOfApprove === "third" ? true : false}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -614,6 +716,7 @@ export default function WarehouseApproveFrom({
                               setFieldValue
                             );
                           }}
+                          disabled={levelOfApprove === "third" ? true : false}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -633,6 +736,7 @@ export default function WarehouseApproveFrom({
                               setFieldValue
                             );
                           }}
+                          disabled={levelOfApprove === "third" ? true : false}
                         />
                       </div>
 
@@ -656,6 +760,7 @@ export default function WarehouseApproveFrom({
                               setFieldValue
                             );
                           }}
+                          disabled={levelOfApprove === "third" ? true : false}
                         />
                       </div>
 
@@ -676,6 +781,7 @@ export default function WarehouseApproveFrom({
                               setFieldValue
                             );
                           }}
+                          disabled={levelOfApprove === "third" ? true : false}
                         />
                       </div>
 
@@ -699,6 +805,7 @@ export default function WarehouseApproveFrom({
                               setFieldValue
                             );
                           }}
+                          disabled={levelOfApprove === "third" ? true : false}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -718,10 +825,10 @@ export default function WarehouseApproveFrom({
                               setFieldValue
                             );
                           }}
+                          disabled={levelOfApprove === "third" ? true : false}
                         />
                       </div>
-
-                      {/* <div className="col-lg-3">
+                      <div className="col-lg-3">
                         <InputField
                           label="Total Bill Amount"
                           placeholder="Total Bill Amount"
@@ -730,7 +837,17 @@ export default function WarehouseApproveFrom({
                           type="number"
                           disabled={true}
                         />
-                      </div> */}
+                      </div>
+                      <div className="col-lg-3">
+                        <InputField
+                          label="Remaining Dump Qty"
+                          placeholder="Remaining Dump Qty"
+                          value={values?.remainingDumpQnt}
+                          name="remainingDumpQnt"
+                          type="number"
+                          disabled={true}
+                        />
+                      </div>
                       {/* <div className="col-lg-3">
                         <label>Narration</label>
                         <TextArea

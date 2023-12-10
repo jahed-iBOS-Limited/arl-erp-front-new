@@ -269,7 +269,7 @@ const ServiceBreakDownViewModal = ({
                         />
                       </ExpansionPanelDetails>
                     </ExpansionPanel>
-                    {/* <ExpansionPanel
+                    <ExpansionPanel
                       className="general-ledger-collapse-custom"
                       expanded={expanded1 === "panel1"}
                       onChange={handleChange("panel1")}
@@ -295,7 +295,7 @@ const ServiceBreakDownViewModal = ({
                           state={state}
                         />
                       </ExpansionPanelDetails>
-                    </ExpansionPanel> */}
+                    </ExpansionPanel>
                   </div>
                 </Form>
               )}

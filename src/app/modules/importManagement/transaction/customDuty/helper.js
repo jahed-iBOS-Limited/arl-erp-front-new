@@ -1,7 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
 import * as Yup from "yup";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
 
 // Get landing data for customs duty
 export const getLandingData = async (
@@ -113,8 +113,9 @@ export const CreateCustomsDuty = async (
     sbuID,
     plantID
   );
+  console.log({payload})
   try {
-    const res = await axios.post(`/imp/CustomDuty/CreateCustomDutyNew`, payload);
+    const res = await axios.post(`/imp/CustomDuty/CreateCustomDuty`, payload);
     if (res.status === 200) {
       toast.success(res?.message || "Created Successfully");
       cb();
@@ -179,6 +180,8 @@ const dataSetForCreate = (
     numPsi: +values?.psi || 0,
     numAt: +values?.at || 0,
     invoiceAmountBDT: +values?.invoiceAmountBDT || 0,
+    is78Guarantee: values?.is78Guarantee,
+    guarantee78Amount: values?.is78Guarantee ? values?.guarantee78Amount : 0
   };
   return payload;
 };

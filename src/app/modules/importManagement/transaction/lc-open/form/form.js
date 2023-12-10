@@ -3,26 +3,26 @@ import { Form, Formik } from "formik";
 import { DropzoneDialogBase } from "material-ui-dropzone";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
+import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IViewModal from "../../../../_helper/_viewModal";
-import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
 import {
-  GetBankDDL,
-  LCTypeDDLAction,
-  PortDDLAction,
   currencyTypeDDLAction,
   empAttachment_action,
   encoItemDDLAction,
+  GetBankDDL,
   getCalculationFormLandingForm,
+  LCTypeDDLAction,
   materialTypeDDLAction,
   originTypeDDLAction,
+  PortDDLAction,
   validationSchema,
 } from "../helper";
 import { getDownlloadFileView_Action } from "./../../../../_helper/_redux/Actions";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import IViewModal from "../../../../_helper/_viewModal";
 import CalculationForm from "./calculationForm";
+import { toast } from "react-toastify";
 
 export default function _Form({
   initData,
@@ -298,11 +298,7 @@ export default function _Form({
                         if (e?.target?.value < 0) {
                           return toast.warn("Tolarance Must Be Positive");
                         } else {
-                          if(e.target.value === null){
-                            setFieldValue("tolarance", 0);
-                          }else {
-                            setFieldValue("tolarance", e?.target?.value);
-                          }
+                          setFieldValue("tolarance", e?.target?.value);
                         }
                       }}
                       disabled={viewType === "view" || forDisable?.tolerance}
