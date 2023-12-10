@@ -26,6 +26,7 @@ const initData = {
   item: "",
   itemRate: "",
   quantity: "",
+  plant:"",
 };
 
 export default function CreateInventoryLoanForm({ loanType }) {
@@ -81,7 +82,11 @@ export default function CreateInventoryLoanForm({ loanType }) {
         strFromOrToBusinessUnitName: values?.partner?.label,
         intLoanId: 0,
       };
-      saveData(`/wms/InventoryLoan/CreateInvItemloan`, payload, cb, true)
+      if(values?.createType === 1){
+        saveData(`/wms/InventoryLoan/CreateLoan`, payload, cb, true)  //api change order by zia bhai
+      }else{
+        saveData(`/wms/InventoryLoan/CreateLoan`, payload, cb, true)  //api change order by zia bhai
+      }
     }
   };
 
