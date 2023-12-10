@@ -1,20 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { Modal } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { isUniq } from "../../../../_helper/uniqChecker";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { Modal } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { isUniq } from '../../../../_helper/uniqChecker';
 import {
   getCommercialCostingServiceBreakdown,
   saveServicezbreakdown,
-} from "../helper";
-import Loading from "./../../../../_helper/_loading";
+} from '../helper';
+import Loading from './../../../../_helper/_loading';
 
 const validationSchema = Yup.object().shape({});
 const initData = {};
@@ -29,13 +29,11 @@ const BreakDownModal = ({
   shipmentId,
   chargeTypeId,
 }) => {
-  console.log({ chargeTypeId });
   const [rowDto, setRowDto] = useState([]);
   const [isloading, setIsLoading] = useState(false);
   const [, getSubChargeTypeDDL] = useAxiosGet();
   const [subChargeTypeDDL, setSubChargeTypeDDL] = useState([]);
-  const [showSubChargeCol, setShowSubChargeCol] = useState("");
-  console.log({ subChargeTypeDDL });
+  const [showSubChargeCol, setShowSubChargeCol] = useState('');
 
   // get selected business unit from store
   const selectedBusinessUnit = useSelector((state) => {
@@ -50,18 +48,18 @@ const BreakDownModal = ({
   useEffect(() => {
     const url = `/imp/ImportCommonDDL/SubChargeTypeDDL?ChargeTypeId=${chargeTypeId}`;
     chargeTypeId &&
-      getSubChargeTypeDDL(url, (data) =>{
-        const DDL = data?.length > 0 && data.map(item => {
-          return {
-            label: item.subChargeTypeName,
-            value: item.subChargeTypeId
-          }
-        })
-        setSubChargeTypeDDL(DDL)
+      getSubChargeTypeDDL(url, (data) => {
+        const DDL =
+          data?.length > 0 &&
+          data.map((item) => {
+            return {
+              label: item.subChargeTypeName,
+              value: item.subChargeTypeId,
+            };
+          });
+        setSubChargeTypeDDL(DDL);
       });
   }, [chargeTypeId]);
-
-  console.log({ subChargeTypeDDL });
 
   useEffect(() => {
     if (referenceId) {
@@ -70,8 +68,29 @@ const BreakDownModal = ({
   }, [referenceId]);
 
   const addHandler = (payload) => {
-    if (isUniq("supplierName", payload.supplierName, rowDto)) {
-      setRowDto([payload, ...rowDto]);
+    console.log({ payload, rowDto });
+    if (payload?.subChargeTypeId) {
+      const isExist = rowDto.find((item) => {
+        if(item.supplierName === payload.supplierName){
+          if(item.subChargeTypeId === payload.subChargeTypeId){
+            return true;
+          }else return false
+        }
+      });
+      if (isExist) {
+        return toast.warn('Already Exists!');
+      } else {
+        setRowDto([payload, ...rowDto]);
+      }
+    } else {
+      if (isUniq('supplierName', payload.supplierName, rowDto)) {
+        setRowDto([payload, ...rowDto]);
+      }
+
+      // console.log("have ctd")
+      // if (isUniq('subChargeTypeId', payload.subChargeTypeId, rowDto)) {
+      //   setRowDto([payload, ...rowDto]);
+      // }
     }
   };
 
@@ -84,7 +103,7 @@ const BreakDownModal = ({
     if (rowDto.length > 0) {
       saveServicezbreakdown(rowDto, setIsLoading, onHide, setReferenceId);
     } else {
-      toast.warning("Please add at least one row");
+      toast.warning('Please add at least one row');
     }
   };
 
@@ -97,7 +116,7 @@ const BreakDownModal = ({
         aria-labelledby="example-modal-sizes-title-xl"
       >
         <>
-          {" "}
+          {' '}
           <Modal.Header className="bg-custom ">
             <Modal.Title className="text-center">
               Service Break Down
@@ -138,7 +157,7 @@ const BreakDownModal = ({
                             placeholder="Select Sub Charge Type"
                             name="subChargeType"
                             onChange={(valueOption) => {
-                              setFieldValue("subChargeType", valueOption);
+                              setFieldValue('subChargeType', valueOption);
                             }}
                             errors={errors}
                             touched={touched}
@@ -153,8 +172,7 @@ const BreakDownModal = ({
                           placeholder="Select Supplier"
                           name="costElement"
                           onChange={(valueOption) => {
-                
-                            setFieldValue("supplier", valueOption);
+                            setFieldValue('supplier', valueOption);
                           }}
                           errors={errors}
                           touched={touched}
@@ -167,9 +185,9 @@ const BreakDownModal = ({
                           placeholder="Amount"
                           onChange={(e) => {
                             if (e.target.value < 0) {
-                              setFieldValue("amount", "");
+                              setFieldValue('amount', '');
                             } else {
-                              setFieldValue("amount", parseInt(e.target.value));
+                              setFieldValue('amount', parseInt(e.target.value));
                             }
                           }}
                           type="number"
@@ -186,7 +204,7 @@ const BreakDownModal = ({
                           name="description"
                         />
                       </div>
-                      <div className="col-lg-1" style={{ marginTop: "20px" }}>
+                      <div className="col-lg-1" style={{ marginTop: '20px' }}>
                         <button
                           type="button"
                           disabled={!values.supplier || !values.amount}
@@ -203,13 +221,13 @@ const BreakDownModal = ({
                               supplierName: values?.supplier?.label,
                               description: values?.description,
                               numContractedAmount: values?.amount,
-                              SubChargeTypeId: values?.subChargeType?.value
-                              
+                              subChargeTypeId: values?.subChargeType?.value,
+                              subChargeTypeName: values?.subChargeType?.label
                             });
-                            setFieldValue("supplier", "");
-                            setFieldValue("amount", "");
-                            setFieldValue("description", "");
-                            setFieldValue("subChargeType", "");
+                            setFieldValue('supplier', '');
+                            setFieldValue('amount', '');
+                            setFieldValue('description', '');
+                            setFieldValue('subChargeType', '');
                           }}
                           className="btn btn-primary"
                         >
@@ -225,9 +243,7 @@ const BreakDownModal = ({
                           <th>SL</th>
                           <th>Supplier</th>
                           <th>Description</th>
-                          {
-                            showSubChargeCol && <th>Sub Charge Type</th>
-                          }
+                          {showSubChargeCol && <th>Sub Charge Type</th>}
                           <th>Amount</th>
                           <th>Action</th>
                         </tr>
@@ -235,11 +251,11 @@ const BreakDownModal = ({
                       <tbody>
                         {rowDto?.length > 0 &&
                           rowDto?.map((item, index) => {
-                            setShowSubChargeCol(item?.subChargeTypeName)
+                            setShowSubChargeCol(item?.subChargeTypeName);
                             return (
                               <tr key={index}>
                                 <td
-                                  style={{ width: "30px" }}
+                                  style={{ width: '30px' }}
                                   className="text-center"
                                 >
                                   {index + 1}
@@ -254,21 +270,20 @@ const BreakDownModal = ({
                                     {item?.description}
                                   </span>
                                 </td>
-                                {
-                                showSubChargeCol &&
-                                    <td>
-                                      <span className="pl-2">
-                                        {item?.subChargeTypeName}
-                                      </span>
-                                    </td>
-                                }
+                                {showSubChargeCol && (
+                                  <td>
+                                    <span className="pl-2">
+                                      {item?.subChargeTypeName}
+                                    </span>
+                                  </td>
+                                )}
                                 <td>
                                   <span className="pl-2">
                                     {item?.numContractedAmount}
                                   </span>
                                 </td>
                                 <td
-                                  style={{ width: "60px" }}
+                                  style={{ width: '60px' }}
                                   className="text-center"
                                 >
                                   <IDelete remover={remover} id={index} />

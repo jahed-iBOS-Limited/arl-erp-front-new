@@ -1,22 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from "react";
-import { Formik, Form } from "formik";
+import { Form, Formik } from 'formik';
+import React from 'react';
 
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
 // import IDelete from "../../../../_helper/_helperIcons/_delete";
-import { useHistory, useLocation } from "react-router";
-import { toast } from "react-toastify";
+import { useState } from 'react';
+import { useHistory, useLocation } from 'react-router';
+import { toast } from 'react-toastify';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import { useState } from "react";
-import {  validationSchema } from "../helper";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
+} from '../../../../../../_metronic/_partials/controls';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import { validationSchema } from '../helper';
 
 export default function _Form({
   initData,
@@ -47,31 +47,31 @@ export default function _Form({
   // setLoading,
   bankDDL,
 }) {
-
   const history = useHistory();
   const { state } = useLocation();
-  console.log("hsCodeInfo: ", hsCodeInfo);
+  console.log('hsCodeInfo: ', hsCodeInfo);
 
   const [headerDisable] = useState(false);
+  const [is78Guarantee, setIs78Guarantee] = useState(false);
 
   const grandTotal = (values, setFieldValue, value, key) => {
     let add =
-      (key === "fineBDT" ? +value : +values?.fineBDT) +
-      (key === "AITExemptionBDT" ? +value : +values?.AITExemptionBDT) +
-      (key === "docProcessFee" ? +value : +values?.docProcessFee) +
-      (key === "CnFIncomeTax" ? +value : +values?.CnFIncomeTax) +
-      (key === "cnfVat" ? +value : +values?.cnfVat) +
-      (key === "scanning" ? +value : +values?.scanning) +
+      (key === 'fineBDT' ? +value : +values?.fineBDT) +
+      (key === 'AITExemptionBDT' ? +value : +values?.AITExemptionBDT) +
+      (key === 'docProcessFee' ? +value : +values?.docProcessFee) +
+      (key === 'CnFIncomeTax' ? +value : +values?.CnFIncomeTax) +
+      (key === 'cnfVat' ? +value : +values?.cnfVat) +
+      (key === 'scanning' ? +value : +values?.scanning) +
       // (key === "assessmentValue" ? +value : +values?.assessmentValue) +
-      (key === "customDuty" ? +value : +values?.customDuty) +
-      (key === "regulatoryDuty" ? +value : +values?.regulatoryDuty) +
-      (key === "supplementaryDuty" ? +value : +values?.supplementaryDuty) +
-      (key === "vat" ? +value : +values?.vat) +
-      (key === "ait" ? +value : +values?.ait) +
-      (key === "advanceTradeVat" ? +value : +values?.advanceTradeVat) +
-      (key === "psi" ? +value : +values?.psi) +
-      (key === "at" ? +value : +values?.at);
-    return setFieldValue("grandTotal", add);
+      (key === 'customDuty' ? +value : +values?.customDuty) +
+      (key === 'regulatoryDuty' ? +value : +values?.regulatoryDuty) +
+      (key === 'supplementaryDuty' ? +value : +values?.supplementaryDuty) +
+      (key === 'vat' ? +value : +values?.vat) +
+      (key === 'ait' ? +value : +values?.ait) +
+      (key === 'advanceTradeVat' ? +value : +values?.advanceTradeVat) +
+      (key === 'psi' ? +value : +values?.psi) +
+      (key === 'at' ? +value : +values?.at);
+    return setFieldValue('grandTotal', add);
   };
 
   return (
@@ -120,7 +120,7 @@ export default function _Form({
                       }}
                       ref={resetBtnRef}
                       className="btn btn-light ml-2"
-                      disabled={viewType === "view" ? true : false}
+                      disabled={viewType === 'view' ? true : false}
                     >
                       <i className="fa fa-redo"></i>
                       Reset
@@ -130,7 +130,7 @@ export default function _Form({
                       className="btn btn-primary ml-2"
                       onClick={handleSubmit}
                       // ref={saveBtnRef}
-                      disabled={viewType === "view" ? true : false}
+                      disabled={viewType === 'view' ? true : false}
                     >
                       Save
                     </button>
@@ -139,14 +139,14 @@ export default function _Form({
               </CardHeader>
               {/* {disableHandler(!isValid)} */}
               <div className="d-flex justify-content-center align-items-center">
-                <div style={{ fontWeight: "900" }}>PO : {state?.PoNo}</div>
-                <div style={{ fontWeight: "900", marginLeft: "30px" }}>
-                  {" "}
-                  LC : {state.LcNo}
+                <div style={{ fontWeight: '900' }}>PO : {state?.PoNo}</div>
+                <div style={{ fontWeight: '900', marginLeft: '30px' }}>
+                  {' '}
+                  LC : {state?.LcNo}
                 </div>
-                <div style={{ fontWeight: "900", marginLeft: "30px" }}>
-                  {" "}
-                  Shipment : {state.shipment}
+                <div style={{ fontWeight: '900', marginLeft: '30px' }}>
+                  {' '}
+                  Shipment : {state?.shipment}
                 </div>
               </div>
               <CardBody>
@@ -160,7 +160,7 @@ export default function _Form({
                           placeholder="BoE No"
                           name="boeNo"
                           touched={touched}
-                          disabled={viewType === "view" ? true : false}
+                          disabled={viewType === 'view' ? true : false}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -172,7 +172,7 @@ export default function _Form({
                           type="date"
                           errors={errors}
                           touched={touched}
-                          disabled={viewType === "view" ? true : false}
+                          disabled={viewType === 'view' ? true : false}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -184,7 +184,7 @@ export default function _Form({
                           type="date"
                           errors={errors}
                           touched={touched}
-                          disabled={viewType === "view" ? true : false}
+                          disabled={viewType === 'view' ? true : false}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -206,14 +206,14 @@ export default function _Form({
                           type="number"
                           min={0}
                           onChange={(valueOption) => {
-                            setFieldValue("exRate", valueOption?.target?.value);
+                            setFieldValue('exRate', valueOption?.target?.value);
                             setFieldValue(
-                              "invoiceAmountBDT",
+                              'invoiceAmountBDT',
                               +values?.invoiceAmount *
-                                valueOption?.target?.value
+                                valueOption?.target?.value,
                             );
                           }}
-                          disabled={viewType === "view" || headerDisable}
+                          disabled={viewType === 'view' || headerDisable}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -236,18 +236,18 @@ export default function _Form({
                           min={0}
                           onChange={(valueOption) => {
                             setFieldValue(
-                              "fineBDT",
-                              valueOption?.target?.value
+                              'fineBDT',
+                              valueOption?.target?.value,
                             );
                             grandTotal(
                               values,
                               setFieldValue,
                               valueOption?.target?.value,
-                              "fineBDT"
+                              'fineBDT',
                             );
                           }}
                           disabled={
-                            viewType === "view" || headerDisable ? true : false
+                            viewType === 'view' || headerDisable ? true : false
                           }
                         />
                       </div>
@@ -261,18 +261,18 @@ export default function _Form({
                           min={0}
                           onChange={(valueOption) => {
                             setFieldValue(
-                              "AITExemptionBDT",
-                              valueOption?.target?.value
+                              'AITExemptionBDT',
+                              valueOption?.target?.value,
                             );
                             grandTotal(
                               values,
                               setFieldValue,
                               valueOption?.target?.value,
-                              "AITExemptionBDT"
+                              'AITExemptionBDT',
                             );
                           }}
                           disabled={
-                            viewType === "view" || headerDisable ? true : false
+                            viewType === 'view' || headerDisable ? true : false
                           }
                         />
                       </div>
@@ -287,18 +287,18 @@ export default function _Form({
                           min={1}
                           onChange={(valueOption) => {
                             setFieldValue(
-                              "docProcessFee",
-                              valueOption?.target?.value
+                              'docProcessFee',
+                              valueOption?.target?.value,
                             );
                             grandTotal(
                               values,
                               setFieldValue,
                               valueOption?.target?.value,
-                              "docProcessFee"
+                              'docProcessFee',
                             );
                           }}
                           disabled={
-                            viewType === "view" || headerDisable ? true : false
+                            viewType === 'view' || headerDisable ? true : false
                           }
                         />
                       </div>
@@ -312,18 +312,18 @@ export default function _Form({
                           min={1}
                           onChange={(valueOption) => {
                             setFieldValue(
-                              "CnFIncomeTax",
-                              valueOption?.target?.value
+                              'CnFIncomeTax',
+                              valueOption?.target?.value,
                             );
                             grandTotal(
                               values,
                               setFieldValue,
                               valueOption?.target?.value,
-                              "CnFIncomeTax"
+                              'CnFIncomeTax',
                             );
                           }}
                           disabled={
-                            viewType === "view" || headerDisable ? true : false
+                            viewType === 'view' || headerDisable ? true : false
                           }
                         />
                       </div>
@@ -336,16 +336,16 @@ export default function _Form({
                           type="number"
                           min={1}
                           onChange={(valueOption) => {
-                            setFieldValue("cnfVat", valueOption?.target?.value);
+                            setFieldValue('cnfVat', valueOption?.target?.value);
                             grandTotal(
                               values,
                               setFieldValue,
                               valueOption.target.value,
-                              "cnfVat"
+                              'cnfVat',
                             );
                           }}
                           disabled={
-                            viewType === "view" || headerDisable ? true : false
+                            viewType === 'view' || headerDisable ? true : false
                           }
                         />
                       </div>
@@ -359,18 +359,18 @@ export default function _Form({
                           min={1}
                           onChange={(valueOption) => {
                             setFieldValue(
-                              "scanning",
-                              valueOption?.target?.value
+                              'scanning',
+                              valueOption?.target?.value,
                             );
                             grandTotal(
                               values,
                               setFieldValue,
                               valueOption.target.value,
-                              "scanning"
+                              'scanning',
                             );
                           }}
                           disabled={
-                            viewType === "view" || headerDisable ? true : false
+                            viewType === 'view' || headerDisable ? true : false
                           }
                         />
                       </div>
@@ -381,20 +381,77 @@ export default function _Form({
                           options={cnfAgencyDDL || []}
                           value={values?.cnfAgencyDDL}
                           onChange={(valueOption) => {
-                            setFieldValue("cnfAgencyDDL", valueOption);
+                            setFieldValue('cnfAgencyDDL', valueOption);
                           }}
                           errors={errors}
                           touched={touched}
-                          isDisabled={viewType === "view"}
+                          isDisabled={viewType === 'view'}
                         />
                       </div>
+
+                      <div className="col-lg-3 d-flex flex-row mt-5 align-items-center">
+                        <input
+                          style={{ width: '15px', height: '15px' }}
+                          htmlFor="is78Guarantee"
+                          name="is78Guarantee"
+                          checked={is78Guarantee}
+                          className="form-control ml-2"
+                          type="checkbox"
+                          // disabled={true}
+                          onChange={(e) =>
+                            {setIs78Guarantee((is78Guarantee) => !is78Guarantee)
+                              console.log(e.target.checked)
+                              setFieldValue(
+                                'is78Guarantee',
+                                e.target.checked
+                              );
+                            }
+                          }
+                        />
+
+                        {/* <InputField
+                          value={values.is78Guarantee}
+                          placeholder=""
+                          name="is78Guarantee"
+                          type="checkbox"
+                          onChange={(valueOption) => {
+                            console.log({v: valueOption.target.value})
+                            setIs78Guarantee(valueOption?.target?.value)
+                            setFieldValue(
+                              'is78Guarantee',
+                              valueOption?.target?.value,
+                            );
+                          }}
+                        /> */}
+                        <label id="is78Guarantee" className="px-2">
+                          is78Guarantee
+                        </label>
+                      </div>
+
+                      {is78Guarantee && (
+                        <div className="col-lg-3">
+                          <label>Guarantee78 Amount</label>
+                          <InputField
+                            value={values?.guarantee78Amount}
+                            placeholder="Amount"
+                            name="guarantee78Amount"
+                            type="text"
+                            onChange={(valueOption) => {
+                              setFieldValue(
+                                'guarantee78Amount',
+                                valueOption?.target?.value,
+                              );
+                            }}
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="global-form">
                     <div className="row">
                       <div className="col-lg-12 mb-2">
-                        <div style={{ fontWeight: "900", fontSize: "12px" }}>
-                          HS Code :{" "}
+                        <div style={{ fontWeight: '900', fontSize: '12px' }}>
+                          HS Code :{' '}
                           {hsCode?.map((code) => (
                             <span className="mr-2">{`[${code.label}]`}</span>
                           ))}
@@ -440,9 +497,9 @@ export default function _Form({
                           options={customsNameDDL || []}
                           name="custom"
                           onChange={(valueOption) => {
-                            setFieldValue("custom", valueOption);
+                            setFieldValue('custom', valueOption);
                           }}
-                          isDisabled={viewType === "view" ? true : false}
+                          isDisabled={viewType === 'view' ? true : false}
                           errors={errors}
                           touched={touched}
                         />
@@ -454,14 +511,14 @@ export default function _Form({
                           options={paidByDDL || []}
                           name="paidBy"
                           onChange={(valueOption) => {
-                            setFieldValue("paidBy", valueOption);
+                            setFieldValue('paidBy', valueOption);
                           }}
-                          isDisabled={viewType === "view" ? true : false}
+                          isDisabled={viewType === 'view' ? true : false}
                           errors={errors}
                           touched={touched}
                         />
                       </div>
-                      {values?.paidBy?.label === "Own Cheque" && (
+                      {values?.paidBy?.label === 'Own Cheque' && (
                         <div className="col-lg-3">
                           <label>Bank</label>
                           <NewSelect
@@ -469,15 +526,15 @@ export default function _Form({
                             options={bankDDL || []}
                             name="bank"
                             onChange={(valueOption) => {
-                              setFieldValue("bank", valueOption);
+                              setFieldValue('bank', valueOption);
                             }}
                             errors={errors}
                             touched={touched}
-                            isDisabled={viewType === "view"}
+                            isDisabled={viewType === 'view'}
                           />
                         </div>
                       )}
-                      {values?.paidBy?.label === "Own Cheque" && (
+                      {values?.paidBy?.label === 'Own Cheque' && (
                         <div className="col-lg-3">
                           <label>Instrument Type</label>
 
@@ -486,9 +543,9 @@ export default function _Form({
                             value={values?.instrumentType}
                             name="instrumentType"
                             onChange={(valueOption) => {
-                              setFieldValue("instrumentType", valueOption);
+                              setFieldValue('instrumentType', valueOption);
                             }}
-                            isDisabled={viewType === "view" ? true : false}
+                            isDisabled={viewType === 'view' ? true : false}
                             errors={errors}
                             touched={touched}
                           />
@@ -503,22 +560,22 @@ export default function _Form({
                           onChange={(e) => {
                             if (!e?.target?.value.startsWith(0)) {
                               setFieldValue(
-                                "assessmentValue",
-                                e?.target?.value
+                                'assessmentValue',
+                                e?.target?.value,
                               );
                             } else {
-                              toast.warning("Please enter a valid number");
+                              toast.warning('Please enter a valid number');
                             }
                             grandTotal(
                               values,
                               setFieldValue,
                               e.target.value,
-                              "assessmentValue"
+                              'assessmentValue',
                             );
                           }}
                           type="number"
                           min={0}
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -527,15 +584,15 @@ export default function _Form({
                           value={values?.customDuty}
                           placeholder="Custom Duty"
                           name="customDuty"
-                          disabled={viewType === "view" ? true : false}
+                          disabled={viewType === 'view' ? true : false}
                           type="number"
                           onChange={(e) => {
-                            setFieldValue("customDuty", e.target.value);
+                            setFieldValue('customDuty', e.target.value);
                             grandTotal(
                               values,
                               setFieldValue,
                               e.target.value,
-                              "customDuty"
+                              'customDuty',
                             );
                           }}
                           min="0"
@@ -549,15 +606,15 @@ export default function _Form({
                           value={values?.regulatoryDuty}
                           placeholder="Regulatory Duty"
                           name="regulatoryDuty"
-                          disabled={viewType === "view" ? true : false}
+                          disabled={viewType === 'view' ? true : false}
                           type="number"
                           onChange={(e) => {
-                            setFieldValue("regulatoryDuty", e.target.value);
+                            setFieldValue('regulatoryDuty', e.target.value);
                             grandTotal(
                               values,
                               setFieldValue,
                               e.target.value,
-                              "regulatoryDuty"
+                              'regulatoryDuty',
                             );
                           }}
                           min="0"
@@ -571,15 +628,15 @@ export default function _Form({
                           value={values?.supplementaryDuty}
                           placeholder="Supplementary Duty"
                           name="supplementaryDuty"
-                          disabled={viewType === "view" ? true : false}
+                          disabled={viewType === 'view' ? true : false}
                           type="number"
                           onChange={(e) => {
-                            setFieldValue("supplementaryDuty", e.target.value);
+                            setFieldValue('supplementaryDuty', e.target.value);
                             grandTotal(
                               values,
                               setFieldValue,
                               e.target.value,
-                              "supplementaryDuty"
+                              'supplementaryDuty',
                             );
                           }}
                           min="0"
@@ -594,15 +651,15 @@ export default function _Form({
                           placeholder="VAT"
                           name="vat"
                           onChange={(e) => {
-                            setFieldValue("vat", e.target.value);
+                            setFieldValue('vat', e.target.value);
                             grandTotal(
                               values,
                               setFieldValue,
                               e.target.value,
-                              "vat"
+                              'vat',
                             );
                           }}
-                          disabled={viewType === "view" ? true : false}
+                          disabled={viewType === 'view' ? true : false}
                           type="number"
                           min="0"
                           required
@@ -615,16 +672,16 @@ export default function _Form({
                           value={values?.ait}
                           placeholder="AIT"
                           onChange={(e) => {
-                            setFieldValue("ait", e.target.value);
+                            setFieldValue('ait', e.target.value);
                             grandTotal(
                               values,
                               setFieldValue,
                               e.target.value,
-                              "ait"
+                              'ait',
                             );
                           }}
                           name="ait"
-                          disabled={viewType === "view" ? true : false}
+                          disabled={viewType === 'view' ? true : false}
                           type="number"
                           min="0"
                           required
@@ -638,15 +695,15 @@ export default function _Form({
                           placeholder="Advance Trade VAT"
                           name="advanceTradeVat"
                           onChange={(e) => {
-                            setFieldValue("advanceTradeVat", e.target.value);
+                            setFieldValue('advanceTradeVat', e.target.value);
                             grandTotal(
                               values,
                               setFieldValue,
                               e.target.value,
-                              "advanceTradeVat"
+                              'advanceTradeVat',
                             );
                           }}
-                          disabled={viewType === "view" ? true : false}
+                          disabled={viewType === 'view' ? true : false}
                           type="number"
                           min="0"
                           required
@@ -659,18 +716,18 @@ export default function _Form({
                           value={values?.psi}
                           placeholder="PSI"
                           name="psi"
-                          disabled={viewType === "view" ? true : false}
+                          disabled={viewType === 'view' ? true : false}
                           type="number"
                           min="0"
                           required
                           step="any"
                           onChange={(e) => {
-                            setFieldValue("psi", e.target.value);
+                            setFieldValue('psi', e.target.value);
                             grandTotal(
                               values,
                               setFieldValue,
                               e.target.value,
-                              "psi"
+                              'psi',
                             );
                           }}
                         />
@@ -682,15 +739,15 @@ export default function _Form({
                           placeholder="AT"
                           name="at"
                           onChange={(e) => {
-                            setFieldValue("at", e.target.value);
+                            setFieldValue('at', e.target.value);
                             grandTotal(
                               values,
                               setFieldValue,
                               e.target.value,
-                              "at"
+                              'at',
                             );
                           }}
-                          disabled={viewType === "view" ? true : false}
+                          disabled={viewType === 'view' ? true : false}
                           type="number"
                           min="0"
                           required
@@ -759,7 +816,7 @@ export default function _Form({
                           //     index
                           //   );
                           // }}
-                          disabled={viewType === "view" ? true : false}
+                          disabled={viewType === 'view' ? true : false}
                         />
                       </div>
                     </div>
@@ -1131,13 +1188,13 @@ export default function _Form({
 
                   <button
                     type="submit"
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                     ref={btnRef}
                     onSubmit={() => handleSubmit()}
                   ></button>
                   <button
                     type="reset"
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                     ref={resetBtnRef}
                     // onSubmit={() => resetForm(initData)}
                   ></button>
