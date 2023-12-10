@@ -126,6 +126,9 @@ const SalesOrderRowTable = ({
               <th>TOTAL PCS</th>
               <th>FOB RATE PCS BDT</th>
               <th>TOTAL AMOUNT FOB BDT</th>
+              <th>COGS</th>
+              <th>CI RATE</th>
+              <th>CI VALUE</th>
             </tr>
           </thead>
           <tbody>
@@ -147,6 +150,26 @@ const SalesOrderRowTable = ({
                 <td className="text-right">
                   {item?.TotalFobAmountBDT
                     ? _formatMoney(item?.TotalFobAmountBDT)
+                    : ""}
+                </td>
+                <td className="text-right">
+                <input type="number" value={item?.cogs || ""} onChange={(e)=>{ 
+                      const updatedData = { ...salesQuotationDetails };
+                      updatedData.Data.RowData[index].cogs = e.target.value || "";
+                      setSalesQuotationDetails(updatedData);
+                  }}  />
+                </td>
+                <td className="text-right">
+                <input type="number" value={item?.ciRate || ""} onChange={(e)=>{ 
+                      const updatedData = { ...salesQuotationDetails };
+                      updatedData.Data.RowData[index].ciRate = e.target.value || "";
+                      updatedData.Data.RowData[index].ciValue = e.target.value * item?.TotalPieces;
+                      setSalesQuotationDetails(updatedData);
+                  }}  />
+                </td>
+                <td className="text-right">
+                {item?.ciRate
+                    ? _formatMoney(item?.ciValue)
                     : ""}
                 </td>
               </tr>
