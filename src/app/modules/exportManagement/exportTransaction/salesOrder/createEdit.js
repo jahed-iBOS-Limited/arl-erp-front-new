@@ -287,6 +287,9 @@ export default function SalesOrderCreateEdit() {
         numWaterProofRate: 0,
         currencyPrice: itm?.FobRatePerCartonUSD || 0,
         currencyValue: itm?.TotalFobAmountUSD || 0,
+        ciRate: +itm?.ciRate || 0,
+        cogs: +itm?.cogs || 0,
+        ciValue: +itm?.ciValue || 0,
       })
     );
 
@@ -790,7 +793,25 @@ export default function SalesOrderCreateEdit() {
 
                         getSalesQuotationDetails(
                           `/oms/SalesQuotation/ViewForeignSalesQuotation?QuotationId=${valueOption?.value}&accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`,
-                          (data) => {
+                          (data) => { 
+
+                            const modifyData = { ...data };
+
+                            const modifyRow = modifyData?.Data?.RowData?.map((item) => {
+                              const ciRate = (20 / 100) * (item?.FobRatePerPieceBDT || 0);
+                              const ciValue = ciRate * (item?.TotalPieces || 0);
+                            
+                              return {
+                                ...item,
+                                cogs: 0,
+                                ciRate,
+                                ciValue,
+                              };
+                            });
+                            
+                            modifyData.Data.RowData = modifyRow;
+                            setSalesQuotationDetails(modifyData);
+                            
                             setFieldValue(
                               "currency",
                               {
