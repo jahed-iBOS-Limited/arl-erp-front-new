@@ -73,6 +73,7 @@ function ComplainForm() {
       status: singleData?.status || "",
       delegateDateTime: singleData?.delegateDateTime || "",
       actionByName: userName,
+      updateById:userId,
       distributionChannelName: values?.distributionChannel?.label || "",
       respondentBusinessUnitId: values?.respondentBusinessUnit?.value || 0,
       respondentBusinessUnitIdName: values?.respondentBusinessUnit?.label || "",
