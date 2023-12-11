@@ -91,7 +91,7 @@ export function PumpFoodingBill() {
 
         return compareTimeIntervals();
       });
-      if (exists?.length > 0) {
+      if (exists?.length > 0 && exists?.some((item)=> +item?.employeeId === +values?.employee?.value)) {
         return toast.warn("Employee is not available in this time interval!");
       }
 
