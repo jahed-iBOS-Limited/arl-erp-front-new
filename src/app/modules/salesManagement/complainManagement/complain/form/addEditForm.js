@@ -57,7 +57,7 @@ function ComplainForm() {
       complainSubCategoryName: values?.issueSubType?.label || "",
       issueTitle: values?.issueTitle || "",
       accountId: accId,
-      businessUnitId: buId,
+      businessUnitId: values?.respondentBusinessUnit?.value||0,
       description: values?.issueDetails || "",
       attachment: values?.attachment || "",
       actionById: userId,
@@ -72,7 +72,6 @@ function ComplainForm() {
       statusId: singleData?.statusId || 0,
       status: singleData?.status || "",
       delegateDateTime: singleData?.delegateDateTime || "",
-      actionByName: userName,
       distributionChannelName: values?.distributionChannel?.label || "",
       respondentBusinessUnitId: values?.respondentBusinessUnit?.value || 0,
       respondentBusinessUnitIdName: values?.respondentBusinessUnit?.label || "",
@@ -91,13 +90,19 @@ function ComplainForm() {
       respondentType: values?.respondent || "",
       jwtToken: token ? `Bearer ${token}` : "",
     };
+
+    if (edit) {
+      payload.updateBye = userName;
+    } else {
+      payload.actionByName = userName;
+    }
     createComplain(payload, setLoading, () => {
       if (!edit) {
         cb();
       }
     });
   };
-
+ console.log("single Data",singleData);
   useEffect(() => {
     if (edit || view) {
       const id = edit || view;

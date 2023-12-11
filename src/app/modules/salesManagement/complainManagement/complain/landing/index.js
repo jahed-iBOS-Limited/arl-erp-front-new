@@ -12,6 +12,7 @@ import PaginationTable from "../../../../_helper/_tablePagination";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import {
   complainLandingPasignation,
+  getBusinessUnitDDLApi,
   getComplainStatus,
   respondentTypeDDL
 } from "../helper";
@@ -26,6 +27,7 @@ const initData = {
     value: 0,
     label: "All",
   },
+  respondentBusinessUnit:{label:"All",value:0},
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -33,6 +35,7 @@ const initData = {
 const ComplainLanding = () => {
   const [gridData, setGridData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [businessUnitDDL, setBusinessUnitDDL] = useState([]);
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const history = useHistory();
@@ -48,6 +51,7 @@ const ComplainLanding = () => {
       // employeEnroll_Api(accId, buId, SetEmployeeDDL);
       getComplainStatus(buId, setComplainStatus);
       commonGridData(pageNo, pageSize, initData);
+      getBusinessUnitDDLApi(accId, setBusinessUnitDDL);
     }
   }, [accId, buId]);
 
@@ -61,7 +65,7 @@ const ComplainLanding = () => {
   ) => {
     complainLandingPasignation(
       accId,
-      buId,
+      values?.respondentBusinessUnit?.value || 0,
       values?.respondentType?.value || 0,
       values?.fromDate,
       values?.toDate,
@@ -107,6 +111,23 @@ const ComplainLanding = () => {
                       setGridData([]);
                     }}
                     placeholder='Respondent Type'
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className='col-lg-3'>
+                  <NewSelect
+                    name='respondentBusinessUnit'
+                    options={[{label:"All",value:0},...businessUnitDDL] || []}
+                    value={values?.respondentBusinessUnit}
+                    label='Respondent Business Unit'
+                    onChange={(valueOption) => {
+                      setFieldValue(
+                        "respondentBusinessUnit",
+                        valueOption || ""
+                      );
+                    }}
+                    placeholder='Business Unit'
                     errors={errors}
                     touched={touched}
                   />
