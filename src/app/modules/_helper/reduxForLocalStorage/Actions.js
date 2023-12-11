@@ -430,3 +430,7 @@ export const setProfileOverviewStoreAction = (data) => (dispatch) => {
 export const setBankGuaranteeStoreAction = (data) => (dispatch) => {
   dispatch(slice.setBankGuaranteeStore(data));
 };
+
+export const setItemBasicInfoInitDataAction = (data) => (dispatch) => {
+  dispatch(slice.setItemBasicInfoInitData(data));
+};
