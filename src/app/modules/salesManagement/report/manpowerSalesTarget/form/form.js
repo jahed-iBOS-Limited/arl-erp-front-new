@@ -133,7 +133,7 @@ export default function _Form({
                             getTSOList(
                               `/oms/Complains/GetTerritoryOfficerDDL?accountId=${accId}&businessUnitId=${buId}&distributionChannelId=${
                                 allValues?.channel?.value
-                              }&territoryId=${0}`
+                              }&territoryId=${0}&regionId=${allValues?.region?.value || 0}&areaId=${allValues?.area?.value || 0}`
                             );
                           }
                         },
