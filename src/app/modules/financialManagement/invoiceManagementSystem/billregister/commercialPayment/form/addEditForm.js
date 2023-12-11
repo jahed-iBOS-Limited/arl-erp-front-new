@@ -1,18 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
+import { shallowEqual, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
+import { _dateFormatter } from "../../../../../_helper/_dateFormate";
+import Loading from "../../../../../_helper/_loading";
+import { _todayDate } from "../../../../../_helper/_todayDate";
 import {
-  getLandingData,
   GetSupplier_api,
+  getLandingData,
   saveCommercialPayment,
 } from "../helper";
-import Loading from "../../../../../_helper/_loading";
-import { toast } from "react-toastify";
-import { useLocation } from "react-router-dom";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
+import Form from "./form";
 
 let initData = {
   polcNo: "",
@@ -48,6 +47,23 @@ export function CommercialPayment() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
+
+  const rowDtoSelectHandler = (costTypeName, name, value, sl) => {
+    let data = [...rowDto];
+    const isCheckPreviousVlaue = data.some(
+      (item) => item?.costTypeName === costTypeName && item?.isSelect
+    );
+    if (isCheckPreviousVlaue) {
+      let _sl = data[sl];
+      _sl[name] = value;
+      setRowDto(data);
+    } else {
+     const modifiedData = data.map(item=>({...item,isSelect:false}))
+     let _sl = modifiedData[sl];
+     _sl[name] = value;
+     setRowDto(modifiedData);
+    }
+  };
 
   const rowDtoHandler = (name, value, sl) => {
     let data = [...rowDto];
@@ -167,6 +183,7 @@ const rowData = rowDto.map((item) => ({
           setTotalCount={setTotalCount}
           totalCount={totalCount}
           state={state}
+          rowDtoSelectHandler={rowDtoSelectHandler}
         />
       </div>
     </>
