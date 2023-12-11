@@ -2,7 +2,7 @@ import { default as Axios, default as axios } from "axios";
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
@@ -18,20 +18,16 @@ import {
 import IEdit from "./../../../../_helper/_helperIcons/_edit";
 import PaginationSearch from "./../../../../_helper/_search";
 import PaginationTable from "./../../../../_helper/_tablePagination";
+import { setItemBasicInfoInitDataAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 // Validation schema
 const validationSchema = Yup.object().shape({});
 
-const initData = {
-  id: undefined,
-  itemSearch: "",
-  itemType: "",
-  itemCategory: "",
-  itemSubCategory: "",
-  plant: "",
-  warehouse: "",
-};
-
 export function BasicInfornationTable() {
+  
+  const initData = useSelector((state) => {
+    return state.localStorage.itemBasicInfoInitData;
+  }, shallowEqual);
+
   const [products, setProducts] = useState(null);
   const [itemTypeOption, setItemTypeOption] = useState([]);
   const [itemCategoryOption, setItemCategoryOption] = useState([]);
@@ -39,6 +35,7 @@ export function BasicInfornationTable() {
   const [loading, setLoading] = useState(false);
   const [plantDDL, getPlantDDL] = useAxiosGet();
   const [warehouseDDL, getWarehouseDDL] = useAxiosGet();
+  const dispatch = useDispatch();
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
@@ -181,10 +178,6 @@ export function BasicInfornationTable() {
         initialValues={{
           ...initData,
           itemType: itemTypeOption[0],
-          itemCategory: { value: 0, label: "All" },
-          itemSubCategory: { value: 0, label: "All" },
-          plant: { value: 0, label: "All" },
-          warehouse: { value: 0, label: "All" },
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {}}
@@ -299,6 +292,7 @@ export function BasicInfornationTable() {
                     }}
                     onClick={() => {
                       setProducts([]);
+                      dispatch(setItemBasicInfoInitDataAction(values))
                       dispatchProduct(
                         profileData.accountId,
                         selectedBusinessUnit?.value,
