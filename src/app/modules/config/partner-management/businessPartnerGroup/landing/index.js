@@ -17,10 +17,12 @@ const initData = {
 
 export default function BusinessPartnerGroupLanding() {
   const history = useHistory();
-  const [rowData, getRowData] = useAxiosGet();
+  const [rowData, getRowData, , setRowData] = useAxiosGet();
   const [partnerGroups, getPartnerGroups] = useAxiosGet();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(25);
+  const [businessPartnerGroup, GetBusinessPartnerGroupList] = useAxiosGet()
+
 
   const {
     profileData: { accountId: accId },
@@ -36,6 +38,7 @@ export default function BusinessPartnerGroupLanding() {
   };
 
   useEffect(() => {
+    GetBusinessPartnerGroupList(`/partner/BusinessPartnerBasicInfo/GetBusinessPartnerGroupDDL`);
     getPartnerGroups(
       `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerGroupDDL`
     );
@@ -72,7 +75,7 @@ export default function BusinessPartnerGroupLanding() {
                 getLandingData,
               }}
             />
-            <BusinessPartnerGroupLandingTable obj={{ rowData }} />
+            <BusinessPartnerGroupLandingTable obj={{ rowData, businessPartnerGroup, setRowData}} />
             {rowData?.data?.data?.length > 0 && (
               <PaginationTable
                 count={rowData?.data?.totalCount}
