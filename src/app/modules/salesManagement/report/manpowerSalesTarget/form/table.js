@@ -29,6 +29,9 @@ export default function ManpowerSalesTargetFormTable({ obj }) {
               {[1, 2, 3].includes(values?.type?.value) ? (
                 <>
                   <th>{buId === 144 ? "TSO Name" : "Employee Name"}</th>
+                  {([1].includes(values?.type?.value) && [144].includes(buId)) ? <> 
+                  <th>Territory Name</th> 
+                  <th>Territory Type Name</th> </> : null}
                   <th>{buId === 144 ? "TSO ID" : "Employee ID"}</th>
                   {/* <th>Employee ID</th> */}
                 </>
@@ -70,6 +73,9 @@ export default function ManpowerSalesTargetFormTable({ obj }) {
               {[1, 2, 3].includes(values?.type?.value) ? (
                 <>
                   <td>{row?.employeeName}</td>
+                  {([1].includes(values?.type?.value) && [144].includes(buId)) ? <> 
+                  <td>{row?.territoryName}</td> 
+                  <td>{row?.territoryTypeName}</td> </> : null}
                   <td>{row?.employeeId}</td>
                 </>
               ) : (
