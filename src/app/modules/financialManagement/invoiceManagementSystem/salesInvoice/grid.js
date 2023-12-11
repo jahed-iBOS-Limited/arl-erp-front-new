@@ -45,14 +45,14 @@ const SalesInvoiceGridData = ({
               <thead>
                 <tr>
                   <th style={{ width: "40px" }}>SL</th>
-                  <th>Invoice No</th>
+                  {values?.type?.value !== 2 && <th>Invoice No</th>}
                   <th>Invoice Date</th>
-                  <th>Challan Date</th>
+                  {values?.type?.value !== 2 && <th>Challan Date</th>}
                   <th>Partner Name</th>
                   <th>Reference No </th>
                   <th>Project Location</th>
                   <th>Quantity</th>
-                  <th>Action</th>
+                  {values?.type?.value !== 2 && <th>Action</th>}
                 </tr>
               </thead>
               <tbody>
@@ -60,54 +60,60 @@ const SalesInvoiceGridData = ({
                 {rowDto?.data?.map((tableData, index) => (
                   <tr key={index}>
                     <td className="text-center"> {index + 1} </td>
-                    <td>{tableData?.strInvoiceNumber}</td>
+                    {values?.type?.value !== 2 && (
+                      <td>{tableData?.strInvoiceNumber}</td>
+                    )}
                     <td>{_dateFormatter(tableData?.dteInvoiceDate)}</td>
-                    <td>{_dateFormatter(tableData?.dteChallanDate)}</td>
+                    {values?.type?.value !== 2 && (
+                      <td>{_dateFormatter(tableData?.dteChallanDate)}</td>
+                    )}
                     <td>{tableData?.strPartnerName}</td>
                     <td>{tableData?.strRefference}</td>
                     <td>{tableData?.strProjectLocation}</td>
                     <td className="text-right">{tableData?.numQuantity}</td>
-                    <td className="text-center">
-                      <div className="d-flex justify-content-around">
-                        {buId === 4 && (
-                          <span>
-                            <ICon
-                              title={"Print Sales Invoice"}
-                              onClick={() => {
-                                getInvoiceDataForPrint(
-                                  tableData?.intUnitId,
-                                  tableData?.strInvoiceNumber,
-                                  tableData?.intPartnerId,
-                                  setLoading,
-                                  (resData) => {
-                                    setInvoiceData(resData);
-                                    handleInvoicePrintCement();
-                                  }
-                                );
-                              }}
-                            >
-                              <i class="fas fa-print"></i>
-                            </ICon>
+                    {values?.type?.value !== 2 && (
+                      <td className="text-center">
+                        <div className="d-flex justify-content-around">
+                          {buId === 4 && (
+                            <span>
+                              <ICon
+                                title={"Print Sales Invoice"}
+                                onClick={() => {
+                                  getInvoiceDataForPrint(
+                                    tableData?.intUnitId,
+                                    tableData?.strInvoiceNumber,
+                                    tableData?.intPartnerId,
+                                    setLoading,
+                                    (resData) => {
+                                      setInvoiceData(resData);
+                                      handleInvoicePrintCement();
+                                    }
+                                  );
+                                }}
+                              >
+                                <i class="fas fa-print"></i>
+                              </ICon>
+                            </span>
+                          )}
+                          <span
+                            className="cursor-pointer"
+                            onClick={() => {
+                              cancelSalesInvoice(
+                                accId,
+                                buId,
+                                tableData?.intSalesInvoiceId,
+                                setLoading,
+                                () => {
+                                  getGridData(values, pageNo, pageSize);
+                                }
+                              );
+                            }}
+                          >
+                            <IClose title="Cancel Sales Invoice" />
                           </span>
-                        )}
-                        <span
-                          className="cursor-pointer"
-                          onClick={() => {
-                            cancelSalesInvoice(
-                              accId,
-                              buId,
-                              tableData?.intSalesInvoiceId,
-                              setLoading,
-                              () => {
-                                getGridData(values, pageNo, pageSize);
-                              }
-                            );
-                          }}
-                        >
-                          <IClose title="Cancel Sales Invoice" />
-                        </span>
-                      </div>
-                    </td>
+                        </div>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>
@@ -171,7 +177,8 @@ const SalesInvoiceGridData = ({
         <InvoiceReceptForCement
           printRef={printRefCement}
           invoiceData={invoiceData}
-          channelId={46}
+          // channelId={46}
+          channelId={values?.channel?.value}
         />
 
         <>
