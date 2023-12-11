@@ -4,9 +4,14 @@ import TextArea from "../../../../_helper/TextArea";
 import NewSelect from "../../../../_helper/_select";
 import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
 import IButton from "../../../../_helper/iButton";
+import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import axios from "axios";
 
 const DamageEntryLandingForm = ({ obj }) => {
   const {
+    buId,
+    accId,
     values,
     pageNo,
     sbuDDL,
@@ -17,6 +22,16 @@ const DamageEntryLandingForm = ({ obj }) => {
     setFieldValue,
     salesReturnLandingActions,
   } = obj;
+
+  const customerList = (v) => {
+    const searchValue = v.trim();
+    if (searchValue?.length < 3 || !searchValue) return [];
+    return axios
+      .get(
+        `/partner/PManagementCommonDDL/GetCustomerNameDDLByChannelId?SearchTerm=${searchValue}&AccountId=${accId}&BusinessUnitId=${buId}&ChannelId=${values?.channel?.value}`
+      )
+      .then((res) => res?.data);
+  };
 
   return (
     <>
@@ -38,6 +53,40 @@ const DamageEntryLandingForm = ({ obj }) => {
               placeholder="View As"
             />
           </div>
+          {buId === 4 && (
+            <>
+              <RATForm
+                obj={{
+                  values,
+                  setFieldValue,
+                  region: false,
+                  area: false,
+                  territory: false,
+                  columnSize: "col-lg-2",
+                  onChange: () => {
+                    setFieldValue("customer", "");
+                    setGridData([]);
+                  },
+                }}
+              />
+              <div className="col-lg-2">
+                <label>Customer</label>
+                <SearchAsyncSelect
+                  selectedValue={values?.customer}
+                  handleChange={(valueOption) => {
+                    setFieldValue("customer", valueOption);
+                    setGridData([]);
+                  }}
+                  isDisabled={!values?.channel}
+                  placeholder="Search Customer"
+                  loadOptions={customerList || []}
+                />
+              </div>
+            </>
+          )}
+          <FromDateToDateForm
+            obj={{ values, setFieldValue, colSize: "col-lg-2" }}
+          />{" "}
           <div className="col-lg-2">
             <NewSelect
               name="status"
@@ -56,10 +105,6 @@ const DamageEntryLandingForm = ({ obj }) => {
               placeholder="Status"
             />
           </div>
-          <FromDateToDateForm
-            obj={{ values, setFieldValue, colSize: "col-lg-2" }}
-          />
-
           {values?.viewAs?.value === 2 && (
             <>
               <div className="col-md-2">
