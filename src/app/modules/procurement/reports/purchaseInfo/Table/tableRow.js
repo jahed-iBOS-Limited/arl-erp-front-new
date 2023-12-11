@@ -50,7 +50,6 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
 
   const history = useHistory();
 
-
   const backHandler = () => {
     history.goBack();
   };
@@ -147,16 +146,23 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                           value={values?.plant}
                           label="Plant"
                           onChange={(valueOption) => {
-                            getWhList(
-                              profileData?.userId,
-                              profileData?.accountId,
-                              selectedBusinessUnit?.value,
-                              valueOption?.value,
-                              setWhList
-                            );
-                            setFieldValue("plant", valueOption);
+                            if(valueOption){
+                              getWhList(
+                                profileData?.userId,
+                                profileData?.accountId,
+                                selectedBusinessUnit?.value,
+                                valueOption?.value,
+                                setWhList
+                              );
+                              setFieldValue("plant", valueOption);
+                             
+                            }else{
+                              setFieldValue("plant", "");
+                            } 
                             setFieldValue("wh", "");
-                            setGridData([]);
+                            setFieldValue("itemName","")
+                            setGridData([]);                           
+                           
                           }}
                           placeholder="Plant"
                           errors={errors}
@@ -317,7 +323,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                           placeholder="From Date"
                           type="date"
                           onChange={(e) => {
-                            setFieldValue('fromDate', e.target.value);
+                            setFieldValue("fromDate", e.target.value);
                           }}
                         />
                       </div>
@@ -330,10 +336,31 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                           type="date"
                           min={values?.fromDate}
                           onChange={(e) => {
-                            setFieldValue('toDate', e.target.value);
+                            setFieldValue("toDate", e.target.value);
                           }}
                         />
                       </div>
+                      {values?.reportType?.value === 3 && (
+                        <div className="col-lg-3">
+                          <label>Item Name</label>
+                          <SearchAsyncSelect
+                            selectedValue={values?.itemName}
+                            handleChange={(valueOption) => {
+                              setFieldValue("itemName", valueOption);
+                              setGridData([]);
+                            }}
+                            isDisabled={!values?.plant || !values?.wh}
+                            loadOptions={(v) => {
+                              if (v?.length < 3) return [];
+                              return axios
+                                .get(
+                                  `/asset/DropDown/GetPartsListAllItem?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&PlantId=${values?.plant?.value}&WHId=${values.wh?.value}&searchTearm=${v}`
+                                )
+                                .then((res) => res?.data);
+                            }}
+                          />
+                        </div>
+                      )}
                       <div className="col-lg-2 d-flex align-items-end">
                         <button
                           className="btn btn-primary mt-2"
@@ -350,7 +377,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                               );
                             } else if (values?.reportType?.value === 3) {
                               getGridData(
-                                `/procurement/PurchaseOrder/GetPurchaseInfoTopSheet?businessUnitId=${buId}&wareHouseId=${values.wh?.value}&fromDate=${values.fromDate}&toDate=${values.toDate}`
+                                `/procurement/PurchaseOrder/GetPurchaseInfoTopSheet?businessUnitId=${buId}&wareHouseId=${values.wh?.value}&fromDate=${values.fromDate}&toDate=${values.toDate}&itemId=${values?.itemName?.value ? values?.itemName?.value : 0}`
                               );
                             }
                           }}
