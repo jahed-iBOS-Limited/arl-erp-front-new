@@ -32,6 +32,7 @@ import NewSelect from "./../../../../_helper/_select";
 import ConfirmtionModal from "./components/Modal";
 import RATForm from "./ratForm";
 import "./style.scss";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
@@ -365,7 +366,7 @@ function DeliveryScheduleplanReport() {
                                       scheduleName: itm?.scheduleName,
                                       scheduleId: deliveryStatusDDL.find(
                                         (i) => i.label === itm?.scheduleName
-                                      ).value,
+                                      )?.value,
                                       scheduleDate:
                                         itm?.deliveryScheduleDate || new Date(),
                                     }));
@@ -379,6 +380,11 @@ function DeliveryScheduleplanReport() {
                                   if (!isDeliveryStatusSelected)
                                     return toast.warn(
                                       "Delivery Status Must be Selected!"
+                                    );
+
+                                  if (!values?.logisticBy)
+                                    return toast.warn(
+                                      "Logistic By Must be Selected!"
                                     );
 
                                   CreateTransportScheduleTypeApi(
@@ -822,13 +828,15 @@ function DeliveryScheduleplanReport() {
 
                                             {isSubmittedPreviosly && (
                                               <>
-                                                <SaveOutlined
+                                               <OverlayTrigger overlay={<Tooltip id="cs-icon">Update</Tooltip>}>
+                                               <SaveOutlined
                                                   onClick={() =>
                                                     setShowConfirmModal(true)
                                                   }
                                                   role="button"
-                                                  className="bg-dark text-white p-1 ml-2 rounded"
+                                                  className="bg-primary text-white p-1 ml-2 rounded"
                                                 />
+                                              </OverlayTrigger>
                                                 <ConfirmtionModal
                                                   show={showConfirmModal}
                                                   title="Update Delivery Status"
