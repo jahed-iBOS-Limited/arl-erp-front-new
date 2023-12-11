@@ -1,4 +1,5 @@
 import React from "react";
+import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
 
 function SummarySheet({ gridData }) {
@@ -20,6 +21,7 @@ function SummarySheet({ gridData }) {
                   <th style={{ width: "30px" }}>SL</th>
                   <th>Plant</th>
                   <th>Warehouse</th>
+                  <th>Purchase Order Date</th>
                   <th>Item</th>
                   <th>UOM</th>
                   <th>Quantity</th>
@@ -52,6 +54,9 @@ function SummarySheet({ gridData }) {
                       <td className="text-center">{index + 1}</td>
                       <td className="text-center">{item.plantName}</td>
                       <td className="text-left">{item?.warehouseName}</td>
+                      <td className="text-left">{
+                      dateFormatWithMonthName(item?.purchaseOrderDate)
+                      }</td>
                       <td className="text-center">{item.itemName}</td>
                       <td className="text-right">{item.uomName}</td>
                       <td className="text-right">
