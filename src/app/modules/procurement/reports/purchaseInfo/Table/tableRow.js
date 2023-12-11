@@ -1,47 +1,39 @@
-import axios from 'axios';
-import { Form, Formik } from 'formik';
-import React, { useEffect, useRef, useState } from 'react';
-import { shallowEqual, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import * as Yup from 'yup';
-import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
-import ICard from '../../../../_helper/_card';
-import InputField from '../../../../_helper/_inputField';
-import Loading from '../../../../_helper/_loading';
-import NewSelect from '../../../../_helper/_select';
-import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
-import {
-  GetPOInfoBySupplier_api,
-  GetPurchaseInfoByItem_api,
-  getPlantList,
-  getSBUList,
-  getWhList,
-} from '../helper';
-import SummarySheet from './SummarySheet';
-import ItemWise from './itemWise';
-import SupplierWise from './supplierWise';
+import axios from "axios";
+import { Form, Formik } from "formik";
+import React, { useEffect, useRef, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import * as Yup from "yup";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import ICard from "../../../../_helper/_card";
+import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { getPlantList, getSBUList, getWhList } from "../helper";
+import SummarySheet from "./SummarySheet";
+import ItemWise from "./itemWise";
+import SupplierWise from "./supplierWise";
 const validationSchema = Yup.object().shape({
   supplierName: Yup.object().shape({
-    label: Yup.string().required('Responsible Person is required'),
-    value: Yup.string().required('Responsible Person is required'),
+    label: Yup.string().required("Responsible Person is required"),
+    value: Yup.string().required("Responsible Person is required"),
   }),
 });
 
 export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
   const printRef = useRef();
-  const [loading, setLoading] = useState(false);
-  const [gridData, setGridData] = useState([]);
+  const [gridData, getGridData, gridDataLoader, setGridData] = useAxiosGet();
   const [plantList, setPlantList] = useState([]);
   const [SBUDDL, setSBUDDL] = useState([]);
   const [whList, setWhList] = useState([]);
-  const [purchaseInfoTopSheet, GetPurchaseInfoTopSheet] = useAxiosGet();
   // const [reqTypeList, setReqTypeList] = useState([]);
   const { reportPartnerLedger } = useSelector((state) => state?.localStorage);
   // const [purchaseOrgList, setPurchaseOrgList] = useState([]);
   const initData = {
     id: undefined,
-    supplierName: reportPartnerLedger?.supplierName || '',
-    reportType: { value: 1, label: 'Item Wase' },
+    supplierName: reportPartnerLedger?.supplierName || "",
+    reportType: { value: 1, label: "Item Wise" },
   };
 
   // get user profile data from store
@@ -58,15 +50,6 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
 
   const history = useHistory();
 
-  const handleGetPurchaseInfoTopSheet = ({
-    buId,
-    wareHouseId,
-    fromDate,
-    toDate,
-  }) => {
-    const api = `/procurement/PurchaseOrder/GetPurchaseInfoTopSheet?businessUnitId=${buId}&wareHouseId=${wareHouseId}&fromDate=${fromDate}&toDate=${toDate}`;
-    GetPurchaseInfoTopSheet(api, (data) => console.log({ dataaaa: data }));
-  };
 
   const backHandler = () => {
     history.goBack();
@@ -77,12 +60,12 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
         profileData?.userId,
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        setPlantList,
+        setPlantList
       );
       getSBUList(
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        setSBUDDL,
+        setSBUDDL
       );
       // getPurchaseOrganizationData(
       //   profileData?.accountId,
@@ -124,6 +107,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
               backHandler={backHandler}
               componentRef={printRef}
             >
+              {console.log("values", values)}
               <Form className="form form-label-right">
                 <div className="row">
                   <div className="col-lg-12">
@@ -131,93 +115,28 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                       <div className="col-lg-3">
                         <NewSelect
                           name="reportType"
-                          options={[
-                            { value: 1, label: 'Item Wase' },
-                            { value: 2, label: 'Supplier Wase' },
-                            { value: 3, label: 'Summary Sheet' },
-                          ]}
+                          options={
+                            buId === 144 || buId === 188 || buId === 189
+                              ? [
+                                  { value: 1, label: "Item Wise" },
+                                  { value: 2, label: "Supplier Wise" },
+                                  { value: 3, label: "Paddy Purchase Summary" },
+                                ]
+                              : [
+                                  { value: 1, label: "Item Wise" },
+                                  { value: 2, label: "Supplier Wise" },
+                                ]
+                          }
                           value={values?.reportType}
                           label="ReportType"
                           onChange={(valueOption) => {
-                            setFieldValue('reportType', valueOption);
-                            setFieldValue('wh', '');
+                            setFieldValue("reportType", valueOption);
+                            setFieldValue("wh", "");
                             setGridData([]);
                           }}
                           placeholder="ReportType"
                           errors={errors}
                           touched={touched}
-                        />
-                      </div>
-                      {values?.reportType?.value === 2 && (
-                        <>
-                          <div className="col-lg-3">
-                            <NewSelect
-                              name="sbu"
-                              options={SBUDDL || []}
-                              value={values?.sbu}
-                              label="SBU"
-                              onChange={(valueOption) => {
-                                setFieldValue('sbu', valueOption);
-                                setGridData([]);
-                              }}
-                              placeholder="SBU"
-                              errors={errors}
-                              touched={touched}
-                            />
-                          </div>
-
-                          <div className="col-lg-3">
-                            <label>Supplier Name</label>
-                            <SearchAsyncSelect
-                              selectedValue={values.supplierName}
-                              handleChange={(valueOption) => {
-                                setFieldValue('supplierName', valueOption);
-                                setGridData([]);
-                              }}
-                              isDisabled={!values?.sbu}
-                              loadOptions={(v) => {
-                                if (v.length < 3) return [];
-                                return axios
-                                  .get(
-                                    `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=${values?.sbu?.value}`,
-                                  )
-                                  .then((res) => {
-                                    const updateList = res?.data.map(
-                                      (item) => ({
-                                        ...item,
-                                      }),
-                                    );
-                                    return updateList;
-                                  });
-                              }}
-                            />
-                          </div>
-                        </>
-                      )}
-
-                      <div className="col-lg-2">
-                        <label>From Date</label>
-                        <InputField
-                          value={values?.fromDate}
-                          name="fromDate"
-                          placeholder="From Date"
-                          type="date"
-                          onChange={(e) => {
-                            setFieldValue('fromDate', e.target.value);
-                          }}
-                        />
-                      </div>
-                      <div className="col-lg-2">
-                        <label>To Date</label>
-                        <InputField
-                          value={values?.toDate}
-                          name="toDate"
-                          placeholder="To Date"
-                          type="date"
-                          min={values?.fromDate}
-                          onChange={(e) => {
-                            setFieldValue('toDate', e.target.value);
-                          }}
                         />
                       </div>
 
@@ -233,10 +152,10 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                               profileData?.accountId,
                               selectedBusinessUnit?.value,
                               valueOption?.value,
-                              setWhList,
+                              setWhList
                             );
-                            setFieldValue('plant', valueOption);
-                            setFieldValue('wh', '');
+                            setFieldValue("plant", valueOption);
+                            setFieldValue("wh", "");
                             setGridData([]);
                           }}
                           placeholder="Plant"
@@ -249,8 +168,8 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                           name="wh"
                           options={
                             values.plant?.value === 0
-                              ? [{ value: 0, label: 'All' }]
-                              : whList || []
+                              ? [{ value: 0, label: "All" }]
+                              : [{ value: 0, label: "All" }, ...whList] || []
                           }
                           // options={
                           //   values?.reportType?.value === 1
@@ -260,7 +179,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                           value={values?.wh}
                           label="Warehouse"
                           onChange={(v) => {
-                            setFieldValue('wh', v);
+                            setFieldValue("wh", v);
                             setGridData([]);
                           }}
                           placeholder="Warehouse"
@@ -270,7 +189,6 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                       </div>
                       {values?.reportType?.value === 1 && (
                         <>
-                          {' '}
                           {/* <div className="col-lg-3">
                             <NewSelect
                               name="requestType"
@@ -331,7 +249,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                             <SearchAsyncSelect
                               selectedValue={values?.itemName}
                               handleChange={(valueOption) => {
-                                setFieldValue('itemName', valueOption);
+                                setFieldValue("itemName", valueOption);
                                 setGridData([]);
                               }}
                               isDisabled={!values?.plant || !values?.wh}
@@ -339,13 +257,59 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                                 if (v?.length < 3) return [];
                                 return axios
                                   .get(
-                                    `/asset/DropDown/GetPartsListAllItem?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&PlantId=${values?.plant?.value}&WHId=${values.wh?.value}&searchTearm=${v}`,
+                                    `/asset/DropDown/GetPartsListAllItem?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&PlantId=${values?.plant?.value}&WHId=${values.wh?.value}&searchTearm=${v}`
                                   )
                                   .then((res) => res?.data);
                               }}
                             />
                           </div>
-                          <div className="col-lg-2">
+                        </>
+                      )}
+                      {values?.reportType?.value === 2 && (
+                        <>
+                          <div className="col-lg-3">
+                            <NewSelect
+                              name="sbu"
+                              options={SBUDDL || []}
+                              value={values?.sbu}
+                              label="SBU"
+                              onChange={(valueOption) => {
+                                setFieldValue("sbu", valueOption);
+                                setGridData([]);
+                              }}
+                              placeholder="SBU"
+                              errors={errors}
+                              touched={touched}
+                            />
+                          </div>
+                          <div className="col-lg-3">
+                            <label>Supplier Name</label>
+                            <SearchAsyncSelect
+                              selectedValue={values.supplierName}
+                              handleChange={(valueOption) => {
+                                setFieldValue("supplierName", valueOption);
+                                setGridData([]);
+                              }}
+                              loadOptions={(v) => {
+                                if (v.length < 3) return [];
+                                return axios
+                                  .get(
+                                    `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=${values?.sbu?.value}`
+                                  )
+                                  .then((res) => {
+                                    const updateList = res?.data.map(
+                                      (item) => ({
+                                        ...item,
+                                      })
+                                    );
+                                    return updateList;
+                                  });
+                              }}
+                            />
+                          </div>
+                        </>
+                      )}
+                      <div className="col-lg-2">
                         <label>From Date</label>
                         <InputField
                           value={values?.fromDate}
@@ -370,43 +334,24 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                           }}
                         />
                       </div>
-                        </>
-                      )}
-
-                      <div className="col d-flex justify-content-end align-items-center">
+                      <div className="col-lg-2 d-flex align-items-end">
                         <button
                           className="btn btn-primary mt-2"
                           type="button"
                           onClick={() => {
                             setGridData([]);
                             if (values?.reportType?.value === 1) {
-                              GetPurchaseInfoByItem_api(
-                                values?.itemName?.value,
-                                values.wh?.value,
-                                selectedBusinessUnit?.value,
-                                setGridData,
-                                setLoading,
-                                values.fromDate,
-                                values.toDate,
+                              getGridData(
+                                `/procurement/PurchaseOrder/GetPurchaseInfoByItem?itemId=${values?.itemName?.value}&wareHouseId=${values.wh?.value}&businessUnitId=${buId}&fromDate=${values.fromDate}&toDate=${values.toDate}`
                               );
                             } else if (values?.reportType?.value === 2) {
-                              GetPOInfoBySupplier_api(
-                                values?.supplierName?.value,
-                                values.wh?.value,
-                                selectedBusinessUnit?.value,
-                                setGridData,
-                                setLoading,
-                                values.fromDate,
-                                values.toDate,
+                              getGridData(
+                                `/procurement/PurchaseOrder/GetPOInfoBySupplier?wareHouseId=${values.wh?.value}&businessUnitId=${buId}&businessPartnerId=${values?.supplierName?.value}&fromDate=${values.fromDate}&toDate=${values.toDate}`
                               );
                             } else if (values?.reportType?.value === 3) {
-                              //load Report Type 3
-                              handleGetPurchaseInfoTopSheet({
-                                buId,
-                                wareHouseId: values.wh?.value,
-                                fromDate: values.fromDate,
-                                toDate: values.toDate,
-                              });
+                              getGridData(
+                                `/procurement/PurchaseOrder/GetPurchaseInfoTopSheet?businessUnitId=${buId}&wareHouseId=${values.wh?.value}&fromDate=${values.fromDate}&toDate=${values.toDate}`
+                              );
                             }
                           }}
                           disabled={!values?.reportType || !values.wh}
@@ -414,13 +359,17 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                           View
                         </button>
                       </div>
+
+                      {/* <div className="col d-flex justify-content-end align-items-center">
+                        
+                      </div> */}
                     </div>
                   </div>
                 </div>
 
                 <div className="mt-1" ref={printRef}>
                   {/* Table Start */}
-                  {loading && <Loading />}
+                  {gridDataLoader && <Loading />}
                   {values?.reportType?.value === 1 && (
                     <ItemWise gridData={gridData} />
                   )}
@@ -428,19 +377,19 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                     <SupplierWise gridData={gridData} />
                   )}
                   {values?.reportType?.value === 3 && (
-                    <SummarySheet gridData={purchaseInfoTopSheet} />
+                    <SummarySheet gridData={gridData} />
                   )}
                 </div>
                 <button
                   type="submit"
-                  style={{ display: 'none' }}
+                  style={{ display: "none" }}
                   ref={btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: 'none' }}
+                  style={{ display: "none" }}
                   ref={resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>

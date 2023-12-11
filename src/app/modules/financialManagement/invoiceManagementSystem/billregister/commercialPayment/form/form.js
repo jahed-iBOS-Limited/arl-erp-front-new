@@ -43,6 +43,7 @@ export default function _Form({
   setTotalCount,
   totalCount,
   state,
+  rowDtoSelectHandler
 }) {
   const { state: headerData } = useLocation();
   const [fileObjects, setFileObjects] = useState([]);
@@ -383,30 +384,19 @@ export default function _Form({
                     </div>
                     <div>
                       <InputField
-                        name='vat'
-                        placeholder='Modify Vat'
-                        type='number'
-                        className='form-control'
-                        disabled={
-                          !rowDto?.filter((item) => item?.isSelect)?.length
-                        }
-                        onChange={(e) => {
-                          const modifyData = rowDto?.map((item) =>
-                            item?.isSelect
-                              ? {
-                                  ...item,
-                                  vatamount: +e?.target?.value,
-                                  totalBilledAmount:
-                                    (parseFloat(
-                                      +item?.totalAmount.replace(/,/g, "")
-                                    ) || 0) + (+e?.target?.value || 0),
-                                }
-                              : item
-                          );
-                          setRowDto(modifyData);
-                        }}
-                      />
-                    </div>
+                                name="vat"
+                                placeholder="Modify Vat"
+                                type="number"
+                                className="form-control"
+                                disabled={!rowDto?.filter(item => item?.isSelect)?.length}
+                                onChange={(e) => {
+                                  const modifyData = rowDto?.map(item => (
+                                    item?.isSelect ? { ...item,  vatamount: +e?.target?.value,  totalBilledAmount: (parseFloat(+item?.totalAmount.replace(/,/g, '')) || 0) + (parseFloat(+item?.totalAmount.replace(/,/g, '')) * +e?.target?.value || 0) /100, } : item
+                                  ));
+                                  setRowDto(modifyData);
+                                }}
+                              />
+                      </div>
                   </div>
                   <div
                     style={{ maxHeight: "900px" }}
@@ -484,7 +474,8 @@ export default function _Form({
                                   e.stopPropagation();
                                 }}
                                 onChange={(valueOption) => {
-                                  rowDtoHandler(
+                                  rowDtoSelectHandler(
+                                    item?.costTypeName,
                                     "isSelect",
                                     !item?.isSelect,
                                     index
@@ -552,14 +543,10 @@ export default function _Form({
                                     e?.target?.value,
                                     index
                                   );
-
-                                  let data = [...rowDto];
-                                  let numericTotalAmount = parseFloat(
-                                    item?.totalAmount.replace(/,/g, "")
-                                  );
-                                  data[index]["totalBilledAmount"] =
-                                    (numericTotalAmount || 0) +
-                                    (+e?.target?.value || 0);
+                
+                                  let data = [...rowDto]
+                                  let numericTotalAmount = parseFloat(item?.totalAmount.replace(/,/g, ''))
+                                  data[index]["totalBilledAmount"] = (numericTotalAmount|| 0) + (numericTotalAmount * +e?.target?.value /100 || 0);
                                   setRowDto(data);
                                 }}
                               />
