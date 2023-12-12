@@ -110,7 +110,7 @@ export default function UnLoadingInformationForm() {
     if (type === "modify") {
       if (pendingQty?.pendingQty < values?.unloadedQty) {
         return toast.warn(
-          "Sorry, you can't unload greater than pending quantity!"
+          "Sorry, you can't unload more than pending quantity!"
         );
       }
       // const payload = {
