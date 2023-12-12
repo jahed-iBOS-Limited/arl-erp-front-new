@@ -73,7 +73,7 @@ export default function _Form({
           >
             <Form className="form form-label-right">
               <div className="row global-form global-form-custom">
-                <div className="col-9 mt-3 d-flex">
+                <div className={type === "edit" ? "col-9 mt-3 d-flex" : "col-12 mt-3 d-flex"}>
                   <div className="d-flex align-items-center mr-5">
                     <input
                       style={radioStyle}
