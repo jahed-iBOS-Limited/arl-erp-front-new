@@ -268,14 +268,15 @@ export const complainLandingPasignation = async (
   pageSize,
   setter,
   setLoading,
-  search
+  search,
+  respondentBusinessUnitId
 ) => {
   setLoading(true);
   setter([]);
   try {
     const _search = search ? `&search=${search}` : "";
     const res = await axios.get(
-      `/oms/CustomerPoint/ComplainLandingPasignation?accountId=${accId}&businessUnitId=${buId}&respondentTypeId=${respondentTypeId}&statusId=${statusId}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}${_search}`
+      `/oms/CustomerPoint/ComplainLandingPasignation?accountId=${accId}&businessUnitId=${buId}&respondentTypeId=${respondentTypeId}&statusId=${statusId}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}${_search}&respondentBusinessUnitId=${respondentBusinessUnitId || 0}`
     );
     setter(res?.data);
     setLoading(false);

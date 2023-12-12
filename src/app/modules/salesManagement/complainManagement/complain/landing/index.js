@@ -12,6 +12,7 @@ import PaginationTable from "../../../../_helper/_tablePagination";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import {
   complainLandingPasignation,
+  getBusinessUnitDDLApi,
   getComplainStatus,
   respondentTypeDDL
 } from "../helper";
@@ -22,6 +23,7 @@ const initData = {
     value: 0,
     label: "All",
   },
+  respondentBusinessUnit:"",
   status: {
     value: 0,
     label: "All",
@@ -37,6 +39,8 @@ const ComplainLanding = () => {
   const [pageSize, setPageSize] = useState(15);
   const history = useHistory();
   const [complainStatus, setComplainStatus] = useState([]);
+  const [businessUnitDDL, setBusinessUnitDDL] = useState([]);
+
   // get user data from store
   const {
     profileData: { accountId: accId, },
@@ -48,6 +52,7 @@ const ComplainLanding = () => {
       // employeEnroll_Api(accId, buId, SetEmployeeDDL);
       getComplainStatus(buId, setComplainStatus);
       commonGridData(pageNo, pageSize, initData);
+      getBusinessUnitDDLApi(accId, setBusinessUnitDDL);
     }
   }, [accId, buId]);
 
@@ -70,7 +75,8 @@ const ComplainLanding = () => {
       pageSize,
       setGridData,
       setLoading,
-      searhValue
+      searhValue,
+      values?.respondentBusinessUnit?.value,
     );
   };
   return (
@@ -109,6 +115,22 @@ const ComplainLanding = () => {
                     placeholder='Respondent Type'
                     errors={errors}
                     touched={touched}
+                  />
+                </div>
+                <div className='col-lg-3'>
+                  <NewSelect
+                    isRequiredSymbol={true}
+                    name='respondentBusinessUnit'
+                    options={[{value:0, label:"All"}, ...businessUnitDDL] || []}
+                    value={values?.respondentBusinessUnit}
+                    label='Respondent Business Unit'
+                    onChange={(valueOption) => {
+                      setFieldValue(
+                        "respondentBusinessUnit",
+                        valueOption || ""
+                      );
+                     
+                    }}                   
                   />
                 </div>
                 <div className='col-lg-3'>
@@ -159,7 +181,7 @@ const ComplainLanding = () => {
                     }}
                   />
                 </div>
-                <div className='col d-flex align-items-end justify-content-end'>
+                <div className='mt-3'>
                   <button
                     className='btn btn-primary mt-3'
                     onClick={() => {
