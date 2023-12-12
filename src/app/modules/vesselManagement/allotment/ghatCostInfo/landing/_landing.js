@@ -280,7 +280,6 @@ const GhatCostInfoTable = () => {
                           value={values?.demandDate}
                           name="demandDate"
                           type="date"
-                          // disabled={disableHandler()}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -438,8 +437,6 @@ const GhatCostInfoTable = () => {
                               <th>Ship Point Name</th>
                               <th>Demand Vehicle</th>
                               <th>Receive Vehicle</th>
-                              {/* <th>Packing MT</th> */}
-                              {/* <th>Dump Qty Ton</th> */}
                               <th>Labour Requirement</th>
                               <th>Labour Present</th>
                               <th>Lighter Waiting</th>
@@ -450,15 +447,19 @@ const GhatCostInfoTable = () => {
                             {vehicleDemandData?.length > 0 &&
                               vehicleDemandData?.map((item, index) => {
                                 totalDemandVehicle += item?.demandVehicle;
-                                // totalPackingMT += item?.packingQntMt;
-                                // totalDumpQtyTon += item?.bufferQntMt;
                                 totalLabourRequirement += item?.labourRequired;
                                 totalLabourPresent += item?.presentLabour;
                                 totalLighterWaiting += item?.lighterWaiting;
                                 totalReceiveVehicle += item?.receiveVehicle;
                                 return (
                                   <>
-                                    <tr key={index}>
+                                    <tr
+                                      key={index}
+                                      style={{
+                                        backgroundColor:
+                                          item?.receiveVehicle > 0 && "#C7FF87",
+                                      }}
+                                    >
                                       <td className="text-center">
                                         {index + 1}
                                       </td>
@@ -470,12 +471,6 @@ const GhatCostInfoTable = () => {
                                       <td className="text-center">
                                         {item?.receiveVehicle || 0}
                                       </td>
-                                      {/* <td className="text-center">
-                                        {item?.packingQntMt || 0}
-                                      </td> */}
-                                      {/* <td className="text-center">
-                                        {item?.bufferQntMt || 0}
-                                      </td> */}
                                       <td className="text-center">
                                         {item?.labourRequired || 0}
                                       </td>

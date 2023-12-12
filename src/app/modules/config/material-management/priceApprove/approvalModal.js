@@ -4,22 +4,35 @@ import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
 import InputField from "../../../_helper/_inputField";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
+import { shallowEqual, useSelector } from "react-redux";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 const initData = {};
 
-export default function ApprovalModal({ tableData, values, setTableData }) {
+export default function ApprovalModal({
+  cehckedItems,
+  setCheckedItems,
+  landingValues,
+  getTableDataFromApi,
+  setIsShowApprovalModal,
+}) {
   const [objProps, setObjprops] = useState({});
-  const filterTableData = tableData?.data?.filter((data) => data?.isChecked);
+  const { profileData } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
+
+  const [, saveData, saveDataLoader] = useAxiosPost();
+
   const saveHandler = (values, cb) => {
-    console.log("filterTableData", filterTableData);
-  };
-  const handleUpdateTableData = (field, value) => {
-    const cloneTableData = [...tableData?.data];
-    const index = cloneTableData?.findIndex((data) => data?.isChecked);
-    cloneTableData[index][field] = value;
-    setTableData({
-      ...tableData,
-      data: cloneTableData,
+    const payload = cehckedItems?.map((itm) => {
+      return {
+        priceRequestId: itm?.priceRequestId,
+        price: itm?.price,
+        startDate: _dateFormatter(itm?.startDate),
+        endDate: _dateFormatter(itm?.endDate),
+        actionBy: profileData?.userId,
+      };
     });
+    saveData(`/item/PriceSetup/ApprovePriceRequest`, payload, cb && cb, true);
   };
   return (
     <Formik
@@ -28,6 +41,8 @@ export default function ApprovalModal({ tableData, values, setTableData }) {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
+          getTableDataFromApi(landingValues);
+          setIsShowApprovalModal(false);
         });
       }}
     >
@@ -41,7 +56,7 @@ export default function ApprovalModal({ tableData, values, setTableData }) {
         touched,
       }) => (
         <>
-          {false && <Loading />}
+          {saveDataLoader && <Loading />}
           <IForm
             isHiddenBack={true}
             isHiddenReset={true}
@@ -62,57 +77,64 @@ export default function ApprovalModal({ tableData, values, setTableData }) {
                     </tr>
                   </thead>
                   <tbody>
-                    {filterTableData?.length > 0 &&
-                      filterTableData?.map((data, index) => (
+                    {cehckedItems?.length > 0 &&
+                      cehckedItems?.map((data, index) => (
                         <tr key={index}>
                           <td>{index + 1}</td>
                           <td>{data?.conditionTypeName}</td>
                           <td>{data?.itemName}</td>
                           <td className="text-right">
-                            {
-                              <InputField
-                                value={data?.price}
-                                name="price"
-                                type="number"
-                                min="0"
-                                onChange={(e) => {
-                                  handleUpdateTableData(
-                                    "price",
-                                    e.target.value
-                                  );
-                                }}
-                              />
-                            }
+                            <InputField
+                              value={data?.price}
+                              name="price"
+                              type="number"
+                              min="0"
+                              onChange={(e) => {
+                                const cloneArr = [...cehckedItems];
+                                cloneArr[index]["price"] = e.target.value;
+                                setCheckedItems([...cloneArr]);
+                              }}
+                            />
                           </td>
                           <td>
-                            {
-                              <InputField
-                                value={_dateFormatter(data?.startDate)}
-                                name="startDate"
-                                type="date"
-                                onChange={(e) => {
-                                  handleUpdateTableData(
-                                    "startDate",
-                                    e.target.value
-                                  );
-                                }}
-                              />
-                            }
+                            <InputField
+                              value={_dateFormatter(data?.startDate)}
+                              name="startDate"
+                              type="date"
+                              onChange={(e) => {
+                                if (e) {
+                                  const cloneArr = [...cehckedItems];
+                                  cloneArr[index]["startDate"] = e.target.value;
+                                  cloneArr[index]["endDate"] = null;
+                                  setCheckedItems([...cloneArr]);
+                                } else {
+                                  const cloneArr = [...cehckedItems];
+                                  cloneArr[index]["startDate"] = null;
+                                  cloneArr[index]["endDate"] = null;
+                                  setCheckedItems([...cloneArr]);
+                                }
+                              }}
+                            />
                           </td>
                           <td>
-                            {
-                              <InputField
-                                value={_dateFormatter(data?.endDate)}
-                                name="endDate"
-                                type="date"
-                                onChange={(e) => {
-                                  handleUpdateTableData(
-                                    "endDate",
-                                    e.target.value
-                                  );
-                                }}
-                              />
-                            }
+                            <InputField
+                              value={_dateFormatter(data?.endDate)}
+                              name="endDate"
+                              type="date"
+                              min={data?.startDate}
+                              onChange={(e) => {
+                                if (e) {
+                                  const cloneArr = [...cehckedItems];
+                                  cloneArr[index]["endDate"] = e.target.value;
+                                  setCheckedItems([...cloneArr]);
+                                } else {
+                                  const cloneArr = [...cehckedItems];
+                                  cloneArr[index]["endDate"] = null;
+                                  setCheckedItems([...cloneArr]);
+                                }
+                              }}
+                              disabled={!data?.startDate}
+                            />
                           </td>
                         </tr>
                       ))}
