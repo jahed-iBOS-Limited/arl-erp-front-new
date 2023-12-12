@@ -58,7 +58,7 @@ export default function CNFBill() {
       return toast.warn("Please select at least one row!");
     }
     const totalBill = selectedItems?.reduce(
-      (acc, item) => acc + +item?.billAmount,
+      (acc, item) => acc + +item?.totalAmount,
       0
     );
     const payload = {
@@ -89,19 +89,19 @@ export default function CNFBill() {
           narration: values?.narration || "",
           challanNo: "",
           deliveryId: item?.programId || 0,
-          quantity: item?.programQnt,
-          ammount: item?.billAmount,
-          billAmount: item?.billAmount || 0,
+          quantity: item?.receiveQnt,
+          ammount: item?.totalAmount,
+          billAmount: item?.totalAmount || 0,
           shipmentCode: "",
-          lighterVesselId: item?.serveyorId,
+          lighterVesselId: item?.cnfid,
           numFreightRateUSD: 0,
-          numFreightRateBDT: item?.serveyorRate || 0,
+          numFreightRateBDT: item?.cnfrate || 0,
           numCommissionRateBDT: 0,
           damToTruckRate: 0,
           truckToDamRate: 0,
           bolgateToDamRate: 0,
           othersCostRate: 0,
-          directRate: item?.serveyorRate || 0,
+          directRate: item?.cnfrate || 0,
           dumpDeliveryRate: 0,
           lighterToBolgateRate: 0,
         };
