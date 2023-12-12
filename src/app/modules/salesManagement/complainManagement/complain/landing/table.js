@@ -38,11 +38,11 @@ const LandingTable = ({ obj }) => {
               <th>Respondent Type</th>
               <th>Respondent Name</th>
               <th>Create By</th>
-              <th>Update By</th>
+              <th>Business Unit Code</th>
               <th>Create Date</th>
               <th>Delegate By</th>
               <th>Delegate Date</th>
-              <th>Deligate To</th>
+              <th>Delegate To</th>
               <th>Investigation By</th>
               <th>Investigation Date</th>
               <th>Status</th>
@@ -64,7 +64,7 @@ const LandingTable = ({ obj }) => {
                   <td>{item?.respondentTypeName}</td>
                   <td>{item?.respondentName}</td>
                   <td>{item?.actionByName}</td>
-                  <td>{item?.updateByName}</td>
+                  <td>{item?.respondentBusinessUnitCode}</td>
                   <td>{_dateFormatter(item?.lastActionDateTime)}</td>
                   <td>{item?.delegateByName}</td>
                   <td>

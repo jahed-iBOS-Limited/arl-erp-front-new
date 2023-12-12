@@ -42,7 +42,7 @@ const LandingTable = ({ obj }) => {
               <th>Create Date</th>
               <th>Delegate By</th>
               <th>Delegate Date</th>
-              <th>Deligate To</th>
+              <th>Delegate To</th>
               <th>Investigation By</th>
               <th>Investigation Date</th>
               <th>Status</th>
