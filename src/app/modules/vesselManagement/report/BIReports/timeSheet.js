@@ -196,7 +196,7 @@ const TimeSheetReport = () => {
             </form>
             {showReport && (
               <PowerBIReport
-                reportId={reportId()}
+                reportId={reportId(values)}
                 groupId={groupId}
                 parameterValues={parameterValues(values)}
                 parameterPanel={false}
