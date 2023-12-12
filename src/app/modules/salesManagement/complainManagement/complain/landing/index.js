@@ -119,7 +119,6 @@ const ComplainLanding = () => {
                 </div>
                 <div className='col-lg-3'>
                   <NewSelect
-                    isRequiredSymbol={true}
                     name='respondentBusinessUnit'
                     options={[{value:0, label:"All"}, ...businessUnitDDL] || []}
                     value={values?.respondentBusinessUnit}
