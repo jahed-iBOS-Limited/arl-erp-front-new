@@ -1,5 +1,5 @@
 import React from "react";
-import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
+import { _dateFormatter, dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
 
 function SummarySheet({ gridData }) {
@@ -52,20 +52,20 @@ function SummarySheet({ gridData }) {
                   return (
                     <tr key={index}>
                       <td className="text-center">{index + 1}</td>
-                      <td className="text-center">{item.plantName}</td>
+                      <td>{item.plantName}</td>
                       <td className="text-left">{item?.warehouseName}</td>
-                      <td className="text-left">{
-                      dateFormatWithMonthName(item?.purchaseOrderDate)
+                      <td className="text-center">{
+                      _dateFormatter(item?.purchaseOrderDate)
                       }</td>
-                      <td className="text-center">{item.itemName}</td>
-                      <td className="text-right">{item.uomName}</td>
+                      <td>{item.itemName}</td>
+                      <td className="text-center">{item.uomName}</td>
                       <td className="text-right">
-                        {_formatMoney(item.orderQuantity.toFixed(0))}
+                        {item?.orderQuantity}
                       </td>
                       <td className="text-right">
                         {_formatMoney(item.orderValue.toFixed(2))}
                       </td>
-                      <td className="text-right">
+                      <td className="text-center">
                         {_formatMoney(item.costPerUom.toFixed(2))}
                       </td>
                       <td className="text-right">
