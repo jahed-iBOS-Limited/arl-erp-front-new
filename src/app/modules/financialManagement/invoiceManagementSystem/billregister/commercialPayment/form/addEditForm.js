@@ -48,7 +48,10 @@ export function CommercialPayment() {
     return state.authData;
   }, shallowEqual);
 
-  const rowDtoSelectHandler = (costTypeName, name, value, sl) => {
+  const rowDtoSelectHandler = (costTypeName, name, value, sl, item) => {
+    if(item?.modifyVatPercentage){
+      return toast.warn("After modifying Modify Vat Percentage you cannot check or uncheck. If you want to change, reload this page and do it again")
+    }
     let data = [...rowDto];
     const isCheckPreviousVlaue = data.some(
       (item) => item?.costTypeName === costTypeName && item?.isSelect
