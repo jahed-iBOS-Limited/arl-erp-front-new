@@ -23,11 +23,11 @@ const initData = {
     value: 0,
     label: "All",
   },
+  respondentBusinessUnit:"",
   status: {
     value: 0,
     label: "All",
   },
-  respondentBusinessUnit:{label:"All",value:0},
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -35,11 +35,12 @@ const initData = {
 const ComplainLanding = () => {
   const [gridData, setGridData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [businessUnitDDL, setBusinessUnitDDL] = useState([]);
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const history = useHistory();
   const [complainStatus, setComplainStatus] = useState([]);
+  const [businessUnitDDL, setBusinessUnitDDL] = useState([]);
+
   // get user data from store
   const {
     profileData: { accountId: accId, },
@@ -74,7 +75,8 @@ const ComplainLanding = () => {
       pageSize,
       setGridData,
       setLoading,
-      searhValue
+      searhValue,
+      values?.respondentBusinessUnit?.value,
     );
   };
   return (
@@ -118,7 +120,7 @@ const ComplainLanding = () => {
                 <div className='col-lg-3'>
                   <NewSelect
                     name='respondentBusinessUnit'
-                    options={[{label:"All",value:0},...businessUnitDDL] || []}
+                    options={[{value:0, label:"All"}, ...businessUnitDDL] || []}
                     value={values?.respondentBusinessUnit}
                     label='Respondent Business Unit'
                     onChange={(valueOption) => {
@@ -126,10 +128,8 @@ const ComplainLanding = () => {
                         "respondentBusinessUnit",
                         valueOption || ""
                       );
-                    }}
-                    placeholder='Business Unit'
-                    errors={errors}
-                    touched={touched}
+                     
+                    }}                   
                   />
                 </div>
                 <div className='col-lg-3'>
@@ -180,7 +180,7 @@ const ComplainLanding = () => {
                     }}
                   />
                 </div>
-                <div className='col d-flex align-items-end justify-content-end'>
+                <div className='mt-3'>
                   <button
                     className='btn btn-primary mt-3'
                     onClick={() => {
