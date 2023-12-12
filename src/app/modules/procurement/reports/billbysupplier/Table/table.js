@@ -5,41 +5,42 @@ import ICustomCard from "../../../../_helper/_customCard";
 import InputField from "../../../../_helper/_inputField";
 ///approvebillregister/supplerInvoiceView
 import // setIndentStatementAction,
+
   //setIndentTableIndexAction
   "../../../../_helper/reduxForLocalStorage/Actions";
 // import { useHistory } from 'react-router-dom'
-import { Formik, Form } from "formik";
+import { Form, Formik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
+import * as Yup from "yup";
+import NewSelect from "../../../../_helper/_select";
+import ILoader from "../../../../_helper/loader/_loader";
 import {
-  getissuerList,
   getPurchaseOrgList,
   getSBUList,
   getbillbysupplierLanding,
+  getissuerList,
 } from "../helper";
-import ILoader from "../../../../_helper/loader/_loader";
 import { _dateFormatter } from "./../../../../_helper/_dateFormate";
 import PaginationTable from "./../../../../_helper/_tablePagination";
-import NewSelect from "../../../../_helper/_select";
-import * as Yup from "yup";
 // import IView from '../../../../_helper/_helperIcons/_view';
-import { _todayDate } from "../../../../_helper/_todayDate";
 import axios from "axios";
-import FormikError from "../../../../_helper/_formikError";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import IViewModal from "../../../../_helper/_viewModal";
+import FormikError from "../../../../_helper/_formikError";
 import IView from "../../../../_helper/_helperIcons/_view";
 import numberWithCommas from "../../../../_helper/_numberWithCommas";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import IViewModal from "../../../../_helper/_viewModal";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { SetReportBillBySupplierAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import SupplerInvoiceView from "../../../../financialManagement/invoiceManagementSystem/approvebillregister/supplerInvoiceView";
-import SupplierAdvanceView from "../../../../financialManagement/invoiceManagementSystem/approvebillregister/supplierAdvanceView";
 import AdvForInternalView from "../../../../financialManagement/invoiceManagementSystem/approvebillregister/advForInternal";
 import ExpenseView from "../../../../financialManagement/invoiceManagementSystem/approvebillregister/expenseView";
-import ViewSalesCommission from "../../../../financialManagement/invoiceManagementSystem/billregister/salesCommission/view/viewSalesCommission";
-import ViewTransportBill from "../../../../financialManagement/invoiceManagementSystem/billregister/transportBill/view/viewBillRegister";
+import SupplerInvoiceView from "../../../../financialManagement/invoiceManagementSystem/approvebillregister/supplerInvoiceView";
+import SupplierAdvanceView from "../../../../financialManagement/invoiceManagementSystem/approvebillregister/supplierAdvanceView";
 import ViewFuelBill from "../../../../financialManagement/invoiceManagementSystem/billregister/fuelBill/view/viewBillRegister";
 import ViewLabourBill from "../../../../financialManagement/invoiceManagementSystem/billregister/labourBill/view/viewBillRegister";
+import ViewSalesCommission from "../../../../financialManagement/invoiceManagementSystem/billregister/salesCommission/view/viewSalesCommission";
+import ViewTransportBill from "../../../../financialManagement/invoiceManagementSystem/billregister/transportBill/view/viewBillRegister";
 import ViewInternalTransportBill from "./../../../../financialManagement/invoiceManagementSystem/billregister/internalTransportBill/view/viewBillRegister";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const validationSchema = Yup.object().shape({
   toDate: Yup.string().when("fromDate", (fromDate, Schema) => {
@@ -389,7 +390,6 @@ const BillbySupplierReportTable = () => {
                       type="submit"
                       className="btn btn-primary"
                       disabled={
-                        !values?.partner ||
                         !values?.po ||
                         !values?.fromDate ||
                         !values?.toDate
