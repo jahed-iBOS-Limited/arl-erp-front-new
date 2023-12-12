@@ -66,7 +66,7 @@ const ComplainLanding = () => {
   ) => {
     complainLandingPasignation(
       accId,
-      buId,
+      values?.respondentBusinessUnit?.value || 0,
       values?.respondentType?.value || 0,
       values?.fromDate,
       values?.toDate,
