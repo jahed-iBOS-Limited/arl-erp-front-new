@@ -131,8 +131,8 @@ const GhatCostInfoTable = () => {
   let grandTotalAmount = 0;
 
   let totalDemandVehicle = 0;
-  let totalPackingMT = 0;
-  let totalDumpQtyTon = 0;
+  // let totalPackingMT = 0;
+  // let totalDumpQtyTon = 0;
   let totalLabourRequirement = 0;
   let totalLabourPresent = 0;
   let totalLighterWaiting = 0;
