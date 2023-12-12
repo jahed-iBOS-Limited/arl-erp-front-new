@@ -6,6 +6,7 @@ const ths = [
   "SL",
   "SO Code",
   "Ship To Party",
+  "Shippoint Name",
   "Item Code",
   "Item Name",
   "Is Free",
@@ -31,6 +32,7 @@ export default function TableTwo({ obj }) {
               <td>{i + 1}</td>
               <td>{item?.strSalesOrderCode}</td>
               <td>{item?.strShipToPartnerName}</td>
+              <td>{item?.strShippointName}</td>
               <td>{item?.strItemCode}</td>
               <td>{item?.strItemName}</td>
               <td>{item?.isFreeItem ? "Yes" : "No"}</td>
@@ -50,7 +52,7 @@ export default function TableTwo({ obj }) {
           );
         })}
         <tr>
-          <td className="text-right" colSpan={6}>
+          <td className="text-right" colSpan={7}>
             <b>Total</b>
           </td>
           <td className="text-right">
