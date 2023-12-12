@@ -13,7 +13,6 @@ import NewSelect from "../../../../_helper/_select";
 import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
 import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { getEmpInfoById } from "../helper";
 
 export default function _Form({
   buId,
@@ -25,7 +24,6 @@ export default function _Form({
   initData,
   addHandler,
   saveHandler,
-  workPlaceDDL,
   deleteHandler,
 }) {
   const history = useHistory();
@@ -114,12 +112,12 @@ export default function _Form({
                       selectedValue={values?.employee}
                       isSearchIcon={true}
                       handleChange={(valueOption) => {
-                        getEmpInfoById(valueOption?.value, setFieldValue);
                         setFieldValue("enroll", valueOption?.value || "");
                         setFieldValue(
                           "code",
                           valueOption?.employeeCode || valueOption?.code || ""
                         );
+                        setFieldValue("workPlace", valueOption?.workplaceId && valueOption?.workplaceName ? {value: valueOption?.workplaceId, label:valueOption?.workplaceName} : "");
                         setFieldValue("employee", valueOption);
 
                         if (
@@ -146,7 +144,7 @@ export default function _Form({
                   </div>
                   <div className='col-lg-3'>
                     <NewSelect
-                      options={workPlaceDDL}
+                      options={[]}
                       label='Work Place'
                       value={values?.workPlace}
                       placeholder='Work Place'
