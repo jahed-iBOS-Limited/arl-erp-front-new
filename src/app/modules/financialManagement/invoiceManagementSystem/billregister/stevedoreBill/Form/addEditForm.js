@@ -58,7 +58,7 @@ export default function StevedoreBill() {
       return toast.warn("Please select at least one row!");
     }
     const totalBill = selectedItems?.reduce(
-      (acc, item) => acc + +item?.billAmount,
+      (acc, item) => acc + +item?.totalAmount,
       0
     );
     const payload = {
@@ -89,9 +89,9 @@ export default function StevedoreBill() {
           narration: values?.narration || "",
           challanNo: "",
           deliveryId: item?.programId,
-          quantity: item?.programQnt,
-          ammount: item?.billAmount,
-          billAmount: item?.billAmount || 0,
+          quantity: item?.receiveQnt,
+          ammount: item?.totalAmount,
+          billAmount: item?.totalAmount || 0,
           shipmentCode: "",
           lighterVesselId: item?.stevdoreId,
           numFreightRateUSD: 0,
