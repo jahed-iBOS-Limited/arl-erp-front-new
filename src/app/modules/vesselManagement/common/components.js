@@ -58,7 +58,15 @@ export const BADCBCICForm = ({
 };
 
 export const PortAndMotherVessel = ({ obj }) => {
-  const { values, setFieldValue, onChange, disabled, port, motherVessel } = obj;
+  const {
+    values,
+    setFieldValue,
+    onChange,
+    disabled,
+    port,
+    motherVessel,
+    colSize,
+  } = obj;
   const [portDDL, setPortDDL] = useState([]);
   const [motherVesselDDL, setMotherVesselDDL] = useState([]);
 
@@ -78,7 +86,7 @@ export const PortAndMotherVessel = ({ obj }) => {
   return (
     <>
       {port !== false && (
-        <div className="col-lg-3">
+        <div className={colSize || "col-lg-3"}>
           <NewSelect
             name="port"
             options={[{ value: 0, label: "All" }, ...portDDL]}
@@ -96,7 +104,7 @@ export const PortAndMotherVessel = ({ obj }) => {
         </div>
       )}
       {motherVessel !== false && (
-        <div className="col-lg-3">
+        <div className={colSize || "col-lg-3"}>
           <NewSelect
             name="motherVessel"
             options={[{ value: 0, label: "All" }, ...motherVesselDDL] || []}
