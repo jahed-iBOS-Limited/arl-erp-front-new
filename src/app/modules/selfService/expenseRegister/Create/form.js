@@ -368,8 +368,6 @@ export default function _Form({
                         onChange={(valueOption) => {
                           setFieldValue("costCenter", valueOption);
                           setFieldValue("costElement", "");
-                          setFieldValue("profitCenter", "");
-                          setProfitcenterDDL([]);
                           setCostElementDDL([]);
                           if (valueOption) {
                             CostElementDDLApi(
@@ -379,6 +377,8 @@ export default function _Form({
                               setCostElementDDL
                             );
                            if(![184].includes(selectedBusinessUnit?.value)){
+                            setFieldValue("profitCenter", "");
+                            setProfitcenterDDL([]);
                             getProfitcenterDDL(
                               `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=${valueOption?.value}&businessUnitId=${selectedBusinessUnit.value}&employeeId=${[184].includes(selectedBusinessUnit?.value) ? profileData?.employeeId : 0}`,
                               (data) => {
