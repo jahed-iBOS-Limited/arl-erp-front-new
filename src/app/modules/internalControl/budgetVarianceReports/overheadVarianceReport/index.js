@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import InputField from "../../../_helper/_inputField";
@@ -7,18 +7,27 @@ import NewSelect from "../../../_helper/_select";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
+import { getProfitCenterDDL } from "../salesBudgetVarianceReport/helper";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
+import { fromDateFromApiNew } from "../../../_helper/_formDateFromApi";
 const initData = {
   gl: "",
   fromDate: "",
   toDate: "",
+  currentBusinessUnit: "",
+  profitCenter: "",
 };
 export default function OverheadVarianceReport() {
-  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+  const { profileData, selectedBusinessUnit, businessUnitList } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
+ 
+  const formikRef = useRef(null);
 
   const [glList, getGlList] = useAxiosGet();
-  const [rowData, getRowData] = useAxiosGet();
+  const [rowData, getRowData, ,setRowData] = useAxiosGet();
+  const [profitCenterDDL, setProfitCenterDDL] = useState([]);
+
   const [totals, setTotals] = useState({
     totalBudOH: 0,
     totalAchOH: 0,
@@ -62,6 +71,15 @@ export default function OverheadVarianceReport() {
     getGlList(
       `/mes/SalesPlanning/GetGeneralLedgers?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&accountGroupId=4`
     );
+
+    fromDateFromApiNew(selectedBusinessUnit?.value, (date) => {
+      if (formikRef.current) {
+        const apiFormDate = date ? _dateFormatter(date) : "";
+        formikRef.current.setValues({
+          fromDate: apiFormDate,
+        });
+      }
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -71,6 +89,7 @@ export default function OverheadVarianceReport() {
     <Formik
       enableReinitialize={true}
       initialValues={{}}
+      innerRef={formikRef}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
@@ -98,6 +117,53 @@ export default function OverheadVarianceReport() {
             <Form>
               <div>
                 <div className="form-group  global-form row">
+                <div className="col-lg-3">
+                      <NewSelect
+                        name="currentBusinessUnit"
+                        options={businessUnitList}
+                        value={values?.currentBusinessUnit}
+                        label="Business Unit"
+                        onChange={(valueOption) => {
+                          if (valueOption?.value >= 0) {
+                            getProfitCenterDDL(
+                              valueOption?.value,
+                              (profitCenterDDLData) => {
+                                console.log(profitCenterDDLData);
+                                setProfitCenterDDL(profitCenterDDLData);
+                                setFieldValue(
+                                  "profitCenter",
+                                  profitCenterDDLData?.[1] || ""
+                                );
+                              }
+                            );
+                          }
+                          if (valueOption) {
+                            setFieldValue("currentBusinessUnit", valueOption);
+                            setRowData([]);
+                          } else {
+                            setFieldValue("currentBusinessUnit", "");
+                            setRowData([]);
+                          }
+                        }}
+                        placeholder="Business Unit"
+                        errors={errors}
+                        touched={touched}
+                        required={true}
+                      />
+                    </div>
+                    {console.log(values)}
+                    <div className="col-md-3">
+                      <NewSelect
+                        name="profitCenter"
+                        options={profitCenterDDL || []}
+                        value={values?.profitCenter}
+                        label="Profit Center"
+                        onChange={(valueOption) => {
+                          setFieldValue("profitCenter", valueOption);
+                        }}
+                        placeholder="Profit Center"
+                      />
+                    </div>
                   <div className="col-lg-3">
                     <NewSelect
                       name="gl"
@@ -137,13 +203,15 @@ export default function OverheadVarianceReport() {
                   <div style={{ marginTop: "17px" }}>
                     <button
                       disabled={
+                        !values?.currentBusinessUnit ||
+                        !values?.profitCenter ||
                         !values?.gl?.value ||
                         !values?.fromDate ||
                         !values?.toDate
                       }
                       onClick={() => {
                         getRowData(
-                          `/fino/Report/GetOverheadVarianceReport?businessUnitId=${selectedBusinessUnit?.value}&intGLId=${values?.gl?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`
+                          `/fino/Report/GetOverheadVarianceReport?businessUnitId=${values?.currentBusinessUnit?.value}&intProCenId=${values?.profitCenter?.value}&intGLId=${values?.gl?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`
                         );
                       }}
                       className="btn btn-primary"
