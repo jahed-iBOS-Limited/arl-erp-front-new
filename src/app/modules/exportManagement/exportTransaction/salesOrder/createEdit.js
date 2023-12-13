@@ -45,6 +45,7 @@ const initData = {
   countryOfOrigin: "",
   freightCharge: "",
   narration: "",
+  modifyCiPercentage: 0,
 };
 
 const validationSchema = Yup.object().shape({
@@ -788,30 +789,29 @@ export default function SalesOrderCreateEdit() {
                     value={values?.salesQuotationRef}
                     label="Reference No"
                     onChange={(valueOption) => {
+                      setFieldValue("modifyCiPercentage", 0);
                       if (valueOption) {
                         setFieldValue("salesQuotationRef", valueOption);
 
                         getSalesQuotationDetails(
                           `/oms/SalesQuotation/ViewForeignSalesQuotation?QuotationId=${valueOption?.value}&accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`,
-                          (data) => { 
-
+                          (data) => {
                             const modifyData = { ...data };
 
-                            const modifyRow = modifyData?.Data?.RowData?.map((item) => {
-                              const ciRate = (20 / 100) * (item?.FobRatePerPieceBDT || 0);
-                              const ciValue = ciRate * (item?.TotalPieces || 0);
-                            
-                              return {
-                                ...item,
-                                cogs: 0,
-                                ciRate,
-                                ciValue,
-                              };
-                            });
-                            
+                            const modifyRow = modifyData?.Data?.RowData?.map(
+                              (item) => {
+                                return {
+                                  ...item,
+                                  cogs: 0,
+                                  ciRate: 0,
+                                  ciValue: 0,
+                                };
+                              }
+                            );
+
                             modifyData.Data.RowData = modifyRow;
                             setSalesQuotationDetails(modifyData);
-                            
+
                             setFieldValue(
                               "currency",
                               {
@@ -1030,6 +1030,7 @@ export default function SalesOrderCreateEdit() {
                 values={values}
                 selectedBusinessUnit={selectedBusinessUnit}
                 profileData={profileData}
+                setFieldValue={setFieldValue}
               />
 
               <IViewModal
