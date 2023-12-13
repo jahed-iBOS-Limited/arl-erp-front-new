@@ -1,14 +1,14 @@
-import React, { useState, useRef, useEffect, useMemo } from "react";
 import { Formik, Form as FormikForm } from "formik";
-import ReactToPrint from "react-to-print";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import findIndex from "../../../../_helper/_findIndex";
-import NotPermittedPage from "../../../../_helper/notPermitted/NotPermittedPage";
+import ReactToPrint from "react-to-print";
 import ICustomCard from "../../../../_helper/_customCard";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import Loading from "../../../../_helper/_loading";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import findIndex from "../../../../_helper/_findIndex";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
+import Loading from "../../../../_helper/_loading";
+import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import NotPermittedPage from "../../../../_helper/notPermitted/NotPermittedPage";
 import { getAdjustmentJournalView } from "../helper";
 export function AdjustmentJournalViewTableRow({ id, typeId }) {
   const [loading, setLoading] = useState(false);
@@ -24,7 +24,7 @@ export function AdjustmentJournalViewTableRow({ id, typeId }) {
       typeId,
       selectedBusinessUnit?.value,
       setAdjustmentReport,
-      setLoading
+      setLoading,
     );
   }, [id, typeId, selectedBusinessUnit]);
 
