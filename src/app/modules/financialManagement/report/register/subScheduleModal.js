@@ -51,7 +51,7 @@ const SubScheduleModal = ({ tableItem, landingValues }) => {
         setLoading,
         setRowDto,
         landingValues?.generalLedger?.value,
-        landingValues?.profitCenter?.value
+        landingValues?.profitCenter
       );
     }
   }, [tableItem, landingValues, selectedBusinessUnit]);
