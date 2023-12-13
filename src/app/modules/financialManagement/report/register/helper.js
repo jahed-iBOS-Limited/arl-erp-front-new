@@ -122,13 +122,13 @@ export const getPartnerBook = async (
   setLoading,
   setter,
   glId,
-  profitCenterId
+  profitCenter
 ) => {
   try {
     setLoading(true);
 
-    const profitCenterQuery = profitCenterId
-      ? `&ProfitCenterId=${profitCenterId}`
+    const profitCenterQuery = profitCenter
+      ? `&ProfitCenterId=${profitCenter?.value}`
       : "";
 
     let query = `/fino/BankBranch/GetPartnerBook?BusinessUnitId=${businessUnitId}&PartnerId=${partnerId}&PartnerType=${partnerType}&FromDate=${fromDate}&ToDate=${toDate}${profitCenterQuery}`;
