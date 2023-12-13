@@ -10,10 +10,11 @@ import Loading from "./../../../_helper/_loading";
 import { getProfitCenterDDL } from "../salesBudgetVarianceReport/helper";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import { fromDateFromApiNew } from "../../../_helper/_formDateFromApi";
+import { _todayDate } from "../../../_helper/_todayDate";
 const initData = {
   gl: "",
   fromDate: "",
-  toDate: "",
+  toDate: _todayDate(),
   currentBusinessUnit: "",
   profitCenter: "",
 };
@@ -160,6 +161,7 @@ export default function OverheadVarianceReport() {
                         label="Profit Center"
                         onChange={(valueOption) => {
                           setFieldValue("profitCenter", valueOption);
+                          setRowData([]);
                         }}
                         placeholder="Profit Center"
                       />
@@ -172,6 +174,7 @@ export default function OverheadVarianceReport() {
                       label="GL Name"
                       onChange={(valueOption) => {
                         setFieldValue("gl", valueOption);
+                        setRowData([]);
                       }}
                       errors={errors}
                       touched={touched}
@@ -186,6 +189,7 @@ export default function OverheadVarianceReport() {
                       type="date"
                       onChange={(e) => {
                         setFieldValue("fromDate", e.target.value);
+                        setRowData([]);
                       }}
                     />
                   </div>
@@ -197,6 +201,7 @@ export default function OverheadVarianceReport() {
                       type="date"
                       onChange={(e) => {
                         setFieldValue("toDate", e.target.value);
+                        setRowData([]);
                       }}
                     />
                   </div>
