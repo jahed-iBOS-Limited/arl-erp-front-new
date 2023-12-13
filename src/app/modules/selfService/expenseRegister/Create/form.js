@@ -382,7 +382,7 @@ export default function _Form({
                             getProfitcenterDDL(
                               `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=${valueOption?.value}&businessUnitId=${selectedBusinessUnit.value}&employeeId=${[184].includes(selectedBusinessUnit?.value) ? profileData?.employeeId : 0}`,
                               (data) => {
-                                if (data?.length) {
+                                if (data?.length === 1) {
                                   setFieldValue("profitCenter", data[0]);
                                 }
                               }
