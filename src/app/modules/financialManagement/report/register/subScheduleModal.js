@@ -21,7 +21,10 @@ import { _todayDate } from "../../../_helper/_todayDate";
 import { _todayPreviousMonthDate } from "../../../_helper/_todayPreviousMonthDate";
 import { getPartnerBook } from "./helper";
 import { generateExcelAction } from "./partnerDetailsModal/excelConvert";
-import { contractualExcelColumn, contractualExcelData } from "./partnerDetailsModal/excelStyle";
+import {
+  contractualExcelColumn,
+  contractualExcelData,
+} from "./partnerDetailsModal/excelStyle";
 const html2pdf = require("html2pdf.js");
 
 const SubScheduleModal = ({ tableItem, landingValues }) => {
@@ -47,7 +50,8 @@ const SubScheduleModal = ({ tableItem, landingValues }) => {
         landingValues?.toDate || _todayDate(),
         setLoading,
         setRowDto,
-        landingValues?.generalLedger?.value
+        landingValues?.generalLedger?.value,
+        landingValues?.profitCenter?.value
       );
     }
   }, [tableItem, landingValues, selectedBusinessUnit]);
@@ -68,8 +72,8 @@ const SubScheduleModal = ({ tableItem, landingValues }) => {
   };
   const printRef = useRef();
 
-   // excel column set up
-   const excelColumnFunc = () => {
+  // excel column set up
+  const excelColumnFunc = () => {
     return contractualExcelColumn;
   };
 
@@ -105,11 +109,6 @@ const SubScheduleModal = ({ tableItem, landingValues }) => {
                         type="date"
                         onChange={(e) => {
                           setFieldValue("fromDate", e.target.value);
-                          // localStorage.setItem("accountReportRegisterFromDate", e.target.value)
-                          // dispatch(SetFinancialManagementReportRegisterAction({
-                          //   ...values,
-                          //   fromDate:e.target.value
-                          // }))
                           setRowDto([]);
                         }}
                       />
@@ -124,11 +123,6 @@ const SubScheduleModal = ({ tableItem, landingValues }) => {
                         type="date"
                         onChange={(e) => {
                           setFieldValue("toDate", e.target.value);
-                          // localStorage.setItem("accountReportRegisterToDate", e.target.value)
-                          // dispatch(SetFinancialManagementReportRegisterAction({
-                          //   ...values,
-                          //   toDate:e.target.value
-                          // }))
                           setRowDto([]);
                         }}
                       />
@@ -153,78 +147,70 @@ const SubScheduleModal = ({ tableItem, landingValues }) => {
                     </div>
                     <div className="col-lg-4">
                       <div className="d-flex align-items-end justify-content-end">
-                      <button
-                        style={{ marginTop: "18px" }}
-                        className="btn btn-primary ml-2"
-                        type="button"
-                        onClick={(e) => pdfExport("Bank Book")}
-                      >
-                        Export PDF
-                      </button>
-                      
-                      {rowDto?.length ? (
-                       <span>
-                         <button
-                            style={{ marginTop: "18px" }}
-                            className="btn btn-primary ml-2"
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              if (rowDto?.length <= 0) {
-                                return toast.warning("Data is empty !!!!", {
-                                  toastId: 1,
-                                });
-                              }
-                              const excelLanding = () => {
-                                generateExcelAction(
-                                  "Sub Schedule Register Details",
-                                  "",
-                                  "",
-                                  excelColumnFunc(),
-                                  excelDataFunc(),
-                                  selectedBusinessUnit?.label,
-                                  0,
-                                  rowDto,
-                                  selectedBusinessUnit?.address,
-                                  "",
-                                  tableItem?.strSubGlName
-                                );
-                              };
-                              excelLanding();
-                            }}
-                          >
-                            Export Excel
-                          </button>
-                         {/* <ReactHtmlTableToExcel
-                          id="test-table-xls-button-att-reports"
-                          className="btn btn-primary m-0 mx-2 py-2 px-2"
-                          table="table-to-xls"
-                          filename="Partner Register Report"
-                          sheet="Partner Register Report"
-                          buttonText="Export Excel"
-                        /> */}
-                       </span>
-                      ) : null}
+                        <button
+                          style={{ marginTop: "18px" }}
+                          className="btn btn-primary ml-2"
+                          type="button"
+                          onClick={(e) => pdfExport("Bank Book")}
+                        >
+                          Export PDF
+                        </button>
 
-                      <ReactToPrint
-                        pageStyle={
-                          "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
-                        }
-                        trigger={() => (
-                          <button
-                            type="button"
-                            className="btn btn-primary ml-2"
-                            style={{ marginTop: "18px" }}
-                          >
-                            <i
-                              class="fa fa-print pointer"
-                              aria-hidden="true"
-                            ></i>
-                            Print
-                          </button>
-                        )}
-                        content={() => printRef.current}
-                      />
+                        {rowDto?.length ? (
+                          <span>
+                            <button
+                              style={{ marginTop: "18px" }}
+                              className="btn btn-primary ml-2"
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (rowDto?.length <= 0) {
+                                  return toast.warning("Data is empty !!!!", {
+                                    toastId: 1,
+                                  });
+                                }
+                                const excelLanding = () => {
+                                  generateExcelAction(
+                                    "Sub Schedule Register Details",
+                                    "",
+                                    "",
+                                    excelColumnFunc(),
+                                    excelDataFunc(),
+                                    selectedBusinessUnit?.label,
+                                    0,
+                                    rowDto,
+                                    selectedBusinessUnit?.address,
+                                    "",
+                                    tableItem?.strSubGlName
+                                  );
+                                };
+                                excelLanding();
+                              }}
+                            >
+                              Export Excel
+                            </button>
+                          </span>
+                        ) : null}
+
+                        <ReactToPrint
+                          pageStyle={
+                            "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+                          }
+                          trigger={() => (
+                            <button
+                              type="button"
+                              className="btn btn-primary ml-2"
+                              style={{ marginTop: "18px" }}
+                            >
+                              <i
+                                class="fa fa-print pointer"
+                                aria-hidden="true"
+                              ></i>
+                              Print
+                            </button>
+                          )}
+                          content={() => printRef.current}
+                        />
                       </div>
                     </div>
                   </div>
@@ -241,24 +227,20 @@ const SubScheduleModal = ({ tableItem, landingValues }) => {
                       >
                         {selectedBusinessUnit?.address}
                       </h6>
-                      {/* {console.log(landingValues)} */}
-                      <h3 className="m-0">
-                      {tableItem?.strSubGlName}
-                        {/* {landingValues?.generalLedger?.label} Ladger */}
-                      </h3>
-                      {/* <p className="m-0">
-                        <strong className="mr-5">
-                          {tableItem?.strSubGlName}
-                        </strong>
-                      </p> */}
-                      {/* <div className="row justify-content-center">
-                    <strong className="mr-5">From: {values?.fromDate}</strong>
-                    <strong>To: {values?.toDate}</strong>
-                  </div> */}
+                      <h3 className="m-0">{tableItem?.strSubGlName}</h3>
+                      {landingValues?.profitCenter ? (
+                        <p>
+                          {"Profit Center: "}
+                          {landingValues?.profitCenter?.label}
+                        </p>
+                      ) : null}
                     </div>
 
                     <div className="react-bootstrap-table table-responsive">
-                      <table className="table table-striped table-bordered global-table" id="table-to-xls">
+                      <table
+                        className="table table-striped table-bordered global-table"
+                        id="table-to-xls"
+                      >
                         <thead>
                           <tr>
                             <th style={{ width: "30px" }}> SL </th>
@@ -281,9 +263,15 @@ const SubScheduleModal = ({ tableItem, landingValues }) => {
                               <td>{item?.strGeneralLedgerCode}</td>
                               <td>{item?.strGeneralLedgerName}</td>
                               <td>{item?.strNarration}</td>
-                              <td className="text-right">{_formatMoney(item?.numDebit || 0)}</td>
-                              <td className="text-right">{_formatMoney(item?.numCredit * -1 || 0)}</td>
-                              <td className="text-right">{_formatMoney(item?.numBalance || 0)}</td>
+                              <td className="text-right">
+                                {_formatMoney(item?.numDebit || 0)}
+                              </td>
+                              <td className="text-right">
+                                {_formatMoney(item?.numCredit * -1 || 0)}
+                              </td>
+                              <td className="text-right">
+                                {_formatMoney(item?.numBalance || 0)}
+                              </td>
                             </tr>
                           ))}
                           <tr>
