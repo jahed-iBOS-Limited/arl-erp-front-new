@@ -19,27 +19,31 @@ export const getRegisterReportAction = async (
   setter,
   setLoading,
   registerTypeId,
-  partnerTypeId,
+  partnerTypeId
 ) => {
   const {
     sbu = null,
     generalLedger = null,
+    profitCenter = null,
     fromDate,
     toDate,
   } = values;
-  // console.log(registerType);
   let api;
   if (registerTypeId === 5) {
-    api = `/fino/BusinessTransaction/GetBusinessTransectionLedger?BusinessUnitId=${buId}&GLId=${generalLedger?.value}&FromDate=${fromDate}&ToDate=${toDate}`;
+    const profitCenterIdQuery = profitCenter
+      ? `&ProfitCenterId=${profitCenter?.value}`
+      : "";
+    api = `/fino/BusinessTransaction/GetBusinessTransectionLedger?BusinessUnitId=${buId}&GLId=${generalLedger?.value}&FromDate=${fromDate}&ToDate=${toDate}${profitCenterIdQuery}`;
   } else if (registerTypeId === 7) {
-    const fromDateQuery = fromDate ? `&fromDate=${fromDate}` :"";
-    const toDateQuery = toDate ? `&toDate=${toDate}`:""
+    const fromDateQuery = fromDate ? `&fromDate=${fromDate}` : "";
+    const toDateQuery = toDate ? `&toDate=${toDate}` : "";
     api = `fino/BankBranch/GetAccountingRegisterSummaryPartner?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${sbu?.value}&PartnerType=${partnerTypeId}${fromDateQuery}${toDateQuery}`;
   } else if (registerTypeId !== 6 && registerTypeId) {
     api = `/fino/BankBranch/GetAccountingRegisterSummaryPartner?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${sbu?.value}&PartnerType=${registerTypeId}`;
   } else if (registerTypeId === 6) {
-    api = `/fino/BankBranch/GetAccountingRegisterSummaryBank?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${sbu?.value
-      }&ToDate=${_dateFormatter(values?.toDate)}`;
+    api = `/fino/BankBranch/GetAccountingRegisterSummaryBank?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${
+      sbu?.value
+    }&ToDate=${_dateFormatter(values?.toDate)}`;
   } else {
     api = `/fino/BankBranch/GetAccountingRegisterSummaryBank?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${sbu?.value}`;
   }
@@ -109,7 +113,6 @@ export const getPartnerTypeDDL = async (setter) => {
   }
 };
 
-
 export const getPartnerBook = async (
   businessUnitId,
   partnerId,
@@ -118,13 +121,19 @@ export const getPartnerBook = async (
   toDate,
   setLoading,
   setter,
-  glId
+  glId,
+  profitCenter
 ) => {
   try {
     setLoading(true);
-    let query = `/fino/BankBranch/GetPartnerBook?BusinessUnitId=${businessUnitId}&PartnerId=${partnerId}&PartnerType=${partnerType}&FromDate=${fromDate}&ToDate=${toDate}`
+
+    const profitCenterQuery = profitCenter
+      ? `&ProfitCenterId=${profitCenter?.value}`
+      : "";
+
+    let query = `/fino/BankBranch/GetPartnerBook?BusinessUnitId=${businessUnitId}&PartnerId=${partnerId}&PartnerType=${partnerType}&FromDate=${fromDate}&ToDate=${toDate}${profitCenterQuery}`;
     if (glId) {
-      query += `&GeneralId=${glId}`
+      query += `&GeneralId=${glId}`;
     }
     const res = await axios.get(query);
     setLoading(false);
@@ -135,17 +144,22 @@ export const getPartnerBook = async (
   }
 };
 
-
-export const partnerGeneralLedgerList = async (businessUnitId, partnerTypeId, setter) => {
+export const partnerGeneralLedgerList = async (
+  businessUnitId,
+  partnerTypeId,
+  setter
+) => {
   try {
     const res = await axios.get(
       `/fino/FinanceCommonDDL/PartnerGeneralLedgerList?businessUnitId=${businessUnitId}&partnerTypeId=${partnerTypeId}`
     );
-    setter(res?.data.map((item) => ({
-      ...item,
-      value: item?.glId,
-      label: item?.glName,
-    })));
+    setter(
+      res?.data.map((item) => ({
+        ...item,
+        value: item?.glId,
+        label: item?.glName,
+      }))
+    );
   } catch (error) {
     console.log(error);
   }

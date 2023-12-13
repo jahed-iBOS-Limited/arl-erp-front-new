@@ -11,6 +11,7 @@ import ICard from "../../../_helper/_card";
 import InputField from "../../../_helper/_inputField";
 import ILoader from "../../../_helper/loader/_loader";
 import numberWithCommas from "../../../_helper/_numberWithCommas";
+import NewSelect from "../../../_helper/_select";
 
 const TrailBalanceReport = () => {
   const printRef = useRef();
@@ -24,13 +25,8 @@ const TrailBalanceReport = () => {
     toDate: _todayDate(),
   });
 
-  //get profileData from store
-  const profileData = useSelector((state) => {
-    return state.authData.profileData;
-  }, shallowEqual);
-  // get selected business unit from store
-  const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit;
+  const { profileData, selectedBusinessUnit, businessUnitList } = useSelector((state) => {
+    return state.authData;
   }, shallowEqual);
 
   useEffect(() => {
@@ -75,6 +71,21 @@ const TrailBalanceReport = () => {
           <>
             <Form className="form form-label-right ">
               <div className="form-group row align-items-end">
+              <div className="col-lg-3">
+                      <NewSelect
+                        name="currentBusinessUnit"
+                        options={businessUnitList}
+                        value={values?.currentBusinessUnit}
+                        label="Business Unit"
+                        onChange={(valueOption) => {
+                          setFieldValue("currentBusinessUnit", valueOption || "");
+                        }}
+                        placeholder="Business Unit"
+                        errors={errors}
+                        touched={touched}
+                        required={true}
+                      />
+                    </div>
                 <div className="col-lg-3">
                   <label>From Date</label>
                   <InputField
@@ -96,12 +107,13 @@ const TrailBalanceReport = () => {
                 </div>
                 <div className="col-auto">
                   <button
+                   disabled={!values?.currentBusinessUnit}
                     type="submit"
                     className="btn btn-primary"
                     onClick={() =>
                       getTrailBalanceReport(
                         profileData?.accountId,
-                        selectedBusinessUnit?.value,
+                        values?.currentBusinessUnit?.value,
                         values?.fromDate,
                         values?.toDate,
                         values?.balanceType,

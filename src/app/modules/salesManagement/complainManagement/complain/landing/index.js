@@ -23,8 +23,11 @@ const initData = {
     value: 0,
     label: "All",
   },
-  respondentBusinessUnit:"",
   status: {
+    value: 0,
+    label: "All",
+  },
+  respondentBusinessUnit: {
     value: 0,
     label: "All",
   },
