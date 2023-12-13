@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { _formatMoney } from "../../../_helper/_formatMoney";
 import Loading from "../../../_helper/_loading";
+import InputField from "../../../_helper/_inputField";
 
 const SalesOrderRowTable = ({
   //rowDto,
@@ -11,6 +12,7 @@ const SalesOrderRowTable = ({
   values,
   selectedBusinessUnit,
   profileData,
+  setFieldValue,
 }) => {
   // const [isShowModal, setIsShowModal] = useState(false);
   // const [currentRowData] = useState("");
@@ -96,6 +98,42 @@ const SalesOrderRowTable = ({
     <div>
       {loading && <Loading />}
       {/* {rowDto?.length > 0 && ( */}
+      <div className="d-flex justify-content-center align-items-center mt-3">
+        <div>
+          <InputField
+            name="modifyCiPercentage"
+            value={values?.modifyCiPercentage || ""}
+            placeholder="Modify CI Percentage"
+            type="number"
+            className="form-control"
+            disabled={!salesQuotationDetails?.Data?.RowData?.length}
+            onChange={(e) => {
+              if (+e.target.value < 0) return;
+              setFieldValue("modifyCiPercentage", e.target.value || "");
+              const modifyData = salesQuotationDetails?.Data?.RowData?.map(
+                (item) => {
+                  let numericTotalAmount =
+                    parseFloat(+item?.FobRatePerPieceBDT) || 0;
+
+                  let modifyCiRate =
+                    ((numericTotalAmount || 0) * (+e?.target?.value || 0)) /
+                    100;
+
+                  return {
+                    ...item,
+                    ciRate: modifyCiRate,
+                    ciValue: modifyCiRate * (item?.TotalPieces || 0),
+                    modifyCiPercentage: +e.target.value || 0,
+                  };
+                }
+              );
+              const updatedData = { ...salesQuotationDetails };
+              updatedData.Data.RowData = modifyData;
+              setSalesQuotationDetails(updatedData);
+            }}
+          />
+        </div>
+      </div>
       <>
         <table className="table table-striped table-bordered mt-3 global-table po-table">
           <thead>
@@ -153,24 +191,33 @@ const SalesOrderRowTable = ({
                     : ""}
                 </td>
                 <td className="text-right">
-                <input type="number" value={item?.cogs || ""} onChange={(e)=>{ 
+                  <input
+                    type="number"
+                    value={item?.cogs || ""}
+                    onChange={(e) => {
                       const updatedData = { ...salesQuotationDetails };
-                      updatedData.Data.RowData[index].cogs = e.target.value || "";
+                      updatedData.Data.RowData[index].cogs =
+                        e.target.value || "";
                       setSalesQuotationDetails(updatedData);
-                  }}  />
+                    }}
+                  />
                 </td>
                 <td className="text-right">
-                <input type="number" value={item?.ciRate || ""} onChange={(e)=>{ 
+                  <input
+                    type="number"
+                    value={item?.ciRate ? item?.ciRate?.toFixed(4) : 0 || ""}
+                    onChange={(e) => {
                       const updatedData = { ...salesQuotationDetails };
-                      updatedData.Data.RowData[index].ciRate = e.target.value || "";
-                      updatedData.Data.RowData[index].ciValue = e.target.value * item?.TotalPieces;
+                      updatedData.Data.RowData[index].ciRate =
+                        e.target.value || "";
+                      updatedData.Data.RowData[index].ciValue =
+                        e.target.value * item?.TotalPieces;
                       setSalesQuotationDetails(updatedData);
-                  }}  />
+                    }}
+                  />
                 </td>
                 <td className="text-right">
-                {item?.ciRate
-                    ? _formatMoney(item?.ciValue)
-                    : ""}
+                  {item?.ciRate ? _formatMoney(item?.ciValue) : ""}
                 </td>
               </tr>
             ))}
