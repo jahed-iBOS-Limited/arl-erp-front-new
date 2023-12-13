@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from "react";
-import ICustomCard from "../../../../_helper/_customCard";
 import ReactToPrint from "react-to-print";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IViewModal from "../../../../_helper/_viewModal";
+import ICustomCard from "../../../../_helper/_customCard";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import Loading from "../../../../_helper/_loading";
+import IViewModal from "../../../../_helper/_viewModal";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { AdjustmentJournalViewTableRow } from "./AdjustmentJournalViewTableRow";
 import { BankJournalViewTableRow } from "./BankJournalViewTableRow";
 import { InvTransViewTableRow } from "./InvTransViewTableRow";
@@ -24,7 +24,8 @@ const VoucherModalForIncomeStatement = ({
   useEffect(() => {
     if (subGeneralLedgerRow?.intsubglid) {
       getVoucherInfo(
-        `/fino/IncomeStatement/GetIncomeStatement?partName=VoucherList&dteFromDate=${values?.fromDate}&dteFromDateL=${values?.fromDate}&dteToDate=${values?.todate}&dteToDateL=${values?.todate}&BusinessUnitGroup=${values?.enterpriseDivision?.value}&BusinessUnitId=${values?.businessUnit?.value}&GLId=${subGeneralLedgerRow?.glId}&SUBGLId=${subGeneralLedgerRow?.intsubglid}&ConvertionRate=${values?.conversionRate}&SubGroup=${values?.subDivision?.value||0}`,
+        `/fino/IncomeStatement/GetIncomeStatement?partName=VoucherList&dteFromDate=${values?.fromDate}&dteFromDateL=${values?.fromDate}&dteToDate=${values?.todate}&dteToDateL=${values?.todate}&BusinessUnitGroup=${values?.enterpriseDivision?.value}&BusinessUnitId=${values?.businessUnit?.value}&GLId=${subGeneralLedgerRow?.glId}&SUBGLId=${subGeneralLedgerRow?.intsubglid}&ConvertionRate=${values?.conversionRate}&SubGroup=${values?.subDivision?.value||0}&intProfitCenId=${values.profitCenter?.value ||
+          0}`,
         (data) => {
           setTotalAmount(
             data?.reduce((value, row) => (value += row?.numAmount), 0) || 0
