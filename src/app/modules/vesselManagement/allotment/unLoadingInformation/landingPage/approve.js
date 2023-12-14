@@ -805,7 +805,6 @@ export default function WarehouseApproveFrom({
                               setFieldValue
                             );
                           }}
-                          disabled={levelOfApprove === "third" ? true : false}
                         />
                       </div>
                       <div className="col-lg-3">
