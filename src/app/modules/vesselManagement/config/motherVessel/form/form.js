@@ -4,22 +4,22 @@ import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { GetCountryDDL } from "../../../../chartering/helper";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import IButton from "../../../../_helper/iButton";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import ICustomCard from "../../../../_helper/_customCard";
 import ICustomTable from "../../../../_helper/_customTable";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import FormikError from "../../../../_helper/_formikError";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
+import IEdit from "../../../../_helper/_helperIcons/_edit";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import IButton from "../../../../_helper/iButton";
+import { GetCountryDDL } from "../../../../chartering/helper";
 import { GetDomesticPortDDL } from "../../../allotment/generalInformation/helper";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
 import { editMotherVessel } from "../helper";
 
 const initData = {
@@ -60,6 +60,8 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
   const [rowData, setRowData] = useState([]);
   const [singleData, setSingleData] = useState({});
   const [loading, setLoading] = useState(false);
+  const [organizationDDL, getOrganizationDDL] = useAxiosGet();
+
 
   // get user data from store
   const {
@@ -109,6 +111,10 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
       );
     }
   }, [item]);
+
+  useEffect(()=>{
+    getOrganizationDDL(`/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`);
+  }, [accId, buId])
 
   const singleDataSet = (item, values) => {
     setRowData(rowData?.filter((element) => element?.id !== item?.id));
@@ -387,10 +393,7 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
                       <div className="col-lg-3">
                         <NewSelect
                           name="organization"
-                          options={[
-                            { value: 73244, label: "G2G BADC" },
-                            { value: 73245, label: "G2G BCIC" },
-                          ]}
+                          options={organizationDDL || []}
                           value={values?.organization}
                           label="Organization"
                           onChange={(valueOption) => {
