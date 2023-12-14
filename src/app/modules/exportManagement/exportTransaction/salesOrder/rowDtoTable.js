@@ -108,7 +108,7 @@ const SalesOrderRowTable = ({
             className="form-control"
             disabled={!salesQuotationDetails?.Data?.RowData?.length}
             onChange={(e) => {
-              if (+e.target.value < 0) return;
+              if (+e.target.value < 0 || +e.target.value > 100) return;
               setFieldValue("modifyCiPercentage", e.target.value || "");
               const modifyData = salesQuotationDetails?.Data?.RowData?.map(
                 (item) => {
