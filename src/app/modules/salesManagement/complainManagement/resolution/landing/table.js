@@ -5,7 +5,7 @@ import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IViewModal from "../../../../_helper/_viewModal";
-import feedbackIcon from "../../../../_helper/images/feedback.png";
+// import feedbackIcon from "../../../../_helper/images/feedback.png";
 import DelegateForm from "./delegate";
 import FeedbackModal from "./feedbackModal";
 import InvestigateForm from "./investigate";
@@ -253,7 +253,7 @@ const LandingTable = ({ obj }) => {
                               </span>
                             </OverlayTrigger>
                           </span>
-                          <span
+                          {/* <span
                             onClick={() => {
                               setIsFeedbackModalShow(true);
                               setClickRowData(item);
@@ -268,7 +268,7 @@ const LandingTable = ({ obj }) => {
                                 height: "20px",
                               }}
                             />
-                          </span>
+                          </span> */}
                         </>
                       )}
                       {item?.status === "Investigate" && matchEmployeeId && (
