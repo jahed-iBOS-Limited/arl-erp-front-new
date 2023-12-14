@@ -17,8 +17,8 @@ const initData = {
   monthYear: "",
   incentiveType: "",
   searchText: "",
-  fromDate:"",
-  toDate:""
+  fromDate: "",
+  toDate: "",
 };
 
 export default function CustomerIncentive() {
@@ -125,16 +125,31 @@ export default function CustomerIncentive() {
 
   // get trade commission api handler
   const getTradeCommissionHandler = (values) => {
-    if(values?.incentiveType?.value === "Performance"){
+    if (values?.incentiveType?.value === "Performance") {
       getTradeCommission(
         `oms/SalesInformation/GetTradeCommissionForPerformance?businessUnitId=${buId}&customerId=0&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&customerCategory=${values?.customerCategory?.value}&incentiveType=${values?.incentiveType?.value}`
       );
-    }else{
+    } else {
       getTradeCommission(
         `/oms/SalesInformation/GetTradeCommission?partName=GetForCreate&businessUnitId=${buId}&customerId=0&monthYear=${values?.monthYear}-01&customerCategory=${values?.customerCategory?.value}&incentiveType=${values?.incentiveType?.value}`
       );
     }
+  };
 
+  const modifyIncentiveTypeOptions = (values) => {
+    const customerCategoryLabel = values?.customerCategory?.label;
+
+    if (["All"].includes(customerCategoryLabel)) {
+      return [
+        { value: "General", label: "General" },
+        { value: "Delivery", label: "Delivery" },
+        { value: "Performance", label: "Performance Bonus" },
+      ];
+    } else if (["Platinum", "Gold"].includes(customerCategoryLabel)) {
+      return [{ value: "Monthly", label: "Monthly" }];
+    } else {
+      return [];
+    }
   };
 
   return (
@@ -181,6 +196,7 @@ export default function CustomerIncentive() {
                     value={values?.customerCategory}
                     onChange={(valueOption) => {
                       setFieldValue("customerCategory", valueOption);
+                      setFieldValue("incentiveType", "");
                       setTradeCommission([]);
                     }}
                     errors={errors}
@@ -191,15 +207,7 @@ export default function CustomerIncentive() {
                   <NewSelect
                     name="incentiveType"
                     label="Incentive Type"
-                    options={[
-                      { value: "General", label: "General" },
-                      { value: "Monthly", label: "Monthly" },
-                      { value: "Delivery", label: "Delivery" },
-                      {
-                        value: "Performance",
-                        label: "Performance Bonus",
-                      },
-                    ]}
+                    options={modifyIncentiveTypeOptions(values)}
                     value={values?.incentiveType}
                     onChange={(valueOption) => {
                       setFieldValue("incentiveType", valueOption);
@@ -212,28 +220,43 @@ export default function CustomerIncentive() {
                 {values?.incentiveType?.value === "Performance" ? (
                   <>
                     <div className="col-lg-3">
-                      <label>From Date</label>
+                      <label>From Month-Year</label>
                       <InputField
-                        name="fromDate"
-                        type="date"
+                        name="fromMonthYear"
+                        type="month"
                         placeholder="From Date"
-                        value={values?.fromDate}
+                        value={values?.fromMonthYear}
                         onChange={(e) => {
-                          setFieldValue("fromDate", e?.target?.value);
+                          setFieldValue("fromMonthYear", e?.target?.value);
+                          setFieldValue("fromDate", `${e?.target?.value}-01`);
                           setTradeCommission([]);
                         }}
                       />
                     </div>
                     <div className="col-lg-3">
-                      <label>To Date</label>
+                      <label>To Month-Year</label>
                       <InputField
-                        name="toDate"
-                        type="date"
-                        placeholder="To Date"
-                        value={values?.toDate}
+                        name="toMonthYear"
+                        type="month"
+                        placeholder="From Date"
+                        value={values?.toMonthYear}
                         onChange={(e) => {
-                          setFieldValue("toDate", e?.target?.value);
+                          setFieldValue("toMonthYear", e?.target?.value);
                           setTradeCommission([]);
+
+                          if (e.target.value) {
+                            const [year, month] = e?.target?.value
+                              ?.split("-")
+                              .map(Number);
+                            const nextMonthFirstDay = new Date(year, month, 1);
+                            const lastDateOfMonth = new Date(
+                              nextMonthFirstDay - 1
+                            );
+                            const formattedLastDate = lastDateOfMonth
+                              .toISOString()
+                              .split("T")[0];
+                            setFieldValue("toDate", formattedLastDate || "");
+                          }
                         }}
                       />
                     </div>
@@ -253,15 +276,14 @@ export default function CustomerIncentive() {
                     />
                   </div>
                 )}
-                <div className="col-md-3 d-flex" style={{ gap: "10px" }}>
+                <div className="col-md-3 d-flex mt-3" style={{ gap: "10px" }}>
                   <div>
                     <button
                       type="button"
                       className="btn btn-primary"
                       onClick={() => getTradeCommissionHandler(values)}
                       disabled={
-                        !values?.customerCategory ||
-                        !values?.incentiveType 
+                        !values?.customerCategory || !values?.incentiveType
                       }
                     >
                       View
@@ -353,7 +375,7 @@ export default function CustomerIncentive() {
                         <th>Customer Name</th>
                         <th>Customer Category</th>
                         <th>UoM</th>
-                        <th>Delivery Qty</th>
+                        <th>{values?.incentiveType?.value === "Performance" ? "Avg Delivery Qty" : "Delivery Qty"}</th>
                         <th>Amount</th>
                         <th>Is JV Posted</th>
                       </tr>
