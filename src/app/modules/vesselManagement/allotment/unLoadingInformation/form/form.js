@@ -38,7 +38,7 @@ export default function _Form({
   useEffect(() => {
     if (initData?.voyageNo && initData?.lighterVessel?.value) {
       getDateWiseQuantity(
-        `/tms/LigterLoadUnload/ViewLighterUnloadingInfoByVoyageNo?VoyageNo=${initData?.voyageNo}&LighterVesselId=${initData?.lighterVessel?.value}&shipPointId=${initData?.shipPointId}&RowId=${state?.rowId}`
+        `/tms/LigterLoadUnload/ViewLighterUnloadingInfoByVoyageNo?VoyageNo=${initData?.voyageNo}&LighterVesselId=${initData?.lighterVessel?.value}&shipPointId=${initData?.shipPoint?.value}&RowId=${state?.rowId}`
       );
     }
   }, [initData?.voyageNo, initData?.lighterVesselId]);

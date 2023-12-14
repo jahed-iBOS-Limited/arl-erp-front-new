@@ -23,6 +23,7 @@ import NewSelect from "../../../../_helper/_select";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import { GetDomesticPortDDL } from "../../generalInformation/helper";
 // import { GetShipPointDDL } from "../../generalInformation/helper";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import {
   editGudamAllotment,
   getMotherVesselDDL,
@@ -67,6 +68,8 @@ const GudamAllotmentForm = ({
   // const [shipPointDDL, setShipPointDDL] = useState([]);
   const [portDDL, setPortDDL] = useState([]);
   const [motherVesselDDL, setMotherVesselDDL] = useState([]);
+  const [businessPartnerDDL, getBusinessPartnerDDL, isGetBusinessPartnerDDLLoading] = useAxiosGet();
+
 
   useEffect(() => {
     GetDomesticPortDDL(setPortDDL);
@@ -74,7 +77,13 @@ const GudamAllotmentForm = ({
     //   `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${accId}&businessUnitId=${buId}`
     // );
     // GetShipPointDDL(accId, buId, setShipPointDDL);
+ 
+    getBusinessPartnerDDL(`/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`);
   }, [accId, buId]);
+
+  useEffect(()=>{
+
+  }, [accId, buId])
 
   const getInitData = () => {
     if (formType === "edit") {
@@ -226,10 +235,7 @@ const GudamAllotmentForm = ({
                       <div className="col-lg-3">
                         <NewSelect
                           name="soldToPartner"
-                          options={[
-                            { value: 73244, label: "G2G BADC" },
-                            { value: 73245, label: "G2G BCIC" },
-                          ]}
+                          options={businessPartnerDDL || []}
                           value={values?.soldToPartner}
                           label="Business Partner"
                           onChange={(e) => {
