@@ -88,6 +88,7 @@ export default function UnLoadingInformationForm() {
         );
       } else {
         getLoadingInfoByVoyageNo(
+          state?.rowId,
           id,
           state?.lighterVesselId,
           setSingleData,
@@ -197,6 +198,8 @@ export default function UnLoadingInformationForm() {
         });
 
         if (currentValue) {
+          console.log("currentValue", currentValue);
+
           getLightersByVesselNLighterDestination(
             values?.lighterDestination?.value,
             currentValue?.value,

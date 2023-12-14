@@ -135,7 +135,13 @@ export default function LoadInformationCreate({
 
   useEffect(() => {
     if (id) {
-      getLoadingInfoByVoyageNo(id, setSingleData, setRowData, setDisabled);
+      getLoadingInfoByVoyageNo(
+        state?.rowId,
+        id,
+        setSingleData,
+        setRowData,
+        setDisabled
+      );
     }
   }, [id, state, type]);
 
