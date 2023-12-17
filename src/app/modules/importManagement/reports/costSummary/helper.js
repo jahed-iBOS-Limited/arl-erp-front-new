@@ -47,10 +47,14 @@ export const getCostingSummary = async (
 };
 
 // get shipment DDL
-export const getShipmentDDL = async (accId, buId, poLc, setter) => {
+export const getShipmentDDL = async (accId, buId, poLc, setter, formCommonApproval) => {
+  const requestURL = formCommonApproval
+    ? `/imp/ImportCommonDDL/GetInfoFromPoLcDDLApprove?accId=${accId}&buId=${buId}&searchTerm=${poLc}`
+    : `/imp/ImportCommonDDL/GetInfoFromPoLcDDL?accId=${accId}&buId=${buId}&searchTerm=${poLc}`;
+    
   try {
     const res = await axios.get(
-      `/imp/ImportCommonDDL/GetInfoFromPoLcDDL?accId=${accId}&buId=${buId}&searchTerm=${poLc}`
+      requestURL
     );
     setter(res?.data);
   } catch (error) {
