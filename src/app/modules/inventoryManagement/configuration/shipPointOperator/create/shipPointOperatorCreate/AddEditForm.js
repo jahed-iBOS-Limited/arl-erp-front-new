@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { saveShipPointOperator } from "../helper";
+import IForm from "../../../../../_helper/_form";
+import Loading from "../../../../../_helper/_loading";
+import { saveShipPointOperator } from "../../helper";
 import Form from "./Form";
 
 const initData = {
@@ -11,7 +11,7 @@ const initData = {
   shipPoint: "",
 };
 
-export function ShipPointOperatorForm() {
+export function ShipPointOperatorCreateForm() {
   const [objProps, setObjprops] = useState({});
   const [loading, setLoading] = useState(false);
   const [rowData, setRowData] = useState([]);
