@@ -137,6 +137,9 @@ export default function SalesReport() {
   let totalCreditAmount = 0;
   let totalCashAmount = 0;
   let grandTotalNetAmount=0;
+  let grandTotalCashAmount = 0;
+  let grandTotalCreditAmount = 0;
+
 
   return (
     <Formik>
@@ -298,6 +301,8 @@ export default function SalesReport() {
                         <ICustomTable ths={partnerBaseHeader}>
                           {rowDto.map((itm, i) => {
                             grandTotalNetAmount+= +itm?.numTotalNetValue
+                            grandTotalCashAmount+= +itm?.numCashAmount || 0
+                            grandTotalCreditAmount+= +itm?.numCreditAmount || 0
                             return (
                               <tr key={i}>
                                 <td className="text-center"> {i + 1}</td>
@@ -320,8 +325,14 @@ export default function SalesReport() {
                             );
                           })}
                           <tr>
-                            <td className="text-center" colspan="5" style={{fontWeight: "bold" }}>
+                            <td className="text-center" colspan="3" style={{fontWeight: "bold" }}>
                              Grand Total
+                            </td>
+                            <td className="text-right" style={{fontWeight: "bold" }}>
+                              {grandTotalCashAmount.toFixed(2)}
+                            </td>
+                            <td className="text-right" style={{fontWeight: "bold" }}>
+                              {grandTotalCreditAmount.toFixed(2)}
                             </td>
                             <td className="text-right" style={{fontWeight: "bold" }}>
                               {grandTotalNetAmount.toFixed(2)}
