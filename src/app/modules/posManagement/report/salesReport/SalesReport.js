@@ -303,14 +303,14 @@ export default function SalesReport() {
                                 <td className="text-center"> {i + 1}</td>
                                 <td> {itm.strSoldToPartnerName}</td>
                                 <td className="text-right">
+                                  {" "}
+                                  {itm.numTotalDeliveryQuantity}
+                                </td>
+                                <td className="text-right">
                                   {_formatMoney(itm?.numCashAmount)}
                                 </td>
                                 <td className="text-right">
                                   {_formatMoney(itm?.numCreditAmount)}
-                                </td>
-                                <td className="text-right">
-                                  {" "}
-                                  {itm.numTotalDeliveryQuantity}
                                 </td>
                                 <td className="text-right">
                                   {" "}
