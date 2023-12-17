@@ -336,6 +336,7 @@ export default function TableRow() {
                       <th>Invoice No</th>
                       <th>Invoice Amount (FC)</th>
                       <th>Packing Number</th>
+                      <th>Status</th>
                       <th style={{ width: 180 }}>Action</th>
                     </tr>
                   </thead>
@@ -354,6 +355,7 @@ export default function TableRow() {
                           {numberWithCommas(item?.invoiceAmount)}
                         </td>
                         <td className="text-center">{item?.packingIds}</td>
+                        <td className="text-center">{item?.isApprove ? "Approved" : "Pending"}</td>
                         <td className="text-center justify-content-center">
                           <span className="view">
                             <IView

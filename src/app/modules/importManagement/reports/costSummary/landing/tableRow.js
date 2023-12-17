@@ -74,7 +74,8 @@ const TableRow = ({ formCommonApproval }) => {
       profileData?.accountId,
       selectedBusinessUnit?.value,
       poLc,
-      setShipmentDDL
+      setShipmentDDL,
+      formCommonApproval
     );
   };
 

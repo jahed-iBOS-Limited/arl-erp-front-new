@@ -12,6 +12,7 @@ import { getSalesReportData, getWareHouseDDL } from "../helper";
 import Loading from "../../../_helper/_loading";
 import PaginationTable from "../../../_helper/_tablePagination";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
+import { _formatMoney } from "../../../_helper/_formatMoney";
 
 const challanBaseHeader = [
   "Sl",
@@ -27,8 +28,9 @@ const challanBaseHeader = [
 const partnerBaseHeader = [
   "Sl",
   "Customer Name",
-  "Date",
   "Total Quantity",
+  "Cash Amount",
+  "Credit Amount",
   "Total Net Amount"
 ];
 const dateBaseHeader = [
@@ -300,13 +302,15 @@ export default function SalesReport() {
                               <tr key={i}>
                                 <td className="text-center"> {i + 1}</td>
                                 <td> {itm.strSoldToPartnerName}</td>
-                                <td className="text-center">
-                                  {" "}
-                                  {_dateFormatter(itm.dteDeliveryDate)}
-                                </td>
                                 <td className="text-right">
                                   {" "}
                                   {itm.numTotalDeliveryQuantity}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(itm?.numCashAmount)}
+                                </td>
+                                <td className="text-right">
+                                  {_formatMoney(itm?.numCreditAmount)}
                                 </td>
                                 <td className="text-right">
                                   {" "}
@@ -316,7 +320,7 @@ export default function SalesReport() {
                             );
                           })}
                           <tr>
-                            <td className="text-center" colspan="4" style={{fontWeight: "bold" }}>
+                            <td className="text-center" colspan="5" style={{fontWeight: "bold" }}>
                              Grand Total
                             </td>
                             <td className="text-right" style={{fontWeight: "bold" }}>

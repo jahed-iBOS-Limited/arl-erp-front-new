@@ -507,11 +507,13 @@ export function TableRow() {
                                         className="text-right pointer"
                                         style={{
                                           textDecoration:
+                                            [1]?.includes(values?.reportType?.value) ||
                                             data?.intFSId === 0 ||
                                             data?.intFSId === 20
                                               ? ''
                                               : 'underline',
                                           color:
+                                          [1]?.includes(values?.reportType?.value) ||
                                             data?.intFSId === 0 ||
                                             data?.intFSId === 20
                                               ? ''
@@ -522,6 +524,7 @@ export function TableRow() {
                                           onClick={() => {
                                             if (
                                               !(
+                                                [1]?.includes(values?.reportType?.value) ||
                                                 data?.intFSId === 0 ||
                                                 data?.intFSId === 20
                                               )
