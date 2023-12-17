@@ -24,7 +24,7 @@ import ShipPointCreateForm from "./shipPointOperator/create/create";
 import ShippingPoint from "./shippingPoint";
 import ShippingPointForm from "./shippingPoint/Form/addEditForm";
 import { TransportZoneUpdateForm } from "./transportZoneUpdate/Form/AddEditForm";
-// import ShipPointOperatorLanding from "./shipPointOperator/landing/table";
+
 import ShipPointOperatorLanding from "./shipPointOperator/landing/landing";
 
 export function ConfigurationPages() {
