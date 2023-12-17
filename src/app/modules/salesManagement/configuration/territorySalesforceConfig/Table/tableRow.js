@@ -107,6 +107,7 @@ const [territoryTypeDDL, getTerritoryDDL] = useAxiosGet();
   const columns = [
     { dataField: "sl", text: "SL" },
     { dataField: "strChannel", text: "Distribution Channel" },
+    { dataField: "strSetupName", text: "Setup Name" },
     { dataField: "strRegion", text: "Region" },
     { dataField: "strArea", text: "Area" },
     { dataField: "strTerritory", text: "Territory" },
@@ -114,14 +115,6 @@ const [territoryTypeDDL, getTerritoryDDL] = useAxiosGet();
     { dataField: "intEmployeeId", text: "Enroll" },
     { dataField: "strEmployeeName", text: "Name" },
     { dataField: "strEmail", text: "Email" },
-    {
-      dataField: "dteInsertionDate",
-      text: "Insertion Date",
-      style: {
-        width: "100px",
-      },
-      classes: "text-center",
-    },
     {
       dataField: "intSetupAutoId",
       text: "Actions",
