@@ -39,7 +39,7 @@ const App = ({ store, persistor, basename }) => {
               {/* Provide `react-intl` context synchronized with Redux state.  */}
               <I18nProvider>
                 {/* Render routes with provided `Layout`. */}
-                <ToastContainer position='bottom-right' />
+                <ToastContainer position="bottom-right" />
                 <Routes />
               </I18nProvider>
             </MaterialThemeProvider>
