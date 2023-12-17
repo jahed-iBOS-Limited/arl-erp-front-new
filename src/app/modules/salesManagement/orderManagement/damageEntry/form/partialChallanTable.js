@@ -42,6 +42,7 @@ export default function PartialChallanTable({ obj }) {
             <th>Delivery Quantity</th>
             <th>Amount</th>
             <th style={{ width: "120px" }}>Return Qty</th>
+            <th style={{ width: "120px" }}>Tolarance Qty</th>
             <th>Remaining Qty</th>
           </tr>
         </thead>
@@ -122,7 +123,10 @@ export default function PartialChallanTable({ obj }) {
                           )}
                         </td>
                         <td className="text-right">
-                          {element?.quantity - element?.returnQty}
+                          {_fixedPoint(element?.quantity * (2 / 100), true)}
+                        </td>
+                        <td className="text-right">
+                          {_fixedPoint(element?.quantity - element?.returnQty)}
                         </td>
                       </>
                     );
@@ -138,6 +142,7 @@ export default function PartialChallanTable({ obj }) {
             <td>{_fixedPoint(totalDeliveryQty, true)}</td>
             <td>{_fixedPoint(totalAmount, true)}</td>
             <td>{_fixedPoint(totalDamage, true, 0)}</td>
+            <td></td>
             <td></td>
           </tr>
         </tbody>

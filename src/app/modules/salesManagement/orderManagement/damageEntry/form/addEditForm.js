@@ -72,13 +72,18 @@ function DamageEntryForm() {
 
     const qtyCheck = selectedItems?.filter((header) => {
       return header?.rowData?.find(
-        (row) => row?.returnQty > row?.quantity || row?.returnQty < 0.2
+        (row) =>
+          row?.returnQty > row?.quantity ||
+          row?.returnQty >
+            // row?.quantity * (2 / 100) fixed to two decimal
+            _fixedPoint(row?.quantity * (2 / 100), false)
       );
     });
 
     if (qtyCheck?.length) {
-      toast.warn(`Please check return quantities!
-      Return qty can not be greater than delivery qty and Less than 0.2`);
+      toast.warn(
+        `Please check return quantities! Return qty can not be greater than 2% of delivery qty*`
+      );
       return;
     }
 
@@ -124,7 +129,7 @@ function DamageEntryForm() {
         }),
 
         img: {
-          attatchment: uploadedImage[0]?.id,
+          attatchment: uploadedImage[0]?.id || "",
         },
       };
     });
