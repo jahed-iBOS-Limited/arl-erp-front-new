@@ -23,6 +23,7 @@ export default function _Form({
   initData,
   setLoading,
   saveHandler,
+  organizationDDL,
   motherVesselDDL,
   setMotherVesselDDL,
   approveTenderInformation,
@@ -73,42 +74,50 @@ export default function _Form({
           >
             <Form className="form form-label-right">
               <div className="row global-form global-form-custom">
-                <div className={type === "edit" ? "col-9 mt-3 d-flex" : "col-12 mt-3 d-flex"}>
-                  <div className="d-flex align-items-center mr-5">
-                    <input
-                      style={radioStyle}
-                      type="radio"
-                      name="type"
-                      id="badc"
-                      value={values?.type}
-                      checked={values?.type === "badc"}
-                      onChange={() => {
-                        setFieldValue("type", "badc");
-                      }}
-                      disabled={type === "view"}
-                    />
-                    <label htmlFor="badc" className="ml-1">
-                      <h3>BADC</h3>
-                    </label>
+                {buId === 94 && (
+                  <div
+                    className={
+                      type === "edit"
+                        ? "col-9 mt-3 d-flex"
+                        : "col-12 mt-3 d-flex"
+                    }
+                  >
+                    <div className="d-flex align-items-center mr-5">
+                      <input
+                        style={radioStyle}
+                        type="radio"
+                        name="type"
+                        id="badc"
+                        value={values?.type}
+                        checked={values?.type === "badc"}
+                        onChange={() => {
+                          setFieldValue("type", "badc");
+                        }}
+                        disabled={type === "view"}
+                      />
+                      <label htmlFor="badc" className="ml-1">
+                        <h3>BADC</h3>
+                      </label>
+                    </div>
+                    <div className="d-flex align-items-center ml-5">
+                      <input
+                        style={radioStyle}
+                        type="radio"
+                        name="type"
+                        id="bcic"
+                        value={values?.type}
+                        checked={values?.type === "bcic"}
+                        onChange={() => {
+                          setFieldValue("type", "bcic");
+                        }}
+                        disabled={type === "view"}
+                      />
+                      <label htmlFor="bcic" className="ml-1">
+                        <h3>BCIC</h3>
+                      </label>
+                    </div>
                   </div>
-                  <div className="d-flex align-items-center ml-5">
-                    <input
-                      style={radioStyle}
-                      type="radio"
-                      name="type"
-                      id="bcic"
-                      value={values?.type}
-                      checked={values?.type === "bcic"}
-                      onChange={() => {
-                        setFieldValue("type", "bcic");
-                      }}
-                      disabled={type === "view"}
-                    />
-                    <label htmlFor="bcic" className="ml-1">
-                      <h3>BCIC</h3>
-                    </label>
-                  </div>
-                </div>
+                )}
                 {type === "edit" && (
                   <IButton
                     className={"btn-info"}
@@ -119,6 +128,22 @@ export default function _Form({
                   >
                     Approve
                   </IButton>
+                )}
+                {buId === 178 && (
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="organization"
+                      options={organizationDDL || []}
+                      value={values?.organization}
+                      label="Organization"
+                      onChange={(valueOption) => {
+                        setFieldValue("organization", valueOption);
+                      }}
+                      placeholder="Organization"
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
                 )}
                 <div className="col-lg-3">
                   <NewSelect
@@ -196,12 +221,16 @@ export default function _Form({
                     placeholder="Search Item"
                     loadOptions={(v) => {
                       const searchValue = v.trim();
+                      const corporationTypeId =
+                        buId === 94
+                          ? values?.type === "badc"
+                            ? 73244
+                            : 73245
+                          : values?.organization?.value;
                       if (searchValue?.length < 3) return [];
                       return axios
                         .get(
-                          `/wms/FertilizerOperation/GetItemListDDL?AccountId=${accId}&BusinessUinitId=${buId}&CorporationType=${
-                            values?.type === "badc" ? 73244 : 73245
-                          }&SearchTerm=${searchValue}`
+                          `/wms/FertilizerOperation/GetItemListDDL?AccountId=${accId}&BusinessUinitId=${buId}&CorporationType=${corporationTypeId}&SearchTerm=${searchValue}`
                         )
                         .then((res) => res?.data);
                     }}
