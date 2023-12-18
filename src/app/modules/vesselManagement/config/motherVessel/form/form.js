@@ -466,7 +466,12 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
                             setFieldValue("localRevenueRate", e.target.value);
                           }}
                           type="number"
-                          disabled={values?.organization?.value !== 73244}
+                          disabled={
+                            (buId === 94 &&
+                              values?.organization?.value !== 73244) ||
+                            (buId === 178 &&
+                              values?.organization?.value !== 88577)
+                          }
                         />
                       </div>
                       <IButton
