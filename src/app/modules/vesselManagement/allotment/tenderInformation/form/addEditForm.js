@@ -6,6 +6,7 @@ import Loading from "../../../../_helper/_loading";
 import { GetDomesticPortDDL } from "../../loadingInformation/helper";
 import { editTenderInfo, tenderInfoApprove } from "../helper";
 import Form from "./form";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const initData = {
   motherVessel: "",
@@ -26,6 +27,7 @@ const initData = {
   steveDoreRate: "",
   hatchLabour: "",
   hatchLabourRate: "",
+  organization: "",
   haveTransportBill: { value: true, label: "Yes" },
 };
 
@@ -37,6 +39,7 @@ export default function TenderInformationCreateForm() {
   const [, postData, loading] = useAxiosPost();
   const [portDDL, setPortDDL] = useState([]);
   const { state } = useLocation();
+  const [organizationDDL, getOrganizationDDL] = useAxiosGet();
 
   // get user data from store
   const {
@@ -46,7 +49,9 @@ export default function TenderInformationCreateForm() {
 
   useEffect(() => {
     GetDomesticPortDDL(setPortDDL);
-
+    getOrganizationDDL(
+      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`
+    );
     if (id) {
       const {
         motherVesselName,
@@ -152,8 +157,18 @@ export default function TenderInformationCreateForm() {
       cnfrate: values?.cnfRate,
       stevdorRate: values?.steveDoreRate,
       serveyorRate: values?.surveyorRate,
-      organizationId: values?.type === "badc" ? 73244 : 73245,
-      organizationName: values?.type === "badc" ? "BADC" : "BCIC",
+      organizationId:
+        buId === 94
+          ? values?.type === "badc"
+            ? 73244
+            : 73245
+          : values?.organization?.value,
+      organizationName:
+        buId === 94
+          ? values?.type === "badc"
+            ? "BADC"
+            : "BCIC"
+          : values?.organization?.label,
       hatchLabourId: values?.hatchLabour?.value,
       hatchLabour: values?.hatchLabour?.label,
       hatchLabourRate: values?.hatchLabourRate,
@@ -220,6 +235,7 @@ export default function TenderInformationCreateForm() {
         portDDL={portDDL}
         setLoading={setDisabled}
         saveHandler={saveHandler}
+        organizationDDL={organizationDDL}
         motherVesselDDL={motherVesselDDL}
         setMotherVesselDDL={setMotherVesselDDL}
         approveTenderInformation={approveTenderInformation}

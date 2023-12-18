@@ -26,6 +26,7 @@ export default function _Form({
   saveHandler,
   resetBtnRef,
   shipPointDDL,
+  organizationDDL,
   lighterDDL,
   lighterCNFDDL,
   getTenderInfo,
@@ -80,11 +81,29 @@ export default function _Form({
           >
             <Form className="form form-label-right">
               <div className="row global-form ">
-                <BADCBCICForm
-                  values={values}
-                  setFieldValue={setFieldValue}
-                  disabled={type}
-                />
+                {buId === 94 && (
+                  <BADCBCICForm
+                    values={values}
+                    setFieldValue={setFieldValue}
+                    disabled={type}
+                  />
+                )}
+                {buId === 178 && (
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="organization"
+                      options={organizationDDL || []}
+                      value={values?.organization}
+                      label="Organization"
+                      onChange={(valueOption) => {
+                        setFieldValue("organization", valueOption);
+                      }}
+                      placeholder="Organization"
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                )}
                 <div className="col-lg-3">
                   <NewSelect
                     name="loadingPort"
