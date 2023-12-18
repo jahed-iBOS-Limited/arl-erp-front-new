@@ -70,9 +70,8 @@ const CommissionReportAndJV = () => {
   }, [accId, buId]);
 
   const getData = (values) => {
-    const typeId = idSet1.includes(values?.type?.value)
-      ? 8
-      : values?.type?.value;
+     const ids = [8, 9, 10, 11, 12, 13];
+    const typeId = ids.includes(values?.type?.value) ? 8 : values?.type?.value;
     if ([5, 3, 6, 7, ...allIds].includes(values?.type?.value)) {
       getTradeCommissionData(
         // values?.type?.value,
