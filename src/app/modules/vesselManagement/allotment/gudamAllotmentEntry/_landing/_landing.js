@@ -71,6 +71,7 @@ const GudamAllotmentLanding = () => {
     ,
     setMotherVesselDDL,
   ] = useAxiosGet();
+  const [organizationDDL, getOrganizationDDL] = useAxiosGet();
 
   // get user data from store
   const {
@@ -105,6 +106,9 @@ const GudamAllotmentLanding = () => {
   };
 
   useEffect(() => {
+    getOrganizationDDL(
+      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`
+    );
     getData(initData, pageNo, pageSize);
   }, [accId, buId]);
 
@@ -196,11 +200,14 @@ const GudamAllotmentLanding = () => {
                     <div className="col-lg-3">
                       <NewSelect
                         name="organization"
-                        options={[
-                          { value: 0, label: "All" },
-                          { value: 73244, label: "G2G BADC" },
-                          { value: 73245, label: "G2G BCIC" },
-                        ]}
+                        options={
+                          [{ value: 0, label: "All" }, ...organizationDDL]
+                          //   [
+                          //   { value: 0, label: "All" },
+                          //   { value: 73244, label: "G2G BADC" },
+                          //   { value: 73245, label: "G2G BCIC" },
+                          // ]
+                        }
                         value={values?.organization}
                         label="Organization"
                         onChange={(valueOption) => {
