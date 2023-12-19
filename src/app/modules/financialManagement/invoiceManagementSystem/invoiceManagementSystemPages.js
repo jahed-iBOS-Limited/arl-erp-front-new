@@ -2,8 +2,8 @@ import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute } from "../../../../_metronic/layout";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
 import findIndex from "../../_helper/_findIndex";
+import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
 import ApprovebillregisterLanding from "./approvebillregister/index";
 import BillregisterCreate from "./billregister/billCreate/index";
 import BillregisterLanding from "./billregister/index";
@@ -18,13 +18,14 @@ import ViewPurchaseInvoiceForm from "./purchaseInvoice/view/addEditForm";
 // import SalesInvoiceLanding from "../salesInvoiceVSpayment/LandingPage/tableHeader";
 import SalesInvoiceVSPaymentCreate from "../salesInvoiceVSpayment/Form/addEditForm";
 import SalesInvoiceVSPaymentLanding from "../salesInvoiceVSpayment/LandingPage/tableHeader";
+import InvoiceWisePaymentLanding from "./invoiceWisePayment/InvoiceWisePaymentLanding";
+import PartnerWisePaymentSummaryLanding from "./invoiceWisePayment/PartnerWisePaymentSummaryLanding";
 import MoneyReceiptSubmitForm from "./moneyReceiptSubmit/form/addEditForm";
 import MoneyReceiptSubmitLandingTable from "./moneyReceiptSubmit/landingPage/table";
 import SalesInvoiceLanding from "./salesInvoice";
 import AddEditForm from "./salesInvoice/Form/addEditForm";
 import ShippingBillregisterLanding from "./shippingBillRegister";
 import ShippingSupplerInvoiceForm from "./shippingBillRegister/shippingInvoice/addEditForm";
-import InvoiceWisePaymentLanding from "./invoiceWisePayment";
 // import OthersBill from "./othersBill/index"
 // import OthersBillCreateForm from "./othersBill/Form/addEditForm"
 export function InvoiceManagementSystemPages() {
@@ -186,8 +187,12 @@ export function InvoiceManagementSystemPages() {
         component={MoneyReceiptSubmitLandingTable}
       />
       <ContentRoute
-        from="/financial-management/invoicemanagement-system/InvoiceWisePayment"
+        from="/financial-management/invoicemanagement-system/InvoiceWisePayment/individualReport"
         component={InvoiceWisePaymentLanding}
+      />
+      <ContentRoute
+        from="/financial-management/invoicemanagement-system/InvoiceWisePayment"
+        component={PartnerWisePaymentSummaryLanding}
       />
     </Switch>
   );
