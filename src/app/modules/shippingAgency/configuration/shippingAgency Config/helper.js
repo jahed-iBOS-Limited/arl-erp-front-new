@@ -1,6 +1,52 @@
 import axios from "axios";
 import { toast } from "react-toastify";
+import * as Yup from "yup";
 import { imarineBaseUrl } from "../../../../App";
+
+export const shippingAgencyValidation = Yup.object().shape({
+  vesselType: Yup.object().shape({
+    label: Yup.string().required("Vessel Type is required"),
+    value: Yup.string().required("Vessel Type is required"),
+  }),
+  vessel: Yup.object().shape({
+    label: Yup.string().required("Vessel is required"),
+    value: Yup.string().required("Vessel is required"),
+  }),
+  transferCostCenter: Yup.object().shape({
+    label: Yup.string().required("Transfer Cost Center is required"),
+    value: Yup.string().required("Transfer Cost Center is required"),
+  }),
+  costElement: Yup.object().shape({
+    label: Yup.string().required("Cost Element is required"),
+    value: Yup.string().required("Cost Element is required"),
+  }),
+  transferBusinessUnit: Yup.object().shape({
+    label: Yup.string().required("Transfer Business Unit is required"),
+    value: Yup.string().required("Transfer Business Unit is required"),
+  }),
+  profitCenter: Yup.object().shape({
+    label: Yup.string().required("Profit Center is required"),
+    value: Yup.string().required("Profit Center is required"),
+  }),
+  transferProfitCenter: Yup.object().shape({
+    label: Yup.string().required("Transfer Profit Center is required"),
+    value: Yup.string().required("Transfer Profit Center is required"),
+  }),
+  businessTransaction: Yup.object().shape({
+    label: Yup.string().required("Business Transaction is required"),
+    value: Yup.string().required("Business Transaction is required"),
+  }),
+  revenueCenter: Yup.object().shape({
+    label: Yup.string().required("Revenue Center is required"),
+    value: Yup.number().required("Revenue Center is required"),
+  })
+  .typeError("Revenue is required"),
+  
+  revenueElement: Yup.object().shape({
+    label: Yup.string().required("Revenue Element is required"),
+    value: Yup.string().required("Revenue Element is required"),
+  }),
+});
 
 export const getLandingData = async (
   setLoading,
