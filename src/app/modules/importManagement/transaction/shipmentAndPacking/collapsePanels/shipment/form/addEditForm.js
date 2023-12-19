@@ -1,25 +1,25 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import { useLocation } from "react-router";
-import Form from "./form";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import { _dateFormatter } from "../../../../../../_helper/_dateFormate";
 import Loading from "../../../../../../_helper/_loading";
 import {
-  getShipByDDL,
-  createShipment,
-  getShipmentItemDDL,
-  getCurrencyDDL,
-  getShipmentDataById,
   EditShipment,
-  getTollarence,
-  getShipmentInfo,
   GetCNFAgencyDDL,
+  createShipment,
+  getCurrencyDDL,
+  getShipByDDL,
+  getShipmentDataById,
+  getShipmentInfo,
+  getShipmentItemDDL,
+  getTollarence,
 } from "../helper";
+import Form from "./form";
 
 const initData = {
   shipBy: "",
@@ -35,6 +35,8 @@ const initData = {
   freightCharge: "",
   cnfProvider: "",
   vasselName: "",
+  etaDate: "",
+  ataDate: ""
 };
 
 export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
@@ -68,8 +70,7 @@ export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
 
   const location = useLocation();
   const { state } = location;
-  console.log("location",location);
-  // console.log("params id: ", id);
+
 
   //   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -253,6 +254,8 @@ export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
           dueDate: values?.dueDate,
           cnFPartnerId: values?.cnfProvider?.value,
           cnFPartnerName: values?.cnfProvider?.label,
+          dteEta: values?.etaDate,
+          dteAta: values?.ataDate
         },
         objRow: await getQuantityItem(),
       };
