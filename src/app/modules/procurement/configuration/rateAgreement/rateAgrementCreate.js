@@ -266,7 +266,7 @@ export default function RateAgreementCreate() {
         <>
           {/* {console.log("error", errors)} */}
           {(rowDataLoading || isLoading) && <Loading />}
-          <IForm title="Rate Agreement Create" getProps={setObjprops}>
+          <IForm title={`Rate Agreement ${id ? "Edit" : "Create"}`} getProps={setObjprops}>
             <Form onSubmit={handleSubmit}>
               <div
                 style={{ color: "red", marginTop: "8px" }}

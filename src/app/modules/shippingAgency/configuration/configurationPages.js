@@ -1,10 +1,12 @@
 import React from "react";
 import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute } from "../../../../_metronic/layout";
-import RegistrationLanding from "./registration/landing";
-import EstimatePDACreate from "./registration/Create";
-import ExpenseParticularsLanding from "./expenseParticulars/landing";
 import ExpenseParticularsCreate from "./expenseParticulars/Create";
+import ExpenseParticularsLanding from "./expenseParticulars/landing";
+import EstimatePDACreate from "./registration/Create";
+import RegistrationLanding from "./registration/landing";
+import ShippingAgencyLanding from "./shippingAgency Config";
+import ShippingAgencyCreateEditForm from "./shippingAgency Config/create";
 
 export function ConfigurationPages() {
   return (
@@ -41,6 +43,18 @@ export function ConfigurationPages() {
       <ContentRoute
         path='/ShippingAgency/Configuration/ExpenseParticulars'
         component={ExpenseParticularsLanding}
+      />
+      <ContentRoute
+        path='/ShippingAgency/Configuration/ShippingAgencyConfig/edit/:id'
+        component={ShippingAgencyCreateEditForm}
+      />
+      <ContentRoute
+        path='/ShippingAgency/Configuration/ShippingAgencyConfig/create'
+        component={ShippingAgencyCreateEditForm}
+      />
+      <ContentRoute
+        path='/ShippingAgency/Configuration/ShippingAgencyConfig'
+        component={ShippingAgencyLanding}
       />
     </Switch>
   );
