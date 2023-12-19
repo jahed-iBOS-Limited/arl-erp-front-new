@@ -33,6 +33,7 @@ export default function _Form({
   getDateWiseQuantity,
   setDateWiseQuantity,
   state,
+  organizationDDL,
 }) {
   // const [unloadedQty, setUnloadedQty] = useState("");
   useEffect(() => {
@@ -141,10 +142,11 @@ export default function _Form({
                           <div className="col-lg-3">
                             <NewSelect
                               name="organization"
-                              options={[
-                                { value: 73244, label: "G2G BADC" },
-                                { value: 73245, label: "G2G BCIC" },
-                              ]}
+                              options={
+                                organizationDDL
+                                // [ { value: 73244, label: "G2G BADC" },
+                                // { value: 73245, label: "G2G BCIC" },]
+                              }
                               value={values?.organization}
                               label="Organization"
                               onChange={(valueOption) => {

@@ -43,7 +43,7 @@ const initData = {
   revenueRate: "",
   revenueByTransport: "",
   isNearShipPoint: "",
-  extraAllotmentQuantity:0
+  extraAllotmentQuantity: 0,
 };
 
 const GudamAllotmentForm = ({
@@ -68,8 +68,7 @@ const GudamAllotmentForm = ({
   // const [shipPointDDL, setShipPointDDL] = useState([]);
   const [portDDL, setPortDDL] = useState([]);
   const [motherVesselDDL, setMotherVesselDDL] = useState([]);
-  const [businessPartnerDDL, getBusinessPartnerDDL, isGetBusinessPartnerDDLLoading] = useAxiosGet();
-
+  const [businessPartnerDDL, getBusinessPartnerDDL] = useAxiosGet();
 
   useEffect(() => {
     GetDomesticPortDDL(setPortDDL);
@@ -77,13 +76,13 @@ const GudamAllotmentForm = ({
     //   `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${accId}&businessUnitId=${buId}`
     // );
     // GetShipPointDDL(accId, buId, setShipPointDDL);
- 
-    getBusinessPartnerDDL(`/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`);
+
+    getBusinessPartnerDDL(
+      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`
+    );
   }, [accId, buId]);
 
-  useEffect(()=>{
-
-  }, [accId, buId])
+  useEffect(() => {}, [accId, buId]);
 
   const getInitData = () => {
     if (formType === "edit") {
@@ -105,7 +104,7 @@ const GudamAllotmentForm = ({
           label: singleItem?.itemName,
         },
         allotmentQty: singleItem?.allotmentQuantity,
-        extraAllotmentQuantity:singleItem?.extraAllotmentQuantity || 0,
+        extraAllotmentQuantity: singleItem?.extraAllotmentQuantity || 0,
         month: {
           value: singleItem?.monthId,
           label: getMonth(singleItem?.monthId),
@@ -463,7 +462,10 @@ const GudamAllotmentForm = ({
                               {_fixedPoint(item?.allotmentQuantity, true)}
                             </td>
                             <td className="text-right">
-                              {_fixedPoint(item?.extraAllotmentQuantity, true) || 0}
+                              {_fixedPoint(
+                                item?.extraAllotmentQuantity,
+                                true
+                              ) || 0}
                             </td>
                             <td className="text-right">{item?.revenueRate}</td>
                             <td className="text-right">
