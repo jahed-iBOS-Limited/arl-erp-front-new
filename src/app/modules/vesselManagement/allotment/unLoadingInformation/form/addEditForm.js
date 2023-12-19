@@ -64,8 +64,12 @@ export default function UnLoadingInformationForm() {
     ,
     setDateWiseQuantity,
   ] = useAxiosGet();
+  const [organizationDDL, getOrganizationDDL] = useAxiosGet();
 
   useEffect(() => {
+    getOrganizationDDL(
+      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`
+    );
     if (!type || type !== "view") {
       GetShipPointDDL(accId, buId, setShipPointDDL);
       // getMotherVesselDDL(accId, buId, setMotherVesselDDL);
@@ -284,6 +288,7 @@ export default function UnLoadingInformationForm() {
           getDateWiseQuantity={getDateWiseQuantity}
           setDateWiseQuantity={setDateWiseQuantity}
           state={state}
+          organizationDDL={organizationDDL}
         />
       </div>
     </>
