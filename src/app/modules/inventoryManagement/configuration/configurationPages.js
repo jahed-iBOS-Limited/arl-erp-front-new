@@ -1,29 +1,31 @@
 import React from "react";
 import { Redirect, Switch } from "react-router-dom";
-import { Warehouse } from "./warehouse";
-import { PlantWarehouseConfig } from "./configPlantWarehouse";
-import AddForm from "./warehouse/WarehouseCreate/addForm";
-import AddFormPlant from "./plant/WarehouseCreate/addForm";
 import { ContentRoute } from "../../../../_metronic/layout";
-import EditForm from "./warehouse/businessUnitEdit/editForm";
+import { PlantWarehouseConfig } from "./configPlantWarehouse";
+import AddFormPlant from "./plant/WarehouseCreate/addForm";
 import PlantEditForm from "./plant/businessUnitEdit/editForm";
 import EditFormExtend from "./plant/businessUnitEdit/editFormExtend";
+import { Warehouse } from "./warehouse";
+import AddForm from "./warehouse/WarehouseCreate/addForm";
+import EditForm from "./warehouse/businessUnitEdit/editForm";
 
-import PlantWarehouseAddForm from "./configPlantWarehouse/plantWarehouseCreate/addForm";
-import { InventoryLocation } from "./inventoryLocation";
-import InventoryLocationAddForm from "./inventoryLocation/plantWarehouseCreate/addForm";
-import InventoryLocationEditForm from "./inventoryLocation/businessUnitEdit/editForm";
-import LoadingPoint from "./loadingPoint";
-import { LoadingPointAddForm } from "./loadingPoint/Form/addEditForm";
-import ShippingPoint from "./shippingPoint";
-import ShippingPointForm from "./shippingPoint/Form/addEditForm";
-import PlantLanding from "./plant/Table/index";
 import { shallowEqual, useSelector } from "react-redux";
 import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
 import findIndex from "./../../_helper/_findIndex";
+import PlantWarehouseAddForm from "./configPlantWarehouse/plantWarehouseCreate/addForm";
+import { InventoryLocation } from "./inventoryLocation";
+import InventoryLocationEditForm from "./inventoryLocation/businessUnitEdit/editForm";
+import InventoryLocationAddForm from "./inventoryLocation/plantWarehouseCreate/addForm";
+import LoadingPoint from "./loadingPoint";
+import { LoadingPointAddForm } from "./loadingPoint/Form/addEditForm";
+import PlantLanding from "./plant/Table/index";
+// import { ShipPointOperatorForm } from "./shipPointOperator/Form/AddEditForm";
+import ShipPointCreateForm from "./shipPointOperator/create/create";
+import ShippingPoint from "./shippingPoint";
+import ShippingPointForm from "./shippingPoint/Form/addEditForm";
 import { TransportZoneUpdateForm } from "./transportZoneUpdate/Form/AddEditForm";
-import { ShipPointOperatorForm } from "./shipPointOperator/Form/AddEditForm";
-import ShipPointOperatorLanding from "./shipPointOperator/landing/table";
+
+import ShipPointOperatorLanding from "./shipPointOperator/landing/landing";
 
 export function ConfigurationPages() {
   const userRole = useSelector(
@@ -156,7 +158,7 @@ export function ConfigurationPages() {
 
       <ContentRoute
         path="/inventory-management/configuration/shippingpointoperator/add"
-        component={ShipPointOperatorForm}
+        component={ShipPointCreateForm}
       />
 
       <ContentRoute

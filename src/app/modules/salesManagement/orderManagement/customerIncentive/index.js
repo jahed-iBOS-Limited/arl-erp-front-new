@@ -376,6 +376,7 @@ export default function CustomerIncentive() {
                         <th>Customer Category</th>
                         <th>UoM</th>
                         <th>{values?.incentiveType?.value === "Performance" ? "Avg Delivery Qty" : "Delivery Qty"}</th>
+                        <th>Total Delivery Qty</th>
                         <th>Amount</th>
                         <th>Is JV Posted</th>
                       </tr>
@@ -410,6 +411,9 @@ export default function CustomerIncentive() {
                             <td className="text-center">{item?.uom || ""}</td>
                             <td className="text-right">
                               {item?.deliveryQty || 0}
+                            </td>
+                            <td className="text-right">
+                              {item?.totalDeliveryQTY || 0}
                             </td>
                             <td className="text-right">
                               {_formatMoney(item?.incentiveAmount)}

@@ -40,7 +40,7 @@ const initData = {
 };
 
 // Government subsidy ids for six business units - (bongo, batayon, arl traders, direct trading, daily trading, eureshia)
-const idSet1 = [8, 9, 10, 11, 12, 13];
+const idSet1 = [8, 9, 10, 11, 12, 13, 21];
 const idSet2 = [14, 15, 16, 17, 18, 19, 20];
 const allIds = [...idSet1, ...idSet2];
 
@@ -70,9 +70,8 @@ const CommissionReportAndJV = () => {
   }, [accId, buId]);
 
   const getData = (values) => {
-    const typeId = idSet1.includes(values?.type?.value)
-      ? 8
-      : values?.type?.value;
+     const ids = [8, 9, 10, 11, 12, 13];
+    const typeId = ids.includes(values?.type?.value) ? 8 : values?.type?.value;
     if ([5, 3, 6, 7, ...allIds].includes(values?.type?.value)) {
       getTradeCommissionData(
         // values?.type?.value,
@@ -139,7 +138,8 @@ const CommissionReportAndJV = () => {
         (a, b) => a + +b?.commissiontaka,
         0
       );
-      const commissionTypeId = idSet1.includes(values?.type?.value)
+      const ids = [8, 9, 10, 11, 12, 13];
+      const commissionTypeId = ids.includes(values?.type?.value)
         ? 8
         : values?.type?.value;
       const payload = {

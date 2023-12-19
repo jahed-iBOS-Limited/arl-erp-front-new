@@ -98,24 +98,29 @@ export default function ChallanEntryForm() {
   ] = useAxiosGet();
   const [lighterDDL, setLighterDDL] = useState([]);
   const [itemList, getItemList] = useAxiosGet();
+  const [organizationDDL, getOrganizationDDL] = useAxiosGet();
 
   const history = useHistory();
 
   useEffect(() => {
+    getOrganizationDDL(
+      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`
+    );
     if (!type || type !== "view") {
       GetShipPointDDL(accId, buId, setShipPointDDL);
       // getMotherVesselDDL(accId, buId, setMotherVesselDDL);
-      getGodownDDL(
-        buId,
-        state?.type === "badc" ? 73244 : 73245,
-        setGodownDDL,
-        setLoading
-      );
+      if (buId === 94) {
+        getGodownDDL(
+          buId,
+          state?.type === "badc" ? 73244 : 73245,
+          setGodownDDL,
+          setLoading
+        );
+      }
     }
   }, [accId, buId, type]);
 
   const addRow = (values, callBack) => {
-    console.log("values", values);
     const exists = rowData?.filter(
       (item) => item?.itemId === values?.item?.value
     );
@@ -181,8 +186,18 @@ export default function ChallanEntryForm() {
         businessUnitAddress: buAddress,
         shipToPartnerId: values?.godown?.value,
         shipToPartnerName: values?.godown?.label,
-        soldToPartnerId: state?.type === "badc" ? 73244 : 73245,
-        soldToPartnerName: state?.type === "badc" ? "BADC" : "BCIC",
+        soldToPartnerId:
+          buId === 94
+            ? state?.type === "badc"
+              ? 73244
+              : 73245
+            : values?.organization?.value,
+        soldToPartnerName:
+          buId === 94
+            ? state?.type === "badc"
+              ? "BADC"
+              : "BCIC"
+            : values?.organization?.label,
         shipToPartnerAddress: "",
         transportZoneId: 0,
         transportZoneName: "",
@@ -385,6 +400,14 @@ export default function ChallanEntryForm() {
         );
         break;
 
+      case "organization":
+        setFieldValue("organization", currentValue);
+        if (currentValue) {
+          getGodownDDL(buId, currentValue?.value, setGodownDDL, setLoading);
+        }
+
+        break;
+
       default:
         break;
     }
@@ -576,6 +599,7 @@ export default function ChallanEntryForm() {
           shipPointDDL={shipPointDDL}
           setGodownDDL={setGodownDDL}
           setVehicleDDL={setVehicleDDL}
+          organizationDDL={organizationDDL}
           motherVesselDDL={motherVesselDDL}
           onChangeHandler={onChangeHandler}
           isTransportBill={isTransportBill}
