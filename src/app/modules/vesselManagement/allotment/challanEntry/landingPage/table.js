@@ -69,6 +69,7 @@ const ChallanTable = () => {
   const [challanInfo, setChallanInfo] = useState({});
   const [godownDDL, setGodownDDL] = useState([]);
   const [singleItem, setSingleItem] = useState({});
+  const [organizationDDL, getOrganizationDDL] = useAxiosGet();
 
   // get user profile data from store
   const {
@@ -95,7 +96,12 @@ const ChallanTable = () => {
   useEffect(() => {
     getData(initData, pageNo, pageSize);
     GetShipPointDDL(accId, buId, setShipPointDDL);
-    getGodownDDL(buId, 73244, setGodownDDL, setLoading);
+    if (buId === 94) {
+      getGodownDDL(buId, 73244, setGodownDDL, setLoading);
+    }
+    getOrganizationDDL(
+      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`
+    );
   }, [accId, buId]);
 
   // set PositionHandler
@@ -114,6 +120,14 @@ const ChallanTable = () => {
             setGodownDDL,
             setLoading
           );
+        }
+
+        break;
+
+      case "organization":
+        setFieldValue("organization", currentValue);
+        if (currentValue) {
+          getGodownDDL(buId, currentValue?.value, setGodownDDL, setLoading);
         }
 
         break;
@@ -168,11 +182,32 @@ const ChallanTable = () => {
                 <form className="form form-label-right">
                   <div className="global-form">
                     <div className="row">
-                      <BADCBCICForm
-                        values={values}
-                        setFieldValue={setFieldValue}
-                        onChange={onChangeHandler}
-                      />
+                      {buId === 94 && (
+                        <BADCBCICForm
+                          values={values}
+                          setFieldValue={setFieldValue}
+                          onChange={onChangeHandler}
+                        />
+                      )}
+                      {buId === 178 && (
+                        <div className="col-lg-3">
+                          <NewSelect
+                            name="organization"
+                            options={organizationDDL || []}
+                            value={values?.organization}
+                            label="Organization"
+                            onChange={(valueOption) => {
+                              onChangeHandler(
+                                "organization",
+                                values,
+                                valueOption,
+                                setFieldValue
+                              );
+                            }}
+                            placeholder="Organization"
+                          />
+                        </div>
+                      )}
                       <div className="col-lg-3">
                         <NewSelect
                           name="shipPoint"

@@ -42,6 +42,7 @@ export default function _Form({
   motherVesselDDL,
   onChangeHandler,
   isTransportBill,
+  organizationDDL,
 }) {
   const [isShowModal, setIsShowModal] = useState(false);
   const [isRestQtyModalShow, setIsResetModalShow] = useState(false);
@@ -194,12 +195,35 @@ export default function _Form({
                 <Form className="form form-label-right">
                   <div className="global-form">
                     <div className="row">
-                      <BADCBCICForm
-                        values={{ ...values, ...state }}
-                        setFieldValue={setFieldValue}
-                        disabled={state?.type}
-                        onChange={onChangeHandler}
-                      />
+                      {buId === 94 && (
+                        <BADCBCICForm
+                          values={{ ...values, ...state }}
+                          setFieldValue={setFieldValue}
+                          disabled={state?.type}
+                          onChange={onChangeHandler}
+                        />
+                      )}
+                      {buId === 178 && (
+                        <div className="col-lg-3">
+                          <NewSelect
+                            name="organization"
+                            options={organizationDDL || []}
+                            value={values?.organization}
+                            label="Organization"
+                            onChange={(valueOption) => {
+                              onChangeHandler(
+                                "organization",
+                                values,
+                                valueOption,
+                                setFieldValue
+                              );
+                            }}
+                            placeholder="Organization"
+                            errors={errors}
+                            touched={touched}
+                          />
+                        </div>
+                      )}
                       <div className="col-lg-3">
                         <NewSelect
                           name="shipPoint"
@@ -397,7 +421,10 @@ export default function _Form({
                           }}
                         >
                           <i
-                            style={{ fontSize: "15px", color: "#3699FF" }}
+                            style={{
+                              fontSize: "15px",
+                              color: "#3699FF",
+                            }}
                             className="fa pointer fa-plus-circle"
                             aria-hidden="true"
                           ></i>
