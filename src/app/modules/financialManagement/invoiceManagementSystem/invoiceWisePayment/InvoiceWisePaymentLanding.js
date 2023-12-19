@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -77,6 +77,18 @@ const InvoiceWisePaymentLanding = () => {
       }&TerritoryId=${values?.teritory?.value || 0}`
     );
   };
+
+  useEffect(() =>{
+    getTableData(
+      `/fino/PaymentOrReceive/GetInvoiceWisePayment?partName=Report&businessUnitId=${
+        location?.state?.values?.businessUnit?.value
+      }&customerId=${location?.state?.rowData?.customerId}&fromDate=${
+        location?.state?.values?.fromDate
+      }&toDate=${location?.state?.values?.toDate}&status=${
+        location?.state?.values?.status?.value
+      }&TerritoryId=${location?.state?.values?.teritory?.value || 0}`
+    );
+  }, [location?.state?.rowData?.customerId])
 
   return (
     <Formik
@@ -169,7 +181,7 @@ const InvoiceWisePaymentLanding = () => {
                     />
                   </div>
                   <div className="col-lg-4">
-                    <button
+                    {/* <button
                       style={{ marginTop: "18px" }}
                       type="button"
                       className="btn btn-primary"
@@ -185,7 +197,7 @@ const InvoiceWisePaymentLanding = () => {
                       }}
                     >
                       Show
-                    </button>
+                    </button> */}
                     <button
                       style={{ marginTop: "18px" }}
                       type="button"
@@ -501,7 +513,7 @@ const InvoiceWisePaymentLanding = () => {
               >
                 <DetailsViewModal
                   clickedItem={clickedItem}
-                  landingValues={values}
+                  landingValues={location?.state?.values}
                 />
               </IViewModal>
               {/* receive modal */}
@@ -515,7 +527,7 @@ const InvoiceWisePaymentLanding = () => {
                 <ReceiveEntryModal
                   clickedItem={clickedItem}
                   getData={getData}
-                  landingValues={values}
+                  landingValues={location?.state?.values}
                   setReceiveModal={setReceiveModal}
                 />
               </IViewModal>

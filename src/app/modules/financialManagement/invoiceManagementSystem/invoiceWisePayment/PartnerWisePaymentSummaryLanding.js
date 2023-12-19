@@ -4,6 +4,7 @@ import { shallowEqual, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import IForm from '../../../_helper/_form';
+import { _formatMoney } from '../../../_helper/_formatMoney';
 import InputField from '../../../_helper/_inputField';
 import Loading from '../../../_helper/_loading';
 import NewSelect from '../../../_helper/_select';
@@ -64,7 +65,7 @@ const PartnerWisePaymentSummaryLanding = () => {
     getTableData(
       `/fino/PaymentOrReceive/GetInvoiceWisePayment?partName=Summary&businessUnitId=${
         values?.businessUnit?.value
-      }&customerId=${values?.customer?.value || 0}&fromDate=${
+      }&customerId=${0}&fromDate=${
         values?.fromDate
       }&toDate=${values?.toDate}&status=${
         values?.status?.value
@@ -289,7 +290,7 @@ const PartnerWisePaymentSummaryLanding = () => {
                   <table className="table table-striped table-bordered bj-table bj-table-landing">
                     <thead>
                       <tr>
-                        <th style={{ width: '120px' }}>Customer Name</th>
+                        <th style={{ width: '180px' }}>Customer Name</th>
                         <th>
                           Customer <br /> Code
                         </th>
@@ -308,7 +309,7 @@ const PartnerWisePaymentSummaryLanding = () => {
                         <th>
                           Pending <br /> Amount{' '}
                         </th>
-                        <th>VAT Amount</th>
+                        <th>VAT <br /> Amount</th>
                         <th>
                           Collected <br /> VAT{' '}
                         </th>
@@ -332,40 +333,40 @@ const PartnerWisePaymentSummaryLanding = () => {
                       {tableData?.length > 0 &&
                         tableData?.map((item, index) => (
                           <tr>
-                            <td className="text-center">
+                            <td className="text-left">
                               {item?.strCustomerName}
                             </td>
                             <td className="text-center">
-                              {item?.strCustomerCode}
+                              {item?.strCutomerCode}
                             </td>
                             <td className="text-center">{item?.intCrDays}</td>
                             <td className="text-center">
                               {item?.intOverdueDays}
                             </td>
                             <td className="text-right">
-                              {item?.numDeliveryAmount}
+                              {_formatMoney(item?.numDeliveryAmount)}
                             </td>
                             <td className="text-right">
-                              {item?.numDeliveryAmountCollected}
+                              {_formatMoney(item?.numDeliveryAmountCollected)}
                             </td>
                             <td className="text-right">
-                              {item?.numDeliveryAmountPending}
+                              {_formatMoney(item?.numDeliveryAmountPending)}
                             </td>
-                            <td className="text-right">{item?.numVatAmount}</td>
+                            <td className="text-right">{_formatMoney(item?.numVatAmount)}</td>
                             <td className="text-right">
-                              {item?.numVatAmountCollected}
-                            </td>
-                            <td className="text-right">
-                              {item?.numVatAmountPending}
-                            </td>
-                            <td className="text-right">{item?.numTaxAmount}</td>
-                            <td className="text-right">
-                              {item?.numTaxAmountCollected}
+                              {_formatMoney(item?.numVatAmountCollected)}
                             </td>
                             <td className="text-right">
-                              {item?.numTaxAmountPending}
+                              {_formatMoney(item?.numVatAmountPending)}
                             </td>
-                            <td style={{ display: 'flex' }}>
+                            <td className="text-right">{_formatMoney(item?.numTaxAmount)}</td>
+                            <td className="text-right">
+                              {_formatMoney(item?.numTaxAmountCollected)}
+                            </td>
+                            <td className="text-right">
+                              {_formatMoney(item?.numTaxAmountPending)}
+                            </td>
+                            <td className='d-flex justify-content-center'>
                               <button
                                 style={{}}
                                 type="button"
