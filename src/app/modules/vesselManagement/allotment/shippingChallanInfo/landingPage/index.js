@@ -13,6 +13,7 @@ import { GetShipPointDDL } from "../../loadingInformation/helper";
 import { getLandingDataForConfirmation, updateSalesOrders } from "../helper";
 import Form from "./form";
 import Table from "./table";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const ALL = { value: 0, label: "All" };
 
@@ -39,7 +40,7 @@ const ShippingChallanInfo = () => {
   const [loading, setLoading] = useState(false);
   const [godownDDL, setGodownDDL] = useState([]);
   const [status, setStatus] = useState(true);
-  // const [motherVessels, getMotherVessels] = useAxiosGet();
+  const [organizationDDL, getOrganizationDDL] = useAxiosGet();
 
   // get user profile data from store
   const {
@@ -75,6 +76,9 @@ const ShippingChallanInfo = () => {
   };
 
   useEffect(() => {
+    getOrganizationDDL(
+      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`
+    );
     getData(initData, pageNo, pageSize);
     GetShipPointDDL(accId, buId, setShipPointDDL);
     getGodownDDL(buId, 73244, setGodownDDL, setLoading);
@@ -149,6 +153,19 @@ const ShippingChallanInfo = () => {
             setGodownDDL,
             setLoading
           );
+        }
+        getData(values, pageNo, pageSize, "");
+        break;
+
+      case "organization":
+        setFieldValue("organization", currentValue);
+        setFieldValue("shipToPartner", {
+          value: 0,
+          label: "All",
+        });
+        setRowData([]);
+        if (currentValue) {
+          getGodownDDL(buId, currentValue?.value, setGodownDDL, setLoading);
         }
         getData(values, pageNo, pageSize, "");
         break;
@@ -276,6 +293,7 @@ const ShippingChallanInfo = () => {
                 obj={{
                   paginationSearchHandler,
                   onChangeHandler,
+                  organizationDDL,
                   setFieldValue,
                   shipPointDDL,
                   totalRevenue,
@@ -290,6 +308,7 @@ const ShippingChallanInfo = () => {
                   status,
                   pageNo,
                   values,
+                  buId,
                 }}
               />
 

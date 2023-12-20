@@ -108,7 +108,12 @@ export default function _Form({
     const portId = values?.port?.value || 0;
     const godownId = values?.godown?.value || 0;
 
-    const partnerId = state?.type === "badc" ? 73244 : 73245;
+    const partnerId =
+      buId === 94
+        ? state?.type === "badc"
+          ? 73244
+          : 73245
+        : values?.organization?.value;
     getG2GMotherVesselLocalRevenueApi(
       accId,
       buId,
@@ -610,14 +615,14 @@ export default function _Form({
                           }
                           onClick={() => {
                             setIsResetModalShow(true);
+                            const partnerId =
+                              buId === 94
+                                ? state?.type === "badc"
+                                  ? 73244
+                                  : 73245
+                                : values?.organization?.value;
                             getRestQty(
-                              `/tms/LigterLoadUnload/GetTotalQuantityForChallan?businessUnitId=${buId}&businessPartnerId=${
-                                state?.type === "badc" ? 73244 : 73245
-                              }&shipToPartnerId=${
-                                values?.godown?.value
-                              }&motherVesselId=${
-                                values?.motherVessel?.value
-                              }&portId=${values?.port?.value}`
+                              `/tms/LigterLoadUnload/GetTotalQuantityForChallan?businessUnitId=${buId}&businessPartnerId=${partnerId}&shipToPartnerId=${values?.godown?.value}&motherVesselId=${values?.motherVessel?.value}&portId=${values?.port?.value}`
                             );
                           }}
                         >
