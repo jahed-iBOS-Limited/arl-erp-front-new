@@ -20,6 +20,9 @@ export const bomNameDDLApi = (buId, accId, plantId, itemId, shopFloorId) => {
   return `/mes/MesDDL/GetBoMNameDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&ItemId=${itemId}&ShopFloorId=${shopFloorId}`;
 };
 
+export const getLandingData =(buId,plantId,shopId,pageNo,pageSize)=>{
+  return `/mes/OeeProductWaste/GetCapacityConfigurationPagination?businessUnitId=${buId}&plantId=${plantId}&shopFloorId=${shopId||0}&pageNo=${pageNo}&pageSize=${pageSize}`
+}
 
 
 // class CapacityConfigurationAPIs {
