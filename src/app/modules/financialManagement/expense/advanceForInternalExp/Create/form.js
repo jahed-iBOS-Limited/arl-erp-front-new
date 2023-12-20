@@ -1,20 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
-import { IInput } from "../../../../_helper/_input";
-import { useEffect } from "react";
-import {
-  getRequestedEmp,
-  getPaymentType,
-  getDisbursementCenterName,
-  getSBU,
-  GetBusTransDDLForExp_api,
-} from "../helper";
-import customStyles from "../../../../selectCustomStyle";
+import * as Yup from "yup";
 import FormikError from "../../../../_helper/_formikError";
+import { IInput } from "../../../../_helper/_input";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import customStyles from "../../../../selectCustomStyle";
+import {
+  getPaymentType,
+  getRequestedEmp,
+  getSBU
+} from "../helper";
 import NewSelect from './../../../../_helper/_select';
 
 
@@ -42,14 +39,14 @@ const validationSchema = Yup.object().shape({
     label: Yup.string().required("Payment Type is required"),
     value: Yup.string().required("Payment Type is required"),
   }),
-  disbursementCenterName: Yup.object().shape({
-    label: Yup.string().required("Disbursment Center is required"),
-    value: Yup.string().required("Disbursment Center is required"),
-  }),
-  expenseHead: Yup.object().shape({
-    label: Yup.string().required("Expense Head is required"),
-    value: Yup.string().required("Expense Head is required"),
-  }),
+  // disbursementCenterName: Yup.object().shape({
+  //   label: Yup.string().required("Disbursment Center is required"),
+  //   value: Yup.string().required("Disbursment Center is required"),
+  // }),
+  // expenseHead: Yup.object().shape({
+  //   label: Yup.string().required("Expense Head is required"),
+  //   value: Yup.string().required("Expense Head is required"),
+  // }),
   comments: Yup.string(),
 });
 
@@ -70,9 +67,9 @@ export default function _Form({
 }) {
   const [requestedEmp, setRequestedEmp] = useState([]);
   const [paymentType, setPaymentType] = useState([]);
-  const [disbursementCenterName, setDisbursementCenterName] = useState([]);
+  // const [disbursementCenterName, setDisbursementCenterName] = useState([]); // this ddl will be off order by miraz vai
   const [selectedSbu, setSelectedSbu] = useState([]);
-  const [expenseHeadDDL, setExpenseHeadDDL] = useState([]);
+  // const [expenseHeadDDL, setExpenseHeadDDL] = useState([]); // this ddl will be off order by miraz vai
 
   useEffect(() => {
     if (
@@ -81,19 +78,19 @@ export default function _Form({
       (state?.selectedSbu?.value || state?.item?.sbuid)
     ) {
       getSBU(profileData.accountId, selectedBusinessUnit.value, setSelectedSbu);
-      GetBusTransDDLForExp_api(
-        profileData.accountId,
-        selectedBusinessUnit.value,
-        setExpenseHeadDDL
-      );
+      // GetBusTransDDLForExp_api(
+      //   profileData.accountId,
+      //   selectedBusinessUnit.value,
+      //   setExpenseHeadDDL
+      // );
       getPaymentType(setPaymentType);
 
-      getDisbursementCenterName(
-        profileData.accountId,
-        selectedBusinessUnit?.value,
-        state?.selectedSbu?.value || state?.item?.sbuid,
-        setDisbursementCenterName
-      );
+      // getDisbursementCenterName(
+      //   profileData.accountId,
+      //   selectedBusinessUnit?.value,
+      //   state?.selectedSbu?.value || state?.item?.sbuid,
+      //   setDisbursementCenterName
+      // );
     }
   }, [profileData, selectedBusinessUnit, state]);
 
@@ -178,12 +175,12 @@ export default function _Form({
                         onChange={(valueOption) => {
                           setFieldValue("SBU", valueOption);
                           setFieldValue("disbursementCenterName", "");
-                          getDisbursementCenterName(
-                            profileData.accountId,
-                            selectedBusinessUnit?.value,
-                            valueOption?.value,
-                            setDisbursementCenterName
-                          );
+                          // getDisbursementCenterName(
+                          //   profileData.accountId,
+                          //   selectedBusinessUnit?.value,
+                          //   valueOption?.value,
+                          //   setDisbursementCenterName
+                          // );
                         }}
                         options={selectedSbu || []}
                         value={values?.SBU}
@@ -246,7 +243,7 @@ export default function _Form({
                     </div>
 
                     {/* ////  DUSBURSEMENT CENTER ////// */}
-                    <div className="col-lg-6 pl pr-1 mb-2">
+                    {/* <div className="col-lg-6 pl pr-1 mb-2">
                       <label>Select Disbursement Center</label>
                       <Select
                         onChange={(valueOption) => {
@@ -264,9 +261,9 @@ export default function _Form({
                         name="disbursementCenterName"
                         touched={touched}
                       />
-                    </div>
-
-                    <div className="col-lg-6 pl pr-1 mb-2">
+                    </div> */} 
+                      {/* DUSBURSEMENT CENTER & Expanse Head ddl will be hold order by miraz vai */}
+                    {/* <div className="col-lg-6 pl pr-1 mb-2">
                       <label>Expense Head</label>
                       <Select
                         onChange={(valueOption) => {
@@ -284,7 +281,7 @@ export default function _Form({
                         name="expenseHead"
                         touched={touched}
                       />
-                    </div>
+                    </div> */}
                     <div className="col-lg-6 pl pr-1 mb-2">
                       <NewSelect
                         name="expenseGroup"
