@@ -49,8 +49,8 @@ export default function ItemCategoryAddForm({
         businessUnitId: selectedBusinessUnit?.value,
         businessUnitName: selectedBusinessUnit?.label,
         accountName: "Akij",
-        generalLedgerId: values?.generalLedger?.value,
-        generalLedgerName: values?.generalLedger?.label,
+        generalLedgerId: values?.generalLedger?.value || 0,
+        generalLedgerName: values?.generalLedger?.label || "",
         itemTypeId: values?.itemTypeName?.value,
         actionBy: profileData?.userId,
       };
