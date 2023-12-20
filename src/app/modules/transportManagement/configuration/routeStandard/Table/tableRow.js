@@ -101,7 +101,7 @@ export function TableRow() {
                         onClick={() => {
                           history.push({
                             pathname: `/transport-management/configuration/routestandardcost/${"edit"}/${
-                              item.standardCostId
+                              item.routeId
                             }`,
                             state: item,
                           });
