@@ -178,7 +178,7 @@ export const getOutletWiseDueReport = async (outletId, setter, setLoading , from
   setLoading(true);
   try {
     const res = await Axios.get(
-      `/partner/Pos/GetCashDueOutletWise?${FromMonthId}${ToMonthId}OutletId=${outletId}`
+      `/partner/Pos/GetCashDueOutletWise?${FromMonthId}${ToMonthId}&OutletId=${outletId}`
     );
     setter(res?.data);
     setLoading(false);
