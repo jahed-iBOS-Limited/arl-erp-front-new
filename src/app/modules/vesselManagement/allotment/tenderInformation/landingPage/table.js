@@ -241,7 +241,7 @@ export default function TenderInformationLandingTable() {
                                   <IEdit
                                     onClick={() =>
                                       history.push({
-                                        pathname: `/vessel-management/allotment/tenderinformation/Edit/${item?.programId}`,
+                                        pathname: `/vessel-management/allotment/tenderinformation/edit/${item?.programId}`,
                                         state: item,
                                       })
                                     }

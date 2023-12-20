@@ -278,7 +278,7 @@ export default function ChallanEntryForm() {
           setFieldValue("port", currentValue);
           setFieldValue("motherVessel", "");
           getMotherVesselDDL(
-            `/wms/FertilizerOperation/GetMotherVesselProgramInfo?PortId=${currentValue?.value}`
+            `/wms/FertilizerOperation/GetMotherVesselProgramInfo?PortId=${currentValue?.value}&businessUnitId=${buId}`
           );
         } else {
           setFieldValue("port", "");
@@ -447,6 +447,12 @@ export default function ChallanEntryForm() {
               }
             : "",
           soldToPartner: values?.soldToPartnerId
+            ? {
+                value: values?.soldToPartnerId,
+                label: values?.soldToPartnerName,
+              }
+            : "",
+          organization: values?.soldToPartnerId
             ? {
                 value: values?.soldToPartnerId,
                 label: values?.soldToPartnerName,

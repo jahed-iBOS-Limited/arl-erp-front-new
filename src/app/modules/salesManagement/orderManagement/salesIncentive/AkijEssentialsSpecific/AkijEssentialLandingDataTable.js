@@ -1,6 +1,7 @@
 import React from 'react';
 
 const AkijEssentialLandingDataTable = ({rowData = []}) => {
+  console.log({rowData})
   return (
     <div>
       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
@@ -20,7 +21,6 @@ const AkijEssentialLandingDataTable = ({rowData = []}) => {
             <th>Incentive Chinigura</th>
             <th>Incentive Others</th>
             <th>Payable Incentive</th>
-            <th>Remarks</th>
           </tr>
         </thead>
         <tbody>
@@ -49,6 +49,9 @@ const AkijEssentialLandingDataTable = ({rowData = []}) => {
               </td>
               <td className="text-center">
                 {item.numChiniguraCommissionAmount}
+              </td>
+              <td className="text-center">
+                {item.numwithoutChiniguraCommissionAmount}
               </td>
               <td className="text-center">{item.numTotalCommission}</td>
             </tr>

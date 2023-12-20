@@ -121,7 +121,6 @@ export default function _Form({
                 {type === "edit" && (
                   <IButton
                     className={"btn-info"}
-                    colSize={"col-lg-3"}
                     onClick={() => {
                       approveTenderInformation(values);
                     }}
@@ -378,18 +377,18 @@ export default function _Form({
                 </div>
                 <div className="col-lg-3">
                   <NewSelect
-                    name="haveTransportBill"
+                    name="hasTransportBill"
                     options={[
                       { value: true, label: "Yes" },
                       { value: false, label: "No" },
                     ]}
-                    value={values?.haveTransportBill}
-                    label="Have Transport Bill"
+                    value={values?.hasTransportBill}
+                    label="Has Transport Bill"
                     onChange={(valueOption) => {
                       setFieldValue("hasTransportBill", valueOption);
                     }}
-                    placeholder="Have Transport Bill"
-                    isDisabled={type}
+                    placeholder="Has Transport Bill"
+                    // isDisabled={type}
                   />
                 </div>
               </div>
