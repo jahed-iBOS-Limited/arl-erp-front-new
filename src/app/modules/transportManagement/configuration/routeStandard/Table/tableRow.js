@@ -66,7 +66,7 @@ export function TableRow() {
                 <th>SL</th>
                 <th>Transport Organization Name</th>
                 <th>Route Name</th>
-                <th>Amount</th>
+                {/* <th>Amount</th> */}
                 <th>Actions</th>
               </tr>
             </thead>
@@ -83,9 +83,9 @@ export function TableRow() {
                     <div className='pl-2'>{item?.routeName}</div>
                   </td>
 
-                  <td>
+                  {/* <td>
                     <div className='text-right pr-2'>{item?.amount}</div>
-                  </td>
+                  </td> */}
                   <td>
                     <div className='d-flex justify-content-center'>
                       <span className='view mr-2'>
@@ -101,7 +101,7 @@ export function TableRow() {
                         onClick={() => {
                           history.push({
                             pathname: `/transport-management/configuration/routestandardcost/${"edit"}/${
-                              item.standardCostId
+                              item.routeId
                             }`,
                             state: item,
                           });
