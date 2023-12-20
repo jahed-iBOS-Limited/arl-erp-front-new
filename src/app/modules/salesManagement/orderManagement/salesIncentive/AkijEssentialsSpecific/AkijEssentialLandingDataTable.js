@@ -54,7 +54,6 @@ const AkijEssentialLandingDataTable = ({rowData = []}) => {
                 {item.numwithoutChiniguraCommissionAmount}
               </td>
               <td className="text-center">{item.numTotalCommission}</td>
-              {/* <td className="text-center">{item.numChQntChiniguraTon}</td> */}
             </tr>
           ))}
         </tbody>
