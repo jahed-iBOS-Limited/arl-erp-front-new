@@ -17,7 +17,13 @@ export const getLandingDataForConfirmation = async (
   try {
     const confirmationTypeId = values?.confirmationType?.value;
     const soldToPartnerId =
-      values?.type === "badc" ? 73244 : values?.type === "bcic" ? 73245 : 0;
+      buId === 94
+        ? values?.type === "badc"
+          ? 73244
+          : values?.type === "bcic"
+          ? 73245
+          : 0
+        : values?.organization?.value;
 
     const commonURL = `/tms/LigterLoadUnload/GetLighterChallanInfoConfirmation?Type=${
       values?.confirmationStatus?.value

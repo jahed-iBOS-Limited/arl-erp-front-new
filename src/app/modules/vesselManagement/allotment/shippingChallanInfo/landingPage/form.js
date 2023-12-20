@@ -16,6 +16,7 @@ const Form = ({ obj }) => {
   const {
     paginationSearchHandler,
     onChangeHandler,
+    organizationDDL,
     setFieldValue,
     shipPointDDL,
     totalRevenue,
@@ -30,18 +31,40 @@ const Form = ({ obj }) => {
     status,
     pageNo,
     values,
+    buId,
   } = obj;
   return (
     <>
       <form className="form form-label-right">
         <div className="global-form">
           <div className="row">
-            <BADCBCICForm
-              colSize={"col-lg-3"}
-              values={values}
-              setFieldValue={setFieldValue}
-              onChange={onChangeHandler}
-            />
+            {buId === 94 && (
+              <BADCBCICForm
+                colSize={"col-lg-3"}
+                values={values}
+                setFieldValue={setFieldValue}
+                onChange={onChangeHandler}
+              />
+            )}
+            {buId === 178 && (
+              <div className="col-lg-3">
+                <NewSelect
+                  name="organization"
+                  options={organizationDDL || []}
+                  value={values?.organization}
+                  label="Organization"
+                  onChange={(valueOption) => {
+                    onChangeHandler(
+                      "organization",
+                      { ...values, organization: valueOption },
+                      valueOption,
+                      setFieldValue
+                    );
+                  }}
+                  placeholder="Organization"
+                />
+              </div>
+            )}
             <div className="col-lg-3">
               <NewSelect
                 name="confirmationType"

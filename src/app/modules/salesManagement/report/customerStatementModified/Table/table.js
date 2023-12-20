@@ -105,7 +105,7 @@ export default function CustomerStatementModifiedReportTable() {
       { value: 1, label: "Details" },
       { value: 2, label: "Top Sheet" },
     ];
-    return buId === 94
+    return [94, 178].includes(buId)
       ? [...reports, { value: 3, label: "G2G Sales Details" }]
       : reports;
   };
