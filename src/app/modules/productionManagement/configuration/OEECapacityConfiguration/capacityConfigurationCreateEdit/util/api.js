@@ -12,11 +12,11 @@ export const machineNameDDLApi = (buId, autoId) => {
   return `/mes/MSIL/GetAllMSIL?PartName=BreakDownMachineDDL&BusinessUnitId=${buId}&AutoId=${autoId}`;
 };
 
-export const itemNameDDLApi = (accId, buId, PlantId) => {
-  return `/mes/MesDDL/GetItemNameDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${PlantId}`;
+export const itemNameDDLApi = (accId, buId, PlantId, searchText) => {
+  return `/mes/MesDDL/GetItemNameDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${PlantId}&Search=${searchText}`;
 };
 
-export const bomNameDDLApi = (buId, accId, plantId, itemId, shopFloorId) => {
+export const bomNameDDLApi = ({buId, accId, plantId, itemId, shopFloorId}) => {
   return `/mes/MesDDL/GetBoMNameDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&ItemId=${itemId}&ShopFloorId=${shopFloorId}`;
 };
 
