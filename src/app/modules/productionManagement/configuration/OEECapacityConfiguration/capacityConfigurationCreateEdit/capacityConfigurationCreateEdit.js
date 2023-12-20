@@ -34,7 +34,8 @@ const initData = {
 
 export default function CapacityConfigurationCreateEdit() {
   const [objProps, setObjprops] = useState({});
-  const history = useHistory();
+  const [pageTitle, setPageTitle] = useState('');
+  const { location } = useHistory();
 
   //Redux State
   const {
@@ -56,6 +57,7 @@ export default function CapacityConfigurationCreateEdit() {
 
   //Call Apis - post
   const [, saveCapacityConfiguration] = useAxiosPost();
+  const [, editCapacityConfiguration] = useAxiosPost();
 
   useEffect(() => {
     getPlantNameDDL(plantNameDDLApi(buId, accId, userId), (data) =>
@@ -85,6 +87,22 @@ export default function CapacityConfigurationCreateEdit() {
       createBy: userId,
     };
 
+    if (location?.state?.isEditPage) {
+      editCapacityConfiguration(
+        `/mes/OeeProductWaste/EditCapacityConfiguration`,
+        payload,
+        null,
+        true,
+      );
+    } else {
+      saveCapacityConfiguration(
+        `/mes/OeeProductWaste/CreateCapacityConfiguration`,
+        payload,
+        null,
+        true,
+      );
+    }
+
     saveCapacityConfiguration(
       `/mes/OeeProductWaste/CreateCapacityConfiguration`,
       payload,
@@ -100,13 +118,34 @@ export default function CapacityConfigurationCreateEdit() {
       .then((res) => res?.data);
   };
 
+  let editableInitData;
+  if (location?.state?.rowData) {
+    console.log({ rowData: location?.state?.rowData });
+    const rowData = location?.state?.rowData;
+    editableInitData = {
+      plantName: { value: rowData?.plantId, label: rowData?.plantName },
+      shopFloor: { value: rowData?.shopfloorId, label: rowData?.shopFloorName },
+      machineName: { value: rowData?.machineId, label: rowData?.machineName },
+      itemName: { value: rowData?.itemId, label: rowData?.itemName },
+      bomName: { value: rowData?.bomId, label: rowData?.bomName },
+      machineCapacityPerHr: rowData?.machineCapacityPerHour,
+      SMVCycleTime: rowData?.smvcycleTime,
+      standardRPM: rowData?.standerdRpm,
+      stdWastage: rowData?.stdWastagesQty,
+    };
+  }
+
   const saveHandler = (values, cb) => {
     alert('Working...');
   };
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={initData}
+      initialValues={
+        location?.state?.rowData
+          ? { ...initData, ...editableInitData }
+          : initData
+      }
       validationSchema={CapacityConfigurationValidationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
@@ -126,7 +165,12 @@ export default function CapacityConfigurationCreateEdit() {
       }) => (
         <>
           {false && <Loading />}
-          <IForm title={`Create Capacity Configuration`} getProps={setObjprops}>
+          <IForm
+            title={`${
+              location?.state?.rowData ? 'Edit' : 'Create'
+            } Capacity Configuration`}
+            getProps={setObjprops}
+          >
             <Form>
               <div className="form-group  global-form row">
                 <div className="col-lg-3">
