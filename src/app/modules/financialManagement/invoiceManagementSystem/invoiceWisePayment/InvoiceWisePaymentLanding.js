@@ -1,21 +1,21 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
-import InputField from "../../../_helper/_inputField";
-import IViewModal from "../../../_helper/_viewModal";
-import DetailsViewModal from "./detailsViewModal";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IView from "../../../_helper/_helperIcons/_view";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import ReceiveEntryModal from "./receiveEntryModal";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { exportInvoiceWisePayment } from "./helper";
+import { shallowEqual, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
+import IForm from "../../../_helper/_form";
+import { _formatMoney } from "../../../_helper/_formatMoney";
+import IView from "../../../_helper/_helperIcons/_view";
+import InputField from "../../../_helper/_inputField";
+import Loading from "../../../_helper/_loading";
+import { _todayDate } from "../../../_helper/_todayDate";
+import IViewModal from "../../../_helper/_viewModal";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import DetailsViewModal from "./detailsViewModal";
+import { exportInvoiceWisePayment } from "./helper";
+import ReceiveEntryModal from "./receiveEntryModal";
 
 const initData = {
   businessUnit: "",
@@ -25,6 +25,7 @@ const initData = {
   status: "",
 };
 const InvoiceWisePaymentLanding = () => {
+  const {location} = useHistory();
   const { businessUnitList: businessUnitDDL } = useSelector(
     (store) => store?.authData,
     shallowEqual
@@ -77,6 +78,18 @@ const InvoiceWisePaymentLanding = () => {
     );
   };
 
+  useEffect(() =>{
+    getTableData(
+      `/fino/PaymentOrReceive/GetInvoiceWisePayment?partName=Report&businessUnitId=${
+        location?.state?.values?.businessUnit?.value
+      }&customerId=${location?.state?.rowData?.customerId}&fromDate=${
+        location?.state?.values?.fromDate
+      }&toDate=${location?.state?.values?.toDate}&status=${
+        location?.state?.values?.status?.value
+      }&TerritoryId=${location?.state?.values?.teritory?.value || 0}`
+    );
+  }, [location?.state?.rowData?.customerId])
+
   return (
     <Formik
       enableReinitialize={true}
@@ -103,7 +116,7 @@ const InvoiceWisePaymentLanding = () => {
           <IForm
             title="Invoice Wise Payment"
             isHiddenReset
-            isHiddenBack
+            // isHiddenBack
             isHiddenSave
             renderProps={() => {
               return <div></div>;
@@ -113,82 +126,31 @@ const InvoiceWisePaymentLanding = () => {
               <div>
                 <div className="form-group  global-form row">
                   <div className="col-lg-3">
-                    <NewSelect
-                      name="businessUnit"
-                      options={businessUnitDDL}
-                      value={values?.businessUnit}
+                  <InputField
+                      type="text"
+                      name="Business Unit"
                       label="Business Unit"
-                      onChange={(valueOption) => {
-                        if (valueOption) {
-                          setFieldValue("businessUnit", valueOption);
-                          setFieldValue("customer", "");
-                          getCustomerDDL(
-                            `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${valueOption?.value}`,
-                            (data) => {
-                              setCustomerDDL([
-                                { value: 0, label: "All" },
-                                ...data,
-                              ]);
-                            }
-                          );
-                          getTeritoryDDL(
-                            `/oms/TerritoryInfo/GetTerritoryByBusinessUnitDDL?businessUnitId=${valueOption?.value}&distributionChannelId=0`,
-                            (data) => {
-                              // add {value: 0, label: "All"} on top of the data
-                              setTeritoryDDL([
-                                { value: 0, label: "All" },
-                                ...data,
-                              ]);
-                            }
-                          );
-                          setTableData([]);
-                        } else {
-                          setFieldValue("businessUnit", "");
-                          setFieldValue("customer", "");
-                          setCustomerDDL([]);
-                          setTableData([]);
-                        }
-                      }}
-                      errors={errors}
-                      touched={touched}
+                      value={location?.state?.values?.businessUnit?.label}
+                      disabled
                     />
                   </div>
                   <div className="col-lg-3">
-                    <NewSelect
-                      name="teritory"
-                      options={teritoryDDL}
-                      value={values?.teritory}
+                  <InputField
+                      type="text"
+                      name="Teritory"
                       label="Teritory"
-                      onChange={(valueOption) => {
-                        if (valueOption) {
-                          setFieldValue("teritory", valueOption);
-                          setTableData([]);
-                        } else {
-                          setFieldValue("teritory", "");
-                          setTableData([]);
-                        }
-                      }}
-                      errors={errors}
-                      touched={touched}
+                      value={location?.state?.values?.teritory?.label}
+                      disabled
                     />
+                    
                   </div>
                   <div className="col-lg-3">
-                    <NewSelect
-                      name="customer"
-                      options={customerDDL}
-                      value={values?.customer}
+                  <InputField
+                      type="text"
+                      name="Customer"
                       label="Customer"
-                      onChange={(valueOption) => {
-                        if (valueOption) {
-                          setFieldValue("customer", valueOption);
-                          setTableData([]);
-                        } else {
-                          setFieldValue("customer", "");
-                          setTableData([]);
-                        }
-                      }}
-                      errors={errors}
-                      touched={touched}
+                      value={location?.state?.rowData?.customerName}
+                      disabled
                     />
                   </div>
                   <div className="col-lg-3">
@@ -196,16 +158,8 @@ const InvoiceWisePaymentLanding = () => {
                       type="date"
                       name="fromDate"
                       label="From Date"
-                      value={values?.fromDate}
-                      onChange={(e) => {
-                        if (e) {
-                          setFieldValue("fromDate", e.target.value);
-                          setTableData([]);
-                        } else {
-                          setFieldValue("fromDate", "");
-                          setTableData([]);
-                        }
-                      }}
+                      value={location?.state?.values?.fromDate}
+                      disabled
                     />
                   </div>
                   <div className="col-lg-3">
@@ -213,52 +167,21 @@ const InvoiceWisePaymentLanding = () => {
                       type="date"
                       name="toDate"
                       label="To Date"
-                      value={values?.toDate}
-                      onChange={(e) => {
-                        if (e) {
-                          setFieldValue("toDate", e.target.value);
-                          setTableData([]);
-                        } else {
-                          setFieldValue("toDate", "");
-                          setTableData([]);
-                        }
-                      }}
+                      value={location?.state?.values?.toDate}
+                      disabled
                     />
                   </div>
                   <div className="col-lg-3">
-                    <NewSelect
-                      name="status"
-                      options={[
-                        {
-                          value: 1,
-                          label: "All",
-                        },
-                        {
-                          value: 2,
-                          label: "Pending",
-                        },
-                        {
-                          value: 3,
-                          label: "Completed",
-                        },
-                      ]}
-                      value={values?.status}
+                  <InputField
+                      type="text"
+                      name="Status"
                       label="Status"
-                      onChange={(valueOption) => {
-                        if (valueOption) {
-                          setFieldValue("status", valueOption);
-                          setTableData([]);
-                        } else {
-                          setFieldValue("status", "");
-                          setTableData([]);
-                        }
-                      }}
-                      errors={errors}
-                      touched={touched}
+                      value={location?.state?.values?.status?.label}
+                      disabled
                     />
                   </div>
                   <div className="col-lg-4">
-                    <button
+                    {/* <button
                       style={{ marginTop: "18px" }}
                       type="button"
                       className="btn btn-primary"
@@ -274,7 +197,7 @@ const InvoiceWisePaymentLanding = () => {
                       }}
                     >
                       Show
-                    </button>
+                    </button> */}
                     <button
                       style={{ marginTop: "18px" }}
                       type="button"
@@ -590,7 +513,7 @@ const InvoiceWisePaymentLanding = () => {
               >
                 <DetailsViewModal
                   clickedItem={clickedItem}
-                  landingValues={values}
+                  landingValues={location?.state?.values}
                 />
               </IViewModal>
               {/* receive modal */}
@@ -604,7 +527,7 @@ const InvoiceWisePaymentLanding = () => {
                 <ReceiveEntryModal
                   clickedItem={clickedItem}
                   getData={getData}
-                  landingValues={values}
+                  landingValues={location?.state?.values}
                   setReceiveModal={setReceiveModal}
                 />
               </IViewModal>

@@ -1,23 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { Form, Formik } from "formik";
+import { DropzoneDialogBase } from "material-ui-dropzone";
 import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import IDelete from "../../../../../../_helper/_helperIcons/_delete";
-import InputField from "../../../../../../_helper/_inputField";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { validationSchema } from "../helper";
 import {
   Card,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
 } from "../../../../../../../../_metronic/_partials/controls";
+import IDelete from "../../../../../../_helper/_helperIcons/_delete";
+import InputField from "../../../../../../_helper/_inputField";
 import numberWithCommas from "../../../../../../_helper/_numberWithCommas";
-import { DropzoneDialogBase } from "material-ui-dropzone";
+import { getDownlloadFileView_Action } from "../../../../../../_helper/_redux/Actions";
+import NewSelect from "../../../../../../_helper/_select";
 import ButtonStyleOne from "../../../../../../_helper/button/ButtonStyleOne";
 import { empAttachment_action } from "../../../../../../humanCapitalManagement/humanResource/employeeInformation/helper";
-import NewSelect from "../../../../../../_helper/_select";
-import { useDispatch } from "react-redux";
-import { getDownlloadFileView_Action } from "../../../../../../_helper/_redux/Actions";
+import { validationSchema } from "../helper";
 
 export default function _Form({
   initData,
@@ -344,6 +344,31 @@ export default function _Form({
                             errors={errors}
                             touched={touched}
                             isDisabled={type === "view"}
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <label>ETA Date</label>
+                          <InputField
+                            value={values?.etaDate}
+                            name="etaDate"
+                            placeholder="Date"
+                            disabled={type== "edit"}
+                            type="date"
+                            onChange={(e) => {
+                              setFieldValue("etaDate", e.target.value);
+                            }}
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <label>ATA Date</label>
+                          <InputField
+                            value={values?.ataDate}
+                            name="ataDate"
+                            placeholder="ATA Date"
+                            type="date"
+                            onChange={(e) => {
+                              setFieldValue("ataDate", e.target.value);
+                            }}
                           />
                         </div>
                         {type !== "view" && (
