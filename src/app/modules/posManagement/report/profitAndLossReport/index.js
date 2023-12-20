@@ -48,6 +48,11 @@ const ProfitAndLossReport = () => {
     setPositionHandler(pageNo, pageSize, values, searchValue);
   };
 
+  let TotalCost = 0;
+  let TotalProfit = 0;
+  let TotalLoss = 0;
+  let NetProfit = 0;
+
   return (
     <IForm
       title={"Profit And Loss Report"}
@@ -138,7 +143,7 @@ const ProfitAndLossReport = () => {
                 <thead>
                   <tr>
                     <th>SL</th>
-                    <th>Item Id</th>
+                    <th>Item Code</th>
                     <th>Materials Name</th>
                     <th>Uom</th>
                     <th>Quantity</th>
@@ -152,22 +157,39 @@ const ProfitAndLossReport = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {rowData?.map((item, index) => (
-                    <tr key={index}>
-                      <td>{index + 1}</td>
-                      <td className="text-center">{item?.ItemId}</td>
-                      <td>{item?.ItemName}</td>
-                      <td className="text-center">{item?.UMO}</td>
-                      <td className="text-center">{item?.Quantity}</td>
-                      <td className="text-center">{item?.CostPerUnit}</td>
-                      <td className="text-center">{item?.TotalCost}</td>
-                      <td className="text-center">{item?.SalesPrice}</td>
-                      <td className="text-center">{item?.PriceDiff}</td>
-                      <td className="text-center">{item?.TotalProfit}</td>
-                      <td className="text-center">{item?.TotalLoss}</td>
-                      <td className="text-center">{item?.NetProfit}</td>
-                    </tr>
-                  ))}
+                  {rowData?.map((item, index) => {
+                    TotalCost += item?.TotalCost || 0;
+                    TotalProfit += item?.TotalProfit || 0;
+                    TotalLoss += item?.TotalLoss || 0;
+                    NetProfit += item?.NetProfit || 0;
+                    return (
+                      <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td className="text-center">{item?.ItemId}</td>
+                        <td>{item?.ItemName}</td>
+                        <td className="text-center">{item?.UMO}</td>
+                        <td className="text-center">{item?.Quantity}</td>
+                        <td className="text-center">{item?.CostPerUnit}</td>
+                        <td className="text-center">{item?.TotalCost}</td>
+                        <td className="text-center">{item?.SalesPrice}</td>
+                        <td className="text-center">{item?.PriceDiff}</td>
+                        <td className="text-center">{item?.TotalProfit}</td>
+                        <td className="text-center">{item?.TotalLoss}</td>
+                        <td className="text-center">{item?.NetProfit}</td>
+                      </tr>
+                    );
+                  })}
+                  <tr>
+                    <td colSpan={6}>
+                      <strong>Total</strong>
+                    </td>
+                    <td className="text-center">{TotalCost}</td>
+                    <td className="text-center"></td>
+                    <td className="text-center"></td>
+                    <td className="text-center">{TotalProfit}</td>
+                    <td className="text-center">{TotalLoss}</td>
+                    <td className="text-center">{NetProfit}</td>
+                  </tr>
                 </tbody>
               </table>
             )}

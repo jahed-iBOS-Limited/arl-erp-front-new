@@ -172,11 +172,13 @@ export const getMonthlySalesReport = async (reportType, payload, setter) => {
   }
 };
 
-export const getOutletWiseDueReport = async (outletId, setter, setLoading) => {
+export const getOutletWiseDueReport = async (outletId, setter, setLoading , fromMonthYear, toMonthYear) => {
+  let FromMonthId = fromMonthYear ? `FromMonthId=${fromMonthYear?.split("-")[1]}` : "";
+  let ToMonthId= toMonthYear ? `&ToMonthId=${toMonthYear?.split("-")[1]}` : "";
   setLoading(true);
   try {
     const res = await Axios.get(
-      `/partner/Pos/GetCashDueOutletWise?OutletId=${outletId}`
+      `/partner/Pos/GetCashDueOutletWise?${FromMonthId}${ToMonthId}&OutletId=${outletId}`
     );
     setter(res?.data);
     setLoading(false);
