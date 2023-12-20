@@ -28,7 +28,7 @@ const initData = {
   hatchLabour: "",
   hatchLabourRate: "",
   organization: "",
-  haveTransportBill: { value: true, label: "Yes" },
+  hasTransportBill: { value: true, label: "Yes" },
 };
 
 export default function TenderInformationCreateForm() {
@@ -76,10 +76,12 @@ export default function TenderInformationCreateForm() {
         cnfrate,
         stevdorRate,
         serveyorRate,
-        organizationId,
         hatchLabourId,
         hatchLabour,
         hatchLabourRate,
+        isTruckBill,
+        organizationId,
+        organizationName,
       } = state;
       const singleInfo = {
         motherVessel: {
@@ -123,6 +125,14 @@ export default function TenderInformationCreateForm() {
         hatchLabour: {
           label: hatchLabour || "",
           value: hatchLabourId || 0,
+        },
+        hasTransportBill: {
+          label: isTruckBill ? "Yes" : "No",
+          value: isTruckBill || 0,
+        },
+        organization: {
+          label: organizationName || "",
+          value: organizationId || 0,
         },
       };
       setSingleData(singleInfo);
@@ -172,6 +182,7 @@ export default function TenderInformationCreateForm() {
       hatchLabourId: values?.hatchLabour?.value,
       hatchLabour: values?.hatchLabour?.label,
       hatchLabourRate: values?.hatchLabourRate,
+      isTruckBill: values?.hasTransportBill?.value,
     };
     if (id) {
       payload.programId = +id;
@@ -206,7 +217,7 @@ export default function TenderInformationCreateForm() {
       hatchLabourId: values?.hatchLabour?.value,
       hatchLabour: values?.hatchLabour?.label,
       hatchLabourRate: values?.hatchLabourRate,
-      isTruckBill: values?.haveTransportBill?.value,
+      isTruckBill: values?.hasTransportBill?.value,
     };
     tenderInfoApprove(payload, setDisabled);
   };
