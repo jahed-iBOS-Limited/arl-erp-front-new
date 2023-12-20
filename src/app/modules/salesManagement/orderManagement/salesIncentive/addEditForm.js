@@ -10,9 +10,10 @@ import IForm from './../../../_helper/_form';
 import InputField from './../../../_helper/_inputField';
 import Loading from './../../../_helper/_loading';
 import NewSelect from './../../../_helper/_select';
+import AkijEssentialLandingDataTable from './AkijEssentialsSpecific/AkijEssentialLandingDataTable';
 
 const initData = {
-  businessUnit: '',
+  channel: '',
   fromDate: '',
   toDate: '',
 };
@@ -50,7 +51,7 @@ export default function SalesIncentiveForm() {
     const newData = [...incentiveData];
 
     const payload = newData?.map((item) => ({
-      businessId: values?.businessUnit?.value,
+      businessId: buId,
       region: item?.strRegoin,
       area: item?.strArea,
       territory: item?.strTeritory,
@@ -115,7 +116,7 @@ export default function SalesIncentiveForm() {
           <IForm title="Sales Incentive" getProps={setObjprops}>
             <Form>
               <div className="form-group  global-form row">
-                <div className="col-lg-3">
+                {/* <div className="col-lg-3">
                   <NewSelect
                     name="businessUnit"
                     options={boninessUnitDDL}
@@ -127,7 +128,7 @@ export default function SalesIncentiveForm() {
                     errors={errors}
                     touched={touched}
                   />
-                </div>
+                </div> */}
                 <div className="col-lg-3">
                   <NewSelect
                     name="channel"
@@ -168,13 +169,13 @@ export default function SalesIncentiveForm() {
                 <div>
                   <button
                     disabled={
-                      !values?.businessUnit?.value ||
+                      !values?.channel?.value ||
                       !values?.fromDate ||
                       !values?.toDate
                     }
                     onClick={() => {
                       console.log('clicked', buId);
-                      const api = `/oms/IncentiveConfig/GetIncenttiveView?businessUnitId=${values?.businessUnit?.value}&certainDate=${values?.toDate}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`;
+                      const api = `/oms/IncentiveConfig/GetIncenttiveView?businessUnitId=${buId}&certainDate=${values?.toDate}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`;
 
                       const essentialRowDataApi = `/oms/OMSPivotReport/GetEmployeeTargetVsAchForCommission?PartId=${1}&BusinessUnitId=${buId}&ChannelId=${
                         values.channel.value
@@ -204,7 +205,7 @@ export default function SalesIncentiveForm() {
 
               <div>
                 {buId === 144 ? (
-                  <essentialLandingData rowData = {essentialLandingData} />
+                  <AkijEssentialLandingDataTable rowData = {essentialLandingData} />
                 ) : (
                   <table className="table table-striped table-bordered global-table">
                     <thead>
