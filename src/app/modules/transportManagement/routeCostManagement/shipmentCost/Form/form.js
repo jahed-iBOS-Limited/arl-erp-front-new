@@ -565,6 +565,16 @@ export default function _Form({
                           disabled={true}
                         />
                       </div>{" "}
+                      <div className='col-lg-3'>
+                        <label>Total Fuel Cost Liter</label>
+                        <InputField
+                          value={values?.totalFuelCostLtr}
+                          name='totalFuelCostLtr'
+                          placeholder='Total Fuel Cost Liter'
+                          type='text'
+                          disabled={true}
+                        />
+                      </div>{" "}
                       <div className='col-lg-3' style={{ marginTop: "18px" }}>
                         <Field
                           type='checkbox'

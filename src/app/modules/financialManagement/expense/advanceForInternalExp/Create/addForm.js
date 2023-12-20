@@ -1,17 +1,17 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
 import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation, useParams } from "react-router-dom";
-import { singleDataById } from "../helper";
+import IForm from "../../../../_helper/_form";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import { singleDataById } from "../helper";
 import Loading from "./../../../../_helper/_loading";
 import {
   saveAdvanceExpJournal_Action,
   saveEditedAdvanceExpGridData,
 } from "./../_redux/Actions";
+import Form from "./form";
 
 const initData = {
   comments: "",
@@ -77,14 +77,14 @@ export default function AdvanceCreateForm() {
           dueDate: values.dueDate,
           instrumentId: values.paymentType.value,
           instrumentName: values.paymentType.label,
-          disbursementCenterId: values.disbursementCenterName.value,
-          disbursementCenterName: values.disbursementCenterName.label,
+          disbursementCenterId: values.disbursementCenterName.value || 0,
+          disbursementCenterName: selectedBusinessUnit?.label,
           numRequestedAmount: values.numRequestedAmount,
           comments: values.comments,
           actionBy: profileData?.userId,
           willApproved: location?.state?.approval ? true : false,
           plantId: location?.state?.selectedPlant?.value || 0,
-          businessTransactionId: values?.expenseHead?.value || 0,
+          // businessTransactionId: values?.expenseHead?.value || 0,
           expenseGroup: values?.expenseGroup?.value || "",
         };
         dispatch(
@@ -106,13 +106,13 @@ export default function AdvanceCreateForm() {
           dueDate: values.dueDate,
           instrumentId: values.paymentType.value,
           instrumentName: values.paymentType.label,
-          disbursementCenterId: values.disbursementCenterName.value,
-          disbursementCenterName: values.disbursementCenterName.label,
+          disbursementCenterId: values.disbursementCenterName.value || 0,
+          disbursementCenterName: selectedBusinessUnit?.label,
           numRequestedAmount: values.numRequestedAmount,
           comments: values.comments,
           actionBy: profileData?.userId,
           plantId: location?.state?.selectedPlant?.value || 0,
-          businessTransactionId: values?.expenseHead?.value || 0,
+          // businessTransactionId: values?.expenseHead?.value || 0,
           expenseGroup: values?.expenseGroup?.value || ""
         };
         dispatch(

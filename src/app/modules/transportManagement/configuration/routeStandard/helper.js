@@ -166,3 +166,49 @@ export const GetRouteStandardCostDetails_api = async (
     setDisabled && setDisabled(false);
   }
 };
+
+export const GetRouteStandardCostDetailsApi = async (
+  accId,
+  buId,
+  OrgId,
+  routeId,
+  setter,
+  setDisabled
+) => {
+  setter([])
+  try {
+    setDisabled && setDisabled(true);
+    const res = await axios.get(
+      `/tms/RouteStandardCost/GetRouteStandardCostDetails?AccountId=${accId}&BusinessUnitId=${buId}&TransportOrganizationId=${OrgId}&RouteId=${routeId}`
+    );
+
+    setDisabled && setDisabled(false);
+    setter(res?.data?.map(itm => ({
+      ...itm,
+      value: itm?.transportRouteCostComponentId,
+      label: itm?.transportRouteCostComponentName
+    })) || []);
+  } catch (error) {
+    setDisabled && setDisabled(false);
+  }
+};
+
+export const GetRouteStandardCostByRouteId = async (
+  accId,
+  buId,
+  routeId,
+  transportORGId,
+  setter,
+  setDisabled
+) => {
+  try {
+    setDisabled && setDisabled(true);
+    const res = await axios.get(
+      `/tms/RouteStandardCost/GetRouteStandardCostByRouteId?accountId=${accId}&businessUnitId=${buId}&routeId=${routeId}&transportOrganizationId=${transportORGId}`
+    );
+    setDisabled && setDisabled(false);
+    setter(res?.data);
+  } catch (error) {
+    setDisabled && setDisabled(false);
+  }
+};
