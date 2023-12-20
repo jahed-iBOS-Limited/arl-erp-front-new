@@ -143,7 +143,7 @@ const ProfitAndLossReport = () => {
                 <thead>
                   <tr>
                     <th>SL</th>
-                    <th>Item Id</th>
+                    <th>Item Code</th>
                     <th>Materials Name</th>
                     <th>Uom</th>
                     <th>Quantity</th>
