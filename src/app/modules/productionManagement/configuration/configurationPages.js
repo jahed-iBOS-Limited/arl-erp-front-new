@@ -1,24 +1,26 @@
 import React from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute } from "../../../../_metronic/layout";
-import { ShopFloor } from "./shopFloor";
-import ShopFloorForm from "./shopFloor/form/addEditForm";
-import ProductionLine from "./productionLine";
-import ProductionLineForm from "./productionLine/Form/AddEditForm";
-import RoutingLanding from "./routing/landing/landing";
-import { RoutingForm } from "./routing/form/addEditForm";
-import { WorkCenter } from "./workcenter";
-import WorkCenterForm from "./workcenter/form/addForm";
-import WorkCenterViewForm from "./workcenter/viewForm/addForm";
-import { RoutingView } from "./routing/view/addEditView";
-import HorizonLanding from "./horizon/landing/table";
-import HorizonForm from "./horizon/form/addEditForm";
-import { shallowEqual, useSelector } from "react-redux";
 import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
 import findIndex from "./../../_helper/_findIndex";
+import CapacityConfigurationCreateEdit from "./OEECapacityConfiguration/capacityConfigurationCreateEdit/capacityConfigurationCreateEdit";
+import OEECapacityConfigurationLanding from "./OEECapacityConfiguration/landing";
 import OEEMachineAndChecklistLanding from "./OEEMachineAndChecklist";
 import OEEMachineAndChecklistLandingCreateEdit from "./OEEMachineAndChecklist/createEdit";
 import CheckListView from "./OEEMachineAndChecklist/view";
+import HorizonForm from "./horizon/form/addEditForm";
+import HorizonLanding from "./horizon/landing/table";
+import ProductionLine from "./productionLine";
+import ProductionLineForm from "./productionLine/Form/AddEditForm";
+import { RoutingForm } from "./routing/form/addEditForm";
+import RoutingLanding from "./routing/landing/landing";
+import { RoutingView } from "./routing/view/addEditView";
+import { ShopFloor } from "./shopFloor";
+import ShopFloorForm from "./shopFloor/form/addEditForm";
+import { WorkCenter } from "./workcenter";
+import WorkCenterForm from "./workcenter/form/addForm";
+import WorkCenterViewForm from "./workcenter/viewForm/addForm";
 
 export function ConfigurationPages() {
   const userRole = useSelector(
@@ -128,6 +130,20 @@ export function ConfigurationPages() {
       <ContentRoute
         path="/production-management/configuration/OEEMachineNChecklist"
         component={OEEMachineAndChecklistLanding}
+      />
+
+      //OEECapacityConfiguration route
+      <ContentRoute
+        path="/production-management/configuration/OEECapacityConfiguration/create"
+        component={CapacityConfigurationCreateEdit}
+      />
+      <ContentRoute
+        path="/production-management/configuration/OEECapacityConfiguration/edit"
+        component={CapacityConfigurationCreateEdit}
+      />
+      <ContentRoute
+        path="/production-management/configuration/OEECapacityConfiguration"
+        component={OEECapacityConfigurationLanding}
       />
     </Switch>
   );
