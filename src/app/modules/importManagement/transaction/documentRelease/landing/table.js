@@ -1,25 +1,25 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import Axios from "axios";
+import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { getLandingData } from "../helper";
-import Loading from "../../../../_helper/_loading";
 import {
   Card,
-  CardHeader,
   CardBody,
+  CardHeader,
 } from "../../../../../../_metronic/_partials/controls";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { Formik } from "formik";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import Axios from "axios";
 import IView from "../../../../_helper/_helperIcons/_view";
+import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
+import PaginationTable from "../../../../_helper/_tablePagination";
+import { _todayDate } from "../../../../_helper/_todayDate";
 import IViewModal from "../../../../_helper/_viewModal";
 import PaymentOnMaturityForm from "../../paymentOnMaturity/form/addEditForm";
 import PerformanceGuarantee from "../../performance-guarantee/form/addEditForm";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import InputField from "../../../../_helper/_inputField";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { getLandingData } from "../helper";
 import { _firstDateofMonth } from "./../../../../_helper/_firstDateOfCurrentMonth";
 
 const DocumentReleaseLanding = () => {
@@ -296,7 +296,7 @@ const DocumentReleaseLanding = () => {
                                   )}
                                 </span>
                                 <span className="pl-3">
-                                  {item?.mPayStatus === "Pending" ? (
+                                  {item?.payDate === null ? (
                                     <OverlayTrigger
                                       overlay={
                                         <Tooltip id="cs-icon">M-Pay</Tooltip>
