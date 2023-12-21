@@ -1,25 +1,25 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import IForm from "../../../_helper/_form";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import IForm from '../../../_helper/_form';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import {
-  getLandingData,
-  machineNameDDLApi,
-  plantNameDDLApi,
-  shopFloorNameDDLApi,
-} from "./capacityConfigurationCreateEdit/util/api";
+    getLandingData,
+    machineNameDDLApi,
+    plantNameDDLApi,
+    shopFloorNameDDLApi,
+} from './capacityConfigurationCreateEdit/util/api';
 
 const initData = {
-  plant: "",
-  shopFloor: "",
-  machine: "",
+  plant: '',
+  shopFloor: '',
+  machine: '',
 };
 export default function OEECapacityConfigurationLanding() {
   const saveHandler = (values, cb) => {};
@@ -28,7 +28,7 @@ export default function OEECapacityConfigurationLanding() {
   const [pageSize, setPageSize] = useState(15);
   //PlantName
   const [plantNameDDL, getPlantNameDDL] = useAxiosGet();
-  const [rowData, getRowData, loadingRowData,setRowData] = useAxiosGet();
+  const [rowData, getRowData, loadingRowData, setRowData] = useAxiosGet();
   //ShopFloor
   const [shopFloorDDL, getShopFloorDDL] = useAxiosGet();
   //machineName
@@ -43,13 +43,22 @@ export default function OEECapacityConfigurationLanding() {
     profileData: { accountId: accId, userId },
   } = useSelector((state) => state.authData);
 
-  const setPositionHandler = (pageNo, pageSize,values) => {
-    getRowData(getLandingData(buId,values?.plant?.value,values?.shopFloor?.value,pageNo,pageSize));
+  const setPositionHandler = (pageNo, pageSize, values) => {
+    getRowData(
+      getLandingData(
+        buId,
+        values?.plant?.value,
+        values?.shopFloor?.value,
+        values?.machine?.value,
+        pageNo,
+        pageSize,
+      ),
+    );
   };
 
   useEffect(() => {
     getPlantNameDDL(plantNameDDLApi(buId, accId, userId), (data) =>
-      console.log({ data })
+      console.log({ data }),
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buId, userId, accId]);
@@ -90,9 +99,10 @@ export default function OEECapacityConfigurationLanding() {
                     onClick={() => {
                       history.push({
                         pathname:
-                          "/production-management/configuration/OEECapacityConfiguration/create",
+                          '/production-management/configuration/OEECapacityConfiguration/create',
                         state: {
-                          pageType: "create",
+                          isEditPage: false,
+                          rowData: null,
                         },
                       });
                     }}
@@ -112,13 +122,13 @@ export default function OEECapacityConfigurationLanding() {
                     value={values?.plant}
                     label="Plant Name"
                     onChange={(valueOption) => {
-                      setFieldValue("plant", valueOption);
+                      setFieldValue('plant', valueOption);
                       if (valueOption) {
                         getShopFloorDDL(
-                          shopFloorNameDDLApi(accId, buId, valueOption.value)
+                          shopFloorNameDDLApi(accId, buId, valueOption.value),
                         );
                       }
-                      setFieldValue("shopFloor", "");
+                      setFieldValue('shopFloor', '');
                     }}
                     errors={errors}
                     touched={touched}
@@ -131,18 +141,20 @@ export default function OEECapacityConfigurationLanding() {
                     value={values?.shopFloor}
                     label="Shop Floor/Section"
                     onChange={(valueOption) => {
-                      setFieldValue("shopFloor", valueOption);
+                      setFieldValue('shopFloor', valueOption);
                       if (valueOption) {
-                        setPositionHandler(pageNo,pageSize,{...values,shopFloor:{
-                          label:valueOption?.label,
-                          value:valueOption?.value
-                        }})
+                        // setPositionHandler(pageNo, pageSize, {
+                        //   ...values,
+                        //   shopFloor: {
+                        //     label: valueOption?.label,
+                        //     value: valueOption?.value,
+                        //   },
+                        // });
                         getMachineNameDDL(
-                          machineNameDDLApi(buId, valueOption?.value)
+                          machineNameDDLApi(buId, valueOption?.value),
                         );
-                      
                       }
-                      setFieldValue("machine", "");
+                      setFieldValue('machine', '');
                     }}
                     isDisabled={!values?.plant}
                     errors={errors}
@@ -156,16 +168,18 @@ export default function OEECapacityConfigurationLanding() {
                     value={values?.machine}
                     label="Work Center/Machine"
                     onChange={(valueOption) => {
-                      setFieldValue("machine", valueOption);
-                    if(valueOption){
-                      setRowData([])
-                    }else{
-                      setPositionHandler(pageNo,pageSize,{...values,shopFloor:{
-                        label:valueOption?.label,
-                        value:valueOption?.value
-                      }})
-                    }
-
+                      setFieldValue('machine', valueOption);
+                      if (valueOption) {
+                        setRowData([]);
+                      } else {
+                        // setPositionHandler(pageNo, pageSize, {
+                        //   ...values,
+                        //   shopFloor: {
+                        //     label: valueOption?.label,
+                        //     value: valueOption?.value,
+                        //   },
+                        // });
+                      }
                     }}
                     isDisabled={!values?.shopFloor}
                     errors={errors}
@@ -176,8 +190,8 @@ export default function OEECapacityConfigurationLanding() {
                   <button
                     type="button"
                     className="btn btn-primary mt-5"
-                    onClick={()=>{
-                      setPositionHandler(pageNo,pageSize,values)
+                    onClick={() => {
+                      setPositionHandler(pageNo, pageSize, values);
                     }}
                     disabled={
                       !values?.plant || !values?.shopFloor || !values?.machine
@@ -186,63 +200,81 @@ export default function OEECapacityConfigurationLanding() {
                     View
                   </button>
                 </div>
-
               </div>
               <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                    <thead>
+                <thead>
+                  <tr>
+                    <th>Sl</th>
+                    <th>Plant </th>
+                    <th>Shop Floor</th>
+                    <th>Machine Name</th>
+                    <th>Item</th>
+                    <th>BOM</th>
+                    <th>Machine Capacity PH</th>
+                    <th>SMV Cycle Time</th>
+                    <th>Standard RPM</th>
+                    <th>Std Wastages Qty</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rowData?.data?.length > 0 &&
+                    rowData?.data?.map((item, index) => (
                       <tr>
-                        <th>Sl</th>
-                        <th>Plant </th>
-                        <th>Shop Floor</th>
-                        <th>Machine Name</th>
-                        <th>Item</th>
-                        <th>BOM</th>
-                        <th>Machine Capacity PH</th>
-                        <th>SMV Cycle Time</th>
-                        <th>Standard RPM</th>
-                        <th>Std Wastages Qty</th>
-                        <th>Action</th>
+                        <td className="text-center">{index + 1}</td>
+                        <td className="text-center">{item?.plantName}</td>
+                        <td className="text-center">{item?.shopFloorName}</td>
+                        <td className="text-center">{item?.machineName}</td>
+                        <td className="text-center">{item?.itemName}</td>
+                        <td className="text-center">{item?.bomName}</td>
+                        <td className="text-center">
+                          {+item?.machineCapacityPerHour.toFixed(2)}
+                        </td>
+                        <td className="text-center">
+                          {+item?.smvcycleTime.toFixed(2)}
+                        </td>
+                        <td className="text-center">
+                          {+item?.standerdRpm.toFixed(2)}
+                        </td>
+                        <td className="text-center">
+                          {+item?.stdWastagesQty.toFixed(2)}
+                        </td>
+                        <td>
+                          <div
+                            className="d-flex"
+                            style={{ gap: '10px', justifyContent: 'center' }}
+                          >
+                            <span
+                              onClick={() =>
+                                history.push({
+                                  pathname:
+                                    '/production-management/configuration/OEECapacityConfiguration/edit',
+                                  state: {
+                                    isEditPage: true,
+                                    rowData: item,
+                                  },
+                                })
+                              }
+                            >
+                              <IEdit />
+                            </span>
+                            <span>
+                              <IDelete />
+                            </span>
+                          </div>
+                        </td>
                       </tr>
-                    </thead>
-                    <tbody>
-                      {
-                        rowData?.data?.length>0 && rowData?.data?.map((item,index)=>(
-                          <tr>
-                            <td className="text-center">{index+1}</td>
-                            <td className="text-center">{item?.plantName}</td>
-                            <td className="text-center">{item?.shopFloorName}</td>
-                            <td className="text-center">{item?.machineName}</td>
-                            <td className="text-center">{item?.itemName}</td>
-                            <td className="text-center">{item?.bomName}</td>
-                            <td className="text-center">{+item?.machineCapacityPerHour.toFixed(2)}</td>
-                            <td className="text-center">{+item?.smvcycleTime.toFixed(2)}</td>
-                            <td className="text-center">{+item?.standerdRpm.toFixed(2)}</td>
-                            <td className="text-center">{+item?.stdWastagesQty.toFixed(2)}</td>
-                            <td>
-                             <div className="d-flex" style={{gap:"10px",justifyContent:"center"}}>
-                             <span>
-                                <IEdit/>
-                              </span>
-                             <span>
-                                <IDelete/>
-                              </span>
-                             </div>
-                            </td>
-                          </tr>
-                        ))
-                      }
-                    </tbody>
+                    ))}
+                </tbody>
               </table>
-             {
-              rowData?.data?.length > 0 && (
+              {rowData?.data?.length > 0 && (
                 <PaginationTable
-                count={rowData?.totalCount}
-                setPositionHandler={setPositionHandler}
-                paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
-                values={values}
-              />
-              )
-             }
+                  count={rowData?.totalCount}
+                  setPositionHandler={setPositionHandler}
+                  paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
+                  values={values}
+                />
+              )}
             </Form>
           </IForm>
         </>
