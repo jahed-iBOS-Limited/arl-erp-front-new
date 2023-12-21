@@ -1,19 +1,19 @@
+import axios from "axios";
 import { Form, Formik } from "formik";
 import React from "react";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
+import SearchAsyncSelect from "../../../../../_helper/SearchAsyncSelect";
 import { _dateFormatter } from "../../../../../_helper/_dateFormate";
 import { _fixedPoint } from "../../../../../_helper/_fixedPoint";
 import IView from "../../../../../_helper/_helperIcons/_view";
 import InputField from "../../../../../_helper/_inputField";
 import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
 import PaginationSearch from "../../../../../_helper/_search";
-import NewSelect from "../../../../../_helper/_select";
 import AttachFile from "../../../../../_helper/commonInputFieldsGroups/attachemntUpload";
 import FromDateToDateForm from "../../../../../_helper/commonInputFieldsGroups/dateForm";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
-import { PortAndMotherVessel } from "../../../../../vesselManagement/common/components";
 import IButton from "../../../../../_helper/iButton";
+import { PortAndMotherVessel } from "../../../../../vesselManagement/common/components";
 
 const validationSchema = Yup.object().shape({
   billNo: Yup.string().required("Bill No is Required"),
@@ -23,6 +23,7 @@ const validationSchema = Yup.object().shape({
 
 export default function _Form({
   buId,
+  accId,
   btnRef,
   getData,
   initData,
@@ -33,8 +34,23 @@ export default function _Form({
   setUploadedImage,
 }) {
   const [open, setOpen] = React.useState(false);
-  const [lighterCarrierDDL, getLighterCarrierDDL] = useAxiosGet();
+  // const [lighterCarrierDDL, getLighterCarrierDDL] = useAxiosGet();
   const dispatch = useDispatch();
+  const loadOptions = async (v) => {
+    await [];
+    if (v.length < 3) return [];
+    return axios
+      .get(
+        `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accId}&UnitId=${buId}&SBUId=${0}`
+      )
+      .then((res) => {
+        const updateList = res?.data.map((item) => ({
+          ...item,
+        }));
+        return [...updateList];
+      });
+  };
+
   return (
     <>
       <Formik
@@ -66,15 +82,15 @@ export default function _Form({
                         values,
                         setFieldValue,
                         onChange: (fieldName, allValues) => {
-                          if (fieldName === "port") {
-                            getLighterCarrierDDL(
-                              `/wms/FertilizerOperation/GetLighterCarrierDDL?BusinessUnitId=${buId}&PortId=${allValues?.port?.value}`
-                            );
-                          }
+                          // if (fieldName === "port") {
+                          //   getLighterCarrierDDL(
+                          //     `/wms/FertilizerOperation/GetLighterCarrierDDL?BusinessUnitId=${buId}&PortId=${allValues?.port?.value}`
+                          //   );
+                          // }
                         },
                       }}
                     />
-                    <div className="col-lg-3">
+                    {/* <div className="col-lg-3">
                       <NewSelect
                         label="Carrier Name"
                         placeholder="Carrier Name"
@@ -91,6 +107,18 @@ export default function _Form({
                           setFieldValue("carrierName", e);
                         }}
                         isDisabled={false}
+                      />
+                    </div> */}
+
+                    <div className="col-lg-3">
+                      <label>Carrier Name</label>
+                      <SearchAsyncSelect
+                        selectedValue={values?.carrierName}
+                        handleChange={(valueOption) => {
+                          setFieldValue("carrierName", valueOption);
+                        }}
+                        placeholder={"Search Carrier Name"}
+                        loadOptions={loadOptions}
                       />
                     </div>
 
