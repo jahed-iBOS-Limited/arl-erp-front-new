@@ -148,7 +148,7 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                   </td>
                   {channelId === 43 && (
                     <td className="text-right">
-                      {_fixedPoint(item?.actualDeliveryQty, true)}
+                      {_fixedPoint(item?.netQty, true)}
                     </td>
                   )}
                   <td className="text-right" style={{ width: "60px" }}>
