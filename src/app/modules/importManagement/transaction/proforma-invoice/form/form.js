@@ -27,7 +27,17 @@ import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import { setRowAmount } from "../utils";
-const header = ["SL", "Item", "HS Code", "UoM", "Quantity", "Rate", "Amount"];
+const header = [
+  "SL",
+  "Reference No",
+  "Item",
+  "",
+  "HS Code",
+  "UoM",
+  "Quantity",
+  "Rate",
+  "Amount",
+];
 export default function _Form({
   initData,
   btnRef,
