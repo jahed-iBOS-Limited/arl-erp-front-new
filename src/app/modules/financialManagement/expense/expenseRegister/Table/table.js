@@ -453,7 +453,7 @@ const ExpenseRegisterLanding = () => {
                       <button
                         className="btn btn-success pointer"
                         onClick={() => {
-                          window.open(`https://docs.google.com/document/d/1KYLJ00N4EWa0s05NtQnw5Xt3t0WBOBV9-N3aTQbhkGo/edit`, "_blank");
+                          window.open(`https://drive.google.com/file/d/1WNjJxwpSD8j-wvFkvLv7vn2CCqcv-pSM/view`, "_blank");
                           // dispatch(
                           //   getDownlloadFileView_Action(
                           //     "638323656050908814_ARL_TADA_POLICY.pdf",
