@@ -20,10 +20,10 @@ export const CapacityConfigurationValidationSchema = Yup.object().shape({
         value: Yup.number().required('Machine Name is required'),
       })
       .required('Machine Name is required'),
-    machineNo: Yup.object().shape({
-      label: Yup.string().required('Machine Name is required'),
-      value: Yup.number().required('Machine Name is required'),
-    }).required("Machine Name is Required"),
+    // machineNo: Yup.object().shape({
+    //   label: Yup.string().required('Machine Name is required'),
+    //   value: Yup.number().required('Machine Name is required'),
+    // }).required("Machine Name is Required"),
     itemName: Yup.object()
       .shape({
         label: Yup.string().required('Item Name is required'),
