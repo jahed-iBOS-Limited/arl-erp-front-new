@@ -11,11 +11,11 @@ import NewSelect from '../../../../_helper/_select';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import {
-    bomNameDDLApi,
-    itemNameDDLApi,
-    machineNameDDLApi,
-    plantNameDDLApi,
-    shopFloorNameDDLApi,
+  bomNameDDLApi,
+  itemNameDDLApi,
+  machineNameDDLApi,
+  plantNameDDLApi,
+  shopFloorNameDDLApi,
 } from './util/api';
 import { CapacityConfigurationValidationSchema } from './util/validations';
 
@@ -60,21 +60,43 @@ export default function CapacityConfigurationCreateEdit() {
   const [, editCapacityConfiguration] = useAxiosPost();
 
   useEffect(() => {
-    getPlantNameDDL(plantNameDDLApi(buId, accId, userId), (data) =>
-      console.log({ data }),
-    );
+    getPlantNameDDL(plantNameDDLApi(buId, accId, userId));
   }, [buId, accId, userId]);
 
-  const handleCreateCapacityConfiguration = (values) => {
-    const payload = {
+  const loadItemNameDDL = (searchText, PlantId) => {
+    if (searchText?.length < 3) return [];
+    return axios
+      .get(itemNameDDLApi(accId, buId, PlantId, searchText))
+      .then((res) => res?.data);
+  };
+
+  let editableInitData;
+  if (location?.state?.rowData) {
+    const rowData = location?.state?.rowData;
+    editableInitData = {
+      plantName: { value: rowData?.plantId, label: rowData?.plantName },
+      shopFloor: { value: rowData?.shopfloorId, label: rowData?.shopFloorName },
+      machineName: { value: rowData?.machineId, label: rowData?.machineName },
+      itemName: { value: rowData?.itemId, label: rowData?.itemName },
+      bomName: { value: rowData?.bomId, label: rowData?.bomName },
+      machineCapacityPerHr: rowData?.machineCapacityPerHour,
+      SMVCycleTime: rowData?.smvcycleTime,
+      standardRPM: rowData?.standerdRpm,
+      stdWastage: rowData?.stdWastagesQty,
+      nptConfigId: rowData?.nptConfigId,
+    };
+  }
+
+  const saveHandler = (values, cb) => {
+    const savePayload = {
       businessUnitId: buId,
       plantId: values?.plantName?.value,
       plantName: values?.plantName?.label,
-      shopfloorId: values?.shopFloorName?.value,
-      shopFloorName: values?.shopFloorName?.label,
+      shopfloorId: values?.shopFloor?.value,
+      shopFloorName: values?.shopFloor?.label,
       machineId: values?.machineName?.value,
       machineName: values?.machineName?.label,
-      machineCode: 'string',
+      machineCode: '',
       itemId: values?.itemName?.value,
       itemName: values?.itemName?.label,
       bomId: values?.bomName?.value,
@@ -87,56 +109,31 @@ export default function CapacityConfigurationCreateEdit() {
       createBy: userId,
     };
 
+    const editingPayload = {
+      nptConfigId: values?.nptConfigId,
+      machineCapacityPerHour: values?.machineCapacityPerHr,
+      smvcycleTime: values?.SMVCycleTime,
+      standerdRpm: values?.standardRPM,
+      stdWastagesQty: values?.stdWastage,
+      isActive: true,
+      updateBy: userId,
+    };
+
     if (location?.state?.isEditPage) {
       editCapacityConfiguration(
         `/mes/OeeProductWaste/EditCapacityConfiguration`,
-        payload,
+        editingPayload,
         null,
         true,
       );
     } else {
       saveCapacityConfiguration(
         `/mes/OeeProductWaste/CreateCapacityConfiguration`,
-        payload,
+        savePayload,
         null,
         true,
       );
     }
-
-    saveCapacityConfiguration(
-      `/mes/OeeProductWaste/CreateCapacityConfiguration`,
-      payload,
-      null,
-      true,
-    );
-  };
-
-  const loadItemNameDDL = (searchText, PlantId) => {
-    if (searchText?.length < 3) return [];
-    return axios
-      .get(itemNameDDLApi(accId, buId, PlantId, searchText))
-      .then((res) => res?.data);
-  };
-
-  let editableInitData;
-  if (location?.state?.rowData) {
-    console.log({ rowData: location?.state?.rowData });
-    const rowData = location?.state?.rowData;
-    editableInitData = {
-      plantName: { value: rowData?.plantId, label: rowData?.plantName },
-      shopFloor: { value: rowData?.shopfloorId, label: rowData?.shopFloorName },
-      machineName: { value: rowData?.machineId, label: rowData?.machineName },
-      itemName: { value: rowData?.itemId, label: rowData?.itemName },
-      bomName: { value: rowData?.bomId, label: rowData?.bomName },
-      machineCapacityPerHr: rowData?.machineCapacityPerHour,
-      SMVCycleTime: rowData?.smvcycleTime,
-      standardRPM: rowData?.standerdRpm,
-      stdWastage: rowData?.stdWastagesQty,
-    };
-  }
-
-  const saveHandler = (values, cb) => {
-    alert('Working...');
   };
   return (
     <Formik
@@ -150,7 +147,6 @@ export default function CapacityConfigurationCreateEdit() {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
-          handleCreateCapacityConfiguration(values);
         });
       }}
     >
@@ -189,7 +185,6 @@ export default function CapacityConfigurationCreateEdit() {
                         );
                         getItemNameDDL(
                           itemNameDDLApi(accId, buId, valueOption.value),
-                          (data) => console.log({ itemNameDDL: data }),
                         );
                       }
                     }}
@@ -255,7 +250,6 @@ export default function CapacityConfigurationCreateEdit() {
                     placeholder="Search by - "
                   />
                 </div>
-
                 <div className="col-lg-3">
                   <NewSelect
                     name="BoM Name"
