@@ -12,8 +12,8 @@ import { getPurchaseReqGridData } from './helper';
 import IViewModal from '../../../../_helper/_viewModal';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import { ItemReqViewTableRow } from '../../../../procurement/purchase-management/purchaseRequestNew/report/tableRow';
-import { approvalApi } from '../helper';
 import PaginationSearch from './../../../../_helper/_search';
+import { approvalApi } from './helper';
 
 let initData = {};
 
