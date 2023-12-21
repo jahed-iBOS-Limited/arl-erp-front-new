@@ -63,32 +63,40 @@ export default function ShipmentCostViewForm({ id, values }) {
         id,
         setEntryStatus
       );
-      if (values?.reportType?.label !== "Pending") {
-        getShipmentByID(id, setSingleData, setRowDto, setDisabled, null, null, true);
-      } else {
-        getShipmentByID(id, setSingleData, null, setDisabled, null, null, true);
-      }
+      // if (values?.reportType?.label !== "Pending") {
+      //   getShipmentByID(id, setSingleData, setRowDto, setDisabled, null, null, true);
+      // } else {
+      //   getShipmentByID(id, setSingleData, null, setDisabled, null, null, true);
+      // }
+      getShipmentByID(
+        id,
+        setSingleData,
+        setRowDto,
+        setDisabled,
+        null,
+        null
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // if Report type panding
-  useEffect(() => {
-    if (values?.reportType?.label === "Pending" && buMilage?.configid) {
-      let amount =
-        +singleData?.distanceKm < +buMilage?.milage
-          ? +singleData?.distanceKm * +buMilage?.minimumAmount
-          : +singleData?.distanceKm * +buMilage?.maximumAmount;
-      let obj = {
-        transportRouteCostComponentId: buMilage?.configid,
-        transportRouteCostComponent: buMilage?.componentName,
-        standardCost: amount,
-        actualCost: amount,
-      };
-      setRowDto([obj]);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [buMilage, singleData]);
+  // useEffect(() => {
+  //   if (values?.reportType?.label === "Pending" && buMilage?.configid) {
+  //     let amount =
+  //       +singleData?.distanceKm < +buMilage?.milage
+  //         ? +singleData?.distanceKm * +buMilage?.minimumAmount
+  //         : +singleData?.distanceKm * +buMilage?.maximumAmount;
+  //     let obj = {
+  //       transportRouteCostComponentId: buMilage?.configid,
+  //       transportRouteCostComponent: buMilage?.componentName,
+  //       standardCost: amount,
+  //       actualCost: amount,
+  //     };
+  //     setRowDto([obj]);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [buMilage, singleData]);
 
   useEffect(() => {
     if (singleData?.shipmentId) {
