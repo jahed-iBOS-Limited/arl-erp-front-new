@@ -133,7 +133,7 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
               totalQty += item?.totalDeliveredQtyCFT;
               grandTotal += item?.totalAmount || 0;
               // totalItemRate += item?.itemRate || 0;
-              totalNetQty += item?.actualDeliveryQty || 0;
+              totalNetQty += item?.netQty || 0;
 
               return (
                 <tr>
