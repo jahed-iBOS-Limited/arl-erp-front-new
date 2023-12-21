@@ -124,6 +124,7 @@ export default function _Form({
                         placeholder="Organization"
                         errors={errors}
                         touched={touched}
+                        isDisabled={disableHandler()}
                       />
                     </div>
                     <div className="col-lg-3">

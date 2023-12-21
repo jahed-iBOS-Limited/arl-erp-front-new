@@ -130,7 +130,8 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
           </thead>
           <tbody>
             {invoiceData?.map((item, index) => {
-              totalQty += item?.totalDeliveredQtyCFT;
+              totalQty += item?.actualDeliveryQty;
+              // totalQty += item?.totalDeliveredQtyCFT;
               grandTotal += item?.totalAmount || 0;
               // totalItemRate += item?.itemRate || 0;
               totalNetQty += item?.netQty || 0;
@@ -144,7 +145,8 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                   <td>{_dateFormatter(item?.deliveriDate)}</td>
                   <td>{item?.deliveryCode}</td>
                   <td className="text-right">
-                    {_fixedPoint(item?.totalDeliveredQtyCFT, true)}
+                    {_fixedPoint(item?.actualDeliveryQty, true)}
+                    {/* {_fixedPoint(item?.totalDeliveredQtyCFT, true)} */}
                   </td>
                   {channelId === 43 && (
                     <td className="text-right">
