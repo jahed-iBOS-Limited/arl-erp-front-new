@@ -70,7 +70,7 @@ const InvoiceWisePaymentLanding = () => {
     getTableData(
       `/fino/PaymentOrReceive/GetInvoiceWisePayment?partName=Report&businessUnitId=${
         values?.businessUnit?.value
-      }&customerId=${values?.customer?.value || 0}&fromDate=${
+      }&customerId=${location?.state?.rowData?.customerId}&fromDate=${
         values?.fromDate
       }&toDate=${values?.toDate}&status=${
         values?.status?.value

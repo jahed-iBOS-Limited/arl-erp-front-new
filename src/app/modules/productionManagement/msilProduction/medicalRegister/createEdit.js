@@ -1,35 +1,35 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 
 const initData = {
   date: _todayDate(),
-  enroll: "",
-  serviceRecipient: "",
-  gender: "",
-  designation: "",
-  age: "",
-  shift: "",
-  doctorName: "",
-  serviceReason: "",
-  typeOfServiceRecipient: "",
-  medicineName: "",
-  medicineQTY: "",
-  uom: "",
-  remarks: "",
+  enroll: '',
+  serviceRecipient: '',
+  gender: '',
+  designation: '',
+  age: '',
+  shift: '',
+  doctorName: '',
+  serviceReason: '',
+  typeOfServiceRecipient: '',
+  medicineName: '',
+  medicineQTY: '',
+  uom: '',
+  remarks: '',
 };
 export default function MedicalRegisterCreate() {
   const [objProps, setObjprops] = useState({});
@@ -56,10 +56,10 @@ export default function MedicalRegisterCreate() {
   useEffect(() => {
     // setEnrollDDL(`/mes/MesDDL/GetAllEmployeeInfoCommonDDL?AccountId=1&BusinessUnitId=171`)
     setMedicineDDL(
-      `/mes/MesDDL/GetAllMedicineListDDL?BusinessunitId=${selectedBusinessUnit?.value}`
+      `/mes/MesDDL/GetAllMedicineListDDL?BusinessunitId=${selectedBusinessUnit?.value}`,
     );
     getServiceReasonDDL(
-      `/mes/MSIL/GetServiceReasonDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
+      `/mes/MSIL/GetServiceReasonDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -68,7 +68,9 @@ export default function MedicalRegisterCreate() {
     if (v?.length < 2) return [];
     return axios
       .get(
-        `/mes/MesDDL/GetAllEmployeeInfoCommonDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Search=${v}`
+        viewType === 1
+          ? `/hcm/HCMDDL/GetEmployeeByAcIdDDL?AccountId=${profileData?.accountId}&search=${v}`
+          : `/mes/MesDDL/GetAllEmployeeInfoCommonDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Search=${v}`,
       )
       .then((res) => {
         return res?.data;
@@ -107,7 +109,7 @@ export default function MedicalRegisterCreate() {
             medicineQTY: item?.numMedicineQuantity,
             uom: item?.strUomname,
             uomId: item?.intUomid,
-            remarks: item?.strRemarks || "",
+            remarks: item?.strRemarks || '',
             intMedicalRegisterRowId: item?.intMedicalRegisterRowId,
             intMedicalRegisterHeaderId: item?.intMedicalRegisterHeaderId,
           }))
@@ -117,7 +119,7 @@ export default function MedicalRegisterCreate() {
   }, [id, location]);
 
   const saveHandler = async (values, cb) => {
-    if (!itemList?.length) return toast.warn("Please add at least one item");
+    if (!itemList?.length) return toast.warn('Please add at least one item');
     saveData(
       `mes/MSIL/MedicalregisterCreateAndEdit`,
       {
@@ -125,76 +127,76 @@ export default function MedicalRegisterCreate() {
         intMedicalRegisterHeaderId: id
           ? location?.state?.intMedicalRegisterHeaderId
           : 0,
-        dteDate: values?.date || "",
+        dteDate: values?.date || '',
         intBusinessUnitId: selectedBusinessUnit?.value || 0,
         intServiceRecipientId: id
           ? location?.state?.intServiceRecipientId
           : values?.enroll?.value || 0,
         strServiceRecipientName: id
           ? location?.state?.strServiceRecipientName
-          : values?.serviceRecipient || "",
-        strGender: id ? location?.state?.strGender : values?.gender || "",
+          : values?.serviceRecipient || '',
+        strGender: id ? location?.state?.strGender : values?.gender || '',
         intDesignationId: id
           ? location?.state?.intDesignationId
           : values?.enroll?.employeeInfoDesignationId || 0,
         strDesignationName: id
           ? location?.state?.strDesignationName
-          : values?.designation || "",
+          : values?.designation || '',
         intAge: +values?.age || 0,
         intShiftId: values?.shift?.value || 0,
-        strShiftName: values?.shift?.label || "",
-        strDoctorName: values?.doctorName || "",
+        strShiftName: values?.shift?.label || '',
+        strDoctorName: values?.doctorName || '',
         intServiceReasonId: values?.serviceReason?.value || 0,
-        strServiceReason: values?.serviceReason?.label || "",
-        strTypeOfServiceRecipient: values?.typeOfServiceRecipient || "",
+        strServiceReason: values?.serviceReason?.label || '',
+        strTypeOfServiceRecipient: values?.typeOfServiceRecipient || '',
         isActive: true,
         intInsertUserId: profileData?.userId || 0,
-        dteInserDateTime: _todayDate() || "",
-        dteUpdateDateTime: id ? _todayDate() : "",
+        dteInserDateTime: _todayDate() || '',
+        dteUpdateDateTime: id ? _todayDate() : '',
         intActionBy: id ? profileData?.userId : 0,
         row: itemList?.map((item, i) => ({
           intMedicalRegisterRowId: item?.intMedicalRegisterRowId,
           intMedicalRegisterHeaderId: item?.intMedicalRegisterHeaderId,
           intMedicineId: item?.intMedicineId || 0,
-          strMedicineName: item?.medicineName || "",
+          strMedicineName: item?.medicineName || '',
           numMedicineQuantity: item?.medicineQTY || 0,
           intUomid: item?.uomId || 0,
-          strUomname: item?.uom || "",
-          strRemarks: item?.remarks || "",
+          strUomname: item?.uom || '',
+          strRemarks: item?.remarks || '',
           isActive: true,
         })),
       },
-      id ? "" : cb,
-      true
+      id ? '' : cb,
+      true,
     );
   };
 
   const addHandler = (values, resetForm, setFieldValue) => {
-    if (!values?.medicineName) return toast.warn("Medicine Name is required");
+    if (!values?.medicineName) return toast.warn('Medicine Name is required');
     if (!values?.medicineQTY)
-      return toast.warn("Medicine Quantity is required");
+      return toast.warn('Medicine Quantity is required');
 
     const isExists = itemList.filter(
-      (item) => item?.medicineName?.value === values?.medicineName?.value
+      (item) => item?.medicineName?.value === values?.medicineName?.value,
     );
 
-    if (isExists?.length > 0) return toast.warn("Already exists item");
+    if (isExists?.length > 0) return toast.warn('Already exists item');
     setItemList([
       {
         intMedicineId: values?.medicineName?.value || 0,
-        medicineName: values?.medicineName?.label || "",
-        medicineQTY: values?.medicineQTY || "",
-        uom: values?.uom || "",
-        remarks: values?.remarks || "",
+        medicineName: values?.medicineName?.label || '',
+        medicineQTY: values?.medicineQTY || '',
+        uom: values?.uom || '',
+        remarks: values?.remarks || '',
         uomId: values?.medicineName?.intUomId || 0,
         intMedicalRegisterRowId: 0,
         intMedicalRegisterHeaderId: 0,
       },
       ...itemList,
     ]);
-    setFieldValue("medicineName", "");
-    setFieldValue("medicineQTY", "");
-    setFieldValue("uom", "");
+    setFieldValue('medicineName', '');
+    setFieldValue('medicineQTY', '');
+    setFieldValue('uom', '');
   };
 
   const removeHandler = (index) => {
@@ -236,13 +238,13 @@ export default function MedicalRegisterCreate() {
                         name="viewType"
                         checked={viewType === 1}
                         className="mr-1 pointer"
-                        style={{ position: "relative", top: "2px" }}
+                        style={{ position: 'relative', top: '2px' }}
                         onChange={(valueOption) => {
                           setViewType(1);
-                          setFieldValue("enroll", "");
-                          setFieldValue("serviceRecipient", "");
-                          setFieldValue("gender", "");
-                          setFieldValue("designation", "");
+                          setFieldValue('enroll', '');
+                          setFieldValue('serviceRecipient', '');
+                          setFieldValue('gender', '');
+                          setFieldValue('designation', '');
                         }}
                         disabled={id && viewType !== 1}
                       />
@@ -254,13 +256,13 @@ export default function MedicalRegisterCreate() {
                         name="viewType"
                         checked={viewType === 2}
                         className="mr-1 pointer"
-                        style={{ position: "relative", top: "2px" }}
+                        style={{ position: 'relative', top: '2px' }}
                         onChange={(e) => {
                           setViewType(2);
-                          setFieldValue("enroll", "");
-                          setFieldValue("serviceRecipient", "");
-                          setFieldValue("gender", "");
-                          setFieldValue("designation", "");
+                          setFieldValue('enroll', '');
+                          setFieldValue('serviceRecipient', '');
+                          setFieldValue('gender', '');
+                          setFieldValue('designation', '');
                         }}
                         disabled={id && viewType !== 2}
                       />
@@ -277,7 +279,7 @@ export default function MedicalRegisterCreate() {
                         name="date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("date", e.target.value);
+                          setFieldValue('date', e.target.value);
                           setItemList([]);
                         }}
                         disabled={id}
@@ -305,21 +307,21 @@ export default function MedicalRegisterCreate() {
                           isSearchIcon={true}
                           handleChange={(valueOption) => {
                             if (valueOption) {
-                              setFieldValue("enroll", valueOption);
+                              setFieldValue('enroll', valueOption);
                               setFieldValue(
-                                "serviceRecipient",
-                                valueOption?.strEmployeeName
+                                'serviceRecipient',
+                                valueOption?.strEmployeeName,
                               );
-                              setFieldValue("gender", valueOption?.gender);
+                              setFieldValue('gender', valueOption?.gender);
                               setFieldValue(
-                                "designation",
-                                valueOption?.employeeInfoDesignation
+                                'designation',
+                                valueOption?.employeeInfoDesignation,
                               );
                             } else {
-                              setFieldValue("enroll", "");
-                              setFieldValue("serviceRecipient", "");
-                              setFieldValue("gender", "");
-                              setFieldValue("designation", "");
+                              setFieldValue('enroll', '');
+                              setFieldValue('serviceRecipient', '');
+                              setFieldValue('gender', '');
+                              setFieldValue('designation', '');
                             }
                           }}
                           loadOptions={loadEnrollList}
@@ -366,16 +368,16 @@ export default function MedicalRegisterCreate() {
                       <NewSelect
                         name="shift"
                         options={[
-                          { value: 1, label: "Shift - A" },
-                          { value: 2, label: "Shift - B" },
-                          { value: 3, label: "Shift - C" },
-                          { value: 4, label: "Shift - General" },
-                          { value: 5, label: "Shift - Medical Checkup" },
+                          { value: 1, label: 'Shift - A' },
+                          { value: 2, label: 'Shift - B' },
+                          { value: 3, label: 'Shift - C' },
+                          { value: 4, label: 'Shift - General' },
+                          { value: 5, label: 'Shift - Medical Checkup' },
                         ]}
                         value={values?.shift}
                         label="Shift"
                         onChange={(valueOption) => {
-                          setFieldValue("shift", valueOption);
+                          setFieldValue('shift', valueOption);
                         }}
                         errors={errors}
                       />
@@ -395,7 +397,7 @@ export default function MedicalRegisterCreate() {
                         value={values?.serviceReason}
                         label="Service Reason"
                         onChange={(valueOption) => {
-                          setFieldValue("serviceReason", valueOption);
+                          setFieldValue('serviceReason', valueOption);
                         }}
                         errors={errors}
                       />
@@ -414,10 +416,13 @@ export default function MedicalRegisterCreate() {
                   </div>
                   <div className="row">
                     <div className="col-lg-3">
-                      <label className='d-flex align-items-center justify-content-between'>
-                          <span>Medicine Name</span>
-                          <span>{selectedItem && ` Stock: 
-                          ${selectedItem?.numCurrentStock || 0 }`}</span>
+                      <label className="d-flex align-items-center justify-content-between">
+                        <span>Medicine Name</span>
+                        <span>
+                          {selectedItem &&
+                            ` Stock: 
+                          ${selectedItem?.numCurrentStock || 0}`}
+                        </span>
                       </label>
                       <NewSelect
                         name="medicineName"
@@ -426,13 +431,13 @@ export default function MedicalRegisterCreate() {
                         //label="Medicine Name"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("medicineName", valueOption);
-                            setFieldValue("uom", valueOption?.strUomName);
-                            setSelectedItem(valueOption)
+                            setFieldValue('medicineName', valueOption);
+                            setFieldValue('uom', valueOption?.strUomName);
+                            setSelectedItem(valueOption);
                           } else {
-                            setFieldValue("medicineName", "");
-                            setFieldValue("uom", "");
-                            setSelectedItem("")
+                            setFieldValue('medicineName', '');
+                            setFieldValue('uom', '');
+                            setSelectedItem('');
                           }
                         }}
                         errors={errors}
@@ -447,13 +452,13 @@ export default function MedicalRegisterCreate() {
                         onChange={(e) => {
                           if (+e.target.value > selectedItem?.numCurrentStock)
                             return toast.warn(
-                                'Medicine quantity must be smaller than or equal to Stock '
+                              'Medicine quantity must be smaller than or equal to Stock ',
                             );
-                          if (+e.target.value > 0){
-                            setFieldValue("medicineQTY", e.target.value);
-                          }else {
-                            setFieldValue("medicineQTY", "");
-                          };                         
+                          if (+e.target.value > 0) {
+                            setFieldValue('medicineQTY', e.target.value);
+                          } else {
+                            setFieldValue('medicineQTY', '');
+                          }
                         }}
                       />
                     </div>
@@ -475,7 +480,7 @@ export default function MedicalRegisterCreate() {
                       />
                     </div>
 
-                    <div style={{ marginTop: "15px" }} className="col-lg-1">
+                    <div style={{ marginTop: '15px' }} className="col-lg-1">
                       <button
                         type="button"
                         onClick={() => {
@@ -497,7 +502,7 @@ export default function MedicalRegisterCreate() {
                           <th className="text-left">Medicine Name </th>
                           <th>Medicine Quantity </th>
                           <th>UoM </th>
-                          <th style={{ width: "50px" }}>Action</th>
+                          <th style={{ width: '50px' }}>Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -512,7 +517,7 @@ export default function MedicalRegisterCreate() {
                               <td className="text-center">
                                 <OverlayTrigger
                                   overlay={
-                                    <Tooltip id="cs-icon">{"Remove"}</Tooltip>
+                                    <Tooltip id="cs-icon">{'Remove'}</Tooltip>
                                   }
                                 >
                                   <span>
@@ -534,14 +539,14 @@ export default function MedicalRegisterCreate() {
 
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>

@@ -39,6 +39,7 @@ import { ShipToPartnerTransfer } from "./shipToPartnerTransfer/landing/table";
 import ShippingPointnTransportRate from "./shippingPointnTransportrate";
 import BusinessPartnerGroupLanding from "./businessPartnerGroup/landing";
 import BusinessPartnerGroupForm from "./businessPartnerGroup/form/addEditForm";
+import SalesForceBenefitAnalysis from "./salesForceBenefitAlalysis";
 
 export function PartnerPages() {
   const userRole = useSelector(
@@ -280,6 +281,11 @@ export function PartnerPages() {
       <ContentRoute
         from="/config/partner-management/businesspartnergroup"
         component={BusinessPartnerGroupLanding}
+      />
+
+      <ContentRoute
+        from="/config/partner-management/Salesforcebenefitanalysis"
+        component={SalesForceBenefitAnalysis}
       />
     </Switch>
   );

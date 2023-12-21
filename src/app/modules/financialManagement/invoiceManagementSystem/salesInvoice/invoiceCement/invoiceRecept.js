@@ -133,7 +133,7 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
               totalQty += item?.totalDeliveredQtyCFT;
               grandTotal += item?.totalAmount || 0;
               // totalItemRate += item?.itemRate || 0;
-              totalNetQty += item?.actualDeliveryQty || 0;
+              totalNetQty += item?.netQty || 0;
 
               return (
                 <tr>
@@ -148,7 +148,7 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                   </td>
                   {channelId === 43 && (
                     <td className="text-right">
-                      {_fixedPoint(item?.actualDeliveryQty, true)}
+                      {_fixedPoint(item?.netQty, true)}
                     </td>
                   )}
                   <td className="text-right" style={{ width: "60px" }}>

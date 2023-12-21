@@ -52,8 +52,9 @@ function SalesInvoiceLanding() {
 
   const getGridData = (values, pageNo = 0, pageSize = 20, search = "") => {
     if (buId === 4 && values?.type?.value === 2) {
+      const searchTerm = search ? `&search=${search}` : "";
       getTopSheetData(
-        `/oms/OManagementReport/GetSalesInvoiceLandingTopSheet?BusinessunitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
+        `/oms/OManagementReport/GetSalesInvoiceLandingTopSheet?BusinessunitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc${searchTerm}`
       );
     } else {
       getSalesInvoiceLanding(
@@ -159,19 +160,21 @@ function SalesInvoiceLanding() {
                     onClick={() => {
                       getGridData(values, pageNo, pageSize);
                     }}
-                    disabled={!values?.fromDate || !values?.toDate}
+                    disabled={
+                      !values?.fromDate || !values?.toDate || !values?.channel
+                    }
                   />
                 </div>
               </Form>
-              {values?.type?.value !== 2 && (
-                <div className="col-lg-6 mt-5">
-                  <PaginationSearch
-                    placeholder="Search"
-                    paginationSearchHandler={paginationSearchHandler}
-                    values={values}
-                  />
-                </div>
-              )}
+              {/* {values?.type?.value !== 2 && ( */}
+              <div className="col-lg-6 mt-5">
+                <PaginationSearch
+                  placeholder="Search"
+                  paginationSearchHandler={paginationSearchHandler}
+                  values={values}
+                />
+              </div>
+              {/* )} */}
               <SalesInvoiceGridData
                 rowDto={rowData(values)}
                 values={values}

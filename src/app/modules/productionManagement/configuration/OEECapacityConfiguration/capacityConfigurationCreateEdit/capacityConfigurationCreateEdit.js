@@ -1,13 +1,22 @@
+import axios from 'axios';
 import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
 import IForm from '../../../../_helper/_form';
 import InputField from '../../../../_helper/_inputField';
 import Loading from '../../../../_helper/_loading';
 import NewSelect from '../../../../_helper/_select';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
-import { plantNameDDLApi, shopFloorNameDDLApi } from './util/api';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import {
+  bomNameDDLApi,
+  itemNameDDLApi,
+  machineNameDDLApi,
+  plantNameDDLApi,
+  shopFloorNameDDLApi,
+} from './util/api';
 import { CapacityConfigurationValidationSchema } from './util/validations';
 
 const initData = {
@@ -25,7 +34,8 @@ const initData = {
 
 export default function CapacityConfigurationCreateEdit() {
   const [objProps, setObjprops] = useState({});
-  const history = useHistory();
+  const [pageTitle, setPageTitle] = useState('');
+  const { location } = useHistory();
 
   //Redux State
   const {
@@ -33,37 +43,106 @@ export default function CapacityConfigurationCreateEdit() {
     profileData: { accountId: accId, userId },
   } = useSelector((state) => state.authData);
 
-  //Call Apis
-  //PlantName
+  //Call Apis - get
   const [plantNameDDL, getPlantNameDDL, plantNameDDLLoading] = useAxiosGet();
-  //ShopFloor
   const [shopFloorDDL, getShopFloorDDL, shopFloorDDLLoading] = useAxiosGet();
-  //machineName
   const [
     machineNameDDL,
     getMachineNameDDL,
     machineNameDDLLoading,
   ] = useAxiosGet();
-  //machineNo
-  const [machineNoDDL, getMachineNoDDL, machineNoDDLLoading] = useAxiosGet();
-  //itemName
+  //   const [machineNoDDL, getMachineNoDDL, machineNoDDLLoading] = useAxiosGet();
   const [itemNameDDL, getItemNameDDL, itemNameDDLLoading] = useAxiosGet();
-  //bomName
   const [bomNameDDL, getBomNameDDL, bomNameDDLLoading] = useAxiosGet();
 
-
+  //Call Apis - post
+  const [, saveCapacityConfiguration] = useAxiosPost();
+  const [, editCapacityConfiguration] = useAxiosPost();
 
   useEffect(() => {
-    getPlantNameDDL(plantNameDDLApi(buId, accId, userId), data => console.log({data}));
-  }, [buId, userId, accId]);
+    getPlantNameDDL(plantNameDDLApi(buId, accId, userId));
+  }, [buId, accId, userId]);
+
+  const loadItemNameDDL = (searchText, PlantId) => {
+    if (searchText?.length < 3) return [];
+    return axios
+      .get(itemNameDDLApi(accId, buId, PlantId, searchText))
+      .then((res) => res?.data);
+  };
+
+  let editableInitData;
+  if (location?.state?.rowData) {
+    const rowData = location?.state?.rowData;
+    editableInitData = {
+      plantName: { value: rowData?.plantId, label: rowData?.plantName },
+      shopFloor: { value: rowData?.shopfloorId, label: rowData?.shopFloorName },
+      machineName: { value: rowData?.machineId, label: rowData?.machineName },
+      itemName: { value: rowData?.itemId, label: rowData?.itemName },
+      bomName: { value: rowData?.bomId, label: rowData?.bomName },
+      machineCapacityPerHr: rowData?.machineCapacityPerHour,
+      SMVCycleTime: rowData?.smvcycleTime,
+      standardRPM: rowData?.standerdRpm,
+      stdWastage: rowData?.stdWastagesQty,
+      nptConfigId: rowData?.nptConfigId,
+    };
+  }
 
   const saveHandler = (values, cb) => {
-    alert('Working...');
+    const savePayload = {
+      businessUnitId: buId,
+      plantId: values?.plantName?.value,
+      plantName: values?.plantName?.label,
+      shopfloorId: values?.shopFloor?.value,
+      shopFloorName: values?.shopFloor?.label,
+      machineId: values?.machineName?.value,
+      machineName: values?.machineName?.label,
+      machineCode: '',
+      itemId: values?.itemName?.value,
+      itemName: values?.itemName?.label,
+      bomId: values?.bomName?.value,
+      bomName: values?.bomName?.label,
+      machineCapacityPerHour: values?.machineCapacityPerHr,
+      smvcycleTime: values?.SMVCycleTime,
+      standerdRpm: values?.standardRPM,
+      stdWastagesQty: values?.stdWastage,
+      isActive: true,
+      createBy: userId,
+    };
+
+    const editingPayload = {
+      nptConfigId: values?.nptConfigId,
+      machineCapacityPerHour: values?.machineCapacityPerHr,
+      smvcycleTime: values?.SMVCycleTime,
+      standerdRpm: values?.standardRPM,
+      stdWastagesQty: values?.stdWastage,
+      isActive: true,
+      updateBy: userId,
+    };
+
+    if (location?.state?.isEditPage) {
+      editCapacityConfiguration(
+        `/mes/OeeProductWaste/EditCapacityConfiguration`,
+        editingPayload,
+        null,
+        true,
+      );
+    } else {
+      saveCapacityConfiguration(
+        `/mes/OeeProductWaste/CreateCapacityConfiguration`,
+        savePayload,
+        null,
+        true,
+      );
+    }
   };
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={initData}
+      initialValues={
+        location?.state?.rowData
+          ? { ...initData, ...editableInitData }
+          : initData
+      }
       validationSchema={CapacityConfigurationValidationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
@@ -82,19 +161,31 @@ export default function CapacityConfigurationCreateEdit() {
       }) => (
         <>
           {false && <Loading />}
-          <IForm title={`Create Capacity Configuration`} getProps={setObjprops}>
+          <IForm
+            title={`${
+              location?.state?.rowData ? 'Edit' : 'Create'
+            } Capacity Configuration`}
+            getProps={setObjprops}
+          >
             <Form>
               <div className="form-group  global-form row">
                 <div className="col-lg-3">
                   <NewSelect
                     name="Plant Name"
-                    options={plantNameDDL ||[]}
+                    options={plantNameDDL || []}
                     value={values?.plantName}
                     label="Plant Name"
                     onChange={(valueOption) => {
+                      setFieldValue('itemName', '');
+                      setFieldValue('bomName', '');
                       setFieldValue('plantName', valueOption);
-                      if(valueOption) {
-                        getShopFloorDDL(shopFloorNameDDLApi(accId, buId, valueOption.value))
+                      if (valueOption?.value) {
+                        getShopFloorDDL(
+                          shopFloorNameDDLApi(accId, buId, valueOption.value),
+                        );
+                        getItemNameDDL(
+                          itemNameDDLApi(accId, buId, valueOption.value),
+                        );
                       }
                     }}
                     errors={errors}
@@ -108,7 +199,13 @@ export default function CapacityConfigurationCreateEdit() {
                     value={values?.shopFloor}
                     label="Shop Floor/Section"
                     onChange={(valueOption) => {
+                      setFieldValue('bomName', '');
                       setFieldValue('shopFloor', valueOption);
+                      if (valueOption) {
+                        getMachineNameDDL(
+                          machineNameDDLApi(buId, valueOption.value),
+                        );
+                      }
                     }}
                     errors={errors}
                     touched={touched}
@@ -128,29 +225,29 @@ export default function CapacityConfigurationCreateEdit() {
                   />
                 </div>
                 <div className="col-lg-3">
-                  <NewSelect
-                    name="Machine No"
-                    options={machineNoDDL || []}
-                    value={values?.machineNo}
-                    label="Machin No"
-                    onChange={(valueOption) => {
-                      setFieldValue('machineNo', valueOption);
-                    }}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="Item Name"
-                    options={itemNameDDL || []}
-                    value={values?.itemName}
-                    label="Item Name"
-                    onChange={(valueOption) => {
+                  <label>Item Name</label>
+                  <SearchAsyncSelect
+                    selectedValue={values?.itemName}
+                    isSearchIcon={true}
+                    isDisabled={!values?.plantName?.value}
+                    handleChange={(valueOption) => {
                       setFieldValue('itemName', valueOption);
+                      if (valueOption) {
+                        getBomNameDDL(
+                          bomNameDDLApi({
+                            buId,
+                            accId,
+                            plantId: values?.plantName.value,
+                            itemId: valueOption.value,
+                            shopFloorId: values?.shopFloor.value,
+                          }),
+                        );
+                      }
                     }}
-                    errors={errors}
-                    touched={touched}
+                    loadOptions={(s) =>
+                      loadItemNameDDL(s, values?.plantName?.value)
+                    }
+                    placeholder="Search by - "
                   />
                 </div>
                 <div className="col-lg-3">
@@ -158,7 +255,7 @@ export default function CapacityConfigurationCreateEdit() {
                     name="BoM Name"
                     options={bomNameDDL || []}
                     value={values?.bomName}
-                    label="BoM Name" 
+                    label="BoM Name"
                     onChange={(valueOption) => {
                       setFieldValue('bomName', valueOption);
                     }}
@@ -171,8 +268,8 @@ export default function CapacityConfigurationCreateEdit() {
                     name="Machine Capacity Per Hr"
                     value={values?.machineCapacityPerHr}
                     label="Machine Capacity Per Hr"
-                    onChange={(valueOption) => {
-                      setFieldValue('machineCapacityPerHr', valueOption);
+                    onChange={(e) => {
+                      setFieldValue('machineCapacityPerHr', e.target.value);
                     }}
                   />
                 </div>
@@ -181,8 +278,8 @@ export default function CapacityConfigurationCreateEdit() {
                     name="SMV Cycle Time"
                     value={values?.SMVCycleTime}
                     label="SMV Cycle Time"
-                    onChange={(valueOption) => {
-                      setFieldValue('SMVCycleTime', valueOption);
+                    onChange={(e) => {
+                      setFieldValue('SMVCycleTime', e.target.value);
                     }}
                   />
                 </div>
