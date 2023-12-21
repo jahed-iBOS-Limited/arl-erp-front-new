@@ -11,6 +11,7 @@ import { cancelSalesInvoice, getInvoiceDataForPrint } from "./helper";
 import ICon from "../../../chartering/_chartinghelper/icons/_icon";
 import InvoiceReceptForCement from "./invoiceCement/invoiceRecept";
 import { useCementInvoicePrintHandler } from "./Form/formHandlerBluePill";
+import { toast } from "react-toastify";
 
 const SalesInvoiceGridData = ({
   rowDto,
@@ -45,7 +46,7 @@ const SalesInvoiceGridData = ({
               <thead>
                 <tr>
                   <th style={{ width: "40px" }}>SL</th>
-                  {values?.type?.value !== 2 && <th>Invoice No</th>}
+                  <th>Invoice No</th>
                   <th>Invoice Date</th>
                   {values?.type?.value !== 2 && <th>Challan Date</th>}
                   <th>Partner Name</th>
@@ -60,9 +61,9 @@ const SalesInvoiceGridData = ({
                 {rowDto?.data?.map((tableData, index) => (
                   <tr key={index}>
                     <td className="text-center"> {index + 1} </td>
-                    {values?.type?.value !== 2 && (
-                      <td>{tableData?.strInvoiceNumber}</td>
-                    )}
+
+                    <td>{tableData?.strInvoiceNumber}</td>
+
                     <td>{_dateFormatter(tableData?.dteInvoiceDate)}</td>
                     {values?.type?.value !== 2 && (
                       <td>{_dateFormatter(tableData?.dteChallanDate)}</td>
@@ -79,16 +80,25 @@ const SalesInvoiceGridData = ({
                               <ICon
                                 title={"Print Sales Invoice"}
                                 onClick={() => {
-                                  getInvoiceDataForPrint(
-                                    tableData?.intUnitId,
-                                    tableData?.strInvoiceNumber,
-                                    tableData?.intPartnerId,
-                                    setLoading,
-                                    (resData) => {
-                                      setInvoiceData(resData);
-                                      handleInvoicePrintCement();
-                                    }
-                                  );
+                                  if (
+                                    values?.channel &&
+                                    values?.channel?.value !== 0
+                                  ) {
+                                    getInvoiceDataForPrint(
+                                      tableData?.intUnitId,
+                                      tableData?.strInvoiceNumber,
+                                      tableData?.intPartnerId,
+                                      setLoading,
+                                      (resData) => {
+                                        setInvoiceData(resData);
+                                        handleInvoicePrintCement();
+                                      }
+                                    );
+                                  } else {
+                                    toast.warn(
+                                      "Please select a specific distribution channel."
+                                    );
+                                  }
                                 }}
                               >
                                 <i class="fas fa-print"></i>
