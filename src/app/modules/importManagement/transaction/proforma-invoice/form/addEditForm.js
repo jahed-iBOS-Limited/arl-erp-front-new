@@ -67,10 +67,28 @@ export default function AddEditForm() {
 
   const setDataToGrid = (values, cb) => {
     let data = [...rowDto];
-    if (data.find((item) => item?.itemId === values?.itemDDL.value)) {
+    if (
+      // data.find((item) => item?.itemId === values?.itemDDL.value)
+      data?.find(
+        (item) =>
+          item?.itemId === values?.itemDDL?.value &&
+          (values?.referenceType?.value === 1
+            ? item?.referenceId === values?.purchaseContractNo?.value
+            : item?.referenceId === values?.purchaseRequestNo?.value)
+      )
+    ) {
       return toast.error("Item is already added");
     } else {
       const obj = {
+        referenceType: values?.referenceType?.label,
+        referenceId:
+          values?.referenceType?.value === 1
+            ? values?.purchaseContractNo?.value
+            : values?.purchaseRequestNo?.value,
+        referenceCode:
+          values?.referenceType?.value === 1
+            ? values?.purchaseContractNo?.label
+            : values?.purchaseRequestNo?.label,
         itemId: values?.itemDDL.value,
         label: values?.itemDDL.label,
         itemName: values?.itemDDL.label,
@@ -108,7 +126,6 @@ export default function AddEditForm() {
   };
 
   const saveHandler = async (values, cb) => {
-    console.log("saveHandler values", values);
     if (rowDto.length === 0) {
       toast.warn("Please add at least one Item");
       return;
