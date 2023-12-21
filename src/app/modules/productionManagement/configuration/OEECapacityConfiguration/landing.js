@@ -9,11 +9,12 @@ import Loading from '../../../_helper/_loading';
 import NewSelect from '../../../_helper/_select';
 import PaginationTable from '../../../_helper/_tablePagination';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 import {
-    getLandingData,
-    machineNameDDLApi,
-    plantNameDDLApi,
-    shopFloorNameDDLApi,
+  getLandingData,
+  machineNameDDLApi,
+  plantNameDDLApi,
+  shopFloorNameDDLApi,
 } from './capacityConfigurationCreateEdit/util/api';
 
 const initData = {
@@ -31,6 +32,11 @@ export default function OEECapacityConfigurationLanding() {
   const [rowData, getRowData, loadingRowData, setRowData] = useAxiosGet();
   //ShopFloor
   const [shopFloorDDL, getShopFloorDDL] = useAxiosGet();
+  const [
+    ,
+    deleteCapacityConfiguration,
+    deleteCapacityConfigurationLoading,
+  ] = useAxiosPost();
   //machineName
   const [
     machineNameDDL,
@@ -54,6 +60,20 @@ export default function OEECapacityConfigurationLanding() {
         pageSize,
       ),
     );
+  };
+
+  const handleDeleteCapacityConfig = (nptConfigId, values) => {
+    if (window.confirm('Are you sure to delete the configuration?'))
+      deleteCapacityConfiguration(
+        `/mes/OeeProductWaste/DeleteCapacityConfiguration?id=${nptConfigId}`,
+        null,
+        (res) => {
+          if(res.statuscode == 200){
+            setPositionHandler(pageNo, pageSize, values)
+          }
+        },
+        true,
+      );
   };
 
   useEffect(() => {
@@ -258,7 +278,11 @@ export default function OEECapacityConfigurationLanding() {
                             >
                               <IEdit />
                             </span>
-                            <span>
+                            <span
+                              onClick={() =>
+                                handleDeleteCapacityConfig(item?.nptConfigId, values)
+                              }
+                            >
                               <IDelete />
                             </span>
                           </div>
