@@ -41,7 +41,7 @@ export const getSingleData = async (id, setter, setRowDto, setDisabled) => {
     const { objHeader, objRow } = res?.data;
     const payload = {
       ...objHeader,
-
+      // referenceType
       sbuDDL: {
         label: objHeader?.sbuName,
         value: objHeader?.sbuId,
@@ -85,15 +85,30 @@ export const getSingleData = async (id, setter, setRowDto, setDisabled) => {
         value: objHeader?.currencyId,
       },
       tolarance: objHeader?.tolarance || 0,
-      purchaseRequestNo: {
-        value: objHeader?.purchaseRequestNo,
-        label: objHeader?.purchaseRequestNo,
-      },
+      // purchaseRequestNo: {
+      //   value: objHeader?.purchaseRequestNo,
+      //   label: objHeader?.purchaseRequestNo,
+      // },
+      purchaseRequestNo: "",
+      // referenceType: {
+      //   label: objHeader?.purchaseContractId
+      //     ? "Purchase Contract"
+      //     : "Purchase Request",
+      //   value: objHeader?.purchaseContractId ? 1 : 2,
+      // },
       referenceType: {
-        label: objHeader?.purchaseContractId
-          ? "Purchase Contract"
-          : "Purchase Request",
-        value: objHeader?.purchaseContractId ? 1 : 2,
+        label:
+          objHeader?.referenceTypeId === 1
+            ? "Purchase Contract"
+            : objHeader?.purchaseRequestId === 2
+            ? "Purchase Request"
+            : "",
+        value:
+          objHeader?.referenceTypeId === 1
+            ? 1
+            : objHeader?.referenceTypeId === 2
+            ? 2
+            : null,
       },
       purchaseContractNo: {
         label: objHeader?.purchaseContractNo,
@@ -135,6 +150,7 @@ export const createPI = async (
     values,
     rowDto
   );
+  console.log("createPayloadChange", obj);
   try {
     setDisabled(true);
     const res = await Axios.post(
@@ -157,6 +173,9 @@ const createPayloadChange = (
   rowDto
 ) => {
   let modifyArray = rowDto?.map((item) => ({
+    referenceType: item?.referenceType,
+    referenceId: item?.referenceId,
+    referenceCode: item?.referenceCode,
     hscode: item?.hscode,
     uomId: item?.uomId,
     uomName: item?.uomName,
@@ -198,10 +217,14 @@ const createPayloadChange = (
       metarialTypeId: values?.materialTypeDDL?.value,
       metarialTypeName: values?.materialTypeDDL?.label,
       sbuId: values?.sbuDDL?.value,
-      purchaseRequestNo: values?.purchaseRequestNo?.label || "",
-      purchaseRequestId: values?.purchaseRequestNo?.value || 0,
-      purchaseContractId: values?.purchaseContractNo?.value || 0,
-      purchaseContractNo: values?.purchaseContractNo?.label || "",
+      // purchaseRequestNo: values?.purchaseRequestNo?.label || "",
+      // purchaseRequestId: values?.purchaseRequestNo?.value || 0,
+      // purchaseContractId: values?.purchaseContractNo?.value || 0,
+      // purchaseContractNo: values?.purchaseContractNo?.label || "",
+      purchaseRequestNo: "",
+      purchaseRequestId: 0,
+      purchaseContractId: 0,
+      purchaseContractNo: "",
       dteEta: values?.etaDate,
       dteEstimatedLaycanDate: values?.dteEstimatedLaycanDate,
     },
@@ -232,6 +255,9 @@ export const updatePi = async (
 
 const updatePayloadChange = (values, rowDto) => {
   let modifyArray = rowDto?.map((item) => ({
+    referenceType: item?.referenceType,
+    referenceId: item?.referenceId,
+    referenceCode: item?.referenceCode,
     hscode: item?.hscode,
     uomId: item?.uomId,
     uomName: item?.uomName,
