@@ -12,7 +12,8 @@ import {
   createShippingAgency,
   getVesselDDL,
   getVesselTypeDDL,
-  updateShippingAgency
+  shippingAgencyValidation,
+  updateShippingAgency,
 } from "../helper";
 
 const initData = {
@@ -148,7 +149,6 @@ export default function ShippingAgencyCreateEditForm() {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buId, accId]);
-  console.log("state", state);
   useEffect(() => {
     if (id && state) {
       const modifiedData = {
@@ -210,7 +210,7 @@ export default function ShippingAgencyCreateEditForm() {
     <Formik
       enableReinitialize={true}
       initialValues={id ? singleData : initData}
-      // validationSchema={shippingAgencyValidation}
+      validationSchema={shippingAgencyValidation}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         if (rowData?.length < 1 && !id) {
           toast.warn("Add minimum one item");
@@ -266,13 +266,13 @@ export default function ShippingAgencyCreateEditForm() {
                     touched={touched}
                   />
                 </div>
-                {
+                {/* {
                   console.log("Error",errors)
                   
                 }
                 {
                   console.log("touched",touched)
-                }
+                } */}
                 <div className="col-lg-3">
                   <NewSelect
                     name="revenueCenter"
@@ -280,18 +280,15 @@ export default function ShippingAgencyCreateEditForm() {
                     value={values?.revenueCenter}
                     label="Revenue Center"
                     onChange={(valueOption) => {
-                      if (valueOption) {
-                        setFieldValue("revenueCenter", valueOption);
-                        getRevenueElementDDL(
-                          `/costmgmt/Revenue/GetRevenueElementDDL?accountId=${accId}&businessUnitId=${buId}&revenueCenterId=0`
-                        );
-                      } else {
-                        setFieldValue("revenueCenter", "");
-                      }
                       setFieldValue("revenueElement", "");
+                      setFieldValue("revenueCenter", valueOption);
+                      if (!valueOption) return;
+                      getRevenueElementDDL(
+                        `/costmgmt/Revenue/GetRevenueElementDDL?accountId=${accId}&businessUnitId=${buId}&revenueCenterId=0`
+                      );
                     }}
                     errors={errors}
-                    // touched={touched}
+                    touched={touched}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -301,9 +298,7 @@ export default function ShippingAgencyCreateEditForm() {
                     value={values?.revenueElement}
                     label="Revenue Element"
                     onChange={(valueOption) => {
-                      if (valueOption) {
-                        setFieldValue("revenueElement", valueOption);
-                      }
+                      setFieldValue("revenueElement", valueOption);
                     }}
                     isDisabled={!values?.revenueCenter}
                     errors={errors}
@@ -319,21 +314,18 @@ export default function ShippingAgencyCreateEditForm() {
                     label="Cost Center"
                     placeholder="Cost Center"
                     onChange={(valueOption) => {
-                      if (valueOption) {
-                        setFieldValue("costCenter", valueOption);
-                        getProfitCenterDDL(
-                          `costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=${valueOption?.value}&businessUnitId=${buId}&employeeId=0`
-                        ); // employee id will be hardcoded 0 ensure by Nasir Bhai
-                      } else {
-                        setFieldValue("costCenter", "");
-                      }
                       setFieldValue("profitCenter", "");
+                      setFieldValue("costCenter", valueOption);
+                      if (!valueOption) return;
+                      getProfitCenterDDL(
+                        `costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=${valueOption?.value}&businessUnitId=${buId}&employeeId=0`
+                      ); // employee id will be hardcoded 0 ensure by Nasir Bhai
                     }}
                     errors={errors}
                     touched={touched}
                   />
                 </div>
-                {console.log("values",values)}
+                {/* {console.log("values",values)} */}
                 <div className="col-lg-3">
                   <NewSelect
                     name="profitCenter"
@@ -355,16 +347,12 @@ export default function ShippingAgencyCreateEditForm() {
                     value={values?.transferBusinessUnit}
                     label="Transfer Business Unit"
                     onChange={(valueOption) => {
-                      if (valueOption) {
-                        setFieldValue("transferBusinessUnit", valueOption);
-
-                        getTransferCostCenter(
-                          `/costmgmt/CostCenter/GetCostCenterDDL?AccountId=${accId}&BusinessUnitId=${valueOption?.value}&SBUId=0`
-                        );
-                      } else {
-                        setFieldValue("transferBusinessUnit", "");
-                      }
                       setFieldValue("transferCostCenter", "");
+                      setFieldValue("transferBusinessUnit", valueOption);
+                      if (!valueOption) return;
+                      getTransferCostCenter(
+                        `/costmgmt/CostCenter/GetCostCenterDDL?AccountId=${accId}&BusinessUnitId=${valueOption?.value}&SBUId=0`
+                      );
                     }}
                     placeholder="Transfer Business Unit"
                     errors={errors}
@@ -379,21 +367,16 @@ export default function ShippingAgencyCreateEditForm() {
                     label="Transfer Cost Center"
                     placeholder="Transfer Cost Center"
                     onChange={(valueOption) => {
-                      if (valueOption) {
-                        setFieldValue("transferCostCenter", valueOption);
-                        setFieldValue("transferProfitCenter", "");
-                        setFieldValue("costElement", "");
-                        getConstElementDDL(
-                          `/procurement/PurchaseOrder/GetCostElementByCostCenter?AccountId=${accId}&UnitId=${values?.transferBusinessUnit?.value}&CostCenterId=${valueOption?.value}`
-                        );
-                        getTransferProfitCenterDDL(
-                          `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=${valueOption?.value}&businessUnitId=${values?.transferBusinessUnit?.value}&employeeId=0`
-                        );
-                      } else {
-                        setFieldValue("transferCostCenter", "");
-                        setFieldValue("costElement", "");
-                        setFieldValue("transferProfitCenter", "");
-                      }
+                      setFieldValue("transferProfitCenter", "");
+                      setFieldValue("costElement", "");
+                      setFieldValue("transferCostCenter", valueOption);
+                      if (!valueOption) return;
+                      getConstElementDDL(
+                        `/procurement/PurchaseOrder/GetCostElementByCostCenter?AccountId=${accId}&UnitId=${values?.transferBusinessUnit?.value}&CostCenterId=${valueOption?.value}`
+                      );
+                      getTransferProfitCenterDDL(
+                        `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=${valueOption?.value}&businessUnitId=${values?.transferBusinessUnit?.value}&employeeId=0`
+                      );
                     }}
                     errors={errors}
                     touched={touched}
