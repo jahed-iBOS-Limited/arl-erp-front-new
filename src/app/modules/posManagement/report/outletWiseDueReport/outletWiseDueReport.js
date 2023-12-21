@@ -18,17 +18,19 @@ import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 import { generateJsonToExcel } from "../../../_helper/excel/jsonToExcel";
 import { getOutletWiseDueReport, getWarehouseDDL } from "../helper";
-
+import InputField from "../../../_helper/_inputField";
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
   wareHouse: "",
+  fromMonthYear: "",
+  toMonthYear: "",
 };
 
 export default function OutletWiseDueReport() {
   const [gridData, setGridData] = useState([]);
-  const [outletDDL, setOutletDDL] = useState([])
+  const [outletDDL, setOutletDDL] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const headers = [
@@ -38,16 +40,24 @@ export default function OutletWiseDueReport() {
     "Bussiness Unit",
     "Department",
     "Designation",
-    "Due Amount"
+    "Due Amount",
   ];
 
   const printRef = useRef();
 
   const getGridData = (values) => {
-    getOutletWiseDueReport(values?.outlet?.value, setGridData, setLoading);
+    getOutletWiseDueReport(
+      values?.outlet?.value,
+      setGridData,
+      setLoading,
+      values?.fromMonthYear,
+      values?.toMonthYear
+    );
   };
 
-  const { profileData, selectedBusinessUnit } = useSelector(state => state?.authData)
+  const { profileData, selectedBusinessUnit } = useSelector(
+    (state) => state?.authData
+  );
 
   useEffect(() => {
     getWarehouseDDL(
@@ -56,59 +66,55 @@ export default function OutletWiseDueReport() {
       profileData?.userId,
       setOutletDDL
     );
-  }, [profileData, selectedBusinessUnit])
+  }, [profileData, selectedBusinessUnit]);
 
-
-  const generateExcel = data => {
-
+  const generateExcel = (data) => {
     const header = [
       {
-        text: 'Customer Name',
-        textFormat: 'text',
-        alignment: 'center:middle',
-        key: 'strEmployeeName',
+        text: "Customer Name",
+        textFormat: "text",
+        alignment: "center:middle",
+        key: "strEmployeeName",
       },
       {
-        text: 'Enroll',
-        textFormat: 'text',
-        alignment: 'center:middle',
-        key: 'intWHEnrollNo',
+        text: "Enroll",
+        textFormat: "text",
+        alignment: "center:middle",
+        key: "intWHEnrollNo",
       },
       {
-        text: 'Bussiness Unit',
-        textFormat: 'text',
-        alignment: 'center:middle',
-        key: 'strUnit',
+        text: "Bussiness Unit",
+        textFormat: "text",
+        alignment: "center:middle",
+        key: "strUnit",
       },
       {
-        text: 'Department',
-        textFormat: 'text',
-        alignment: 'center:middle',
-        key: 'strDepatrment',
+        text: "Department",
+        textFormat: "text",
+        alignment: "center:middle",
+        key: "strDepatrment",
       },
       {
-        text: 'Designation',
-        textFormat: 'text',
-        alignment: 'center:middle',
-        key: 'strdesignation',
+        text: "Designation",
+        textFormat: "text",
+        alignment: "center:middle",
+        key: "strdesignation",
       },
       {
-        text: 'Due Amount',
-        textFormat: 'text',
-        alignment: 'center:middle',
-        key: 'amount',
+        text: "Due Amount",
+        textFormat: "text",
+        alignment: "center:middle",
+        key: "amount",
       },
-    ]
+    ];
     const _data = data.map((item, index) => {
-      return ({
+      return {
         ...item,
         sl: index + 1,
-      })
-    })
-    generateJsonToExcel(header, _data)
-
-
-  }
+      };
+    });
+    generateJsonToExcel(header, _data);
+  };
   let toatalDueAmount = 0;
 
   return (
@@ -117,7 +123,7 @@ export default function OutletWiseDueReport() {
         enableReinitialize={true}
         initialValues={initData}
         //validationSchema={validationSchema}
-        onSubmit={() => { }}
+        onSubmit={() => {}}
       >
         {({ setFieldValue, values }) => (
           <>
@@ -162,6 +168,30 @@ export default function OutletWiseDueReport() {
                         placeholder="Warehouse"
                       />
                     </div>
+                    <div className="col-lg-3">
+                      <label>From Month-Year</label>
+                      <InputField
+                        name="fromMonthYear"
+                        type="month"
+                        placeholder="From Date"
+                        value={values?.fromMonthYear}
+                        onChange={(e) => {
+                          setFieldValue("fromMonthYear", e?.target?.value);
+                        }}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <label>To Month-Year</label>
+                      <InputField
+                        name="toMonthYear"
+                        type="month"
+                        placeholder="From Date"
+                        value={values?.toMonthYear}
+                        onChange={(e) => {
+                          setFieldValue("toMonthYear", e?.target?.value);
+                        }}
+                      />
+                    </div>
                     <div className="col-lg-1">
                       <button
                         className="btn btn-primary mr-1"
@@ -170,7 +200,11 @@ export default function OutletWiseDueReport() {
                         onClick={() => {
                           getGridData(values);
                         }}
-                        disabled={!values?.outlet}
+                        disabled={
+                          !values?.outlet ||
+                          !values?.fromMonthYear ||
+                          !values?.toMonthYear
+                        }
                       >
                         Show
                       </button>
@@ -193,7 +227,7 @@ export default function OutletWiseDueReport() {
                   <div ref={printRef}>
                     <ICustomTable ths={headers}>
                       {gridData?.map((item, index) => {
-                        toatalDueAmount += item?.amount
+                        toatalDueAmount += item?.amount;
                         return (
                           <tr key={index}>
                             <td>
@@ -210,7 +244,12 @@ export default function OutletWiseDueReport() {
                       })}
                       <tr>
                         <td colSpan={6}>
-                          <p className="text-right mb-0" style={{fontWeight: "bold"}}>{"Total"}</p>{" "}
+                          <p
+                            className="text-right mb-0"
+                            style={{ fontWeight: "bold" }}
+                          >
+                            {"Total"}
+                          </p>{" "}
                         </td>
                         <td className="text-right">{toatalDueAmount}</td>
                       </tr>

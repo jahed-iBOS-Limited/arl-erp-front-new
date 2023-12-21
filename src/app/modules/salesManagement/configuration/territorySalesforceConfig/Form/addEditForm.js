@@ -47,7 +47,7 @@ export default function TerritorySalesForceConfigForm({
 
   const empList = empDDL?.map((item) => ({
     ...item,
-    label: `${item?.label} [${item?.value}]`,
+    label: `${item?.label} [${item?.departmentName}] [${item?.value}]`,
     name: item?.label,
   }));
 
