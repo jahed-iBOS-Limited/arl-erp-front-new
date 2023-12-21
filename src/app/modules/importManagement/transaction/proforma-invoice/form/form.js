@@ -149,8 +149,6 @@ export default function _Form({
           setValues,
         }) => (
           <>
-            {/* {console.log(errors, "errors")} */}
-            {/* {console.log(values, "values")} */}
             <Form className="form form-label-right">
               <div className="global-form">
                 <div className="row">
@@ -159,8 +157,8 @@ export default function _Form({
                       <NewSelect
                         name="referenceType"
                         options={[
-                          { label: "Purchase Contract", value: 1 },
-                          { label: "Purchase Request", value: 2 },
+                          { value: 1, label: "Purchase Contract" },
+                          { value: 2, label: "Purchase Request" },
                         ]}
                         value={values?.referenceType}
                         label="Reference Type"
@@ -197,7 +195,10 @@ export default function _Form({
                         )}{" "}
                       </label>
                       <SearchAsyncSelect
-                        isDisabled={viewType === "view" || viewType === "edit"}
+                        isDisabled={
+                          viewType === "view"
+                          // || viewType === "edit"
+                        }
                         paddingRight="10px"
                         name="purchaseRequestNo"
                         placeholder="Purchase Request No"
@@ -226,24 +227,16 @@ export default function _Form({
                               values?.referenceType?.value,
                               setItemDDL
                             );
-                            setRowDto([]);
+                            // setRowDto([]);
                             setFieldValue("isAllItem", false);
                             setFieldValue("itemDDL", "");
                           } else {
                             setFieldValue("sbuDDL", "");
                             setFieldValue("plantDDL", "");
-                            setRowDto([]);
+                            // setRowDto([]);
                             setFieldValue("isAllItem", false);
                             setFieldValue("itemDDL", "");
                           }
-                          // requirements change by mahmud vai
-                          // checkPurchaseRequestNo(
-                          //   valueOption?.label,
-                          //   setPurchaseRequestValidity,
-                          //   profileData?.accountId,
-                          //   selectedBusinessUnit?.value,
-                          //   setFieldValue
-                          // );
                         }}
                         loadOptions={loadPartsList}
                       />
@@ -319,50 +312,6 @@ export default function _Form({
                       />
                     </div>
                   )}
-                  {/* <div className='col-lg-3'>
-                    <label>
-                      Purchase Request No{" "}
-                      {viewType !== "view" && (
-                        <span>
-                          <small
-                            style={{
-                              color: `${
-                                purchaseRequestValidity?.status === true
-                                  ? "green"
-                                  : "red"
-                              }`,
-                            }}
-                          >
-                            {purchaseRequestValidity?.status === true
-                              ? "Purchase Request No Valid"
-                              : purchaseRequestValidity?.status === false
-                              ? "Purchase Request No Invalid"
-                              : ""}
-                          </small>
-                        </span>
-                      )}{" "}
-                    </label>
-                    <InputField
-                      value={values?.purchaseRequestNo}
-                      name='purchaseRequestNo'
-                      placeholder='Purchase Request No'
-                      type='text'
-                      disabled={viewType === "view"}
-                      onBlur={(e) => {
-                        checkPurchaseRequestNo(
-                          e?.target?.value,
-                          setPurchaseRequestValidity,
-                          profileData?.accountId,
-                          selectedBusinessUnit?.value,
-                          setFieldValue
-                        );
-                        getItemDDL(e?.target?.value, setItemDDL);
-                        setFieldValue("sbuDDL", "");
-                        setFieldValue("plantDDL", "");
-                      }}
-                    />
-                  </div> */}
-                  {/* {console.log("values", values)} */}
                   <div className="col-lg-3">
                     <NewSelect
                       value={values?.sbuDDL}
@@ -374,7 +323,6 @@ export default function _Form({
                       onChange={(valueOption) => {
                         setFieldValue("sbuDDL", valueOption);
                       }}
-                      // isDisabled={viewType === "view" || viewType === "edit"}
                       isDisabled
                       errors={errors}
                       touched={touched}
@@ -391,7 +339,6 @@ export default function _Form({
                       onChange={(valueOption) => {
                         setFieldValue("plantDDL", valueOption);
                       }}
-                      // isDisabled={viewType === "view" || viewType === "edit"}
                       isDisabled
                       errors={errors}
                       touched={touched}
@@ -515,21 +462,6 @@ export default function _Form({
                       isDisabled={viewType === "view"}
                     />
                   </div>
-                  {/* <div className="col-lg-3 ">
-                    <NewSelect
-                      name="bankNameDDL"
-                      options={bankNameDDL}
-                      value={values?.bankNameDDL}
-                      label="Bank Name"
-                      onChange={(valueOption) => {
-                        setFieldValue("bankNameDDL", valueOption);
-                      }}
-                      placeholder="Bank Name"
-                      errors={errors}
-                      touched={touched}
-                      isDisabled={viewType === "view"}
-                    />
-                  </div> */}
                   <div className="col-lg-3 ">
                     <NewSelect
                       name="countryOriginDDL"
@@ -668,8 +600,8 @@ export default function _Form({
                         disabled={
                           values?.itemDDL ||
                           (!values?.purchaseRequestNo &&
-                            !values?.purchaseContractNo) ||
-                          rowDto.length > 0
+                            !values?.purchaseContractNo)
+                          // || rowDto.length > 0
                         }
                         onChange={(e) => {
                           setFieldValue("isAllItem", e?.target?.checked);
@@ -713,6 +645,12 @@ export default function _Form({
                       ? header
                       : [
                           "SL",
+                          // add pr no conditionally
+
+                          values?.referenceType?.value === 2
+                            ? "PR No"
+                            : "PC No",
+                          // "PR No",
                           "Item",
                           "Ref Qty",
                           "HS Code",
@@ -730,6 +668,9 @@ export default function _Form({
                         <tr key={index}>
                           <td style={{ width: "30px" }} className="text-center">
                             {index + 1}
+                          </td>
+                          <td style={{ width: "250px" }}>
+                            {item?.referenceCode}
                           </td>
                           <td style={{ width: "250px" }}>{item?.label}</td>
                           <td style={{ width: "250px", textAlign: "center" }}>
@@ -838,7 +779,7 @@ export default function _Form({
                       );
                     })}
                   <tr>
-                    <td colspan="6"></td>
+                    <td colspan="7"></td>
                     <td style={{ fontWeight: "700" }}>Total</td>
                     <td className="text-right" style={{ fontWeight: "700" }}>
                       {_formatMoney(
