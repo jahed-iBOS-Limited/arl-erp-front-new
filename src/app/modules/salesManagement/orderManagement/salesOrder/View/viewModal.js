@@ -10,22 +10,20 @@ import ICalendar from "../../../../_helper/_inputCalender";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import IViewModal from "../../../../_helper/_viewModal";
-import { logisticByDDL, updateSalesOrder } from "../helper";
 import {
+  SetAvailableBalanceEmpty_Action,
+  SetPartnerBalanceEmpty_Action,
+  SetUndeliveryValuesEmpty_Action,
   getAvailableBalance_Action,
   getCreditLimitForInternalUser_action,
-  getCurrencyListDDL_Action,
   getDataBySalesOrderId_Action,
   // getItemPlant_Action,
   getPartnerBalance_action,
   getSalesOrderGridData,
   getShipToPartner_Action,
-  getTransportZoneDDL_action,
-  getUndeliveryValues_action,
-  SetAvailableBalanceEmpty_Action,
-  SetPartnerBalanceEmpty_Action,
-  SetUndeliveryValuesEmpty_Action,
+  getUndeliveryValues_action
 } from "../_redux/Actions";
+import { logisticByDDL, updateSalesOrder } from "../helper";
 import { ISelect } from "./../../../../_helper/_inputDropDown";
 import Loading from "./../../../../_helper/_loading";
 import { _todayDate } from "./../../../../_helper/_todayDate";
@@ -80,6 +78,8 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
   const singleData = useSelector((state) => {
     return state.salesOrder?.singleData;
   }, shallowEqual);
+
+  console.log({singleData})
 
   let salesOrderData = useSelector(
     (state) => {
@@ -706,11 +706,11 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
                         <input
                           type='number'
                           name='numRequestQuantity'
-                          value={itm?.numRequestQuantity}
+                          value={itm?.NumOrderQuantity}
                           onChange={(e) => {
                             rowDataHandler(
                               index,
-                              "numRequestQuantity",
+                              "NumOrderQuantity",
                               e?.target?.value
                             );
                           }}
