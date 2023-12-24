@@ -1,20 +1,20 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
-import IViewModal from "../../../../_helper/_viewModal";
-import Schedule from "./schedule";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { shallowEqual, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { addMonthsToDate, calculateMonthDifference } from "./helper";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import IForm from "../../../../_helper/_form";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import IViewModal from "../../../../_helper/_viewModal";
+import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { addMonthsToDate, calculateMonthDifference } from "./helper";
+import Schedule from "./schedule";
 
 const initData = {
   distributionChannel: "",
@@ -43,24 +43,28 @@ export default function ServiceSalesCreate() {
   const [customerList, getCustomerList, customerListLoader] = useAxiosGet();
   const [itemDDL, getItemDDL, itemDDLloader] = useAxiosGet();
   const [itemList, setItemList] = useState([]);
-  const [validFromData, setValidFromData] = useState("");
-  const [validToData, setValidToData] = useState("");
   const [scheduleList, setSheduleList] = useState([]);
   const [scheduleListFOneTime, setSheduleListFOneTime] = useState([]);
   const [netAmount, setNetAmount] = useState(0);
   const [actualAmount, setActualAmount] = useState(0);
+  const [actualVatAmount, setActualVatAmount] = useState(0);
   const formikRef = React.useRef(null);
   const [, saveHandlerFunc, loader] = useAxiosPost();
-  const [scheduleMonthRange, setScheduleMonthRange] = useState(0);
   const [salesOrgList, getSalesOrgList, salesOrgListLoader] = useAxiosGet();
   const [channelDDL, getChannelDDL, channelDDLloader] = useAxiosGet();
 
   useEffect(() => {
     if (itemList?.length) {
-      let amount = (itemList[0]?.qty || 0) * (itemList[0]?.rate || 0);
-      let vat = itemList[0]?.vat || 0;
+      // let amount = (itemList[0]?.qty || 0) * (itemList[0]?.rate || 0);
+      const amount = itemList.reduce(
+        (sum, item) => sum + (item?.qty || 0) * (item?.rate || 0),
+        0
+      );
+      // let vat = itemList[0]?.vat || 0;
+      const vat = itemList.reduce((sum, item) => sum + (item?.vat || 0), 0);
       let netAmount = amount + (amount * vat) / 100;
       setActualAmount(amount);
+      setActualVatAmount(vat);
       setNetAmount(netAmount);
     } else {
       setNetAmount(0);
@@ -301,8 +305,6 @@ export default function ServiceSalesCreate() {
                         onChange={(valueOption) => {
                           setFieldValue("scheduleType", valueOption);
                           setFieldValue("validTo", "");
-                          setValidToData("");
-                          setScheduleMonthRange(valueOption?.range || 0);
                           setItemList([]);
                           setSheduleList([]);
                           setSheduleListFOneTime([]);
@@ -324,8 +326,6 @@ export default function ServiceSalesCreate() {
                           setFieldValue("invoiceDay", e.target.value);
                           setFieldValue("validFrom", "");
                           setFieldValue("validTo", "");
-                          setValidToData("");
-                          setValidFromData("");
                           setSheduleList([]);
                         }}
                       />
@@ -349,8 +349,6 @@ export default function ServiceSalesCreate() {
 
                           setFieldValue("validFrom", e.target.value);
                           setFieldValue("validTo", "");
-                          setValidToData("");
-                          setValidFromData(e.target.value);
                           setSheduleList([]);
                         }}
                       />
@@ -375,7 +373,6 @@ export default function ServiceSalesCreate() {
                             );
                           }
                           setFieldValue("validTo", e.target.value);
-                          setValidToData(e.target.value);
                           setSheduleList([]);
                         }}
                       />
@@ -544,64 +541,78 @@ export default function ServiceSalesCreate() {
                     </div>
                   ) : null}
                   {[2]?.includes(values?.paymentType?.value) ? (
-                    <div style={{ marginTop: "18px" }} className="ml-4">
-                      <button
-                        disabled={
-                          !values?.item?.value ||
-                          !values?.qty ||
-                          !values?.rate ||
-                          !values?.vat ||
-                          itemList?.length
-                        }
-                        onClick={() => {
-                          setSheduleList([]);
-                          let isExist = itemList?.some(
-                            (item) => item.label === values?.item?.label
-                          );
-                          if (isExist) return toast.warn("Already exist");
-                          setItemList((prev) => [
-                            ...prev,
-                            {
-                              ...values?.item,
-                              qty: +values?.qty || 0,
-                              rate: +values?.rate || 0,
-                              vat: +values?.vat || 0,
-                              amount:
-                                (+values?.qty || 0) * (+values?.rate || 0),
-                              netAmount:
-                                (() => {
-                                  let amount =
-                                    (+values?.qty || 0) * (+values?.rate || 0);
-                                  let vat = +values?.vat || 0;
-                                  return amount + (amount * vat) / 100;
-                                })() || 0,
-                              vatAmount:
-                                (() => {
-                                  let amount =
-                                    (+values?.qty || 0) * (+values?.rate || 0);
-                                  let vat = +values?.vat || 0;
-                                  return (amount * vat) / 100;
-                                })() || 0,
-                            },
-                          ]);
+                    <>
+                      <div style={{ marginTop: "18px" }} className="ml-4">
+                        <button
+                          disabled={
+                            !values?.item?.value ||
+                            !values?.qty ||
+                            !values?.rate ||
+                            !values?.vat
+                          }
+                          onClick={() => {
+                            setSheduleList([]);
+                            let isExist = itemList?.some(
+                              (item) => item.label === values?.item?.label
+                            );
+                            if (isExist) return toast.warn("Already exist");
+                            setItemList((prev) => [
+                              ...prev,
+                              {
+                                ...values?.item,
+                                qty: +values?.qty || 0,
+                                rate: +values?.rate || 0,
+                                vat: +values?.vat || 0,
+                                amount:
+                                  (+values?.qty || 0) * (+values?.rate || 0),
+                                netAmount:
+                                  (() => {
+                                    let amount =
+                                      (+values?.qty || 0) *
+                                      (+values?.rate || 0);
+                                    let vat = +values?.vat || 0;
+                                    return amount + (amount * vat) / 100;
+                                  })() || 0,
 
-                          setSheduleListFOneTime([
-                            {
-                              dueDate: _todayDate(),
-                              percentage: 0,
-                              amount: 0,
-                              remarks: "",
-                              // calculate vat on itemList[0]?.vatAmount and percentage
-                              scheduleListFOneTimeVat: 0,
-                            },
-                          ]);
-                        }}
-                        type="button"
-                        className="btn btn-primary"
-                      >
-                        Create Schedule
-                      </button>
-                    </div>
+                                vatAmount:
+                                  (() => {
+                                    let amount =
+                                      (+values?.qty || 0) *
+                                      (+values?.rate || 0);
+                                    let vat = +values?.vat || 0;
+                                    return (amount * vat) / 100;
+                                  })() || 0,
+                              },
+                            ]);
+                          }}
+                          type="button"
+                          className="btn btn-primary"
+                        >
+                          ADD
+                        </button>
+                      </div>
+                      <div style={{ marginTop: "18px" }} className="ml-4">
+                        <button
+                          disabled={!itemList?.length}
+                          onClick={() => {
+                            setSheduleListFOneTime([
+                              {
+                                dueDate: _todayDate(),
+                                percentage: 0,
+                                amount: 0,
+                                remarks: "",
+                                // calculate vat on itemList[0]?.vatAmount and percentage
+                                scheduleListFOneTimeVat: 0,
+                              },
+                            ]);
+                          }}
+                          type="button"
+                          className="btn btn-primary"
+                        >
+                          Create Schedule
+                        </button>
+                      </div>
+                    </>
                   ) : null}
                 </div>
               </div>
@@ -759,8 +770,7 @@ export default function ServiceSalesCreate() {
                                     updatedScheduleList[
                                       index
                                     ].scheduleListFOneTimeVat =
-                                      itemList[0]?.vatAmount *
-                                        (newValue / 100) || 0;
+                                      actualVatAmount * (newValue / 100) || 0;
 
                                     setSheduleListFOneTime(updatedScheduleList);
                                   }}
