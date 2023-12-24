@@ -285,7 +285,17 @@ export default function SalesInvoiceLanding() {
                             </td>
                             <td>{item?.strCustomerName}</td>
                             <td>{item?.strScheduleTypeName}</td>
-                            <td>{item?.strItemName}</td>
+                            <td>{(()=>{
+                              const itemStrings = item?.items?.map(singleItem => {
+                                const itemName = singleItem.strItemName || 'N/A';
+                                const qty = typeof singleItem.numSalesQty === 'number' ? singleItem.numSalesQty : 'N/A';
+                                const rate = typeof singleItem.numRate === 'number' ? singleItem.numRate : 'N/A';
+                              
+                                return `${itemName} - Qty: ${qty}, Rate: ${rate}`;
+                              });
+                              
+                              return itemStrings?.join(' / ');
+                            })()}</td>
                             <td className="text-center">
                               {_dateFormatter(item?.dteDueDateTime)}
                             </td>
@@ -325,7 +335,17 @@ export default function SalesInvoiceLanding() {
                           <tr key={index}>
                             <td>{index + 1}</td>
                             <td>{item?.invocieHeader?.strCustomerName}</td>
-                            <td>{item?.strItemName}</td>
+                            <td>{(()=>{
+                              const itemStrings = item?.items?.map(singleItem => {
+                                const itemName = singleItem.strItemName || 'N/A';
+                                const qty = typeof singleItem.numSalesQty === 'number' ? singleItem.numSalesQty : 'N/A';
+                                const rate = typeof singleItem.numRate === 'number' ? singleItem.numRate : 'N/A';
+                              
+                                return `${itemName} - Qty: ${qty}, Rate: ${rate}`;
+                              });
+                              
+                              return itemStrings?.join(' / ');
+                            })()}</td>
                             <td>{item?.invocieHeader?.strCustomerAddress}</td>
                             <td>{item?.invocieHeader?.strScheduleTypeName}</td>
                             <td>{item?.invocieHeader?.strSalesTypeName}</td>

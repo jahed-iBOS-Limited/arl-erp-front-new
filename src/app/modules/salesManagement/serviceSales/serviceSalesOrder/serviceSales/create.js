@@ -61,7 +61,7 @@ export default function ServiceSalesCreate() {
         0
       );
       // let vat = itemList[0]?.vat || 0;
-      const vat = itemList.reduce((sum, item) => sum + (item?.vat || 0), 0);
+      const vat = itemList.reduce((sum, item) => sum + (item?.vatAmount || 0), 0);
       let netAmount = amount + (amount * vat) / 100;
       setActualAmount(amount);
       setActualVatAmount(vat);
@@ -721,7 +721,7 @@ export default function ServiceSalesCreate() {
                             <th>Due Date</th>
                             <th>Percentage</th>
                             <th>Amount</th>
-                            <th>Actual Amount</th>
+                            <th>Actual Vat Amount</th>
                             <th>Remarks</th>
                             <th>Action</th>
                           </tr>
