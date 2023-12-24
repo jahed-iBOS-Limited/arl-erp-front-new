@@ -1,7 +1,7 @@
-import React from "react";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { Field } from "formik";
+import React from "react";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 
 export const FormOneTable = ({ obj }) => {
   const { rowDto, buId, allSelect, selectedAll, rowDtoHandler } = obj;
@@ -145,7 +145,8 @@ const TableTwo = ({ obj }) => {
     grandTotalAmount = 0,
     totalReturnQty = 0,
     totalReturnAmount = 0,
-    totalSalesAmount = 0;
+    totalSalesAmount = 0,
+    totalNetQty = 0;
 
   return (
     <>
@@ -166,11 +167,12 @@ const TableTwo = ({ obj }) => {
             <th>Delivery Order</th>
             <th>Challan No</th>
             <th>Challan Date</th>
-            <th>Total Delivery Qty</th>
+            <th>Primary Qty</th>
             <th>Total Amount</th>
             <th>Return Quantity</th>
             <th>Return Amount</th>
             <th>Sales Amount</th>
+            <th>Net Qty</th>
           </tr>
         </thead>
         <tbody>
@@ -180,6 +182,7 @@ const TableTwo = ({ obj }) => {
             totalReturnQty += item.returnQuantity;
             totalReturnAmount += item.returnAmount;
             totalSalesAmount += item?.totalAmount - item?.returnAmount;
+            totalNetQty += (item?.totalDeliveredQty- item?.returnQuantity)
             return (
               <tr
                 className="cursor-pointer"
@@ -217,6 +220,9 @@ const TableTwo = ({ obj }) => {
                 <td className="text-right">
                   {item?.totalAmount - item?.returnAmount}
                 </td>
+                <td className="text-right">
+                  {item?.totalDeliveredQty- item?.returnQuantity}
+                </td>
               </tr>
             );
           })}
@@ -227,6 +233,7 @@ const TableTwo = ({ obj }) => {
             <td>{_fixedPoint(totalReturnQty, true)}</td>
             <td>{_fixedPoint(totalReturnAmount, true)}</td>
             <td>{_fixedPoint(totalSalesAmount, true)}</td>
+            <td>{_fixedPoint(totalNetQty, true)}</td>
           </tr>
         </tbody>
       </table>
