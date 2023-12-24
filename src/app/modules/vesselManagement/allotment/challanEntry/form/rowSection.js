@@ -1,7 +1,7 @@
 import React from "react";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
+import InputField from "../../../../_helper/_inputField";
+import NewSelect from "../../../../_helper/_select";
 
 const headers = [
   "SL",
@@ -74,7 +74,40 @@ export default function RowSection({ obj }) {
                 disabled
               />
             </div>
-            <div className="col-lg-2"></div>
+            <div className="col-lg-2">
+              <InputField
+                label="Local Revenue Rate"
+                placeholder=""
+                value={values?.localRevenueRate || 0}
+                name="localRevenueRate"
+                onChange={(e) => {}}
+                type="number"
+                disabled
+              />
+            </div>
+            <div className="col-lg-2">
+              <InputField
+                label="International Revenue Rate"
+                placeholder=""
+                value={values?.internationalRevenueRate || 0}
+                name="internationalRevenueRate"
+                onChange={(e) => {}}
+                type="number"
+                disabled
+              />
+            </div>
+            <div className="col-lg-2">
+              <InputField
+                label="MotherVessel Freight Rate (BDT)"
+                placeholder=""
+                value={values?.mothervasselFreightRate || 0}
+                name="mothervasselFreightRate"
+                onChange={(e) => {}}
+                type="number"
+                disabled
+              />
+            </div>
+            
             <div className="col-lg-2">
               <InputField
                 label="Empty Bag"
