@@ -1,27 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useHistory, useLocation, useParams } from "react-router";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useHistory, useLocation, useParams } from 'react-router';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import FormikError from "../../../../_helper/_formikError";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import IViewModal from "../../../../_helper/_viewModal";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { BADCBCICForm } from "../../../common/components";
-import { getG2GMotherVesselLocalRevenueApi, validationSchema } from "../helper";
-import AddVehicleNameModal from "./addVehicleNameModal";
-import RestQtyModal from "./restQtyModal";
-import RowSection from "./rowSection";
+} from '../../../../../../_metronic/_partials/controls';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import FormikError from '../../../../_helper/_formikError';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import IViewModal from '../../../../_helper/_viewModal';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { BADCBCICForm } from '../../../common/components';
+import { getG2GMotherVesselLocalRevenueApi, validationSchema } from '../helper';
+import AddVehicleNameModal from './addVehicleNameModal';
+import RestQtyModal from './restQtyModal';
+import RowSection from './rowSection';
 
 export default function _Form({
   buId,
@@ -54,12 +54,11 @@ export default function _Form({
 
   const { state } = useLocation();
   const { id } = useParams();
-  console.log("state", state);
   const history = useHistory();
   useEffect(() => {
     getPortDDL(`/wms/FertilizerOperation/GetDomesticPortDDL`);
     getaltSuppliers(
-      `/wms/TransportMode/GetTransportMode?intParid=2&intBusinessUnitId=${buId}`
+      `/wms/TransportMode/GetTransportMode?intParid=2&intBusinessUnitId=${buId}`,
     );
   }, []);
 
@@ -69,23 +68,23 @@ export default function _Form({
         ? `&shippointId=${values?.shipPoint?.value}`
         : type === 2
         ? `&godownId=${values?.godown?.value}`
-        : "";
+        : '';
     getRates(
       `/tms/LigterLoadUnload/GetGodownNOtherLabourRate?type=${type}&businessUnitId=${buId}${param}`,
       (resData) => {
         if (type === 1) {
-          setFieldValue("directRate", resData?.directRate);
-          setFieldValue("dumpDeliveryRate", resData?.dumpDeliveryRate);
+          setFieldValue('directRate', resData?.directRate);
+          setFieldValue('dumpDeliveryRate', resData?.dumpDeliveryRate);
           // setFieldValue("transportRate", resData?.transportRate);
         } else if (type === 2) {
-          setFieldValue("goDownUnloadLabourRate", resData?.unLoadLabourRate);
+          setFieldValue('goDownUnloadLabourRate', resData?.unLoadLabourRate);
         }
-      }
+      },
     );
   };
 
   const disableHandler = () => {
-    return viewType === "view";
+    return viewType === 'view';
   };
 
   const loadOptions = async (v) => {
@@ -93,7 +92,7 @@ export default function _Form({
     if (v.length < 3) return [];
     return axios
       .get(
-        `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accId}&UnitId=${buId}&SBUId=${0}`
+        `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accId}&UnitId=${buId}&SBUId=${0}`,
       )
       .then((res) => {
         const updateList = res?.data.map((item) => ({
@@ -110,10 +109,11 @@ export default function _Form({
 
     const partnerId =
       buId === 94
-        ? state?.type === "badc"
+        ? values?.type === 'badc'
           ? 73244
           : 73245
         : values?.organization?.value;
+    console.log({ partnerId });
     getG2GMotherVesselLocalRevenueApi(
       accId,
       buId,
@@ -122,14 +122,16 @@ export default function _Form({
       portId,
       godownId,
       (data) => {
-        setFieldValue("itemPrice", data?.itemRate || 0);
-        setFieldValue("localRevenueRate", data?.localRevenueRate || 0);
+        console.log({ dataaa: data });
+        setFieldValue('itemPrice', data?.itemRate || 0);
+        setFieldValue('localRevenueRate', data?.localRevenueRate || 0);
         setFieldValue(
-          "internationalRevenueRate",
-          data?.internationalRevenueRate || 0
+          'internationalRevenueRate',
+          data?.motherVesselRevenueRate || 0,
         );
-        setFieldValue("transportRevenueRate", data?.transportRevenueRate || 0);
-      }
+        setFieldValue('transportRevenueRate', data?.transportRevenueRate || 0);
+        setFieldValue('mothervasselFreightRate', data?.freightInBDT || 0);
+      },
     );
   };
   return (
@@ -157,7 +159,7 @@ export default function _Form({
             {(loader || restQtyLoader) && <Loading />}
             <Card>
               <ModalProgressBar />
-              <CardHeader title={id ? "Edit Challan" : "Challan Entry"}>
+              <CardHeader title={id ? 'Edit Challan' : 'Challan Entry'}>
                 <CardHeaderToolbar>
                   <>
                     <button
@@ -170,7 +172,7 @@ export default function _Form({
                       <i className="fa fa-arrow-left"></i>
                       Back
                     </button>
-                    {viewType !== "view" && (
+                    {viewType !== 'view' && (
                       <button
                         type="reset"
                         onClick={() => {
@@ -178,7 +180,7 @@ export default function _Form({
                           setRowData([]);
                         }}
                         className="btn btn-light ml-2"
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       >
                         <i className="fa fa-redo"></i>
                         Reset
@@ -217,10 +219,10 @@ export default function _Form({
                             label="Organization"
                             onChange={(valueOption) => {
                               onChangeHandler(
-                                "organization",
+                                'organization',
                                 values,
                                 valueOption,
-                                setFieldValue
+                                setFieldValue,
                               );
                             }}
                             placeholder="Organization"
@@ -237,15 +239,15 @@ export default function _Form({
                           label="ShipPoint"
                           onChange={(e) => {
                             onChangeHandler(
-                              "shipPoint",
+                              'shipPoint',
                               values,
                               e,
-                              setFieldValue
+                              setFieldValue,
                             );
                             GetGodownAndOtherLabourRates(
                               1,
                               { ...values, shipPoint: e },
-                              setFieldValue
+                              setFieldValue,
                             );
                           }}
                           placeholder="ShipPoint"
@@ -262,7 +264,7 @@ export default function _Form({
                           value={values?.port}
                           label="Port"
                           onChange={(e) => {
-                            onChangeHandler("port", values, e, setFieldValue);
+                            onChangeHandler('port', values, e, setFieldValue);
                           }}
                           placeholder="Port"
                           errors={errors}
@@ -279,10 +281,10 @@ export default function _Form({
                           label="Mother Vessel"
                           onChange={(e) => {
                             onChangeHandler(
-                              "motherVessel",
+                              'motherVessel',
                               values,
                               e,
-                              setFieldValue
+                              setFieldValue,
                             );
                             if (values?.godown) {
                               commonItemPriceSet(
@@ -290,7 +292,7 @@ export default function _Form({
                                   ...values,
                                   motherVessel: e,
                                 },
-                                setFieldValue
+                                setFieldValue,
                               );
                             }
                           }}
@@ -319,10 +321,10 @@ export default function _Form({
                           label="Lighter Vessel"
                           onChange={(e) => {
                             onChangeHandler(
-                              "lighterVessel",
+                              'lighterVessel',
                               values,
                               e,
-                              setFieldValue
+                              setFieldValue,
                             );
                           }}
                           placeholder="Lighter"
@@ -332,23 +334,22 @@ export default function _Form({
                           isDisabled={disableHandler()}
                         />
                       </div>
-                      {console.log(errors, "errors")}
                       <div className="col-lg-3">
                         <NewSelect
                           name="logisticBy"
                           options={[
-                            { value: 1, label: "Company" },
-                            { value: 3, label: "Customer" },
-                            { value: 2, label: "Supplier" },
+                            { value: 1, label: 'Company' },
+                            { value: 3, label: 'Customer' },
+                            { value: 2, label: 'Supplier' },
                           ]}
                           value={values?.logisticBy}
                           label="Logistic By"
                           onChange={(e) => {
                             onChangeHandler(
-                              "logisticBy",
+                              'logisticBy',
                               values,
                               e,
-                              setFieldValue
+                              setFieldValue,
                             );
                             setLogisticId(e?.value);
                           }}
@@ -364,7 +365,7 @@ export default function _Form({
                           <SearchAsyncSelect
                             selectedValue={values?.supplier}
                             handleChange={(valueOption) => {
-                              setFieldValue("supplier", valueOption);
+                              setFieldValue('supplier', valueOption);
                             }}
                             loadOptions={loadOptions}
                           />
@@ -384,10 +385,10 @@ export default function _Form({
                             label="Supplier Name"
                             onChange={(e) => {
                               onChangeHandler(
-                                "supplier",
+                                'supplier',
                                 values,
                                 e,
-                                setFieldValue
+                                setFieldValue,
                               );
                             }}
                             placeholder="Supplier Name"
@@ -398,7 +399,7 @@ export default function _Form({
                         </div>
                       )}
                       <div className="col-lg-3 d-flex">
-                        <div style={{ width: "202px" }}>
+                        <div style={{ width: '202px' }}>
                           <NewSelect
                             name="vehicle"
                             options={vehicleDDL}
@@ -406,10 +407,10 @@ export default function _Form({
                             label="Vehicle Name"
                             onChange={(e) => {
                               onChangeHandler(
-                                "vehicle",
+                                'vehicle',
                                 values,
                                 e,
-                                setFieldValue
+                                setFieldValue,
                               );
                             }}
                             placeholder="Vehicle Name"
@@ -427,8 +428,8 @@ export default function _Form({
                         >
                           <i
                             style={{
-                              fontSize: "15px",
-                              color: "#3699FF",
+                              fontSize: '15px',
+                              color: '#3699FF',
                             }}
                             className="fa pointer fa-plus-circle"
                             aria-hidden="true"
@@ -466,11 +467,11 @@ export default function _Form({
                           touched={touched}
                           isDisabled={disableHandler()}
                           onChange={(e) => {
-                            onChangeHandler("godown", values, e, setFieldValue);
+                            onChangeHandler('godown', values, e, setFieldValue);
                             GetGodownAndOtherLabourRates(
                               2,
                               { ...values, godown: e },
-                              setFieldValue
+                              setFieldValue,
                             );
                             if (values?.motherVessel) {
                               commonItemPriceSet(
@@ -478,7 +479,7 @@ export default function _Form({
                                   ...values,
                                   godown: e,
                                 },
-                                setFieldValue
+                                setFieldValue,
                               );
                             }
                           }}
@@ -488,8 +489,8 @@ export default function _Form({
                         <NewSelect
                           name="deliveryType"
                           options={[
-                            { value: true, label: "Direct" },
-                            { value: false, label: "Dump" },
+                            { value: true, label: 'Direct' },
+                            { value: false, label: 'Dump' },
                           ]}
                           value={values?.deliveryType}
                           label="Delivery Type"
@@ -498,7 +499,7 @@ export default function _Form({
                           touched={touched}
                           isDisabled={disableHandler()}
                           onChange={(e) => {
-                            setFieldValue("deliveryType", e);
+                            setFieldValue('deliveryType', e);
                           }}
                         />
                       </div>
@@ -542,7 +543,7 @@ export default function _Form({
                           }
                           placeholder="Transport Rate"
                         />
-                      </div>{" "}
+                      </div>{' '}
                       <div className="col-lg-3">
                         <InputField
                           label="GoDown Unload Labour Rate"
@@ -565,10 +566,10 @@ export default function _Form({
                               disabled={disableHandler()}
                               onChange={(e) => {
                                 onChangeHandler(
-                                  "logisticAmount",
+                                  'logisticAmount',
                                   values,
                                   e,
-                                  setFieldValue
+                                  setFieldValue,
                                 );
                               }}
                             />
@@ -583,10 +584,10 @@ export default function _Form({
                               disabled={disableHandler()}
                               onChange={(e) => {
                                 onChangeHandler(
-                                  "advanceAmount",
+                                  'advanceAmount',
                                   values,
                                   e,
-                                  setFieldValue
+                                  setFieldValue,
                                 );
                               }}
                             />
@@ -617,12 +618,12 @@ export default function _Form({
                             setIsResetModalShow(true);
                             const partnerId =
                               buId === 94
-                                ? state?.type === "badc"
+                                ? state?.type === 'badc'
                                   ? 73244
                                   : 73245
                                 : values?.organization?.value;
                             getRestQty(
-                              `/tms/LigterLoadUnload/GetTotalQuantityForChallan?businessUnitId=${buId}&businessPartnerId=${partnerId}&shipToPartnerId=${values?.godown?.value}&motherVesselId=${values?.motherVessel?.value}&portId=${values?.port?.value}`
+                              `/tms/LigterLoadUnload/GetTotalQuantityForChallan?businessUnitId=${buId}&businessPartnerId=${partnerId}&shipToPartnerId=${values?.godown?.value}&motherVesselId=${values?.motherVessel?.value}&portId=${values?.port?.value}`,
                             );
                           }}
                         >

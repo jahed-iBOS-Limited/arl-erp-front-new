@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
+import Loading from '../../../../../_helper/_loading';
 import PaginationTable from '../../../../../_helper/_tablePagination';
 import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
 import { permissionCancel } from '../../helper';
 
-const ShipmentPointOperatorTable = ({values}) => {
-    // const history = useHistory();
-    const [loader, setLoader] = useState(false);
-    const [rowData, getRowData, loading, setRowData] = useAxiosGet([]);
-    const [pageNo, setPageNo] = useState(0);
-    const [pageSize, setPageSize] = useState(50);
+const ShipmentPointOperatorTable = ({ values }) => {
+  // const history = useHistory();
+  const [, setLoader] = useState(false);
+  const [rowData, getRowData, loading, setRowData] = useAxiosGet([]);
+  const [pageNo, setPageNo] = useState(0);
+  const [pageSize, setPageSize] = useState(50);
   const {
-    profileData: { accountId: accId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const getData = (values, pageNo = 0, pageSize = 50) => {
-    console.log(`/oms/ShipPoint/GetPermissionShipPointLanding?BusinessUnitId=${values?.businessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}`)
+    console.log(
+      `/oms/ShipPoint/GetPermissionShipPointLanding?BusinessUnitId=${values?.businessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}`,
+    );
     getRowData(
       `/oms/ShipPoint/GetPermissionShipPointLanding?BusinessUnitId=${values?.businessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}`,
       (resData) => {
@@ -71,6 +73,7 @@ const ShipmentPointOperatorTable = ({values}) => {
   };
   return (
     <>
+      {loading && <Loading />}
       <div className="text-right">
         {rowData?.data?.length > 0 && (
           <button

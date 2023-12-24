@@ -4,6 +4,7 @@ import { SaveOutlined } from "@material-ui/icons";
 import { Form, Formik } from "formik";
 import moment from "moment";
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { shallowEqual, useSelector } from "react-redux";
 import ReactToPrint from "react-to-print";
 import { toast } from "react-toastify";
@@ -32,7 +33,6 @@ import NewSelect from "./../../../../_helper/_select";
 import ConfirmtionModal from "./components/Modal";
 import RATForm from "./ratForm";
 import "./style.scss";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
@@ -93,7 +93,7 @@ function DeliveryScheduleplanReport() {
   const [shipmentTypeDDl, setShipmentTypeDDl] = React.useState([]);
   const [deliveryStatusDDL, getDeliveryStatusDDL] = useAxiosGet();
   const [
-    __skip,
+    ,
     updateDeliveryStatus,
     updateDeliveryStatusLoading,
   ] = useAxiosPost();
@@ -203,7 +203,7 @@ function DeliveryScheduleplanReport() {
   }, [gridData]);
   return (
     <>
-      {loading && <Loading />}
+      {(loading || updateDeliveryStatusLoading) && <Loading />}
       <div>
         <Formik
           enableReinitialize={true}

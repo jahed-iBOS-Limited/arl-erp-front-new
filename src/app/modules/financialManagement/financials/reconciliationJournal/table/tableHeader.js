@@ -62,7 +62,6 @@ const ReconciliationJournal = () => {
 
   // get user profile data from store
   const {
-    profileData: { accountId: accId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state.authData, shallowEqual);
 
@@ -92,9 +91,7 @@ const ReconciliationJournal = () => {
       ? `/fino/Expense/getBaddebitJournal?businessUnitId=${buId}`
       : "";
 
-    getBaddebtRowData(api, (data) => {
-      console.log({ baddebtRowdata: data });
-    });
+    getBaddebtRowData(api);
   };
 
   const dispatch = useDispatch();
@@ -770,7 +767,6 @@ const ReconciliationJournal = () => {
                             className="btn btn-primary mr-2"
                             type="button"
                             onClick={() => {
-                              console.log("error", errors);
                               detailsData(values, 0);
                               setIsDayBased(0);
                             }}
