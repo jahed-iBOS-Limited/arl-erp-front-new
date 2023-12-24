@@ -15,7 +15,6 @@ import PrintInvoiceModal from "./printInvoice";
 import InputField from "../../../_helper/_inputField";
 const initData = {
   customer: "",
-  item: "",
   type: { value: 1, label: "Pending for Invoice" },
 };
 export default function SalesInvoiceLanding() {
@@ -186,19 +185,6 @@ export default function SalesInvoiceLanding() {
                       label="Customer"
                       onChange={(valueOption) => {
                         setFieldValue("customer", valueOption);
-                      }}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="item"
-                      options={itemDDL || []}
-                      value={values?.item}
-                      label="Item Name"
-                      onChange={(valueOption) => {
-                        setFieldValue("item", valueOption);
                       }}
                       errors={errors}
                       touched={touched}
