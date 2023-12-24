@@ -70,7 +70,7 @@ const SalesInvoiceGridData = ({
                       <td>{_dateFormatter(tableData?.dteChallanDate)}</td>
                     )}
                     {values?.type?.value !== 2 && (
-                      <td>{_dateFormatter(tableData?.strDeliveryCode)}</td>
+                      <td>{tableData?.strDeliveryCode}</td>
                     )}
                     <td>{tableData?.strPartnerName}</td>
                     <td>{tableData?.strRefference}</td>
