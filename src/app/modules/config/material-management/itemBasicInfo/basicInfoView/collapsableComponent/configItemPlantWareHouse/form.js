@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import Axios from "axios";
+import { Field, Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
+import Select from "react-select";
 import * as Yup from "yup";
 import { Input } from "../../../../../../../../_metronic/_partials/controls";
-import Axios from "axios";
-import Select from "react-select";
-import customStyles from "../../../../../../selectCustomStyle";
 import NewSelect from "../../../../../../_helper/_select";
+import customStyles from "../../../../../../selectCustomStyle";
 
 const DataValiadtionSchema = Yup.object().shape({
   numGrossWeight: Yup.number().required("Gross Weight (Kg) required"),
@@ -353,7 +353,8 @@ export default function _Form({
                   </div>
                 </div>
               )}
-              <div>
+              <div className="common-scrollable-table two-column-sticky">
+              <div className="scroll-table _table">
                 <table className="table table-striped table-bordered my-5">
                   <thead>
                     <tr className="text-center">
@@ -361,7 +362,20 @@ export default function _Form({
                       <th>Plant</th>
                       <th>Warehouse</th>
                       <th>Location</th>
-                      <th>Bin Number</th>
+                      <th>Bin Numberdsadasd</th>
+                      <th style={{ width: "200px" }}>
+                          Minimum Stock Quantity
+                        </th>
+                        <th style={{ width: "200px" }}>
+                          {" "}
+                          Safety Stock Quantity
+                        </th>
+                        <th style={{ width: "200px" }}> Maximum Qty</th>
+                        <th style={{ width: "200px" }}> Reorder Level</th>
+                        <th style={{ width: "200px" }}>Reorder Qty</th>
+                        <th style={{ width: "200px" }}>Avg Daily Consumption</th>
+                        <th style={{ width: "200px" }}>Max Lead Days</th>
+                        <th style={{ width: "200px" }}>Min Lead Days</th>
                       {/* <th>UoM</th> */}
                       {/* <th>Action</th> */}
                     </tr>
@@ -378,6 +392,14 @@ export default function _Form({
                           <td>{itm?.wareHouseName}</td>
                           <td>{itm?.inventoryLocationName}</td>
                           <td>{itm?.binNumber}</td>
+                          <td>{itm?.minimumStockQuantity}</td>
+                          <td>{itm?.safetyStockQuantity}</td>
+                          <td>{itm?.maximumQuantity}</td>
+                          <td>{itm?.reorderLevel}</td>
+                          <td>{itm?.reorderQuantity}</td>
+                          <td>{itm?.averageDailyConsumption}</td>
+                          <td>{itm?.maxLeadDays}</td>
+                          <td>{itm?.minLeadDays}</td>
 
                           {/* <td>
                             <span
@@ -398,6 +420,7 @@ export default function _Form({
                       ))}
                   </tbody>
                 </table>
+              </div>
               </div>
               
               <div className="form-group row align-content-center my-5">

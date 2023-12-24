@@ -95,10 +95,13 @@ const PumpFoodingBillLanding = () => {
   //Load DDL
 
   useEffect(() => {
-    getWorkplaceDDL(`/hcm/TrustManagement/GetWorkPlacePeopleDeskDDL?businessUnitId=${buId}`, (data)=>{
-      const DDL = [{value: 0, label: "All"}, ...data];
-      setWorkplaceDDL(DDL);
-    })
+    getWorkplaceDDL(
+      `/hcm/TrustManagement/GetWorkPlacePeopleDeskDDL?businessUnitId=${buId}`,
+      (data) => {
+        const DDL = [{ value: 0, label: 'All' }, ...data];
+        setWorkplaceDDL(DDL);
+      },
+    );
 
     //get warehouse DDL
     getWareHouseDDL(
@@ -201,7 +204,10 @@ const PumpFoodingBillLanding = () => {
               );
             }}
           >
-            {(isLoading || loading) && <Loading />}
+            {(isLoading ||
+              loading ||
+              isWareHouseDDLLoading ||
+              isWorkpalceDDLLoading) && <Loading />}
 
             <form className="form form-label-right">
               <div className="global-form">

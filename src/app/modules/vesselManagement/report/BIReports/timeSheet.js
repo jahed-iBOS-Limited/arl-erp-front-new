@@ -1,15 +1,15 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ICustomCard from "../../../_helper/_customCard";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import FromDateToDateForm from "../../../_helper/commonInputFieldsGroups/dateForm";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IButton from "../../../_helper/iButton";
-import { PortAndMotherVessel } from "../../common/components";
-import { GetLighterVesselDDL, getShippointDDL } from "./helper";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICustomCard from '../../../_helper/_customCard';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import PowerBIReport from '../../../_helper/commonInputFieldsGroups/PowerBIReport';
+import FromDateToDateForm from '../../../_helper/commonInputFieldsGroups/dateForm';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import IButton from '../../../_helper/iButton';
+import { PortAndMotherVessel } from '../../common/components';
+import { GetLighterVesselDDL, getShippointDDL } from './helper';
 
 const TimeSheetReport = () => {
   const groupId = `e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`;
@@ -23,7 +23,7 @@ const TimeSheetReport = () => {
       ? timeSheet
       : [3].includes(typeId)
       ? ghatOperations
-      : "";
+      : '';
   };
 
   const [showReport, setShowReport] = useState(false);
@@ -32,12 +32,12 @@ const TimeSheetReport = () => {
   const [supplierDDL, getSupplierDDL] = useAxiosGet();
 
   const initData = {
-    type: "",
-    shippoint: "",
-    supplier: "",
-    motherVessel: "",
-    lighterVessel: "",
-    port: "",
+    type: '',
+    shippoint: '',
+    supplier: '',
+    motherVessel: '',
+    lighterVessel: '',
+    port: '',
     fromDate: _todayDate(),
     toDate: _todayDate(),
   };
@@ -47,27 +47,27 @@ const TimeSheetReport = () => {
     const typeId = values?.type?.value;
 
     const timeSheet = [
-      { name: "RptTypeId", value: `${+values?.type?.value}` },
-      { name: "Port", value: `${+values?.port?.value}` },
-      { name: "ShipPointId", value: `${+values?.shippoint?.value}` },
-      { name: "MotherVesselId", value: `${+values?.motherVessel?.value}` },
-      { name: "LighterVesselId", value: `${+values?.lighterVessel?.value}` },
-      { name: "fromdate", value: `${values?.fromDate}` },
-      { name: "todate", value: `${values?.toDate}` },
+      { name: 'RptTypeId', value: `${+values?.type?.value}` },
+      { name: 'Port', value: `${+values?.port?.value}` },
+      { name: 'ShipPointId', value: `${+values?.shippoint?.value}` },
+      { name: 'MotherVesselId', value: `${+values?.motherVessel?.value}` },
+      { name: 'LighterVesselId', value: `${+values?.lighterVessel?.value}` },
+      { name: 'fromdate', value: `${values?.fromDate}` },
+      { name: 'todate', value: `${values?.toDate}` },
     ];
 
     const ghatOperations = [
-      { name: "intShipPointId", value: `${+values?.shippoint?.value}` },
-      { name: "intSupplierId", value: `${+values?.supplier?.value}` },
-      { name: "fromDate", value: `${values?.fromDate}` },
-      { name: "toDate", value: `${values?.toDate}` },
+      { name: 'intShipPointId', value: `${+values?.shippoint?.value}` },
+      { name: 'intSupplierId', value: `${+values?.supplier?.value}` },
+      { name: 'fromDate', value: `${values?.fromDate}` },
+      { name: 'toDate', value: `${values?.toDate}` },
     ];
 
     return [1, 2].includes(typeId)
       ? timeSheet
       : [3].includes(typeId)
       ? ghatOperations
-      : "";
+      : '';
   };
 
   const {
@@ -78,7 +78,7 @@ const TimeSheetReport = () => {
   useEffect(() => {
     getShippointDDL(accId, buId, setShippointDDL);
     getSupplierDDL(
-      `/wms/TransportMode/GetTransportMode?intParid=2&intBusinessUnitId=${buId}`
+      `/wms/TransportMode/GetTransportMode?intParid=2&intBusinessUnitId=${buId}`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
@@ -94,46 +94,52 @@ const TimeSheetReport = () => {
                   <NewSelect
                     name="type"
                     options={[
-                      { value: 1, label: "Details Report" },
-                      { value: 2, label: "Top Sheet Report" },
-                      { value: 3, label: "Ghat Operations Report" },
+                      { value: 1, label: 'Details Report' },
+                      { value: 2, label: 'Top Sheet Report' },
+                      { value: 3, label: 'Ghat Operations Report' },
+                      {
+                        value: 4,
+                        label: 'Local and International Rate Details',
+                      },
                     ]}
                     label="Type"
                     value={values?.type}
                     onChange={(valueOption) => {
                       setShowReport(false);
-                      setFieldValue("type", valueOption);
+                      setFieldValue('type', valueOption);
                     }}
                     placeholder="Type"
                   />
                 </div>
-                <div className="col-lg-2">
-                  <NewSelect
-                    name="shippoint"
-                    options={
-                      [{ value: 0, label: "All" }, ...shippointDDL] || []
-                    }
-                    label="Shippoint"
-                    value={values?.shippoint}
-                    onChange={(valueOption) => {
-                      setShowReport(false);
-                      setFieldValue("shippoint", valueOption);
-                    }}
-                    placeholder="Shippoint"
-                  />
-                </div>
+                {![4].includes(values.type?.value) && (
+                  <div className="col-lg-2">
+                    <NewSelect
+                      name="shippoint"
+                      options={
+                        [{ value: 0, label: 'All' }, ...shippointDDL] || []
+                      }
+                      label="Shippoint"
+                      value={values?.shippoint}
+                      onChange={(valueOption) => {
+                        setShowReport(false);
+                        setFieldValue('shippoint', valueOption);
+                      }}
+                      placeholder="Shippoint"
+                    />
+                  </div>
+                )}
                 {values?.type?.value === 3 && (
                   <div className="col-lg-2">
                     <NewSelect
                       name="supplier"
                       options={[
-                        { value: 0, label: "All" },
+                        { value: 0, label: 'All' },
                         ...(supplierDDL || []),
                       ]}
                       value={values?.supplier}
                       label="Supplier Name"
                       onChange={(valueOption) => {
-                        setFieldValue("supplier", valueOption);
+                        setFieldValue('supplier', valueOption);
                       }}
                       placeholder="Supplier Name"
                     />
@@ -146,14 +152,14 @@ const TimeSheetReport = () => {
                       obj={{
                         values,
                         setFieldValue,
-                        colSize: "col-lg-2",
+                        colSize: 'col-lg-2',
                         onChange: (filedName, allValues) => {
-                          if (filedName === "motherVessel") {
+                          if (filedName === 'motherVessel') {
                             GetLighterVesselDDL(
                               allValues?.motherVessel?.value,
-                              setLighterVessel
+                              setLighterVessel,
                             );
-                            setFieldValue("lighterVessel", "");
+                            setFieldValue('lighterVessel', '');
                           }
                         },
                       }}
@@ -162,31 +168,33 @@ const TimeSheetReport = () => {
                       <NewSelect
                         name="lighterVessel"
                         options={
-                          [{ value: 0, label: "All" }, ...lighterVessel] || []
+                          [{ value: 0, label: 'All' }, ...lighterVessel] || []
                         }
                         label="Lighter Vessel"
                         value={values?.lighterVessel}
                         onChange={(valueOption) => {
                           setShowReport(false);
-                          setFieldValue("lighterVessel", valueOption);
+                          setFieldValue('lighterVessel', valueOption);
                         }}
                         placeholder="Lighter Vessel"
                       />
                     </div>
                   </>
                 )}
-                <FromDateToDateForm
-                  obj={{
-                    values,
-                    setFieldValue,
-                    onChange: () => {
-                      setShowReport(false);
-                    },
-                    colSize: "col-lg-2",
-                  }}
-                />
+                {![4].includes(values.type?.value) && (
+                  <FromDateToDateForm
+                    obj={{
+                      values,
+                      setFieldValue,
+                      onChange: () => {
+                        setShowReport(false);
+                      },
+                      colSize: 'col-lg-2',
+                    }}
+                  />
+                )}
                 <IButton
-                  colSize={"col-lg-1"}
+                  colSize={'col-lg-1'}
                   onClick={() => {
                     setShowReport(false);
                     setShowReport(true);

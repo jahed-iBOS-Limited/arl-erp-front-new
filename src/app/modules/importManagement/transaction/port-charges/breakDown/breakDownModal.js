@@ -68,15 +68,11 @@ const BreakDownModal = ({
   }, [referenceId]);
 
   const addHandler = (payload) => {
-    console.log({ payload, rowDto });
     if (payload?.subChargeTypeId) {
-      const isExist = rowDto.find((item) => {
-        if(item.supplierName === payload.supplierName){
-          if(item.subChargeTypeId === payload.subChargeTypeId){
-            return true;
-          }else return false
-        }
-      });
+      const isExist = rowDto.some(item => 
+        item.supplierName === payload.supplierName && 
+        item.subChargeTypeId === payload.subChargeTypeId
+      );
       if (isExist) {
         return toast.warn('Already Exists!');
       } else {
