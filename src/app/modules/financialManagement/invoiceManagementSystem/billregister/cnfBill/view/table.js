@@ -70,7 +70,8 @@ function ViewCNFBill({
                 <thead>
                   <tr>
                     <th>SL</th>
-                    <th>Mother Vessel Name</th>
+                    <th>Mother Vessel</th>
+                    <th>Lighter Vessel</th>
                     <th>CNF Name</th>
                     <th>Port Name</th>
                     <th>Program Qty</th>
@@ -90,6 +91,7 @@ function ViewCNFBill({
                             {index + 1}
                           </td>
                           <td>{item?.motherVesselName}</td>
+                          <td>{item?.lighterVesselName}</td>
                           <td>{item?.cnfname}</td>
                           <td>{item?.portName}</td>
                           <td className="text-right">{item?.programQnt}</td>

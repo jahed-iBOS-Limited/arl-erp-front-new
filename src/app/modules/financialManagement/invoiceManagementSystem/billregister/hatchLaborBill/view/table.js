@@ -44,7 +44,8 @@ function ViewHatchLaborBill({ billRegisterId }) {
                 <thead>
                   <tr>
                     <th>SL</th>
-                    <th>Mother Vessel Name</th>
+                    <th>Mother Vessel</th>
+                    <th>Lighter Vessel</th>
                     <th>Hatch Labor Supplier Name</th>
                     <th>Port Name</th>
                     <th>Program Qty</th>
@@ -61,6 +62,7 @@ function ViewHatchLaborBill({ billRegisterId }) {
                             {index + 1}
                           </td>
                           <td>{item?.motherVesselName}</td>
+                          <td>{item?.lighterVesselName}</td>
                           <td>{item?.hatchLabour}</td>
                           <td>{item?.portName}</td>
                           <td className="text-right">{item?.programQnt}</td>
@@ -76,18 +78,18 @@ function ViewHatchLaborBill({ billRegisterId }) {
                               <span
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                 if(item?.attachment){
-                                  dispatch(
-                                    getDownlloadFileView_Action(
-                                      item?.attachment,
-                                      null,
-                                      null,
-                                      setLoading
-                                    )
-                                  );
-                                 }else{
-                                  toast.warn("No Attachment Found")
-                                 }
+                                  if (item?.attachment) {
+                                    dispatch(
+                                      getDownlloadFileView_Action(
+                                        item?.attachment,
+                                        null,
+                                        null,
+                                        setLoading
+                                      )
+                                    );
+                                  } else {
+                                    toast.warn("No Attachment Found");
+                                  }
                                 }}
                                 className="ml-2"
                               >
