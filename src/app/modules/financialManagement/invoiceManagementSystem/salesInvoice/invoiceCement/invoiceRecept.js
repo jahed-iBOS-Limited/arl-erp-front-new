@@ -145,7 +145,7 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                   <td>{_dateFormatter(item?.deliveriDate)}</td>
                   <td>{item?.deliveryCode}</td>
                   <td className="text-right">
-                    {_fixedPoint(item?.actualDeliveryQty, true)}
+                    {_fixedPoint(item?.quantity, true)}
                     {/* {_fixedPoint(item?.totalDeliveredQtyCFT, true)} */}
                   </td>
                   {channelId === 43 && (

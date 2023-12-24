@@ -1,5 +1,3 @@
-// export const ddlApis = {};
-
 export const plantNameDDLApi = (buId, accId, userId) => {
   return `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`;
 };
