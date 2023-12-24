@@ -16,8 +16,8 @@ import {
   machineNameDDLApi,
   plantNameDDLApi,
   shopFloorNameDDLApi,
-} from './util/api';
-import { CapacityConfigurationValidationSchema } from './util/validations';
+} from '../util/api';
+import { CapacityConfigurationValidationSchema } from '../util/validations';
 
 const initData = {
   plantName: '',
@@ -161,6 +161,7 @@ export default function CapacityConfigurationCreateEdit() {
       }) => (
         <>
           {false && <Loading />}
+          {console.log({errors, touched})}
           <IForm
             title={`${
               location?.state?.rowData ? 'Edit' : 'Create'
@@ -171,7 +172,7 @@ export default function CapacityConfigurationCreateEdit() {
               <div className="form-group  global-form row">
                 <div className="col-lg-3">
                   <NewSelect
-                    name="Plant Name"
+                    name="plantName"
                     options={plantNameDDL || []}
                     value={values?.plantName}
                     label="Plant Name"
@@ -194,7 +195,7 @@ export default function CapacityConfigurationCreateEdit() {
                 </div>
                 <div className="col-lg-3">
                   <NewSelect
-                    name="Shop Floor/Section"
+                    name="shopFloor"
                     options={shopFloorDDL || []}
                     value={values?.shopFloor}
                     label="Shop Floor/Section"
@@ -213,7 +214,7 @@ export default function CapacityConfigurationCreateEdit() {
                 </div>
                 <div className="col-lg-3">
                   <NewSelect
-                    name="Machine Name"
+                    name="machineName"
                     options={machineNameDDL || []}
                     value={values?.machineName}
                     label="Machine Name"
@@ -248,11 +249,13 @@ export default function CapacityConfigurationCreateEdit() {
                       loadItemNameDDL(s, values?.plantName?.value)
                     }
                     placeholder="Search by - "
+                    errors={errors}
+                    touched={touched}
                   />
                 </div>
                 <div className="col-lg-3">
                   <NewSelect
-                    name="BoM Name"
+                    name="bomName"
                     options={bomNameDDL || []}
                     value={values?.bomName}
                     label="BoM Name"
@@ -265,22 +268,26 @@ export default function CapacityConfigurationCreateEdit() {
                 </div>
                 <div className="col-lg-3">
                   <InputField
-                    name="Machine Capacity Per Hr"
+                    name="machineCapacityPerHr"
+                    type="text"
                     value={values?.machineCapacityPerHr}
                     label="Machine Capacity Per Hr"
                     onChange={(e) => {
                       setFieldValue('machineCapacityPerHr', e.target.value);
                     }}
+                    errors={errors}
                   />
                 </div>
                 <div className="col-lg-3">
                   <InputField
-                    name="SMV Cycle Time"
+                    name="SMVCycleTime"
+                    type="text"
                     value={values?.SMVCycleTime}
                     label="SMV Cycle Time"
                     onChange={(e) => {
                       setFieldValue('SMVCycleTime', e.target.value);
                     }}
+                    errors={errors}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -292,6 +299,7 @@ export default function CapacityConfigurationCreateEdit() {
                     onChange={(e) => {
                       setFieldValue('standardRPM', e.target.value);
                     }}
+                    errors={errors}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -303,6 +311,7 @@ export default function CapacityConfigurationCreateEdit() {
                     onChange={(e) => {
                       setFieldValue('stdWastage', e.target.value);
                     }}
+                    errors={errors}
                   />
                 </div>
               </div>
@@ -310,6 +319,15 @@ export default function CapacityConfigurationCreateEdit() {
               <button
                 type="submit"
                 style={{ display: 'none' }}
+                // disabled={
+                //   !values?.plantName?.value ||
+                //   !values?.shopFloor?.value ||
+                //   !values?.machineName?.value ||
+                //   !values?.itemName?.value ||
+                //   !values?.bomName?.value ||
+                //   !values?.machineCapacityPerHr ||
+                //   !values?.SMVCycleTime
+                // }
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>

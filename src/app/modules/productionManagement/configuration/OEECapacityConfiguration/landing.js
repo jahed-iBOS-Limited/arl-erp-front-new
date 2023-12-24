@@ -15,7 +15,7 @@ import {
   machineNameDDLApi,
   plantNameDDLApi,
   shopFloorNameDDLApi,
-} from './capacityConfigurationCreateEdit/util/api';
+} from './util/api';
 
 const initData = {
   plant: '',
