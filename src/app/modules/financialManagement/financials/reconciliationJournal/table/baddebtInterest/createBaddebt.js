@@ -1,16 +1,17 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import IConfirmModal from "../../../../../_helper/_confirmModal";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import IConfirmModal from '../../../../../_helper/_confirmModal';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
+import Loading from '../../../../../_helper/_loading';
+import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
 
 const CreateBaddebt = ({ tableData }) => {
-  const [response, saveJournal, saveJournalLoading] = useAxiosGet();
+  const [, saveJournal, saveJournalLoading] = useAxiosGet();
 
   // get user profile data from store
   const {
-    profileData: { accountId: accId, userId },
+    profileData: { userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state.authData, shallowEqual);
 
@@ -26,54 +27,56 @@ const CreateBaddebt = ({ tableData }) => {
   };
 
   return (
-    <div className="row">
-      <div className="col-12">
-        <table className="table table-striped table-bordered global-table mt-0 table-font-size-sm mt-5">
-          <thead className="bg-secondary">
-            <tr>
-              <th>SL</th>
-              <th>Revenue</th>
-              <th>From</th>
-              <th>To</th>
-              <th>Revenue Amount</th>
-              <th>Baddebt Amount</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tableData?.map((item, index) => (
-              <tr key={index}>
-                <td className="text-center">{index + 1}</td>
-                <td className="text-center">{item?.Revenue}</td>
-                <td className="text-center">
-                  {_dateFormatter(item?.dteFromDate)}
-                </td>
-                <td className="text-center">
-                  {_dateFormatter(item?.dteToDate)}
-                </td>
-                <td className="text-right">{item?.monSaleRevenueAmount}</td>
-                <td className="text-right">{item?.numBaddebtAmount}</td>
-                <td className="text-center my-2">
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={() => {
-                      IConfirmModal({
-                        title: "Create Journal",
-                        message: "Are you sure about creating the journal?",
-                        yesAlertFunc: () => {
-                          handleSaveJournal(item);
-                        },
-                        noAlertFunc: () => {},
-                      });
-                    }}
-                  >
-                    Save
-                  </button>
-                </td>
+    <>
+      {saveJournalLoading && <Loading />}
+      <div className="row">
+        <div className="col-12">
+          <table className="table table-striped table-bordered global-table mt-0 table-font-size-sm mt-5">
+            <thead className="bg-secondary">
+              <tr>
+                <th>SL</th>
+                <th>Revenue</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Revenue Amount</th>
+                <th>Baddebt Amount</th>
+                <th>Action</th>
               </tr>
-            ))}
-            {/* <tr>
+            </thead>
+            <tbody>
+              {tableData?.map((item, index) => (
+                <tr key={index}>
+                  <td className="text-center">{index + 1}</td>
+                  <td className="text-center">{item?.Revenue}</td>
+                  <td className="text-center">
+                    {_dateFormatter(item?.dteFromDate)}
+                  </td>
+                  <td className="text-center">
+                    {_dateFormatter(item?.dteToDate)}
+                  </td>
+                  <td className="text-right">{item?.monSaleRevenueAmount}</td>
+                  <td className="text-right">{item?.numBaddebtAmount}</td>
+                  <td className="text-center my-2">
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={() => {
+                        IConfirmModal({
+                          title: 'Create Journal',
+                          message: 'Are you sure about creating the journal?',
+                          yesAlertFunc: () => {
+                            handleSaveJournal(item);
+                          },
+                          noAlertFunc: () => {},
+                        });
+                      }}
+                    >
+                      Save
+                    </button>
+                  </td>
+                </tr>
+              ))}
+              {/* <tr>
             <td
               colSpan={4}
               className="text-right font-weight-bold"
@@ -84,10 +87,11 @@ const CreateBaddebt = ({ tableData }) => {
               500
             </td>
           </tr> */}
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

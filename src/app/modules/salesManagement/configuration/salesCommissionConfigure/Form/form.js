@@ -3,12 +3,12 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import ICustomCard from "../../../../_helper/_customCard";
+import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
 import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import SalesCommissionConfigureFormTable from "./table";
 import IButton from "../../../../_helper/iButton";
-import InputField from "../../../../_helper/_inputField";
+import SalesCommissionConfigureFormTable from "./table";
 
 const ValidationSchema = Yup.object().shape({});
 
@@ -75,6 +75,7 @@ export default function _Form({
                       },
                     }}
                   />
+
 
                   <FromDateToDateForm obj={{ values, setFieldValue }} />
 
