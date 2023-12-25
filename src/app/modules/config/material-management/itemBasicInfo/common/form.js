@@ -318,7 +318,7 @@ export default function _Form({
                       : ""}
                   </p>
                 </div>
-                <div className="col-lg-3">
+                {/* <div className="col-lg-3">
                   <InputField
                     name="minimumStockQuantity"
                     value={values?.minimumStockQuantity}
@@ -403,7 +403,7 @@ export default function _Form({
                     errors={errors}
                     touched={touched}
                   />
-                </div>
+                </div> */}
               </div>
 
               <button
