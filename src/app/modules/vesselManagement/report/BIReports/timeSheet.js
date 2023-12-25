@@ -30,6 +30,10 @@ const TimeSheetReport = () => {
   const [lighterVessel, setLighterVessel] = useState([]);
   const [shippointDDL, setShippointDDL] = useState([]);
   const [supplierDDL, getSupplierDDL] = useAxiosGet();
+  const [organizationDDL, getOrganizationDDL] = useAxiosGet();
+  const [motherVesselDDL, getMotherVesselDDL] = useAxiosGet();
+  const [godownDDL, getGodownDDL] = useAxiosGet();
+  const [portDDL, getPortDDL] = useAxiosGet();
 
   const initData = {
     type: '',
@@ -80,6 +84,16 @@ const TimeSheetReport = () => {
     getSupplierDDL(
       `/wms/TransportMode/GetTransportMode?intParid=2&intBusinessUnitId=${buId}`,
     );
+
+    getOrganizationDDL(
+      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`,
+    );
+
+    getMotherVesselDDL(
+      `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}`,
+    );
+    getPortDDL(`/wms/FertilizerOperation/GetDomesticPortDDL`);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
 
@@ -111,7 +125,174 @@ const TimeSheetReport = () => {
                     placeholder="Type"
                   />
                 </div>
-                {![4].includes(values.type?.value) && (
+
+                {/* conditional Rendering ddl and input fields*/}
+
+                {[1, 2].includes(values?.type?.value) && (
+                  <>
+                    <div className="col-lg-2">
+                      <NewSelect
+                        name="shippoint"
+                        options={
+                          [{ value: 0, label: 'All' }, ...shippointDDL] || []
+                        }
+                        label="Shippoint"
+                        value={values?.shippoint}
+                        onChange={(valueOption) => {
+                          setShowReport(false);
+                          setFieldValue('shippoint', valueOption);
+                        }}
+                        placeholder="Shippoint"
+                      />
+                    </div>
+                    <PortAndMotherVessel
+                      obj={{
+                        values,
+                        setFieldValue,
+                        colSize: 'col-lg-2',
+                        onChange: (filedName, allValues) => {
+                          if (filedName === 'motherVessel') {
+                            GetLighterVesselDDL(
+                              allValues?.motherVessel?.value,
+                              setLighterVessel,
+                            );
+                            setFieldValue('lighterVessel', '');
+                          }
+                        },
+                      }}
+                    />
+                    <div className="col-lg-2">
+                      <NewSelect
+                        name="lighterVessel"
+                        options={
+                          [{ value: 0, label: 'All' }, ...lighterVessel] || []
+                        }
+                        label="Lighter Vessel"
+                        value={values?.lighterVessel}
+                        onChange={(valueOption) => {
+                          setShowReport(false);
+                          setFieldValue('lighterVessel', valueOption);
+                        }}
+                        placeholder="Lighter Vessel"
+                      />
+                    </div>
+                    <FromDateToDateForm
+                      obj={{
+                        values,
+                        setFieldValue,
+                        onChange: () => {
+                          setShowReport(false);
+                        },
+                        colSize: 'col-lg-2',
+                      }}
+                    />
+                  </>
+                )}
+
+                {[3].includes(values?.type?.value) && (
+                  <>
+                    <div className="col-lg-2">
+                      <NewSelect
+                        name="shippoint"
+                        options={
+                          [{ value: 0, label: 'All' }, ...shippointDDL] || []
+                        }
+                        label="Shippoint"
+                        value={values?.shippoint}
+                        onChange={(valueOption) => {
+                          setShowReport(false);
+                          setFieldValue('shippoint', valueOption);
+                        }}
+                        placeholder="Shippoint"
+                      />
+                    </div>
+                    <div className="col-lg-2">
+                      <NewSelect
+                        name="supplier"
+                        options={[
+                          { value: 0, label: 'All' },
+                          ...(supplierDDL || []),
+                        ]}
+                        value={values?.supplier}
+                        label="Supplier Name"
+                        onChange={(valueOption) => {
+                          setFieldValue('supplier', valueOption);
+                        }}
+                        placeholder="Supplier Name"
+                      />
+                    </div>
+                    <FromDateToDateForm
+                      obj={{
+                        values,
+                        setFieldValue,
+                        onChange: () => {
+                          setShowReport(false);
+                        },
+                        colSize: 'col-lg-2',
+                      }}
+                    />
+                  </>
+                )}
+
+                {[4].includes(values?.type?.value) && (
+                  <>
+                    <div className="col-lg-2">
+                      <NewSelect
+                        name="shippoint"
+                        options={organizationDDL || []}
+                        label="Organization"
+                        value={values?.organization}
+                        onChange={(valueOption) => {
+                          setFieldValue('organization', valueOption);
+                        }}
+                        placeholder="Organization"
+                      />
+                    </div>
+                    <div className="col-lg-2">
+                        <NewSelect
+                          name="port"
+                          options={portDDL || []}
+                          value={values?.port}
+                          label="Port"
+                          onChange={(valueOption) => {
+                            setFieldValue('port',valueOption);
+                          }}
+                          placeholder="Port"
+                        />
+                      </div>
+                    <div className="col-lg-2">
+                      <NewSelect
+                        name="motherVessel"
+                        options={motherVesselDDL}
+                        value={values?.motherVessel}
+                        label="Mother Vessel"
+                        onChange={(valueOption) => {
+                          setFieldValue('motherVessel', valueOption);
+                          if(valueOption){
+                            getGodownDDL(`/tms/LigterLoadUnload/GetShipToPartnerG2GDDL?BusinessUnitId=${buId}&BusinessPartnerId=${valueOption}`)
+                          }
+                        }}
+                        placeholder="Mother Vessel"
+                      />
+                    </div>
+                    <div className="col-lg-2">
+                        <NewSelect
+                          name="godown"
+                          options={godownDDL || []}
+                          value={values?.godown}
+                          label="Destination/Godown Name"
+                          placeholder="Destination/Godown Name"
+                          onChange={(valueOption) => {
+                            setFieldValue('godown',valueOption);
+                           
+                          }}
+                        />
+                      </div>
+
+                  </>
+                )}
+
+                {/* {![4].includes(values.type?.value) && (
                   <div className="col-lg-2">
                     <NewSelect
                       name="shippoint"
@@ -192,7 +373,7 @@ const TimeSheetReport = () => {
                       colSize: 'col-lg-2',
                     }}
                   />
-                )}
+                )} */}
                 <IButton
                   colSize={'col-lg-1'}
                   onClick={() => {
