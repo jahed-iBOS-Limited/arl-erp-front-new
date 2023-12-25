@@ -277,7 +277,7 @@ export const complainLandingPasignation = async (
   try {
     const _search = search ? `&search=${search}` : "";
     const res = await axios.get(
-      `/oms/CustomerPoint/ComplainLandingPasignation?accountId=${accId}&businessUnitId=${buId}&respondentTypeId=${respondentTypeId}&statusId=${statusId}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}${_search}&respondentBusinessUnitId=${respondentBusinessUnitId || 0}&issueTypeId${issueTypeId}`
+      `/oms/CustomerPoint/ComplainLandingPasignation?accountId=${accId}&businessUnitId=${buId}&respondentTypeId=${respondentTypeId}&statusId=${statusId}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}${_search}&respondentBusinessUnitId=${respondentBusinessUnitId || 0}&issueTypeId=${issueTypeId}`
     );
     setter(res?.data);
     setLoading(false);
