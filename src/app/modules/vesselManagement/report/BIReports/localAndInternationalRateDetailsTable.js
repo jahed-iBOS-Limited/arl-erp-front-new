@@ -35,9 +35,9 @@ const LocalAndInternationalRateDetailsTable = ({rowData}) => {
                 <td>{item?.godownName}</td>
                 <td>{item?.businessPartnerName}</td>
                 <td>{item?.portName}</td>
-                <td>{item?.localRevenueRate}</td>
-                <td>{item?.motherVesselRevenueRate}</td>
-                <td>{item?.freightInBDT}</td>
+                <td className='text-right'>{item?.localRevenueRate}</td>
+                <td className='text-right'>{item?.motherVesselRevenueRate}</td>
+                <td className='text-right'>{item?.freightInBDT}</td>
               </tr>
             );
           })}

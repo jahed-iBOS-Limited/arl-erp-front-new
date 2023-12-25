@@ -86,12 +86,7 @@ const TimeSheetReport = () => {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  useEffect(() => {
-    getShippointDDL(accId, buId, setShippointDDL);
-    getSupplierDDL(
-      `/wms/TransportMode/GetTransportMode?intParid=2&intBusinessUnitId=${buId}`,
-    );
-
+  const fetchForLocalAndGlobalReportDDL = () => {
     getOrganizationDDL(
       `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`,
     );
@@ -100,9 +95,16 @@ const TimeSheetReport = () => {
       `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}`,
     );
     getPortDDL(`/wms/FertilizerOperation/GetDomesticPortDDL`);
+  };
 
+  useEffect(() => {
+    getShippointDDL(accId, buId, setShippointDDL);
+    getSupplierDDL(
+      `/wms/TransportMode/GetTransportMode?intParid=2&intBusinessUnitId=${buId}`,
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
+
 
   return (
     <>
@@ -128,6 +130,10 @@ const TimeSheetReport = () => {
                     onChange={(valueOption) => {
                       setShowReport(false);
                       setFieldValue('type', valueOption);
+                      if (valueOption?.value === 4) {
+                        //fetch all ddl data
+                        fetchForLocalAndGlobalReportDDL()
+                      }
                     }}
                     placeholder="Type"
                   />
