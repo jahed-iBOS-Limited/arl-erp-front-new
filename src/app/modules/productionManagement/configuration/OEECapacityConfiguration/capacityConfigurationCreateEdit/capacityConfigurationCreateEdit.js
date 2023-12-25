@@ -319,15 +319,6 @@ export default function CapacityConfigurationCreateEdit() {
               <button
                 type="submit"
                 style={{ display: 'none' }}
-                // disabled={
-                //   !values?.plantName?.value ||
-                //   !values?.shopFloor?.value ||
-                //   !values?.machineName?.value ||
-                //   !values?.itemName?.value ||
-                //   !values?.bomName?.value ||
-                //   !values?.machineCapacityPerHr ||
-                //   !values?.SMVCycleTime
-                // }
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
