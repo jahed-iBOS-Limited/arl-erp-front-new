@@ -167,6 +167,27 @@ export const GetRouteStandardCostDetails_api = async (
   }
 };
 
+export const getComponentNameDDL = async (
+  accId,
+  setter,
+  setDisabled
+) => {
+  setter([])
+  try {
+    setDisabled && setDisabled(true);
+    const res = await axios.get(
+      `/tms/RouteStandardCost/getComponentNameDDL?AccountId=${accId}`
+    );
+
+    setDisabled && setDisabled(false);
+    setter(res?.data?.map(itm => ({
+      ...itm,
+    })) || []);
+  } catch (error) {
+    setDisabled && setDisabled(false);
+  }
+};
+
 export const GetRouteStandardCostDetailsApi = async (
   accId,
   buId,
