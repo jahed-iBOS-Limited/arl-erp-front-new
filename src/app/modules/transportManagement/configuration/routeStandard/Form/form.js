@@ -8,7 +8,7 @@ import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   GetRouteStandardCostByRouteId,
-  GetRouteStandardCostDetailsApi,
+  getComponentNameDDL,
   getDDL,
 } from "../helper";
 
@@ -71,24 +71,22 @@ export default function _Form({
       getShipPointList(
         `/domain/OrganizationalUnitUserPermission/GetOrganizationalUnitUserPermissionByUnitId?UserId=${profileData?.userId}&ClientId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
       );
+      getComponentNameDDL(
+        profileData?.accountId,
+        setComponentNameDDL,
+        setDisabled
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBusinessUnit, profileData]);
 
   useEffect(() => {
     if (landingData?.transportOrganizationId && landingData?.routeId) {
-      GetRouteStandardCostDetailsApi(
-        profileData?.accountId,
-        selectedBusinessUnit?.value,
-        landingData?.transportOrganizationId,
-        landingData?.routeId,
-        setComponentNameDDL
-      );
+   
       commonPrvSaveData(
         landingData?.routeId,
         landingData?.transportOrganizationId,
         landingData?.shipPointId
-
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -221,13 +219,6 @@ export default function _Form({
                       onChange={(valueOption) => {
                         setFieldValue("routeName", valueOption);
                         setFieldValue("componentName", "");
-                        GetRouteStandardCostDetailsApi(
-                          profileData?.accountId,
-                          selectedBusinessUnit?.value,
-                          values?.transportOrganizationName?.value,
-                          valueOption?.value,
-                          setComponentNameDDL
-                        );
                         commonPrvSaveData(
                           valueOption?.value,
                           values?.transportOrganizationName?.value,
@@ -242,7 +233,8 @@ export default function _Form({
                           ? true
                           : false ||
                             isEdit ||
-                            !values?.transportOrganizationName || !values?.shipPoint
+                            !values?.transportOrganizationName ||
+                            !values?.shipPoint
                       }
                     />
                   </div>
@@ -277,7 +269,6 @@ export default function _Form({
                       placeholder='Component Name'
                       errors={errors}
                       touched={touched}
-                      isDisabled={!values?.routeName}
                     />
                   </div>
 
@@ -345,7 +336,8 @@ export default function _Form({
                         !values?.transportOrganizationName ||
                         !values?.routeName ||
                         !values?.componentName ||
-                        !values?.vehicleCapacity || !values?.shipPoint
+                        !values?.vehicleCapacity ||
+                        !values?.shipPoint
                       }
                     >
                       Add
