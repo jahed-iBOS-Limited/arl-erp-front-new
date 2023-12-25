@@ -1,18 +1,16 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
-import NewSelect from "../../../../_helper/_select";
 import InputField from "../../../../_helper/_inputField";
-
+import NewSelect from "../../../../_helper/_select";
+import useAxiosGet from "./../../../../_helper/customHooks/useAxiosGet";
+import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
   GetRouteStandardCostByRouteId,
   GetRouteStandardCostDetailsApi,
   getDDL,
 } from "../helper";
-import { NegetiveCheck } from "./../../../../_helper/_negitiveCheck";
-import { toast } from "react-toastify";
-import { useLocation } from "react-router-dom";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -31,17 +29,6 @@ const validationSchema = Yup.object().shape({
         .required("Price is required"),
     })
   ),
-  // componentName: Yup.object().shape({
-  //   label: Yup.string().required("Component Name is required"),
-  //   value: Yup.string().required("Component Name is required"),
-  // }),
-  // amount: Yup.number()
-  //   .min(0, "Minimum 0 ranges")
-  //   .required("Amount is required"),
-  // businessTransaction: Yup.object().shape({
-  //   label: Yup.string().required("Business Transaction is required"),
-  //   value: Yup.string().required("Business Transaction is required"),
-  // }),
 });
 
 export default function _Form({
@@ -64,6 +51,7 @@ export default function _Form({
   const [routeNameDDL, setRouteNameDDL] = useState([]);
   const [componentNameDDL, setComponentNameDDL] = useState([]);
   const [vehicleCapacityDDL, setVehicleCapacityDDL] = useState([]);
+  const [shipPointList, getShipPointList] = useAxiosGet([]);
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
       // Get Transport Organization DDL
@@ -80,7 +68,11 @@ export default function _Form({
         `/tms/TransportMgtDDL/GetVehicleCapacityDDL`,
         setVehicleCapacityDDL
       );
+      getShipPointList(
+        `/domain/OrganizationalUnitUserPermission/GetOrganizationalUnitUserPermissionByUnitId?UserId=${profileData?.userId}&ClientId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
+      );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBusinessUnit, profileData]);
 
   useEffect(() => {
@@ -94,25 +86,28 @@ export default function _Form({
       );
       commonPrvSaveData(
         landingData?.routeId,
-        landingData?.transportOrganizationId
+        landingData?.transportOrganizationId,
+        landingData?.shipPointId
+
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [landingData]);
   const formikRef = React.useRef(null);
 
-  const commonPrvSaveData = (routeId, transportORGId) => {
+  const commonPrvSaveData = (routeId, transportORGId, shipPointId) => {
     GetRouteStandardCostByRouteId(
       profileData?.accountId,
       selectedBusinessUnit?.value,
       routeId,
       transportORGId,
+      shipPointId,
       (data) => {
         if (formikRef.current) {
           const obj = data?.[0] || {};
           formikRef.current.setFieldValue("itemLists", data || []);
-          
-          if(landingData?.routeId){
+
+          if (landingData?.routeId) {
             formikRef.current.setFieldValue(
               "transportOrganizationName",
               obj?.transportOrganizationId
@@ -131,13 +126,27 @@ export default function _Form({
                   }
                 : ""
             );
+
+            formikRef.current.setFieldValue(
+              "shipPoint",
+              obj?.shipPointId
+                ? {
+                    value: obj?.shipPointId,
+                    label: obj?.shipPointName,
+                  }
+                : ""
+            );
           }
-         
         }
       },
       setDisabled
     );
   };
+  const shipPointDDL = shipPointList?.map((item) => ({
+    ...item,
+    value: item?.organizationUnitReffId,
+    label: item?.organizationUnitReffName,
+  }));
   return (
     <>
       <Formik
@@ -175,8 +184,27 @@ export default function _Form({
                         setFieldValue("transportOrganizationName", valueOption);
                         setFieldValue("routeName", "");
                         setFieldValue("componentName", "");
+                        setFieldValue("routeName", "");
                       }}
                       placeholder='Transport Organization Name'
+                      errors={errors}
+                      touched={touched}
+                      isDisabled={
+                        values?.itemLists?.length > 0 ? true : false || isEdit
+                      }
+                    />
+                  </div>
+                  <div className='col-lg-3'>
+                    <NewSelect
+                      name='shipPoint'
+                      options={shipPointDDL}
+                      value={values?.shipPoint}
+                      label='ShipPoint'
+                      onChange={(valueOption) => {
+                        setFieldValue("shipPoint", valueOption);
+                        setFieldValue("routeName", "");
+                      }}
+                      placeholder='Select ShipPoint'
                       errors={errors}
                       touched={touched}
                       isDisabled={
@@ -202,7 +230,8 @@ export default function _Form({
                         );
                         commonPrvSaveData(
                           valueOption?.value,
-                          values?.transportOrganizationName?.value
+                          values?.transportOrganizationName?.value,
+                          values?.shipPoint?.value
                         );
                       }}
                       placeholder='Route Name'
@@ -213,7 +242,7 @@ export default function _Form({
                           ? true
                           : false ||
                             isEdit ||
-                            !values?.transportOrganizationName
+                            !values?.transportOrganizationName || !values?.shipPoint
                       }
                     />
                   </div>
@@ -290,6 +319,8 @@ export default function _Form({
                             values?.componentName?.businessTransactionId || 0,
                           vehicleCapacityName: values?.vehicleCapacity?.label,
                           vehicleCapacityId: values?.vehicleCapacity?.value,
+                          shipPointId: values?.shipPoint?.value || 0,
+                          shipPointName: values?.shipPoint?.label || "",
                         };
 
                         // duplicate check (transportRouteCostComponentId, vehicleCapacityId,routeId )
@@ -314,7 +345,7 @@ export default function _Form({
                         !values?.transportOrganizationName ||
                         !values?.routeName ||
                         !values?.componentName ||
-                        !values?.vehicleCapacity
+                        !values?.vehicleCapacity || !values?.shipPoint
                       }
                     >
                       Add
