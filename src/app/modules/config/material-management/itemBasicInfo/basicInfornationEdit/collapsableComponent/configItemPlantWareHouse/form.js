@@ -347,7 +347,7 @@ export default function _Form({
                       value={values?.binNumber}
                       name="binNumber"
                       placeholder="Bin Number"
-                      type="number"
+                      type="text"
                     />
                   </div>
                   <div className="col-lg-3">
