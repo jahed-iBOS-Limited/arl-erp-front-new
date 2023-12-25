@@ -34,6 +34,10 @@ const headers = [
   "OverDue Request",
   "G2G Configuration",
   "G2G Operation",
+  "Hologram Print",
+  "Address Change",
+  "Challan Rollback",
+  "Pump Fooding Bill",
   // "Action",
 ];
 
@@ -149,11 +153,15 @@ const PermissionForModification = () => {
                                 <td>{item?.ysnOverDueRequest}</td>
                                 <td>{item?.ysnG2gconfiguration}</td>
                                 <td>{item?.ysnG2goperation}</td>
-                                <td
+                                <td>{item?.ysnHologramPrint}</td>
+                                <td>{item?.ysnAddressChange}</td>
+                                <td>{item?.ysnChallanRollback}</td>
+                                <td>{item?.ysnPumpFoodingBill}</td>
+                                {/* <td
                                   style={{ width: "80px" }}
                                   className="text-center"
                                 >
-                                  {/* <div className="d-flex justify-content-around">
+                                  <div className="d-flex justify-content-around">
                                     <span>
                                   <IEdit
                                     onClick={() => {
@@ -171,8 +179,8 @@ const PermissionForModification = () => {
                                     >
                                       <IDelete />
                                     </span>
-                                  </div> */}
-                                </td>
+                                  </div>
+                                </td> */}
                               </tr>
                             );
                           })}
