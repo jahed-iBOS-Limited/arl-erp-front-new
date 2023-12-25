@@ -302,7 +302,7 @@ export const complainLandingPasignationByEmployeeId = async (
   setter([]);
   try {
     const _search = search ? `&search=${search}` : "";
-    const _employeeId = employeeId ? `&employeeId=${470548}` : "";
+    const _employeeId = employeeId ? `&employeeId=${employeeId}` : "";
     const res = await axios.get(
       `/oms/CustomerPoint/ComplainLandingPasignationByEmployeeId?accountId=${accId}&businessUnitId=${buId}&respondentTypeId=${respondentTypeId}&statusId=${statusId}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}${_search}${_employeeId}&respondentBusinessUnitId=${respondentBusinessUnitId || 0}&issueTypeId=${issueTypeId}`
     );
