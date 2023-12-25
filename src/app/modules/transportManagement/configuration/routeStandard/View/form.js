@@ -27,18 +27,20 @@ export default function _Form({
     if (landingData?.transportOrganizationId && landingData?.routeId) {
       commonPrvSaveData(
         landingData?.routeId,
-        landingData?.transportOrganizationId
+        landingData?.transportOrganizationId,
+        landingData?.shipPointId
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [landingData]);
   const formikRef = React.useRef(null);
-  const commonPrvSaveData = (routeId, transportORGId) => {
+  const commonPrvSaveData = (routeId, transportORGId, shipPointId) => {
     GetRouteStandardCostByRouteId(
       profileData?.accountId,
       selectedBusinessUnit?.value,
       routeId,
       transportORGId,
+      shipPointId,
       (data) => {
         if (formikRef.current) {
           const obj = data?.[0] || {};
@@ -59,6 +61,15 @@ export default function _Form({
               ? {
                   value: obj?.routeId,
                   label: obj?.routeName,
+                }
+              : ""
+          );
+          formikRef.current.setFieldValue(
+            "shipPoint",
+            obj?.shipPointId
+              ? {
+                  value: obj?.shipPointId,
+                  label: obj?.shipPointName,
                 }
               : ""
           );
@@ -104,6 +115,21 @@ export default function _Form({
                         setFieldValue("transportOrganizationName", valueOption);
                       }}
                       placeholder='Transport Organization Name'
+                      errors={errors}
+                      touched={touched}
+                      isDisabled={true}
+                    />
+                  </div>
+                  <div className='col-lg-3'>
+                    <NewSelect
+                      name='shipPoint'
+                      options={[]}
+                      value={values?.shipPoint}
+                      label='ShipPoint'
+                      onChange={(valueOption) => {
+                        setFieldValue("shipPoint", valueOption);
+                      }}
+                      placeholder='Select ShipPoint'
                       errors={errors}
                       touched={touched}
                       isDisabled={true}

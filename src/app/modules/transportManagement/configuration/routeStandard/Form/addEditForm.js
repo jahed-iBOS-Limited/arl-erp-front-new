@@ -14,6 +14,7 @@ const initData = {
   vehicleCapacity: "",
   componentName: "",
   amount: "",
+  shipPoint: "",
   itemLists: [],
 };
 
@@ -52,6 +53,8 @@ export default function RouteStandardForm({
         actionBy: profileData?.userId,
         vehicleCapacityName: itm?.vehicleCapacityName || 0,
         vehicleCapacityId: itm?.vehicleCapacityId || 0,
+        shipPointId: itm?.shipPointId || 0,
+        shipPointName: itm?.shipPointName || '',
       }));
       createRouteStandardCost(payload, cb, setDisabled, id);
     } else {

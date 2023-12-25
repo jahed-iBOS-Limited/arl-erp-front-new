@@ -198,13 +198,14 @@ export const GetRouteStandardCostByRouteId = async (
   buId,
   routeId,
   transportORGId,
+  shipPointId,
   setter,
   setDisabled
 ) => {
   try {
     setDisabled && setDisabled(true);
     const res = await axios.get(
-      `/tms/RouteStandardCost/GetRouteStandardCostByRouteId?accountId=${accId}&businessUnitId=${buId}&routeId=${routeId}&transportOrganizationId=${transportORGId}`
+      `/tms/RouteStandardCost/GetRouteStandardCostByRouteId?accountId=${accId}&businessUnitId=${buId}&routeId=${routeId}&transportOrganizationId=${transportORGId}&shipPointId=${shipPointId}`
     );
     setDisabled && setDisabled(false);
     setter(res?.data);
