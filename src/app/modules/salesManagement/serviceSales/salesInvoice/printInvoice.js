@@ -114,11 +114,11 @@ const PrintInvoiceModal = ({ singleItem }) => {
                 )}
               </p>
               <p>
-                <strong> Order Date :</strong>
+                <strong> Order Date:</strong>
                 {_dateFormatter(printData[0]?.invocieRow[0]?.dteOrderDate)}
               </p>
               <p>
-                <strong> Due Date :</strong>
+                <strong> Due Date:</strong>
                 {_dateFormatter(printData[0]?.invocieRow[0]?.dteDueDateTime)}
               </p>
             </div>
@@ -137,16 +137,16 @@ const PrintInvoiceModal = ({ singleItem }) => {
             </div>
             <div className="address_shipping">
               <p className="address_title"> SHIPPING ADDRESS</p>
-              <p className="address_buyer">
+              {/* <p className="address_buyer">
                 <strong>Buyer Name: </strong>{" "}
                 {printData[0]?.invocieHeader?.strCustomerName}
-              </p>
+              </p> */}
               <p className="address_text">
-                <strong>Buyer Address: </strong>{" "}
-                {printData[0]?.invocieHeader?.strCustomerName}
+              <strong>Address: </strong>{" "}
+                {printData[0]?.invocieHeader?.strCustomerAddress}
               </p>
-              {/* <p>Contact Person: </p>
-              <p>Contact Number: </p> */}
+              {/* <p><strong>Contact Person:</strong> </p>
+              <p><strong>Contact Number:</strong> </p> */}
             </div>
           </div>
           <div style={{ marginBottom: "15px" }}>
@@ -172,7 +172,7 @@ const PrintInvoiceModal = ({ singleItem }) => {
                         <td style={{ textAlign: "left", paddingLeft: "5px" }}>
                           {item?.strItemName}
                         </td>
-                        <td>{item?.strUom}</td>
+                        <td>{item?.strUom || "EA"}</td>
                         <td style={{ textAlign: "right", paddingRight: "5px" }}>
                           {item?.numSalesQty}
                         </td>
@@ -287,7 +287,7 @@ const PrintInvoiceModal = ({ singleItem }) => {
                   : "";
 
                 return capitalizeFirstLetter;
-              })()}
+              })()} only
             </p>
           </div>
           <div className="bank_details">

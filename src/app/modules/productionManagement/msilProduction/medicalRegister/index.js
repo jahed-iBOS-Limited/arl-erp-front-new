@@ -153,6 +153,8 @@ function MedicalRegisterLanding() {
                           <th>Gender</th>
                           <th>Age</th>
                           <th>Designation</th>
+                          <th>Department</th>
+                          <th>Section</th>
                           <th>Shift</th>
                           <th>Doctor</th>
                           <th style={{ width: "80px" }}>Action</th>
@@ -169,10 +171,16 @@ function MedicalRegisterLanding() {
                               <td>{item?.strServiceRecipientName}</td>
                               <td>{item?.strGender}</td>
                               <td>{item?.intAge}</td>
-                              <td className="text-center">
+                              <td>
                                 {item?.strDesignationName}
                               </td>
-                              <td className="text-center">
+                              <td>
+                                {item?.strDepartment}
+                              </td>
+                              <td>
+                                {item?.strSectionName}
+                              </td>
+                              <td>
                                 {item?.strShiftName}
                               </td>
                               <td>{item?.strDoctorName}</td>
