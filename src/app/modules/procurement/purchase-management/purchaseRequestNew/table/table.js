@@ -1,30 +1,32 @@
+import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import PaginationSearch from "./../../../../_helper/_search";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import { useHistory } from "react-router-dom";
-import { Formik, Form } from "formik";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getSBUList,
-  getPlantList,
-  getPurchaseOrgList,
-  getWhList,
-  getPurchaseRequestLanding,
-} from "../helper";
+import { useHistory } from "react-router-dom";
+import * as Yup from "yup";
+import ICustomCard from "../../../../_helper/_customCard";
+import IClose from "../../../../_helper/_helperIcons/_close";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import IView from "../../../../_helper/_helperIcons/_view";
-import ILoader from "../../../../_helper/loader/_loader";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import PaginationTable from "./../../../../_helper/_tablePagination";
+import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
-import { setPurchaseRequestPPRAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import * as Yup from "yup";
-import IClose from "../../../../_helper/_helperIcons/_close";
-import IConfirmModal from "./../../../../_helper/_confirmModal";
-import { postPurchaseReqCancelAction } from "../helper";
 import IViewModal from "../../../../_helper/_viewModal";
+import ILoader from "../../../../_helper/loader/_loader";
+import { setPurchaseRequestPPRAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import {
+  completePoHandlerAction,
+  getPlantList,
+  getPurchaseOrgList,
+  getPurchaseRequestLanding,
+  getSBUList,
+  getWhList,
+  postPurchaseReqCancelAction
+} from "../helper";
 import { ItemReqViewTableRow } from "../report/tableRow";
+import IConfirmModal from "./../../../../_helper/_confirmModal";
+import { _dateFormatter } from "./../../../../_helper/_dateFormate";
+import PaginationSearch from "./../../../../_helper/_search";
+import PaginationTable from "./../../../../_helper/_tablePagination";
 
 const statusData = [
   { label: "Approved", value: true },
@@ -197,7 +199,19 @@ const PurchaseRequestTable = () => {
 
   const [isShowModal, setIsShowModal] = useState(false);
   const [currentRowData, setCurrentRowData] = useState("");
-
+  const itemCompleteHandler = (reqId, userId, values) => {
+    let confirmObject = {
+      title: "Are you sure?",
+      message: `Do you want to Complete this PO`,
+      yesAlertFunc: () => {
+        completePoHandlerAction(reqId, userId).then(() =>
+          viewPurchaseOrderData(values)
+        );
+      },
+      noAlertFunc: () => {},
+    };
+    IConfirmModal(confirmObject);
+  };
   return (
     <ICustomCard title="Purchase Request">
       <>
@@ -432,6 +446,28 @@ const PurchaseRequestTable = () => {
                                     }}
                                   />{" "}
                                 </span>
+                                {!item?.isClosed &&
+                                  (profileData?.userId === 509697 ||
+                                    profileData?.userId === 520986) && (
+                                    <OverlayTrigger
+                                      overlay={
+                                        <Tooltip id="cs-icon">Complete</Tooltip>
+                                      }
+                                    >
+                                      <span>
+                                        <i
+                                          className="fa fa-check-circle"
+                                          onClick={() =>
+                                            itemCompleteHandler(
+                                              item?.purchaseRequestId,
+                                              profileData?.userId,
+                                              values
+                                            )
+                                          }
+                                        ></i>
+                                      </span>
+                                    </OverlayTrigger>
+                                  )}
                               </div>
                             </td>
                           </tr>

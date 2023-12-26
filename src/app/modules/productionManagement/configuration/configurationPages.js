@@ -132,7 +132,7 @@ export function ConfigurationPages() {
         component={OEEMachineAndChecklistLanding}
       />
 
-      //OEECapacityConfiguration route
+      {/* OEECapacityConfiguration route */}
       <ContentRoute
         path="/production-management/configuration/OEECapacityConfiguration/create"
         component={CapacityConfigurationCreateEdit}
