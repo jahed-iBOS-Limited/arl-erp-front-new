@@ -21,6 +21,8 @@ const initData = {
   serviceRecipient: '',
   gender: '',
   designation: '',
+  department:'',
+  section:'',
   age: '',
   shift: '',
   doctorName: '',
@@ -142,6 +144,8 @@ export default function MedicalRegisterCreate() {
         strDesignationName: id
           ? location?.state?.strDesignationName
           : values?.designation || '',
+        strDepartment:id ? location?.state?.strDepartment : values?.department,
+        strSectionName:id ? location?.state?.strSectionName : values?.section,
         intAge: +values?.age || 0,
         intShiftId: values?.shift?.value || 0,
         strShiftName: values?.shift?.label || '',
@@ -245,6 +249,8 @@ export default function MedicalRegisterCreate() {
                           setFieldValue('serviceRecipient', '');
                           setFieldValue('gender', '');
                           setFieldValue('designation', '');
+                          setFieldValue('department', '');
+                          setFieldValue('section', '');
                         }}
                         disabled={id && viewType !== 1}
                       />
@@ -263,6 +269,8 @@ export default function MedicalRegisterCreate() {
                           setFieldValue('serviceRecipient', '');
                           setFieldValue('gender', '');
                           setFieldValue('designation', '');
+                          setFieldValue('department', '');
+                          setFieldValue('section', '');
                         }}
                         disabled={id && viewType !== 2}
                       />
@@ -310,18 +318,28 @@ export default function MedicalRegisterCreate() {
                               setFieldValue('enroll', valueOption);
                               setFieldValue(
                                 'serviceRecipient',
-                                valueOption?.strEmployeeName,
+                                valueOption?.name,
                               );
                               setFieldValue('gender', valueOption?.gender);
                               setFieldValue(
                                 'designation',
-                                valueOption?.employeeInfoDesignation,
+                                valueOption?.designation,
+                              );
+                              setFieldValue(
+                                'department',
+                                valueOption?.department,
+                              );
+                              setFieldValue(
+                                'section',
+                                valueOption?.sectionName,
                               );
                             } else {
                               setFieldValue('enroll', '');
                               setFieldValue('serviceRecipient', '');
                               setFieldValue('gender', '');
                               setFieldValue('designation', '');
+                              setFieldValue('department', '');
+                              setFieldValue('section', '');
                             }
                           }}
                           loadOptions={loadEnrollList}
@@ -332,7 +350,7 @@ export default function MedicalRegisterCreate() {
                     <div className="col-lg-3">
                       <InputField
                         value={values?.serviceRecipient}
-                        label="Service Recipient"
+                        label="Patient"
                         name="serviceRecipient"
                         type="text"
                         disabled={viewType === 1}
@@ -352,6 +370,24 @@ export default function MedicalRegisterCreate() {
                         value={values?.designation}
                         label="Designation"
                         name="designation"
+                        type="text"
+                        disabled={viewType === 1}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <InputField
+                        value={values?.department}
+                        label="Department"
+                        name="department"
+                        type="text"
+                        disabled={viewType === 1}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <InputField
+                        value={values?.section}
+                        label="Section"
+                        name="section"
                         type="text"
                         disabled={viewType === 1}
                       />
