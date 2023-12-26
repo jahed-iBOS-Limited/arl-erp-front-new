@@ -50,11 +50,10 @@ export const getSalesOrgList = async (accId, buId, setter, setLoading) => {
   }
 };
 
-export const getRegionList = async (channelId, setter, setLoading) => {
+export const getRegionList = async (buId,userId,channelId, setter, setLoading) => {
   setLoading(true);
   try {
-    const res = await axios.get(`/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${channelId}
-    `);
+    const res = await axios.get(`/oms/SalesInformation/GetUserWiseRegionAreaTerritoryDDL?businessUnitId=${buId}&userId=${userId}&typeName=region&distributionChannelId=${channelId}`);
     setter(
       res?.data?.map((item) => ({
         value: item?.regionId,
@@ -69,11 +68,11 @@ export const getRegionList = async (channelId, setter, setLoading) => {
   }
 };
 
-export const getAreaList = async (channelId, regionId, setter, setLoading) => {
+export const getAreaList = async (buId,userId,regionId, channelId,setter, setLoading) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${channelId}&regionId=${regionId}`
+      `/oms/SalesInformation/GetUserWiseRegionAreaTerritoryDDL?businessUnitId=${buId}&userId=${userId}&typeName=Area&regionId=${regionId}&distributionChannelId=${channelId}`
     );
     setter(
       res?.data?.map((item) => ({ value: item?.areaId, label: item.areaName }))
