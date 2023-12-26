@@ -429,6 +429,23 @@ export const postPurchaseReqCancelAction = async (
   }
 };
 
+export const completePoHandlerAction = async (
+  reqId,
+  userId
+) => {
+  try {
+    const res = await Axios.put(
+      `/procurement/PurchaseRequest/ClosePurchaseRequest?RequestId=${reqId}&UserId=${userId}`
+    );
+    if (res.status === 200) {
+      //setter(res?.data);
+      toast.success("Close Successfully");
+      //setLoading(false);
+    }
+  } catch (error) {
+    toast.error(error?.response?.data?.message || "Cancel Failed");
+  }
+};
 
 
 
