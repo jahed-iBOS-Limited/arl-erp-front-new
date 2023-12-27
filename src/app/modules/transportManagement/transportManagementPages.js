@@ -6,6 +6,7 @@ import RouteManagementPage from "./routeCostManagement/routeManagementPage";
 import { ConfigurationPages } from "./configuration/configurationPages";
 import { ShipmentManagementPages } from "./shipmentManagement/shipmentManagementPage";
 import TransportReportPages from "./report/reportPages";
+import { StuffTransportPages } from "./stuffTransport/stuffTransportPages";
 
 export function TransportManagementPages() {
   return (
@@ -21,6 +22,11 @@ export function TransportManagementPages() {
         <ContentRoute
           path="/transport-management/configuration"
           component={ConfigurationPages}
+        />
+
+-      <ContentRoute
+          path="/transport-management/stuffreport"
+          component={StuffTransportPages}
         />
 
         {/* Route Management Page */}
