@@ -265,7 +265,7 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
           uomId: 0,
           uomName: "",
           referenceNoName: "",
-          orderQuantity: item?.numRequestQuantity,
+          orderQuantity: +item?.numOrderQuantity,
           undeliveryQuantity: item?.numRequestQuantity,
           orderValue: item?.numOrderValue,
           specification: "",
@@ -292,7 +292,7 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
   };
 
   const p = state?.addressChangingPermission;
-  const viewMode = type !== "update" || p;
+  const viewMode = type !== "update" || !p;
 
   return (
     <div>
@@ -706,11 +706,11 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
                         <input
                           type='number'
                           name='numRequestQuantity'
-                          value={itm?.NumOrderQuantity}
+                          value={itm?.numOrderQuantity}
                           onChange={(e) => {
                             rowDataHandler(
                               index,
-                              "NumOrderQuantity",
+                              "numOrderQuantity",
                               e?.target?.value
                             );
                           }}
