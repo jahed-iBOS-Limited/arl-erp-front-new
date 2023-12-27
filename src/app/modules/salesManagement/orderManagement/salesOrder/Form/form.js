@@ -172,8 +172,6 @@ export default function _Form({
 
   //Akij Essentials Ltd
   const isBUIEssentials = selectedBusinessUnit?.value === 144;
-  const isBUIIspat = selectedBusinessUnit?.value === 224;
-  const isBUIMegnum = selectedBusinessUnit?.value === 171;
   const channelBulk = headerData?.distributionChannel?.value === 67;
 
   return (
@@ -1259,16 +1257,14 @@ export default function _Form({
                               <td className="align-middle">{itm.uomName}</td>
                               <td className="align-middle">{itm.isFree}</td>
                               <td className="align-middle">
-                              {/* values?.refType?.value !== 1 || isBUIIspat || isBUIMegnum ||
-                                isBUIEssentials ? */}
-                                { isBUIIspat || isBUIMegnum ||
+                                { values?.refType?.value !== 1 ||
                                 isBUIEssentials ? (
                                   <IInput
                                     value={rowDto[index]?.numRequestQuantity}
                                     name="numRequestQuantity"
                                     type="number"
                                     required
-                                    min="1"
+                                    min="0"
                                     step="any"
                                     onChange={(e) => {
                                       rowDtoHandler(
