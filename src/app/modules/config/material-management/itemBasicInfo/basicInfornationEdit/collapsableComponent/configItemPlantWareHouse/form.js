@@ -581,7 +581,6 @@ export default function _Form({
                                 }}
                               />
                             </td>
-                            {console.log("item",itm)}
                             <td
                               className="disabled-feedback disable-border"
                               style={{ width: "100px" }}
