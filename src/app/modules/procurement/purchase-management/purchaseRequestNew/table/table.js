@@ -446,7 +446,7 @@ const PurchaseRequestTable = () => {
                                     }}
                                   />{" "}
                                 </span>
-                                {!item?.isClosed &&
+                                {(!item?.isClosed && item?.isApproved)&&
                                   (profileData?.userId === 509697 ||
                                     profileData?.userId === 520986) && (
                                     <OverlayTrigger
