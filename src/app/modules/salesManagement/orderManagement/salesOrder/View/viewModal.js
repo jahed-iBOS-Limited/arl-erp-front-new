@@ -656,15 +656,15 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
               {rowDto?.map((itm, index) => {
                 return (
                   <tr key={index}>
-                    <td className='text-center'>{index + 1}</td>
-                    <td className='align-middle'>{itm.referenceNoName}</td>
-                    <td className='align-middle'>{itm.specification}</td>
-                    <td className='align-middle'>
+                    <td className="text-center">{index + 1}</td>
+                    <td className="align-middle">{itm.referenceNoName}</td>
+                    <td className="align-middle">{itm.specification}</td>
+                    <td className="align-middle">
                       {viewMode ? (
                         itm.shipToPartnerName
                       ) : (
                         <NewSelect
-                          name='shipToPartner'
+                          name="shipToPartner"
                           value={itm?.shipToPartner || {}}
                           options={shipToPartner || []}
                           onChange={(e) => {
@@ -674,15 +674,15 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
                       )}
                     </td>
                     {viewMode && (
-                      <td className='align-middle'>{itm.itemCode}</td>
+                      <td className="align-middle">{itm.itemCode}</td>
                     )}
-                    <td className='align-middle'>
+                    <td className="align-middle">
                       {viewMode ? (
                         itm.itemName
                       ) : (
                         // <></>
                         <NewSelect
-                          name='item'
+                          name="item"
                           value={itm?.item || {}}
                           options={itemPlantDDL || []}
                           onChange={(e) => {
@@ -692,25 +692,27 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
                       )}
                     </td>
                     {viewMode && (
-                      <td className='align-middle'>{itm.customerItemName}</td>
+                      <td className="align-middle">{itm.customerItemName}</td>
                     )}
                     {viewMode && (
-                      <td className='align-middle'>{itm.uomName}</td>
+                      <td className="align-middle">{itm.uomName}</td>
                     )}
-                    <td className='align-middle'>{itm.isFree}</td>
-                    <td className='align-middle'>
+                    <td className="align-middle">{itm.isFree}</td>
+                    <td className="align-middle">
                       {viewMode ? (
                         itm?.numRequestQuantity
                       ) : (
                         // <></>
                         <input
-                          type='number'
-                          name='numRequestQuantity'
-                          value={itm?.numOrderQuantity}
+                          type="number"
+                          name="numRequestQuantity"
+                          value={itm?.numRequestQuantity}
+                          // value={itm?.numOrderQuantity}
                           onChange={(e) => {
                             rowDataHandler(
                               index,
-                              "numOrderQuantity",
+                              "numRequestQuantity",
+                              // "numOrderQuantity",
                               e?.target?.value
                             );
                           }}
@@ -718,16 +720,16 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
                       )}
                     </td>
                     {isTransportRate && (
-                      <td className='text-right'>
+                      <td className="text-right">
                         {itm.numTransportRate || 0}
                       </td>
                     )}
-                    <td className='text-right'>
+                    <td className="text-right">
                       {viewMode ? (
                         _formatMoney(itm.numItemPrice)
                       ) : (
                         <input
-                          name='numItemPrice'
+                          name="numItemPrice"
                           value={itm.numItemPrice}
                           onChange={(e) => {
                             rowDataHandler(
@@ -741,23 +743,22 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
                     </td>
                     {salesOrderData?.selectedBusinessUnit?.value === 175 ? (
                       <>
-                        <td className='text-center'>
+                        <td className="text-center">
                           {itm?.numWaterProofRate || 0}
                         </td>
-                        <td className='text-center'>
+                        <td className="text-center">
                           {itm?.numPumpChargeRate || 0}
                         </td>
-
                       </>
                     ) : (
                       <></>
                     )}
-                    <td className='text-right'>
+                    <td className="text-right">
                       {_formatMoney(itm.numOrderValue)}
                     </td>
-                    <td className='align-middle'>{itm.numDiscountValue}</td>
+                    <td className="align-middle">{itm.numDiscountValue}</td>
 
-                    <td className='text-right'>
+                    <td className="text-right">
                       {_formatMoney(
                         itm.numOrderValue -
                           (itm.numOrderValue * itm.numDiscountValue) / 100
