@@ -62,7 +62,6 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
   const [loading, setLoading] = useState(false);
   const [organizationDDL, getOrganizationDDL] = useAxiosGet();
 
-
   // get user data from store
   const {
     profileData: { accountId: accId, userId },
@@ -112,9 +111,11 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
     }
   }, [item]);
 
-  useEffect(()=>{
-    getOrganizationDDL(`/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`);
-  }, [accId, buId])
+  useEffect(() => {
+    getOrganizationDDL(
+      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`
+    );
+  }, [accId, buId]);
 
   const singleDataSet = (item, values) => {
     setRowData(rowData?.filter((element) => element?.id !== item?.id));
@@ -226,6 +227,14 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
   };
 
   const createOrEdit = ["create", "edit"].includes(formType);
+
+  const disableHandler = (values) => {
+    const organization = values?.organization?.label
+      ?.split(" ")[1]
+      .toLowerCase();
+
+    return organization !== "badc";
+  };
 
   return (
     <>
@@ -466,12 +475,7 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
                             setFieldValue("localRevenueRate", e.target.value);
                           }}
                           type="number"
-                          disabled={
-                            (buId === 94 &&
-                              values?.organization?.value !== 73244) ||
-                            (buId === 178 &&
-                              values?.organization?.value !== 88577)
-                          }
+                          disabled={disableHandler(values)}
                         />
                       </div>
                       <IButton
