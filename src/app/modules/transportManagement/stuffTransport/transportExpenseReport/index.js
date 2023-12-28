@@ -62,6 +62,8 @@ export default function TransportExpenseReport() {
       requestUrl = `/mes/VehicleLog/GetDriverAndTripInfo?partName=driverWiseExpanse&intDriverId=${values?.driver?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`;
     } else if (reportTypeId === 4) {
       requestUrl = `/mes/VehicleLog/GetDriverAndTripInfo?partName=driverDateWiseTripInfo&intDriverId=0&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`;
+    } else if (reportTypeId === 5) {
+      requestUrl = `/mes/VehicleLog/GetDriverAndTripInfo?partName=VehicleWiseFuelCost&intDriverId=${values?.vehicle?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`;
     }
     getRowData(requestUrl);
   };
@@ -198,7 +200,7 @@ export default function TransportExpenseReport() {
                   <div>
                     <button
                       style={{ marginTop: "17px" }}
-                      className="btn btn-primary"
+                      className="btn btn-primary ml-2"
                       type="button"
                       onClick={() => {
                         getData({
