@@ -126,22 +126,24 @@ export default function TransportExpenseReport() {
                   <div className="col-lg-3">
                     <InputField
                       value={values?.fromDate}
-                      label="Date"
+                      label="From Date"
                       name="fromDate"
                       type="date"
                       onChange={(e) => {
                         setFieldValue("fromDate", e.target.value);
+                        setRowData([]);
                       }}
                     />
                   </div>
                   <div className="col-lg-3">
                     <InputField
                       value={values?.toDate}
-                      label="Date"
+                      label="To Date"
                       name="toDate"
                       type="date"
                       onChange={(e) => {
                         setFieldValue("toDate", e.target.value);
+                        setRowData([]);
                       }}
                     />
                   </div>
@@ -154,6 +156,7 @@ export default function TransportExpenseReport() {
                         label="Vehicle"
                         onChange={(valueOption) => {
                           setFieldValue("vehicle", valueOption || "");
+                          setRowData([]);
                         }}
                         errors={errors}
                         touched={touched}
@@ -169,6 +172,7 @@ export default function TransportExpenseReport() {
                         label="Driver"
                         onChange={(valueOption) => {
                           setFieldValue("driver", valueOption || "");
+                          setRowData([]);
                         }}
                         errors={errors}
                         touched={touched}
@@ -184,6 +188,7 @@ export default function TransportExpenseReport() {
                         label="Fuel Station"
                         onChange={(valueOption) => {
                           setFieldValue("fuelStation", valueOption || "");
+                          setRowData([]);
                         }}
                         errors={errors}
                         touched={touched}
@@ -208,7 +213,7 @@ export default function TransportExpenseReport() {
                 </div>
                 <div>
                   {[1]?.includes(values?.reportType?.value) ? (
-                    <FuelStationSummaryTbl rowData={rowData} />
+                    <FuelStationSummaryTbl rowData={rowData} values={values} />
                   ) : null}
                   {[2]?.includes(values?.reportType?.value) ? (
                     <FuelStationPurchaseInfoTbl rowData={rowData} />
