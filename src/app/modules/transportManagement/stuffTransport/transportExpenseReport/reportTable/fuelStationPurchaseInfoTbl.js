@@ -1,4 +1,5 @@
 import React from "react";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
 export default function FuelStationPurchaseInfoTbl({ rowData }) {
   return (
@@ -21,15 +22,32 @@ export default function FuelStationPurchaseInfoTbl({ rowData }) {
         </thead>
         <tbody>
           {rowData?.map((item, index) => (
-            <tr>
-              <td>SL</td>
-              <td>Date</td>
-              <td>LPG Gas</td>
-              <td>Diesel</td>
-              <td>Octen</td>
-              <td>Total Fuel Cost</td>
-              <td>Cash</td>
-              <td>Credit</td>
+            <tr key={index}>
+              <td>{index + 1}</td>
+              <td className="text-center">
+                {_dateFormatter(item?.dteTripDate)}
+              </td>
+              <td className="text-right">{item?.lpgCash + item?.lpgCredit}</td>
+              <td className="text-right">
+                {item?.dieselCash + item?.dieselCredit}
+              </td>
+              <td className="text-right">
+                {item?.octaneCash + item?.octaneCredit}
+              </td>
+              <td className="text-right">
+                {item?.lpgCash +
+                  item?.lpgCredit +
+                  item?.dieselCash +
+                  item?.dieselCredit +
+                  item?.octaneCash +
+                  item?.octaneCredit}
+              </td>
+              <td className="text-right">
+                {item?.lpgCash + item?.dieselCash + item?.octaneCash}
+              </td>
+              <td className="text-right">
+                {item?.lpgCredit + item?.dieselCredit + item?.octaneCredit}
+              </td>
             </tr>
           ))}
         </tbody>
