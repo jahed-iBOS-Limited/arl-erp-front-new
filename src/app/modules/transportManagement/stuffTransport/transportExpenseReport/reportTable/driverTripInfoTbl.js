@@ -1,4 +1,5 @@
 import React from "react";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
 export default function DriverTripInfoTbl({ rowData }) {
   return (
@@ -9,7 +10,6 @@ export default function DriverTripInfoTbl({ rowData }) {
       <table className="table table-striped table-bordered bj-table bj-table-landing">
         <thead>
           <tr>
-            <th>SL</th>
             <th>Date</th>
             <th>Trip No</th>
             <th>KM</th>
@@ -29,23 +29,30 @@ export default function DriverTripInfoTbl({ rowData }) {
         </thead>
         <tbody>
           {rowData?.map((item, index) => (
-            <tr>
-              <td>SL</td>
-              <td>Date</td>
-              <td>Trip No</td>
-              <td>KM</td>
-              <td>Vehicle No</td>
-              <td>From</td>
-              <td>To</td>
-              <td>Toll</td>
-              <td>DA</td>
-              <td>Others</td>
-              <td>Maintaince</td>
-              <td>Total Driver Cost</td>
-              <td>LPG Gas</td>
-              <td>Diesel</td>
-              <td>Octane </td>
-              <td>Total Fuel Cost</td>
+            <tr key={index}>
+              <td className="text-center">
+                {_dateFormatter(item?.dteTripDate)}
+              </td>
+              <td></td>
+              <td className="text-center">{item?.tripKM}</td>
+              <td className="text-center">{item?.strVehicleNo}</td>
+              <td>{item?.strFirstRoundStartAddress}</td>
+              <td>{item?.strFirstRoundEndAddress}</td>
+              <td className="text-right">{item?.numTollAmount}</td>
+              <td></td>
+              <td className="text-right">{item?.numOthersAmount}</td>
+              <td className="text-right">{item?.numRepairingAmount}</td>
+              <td className="text-right">
+                {item?.numTollAmount +
+                  item?.numOthersAmount +
+                  item?.numRepairingAmount}
+              </td>
+              <td className="text-right">{item?.lpeg}</td>
+              <td className="text-right">{item?.diesel}</td>
+              <td className="text-right">{item?.octane}</td>
+              <td className="text-right">
+                {item?.lpeg + item?.diesel + item?.octane}
+              </td>
             </tr>
           ))}
         </tbody>
