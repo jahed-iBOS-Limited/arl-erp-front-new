@@ -1,15 +1,9 @@
 import React from "react";
-import { _dateFormatter, dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
 
 function SummarySheet({ gridData }) {
-  let numVatAmount = 0,
-    numVatPercentage = 0,
-    numBasePrice = 0,
-    numOrderQty = 0,
-    numTotalValue = 0;
 
-  console.log("gridData", gridData);
   return (
     <>
       <div className="row ">
@@ -31,23 +25,6 @@ function SummarySheet({ gridData }) {
                 </tr>
               </thead>
               <tbody>
-                {/* [
-                {
-                    "plantId": 17,
-                    "plantName": "Akij House",
-                    "warehouseId": 36,
-                    "warehouseName": "ARL Corporate",
-                    "purchaseOrderDate": "2023-05-02T00:00:00",
-                    "itemId": 94990,
-                    "itemName": "Mobile Bill",
-                    "uomId": 130,
-                    "uomName": "JOB",
-                    "orderQuantity": 1,
-                    "orderValue": 2863,
-                    "costPerUom": 0,
-                    "costPerMaunds": 0
-                }] */}
-
                 {gridData?.map((item, index) => {
                   return (
                     <tr key={index}>

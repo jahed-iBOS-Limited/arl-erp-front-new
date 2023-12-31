@@ -31,7 +31,7 @@ export default function ShippingAgencyLanding() {
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const {
-    profileData: { accountId: accId, userId },
+    profileData: { accountId: accId },
     selectedBusinessUnit: { value: buId, label: businessUnitName },
     businessUnitList,
   } = useSelector((state) => state?.authData, shallowEqual);

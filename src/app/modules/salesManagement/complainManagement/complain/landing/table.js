@@ -12,8 +12,7 @@ import InvoiceView from "./invoiceView";
 import { saveColseComplainApi } from "../../resolution/helper";
 const LandingTable = ({ obj }) => {
   const {
-    profileData: { accountId: accId, employeeId },
-    selectedBusinessUnit: { value: buId },
+    profileData: { employeeId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const [isFeedbackModalShow, setIsFeedbackModalShow] = React.useState(false);
 

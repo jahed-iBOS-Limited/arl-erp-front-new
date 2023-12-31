@@ -17,7 +17,7 @@ export default function ServiceSalesLanding() {
   }, shallowEqual);
 
   const [customerList, getCustomerList] = useAxiosGet();
-  const [itemDDL, getItemDDL] = useAxiosGet();
+  const [, getItemDDL] = useAxiosGet();
   const [scheduleList, getScheduleList, loader] = useAxiosGet();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
