@@ -1,7 +1,6 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
@@ -26,40 +25,23 @@ const initData = {
 };
 const InvoiceWisePaymentLanding = () => {
   const {location} = useHistory();
-  const { businessUnitList: businessUnitDDL } = useSelector(
-    (store) => store?.authData,
-    shallowEqual
-  );
 
-  const [
-    teritoryDDL,
-    getTeritoryDDL,
-    teritoryDDLloader,
-    setTeritoryDDL,
-  ] = useAxiosGet();
 
-  const [
-    customerDDL,
-    getCustomerDDL,
-    customerDDLloader,
-    setCustomerDDL,
-  ] = useAxiosGet();
 
-  const profileData = useSelector((state) => {
-    return state.authData.profileData;
-  }, shallowEqual);
+  // const profileData = useSelector((state) => {
+  //   return state.authData.profileData;
+  // }, shallowEqual);
 
-  const { selectedBusinessUnit } = useSelector(
-    (state) => state?.authData,
-    shallowEqual
-  );
+  // const { selectedBusinessUnit } = useSelector(
+  //   (state) => state?.authData,
+  //   shallowEqual
+  // );
 
   const saveHandler = (values, cb) => {};
   const [
     tableData,
     getTableData,
     tableDataLoader,
-    setTableData,
   ] = useAxiosGet();
 
   const [clickedItem, setClickedItem] = useState("");
@@ -79,16 +61,21 @@ const InvoiceWisePaymentLanding = () => {
   };
 
   useEffect(() =>{
-    getTableData(
-      `/fino/PaymentOrReceive/GetInvoiceWisePayment?partName=Report&businessUnitId=${
-        location?.state?.values?.businessUnit?.value
-      }&customerId=${location?.state?.rowData?.customerId}&fromDate=${
-        location?.state?.values?.fromDate
-      }&toDate=${location?.state?.values?.toDate}&status=${
-        location?.state?.values?.status?.value
-      }&TerritoryId=${location?.state?.values?.teritory?.value || 0}`
-    );
-  }, [location?.state?.rowData?.customerId])
+    const businessUnitId = location?.state?.values?.businessUnit?.value || '';
+    const customerId = location?.state?.rowData?.customerId;
+    const fromDate = location?.state?.values?.fromDate || '';
+    const toDate = location?.state?.values?.toDate || '';
+    const status = location?.state?.values?.status?.value || '';
+    const territoryId = location?.state?.values?.teritory?.value || 0;
+  
+    // Checking if customerId is defined before making the API call
+    if (customerId !== undefined) {
+      const url = `/fino/PaymentOrReceive/GetInvoiceWisePayment?partName=Report&businessUnitId=${businessUnitId}&customerId=${customerId}&fromDate=${fromDate}&toDate=${toDate}&status=${status}&TerritoryId=${territoryId}`;
+
+      getTableData(url);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location?.state?.rowData?.customerId, location])
 
   return (
     <Formik
@@ -110,7 +97,7 @@ const InvoiceWisePaymentLanding = () => {
         touched,
       }) => (
         <>
-          {(tableDataLoader || customerDDLloader || teritoryDDLloader) && (
+          {tableDataLoader && (
             <Loading />
           )}
           <IForm

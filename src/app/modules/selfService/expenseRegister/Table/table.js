@@ -8,7 +8,6 @@ import {
   getCountry,
   getCurrency,
   getExpenseFor,
-  getExpensePlantDDLAction,
   getSBU,
   getExpenseLandingPagination,
 } from "../helper";
@@ -31,7 +30,6 @@ import * as Yup from "yup";
 import NewSelect from "../../../_helper/_select";
 import { setPersonalExpRegLandingAction } from "../../../_helper/reduxForLocalStorage/Actions";
 import { useDispatch } from "react-redux";
-import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -54,7 +52,6 @@ const ExpenseRegisterLanding = () => {
 
   const [loading, setLoading] = useState(false);
   const [sbu, setSbu] = useState([]);
-  const [plantDDL, setPlantDDL] = useState([]);
   const [expenseFor, setExpenseFor] = useState([]);
   const [country, setCountry] = useState([]);
   const [currency, setCurrency] = useState([]);

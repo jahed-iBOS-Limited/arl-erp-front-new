@@ -32,7 +32,7 @@ export default function InternalLoan({ loanType }) {
     const { profileData, selectedBusinessUnit } = useSelector((state) => {
         return state.authData;
     }, shallowEqual);
-    const [, getItemRate, itemRateLoader] = useAxiosGet();
+    const [, getItemRate] = useAxiosGet();
     const [businessUnitDDL, getBusinessUnitDDL, businessUnitDDLloader] = useAxiosGet()
     const [, saveData, saveDataLoader] = useAxiosPost();
     const [, getSbuDDL, sbuDDLloader] = useAxiosGet();

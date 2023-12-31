@@ -42,7 +42,7 @@ const GodownLanding = () => {
   const [loading, setLoading] = useState(false);
   const [formType, setFormType] = useState("");
   const [singleItem, setSingleItem] = useState({});
-  const [businessPartnerDDL, getBusinessPartnerDDL, isGetBusinessPartnerDDLLoading] = useAxiosGet();
+  const [businessPartnerDDL, getBusinessPartnerDDL] = useAxiosGet();
 
   // get user data from store
   const {

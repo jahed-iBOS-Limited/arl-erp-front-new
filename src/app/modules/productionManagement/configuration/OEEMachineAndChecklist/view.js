@@ -1,16 +1,15 @@
 import { Form, Formik } from 'formik';
+import { DropzoneDialogBase } from 'material-ui-dropzone';
 import React, { useEffect, useState } from 'react';
-import * as Yup from 'yup';
+import { useDispatch } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import IView from '../../../_helper/_helperIcons/_view';
+import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { attachmentUploadAction } from '../../../financialManagement/expense/dryDocSchedule/helper';
 import IForm from './../../../_helper/_form';
 import Loading from './../../../_helper/_loading';
-import { useParams, useLocation } from 'react-router-dom';
-import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
-import IView from '../../../_helper/_helperIcons/_view';
-import { useDispatch } from 'react-redux';
-import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
-import { DropzoneDialogBase } from 'material-ui-dropzone';
-import { attachmentUploadAction } from '../../../financialManagement/expense/dryDocSchedule/helper';
-import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 
 const initData = {};
 
