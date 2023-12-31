@@ -17,6 +17,7 @@ import {
   getAvailableBalance_Action,
   getCreditLimitForInternalUser_action,
   getDataBySalesOrderId_Action,
+  getItemPlant_Action,
   // getItemPlant_Action,
   getPartnerBalance_action,
   getSalesOrderGridData,
@@ -136,14 +137,14 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
     //     selectedBusinessUnit?.value
     //   )
     // );
-    // dispatch(
-    //   getItemPlant_Action(
-    //     profileData?.accountId,
-    //     selectedBusinessUnit?.value,
-    //     state?.distributionChannel?.value,
-    //     state?.salesOrg?.value
-    //   )
-    // );
+    dispatch(
+      getItemPlant_Action(
+        profileData?.accountId,
+        selectedBusinessUnit?.value,
+        state?.distributionChannel?.value,
+        state?.salesOrg?.value
+      )
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
