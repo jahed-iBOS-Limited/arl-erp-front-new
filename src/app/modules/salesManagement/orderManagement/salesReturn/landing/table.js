@@ -122,13 +122,15 @@ const SalesReturn = () => {
     let payload = {};
     if ([1].includes(values?.viewAs?.value)) {
       if ([1].includes(values?.returnType?.value)) {
-        payload = {
-          header: {
-            salesReturnId: item?.salesReturnId,
-            intApproveBySupervisor: employeeId,
+        payload = [
+          {
+            header: {
+              salesReturnId: item?.salesReturnId,
+              intApproveBySupervisor: employeeId,
+            },
+            row: [],
           },
-          row: [],
-        };
+        ];
 
         url = `/oms/SalesReturnAndCancelProcess/SalesReturnApprovalBySupervisor`;
       }

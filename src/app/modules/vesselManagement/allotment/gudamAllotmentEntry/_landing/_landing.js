@@ -192,6 +192,16 @@ const GudamAllotmentLanding = () => {
                     values={values}
                   />
                 </div> */}
+                <div className="row">
+                  <div className="col-lg-1"></div>
+                  <div className="col-lg-10">
+                    <marquee scrollamount="8" style={{ color: "#ff0000bd" }}>
+                      <h3>
+                        Please Insert the Allotment Quantity with the Rate{" "}
+                      </h3>
+                    </marquee>
+                  </div>
+                </div>
                 <form className="form form-label-right">
                   <div className="global-form row">
                     <FromDateToDateForm
