@@ -1,6 +1,5 @@
 import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
-import { shallowEqual, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import IForm from '../../../../_helper/_form';
 import Loading from '../../../../_helper/_loading';
@@ -28,18 +27,13 @@ export default function BankBranchLanding() {
   const [pageSize, setPageSize] = useState(15);
   const [searchByText, setSearchByText] = useState('');
   const [landingData, getLandingData, landingDataLoader] = useAxiosGet();
-  const { selectedBusinessUnit } = useSelector((state) => {
-    return state.authData;
-  }, shallowEqual);
 
   const saveHandler = (values, cb) => {};
   const history = useHistory();
 
   const handleFetchRowData = (searchText, pageNo, pageSize) => {
     const api = `/fino/BankBranch/GetBankBranchLandingPasignation?search=${searchText}&pageNo=${pageNo}&pageSize=${pageSize}&viewOrder=asc`;
-    getLandingData(api, (data) => {
-      console.log({ landingData: data });
-    });
+    getLandingData(api);
   };
 
   const paginationSearchHandler = (searchValue) => {
@@ -54,7 +48,8 @@ export default function BankBranchLanding() {
 
   useEffect(() => {
     handleFetchRowData(searchByText, pageNo, pageSize);
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchByText, pageNo, pageSize]);
 
   return (
     <Formik

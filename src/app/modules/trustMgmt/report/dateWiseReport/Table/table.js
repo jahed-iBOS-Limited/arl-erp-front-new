@@ -8,7 +8,7 @@ import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
 export const DateWiseReportTable = ({ landingData }) => {
-  const [_, uploadFile] = useAxiosPost();
+  const [, uploadFile] = useAxiosPost();
   const dispatch = useDispatch();
   let totalAmount = landingData?.reduce(
     (sum, data) => sum + data?.monAmount,

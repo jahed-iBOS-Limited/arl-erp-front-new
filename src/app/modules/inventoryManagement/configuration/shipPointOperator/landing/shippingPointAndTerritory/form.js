@@ -9,14 +9,14 @@ const ShipPointAndTerritoryForm = ({ values, setFieldValue }) => {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  const [channelDDL, getChannelDDL, isChannelDDLLoading] = useAxiosGet();
+  const [channelDDL, getChannelDDL] = useAxiosGet();
   const [
     regionDDL,
     getRegionDDL,
-    isRegionDDLLoading,
+    ,
     setRegionDDL,
   ] = useAxiosGet();
-  const [areaDDL, getAreaDDL, isAreaDDLLoading, setAreaDDL] = useAxiosGet();
+  const [areaDDL, getAreaDDL, , setAreaDDL] = useAxiosGet();
 
   const handleGetRegionDDL = (channelId) => {
     getRegionDDL(
@@ -50,7 +50,8 @@ const ShipPointAndTerritoryForm = ({ values, setFieldValue }) => {
     getChannelDDL(
       `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accId}&BUnitId=${buId}`,
     );
-  }, [buId]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [buId, accId]);
 
   return (
     <>
