@@ -62,6 +62,8 @@ export default function TransportExpenseReport() {
       requestUrl = `/mes/VehicleLog/GetDriverAndTripInfo?partName=driverWiseExpanse&intDriverId=${values?.driver?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`;
     } else if (reportTypeId === 4) {
       requestUrl = `/mes/VehicleLog/GetDriverAndTripInfo?partName=driverDateWiseTripInfo&intDriverId=0&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`;
+    } else if (reportTypeId === 5) {
+      requestUrl = `/mes/VehicleLog/GetDriverAndTripInfo?partName=VehicleWiseFuelCost&intDriverId=${values?.vehicle?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`;
     }
     getRowData(requestUrl);
   };
@@ -126,22 +128,24 @@ export default function TransportExpenseReport() {
                   <div className="col-lg-3">
                     <InputField
                       value={values?.fromDate}
-                      label="Date"
+                      label="From Date"
                       name="fromDate"
                       type="date"
                       onChange={(e) => {
                         setFieldValue("fromDate", e.target.value);
+                        setRowData([]);
                       }}
                     />
                   </div>
                   <div className="col-lg-3">
                     <InputField
                       value={values?.toDate}
-                      label="Date"
+                      label="To Date"
                       name="toDate"
                       type="date"
                       onChange={(e) => {
                         setFieldValue("toDate", e.target.value);
+                        setRowData([]);
                       }}
                     />
                   </div>
@@ -154,6 +158,7 @@ export default function TransportExpenseReport() {
                         label="Vehicle"
                         onChange={(valueOption) => {
                           setFieldValue("vehicle", valueOption || "");
+                          setRowData([]);
                         }}
                         errors={errors}
                         touched={touched}
@@ -169,6 +174,7 @@ export default function TransportExpenseReport() {
                         label="Driver"
                         onChange={(valueOption) => {
                           setFieldValue("driver", valueOption || "");
+                          setRowData([]);
                         }}
                         errors={errors}
                         touched={touched}
@@ -184,6 +190,7 @@ export default function TransportExpenseReport() {
                         label="Fuel Station"
                         onChange={(valueOption) => {
                           setFieldValue("fuelStation", valueOption || "");
+                          setRowData([]);
                         }}
                         errors={errors}
                         touched={touched}
@@ -193,7 +200,7 @@ export default function TransportExpenseReport() {
                   <div>
                     <button
                       style={{ marginTop: "17px" }}
-                      className="btn btn-primary"
+                      className="btn btn-primary ml-2"
                       type="button"
                       onClick={() => {
                         getData({
@@ -208,7 +215,7 @@ export default function TransportExpenseReport() {
                 </div>
                 <div>
                   {[1]?.includes(values?.reportType?.value) ? (
-                    <FuelStationSummaryTbl rowData={rowData} />
+                    <FuelStationSummaryTbl rowData={rowData} values={values} />
                   ) : null}
                   {[2]?.includes(values?.reportType?.value) ? (
                     <FuelStationPurchaseInfoTbl rowData={rowData} />
