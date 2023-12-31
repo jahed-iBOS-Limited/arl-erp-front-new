@@ -118,11 +118,10 @@ export default function EventPlanningCreateEdit() {
   }, [id]);
 
   useEffect(() => {
-    const accId = profileData?.accountId;
-    const buId = selectedBusinessUnit?.value;
     getCustomerDDL(
-      `/partner/PManagementCommonDDL/GetBusinessPartnerbyIdDDL?AccountId=${accId}&BusinessUnitId=${buId}&PartnerTypeId=2`
+      `/partner/PManagementCommonDDL/GetBusinessPartnerbyIdDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PartnerTypeId=2`
     );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
 
   return (

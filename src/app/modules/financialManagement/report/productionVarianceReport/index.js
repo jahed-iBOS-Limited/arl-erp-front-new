@@ -15,7 +15,6 @@ export default function ProductionVarianceReport() {
     tableData,
     getTableData,
     tableDataLoader,
-    setTableData,
   ] = useAxiosGet();
   const saveHandler = (values, cb) => {};
 

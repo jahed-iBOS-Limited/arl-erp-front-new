@@ -14,18 +14,6 @@ import ProductionPlanningForm from "./salesAndProductionPlan/productionPlanning/
 import SalesAndProductionTable from "./salesAndProductionPlan/table/table";
 
 export function salesAndOperationsPlanning() {
-  const userRole = useSelector(
-    (state) => state?.authData?.userRole,
-    shallowEqual
-  );
-
-  let distributionPlanningPermission = null;
-
-  for (let i = 0; i < userRole.length; i++) {
-    if (userRole[i]?.intFeatureId === 1328) {
-      distributionPlanningPermission = userRole[i];
-    }
-  }
   return (
     <Switch>
       <Redirect

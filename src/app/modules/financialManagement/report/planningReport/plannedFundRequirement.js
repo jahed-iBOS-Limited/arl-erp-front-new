@@ -8,7 +8,6 @@ export default function PlannedFundRequirement({ rowData }) {
   });
 
   const [financialCostOne, setFinancialCostOne] = useState(0);
-  const [financialCostTwo, setFinancialCostTwo] = useState(0);
 
   useEffect(() => {
     if (rowData?.length) {
@@ -237,7 +236,7 @@ export default function PlannedFundRequirement({ rowData }) {
                       }}
                     />
                   </td>
-                  <td>{setFinancialCostTwo || ""}</td>
+                  <td>{""}</td>
                 </tr>
               </tbody>
             </table>
