@@ -1257,14 +1257,14 @@ export default function _Form({
                               <td className="align-middle">{itm.uomName}</td>
                               <td className="align-middle">{itm.isFree}</td>
                               <td className="align-middle">
-                                {values?.refType?.value !== 1 ||
+                                { values?.refType?.value !== 1 ||
                                 isBUIEssentials ? (
                                   <IInput
                                     value={rowDto[index]?.numRequestQuantity}
                                     name="numRequestQuantity"
                                     type="number"
                                     required
-                                    min="1"
+                                    min="0"
                                     step="any"
                                     onChange={(e) => {
                                       rowDtoHandler(

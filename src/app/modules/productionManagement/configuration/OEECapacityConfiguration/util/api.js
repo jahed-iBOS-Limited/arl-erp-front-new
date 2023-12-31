@@ -21,7 +21,7 @@ export const bomNameDDLApi = ({
   itemId,
   shopFloorId,
 }) => {
-  return `/mes/MesDDL/GetBoMNameDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&ItemId=${itemId}&ShopFloorId=${shopFloorId}`;
+  return `/mes/MesDDL/GetStandardBoMNameDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&ItemId=${itemId}&ShopFloorId=${shopFloorId}`;
 };
 
 export const getLandingData = (

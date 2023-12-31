@@ -28,6 +28,16 @@ const PrintInvoiceModal = ({ singleItem }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [singleItem]);
 
+  const calculateTotal = (items) => {
+    return items.reduce(
+      (sum, item) =>
+        sum +
+        ((item?.numSalesQty || 0) * (item?.numRate || 0) +
+          (item?.numSalesVatAmount || 0)),
+      0
+    );
+  };
+
   return (
     <>
       {loader && <Loading />}
@@ -104,11 +114,11 @@ const PrintInvoiceModal = ({ singleItem }) => {
                 )}
               </p>
               <p>
-                <strong> Order Date :</strong>
+                <strong> Order Date:</strong>
                 {_dateFormatter(printData[0]?.invocieRow[0]?.dteOrderDate)}
               </p>
               <p>
-                <strong> Due Date :</strong>
+                <strong> Due Date:</strong>
                 {_dateFormatter(printData[0]?.invocieRow[0]?.dteDueDateTime)}
               </p>
             </div>
@@ -127,16 +137,16 @@ const PrintInvoiceModal = ({ singleItem }) => {
             </div>
             <div className="address_shipping">
               <p className="address_title"> SHIPPING ADDRESS</p>
-              <p className="address_buyer">
+              {/* <p className="address_buyer">
                 <strong>Buyer Name: </strong>{" "}
                 {printData[0]?.invocieHeader?.strCustomerName}
-              </p>
+              </p> */}
               <p className="address_text">
-                <strong>Buyer Address: </strong>{" "}
-                {printData[0]?.invocieHeader?.strCustomerName}
+              <strong>Address: </strong>{" "}
+                {printData[0]?.invocieHeader?.strCustomerAddress}
               </p>
-              {/* <p>Contact Person: </p>
-              <p>Contact Number: </p> */}
+              {/* <p><strong>Contact Person:</strong> </p>
+              <p><strong>Contact Number:</strong> </p> */}
             </div>
           </div>
           <div style={{ marginBottom: "15px" }}>
@@ -144,18 +154,13 @@ const PrintInvoiceModal = ({ singleItem }) => {
               <thead>
                 <tr style={{ height: "30px", fontSize: "14px" }}>
                   <th style={{ width: "30px" }}>SL</th>
-                  <th style={{ width: "250px" }}>Item Name</th>
-                  <th>UoM</th>
-                  <th>Qty</th>
+                  <th>Item Name</th>
+                  <th style={{ width: "80px" }}>UoM</th>
+                  <th style={{ width: "80px" }}>Qty</th>
                   <th style={{ width: "80px" }}>Rate</th>
-                  <th>Order Amount</th>
-                  <th>
-                    Invoice Amount <br /> (Schedule)
-                  </th>
-                  <th>
-                    Vat Amount <br /> (Schedule)
-                  </th>
-                  <th>Net Amount</th>
+                  <th style={{ width: "80px" }}>Sub Total</th>
+                  <th style={{ width: "80px" }}>Vat</th>
+                  <th style={{ width: "80px" }}>Total</th>
                 </tr>
               </thead>
               <tbody>
@@ -164,85 +169,84 @@ const PrintInvoiceModal = ({ singleItem }) => {
                     printData[0]?.items?.map((item, index) => (
                       <tr key={index} style={{ height: "30px" }}>
                         <td>{index + 1}</td>
-                        <td>{item?.strItemName}</td>
-                        <td>{item?.strUom}</td>
+                        <td style={{ textAlign: "left", paddingLeft: "5px" }}>
+                          {item?.strItemName}
+                        </td>
+                        <td>{item?.strUom || "EA"}</td>
                         <td style={{ textAlign: "right", paddingRight: "5px" }}>
                           {item?.numSalesQty}
                         </td>
                         <td style={{ textAlign: "right", paddingRight: "5px" }}>
                           {item?.numRate}
                         </td>
-                        <td style={{ textAlign: "right", paddingRight: "5px" }}>
-                          {(() => {
-                            const totalAmount =
-                              item?.numSalesQty * item?.numRate;
-                            const vatAmount =
-                              (item?.numSalesQty *
-                                item?.numRate *
-                                printData[0]?.invocieRow[0]
-                                  ?.numScheduleVatAmount) /
-                              100;
-
-                            return totalAmount + vatAmount || 0;
-                          })()}
+                        <td
+                          style={{
+                            textAlign: "right",
+                            paddingRight: "5px",
+                          }}
+                        >
+                          {item?.numSalesQty * item?.numRate}
                         </td>
-                        {index === 0 ? (
-                          <>
-                            <td
-                              rowSpan={printData[0]?.items?.length}
-                              style={{
-                                textAlign: "right",
-                                paddingRight: "5px",
-                              }}
-                            >
-                              {printData[0]?.invocieRow[0]?.numScheduleAmount}
-                            </td>
-                            <td
-                              rowSpan={printData[0]?.items?.length}
-                              style={{
-                                textAlign: "right",
-                                paddingRight: "5px",
-                              }}
-                            >
-                              {
-                                printData[0]?.invocieRow[0]
-                                  ?.numScheduleVatAmount
-                              }
-                            </td>
-                            <td
-                              rowSpan={printData[0]?.items?.length}
-                              style={{
-                                textAlign: "right",
-                                paddingRight: "5px",
-                              }}
-                            >
-                              {Math.floor(
-                                printData[0]?.invocieRow[0]?.numScheduleAmount +
-                                  printData[0]?.invocieRow[0]
-                                    ?.numScheduleVatAmount || 0
-                              )}
-                            </td>
-                          </>
-                        ) : null}
+                        <td
+                          style={{
+                            textAlign: "right",
+                            paddingRight: "5px",
+                          }}
+                        >
+                          {item?.numSalesVatAmount}
+                        </td>
+                        <td
+                          style={{
+                            textAlign: "right",
+                            paddingRight: "5px",
+                          }}
+                        >
+                          {Math.floor(
+                            item?.numSalesQty * item?.numRate +
+                              item?.numSalesVatAmount
+                          )}
+                        </td>
                       </tr>
                     ))}
                   <tr style={{ height: "25px", fontSize: "13px" }}>
                     <td
-                      colspan="8"
+                      colspan="7"
                       style={{
                         textAlign: "right",
                         fontWeight: "bold",
                         paddingRight: "5px",
                       }}
                     >
-                      Total
+                      Total Order Value
                     </td>
-                    <td>
+                    <td style={{ textAlign: "right", paddingRight: "3px" }}>
+                      <strong>
+                        {Math.floor(
+                          calculateTotal(
+                            printData[0]?.items?.length > 0
+                              ? printData[0]?.items
+                              : []
+                          )
+                        )}
+                      </strong>
+                    </td>
+                  </tr>
+                  <tr style={{ height: "25px", fontSize: "13px" }}>
+                    <td
+                      colspan="7"
+                      style={{
+                        textAlign: "right",
+                        fontWeight: "bold",
+                        paddingRight: "5px",
+                      }}
+                    >
+                      {`Billing Amount: ${printData[0]?.invocieRow[0]?.intPaymentByPercent}% of Total Amount`}
+                    </td>
+                    <td style={{ textAlign: "right", paddingRight: "3px" }}>
                       <strong>
                         {Math.floor(
                           printData[0]?.invocieRow[0]?.numScheduleAmount +
-                            printData[0]?.invocieRow[0]?.numScheduleVatAmount ||
-                            0
+                            printData[0]?.invocieRow[0]?.numScheduleVatAmount
                         )}
                       </strong>
                     </td>
@@ -283,7 +287,7 @@ const PrintInvoiceModal = ({ singleItem }) => {
                   : "";
 
                 return capitalizeFirstLetter;
-              })()}
+              })()} only
             </p>
           </div>
           <div className="bank_details">
