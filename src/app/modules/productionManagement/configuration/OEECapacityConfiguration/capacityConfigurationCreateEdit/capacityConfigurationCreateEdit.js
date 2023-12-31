@@ -34,7 +34,6 @@ const initData = {
 
 export default function CapacityConfigurationCreateEdit() {
   const [objProps, setObjprops] = useState({});
-  const [pageTitle, setPageTitle] = useState('');
   const { location } = useHistory();
 
   //Redux State
@@ -52,7 +51,6 @@ export default function CapacityConfigurationCreateEdit() {
     machineNameDDLLoading,
   ] = useAxiosGet();
   //   const [machineNoDDL, getMachineNoDDL, machineNoDDLLoading] = useAxiosGet();
-  const [itemNameDDL, getItemNameDDL, itemNameDDLLoading] = useAxiosGet();
   const [bomNameDDL, getBomNameDDL, bomNameDDLLoading] = useAxiosGet();
 
   //Call Apis - post
@@ -61,6 +59,7 @@ export default function CapacityConfigurationCreateEdit() {
 
   useEffect(() => {
     getPlantNameDDL(plantNameDDLApi(buId, accId, userId));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buId, accId, userId]);
 
   const loadItemNameDDL = (searchText, PlantId) => {
@@ -160,7 +159,7 @@ export default function CapacityConfigurationCreateEdit() {
         touched,
       }) => (
         <>
-          {false && <Loading />}
+          {(bomNameDDLLoading || plantNameDDLLoading || shopFloorDDLLoading || machineNameDDLLoading) && <Loading />}
           {console.log({errors, touched})}
           <IForm
             title={`${
@@ -183,9 +182,6 @@ export default function CapacityConfigurationCreateEdit() {
                       if (valueOption?.value) {
                         getShopFloorDDL(
                           shopFloorNameDDLApi(accId, buId, valueOption.value),
-                        );
-                        getItemNameDDL(
-                          itemNameDDLApi(accId, buId, valueOption.value),
                         );
                       }
                     }}

@@ -23,7 +23,7 @@ const initData = {
   machine: '',
 };
 export default function OEECapacityConfigurationLanding() {
-  const saveHandler = (values, cb) => {};
+  const saveHandler = (values, cb) => { };
   const history = useHistory();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
@@ -35,13 +35,11 @@ export default function OEECapacityConfigurationLanding() {
   const [
     ,
     deleteCapacityConfiguration,
-    deleteCapacityConfigurationLoading,
   ] = useAxiosPost();
   //machineName
   const [
     machineNameDDL,
     getMachineNameDDL,
-    machineNameDDLLoading,
   ] = useAxiosGet();
   //Redux State
   const {
@@ -68,7 +66,7 @@ export default function OEECapacityConfigurationLanding() {
         `/mes/OeeProductWaste/DeleteCapacityConfiguration?id=${nptConfigId}`,
         null,
         (res) => {
-          if(res.statuscode == 200){
+          if (res.statuscode === 200) {
             setPositionHandler(pageNo, pageSize, values)
           }
         },

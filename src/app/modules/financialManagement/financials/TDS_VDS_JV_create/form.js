@@ -22,11 +22,6 @@ const initData = {
 };
 
 export default function _Form({ bankDDL, setDisabled, btnRef }) {
-  //to manage prepare all voucher button
-  const [, setIsAble] = useState('');
-  const [pageNo, setPageNo] = useState(0);
-  const [pageSize, setPageSize] = useState(15);
-
   const [accountNoDDL, getAccountNoDDL, isAcconutNoDDLLoading] = useAxiosGet();
   const [
     billTypeDDL,
@@ -56,7 +51,7 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
     setProfitCenterDDL,
   ] = useAxiosGet();
 
-  const [sbuId, getSbuId, sbuIdLoading, setSbuId] = useAxiosGet();
+  const [, getSbuId, , setSbuId] = useAxiosGet();
 
   const [, saveData, isSavignData] = useAxiosPost();
 
@@ -81,7 +76,6 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
       if (res?.data?.length === 0) {
         toast.warn('Data Not Found!');
       }
-      console.log({ tableData: res });
     });
   };
 
@@ -89,9 +83,7 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
   const fetchCostCenterDDL = (sbuId) => {
     const costCenterApi = `/costmgmt/CostCenter/GetCostCenterDDL?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${sbuId}`;
 
-    getCostCenterDDL(costCenterApi, (data) => {
-      console.log({ costCenterDDL: data });
-    });
+    getCostCenterDDL(costCenterApi);
   };
 
   // Fetch profit center dropdown list for cost center Id
@@ -106,7 +98,6 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
           value: item?.profitCenterId,
         };
       });
-      console.log({ ddl });
       setProfitCenterDDL(ddl);
     });
   };
@@ -115,9 +106,7 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
   const fetchCostElementDDL = () => {
     // costCenterId --> costCenter selected dropdown list item value
     const costElementApi = `/procurement/PurchaseOrder/GetCostElement?AccountId=${accId}&UnitId=${buId}`;
-    getCostElementDDL(costElementApi, (data) => {
-      console.log({ costElementDDL: data });
-    });
+    getCostElementDDL(costElementApi);
   };
 
   useEffect(() => {
@@ -132,14 +121,13 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
         fetchCostCenterDDL(sbuId);
       }
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
 
   //Load ddsl
   useEffect(() => {
     getAccountNoDDL(
-      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${accId}&BusinssUnitId=${buId}`,
-      (data) => console.log({ ddL: data }),
-    );
+      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${accId}&BusinssUnitId=${buId}`);
 
     getBillTypeDDL(`/fino/FinanceCommonDDL/GetBillTypeDDL`, (data) => {
       const firstTwo = data.slice(0, 2); //Show only first two
@@ -148,7 +136,6 @@ export default function _Form({ bankDDL, setDisabled, btnRef }) {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
-  console.log({ editableData });
 
   //const prepare payload for save
   const prepareSavePayload = (listData, values) => {

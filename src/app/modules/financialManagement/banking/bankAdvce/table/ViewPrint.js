@@ -8,12 +8,7 @@ import { advicePrintCount } from "../helper";
 import FormatOne from "../pdf/format-01";
 import FormatTwo from "../pdf/format-02";
 import FormatThree from "../pdf/format-03";
-import { FormatFour } from "../pdf/format-04";
-import { FormatFive } from "../pdf/format-05";
-import { FormatSix } from "../pdf/format-06";
-import { FormatSeven } from "../pdf/format-07";
 import { generateExcel } from "./excelReportGenarate";
-import { getPdfFormatNumber } from "./pdfFormatNumber";
 import { FormatEight } from "../pdf/format-08";
 const ViewData = ({ adviceReportData, values }) => {
   const [fontSize, setFontSize] = useState(9);

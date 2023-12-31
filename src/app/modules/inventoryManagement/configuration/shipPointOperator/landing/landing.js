@@ -23,12 +23,10 @@ export default function ShipPointOperatorLanding() {
     value: 1,
     label: 'Shipping Point Operator',
   });
-  const [loader, setLoader] = useState(false);
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(50);
   const [rowData, getRowData, rowDataLoading] = useAxiosGet();
   const {
-    profileData: { accountId: accId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 

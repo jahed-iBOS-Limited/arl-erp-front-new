@@ -2,13 +2,13 @@ import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import InputField from "../../../../_helper/_inputField";
-import TableTwo from "../Table/tableTwo";
-import TableOne from "../Table/tableOne";
-import { getFinancialRatioApi } from "./helper";
 import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
 import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
 import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import NewSelect from "../../../../_helper/_select";
+import TableOne from "../Table/tableOne";
+import TableTwo from "../Table/tableTwo";
+import { getFinancialRatioApi } from "./helper";
 const groupId = "218e3d7e-f3ea-4f66-8150-bb16eb6fc606";
 const reportId = "8f548c85-83d5-4c4b-938e-b99be47b0289";
 const parameterValues = (values) => {
@@ -24,7 +24,7 @@ export default function _Form({ initData }) {
   const [rowDtoLeft, setLeftRowDto] = useState([]);
   const [rowDtoRight, setRightRowDto] = useState([]);
 
-  const { selectedBusinessUnit, businessUnitList } = useSelector(
+  const {businessUnitList } = useSelector(
     (state) => state?.authData,
     shallowEqual
   );

@@ -1,7 +1,6 @@
 import { Form, Formik } from "formik";
 import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
@@ -18,7 +17,6 @@ export default function DistributionPlanReport() {
     return state.authData.businessUnitList;
   }, shallowEqual);
   const saveHandler = (values, cb) => {};
-  const history = useHistory();
 
   const getData = (values) => {
     const splitMonthYear = values?.monthYear.split("-");

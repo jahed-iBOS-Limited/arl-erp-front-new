@@ -1,5 +1,5 @@
 import { Form, Formik } from 'formik';
-import React, { useState } from 'react';
+import React from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -33,21 +33,14 @@ const PartnerWisePaymentSummaryLanding = () => {
     setTeritoryDDL,
   ] = useAxiosGet();
 
-  const [
-    customerDDL,
-    getCustomerDDL,
-    customerDDLloader,
-    setCustomerDDL,
-  ] = useAxiosGet();
+  // const [
+  //   customerDDL,
+  //   getCustomerDDL,
+  //   customerDDLloader,
+  //   setCustomerDDL,
+  // ] = useAxiosGet();
 
-  const profileData = useSelector((state) => {
-    return state.authData.profileData;
-  }, shallowEqual);
 
-  const { selectedBusinessUnit } = useSelector(
-    (state) => state?.authData,
-    shallowEqual,
-  );
 
   const saveHandler = (values, cb) => {};
   const [
@@ -57,9 +50,7 @@ const PartnerWisePaymentSummaryLanding = () => {
     setTableData,
   ] = useAxiosGet();
 
-  const [clickedItem, setClickedItem] = useState('');
-  const [viewModal, setViewModal] = useState(false);
-  const [receiveModal, setReceiveModal] = useState(false);
+
 
   const getData = (values) => {
     getTableData(
@@ -93,7 +84,7 @@ const PartnerWisePaymentSummaryLanding = () => {
         touched,
       }) => (
         <>
-          {(tableDataLoader || customerDDLloader || teritoryDDLloader) && (
+          {(tableDataLoader || teritoryDDLloader) && (
             <Loading />
           )}
           <IForm
@@ -141,7 +132,7 @@ const PartnerWisePaymentSummaryLanding = () => {
                         } else {
                           setFieldValue('businessUnit', '');
                           setFieldValue('customer', '');
-                          setCustomerDDL([]);
+                          // setCustomerDDL([]);
                           setTableData([]);
                         }
                       }}
