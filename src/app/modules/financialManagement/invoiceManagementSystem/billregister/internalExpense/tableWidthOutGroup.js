@@ -174,7 +174,7 @@ function TableWidthOutGroup({
                       </div>
                     </td>
                     <td>
-                      <div className="pl-2">{item?.expenseId}</div>
+                      <div className="text-center">{item?.expenseForId}</div>
                     </td>
                     <td>
                       <div className="pl-2">{item?.expenseCode}</div>

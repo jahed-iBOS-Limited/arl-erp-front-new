@@ -58,16 +58,12 @@ const CommercialBillTypeDetails = ({
 
   const objHeaderDTO = singleData?.objHeaderDTO;
   const printRef = useRef();
-  const [pomodalShow, setModalPOShow] = useState(false);
-  const [isShowModal, setIsShowModal] = useState(false);
-  const [journalId, setJournalId] = useState("");
-  const [isShowSupplierLedgerModal, setIsSupplierLedgerModal] = useState(false);
+
 
   const dispatch = useDispatch();
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  
   const handlePopoverOpen = (event) => {
-    setAnchorEl(event.currentTarget);
   };
 
   const saveHandler = (values) => {
@@ -105,8 +101,7 @@ const CommercialBillTypeDetails = ({
     );
   };
 
-  const [isShowModalTwo, setIsShowModalTwo] = useState(false);
-  const [currentItem, setCurrentItem] = useState("");
+  
   const [
     profitCenterList,
     getProfitCenterList,
@@ -351,9 +346,7 @@ const CommercialBillTypeDetails = ({
                             <span
                               style={{ cursor: "pointer" }}
                               className="text-primary"
-                              onClick={() => {
-                                setModalPOShow(true);
-                              }}
+                              
                             >
                               {" "}
                               {objHeaderDTO?.purchaseOrderNo}
@@ -375,9 +368,7 @@ const CommercialBillTypeDetails = ({
                             <span
                               style={{ cursor: "pointer" }}
                               className="text-primary"
-                              onClick={() => {
-                                setIsSupplierLedgerModal(true);
-                              }}
+                              
                             >
                               Details
                             </span>
@@ -422,10 +413,6 @@ const CommercialBillTypeDetails = ({
                                   <td> {index + 1}</td>
                                   <td>
                                     <div
-                                      onClick={() => {
-                                        setCurrentItem(item);
-                                        setIsShowModalTwo(true);
-                                      }}
                                       className="text-primary pointer"
                                     >
                                       {item?.referenceName}
@@ -435,20 +422,14 @@ const CommercialBillTypeDetails = ({
                                     {" "}
                                     {item?.isAccounts ? (
                                       <span
-                                        onClick={(e) => {
-                                          setJournalId(item?.journalId);
-                                          setIsShowModal(true);
-                                        }}
+                                        
                                         className="text-primary pointer"
                                       >
                                         {item?.journalCode}
                                       </span>
                                     ) : (
                                       <span
-                                        onClick={(e) => {
-                                          setJournalId(item?.journalId);
-                                          setIsShowModal(true);
-                                        }}
+                                        
                                         className="text-danger pointer"
                                       >
                                         {item?.journalCode}
@@ -460,7 +441,7 @@ const CommercialBillTypeDetails = ({
                                   <td className="text-primary pointer">
                                     <div
                                       onClick={(e) => {
-                                        setCurrentItem(item);
+                                        
                                         handlePopoverOpen(e);
                                       }}
                                       className="text-primary pointer"

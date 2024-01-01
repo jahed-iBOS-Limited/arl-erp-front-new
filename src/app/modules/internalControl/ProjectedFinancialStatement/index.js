@@ -100,7 +100,7 @@ export default function ProjectedFinancialStatement() {
   const [
     tradeAndDivisionDDL,
     getTradeAndDivisionDDL,
-    tradeAndDivisionLoader,
+    ,
     setTradeAndDivisionDDL,
   ] = useAxiosGet();
 
