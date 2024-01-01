@@ -95,6 +95,10 @@ const GudamAllotmentForm = ({
           value: singleItem?.shipToPartnerId,
           label: singleItem?.shipToPartnerName,
         },
+        port: {
+          value: singleItem?.portId,
+          label: singleItem?.portName,
+        },
         motherVessel: {
           value: singleItem?.motherVesselId,
           label: singleItem?.motherVesselName,
@@ -139,6 +143,9 @@ const GudamAllotmentForm = ({
         motherVesselId: values?.motherVessel?.value,
         revenueRate: +values?.revenueRate || 0,
         revenueByTransport: +values?.revenueByTransport || 0,
+        portId: values?.port?.value,
+        portName: values?.port?.label,
+        actionBy: userId
       };
       editGudamAllotment(payload, setIsLoading, () => {
         getData(tableValues, 0, 15);
