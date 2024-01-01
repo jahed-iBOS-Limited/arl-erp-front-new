@@ -14,8 +14,14 @@ import Loading from "../../../_helper/_loading";
 import InputField from "./../../../_helper/_inputField";
 import { _todayDate } from "./../../../_helper/_todayDate";
 
-function ChallanViewModal({ item, type, callAfterGateOut, businessUnit, setIsShowModel }) {
-  const [, saveData] = useAxiosPost();
+function ChallanViewModal({
+  item,
+  type,
+  callAfterGateOut,
+  businessUnit,
+  setIsShowModel,
+}) {
+  const [, saveData, saveDataLoader] = useAxiosPost();
   const [outTime, setOutTime] = useState("");
   const [afterLunch, setAfterLunch] = useState(true);
 
@@ -25,11 +31,7 @@ function ChallanViewModal({ item, type, callAfterGateOut, businessUnit, setIsSho
 
   return (
     <>
-      <Formik
-        enableReinitialize={true}
-        initialValues={{}}
-        onSubmit={() => { }}
-      >
+      <Formik enableReinitialize={true} initialValues={{}} onSubmit={() => {}}>
         {({ values }) => (
           <>
             <Card>
@@ -39,13 +41,15 @@ function ChallanViewModal({ item, type, callAfterGateOut, businessUnit, setIsSho
                   <button
                     onClick={() => {
                       if (outTime === "") {
-                        return toast.warn("Please select out time")
+                        return toast.warn("Please select out time");
                       }
                       saveData(
                         `/mes/MSIL/VehicleGateOutCreate`,
                         {
-                          vehicleOutTime: type === 3 && afterLunch ? null : outTime,
-                          vehicleOutTimeAfterLunch: type === 3 && afterLunch ? outTime : null,
+                          vehicleOutTime:
+                            type === 3 && afterLunch ? null : outTime,
+                          vehicleOutTimeAfterLunch:
+                            type === 3 && afterLunch ? outTime : null,
                           intBusinessUnitId: businessUnit,
                           intActionBy: profileData?.userId,
                           dteActionDate: _todayDate(),
@@ -68,7 +72,7 @@ function ChallanViewModal({ item, type, callAfterGateOut, businessUnit, setIsSho
                 </CardHeaderToolbar>
               </CardHeader>
               <CardBody>
-                {false && <Loading />}
+                {saveDataLoader && <Loading />}
                 <div className="global-form">
                   <div className="row">
                     <div className="col-lg-6">
