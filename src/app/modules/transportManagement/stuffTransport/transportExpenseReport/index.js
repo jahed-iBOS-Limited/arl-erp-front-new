@@ -1,15 +1,16 @@
 import { Form, Formik } from "formik";
 import React, { useEffect } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import InputField from "../../../_helper/_inputField";
+import NewSelect from "../../../_helper/_select";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import InputField from "../../../_helper/_inputField";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
-import FuelStationSummaryTbl from "./reportTable/fuelStationSummaryTbl";
-import FuelStationPurchaseInfoTbl from "./reportTable/fuelStationPurchaseInfoTbl";
-import DriverWiseExpenseTbl from "./reportTable/driverWiseExpenseTbl";
 import DriverTripInfoTbl from "./reportTable/driverTripInfoTbl";
+import DriverWiseExpenseTbl from "./reportTable/driverWiseExpenseTbl";
+import EmployeeWiseFuelCostTbl from "./reportTable/employeeWiseFuelCostTbl";
+import FuelStationPurchaseInfoTbl from "./reportTable/fuelStationPurchaseInfoTbl";
+import FuelStationSummaryTbl from "./reportTable/fuelStationSummaryTbl";
 import VehicleWiseFuelCostTbl from "./reportTable/vehicleWiseFuelCostTbl";
 const initData = {
   reportType: "",
@@ -64,8 +65,10 @@ export default function TransportExpenseReport() {
       requestUrl = `/mes/VehicleLog/GetDriverAndTripInfo?partName=driverDateWiseTripInfo&intDriverId=0&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`;
     } else if (reportTypeId === 5) {
       requestUrl = `/mes/VehicleLog/GetDriverAndTripInfo?partName=VehicleWiseFuelCost&intDriverId=${values?.vehicle?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`;
+    } else if(reportTypeId === 6) {
+      requestUrl = `/mes/VehicleLog/GetFuelCostByEmployee?dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`
     }
-    getRowData(requestUrl);
+    if(requestUrl) getRowData(requestUrl);
   };
 
   const saveHandler = (values, cb) => {};
@@ -110,6 +113,7 @@ export default function TransportExpenseReport() {
                         { value: 3, label: "Driver Wise Expense" },
                         { value: 4, label: "Driver Trip Info" },
                         { value: 5, label: "Vehicle Wise Fuel Cost" },
+                        {value: 6, label: "Employee Wise Fuel Cost"}
                       ]}
                       value={values?.reportType}
                       label="Report Type"
@@ -229,6 +233,10 @@ export default function TransportExpenseReport() {
                   {[5]?.includes(values?.reportType?.value) ? (
                     <VehicleWiseFuelCostTbl rowData={rowData} />
                   ) : null}
+                  {[6]?.includes(values?.reportType?.value) ? (
+                    <EmployeeWiseFuelCostTbl rowData={rowData} />
+                  ) : null}
+                  
                 </div>
               </div>
             </Form>
