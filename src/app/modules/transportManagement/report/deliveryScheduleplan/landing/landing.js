@@ -92,11 +92,7 @@ function DeliveryScheduleplanReport() {
   const [gridDataWithOutFilter, setGridDataWithOutFilter] = useState([]);
   const [shipmentTypeDDl, setShipmentTypeDDl] = React.useState([]);
   const [deliveryStatusDDL, getDeliveryStatusDDL] = useAxiosGet();
-  const [
-    ,
-    updateDeliveryStatus,
-    updateDeliveryStatusLoading,
-  ] = useAxiosPost();
+  const [, updateDeliveryStatus, updateDeliveryStatusLoading] = useAxiosPost();
   // Get user profile data from store
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return {
@@ -124,8 +120,7 @@ function DeliveryScheduleplanReport() {
   // delivery status ddl load
   useEffect(() => {
     getDeliveryStatusDDL(
-      `/oms/SalesOrganization/GetDeliveryScheduleStatusDDL?BusinessUnitId=${selectedBusinessUnit.value}`,
-      (data) => console.log({ data })
+      `/oms/SalesOrganization/GetDeliveryScheduleStatusDDL?BusinessUnitId=${selectedBusinessUnit.value}`
     );
   }, [selectedBusinessUnit]);
 
@@ -152,8 +147,7 @@ function DeliveryScheduleplanReport() {
   //handle delivery status update
   const handleDeliveryStatusUpdate = (payload) => {
     const uri = "/wms/Delivery/UpdateDeliveryStatus";
-    console.log({ payload });
-    updateDeliveryStatus(uri, payload, (res) => console.log({ res }));
+    updateDeliveryStatus(uri, payload);
   };
 
   // one item select
@@ -185,7 +179,6 @@ function DeliveryScheduleplanReport() {
         const filterData = commonfilterGridData(values, restData);
         setGridData(filterData);
         setGridDataCopy(structuredClone(filterData));
-        console.log({ filterData });
         setGridDataWithOutFilter(restData);
       }
     );
@@ -363,29 +356,36 @@ function DeliveryScheduleplanReport() {
                                       poviderTypeId: values?.logisticBy?.value,
                                       providerTypeName:
                                         values?.logisticBy?.label,
-                                      scheduleName: itm?.scheduleName,
-                                      scheduleId: deliveryStatusDDL.find(
-                                        (i) => i.label === itm?.scheduleName
-                                      )?.value,
+                                      scheduleName: itm?.scheduleName || "",
+                                      scheduleId:
+                                        deliveryStatusDDL.find(
+                                          (i) => i.label === itm?.scheduleName
+                                        )?.value || 0,
                                       scheduleDate:
                                         itm?.deliveryScheduleDate || new Date(),
                                     }));
 
-                                  console.log({ payload });
-
-                                  const isDeliveryStatusSelected = payload?.every(
-                                    (item) => item.scheduleName !== null
-                                  );
-
-                                  if (!isDeliveryStatusSelected)
-                                    return toast.warn(
-                                      "Delivery Status Must be Selected!"
+                                  if (selectedBusinessUnit?.value === 144) {
+                                    const isDeliveryStatusSelected = payload?.every(
+                                      (item) => item.scheduleName !== ""
                                     );
 
+                                    console.log(
+                                      "isDeliveryStatusSelected",
+                                      !isDeliveryStatusSelected
+                                    );
+
+                                    if (!isDeliveryStatusSelected)
+                                      return toast.warn(
+                                        "Delivery Status Must be Selected!"
+                                      );
+                                    return;
+                                  }
                                   if (!values?.logisticBy)
                                     return toast.warn(
                                       "Logistic By Must be Selected!"
                                     );
+                                  console.log(payload);
 
                                   CreateTransportScheduleTypeApi(
                                     payload,
@@ -828,15 +828,21 @@ function DeliveryScheduleplanReport() {
 
                                             {isSubmittedPreviosly && (
                                               <>
-                                               <OverlayTrigger overlay={<Tooltip id="cs-icon">Update</Tooltip>}>
-                                               <SaveOutlined
-                                                  onClick={() =>
-                                                    setShowConfirmModal(true)
+                                                <OverlayTrigger
+                                                  overlay={
+                                                    <Tooltip id="cs-icon">
+                                                      Update
+                                                    </Tooltip>
                                                   }
-                                                  role="button"
-                                                  className="bg-primary text-white p-1 ml-2 rounded"
-                                                />
-                                              </OverlayTrigger>
+                                                >
+                                                  <SaveOutlined
+                                                    onClick={() =>
+                                                      setShowConfirmModal(true)
+                                                    }
+                                                    role="button"
+                                                    className="bg-primary text-white p-1 ml-2 rounded"
+                                                  />
+                                                </OverlayTrigger>
                                                 <ConfirmtionModal
                                                   show={showConfirmModal}
                                                   title="Update Delivery Status"
@@ -851,13 +857,16 @@ function DeliveryScheduleplanReport() {
                                                           item?.scheduleName
                                                       )?.value,
                                                       autoId: 0,
-                                                      deliveryId:item?.deliveryId,
+                                                      deliveryId:
+                                                        item?.deliveryId,
                                                       scheduleName:
                                                         item?.scheduleName,
                                                       updatedById:
                                                         profileData?.userId,
                                                     };
-                                                    handleDeliveryStatusUpdate(payload);
+                                                    handleDeliveryStatusUpdate(
+                                                      payload
+                                                    );
                                                     setShowConfirmModal(false);
                                                   }}
                                                   handleClose={
