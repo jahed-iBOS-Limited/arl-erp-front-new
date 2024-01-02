@@ -626,11 +626,13 @@ export const getBillRegisterPagination_api = async (
   try {
     setDisabled(true);
 
+    const isTopsheet = typeId === 18 ? "&isTopSheet=true" : "";
+
     const res = await Axios.get(
       `/fino/BillRegister/BillRegisterPagination?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&ViewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}&SBUId=${sbu}&TypeId=${typeId}&fromDate=${
         values?.fromDate
       }&toDate=${values?.toDate}&CostCenterId=${costCenterId ||
-        0}&Search=${searchValue}`
+        0}&Search=${searchValue}${isTopsheet}`
     );
     setDisabled(false);
     if (res.status === 200 && res?.data) {
