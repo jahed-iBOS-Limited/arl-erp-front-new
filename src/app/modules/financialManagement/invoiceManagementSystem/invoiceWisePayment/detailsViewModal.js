@@ -17,7 +17,7 @@ export default function DetailsViewModal({ clickedItem, landingValues }) {
   }, shallowEqual);
   const saveHandler = (values, cb) => {};
   const [
-    paymentDetails,
+    ,
     getPaymentDetails,
     paymentDetailsLoader,
   ] = useAxiosGet();
@@ -114,7 +114,7 @@ export default function DetailsViewModal({ clickedItem, landingValues }) {
         touched,
       }) => (
         <>
-          {paymentDetailsLoader && <Loading />}
+          {(paymentDetailsLoader || isSavingPaymentDetails)&& <Loading />}
           <IForm
             title="Payment Receive Details"
             isHiddenReset

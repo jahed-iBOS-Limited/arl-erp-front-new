@@ -15,13 +15,12 @@ const initData = {
 };
 
 const ShippingPointAndTerritoryCreateForm = () => {
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [objProps, setObjprops] = useState();
   const {
-    profileData: { accountId: accId , userId},
+    profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
-
 
   const [channelDDL, getChannelDDL, isChannelDDLLoading] = useAxiosGet();
   const [
@@ -32,7 +31,7 @@ const ShippingPointAndTerritoryCreateForm = () => {
   ] = useAxiosGet();
   const [areaDDL, getAreaDDL, isAreaDDLLoading, setAreaDDL] = useAxiosGet();
   const [shipPointDDL, getShipPointDDL, shipPointDDLLoading] = useAxiosGet();
-  const [res, saveShipPointAndTerritory] = useAxiosPost()
+  const [, saveShipPointAndTerritory] = useAxiosPost();
 
   const handleGetRegionDDL = (channelId) => {
     getRegionDDL(
@@ -66,12 +65,14 @@ const ShippingPointAndTerritoryCreateForm = () => {
     getChannelDDL(
       `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accId}&BUnitId=${buId}`,
     );
-  }, [buId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [buId, accId]);
 
   useEffect(() => {
     getShipPointDDL(
       `/wms/ShipPoint/GetShipPointDDL?accountId=${accId}&businessUnitId=${buId}`,
     );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buId, accId]);
 
   const saveHandler = (values, cb) => {
@@ -83,18 +84,27 @@ const ShippingPointAndTerritoryCreateForm = () => {
         shippingpointid: values.shipPoint?.value,
       },
     ];
-    saveShipPointAndTerritory(`/wms/ShipPoint/SaveShippingPointNTerritoryBridge?actionBy=${userId}`, payload, null, true)
+    saveShipPointAndTerritory(
+      `/wms/ShipPoint/SaveShippingPointNTerritoryBridge?actionBy=${userId}`,
+      payload,
+      null,
+      true,
+    );
   };
 
   return (
     <IForm
       title={'Shipping Point Operator & Territory'}
       getProps={setObjprops}
-      isDisabled={loading}
+      // isDisabled={}
       isHiddenReset
     >
       <div className="mt-0">
-        {loading && <Loading />}
+        {(
+          isChannelDDLLoading ||
+          isRegionDDLLoading ||
+          shipPointDDLLoading ||
+          isAreaDDLLoading) && <Loading />}
         <Formik
           enableReinitialize={true}
           initialValues={initData}

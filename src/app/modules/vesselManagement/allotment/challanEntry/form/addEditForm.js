@@ -8,7 +8,6 @@ import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { getGodownDDL } from "../../../common/helper";
 import {
   // getMotherVesselDDL,
   GetShipPointDDL,
@@ -86,7 +85,7 @@ export default function ChallanEntryForm() {
   const [, postData, isLoading] = useAxiosPost();
   const [singleData, setSingleData] = useState({});
   const [shipPointDDL, setShipPointDDL] = useState([]);
-  const [godownDDL, setGodownDDL] = useState([]);
+  // const [godownDDL, setGodownDDL] = useState([]);
   const [vehicleDDL, setVehicleDDL] = useState([]);
   const [isTransportBill, getIsTransportBill] = useAxiosGet();
   // const [allotmentDDL, setAllotmentDDL] = useState([]);
@@ -99,8 +98,15 @@ export default function ChallanEntryForm() {
   const [lighterDDL, setLighterDDL] = useState([]);
   const [itemList, getItemList] = useAxiosGet();
   const [organizationDDL, getOrganizationDDL] = useAxiosGet();
+  const [destinationDDL, getDestinationDDL] = useAxiosGet();
 
   const history = useHistory();
+
+  const getDestinationList = (partnerId, portId, motherVesselId) => {
+    getDestinationDDL(
+      `/tms/LigterLoadUnload/GetShipToPartnerAllotmentDDL?businessUnitId=${buId}&businessPartnerId=${partnerId}&portId=${portId}&motherVesselId=${motherVesselId}`
+    );
+  };
 
   useEffect(() => {
     getOrganizationDDL(
@@ -110,12 +116,12 @@ export default function ChallanEntryForm() {
       GetShipPointDDL(accId, buId, setShipPointDDL);
       // getMotherVesselDDL(accId, buId, setMotherVesselDDL);
       if (buId === 94) {
-        getGodownDDL(
-          buId,
-          state?.type === "badc" ? 73244 : 73245,
-          setGodownDDL,
-          setLoading
-        );
+        // getGodownDDL(
+        //   buId,
+        //   state?.type === "badc" ? 73244 : 73245,
+        //   setGodownDDL,
+        //   setLoading
+        // );
       }
     }
   }, [accId, buId, type]);
@@ -280,6 +286,11 @@ export default function ChallanEntryForm() {
           getMotherVesselDDL(
             `/wms/FertilizerOperation/GetMotherVesselProgramInfo?PortId=${currentValue?.value}&businessUnitId=${buId}`
           );
+          getDestinationList(
+            values?.type === "badc" ? 73244 : 73245,
+            currentValue?.value,
+            values?.motherVessel?.value
+          );
         } else {
           setFieldValue("port", "");
           setFieldValue("motherVessel", "");
@@ -293,6 +304,11 @@ export default function ChallanEntryForm() {
         setFieldValue("lighterVessel", "");
         getIsTransportBill(
           `/tms/LigterLoadUnload/CheckTransportForChallan?businessUnitId=${buId}&motherVesselId=${currentValue?.value}&portId=${values?.port?.value}`
+        );
+        getDestinationList(
+          values?.type === "badc" ? 73244 : 73245,
+          values?.port?.value,
+          currentValue?.value
         );
         setFieldValue("item", {
           value: currentValue?.intProductId,
@@ -392,18 +408,28 @@ export default function ChallanEntryForm() {
 
       case "type":
         setFieldValue("type", currentValue);
-        getGodownDDL(
-          buId,
+        // getGodownDDL(
+        //   buId,
+        //   currentValue === "badc" ? 73244 : 73245,
+        //   setGodownDDL,
+        //   setLoading
+        // );
+        getDestinationList(
           currentValue === "badc" ? 73244 : 73245,
-          setGodownDDL,
-          setLoading
+          values?.port?.value,
+          values?.motherVessel?.value
         );
         break;
 
       case "organization":
         setFieldValue("organization", currentValue);
         if (currentValue) {
-          getGodownDDL(buId, currentValue?.value, setGodownDDL, setLoading);
+          getDestinationList(
+            currentValue,
+            values?.port?.value,
+            values?.motherVessel?.value
+          );
+          // getGodownDDL(buId, currentValue?.value, setGodownDDL, setLoading);
         }
 
         break;
@@ -527,6 +553,11 @@ export default function ChallanEntryForm() {
         getMotherVesselDDL(
           `/wms/FertilizerOperation/GetMotherVesselProgramInfo?PortId=${values?.portId}`
         );
+        getDestinationList(
+          state?.type === "badc" ? 73244 : 73245,
+          values?.motherVesselId,
+          values?.portId
+        );
         getLightersForChallan(
           values?.shipPointId,
           values?.motherVesselId,
@@ -595,7 +626,7 @@ export default function ChallanEntryForm() {
           rowData={rowData}
           itemList={itemList}
           deleteRow={deleteRow}
-          godownDDL={godownDDL}
+          // godownDDL={godownDDL}
           lighterDDL={lighterDDL}
           vehicleDDL={vehicleDDL}
           setRowData={setRowData}
@@ -603,8 +634,9 @@ export default function ChallanEntryForm() {
           saveHandler={saveHandler}
           getItemList={getItemList}
           shipPointDDL={shipPointDDL}
-          setGodownDDL={setGodownDDL}
+          // setGodownDDL={setGodownDDL}
           setVehicleDDL={setVehicleDDL}
+          destinationDDL={destinationDDL}
           organizationDDL={organizationDDL}
           motherVesselDDL={motherVesselDDL}
           onChangeHandler={onChangeHandler}

@@ -561,8 +561,8 @@ export default function _Form({
                           value={values?.totalFuelCost}
                           name='totalFuelCost'
                           placeholder='Total Fuel Cost'
-                          type='text'
-                          disabled={true}
+                          type='number'
+                          // disabled={true}
                         />
                       </div>{" "}
                       <div className='col-lg-3'>
@@ -571,8 +571,8 @@ export default function _Form({
                           value={values?.totalFuelCostLtr}
                           name='totalFuelCostLtr'
                           placeholder='Total Fuel Cost Liter'
-                          type='text'
-                          disabled={true}
+                          type='number'
+                          // disabled={true}
                         />
                       </div>{" "}
                       <div className='col-lg-3' style={{ marginTop: "18px" }}>
