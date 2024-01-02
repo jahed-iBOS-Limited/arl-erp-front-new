@@ -215,7 +215,9 @@ export const getShipmentByID = async (
       const totalFuelCost = Number(+objHeader?.totalFuelCost || 0).toFixed(2);
       const distanceKm = +objHeader?.distanceKm || 0;
       const extraMillage = +objHeader?.extraMillage || 0;
-      const totalFuelCostLtr = Number(objHeader?.totalFuelCostLtr || 0).toFixed(2);
+      const totalFuelCostLtr = Number(objHeader?.totalFuelCostLtr || 0).toFixed(
+        2
+      );
       const millageAllowance =
         res?.data?.objList?.find(
           (itm) => itm?.transportRouteCostComponentId === 50
@@ -291,16 +293,36 @@ export const getShipmentByID = async (
           ? ""
           : _currentTime(),
         vehicleInDateValidation: reportTypeComplete || false,
-        totalFuelCostLtr:totalFuelCostLtr,
+        totalFuelCostLtr: totalFuelCostLtr,
         totalFuelCost: totalFuelCost,
+        fuelRate: objHeader?.fuelRate || 0,
       };
-      setter(newObj);
+
       const modify = res?.data?.objList?.map((itm) => ({
         ...itm,
         actualCost: itm?.actualCost,
       }));
-      setRowDto && setRowDto(modify);
 
+      const calculateResult = calculativeFuelCostAndFuelCostLtrAndMileageAllowance(
+        {
+          values: newObj,
+        }
+      );
+      newObj.totalFuelCost = calculateResult.totalFuelCost;
+      newObj.totalFuelCostLtr = calculateResult.totalFuelCostLtr;
+      let foundMilage = modify?.findIndex(
+        (item) => item?.transportRouteCostComponentId === 50
+      );
+      if (foundMilage !== -1) {
+        modify[foundMilage] = {
+          ...modify[foundMilage],
+          standardCost: calculateResult.mileageAllowance.toFixed(2),
+          actualCost: calculateResult.mileageAllowance.toFixed(2),
+        };
+      }
+
+      setRowDto && setRowDto(modify);
+      setter(newObj);
       // attachmentFileIdGroup
       const result = attachmentFileIdGroup(res?.data?.objAttachment);
       setAttachmentGrid && setAttachmentGrid(result || []);
@@ -662,4 +684,22 @@ export const getBusinessUnitDDL_api = async (actionBy, accountId, setter) => {
       setter(newdata);
     }
   } catch (error) {}
+};
+
+export const calculativeFuelCostAndFuelCostLtrAndMileageAllowance = ({
+  values,
+}) => {
+  const distanceAndExtraMillage =
+    (+values?.distanceKm || 0) + (+values?.extraMillage || 0);
+
+  const totalFuelCost =
+    values?.fuelCostPerMillage * distanceAndExtraMillage * +values?.fuelRate;
+  const totalFuelCostLtr =
+    values?.fuelCostLtrPerMillage * distanceAndExtraMillage;
+  const mileageAllowance = values?.costPerMillage * distanceAndExtraMillage;
+  return {
+    totalFuelCost,
+    totalFuelCostLtr,
+    mileageAllowance,
+  };
 };

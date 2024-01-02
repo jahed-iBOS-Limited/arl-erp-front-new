@@ -83,6 +83,7 @@ export default function _Form({
   fuleCostHandler,
   shipmentId,
   extraMillageOnChangeHandler,
+  fuelRateOnChangeHandler,
   fileObjects,
   setFileObjects,
   setUploadImage,
@@ -557,6 +558,26 @@ export default function _Form({
                         </div>
                       )}
                       <div className='col-lg-3'>
+                        <label>Fuel Rate</label>
+                        <InputField
+                          value={values?.fuelRate}
+                          name='fuelRate'
+                          placeholder='Fuel Rate'
+                          type='number'
+                          onChange={(e) => {
+                            setFieldValue("fuelRate", e.target.value);
+
+                            fuelRateOnChangeHandler({
+                              setFieldValue,
+                              values: {
+                                ...values,
+                                fuelRate: e.target.value,
+                              },
+                            });
+                          }}
+                        />
+                      </div>
+                      <div className='col-lg-3'>
                         <label>Total Fuel Cost</label>
                         <InputField
                           value={values?.totalFuelCost}
@@ -565,7 +586,7 @@ export default function _Form({
                           type='number'
                           // disabled={true}
                         />
-                      </div>{" "}
+                      </div>
                       <div className='col-lg-3'>
                         <label>Total Fuel Cost Liter</label>
                         <InputField
