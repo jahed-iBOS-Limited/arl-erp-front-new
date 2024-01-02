@@ -369,12 +369,13 @@ export default function _Form({
                           type='number'
                           onChange={(e) => {
                             setFieldValue("extraMillage", e.target.value);
-                            const totalMillage =
-                              +values?.distanceKm + +e.target.value;
-                            extraMillageOnChangeHandler(
+                            extraMillageOnChangeHandler({
                               setFieldValue,
-                              totalMillage
-                            );
+                              values: {
+                                ...values,
+                                extraMillage: e.target.value,
+                              },
+                            });
                           }}
                         />
                       </div>
