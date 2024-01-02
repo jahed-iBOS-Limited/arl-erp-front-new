@@ -7,6 +7,8 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
 import PumpFoodingBillReportTbl from "./reportTable/pumpFoodingBillReport";
+import DateWisePumpFoodingBillSMRT from "./reportTable/DateWisePumpFoodingBillSMRT";
+import { getLastDateOfMonth } from "./helper";
 const initData = {
   reportType: "",
   fromDate: "",
@@ -23,6 +25,8 @@ export default function PumpFoodingBillReport() {
     let requestUrl = "";
     if (reportTypeId === 1) {
       requestUrl = `/hcm/MenuListOfFoodCorner/GetPumpFoodBillByEmployees?intBusinessUnit=${selectedBusinessUnit?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`;
+    } else if (reportTypeId === 2) {
+      requestUrl = `/hcm/MenuListOfFoodCorner/GetDatewisePumpFoodingBillSummery?intBusinessUnit=${selectedBusinessUnit?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`;
     }
     if (requestUrl) {
       getRowData(requestUrl);
@@ -67,6 +71,10 @@ export default function PumpFoodingBillReport() {
                       name="reportType"
                       options={[
                         { value: 1, label: "Pump Fooding Bill Report" },
+                        {
+                          value: 2,
+                          label: "Date Wise Pump Fooding Bill Summery Report",
+                        },
                       ]}
                       value={values?.reportType}
                       label="Report Type"
@@ -99,6 +107,12 @@ export default function PumpFoodingBillReport() {
                       value={values?.toDate}
                       label="To Date"
                       name="toDate"
+                      min={values?.fromDate}
+                      max={
+                        values?.reportType?.value === 2
+                          ? getLastDateOfMonth(values?.fromDate)
+                          : null
+                      }
                       type="date"
                       onChange={(e) => {
                         setFieldValue("toDate", e.target.value);
@@ -108,7 +122,7 @@ export default function PumpFoodingBillReport() {
                   </div>
                   <div>
                     <button
-                      style={{ marginTop: "17px" }}
+                      style={{ marginTop: "16px" }}
                       className="btn btn-primary ml-2"
                       type="button"
                       onClick={() => {
@@ -125,6 +139,12 @@ export default function PumpFoodingBillReport() {
                 <div>
                   {[1]?.includes(values?.reportType?.value) ? (
                     <PumpFoodingBillReportTbl
+                      rowData={rowData}
+                      values={values}
+                    />
+                  ) : null}
+                  {[2]?.includes(values?.reportType?.value) ? (
+                    <DateWisePumpFoodingBillSMRT
                       rowData={rowData}
                       values={values}
                     />
