@@ -1,29 +1,26 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { useHistory, useLocation, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import Loading from "../../../../_helper/_loading";
 import {
-  getShipmentByID,
+  CreateFuelConstInfo_api,
+  EditVehiclePartnerRentAmount_api,
+  GetFuelConstInfoById_api,
+  GetPartnerShippingInformation_api,
+  GetShipToPartnerDistanceByShipmentId_api,
+  calculativeFuelCostAndFuelCostLtrAndMileageAllowance,
   editShipment,
   getDownTripData,
-  getBUMilageAllowance,
-  GetShipToPartnerDistanceByShipmentId_api,
-  GetPartnerShippingInformation_api,
-  EditVehiclePartnerRentAmount_api,
-  CreateFuelConstInfo_api,
-  GetFuelConstInfoById_api,
+  getShipmentByID
 } from "../helper";
-import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import { useLocation } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "./../../../../_helper/_todayDate";
-import { EditVehiclePartnerDistenceKM_api } from "./../helper";
-import { GetShipmentCostEntryStatus_api } from "./../helper";
-import { useHistory } from "react-router-dom";
 import { _currentTime } from "./../../../../_helper/_currentTime";
-import moment from "moment";
+import { _todayDate } from "./../../../../_helper/_todayDate";
+import { EditVehiclePartnerDistenceKM_api, GetShipmentCostEntryStatus_api } from "./../helper";
+import Form from "./form";
 const initData = {
   vehicleNo: "",
   driverName: "",
@@ -51,6 +48,7 @@ const initData = {
   vehicleInTime: _currentTime(),
   totalFuelCost: "",
   totalFuelCostLtr: "",
+  fuelRate: "",
 };
 
 export default function ShipmentCostForm() {
@@ -156,16 +154,6 @@ export default function ShipmentCostForm() {
     }
   }, [location]);
 
-  // useEffect(() => {
-  //   if (profileData?.accountId && selectedBusinessUnit?.value) {
-  //     getBUMilageAllowance(
-  //       profileData.accountId,
-  //       selectedBusinessUnit.value,
-  //       setBuMilage
-  //     );
-  //   }
-  // }, [profileData, selectedBusinessUnit]);
-
   const fuleCostSaveCB = () => {
     CreateFuelConstInfo_api(fuleCost);
     history.push("/transport-management/routecostmanagement/shipmentcost");
@@ -219,6 +207,7 @@ export default function ShipmentCostForm() {
             costElementId: +values?.costElement?.value || 0,
             totalFuelCost: +values?.totalFuelCost || 0,
             totalFuelCostLtr: +values?.totalFuelCostLtr || 0,
+            fuelRate: +values?.fuelRate || 0,
           },
           objRowList: row,
           objCreateShipmentCostAttachment: attachmentGrid,
@@ -325,43 +314,33 @@ export default function ShipmentCostForm() {
   ) => {
     setFieldValue("distanceKm", changeValue);
     const modifyValues = { ...values, distanceKm: changeValue };
-    updateFuelCostAndFuelCostLtrAndMileageAllowance({
-      values: modifyValues,
-      setFieldValue,
-    });
-  
+    commonUpdate({values: modifyValues, setFieldValue})
   };
 
-  const updateFuelCostAndFuelCostLtrAndMileageAllowance = ({
-    values,
-    setFieldValue,
-  }) => {
-    const distanceAndExtraMillage =
-      (+values?.distanceKm || 0) + (+values?.extraMillage || 0);
-
-    const totalFuelCost = values?.fuelCostPerMillage * distanceAndExtraMillage;
-    const totalFuelCostLtr =
-      values?.fuelCostLtrPerMillage * distanceAndExtraMillage;
-
-    const mileageAllowance = values?.costPerMillage * distanceAndExtraMillage;
-
-    setFieldValue("totalFuelCost", totalFuelCost.toFixed(2));
-    setFieldValue("totalFuelCostLtr", totalFuelCostLtr.toFixed(2));
-
+ 
+  const commonUpdate  = ({values, setFieldValue }) => {
+    const result = calculativeFuelCostAndFuelCostLtrAndMileageAllowance({
+      values,
+    });
+    setFieldValue("totalFuelCost", result.totalFuelCost.toFixed(2));
+    setFieldValue("totalFuelCostLtr", result.totalFuelCostLtr.toFixed(2));
     let foundMilage = rowDto?.findIndex(
       (item) => item?.transportRouteCostComponentId === 50
     );
     const copyRowDto = [...rowDto];
     copyRowDto[foundMilage] = {
       ...copyRowDto[foundMilage],
-      standardCost: mileageAllowance.toFixed(2),
-      actualCost: mileageAllowance.toFixed(2),
+      standardCost: result.mileageAllowance.toFixed(2),
+      actualCost: result.mileageAllowance.toFixed(2),
     };
     setRowDto([...copyRowDto]);
-  };
+  }
 
   const extraMillageOnChangeHandler = ({ setFieldValue, values }) => {
-    updateFuelCostAndFuelCostLtrAndMileageAllowance({ values, setFieldValue });
+    commonUpdate({values, setFieldValue})
+  };
+  const fuelRateOnChangeHandler = ({ setFieldValue, values }) => {
+    commonUpdate({values, setFieldValue})
   };
 
   const distanceKMOUpdateCB = (idx, values) => {
@@ -484,6 +463,7 @@ export default function ShipmentCostForm() {
         fuleCostHandler={fuleCostHandler}
         shipmentId={singleData?.shipmentId}
         extraMillageOnChangeHandler={extraMillageOnChangeHandler}
+        fuelRateOnChangeHandler={fuelRateOnChangeHandler}
         fileObjects={fileObjects}
         setFileObjects={setFileObjects}
         uploadImage={uploadImage}
