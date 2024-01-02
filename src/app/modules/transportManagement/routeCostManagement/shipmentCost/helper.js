@@ -212,10 +212,10 @@ export const getShipmentByID = async (
 
       const vehicleInTime = moment(objHeader?.vehicleInDate).format("HH:mm:ss");
 
-      const totalFuelCost = +objHeader?.totalFuelCost || 0;
+      const totalFuelCost = Number(+objHeader?.totalFuelCost || 0).toFixed(2);
       const distanceKm = +objHeader?.distanceKm || 0;
       const extraMillage = +objHeader?.extraMillage || 0;
-      const totalFuelCostLtr = +objHeader?.totalFuelCostLtr || 0;
+      const totalFuelCostLtr = Number(objHeader?.totalFuelCostLtr || 0).toFixed(2);
       const millageAllowance =
         res?.data?.objList?.find(
           (itm) => itm?.transportRouteCostComponentId === 50
@@ -291,8 +291,8 @@ export const getShipmentByID = async (
           ? ""
           : _currentTime(),
         vehicleInDateValidation: reportTypeComplete || false,
-        totalFuelCostLtr: objHeader?.totalFuelCostLtr || 0,
-        totalFuelCost: objHeader?.totalFuelCost || 0,
+        totalFuelCostLtr:totalFuelCostLtr,
+        totalFuelCost: totalFuelCost,
       };
       setter(newObj);
       const modify = res?.data?.objList?.map((itm) => ({

@@ -345,8 +345,8 @@ export default function ShipmentCostForm() {
 
     const mileageAllowance = values?.costPerMillage * distanceAndExtraMillage;
 
-    setFieldValue("totalFuelCost", Math.round(totalFuelCost));
-    setFieldValue("totalFuelCostLtr", Math.round(totalFuelCostLtr));
+    setFieldValue("totalFuelCost", totalFuelCost.toFixed(2));
+    setFieldValue("totalFuelCostLtr", totalFuelCostLtr.toFixed(2));
 
     let foundMilage = rowDto?.findIndex(
       (item) => item?.transportRouteCostComponentId === 50
@@ -354,8 +354,8 @@ export default function ShipmentCostForm() {
     const copyRowDto = [...rowDto];
     copyRowDto[foundMilage] = {
       ...copyRowDto[foundMilage],
-      standardCost: Math.round(mileageAllowance),
-      actualCost: Math.round(mileageAllowance),
+      standardCost: mileageAllowance.toFixed(2),
+      actualCost: mileageAllowance.toFixed(2),
     };
     setRowDto([...copyRowDto]);
   };
