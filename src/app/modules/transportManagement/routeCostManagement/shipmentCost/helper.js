@@ -272,6 +272,7 @@ export const getShipmentByID = async (
           : _currentTime(),
         vehicleInDateValidation: reportTypeComplete || false,
         totalFuelCostLtr: objHeader?.totalFuelCostLtr || 0,
+        totalFuelCost: objHeader?.totalFuelCost || 0,
       };
       setter(newObj);
       const modify = res?.data?.objList?.map((itm) => ({

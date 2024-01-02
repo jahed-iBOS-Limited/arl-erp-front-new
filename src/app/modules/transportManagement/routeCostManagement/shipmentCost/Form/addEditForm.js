@@ -49,6 +49,8 @@ const initData = {
   extraMillage: "",
   vehicleInDate: _todayDate(),
   vehicleInTime: _currentTime(),
+  totalFuelCost: "",
+  totalFuelCostLtr: "",
 };
 
 export default function ShipmentCostForm() {
@@ -226,6 +228,8 @@ export default function ShipmentCostForm() {
             costCenterId: +values?.costCenter?.value || 0,
             profitCenterId: +values?.profitCenter?.value || 0,
             costElementId: +values?.costElement?.value || 0,
+            totalFuelCost: +values?.totalFuelCost || 0,
+            totalFuelCostLtr: +values?.totalFuelCostLtr || 0,
           },
           objRowList: row,
           objCreateShipmentCostAttachment: attachmentGrid,
