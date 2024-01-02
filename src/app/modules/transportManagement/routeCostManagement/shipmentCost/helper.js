@@ -211,31 +211,51 @@ export const getShipmentByID = async (
       const objHeader = res?.data?.objHeader;
 
       const vehicleInTime = moment(objHeader?.vehicleInDate).format("HH:mm:ss");
+
+      const totalFuelCost = +objHeader?.totalFuelCost || 0;
+      const distanceKm = +objHeader?.distanceKm || 0;
+      const extraMillage = +objHeader?.extraMillage || 0;
+      const totalFuelCostLtr = +objHeader?.totalFuelCostLtr || 0;
+      const millageAllowance =
+        res?.data?.objList?.find(
+          (itm) => itm?.transportRouteCostComponentId === 50
+        )?.standardCost || 0;
+
+      // =======calculative=======
+      const fuelCostPerMillage = distanceKm
+        ? totalFuelCost / (distanceKm + extraMillage)
+        : 0;
+      const fuelCostLtrPerMillage = distanceKm
+        ? totalFuelCostLtr / (distanceKm + extraMillage)
+        : 0;
+      const costPerMillage = distanceKm
+        ? millageAllowance / (distanceKm + extraMillage)
+        : 0;
+
       const newObj = {
         ...objHeader,
-        // if objHeader?.profitCenterId is null then set empty string otherwise set objHeader?.profitCenterId
-        profitCenter: objHeader?.profitCenterId ? {
-          value: objHeader?.profitCenterId,
-          label: objHeader?.profitCenterName,
-        } : "",
+        fuelCostPerMillage,
+        fuelCostLtrPerMillage,
+        costPerMillage,
+        profitCenter: objHeader?.profitCenterId
+          ? {
+              value: objHeader?.profitCenterId,
+              label: objHeader?.profitCenterName,
+            }
+          : "",
 
-        costCenter: objHeader?.costCenterId ? {
-          value: objHeader?.costCenterId,
-          label: objHeader?.costCenterName,
-        } : "",
-        costElement: objHeader?.costElementId ? {
-          value: objHeader?.costElementId,
-          label: objHeader?.costElementName,
-        } : "",
-
-        // costCenter: {
-        //   value: objHeader?.costCenterId,
-        //   label: objHeader?.costCenterName,
-        // },
-        // costElement: {
-        //   value: objHeader?.costElementId,
-        //   label: objHeader?.costElementName,
-        // },
+        costCenter: objHeader?.costCenterId
+          ? {
+              value: objHeader?.costCenterId,
+              label: objHeader?.costCenterName,
+            }
+          : "",
+        costElement: objHeader?.costElementId
+          ? {
+              value: objHeader?.costElementId,
+              label: objHeader?.costElementName,
+            }
+          : "",
         shipmentDate: _dateFormatter(objHeader.shipmentDate),
         daQuantity: "",
         daAmount: "",
