@@ -11,6 +11,7 @@ export default function PumpFoodingBillDetails({ selectedItemForPumpFooding }) {
     getTableData(
       `/fino/BillRegister/BillRegisterTopSheetDetails?billRegisterCode=${selectedItemForPumpFooding?.billRegisterCode}&TypeId=18&fromDate=${selectedItemForPumpFooding?.billRegisterDate}&toDate=${selectedItemForPumpFooding?.billRegisterDate}`
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedItemForPumpFooding]);
 
   return (
