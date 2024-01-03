@@ -7,6 +7,7 @@ import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 // import InputField from "../../../_helper/_inputField";
 import { shallowEqual, useSelector } from 'react-redux';
 import { _dateFormatter } from '../../../_helper/_dateFormate';
+import InputField from '../../../_helper/_inputField';
 import PaginationTable from '../../../_helper/_tablePagination';
 import { _todayDate } from '../../../_helper/_todayDate';
 
@@ -128,6 +129,8 @@ export default function PurchasePlanningAndScheduling() {
                     />
                   </div>
                   {values?.type?.value === 1 ? (
+                    <>
+                    
                     <div className="col-lg-3">
                       <NewSelect
                         name="item"
@@ -151,6 +154,7 @@ export default function PurchasePlanningAndScheduling() {
                         touched={touched}
                       />
                     </div>
+                    </>
                   ) : null}
                   <button
                     style={{ marginTop: '18px' }}
@@ -184,6 +188,7 @@ export default function PurchasePlanningAndScheduling() {
                             <br />
                             (Contract Qty)
                           </th>
+                          <th>PI Number</th>
                           <th>PI Qty</th>
                           <th>
                             Inco-term <br /> FOB/CFR
@@ -240,6 +245,7 @@ export default function PurchasePlanningAndScheduling() {
                               <td>{item?.strItemName || 'N/A'}</td>
                               <td>{item?.strUoMName || 'N/A'}</td>
                               <td>{item?.numContractQty || 0}</td>
+                              <td>{item?.strPINumber || 0}</td>
                               <td>{item?.numPiQty || 0}</td>
                               <td>{item?.strIncotermName || 'N/A'}</td>
                               <td>{item?.numPriceFc || 0}</td>

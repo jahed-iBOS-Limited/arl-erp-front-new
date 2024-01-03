@@ -25,6 +25,7 @@ import AttachmentGrid from "./attachmentGrid";
 import IConfirmModal from "../../../../_helper/_confirmModal";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import Loading from "../../../../_helper/_loading";
+import "./form.scss";
 // Validation schema
 const validationSchema = Yup.object().shape({
   extraMillage: Yup.string()
@@ -83,6 +84,7 @@ export default function _Form({
   fuleCostHandler,
   shipmentId,
   extraMillageOnChangeHandler,
+  fuelRateOnChangeHandler,
   fileObjects,
   setFileObjects,
   setUploadImage,
@@ -309,8 +311,18 @@ export default function _Form({
               {(costElementDDlloader ||
                 costCenterDDlloader ||
                 profitCenterDDlloader) && <Loading />}
-              <Form className='form form-label-right position-relative'>
-                <p style={{ position: "absolute", top: "-46px", left: "45%" }}>
+              <Form className='form form-label-right position-relative shipmentCostFormWrapper'>
+                <p
+                  style={{
+                    position: 'absolute',
+                    top: '-52px',
+                    left: '40%',
+                    border: '2px solid #ffa800',
+                    padding: '2px 9px',
+                    borderRadius: '4px',
+                    fontSize: '18px'
+                  }}
+                >
                   <b>Pay to Driver: </b>
                   {netPayable}
                 </p>
@@ -369,12 +381,13 @@ export default function _Form({
                           type='number'
                           onChange={(e) => {
                             setFieldValue("extraMillage", e.target.value);
-                            const totalMillage =
-                              +values?.distanceKm + +e.target.value;
-                            extraMillageOnChangeHandler(
+                            extraMillageOnChangeHandler({
                               setFieldValue,
-                              totalMillage
-                            );
+                              values: {
+                                ...values,
+                                extraMillage: e.target.value,
+                              },
+                            });
                           }}
                         />
                       </div>
@@ -555,23 +568,45 @@ export default function _Form({
                           />
                         </div>
                       )}
+                      <div className='col-lg-3 fuelRate'>
+                        <label>Fuel Rate</label>
+                        <InputField
+                          value={values?.fuelRate}
+                          name='fuelRate'
+                          placeholder='Fuel Rate'
+                          type='number'
+                          onChange={(e) => {
+                            
+                            // max fuel rate 200 check
+                            if(+e.target.value > 200) return toast.warn("Fuel rate can't be more than 200");
+                            setFieldValue("fuelRate", e.target.value);
+                            fuelRateOnChangeHandler({
+                              setFieldValue,
+                              values: {
+                                ...values,
+                                fuelRate: e.target.value,
+                              },
+                            });
+                          }}
+                        />
+                      </div>
                       <div className='col-lg-3'>
                         <label>Total Fuel Cost</label>
                         <InputField
                           value={values?.totalFuelCost}
                           name='totalFuelCost'
                           placeholder='Total Fuel Cost'
-                          type='text'
+                          type='number'
                           disabled={true}
                         />
-                      </div>{" "}
+                      </div>
                       <div className='col-lg-3'>
                         <label>Total Fuel Cost Liter</label>
                         <InputField
                           value={values?.totalFuelCostLtr}
                           name='totalFuelCostLtr'
                           placeholder='Total Fuel Cost Liter'
-                          type='text'
+                          type='number'
                           disabled={true}
                         />
                       </div>{" "}
