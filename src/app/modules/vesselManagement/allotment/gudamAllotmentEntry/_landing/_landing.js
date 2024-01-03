@@ -443,6 +443,7 @@ const GudamAllotmentLanding = () => {
                           <th>Sl</th>
                           <th>Mother Vessel</th>
                           <th>Allotment Quantity</th>
+                          <th>Program Quantity</th>
                           <th>Extra Allotment Quantity</th>
                           <th>Challan Quantity</th>
                           <th>Remaining Quantity</th>
@@ -464,6 +465,9 @@ const GudamAllotmentLanding = () => {
                               <td>{item?.motherVesselName}</td>
                               <td className="text-center">
                                 {item?.allotmentQuantity}
+                              </td>
+                              <td className="text-center">
+                                {item?.programQuantity}
                               </td>
                               <td className="text-center">
                                 {item?.extraAllotmentQuantity}
