@@ -198,7 +198,7 @@ export const getShipmentByID = async (
   setRowDto,
   setDisabled,
   setAttachmentGrid,
-  reportTypeComplete,
+  isReportTypeComplete,
   emptyDate
 ) => {
   try {
@@ -209,6 +209,8 @@ export const getShipmentByID = async (
     if (res.status === 200 && res?.data) {
       setDisabled && setDisabled(false);
       const objHeader = res?.data?.objHeader;
+
+      const fuelRate = +objHeader?.fuelRate || 0;
 
       const vehicleInTime = moment(objHeader?.vehicleInDate).format("HH:mm:ss");
 
@@ -224,7 +226,7 @@ export const getShipmentByID = async (
         )?.standardCost || 0;
 
       // =======calculative=======
-      const fuelCostPerMillage = distanceKm
+      let fuelCostPerMillage = distanceKm
         ? totalFuelCost / (distanceKm + extraMillage)
         : 0;
       const fuelCostLtrPerMillage = distanceKm
@@ -233,6 +235,12 @@ export const getShipmentByID = async (
       const costPerMillage = distanceKm
         ? millageAllowance / (distanceKm + extraMillage)
         : 0;
+
+      if (isReportTypeComplete) {
+        fuelCostPerMillage = fuelCostPerMillage
+          ? fuelCostPerMillage / fuelRate
+          : 0;
+      }
 
       const newObj = {
         ...objHeader,
@@ -292,10 +300,10 @@ export const getShipmentByID = async (
           : emptyDate
           ? ""
           : _currentTime(),
-        vehicleInDateValidation: reportTypeComplete || false,
+        vehicleInDateValidation: isReportTypeComplete || false,
         totalFuelCostLtr: totalFuelCostLtr,
         totalFuelCost: totalFuelCost,
-        fuelRate: objHeader?.fuelRate || 0,
+        fuelRate: fuelRate,
       };
 
       const modify = res?.data?.objList?.map((itm) => ({
@@ -310,7 +318,7 @@ export const getShipmentByID = async (
       );
       newObj.totalFuelCost = calculateResult.totalFuelCost.toFixed(2);
       newObj.totalFuelCostLtr = calculateResult.totalFuelCostLtr.toFixed(2);
-      
+
       // let foundMilage = modify?.findIndex(
       //   (item) => item?.transportRouteCostComponentId === 50
       // );

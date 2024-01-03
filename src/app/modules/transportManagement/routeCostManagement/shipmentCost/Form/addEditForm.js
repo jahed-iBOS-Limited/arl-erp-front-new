@@ -87,7 +87,7 @@ export default function ShipmentCostForm() {
   const vehicleReant_AllUpdateBtnClickCheck = vehicleReant?.every(
     (item) => item?.isUpdateBtnClick
   );
-  const reportTypeComplete =
+  const isReportTypeComplete =
     location?.state?.values?.reportType?.label === "Complete";
 
   const history = useHistory();
@@ -106,7 +106,7 @@ export default function ShipmentCostForm() {
         setRowDto,
         setDisabled,
         setAttachmentGrid,
-        reportTypeComplete
+        isReportTypeComplete
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -212,7 +212,7 @@ export default function ShipmentCostForm() {
           objRowList: row,
           objCreateShipmentCostAttachment: attachmentGrid,
         };
-        if (reportTypeComplete) {
+        if (isReportTypeComplete) {
           //reportTypeComplete true
           if (attachmentGrid?.length > 0) {
             editShipment(payload, setDisabled, fuleCostSaveCB);
