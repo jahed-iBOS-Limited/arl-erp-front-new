@@ -1,4 +1,5 @@
 import React from "react";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
 export default function VehicleWiseFuelCostTbl({ rowData }) {
   return (
@@ -21,13 +22,17 @@ export default function VehicleWiseFuelCostTbl({ rowData }) {
         <tbody>
           {rowData?.map((item, index) => (
             <tr>
-              <td>SL</td>
-              <td>Date</td>
-              <td>KM</td>
-              <td>LPG Gas</td>
-              <td>Diesel</td>
-              <td>Octen</td>
-              <td>Total Fuel Cost</td>
+              <td>{index + 1}</td>
+              <td className="text-center">
+                {_dateFormatter(item?.dteTripDate)}
+              </td>
+              <td className="text-center">{item?.tripKM}</td>
+              <td className="text-right">{item?.lpeg}</td>
+              <td className="text-right">{item?.diesel}</td>
+              <td className="text-right">{item?.octane}</td>
+              <td className="text-right">
+                {item?.lpeg + item?.diesel + item?.octane}
+              </td>
             </tr>
           ))}
         </tbody>
