@@ -119,7 +119,11 @@ export default function SalesContractCreateEdit() {
   const [soldToPartner, getSoldToPartner, soldToPartnerLoader] = useAxiosGet();
   const [salesOffice, getSalesOffice, salesOfficeLoader] = useAxiosGet();
   const [specification, getSpecification, specificationLoader] = useAxiosGet();
-  const [destinationDDL, getDestinationDDL, destinationDDLLoader] = useAxiosGet();
+  const [
+    destinationDDL,
+    getDestinationDDL,
+    destinationDDLLoader,
+  ] = useAxiosGet();
   const [, getUom, uomLoader] = useAxiosGet();
   const [, saveData, saveLoader] = useAxiosPost();
   const [, getSingleData] = useAxiosGet();
@@ -180,9 +184,9 @@ export default function SalesContractCreateEdit() {
               data?.data?.objHeader?.toCountryId &&
               data?.data?.objHeader?.toCountryName
                 ? {
-                  value: data?.data?.objHeader?.toCountryId,
-                  label: data?.data?.objHeader?.toCountryName,
-                }
+                    value: data?.data?.objHeader?.toCountryId,
+                    label: data?.data?.objHeader?.toCountryName,
+                  }
                 : "",
             finalDestination: data?.data?.objHeader?.finalDestination,
             countryOfOrigin: data?.data?.objHeader?.countryOfOrigin,
@@ -336,9 +340,9 @@ export default function SalesContractCreateEdit() {
                   data?.data?.objHeader?.toCountryId &&
                   data?.data?.objHeader?.toCountryName
                     ? {
-                      value: data?.data?.objHeader?.toCountryId,
-                      label: data?.data?.objHeader?.toCountryName,
-                    }
+                        value: data?.data?.objHeader?.toCountryId,
+                        label: data?.data?.objHeader?.toCountryName,
+                      }
                     : "",
                 finalDestination: data?.data?.objHeader?.finalDestination,
                 countryOfOrigin: data?.data?.objHeader?.countryOfOrigin,
@@ -361,7 +365,8 @@ export default function SalesContractCreateEdit() {
           );
         cb();
         !id && setIsShowModel(true);
-      }
+      },
+      true
     );
   };
 
