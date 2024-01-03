@@ -25,6 +25,7 @@ import AttachmentGrid from "./attachmentGrid";
 import IConfirmModal from "../../../../_helper/_confirmModal";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import Loading from "../../../../_helper/_loading";
+import "./form.scss";
 // Validation schema
 const validationSchema = Yup.object().shape({
   extraMillage: Yup.string()
@@ -310,8 +311,18 @@ export default function _Form({
               {(costElementDDlloader ||
                 costCenterDDlloader ||
                 profitCenterDDlloader) && <Loading />}
-              <Form className='form form-label-right position-relative'>
-                <p style={{ position: "absolute", top: "-46px", left: "45%" }}>
+              <Form className='form form-label-right position-relative shipmentCostFormWrapper'>
+                <p
+                  style={{
+                    position: 'absolute',
+                    top: '-52px',
+                    left: '40%',
+                    border: '2px solid #ffa800',
+                    padding: '2px 9px',
+                    borderRadius: '4px',
+                    fontSize: '18px'
+                  }}
+                >
                   <b>Pay to Driver: </b>
                   {netPayable}
                 </p>
@@ -557,7 +568,7 @@ export default function _Form({
                           />
                         </div>
                       )}
-                      <div className='col-lg-3'>
+                      <div className='col-lg-3 fuelRate'>
                         <label>Fuel Rate</label>
                         <InputField
                           value={values?.fuelRate}
@@ -565,8 +576,10 @@ export default function _Form({
                           placeholder='Fuel Rate'
                           type='number'
                           onChange={(e) => {
+                            
+                            // max fuel rate 200 check
+                            if(+e.target.value > 200) return toast.warn("Fuel rate can't be more than 200");
                             setFieldValue("fuelRate", e.target.value);
-
                             fuelRateOnChangeHandler({
                               setFieldValue,
                               values: {
@@ -584,7 +597,7 @@ export default function _Form({
                           name='totalFuelCost'
                           placeholder='Total Fuel Cost'
                           type='number'
-                          // disabled={true}
+                          disabled={true}
                         />
                       </div>
                       <div className='col-lg-3'>
@@ -594,7 +607,7 @@ export default function _Form({
                           name='totalFuelCostLtr'
                           placeholder='Total Fuel Cost Liter'
                           type='number'
-                          // disabled={true}
+                          disabled={true}
                         />
                       </div>{" "}
                       <div className='col-lg-3' style={{ marginTop: "18px" }}>

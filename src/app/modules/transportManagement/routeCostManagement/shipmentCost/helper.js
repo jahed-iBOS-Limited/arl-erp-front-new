@@ -310,16 +310,17 @@ export const getShipmentByID = async (
       );
       newObj.totalFuelCost = calculateResult.totalFuelCost.toFixed(2);
       newObj.totalFuelCostLtr = calculateResult.totalFuelCostLtr.toFixed(2);
-      let foundMilage = modify?.findIndex(
-        (item) => item?.transportRouteCostComponentId === 50
-      );
-      if (foundMilage !== -1) {
-        modify[foundMilage] = {
-          ...modify[foundMilage],
-          standardCost: calculateResult.mileageAllowance.toFixed(2),
-          actualCost: calculateResult.mileageAllowance.toFixed(2),
-        };
-      }
+      
+      // let foundMilage = modify?.findIndex(
+      //   (item) => item?.transportRouteCostComponentId === 50
+      // );
+      // if (foundMilage !== -1) {
+      //   modify[foundMilage] = {
+      //     ...modify[foundMilage],
+      //     standardCost: calculateResult.mileageAllowance.toFixed(2),
+      //     actualCost: calculateResult.mileageAllowance.toFixed(2),
+      //   };
+      // }
 
       setRowDto && setRowDto(modify);
       setter(newObj);
