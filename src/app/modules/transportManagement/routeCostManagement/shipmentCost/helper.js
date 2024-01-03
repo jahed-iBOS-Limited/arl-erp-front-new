@@ -694,7 +694,7 @@ export const calculativeFuelCostAndFuelCostLtrAndMileageAllowance = ({
     (+values?.distanceKm || 0) + (+values?.extraMillage || 0);
 
   const totalFuelCost =
-    values?.fuelCostPerMillage * distanceAndExtraMillage * +values?.fuelRate;
+    (values?.fuelCostPerMillage * distanceAndExtraMillage) * +values?.fuelRate;
   const totalFuelCostLtr =
     values?.fuelCostLtrPerMillage * distanceAndExtraMillage;
   const mileageAllowance = values?.costPerMillage * distanceAndExtraMillage;
