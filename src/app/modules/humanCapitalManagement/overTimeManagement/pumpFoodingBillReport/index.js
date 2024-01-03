@@ -120,13 +120,13 @@ export default function PumpFoodingBillReport() {
                       onChange={(valueOption) => {
                         if (valueOption) {
                           setFieldValue("plant", valueOption);
-                          setFieldValue("warehouse", "");
+                          setFieldValue("wareHouse", "");
                           getWarehouseDDL(
                             `/asset/DropDown/GetWareHouseByPlantId?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&PlantId=${valueOption?.value}`
                           );
                         } else {
                           setFieldValue("plant", "");
-                          setFieldValue("warehouse", "");
+                          setFieldValue("wareHouse", "");
                           setWarehouseDDL([]);
                         }
                       }}
