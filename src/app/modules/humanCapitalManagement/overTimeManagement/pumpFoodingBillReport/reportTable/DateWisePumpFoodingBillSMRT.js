@@ -28,6 +28,7 @@ export default function DateWisePumpFoodingBillSMRT({ rowData, values }) {
                 {modifidRowDto[0]?.dates?.map((item) => (
                   <th>{item?.key}</th>
                 ))}
+                <th>Total</th>
               </tr>
             </thead>
             <tbody>
@@ -38,9 +39,35 @@ export default function DateWisePumpFoodingBillSMRT({ rowData, values }) {
                     {item?.dates?.map((item) => (
                       <td className="text-center">{item?.value}</td>
                     ))}
+                    <td className="text-right">
+                      {item?.dates?.reduce(
+                        (acc, current) => acc + +current?.value || 0,
+                        0
+                      )}
+                    </td>
                   </tr>
                 );
               })}
+              <tr>
+                <td></td>
+                <td
+                  className="text-right"
+                  colSpan={modifidRowDto[0]?.dates?.length}
+                >
+                  <strong>Grand Total</strong>
+                </td>
+                <td className="text-right">
+                  {modifidRowDto?.reduce((acc, item) => {
+                    return (
+                      acc +
+                      (item?.dates?.reduce(
+                        (innerAcc, current) => innerAcc + current?.value,
+                        0
+                      ) || 0)
+                    );
+                  }, 0)}
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
