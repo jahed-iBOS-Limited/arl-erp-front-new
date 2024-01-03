@@ -8,6 +8,8 @@ export default function DateWisePumpFoodingBillSMRT({ rowData, values }) {
     if (rowData?.length > 0) {
       const result = modifyDataset(rowData);
       setModifidRowDto(result);
+    } else {
+      setModifidRowDto([]);
     }
   }, [rowData]);
 
@@ -25,6 +27,7 @@ export default function DateWisePumpFoodingBillSMRT({ rowData, values }) {
             <thead>
               <tr className="cursor-pointer">
                 <th> Employee </th>
+                <th> Enroll </th>
                 {modifidRowDto[0]?.dates?.map((item) => (
                   <th>{item?.key}</th>
                 ))}
@@ -36,6 +39,7 @@ export default function DateWisePumpFoodingBillSMRT({ rowData, values }) {
                 return (
                   <tr key={index}>
                     <td>{item?.strEmployeeName}</td>
+                    <td className="text-center">{item?.intEmployeeId}</td>
                     {item?.dates?.map((item) => (
                       <td className="text-center">{item?.value}</td>
                     ))}
@@ -49,6 +53,7 @@ export default function DateWisePumpFoodingBillSMRT({ rowData, values }) {
                 );
               })}
               <tr>
+                <td></td>
                 <td></td>
                 <td
                   className="text-right"
