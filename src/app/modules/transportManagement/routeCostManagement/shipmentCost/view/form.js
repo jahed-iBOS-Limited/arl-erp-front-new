@@ -267,7 +267,7 @@ export default function _Form({
                               type='time'
                               disabled={true}
                             />
-                          </div>{" "}
+                          </div>
                         </>
                       )}
                       {+values?.downTripCredit > 0 && (
@@ -283,6 +283,17 @@ export default function _Form({
                           />
                         </div>
                       )}
+                      <div className='col-lg-3'>
+                        <label>Fuel Rate</label>
+                        <InputField
+                          value={values?.fuelRate}
+                          name='fuelRate'
+                          placeholder='Fuel Rate'
+                          type='number'
+                          onChange={(e) => {}}
+                          disabled={true}
+                        />
+                      </div>
                       <div className='col-lg-3'>
                         <label>Total Fuel Cost</label>
                         <InputField
