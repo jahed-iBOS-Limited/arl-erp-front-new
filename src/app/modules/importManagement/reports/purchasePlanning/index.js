@@ -53,7 +53,7 @@ export default function PurchasePlanningAndScheduling() {
       values?.type?.value === 1
         ? `/imp/ImportReport/PurchasePlanningAndSchedulingReport?partName=ItemWiseSchedulingReport&businessUnitId=${
             selectedBusinessUnit?.value
-          }&asOnDate=${values?.date}&strPINumber=${values?.piNumber||0}&itemId=${values?.item?.value ||
+          }&asOnDate=${values?.date}&itemId=${values?.item?.value ||
             0}&pageNo=${pageNo}&pageSize=${pageSize}`
         : `/imp/ImportReport/PurchasePlanningAndSchedulingReport?partName=PurchasePlanningNSchedulingReport&businessUnitId=${
             selectedBusinessUnit?.value
@@ -130,16 +130,7 @@ export default function PurchasePlanningAndScheduling() {
                   </div>
                   {values?.type?.value === 1 ? (
                     <>
-                     <div className='col-lg-3'>
-                     <InputField
-                      name="piNumber"
-                      value={values?.piNumber}
-                      type="number"
-                      label="PI Number"
-                      placeholder="PI Number"
-                      min={0}
-                      />
-                     </div>
+                    
                     <div className="col-lg-3">
                       <NewSelect
                         name="item"
@@ -197,6 +188,7 @@ export default function PurchasePlanningAndScheduling() {
                             <br />
                             (Contract Qty)
                           </th>
+                          <th>PI Number</th>
                           <th>PI Qty</th>
                           <th>
                             Inco-term <br /> FOB/CFR
@@ -253,6 +245,7 @@ export default function PurchasePlanningAndScheduling() {
                               <td>{item?.strItemName || 'N/A'}</td>
                               <td>{item?.strUoMName || 'N/A'}</td>
                               <td>{item?.numContractQty || 0}</td>
+                              <td>{item?.strPINumber || 0}</td>
                               <td>{item?.numPiQty || 0}</td>
                               <td>{item?.strIncotermName || 'N/A'}</td>
                               <td>{item?.numPriceFc || 0}</td>

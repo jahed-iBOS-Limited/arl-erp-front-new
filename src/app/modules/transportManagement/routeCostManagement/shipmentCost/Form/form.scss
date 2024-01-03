@@ -1,0 +1,14 @@
+.shipmentCostFormWrapper {
+  .fuelRate {
+    label {
+      font-weight: bold !important;
+    }
+  }
+  .global-form {
+    .fuelRate {
+      .form-control {
+        border: 1px solid #ffa800 !important;
+      }
+    }
+  }
+}
