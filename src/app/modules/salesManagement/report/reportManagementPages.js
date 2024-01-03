@@ -47,6 +47,7 @@ import SalesTrendsAnalysisReportLanding from "./salesTrendAnalysis/landing/table
 import Salesanalytics from "./salesanalytics";
 import ShipToPartyDelivery from "./shipToPartyDelivery/Table/table";
 import VehicleArrangeInfo from "./vehicleArrangeInfo/landing/table";
+import CustomerYearlyAchievement from "./customerYearlyAchievement";
 
 export function ReportManagementPages() {
   const userRole = useSelector(
@@ -303,6 +304,11 @@ export function ReportManagementPages() {
       <ContentRoute
         path="/sales-management/report/vehiclearrangeinfo"
         component={VehicleArrangeInfo}
+      />
+
+      <ContentRoute
+        path="/sales-management/report/customeryearlyachievement"
+        component={CustomerYearlyAchievement}
       />
     </Switch>
   );
