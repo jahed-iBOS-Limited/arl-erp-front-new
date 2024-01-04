@@ -2,15 +2,13 @@ import { Formik } from "formik";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import * as Yup from "yup";
 import ICustomCard from "../../../../_helper/_customCard";
 import Loading from "../../../../_helper/_loading";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import {
-  getComplainByIdWidthOutModify,
-  investigateComplainApi,
+  getComplainByIdWidthOutModify
 } from "../../resolution/helper";
 export const validationSchema = Yup.object().shape({});
 
@@ -20,27 +18,11 @@ function InvoiceView({ clickRowData }) {
   const dispatch = useDispatch();
   const [rowDto, setRowDto] = useState([]);
   const {
-    profileData: { accountId: accId, userId, employeeId },
+    profileData: { accountId: accId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  const saveHandler = (values, cb) => {
-    // rowDto empty check
-    if (rowDto.length === 0) {
-      return toast.error("Please add at least one row");
-    }
-    let payload = {
-      complainId: clickRowData?.complainId || 0,
-      statusId: 3,
-      status: "Investigate",
-      actionById: userId,
-      investigationInfo: rowDto || [],
-    };
-
-    investigateComplainApi(payload, setLoading, () => {
-      cb();
-    });
-  };
+  const saveHandler = (values, cb) => {};
 
   useEffect(() => {
     if (clickRowData?.complainId) {
@@ -121,7 +103,8 @@ function InvoiceView({ clickRowData }) {
                   <b>Respondent Contact:</b> {singleData?.contactNo}
                 </p>
                 <p>
-                  <b>Designation/Relationship:</b> {singleData?.designationOrRelationship}
+                  <b>Designation/Relationship:</b>{" "}
+                  {singleData?.designationOrRelationship}
                 </p>
               </div>
               <div>
@@ -166,7 +149,7 @@ function InvoiceView({ clickRowData }) {
             </div>
 
             {rowDto?.length > 0 && (
-             <div className="table-responsive">
+              <div className='table-responsive'>
                 <table className='table table-striped table-bordered global-table'>
                   <thead>
                     <tr>
@@ -183,9 +166,10 @@ function InvoiceView({ clickRowData }) {
                       <tr key={index}>
                         <td className='text-center'> {index + 1}</td>
                         <td>
-                          { item?.investigationDateTime &&moment(item?.investigationDateTime).format(
-                            "YYYY-MM-DD HH:mm A"
-                          )}
+                          {item?.investigationDateTime &&
+                            moment(item?.investigationDateTime).format(
+                              "YYYY-MM-DD HH:mm A"
+                            )}
                         </td>
                         <td>{item?.investigatorName}</td>
                         <td>{item?.rootCause}</td>
