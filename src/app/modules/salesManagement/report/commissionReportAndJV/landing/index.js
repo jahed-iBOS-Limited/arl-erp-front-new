@@ -70,7 +70,7 @@ const CommissionReportAndJV = () => {
   }, [accId, buId]);
 
   const getData = (values) => {
-     const ids = [8, 9, 10, 11, 12, 13];
+    const ids = [8, 9, 10, 11, 12, 13];
     const typeId = ids.includes(values?.type?.value) ? 8 : values?.type?.value;
     if ([5, 3, 6, 7, ...allIds].includes(values?.type?.value)) {
       getTradeCommissionData(
@@ -235,33 +235,33 @@ const CommissionReportAndJV = () => {
               <CardHeader title="Commission report and JV">
                 <CardHeaderToolbar>
                   <div className="d-flex justify-content-end">
-                    {sectionIds.includes(sectionId) ||
-                      (departmentId === 299 && (
-                        <>
-                          <button
-                            className="btn btn-primary "
-                            type="button"
-                            onClick={() => {
-                              JVCrate(values);
-                            }}
-                            disabled={
-                              rowData?.filter((item) => item?.isSelected)
-                                ?.length < 1 ||
-                              loading ||
-                              ([5, 7].includes(values?.type?.value) &&
-                                !(
-                                  values?.sbu &&
-                                  values?.transactionHead &&
-                                  values?.fromDate &&
-                                  values?.toDate
-                                )) ||
-                              values?.type?.value === 6
-                            }
-                          >
-                            JV Create
-                          </button>
-                        </>
-                      ))}
+                    {(sectionIds.includes(sectionId) ||
+                      departmentId === 299) && (
+                      <>
+                        <button
+                          className="btn btn-primary"
+                          type="button"
+                          onClick={() => {
+                            JVCrate(values);
+                          }}
+                          disabled={
+                            rowData?.filter((item) => item?.isSelected)
+                              ?.length < 1 ||
+                            loading ||
+                            ([5, 7].includes(values?.type?.value) &&
+                              !(
+                                values?.sbu &&
+                                values?.transactionHead &&
+                                values?.fromDate &&
+                                values?.toDate
+                              )) ||
+                            values?.type?.value === 6
+                          }
+                        >
+                          JV Create
+                        </button>
+                      </>
+                    )}
                   </div>
                 </CardHeaderToolbar>
               </CardHeader>

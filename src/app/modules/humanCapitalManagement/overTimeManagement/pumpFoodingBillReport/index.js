@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import InputField from "../../../_helper/_inputField";
 import NewSelect from "../../../_helper/_select";
@@ -13,20 +13,41 @@ const initData = {
   reportType: "",
   fromDate: "",
   toDate: "",
+  plant: "",
+  wareHouse: "",
 };
 export default function PumpFoodingBillReport() {
-  const { selectedBusinessUnit } = useSelector((state) => {
+  const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
+
+  const [plantDDL, getPlantDDL] = useAxiosGet();
+  const [
+    warehouseDDL,
+    getWarehouseDDL,
+    warehouseDDLloader,
+    setWarehouseDDL,
+  ] = useAxiosGet();
+
+  useEffect(() => {
+    getPlantDDL(
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profileData, selectedBusinessUnit]);
 
   const [rowData, getRowData, loading, setRowData] = useAxiosGet();
 
   const getData = ({ reportTypeId, values }) => {
     let requestUrl = "";
     if (reportTypeId === 1) {
-      requestUrl = `/hcm/MenuListOfFoodCorner/GetPumpFoodBillByEmployees?intBusinessUnit=${selectedBusinessUnit?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`;
+      requestUrl = `/hcm/MenuListOfFoodCorner/GetPumpFoodBillByEmployees?intBusinessUnit=${selectedBusinessUnit?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}&intWareHouseId=${values?.wareHouse?.value || 0}`;
     } else if (reportTypeId === 2) {
-      requestUrl = `/hcm/MenuListOfFoodCorner/GetDatewisePumpFoodingBillSummery?intBusinessUnit=${selectedBusinessUnit?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`;
+      requestUrl = `/hcm/MenuListOfFoodCorner/GetDatewisePumpFoodingBillSummery?intBusinessUnit=${
+        selectedBusinessUnit?.value
+      }&dteFromDate=${values?.fromDate}&dteToDate=${
+        values?.toDate
+      }&intWareHouseId=${values?.wareHouse?.value || 0}`;
     }
     if (requestUrl) {
       getRowData(requestUrl);
@@ -56,7 +77,7 @@ export default function PumpFoodingBillReport() {
         setValues,
       }) => (
         <>
-          {loading && <Loading />}
+          {(loading || warehouseDDLloader) && <Loading />}
           <IForm
             title="Pump Fooding Bill Report"
             isHiddenReset
@@ -87,6 +108,47 @@ export default function PumpFoodingBillReport() {
                       }}
                       errors={errors}
                       touched={touched}
+                    />
+                  </div>
+
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="plant"
+                      options={plantDDL}
+                      value={values?.plant}
+                      label="Plant"
+                      onChange={(valueOption) => {
+                        if (valueOption) {
+                          setFieldValue("plant", valueOption);
+                          setFieldValue("wareHouse", "");
+                          getWarehouseDDL(
+                            `/asset/DropDown/GetWareHouseByPlantId?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&PlantId=${valueOption?.value}`
+                          );
+                        } else {
+                          setFieldValue("plant", "");
+                          setFieldValue("wareHouse", "");
+                          setWarehouseDDL([]);
+                        }
+                      }}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="wareHouse"
+                      options={
+                        warehouseDDL?.length > 0 && [
+                          {
+                            value: 0,
+                            label: "All",
+                          },
+                          ...warehouseDDL,
+                        ]
+                      }
+                      value={values?.wareHouse}
+                      label="Warehouse"
+                      onChange={(valueOption) => {
+                        setFieldValue("wareHouse", valueOption || "");
+                      }}
                     />
                   </div>
 

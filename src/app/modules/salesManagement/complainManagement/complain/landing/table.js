@@ -13,6 +13,7 @@ import { saveColseComplainApi } from "../../resolution/helper";
 const LandingTable = ({ obj }) => {
   const {
     profileData: { employeeId },
+    tokenData: { token },
   } = useSelector((state) => state?.authData, shallowEqual);
   const [isFeedbackModalShow, setIsFeedbackModalShow] = React.useState(false);
 
@@ -270,6 +271,7 @@ const LandingTable = ({ obj }) => {
                     statusId: 4,
                     status: "Close",
                     actionById: userId,
+                    jwtToken: token ? `Bearer ${token}` : "",
                   };
                   saveColseComplainApi(payload, setLoading, () => {
                     setIsFeedbackModalShow(false);

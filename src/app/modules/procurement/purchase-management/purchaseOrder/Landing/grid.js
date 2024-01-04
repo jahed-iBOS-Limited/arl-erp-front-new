@@ -399,6 +399,7 @@ const GridData = ({
       >
         <PurchaseOrderViewTableRow
           poId={currentItem?.purchaseOrderId}
+          purchaseOrderTypeId = {currentItem?.purchaseOrderTypeId}
           orId={POorderType}
           isHiddenBackBtn={true}
         />

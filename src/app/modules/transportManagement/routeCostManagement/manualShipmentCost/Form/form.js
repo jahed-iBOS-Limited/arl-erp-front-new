@@ -19,8 +19,9 @@ import * as Yup from "yup";
 import IView from "./../../../../_helper/_helperIcons/_view";
 import { useDispatch } from "react-redux";
 import { getDownlloadFileView_Action } from "./../../../../_helper/_redux/Actions";
-import { compressfile } from './../../../../_helper/compressfile';
+import { compressfile } from "./../../../../_helper/compressfile";
 import IConfirmModal from "../../../../_helper/_confirmModal";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 // Validation schema
 const validationSchema = Yup.object().shape({
   whName: Yup.object().shape({
@@ -102,18 +103,43 @@ export default function _Form({
   setDicrementNetPayable,
   totalStandardCost_TotalActualCalFunc,
 }) {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState({});
   const [componentDDL, setComponentDDL] = useState([]);
   const [businessUnitName, setbusinessUnitName] = useState([]);
   const [vhicleFuelTypeDDL, setVhicleFuelTypeDDL] = useState([]);
   const [supplierListDDL, setSupplierListDDL] = useState([]);
   const [supplierFuelStationDDL, setSupplierFuelStationDDL] = useState([]);
-  const history = useHistory();
-  const dispatch = useDispatch();
+  const [
+    profitCenterDDL,
+    getProfitCenterDDL,
+    ,
+    setProfitCenterDDL,
+  ] = useAxiosGet();
+  const [costCenterDDL, getCostCenterDDL] = useAxiosGet();
+  const [costElementDDL, getCostElementDDL] = useAxiosGet();
+
   useEffect(() => {
+    getProfitCenterDDL(
+      `/fino/CostSheet/ProfitCenterDetails?UnitId=${selectedBusinessUnit?.value}`,
+      (data) => {
+        if (data?.length > 0) {
+          const newData = data?.map((item) => ({
+            value: item?.profitCenterId,
+            label: item?.profitCenterName,
+          }));
+          setProfitCenterDDL(newData);
+        }
+      }
+    );
+    getCostCenterDDL(
+      `/procurement/PurchaseOrder/GetCostCenter?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}`
+    );
     if (profileData.accountId) {
       getComponentDDL(profileData.accountId, setComponentDDL);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData]);
 
   useEffect(() => {
@@ -134,7 +160,6 @@ export default function _Form({
       );
     }
   }, [profileData, selectedBusinessUnit]);
-
 
   const costComponenClickFunc = (values, setFieldValue) => {
     const isDailyAllowance = rowDto?.find(
@@ -195,14 +220,14 @@ export default function _Form({
   };
 
   const fileUploadFunc = async () => {
-    const compressedFile = await compressfile([fileObjects[0].file])
+    const compressedFile = await compressfile([fileObjects[0].file]);
     multipleAttachment_action(compressedFile)
       .then((data) => {
         setUploadImage(open?.type === "fuelCost" && data?.[0]);
         setFileObjects([]);
       })
       .catch((err) => setFileObjects([]));
-  }
+  };
   return (
     <>
       <Formik
@@ -223,7 +248,7 @@ export default function _Form({
                 setAdvanceAmount(0);
               });
             },
-            noAlertFunc: () => { },
+            noAlertFunc: () => {},
           });
           // saveHandler(values, () => {
           //   resetForm(initData);
@@ -613,6 +638,57 @@ export default function _Form({
                     </div>
                   </div>
 
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="profitCenter"
+                      options={profitCenterDDL}
+                      value={values?.profitCenter}
+                      label="Profit Center"
+                      onChange={(valueOption) => {
+                        setFieldValue("profitCenter", valueOption);
+                      }}
+                      placeholder="Profit Center"
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="costCenter"
+                      options={costCenterDDL}
+                      value={values?.costCenter}
+                      label="Cost Center"
+                      onChange={(valueOption) => {
+                        if (valueOption) {
+                          setFieldValue("costCenter", valueOption);
+                          setFieldValue("costElement", "");
+                          getCostElementDDL(
+                            `/procurement/PurchaseOrder/GetCostElementByCostCenter?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&CostCenterId=${valueOption?.value}`
+                          );
+                        } else {
+                          setFieldValue("costCenter", "");
+                          setFieldValue("costElement", "");
+                        }
+                      }}
+                      placeholder="Cost Center"
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="costElement"
+                      options={costElementDDL}
+                      value={values?.costElement}
+                      label="Cost Element"
+                      onChange={(valueOption) => {
+                        setFieldValue("costElement", valueOption);
+                      }}
+                      placeholder="Cost Element"
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
                   {/* Item Input */}
                   <div className="col-md-12">
                     <div className="row " style={{ paddingTop: "20px" }}>
@@ -769,7 +845,6 @@ export default function _Form({
                             setFieldValue("supplier", "");
                             setFieldValue("fuelStationName", "");
                           }
-
                         }}
                         placeholder="Supplier"
                         errors={errors}
@@ -909,28 +984,28 @@ export default function _Form({
                     </div>
                     {(values?.purchaseType === "Cash" ||
                       values?.purchaseType === "Both") && (
-                        <div className="col-lg-3">
-                          <label>Cash</label>
-                          <InputField
-                            value={values?.cash}
-                            name="cash"
-                            placeholder="Cash"
-                            type="text"
-                          />
-                        </div>
-                      )}
+                      <div className="col-lg-3">
+                        <label>Cash</label>
+                        <InputField
+                          value={values?.cash}
+                          name="cash"
+                          placeholder="Cash"
+                          type="text"
+                        />
+                      </div>
+                    )}
                     {(values?.purchaseType === "Credit" ||
                       values?.purchaseType === "Both") && (
-                        <div className="col-lg-3">
-                          <label>Credit</label>
-                          <InputField
-                            value={values?.credit}
-                            name="credit"
-                            placeholder="Credit"
-                            type="text"
-                          />
-                        </div>
-                      )}
+                      <div className="col-lg-3">
+                        <label>Credit</label>
+                        <InputField
+                          value={values?.credit}
+                          name="credit"
+                          placeholder="Credit"
+                          type="text"
+                        />
+                      </div>
+                    )}
 
                     <div className="col-lg-2 pl pr-1 mb-1">
                       <button
@@ -950,7 +1025,7 @@ export default function _Form({
                           if (
                             values?.purchaseType === "Both" &&
                             +values?.fuelAmount !=
-                            +values?.credit + +values?.cash
+                              +values?.credit + +values?.cash
                           )
                             return toast.warn(
                               "Credit and cash should be equal to amount"
@@ -1068,7 +1143,7 @@ export default function _Form({
                   }}
                   onSave={() => {
                     setOpen({});
-                    fileUploadFunc()
+                    fileUploadFunc();
                   }}
                   showPreviews={true}
                   showFileNamesInPreview={true}
