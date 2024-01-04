@@ -1504,7 +1504,7 @@ export default function _Form({
               {isStockModal && (
                 <>
                   <IViewModal
-                    title='Stock Info'
+                    title={`Stock Info [${values?.item?.label}]`}
                     show={isStockModal}
                     onHide={() => setIsStockModalShow(false)}
                   >
