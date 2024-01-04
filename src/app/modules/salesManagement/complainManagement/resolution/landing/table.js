@@ -15,6 +15,7 @@ const LandingTable = ({ obj }) => {
   const {
     profileData: { accountId: accId, employeeId, userId },
     selectedBusinessUnit: { value: buId },
+    tokenData: { token },
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const { gridData, commonGridDataCB, setLoading } = obj;
@@ -363,6 +364,7 @@ const LandingTable = ({ obj }) => {
                     statusId: 4,
                     status: "Close",
                     actionById: userId,
+                    jwtToken: token ? `Bearer ${token}` : "",
                   };
                   saveColseComplainApi(payload, setLoading, () => {
                     setIsFeedbackModalShow(false);
