@@ -247,3 +247,108 @@ export const getBrokers = async (accId, buId, setter, setLoading) => {
     setLoading(false);
   }
 };
+
+export const GetItemWiseWarehouseStock = async (
+  accId,
+  buId,
+  itemId,
+  setter,
+  setLoading,
+  cb
+) => {
+  setLoading(true);
+  try {
+    const res = axios.get(
+      `/oms/SalesInformation/GetItemWiseWarehouseStock?accountId=${accId}&businessUnitId=${buId}&itemId=${itemId}`
+    );
+
+    const res2 = axios.get(
+      `/oms/SalesInformation/GetItemPending?businessUnitId=${buId}&accountId=${accId}&itemId=${itemId}`
+    );
+
+    let list = [];
+    const promises = [res, res2];
+    const results = await Promise.allSettled(promises);
+    results.forEach((result) => {
+      if (result.status === "fulfilled") {
+        const { value } = result;
+        list = [...list, ...value?.data];
+      } else {
+        const { reason } = result;
+        console.log(reason);
+      }
+    });
+
+    const wearhoseUnique = [];
+
+    list.forEach((item) => {
+      const whId =
+        item?.intWarehouseId || item?.intwarehouseid || item?.warehouseId || "";
+      const whName =
+        item?.strwareHouseName ||
+        item?.strWareHouseName ||
+        item?.warehouseName ||
+        "";
+      const findWearehoseIdx = wearhoseUnique.findIndex(
+        (itm) => itm?.warehouseId === whId
+      );
+
+      if (findWearehoseIdx === -1) {
+        wearhoseUnique.push({
+          warehouseId: whId,
+          warehouseName: whName,
+          currentStock: +item?.numCloseQty || 0,
+          pendingStock: +item?.numActualUndeliveryQuantity || 0,
+          saleableStock:
+            (+item?.numCloseQty || 0) -
+            (+item?.numActualUndeliveryQuantity || 0),
+        });
+      } else {
+        const currentStock =
+          wearhoseUnique[findWearehoseIdx].currentStock +
+          (+item?.numCloseQty || 0);
+        const pendingStock =
+          wearhoseUnique[findWearehoseIdx].pendingStock +
+          (+item?.numActualUndeliveryQuantity || 0);
+        const saleableStock = currentStock - pendingStock;
+        const prvObj = wearhoseUnique[findWearehoseIdx] || {};
+        const obj = {
+          ...prvObj,
+          currentStock,
+          pendingStock,
+          saleableStock,
+        };
+        wearhoseUnique[findWearehoseIdx] = obj;
+      }
+    });
+    setter(wearhoseUnique);
+    setLoading(false);
+  } catch (error) {
+    setter([]);
+    toast.error(error?.response?.data?.message);
+    setLoading(false);
+  }
+};
+
+export const GetItemPending = async (
+  accId,
+  buId,
+  itemId,
+  setter,
+  setLoading,
+  cb
+) => {
+  setLoading(true);
+  try {
+    const res = await axios.get(
+      `/oms/SalesInformation/GetItemPending?businessUnitId=${buId}&accountId=${accId}&itemId=${itemId}`
+    );
+    setter(res?.data);
+    cb();
+    setLoading(false);
+  } catch (error) {
+    setter([]);
+    toast.error(error?.response?.data?.message);
+    setLoading(false);
+  }
+};
