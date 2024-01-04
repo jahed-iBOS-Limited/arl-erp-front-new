@@ -208,7 +208,7 @@ export const validationSchema = Yup.object().shape({
   address: Yup.string().required("Delivery address is required"),
   deliveryDate: Yup.string().required("Delivery date is required"),
   shippingChallanNo: Yup.string().required("Shipping challan no is required"),
-  transportRate: Yup.number().required("Transport rate is required"),
+  // transportRate: Yup.number().required("Transport rate is required"),
   // goDownUnloadLabourRate: Yup.number().required(
   //   "Godown unload labor rate is required"
   // ),
