@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
+import { shallowEqual, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import Loading from "../../../../_helper/_loading";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import {
   createShippmentTerritory,
   getAreaDDL,
   getShipPointDDL,
 } from "../helper";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import Form from "./form";
 
 const initData = {
   area: "",
@@ -24,7 +23,7 @@ export default function ShippmentTerritoryForm() {
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
   const [singleData, setSingleData] = useState("");
-  const [objProps, setObjprops] = useState({});
+  const [objProps, ] = useState({});
   const [channelDDL, getChannelDDL] = useAxiosGet();
   const [areaDDL, setAreaDDL] = useState([]);
   const [shipPointDDL, setShipPointDDL] = useState([]);
@@ -56,14 +55,7 @@ export default function ShippmentTerritoryForm() {
   };
 
   return (
-    <IForm
-      title={"Shippoint & Territory Configure"}
-      // title={"Create Shippment Territory"}
-      getProps={setObjprops}
-      isDisabled={isDisabled}
-      isHiddenReset={params?.viewId}
-      isHiddenSave={params?.viewId}
-    >
+    <>
       {isDisabled && <Loading />}
       <Form
         {...objProps}
@@ -82,6 +74,6 @@ export default function ShippmentTerritoryForm() {
           label: item?.distributionChannelName,
         }))}
       />
-    </IForm>
+    </>
   );
 }
