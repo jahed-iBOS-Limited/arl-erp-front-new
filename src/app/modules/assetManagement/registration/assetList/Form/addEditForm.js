@@ -17,10 +17,12 @@ import {
   getBrtaDDL,
 } from "../helper";
 import IForm from "../../../../_helper/_form";
+
 import { _todayDate } from "../../../../_helper/_todayDate";
 import { useLocation } from "react-router-dom";
 import "../assetList.css";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 export default function AssetListForm({ currentRowData }) {
   const location = useLocation();
@@ -45,6 +47,13 @@ export default function AssetListForm({ currentRowData }) {
   const [itemAttribute, setItemAttribute] = useState([]);
   const [categoryDDL, setCategoryDDL] = useState([])
   const [brtaList, setbrtaList] = useState([]);
+  const [
+    profitCenterDDL,
+    getProfitCenterDDL,
+    ,
+    setProfitCenterDDL,
+  ] = useAxiosGet();
+
 
   console.log(singleData, 'singleData')
   useEffect(() => {
@@ -52,6 +61,17 @@ export default function AssetListForm({ currentRowData }) {
   },[])
 
   useEffect(() => {
+    getProfitCenterDDL(
+      `/fino/CostSheet/ProfitCenterDetails?UnitId=${selectedBusinessUnit?.value}`,
+      (data) => {
+        const newData = data?.map((itm) => {
+          itm.value = itm?.profitCenterId;
+          itm.label = itm?.profitCenterName;
+          return itm;
+        });
+        setProfitCenterDDL(newData);
+      }
+    );
     getSingleDataForEdit(
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -159,6 +179,8 @@ export default function AssetListForm({ currentRowData }) {
         depRate: 0,
         assetTypeName: "",
         quantity: 0,
+        profitCenterId : values?.profitCenter?.value || 0,
+        profitCenterName : values?.profitCenter?.label || "",
       };
       saveAssetListEdit(payload, setDisabled);
     } else {
@@ -195,6 +217,7 @@ export default function AssetListForm({ currentRowData }) {
           profileData={profileData}
           categoryDDL={categoryDDL}
           brtaList={brtaList}
+          profitCenterDDL={profitCenterDDL}
         />
       </IForm>
     </div>
