@@ -276,6 +276,7 @@ export const getSingleDataForEdit = async (accId, buId, assetId, setter) => {
         strManufacturerSerialNo: currentRowData.serialNo,
         assetName:currentRowData?.assetName,
         category: currentRowData?.assetCagegoryId ? { value: currentRowData.assetCagegoryId, label: currentRowData?.assetCagegoryName } : "",
+        profitCenter: currentRowData?.profitCenter  && currentRowData?.profitCenterName ? {value:currentRowData?.profitCenter , label:currentRowData?.profitCenterName} : "",
       };
       setter(initDataForEdit);
     }
