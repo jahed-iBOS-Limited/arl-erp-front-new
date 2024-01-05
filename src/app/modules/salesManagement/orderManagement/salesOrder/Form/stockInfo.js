@@ -44,9 +44,9 @@ function StockInfo({ values }) {
             <tr>
               <th className='p-0'>SL</th>
               <th className='p-0'>Warehouse</th>
-              <th className='p-0'>Current Stock </th>
-              <th className='p-0'>Pending Stock</th>
-              <th className='p-0'>Saleable Stock</th>
+              <th className='p-0'>Current Qty </th>
+              <th className='p-0'>Pending Qty</th>
+              <th className='p-0'>Saleable Qty</th>
             </tr>
           </thead>
           <tbody>
