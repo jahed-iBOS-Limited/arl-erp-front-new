@@ -67,6 +67,17 @@ export function OperationSection(props) {
       .then((res) => res?.data);
   };
 
+  const loadBoeList = (v) => {
+    if (v?.length < 3) return [];
+    return axios.get(`/imp/ImportCommonDDL/GetBoeDDL?search=${v}`).then((res) =>
+      res?.data?.map((item) => ({
+        ...item,
+        value: item?.boeNumber,
+        label: item?.boeNumber,
+      }))
+    );
+  };
+
   return (
     <div className="marine-form-card mt-4">
       <div className="marine-form-card-heading">
@@ -77,6 +88,30 @@ export function OperationSection(props) {
         <div className="marine-form-card-content">
           <div className="row mt-4">
             <div className="col-lg-3">
+              <label>BOE No</label>
+              <SearchAsyncSelect
+                selectedValue={values?.boeNo}
+                isSearchIcon={true}
+                paddingRight={10}
+                name="boeNo"
+                loadOptions={loadBoeList}
+                isDisabled={viewType === "view"}
+                handleChange={(valueOption) => {
+                  setFieldValue("boeNo", valueOption);
+                  setFieldValue("lcnumber", {
+                    value: valueOption?.lcId,
+                    label: valueOption?.lcNumber,
+                  });
+                  setFieldValue("shipment", "");
+                  getShipmentDDL(
+                    `/imp/ImportCommonDDL/GetInfoFromPoLcDDL?accId=${
+                      profileData?.accountId
+                    }&buId=${0}&searchTerm=${valueOption?.lcNumber}`
+                  );
+                }}
+              />
+            </div>
+            <div className="col-lg-3">
               <label>LC No</label>
               <SearchAsyncSelect
                 selectedValue={values?.lcnumber}
@@ -84,7 +119,7 @@ export function OperationSection(props) {
                 paddingRight={10}
                 name="lcnumber"
                 loadOptions={loadLCList}
-                isDisabled={viewType === "view"}
+                isDisabled={true}
                 handleChange={(valueOption) => {
                   setFieldValue("lcnumber", valueOption);
                   setFieldValue("shipment", "");
@@ -115,7 +150,7 @@ export function OperationSection(props) {
                 }}
               />
             </div>
-            <div className="col-lg-6"></div>
+            <div className="col-lg-3"></div>
             {/* <div className="col-lg-3">
               <label>LC No</label>
               <FormikInput
@@ -270,6 +305,7 @@ export function OperationSection(props) {
                     "numEstimatedCargoQty",
                     valueOption?.shippedQuantity
                   );
+                  setFieldValue("numBlqty", valueOption?.shippedQuantity);
                 }}
                 isDisabled={viewType === "view" || !values?.shipment}
                 errors={errors}
