@@ -15,11 +15,14 @@ import {
   calculativeFuelCostAndFuelCostLtrAndMileageAllowance,
   editShipment,
   getDownTripData,
-  getShipmentByID
+  getShipmentByID,
 } from "../helper";
 import { _currentTime } from "./../../../../_helper/_currentTime";
 import { _todayDate } from "./../../../../_helper/_todayDate";
-import { EditVehiclePartnerDistenceKM_api, GetShipmentCostEntryStatus_api } from "./../helper";
+import {
+  EditVehiclePartnerDistenceKM_api,
+  GetShipmentCostEntryStatus_api,
+} from "./../helper";
 import Form from "./form";
 const initData = {
   vehicleNo: "",
@@ -314,11 +317,10 @@ export default function ShipmentCostForm() {
   ) => {
     setFieldValue("distanceKm", changeValue);
     const modifyValues = { ...values, distanceKm: changeValue };
-    commonUpdate({values: modifyValues, setFieldValue})
+    commonUpdate({ values: modifyValues, setFieldValue });
   };
 
- 
-  const commonUpdate  = ({values, setFieldValue }) => {
+  const commonUpdate = ({ values, setFieldValue }) => {
     const result = calculativeFuelCostAndFuelCostLtrAndMileageAllowance({
       values,
     });
@@ -328,19 +330,33 @@ export default function ShipmentCostForm() {
       (item) => item?.transportRouteCostComponentId === 50
     );
     const copyRowDto = [...rowDto];
-    copyRowDto[foundMilage] = {
-      ...copyRowDto[foundMilage],
-      standardCost: result.mileageAllowance.toFixed(2),
-      actualCost: result.mileageAllowance.toFixed(2),
-    };
+    if (foundMilage !== -1) {
+      copyRowDto[foundMilage] = {
+        ...copyRowDto[foundMilage],
+        standardCost: result.mileageAllowance.toFixed(2),
+        actualCost: result.mileageAllowance.toFixed(2),
+      };
+     
+    }
+    let foundFuel = rowDto?.findIndex(
+      (item) => item?.transportRouteCostComponentId === 47
+    );
+    if (foundFuel !== -1) {
+      copyRowDto[foundFuel] = {
+        ...copyRowDto[foundFuel],
+        standardCost: result.totalFuelCost.toFixed(2),
+        actualCost: result.totalFuelCost.toFixed(2),
+      };
+    
+    }
     setRowDto([...copyRowDto]);
-  }
+  };
 
   const extraMillageOnChangeHandler = ({ setFieldValue, values }) => {
-    commonUpdate({values, setFieldValue})
+    commonUpdate({ values, setFieldValue });
   };
   const fuelRateOnChangeHandler = ({ setFieldValue, values }) => {
-    commonUpdate({values, setFieldValue})
+    commonUpdate({ values, setFieldValue });
   };
 
   const distanceKMOUpdateCB = (idx, values) => {

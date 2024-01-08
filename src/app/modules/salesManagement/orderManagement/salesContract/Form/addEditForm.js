@@ -24,6 +24,8 @@ import { _todayDate } from "./../../../../_helper/_todayDate";
 import { getSalesOrgDDLAction } from "../_redux/Actions";
 import Loading from "../../../../_helper/_loading";
 import { toast } from "react-toastify";
+import IViewModal from "../../../../_helper/_viewModal";
+import SalesContractInfo from "./SalesContractInfo";
 
 const initData = {
   id: undefined,
@@ -60,6 +62,7 @@ export default function SalesContactForm({
 }) {
   const [isDisabled, setDisabled] = useState(false);
   const [objProps, setObjprops] = useState({});
+  const [salesContractInfoModal, setSalesContractInfoModal] = useState(false);
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -323,6 +326,22 @@ export default function SalesContactForm({
       title={id ? "Edit Sales Contract" : "Create Sales Contract"}
       getProps={setObjprops}
       isDisabled={isDisabled}
+      renderProps={
+        [144, 178, 180, 181, 182, 183, 209, 212, 216, 221].includes(
+          selectedBusinessUnit?.value
+        )
+          ? () => (
+              <button
+                className='btn btn-primary'
+                onClick={(e) => {
+                  setSalesContractInfoModal(true);
+                }}
+              >
+                Sales Contract Info
+              </button>
+            )
+          : false
+      }
     >
       {isDisabled && <Loading />}
 
@@ -346,6 +365,20 @@ export default function SalesContactForm({
         uomDDL={uomDDL}
         itemListHandelar={itemListHandelar}
       />
+
+      {salesContractInfoModal && (
+        <>
+          <IViewModal
+            show={salesContractInfoModal}
+            onHide={() => {
+              setSalesContractInfoModal(false);
+            }}
+            title='Sale Contract Info'
+          >
+            <SalesContractInfo />
+          </IViewModal>
+        </>
+      )}
     </IForm>
   );
 }
