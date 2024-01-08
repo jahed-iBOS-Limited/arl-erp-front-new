@@ -54,11 +54,44 @@ function StockInfo({ values }) {
               <tr key={index}>
                 <td> {index + 1} </td>
                 <td className=''>{item?.warehouseName}</td>
-                <td className='text-right'>{_fixedPoint(item?.currentStock)}</td>
-                <td className='text-right'>{_fixedPoint(item?.pendingStock)}</td>
-                <td className='text-right'>{_fixedPoint(item?.saleableStock)}</td>
+                <td className='text-right'>
+                  {_fixedPoint(item?.currentStock)}
+                </td>
+                <td className='text-right'>
+                  {_fixedPoint(item?.pendingStock)}
+                </td>
+                <td className='text-right'>
+                  {_fixedPoint(item?.saleableStock)}
+                </td>
               </tr>
             ))}
+            <tr>
+              <td colSpan='2' className='text-right'>
+                {" "}
+                <b>Total</b>{" "}
+              </td>
+              <td className='text-right'>
+                <b>
+                  {_fixedPoint(
+                    rowDto?.reduce((acc, cur) => acc + cur?.currentStock, 0)
+                  )}
+                </b>
+              </td>
+              <td className='text-right'>
+                <b>
+                  {_fixedPoint(
+                    rowDto?.reduce((acc, cur) => acc + cur?.pendingStock, 0)
+                  )}
+                </b>
+              </td>
+              <td className='text-right'>
+                <b>
+                  {_fixedPoint(
+                    rowDto?.reduce((acc, cur) => acc + cur?.saleableStock, 0)
+                  )}
+                </b>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
