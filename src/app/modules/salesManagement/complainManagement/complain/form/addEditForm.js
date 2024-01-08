@@ -88,7 +88,6 @@ function ComplainForm() {
       isActive: true,
       lastActionDateTime: new Date(),
       respondentType: values?.respondent || "",
-      jwtToken: token ? `Bearer ${token}` : "",
     };
 
     if (edit) {
