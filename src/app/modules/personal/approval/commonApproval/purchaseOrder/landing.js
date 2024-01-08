@@ -181,30 +181,30 @@ const PurchaseOrderApprovalGrid = ({
     setPageNo(0);
   };
 
-    // cancel action
-    const cancelApproveAction = (poId) => {
-      // const isPurchaseOrder  = activityName?.label === "Purchase Order"
-      postData(
-        `/procurement/PurchaseOrder/CancelPurchaseOrder?BusinessUnitId=${selectedBusinessUnit?.value}&PurchaseOrderId=${poId}&ActivityTypeId=${activityName?.value}&ActionBy=${profileData?.userId}`,
-        null,
-        (res) => {
-          toast.success(res?.message || "Canceled successfully");
-          cb();
-        }
-      );
-    };
+  // cancel action
+  const cancelApproveAction = (poId) => {
+    // const isPurchaseOrder  = activityName?.label === "Purchase Order"
+    postData(
+      `/procurement/PurchaseOrder/CancelPurchaseOrder?BusinessUnitId=${selectedBusinessUnit?.value}&PurchaseOrderId=${poId}&ActivityTypeId=${activityName?.value}&ActionBy=${profileData?.userId}`,
+      null,
+      (res) => {
+        toast.success(res?.message || "Canceled successfully");
+        cb();
+      }
+    );
+  };
 
-    // create confirmation obj
-    const getConfirmObject = (poId) => {
-      return {
-        title: "Are you sure you want to close this PO?",
-        message: "",
-        yesAlertFunc: async () => {
-          cancelApproveAction(poId);
-        },
-        noAlertFunc:()=>{}
-      };
+  // create confirmation obj
+  const getConfirmObject = (poId) => {
+    return {
+      title: "Are you sure you want to close this PO?",
+      message: "",
+      yesAlertFunc: async () => {
+        cancelApproveAction(poId);
+      },
+      noAlertFunc: () => {},
     };
+  };
 
   // All item select
   return (
@@ -231,7 +231,7 @@ const PurchaseOrderApprovalGrid = ({
           isValid,
         }) => (
           <>
-           {(loader || postDataLoading) && <Loading />}
+            {(loader || postDataLoading) && <Loading />}
             <Form className="form form-label-right">
               <div className="row">
                 <div className="col-lg-12">
@@ -335,25 +335,32 @@ const PurchaseOrderApprovalGrid = ({
                         <div className="d-flex align-items-center justify-content-center">
                           <span
                             onClick={(e) => {
-                              // history.push({
-                              //   pathname: `/mngProcurement/purchase-management/purchaseorder/report/${item?.transectionId}/${item?.intPurchaseOrderTypeId || 1}`,
-                              //   state: true,
-                              // });
                               setCurrentItem(item);
                               setIsShowModal(true);
                               dispatch(setPoApprovalId(item?.transectionId));
                             }}
                           >
-                            <OverlayTrigger overlay={<Tooltip id="cs-icon">{"View"}</Tooltip>}>
+                            <OverlayTrigger
+                              overlay={<Tooltip id="cs-icon">{"View"}</Tooltip>}
+                            >
                               <span style={{ cursor: "pointer" }}>
-                                <i className={`fas fa-eye ${lastPOApprovalId === item?.transectionId ? "text-primary" : ""}`} aria-hidden="true"></i>
+                                <i
+                                  className={`fas fa-eye ${
+                                    lastPOApprovalId === item?.transectionId
+                                      ? "text-primary"
+                                      : ""
+                                  }`}
+                                  aria-hidden="true"
+                                ></i>
                               </span>
                             </OverlayTrigger>
                           </span>
                           <span className="ml-2">
                             <IClose
                               closer={() => {
-                                const confirmObject = getConfirmObject(item?.transectionId);
+                                const confirmObject = getConfirmObject(
+                                  item?.transectionId
+                                );
                                 IConfirmModal(confirmObject);
                               }}
                               title="Close"
@@ -371,7 +378,11 @@ const PurchaseOrderApprovalGrid = ({
                                 });
                               }}
                             >
-                              <OverlayTrigger overlay={<Tooltip id="cs-icon">Attachment</Tooltip>}>
+                              <OverlayTrigger
+                                overlay={
+                                  <Tooltip id="cs-icon">Attachment</Tooltip>
+                                }
+                              >
                                 <i class="far fa-file-image"></i>
                               </OverlayTrigger>
                             </span>
