@@ -56,7 +56,7 @@ export function PurchaseOrderViewTableRow({
   useEffect(() => {
     getReportPurchaseOrder(
       poId,
-      orId,
+      purchaseOrderTypeId ? purchaseOrderTypeId : orId,
       selectedBusinessUnit?.value,
       setPurchaseOrderReport
     );
