@@ -26,6 +26,7 @@ import IConfirmModal from "../../../../_helper/_confirmModal";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import Loading from "../../../../_helper/_loading";
 import "./form.scss";
+import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 // Validation schema
 const validationSchema = Yup.object().shape({
   extraMillage: Yup.string()
@@ -324,7 +325,7 @@ export default function _Form({
                   }}
                 >
                   <b>Pay to Driver: </b>
-                  {netPayable}
+                  {_fixedPoint(netPayable || 0)}
                 </p>
                 <div className='row global-form'>
                   <div className='col-lg-12'>
@@ -431,7 +432,7 @@ export default function _Form({
                       <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
                           label='Total Standard Cost'
-                          value={total.totalStandardCost}
+                          value={_fixedPoint(total.totalStandardCost || 0)}
                           name='totalStandardCost'
                           placeholder='Total Standard Cost'
                           type='number'
@@ -458,7 +459,7 @@ export default function _Form({
                       <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
                           label='Total Actual'
-                          value={total?.totalActual}
+                          value={_fixedPoint(total?.totalActual || 0)}
                           name='totalActualCost'
                           placeholder='Total Actual'
                           type='number'
@@ -722,15 +723,22 @@ export default function _Form({
                           type='button'
                           style={{ marginTop: "13px" }}
                           onClick={() => {
+
+                            let standardCost = 0;
+                            let actualCost = 0;
+                            let componentId  =  +values?.costComponent?.value;
+                            if(componentId === 47){
+                              standardCost = +values?.totalFuelCost || 0;
+                              actualCost = +values?.totalFuelCost || 0;
+                            }
                             let obj = {
                               transportRouteCostComponentId:
                                 values.costComponent.value,
                               transportRouteCostComponent:
                                 values.costComponent.label,
-                              standardCost: 0,
-                              actualCost: 0,
+                              standardCost: standardCost,
+                              actualCost: actualCost,
                             };
-
                             setter(obj, () => {
                               setFieldValue("costComponent", "");
                             });
