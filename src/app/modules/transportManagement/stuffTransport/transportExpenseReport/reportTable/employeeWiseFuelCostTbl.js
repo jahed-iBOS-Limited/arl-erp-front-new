@@ -1,8 +1,12 @@
 import React from "react";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
+import IView from "../../../../_helper/_helperIcons/_view";
+import IViewModal from "../../../../_helper/_viewModal";
+import EmployeeWiseFuelReportDetailsModal from "./modal/employeeWiseFuelReportDetailsModal";
 
-const EmployeeWiseFuelCostTbl = ({ rowData }) => {
-  console.log({ rowData });
+const EmployeeWiseFuelCostTbl = ({ rowData, landingValues }) => {
+  const [showModal, setShowModal] = React.useState(false);
+  const [clickedItem, setClickedItem] = React.useState(null);
   return (
     <div>
       <h4 className="text-center mt-5">
@@ -35,6 +39,7 @@ const EmployeeWiseFuelCostTbl = ({ rowData }) => {
                 <th> Per KM Cost </th>
                 <th> Personal Cost Deduct </th>
                 <th> Net Payable </th>
+                <th> Action </th>
               </tr>
             </thead>
             <tbody>
@@ -102,12 +107,36 @@ const EmployeeWiseFuelCostTbl = ({ rowData }) => {
                       {" "}
                       {_formatMoney(netPayable)}{" "}
                     </td>
+                    <td style={{ textAlign: "center" }}>
+                      <IView
+                        title=""
+                        clickHandler={() => {
+                          setClickedItem(item);
+                          setShowModal(true);
+                        }}
+                      />
+                    </td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
         </div>
+      </div>
+      <div>
+        <IViewModal
+          title="Employee Wise Fuel Report"
+          show={showModal}
+          onHide={() => {
+            setShowModal(false);
+            setClickedItem(null);
+          }}
+        >
+          <EmployeeWiseFuelReportDetailsModal
+            clickedItem={clickedItem}
+            landingValues={landingValues}
+          />
+        </IViewModal>
       </div>
     </div>
   );
