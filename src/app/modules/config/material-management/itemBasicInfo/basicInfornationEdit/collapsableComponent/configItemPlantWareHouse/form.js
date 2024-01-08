@@ -422,6 +422,30 @@ export default function _Form({
                       type="number"
                     />
                   </div>
+                  <div className="col-lg-3">
+                    <label>ABC</label>
+                    <InputField
+                      value={values?.abc}
+                      name="abc"
+                      type="number"
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <label>VED</label>
+                    <InputField
+                      value={values?.ved}
+                      name="ved"
+                      type="number"
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <label>FNS</label>
+                    <InputField
+                      value={values?.fns}
+                      name="fns"
+                      type="number"
+                    />
+                  </div>
                   <div className="col-lg-1">
                     <button
                       disabled={
@@ -446,6 +470,9 @@ export default function _Form({
                           maxLeadDays: values?.maxLeadDays||0,
                           minimumStockQuantity: values?.minStockQty||0,
                           minLeadDays: values?.minLeadDays||0,
+                          abc: values?.abc ||0,
+                          ved: values?.ved ||0,
+                          fns: values?.fns ||0,
                           reorderLevel: values?.reOrderLevel||0,
                           reorderQuantity: values?.reOrderQty||0,
                           safetyStockQuantity: values?.safetyStockQty||0,
@@ -483,6 +510,9 @@ export default function _Form({
                         <th style={{ width: "200px" }}>Avg Daily Consumption</th>
                         <th style={{ width: "200px" }}>Max Lead Days</th>
                         <th style={{ width: "200px" }}>Min Lead Days</th>
+                        <th style={{ width: "200px" }}>ABC</th>
+                        <th style={{ width: "200px" }}>VED</th>
+                        <th style={{ width: "200px" }}>FNS</th>
 
                         {/* <th>UoM</th> */}
                         {/* <th>Action</th> */}
@@ -617,6 +647,45 @@ export default function _Form({
                                 type="number"
                                 onChange={(e) => {
                                   rowDtoHandler("minLeadDays", i, +e.target.value);
+                                }}
+                              />
+                            </td>
+                            <td
+                              className="disabled-feedback disable-border"
+                              style={{ width: "100px" }}
+                            >
+                              <IInput
+                                value={itm?.abc ||""}
+                                name="abc"
+                                type="number"
+                                onChange={(e) => {
+                                  rowDtoHandler("abc", i, +e.target.value);
+                                }}
+                              />
+                            </td>
+                            <td
+                              className="disabled-feedback disable-border"
+                              style={{ width: "100px" }}
+                            >
+                              <IInput
+                                value={itm?.ved ||""}
+                                name="ved"
+                                type="number"
+                                onChange={(e) => {
+                                  rowDtoHandler("ved", i, +e.target.value);
+                                }}
+                              />
+                            </td>
+                            <td
+                              className="disabled-feedback disable-border"
+                              style={{ width: "100px" }}
+                            >
+                              <IInput
+                                value={itm?.fns ||""}
+                                name="fns"
+                                type="number"
+                                onChange={(e) => {
+                                  rowDtoHandler("fns", i, +e.target.value);
                                 }}
                               />
                             </td>

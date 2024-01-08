@@ -34,6 +34,9 @@ const initData = {
   avgDailyConsumption:"",
   maxLeadDays:"",
   minLeadDays:"",
+  abc:"",
+  ved:"",
+  fns:"",
 };
 
 export default function ConfigItemPlantWareHouse({isViewPage,onSuccess}) {
@@ -132,6 +135,9 @@ export default function ConfigItemPlantWareHouse({isViewPage,onSuccess}) {
               maxLeadDays:itm?.maxLeadDays || 0,
               minimumStockQuantity:itm?.minimumStockQuantity || 0,
               minLeadDays:itm?.minLeadDays || 0,
+              abc:itm?.abc || 0,
+              ved:itm?.ved || 0,
+              fns:itm?.fns || 0,
               reorderLevel:itm?.reorderLevel || 0,
               reorderQuantity:itm?.reorderQuantity || 0,
               safetyStockQuantity:itm?.safetyStockQuantity || 0,
