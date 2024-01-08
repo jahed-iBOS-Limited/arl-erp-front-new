@@ -79,7 +79,6 @@ function DelegateForm({ clickRowData, landingCB }) {
       delegateDateTime: delegateDateTime,
       actionById: userId,
       investigationList: rowDto || [],
-      jwtToken: token ? `Bearer ${token}` : "",
     };
     delegateComplainApi(payload, setLoading, () => {
       cb();
