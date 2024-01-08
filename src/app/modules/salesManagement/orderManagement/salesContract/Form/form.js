@@ -12,6 +12,8 @@ import { useSelector } from "react-redux";
 import { shallowEqual } from "react-redux";
 import NewSelect from "./../../../../_helper/_select";
 import { _numberValidation } from "../../../../_helper/_numberValidation";
+import IViewModal from "../../../../_helper/_viewModal";
+import StockInfo from "../../salesOrder/Form/stockInfo";
 
 // common schema
 const commonSchema = {
@@ -107,6 +109,7 @@ export default function _Form({
   itemListHandelar,
 }) {
   const dispatch = useDispatch();
+  const [isStockModal, setIsStockModalShow] = useState(false);
   const [controls, setControls] = useState([]);
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -408,6 +411,37 @@ export default function _Form({
                 <div className='col-lg-12 p-0 m-0'>
                   <div className='row global-form m-0'>
                     <div className='col-lg-2'>
+                      {[
+                        144,
+                        178,
+                        180,
+                        181,
+                        182,
+                        183,
+                        209,
+                        212,
+                        216,
+                        221,
+                      ].includes(selectedBusinessUnit?.value) &&
+                        values?.itemSale?.value && (
+                          <>
+                            <button
+                              style={{
+                                position: "absolute",
+                                right: "13px",
+                                top: "-10px",
+                                zIndex: "9",
+                              }}
+                              onClick={() => {
+                                setIsStockModalShow(true);
+                              }}
+                              type='button'
+                              className='btn btn-primary'
+                            >
+                              Stock
+                            </button>
+                          </>
+                        )}
                       <NewSelect
                         label='Select Item List'
                         placeholder='Item List'
@@ -420,7 +454,6 @@ export default function _Form({
                         }}
                         errors={errors}
                         touched={touched}
-                
                       />
                     </div>
 
@@ -460,7 +493,6 @@ export default function _Form({
                         errors={errors}
                         touched={touched}
                         value={values.uom}
-                    
                       />
                     </div>
                     <div className='col-lg-4 mt-2'>
@@ -539,11 +571,14 @@ export default function _Form({
                                 type='tel'
                                 min='0'
                                 onChange={(e) => {
-                                  setFieldValue(e.target.name, _numberValidation(e));
+                                  setFieldValue(
+                                    e.target.name,
+                                    _numberValidation(e)
+                                  );
                                   setFieldValue(
                                     `itemLists.${index}.contactValue`,
                                     values?.itemLists[index]?.itemPrice *
-                                    _numberValidation(e)
+                                      _numberValidation(e)
                                   );
                                 }}
                               />
@@ -561,7 +596,10 @@ export default function _Form({
                                 type='tel'
                                 min='0'
                                 onChange={(e) => {
-                                  setFieldValue(e.target.name, _numberValidation(e));
+                                  setFieldValue(
+                                    e.target.name,
+                                    _numberValidation(e)
+                                  );
                                   setFieldValue(
                                     `itemLists.${index}.contactValue`,
                                     _numberValidation(e) *
@@ -597,6 +635,22 @@ export default function _Form({
                 </div>
               </div>
 
+              {isStockModal && (
+                <>
+                  <IViewModal
+                    title={`Stock Info [${values?.itemSale?.label}]`}
+                    show={isStockModal}
+                    onHide={() => setIsStockModalShow(false)}
+                  >
+                    <StockInfo
+                      values={{
+                        ...values,
+                        item: values?.itemSale,
+                      }}
+                    />
+                  </IViewModal>
+                </>
+              )}
               <button
                 type='submit'
                 style={{ display: "none" }}
