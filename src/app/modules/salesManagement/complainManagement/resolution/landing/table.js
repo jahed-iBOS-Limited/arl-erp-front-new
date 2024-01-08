@@ -364,7 +364,6 @@ const LandingTable = ({ obj }) => {
                     statusId: 4,
                     status: "Close",
                     actionById: userId,
-                    jwtToken: token ? `Bearer ${token}` : "",
                   };
                   saveColseComplainApi(payload, setLoading, () => {
                     setIsFeedbackModalShow(false);
