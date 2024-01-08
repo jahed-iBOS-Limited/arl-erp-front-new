@@ -32,6 +32,7 @@ import { SetManufacturePOTableLandingAction } from "../../../../_helper/reduxFor
 import { ItemReqViewTableRow } from "../../../../inventoryManagement/warehouseManagement/itemRequest/report/tableRow";
 import ItemRequestModal from "./itemRequestModal";
 import ProductionDetails from "./productionDetails";
+import { toast } from "react-toastify";
 
 export function TableRow() {
   const { manufacturePOTableLanding } = useSelector(
@@ -376,6 +377,20 @@ export function TableRow() {
                     type="button"
                     className="btn btn-primary"
                     onClick={() => {
+
+                      const selectedItemRequest = gridData?.data?.filter(
+                        item => item.isItemRequestCheck === true && item?.isBackCalculation === 2
+                      );
+
+                      const isExist = selectedItemRequest?.some(
+                        item => item?.isBackCalculation === 2
+                      );
+                      
+                      if ( selectedDDLShop?.value === 106 && isExist && selectedItemRequest?.length > 1) {
+                        return toast.warn(
+                          "You cannot have multiple item requests for Shop Floor => Contract Manufacturing (Rice)"
+                        );
+                      }
                       itemRequestHandler();
                     }}
                     disabled={itemRequest}
