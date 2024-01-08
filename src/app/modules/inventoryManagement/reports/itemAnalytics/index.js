@@ -50,6 +50,7 @@ export default function ItemAnalytics() {
     );
   };
   const setPositionHandler =(pageNo,pageSize,values)=>{
+    console.log(pageNo,pageSize,values);
     getLandingApiCall(values,pageNo,pageSize)
   }
 
@@ -275,7 +276,7 @@ export default function ItemAnalytics() {
                     {itemAnalyticsReport?.data?.length>0 && (
                          <PaginationTable
                          count={itemAnalyticsReport?.totalCount}
-                         getLandingApiCall={setPositionHandler}
+                         setPositionHandler={setPositionHandler}
                          paginationState={{
                            pageNo,
                            setPageNo,
