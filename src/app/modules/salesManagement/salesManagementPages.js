@@ -9,6 +9,7 @@ import { ReportManagementPages } from "./report/reportManagementPages";
 import { AcclReportPages } from "./acclReport/acclReportPages";
 import { ServiceSalesPages } from "./serviceSales/serviceSalesPages";
 import { ComplainManagementPages } from "./complainManagement/complainManagementPages";
+import { CRMPages } from "./CRM/CRMPages";
 
 export function SalesManagementPages() {
   return (
@@ -46,6 +47,10 @@ export function SalesManagementPages() {
         <ContentRoute
           path='/sales-management/complainmanagement'
           component={ComplainManagementPages}
+        />
+        <ContentRoute
+          path='/sales-management/CRM'
+          component={CRMPages}
         />
       </Switch>
     </Suspense>

@@ -19,6 +19,10 @@ const validationSchema = Yup.object().shape({
     value: Yup.string().required("Category is required"),
   }),
   assetName: Yup.string().required("Asset Name is required"),
+  profitCenter: Yup.object().shape({
+    label: Yup.string().required("Profit Center is required"),
+    value: Yup.string().required("Profit Center is required"),
+  }),
 });
 
 export default function _Form({
@@ -40,7 +44,8 @@ export default function _Form({
   selectedBusinessUnit,
   categoryDDL,
   singleData,
-  brtaList
+  brtaList,
+  profitCenterDDL
 }) {
   const loadUserList = (v) => {
     if (v?.length < 3) return [];
@@ -343,6 +348,17 @@ export default function _Form({
                     value={values?.assetDes}
                     placeholder="Asset Description"
                     name="assetDes"
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <ISelect
+                    label="Profit Center"
+                    options={profitCenterDDL || []}
+                    value={values?.profitCenter}
+                    name="profitCenter"
+                    setFieldValue={setFieldValue}
+                    errors={errors}
+                    touched={touched}
                   />
                 </div>
               </div>

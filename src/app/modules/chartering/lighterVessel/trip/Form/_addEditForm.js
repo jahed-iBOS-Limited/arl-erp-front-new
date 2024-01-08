@@ -49,6 +49,7 @@ const initData = {
   numTotalFreight: 0,
   dispatchRate: 0,
   demurrageRate: 0,
+  boeNo: 0,
 
   /* Expense */
   numDieselSupply: 0,

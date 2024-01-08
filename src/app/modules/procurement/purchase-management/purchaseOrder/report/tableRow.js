@@ -32,7 +32,12 @@ const initData = {};
 const validationSchema = Yup.object().shape({});
 
 // this component is used from multiple place, do not change existing props name and existing code which is related to this props,
-export function PurchaseOrderViewTableRow({ poId, orId, isHiddenBackBtn }) {
+export function PurchaseOrderViewTableRow({
+  poId,
+  purchaseOrderTypeId,
+  orId,
+  isHiddenBackBtn,
+}) {
   const [purchaseOrderReport, setPurchaseOrderReport] = useState("");
   const [isShowModal, setIsShowModal] = useState(false);
   const [isReceivePoModal, setIsReceivePoModal] = useState(false);

@@ -52,6 +52,7 @@ const initData = {
   category: "",
   lifeTimeYear: "",
   depRunRate: "",
+  profitCenter:"",
 };
 
 export default function AssetParkingForm({ currentRowData, setIsShowModal }) {

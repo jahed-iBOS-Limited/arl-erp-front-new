@@ -26,6 +26,7 @@ import { invTransactionSlice } from "../_redux/Slice";
 import Loading from "../../../../_helper/_loading";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { useLocation } from "react-router-dom";
+import NewSelect from "../../../../_helper/_select";
 const { actions: slice } = invTransactionSlice;
 
 export default function CreateForm({
@@ -52,6 +53,13 @@ export default function CreateForm({
   const [fileObjects, setFileObjects] = useState([]);
   const [open, setOpen] = useState(false);
 
+  const [
+    profitCenterDDL,
+    getProfitCenterDDL,
+    ,
+    setProfitCenterDDL,
+  ] = useAxiosGet();
+
   // redux store data
   const {
     referenceTypeDDL,
@@ -63,6 +71,18 @@ export default function CreateForm({
 
   //dispatch action creators
   useEffect(() => {
+    getProfitCenterDDL(
+      `/fino/CostSheet/ProfitCenterDetails?UnitId=${selectedBusinessUnit?.value}`,
+      (data) => {
+        const newData = data?.map((itm) => {
+          itm.value = itm?.profitCenterId;
+          itm.label = itm?.profitCenterName;
+          return itm;
+        });
+        setProfitCenterDDL(newData);
+      }
+    );
+
     dispatch(getreferenceTypeDDLAction(landingData?.transGrup?.value));
     dispatch(
       getBusinessPartnerDDLAction(
@@ -218,6 +238,8 @@ export default function CreateForm({
             warehouseName: landingData?.warehouse?.label,
             businessPartnerId: values.busiPartner.value,
             parsonnelId: values.personnel.value || 0,
+            profitCenterId:values?.profitCenter?.value || 0,
+            profitCenterName:values?.profitCenter?.label || "",
             costCenterId: values?.costCenter?.value || -1,
             costCenterCode: values?.costCenter?.code || "",
             costCenterName: values?.costCenter?.label || "",
@@ -340,6 +362,20 @@ export default function CreateForm({
                     touched={touched}
                   />
                 </div>
+                {[7]?.includes(landingData?.transGrup?.value) ?  
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="Profit Center"
+                    options={profitCenterDDL || []}
+                    value={values?.profitCenter}
+                    label="Profit Center"
+                    onChange={(valueOption) => {
+                      setFieldValue("profitCenter", valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div> :null}
                 <div className="col-lg-2">
                   <InputField
                     value={values?.remarks}

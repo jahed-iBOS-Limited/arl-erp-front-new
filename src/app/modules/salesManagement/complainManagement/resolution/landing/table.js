@@ -15,6 +15,7 @@ const LandingTable = ({ obj }) => {
   const {
     profileData: { accountId: accId, employeeId, userId },
     selectedBusinessUnit: { value: buId },
+    tokenData: { token },
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const { gridData, commonGridDataCB, setLoading } = obj;

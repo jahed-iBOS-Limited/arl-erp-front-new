@@ -40,6 +40,7 @@ function InvestigateForm({ clickRowData, landingCB }) {
   const {
     profileData: { accountId: accId, userId, employeeId },
     selectedBusinessUnit: { value: buId },
+    tokenData: { token },
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const saveHandler = (values, cb) => {
@@ -55,6 +56,7 @@ function InvestigateForm({ clickRowData, landingCB }) {
       investigationDateTime: moment(values?.investigationDateTime).format(
         "YYYY-MM-DDTHH:mm"
       ),
+      tokenData: { token },
     };
 
     investigateComplainApi(payload, setLoading, () => {

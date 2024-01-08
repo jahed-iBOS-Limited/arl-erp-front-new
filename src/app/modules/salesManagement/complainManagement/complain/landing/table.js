@@ -13,6 +13,7 @@ import { saveColseComplainApi } from "../../resolution/helper";
 const LandingTable = ({ obj }) => {
   const {
     profileData: { employeeId },
+    tokenData: { token },
   } = useSelector((state) => state?.authData, shallowEqual);
   const [isFeedbackModalShow, setIsFeedbackModalShow] = React.useState(false);
 
