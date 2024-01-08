@@ -1,3 +1,4 @@
+import axios from "axios";
 import * as requestFromServer from "./Api";
 import { salesContactSlice } from "./Slice";
 import { toast } from "react-toastify";
@@ -150,7 +151,7 @@ export const getSalesContactById = (accId, buId, id) => (dispatch) => {
               value: item.objHeaderDTO.vehicleBy,
             },
             itemLists: objListRowDTO,
-            remark: item.objHeaderDTO.vehicleBy
+            remark: item.objHeaderDTO.vehicleBy,
           },
         };
         return dispatch(slice.SetDataById(data));
@@ -186,4 +187,28 @@ export const getDeliveryAddressAction = (accId, buId, partnerId, setter) => (
     .catch((error) => {
       setter("deliveryAddress", "");
     });
+};
+
+export const GetSalesContractInfoApi = async (
+  accId,
+  buId,
+  fromDate,
+  toDate,
+  setter,
+  setLoading,
+  cb
+) => {
+  setLoading(true);
+  try {
+    const res = await axios.get(
+      `/oms/SalesContact/GetSalesContractInfo?businessUnitId=${buId}&fromDate=${fromDate}&toDate=${toDate}`
+    );
+    setter(res?.data);
+    cb();
+    setLoading(false);
+  } catch (error) {
+    setter([]);
+    toast.error(error?.response?.data?.message);
+    setLoading(false);
+  }
 };
