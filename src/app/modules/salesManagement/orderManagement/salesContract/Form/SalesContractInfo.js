@@ -110,10 +110,10 @@ function SalesContractInfo() {
                   <tr>
                     <th className='p-0'>SL</th>
                     <th className='p-0'>Item Name</th>
-                    <th className='p-0'>Challan Qty</th>
-                    <th className='p-0'>Contact Qty</th>
+                    <th className='p-0'>Sales Contact Qty</th>
                     <th className='p-0'>Order Qty</th>
-                    <th className='p-0'>UnDelivery Qty</th>
+                    <th className='p-0'>Challan Qty</th>
+                    <th className='p-0'>Pending Qty</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -122,13 +122,13 @@ function SalesContractInfo() {
                       <td> {index + 1} </td>
                       <td className=''>{item?.strItemName}</td>
                       <td className='text-right'>
-                        {_fixedPoint(item?.numChallanQnt)}
-                      </td>
-                      <td className='text-right'>
                         {_fixedPoint(item?.numContactQuantity)}
                       </td>
                       <td className='text-right'>
                         {_fixedPoint(item?.numOrderQuantity)}
+                      </td>
+                      <td className='text-right'>
+                        {_fixedPoint(item?.numChallanQnt)}
                       </td>
                       <td className='text-right'>
                         {_fixedPoint(item?.numUndeliveryQnt)}
@@ -139,16 +139,6 @@ function SalesContractInfo() {
                     <td colSpan='2' className='text-right'>
                       {" "}
                       <b>Total</b>{" "}
-                    </td>
-                    <td className='text-right'>
-                      <b>
-                        {_fixedPoint(
-                          rowDto?.reduce(
-                            (acc, cur) => acc + cur?.numChallanQnt,
-                            0
-                          )
-                        )}
-                      </b>
                     </td>
                     <td className='text-right'>
                       <b>
@@ -165,6 +155,16 @@ function SalesContractInfo() {
                         {_fixedPoint(
                           rowDto?.reduce(
                             (acc, cur) => acc + cur?.numOrderQuantity,
+                            0
+                          )
+                        )}
+                      </b>
+                    </td>
+                    <td className='text-right'>
+                      <b>
+                        {_fixedPoint(
+                          rowDto?.reduce(
+                            (acc, cur) => acc + cur?.numChallanQnt,
                             0
                           )
                         )}
