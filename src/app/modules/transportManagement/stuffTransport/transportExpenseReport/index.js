@@ -234,7 +234,7 @@ export default function TransportExpenseReport() {
                     <VehicleWiseFuelCostTbl rowData={rowData} />
                   ) : null}
                   {[6]?.includes(values?.reportType?.value) ? (
-                    <EmployeeWiseFuelCostTbl rowData={rowData} />
+                    <EmployeeWiseFuelCostTbl rowData={rowData} values={values} />
                   ) : null}
                   
                 </div>
