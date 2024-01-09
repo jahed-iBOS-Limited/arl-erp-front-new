@@ -1,13 +1,13 @@
 import { Form, Formik } from "formik";
 import React, { useEffect } from "react";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
+import IConfirmModal from "../../../_helper/_confirmModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { shallowEqual, useSelector } from "react-redux";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import IConfirmModal from "../../../_helper/_confirmModal";
+import IForm from "./../../../_helper/_form";
+import Loading from "./../../../_helper/_loading";
 const initData = {};
 export default function InventoryAdjustApprove() {
   const { selectedBusinessUnit } = useSelector((state) => {
@@ -54,19 +54,7 @@ export default function InventoryAdjustApprove() {
             isHiddenBack
             isHiddenSave
             renderProps={() => {
-              return (
-                <div>
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={() => {
-                      history.push("route here");
-                    }}
-                  >
-                    Create
-                  </button>
-                </div>
-              );
+              return <></>;
             }}
           >
             <Form>
@@ -76,11 +64,16 @@ export default function InventoryAdjustApprove() {
                     <thead>
                       <tr>
                         <th>Sl</th>
-                        <th>Transaction Code</th>
-                        <th>Transaction Type</th>
+                        <th>Trans Code</th>
+                        <th>Trans Type</th>
                         <th>Item</th>
+                        <th>UOM Name</th>
+                        <th>Trans Qty</th>
+                        <th>Trans Value</th>
+                        <th>Profit Center</th>
                         <th>Plant</th>
                         <th>Warehouse</th>
+                        <th>Inventory Location</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -93,8 +86,15 @@ export default function InventoryAdjustApprove() {
                           </td>
                           <td>{item?.strTransactionTypeName}</td>
                           <td>{item?.strItemName}</td>
+                          <td>{item?.strUoMname}</td>
+                          <td className="text-center">{item?.numTransactionQuantity}</td>
+                          <td className="text-center">{item?.monTransactionValue}</td>
+                          <td>
+                            {item?.strProfitCenterName}
+                          </td>
                           <td>{item?.strPlantName}</td>
                           <td>{item?.strWarehouseName}</td>
+                          <td>{item?.strInventoryLocationName}</td>
                           <td>
                             <div className="d-flex">
                               <div className="mr-3">
