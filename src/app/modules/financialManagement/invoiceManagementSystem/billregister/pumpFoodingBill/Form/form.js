@@ -6,11 +6,12 @@ import TextArea from "../../../../../_helper/TextArea";
 import { _dateFormatter } from "../../../../../_helper/_dateFormate";
 import InputField from "../../../../../_helper/_inputField";
 // import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
+import { _fixedPoint } from "../../../../../_helper/_fixedPoint";
 import NewSelect from "../../../../../_helper/_select";
 import FromDateToDateForm from "../../../../../_helper/commonInputFieldsGroups/dateForm";
 import IButton from "../../../../../_helper/iButton";
 import { empAttachment_action } from "../../helper";
-import { _fixedPoint } from "../../../../../_helper/_fixedPoint";
+import { insertDataInExcel } from "../helper";
 
 const validationSchema = Yup.object().shape({
   billNo: Yup.string().required("Bill No is Required"),
@@ -35,6 +36,9 @@ export default function _Form({
   setUploadedImage,
 }) {
   const [open, setOpen] = React.useState(false);
+  const generateExcel = (values, pageSize) => {
+    getRows(values, insertDataInExcel);
+  };
   let totalBillAmount = 0;
   let totalApproveAmount = 0;
   return (
@@ -154,6 +158,16 @@ export default function _Form({
               </div>
 
               <div className="row mt-1 ">
+                {rowData?.data?.length > 0 && (
+                  <button
+                    style={{ marginLeft: "10px" }}
+                    className="btn btn-primary"
+                    type="button"
+                    onClick={(e) => generateExcel(values)}
+                  >
+                    Export Excel
+                  </button>
+                )}
                 <div
                   className="col d-flex justify-content-end"
                   style={{
@@ -172,7 +186,7 @@ export default function _Form({
                     )}
                   </span>
                 </div>
-                <div className="col-lg-12">
+                <div className="col-lg-12 mt-4">
                   <table className="table table-striped table-bordered global-table mt-0 table-font-size-sm">
                     <thead className="bg-secondary">
                       <tr>
@@ -250,7 +264,7 @@ export default function _Form({
                       })}
                       <tr>
                         <td colSpan={10} className="text-right">
-                          <b>Total</b>
+                          <b>Total </b>
                         </td>
                         <td className="text-right">
                           <b>{_fixedPoint(totalBillAmount, true, 0)}</b>
