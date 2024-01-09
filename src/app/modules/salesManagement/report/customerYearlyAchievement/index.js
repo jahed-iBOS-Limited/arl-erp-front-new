@@ -75,13 +75,20 @@ const CustomerYearlyAchievement = () => {
                       setShowReport(false);
                     }}
                     placeholder="Search Customer"
-                    loadOptions={(v) => {
-                      if (v?.length < 3) return [];
-                      return axios
-                        .get(
-                          `/partner/PManagementCommonDDL/GetCustomerNameDDLByChannelId?SearchTerm=${v}&AccountId=${accId}&BusinessUnitId=${buId}&ChannelId=${values?.channel?.value}`
-                        )
-                        .then((res) => res?.data);
+                    loadOptions={async (v) => {
+                      await [{ value: 0, label: "All" }];
+                      if (v?.length > 2) {
+                        return axios
+                          .get(
+                            `/partner/PManagementCommonDDL/GetCustomerNameDDLByChannelId?SearchTerm=${v}&AccountId=${accId}&BusinessUnitId=${buId}&ChannelId=${values?.channel?.value}`
+                          )
+                          .then((res) => [
+                            { value: 0, label: "All" },
+                            ...res?.data,
+                          ]);
+                      } else {
+                        return [{ value: 0, label: "All" }];
+                      }
                     }}
                   />
                 </div>
