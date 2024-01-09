@@ -3,6 +3,7 @@ import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import IView from "../../../../_helper/_helperIcons/_view";
+import { _dateFormatter } from "./../../../../_helper/_dateFormate";
 const LandingTable = ({ obj }) => {
   const {
     profileData: { employeeId },
@@ -38,12 +39,12 @@ const LandingTable = ({ obj }) => {
               return (
                 <tr key={index}>
                   <td className='text-center'> {index + 1}</td>
-                  <td>{item?.demo}</td>
-                  <td>{item?.demo}</td>
-                  <td>{item?.demo}</td>
-                  <td>{item?.demo}</td>
-                  <td>{item?.demo}</td>
-                  <td>{item?.demo}</td>
+                  <td>{item?.dteDate && _dateFormatter(item?.dteDate)}</td>
+                  <td>{item?.strBusinessUnitName}</td>
+                  <td>{item?.strChannelName}</td>
+                  <td>{item?.strDistrictName}</td>
+                  <td>{item?.strThanaName}</td>
+                  <td>{item?.strTerritoryName}</td>
 
                   <td>
                     <div
@@ -55,7 +56,7 @@ const LandingTable = ({ obj }) => {
                       <span
                         onClick={() => {
                           history.push(
-                            `//sales-management/CRM/MarketCompetitorPrice/edit/${item?.complainId}`
+                            `/sales-management/CRM/MarketCompetitorPrice/edit/${item?.intCompetitorPriceHeaderId}`
                           );
                         }}
                       >

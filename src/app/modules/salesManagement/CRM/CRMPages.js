@@ -15,6 +15,11 @@ export function CRMPages() {
         from='/sales-management/CRM'
         to='/sales-management/CRM/MarketCompetitorPrice'
       />
+
+      <ContentRoute
+        from='/sales-management/CRM/MarketCompetitorPrice/edit/:id'
+        component={MarketCompetitorPrice}
+      />
       <ContentRoute
         from='/sales-management/CRM/MarketCompetitorPrice/entry'
         component={MarketCompetitorPrice}
