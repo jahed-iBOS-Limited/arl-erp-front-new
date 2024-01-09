@@ -8,6 +8,7 @@ import PaginationSearch from "../../../_helper/_search";
 import NewSelect from "../../../_helper/_select";
 import PaginationTable from "../../../_helper/_tablePagination";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { insertDataInExcel } from "./helper";
 const initData = {
   plant: "",
   wareHouse: "",
@@ -37,8 +38,13 @@ export default function ItemAnalytics() {
   const saveHandler = (values, cb) => {};
   //   const history = useHistory();
 
-
-  const getLandingApiCall = (values, pageNo, pageSize, searchValue = "") => {
+  const getLandingApiCall = (
+    values,
+    pageNo,
+    pageSize,
+    searchValue = "",
+    cb
+  ) => {
     getItemAnalyticsReport(
       `/item/ItemBasic/GetItemAnalyticsReport?AccountId=${accId}&BusinessunitId=${buId}&plantId=${
         values?.plant?.value
@@ -46,14 +52,14 @@ export default function ItemAnalytics() {
         values?.itemType?.value
       }&ItemCategory=${values?.itemCategory?.value ||
         0}&ItemSubCategory=${values?.itemSubCategory?.value ||
-        0}&searchTerm=${searchValue}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`
+        0}&searchTerm=${searchValue}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`,
+      cb
     );
   };
-  const setPositionHandler =(pageNo,pageSize,values)=>{
-    console.log(pageNo,pageSize,values);
-    getLandingApiCall(values,pageNo,pageSize)
-  }
-
+  const setPositionHandler = (pageNo, pageSize, values) => {
+    console.log(pageNo, pageSize, values);
+    getLandingApiCall(values, pageNo, pageSize);
+  };
 
   const handleView = (values) => {
     getLandingApiCall(values, pageNo, pageSize);
@@ -62,7 +68,11 @@ export default function ItemAnalytics() {
   const paginationSearchHandler = (searchValue, values) => {
     getLandingApiCall(values, pageNo, pageSize, searchValue);
   };
-
+  const generateExcel = (values, pageSize) => {
+  
+    getLandingApiCall(values, pageNo, 1500, "",insertDataInExcel);
+    
+  };
   useEffect(() => {
     getPlanDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=${7}`
@@ -210,81 +220,98 @@ export default function ItemAnalytics() {
 
               {itemAnalyticsReport?.data?.length > 0 && (
                 <div>
-                  <div>
-                    <PaginationSearch
-                      values={values}
-                      placeholder="Item Name And Code Search"
-                      paginationSearchHandler={paginationSearchHandler}
-                    />
-                  </div>
+                  {values?.plant &&
+                    values?.wareHouse &&
+                    values?.itemType &&
+                    itemAnalyticsReport?.totalCount > 0 && (
+                      <div className="my-1 d-flex justify-content-between">
+                        <PaginationSearch
+                          values={values}
+                          placeholder="Item Name And Code Search"
+                          paginationSearchHandler={paginationSearchHandler}
+                        />
+                        <button
+                          className="btn btn-primary"
+                          type="button"
+                          onClick={(e) =>
+                            generateExcel(
+                              values,
+                              itemAnalyticsReport?.totalCount
+                            )
+                          }
+                        >
+                          Export Excel
+                        </button>
+                      </div>
+                    )}
                   <div className="common-scrollable-table two-column-sticky">
-                   <div className="scroll-table _table">
-                   <table className="table table-striped table-bordered global-table">
-                      <thead>
-                        <tr>
-                          <th>SL No</th>
-                          <th>Plant</th>
-                          <th>Warehouse</th>
-                          <th>Item Name</th>
-                          <th>Item Code</th>
-                          <th>UOM Name</th>
-                          <th>Inventory Location</th>
-                          <th>Bin Number</th>
-                          <th>Minimum Stock Quantity</th>
-                          <th>Safety Stock Quantity</th>
-                          <th>Maximum Stock Quantity</th>
-                          <th>Reorder Level</th>
-                          <th>Reorder Quantity</th>
-                          <th>Avg Daily Consumption</th>
-                          <th>Max Lead Days</th>
-                          <th>Min Lead Days</th>
-                          <th>ABC</th>
-                          <th>FNS</th>
-                          <th>VED</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {itemAnalyticsReport?.data?.length > 0 &&
-                          itemAnalyticsReport?.data?.map((item, index) => (
-                            <tr>
-                              <td>{index + 1}</td>
-                              <td>{item?.plantName}</td>
-                              <td>{item?.wareHouseName}</td>
-                              <td>{item?.itemName}</td>
-                              <td>{item?.itemCode}</td>
-                              <td>{item?.baseUom}</td>
-                              <td>{item?.inventoryLocationName}</td>
-                              <td>{item?.binNumber}</td>
-                              <td>{item?.nMinimumStockQuantity}</td>
-                              <td>{item?.safetyStockQuantity}</td>
-                              <td>{item?.maximumQuantity}</td>
-                              <td>{item?.reorderLevel}</td>
-                              <td>{item?.reorderQuantity}</td>
-                              <td>{item?.averageDailyConsumption}</td>
-                              <td>{item?.maxLeadDays}</td>
-                              <td>{item?.minLeadDays}</td>
-                              <td>{item?.abc}</td>
-                              <td>{item?.fns}</td>
-                              <td>{item?.ved}</td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
-                   </div>
+                    <div className="scroll-table _table">
+                      <table className="table table-striped table-bordered global-table">
+                        <thead>
+                          <tr>
+                            <th>SL No</th>
+                            <th>Plant</th>
+                            <th>Warehouse</th>
+                            <th>Item Name</th>
+                            <th>Item Code</th>
+                            <th>UOM Name</th>
+                            <th>Inventory Location</th>
+                            <th>Bin Number</th>
+                            <th>Minimum Stock Quantity</th>
+                            <th>Safety Stock Quantity</th>
+                            <th>Maximum Stock Quantity</th>
+                            <th>Reorder Level</th>
+                            <th>Reorder Quantity</th>
+                            <th>Avg Daily Consumption</th>
+                            <th>Max Lead Days</th>
+                            <th>Min Lead Days</th>
+                            <th>ABC</th>
+                            <th>FNS</th>
+                            <th>VED</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {itemAnalyticsReport?.data?.length > 0 &&
+                            itemAnalyticsReport?.data?.map((item, index) => (
+                              <tr>
+                                <td>{index + 1}</td>
+                                <td>{item?.plantName}</td>
+                                <td>{item?.wareHouseName}</td>
+                                <td>{item?.itemName}</td>
+                                <td>{item?.itemCode}</td>
+                                <td>{item?.baseUom}</td>
+                                <td>{item?.inventoryLocationName}</td>
+                                <td>{item?.binNumber}</td>
+                                <td>{item?.nMinimumStockQuantity}</td>
+                                <td>{item?.safetyStockQuantity}</td>
+                                <td>{item?.maximumQuantity}</td>
+                                <td>{item?.reorderLevel}</td>
+                                <td>{item?.reorderQuantity}</td>
+                                <td>{item?.averageDailyConsumption}</td>
+                                <td>{item?.maxLeadDays}</td>
+                                <td>{item?.minLeadDays}</td>
+                                <td>{item?.abc}</td>
+                                <td>{item?.fns}</td>
+                                <td>{item?.ved}</td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                   <div>
-                    {itemAnalyticsReport?.data?.length>0 && (
-                         <PaginationTable
-                         count={itemAnalyticsReport?.totalCount}
-                         setPositionHandler={setPositionHandler}
-                         paginationState={{
-                           pageNo,
-                           setPageNo,
-                           pageSize,
-                           setPageSize,
-                         }}
-                         values={values}
-                       />
+                    {itemAnalyticsReport?.data?.length > 0 && (
+                      <PaginationTable
+                        count={itemAnalyticsReport?.totalCount}
+                        setPositionHandler={setPositionHandler}
+                        paginationState={{
+                          pageNo,
+                          setPageNo,
+                          pageSize,
+                          setPageSize,
+                        }}
+                        values={values}
+                      />
                     )}
                   </div>
                 </div>
