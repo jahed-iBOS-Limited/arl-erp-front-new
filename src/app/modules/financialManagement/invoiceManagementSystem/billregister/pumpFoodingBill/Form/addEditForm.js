@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../../_helper/customHooks/useAxiosPost";
+import { toast } from "react-toastify";
 import IForm from "../../../../../_helper/_form";
 import Loading from "../../../../../_helper/_loading";
 import { _todayDate } from "../../../../../_helper/_todayDate";
+import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../../../_helper/customHooks/useAxiosPost";
 import { getWarehouseDDL } from "../../helper";
 import Form from "./form";
-import { toast } from "react-toastify";
 
 const initData = {
   billNo: "",
@@ -68,7 +68,7 @@ export default function PumpFoodingBillForm() {
 
   const getRows = (values) => {
     getRowData(
-      `/hcm/MenuListOfFoodCorner/GetPumpFoodingBillPagination?BusinessUnitId=${buId}&warehouseId=${values?.warehouse?.value}&Status=3&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&PageNo=1&PageSize=1000&ViewOrder=desc`
+      `/hcm/MenuListOfFoodCorner/GetPumpFoodingBillPagination?BusinessUnitId=${buId}&warehouseId=${values?.warehouse?.value}&Status=3&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&PageNo=1&PageSize=2000&ViewOrder=desc`
     );
   };
 
