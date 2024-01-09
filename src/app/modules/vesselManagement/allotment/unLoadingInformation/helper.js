@@ -81,7 +81,8 @@ export const getLoadingInfoByVoyageNo = async (
   setter,
   setRowData,
   setLoading,
-  type
+  type,
+  cb
 ) => {
   setLoading && setLoading(true);
   try {
@@ -126,7 +127,7 @@ export const getLoadingInfoByVoyageNo = async (
         label: row?.lighterDestinationName,
       },
     };
-
+    cb && cb(singleData);
     setter(singleData);
     setRowData(res?.data?.rowDataList);
     setLoading && setLoading(false);

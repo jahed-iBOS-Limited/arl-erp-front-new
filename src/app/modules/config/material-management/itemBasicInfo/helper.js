@@ -199,14 +199,18 @@ export const getItemDDL = async (accId, buId, setter) => {
     setter([]);
   }
 };
-export const getItemSalesOfferDDLApi = async (accId, buId, chanalId, setter) => {
+export const getItemSalesOfferDDLApi = async (
+  accId,
+  buId,
+  chanalId,
+  setter
+) => {
   try {
     const res = await Axios.get(
       `/item/ItemBasic/ItemSalesOfferDDL?AccountId=${accId}&BusinessunitId=${buId}&DistributionchannelId=${chanalId}`
     );
 
-      setter(res?.data);
-    
+    setter(res?.data);
   } catch (error) {
     setter([]);
   }

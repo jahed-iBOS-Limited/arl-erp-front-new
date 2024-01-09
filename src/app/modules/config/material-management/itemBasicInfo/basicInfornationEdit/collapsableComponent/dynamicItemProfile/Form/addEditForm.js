@@ -14,7 +14,7 @@ export default function DynamicItemProfileForm({
   title,
   itemProfileInfoByItemID,
   ItemProfileInfoByItemIDFunc,
-  loadingTwo
+  loadingTwo,
 }) {
   const [objProps, setObjprops] = useState({});
   const [isDisabled, setDisabled] = useState(false);
@@ -85,12 +85,6 @@ export default function DynamicItemProfileForm({
       setDisabled(false);
     }
   };
-
-  useEffect(() => {
-    if (selectedBusinessUnit?.value && profileData?.accountId) {
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedBusinessUnit, profileData]);
 
   useEffect(() => {
     if (singleProfileList?.objAttrbt?.length > 0) {
