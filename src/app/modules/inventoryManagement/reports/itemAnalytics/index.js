@@ -94,7 +94,7 @@ export default function ItemAnalytics() {
         <>
           {itemAnalyticsReportLoader && <Loading />}
           <IForm
-            title="Item Analytics Landing"
+            title="Item Analytics Report"
             isHiddenReset
             isHiddenBack
             isHiddenSave
