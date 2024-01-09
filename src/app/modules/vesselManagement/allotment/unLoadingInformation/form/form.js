@@ -166,7 +166,10 @@ export default function _Form({
                               placeholder="Port"
                               onChange={(valueOption) => {
                                 setFieldValue("port", valueOption);
-                                getVessels({ ...values, port: valueOption });
+                                getVessels({
+                                  ...values,
+                                  port: valueOption,
+                                });
                               }}
                               isDisabled={!values?.organization}
                             />
@@ -379,7 +382,7 @@ export default function _Form({
                               />
                             </div>
                           )}
-                          {viewType === "edit" && (
+                          {/* { viewType === "edit" ||  && ( */}
                             <div className="col-lg-12 mt-5">
                               <h5>
                                 <b>Loaded Qty: </b>
@@ -389,7 +392,7 @@ export default function _Form({
                                 {pendingQty?.pendingQty}
                               </h5>
                             </div>
-                          )}
+                          {/* )} */}
                         </>
                       )}
                     </div>
