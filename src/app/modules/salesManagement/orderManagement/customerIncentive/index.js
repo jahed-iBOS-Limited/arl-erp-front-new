@@ -375,8 +375,13 @@ export default function CustomerIncentive() {
                         <th>Customer Name</th>
                         <th>Customer Category</th>
                         <th>UoM</th>
-                        <th>{values?.incentiveType?.value === "Performance" ? "Avg Delivery Qty" : "Delivery Qty"}</th>
+                        <th>
+                          {values?.incentiveType?.value === "Performance"
+                            ? "Avg Delivery Qty"
+                            : "Delivery Qty"}
+                        </th>
                         <th>Total Delivery Qty</th>
+                        <th>Due Amount</th>
                         <th>Amount</th>
                         <th>Is JV Posted</th>
                       </tr>
@@ -416,6 +421,9 @@ export default function CustomerIncentive() {
                               {item?.totalDeliveryQTY || 0}
                             </td>
                             <td className="text-right">
+                              {_formatMoney(item?.dueAmount)}
+                            </td>
+                            <td className="text-right">
                               {_formatMoney(item?.incentiveAmount)}
                             </td>
                             <td className="text-center">
@@ -426,13 +434,17 @@ export default function CustomerIncentive() {
                       <tr>
                         <td
                           className="font-weight-bold text-left ml-2"
-                          colSpan={6}
+                          colSpan={7}
                         >
                           Total
                         </td>
                         <td className="font-weight-bold text-right">
                           {countTotal("deliveryQty")}
                         </td>
+                        <td className="font-weight-bold text-right">
+                          {countTotal("dueAmount")}
+                        </td>
+
                         <td className="font-weight-bold text-right">
                           {_formatMoney(countTotal("incentiveAmount"))}
                         </td>
