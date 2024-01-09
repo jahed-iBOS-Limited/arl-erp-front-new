@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
 import IView from "../../../../_helper/_helperIcons/_view";
 import IViewModal from "../../../../_helper/_viewModal";
-import EmployeeWiseFuelReportDetailsModal from "./modal/employeeWiseFuelReportDetailsModal";
+import FuelLogPringModal from "../modalView/fuelLogPringModal";
 
-const EmployeeWiseFuelCostTbl = ({ rowData, landingValues }) => {
-  const [showModal, setShowModal] = React.useState(false);
-  const [clickedItem, setClickedItem] = React.useState(null);
+const EmployeeWiseFuelCostTbl = ({ rowData, values }) => {
+  console.log({ rowData });
+  const [isShowModal, setIsShowModal] = useState(false);
+  const [item, setItem] = useState(null);
   return (
     <div>
       <h4 className="text-center mt-5">
@@ -39,7 +40,7 @@ const EmployeeWiseFuelCostTbl = ({ rowData, landingValues }) => {
                 <th> Per KM Cost </th>
                 <th> Personal Cost Deduct </th>
                 <th> Net Payable </th>
-                <th> Action </th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -107,12 +108,11 @@ const EmployeeWiseFuelCostTbl = ({ rowData, landingValues }) => {
                       {" "}
                       {_formatMoney(netPayable)}{" "}
                     </td>
-                    <td style={{ textAlign: "center" }}>
+                    <td className="text-center">
                       <IView
-                        title=""
                         clickHandler={() => {
-                          setClickedItem(item);
-                          setShowModal(true);
+                          setItem(item);
+                          setIsShowModal(true);
                         }}
                       />
                     </td>
@@ -121,22 +121,13 @@ const EmployeeWiseFuelCostTbl = ({ rowData, landingValues }) => {
               })}
             </tbody>
           </table>
+          <IViewModal show={isShowModal} onHide={() => setIsShowModal(false)}>
+            <FuelLogPringModal
+              vehicelUserEnroll={item?.vehicelUserEnroll}
+              values={values}
+            />
+          </IViewModal>
         </div>
-      </div>
-      <div>
-        <IViewModal
-          title="Employee Wise Fuel Report"
-          show={showModal}
-          onHide={() => {
-            setShowModal(false);
-            setClickedItem(null);
-          }}
-        >
-          <EmployeeWiseFuelReportDetailsModal
-            clickedItem={clickedItem}
-            landingValues={landingValues}
-          />
-        </IViewModal>
       </div>
     </div>
   );
