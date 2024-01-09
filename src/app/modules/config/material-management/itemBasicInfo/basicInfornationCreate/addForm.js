@@ -55,7 +55,12 @@ export default function AddForm({
     ) {
       const { accountId, userId: actionBy } = profileData;
       const itemBasicData = {
-        itemCode: selectedBusinessUnit?.value === 102 ? (values?.itemCode ? values?.itemCode : "") : "",
+        itemCode:
+          selectedBusinessUnit?.value === 102
+            ? values?.itemCode
+              ? values?.itemCode
+              : ""
+            : "",
         drawingCode: values?.drawingCode || "",
         partNo: values?.partNo || "",
         itemName: values.itemName,
@@ -139,10 +144,6 @@ export default function AddForm({
     history.push(`/config/material-management/item-basic-info`);
   };
 
-  // const disableHandler = (cond) => {
-  //   setDisabled(cond);
-  // };
-
   return (
     <Card>
       {true && <ModalProgressBar />}
@@ -192,7 +193,6 @@ export default function AddForm({
             saveConfigBtnRef={saveConfigBtnRef}
             saveData={saveData}
             resetBtnRef={resetBtnRef}
-            // disableHandler={disableHandler}
             selectedBusinessUnit={selectedBusinessUnit}
             accountId={profileData.accountId}
             setSaveConfigBtn={setSaveConfigBtn}
