@@ -25,13 +25,14 @@ const initData = {
   lotSize: 0,
   purchaseDescription: "",
   minimumStockQuantity: "",
-  safetyStockQuantity : "",
-  maximumQuantity :"",
-  reorderQuantity : "",
-  reorderLevel:"",
+  safetyStockQuantity: "",
+  maximumQuantity: "",
+  reorderQuantity: "",
+  reorderLevel: "",
+  profitCenter: "",
 };
 
-export default function CreateItemPurchaseInfo({isViewPage}) {
+export default function CreateItemPurchaseInfo({ isViewPage }) {
   const { id } = useParams();
   const [data, setData] = useState("");
   const [isExist, setExist] = useState(false);
@@ -92,6 +93,10 @@ export default function CreateItemPurchaseInfo({isViewPage}) {
             value: meta.purchaseOrganizationId,
             label: meta.purchaseOrganizationName,
           },
+          profitCenter: {
+            value: meta.profitCenterId,
+            label: meta.profitCenterName,
+          },
         });
       } else {
         const tobj = {
@@ -111,7 +116,6 @@ export default function CreateItemPurchaseInfo({isViewPage}) {
         setData(tobj);
       }
     } catch (err) {
-     
       const tobj = {
         configId: 0,
         accountId: 0,
@@ -133,7 +137,6 @@ export default function CreateItemPurchaseInfo({isViewPage}) {
   // save business unit data to DB
   const saveData = async (values, cb) => {
     toast.dismiss(1);
-
     if (
       isObject(values) &&
       Object.keys(values).length &&
@@ -153,11 +156,13 @@ export default function CreateItemPurchaseInfo({isViewPage}) {
         lotSize: values.lotSize || 0,
         isMrp: values.isMrp,
         actionBy: profileData.userId,
-        minimumStockQuantity : +values?.minimumStockQuantity || 0,
-        safetyStockQuantity : +values?.safetyStockQuantity || 0,
-        maximumQuantity : +values?.maximumQuantity || 0,
-        reorderQuantity : +values?.reorderQuantity || 0,
-        reorderLevel : values?.reorderLevel || "",
+        minimumStockQuantity: +values?.minimumStockQuantity || 0,
+        safetyStockQuantity: +values?.safetyStockQuantity || 0,
+        maximumQuantity: +values?.maximumQuantity || 0,
+        reorderQuantity: +values?.reorderQuantity || 0,
+        reorderLevel: values?.reorderLevel || "",
+        profitCenterId: values?.profitCenter?.value || 0,
+        profitCenterName: values?.profitCenter?.label || "",
       };
       if (isExist) {
         data.configId = configId;
@@ -176,7 +181,6 @@ export default function CreateItemPurchaseInfo({isViewPage}) {
         });
       } catch (error) {
         getDataById(itemId, profileData.accountId, selectedBusinessUnit.value);
-       
         toast.error(error?.response?.data?.message, { toastId: 1 });
       }
     }
@@ -201,29 +205,33 @@ export default function CreateItemPurchaseInfo({isViewPage}) {
   };
   return (
     <Card>
-      <CardHeader title={isViewPage ?"Purchase Information" : "Edit Purchase Information"}>
+      <CardHeader
+        title={
+          isViewPage ? "Purchase Information" : "Edit Purchase Information"
+        }
+      >
         <CardHeaderToolbar>
           {!isViewPage && (
-          <>
-          <button
-            type="reset"
-            onClick={resetBtnClick}
-            ref={resetBtnRef}
-            className="btn btn-light ml-2"
-          >
-            <i className="fa fa-redo"></i>
-            Reset
-          </button>
-          <button
-            type="submit"
-            className="btn btn-primary ml-2"
-            onClick={saveDataClick}
-            ref={saveBtnRef}
-            disabled={isDisabled}
-          >
-            Save
-          </button>
-          </>
+            <>
+              <button
+                type="reset"
+                onClick={resetBtnClick}
+                ref={resetBtnRef}
+                className="btn btn-light ml-2"
+              >
+                <i className="fa fa-redo"></i>
+                Reset
+              </button>
+              <button
+                type="submit"
+                className="btn btn-primary ml-2"
+                onClick={saveDataClick}
+                ref={saveBtnRef}
+                disabled={isDisabled}
+              >
+                Save
+              </button>
+            </>
           )}
         </CardHeaderToolbar>
       </CardHeader>
@@ -243,6 +251,7 @@ export default function CreateItemPurchaseInfo({isViewPage}) {
           accountId={profileData.accountId}
           selectedBusinessUnit={selectedBusinessUnit}
           basicItemInfo={basicItemInfo}
+          id={id}
         />
       </CardBody>
     </Card>
