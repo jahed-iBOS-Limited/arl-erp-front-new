@@ -116,7 +116,7 @@ export default function AddAdvance({
                 </div>
                 <CardHeaderToolbar>
                   <>
-                    <button
+                    {/* <button
                       onClick={() => {
                         saveHandler(advanceBill, () => {
                           setAdvanceBill({});
@@ -127,13 +127,13 @@ export default function AddAdvance({
                       disabled={bill?.billAndAdvanceId}
                     >
                       Save
-                    </button>
+                    </button> */}
                   </>
                 </CardHeaderToolbar>
               </CardHeader>
               <CardBody style={{ padding: "3px 7px 3px 7px" }}>
                 <Form className="form form-label-right">
-                  <div className="row global-form global-form-custom bj-left pb-2">
+                  {/* <div className="row global-form global-form-custom bj-left pb-2">
                     <div className="col-lg-3">
                       <label>Advance Amount</label>
                       <InputField
@@ -257,7 +257,7 @@ export default function AddAdvance({
                         Add
                       </button>
                     </div>
-                  </div>
+                  </div> */}
                   <div className="react-bootstrap-table table-responsive mb-4">
                     <table className="table table-striped table-bordered global-table">
                       <thead>

@@ -293,6 +293,9 @@ const ServiceBreakDownViewModal = ({
                           poNumber={poNumber}
                           supplierName={supplierName}
                           state={state}
+                          referenceId={referenceId}
+                          supplierId={data?.supplierId}
+                          setAdvanceBill={setAdvanceBill}
                         />
                       </ExpansionPanelDetails>
                     </ExpansionPanel>
@@ -308,7 +311,7 @@ const ServiceBreakDownViewModal = ({
                 onClick={() => {
                   onHide();
                   setData({});
-                  setBill({});
+                  setBill([]);
                   setAdvanceBill([]);
                 }}
                 className="btn btn-light btn-elevate"
