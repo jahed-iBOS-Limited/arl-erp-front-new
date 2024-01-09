@@ -291,6 +291,11 @@ export default function PartnerSales() {
   // submit handle
   const savePartnerSales = async (values, cb) => {
     // common all RowDto  modifiedRowDto===============
+    if (!values?.limitType) {
+      toast.warn(
+        "Please select one of the limit types from credit limit, days limit, and bot"
+      );
+    }
     const { accountId, userId: actionBy } = profileData;
     const { value: businessunitid } = selectedBusinessUnit;
     const objRow = rowDto?.map((itm) => {
