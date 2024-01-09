@@ -66,6 +66,16 @@ export default function UnLoadingInformationForm() {
   ] = useAxiosGet();
   const [organizationDDL, getOrganizationDDL] = useAxiosGet();
 
+  const pendingQuantity = (
+    motherVesselId,
+    lighterVesselId,
+    lighterDestinationId
+  ) => {
+    getPendingQty(
+      `/tms/LigterLoadUnload/GetLighterLoadUnLoadQuantity?MotherVesselId=${motherVesselId}&LighterVesselId=${lighterVesselId}&DestinationId=${lighterDestinationId}`
+    );
+  };
+
   useEffect(() => {
     getOrganizationDDL(
       `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`
@@ -85,9 +95,14 @@ export default function UnLoadingInformationForm() {
           setSingleData,
           setLoading,
           (resData) => {
-            getPendingQty(
-              `/tms/LigterLoadUnload/GetLighterLoadUnLoadQuantity?MotherVesselId=${resData?.motherVessel?.value}&LighterVesselId=${resData?.lighterVessel?.value}&DestinationId=${resData?.lighterDestination?.value}`
+            pendingQuantity(
+              resData?.motherVessel?.value,
+              resData?.lighterVessel?.value,
+              resData?.lighterDestination?.value
             );
+            // getPendingQty(
+            //   `/tms/LigterLoadUnload/GetLighterLoadUnLoadQuantity?MotherVesselId=${}&LighterVesselId=${}&DestinationId=${}`
+            // );
           }
         );
       } else {
@@ -98,7 +113,14 @@ export default function UnLoadingInformationForm() {
           setSingleData,
           setRowData,
           setLoading,
-          type
+          type,
+          (resData) => {
+            pendingQuantity(
+              resData?.motherVessel?.value,
+              resData?.lighterVessel?.value,
+              resData?.lighterDestination?.value
+            );
+          }
         );
       }
     }
@@ -245,6 +267,11 @@ export default function UnLoadingInformationForm() {
               setFieldValue("unloadedQty", resData?.surveyQnt);
             }
           );
+          pendingQuantity(
+            values?.motherVessel?.value,
+            currentValue?.value,
+            values?.lighterDestination?.value
+          );
         }
         break;
 
@@ -289,6 +316,7 @@ export default function UnLoadingInformationForm() {
           setDateWiseQuantity={setDateWiseQuantity}
           state={state}
           organizationDDL={organizationDDL}
+          pendingQuantity={pendingQuantity}
         />
       </div>
     </>
