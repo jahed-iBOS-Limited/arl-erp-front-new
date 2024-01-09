@@ -1,9 +1,10 @@
 import React from "react";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
+import IDelete from "./../../../../_helper/_helperIcons/_delete";
 
 function RowTable({ propsObj }) {
-  const { rowDto, setRowDto, values } = propsObj;
+  const { rowDto, setRowDto, values, transactionTypeDDL } = propsObj;
   return (
     <div className='table-responsive'>
       <table className='table table-striped table-bordered global-table'>
@@ -11,7 +12,11 @@ function RowTable({ propsObj }) {
           <Building rowDto={rowDto} setRowDto={setRowDto} />
         )}
         {values?.channel?.value === 2 && (
-          <Bulk rowDto={rowDto} setRowDto={setRowDto} />
+          <Bulk
+            rowDto={rowDto}
+            setRowDto={setRowDto}
+            transactionTypeDDL={transactionTypeDDL}
+          />
         )}
         {values?.channel?.value === 3 && (
           <Retail rowDto={rowDto} setRowDto={setRowDto} />
@@ -70,6 +75,20 @@ function Building({ rowDto, setRowDto }) {
           >
             Avg. Market Office
           </th>
+          <th
+            style={{
+              width: "120px",
+            }}
+          >
+            Remarks
+          </th>
+          <th
+            style={{
+              width: "80px",
+            }}
+          >
+            Action
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -77,58 +96,84 @@ function Building({ rowDto, setRowDto }) {
           return (
             <tr key={index}>
               <td className='text-center'> {index + 1}</td>
-              <td>{item?.demo}</td>
+              <td>{item?.strDisplayName}</td>
               <td>
                 <InputField
-                  value={item?.demo}
+                  value={item?.numMillRate}
                   placeholder='Mill Rate'
-                  name='millRate'
+                  name='numMillRate'
                   type='number'
                   onChange={(e) => {
                     const copyRowDto = [...rowDto];
-                    copyRowDto[index].millRate = e.target.value;
+                    copyRowDto[index].numMillRate = e.target.value;
                     setRowDto(copyRowDto);
                   }}
                 />
               </td>
               <td>
                 <InputField
-                  value={item?.demo}
+                  value={item?.numAvgTransportFare}
                   placeholder='Avg. Transport Fare'
-                  name='avgTransportFare'
+                  name='numAvgTransportFare'
                   type='number'
                   onChange={(e) => {
                     const copyRowDto = [...rowDto];
-                    copyRowDto[index].avgTransportFare = e.target.value;
+                    copyRowDto[index].numAvgTransportFare = e.target.value;
                     setRowDto(copyRowDto);
                   }}
                 />
               </td>
               <td>
                 <InputField
-                  value={item?.demo}
+                  value={item?.numLandingRate}
                   placeholder='Landing Rate'
-                  name='landingRate'
+                  name='numLandingRate'
                   type='number'
                   onChange={(e) => {
                     const copyRowDto = [...rowDto];
-                    copyRowDto[index].landingRate = e.target.value;
+                    copyRowDto[index].numLandingRate = e.target.value;
                     setRowDto(copyRowDto);
                   }}
                 />
               </td>
               <td>
                 <InputField
-                  value={item?.demo}
+                  value={item?.numAvgMarketOffer}
                   placeholder='Avg. Market Office'
-                  name='avgMarketOffice'
+                  name='numAvgMarketOffer'
                   type='number'
                   onChange={(e) => {
                     const copyRowDto = [...rowDto];
-                    copyRowDto[index].avgMarketOffice = e.target.value;
+                    copyRowDto[index].numAvgMarketOffer = e.target.value;
                     setRowDto(copyRowDto);
                   }}
                 />
+              </td>
+              <td>
+                <InputField
+                  value={item?.strRemarks}
+                  placeholder='Avg. Market Office'
+                  name='strRemarks'
+                  type='text'
+                  onChange={(e) => {
+                    const copyRowDto = [...rowDto];
+                    copyRowDto[index].strRemarks = e.target.value;
+                    setRowDto(copyRowDto);
+                  }}
+                />
+              </td>
+              <td>
+                <div className='d-flex justify-content-center align-items-center'>
+                  <span
+                    onClick={() => {
+                      const copyRowDto = [...rowDto];
+                      copyRowDto.splice(index, 1);
+                      setRowDto(copyRowDto);
+                    }}
+                  >
+                    <IDelete />
+                  </span>
+                </div>
               </td>
             </tr>
           );
@@ -137,7 +182,7 @@ function Building({ rowDto, setRowDto }) {
     </>
   );
 }
-function Bulk({ rowDto, setRowDto }) {
+function Bulk({ rowDto, setRowDto, transactionTypeDDL }) {
   return (
     <>
       <thead>
@@ -212,6 +257,20 @@ function Bulk({ rowDto, setRowDto }) {
           >
             Avg. Market Office
           </th>
+          <th
+            style={{
+              width: "120px",
+            }}
+          >
+            Remarks
+          </th>
+          <th
+            style={{
+              width: "80px",
+            }}
+          >
+            Action
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -219,16 +278,16 @@ function Bulk({ rowDto, setRowDto }) {
           return (
             <tr key={index}>
               <td className='text-center'> {index + 1}</td>
-              <td>{item?.demo}</td>
+              <td>{item?.strDisplayName}</td>
               <td>
                 <InputField
-                  value={item?.demo}
+                  value={item?.numMillRate}
                   placeholder='Mill Rate'
-                  name='millRate'
+                  name='numMillRate'
                   type='number'
                   onChange={(e) => {
                     const copyRowDto = [...rowDto];
-                    copyRowDto[index].millRate = e.target.value;
+                    copyRowDto[index].numMillRate = e.target.value;
                     setRowDto(copyRowDto);
                   }}
                 />
@@ -236,39 +295,39 @@ function Bulk({ rowDto, setRowDto }) {
 
               <td>
                 <InputField
-                  value={item?.demo}
+                  value={item?.numMktRate}
                   placeholder='Market Price'
-                  name='marketPrice'
+                  name='numMktRate'
                   type='number'
                   onChange={(e) => {
                     const copyRowDto = [...rowDto];
-                    copyRowDto[index].marketPrice = e.target.value;
+                    copyRowDto[index].numMktRate = e.target.value;
                     setRowDto(copyRowDto);
                   }}
                 />
               </td>
               <td>
                 <InputField
-                  value={item?.demo}
+                  value={item?.strMarketName}
                   placeholder='Market Name'
-                  name='marketName'
+                  name='strMarketName'
                   type='text'
                   onChange={(e) => {
                     const copyRowDto = [...rowDto];
-                    copyRowDto[index].marketName = e.target.value;
+                    copyRowDto[index].strMarketName = e.target.value;
                     setRowDto(copyRowDto);
                   }}
                 />
               </td>
               <td>
                 <InputField
-                  value={item?.demo}
+                  value={item?.strDeliveryPoint}
                   placeholder='Delivery Point'
-                  name='deliveryPoint'
+                  name='strDeliveryPoint'
                   type='text'
                   onChange={(e) => {
                     const copyRowDto = [...rowDto];
-                    copyRowDto[index].deliveryPoint = e.target.value;
+                    copyRowDto[index].strDeliveryPoint = e.target.value;
                     setRowDto(copyRowDto);
                   }}
                 />
@@ -277,77 +336,88 @@ function Bulk({ rowDto, setRowDto }) {
               <td>
                 <NewSelect
                   name='transactionType'
-                  options={
-                    [
-                      {
-                        value: 1,
-                        label: "Cash",
-                      },
-                      {
-                        value: 2,
-                        label: "Credit",
-                      },
-                      {
-                        label: "Both",
-                        value: 3,
-                      },
-                    ] || []
-                  }
+                  options={transactionTypeDDL || []}
                   value={
-                    item?.transactionTypeId
+                    item?.numTransactionTypeId
                       ? {
-                          value: item?.transactionTypeId,
-                          label: item?.transactionTypeName,
+                          value: item?.numTransactionTypeId,
+                          label: item?.strTransactionType,
                         }
                       : ""
                   }
-                  label='Transaction Type'
                   onChange={(valueOption) => {
                     const copyRowDto = [...rowDto];
-                    copyRowDto[index].transactionTypeId = valueOption?.value;
-                    copyRowDto[index].transactionTypeName = valueOption?.label;
+                    copyRowDto[index].numTransactionTypeId = valueOption?.value;
+                    copyRowDto[index].strTransactionType = valueOption?.label;
                     setRowDto(copyRowDto);
                   }}
+                  menuPosition='fixed'
                 />
               </td>
               <td>
                 <InputField
-                  value={item?.demo}
+                  value={item?.numAvgTransportFare}
                   placeholder='Avg. Transport Fare'
-                  name='avgTransportFare'
+                  name='numAvgTransportFare'
                   type='number'
                   onChange={(e) => {
                     const copyRowDto = [...rowDto];
-                    copyRowDto[index].avgTransportFare = e.target.value;
+                    copyRowDto[index].numAvgTransportFare = e.target.value;
                     setRowDto(copyRowDto);
                   }}
                 />
               </td>
               <td>
                 <InputField
-                  value={item?.demo}
+                  value={item?.numLandingRate}
                   placeholder='Landing Rate'
-                  name='landingRate'
+                  name='numLandingRate'
                   type='number'
                   onChange={(e) => {
                     const copyRowDto = [...rowDto];
-                    copyRowDto[index].landingRate = e.target.value;
+                    copyRowDto[index].numLandingRate = e.target.value;
                     setRowDto(copyRowDto);
                   }}
                 />
               </td>
               <td>
                 <InputField
-                  value={item?.demo}
+                  value={item?.numAvgMarketOffer}
                   placeholder='Avg. Market Office'
-                  name='avgMarketOffice'
+                  name='numAvgMarketOffer'
                   type='number'
                   onChange={(e) => {
                     const copyRowDto = [...rowDto];
-                    copyRowDto[index].avgMarketOffice = e.target.value;
+                    copyRowDto[index].numAvgMarketOffer = e.target.value;
                     setRowDto(copyRowDto);
                   }}
                 />
+              </td>
+              <td>
+                <InputField
+                  value={item?.strRemarks}
+                  placeholder='Avg. Market Office'
+                  name='strRemarks'
+                  type='text'
+                  onChange={(e) => {
+                    const copyRowDto = [...rowDto];
+                    copyRowDto[index].strRemarks = e.target.value;
+                    setRowDto(copyRowDto);
+                  }}
+                />
+              </td>
+              <td>
+                <div className='d-flex justify-content-center align-items-center'>
+                  <span
+                    onClick={() => {
+                      const copyRowDto = [...rowDto];
+                      copyRowDto.splice(index, 1);
+                      setRowDto(copyRowDto);
+                    }}
+                  >
+                    <IDelete />
+                  </span>
+                </div>
               </td>
             </tr>
           );
@@ -356,7 +426,6 @@ function Bulk({ rowDto, setRowDto }) {
     </>
   );
 }
-
 function Retail({ rowDto, setRowDto }) {
   return (
     <>
@@ -419,6 +488,20 @@ function Retail({ rowDto, setRowDto }) {
           >
             Avg. Market Offer
           </th>
+          <th
+            style={{
+              width: "120px",
+            }}
+          >
+            Remarks
+          </th>
+          <th
+            style={{
+              width: "80px",
+            }}
+          >
+            Action
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -426,16 +509,16 @@ function Retail({ rowDto, setRowDto }) {
           return (
             <tr key={index}>
               <td className='text-center'> {index + 1}</td>
-              <td>{item?.demo}</td>
+              <td>{item?.strDisplayName}</td>
               <td>
                 <InputField
-                  value={item?.demo}
+                  value={item?.numDp}
                   placeholder='DP'
-                  name='dp'
+                  name='numDp'
                   type='number'
                   onChange={(e) => {
                     const copyRowDto = [...rowDto];
-                    copyRowDto[index].dp = e.target.value;
+                    copyRowDto[index].numDp = e.target.value;
                     setRowDto(copyRowDto);
                   }}
                 />
@@ -443,39 +526,39 @@ function Retail({ rowDto, setRowDto }) {
 
               <td>
                 <InputField
-                  value={item?.demo}
+                  value={item?.numTp}
                   placeholder='TP'
-                  name='tp'
+                  name='numTp'
                   type='number'
                   onChange={(e) => {
                     const copyRowDto = [...rowDto];
-                    copyRowDto[index].tp = e.target.value;
+                    copyRowDto[index].numTp = e.target.value;
                     setRowDto(copyRowDto);
                   }}
                 />
               </td>
               <td>
                 <InputField
-                  value={item?.demo}
+                  value={item?.numMrp}
                   placeholder='MRP'
-                  name='mrp'
+                  name='numMrp'
                   type='number'
                   onChange={(e) => {
                     const copyRowDto = [...rowDto];
-                    copyRowDto[index].mrp = e.target.value;
+                    copyRowDto[index].numMrp = e.target.value;
                     setRowDto(copyRowDto);
                   }}
                 />
               </td>
               <td>
                 <InputField
-                  value={item?.demo}
+                  value={item?.numEdp}
                   placeholder='EDP'
-                  name='edp'
+                  name='numEdp'
                   type='number'
                   onChange={(e) => {
                     const copyRowDto = [...rowDto];
-                    copyRowDto[index].edp = e.target.value;
+                    copyRowDto[index].numEdp = e.target.value;
                     setRowDto(copyRowDto);
                   }}
                 />
@@ -483,29 +566,55 @@ function Retail({ rowDto, setRowDto }) {
 
               <td>
                 <InputField
-                  value={item?.demo}
+                  value={item?.numEtp}
                   placeholder='ETP'
-                  name='etp'
+                  name='numEtp'
                   type='number'
                   onChange={(e) => {
                     const copyRowDto = [...rowDto];
-                    copyRowDto[index].etp = e.target.value;
+                    copyRowDto[index].numEtp = e.target.value;
                     setRowDto(copyRowDto);
                   }}
                 />
               </td>
               <td>
                 <InputField
-                  value={item?.demo}
+                  value={item?.numAvgMarketOffer}
                   placeholder='Avg. Market Offer'
-                  name='avgMarketOffer'
+                  name='numAvgMarketOffer'
                   type='number'
                   onChange={(e) => {
                     const copyRowDto = [...rowDto];
-                    copyRowDto[index].avgMarketOffer = e.target.value;
+                    copyRowDto[index].numAvgMarketOffer = e.target.value;
                     setRowDto(copyRowDto);
                   }}
                 />
+              </td>
+              <td>
+                <InputField
+                  value={item?.strRemarks}
+                  placeholder='Avg. Market Office'
+                  name='strRemarks'
+                  type='text'
+                  onChange={(e) => {
+                    const copyRowDto = [...rowDto];
+                    copyRowDto[index].strRemarks = e.target.value;
+                    setRowDto(copyRowDto);
+                  }}
+                />
+              </td>
+              <td>
+                <div className='d-flex justify-content-center align-items-center'>
+                  <span
+                    onClick={() => {
+                      const copyRowDto = [...rowDto];
+                      copyRowDto.splice(index, 1);
+                      setRowDto(copyRowDto);
+                    }}
+                  >
+                    <IDelete />
+                  </span>
+                </div>
               </td>
             </tr>
           );
