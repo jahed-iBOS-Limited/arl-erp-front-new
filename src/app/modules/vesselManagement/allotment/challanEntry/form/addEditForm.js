@@ -273,6 +273,13 @@ export default function ChallanEntryForm() {
   };
 
   const onChangeHandler = (fieldName, values, currentValue, setFieldValue) => {
+    const organizationId =
+      buId === 94
+        ? values?.type === "badc"
+          ? 73244
+          : 73245
+        : values?.organization?.value;
+
     switch (fieldName) {
       case "shipPoint":
         setFieldValue("shipPoint", currentValue);
@@ -286,11 +293,11 @@ export default function ChallanEntryForm() {
           getMotherVesselDDL(
             `/wms/FertilizerOperation/GetMotherVesselProgramInfo?PortId=${currentValue?.value}&businessUnitId=${buId}`
           );
-          getDestinationList(
-            values?.type === "badc" ? 73244 : 73245,
-            currentValue?.value,
-            values?.motherVessel?.value
-          );
+          // getDestinationList(
+          //   organizationId,
+          //   currentValue?.value,
+          //   values?.motherVessel?.value || 0
+          // );
         } else {
           setFieldValue("port", "");
           setFieldValue("motherVessel", "");
@@ -300,27 +307,32 @@ export default function ChallanEntryForm() {
 
       case "motherVessel":
         setFieldValue("motherVessel", currentValue);
-        setFieldValue("programNo", currentValue?.programNo);
+
         setFieldValue("lighterVessel", "");
-        getIsTransportBill(
-          `/tms/LigterLoadUnload/CheckTransportForChallan?businessUnitId=${buId}&motherVesselId=${currentValue?.value}&portId=${values?.port?.value}`
-        );
-        getDestinationList(
-          values?.type === "badc" ? 73244 : 73245,
-          values?.port?.value,
-          currentValue?.value
-        );
-        setFieldValue("item", {
-          value: currentValue?.intProductId,
-          label: currentValue?.strProductName,
-        });
+        setFieldValue("godown", "");
+
         if (currentValue) {
+          setFieldValue("programNo", currentValue?.programNo);
+          getIsTransportBill(
+            `/tms/LigterLoadUnload/CheckTransportForChallan?businessUnitId=${buId}&motherVesselId=${currentValue?.value}&portId=${values?.port?.value}`
+          );
+          getDestinationList(
+            organizationId,
+            values?.port?.value,
+            currentValue?.value
+          );
+          setFieldValue("item", {
+            value: currentValue?.intProductId,
+            label: currentValue?.strProductName,
+          });
           getLightersForChallan(
             values?.shipPoint?.value,
             currentValue?.value,
             setLighterDDL,
             setLoading
           );
+        } else {
+          setFieldValue("programNo", "");
         }
         // is edit  & Mother Vessel onChnage than rowData itemName update
         rowDataItemNameUpdate({
@@ -415,7 +427,8 @@ export default function ChallanEntryForm() {
         //   setLoading
         // );
         getDestinationList(
-          currentValue === "badc" ? 73244 : 73245,
+          // currentValue === "badc" ? 73244 : 73245,
+          organizationId,
           values?.port?.value,
           values?.motherVessel?.value
         );
@@ -423,12 +436,14 @@ export default function ChallanEntryForm() {
 
       case "organization":
         setFieldValue("organization", currentValue);
+        setFieldValue("port", "");
+        setFieldValue("motherVessel", "");
         if (currentValue) {
-          getDestinationList(
-            currentValue,
-            values?.port?.value,
-            values?.motherVessel?.value
-          );
+          // getDestinationList(
+          //   currentValue?.value,
+          //   values?.port?.value,
+          //   values?.motherVessel?.value
+          // );
           // getGodownDDL(buId, currentValue?.value, setGodownDDL, setLoading);
         }
 
@@ -442,6 +457,12 @@ export default function ChallanEntryForm() {
   useEffect(() => {
     if (id) {
       GetLighterChallanInfoById(id, "", (values) => {
+        const organizationId =
+          buId === 94
+            ? values?.type === "badc"
+              ? 73244
+              : 73245
+            : values?.soldToPartnerId;
         // console.log(values?.rowList?.[0].transportRate);
         const data = {
           deliveryCode: "",
@@ -554,7 +575,8 @@ export default function ChallanEntryForm() {
           `/wms/FertilizerOperation/GetMotherVesselProgramInfo?PortId=${values?.portId}`
         );
         getDestinationList(
-          state?.type === "badc" ? 73244 : 73245,
+          // state?.type === "badc" ? 73244 : 73245,
+          organizationId,
           values?.motherVesselId,
           values?.portId
         );
