@@ -65,10 +65,10 @@ export default function TransportExpenseReport() {
       requestUrl = `/mes/VehicleLog/GetDriverAndTripInfo?partName=driverDateWiseTripInfo&intDriverId=0&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`;
     } else if (reportTypeId === 5) {
       requestUrl = `/mes/VehicleLog/GetDriverAndTripInfo?partName=VehicleWiseFuelCost&intDriverId=${values?.vehicle?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`;
-    } else if(reportTypeId === 6) {
-      requestUrl = `/mes/VehicleLog/GetFuelCostByEmployee?dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`
+    } else if (reportTypeId === 6) {
+      requestUrl = `/mes/VehicleLog/GetFuelCostByEmployee?dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`;
     }
-    if(requestUrl) getRowData(requestUrl);
+    if (requestUrl) getRowData(requestUrl);
   };
 
   const saveHandler = (values, cb) => {};
@@ -113,7 +113,7 @@ export default function TransportExpenseReport() {
                         { value: 3, label: "Driver Wise Expense" },
                         { value: 4, label: "Driver Trip Info" },
                         { value: 5, label: "Vehicle Wise Fuel Cost" },
-                        {value: 6, label: "Employee Wise Fuel Cost"}
+                        { value: 6, label: "Employee Wise Fuel Cost" },
                       ]}
                       value={values?.reportType}
                       label="Report Type"
@@ -236,7 +236,6 @@ export default function TransportExpenseReport() {
                   {[6]?.includes(values?.reportType?.value) ? (
                     <EmployeeWiseFuelCostTbl rowData={rowData} values={values} />
                   ) : null}
-                  
                 </div>
               </div>
             </Form>
