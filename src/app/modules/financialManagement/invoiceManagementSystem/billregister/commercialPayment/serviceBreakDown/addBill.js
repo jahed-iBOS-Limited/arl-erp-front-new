@@ -17,9 +17,10 @@ import { empAttachment_action } from "../../../../../humanCapitalManagement/huma
 import { _todayDate } from "../../../../../_helper/_todayDate";
 import FormikError from "./../../../../../_helper/_formikError";
 import { Input } from "../../../../../../../_metronic/_partials/controls";
-import { CommercialCostingForTypeTwo } from "../helper";
+import { CommercialCostingForTypeTwo, getCommercialBreakdownForAdvanceAndBill } from "../helper";
 import Loading from "../../../../../_helper/_loading";
 import { _dateFormatter } from "../../../../../_helper/_dateFormate";
+import IView from "../../../../../_helper/_helperIcons/_view";
 
 const initData = {
   billNo: "",
@@ -50,6 +51,9 @@ export default function AddBill({
   supplierName,
   state,
   itemData,
+  referenceId,
+  supplierId,
+  setAdvanceBill,
 }) {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -141,12 +145,13 @@ export default function AddBill({
   // useEffect(() => {
   //   return ()=>{setBill("")};
   // }, [setBill]);
-
+console.log("bill", bill)
   return (
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={bill ? bill : initData}
+        // initialValues={bill ? bill : initData}
+        initialValues={initData}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
@@ -174,11 +179,17 @@ export default function AddBill({
                     onClick={() => {
                       saveHandler(values, () => {
                         resetForm(initData);
+                        getCommercialBreakdownForAdvanceAndBill(
+                          referenceId,
+                          supplierId,
+                          setAdvanceBill,
+                          setBill
+                        );
                       });
                     }}
                     className="btn btn-primary"
                     type="button"
-                    disabled={bill?.billAndAdvanceId}
+                    // disabled={bill?.billAndAdvanceId}
                   >
                     Save
                   </button>
@@ -196,21 +207,22 @@ export default function AddBill({
                         name="billNo"
                         placeholder="Bill No"
                         type="text"
-                        disabled={bill?.billAndAdvanceId}
+                        // disabled={bill?.billAndAdvanceId}
                       />
                     </div>
                     <div className="col-lg-3">
                       <label>Bill Date</label>
                       <InputField
-                        value={
-                          bill?.dteTransactionDate
-                            ? _dateFormatter(bill?.dteTransactionDate)
-                            : values?.dteTransactionDate
-                        }
+                        // value={
+                        //   bill?.dteTransactionDate
+                        //     ? _dateFormatter(bill?.dteTransactionDate)
+                        //     : values?.dteTransactionDate
+                        // }
+                        value={values?.dteTransactionDate}
                         name="dteTransactionDate"
                         placeholder="Bill Date"
                         type="date"
-                        disabled={bill?.billAndAdvanceId}
+                        // disabled={bill?.billAndAdvanceId}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -227,7 +239,7 @@ export default function AddBill({
                           }
                         }}
                         type="number"
-                        disabled={bill?.billAndAdvanceId}
+                        // disabled={bill?.billAndAdvanceId}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -239,17 +251,11 @@ export default function AddBill({
                         type="number"
                         component={Input}
                         validate={() => validate(values)}
-                        disabled={bill?.billAndAdvanceId}
+                        // disabled={bill?.billAndAdvanceId}
                         onChange={(e) => {
-                          if (e.target.value < 1) {
-                            setFieldValue("vatAmount", "");
-                          } else if (e.target.value > values?.numAmount) {
-                            setFieldValue("vatAmount", "");
-                          } else if (values?.vatAmount > values?.numAmount) {
-                            setFieldValue("vatAmount", "");
-                          } else {
-                            setFieldValue("vatAmount", e.target.value);
-                          }
+                          const inputValue = +e.target.value;
+                          const isValidInput = inputValue >= 1 && inputValue <= +values?.numAmount;
+                          setFieldValue("vatAmount", isValidInput ? inputValue : "");
                         }}
                       />
                       {errors && touched && (
@@ -267,7 +273,7 @@ export default function AddBill({
                         name="numAdvanceAdjust"
                         placeholder="Advance Adjust"
                         type="number"
-                        disabled={bill?.billAndAdvanceId}
+                        // disabled={bill?.billAndAdvanceId}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -277,7 +283,7 @@ export default function AddBill({
                         name="description"
                         placeholder="Description"
                         type="text"
-                        disabled={bill?.billAndAdvanceId}
+                        // disabled={bill?.billAndAdvanceId}
                       />
                     </div>
                     <div className="col-auto">
@@ -332,6 +338,85 @@ export default function AddBill({
                       showPreviews={true}
                       showFileNamesInPreview={true}
                     />
+                  </div>
+                  <div className="react-bootstrap-table table-responsive mt-3">
+                    <table className="table table-striped table-bordered global-table">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Bill No</th>
+                          <th>Bill Date</th>
+                          <th>Bill Amount (Including Vat)</th>
+                          <th>Vat Amount</th>
+                          <th>Advance Adjust</th>
+                          <th>Description</th>
+                          <th style={{ width: "70px" }}>Attachment</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {bill?.length > 0 &&
+                          bill?.map((item, index) => {
+                            return (
+                              <>
+                                <tr key={index}>
+                                  <td
+                                    style={{ width: "30px" }}
+                                    className="text-center"
+                                  >
+                                    {index + 1}
+                                  </td>
+                                  <td>
+                                    <span className="pl-2 text-center">
+                                      {item?.billNo}
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <span className="pl-2 text-center">
+                                      {_dateFormatter(item?.dteTransactionDate)}
+                                    </span>
+                                  </td>
+                                  <td className="text-right">
+                                    <span className="pl-2">
+                                      {item?.numAmount}
+                                    </span>
+                                  </td>
+                                  <td className="text-right">
+                                    <span className="pl-2">
+                                      {item?.vatAmount}
+                                    </span>
+                                  </td>
+                                  <td className="text-right">
+                                    <span className="pl-2">
+                                      {item?.numAdvanceAdjust}
+                                    </span>
+                                  </td>
+                                  <td className="text-right">
+                                    <span className="pl-2">
+                                      {item?.description}
+                                    </span>
+                                  </td>
+                                  <td className="text-center">
+                                    {item?.attachment ? (
+                                      <IView
+                                        clickHandler={() => {
+                                          dispatch(
+                                            getDownlloadFileView_Action(
+                                              item?.attachment
+                                            )
+                                          );
+                                        }}
+                                      />
+                                    ) : (
+                                      ""
+                                    )}
+                                  </td>
+                                </tr>
+
+                              </>
+                            );
+                          })}
+                      </tbody>
+                    </table>
                   </div>
                 </Form>
               </CardBody>
