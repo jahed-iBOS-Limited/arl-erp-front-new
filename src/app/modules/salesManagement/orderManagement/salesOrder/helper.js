@@ -269,6 +269,7 @@ export const GetItemWiseWarehouseStock = async (
     let list = [];
     const promises = [res, res2];
     const results = await Promise.allSettled(promises);
+    setLoading(false);
     results.forEach((result) => {
       if (result.status === "fulfilled") {
         const { value } = result;
@@ -322,7 +323,6 @@ export const GetItemWiseWarehouseStock = async (
       }
     });
     setter(wearhoseUnique);
-    setLoading(false);
   } catch (error) {
     setter([]);
     toast.error(error?.response?.data?.message);
