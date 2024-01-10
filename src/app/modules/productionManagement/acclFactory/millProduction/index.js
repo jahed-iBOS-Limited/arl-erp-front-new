@@ -117,7 +117,7 @@ export default function MillProduction() {
                                             <tr>
                                                 <th style={{ width: "30px" }}>SL</th>
                                                 <th>Date</th>
-                                                {/* <th>Shift</th> */}
+                                                <th>Shift</th>
                                                 {/* <th>Plant</th> */}
                                                 <th>Mill Name</th>
                                                 <th>Shop Floor</th>
@@ -125,6 +125,7 @@ export default function MillProduction() {
                                                 <th>BOM</th>
                                                 <th>Running Hour</th>
                                                 <th>Quantity</th>
+                                                <th>ActionBy</th>
                                                 <th>Remarks</th>
                                                 <th>Action</th>
                                             </tr>
@@ -136,7 +137,7 @@ export default function MillProduction() {
                                                     <tr key={index}>
                                                         <td className="text-center">{index + 1}</td>
                                                         <td className="text-center">{_dateFormatter(item?.dteDate)}</td>
-                                                        {/* <td className="text-center">{item?.strShiftName}</td> */}
+                                                        <td className="text-center">{item?.strShiftName}</td>
                                                         {/* <td>{item?.plant}</td> */}
                                                         <td>{item?.strMillName}</td>
                                                         <td>{item?.strShopFloorName}</td>
@@ -144,6 +145,7 @@ export default function MillProduction() {
                                                         <td className="text-center">{item?.strBomname}</td>
                                                         <td className="text-center">{item?.numRunningHour}</td>
                                                         <td className="text-center">{item?.numQuantity}</td>
+                                                        <td>{item?.strActionByName}</td>
                                                         <td>{item?.strRemark}</td>
                                                         <td className="text-center">
                                                             <IView
