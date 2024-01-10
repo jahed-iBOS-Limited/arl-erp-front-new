@@ -5,13 +5,15 @@ import { Input } from "../../../../../../_metronic/_partials/controls";
 import Axios from "axios";
 import Select from "react-select";
 import customStyles from "../../../../selectCustomStyle";
-import InputField from "../../../../_helper/_inputField";
 
 // Validation schema
 const DataValiadtionSchema = Yup.object().shape({
   itemName: Yup.string().when("businessUnit", {
-    is: businessUnit => businessUnit === 12 || businessUnit === 17 ||
-      businessUnit === 102 || businessUnit === 117,
+    is: (businessUnit) =>
+      businessUnit === 12 ||
+      businessUnit === 17 ||
+      businessUnit === 102 ||
+      businessUnit === 117,
     then: Yup.string()
       .min(2, "Minimum 2 symbols")
       .max(500, "Maximum 500 symbols")
@@ -21,10 +23,6 @@ const DataValiadtionSchema = Yup.object().shape({
       .max(150, "Maximum 150 symbols")
       .required("Item Name is required"),
   }),
-  // itemCode: Yup.string()
-  //   .min(2, "Minimum 2 symbols")
-  //   .max(50, "Maximum 50 symbols")
-  //   .required("Code is required"),
   itemType: Yup.object().shape({
     label: Yup.string().required("Item Type is required"),
     value: Yup.string().required("Item Type is required"),
@@ -45,9 +43,7 @@ export default function _Form({
   saveConfigBtnRef,
   saveData,
   resetBtnRef,
-  // disableHandler,
   isEdit,
-  // isDisabledCode,
   selectedBusinessUnit,
   accountId,
   setSaveConfigBtn,
@@ -66,9 +62,7 @@ export default function _Form({
     try {
       const res = await Axios.get("/item/ItemCategory/GetItemTypeListDDL");
       setItemTypeList(res.data);
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -159,7 +153,6 @@ export default function _Form({
           isValid,
         }) => (
           <>
-            {/* {disableHandler(!isValid)} */}
             <Form className="form form-label-right">
               <div className="form-group row global-form">
                 <div className="col-lg-3">
@@ -171,7 +164,7 @@ export default function _Form({
                     label="Item Name"
                   />
                 </div>
-                {(selectedBusinessUnit?.value === 102) &&
+                {selectedBusinessUnit?.value === 102 && (
                   <>
                     <div className="col-lg-3">
                       <Field
@@ -180,7 +173,6 @@ export default function _Form({
                         component={Input}
                         placeholder="IMPA Code"
                         label="IMPA Code"
-                      //disabled={isDisabledCode}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -190,7 +182,6 @@ export default function _Form({
                         component={Input}
                         placeholder="Drawing Code"
                         label="Drawing Code"
-                      //disabled={isDisabledCode}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -200,11 +191,10 @@ export default function _Form({
                         component={Input}
                         placeholder="Part No"
                         label="Part No"
-                      //disabled={isDisabledCode}
                       />
                     </div>
                   </>
-                }
+                )}
                 <div className="col-lg-3">
                   <label>Select Item Type</label>
                   <Field
@@ -272,9 +262,9 @@ export default function _Form({
                     className="text-danger"
                   >
                     {errors &&
-                      errors.itemCategory &&
-                      touched &&
-                      touched.itemCategory
+                    errors.itemCategory &&
+                    touched &&
+                    touched.itemCategory
                       ? errors.itemCategory.value
                       : ""}
                   </p>
@@ -282,7 +272,6 @@ export default function _Form({
                 <div className="col-lg-3">
                   <label>Select Item Sub-category</label>
                   <Field
-                    // name="itemSubCategory"
                     component={() => (
                       <Select
                         value={values?.itemSubCategory}
@@ -311,101 +300,14 @@ export default function _Form({
                     className="text-danger"
                   >
                     {touched &&
-                      touched?.itemSubCategory &&
-                      errors &&
-                      errors?.itemSubCategory
+                    touched?.itemSubCategory &&
+                    errors &&
+                    errors?.itemSubCategory
                       ? errors?.itemSubCategory.value
                       : ""}
                   </p>
                 </div>
-                {/* <div className="col-lg-3">
-                  <InputField
-                    name="minimumStockQuantity"
-                    value={values?.minimumStockQuantity}
-                    label="Minimum Stock Quantity"
-                    step='any'
-                    onChange={(e) => {
-                      if (+e.target.value <= 0) {
-                        setFieldValue("minimumStockQuantity", "");
-                        return;
-                      }
-                      setFieldValue("minimumStockQuantity", e.target.value);
-                    }}
-                    type="number"
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    name="safetyStockQuantity"
-                    value={values?.safetyStockQuantity}
-                    label="Safety Stock Quantity (with buffer)"
-                    step='any'
-                    onChange={(e) => {
-                      if (+e.target.value <= 0) {
-                        setFieldValue("safetyStockQuantity", "");
-                        return;
-                      }
-                      setFieldValue("safetyStockQuantity", e.target.value);
-                    }}
-                    type="number"
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    name="maximumQuantity"
-                    value={values?.maximumQuantity}
-                    label="Maximum Quantity"
-                    step='any'
-                    onChange={(e) => {
-                      if (+e.target.value <= 0) {
-                        setFieldValue("maximumQuantity", "");
-                        return;
-                      }
-                      setFieldValue("maximumQuantity", e.target.value);
-                    }}
-                    type="number"
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    name="reorderQuantity"
-                    value={values?.reorderQuantity}
-                    label="Reorder Quantity"
-                    step='any'
-                    onChange={(e) => {
-                      if (+e.target.value <= 0) {
-                        setFieldValue("reorderQuantity", "");
-                        return;
-                      }
-                      setFieldValue("reorderQuantity", e.target.value);
-                    }}
-                    type="number"
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    name="reorderLevel"
-                    value={values?.reorderLevel}
-                    label="Reorder Level"
-                    step='any'
-                    onChange={(e) => {
-                      setFieldValue("reorderLevel", e.target.value);
-                    }}
-                    type="text"
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div> */}
               </div>
-
               <button
                 type="submit"
                 style={{ display: "none" }}

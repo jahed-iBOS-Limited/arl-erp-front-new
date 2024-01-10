@@ -53,6 +53,7 @@ import LiftingPlan from "./liftingPlan";
 import MRRCancel from "./mrrCancel";
 import TargetVSProductionRequestForm from "./targetVSProductionRequest/form/addEditForm";
 import TargetVSProductionRequest from "./targetVSProductionRequest/landing";
+import InventoryAdjustApprove from "./inventoryAdjustApprove";
 
 export function WarehouseManagementPages() {
   const { userRole, selectedBusinessUnit } = useSelector(
@@ -429,6 +430,10 @@ export function WarehouseManagementPages() {
       <ContentRoute
         path="/inventory-management/warehouse-management/branditemrequisition"
         component={BrandItemRequisitionLanding}
+      />
+      <ContentRoute
+        path="/inventory-management/warehouse-management/inventory-Adjust-Approve"
+        component={InventoryAdjustApprove}
       />
     </Switch>
   );

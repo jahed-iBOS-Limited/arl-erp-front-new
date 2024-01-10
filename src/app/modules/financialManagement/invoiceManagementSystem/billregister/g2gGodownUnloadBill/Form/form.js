@@ -47,6 +47,7 @@ export default function _Form({
           saveHandler(values, () => {
             resetForm(initData);
             setGridData([]);
+            setUploadedImage([]);
           });
         }}
       >

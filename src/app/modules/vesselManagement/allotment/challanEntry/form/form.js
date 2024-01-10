@@ -17,7 +17,7 @@ import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import IViewModal from "../../../../_helper/_viewModal";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { BADCBCICForm } from "../../../common/components";
+import { BADCBCICForm, PortAndMotherVessel } from "../../../common/components";
 import { getG2GMotherVesselLocalRevenueApi, validationSchema } from "../helper";
 import AddVehicleNameModal from "./addVehicleNameModal";
 import RestQtyModal from "./restQtyModal";
@@ -48,7 +48,7 @@ export default function _Form({
   const [isShowModal, setIsShowModal] = useState(false);
   const [isRestQtyModalShow, setIsResetModalShow] = useState(false);
   const [logisticId, setLogisticId] = useState(null);
-  const [portDDL, getPortDDL] = useAxiosGet();
+  // const [portDDL, getPortDDL] = useAxiosGet();
   const [altSuppliers, getaltSuppliers] = useAxiosGet();
   const [, getRates, loader] = useAxiosGet();
   const [restQty, getRestQty, restQtyLoader] = useAxiosGet();
@@ -57,7 +57,7 @@ export default function _Form({
   const { id } = useParams();
   const history = useHistory();
   useEffect(() => {
-    getPortDDL(`/wms/FertilizerOperation/GetDomesticPortDDL`);
+    // getPortDDL(`/wms/FertilizerOperation/GetDomesticPortDDL`);
     getaltSuppliers(
       `/wms/TransportMode/GetTransportMode?intParid=2&intBusinessUnitId=${buId}`
     );
@@ -258,7 +258,21 @@ export default function _Form({
                           isDisabled={disableHandler()}
                         />
                       </div>
-                      <div className="col-lg-3">
+                      <PortAndMotherVessel
+                        obj={{
+                          values,
+                          setFieldValue,
+                          onChange: (fieldName, allValues) => {
+                            onChangeHandler(
+                              fieldName,
+                              values,
+                              allValues?.[fieldName],
+                              setFieldValue
+                            );
+                          },
+                        }}
+                      />
+                      {/* <div className="col-lg-3">
                         <NewSelect
                           name="port"
                           options={portDDL || []}
@@ -287,15 +301,15 @@ export default function _Form({
                               e,
                               setFieldValue
                             );
-                            if (values?.godown) {
-                              commonItemPriceSet(
-                                {
-                                  ...values,
-                                  motherVessel: e,
-                                },
-                                setFieldValue
-                              );
-                            }
+                            // if (values?.godown) {
+                            //   commonItemPriceSet(
+                            //     {
+                            //       ...values,
+                            //       motherVessel: e,
+                            //     },
+                            //     setFieldValue
+                            //   );
+                            // }
                           }}
                           placeholder="Mother Vessel"
                           errors={errors}
@@ -303,7 +317,7 @@ export default function _Form({
                           isDisabled={disableHandler()}
                           // isDisabled={disableHandler() || id}
                         />
-                      </div>
+                      </div> */}
                       <div className="col-lg-3">
                         <InputField
                           label="Program No"
@@ -467,22 +481,24 @@ export default function _Form({
                           placeholder="Destination/Godown Name"
                           errors={errors}
                           touched={touched}
-                          isDisabled={disableHandler()}
+                          isDisabled={disableHandler() || !values?.motherVessel}
                           onChange={(e) => {
                             onChangeHandler("godown", values, e, setFieldValue);
-                            GetGodownAndOtherLabourRates(
-                              2,
-                              { ...values, godown: e },
-                              setFieldValue
-                            );
-                            if (values?.motherVessel) {
-                              commonItemPriceSet(
-                                {
-                                  ...values,
-                                  godown: e,
-                                },
+                            if (e) {
+                              GetGodownAndOtherLabourRates(
+                                2,
+                                { ...values, godown: e },
                                 setFieldValue
                               );
+                              if (values?.motherVessel) {
+                                commonItemPriceSet(
+                                  {
+                                    ...values,
+                                    godown: e,
+                                  },
+                                  setFieldValue
+                                );
+                              }
                             }
                           }}
                         />

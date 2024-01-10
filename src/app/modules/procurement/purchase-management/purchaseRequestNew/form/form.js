@@ -462,7 +462,7 @@ export default function _Form({
                         />
                       </div>
                       <div className="col-lg-4 pr-0">
-                        <label>Purpose</label>
+                        <label>Purchase Description</label>
                         <InputField
                           value={values?.rowPurpose}
                           name="rowPurpose"
