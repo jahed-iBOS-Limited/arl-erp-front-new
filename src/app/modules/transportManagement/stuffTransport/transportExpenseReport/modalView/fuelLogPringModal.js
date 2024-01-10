@@ -5,16 +5,18 @@ import Loading from "../../../../_helper/_loading";
 import ReactToPrint from "react-to-print";
 import { getFormattedMonthYear } from "../helper";
 
-export default function FuelLogPringModal({ vehicelUserEnroll, values }) {
+export default function FuelLogPringModal({ item, values }) {
   const [printData, getPrintData, loading] = useAxiosGet();
   const printRef = useRef();
 
   useEffect(() => {
     getPrintData(
-      `/mes/VehicleLog/GetFuelCostMonthRangeByEmployee?vehicelUserEnroll=${vehicelUserEnroll}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`
+      `/mes/VehicleLog/GetFuelCostMonthRangeByEmployee?vehicelUserEnroll=${item?.vehicelUserEnroll}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [vehicelUserEnroll, values]);
+  }, [item, values]);
+
+  console.log("printData", printData);
 
   let grandTotalKM = 0;
   let grandFuelCash = 0;
@@ -66,10 +68,10 @@ export default function FuelLogPringModal({ vehicelUserEnroll, values }) {
           </div>
           <div>
             <p>
-              <strong>SBU Name :</strong>
+              <strong>SBU Name : {item?.strBusinessUnit}</strong>
             </p>
             <p>
-              <strong>Vehicle Reg. No :</strong>
+              <strong>Vehicle Reg. No : {item?.strVehicleNo}</strong>
             </p>
           </div>
         </div>
@@ -90,7 +92,7 @@ export default function FuelLogPringModal({ vehicelUserEnroll, values }) {
               </tr>
             </thead>
             <tbody>
-              {[printData]?.map((item, index) => {
+              {printData?.map((item, index) => {
                 //row calculation
                 grandTotalKM += item?.totalKM || 0;
                 grandFuelCash += item?.fuelCash || 0;
@@ -114,11 +116,11 @@ export default function FuelLogPringModal({ vehicelUserEnroll, values }) {
                       <td style={{ width: "20px" }} className="text-center">
                         {index + 1}
                       </td>
-                      <td style={{ width: "180px" }}>
+                      <td className="text-center">
                         {getFormattedMonthYear(item?.monthId, item?.yearId)}
                       </td>
-                      <td> {item?.totalKM} </td>
-                      <td className="text-center"> {item?.fuelCash} </td>
+                      <td className="text-right"> {item?.totalKM} </td>
+                      <td className="text-right"> {item?.fuelCash} </td>
                       <td style={{ textAlign: "right" }}>
                         {_formatMoney(item?.fuelCredit)}
                       </td>
@@ -137,16 +139,16 @@ export default function FuelLogPringModal({ vehicelUserEnroll, values }) {
                       <td style={{ textAlign: "right" }}>
                         {" "}
                         {_formatMoney(
-                          (item?.fuelCash + item?.fuelCredit) / item?.totalKM
+                          item?.fuelCash +
+                            item?.numTollAmount +
+                            item?.daAmount +
+                            item?.otherExpanse
                         )}
                       </td>
                       <td style={{ textAlign: "right" }}>
                         {" "}
                         {_formatMoney(
-                          item?.fuelCash +
-                            item?.numTollAmount +
-                            item?.daAmount +
-                            item?.otherExpanse
+                          (item?.fuelCash + item?.fuelCredit) / item?.totalKM
                         )}
                       </td>
                     </tr>
@@ -154,8 +156,8 @@ export default function FuelLogPringModal({ vehicelUserEnroll, values }) {
                       <td colSpan={2} className="text-center">
                         <strong> Total</strong>
                       </td>
-                      <td> {grandTotalKM} </td>
-                      <td className="text-center"> {grandFuelCash} </td>
+                      <td style={{ textAlign: "right" }}> {grandTotalKM} </td>
+                      <td style={{ textAlign: "right" }}> {grandFuelCash} </td>
                       <td style={{ textAlign: "right" }}>
                         {_formatMoney(grandFuelCredit)}
                       </td>
@@ -173,11 +175,11 @@ export default function FuelLogPringModal({ vehicelUserEnroll, values }) {
                       </td>
                       <td style={{ textAlign: "right" }}>
                         {" "}
-                        {_formatMoney(grandKMPL)}
+                        {_formatMoney(grandTotalAmount)}
                       </td>
                       <td style={{ textAlign: "right" }}>
                         {" "}
-                        {_formatMoney(grandTotalAmount)}
+                        {_formatMoney(grandKMPL)}
                       </td>
                     </tr>
                   </>

@@ -123,7 +123,7 @@ const EmployeeWiseFuelCostTbl = ({ rowData, values }) => {
           </table>
           <IViewModal show={isShowModal} onHide={() => setIsShowModal(false)}>
             <FuelLogPringModal
-              vehicelUserEnroll={item?.vehicelUserEnroll}
+             item={item}
               values={values}
             />
           </IViewModal>
