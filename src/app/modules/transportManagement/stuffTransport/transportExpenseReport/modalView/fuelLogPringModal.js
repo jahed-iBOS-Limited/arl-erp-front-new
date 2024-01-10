@@ -15,11 +15,20 @@ export default function FuelLogPringModal({ vehicelUserEnroll, values }) {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [vehicelUserEnroll, values]);
+
+  let grandTotalKM = 0;
+  let grandFuelCash = 0;
+  let grandDaAmount = 0;
+  let grandFuelCredit = 0;
+  let grandOtherExpanse = 0;
+  let grandTollAmount = 0;
+  let grandKMPL = 0;
+  let grandTotalAmount = 0;
+
   return (
     <>
       {loading && <Loading />}
-      <div className="text-right">
-        {" "}
+      <div className="text-right mt-5 mb-5">
         <ReactToPrint
           pageStyle={
             "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
@@ -65,12 +74,7 @@ export default function FuelLogPringModal({ vehicelUserEnroll, values }) {
           </div>
         </div>
         <div>
-          <table
-            id=""
-            className={
-              "table table-striped table-bordered global-table table-font-size-sm"
-            }
-          >
+          <table id="" className={"table table-bordered"}>
             <thead>
               <tr className="cursor-pointer">
                 <th>SL</th>
@@ -88,41 +92,95 @@ export default function FuelLogPringModal({ vehicelUserEnroll, values }) {
             <tbody>
               {[printData]?.map((item, index) => {
                 //row calculation
+                grandTotalKM += item?.totalKM || 0;
+                grandFuelCash += item?.fuelCash || 0;
+                grandDaAmount += item?.daAmount || 0;
+                grandFuelCredit += item?.fuelCredit || 0;
+                grandOtherExpanse = item?.otherExpanse || 0;
+                grandTollAmount = item?.numTollAmount || 0;
+                grandKMPL +=
+                  (item?.fuelCash || 0 + item?.fuelCredit || 0) /
+                    item?.totalKM || 0;
+                grandTotalAmount +=
+                  item?.fuelCash ||
+                  0 + item?.numTollAmount ||
+                  0 + item?.daAmount ||
+                  0 + item?.otherExpanse ||
+                  0;
 
                 return (
-                  <tr key={index}>
-                    <td style={{ width: "20px" }} className="text-center">
-                      {index + 1}
-                    </td>
-                    <td style={{ width: "180px" }}>
-                      {getFormattedMonthYear(item?.monthId, item?.yearId)}
-                    </td>
-                    <td> {item?.totalKM} </td>
-                    <td className="text-center"> {item?.fuelCash} </td>
-                    <td style={{ textAlign: "right" }}>
-                      {_formatMoney(item?.fuelCredit)}
-                    </td>
-                    <td style={{ textAlign: "right" }}>
-                      {" "}
-                      {_formatMoney(item?.numTollAmount)}
-                    </td>
-                    <td style={{ textAlign: "right" }}>
-                      {" "}
-                      {_formatMoney(item?.daAmount)}
-                    </td>
-                    <td style={{ textAlign: "right" }}>
-                      {" "}
-                      {_formatMoney(item?.otherExpanse)}
-                    </td>
-                    <td style={{ textAlign: "right" }}>
-                      {" "}
-                      {_formatMoney(item?.totalKM)}
-                    </td>
-                    <td style={{ textAlign: "right" }}>
-                      {" "}
-                      {_formatMoney(item?.totalKM)}
-                    </td>
-                  </tr>
+                  <>
+                    <tr key={index}>
+                      <td style={{ width: "20px" }} className="text-center">
+                        {index + 1}
+                      </td>
+                      <td style={{ width: "180px" }}>
+                        {getFormattedMonthYear(item?.monthId, item?.yearId)}
+                      </td>
+                      <td> {item?.totalKM} </td>
+                      <td className="text-center"> {item?.fuelCash} </td>
+                      <td style={{ textAlign: "right" }}>
+                        {_formatMoney(item?.fuelCredit)}
+                      </td>
+                      <td style={{ textAlign: "right" }}>
+                        {" "}
+                        {_formatMoney(item?.numTollAmount)}
+                      </td>
+                      <td style={{ textAlign: "right" }}>
+                        {" "}
+                        {_formatMoney(item?.daAmount)}
+                      </td>
+                      <td style={{ textAlign: "right" }}>
+                        {" "}
+                        {_formatMoney(item?.otherExpanse)}
+                      </td>
+                      <td style={{ textAlign: "right" }}>
+                        {" "}
+                        {_formatMoney(
+                          (item?.fuelCash + item?.fuelCredit) / item?.totalKM
+                        )}
+                      </td>
+                      <td style={{ textAlign: "right" }}>
+                        {" "}
+                        {_formatMoney(
+                          item?.fuelCash +
+                            item?.numTollAmount +
+                            item?.daAmount +
+                            item?.otherExpanse
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colSpan={2} className="text-center">
+                        <strong> Total</strong>
+                      </td>
+                      <td> {grandTotalKM} </td>
+                      <td className="text-center"> {grandFuelCash} </td>
+                      <td style={{ textAlign: "right" }}>
+                        {_formatMoney(grandFuelCredit)}
+                      </td>
+                      <td style={{ textAlign: "right" }}>
+                        {" "}
+                        {_formatMoney(grandTollAmount)}
+                      </td>
+                      <td style={{ textAlign: "right" }}>
+                        {" "}
+                        {_formatMoney(grandDaAmount)}
+                      </td>
+                      <td style={{ textAlign: "right" }}>
+                        {" "}
+                        {_formatMoney(grandOtherExpanse)}
+                      </td>
+                      <td style={{ textAlign: "right" }}>
+                        {" "}
+                        {_formatMoney(grandKMPL)}
+                      </td>
+                      <td style={{ textAlign: "right" }}>
+                        {" "}
+                        {_formatMoney(grandTotalAmount)}
+                      </td>
+                    </tr>
+                  </>
                 );
               })}
             </tbody>
