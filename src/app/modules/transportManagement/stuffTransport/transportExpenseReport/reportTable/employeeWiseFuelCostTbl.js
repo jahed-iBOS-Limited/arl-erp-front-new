@@ -45,8 +45,7 @@ const  EmployeeWiseFuelCostTbl = ({rowData}) => {
                             const totalCost = totalRouteCost + item?.otherExpanse;
                             const perKMCost = totalRouteCost / item?.totalKM;
                             const personalCostDeduction = (totalPersonalKM- item?.numCeilingKM) * perKMCost;
-                            const netPayable = (totalCost - item?.fuelCash) - personalCostDeduction
-
+                            const netPayable = (totalCost - item?.fuelCredit) - personalCostDeduction
                             return (
                               <tr key={index}>
                                 <td
@@ -68,7 +67,7 @@ const  EmployeeWiseFuelCostTbl = ({rowData}) => {
                                <td style={{textAlign: "right"}}>{_formatMoney(item?.otherExpanse)}</td>
                                <td style={{textAlign: "right"}}>{_formatMoney(totalCost)} </td>
                                <td style={{textAlign: "right"}}> {_formatMoney(perKMCost)}</td>
-                               <td style={{textAlign: "right"}}>{_formatMoney(netPayable)}</td>
+                               <td style={{textAlign: "right"}}>{_formatMoney(personalCostDeduction)}</td>
                                <td style={{textAlign: "right"}}> {_formatMoney(netPayable)} </td>
                               </tr>
                             );
