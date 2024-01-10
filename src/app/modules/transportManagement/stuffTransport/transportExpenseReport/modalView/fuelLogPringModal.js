@@ -46,8 +46,8 @@ export default function FuelLogPringModal({ item, values }) {
       </div>
       <div ref={printRef}>
         <div className="text-center">
-          <h2>iBOS Software Ltd.</h2>
-          <h6>6/2 Kazi Nazrul Islam Road, Dhaka- 1207</h6>
+          <h2>{item?.strBusinessUnit}</h2>
+          {/* <h6>6/2 Kazi Nazrul Islam Road, Dhaka- 1207</h6> */}
           <h4>Fuel Log</h4>
         </div>
         <div className="d-flex justify-content-between mt-5">
