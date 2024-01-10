@@ -378,19 +378,20 @@ function Form() {
                     touched={touched}
                   />
                 </div>
-
-                <div className='mt-3'>
-                  <button
-                    className='btn btn-primary mt-3'
-                    onClick={() => {
-                      viewHandler(values);
-                    }}
-                    type='button'
-                    disabled={!values?.channel}
-                  >
-                    View
-                  </button>
-                </div>
+                {!id && (
+                  <div className='mt-3'>
+                    <button
+                      className='btn btn-primary mt-3'
+                      onClick={() => {
+                        viewHandler(values);
+                      }}
+                      type='button'
+                      disabled={!values?.channel}
+                    >
+                      View
+                    </button>
+                  </div>
+                )}
               </div>
 
               <RowTable
