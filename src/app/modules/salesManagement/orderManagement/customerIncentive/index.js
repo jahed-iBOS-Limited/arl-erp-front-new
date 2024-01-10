@@ -380,8 +380,11 @@ export default function CustomerIncentive() {
                             ? "Avg Delivery Qty"
                             : "Delivery Qty"}
                         </th>
-                        <th>Total Delivery Qty</th>
-                        <th>Due Amount</th>
+                        {/* <th>Total Delivery Qty</th> */}
+                        <th>Balance</th>
+                        <th>Opening Balance</th>
+                        <th>Sales Amount</th>
+                        <th>Collection Amount</th>
                         <th>Amount</th>
                         <th>Is JV Posted</th>
                       </tr>
@@ -417,11 +420,20 @@ export default function CustomerIncentive() {
                             <td className="text-right">
                               {item?.deliveryQty || 0}
                             </td>
-                            <td className="text-right">
+                            {/* <td className="text-right">
                               {item?.totalDeliveryQTY || 0}
+                            </td> */}
+                            <td className="text-right">
+                              {_formatMoney(item?.balance)}
                             </td>
                             <td className="text-right">
-                              {_formatMoney(item?.dueAmount)}
+                              {_formatMoney(item?.openingBalance)}
+                            </td>
+                            <td className="text-right">
+                              {_formatMoney(item?.salesAmount)}
+                            </td>
+                            <td className="text-right">
+                              {_formatMoney(item?.collectionAmount)}
                             </td>
                             <td className="text-right">
                               {_formatMoney(item?.incentiveAmount)}
@@ -434,7 +446,7 @@ export default function CustomerIncentive() {
                       <tr>
                         <td
                           className="font-weight-bold text-left ml-2"
-                          colSpan={7}
+                          colSpan={6}
                         >
                           Total
                         </td>
@@ -442,9 +454,18 @@ export default function CustomerIncentive() {
                           {countTotal("deliveryQty")}
                         </td>
                         <td className="font-weight-bold text-right">
-                          {countTotal("dueAmount")}
+                          {countTotal("balance")}
                         </td>
 
+                        <td className="font-weight-bold text-right">
+                          {_formatMoney(countTotal("openingBalance"))}
+                        </td>
+                        <td className="font-weight-bold text-right">
+                          {_formatMoney(countTotal("salesAmount"))}
+                        </td>
+                        <td className="font-weight-bold text-right">
+                          {_formatMoney(countTotal("collectionAmount"))}
+                        </td>
                         <td className="font-weight-bold text-right">
                           {_formatMoney(countTotal("incentiveAmount"))}
                         </td>
