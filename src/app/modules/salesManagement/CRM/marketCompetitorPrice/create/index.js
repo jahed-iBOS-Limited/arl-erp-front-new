@@ -57,7 +57,7 @@ function Form() {
   // get user profile data from store
   const {
     profileData: { accountId: accId, userId },
-    selectedBusinessUnit: { value: buId },
+    selectedBusinessUnit: { value: buId, label: buName },
   } = useSelector((state) => state?.authData, shallowEqual);
   const [rowDto, setRowDto] = React.useState([]);
   const [businessUnitDDL, setBusinessUnitDDL] = useAxiosGet([]);
@@ -86,7 +86,7 @@ function Form() {
   useEffect(() => {
     if (+id) {
       setCompetitorPriceById(
-        `/oms/CompetitorPrice/GetCompetitorPriceById?PriceHeaderId=6`,
+        `/oms/CompetitorPrice/GetCompetitorPriceById?PriceHeaderId=${id}`,
         (resData) => {
           if (formikRef.current) {
             formikRef.current.setValues({
@@ -133,10 +133,33 @@ function Form() {
                 ...itm,
                 strTransactionType: transactionType?.label || "",
                 numTransactionTypeId: transactionType?.value || "",
+                strDisplayName:
+                  itm?.strDisplayName || itm?.strProductDisplayName || "",
               };
             })
           );
+
+          setPoliceStationDDL(
+            `/oms/TerritoryInfo/GetThanaDDL?countryId=${18}&divisionId=${0}&districtId=${
+              resData?.objHeader?.intDistrictId
+            }`
+          );
+          setTerritoryDDL(
+            `/oms/TerritoryInfo/GetTerritoryList?AccountId=${accId}&BusinessUnitId=${resData?.objHeader?.intBusinessUnitId}`
+          );
         }
+      );
+    } else {
+      formikRef.current.setValues({
+        businessUnit: buId
+          ? {
+              value: buId,
+              label: buName,
+            }
+          : "",
+      });
+      setTerritoryDDL(
+        `/oms/TerritoryInfo/GetTerritoryList?AccountId=${accId}&BusinessUnitId=${buId}`
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -355,19 +378,20 @@ function Form() {
                     touched={touched}
                   />
                 </div>
-
-                <div className='mt-3'>
-                  <button
-                    className='btn btn-primary mt-3'
-                    onClick={() => {
-                      viewHandler(values);
-                    }}
-                    type='button'
-                    disabled={!values?.channel}
-                  >
-                    View
-                  </button>
-                </div>
+                {!id && (
+                  <div className='mt-3'>
+                    <button
+                      className='btn btn-primary mt-3'
+                      onClick={() => {
+                        viewHandler(values);
+                      }}
+                      type='button'
+                      disabled={!values?.channel}
+                    >
+                      View
+                    </button>
+                  </div>
+                )}
               </div>
 
               <RowTable
