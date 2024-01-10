@@ -133,6 +133,8 @@ function Form() {
                 ...itm,
                 strTransactionType: transactionType?.label || "",
                 numTransactionTypeId: transactionType?.value || "",
+                strDisplayName: itm?.strDisplayName || itm?.strProductDisplayName || "",
+
               };
             })
           );

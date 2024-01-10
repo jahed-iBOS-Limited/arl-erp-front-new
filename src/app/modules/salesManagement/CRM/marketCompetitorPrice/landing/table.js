@@ -4,6 +4,8 @@ import { useHistory } from "react-router-dom";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import IView from "../../../../_helper/_helperIcons/_view";
 import { _dateFormatter } from "./../../../../_helper/_dateFormate";
+import IViewModal from "../../../../_helper/_viewModal";
+import MarketCompetitorPriceView from "../view";
 const LandingTable = ({ obj }) => {
   const {
     profileData: { employeeId },
@@ -31,7 +33,13 @@ const LandingTable = ({ obj }) => {
               <th>District</th>
               <th>Police Station</th>
               <th>Territory</th>
-              <th>Action</th>
+              <th
+                style={{
+                  width: "70px",
+                }}
+              >
+                Action
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -79,6 +87,20 @@ const LandingTable = ({ obj }) => {
           </tbody>
         </table>
       </div>
+      {isShowModal && (
+        <>
+          <IViewModal
+            show={isShowModal}
+            onHide={() => {
+              setIsShowModal(false);
+              setClickedRow({});
+            }}
+            title={"Market Competitor Price View"}
+          >
+            <MarketCompetitorPriceView clickedRow={clickedRow} />
+          </IViewModal>
+        </>
+      )}
     </>
   );
 };
