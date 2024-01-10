@@ -86,7 +86,7 @@ function Form() {
   useEffect(() => {
     if (+id) {
       setCompetitorPriceById(
-        `/oms/CompetitorPrice/GetCompetitorPriceById?PriceHeaderId=6`,
+        `/oms/CompetitorPrice/GetCompetitorPriceById?PriceHeaderId=${id}`,
         (resData) => {
           if (formikRef.current) {
             formikRef.current.setValues({
