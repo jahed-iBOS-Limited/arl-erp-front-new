@@ -14,8 +14,14 @@ import InputField from "../../../../_helper/_inputField";
 import { _todayDate } from "./../../../../_helper/_todayDate";
 
 const initData = {
-  businessUnit: "",
-  channel: "",
+  businessUnit: {
+    value: 0,
+    label: "All",
+  },
+  channel: {
+    value: 0,
+    label: "All",
+  },
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -40,6 +46,7 @@ const MarketCompetitorPriceLanding = () => {
         `/domain/BusinessUnitDomain/GetBusinessUnitDDL?AccountId=${accId}&BusinessUnitId=0`
       );
       setDDLChannelList(`/oms/CompetitorChannel/GetDDLCompetitorChannelList`);
+      commonGridData(pageNo, pageSize, initData);
     }
   }, [accId, buId]);
 
@@ -50,7 +57,7 @@ const MarketCompetitorPriceLanding = () => {
     searhValue
   ) => {
     setCompetitorPriceLandingPag(
-      `/oms/CompetitorPrice/GetCompetitorPriceLandingPagination?businessUntId=${values?.value}&ChannelId=${values?.channel?.value}&fromDate=2024-01-01&toDate=2024-01-09&PageNo=${_pageNo}&PageSize=${pageSize}&viewOrder=desc`,
+      `/oms/CompetitorPrice/GetCompetitorPriceLandingPagination?businessUntId=${values?.businessUnit?.value}&ChannelId=${values?.channel?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&PageNo=${_pageNo}&PageSize=${pageSize}&viewOrder=desc`,
       (resData) => {
         setGridData(resData);
       }
@@ -70,19 +77,14 @@ const MarketCompetitorPriceLanding = () => {
                 );
               }}
             >
-              {/* <PaginationSearch
-                placeholder='Search By Issue, Code, Name'
-                paginationSearchHandler={(searchValue) => {
-                  commonGridData(1, pageSize, values, searchValue);
-                }}
-                values={values}
-              /> */}
               <div className='row global-form my-3'>
                 <div className='col-lg-3'>
                   <NewSelect
                     isRequiredSymbol={true}
                     name='businessUnit'
-                    options={businessUnitDDL || []}
+                    options={
+                      [{ value: 0, label: "All" }, ...businessUnitDDL] || []
+                    }
                     value={values?.businessUnit}
                     label='Business Unit'
                     onChange={(valueOption) => {
@@ -96,7 +98,15 @@ const MarketCompetitorPriceLanding = () => {
                   <NewSelect
                     isRequiredSymbol={true}
                     name='channel'
-                    options={channelList || []}
+                    options={
+                      [
+                        {
+                          value: 0,
+                          label: "All",
+                        },
+                        ...channelList,
+                      ] || []
+                    }
                     value={values?.channel}
                     label='Channel'
                     onChange={(valueOption) => {
@@ -155,7 +165,6 @@ const MarketCompetitorPriceLanding = () => {
                   commonGridDataCB: () => {
                     commonGridData(pageNo, pageSize, values);
                   },
-                
                 }}
               />
 
