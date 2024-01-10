@@ -46,7 +46,7 @@ const EmployeeWiseFuelCostTbl = ({ rowData, values }) => {
             <tbody>
               {rowData?.map((item, index) => {
                //row calculation
-               const totalPersonalKM = item?.numCeilingKM + (item?.numCeilingKM * .25);
+               const totalPersonalKM = item?.numCeilingKM + (item?.numCeilingKM * 0.25);
                const totalFuelCost = item?.fuelCash + item?.fuelCredit;
                const totalRouteCost = totalFuelCost + item?.numTollAmount;
                const totalCost = totalRouteCost + item?.otherExpanse;
