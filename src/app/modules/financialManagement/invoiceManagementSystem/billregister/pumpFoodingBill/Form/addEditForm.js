@@ -66,9 +66,10 @@ export default function PumpFoodingBillForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId, headerData]);
 
-  const getRows = (values) => {
+  const getRows = (values, cb) => {
     getRowData(
-      `/hcm/MenuListOfFoodCorner/GetPumpFoodingBillPagination?BusinessUnitId=${buId}&warehouseId=${values?.warehouse?.value}&Status=3&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&PageNo=1&PageSize=2000&ViewOrder=desc`
+      `/hcm/MenuListOfFoodCorner/GetPumpFoodingBillPagination?BusinessUnitId=${buId}&warehouseId=${values?.warehouse?.value}&Status=3&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&PageNo=1&PageSize=2000&ViewOrder=desc`,
+      cb&&cb
     );
   };
 
@@ -78,10 +79,10 @@ export default function PumpFoodingBillForm() {
     //   (total, row) => total + row.billAmount,
     //   0
     // );
-    if(!selectedItems?.length){
+    if (!selectedItems?.length) {
       return toast.warn("Please select at least one row");
     }
-    
+
     const payload = {
       billRegister: selectedItems?.map((item) => ({
         autoId: item?.autoId,
