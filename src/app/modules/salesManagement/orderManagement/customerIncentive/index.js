@@ -381,10 +381,10 @@ export default function CustomerIncentive() {
                             : "Delivery Qty"}
                         </th>
                         {/* <th>Total Delivery Qty</th> */}
-                        <th>Balance</th>
                         <th>Opening Balance</th>
                         <th>Sales Amount</th>
                         <th>Collection Amount</th>
+                        <th>Balance</th>
                         <th>Amount</th>
                         <th>Is JV Posted</th>
                       </tr>
@@ -424,9 +424,6 @@ export default function CustomerIncentive() {
                               {item?.totalDeliveryQTY || 0}
                             </td> */}
                             <td className="text-right">
-                              {_formatMoney(item?.balance)}
-                            </td>
-                            <td className="text-right">
                               {_formatMoney(item?.openingBalance)}
                             </td>
                             <td className="text-right">
@@ -434,6 +431,9 @@ export default function CustomerIncentive() {
                             </td>
                             <td className="text-right">
                               {_formatMoney(item?.collectionAmount)}
+                            </td>{" "}
+                            <td className="text-right">
+                              {_formatMoney(item?.balance)}
                             </td>
                             <td className="text-right">
                               {_formatMoney(item?.incentiveAmount)}
@@ -454,10 +454,6 @@ export default function CustomerIncentive() {
                           {countTotal("deliveryQty")}
                         </td>
                         <td className="font-weight-bold text-right">
-                          {countTotal("balance")}
-                        </td>
-
-                        <td className="font-weight-bold text-right">
                           {_formatMoney(countTotal("openingBalance"))}
                         </td>
                         <td className="font-weight-bold text-right">
@@ -465,6 +461,9 @@ export default function CustomerIncentive() {
                         </td>
                         <td className="font-weight-bold text-right">
                           {_formatMoney(countTotal("collectionAmount"))}
+                        </td>{" "}
+                        <td className="font-weight-bold text-right">
+                          {countTotal("balance")}
                         </td>
                         <td className="font-weight-bold text-right">
                           {_formatMoney(countTotal("incentiveAmount"))}
