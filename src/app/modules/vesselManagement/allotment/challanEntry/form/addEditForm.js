@@ -322,8 +322,10 @@ export default function ChallanEntryForm() {
             currentValue?.value
           );
           setFieldValue("item", {
-            value: currentValue?.intProductId,
-            label: currentValue?.strProductName,
+            value: currentValue?.itemId,
+            label: currentValue?.itemName,
+            // value: currentValue?.intProductId,
+            // label: currentValue?.strProductName,
           });
           getLightersForChallan(
             values?.shipPoint?.value,
