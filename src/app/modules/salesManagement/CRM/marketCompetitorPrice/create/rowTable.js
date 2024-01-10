@@ -256,7 +256,7 @@ function Bulk({ rowDto, setRowDto, transactionTypeDDL, isView }) {
           </th>
           <th
             style={{
-              width: "120px",
+              width: "132px",
             }}
           >
             Transaction Type
