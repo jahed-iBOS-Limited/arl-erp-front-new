@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import Loading from "./../../../../_helper/_loading";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import useAxiosPut from "../../../../_helper/customHooks/useAxiosPut";
 const initData = {
   date: _todayDate(),
   businessUnit: "",
@@ -68,6 +69,7 @@ function Form() {
   const [, setCompetitorProductsRowList] = useAxiosGet();
   const [, setCompetitorPriceById, loadingGetBy] = useAxiosGet();
   const [, postCreateCompetitorPrice, postLoading] = useAxiosPost();
+  const [, putCompetitorPrice, putLoading] = useAxiosPut();
   const formikRef = React.useRef(null);
 
   useEffect(() => {
@@ -151,6 +153,7 @@ function Form() {
       );
     } else {
       formikRef.current.setValues({
+        ...initData,
         businessUnit: buId
           ? {
               value: buId,
@@ -207,7 +210,7 @@ function Form() {
           numEdp: +itm?.numEdp || 0,
           numEtp: +itm?.numEtp || 0,
           numMktRate: +itm?.numMktRate || 0,
-          strMarketName: "Market",
+          strMarketName: itm?.strMarketName || "",
           strDeliveryPoint: itm?.strDeliveryPoint || "",
           strTransactionType: itm?.strTransactionType || "",
           isActive: true,
@@ -220,12 +223,23 @@ function Form() {
       }),
     };
 
-    postCreateCompetitorPrice(
-      "/oms/CompetitorPrice/CreateCompetitorPrice",
-      payload,
-      cb,
-      true
-    );
+    if (id) {
+      putCompetitorPrice(
+        "/oms/CompetitorPrice/EditCompetitorPrice",
+        payload,
+        () => {
+
+        },
+        true
+      );
+    } else {
+      postCreateCompetitorPrice(
+        "/oms/CompetitorPrice/CreateCompetitorPrice",
+        payload,
+        cb,
+        true
+      );
+    }
   };
 
   const viewHandler = (values) => {
@@ -271,7 +285,9 @@ function Form() {
               resetForm(initData);
             }}
           >
-            {(postLoading || rowListLoading || loadingGetBy) && <Loading />}
+            {(postLoading || rowListLoading || loadingGetBy || putLoading) && (
+              <Loading />
+            )}
             <form>
               <div className='row global-form'>
                 <div className='col-lg-3'>
@@ -290,6 +306,7 @@ function Form() {
                     placeholder='date'
                     name='date'
                     type='date'
+                    disabled={id}
                   />
                 </div>
                 <div className='col-lg-3'>
@@ -307,6 +324,8 @@ function Form() {
                       );
                     }}
                     placeholder='Select Business Unit'
+                    errors={errors}
+                    touched={touched}
                   />
                 </div>
                 <div className='col-lg-3'>
