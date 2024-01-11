@@ -55,7 +55,8 @@ const Table = ({ obj }) => {
                     <th>Millage (KM)</th>
                     <th>Addition Millage (Km)</th>
                     <th>Total Millage (KM)</th>
-                    <th>Standard Fuel Cost</th>
+                    <th>Actual Fuel Cost</th>
+                    {/* <th>Standard Fuel Cost</th> */}
                     <th>Administrative Cost</th>
                     <th>Driver Exp</th>
                     <th>Total Route Exp.</th>
