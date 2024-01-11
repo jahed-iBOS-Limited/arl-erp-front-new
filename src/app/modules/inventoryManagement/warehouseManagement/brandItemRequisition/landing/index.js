@@ -16,6 +16,7 @@ import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth"
 import NewSelect from "../../../../_helper/_select";
 import IViewModal from "../../../../_helper/_viewModal";
 import BrandItemRequisitionApproveForm from "./approve";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
 const initData = {
   fromDate: _firstDateofMonth(),
@@ -53,13 +54,13 @@ function BrandItemRequisitionLanding() {
       values?.fromDate
     }&todate=${values?.toDate}&PageNo=${pageNo}&PageSize=${pageSize}`;
 
-    const urlForPending = `/wms/ItemRequest/GetBrandItemRequestDataForApproval?accountId=${accId}&businessUnitId=${buId}&areaId=${values?.area?.value}&fromDate=${values?.fromDate}&todate=${values?.toDate}&status=1&isApproveByRM=true`;
+    const urlForPending = `/wms/ItemRequest/GetBrandItemRequestDataForApproval?accountId=${accId}&businessUnitId=${buId}&areaId=${values?.area?.value}&fromDate=${values?.fromDate}&todate=${values?.toDate}&status=1&isApproveByRM=true&PageNo=${pageNo}&PageSize=${pageSize}`;
 
     const urlForHeadOffice = `/wms/ItemRequest/GetBrandItemRequestDataForApproval?accountId=${accId}&businessUnitId=${buId}&regionId=${
       values?.region?.value
     }&fromDate=${values?.fromDate}&todate=${values?.toDate}&status=${
       status === 2 ? 1 : 2
-    }&isApproveByRM=false`;
+    }&isApproveByRM=false&PageNo=${pageNo}&PageSize=${pageSize}`;
 
     const url =
       status === 0
@@ -89,7 +90,7 @@ function BrandItemRequisitionLanding() {
             value: resData?.brandRequestTypeId,
             label: resData?.brandRequestTypeName,
           },
-          requiredDate: resData?.requiredDate,
+          requiredDate: _dateFormatter(resData?.requiredDate),
           purpose: resData?.purpose,
         };
         setSingleData(modifyData);
