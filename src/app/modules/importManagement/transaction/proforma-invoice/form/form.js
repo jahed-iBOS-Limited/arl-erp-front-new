@@ -17,7 +17,7 @@ import {
   getMaterialTypeDDL,
   getPlantDDL,
   // getUoMDDL,
-  getSBUDDL,
+  // getSBUDDL,
   validationSchema,
 } from "../helper";
 // import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
@@ -27,6 +27,8 @@ import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import { setRowAmount } from "../utils";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import Loading from "../../../../_helper/_loading";
 const header = [
   "SL",
   "Reference No",
@@ -57,6 +59,8 @@ export default function _Form({
 }) {
   // all ddl
   const [plantDDL, setPlantDDL] = useState([]);
+  const [warehouseDDL, getWarehouseDDL, loaderOnWarehouseDDL] = useAxiosGet();
+  const [sbuDDL, getSbuDDL, loaderOnGetSbuDDL] = useAxiosGet();
   // const [purchaseOrganizationDDL, setPurchaseOrganizationDDL] = useState([]);
   const [lcTypeDDL, setLCTypeDDL] = useState([]);
   // eslint-disable-next-line no-unused-vars
@@ -68,12 +72,15 @@ export default function _Form({
   const [currencyDDL, setCurrencyDDL] = useState([]);
   const [beneficiaryNameDDL, setBeneficiaryNameDDL] = useState([]);
   // const [uomDDL, setUomDDL] = useState([]);
-  const [sbuDDL, setSbuDDL] = useState([]);
+  // const [sbuDDL, setSbuDDL] = useState([]);
   // const [materialTypeId, setMaterialTypeId] = useState("");
   const [itemDDL, setItemDDL] = useState([]);
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
+      getSbuDDL(
+        `/costmgmt/SBU/GetSBUListDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Status=true`
+      );
       getPlantDDL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
@@ -96,23 +103,21 @@ export default function _Form({
         setFinalDestinationDDL
       );
       getCurrencyDDL(setCurrencyDDL);
-      getSBUDDL(profileData?.accountId, selectedBusinessUnit?.value, setSbuDDL);
+      // getSBUDDL(profileData?.accountId, selectedBusinessUnit?.value, setSbuDDL);
       getBeneficaryDDL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
         setBeneficiaryNameDDL
       );
-      // getUoMDDL(profileData?.accountId, selectedBusinessUnit?.value, setUomDDL);
-      // setItemDDL(profileData?.accountId, selectedBusinessUnit, setItemDDL)
     }
   }, [profileData, selectedBusinessUnit]);
 
   //searchable drop down in po list;
-  const loadPartsList = (v) => {
+  const loadPartsList = (v, plantId, warehouseId) => {
     if (v?.length < 3) return [];
     return axios
       .get(
-        `/imp/ImportCommonDDL/GetPRNoList?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&searchTerm=${v}`
+        `/imp/ImportCommonDDL/GetPRNoList?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&searchTerm=${v}&plantId=${plantId}&warehouseId=${warehouseId}`
       )
       .then((res) => res?.data);
   };
@@ -126,8 +131,8 @@ export default function _Form({
   };
   useEffect(() => {
     if (params?.pid && params?.type === "edit" && initData) {
-      const purchaseRequestOrContractId = initData?.purchaseRequestrNo?.label
-        ? initData?.purchaseRequestrNo?.label
+      const purchaseRequestOrContractId = initData?.purchaseRequestNo?.label
+        ? initData?.purchaseRequestNo?.label
         : initData?.purchaseContractNo?.label;
       const refType = initData?.referenceType?.value;
       getItemDDL(purchaseRequestOrContractId, refType, setItemDDL);
@@ -159,6 +164,7 @@ export default function _Form({
           setValues,
         }) => (
           <>
+            {(loaderOnWarehouseDDL || loaderOnGetSbuDDL) && <Loading />}
             <Form className="form form-label-right">
               <div className="global-form">
                 <div className="row">
@@ -180,78 +186,66 @@ export default function _Form({
                       />
                     </div>
                   )}
-                  {[2]?.includes(values?.referenceType?.value) && (
-                    <div className="col-lg-3 col-md-3">
-                      <label>
-                        Purchase Request No
-                        {viewType !== "view" && values?.purchaseRequestNo && (
-                          <span>
-                            <small
-                              style={{
-                                color: `${
-                                  purchaseRequestValidity?.status === true
-                                    ? "green"
-                                    : "red"
-                                }`,
-                              }}
-                            >
-                              {purchaseRequestValidity?.status === true
-                                ? "Purchase Request No Valid"
-                                : purchaseRequestValidity?.status === false
-                                ? "Purchase Request No Invalid"
-                                : ""}
-                            </small>
-                          </span>
-                        )}{" "}
-                      </label>
-                      <SearchAsyncSelect
-                        isDisabled={
-                          viewType === "view"
-                          // || viewType === "edit"
+
+                  <div className="col-lg-3">
+                    <NewSelect
+                      value={values?.sbu}
+                      options={sbuDDL || []}
+                      label="SBU"
+                      placeholder="SBU"
+                      name="sbu"
+                      type="text"
+                      onChange={(valueOption) => {
+                        if (valueOption) {
+                          setFieldValue("sbu", valueOption);
+                        } else {
+                          setFieldValue("sbu", "");
+                          setFieldValue("plantDDL", "");
+                          setFieldValue("warehouse", "");
                         }
-                        paddingRight="10px"
-                        name="purchaseRequestNo"
-                        placeholder="Purchase Request No"
-                        type="text"
-                        disabled={viewType === "view"}
-                        selectedValue={values?.purchaseRequestNo}
-                        isSearchIcon={true}
-                        handleChange={(valueOption) => {
-                          if (valueOption) {
-                            setFieldValue("purchaseRequestNo", valueOption);
-                            setFieldValue("sbuDDL", {
-                              value: valueOption?.sbuId,
-                              label: valueOption?.sbuName,
-                            });
-                            setFieldValue("plantDDL", {
-                              value: valueOption?.plantId,
-                              label: valueOption?.plantName,
-                            });
-                            setPurchaseRequestValidity(
-                              valueOption?.plantId && valueOption?.sbuId
-                                ? true
-                                : false
-                            );
-                            getItemDDL(
-                              valueOption?.label,
-                              values?.referenceType?.value,
-                              setItemDDL
-                            );
-                            // setRowDto([]);
-                            setFieldValue("isAllItem", false);
-                            setFieldValue("itemDDL", "");
-                          } else {
-                            setFieldValue("sbuDDL", "");
-                            setFieldValue("plantDDL", "");
-                            // setRowDto([]);
-                            setFieldValue("isAllItem", false);
-                            setFieldValue("itemDDL", "");
-                          }
-                        }}
-                        loadOptions={loadPartsList}
-                      />
-                    </div>
-                  )}
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      value={values?.plant}
+                      options={plantDDL || []}
+                      label="Plant"
+                      placeholder="Plant"
+                      name="plant"
+                      type="text"
+                      onChange={(valueOption) => {
+                        if (valueOption) {
+                          setFieldValue("plant", valueOption);
+                          getWarehouseDDL(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${valueOption?.value}&OrgUnitTypeId=8
+                        `);
+                        } else {
+                          setFieldValue("plant", "");
+                          setFieldValue("warehouse", "");
+                        }
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      value={values?.warehouse}
+                      options={warehouseDDL || []}
+                      label="Warehouse"
+                      placeholder="Warehouse"
+                      name="warehouse"
+                      type="text"
+                      onChange={(valueOption) => {
+                        setFieldValue("warehouse", valueOption);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+
                   {[1]?.includes(values?.referenceType?.value) && (
                     <div className="col-lg-3 col-md-3">
                       <label>
@@ -289,10 +283,80 @@ export default function _Form({
                         handleChange={(valueOption) => {
                           if (valueOption) {
                             setFieldValue("purchaseContractNo", valueOption);
-                            setFieldValue("sbuDDL", {
-                              value: valueOption?.sbuId,
-                              label: valueOption?.sbuName,
+                            // setFieldValue("sbu", {
+                            //   value: valueOption?.sbuId,
+                            //   label: valueOption?.sbuName,
+                            // });
+                            setFieldValue("plantDDL", {
+                              value: valueOption?.plantId,
+                              label: valueOption?.plantName,
                             });
+                            setPurchaseRequestValidity(
+                              valueOption?.plantId && valueOption?.sbuId
+                                ? true
+                                : false
+                            );
+                            // getItemDDL(
+                            //   valueOption?.label,
+                            //   values?.referenceType?.value,
+                            //   setItemDDL
+                            // );
+                            setRowDto([]);
+                            setFieldValue("isAllItem", false);
+                            setFieldValue("itemDDL", "");
+                          } else {
+                            setFieldValue("sbu", "");
+                            setFieldValue("plantDDL", "");
+                            setRowDto([]);
+                            setFieldValue("isAllItem", false);
+                            setFieldValue("itemDDL", "");
+                          }
+                        }}
+                        loadOptions={loadParsContractList}
+                      />
+                    </div>
+                  )}
+
+                  {[2]?.includes(values?.referenceType?.value) && (
+                    <div className="col-lg-3 col-md-3">
+                      <label>
+                        Purchase Request No
+                        {viewType !== "view" && values?.purchaseRequestNo && (
+                          <span>
+                            <small
+                              style={{
+                                color: `${
+                                  purchaseRequestValidity?.status === true
+                                    ? "green"
+                                    : "red"
+                                }`,
+                              }}
+                            >
+                              {purchaseRequestValidity?.status === true
+                                ? "Purchase Request No Valid"
+                                : purchaseRequestValidity?.status === false
+                                ? "Purchase Request No Invalid"
+                                : ""}
+                            </small>
+                          </span>
+                        )}{" "}
+                      </label>
+                      <SearchAsyncSelect
+                        isDisabled={
+                          viewType === "view" ||
+                          !values?.sbu ||
+                          !values?.plant ||
+                          !values?.warehouse
+                        }
+                        paddingRight="10px"
+                        name="purchaseRequestNo"
+                        placeholder="Purchase Request No"
+                        type="text"
+                        selectedValue={values?.purchaseRequestNo}
+                        isSearchIcon={true}
+                        handleChange={(valueOption) => {
+                          if (valueOption) {
+                            setFieldValue("purchaseRequestNo", valueOption);
                             setFieldValue("plantDDL", {
                               value: valueOption?.plantId,
                               label: valueOption?.plantName,
@@ -305,55 +369,29 @@ export default function _Form({
                             getItemDDL(
                               valueOption?.label,
                               values?.referenceType?.value,
-                              setItemDDL
+                              setItemDDL,
+                              values,
+                              itemDDL
                             );
-                            setRowDto([]);
                             setFieldValue("isAllItem", false);
                             setFieldValue("itemDDL", "");
                           } else {
-                            setFieldValue("sbuDDL", "");
+                            setFieldValue("sbu", "");
                             setFieldValue("plantDDL", "");
-                            setRowDto([]);
                             setFieldValue("isAllItem", false);
                             setFieldValue("itemDDL", "");
                           }
                         }}
-                        loadOptions={loadParsContractList}
+                        loadOptions={(v) =>
+                          loadPartsList(
+                            v,
+                            values?.plant?.value,
+                            values?.warehouse?.value
+                          )
+                        }
                       />
                     </div>
                   )}
-                  <div className="col-lg-3">
-                    <NewSelect
-                      value={values?.sbuDDL}
-                      options={sbuDDL || []}
-                      label="SBU"
-                      placeholder="SBU"
-                      name="sbuDDL"
-                      type="text"
-                      onChange={(valueOption) => {
-                        setFieldValue("sbuDDL", valueOption);
-                      }}
-                      isDisabled
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <NewSelect
-                      value={values?.plantDDL}
-                      options={plantDDL || []}
-                      label="Plant"
-                      placeholder="Plant"
-                      name="plantDDL"
-                      type="text"
-                      onChange={(valueOption) => {
-                        setFieldValue("plantDDL", valueOption);
-                      }}
-                      isDisabled
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
 
                   <div className="col-lg-3">
                     <label>PI No</label>
@@ -630,14 +668,15 @@ export default function _Form({
                         onClick={() => {
                           if (values?.isAllItem) {
                             return getItemDDL(
-                              values?.purchaseRequestrNo?.label
-                                ? values?.purchaseRequestrNo?.label
+                              values?.purchaseRequestNo?.label
+                                ? values?.purchaseRequestNo?.label
                                 : values?.purchaseContractNo?.label,
                               values?.referenceType?.value,
-                              setRowDto
+                              setRowDto,
+                              values,
+                              rowDto
                             );
                           } else {
-                            // return setter(values, rowDto, setRowDto);
                             if (values?.itemDDL) {
                               return setDataToGrid(values, rowDto, setRowDto);
                             }
@@ -655,12 +694,9 @@ export default function _Form({
                       ? header
                       : [
                           "SL",
-                          // add pr no conditionally
-
                           values?.referenceType?.value === 2
                             ? "PR No"
                             : "PC No",
-                          // "PR No",
                           "Item",
                           "Ref Qty",
                           "HS Code",

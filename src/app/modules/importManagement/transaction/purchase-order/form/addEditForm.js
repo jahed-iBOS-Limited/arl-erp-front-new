@@ -20,15 +20,12 @@ export default function AddEditForm({
   singleDataForPoView,
   rowDto,
   setRowDto,
-  setIsShowModal
+  setIsShowModal,
 }) {
   const params = useParams();
   const [isDisabled, setDisabled] = useState(false);
   const [objProps, setObjprops] = useState({});
-
-  const [purchaseRequestValidity, setPurchaseRequestValidity] = useState(null)
-
-
+  const [purchaseRequestValidity, setPurchaseRequestValidity] = useState(null);
 
   // get data from store
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -49,11 +46,10 @@ export default function AddEditForm({
     );
   }, []);
 
-
   const saveHandler = async (values) => {
-    
+    console.log("saveHandler", values);
     if (rowDto.length > 0) {
-      // if (purchaseRequestValidity === true) {
+      // data save from modal
       return createPurchaseOrder(
         setDisabled,
         values,
@@ -64,16 +60,13 @@ export default function AddEditForm({
         rowDto,
         getGrid
       ).then((message) => {
-        setIsShowModal(false)
-        Warning(message?.data?.message)
+        message && setIsShowModal(false);
+        Warning(message?.data?.message);
       });
-    //  }
-    //  return toast.warn("Purchase Request No is not Valid")
     }
     return toast.warn("Please add a row");
   };
   return (
-    
     <IForm
       title="Purchase Order"
       getProps={setObjprops}
@@ -82,7 +75,6 @@ export default function AddEditForm({
       isHiddenSave={viewStateOfModal?.view === "view"}
       isHiddenReset={viewStateOfModal?.view === "view"}
     >
-      
       {isDisabled && <Loading />}
       <Form
         {...objProps}

@@ -12,7 +12,7 @@ import { createPI, getSingleData, updatePi } from "../helper";
 import Form from "./form";
 // import { setter } from "../utils";
 const initData = {
-  plantDDL: "",
+  plant: "",
   purchaseOrganizationDDL: "",
   pinumber: "",
   beneficiaryNameDDL: "",
@@ -36,13 +36,14 @@ const initData = {
   uomDDL: "",
   quantity: "",
   rate: "",
-  sbuDDL: "",
+  sbu: "",
   purchaseRequestNo: "",
   isAllItem: false,
   referenceType: "",
   purchaseContractNo: "",
   etaDate: _todayDate(),
   dteEstimatedLaycanDate: _todayDate(),
+  warehouse: "",
 };
 
 export default function AddEditForm() {
@@ -68,7 +69,6 @@ export default function AddEditForm() {
   const setDataToGrid = (values, cb) => {
     let data = [...rowDto];
     if (
-      // data.find((item) => item?.itemId === values?.itemDDL.value)
       data?.find(
         (item) =>
           item?.itemId === values?.itemDDL?.value &&

@@ -58,6 +58,8 @@ export const setter = (values, rowDto, setRowDto) => {
   let obj = {
     ...values?.item,
     uom: { value: values?.item?.uomId, label: values?.item?.uomName },
+    referenceCode: values?.item?.referenceCode,
+    referenceId: values?.item?.referenceId,
     // currency:
   };
   return setRowDto([...data, obj]);

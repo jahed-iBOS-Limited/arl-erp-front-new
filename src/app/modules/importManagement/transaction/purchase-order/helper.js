@@ -25,10 +25,7 @@ export const createPurchaseOrder = async (
   try {
     // console.log(obj)
     setDisabled(true);
-    const res = await axios.post(
-      `/imp/PurchaseOrder/CreatePurchaseOrder`,
-      obj
-    );
+    const res = await axios.post(`/imp/PurchaseOrder/CreatePurchaseOrder`, obj);
     setDisabled(false);
     cb && cb();
     toast.success(res?.data?.message || "Create successfully");
@@ -47,6 +44,10 @@ const createPayloadChange = (
   proformaInvoiceValue,
   rowDto
 ) => {
+  console.log("tamkinrowDto", rowDto);
+  console.log("tamkinrowDtovalues", values);
+
+  console.log("ASWEDRFTGYHUJKJHGTFRDESWAQWSEDRFGH", rowDto);
   let payload = {
     objHeaderDTO: {
       purchaseRequestNo: values?.purchaseRequestNo,
@@ -57,8 +58,8 @@ const createPayloadChange = (
       plantId: proformaInvoiceValue?.plantId,
       plantName: proformaInvoiceValue?.plantName,
       purchaseOrganizationId: 0,
-      warehouseId: values?.warehouseId || 0,
-      warehouseName: "",
+      warehouseId: values?.warehouse?.value || 0,
+      warehouseName: values?.warehouse?.label || "",
       supplyingWarehouseId: 0,
       supplyingWarehouseName: "",
       purchaseOrderTypeId: 0,
@@ -101,8 +102,8 @@ const createPayloadChange = (
       itemName: data?.label,
       uoMid: data?.uom?.value,
       uoMname: data?.uom?.label,
-      referenceId: values?.purchaseRequestId,
-      referenceCode: values?.purchaseRequestNo || "",
+      referenceId: data?.referenceId,
+      referenceCode: data?.referenceCode,
       orderQty: +data?.quantity,
       basePrice: +data?.rate,
       finalPrice: +data?.totalAmount,
@@ -124,7 +125,6 @@ export const getSingleData = async (id, setter, setDisabled) => {
       `/imp/ProformaInvoice/GetProformaInvoiceById?proformaInvoiceId=${id}`
     );
     setDisabled(false);
-    // console.log(res?.data)
     const payload = {
       ...res?.data,
       supplierName: {
@@ -145,6 +145,15 @@ export const getSingleData = async (id, setter, setDisabled) => {
       currencyCode: res?.data?.objHeader?.currencyCode,
       warehouseId: res?.data?.objHeader?.warehouseId,
       purchaseRequestId: res?.data?.objHeader?.purchaseRequestId,
+      plant: {
+        value: res?.data?.objHeader?.plantId,
+        label: res?.data?.objHeader?.plantName,
+      },
+      warehouse: {
+        value: res?.data?.objHeader?.warehouseId,
+        label: res?.data?.objHeader?.warehouseName,
+      },
+
       // deliveryAddress:
     };
     setter(payload);
@@ -176,8 +185,11 @@ export const getItemListDDL = async (id, setter) => {
     const payload = res?.data?.map((item) => ({
       ...item,
       uom: { value: item?.uomId, label: item?.uomName },
+      referenceId: item?.referenceId,
+      referenceCode: item?.referenceCode,
     }));
     setter(payload);
+    console.log("paypayloadpayloadload", payload);
   } catch (error) {
     toast.error(error?.response?.data?.message);
     setter([]);

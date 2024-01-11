@@ -104,21 +104,11 @@ const TableRow = () => {
     ).then((res) => res?.data);
   };
 
-  //for edit modal
-  // const Warning = () => {
-  //   let confirmObject = {
-  //     title: "You Can't Edit This PI as You Created PO",
-  //     okAlertFunc: async () => {},
-  //   };
-  //   IWarningModal(confirmObject);
-  // };
-
   return (
     <>
       <Formik
         enableReinitialize={true}
         initialValues={{ PiNo: "" }}
-        // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
@@ -127,19 +117,6 @@ const TableRow = () => {
               <CardHeader title="Proforma Invoice">
                 <CardHeaderToolbar>
                   <button
-                    // onClick={() =>
-                    //   checkDuplicateLc(profileData?.accountId, selectedBusinessUnit?.value, values?.poNo?.label, () => {
-                    //     history.push({
-                    //       pathname:
-                    //         "",
-                    //       state: {
-                    //         poNo: values?.PLNo,
-                    //         routeState:"create"
-                    //       },
-                    //     })
-                    //   })
-
-                    // }
                     onClick={() =>
                       history.push(
                         "/managementImport/transaction/proforma-invoice/add"
@@ -175,25 +152,6 @@ const TableRow = () => {
                       loadOptions={loadPartsList || []}
                     />
                   </div>
-                  {/* <div className="col-lg-3 pt-5 mt-1">
-                    <button
-                      className="btn btn-primary"
-                      type="button"
-                      onClick={() => {
-                        getLandingData(
-                          profileData?.accountId,
-                          selectedBusinessUnit?.value,
-                          values?.PiNo?.label,
-                          setGridData,
-                          setIsLoading,
-                          pageNo,
-                          pageSize
-                        );
-                      }}
-                    >
-                      Show
-                    </button>
-                  </div> */}
                 </div>
                 <ICustomTable ths={header}>
                   {gridData?.data?.length > 0 &&
@@ -207,7 +165,9 @@ const TableRow = () => {
                             style={{ width: "110px" }}
                             className="text-center"
                           >
-                            {item?.purchaseRequestrNo ?item?.purchaseRequestrNo : item?.purchaseContractNo} 
+                            {item?.purchaseRequestrNo
+                              ? item?.purchaseRequestrNo
+                              : item?.purchaseContractNo}
                           </td>
                           <td
                             style={{ width: "110px" }}
@@ -252,7 +212,7 @@ const TableRow = () => {
                                   className="ml-3 edit"
                                   // onClick={() => Warning()}
                                   disabled
-                                  style={{opacity:0.5}}
+                                  style={{ opacity: 0.5 }}
                                 >
                                   <IEdit title={"Can't edit"} />
                                 </span>
@@ -298,12 +258,6 @@ const TableRow = () => {
                                       setViewStateOfModal("create");
                                       setRowDto([]);
                                     }
-
-                                    // item.poStatus
-                                    //   ?
-                                    //   setViewStateOfModal("view")
-
-                                    //   : setViewStateOfModal("create");
                                     setProformaInvoice({ ...values, ...item });
                                   }}
                                 >
