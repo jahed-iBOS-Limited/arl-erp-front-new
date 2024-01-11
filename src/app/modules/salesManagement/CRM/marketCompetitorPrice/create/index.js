@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import Loading from "./../../../../_helper/_loading";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import useAxiosPut from "../../../../_helper/customHooks/useAxiosPut";
 const initData = {
   date: _todayDate(),
   businessUnit: "",
@@ -57,7 +58,7 @@ function Form() {
   // get user profile data from store
   const {
     profileData: { accountId: accId, userId },
-    selectedBusinessUnit: { value: buId },
+    selectedBusinessUnit: { value: buId, label: buName },
   } = useSelector((state) => state?.authData, shallowEqual);
   const [rowDto, setRowDto] = React.useState([]);
   const [businessUnitDDL, setBusinessUnitDDL] = useAxiosGet([]);
@@ -68,6 +69,7 @@ function Form() {
   const [, setCompetitorProductsRowList] = useAxiosGet();
   const [, setCompetitorPriceById, loadingGetBy] = useAxiosGet();
   const [, postCreateCompetitorPrice, postLoading] = useAxiosPost();
+  const [, putCompetitorPrice, putLoading] = useAxiosPut();
   const formikRef = React.useRef(null);
 
   useEffect(() => {
@@ -86,7 +88,7 @@ function Form() {
   useEffect(() => {
     if (+id) {
       setCompetitorPriceById(
-        `/oms/CompetitorPrice/GetCompetitorPriceById?PriceHeaderId=6`,
+        `/oms/CompetitorPrice/GetCompetitorPriceById?PriceHeaderId=${id}`,
         (resData) => {
           if (formikRef.current) {
             formikRef.current.setValues({
@@ -133,10 +135,34 @@ function Form() {
                 ...itm,
                 strTransactionType: transactionType?.label || "",
                 numTransactionTypeId: transactionType?.value || "",
+                strDisplayName:
+                  itm?.strDisplayName || itm?.strProductDisplayName || "",
               };
             })
           );
+
+          setPoliceStationDDL(
+            `/oms/TerritoryInfo/GetThanaDDL?countryId=${18}&divisionId=${0}&districtId=${
+              resData?.objHeader?.intDistrictId
+            }`
+          );
+          setTerritoryDDL(
+            `/oms/TerritoryInfo/GetTerritoryList?AccountId=${accId}&BusinessUnitId=${resData?.objHeader?.intBusinessUnitId}`
+          );
         }
+      );
+    } else {
+      formikRef.current.setValues({
+        ...initData,
+        businessUnit: buId
+          ? {
+              value: buId,
+              label: buName,
+            }
+          : "",
+      });
+      setTerritoryDDL(
+        `/oms/TerritoryInfo/GetTerritoryList?AccountId=${accId}&BusinessUnitId=${buId}`
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -184,7 +210,7 @@ function Form() {
           numEdp: +itm?.numEdp || 0,
           numEtp: +itm?.numEtp || 0,
           numMktRate: +itm?.numMktRate || 0,
-          strMarketName: "Market",
+          strMarketName: itm?.strMarketName || "",
           strDeliveryPoint: itm?.strDeliveryPoint || "",
           strTransactionType: itm?.strTransactionType || "",
           isActive: true,
@@ -197,12 +223,23 @@ function Form() {
       }),
     };
 
-    postCreateCompetitorPrice(
-      "/oms/CompetitorPrice/CreateCompetitorPrice",
-      payload,
-      cb,
-      true
-    );
+    if (id) {
+      putCompetitorPrice(
+        "/oms/CompetitorPrice/EditCompetitorPrice",
+        payload,
+        () => {
+
+        },
+        true
+      );
+    } else {
+      postCreateCompetitorPrice(
+        "/oms/CompetitorPrice/CreateCompetitorPrice",
+        payload,
+        cb,
+        true
+      );
+    }
   };
 
   const viewHandler = (values) => {
@@ -248,7 +285,9 @@ function Form() {
               resetForm(initData);
             }}
           >
-            {(postLoading || rowListLoading || loadingGetBy) && <Loading />}
+            {(postLoading || rowListLoading || loadingGetBy || putLoading) && (
+              <Loading />
+            )}
             <form>
               <div className='row global-form'>
                 <div className='col-lg-3'>
@@ -267,6 +306,7 @@ function Form() {
                     placeholder='date'
                     name='date'
                     type='date'
+                    disabled={id}
                   />
                 </div>
                 <div className='col-lg-3'>
@@ -284,6 +324,8 @@ function Form() {
                       );
                     }}
                     placeholder='Select Business Unit'
+                    errors={errors}
+                    touched={touched}
                   />
                 </div>
                 <div className='col-lg-3'>
@@ -355,19 +397,20 @@ function Form() {
                     touched={touched}
                   />
                 </div>
-
-                <div className='mt-3'>
-                  <button
-                    className='btn btn-primary mt-3'
-                    onClick={() => {
-                      viewHandler(values);
-                    }}
-                    type='button'
-                    disabled={!values?.channel}
-                  >
-                    View
-                  </button>
-                </div>
+                {!id && (
+                  <div className='mt-3'>
+                    <button
+                      className='btn btn-primary mt-3'
+                      onClick={() => {
+                        viewHandler(values);
+                      }}
+                      type='button'
+                      disabled={!values?.channel}
+                    >
+                      View
+                    </button>
+                  </div>
+                )}
               </div>
 
               <RowTable

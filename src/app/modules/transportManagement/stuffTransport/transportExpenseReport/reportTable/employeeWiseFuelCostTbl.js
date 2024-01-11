@@ -45,17 +45,14 @@ const EmployeeWiseFuelCostTbl = ({ rowData, values }) => {
             </thead>
             <tbody>
               {rowData?.map((item, index) => {
-                //row calculation
-                const totalPersonalKM =
-                  item?.numCeilingKM + item?.numCeilingKM * 0.25;
-                const totalFuelCost = item?.fuelCash + item?.fuelCredit;
-                const totalRouteCost = totalFuelCost + item?.numTollAmount;
-                const totalCost = totalRouteCost + item?.otherExpanse;
-                const perKMCost = totalRouteCost / item?.totalKM;
-                const personalCostDeduction =
-                  (totalPersonalKM - item?.numCeilingKM) * perKMCost;
-                const netPayable =
-                  totalCost - item?.fuelCash - personalCostDeduction;
+               //row calculation
+               const totalPersonalKM = item?.numCeilingKM + (item?.numCeilingKM * 0.25);
+               const totalFuelCost = item?.fuelCash + item?.fuelCredit;
+               const totalRouteCost = totalFuelCost + item?.numTollAmount;
+               const totalCost = totalRouteCost + item?.otherExpanse;
+               const perKMCost = totalRouteCost / item?.totalKM;
+               const personalCostDeduction = (totalPersonalKM- item?.numCeilingKM) * perKMCost;
+               const netPayable = (totalCost - item?.fuelCredit) - personalCostDeduction
 
                 return (
                   <tr key={index}>
@@ -102,7 +99,7 @@ const EmployeeWiseFuelCostTbl = ({ rowData, values }) => {
                       {_formatMoney(perKMCost)}
                     </td>
                     <td style={{ textAlign: "right" }}>
-                      {_formatMoney(netPayable)}
+                      {_formatMoney(personalCostDeduction)}
                     </td>
                     <td style={{ textAlign: "right" }}>
                       {" "}
@@ -122,10 +119,7 @@ const EmployeeWiseFuelCostTbl = ({ rowData, values }) => {
             </tbody>
           </table>
           <IViewModal show={isShowModal} onHide={() => setIsShowModal(false)}>
-            <FuelLogPringModal
-              vehicelUserEnroll={item?.vehicelUserEnroll}
-              values={values}
-            />
+            <FuelLogPringModal item={item} values={values} />
           </IViewModal>
         </div>
       </div>
