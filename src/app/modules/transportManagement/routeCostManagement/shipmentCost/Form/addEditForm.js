@@ -333,7 +333,7 @@ export default function ShipmentCostForm() {
     if (foundMilage !== -1) {
       copyRowDto[foundMilage] = {
         ...copyRowDto[foundMilage],
-        standardCost: result.mileageAllowance.toFixed(2),
+        // standardCost: result.mileageAllowance.toFixed(2),
         actualCost: result.mileageAllowance.toFixed(2),
       };
      
@@ -344,7 +344,7 @@ export default function ShipmentCostForm() {
     if (foundFuel !== -1) {
       copyRowDto[foundFuel] = {
         ...copyRowDto[foundFuel],
-        standardCost: result.totalFuelCost.toFixed(2),
+        // standardCost: result.totalFuelCost.toFixed(2),
         actualCost: result.totalFuelCost.toFixed(2),
       };
     

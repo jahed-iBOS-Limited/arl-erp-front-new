@@ -260,7 +260,7 @@ export function TableRow() {
                           <th>Shipment Code</th>
                           <th>Vehicle No</th>
                           <th>Driver Name</th>
-                          <th>It Time</th>
+                          <th>In Time</th>
                           <th>Out Time</th>
                           <th>Route Name</th>
                           <th>Transport Zone</th>
