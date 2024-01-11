@@ -194,7 +194,7 @@ const oldTransactionroutes = [
     Component: UnloadingCharges,
   },
   {
-    path: "/managementImport/transaction/all-charge", 
+    path: "/managementImport/transaction/all-charge",
     Component: PortCharges,
   },
   {
