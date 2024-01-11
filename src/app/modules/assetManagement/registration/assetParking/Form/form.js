@@ -50,7 +50,7 @@ export default function _Form({
       const updateList = res?.data.map((item) => ({
         ...item,
         value: item?.value,
-        label: item?.employeeName,
+        label: item?.labelCode,
       }));
       return updateList;
     });

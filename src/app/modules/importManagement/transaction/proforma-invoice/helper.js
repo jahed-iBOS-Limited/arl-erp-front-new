@@ -190,8 +190,8 @@ const createPayloadChange = (
     objHeader: {
       accountId: profileData?.accountId,
       businessUnitId: selectedBusinessUnit?.value,
-      plantName: values?.plantDDL?.label,
-      plantId: values?.plantDDL?.value,
+      plantName: values?.plant?.label,
+      plantId: values?.plant?.value,
       supplierId: values?.beneficiaryNameDDL?.value,
       supplierName: values?.beneficiaryNameDDL?.label,
       piAmount: rowDto?.reduce((acc, item) => acc + item?.totalAmount, 0),
@@ -216,7 +216,9 @@ const createPayloadChange = (
       otherTerms: values?.otherTerms ? values?.otherTerms : "",
       metarialTypeId: values?.materialTypeDDL?.value,
       metarialTypeName: values?.materialTypeDDL?.label,
-      sbuId: values?.sbuDDL?.value,
+      sbuId: values?.sbu?.value,
+      warehouseId: values?.warehouse?.value,
+      warehouseName: values?.warehouse?.label,
       // purchaseRequestNo: values?.purchaseRequestNo?.label || "",
       // purchaseRequestId: values?.purchaseRequestNo?.value || 0,
       // purchaseContractId: values?.purchaseContractNo?.value || 0,
@@ -461,23 +463,8 @@ export function addDaysToDate(date, days) {
   return _dateFormatter(new Date(res));
 }
 
-// export function addDaysToDate(){
-//     const today = new Date();
-//     var res = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 180);
-//     return res.;
-// }
-// const purchaseRequestNoSchema = Yup.object().shape({
-//   value: Yup.number().required('Purchase Request Number is required'),
-//   label: Yup.string().required('Purchase Request Number is required'),
-// });
-
-// const purchaseContractNoSchema = Yup.object().shape({
-//   value: Yup.number().required('Purchase Contract Number is required'),
-//   label: Yup.string().required('Purchase Contract Number is required'),
-// });
-
 export const validationSchema = Yup.object().shape({
-  sbuDDL: Yup.object().shape({
+  sbu: Yup.object().shape({
     value: Yup.string().required("SBU is required"),
   }),
   plantDDL: Yup.object().shape({
@@ -495,9 +482,6 @@ export const validationSchema = Yup.object().shape({
   materialTypeDDL: Yup.object().shape({
     value: Yup.string().required("Material Type is required"),
   }),
-  // bankNameDDL: Yup.object().shape({
-  //   value: Yup.string().required("Bank is required"),
-  // }),
   countryOriginDDL: Yup.object().shape({
     value: Yup.string().required("Country Origin is required"),
   }),
@@ -507,22 +491,8 @@ export const validationSchema = Yup.object().shape({
   currencyDDL: Yup.object().shape({
     value: Yup.string().required("Currency is required"),
   }),
-
   pinumber: Yup.string().required("PI No is required"),
   loadingPort: Yup.string().required("Loading Port is required"),
-  // tolerance: Yup.number()
-  //   .positive("Tolerance must be positive")
-  //   .required("Tolarance is required"),
-  // usance: Yup.string().required("Usance is required"),
-  // presentation: Yup.string().required("Presentation  is required"),
-  // purchaseRequestNo: Yup.object().when(['purchaseContractNo.value'], {
-  //   is: (purchaseContractNoValue) => !purchaseContractNoValue,
-  //   then: purchaseRequestNoSchema,
-  // }),
-  // purchaseContractNo: Yup.object().when(['purchaseRequestNo.value'], {
-  //   is: (purchaseRequestNoValue) => !purchaseRequestNoValue,
-  //   then:purchaseContractNoSchema,
-  // }),
 });
 
 export const checkPurchaseRequestNo = (
@@ -600,17 +570,19 @@ export const checkItemFromPurchaseRequest = async (
 export const getItemDDL = async (
   purchaseRequestOrContractId,
   refType,
-  setter
+  setter,
+  values,
+  rowDto
 ) => {
   try {
     const res = await Axios.get(
-      // `/imp/ImportCommonDDL/GetItemListForPI?accountId=${accId}&businessUnitId=${buId}`
-      `/imp/ImportCommonDDL/GetItemListForPI?code=${purchaseRequestOrContractId ||
-        null}&referenceType=${
+      `/imp/ImportCommonDDL/GetItemListForPI?code=${purchaseRequestOrContractId}&referenceType=${
         refType === 1 ? "PurchaseContract" : "PurchaseRequest"
       }`
     );
-    const modifyData = res?.data?.map((data) => ({
+    const newData = [...rowDto, ...res?.data];
+    console.log("newData", [...rowDto, ...res?.data]);
+    const modifyData = newData?.map((data) => ({
       ...data,
       uom: { value: data?.uomId, label: data?.uomName },
       itemId: data.value,
@@ -618,9 +590,19 @@ export const getItemDDL = async (
       itemName: data.label,
       refQty: data?.quantity,
       quantity: "",
+      referenceId:
+        values?.referenceType?.value === 1
+          ? values?.purchaseContractNo?.value
+          : values?.purchaseRequestNo?.value,
+      referenceCode:
+        values?.referenceType?.value === 1
+          ? values?.purchaseContractNo?.label
+          : values?.purchaseRequestNo?.label,
+      referenceType: values?.referenceType?.label,
     }));
     setter(modifyData);
-    // setter(res?.data);
+
+    console.log("rowDto", rowDto);
   } catch (error) {
     toast.error(error?.response?.data?.message);
   }
