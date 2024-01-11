@@ -77,11 +77,8 @@ export default function _Form({
           setValues,
         }) => (
           <>
-          {/* {
-            console.log(values)
-          } */}
-            <Form className='form form-label-right'>
-              <div className='d-flex justify-content-center align-items-center'>
+            <Form className="form form-label-right">
+              <div className="d-flex justify-content-center align-items-center">
                 <div style={{ fontWeight: "900", marginRight: "30px" }}>
                   SBU Name : {proformaInvoiceValue?.sbuName}
                 </div>
@@ -92,49 +89,19 @@ export default function _Form({
                   PI Number : {proformaInvoiceValue?.pinumber}
                 </div>
               </div>
-              <div className='global-form'>
-                <div className='row'>
-                  <div className='col-lg-3'>
-                    <label>
-                      Purchase Request No{" "}
-                      {/* {viewStateOfModal?.view !== "view" && (
-                        <span>
-                          <small
-                            style={{
-                              color: `${
-                                purchaseRequestValidity === true
-                                  ? "green"
-                                  : "red"
-                              }`,
-                            }}
-                          >
-                            {purchaseRequestValidity === true
-                              ? "Purchase Request No Valid"
-                              : purchaseRequestValidity === false
-                              ? "Purchase Request No Invalid"
-                              : ""}
-                          </small>
-                        </span>
-                      )}{" "} */}
-                    </label>
+              <div className="global-form">
+                <div className="row">
+                  <div className="col-lg-3">
+                    <label>Purchase Request No </label>
                     <InputField
                       value={values?.purchaseRequestNo}
-                      name='purchaseRequestNo'
-                      placeholder='Purchase Request No'
-                      type='text'
-                      // disabled={viewStateOfModal?.view === "view" }
+                      name="purchaseRequestNo"
+                      placeholder="Purchase Request No"
+                      type="text"
                       disabled
-                      // onBlur={(e) => {
-                      //   checkPurchaseRequestNo(
-                      //     e?.target?.value,
-                      //     setPurchaseRequestValidity,
-                      //     accountId,
-                      //     businessUnitId
-                      //   );
-                      // }}
                     />
                   </div>
-                  <div className='col-lg-3 col-md-3'>
+                  <div className="col-lg-3 col-md-3">
                     <label>Supplier Name</label>
                     <SearchAsyncSelect
                       selectedValue={values?.supplierName}
@@ -145,58 +112,58 @@ export default function _Form({
                       isDisabled
                     />
                   </div>
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <label>Delivery Address</label>
                     <InputField
                       value={values?.deliveryAddress}
-                      name='deliveryAddress'
-                      placeholder='Delivery Address'
-                      type='text'
+                      name="deliveryAddress"
+                      placeholder="Delivery Address"
+                      type="text"
                       disabled={viewStateOfModal?.view === "view"}
                     />
                   </div>
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <label>Order Date</label>
                     <InputField
                       value={values?.orderDate}
-                      name='orderDate'
-                      placeholder='Order Date'
-                      type='date'
+                      name="orderDate"
+                      placeholder="Order Date"
+                      type="date"
                       disabled={viewStateOfModal?.view === "view"}
                     />
                   </div>
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <label>Last Shipment Date</label>
                     <InputField
                       value={values?.lastShipmentDate}
-                      name='lastShipmentDate'
-                      placeholder='Last shipment Date'
-                      type='date'
+                      name="lastShipmentDate"
+                      placeholder="Last shipment Date"
+                      type="date"
                       disabled={viewStateOfModal?.view === "view"}
                     />
                   </div>
 
-                  <div className='col-md-3 col-lg-3'>
+                  <div className="col-md-3 col-lg-3">
                     <NewSelect
                       value={values?.currency}
                       options={currencyDDL || []}
-                      label='Currency'
-                      placeholder='currency'
-                      name='currency'
-                      type='text'
+                      label="Currency"
+                      placeholder="currency"
+                      name="currency"
+                      type="text"
                       onChange={(valueOption) => {
                         setFieldValue("currency", valueOption);
                       }}
                       isDisabled
                     />
                   </div>
-                  <div className='col-md-3 col-lg-3'>
+                  <div className="col-md-3 col-lg-3">
                     <NewSelect
                       value={values?.paymentTerms}
                       options={paymentTermsDDL || []}
-                      label='Payment Terms'
-                      placeholder='Payment Terms'
-                      name='paymentTerms'
+                      label="Payment Terms"
+                      placeholder="Payment Terms"
+                      name="paymentTerms"
                       onChange={(valueOption) => {
                         setFieldValue("paymentTerms", valueOption);
                       }}
@@ -205,98 +172,88 @@ export default function _Form({
                       touched={touched}
                     />
                   </div>
-                  <div className='col-md-3 col-lg-3'>
+                  <div className="col-md-3 col-lg-3">
                     <NewSelect
                       value={values?.incoTerm}
                       options={incoTermsDDL || []}
-                      label='Inco Terms'
-                      placeholder='Inco Terms'
-                      name='incoTerm'
+                      label="Inco Terms"
+                      placeholder="Inco Terms"
+                      name="incoTerm"
                       isDisabled
                     />
                   </div>
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <label>Supplier Reference</label>
                     <InputField
                       value={values?.supplierReference}
-                      name='supplierReference'
-                      placeholder='Supplier Reference'
-                      type='text'
+                      name="supplierReference"
+                      placeholder="Supplier Reference"
+                      type="text"
                       disabled={true}
                     />
                   </div>
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <label>PI Date</label>
                     <InputField
                       value={values?.PIDate}
-                      name='PIDate'
-                      placeholder='PI Date'
-                      type='date'
+                      name="PIDate"
+                      placeholder="PI Date"
+                      type="date"
                       disabled={viewStateOfModal?.view === "view"}
                     />
                   </div>
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <label>Freight/Packing</label>
                     <InputField
                       value={values?.freight}
-                      name='freight'
-                      placeholder='Freight/Packing'
-                      type='number'
-                      disabled={viewStateOfModal?.view === "view"}
-                    />
-                  </div>
-                  {/* <div className="col-lg-3">
-                    <label>Gross Discount</label>
-                    <InputField
-                      value={values?.grossDiscount}
-                      name="grossDiscount"
-                      placeholder="Gross Discount"
+                      name="freight"
+                      placeholder="Freight/Packing"
                       type="number"
                       disabled={viewStateOfModal?.view === "view"}
                     />
-                  </div> */}
+                  </div>
                 </div>
               </div>
               {viewStateOfModal?.view !== "view" && (
-                <div className='global-form'>
-                  <div className='row'>
-                    <div className='col-lg-3'>
+                <div className="global-form">
+                  <div className="row">
+                    <div className="col-lg-3">
                       <NewSelect
-                        name='item'
+                        name="item"
                         options={itemDDL}
                         value={values?.item}
-                        label='Item'
+                        label="Item"
                         onChange={(valueOption) => {
                           setFieldValue("item", valueOption);
                         }}
-                        placeholder='Select Item'
+                        placeholder="Select Item"
                         errors={errors}
                         touched={touched}
                         isDisabled={values?.isAllItem === true}
                       />
                     </div>
                     <div
-                      className='col-lg-1 d-flex align-items-center'
+                      className="col-lg-1 d-flex align-items-center"
                       style={{ marginTop: "22px", marginLeft: "17px" }}
                     >
                       <input
-                        type='checkbox'
-                        className='form-check-input'
-                        name='isAllItem'
+                        type="checkbox"
+                        className="form-check-input"
+                        name="isAllItem"
                         disabled={values?.item}
                         onChange={(e) => {
                           setFieldValue("isAllItem", e?.target?.checked);
                         }}
                       />
-                      <label className=''>All Item</label>
+                      <label className="">All Item</label>
                     </div>
                     <div
-                      className='col-lg-3'
+                      className="col-lg-3"
                       style={{ marginTop: "22px", marginLeft: "17px" }}
                     >
                       <button
-                        type='button'
-                        className='btn btn-primary'
+                        type="button"
+                        className="btn btn-primary"
                         disabled={rowDto.length > 0}
                         onClick={() => {
                           if (values?.isAllItem) {
@@ -317,8 +274,8 @@ export default function _Form({
               )}
 
               <div>
-                <div className='row'>
-                  <div className='col-md-12 col-lg-12'>
+                <div className="row">
+                  <div className="col-md-12 col-lg-12">
                     <ICustomTable
                       ths={
                         viewStateOfModal?.view === "view"
@@ -340,14 +297,14 @@ export default function _Form({
                             <tr key={index}>
                               <td
                                 style={{ width: "30px" }}
-                                className='text-center'
+                                className="text-center"
                               >
                                 {index + 1}
                               </td>
                               <td style={{ width: "250px" }}>{item?.label}</td>
                               <td style={{ width: "150px" }}>
                                 <NewSelect
-                                  name='uom'
+                                  name="uom"
                                   value={item?.uom}
                                   onChange={(valueOption) => {
                                     setFieldValue("uom", valueOption);
@@ -359,15 +316,15 @@ export default function _Form({
                               </td>
                               <td
                                 style={{ width: "100px" }}
-                                className='text-center'
+                                className="text-center"
                               >
                                 <InputField
                                   value={item?.quantity}
-                                  name='quantity'
-                                  placeholder='Order Quantity'
-                                  type='number'
-                                  min='0'
-                                  step='any'
+                                  name="quantity"
+                                  placeholder="Order Quantity"
+                                  type="number"
+                                  min="0"
+                                  step="any"
                                   onChange={(e) => {
                                     setRowAmount(
                                       "quantity",
@@ -382,14 +339,14 @@ export default function _Form({
                               </td>
                               <td
                                 style={{ width: "100px" }}
-                                className='text-center'
+                                className="text-center"
                               >
                                 <InputField
                                   value={item?.rate}
-                                  name='rate'
-                                  placeholder='Rate'
-                                  type='number'
-                                  min='0'
+                                  name="rate"
+                                  placeholder="Rate"
+                                  type="number"
+                                  min="0"
                                   step="any"
                                   onChange={(e) => {
                                     setRowAmount(
@@ -406,21 +363,21 @@ export default function _Form({
 
                               <td
                                 style={{ width: "100px" }}
-                                className='text-center'
+                                className="text-center"
                               >
                                 <InputField
                                   value={item?.totalAmount}
-                                  name='totalAmount'
-                                  placeholder='Amount'
-                                  type='number'
-                                  min='0'
+                                  name="totalAmount"
+                                  placeholder="Amount"
+                                  type="number"
+                                  min="0"
                                   disabled
                                 />
                               </td>
                               {/* <td className="text-center" style={{width: '100px'}}>{item?.currency}</td> */}
                               {viewStateOfModal?.view !== "view" && (
                                 <td
-                                  className='text-center'
+                                  className="text-center"
                                   style={{ width: "100px" }}
                                 >
                                   <IDelete remover={remover} id={index} />
@@ -430,18 +387,17 @@ export default function _Form({
                           );
                         })}
                       <tr>
-                        <td colspan='4'></td>
+                        <td colspan="4"></td>
                         <td style={{ fontWeight: "700" }}>
                           {`Total (${values?.currency?.label})`}
                         </td>
                         <td
-                          className='text-right'
+                          className="text-right"
                           style={{ fontWeight: "700" }}
                         >
                           {_formatMoney(
                             rowDto?.reduce(
-                              (acc, item) => 
-                              acc + (+item?.totalAmount),
+                              (acc, item) => acc + +item?.totalAmount,
                               0
                             ) + +values?.freight
                           )}
@@ -455,14 +411,14 @@ export default function _Form({
               </div>
 
               <button
-                type='submit'
+                type="submit"
                 style={{ display: "none" }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
-                type='reset'
+                type="reset"
                 style={{ display: "none" }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
