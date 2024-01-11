@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Formik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import {
   Card,
@@ -12,7 +12,7 @@ import {
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { brandItemRequestApprove } from "../helper";
 
 export default function BrandItemRequisitionApproveForm({
   getLandingData,
@@ -22,9 +22,11 @@ export default function BrandItemRequisitionApproveForm({
 }) {
   const {
     profileData: { userId },
+    // selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  const [, postData, loading] = useAxiosPost();
+  const [loading, setLoading] = useState(false);
+  // const [, getPermissionInfo] = useAxiosGet();
 
   const rowData = singleData?.brandItemRows;
   const status = values?.status?.value;
@@ -51,14 +53,40 @@ export default function BrandItemRequisitionApproveForm({
         },
       ],
     };
-    postData(
-      `/wms/ItemRequest/ApproveBrandItemRequest`,
+
+    // getPermissionInfo(
+    //   `/oms/TerritoryInfo/GetRATManagerAndPermission?businessunitId=${buId}&userId=${userId}&channelId=${values?.channel?.value}`,
+    //   (resData) => {
+    //     if ([1, 2].includes(values?.status?.value)) {
+    //       if (
+    //         (!singleData?.isApproveByL1 && resData?.isRegionManager) ||
+    //         (singleData?.isApproveByL1 &&
+    //           !resData?.isTerritoryManager &&
+    //           !resData?.isAreaManager &&
+    //           !resData?.isRegionManager)
+    //       ) {
+    //         brandItemRequestApprove(
+    //           payload,
+    //           () => {
+    //             getLandingData(values);
+    //             setOpen(false);
+    //           },
+    //           setLoading
+    //         );
+    //       } else {
+    //         toast.warn("Sorry! You are not permitted to approve.");
+    //       }
+    //     }
+    //   }
+    // );
+
+    brandItemRequestApprove(
       payload,
       () => {
         getLandingData(values);
         setOpen(false);
       },
-      true
+      setLoading
     );
   };
 

@@ -19,6 +19,11 @@ const RATForm = ({ obj }) => {
     columnSize,
     onChange,
     zone,
+    channelDisable,
+    regionDisable,
+    areaDisable,
+    territoryDisable,
+    zoneDisable,
   } = obj;
   // get user data from store
   const {
@@ -71,6 +76,7 @@ const RATForm = ({ obj }) => {
                 onChange({ ...values, channel: valueOption }, "channel");
             }}
             placeholder="Select Distribution Channel"
+            isDisabled={channelDisable}
           />
         </div>
       )}
@@ -99,7 +105,7 @@ const RATForm = ({ obj }) => {
                 onChange({ ...values, region: valueOption }, "region");
             }}
             placeholder="Region"
-            isDisabled={!values?.channel}
+            isDisabled={!values?.channel || regionDisable}
           />
         </div>
       )}
@@ -128,7 +134,7 @@ const RATForm = ({ obj }) => {
               onChange && onChange({ ...values, area: valueOption }, "area");
             }}
             placeholder="Area"
-            isDisabled={!values?.region}
+            isDisabled={!values?.region || areaDisable}
           />
         </div>
       )}
@@ -156,7 +162,7 @@ const RATForm = ({ obj }) => {
                 onChange({ ...values, territory: valueOption }, "territory");
             }}
             placeholder="Territory"
-            isDisabled={!values?.area}
+            isDisabled={!values?.area || territoryDisable}
           />
         </div>
       )}
@@ -172,6 +178,7 @@ const RATForm = ({ obj }) => {
               onChange && onChange({ ...values, zone: valueOption }, "zone");
             }}
             placeholder="Zone"
+            isDisabled={zoneDisable}
           />
         </div>
       )}
