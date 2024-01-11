@@ -21,16 +21,18 @@ export const generateJsonToExcel = (header, data, fileName, getZakatBlob) => {
     });
   });
 
-  console.log("heaeer", header)
-  createFile({
-    name: fileName ? fileName : "excel",
-    creator: "ibos.io",
-    sheets: [
-      {
-        name: "sheet-1",
-        gridLine: false,
-        rows: [header, ...newData],
-      },
-    ],
-  }, getZakatBlob);
+  createFile(
+    {
+      name: fileName ? fileName : "excel",
+      creator: "ibos.io",
+      sheets: [
+        {
+          name: "sheet-1",
+          gridLine: false,
+          rows: [header, ...newData],
+        },
+      ],
+    },
+    getZakatBlob
+  );
 };
