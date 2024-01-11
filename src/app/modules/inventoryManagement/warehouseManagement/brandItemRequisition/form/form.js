@@ -97,7 +97,15 @@ export default function _Form({
                     <div className="col-lg-12">
                       <hr />
                     </div>
-                    <RATForm obj={{ values, setFieldValue }} />
+                    <RATForm
+                      obj={{
+                        values,
+                        setFieldValue,
+                        channelDisable: rowData?.length,
+                        regionDisable: rowData?.length,
+                        areaDisable: rowData?.length,
+                      }}
+                    />
                     <div className="col-lg-3">
                       <NewSelect
                         name="itemCategory"

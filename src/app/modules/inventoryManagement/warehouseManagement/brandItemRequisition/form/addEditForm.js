@@ -58,6 +58,10 @@ export default function BrandItemRequisitionForm() {
               value: resData?.brandRequestTypeId,
               label: resData?.brandRequestTypeName,
             },
+            area: {
+              value: resData?.areaId,
+              label: resData?.areaName,
+            },
             requiredDate: _dateFormatter(resData?.requiredDate),
             purpose: resData?.purpose,
           };

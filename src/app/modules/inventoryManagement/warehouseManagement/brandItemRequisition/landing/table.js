@@ -44,15 +44,17 @@ export default function BrandItemRequisitionLandingTable({ obj }) {
                 <td>{_dateFormatter(td?.requiredDate)}</td>
                 <td>
                   <div className="d-flex justify-content-around">
-                    <span>
-                      <IEdit
-                        onClick={() => {
-                          history.push(
-                            `/inventory-management/warehouse-management/branditemrequisition/edit/${td?.brandRequestId}`
-                          );
-                        }}
-                      />
-                    </span>
+                    {!td?.isApproveByL1 && (
+                      <span>
+                        <IEdit
+                          onClick={() => {
+                            history.push(
+                              `/inventory-management/warehouse-management/branditemrequisition/edit/${td?.brandRequestId}`
+                            );
+                          }}
+                        />
+                      </span>
+                    )}
                     <span>
                       <IView
                         clickHandler={() => {
@@ -62,20 +64,21 @@ export default function BrandItemRequisitionLandingTable({ obj }) {
                         }}
                       />
                     </span>
-                    {[1, 2].includes(status) && (
-                      <span>
-                        <IApproval
-                          title={
-                            status === 1
-                              ? "Regional Manager Approve"
-                              : "Head Office Approve"
-                          }
-                          onClick={() => {
-                            getSingleDataById(td?.brandRequestId);
-                          }}
-                        />
-                      </span>
-                    )}
+                    {[1, 2].includes(status) &&
+                      !td?.isApproveByL2 && (
+                        <span>
+                          <IApproval
+                            title={
+                              status === 1
+                                ? "Regional Manager Approve"
+                                : "Head Office Approve"
+                            }
+                            onClick={() => {
+                              getSingleDataById(td?.brandRequestId);
+                            }}
+                          />
+                        </span>
+                      )}
                   </div>
                 </td>
               </tr>
