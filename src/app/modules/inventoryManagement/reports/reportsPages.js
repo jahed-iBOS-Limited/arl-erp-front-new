@@ -25,6 +25,7 @@ import PendingShippingReportTable from "./pendingShipping/table/table";
 import SupplierWisePurchase from "./supplierWisePurchase";
 import WarehouseWiseStockReport from "./whStockReport";
 import WHStockReportVat from "./whStockReportVat";
+import MROItemReports from "./MROItems";
 
 export function ReportsPages() {
   return (
@@ -138,7 +139,7 @@ export function ReportsPages() {
         from="/inventory-management/reports/WarehouseWiseStockReport"
         component={WarehouseWiseStockReport}
       />
-       <ContentRoute
+      <ContentRoute
         from="/inventory-management/reports/GLWiseBalance"
         component={GLWiseBalance}
       />
@@ -149,6 +150,10 @@ export function ReportsPages() {
       <ContentRoute
         from="/inventory-management/reports/ItemAnalytics"
         component={ItemAnalytics}
+      />
+      <ContentRoute
+        from="/inventory-management/reports/MROItemPlanning"
+        component={MROItemReports}
       />
     </Switch>
   );
