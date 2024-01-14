@@ -220,11 +220,14 @@ export default function _Form({
                     <div className="col-lg-3">
                       <NewSelect
                         name="item"
-                        options={itemDDL}
+                        options={itemDDL.map(item => ({value:`${item?.value} - ${item?.referenceCode}`, label:`${item?.label} - ${item?.referenceCode}`}))}
                         value={values?.item}
                         label="Item"
                         onChange={(valueOption) => {
-                          setFieldValue("item", valueOption);
+                          const selectedItem = itemDDL.find(item => `${item?.value} - ${item?.referenceCode}` === valueOption.value)
+                          console.log({valueOption, itemDDL })
+                          setFieldValue("item", selectedItem);
+                          // setFieldValue("item", valueOption);
                         }}
                         placeholder="Select Item"
                         errors={errors}
@@ -254,7 +257,7 @@ export default function _Form({
                       <button
                         type="button"
                         className="btn btn-primary"
-                        disabled={rowDto.length > 0}
+                        // disabled={rowDto.length > 0}
                         onClick={() => {
                           if (values?.isAllItem) {
                             return getItemListDDL(
