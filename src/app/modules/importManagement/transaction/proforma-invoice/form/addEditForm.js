@@ -2,6 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
 import React, { useEffect, useState } from "react";
+import {useLocation} from 'react-router'
 import { shallowEqual, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { toast } from "react-toastify";
@@ -10,6 +11,7 @@ import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import { createPI, getSingleData, updatePi } from "../helper";
 import Form from "./form";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 // import { setter } from "../utils";
 const initData = {
   plant: "",
@@ -45,6 +47,7 @@ const initData = {
   dteEstimatedLaycanDate: _todayDate(),
   warehouse: "",
 };
+
 
 export default function AddEditForm() {
   const params = useParams();
@@ -157,6 +160,9 @@ export default function AddEditForm() {
     );
   };
 
+  
+
+
   return (
     <IForm
       title={
@@ -172,7 +178,7 @@ export default function AddEditForm() {
       {isDisabled && <Loading />}
       <Form
         {...objProps}
-        initData={params?.pid ? singleData : initData}
+        initData={params?.pid ? {...singleData, warehouse: {value:singleData?.warehouseId, label:singleData?.warehouseName}} : initData}
         saveHandler={saveHandler}
         viewType={params?.type}
         rowDto={rowDto}
