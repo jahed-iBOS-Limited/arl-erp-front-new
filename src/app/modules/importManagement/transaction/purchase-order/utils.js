@@ -3,6 +3,7 @@ import IWarningModal from "../../../_helper/_warningModal";
 import * as Yup from "yup";
 import axios from "axios";
 import { ValidatePoNo } from "./helper";
+import { toast } from "react-toastify";
 
 export const initData = {
   supplierName: "",
@@ -55,14 +56,20 @@ export const loadPartsList = (v) => {
 
 export const setter = (values, rowDto, setRowDto) => {
   let data = [...rowDto];
-  let obj = {
-    ...values?.item,
-    uom: { value: values?.item?.uomId, label: values?.item?.uomName },
-    referenceCode: values?.item?.referenceCode,
-    referenceId: values?.item?.referenceId,
-    // currency:
-  };
-  return setRowDto([...data, obj]);
+  const isExist = rowDto.findIndex(item => item.referenceId === values?.item?.referenceId);
+  if(isExist < 0){
+    let obj = {
+      ...values?.item,
+      uom: { value: values?.item?.uomId, label: values?.item?.uomName },
+      referenceCode: values?.item?.referenceCode,
+      referenceId: values?.item?.referenceId,
+      // currency:
+    };
+    return setRowDto([...data, obj]);
+  }else{
+    toast.warn("Already exists!")
+  }
+  
 };
 
 //after creating po then message modal

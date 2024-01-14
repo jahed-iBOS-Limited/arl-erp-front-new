@@ -33,7 +33,7 @@ const header = [
   "SL",
   "Reference No",
   "Item",
-  "",
+  // "",
   "HS Code",
   "UoM",
   "Quantity",
@@ -135,9 +135,11 @@ export default function _Form({
         ? initData?.purchaseRequestNo?.label
         : initData?.purchaseContractNo?.label;
       const refType = initData?.referenceType?.value;
-      getItemDDL(purchaseRequestOrContractId, refType, setItemDDL);
+    if(refType && purchaseRequestOrContractId)  getItemDDL(purchaseRequestOrContractId, refType, setItemDDL);
     }
   }, [initData]);
+
+
 
   return (
     <>
@@ -195,6 +197,7 @@ export default function _Form({
                       placeholder="SBU"
                       name="sbu"
                       type="text"
+                      isDisabled={viewType === "edit"}
                       onChange={(valueOption) => {
                         if (valueOption) {
                           setFieldValue("sbu", valueOption);
@@ -216,6 +219,7 @@ export default function _Form({
                       placeholder="Plant"
                       name="plant"
                       type="text"
+                      isDisabled={viewType === "edit"}
                       onChange={(valueOption) => {
                         if (valueOption) {
                           setFieldValue("plant", valueOption);
@@ -238,6 +242,7 @@ export default function _Form({
                       placeholder="Warehouse"
                       name="warehouse"
                       type="text"
+                      isDisabled={viewType === "edit"}
                       onChange={(valueOption) => {
                         setFieldValue("warehouse", valueOption);
                       }}
@@ -282,6 +287,7 @@ export default function _Form({
                         isSearchIcon={true}
                         handleChange={(valueOption) => {
                           if (valueOption) {
+                            // setFieldValue("itemDDL", "");
                             setFieldValue("purchaseContractNo", valueOption);
                             // setFieldValue("sbu", {
                             //   value: valueOption?.sbuId,
@@ -355,6 +361,7 @@ export default function _Form({
                         selectedValue={values?.purchaseRequestNo}
                         isSearchIcon={true}
                         handleChange={(valueOption) => {
+                          setFieldValue("itemDDL", "");
                           if (valueOption) {
                             setFieldValue("purchaseRequestNo", valueOption);
                             setFieldValue("plantDDL", {
@@ -621,11 +628,12 @@ export default function _Form({
                     <div className="col-lg-3">
                       <NewSelect
                         name="itemDDL"
-                        options={itemDDL}
+                        options={itemDDL.map(item => ({value:item.value, label:`${item?.label} - ${values?.purchaseRequestNo?.label}`}))}
                         value={values?.itemDDL}
                         label="Item"
                         onChange={(valueOption) => {
-                          setFieldValue("itemDDL", valueOption);
+                          const selectedItem = itemDDL.find(item => item?.value === valueOption.value)
+                          setFieldValue("itemDDL", selectedItem);
                         }}
                         placeholder="Select Item"
                         errors={errors}
@@ -698,7 +706,7 @@ export default function _Form({
                             ? "PR No"
                             : "PC No",
                           "Item",
-                          "Ref Qty",
+                          // "Ref Qty",
                           "HS Code",
                           "UoM",
                           "Quantity",
@@ -710,6 +718,7 @@ export default function _Form({
                 >
                   {rowDto?.length > 0 &&
                     rowDto?.map((item, index) => {
+                      console.log({rowDto})
                       return (
                         <tr key={index}>
                           <td style={{ width: "30px" }} className="text-center">
@@ -719,9 +728,9 @@ export default function _Form({
                             {item?.referenceCode}
                           </td>
                           <td style={{ width: "250px" }}>{item?.label}</td>
-                          <td style={{ width: "250px", textAlign: "center" }}>
+                          {/* <td style={{ width: "250px", textAlign: "center" }}>
                             {item?.refQty}
-                          </td>
+                          </td> */}
                           <td style={{ width: "250px" }}>
                             <InputField
                               name={item?.hscode}
