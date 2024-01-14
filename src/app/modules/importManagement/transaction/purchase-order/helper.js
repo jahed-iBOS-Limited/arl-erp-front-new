@@ -187,6 +187,7 @@ export const getItemListDDL = async (id, setter) => {
       uom: { value: item?.uomId, label: item?.uomName },
       referenceId: item?.referenceId,
       referenceCode: item?.referenceCode,
+      // modifiedValue: `${item?.value}-${item?.referenceCode}`
     }));
     setter(payload);
     console.log("paypayloadpayloadload", payload);

@@ -42,11 +42,11 @@ export const getSingleData = async (id, setter, setRowDto, setDisabled) => {
     const payload = {
       ...objHeader,
       // referenceType
-      sbuDDL: {
+      sbu: {
         label: objHeader?.sbuName,
         value: objHeader?.sbuId,
       },
-      plantDDL: {
+      plant: {
         label: objHeader?.plantName,
         value: objHeader?.plantId,
       },
@@ -580,7 +580,8 @@ export const getItemDDL = async (
         refType === 1 ? "PurchaseContract" : "PurchaseRequest"
       }`
     );
-    const newData = [...rowDto, ...res?.data];
+    // const newData = [...rowDto, ...res?.data];
+    const newData = [ ...res?.data];
     console.log("newData", [...rowDto, ...res?.data]);
     const modifyData = newData?.map((data) => ({
       ...data,
