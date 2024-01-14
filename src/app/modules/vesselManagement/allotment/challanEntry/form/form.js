@@ -123,7 +123,6 @@ export default function _Form({
       portId,
       godownId,
       (data) => {
-        console.log({ dataaa: data });
         setFieldValue("itemPrice", data?.itemRate || 0);
         setFieldValue("localRevenueRate", data?.localRevenueRate || 0);
         setFieldValue(
@@ -371,7 +370,9 @@ export default function _Form({
                           placeholder="Logistic By"
                           errors={errors}
                           touched={touched}
-                          isDisabled={disableHandler()}
+                          isDisabled={
+                            disableHandler() || !isTransportBill?.hasTransport
+                          }
                         />
                       </div>
                       {values?.logisticBy?.value === 1 && (
@@ -409,7 +410,11 @@ export default function _Form({
                             placeholder="Supplier Name"
                             errors={errors}
                             touched={touched}
-                            isDisabled={disableHandler()}
+                            isDisabled={
+                              disableHandler() ||
+                              !isTransportBill?.hasTransport ||
+                              values?.logisticBy?.value === 3
+                            }
                           />
                         </div>
                       )}
