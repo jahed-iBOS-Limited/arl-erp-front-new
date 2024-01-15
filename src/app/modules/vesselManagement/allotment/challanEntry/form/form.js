@@ -123,7 +123,6 @@ export default function _Form({
       portId,
       godownId,
       (data) => {
-        console.log({ dataaa: data });
         setFieldValue("itemPrice", data?.itemRate || 0);
         setFieldValue("localRevenueRate", data?.localRevenueRate || 0);
         setFieldValue(
@@ -201,7 +200,13 @@ export default function _Form({
               </CardHeader>
               <CardBody>
                 <Form className="form form-label-right">
-                  <div className="global-form">
+                  <h3
+                    className="text-center mb-0 py-2"
+                    style={{ backgroundColor: "#ffff8d" }}
+                  >
+                    Selected Mother Vessel: {values?.motherVessel?.label}
+                  </h3>
+                  <div className="global-form mt-0">
                     <div className="row">
                       {buId === 94 && (
                         <BADCBCICForm
@@ -262,6 +267,7 @@ export default function _Form({
                         obj={{
                           values,
                           setFieldValue,
+                          allElement: false,
                           onChange: (fieldName, allValues) => {
                             onChangeHandler(
                               fieldName,
@@ -371,7 +377,10 @@ export default function _Form({
                           placeholder="Logistic By"
                           errors={errors}
                           touched={touched}
-                          isDisabled={disableHandler()}
+                          isDisabled={
+                            disableHandler()
+                            // || !isTransportBill?.hasTransport
+                          }
                         />
                       </div>
                       {values?.logisticBy?.value === 1 && (
@@ -409,7 +418,11 @@ export default function _Form({
                             placeholder="Supplier Name"
                             errors={errors}
                             touched={touched}
-                            isDisabled={disableHandler()}
+                            isDisabled={
+                              disableHandler()
+                              //  || !isTransportBill?.hasTransport ||
+                              //   values?.logisticBy?.value === 3
+                            }
                           />
                         </div>
                       )}
@@ -484,7 +497,16 @@ export default function _Form({
                           isDisabled={disableHandler() || !values?.motherVessel}
                           onChange={(e) => {
                             onChangeHandler("godown", values, e, setFieldValue);
+                            const partnerId =
+                              buId === 94
+                                ? state?.type === "badc"
+                                  ? 73244
+                                  : 73245
+                                : values?.organization?.value;
                             if (e) {
+                              getRestQty(
+                                `/tms/LigterLoadUnload/GetTotalQuantityForChallan?businessUnitId=${buId}&businessPartnerId=${partnerId}&shipToPartnerId=${e?.value}&motherVesselId=${values?.motherVessel?.value}&portId=${values?.port?.value}`
+                              );
                               GetGodownAndOtherLabourRates(
                                 2,
                                 { ...values, godown: e },
@@ -623,7 +645,28 @@ export default function _Form({
                           </div>
                         </>
                       )}
-                      <div className="col-lg-12 mt-4">
+                      <div className="col-lg-12"></div>
+                      <div className="col-lg-3 mt-4">
+                        <h5>
+                          Rest Allotment Qty (Ton):{" "}
+                          {restQty?.restAllotmentQntTon || 0}
+                        </h5>
+                        <h5>
+                          Rest Allotment Qty (Bag):{" "}
+                          {restQty?.restAllotmentQntBag || 0}
+                        </h5>
+                      </div>
+                      <div className="col-lg-3 mt-4">
+                        <h5>
+                          Rest Vessel Program Qty (Ton):{" "}
+                          {restQty?.restMVesselProgramQntTon || 0}
+                        </h5>
+                        <h5>
+                          Rest Vessel Program Qty (Bag):{" "}
+                          {restQty?.restMVesselProgramQntBag || 0}
+                        </h5>
+                      </div>
+                      <div className="col-lg-3 mt-4">
                         <button
                           className="btn btn-primary"
                           type="button"
@@ -633,7 +676,6 @@ export default function _Form({
                             !values?.godown
                           }
                           onClick={() => {
-                            setIsResetModalShow(true);
                             const partnerId =
                               buId === 94
                                 ? state?.type === "badc"
@@ -641,11 +683,14 @@ export default function _Form({
                                   : 73245
                                 : values?.organization?.value;
                             getRestQty(
-                              `/tms/LigterLoadUnload/GetTotalQuantityForChallan?businessUnitId=${buId}&businessPartnerId=${partnerId}&shipToPartnerId=${values?.godown?.value}&motherVesselId=${values?.motherVessel?.value}&portId=${values?.port?.value}`
+                              `/tms/LigterLoadUnload/GetTotalQuantityForChallan?businessUnitId=${buId}&businessPartnerId=${partnerId}&shipToPartnerId=${values?.godown?.value}&motherVesselId=${values?.motherVessel?.value}&portId=${values?.port?.value}`,
+                              () => {
+                                setIsResetModalShow(true);
+                              }
                             );
                           }}
                         >
-                          View Rest Qty
+                          View Other Qty
                         </button>
                       </div>
                     </div>

@@ -176,7 +176,8 @@ function Form() {
       return toast.warn("Please add at least one product");
 
     const check = rowDto?.every((itm) => +itm?.numMillRate > 0);
-    if (!check) return toast.warn("Mill Rate must be greater than 0");
+    if (!check && values?.channel?.value !== 3)
+      return toast.warn("Mill Rate must be greater than 0");
 
     const payload = {
       objheader: {
@@ -227,9 +228,7 @@ function Form() {
       putCompetitorPrice(
         "/oms/CompetitorPrice/EditCompetitorPrice",
         payload,
-        () => {
-
-        },
+        () => {},
         true
       );
     } else {

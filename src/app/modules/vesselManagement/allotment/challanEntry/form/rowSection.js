@@ -76,7 +76,7 @@ export default function RowSection({ obj }) {
             </div>
             <div className="col-lg-2">
               <InputField
-                label="Local Revenue Rate"
+                label="LRR"
                 placeholder=""
                 value={values?.localRevenueRate || 0}
                 name="localRevenueRate"
@@ -87,7 +87,7 @@ export default function RowSection({ obj }) {
             </div>
             <div className="col-lg-2">
               <InputField
-                label="International Revenue Rate"
+                label="IRR"
                 placeholder=""
                 value={values?.internationalRevenueRate || 0}
                 name="internationalRevenueRate"
@@ -98,7 +98,7 @@ export default function RowSection({ obj }) {
             </div>
             <div className="col-lg-2">
               <InputField
-                label="MotherVessel Freight Rate (BDT)"
+                label="MFR"
                 placeholder=""
                 value={values?.mothervasselFreightRate || 0}
                 name="mothervasselFreightRate"
@@ -107,7 +107,7 @@ export default function RowSection({ obj }) {
                 disabled
               />
             </div>
-            
+
             <div className="col-lg-2">
               <InputField
                 label="Empty Bag"

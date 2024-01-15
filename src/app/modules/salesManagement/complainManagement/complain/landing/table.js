@@ -13,7 +13,6 @@ import { saveColseComplainApi } from "../../resolution/helper";
 const LandingTable = ({ obj }) => {
   const {
     profileData: { employeeId },
-    tokenData: { token },
   } = useSelector((state) => state?.authData, shallowEqual);
   const [isFeedbackModalShow, setIsFeedbackModalShow] = React.useState(false);
 
@@ -54,7 +53,7 @@ const LandingTable = ({ obj }) => {
               const matchEmployeeId = item?.investigatorAssignByName?.find(
                 (itm) => itm?.investigatorId === employeeId
               );
-
+              const defaultEnvEmp = item?.investigatorAssignByName?.[0];
               return (
                 <tr key={index}>
                   <td className='text-center'> {index + 1}</td>
@@ -113,8 +112,9 @@ const LandingTable = ({ obj }) => {
                       }
                     >
                       <div>
-                        {matchEmployeeId?.investigatorName &&
-                          matchEmployeeId?.investigatorName}
+                        {(matchEmployeeId?.investigatorName || defaultEnvEmp) &&
+                          (matchEmployeeId?.investigatorName ||
+                            defaultEnvEmp?.investigatorName)}
                       </div>
                     </OverlayTrigger>
                   </td>
@@ -157,10 +157,14 @@ const LandingTable = ({ obj }) => {
                       }
                     >
                       <div>
-                        {matchEmployeeId?.investigationDateTime &&
-                          moment(matchEmployeeId?.investigationDateTime).format(
-                            "YYYY-MM-DD, HH:mm A"
-                          )}
+                        {(matchEmployeeId?.investigationDateTime ||
+                          defaultEnvEmp?.investigationDateTime) &&
+                          (moment(
+                            matchEmployeeId?.investigationDateTime
+                          ).format("YYYY-MM-DD, HH:mm A") ||
+                            moment(defaultEnvEmp?.investigationDateTime).format(
+                              "YYYY-MM-DD, HH:mm A"
+                            ))}
                       </div>
                     </OverlayTrigger>
                   </td>

@@ -314,7 +314,19 @@ export default function ChallanEntryForm() {
         if (currentValue) {
           setFieldValue("programNo", currentValue?.programNo);
           getIsTransportBill(
-            `/tms/LigterLoadUnload/CheckTransportForChallan?businessUnitId=${buId}&motherVesselId=${currentValue?.value}&portId=${values?.port?.value}`
+            `/tms/LigterLoadUnload/CheckTransportForChallan?businessUnitId=${buId}&motherVesselId=${currentValue?.value}&portId=${values?.port?.value}`,
+            (resData) => {
+              if (!resData?.hasTransport) {
+                // setFieldValue("logisticBy", { value: 3, label: "Customer" });
+                // setFieldValue("supplier", { value: 0, label: "N/A" });
+                setFieldValue("transportRate", 0);
+                getVehicleDDL(accId, buId, 3, setVehicleDDL, setLoading);
+              } else {
+                // setFieldValue("logisticBy", "");
+                // setFieldValue("supplier", "");
+                setFieldValue("transportRate", "");
+              }
+            }
           );
           getDestinationList(
             organizationId,
@@ -369,7 +381,11 @@ export default function ChallanEntryForm() {
         setFieldValue("logisticBy", currentValue);
         setFieldValue("vehicle", "");
         setFieldValue("supplier", "");
+
         if (currentValue) {
+          // if (currentValue?.value === 3) {
+          //   setFieldValue("supplier", { value: 0, label: "N/A" });
+          // }
           getVehicleDDL(
             accId,
             buId,

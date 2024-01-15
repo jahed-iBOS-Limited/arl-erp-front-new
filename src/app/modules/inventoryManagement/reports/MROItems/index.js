@@ -5,9 +5,9 @@ import { shallowEqual, useSelector } from "react-redux";
 import IForm from "../../../_helper/_form";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
+import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import MROItemPlanningTable from "./table";
-import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
 const initData = {
   plant: "",
   wareHouse: "",
@@ -133,7 +133,7 @@ export default function MROItemReports() {
                       <NewSelect
                         name="plant"
                         options={
-                          [{ label: "All", value: 0 }, ...plantDDL] || []
+                          plantDDL || []
                         }
                         value={values?.plant}
                         label="Plant"
@@ -154,7 +154,7 @@ export default function MROItemReports() {
                       <NewSelect
                         name="wareHouse"
                         options={
-                          [{ label: "All", value: 0 }, ...wareHouseDDL] || []
+                          wareHouseDDL || []
                         }
                         value={values?.wareHouse}
                         label="WareHouse"
