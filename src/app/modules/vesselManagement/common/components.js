@@ -66,6 +66,7 @@ export const PortAndMotherVessel = ({ obj }) => {
     port,
     motherVessel,
     colSize,
+    allElement,
   } = obj;
   const [portDDL, setPortDDL] = useState([]);
   const [motherVesselDDL, setMotherVesselDDL] = useState([]);
@@ -83,13 +84,21 @@ export const PortAndMotherVessel = ({ obj }) => {
     }
   }, [accId, buId]);
 
+  const portList =
+    allElement !== false ? [{ value: 0, label: "All" }, ...portDDL] : portDDL;
+
+  const motherVesselList =
+    allElement !== false
+      ? [{ value: 0, label: "All" }, ...motherVesselDDL]
+      : motherVesselDDL;
+
   return (
     <>
       {port !== false && (
         <div className={colSize || "col-lg-3"}>
           <NewSelect
             name="port"
-            options={[{ value: 0, label: "All" }, ...portDDL]}
+            options={portList}
             value={values?.port}
             label="Port"
             placeholder="Port"
@@ -107,7 +116,7 @@ export const PortAndMotherVessel = ({ obj }) => {
         <div className={colSize || "col-lg-3"}>
           <NewSelect
             name="motherVessel"
-            options={[{ value: 0, label: "All" }, ...motherVesselDDL] || []}
+            options={motherVesselList || []}
             value={values?.motherVessel}
             label="Mother Vessel"
             placeholder="Mother Vessel"
