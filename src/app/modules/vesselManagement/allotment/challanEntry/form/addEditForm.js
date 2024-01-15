@@ -317,13 +317,13 @@ export default function ChallanEntryForm() {
             `/tms/LigterLoadUnload/CheckTransportForChallan?businessUnitId=${buId}&motherVesselId=${currentValue?.value}&portId=${values?.port?.value}`,
             (resData) => {
               if (!resData?.hasTransport) {
-                setFieldValue("logisticBy", { value: 3, label: "Customer" });
-                setFieldValue("supplier", { value: 0, label: "N/A" });
+                // setFieldValue("logisticBy", { value: 3, label: "Customer" });
+                // setFieldValue("supplier", { value: 0, label: "N/A" });
                 setFieldValue("transportRate", 0);
                 getVehicleDDL(accId, buId, 3, setVehicleDDL, setLoading);
               } else {
-                setFieldValue("logisticBy", "");
-                setFieldValue("supplier", "");
+                // setFieldValue("logisticBy", "");
+                // setFieldValue("supplier", "");
                 setFieldValue("transportRate", "");
               }
             }
@@ -383,9 +383,9 @@ export default function ChallanEntryForm() {
         setFieldValue("supplier", "");
 
         if (currentValue) {
-          if (currentValue?.value === 3) {
-            setFieldValue("supplier", { value: 0, label: "N/A" });
-          }
+          // if (currentValue?.value === 3) {
+          //   setFieldValue("supplier", { value: 0, label: "N/A" });
+          // }
           getVehicleDDL(
             accId,
             buId,
