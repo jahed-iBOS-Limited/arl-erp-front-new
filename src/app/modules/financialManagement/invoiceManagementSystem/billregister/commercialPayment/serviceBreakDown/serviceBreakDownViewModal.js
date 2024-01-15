@@ -296,6 +296,7 @@ const ServiceBreakDownViewModal = ({
                           referenceId={referenceId}
                           supplierId={data?.supplierId}
                           setAdvanceBill={setAdvanceBill}
+                          advanceBill={advanceBill}
                         />
                       </ExpansionPanelDetails>
                     </ExpansionPanel>
