@@ -716,6 +716,7 @@ export default function _Form({
                         ]
                   }
                 >
+                  {console.log({rowDto})}
                   {rowDto?.length > 0 &&
                     rowDto?.map((item, index) => {
                       console.log({rowDto})
