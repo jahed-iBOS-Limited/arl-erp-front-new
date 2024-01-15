@@ -50,7 +50,7 @@ const EmployeeWiseFuelCostTbl = ({ rowData, values }) => {
                const totalFuelCost = item?.fuelCash + item?.fuelCredit;
                const totalRouteCost = totalFuelCost + item?.numTollAmount;
                const totalCost = totalRouteCost + item?.otherExpanse;
-               const perKMCost = totalRouteCost / item?.totalKM;
+               const perKMCost = item?.totalKM !==0 ?  totalRouteCost / item?.totalKM : 0 ;
                const personalCostDeduction = (totalPersonalKM- item?.numCeilingKM) * perKMCost;
                const netPayable = (totalCost - item?.fuelCredit) - personalCostDeduction
 
