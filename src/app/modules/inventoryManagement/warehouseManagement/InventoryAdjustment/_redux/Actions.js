@@ -1,7 +1,7 @@
-import * as requestFromServer from "./Api";
-import { invTransactionSlice } from "./Slice";
 import { toast } from "react-toastify";
 import { setLastInvDataAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import * as requestFromServer from "./Api";
+import { invTransactionSlice } from "./Slice";
 const { actions: slice } = invTransactionSlice;
 
 export const getGridDataAction = (
@@ -20,7 +20,7 @@ export const getGridDataAction = (
 ) => (dispatch) => {
   setLoading(true);
   return requestFromServer
-    .getGridData(
+    .getGridDataInventoryAdjustment(
       fromDate,
       toDate,
       grId,
