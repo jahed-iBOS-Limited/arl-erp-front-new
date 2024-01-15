@@ -340,6 +340,7 @@ export function PurchaseOrderViewTableRow({
                           <tr>
                             <th>SL</th>
                             <th>ITEM</th>
+                            <th>REFERENCE CODE</th>
                             <th>DESCRIPTION</th>
                             <th>UoM</th>
                             <th>QTY.</th>
@@ -355,6 +356,7 @@ export function PurchaseOrderViewTableRow({
                               <tr>
                                 <td className="text-center">{i + 1}</td>
                                 <td>{data?.itemName}</td>
+                                <td>{data?.referenceCode}</td>
                                 <td>{data?.purchaseDescription}</td>
                                 <td>{data?.uomName}</td>
                                 <td className="text-right">{data?.orderQty}</td>
