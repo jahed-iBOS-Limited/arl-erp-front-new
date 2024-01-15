@@ -1,7 +1,7 @@
 import React from "react";
 import { _dateFormatterTwo } from "../../../../../_helper/_dateFormate";
 
-export default function AccountPayableAginTable({ rowDto, values, printRef }) {
+export default function AccountPayableAgingTable({ rowDto, values, printRef }) {
   return (
     <div>
       {rowDto?.length > 0 && (
