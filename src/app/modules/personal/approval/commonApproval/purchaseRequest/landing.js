@@ -157,17 +157,29 @@ const PurchaseRequestApprovalGrid = ({
 
    //reject handler
    const rejectSubmitlHandler = () => {
-    const filterSelectedData = rowDto?.data?.filter(
-      (item) => item?.isSelect,
-    );
-    console.log(filterSelectedData)
-    const payload = filterSelectedData.map((item) => {
-      return {
-        purchaseRequestId: item?.transectionId,
-        actionBy: profileData?.userId,
-      };
-    });
-    rejectPuchase(`/procurement/PurchaseRequest/RejectPurchaseRequest`, payload, null, true);
+    let confirmObject = {
+      title: 'Are you sure?',
+      message: `Do you want to reject the selected PR?`,
+      yesAlertFunc: () => {
+        const filterSelectedData = rowDto?.data?.filter(
+          (item) => item?.isSelect,
+        );
+        const payload = filterSelectedData.map((item) => {
+          return {
+            purchaseRequestId: item?.transectionId,
+            actionBy: profileData?.userId,
+          };
+        });
+        rejectPuchase(`/procurement/PurchaseRequest/RejectPurchaseRequest`, payload, (data)=>{
+          setBillSubmitBtn(true);
+          cb();
+        }, true);
+        // setBillSubmitBtn(true);
+      },
+      noAlertFunc: () => {},
+    };
+    IConfirmModal(confirmObject);
+
   };
 
   const paginationSearchHandler = (value) => {
