@@ -272,6 +272,7 @@ const InventoryG2GReportRDLC = () => {
                         onChange={(valueOption) => {
                           setFieldValue("wh", valueOption);
                           setRowData([]);
+                          setShowReport(false);
                         }}
                         placeholder="WareHouse"
                         errors={errors}
