@@ -12,7 +12,7 @@ import Loading from "../../../../../_helper/_loading";
 import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
 import { _todayDate } from "../../../../../_helper/_todayDate";
 import { empAttachment_action } from "../../../../../humanCapitalManagement/humanResource/employeeInformation/helper";
-import { createCommercialBreakdownForAdvance } from "../helper";
+import { createCommercialBreakdownForAdvance, getCommercialBreakdownForAdvanceAndBill } from "../helper";
 import {
   Card,
   CardBody,
@@ -34,6 +34,7 @@ const validationSchema = Yup.object().shape({
 
 export default function AddAdvance({
   bill,
+  setBill,
   advanceBill,
   setAdvanceBill,
   accountId,
@@ -42,7 +43,8 @@ export default function AddAdvance({
   supplierName,
   setSupplierName,
   setExpanded,
-  state
+  state,
+  referenceId,
 }) {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -73,9 +75,9 @@ export default function AddAdvance({
     setTotalAmount(total);
   }, [advanceBill]);
 
-  const saveHandler = (data) => {
+  const saveHandler = (data, cb) => {
     if (data.length > 0) {
-      createCommercialBreakdownForAdvance(data, setIsLoading);
+      createCommercialBreakdownForAdvance(data, setIsLoading, cb);
     } else {
       toast.warning("Please add at least one row");
     }
@@ -122,7 +124,13 @@ export default function AddAdvance({
                     <button
                       onClick={() => {
                         saveHandler(advanceBill, () => {
-                          setAdvanceBill({});
+                          // setAdvanceBill({});
+                          getCommercialBreakdownForAdvanceAndBill(
+                            referenceId,
+                            data?.supplierId,
+                            setAdvanceBill,
+                            setBill
+                          );
                         });
                       }}
                       className="btn btn-primary ml-2"
