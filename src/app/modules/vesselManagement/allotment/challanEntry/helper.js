@@ -64,13 +64,14 @@ export const getChallanById = async (deliveryId, setter, setLoading, cb) => {
 export const getLightersForChallan = async (
   shipPointId,
   vesselId,
+  portId,
   setter,
   setLoading
 ) => {
   setLoading && setLoading(true);
   try {
     const res = await axios.get(
-      `/tms/LigterLoadUnload/GetLighterVesselNItemDDL?ShipPointId=${shipPointId}&MotherVesselId=${vesselId}`
+      `/tms/LigterLoadUnload/GetLighterVesselNItemDDL?ShipPointId=${shipPointId}&MotherVesselId=${vesselId}&PortId=${portId}`
     );
     setter(
       res?.data?.map((item) => ({
