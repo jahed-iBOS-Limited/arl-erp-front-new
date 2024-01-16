@@ -342,6 +342,7 @@ export default function ChallanEntryForm() {
           getLightersForChallan(
             values?.shipPoint?.value,
             currentValue?.value,
+            values?.port?.value,
             setLighterDDL,
             setLoading
           );
@@ -601,6 +602,7 @@ export default function ChallanEntryForm() {
         getLightersForChallan(
           values?.shipPointId,
           values?.motherVesselId,
+          values?.portId,
           setLighterDDL,
           setLoading
         );
