@@ -16,7 +16,7 @@ import NewSelect from "../../../../_helper/_select";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import AccountPayableAginTable from "./table/accPayableAgain";
+import AccountPayableAgingTable from "./table/accPayableAgain";
 import AccountPayableAnalysisTable from "./table/accPayableAnalysis";
 
 const initData = {
@@ -91,12 +91,12 @@ export function AccountPayableAnalysis() {
                         filename={
                           values?.payableType?.value === 1
                             ? "Account Payable Analysis"
-                            : "Account Payable Again"
+                            : "Account Payable Aging"
                         }
                         sheet={
                           values?.payableType?.value === 1
                             ? "Account Payable Analysis"
-                            : "Account Payable Again"
+                            : "Account Payable Aging"
                         }
                         buttonText="Export Excel"
                       />
@@ -161,7 +161,7 @@ export function AccountPayableAnalysis() {
                   />
                 )}
                 {[2]?.includes(values?.payableType?.value) && (
-                  <AccountPayableAginTable
+                  <AccountPayableAgingTable
                     rowDto={rowDto}
                     values={values}
                     printRef={printRef}
