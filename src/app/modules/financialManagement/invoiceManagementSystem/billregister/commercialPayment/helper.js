@@ -228,13 +228,14 @@ export const getCommercialBreakdownForAdvanceAndBill = async(
   }
 }
 
-export const createCommercialBreakdownForAdvance= async(payload, setIsLoading)=>{
+export const createCommercialBreakdownForAdvance= async(payload, setIsLoading, cb)=>{
   try{
     setIsLoading(true)
     const res= await axios.post("/imp/AllCharge/CreateCommercialBreakdownForAdvance", payload)
     if(res.status === 200){
       setIsLoading(false)
       toast.success(res?.data?.message)
+      cb && cb()
     }
   }catch(err){
     setIsLoading(false)
