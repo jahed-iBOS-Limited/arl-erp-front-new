@@ -1,3 +1,4 @@
+import axios from "axios";
 import { Form, Formik } from "formik";
 import React, { useRef } from "react";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
@@ -10,6 +11,7 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from "../../../../../../_metronic/_partials/controls";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
@@ -21,6 +23,7 @@ import AccountPayableAnalysisTable from "./table/accPayableAnalysis";
 
 const initData = {
   payableType: "",
+  supplier: "",
   reportDate: _todayDate(),
 };
 
@@ -30,7 +33,7 @@ export function AccountPayableAnalysis() {
     shallowEqual
   );
 
-  const [rowDto, getRowDto, rowDtoLoader,setRowDto] = useAxiosGet();
+  const [rowDto, getRowDto, rowDtoLoader, setRowDto] = useAxiosGet();
 
   const getLadingData = (values) => {
     if (values?.payableType?.value === 1) {
@@ -39,8 +42,8 @@ export function AccountPayableAnalysis() {
       );
     } else {
       getRowDto(
-        `/fino/BalanceSheet/GetPayableAgingReport?businessUnitId=${selectedBusinessUnit?.value}`
-      )
+        `/fino/BalanceSheet/GetPayableAgingReport?businessUnitId=${selectedBusinessUnit?.value}&businessPartnerId=${values?.supplier?.value}`
+      );
     }
   };
 
@@ -117,28 +120,54 @@ export function AccountPayableAnalysis() {
                           { label: "Payable Aging", value: 2 },
                         ]}
                         onChange={(valueOption) => {
-                          setRowDto([])
+                          setRowDto([]);
                           setFieldValue("payableType", valueOption);
                         }}
                         value={values?.payableType}
                         label="Payable Type"
                       />
                     </div>
-                    {
-                      values?.payableType?.value === 1 &&  (
-                        <div className="col-lg-2">
-                      <InputField
-                        value={values?.reportDate}
-                        label="Report Date"
-                        name="reportDate"
-                        type="date"
-                        onChange={(e) => {
-                          setFieldValue("reportDate", e?.target?.value);
-                        }}
-                      />
-                    </div>
-                      )
-                    }
+                    {values?.payableType?.value === 2 && (
+                      <div className="col-lg-3">
+                        <label>Supplier Name</label>
+                        <SearchAsyncSelect
+                          selectedValue={values?.supplier}
+                          handleChange={(valueOption) => {
+                            setFieldValue("supplier", valueOption);
+                          }}
+                          loadOptions={(v) => {
+                            if (v.length < 3) return [];
+                            return axios
+                              .get(
+                                `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${
+                                  profileData?.accountId
+                                }&UnitId=${
+                                  selectedBusinessUnit?.value
+                                }&SBUId=${0}`
+                              )
+                              .then((res) => {
+                                const updateList = res?.data?.map((item) => ({
+                                  ...item,
+                                }));
+                                return updateList;
+                              });
+                          }}
+                        />
+                      </div>
+                    )}
+                    {values?.payableType?.value === 1 && (
+                      <div className="col-lg-2">
+                        <InputField
+                          value={values?.reportDate}
+                          label="Report Date"
+                          name="reportDate"
+                          type="date"
+                          onChange={(e) => {
+                            setFieldValue("reportDate", e?.target?.value);
+                          }}
+                        />
+                      </div>
+                    )}
 
                     <div className="col-lg-1 text-right">
                       <ButtonStyleOne
