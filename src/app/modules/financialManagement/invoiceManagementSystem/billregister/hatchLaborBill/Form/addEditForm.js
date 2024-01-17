@@ -39,7 +39,7 @@ export default function HatchLaborBill() {
 
   useEffect(() => {
     getVesselDDL(
-      `/wms/FertilizerOperation/GetMotherVesselProgramInfo?PortId=${1}`
+      `/wms/FertilizerOperation/GetMotherVesselProgramInfo?PortId=${1}&businessUnitId=${buId}`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
