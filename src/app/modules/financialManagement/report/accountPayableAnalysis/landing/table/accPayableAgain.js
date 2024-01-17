@@ -18,12 +18,12 @@ export default function AccountPayableAgingTable({ rowDto, values, printRef }) {
                   <th style={{ minWidth: "150px" }}>Supplier Name</th>
                   <th style={{ minWidth: "120px" }}>PO Number</th>
                   <th style={{ minWidth: "120px" }}>PO Date</th>
+                  <th style={{ minWidth: "120px" }}>MRR Code</th>
                   <th style={{ minWidth: "120px" }}>Invoice Number</th>
                   <th style={{ minWidth: "120px" }}>Invoice Date</th>
                   <th style={{ minWidth: "120px" }}>Invoice Amount</th>
                   <th style={{ minWidth: "120px" }}>Advance Amount</th>
                   <th style={{ minWidth: "120px" }}>Due Date</th>
-                  <th style={{ minWidth: "120px" }}>Total Payable</th>
                   <th style={{ minWidth: "120px" }}>0-30 Days</th>
                   <th style={{ minWidth: "120px" }}>31-60 Days</th>
                   <th style={{ minWidth: "120px" }}>61-90 Days</th>
@@ -37,12 +37,12 @@ export default function AccountPayableAgingTable({ rowDto, values, printRef }) {
                     <td className="text-center">{item["Suppliere Name"]}</td>
                     <td className="text-center">{item["PO Number"]}</td>
                     <td className="text-center">{_dateFormatterTwo(item["PO Date"])}</td>
+                    <td className="text-center">{item["MRR Code"]}</td>
                     <td>{item["Invoice Number"]}</td>
                     <td className="text-center">{_dateFormatterTwo(item["Invoice Date"])}</td>
                     <td>{item["Invoice Amount"]}</td>
                     <td>{item["Advance Amount"]}</td>
                     <td className="text-center">{_dateFormatterTwo(item["Due Date"])}</td>
-                    <td>{item["Total Payable"]}</td>
                     <td>{item["0 - 30 Days"]}</td>
                     <td>{item["31 - 60 Days"]}</td>
                     <td>{item["61 - 90 Days"]}</td>
