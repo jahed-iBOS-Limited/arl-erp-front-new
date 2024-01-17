@@ -139,7 +139,7 @@ export default function _Form({
       <Formik
         enableReinitialize={true}
         validationSchema={validationSchema}
-        initialValues={initData}
+        initialValues={{ ...initData, ...state }}
         onSubmit={(values, { resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
@@ -210,7 +210,7 @@ export default function _Form({
                     <div className="row">
                       {buId === 94 && (
                         <BADCBCICForm
-                          values={{ ...values, ...state }}
+                          values={{ ...values }}
                           setFieldValue={setFieldValue}
                           disabled={state?.type}
                           onChange={onChangeHandler}
@@ -646,7 +646,7 @@ export default function _Form({
                         </>
                       )}
                       <div className="col-lg-12"></div>
-                      <div className="col-lg-3 mt-4">
+                      <div className="col-lg-4 mt-4">
                         <h5>
                           Rest Allotment Qty (Ton):{" "}
                           {restQty?.restAllotmentQntTon || 0}
@@ -656,7 +656,7 @@ export default function _Form({
                           {restQty?.restAllotmentQntBag || 0}
                         </h5>
                       </div>
-                      <div className="col-lg-3 mt-4">
+                      <div className="col-lg-4 mt-4">
                         <h5>
                           Rest Vessel Program Qty (Ton):{" "}
                           {restQty?.restMVesselProgramQntTon || 0}
@@ -666,7 +666,7 @@ export default function _Form({
                           {restQty?.restMVesselProgramQntBag || 0}
                         </h5>
                       </div>
-                      <div className="col-lg-3 mt-4">
+                      <div className="col-lg-4 mt-4">
                         <button
                           className="btn btn-primary"
                           type="button"

@@ -81,7 +81,7 @@ export default function _Form({
                             setFieldValue("port", e);
                             setFieldValue("motherVessel", "");
                             getMotherVesselDDL(
-                              `/wms/FertilizerOperation/GetMotherVesselProgramInfo?PortId=${e.value}`
+                              `/wms/FertilizerOperation/GetMotherVesselProgramInfo?PortId=${e.value}&businessUnitId=${buId}`
                             );
                           }
                         }}
