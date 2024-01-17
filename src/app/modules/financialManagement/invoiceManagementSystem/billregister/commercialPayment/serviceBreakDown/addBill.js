@@ -112,6 +112,7 @@ export default function AddBill({
           bookedAmount: data?.numContractedAmount || 0,
           totalAmount: +values?.numAmount || 0,
           vat: +values?.vatAmount || 0,
+          numAdvanceAdjust: values?.numAmount < values?.numAdvanceAdjust ?  values?.numAmount : values?.numAdvanceAdjust || 0,
         },
       ],
       imageString: {
