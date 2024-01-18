@@ -85,6 +85,7 @@ export default function PartnerBasic() {
         };
         setData(singleObject);
       });
+  
     }
   };
   // save business unit data to DB
