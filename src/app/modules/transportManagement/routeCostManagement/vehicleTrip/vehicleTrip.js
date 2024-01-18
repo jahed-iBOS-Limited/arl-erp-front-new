@@ -21,6 +21,7 @@ const typeList = [
   { value: 10, label: "Day & Vehicle Base Trip Status" },
   { value: 11, label: "Driver Base Trip Status" },
   { value: 12, label: "Detail Statement" },
+  { value: 13, label: "Vehicle Owner Type Basis" },
 ];
 
 const TripCostStatement = () => {
