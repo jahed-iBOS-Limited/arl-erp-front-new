@@ -57,6 +57,14 @@ const validationSchema = Yup.object().shape({
     .min(1, "Minimum 1 symbols")
     .max(100, "Maximum 100 symbols")
     .required("Vehicle No is required"),
+  fuelAllowanceLocalKM: Yup.string()
+  .min(0, "Minimum 0 symbols")
+  .max(100, "Maximum 100 symbols")
+  .required("Local KM is required"),
+  fuelAllowanceOuterKM: Yup.string()
+  .min(0, "Minimum 0 symbols")
+  .max(100, "Maximum 100 symbols")
+  .required("Outer KM is required"),
 });
 
 export default function _Form({
@@ -306,6 +314,29 @@ export default function _Form({
                     // disabled={isEdit}
                   />
                 </div>
+                { values.ownerType.label === "Company" && 
+                  <>
+                  
+                  <div className="col-lg-3">
+                  <IInput
+                    type="text"
+                    value={values?.fuelAllowanceLocalKM ?? "" }
+                    label="Fuel Allowance (Local KM)"
+                    name="fuelAllowanceLocalKM"
+                    // disabled={isEdit}
+                  />
+                </div>
+                  <div className="col-lg-3">
+                  <IInput
+                    type="text"
+                    value={values?.fuelAllowanceOuterKM ?? ""}
+                    label="Fuel Allowance (Outer KM)"
+                    name="fuelAllowanceOuterKM"
+                    // disabled={isEdit}
+                  />
+                </div>
+                </>
+                }
               </div>
 
               <IViewModal
