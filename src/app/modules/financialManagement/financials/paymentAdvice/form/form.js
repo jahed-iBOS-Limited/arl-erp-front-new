@@ -1,26 +1,29 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import * as Yup from "yup";
+import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
-import { useSelector, useDispatch } from "react-redux";
-import { billTypeList } from "../helper";
-import PaginationSearch from "./../../../../_helper/_search";
-import SupplerInvoiceView from "../../../invoiceManagementSystem/approvebillregister/supplerInvoiceView";
-import SupplierAdvanceView from "../../../invoiceManagementSystem/approvebillregister/supplierAdvanceView";
+import IViewModal from "../../../../_helper/_viewModal";
+import {
+  SetFinancialsPaymentAdviceAction,
+  setPreparePaymentLastAction,
+} from "../../../../_helper/reduxForLocalStorage/Actions";
 import AdvForInternalView from "../../../invoiceManagementSystem/approvebillregister/advForInternal";
 import ExpenseView from "../../../invoiceManagementSystem/approvebillregister/expenseView";
-import IViewModal from "../../../../_helper/_viewModal";
-import { setPreparePaymentLastAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import SupplerInvoiceView from "../../../invoiceManagementSystem/approvebillregister/supplerInvoiceView";
+import SupplierAdvanceView from "../../../invoiceManagementSystem/approvebillregister/supplierAdvanceView";
 import BankJournalCreateForm from "../bank/addForm";
-import * as Yup from "yup";
-import { SetFinancialsPaymentAdviceAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import InputField from "../../../../_helper/_inputField";
+import { billTypeList } from "../helper";
+import PaginationSearch from "./../../../../_helper/_search";
 // import { _todayDate } from "../../../../_helper/_todayDate";
-import ViewTransportBill from "./../../../invoiceManagementSystem/billregister/transportBill/view/viewBillRegister";
-import ViewFuelBill from "./../../../invoiceManagementSystem/billregister/fuelBill/view/viewBillRegister";
-import ViewSalesCommission from "./../../../invoiceManagementSystem/billregister/salesCommission/view/viewSalesCommission";
-import ViewLabourBill from "./../../../invoiceManagementSystem/billregister/labourBill/view/viewBillRegister";
 import OthersBillView from "../../../invoiceManagementSystem/billregister/othersBillNew/view/othersBillView";
+import ViewPumpFoodingBill from "../../../invoiceManagementSystem/billregister/pumpFoodingBill/view/viewPumpFoodingBill";
 import ShippingInvoiceView from "../../../invoiceManagementSystem/shippingBillRegister/shippingInvoiceView";
+import ViewFuelBill from "./../../../invoiceManagementSystem/billregister/fuelBill/view/viewBillRegister";
+import ViewLabourBill from "./../../../invoiceManagementSystem/billregister/labourBill/view/viewBillRegister";
+import ViewSalesCommission from "./../../../invoiceManagementSystem/billregister/salesCommission/view/viewSalesCommission";
+import ViewTransportBill from "./../../../invoiceManagementSystem/billregister/transportBill/view/viewBillRegister";
 import GlobalTableForBillType from "./globalTable";
 import OtherTableForBillType from "./otherTable";
 
@@ -96,7 +99,7 @@ export default function _Form({
   };
 
   ///all of this code done by selim
-  
+
   const selectIndividualItem = (index) => {
     if (!allActivities) {
       let newRowdata = [...rowDto];
@@ -187,8 +190,6 @@ export default function _Form({
   const preparepaymentIndex = useSelector((state) => {
     return state.localStorage.preparepaymentIndex;
   });
-
- 
 
   const getLanding = (values) => {
     getPaymentAdviceIndoPagination(
@@ -509,40 +510,40 @@ export default function _Form({
                 />
               </>
 
-              {[1,2]?.includes(values?.billType?.value) ?
-               <OtherTableForBillType
-                  values = {values}
-                  allSelect = {allSelect}
-                  setAllSelect = {setAllSelect}
-                  rowDto = {rowDto}
-                  setRowDto = {setRowDto}
-                  selectIndividualItem = {selectIndividualItem}
-                  updateDate = {updateDate}
-                  preparepaymentIndex = {preparepaymentIndex}
-                  setModalShow = {setModalShow}
-                  setGridItem = {setGridItem}
-                  setPreparePaymentLastAction = {setPreparePaymentLastAction}
-                  setBankModelShow = {setBankModelShow}
-                  setGridData = {setGridData}
-                  dispatch = {dispatch}
-               /> 
-               :
-               <GlobalTableForBillType
-                  values = {values}
-                  allSelect = {allSelect}
-                  setAllSelect = {setAllSelect}
-                  rowDto = {rowDto}
-                  selectIndividualItem = {selectIndividualItem}
-                  updateDate = {updateDate}
-                  preparepaymentIndex = {preparepaymentIndex}
-                  setModalShow = {setModalShow}
-                  setGridItem = {setGridItem}
-                  setPreparePaymentLastAction = {setPreparePaymentLastAction}
-                  setBankModelShow = {setBankModelShow}
-                  setGridData = {setGridData}
-                  dispatch = {dispatch}
-             />
-              }
+              {[1, 2]?.includes(values?.billType?.value) ? (
+                <OtherTableForBillType
+                  values={values}
+                  allSelect={allSelect}
+                  setAllSelect={setAllSelect}
+                  rowDto={rowDto}
+                  setRowDto={setRowDto}
+                  selectIndividualItem={selectIndividualItem}
+                  updateDate={updateDate}
+                  preparepaymentIndex={preparepaymentIndex}
+                  setModalShow={setModalShow}
+                  setGridItem={setGridItem}
+                  setPreparePaymentLastAction={setPreparePaymentLastAction}
+                  setBankModelShow={setBankModelShow}
+                  setGridData={setGridData}
+                  dispatch={dispatch}
+                />
+              ) : (
+                <GlobalTableForBillType
+                  values={values}
+                  allSelect={allSelect}
+                  setAllSelect={setAllSelect}
+                  rowDto={rowDto}
+                  selectIndividualItem={selectIndividualItem}
+                  updateDate={updateDate}
+                  preparepaymentIndex={preparepaymentIndex}
+                  setModalShow={setModalShow}
+                  setGridItem={setGridItem}
+                  setPreparePaymentLastAction={setPreparePaymentLastAction}
+                  setBankModelShow={setBankModelShow}
+                  setGridData={setGridData}
+                  dispatch={dispatch}
+                />
+              )}
 
               <button
                 type="submit"
@@ -661,6 +662,11 @@ export default function _Form({
                     // laingValues={values}
                     // girdDataFunc={girdDataFunc}
                     setModalShow={setModalShow}
+                  />
+                )}
+                {values?.billType?.value === 18 && (
+                  <ViewPumpFoodingBill
+                    billRegisterId={gridItem?.billRegisterId}
                   />
                 )}
               </IViewModal>
