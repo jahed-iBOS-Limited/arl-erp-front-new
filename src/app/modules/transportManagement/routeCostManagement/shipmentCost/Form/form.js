@@ -325,7 +325,7 @@ export default function _Form({
                   }}
                 >
                   <b>Pay to Driver: </b>
-                  {_fixedPoint(netPayable || 0)}
+                  {_fixedPoint(netPayable || 0, true, 0)}
                 </p>
                 <div className="row global-form">
                   <div className="col-lg-12">

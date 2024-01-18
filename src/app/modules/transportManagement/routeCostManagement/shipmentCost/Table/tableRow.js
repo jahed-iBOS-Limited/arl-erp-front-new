@@ -354,6 +354,7 @@ export function TableRow() {
                                           state: {
                                             vehicleId: item?.vehicleId,
                                             values: values,
+                                            singleData: item,
                                           },
                                         });
                                       }}
