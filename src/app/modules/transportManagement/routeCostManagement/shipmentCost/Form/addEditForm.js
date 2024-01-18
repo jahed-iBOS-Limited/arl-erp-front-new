@@ -77,7 +77,6 @@ export default function ShipmentCostForm() {
   const location = useLocation();
   const landingData = location?.state?.singleData;
 
-  console.log("landingData", landingData);
   // get user profile data from store
   const storeData = useSelector((state) => {
     return {
