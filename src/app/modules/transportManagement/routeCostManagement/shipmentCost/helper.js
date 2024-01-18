@@ -192,15 +192,16 @@ const attachmentFileIdGroup = (arr) => {
   return result;
 };
 
-export const getShipmentByID = async (
+export const getShipmentByID = async ({
   shipmentId,
   setter,
   setRowDto,
   setDisabled,
   setAttachmentGrid,
   isReportTypeComplete,
-  emptyDate
-) => {
+  emptyDate,
+  landingData,
+}) => {
   try {
     setDisabled && setDisabled(true);
     const res = await Axios.get(
@@ -314,6 +315,7 @@ export const getShipmentByID = async (
       const calculateResult = calculativeFuelCostAndFuelCostLtrAndMileageAllowance(
         {
           values: newObj,
+          landingData,
         }
       );
       newObj.totalFuelCost = calculateResult.totalFuelCost.toFixed(2);
@@ -697,15 +699,30 @@ export const getBusinessUnitDDL_api = async (actionBy, accountId, setter) => {
 
 export const calculativeFuelCostAndFuelCostLtrAndMileageAllowance = ({
   values,
+  landingData,
 }) => {
+  console.log("data", landingData);
   const distanceAndExtraMillage =
     (+values?.distanceKm || 0) + (+values?.extraMillage || 0);
 
-  const totalFuelCost =
-    values?.fuelCostPerMillage * distanceAndExtraMillage * +values?.fuelRate;
+  // const totalFuelCost =
+  //   values?.fuelCostPerMillage * distanceAndExtraMillage * +values?.fuelRate;
+  // const totalFuelCostLtr =
+  //   values?.fuelCostLtrPerMillage * distanceAndExtraMillage;
+  // const mileageAllowance = values?.costPerMillage * distanceAndExtraMillage;
+
   const totalFuelCostLtr =
-    values?.fuelCostLtrPerMillage * distanceAndExtraMillage;
-  const mileageAllowance = values?.costPerMillage * distanceAndExtraMillage;
+    distanceAndExtraMillage < 231
+      ? distanceAndExtraMillage / landingData?.localFuelRate
+      : distanceAndExtraMillage / landingData?.outFuelRate;
+
+  const mileageAllowance =
+    distanceAndExtraMillage < 231
+      ? distanceAndExtraMillage * landingData?.localMiallagRate
+      : distanceAndExtraMillage * landingData?.outMiallagRate;
+
+  const totalFuelCost = totalFuelCostLtr * +values?.fuelRate;
+
   return {
     totalFuelCost,
     totalFuelCostLtr,
