@@ -701,7 +701,6 @@ export const calculativeFuelCostAndFuelCostLtrAndMileageAllowance = ({
   values,
   landingData,
 }) => {
-  console.log("data", landingData);
   const distanceAndExtraMillage =
     (+values?.distanceKm || 0) + (+values?.extraMillage || 0);
 
