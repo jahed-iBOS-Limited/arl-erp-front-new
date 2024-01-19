@@ -1,15 +1,15 @@
-import React, { useState } from "react";
 import axios from "axios";
-import { Formik, Form } from "formik";
+import { Form, Formik } from "formik";
+import React, { useState } from "react";
 import * as Yup from "yup";
-import { ISelect } from "../../../../_helper/_inputDropDown";
 import { IInput } from "../../../../_helper/_input";
+import { ISelect } from "../../../../_helper/_inputDropDown";
 import InputField from "../../../../_helper/_inputField";
-import IViewModal from "../../../../_helper/_viewModal";
-import VehicleNoAddForm from "./vehicleNoAddForm/vehicleNoAddForm";
 import { NegetiveCheck } from "../../../../_helper/_negitiveCheck";
-import NewSelect from "./../../../../_helper/_select";
+import IViewModal from "../../../../_helper/_viewModal";
 import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
+import NewSelect from "./../../../../_helper/_select";
+import VehicleNoAddForm from "./vehicleNoAddForm/vehicleNoAddForm";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -57,14 +57,14 @@ const validationSchema = Yup.object().shape({
     .min(1, "Minimum 1 symbols")
     .max(100, "Maximum 100 symbols")
     .required("Vehicle No is required"),
-  fuelAllowanceLocalKM: Yup.string()
-  .min(0, "Minimum 0 symbols")
-  .max(100, "Maximum 100 symbols")
-  .required("Local KM is required"),
-  fuelAllowanceOuterKM: Yup.string()
-  .min(0, "Minimum 0 symbols")
-  .max(100, "Maximum 100 symbols")
-  .required("Outer KM is required"),
+  // fuelAllowanceLocalKM: Yup.string()
+  // .min(0, "Minimum 0 symbols")
+  // .max(100, "Maximum 100 symbols")
+  // .required("Local KM is required"),
+  // fuelAllowanceOuterKM: Yup.string()
+  // .min(0, "Minimum 0 symbols")
+  // .max(100, "Maximum 100 symbols")
+  // .required("Outer KM is required"),
 });
 
 export default function _Form({
