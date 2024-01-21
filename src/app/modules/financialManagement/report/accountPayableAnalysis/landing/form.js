@@ -42,7 +42,7 @@ export function AccountPayableAnalysis() {
       );
     } else {
       getRowDto(
-        `/fino/BalanceSheet/GetPayableAgingReport?businessUnitId=${selectedBusinessUnit?.value}&businessPartnerId=${values?.supplier?.value}`
+        `/fino/BalanceSheet/GetPayableAgingReport?businessUnitId=${selectedBusinessUnit?.value}&businessPartnerId=${values?.supplier?.value || 0}`
       );
     }
   };
