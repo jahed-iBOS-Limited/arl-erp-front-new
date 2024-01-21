@@ -117,7 +117,7 @@ export default function _Form({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itemTypeList]);
 
-
+console.log({product})
   return (
     <>
       <Formik
