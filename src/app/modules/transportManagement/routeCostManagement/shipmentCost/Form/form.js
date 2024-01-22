@@ -731,7 +731,10 @@ export default function _Form({
                             if (componentId === 47) {
                               standardCost = +values?.totalFuelCost || 0;
                               actualCost = +values?.totalFuelCost || 0;
+                              // actualCost = +values?.totalFuelCost || 0;
                             }
+                            console.log("standard", standardCost);
+                            console.log("actual", actualCost);
                             let obj = {
                               transportRouteCostComponentId:
                                 values.costComponent.value,
@@ -740,6 +743,7 @@ export default function _Form({
                               standardCost: standardCost,
                               actualCost: actualCost,
                             };
+                            console.log("obj", obj);
                             setter(obj, () => {
                               setFieldValue("costComponent", "");
                             });
