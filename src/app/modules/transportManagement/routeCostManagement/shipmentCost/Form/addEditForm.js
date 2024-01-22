@@ -218,6 +218,7 @@ export default function ShipmentCostForm() {
           objRowList: row,
           objCreateShipmentCostAttachment: attachmentGrid,
         };
+
         if (isReportTypeComplete) {
           //reportTypeComplete true
           if (attachmentGrid?.length > 0) {
