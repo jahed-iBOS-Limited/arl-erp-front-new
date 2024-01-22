@@ -5,16 +5,17 @@ export default function AccountPayableAgingTable({ rowDto, values, printRef }) {
   return (
     <div>
       {rowDto?.length > 0 && (
-        <div className="common-scrollable-table two-column-sticky">
-          <div className="scroll-table _table">
+        <div className="react-bootstrap-table table-responsive">
+          <div className="loan-scrollable-table inventory-statement-report">
+            <div style={{ maxHeight: "400px" }} className="scroll-table _table">
             <table
-              ref={printRef}
+              // ref={printRef}
               id="table-to-xlsx2"
               className="table table-striped table-bordered mt-3 bj-table bj-table-landing mr-1"
             >
               <thead>
                 <tr>
-                  <th>SL</th>
+                  <th style={{ minWidth: "40px" }}>SL</th>
                   <th style={{ minWidth: "150px" }}>Supplier Name</th>
                   <th style={{ minWidth: "120px" }}>PO Number</th>
                   <th style={{ minWidth: "120px" }}>PO Date</th>
@@ -51,6 +52,7 @@ export default function AccountPayableAgingTable({ rowDto, values, printRef }) {
                 ))}
               </tbody>
             </table>
+            </div>
           </div>
         </div>
       )}
