@@ -25,6 +25,29 @@ export const getCommissionReport = async (
   }
 };
 
+export const getCommissionStatus = async (
+  buId,
+  monthId,
+  yearId,
+  typeId,
+  status,
+  setter,
+  setLoading
+) => {
+  setLoading(true);
+  try {
+    const res = await axios.get(
+      `/oms/SalesOrder/GetMonthlyCommissionStatus?businessUnitId=${buId}&CommissionTypeId=${typeId}&MonthId=${monthId}&YearId=${yearId}&status=${status}`
+    );
+    setter(res?.data?.map((item) => ({ ...item, isSelected: false })));
+    setLoading(false);
+  } catch (error) {
+    setter([]);
+    toast.error(error?.response?.data?.message);
+    setLoading(false);
+  }
+};
+
 export const createJV = async (
   payload,
   accId,
@@ -93,6 +116,20 @@ export const createTradeCommissionJV = async (payload, setLoading) => {
     const res = await axios.post(
       `/oms/SalesInformation/CreateCustomerCommissionEntry`,
       payload
+    );
+    toast.success(res?.data?.message);
+    setLoading && setLoading(false);
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setLoading && setLoading(false);
+  }
+};
+
+export const cancelJV = async (typeId, monthId, yearId, setLoading) => {
+  setLoading && setLoading(true);
+  try {
+    const res = await axios.post(
+      `/oms/SalesOrder/GetMonthlyCommissionStatusUpdate?CommissionTypeId=${typeId}&MonthId=${monthId}&YearId=${yearId}`
     );
     toast.success(res?.data?.message);
     setLoading && setLoading(false);
