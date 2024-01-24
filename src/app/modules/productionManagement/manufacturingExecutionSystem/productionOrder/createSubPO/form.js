@@ -1,20 +1,17 @@
 /* eslint-disable no-unused-vars */
+import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
+import { useLocation } from "react-router-dom";
 import * as Yup from "yup";
 import { IInput } from "../../../../_helper/_input";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
 import NewSelect from "../../../../_helper/_select";
 import {
+  createSFGProductionOrder,
   getPTRNumberDDL,
+  getProductionOrderSFGById,
   getRoutingToBOMDDL,
   getRoutingToWorkCenterDDL,
-  createSFGProductionOrder,
-  getProductionOrderSFGById,
 } from "../helper";
-import customStyles from "../../../../selectCustomStyle";
-import { useLocation } from "react-router-dom";
 // Validation schema for bank transfer
 const validationSchema = Yup.object().shape({});
 
@@ -42,6 +39,7 @@ export default function _Form({
   const [workCenter, setWorkCenter] = useState([]);
   const [bomName, setBomName] = useState([]);
   const { state } = useLocation();
+  
 
   // console.log("SingleData",productionId)
   // api's
@@ -80,7 +78,6 @@ export default function _Form({
       singleData?.numOrderQty
     );
   };
-
   return (
     <>
       <Formik
@@ -260,7 +257,7 @@ export default function _Form({
                                     selectedBusinessUnit?.value,
                                     item?.itemId,
                                     valueOption?.value,
-                                    null,
+                                    state?.shopFloorId,
                                     setBomName
                                   );
                                 }}
