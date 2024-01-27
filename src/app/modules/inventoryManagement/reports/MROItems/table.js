@@ -1,12 +1,19 @@
 import React from "react";
-import PaginationSearch from "../../../_helper/_search";
 import { _fixedPoint } from "../../../_helper/_fixedPoint";
+import PaginationSearch from "../../../_helper/_search";
 
 export default function MROItemPlanningTable({ obj }) {
   const { values, rowData, paginationSearchHandler } = obj;
   let totalIssueYear = 0,
     totalIssueMonth = 0,
     totalRequirement = 0;
+    const numberFlooring =(number)=>{
+      if(number>0 && number<1){
+        return 1
+      }else{
+       return Math.floor(+number)
+      }
+    }
   return (
     <>
       <div className="my-1 d-flex justify-content-between">
@@ -48,7 +55,7 @@ export default function MROItemPlanningTable({ obj }) {
                       <td>{item?.uomName}</td>
                       <td className="text-right">{item?.averageIssueYear}</td>
                       <td className="text-right">{item?.averageIssueMonth}</td>
-                      <td className="text-right">{item?.requirement}</td>
+                      <td className="text-right">{numberFlooring(item?.requirement)}</td>
                     </tr>
                   );
                 })}
