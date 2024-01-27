@@ -11,7 +11,7 @@ export default function MROItemPlanningTable({ obj }) {
       if(number>0 && number<1){
         return 1
       }else{
-       return Math.floor(+number)
+       return +number.toFixed()
       }
     }
   return (
