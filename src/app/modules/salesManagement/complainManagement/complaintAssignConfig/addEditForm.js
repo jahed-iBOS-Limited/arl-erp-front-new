@@ -261,7 +261,7 @@ export default function ComplainAssignConfigCreateEdit() {
                     }}
                     className="btn btn-primary btn-sm"
                     style={{ marginTop: "18px" }}
-                    // disabled={!values?.user || (!values?.issueType || !values?.allFeature)}
+                    disabled={!values?.user || !(values?.issueType || values?.allFeature)}
                   >
                     Add
                   </button>
