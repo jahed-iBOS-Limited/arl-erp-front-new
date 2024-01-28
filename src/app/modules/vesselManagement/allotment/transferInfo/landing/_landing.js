@@ -17,6 +17,8 @@ import PaginationTable from "../../../../_helper/_tablePagination";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
 import { toast } from "react-toastify";
+import IApproval from "../../../../_helper/_helperIcons/_approval";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
 const initData = {
   shipPoint: "",
@@ -31,22 +33,63 @@ const TransferInfoLanding = () => {
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [gridData, getGridData, isLoading] = useAxiosGet();
+  const [, postData, loading] = useAxiosPost();
 
   // get user data from store
   const {
-    profileData: { accountId: accId },
+    profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const setLandingData = (_pageNo, _pageSize, values) => {
-    getGridData(
-      `/wms/FertilizerOperation/GetG2GInventoryTransferPagination?AccountId=${accId}&BusinessUnitId=${buId}&TransactionType=${values?.transactionType?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&PageNo=${_pageNo}&PageSize=${_pageSize}`
-    );
+    const transferTypeId = values?.transferType?.value;
+
+    const url =
+      transferTypeId === 1
+        ? `/wms/FertilizerOperation/GetG2GInventoryTransferPagination?AccountId=${accId}&BusinessUnitId=${buId}&TransactionType=${values?.transactionType?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&PageNo=${_pageNo}&PageSize=${_pageSize}`
+        : transferTypeId === 2
+        ? `/tms/LigterLoadUnload/GetMotherVesselTransferInfoPagination?accountId=${accId}&businessUnitId=${buId}&transactionType=${values?.transactionType?.value}&pageNo=${_pageNo}&pageSize=${_pageSize}`
+        : "";
+
+    getGridData(url);
   };
 
   // set PositionHandler
   const setPositionHandler = (pageNo, pageSize, values) => {
     setLandingData(pageNo, pageSize, values);
+  };
+
+  const transferIn = (item, values) => {
+    const payload = [
+      {
+        inventoryTransactionId: item?.inventoryTransactionId,
+        vesselTransferId: item?.vesselTransferId,
+        fromMotherVesselId: item?.fromMotherVesselId,
+        fromMotherVesselName: item?.fromMotherVesselName,
+        toMotherVesselId: item?.toMotherVesselId,
+        toMotherVesselName: item?.toMotherVesselName,
+        itemId: item?.itemId,
+        transferQuantity: item?.transferQuantity,
+        transactionTypeId: 5,
+        transactionTypeName: "Transfer In",
+        actionBy: userId,
+        accountId: accId,
+        businessUnitId: buId,
+        reasons: item?.reasons,
+        fromMvprogramId: item?.fromMvprogramId,
+        toMvprogramId: item?.toMvprogramId,
+        businessPartnerId: item?.businessPartnerId,
+      },
+    ];
+
+    postData(
+      `/tms/LigterLoadUnload/CreateMotherVesselTransfer`,
+      payload,
+      () => {
+        setLandingData(pageNo, pageSize, values);
+      },
+      true
+    );
   };
 
   return (
@@ -71,7 +114,7 @@ const TransferInfoLanding = () => {
                 }
               }}
             >
-              {isLoading && <Loading />}
+              {(isLoading || loading) && <Loading />}
               <form className="form form-label-right">
                 <div className="global-form row">
                   <div className="col-lg-3">
@@ -107,7 +150,9 @@ const TransferInfoLanding = () => {
                       placeholder="Transaction Type"
                     />
                   </div>
-                  <FromDateToDateForm obj={{ values, setFieldValue }} />
+                  {values?.transferType?.value === 1 && (
+                    <FromDateToDateForm obj={{ values, setFieldValue }} />
+                  )}
                   <IButton
                     onClick={() => {
                       setLandingData(pageNo, pageSize, values);
@@ -119,46 +164,53 @@ const TransferInfoLanding = () => {
                     }
                   />
                 </div>
-                {gridData?.data?.length > 0 && (
-                  <table
-                    id="table-to-xlsx"
-                    className={
-                      "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                    }
-                  >
-                    <thead>
-                      <tr className="cursor-pointer">
-                        {headers?.map((th, index) => {
-                          return <th key={index}> {th} </th>;
+                {values?.transferType?.value === 1 &&
+                  gridData?.data?.length > 0 && (
+                    <table
+                      id="table-to-xlsx"
+                      className={
+                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                      }
+                    >
+                      <thead>
+                        <tr className="cursor-pointer">
+                          {headers?.map((th, index) => {
+                            return <th key={index}> {th} </th>;
+                          })}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {gridData?.data?.map((item, index) => {
+                          return (
+                            <tr key={index}>
+                              <td> {item?.sl}</td>
+                              <td>{_dateFormatter(item?.transactionDate)}</td>
+                              <td>{item?.itemName}</td>
+                              <td>{item?.warehouseName}</td>
+                              <td className="text-right">
+                                {_fixedPoint(item?.transactionQuantity, true)}
+                              </td>
+                              <td>
+                                <div className="d-flex justify-content-around">
+                                  <span className="text-center">
+                                    <IView clickHandler={() => {}} />
+                                  </span>
+                                  <span className="edit" onClick={() => {}}>
+                                    <IEdit title={"Rate Entry"} />
+                                  </span>
+                                </div>
+                              </td>
+                            </tr>
+                          );
                         })}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {gridData?.data?.map((item, index) => {
-                        return (
-                          <tr key={index}>
-                            <td> {item?.sl}</td>
-                            <td>{_dateFormatter(item?.transactionDate)}</td>
-                            <td>{item?.itemName}</td>
-                            <td>{item?.warehouseName}</td>
-                            <td className="text-right">
-                              {_fixedPoint(item?.transactionQuantity, true)}
-                            </td>
-                            <td>
-                              <div className="d-flex justify-content-around">
-                                <span className="text-center">
-                                  <IView clickHandler={() => {}} />
-                                </span>
-                                <span className="edit" onClick={() => {}}>
-                                  <IEdit title={"Rate Entry"} />
-                                </span>
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                      </tbody>
+                    </table>
+                  )}
+
+                {values?.transferType?.value === 2 && (
+                  <MotherVesselTransferTable
+                    obj={{ gridData, transferIn, values }}
+                  />
                 )}
 
                 {gridData?.data?.length > 0 && (
@@ -184,3 +236,70 @@ const TransferInfoLanding = () => {
 };
 
 export default TransferInfoLanding;
+
+function MotherVesselTransferTable({ obj }) {
+  const { gridData, transferIn, values } = obj;
+
+  const tHeads = [
+    "SL",
+    "Business Partner",
+    "From Mother Vessel",
+    "To Mother Vessel",
+    "Item",
+    "Reason",
+    "Quantity",
+  ];
+
+  return (
+    <>
+      <table
+        id="table-to-xlsx"
+        className={
+          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+        }
+      >
+        <thead>
+          <tr className="cursor-pointer">
+            {tHeads?.map((th, index) => {
+              return <th key={index}> {th} </th>;
+            })}
+            {values?.transactionType?.value === 19 && <th>Actions</th>}
+          </tr>
+        </thead>
+        <tbody>
+          {gridData?.data?.map((item, index) => {
+            return (
+              <tr key={index}>
+                <td> {index + 1}</td>
+
+                <td>{item?.businessPartnerName}</td>
+                <td>{item?.fromMotherVesselName}</td>
+                <td>{item?.toMotherVesselName}</td>
+                <td>{item?.itemName}</td>
+                <td>{item?.reasons}</td>
+
+                <td className="text-right">
+                  {_fixedPoint(item?.transferQuantity, true)}
+                </td>
+                {values?.transactionType?.value === 19 && (
+                  <td>
+                    <div className="d-flex justify-content-around">
+                      <span className="edit">
+                        <IApproval
+                          title={"Transfer In"}
+                          onClick={() => {
+                            transferIn(item, values);
+                          }}
+                        />
+                      </span>
+                    </div>
+                  </td>
+                )}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </>
+  );
+}

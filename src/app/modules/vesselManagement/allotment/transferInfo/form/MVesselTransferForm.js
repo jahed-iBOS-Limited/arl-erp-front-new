@@ -5,20 +5,38 @@ import ICustomCard from "../../../../_helper/_customCard";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
-import { PortAndMotherVessel } from "../../../common/components";
-import { getMotherVesselDDL } from "../../confirmBySupervisor/helper";
-import { GetDomesticPortDDL } from "../../loadingInformation/helper";
-import IButton from "../../../../_helper/iButton";
 import { toast } from "react-toastify";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import IButton from "../../../../_helper/iButton";
+import { GetDomesticPortDDL } from "../../loadingInformation/helper";
 
 export default function MotherVesselTransferForm({ obj }) {
   const { rowDto, addRow, history, initData, removeRow, saveHandler } = obj;
+  const [organizationDDL, getOrganizationDDL] = useAxiosGet();
   const rowLen = rowDto?.length;
 
+  // get user profile data from store
+  const {
+    profileData: { accountId: accId },
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => state?.authData, shallowEqual);
+
+  useEffect(() => {
+    getOrganizationDDL(
+      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [accId, buId]);
+
   const onChangeHandler = (currentField, allValues, setFieldValue) => {
-    const fields = ["motherVessel", "toMotherVessel"];
+    const fields = ["fromMotherVessel", "toMotherVessel"];
+    if (currentField === "fromMotherVessel") {
+      setFieldValue("item", allValues?.fromMotherVessel?.itemName);
+    }
     if (fields.includes(currentField)) {
-      if (allValues?.motherVessel?.value === allValues?.toMotherVessel?.value) {
+      if (
+        allValues?.fromMotherVessel?.value === allValues?.toMotherVessel?.value
+      ) {
         toast.warn(
           "From Mother Vessel and To Mother Vessel must be different! please select another one."
         );
@@ -36,7 +54,7 @@ export default function MotherVesselTransferForm({ obj }) {
       >
         {({ values, setFieldValue, resetForm }) => (
           <ICustomCard
-            title={"Mother vessel to Mother vessel transfer"}
+            title={"Mother vessel to Mother vessel transfer --OUT--"}
             backHandler={() => {
               history.goBack();
             }}
@@ -52,13 +70,27 @@ export default function MotherVesselTransferForm({ obj }) {
           >
             <Form className="form form-label-right">
               <div className="row global-form global-form-custom">
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="organization"
+                    options={organizationDDL || []}
+                    value={values?.organization}
+                    label="Organization"
+                    onChange={(valueOption) => {
+                      setFieldValue("organization", valueOption);
+                    }}
+                    placeholder="Organization"
+                  />
+                </div>
+                <div className="col-lg-9"></div>
                 <div className="col-lg-6">
                   <h3>From</h3>
                 </div>
                 <div className="col-lg-6">
                   <h3>To</h3>
                 </div>
-                <PortAndMotherVessel
+
+                <FromPortAndMotherVessel
                   obj={{
                     values,
                     setFieldValue,
@@ -67,7 +99,6 @@ export default function MotherVesselTransferForm({ obj }) {
                     },
                   }}
                 />
-
                 <ToPortAndMotherVessel
                   obj={{
                     values,
@@ -80,6 +111,16 @@ export default function MotherVesselTransferForm({ obj }) {
 
                 <div className="col-lg-3">
                   <InputField
+                    value={values?.item}
+                    name="item"
+                    placeholder="Item"
+                    label="Item"
+                    type="text"
+                    disabled
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
                     value={values?.quantity}
                     name="quantity"
                     placeholder="Quantity"
@@ -87,12 +128,21 @@ export default function MotherVesselTransferForm({ obj }) {
                     type="number"
                   />
                 </div>
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.reason}
+                    name="reason"
+                    placeholder="Reason"
+                    label="Reason"
+                    type="text"
+                  />
+                </div>
                 <IButton
                   onClick={() => {
                     addRow(values, () => {});
                   }}
                   disabled={
-                    !values?.motherVessel ||
+                    !values?.fromMotherVessel ||
                     !values?.toMotherVessel ||
                     !values?.quantity
                   }
@@ -101,7 +151,12 @@ export default function MotherVesselTransferForm({ obj }) {
                 </IButton>
               </div>
             </Form>
-            <Table obj={{ rowDto, removeRow }} />
+            <Table
+              obj={{
+                rowDto,
+                removeRow,
+              }}
+            />
           </ICustomCard>
         )}
       </Formik>
@@ -109,10 +164,72 @@ export default function MotherVesselTransferForm({ obj }) {
   );
 }
 
+const FromPortAndMotherVessel = ({ obj }) => {
+  const { values, setFieldValue, onChange } = obj;
+  const [portDDL, setPortDDL] = useState([]);
+  const [motherVesselDDL, getMotherVesselDDL] = useAxiosGet();
+
+  // get user profile data from store
+  const {
+    profileData: { accountId: accId },
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => state?.authData, shallowEqual);
+
+  useEffect(() => {
+    GetDomesticPortDDL(setPortDDL);
+  }, [accId, buId]);
+
+  return (
+    <>
+      <div className="col-lg-3">
+        <NewSelect
+          name="fromPort"
+          options={portDDL || []}
+          value={values?.fromPort}
+          label="Port"
+          placeholder="Port"
+          isDisabled={!values?.organization}
+          onChange={(e) => {
+            setFieldValue("fromPort", e);
+            setFieldValue("fromMotherVessel", "");
+
+            getMotherVesselDDL(
+              `/tms/LigterLoadUnload/GetMotherVesselTenderDDL?businessUnitId=${buId}&portId=${e?.value}&businessPartnerId=${values?.organization?.value}`
+            );
+            onChange &&
+              onChange("fromPort", {
+                ...values,
+                fromPort: e,
+              });
+          }}
+        />
+      </div>
+
+      <div className="col-lg-3">
+        <NewSelect
+          name="fromMotherVessel"
+          options={motherVesselDDL || []}
+          value={values?.fromMotherVessel}
+          label="Mother Vessel"
+          placeholder="Mother Vessel"
+          onChange={(e) => {
+            setFieldValue("fromMotherVessel", e);
+            onChange &&
+              onChange("fromMotherVessel", {
+                ...values,
+                fromMotherVessel: e,
+              });
+          }}
+          isDisabled={!values?.fromPort}
+        />
+      </div>
+    </>
+  );
+};
 const ToPortAndMotherVessel = ({ obj }) => {
   const { values, setFieldValue, onChange } = obj;
   const [portDDL, setPortDDL] = useState([]);
-  const [motherVesselDDL, setMotherVesselDDL] = useState([]);
+  const [motherVesselDDL, getMotherVesselDDL] = useAxiosGet();
 
   // get user profile data from store
   const {
@@ -129,14 +246,17 @@ const ToPortAndMotherVessel = ({ obj }) => {
       <div className="col-lg-3">
         <NewSelect
           name="toPort"
-          options={[{ value: 0, label: "All" }, ...portDDL]}
+          options={portDDL}
           value={values?.toPort}
           label="Port"
           placeholder="Port"
+          isDisabled={!values?.organization}
           onChange={(e) => {
             setFieldValue("toPort", e);
             setFieldValue("toMotherVessel", "");
-            getMotherVesselDDL(accId, buId, e?.value, setMotherVesselDDL);
+            getMotherVesselDDL(
+              `/tms/LigterLoadUnload/GetMotherVesselTenderDDL?businessUnitId=${buId}&portId=${e?.value}&businessPartnerId=${values?.organization?.value}`
+            );
             onChange && onChange("toPort", { ...values, toPort: e });
           }}
         />
@@ -145,14 +265,21 @@ const ToPortAndMotherVessel = ({ obj }) => {
       <div className="col-lg-3">
         <NewSelect
           name="toMotherVessel"
-          options={[{ value: 0, label: "All" }, ...motherVesselDDL] || []}
+          options={motherVesselDDL || []}
           value={values?.toMotherVessel}
           label="Mother Vessel"
           placeholder="Mother Vessel"
           onChange={(e) => {
-            setFieldValue("toMotherVessel", e);
-            onChange &&
-              onChange("toMotherVessel", { ...values, toMotherVessel: e });
+            if (e?.itemId === values?.fromMotherVessel?.itemId) {
+              setFieldValue("toMotherVessel", e);
+              onChange &&
+                onChange("toMotherVessel", { ...values, toMotherVessel: e });
+            } else {
+              toast.warn(
+                "Item of both mother vessels must have to be the same"
+              );
+               setFieldValue("toMotherVessel", "");
+            }
           }}
           isDisabled={!values?.toPort}
         />
@@ -183,6 +310,7 @@ const Table = ({ obj }) => {
               {rowDto?.map((item, index) => (
                 <tr key={index}>
                   <td>{index + 1}</td>
+
                   <td>{item?.fromMotherVesselName}</td>
                   <td>{item?.toMotherVesselName}</td>
                   <td>{item?.transferQuantity}</td>
