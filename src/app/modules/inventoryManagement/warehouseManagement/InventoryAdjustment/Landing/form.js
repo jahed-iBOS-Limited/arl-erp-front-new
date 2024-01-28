@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import { ISelect } from "../../../../_helper/_inputDropDown";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { getSBUDDL, getPlantDDL, getWareDDL } from "../helper";
-import { useHistory } from "react-router-dom";
-import { getGridDataAction } from "../_redux/Actions";
+import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
-import GridData from "./grid";
-import PaginationTable from "./../../../../_helper/_tablePagination";
 import PaginationSearch from "../../../../_helper/_search";
 import { _todayDate } from "../../../../_helper/_todayDate";
-import InputField from "../../../../_helper/_inputField";
 import { setInvAdjustmentAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import { getGridDataAction } from "../_redux/Actions";
+import { getPlantDDL, getSBUDDL, getWareDDL } from "../helper";
+import PaginationTable from "./../../../../_helper/_tablePagination";
+import GridData from "./grid";
 // import { values } from "lodash";
 
 // Validation schema
@@ -46,10 +46,16 @@ export default function HeaderForm() {
   const history = useHistory();
 
   // get user profile data from store
-  const profileData = useSelector((state) => state?.authData?.profileData, shallowEqual);
+  const profileData = useSelector(
+    (state) => state?.authData?.profileData,
+    shallowEqual
+  );
 
   // get selected business unit from store
-  const selectedBusinessUnit = useSelector((state) => state?.authData?.selectedBusinessUnit, shallowEqual);
+  const selectedBusinessUnit = useSelector(
+    (state) => state?.authData?.selectedBusinessUnit,
+    shallowEqual
+  );
 
   // gridData Data
   const { gridData } = useSelector((state) => {
@@ -64,7 +70,12 @@ export default function HeaderForm() {
   useEffect(() => {
     // transGrupDDL(settransGroupDDL, profileData?.accountId);
     getSBUDDL(profileData?.accountId, selectedBusinessUnit?.value, setsbuDDL);
-    getPlantDDL(profileData?.userId, profileData?.accountId, selectedBusinessUnit?.value, setplantDDL);
+    getPlantDDL(
+      profileData?.userId,
+      profileData?.accountId,
+      selectedBusinessUnit?.value,
+      setplantDDL
+    );
     viewGridData(invAdjustment);
     if (invAdjustment) {
       dispatch(
@@ -91,7 +102,13 @@ export default function HeaderForm() {
 
   // Get warehouse ddl on plant ddl onChange
   const getWarehouseDDL = (param) => {
-    getWareDDL(profileData?.userId, profileData?.accountId, selectedBusinessUnit?.value, param, setwareHouseDDL);
+    getWareDDL(
+      profileData?.userId,
+      profileData?.accountId,
+      selectedBusinessUnit?.value,
+      param,
+      setwareHouseDDL
+    );
   };
 
   const viewGridData = (values) => {
@@ -144,7 +161,7 @@ export default function HeaderForm() {
       {
         label: "Plant",
         name: "plant",
-        options: plantDDL,
+        options: [{ label: "All", value: 0 }, ...plantDDL],
         dependencyFunc: (payload, allvalues, setter) => {
           getWarehouseDDL(payload);
           setter("warehouse", "");
@@ -153,7 +170,7 @@ export default function HeaderForm() {
       {
         label: "Warehouse",
         name: "warehouse",
-        options: wareHouseDDL,
+        options: [{ label: "All", value: 0 }, ...wareHouseDDL],
         isDisabled: ["plant"],
       },
       {
@@ -181,10 +198,17 @@ export default function HeaderForm() {
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
             <Form className="form form-label-right">
-              <div style={{ marginTop: "-65px", paddingBottom: "38px" }} className="text-right">
+              <div
+                style={{ marginTop: "-65px", paddingBottom: "38px" }}
+                className="text-right"
+              >
                 <button
                   disabled={
-                    !values?.warehouse || !values?.plant || !values?.sbu || !values?.transGrup
+                    !values?.warehouse ||
+                    values?.warehouse?.value === 0 ||
+                    !values?.plant || values?.plant?.value === 0 ||
+                    !values?.sbu ||
+                    !values?.transGrup
                   }
                   type="button"
                   style={{ transform: "translateY(24px)" }}
@@ -224,18 +248,35 @@ export default function HeaderForm() {
                 <div className="col-lg-3">
                   <label>From Date</label>
                   <div className="d-flex">
-                    <InputField value={values?.fromDate} name="fromDate" placeholder="From date" type="date" />
+                    <InputField
+                      value={values?.fromDate}
+                      name="fromDate"
+                      placeholder="From date"
+                      type="date"
+                    />
                   </div>
                 </div>
                 <div className="col-lg-3">
                   <label>To Date</label>
                   <div className="d-flex">
-                    <InputField value={values?.toDate} name="toDate" placeholder="To date" type="date" />
+                    <InputField
+                      value={values?.toDate}
+                      name="toDate"
+                      placeholder="To date"
+                      type="date"
+                    />
                   </div>
                 </div>
                 <div className="col-lg-3" style={{ marginTop: 22 }}>
                   <button
-                    disabled={!values?.warehouse || !values?.plant || !values?.sbu || !values?.transGrup || !values?.fromDate || !values?.toDate}
+                    disabled={
+                      !values?.warehouse ||
+                      !values?.plant ||
+                      !values?.sbu ||
+                      !values?.transGrup ||
+                      !values?.fromDate ||
+                      !values?.toDate
+                    }
                     type="submit"
                     onClick={() => {
                       dispatch(setInvAdjustmentAction(values));
@@ -248,8 +289,17 @@ export default function HeaderForm() {
                   </button>
                 </div>
               </div>
-              <PaginationSearch placeholder="Transaction Code Search" paginationSearchHandler={paginationSearchHandler} values={values} />
-              <GridData setLoading={setLoading} viewGridData={viewGridData} values={values} setPositionHandler={setPositionHandler} />
+              <PaginationSearch
+                placeholder="Transaction Code Search"
+                paginationSearchHandler={paginationSearchHandler}
+                values={values}
+              />
+              <GridData
+                setLoading={setLoading}
+                viewGridData={viewGridData}
+                values={values}
+                setPositionHandler={setPositionHandler}
+              />
               {/* Pagination Code */}
               {gridData?.data?.length > 0 && (
                 <PaginationTable
