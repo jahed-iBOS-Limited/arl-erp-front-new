@@ -172,6 +172,8 @@ export default function InventoryLoanLandingNew() {
                                                     </td>
                                                     <td>
                                                         <div className="pl-2">{item?.transTypeName}</div>
+                                                    </td>
+                                                    <td>
                                                         <div className="pl-2">{item?.intLoanTypeName}</div>
                                                     </td>
                                                     <td>
