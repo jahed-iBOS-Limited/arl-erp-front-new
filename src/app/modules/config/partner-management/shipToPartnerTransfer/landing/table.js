@@ -17,6 +17,9 @@ import {
   shipToPartnerTransfer_api,
   shipToTransferZone_api,
 } from "../helper";
+import IView from "../../../../_helper/_helperIcons/_view";
+import NationalIdViewModal from "./modals/NationalIdViewModal";
+import TradeLicenceModal from "./modals/TradeLicenceModal";
 
 const initData = {
   channel: "",
@@ -27,6 +30,7 @@ const initData = {
   region: "",
   area: "",
   territory: "",
+  status: {value: 0, label: "All"}
 };
 
 export function ShipToPartnerTransfer() {
@@ -34,6 +38,10 @@ export function ShipToPartnerTransfer() {
   const [gridData, setGridData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [tempData, setTempData] = useState([]);
+  const [showNIDModal, setShowNIDModal] = useState(false)
+  const [showTradeLicenceModal, setShowTradeLicenceModal] = useState(false)
+  const [nidImg, setNidImg] = useState("");
+  const [transactionImg, setTransactionImg] = useState("");
 
   // get user profile data from store
   const {
@@ -52,6 +60,7 @@ export function ShipToPartnerTransfer() {
       values?.region?.value,
       values?.area?.value,
       values?.territory?.value,
+      values?.status?.value,
       setGridData,
       setTempData,
       setLoading
@@ -189,6 +198,24 @@ export function ShipToPartnerTransfer() {
                       }}
                     />
                   </div>
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="status"
+                    options={[
+                      { value: 0, label: "All" },
+                      { value: 1, label: "Pending" },
+                      { value: 2, label: "Approve" },
+                    ]}
+                    value={values?.status}
+                    label="Status"
+                    onChange={(valueOption) => {
+                      setFieldValue("status", valueOption);
+                    }}
+                    placeholder="Status"
+                    errors={errors}
+                    touched={touched}
+                  />
                 </div>
                 <div className="col-lg-3 mt-5">
                   <button
@@ -330,6 +357,9 @@ export function ShipToPartnerTransfer() {
                         <th>Ship To Partner Address</th>
                         <th>Ship To Partner Contact No</th>
                         <th>Transport Zone Name</th>
+                        <th>National ID</th>
+                        <th>Facebook </th>
+                        <th>Trade Licence</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -400,10 +430,36 @@ export function ShipToPartnerTransfer() {
                             )}
                           </td>
                           <td>{item?.transportZoneName}</td>
+                          <td className="text-center" 
+                          onClick={()=>{ 
+                            setShowNIDModal(true);
+                            setNidImg(item?.nationalId)
+                          }}
+                          > <IView /> </td>
+                          <td className="text-center">
+                            {/* <a href={item?.facebookLink}  target="_blank"> <InsertLinkIcon /> </a> */}
+                            <i class="fa fa-link" aria-hidden="true"></i>
+                          </td>
+                          <td className="text-center cursor-pointer"
+                              onClick={()=>{ 
+                                setShowTradeLicenceModal(true);
+                                setTransactionImg(item?.tradeLicenseImg)
+                              }}
+                          > <IView /> </td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
+                  <NationalIdViewModal 
+                    show={showNIDModal}
+                    onHide={()=>setShowNIDModal(false)}
+                    nationalIdImg={nidImg}
+                  />
+                  <TradeLicenceModal 
+                    show={showTradeLicenceModal}
+                    onHide={()=>setShowTradeLicenceModal(false)}
+                    transactionImg={transactionImg}
+                  />
                 </div>
               )}
             </>
