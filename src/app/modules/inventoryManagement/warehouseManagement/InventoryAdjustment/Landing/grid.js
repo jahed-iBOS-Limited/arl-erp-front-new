@@ -15,6 +15,8 @@ const GridData = ({ history, values, viewGridData, setLoading }) => {
     "Transaction Code",
     "Reference Type",
     "Reference No.",
+    "Plant Name",
+    "Warehouse Name",
     "Transaction Type",
     "Action",
   ];
@@ -68,6 +70,8 @@ const GridData = ({ history, values, viewGridData, setLoading }) => {
               <td> {td.inventoryTransactionCode} </td>
               <td> {td.referenceTypeName} </td>
               <td> {td.referenceCode} </td>
+              <td> {td.plantName} </td>
+              <td> {td.warehouseName} </td>
               <td> {td.transactionTypeName} </td>
               <td style={{ width: "100px" }}>
                 <div className="d-flex justify-content-around">
