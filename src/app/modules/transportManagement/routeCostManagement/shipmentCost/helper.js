@@ -712,7 +712,11 @@ export const calculativeFuelCostAndFuelCostLtrAndMileageAllowance = ({
 
   const totalFuelCostLtr =
     distanceAndExtraMillage < 231
-      ? distanceAndExtraMillage / landingData?.localFuelRate
+      ? distanceAndExtraMillage / landingData?.localFuelRate === Infinity
+        ? 0
+        : distanceAndExtraMillage / landingData?.localFuelRate
+      : distanceAndExtraMillage / landingData?.outFuelRate === Infinity
+      ? 0
       : distanceAndExtraMillage / landingData?.outFuelRate;
 
   const mileageAllowance =

@@ -23,6 +23,7 @@ import Loading from "./../../../../_helper/_loading";
 import PaginationTable from "./../../../../_helper/_tablePagination";
 import ProductionOrderViewFormModel from "./viewModal";
 // import findIndex from "./../../../../_helper/_findIndex";
+import { toast } from "react-toastify";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import IViewModal from "../../../../_helper/_viewModal";
@@ -32,7 +33,6 @@ import { SetManufacturePOTableLandingAction } from "../../../../_helper/reduxFor
 import { ItemReqViewTableRow } from "../../../../inventoryManagement/warehouseManagement/itemRequest/report/tableRow";
 import ItemRequestModal from "./itemRequestModal";
 import ProductionDetails from "./productionDetails";
-import { toast } from "react-toastify";
 
 export function TableRow() {
   const { manufacturePOTableLanding } = useSelector(
@@ -525,6 +525,7 @@ export function TableRow() {
                                         orderQty: item?.orderQty,
                                         bomId: item?.bomId,
                                         lotSize: item?.lotSize,
+                                        shopFloorId: item?.shopFloorId
                                       },
                                     });
                                   }}

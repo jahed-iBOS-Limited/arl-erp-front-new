@@ -150,6 +150,7 @@ export default function InventoryLoanLandingNew() {
                                                 <th>Transaction Code</th>
                                                 <th>Business Partner</th>
                                                 <th>Transaction Type</th>
+                                                <th>Loan Type</th>
                                                 <th>Warehouse</th>
                                                 <th>Transaction  Date</th>
                                                 <th>Item Name</th>
@@ -171,6 +172,9 @@ export default function InventoryLoanLandingNew() {
                                                     </td>
                                                     <td>
                                                         <div className="pl-2">{item?.transTypeName}</div>
+                                                    </td>
+                                                    <td>
+                                                        <div className="pl-2">{item?.intLoanTypeName}</div>
                                                     </td>
                                                     <td>
                                                         <div className="pl-2">{item?.wareHouseName}</div>

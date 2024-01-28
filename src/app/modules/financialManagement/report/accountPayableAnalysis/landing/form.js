@@ -42,7 +42,7 @@ export function AccountPayableAnalysis() {
       );
     } else {
       getRowDto(
-        `/fino/BalanceSheet/GetPayableAgingReport?businessUnitId=${selectedBusinessUnit?.value}&businessPartnerId=${values?.supplier?.value}`
+        `/fino/BalanceSheet/GetPayableAgingReport?businessUnitId=${selectedBusinessUnit?.value}&businessPartnerId=${values?.supplier?.value || 0}`
       );
     }
   };
@@ -69,7 +69,9 @@ export function AccountPayableAnalysis() {
                         : "d-none"
                     }
                   >
-                    <ReactToPrint
+                   {
+                    values?.payableType === 1 && (
+                      <ReactToPrint
                       pageStyle={
                         "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
                       }
@@ -81,6 +83,8 @@ export function AccountPayableAnalysis() {
                       )}
                       content={() => printRef.current}
                     />
+                    )
+                   }
 
                     <div>
                       <ReactHTMLTableToExcel
