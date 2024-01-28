@@ -142,6 +142,7 @@ console.log({product})
           isValid,
         }) => (
           <>
+          {console.log({editableValues: values})}
             <Form className="form form-label-right">
               <div className="form-group row global-form">
                 <div className="col-lg-4">

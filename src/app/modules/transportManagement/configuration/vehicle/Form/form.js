@@ -57,14 +57,22 @@ const validationSchema = Yup.object().shape({
     .min(1, "Minimum 1 symbols")
     .max(100, "Maximum 100 symbols")
     .required("Vehicle No is required"),
-  // fuelAllowanceLocalKM: Yup.string()
-  // .min(0, "Minimum 0 symbols")
-  // .max(100, "Maximum 100 symbols")
-  // .required("Local KM is required"),
+  //   fuelAllowanceLocalKM: Yup.string()
+  //   .when('vehicleType', {
+  //     is: { label: 'Company' },
+  //     then: Yup.string()
+  //       .min(0, "Minimum 0 symbols")
+  //       .required("Local KM is required"),
+  //     // You can add an else clause if needed
+  //   }),
   // fuelAllowanceOuterKM: Yup.string()
-  // .min(0, "Minimum 0 symbols")
-  // .max(100, "Maximum 100 symbols")
-  // .required("Outer KM is required"),
+  //   .when('vehicleType', {
+  //     is: { label: 'Company' },
+  //     then: Yup.string()
+  //       .min(0, "Minimum 0 symbols")
+  //       .required("Outer KM is required"),
+  //     // You can add an else clause if needed
+  //   }),
 });
 
 export default function _Form({

@@ -5,7 +5,6 @@ import IViewModal from "../../../../_helper/_viewModal";
 import FuelLogPringModal from "../modalView/fuelLogPringModal";
 
 const EmployeeWiseFuelCostTbl = ({ rowData, values }) => {
-  console.log({ rowData });
   const [isShowModal, setIsShowModal] = useState(false);
   const [item, setItem] = useState(null);
   return (
@@ -13,13 +12,10 @@ const EmployeeWiseFuelCostTbl = ({ rowData, values }) => {
       <h4 className="text-center mt-5">
         <strong>Employee Wise Fuel Report</strong>
       </h4>
-      <div className="loan-scrollable-table">
-        <div className="scroll-table _table table-responsive">
+      <div  className="loan-scrollable-table">
+        <div style={{maxHeight: "550px"}} className="scroll-table _table table-responsive">
           <table
-            id=""
-            className={
-              "table table-striped table-bordered global-table table-font-size-sm"
-            }
+            className="table table-striped table-bordered bj-table bj-table-landing"
           >
             <thead>
               <tr className="cursor-pointer">

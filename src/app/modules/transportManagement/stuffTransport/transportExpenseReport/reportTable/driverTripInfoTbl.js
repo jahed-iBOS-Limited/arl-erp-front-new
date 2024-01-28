@@ -2,6 +2,19 @@ import React from "react";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
 export default function DriverTripInfoTbl({ rowData }) {
+  const totalKM = rowData?.reduce((acc, curr) => acc + curr?.tripKM, 0);
+  const totalTollAmount = rowData?.reduce((acc, curr) => acc + curr?.numTollAmount, 0);
+  const totalOthers = rowData?.reduce((acc, curr) => acc + curr?.numOthersAmount, 0)
+  const totalMaintenance = rowData?.reduce((acc, curr) => acc + curr?.numRepairingAmount, 0)
+  const totalDriverCost = rowData?.reduce((acc, curr) => {
+    const total = curr?.numTollAmount + curr?.numOthersAmount + curr?.numRepairingAmount
+    return acc + total;
+  }, 0);
+
+  const totalLPG = rowData?.reduce((acc, curr) => acc + curr?.lpeg, 0);
+  const totalDiesel = rowData?.reduce((acc, curr)=> acc = curr?.diesel, 0);
+  const totalOctane = rowData?.reduce((acc, curr)=> acc = curr?.octane, 0);
+  const totalFuelCost = totalLPG + totalDiesel + totalOctane;
   return (
     <div>
       <h4 className="text-center mt-5">
@@ -10,6 +23,7 @@ export default function DriverTripInfoTbl({ rowData }) {
       <table className="table table-striped table-bordered bj-table bj-table-landing">
         <thead>
           <tr>
+            <th>SL</th>
             <th>Date</th>
             <th>Trip No</th>
             <th>KM</th>
@@ -30,6 +44,7 @@ export default function DriverTripInfoTbl({ rowData }) {
         <tbody>
           {rowData?.map((item, index) => (
             <tr key={index}>
+              <td className="text-center">{index + 1}</td>
               <td className="text-center">
                 {_dateFormatter(item?.dteTripDate)}
               </td>
@@ -55,6 +70,20 @@ export default function DriverTripInfoTbl({ rowData }) {
               </td>
             </tr>
           ))}
+          <tr style={{fontWeight: "bold"}}>
+            <td colSpan={3} >Total</td>
+            <td className="text-right"> {totalKM} </td>
+            <td colSpan={3}></td>
+            <td className="text-right">{totalTollAmount}</td>
+            <td className="text-right">{"DA"}</td>
+            <td className="text-right">{totalOthers}</td>
+            <td className="text-right">{totalMaintenance}</td>
+            <td className="text-right">{totalDriverCost}</td>
+            <td className="text-right">{totalLPG}</td>
+            <td className="text-right">{totalDiesel}</td>
+            <td className="text-right">{totalOctane}</td>
+            <td className="text-right">{totalFuelCost}</td>
+          </tr>
         </tbody>
       </table>
     </div>
