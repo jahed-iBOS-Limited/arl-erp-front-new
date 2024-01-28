@@ -7,6 +7,7 @@ export const getShipToPartnerInfo = async (
   regionId,
   areaId,
   territoryId,
+  status,
   setter,
   tempSetter,
   setLoading
@@ -14,7 +15,7 @@ export const getShipToPartnerInfo = async (
   setLoading(true);
   try {
     const res = await axios.get(
-      `/partner/PartnerInformation/GetShipToPartnerInfo?soldToPartnerId=${partnerId}&ChannelId=${channelId}&RegionId=${regionId}&AreaId=${areaId}&TerriotoryId=${territoryId}`
+      `/partner/PartnerInformation/GetShipToPartnerInfo?soldToPartnerId=${partnerId}&ChannelId=${channelId}&RegionId=${regionId}&AreaId=${areaId}&TerriotoryId=${territoryId}&status=${status}`
     );
     const data = res?.data?.map((itm) => ({ ...itm, itemCheck: false }));
     setter(data);
