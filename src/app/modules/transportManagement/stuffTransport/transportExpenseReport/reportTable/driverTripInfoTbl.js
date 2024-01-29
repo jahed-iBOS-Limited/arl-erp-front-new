@@ -1,9 +1,11 @@
 import React from "react";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import { _formatMoney } from "../../../../_helper/_formatMoney";
 
 export default function DriverTripInfoTbl({ rowData }) {
   const totalKM = rowData?.reduce((acc, curr) => acc + curr?.tripKM, 0);
   const totalTollAmount = rowData?.reduce((acc, curr) => acc + curr?.numTollAmount, 0);
+  const totalFoodAmount = rowData?.reduce((acc, curr) => acc + curr?.numFoodAmount, 0);
   const totalOthers = rowData?.reduce((acc, curr) => acc + curr?.numOthersAmount, 0)
   const totalMaintenance = rowData?.reduce((acc, curr) => acc + curr?.numRepairingAmount, 0)
   const totalDriverCost = rowData?.reduce((acc, curr) => {
@@ -18,7 +20,7 @@ export default function DriverTripInfoTbl({ rowData }) {
   return (
     <div>
       <h4 className="text-center mt-5">
-        <strong>Driver Trip info</strong>
+        <strong>Driver Trip Details</strong>
       </h4>
       <table className="table table-striped table-bordered bj-table bj-table-landing">
         <thead>
@@ -42,7 +44,7 @@ export default function DriverTripInfoTbl({ rowData }) {
           </tr>
         </thead>
         <tbody>
-          {rowData?.map((item, index) => (
+          {rowData?.length > 0 && rowData?.map((item, index) => (
             <tr key={index}>
               <td className="text-center">{index + 1}</td>
               <td className="text-center">
@@ -54,7 +56,7 @@ export default function DriverTripInfoTbl({ rowData }) {
               <td>{item?.strFirstRoundStartAddress}</td>
               <td>{item?.strFirstRoundEndAddress}</td>
               <td className="text-right">{item?.numTollAmount}</td>
-              <td></td>
+              <td className="text-right">{item?.numFoodAmount}</td>
               <td className="text-right">{item?.numOthersAmount}</td>
               <td className="text-right">{item?.numRepairingAmount}</td>
               <td className="text-right">
@@ -70,20 +72,22 @@ export default function DriverTripInfoTbl({ rowData }) {
               </td>
             </tr>
           ))}
-          <tr style={{fontWeight: "bold"}}>
-            <td colSpan={3} >Total</td>
-            <td className="text-right"> {totalKM} </td>
-            <td colSpan={3}></td>
-            <td className="text-right">{totalTollAmount}</td>
-            <td className="text-right">{"DA"}</td>
-            <td className="text-right">{totalOthers}</td>
-            <td className="text-right">{totalMaintenance}</td>
-            <td className="text-right">{totalDriverCost}</td>
-            <td className="text-right">{totalLPG}</td>
-            <td className="text-right">{totalDiesel}</td>
-            <td className="text-right">{totalOctane}</td>
-            <td className="text-right">{totalFuelCost}</td>
-          </tr>
+          {rowData?.length > 0 && 
+            <tr style={{fontWeight: "bold"}}>
+              <td colSpan={3} >Total</td>
+              <td className="text-right"> {totalKM} </td>
+              <td colSpan={3}></td>
+              <td className="text-right">{_formatMoney(totalTollAmount)}</td>
+              <td className="text-right">{_formatMoney(totalFoodAmount)}</td>
+              <td className="text-right">{_formatMoney(totalOthers)}</td>
+              <td className="text-right">{_formatMoney(totalMaintenance)}</td>
+              <td className="text-right">{_formatMoney(totalDriverCost)}</td>
+              <td className="text-right">{_formatMoney(totalLPG)}</td>
+              <td className="text-right">{_formatMoney(totalDiesel)}</td>
+              <td className="text-right">{_formatMoney(totalOctane)}</td>
+              <td className="text-right">{_formatMoney(totalFuelCost)}</td>
+            </tr>
+          }
         </tbody>
       </table>
     </div>
