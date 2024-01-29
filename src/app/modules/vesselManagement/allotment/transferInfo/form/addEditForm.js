@@ -22,11 +22,14 @@ const initData = {
 };
 
 const initDataTwo = {
-  port: "",
-  motherVessel: "",
+  fromPort: "",
+  fromMotherVessel: "",
   toPort: "",
   toMotherVessel: "",
   quantity: "",
+  reason: "",
+  organization: "",
+  item: "",
 };
 
 export default function TransferInfoForm() {
@@ -60,12 +63,12 @@ export default function TransferInfoForm() {
   };
 
   const saveHandler = async (values, cb) => {
-    let transferInData = []
+    let transferInData = [];
     const selectedItems = rowDto?.filter((item) => item?.isSelected);
     if (values?.transactionType?.value === 5 && selectedItems?.length < 1) {
       return toast.warn("Please select at least one item!");
     }
-     transferInData = selectedItems?.map((item) => {
+    transferInData = selectedItems?.map((item) => {
       return {
         inventoryTransactionId: item?.inventoryTransactionId,
         headerObject: {
@@ -143,23 +146,44 @@ export default function TransferInfoForm() {
     } else if (transferTypeId === 2) {
       const isExist = rowDto?.filter(
         (e) =>
-          e?.fromMotherVesselId === values?.motherVessel?.value &&
+          e?.fromMotherVesselId === values?.fromMotherVessel?.value &&
           e?.toMotherVesselId === values?.toMotherVessel?.value
       );
       if (isExist?.length) {
         return toast.warn("Duplicate entry is not allowed!");
       }
+
       const newRow = {
-        fromMotherVesselId: values?.motherVessel?.value,
-        fromMotherVesselName: values?.motherVessel?.label,
+        inventoryTransactionId: 0,
+        vesselTransferId: 0,
+        fromMotherVesselId: values?.fromMotherVessel?.value,
+        fromMotherVesselName: values?.fromMotherVessel?.label,
         toMotherVesselId: values?.toMotherVessel?.value,
         toMotherVesselName: values?.toMotherVessel?.label,
-        lighterVesselId: 0,
+        itemId: values?.fromMotherVessel?.itemId,
         transferQuantity: values?.quantity,
+        transactionTypeId: 19,
+        transactionTypeName: "Transfer Out",
         actionBy: userId,
         accountId: accId,
         businessUnitId: buId,
+        reasons: values?.reason,
+        fromMvprogramId: values?.fromMotherVessel?.programId,
+        toMvprogramId: values?.toMotherVessel?.programId,
+        businessPartnerId: values?.organization?.value,
       };
+
+      // const newRow = {
+      //   fromMotherVesselId: values?.motherVessel?.value,
+      //   fromMotherVesselName: values?.motherVessel?.label,
+      //   toMotherVesselId: values?.toMotherVessel?.value,
+      //   toMotherVesselName: values?.toMotherVessel?.label,
+      //   lighterVesselId: 0,
+      //   transferQuantity: values?.quantity,
+      //   actionBy: userId,
+      //   accountId: accId,
+      //   businessUnitId: buId,
+      // };
       setRowDto([...rowDto, newRow]);
       cb();
     }
