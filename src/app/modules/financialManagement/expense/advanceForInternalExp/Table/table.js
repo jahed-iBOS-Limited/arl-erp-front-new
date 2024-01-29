@@ -1,35 +1,35 @@
-import React, { useEffect, useState } from "react";
-import ICard from "../../../../_helper/_card";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import { shallowEqual, useSelector, useDispatch } from "react-redux";
-import {
-  getSBU,
-  getEMP,
-  getCURRENCY,
-  getExpensePlantDDLAction,
-  validationSchema,
-} from "../helper";
-import { useHistory } from "react-router-dom";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import {
-  setSelectedSBU_action,
-  getAdvanceExpGridData,
-  SetGridDataEmpty_action,
-} from "../_redux/Actions";
+import axios from "axios";
 import { Formik } from "formik";
+import React, { useEffect, useState } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import Select from "react-select";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import ICard from "../../../../_helper/_card";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
-import Loading from "./../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import { setAdvanceForInternalExpLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import FormikError from "../../../../_helper/_formikError";
+import IEdit from "../../../../_helper/_helperIcons/_edit";
 import IView from "../../../../_helper/_helperIcons/_view";
 import IViewModal from "../../../../_helper/_viewModal";
+import { setAdvanceForInternalExpLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import customStyles from "../../../../selectCustomStyle";
+import {
+  SetGridDataEmpty_action,
+  getAdvanceExpGridData,
+  setSelectedSBU_action,
+} from "../_redux/Actions";
+import {
+  getCURRENCY,
+  getEMP,
+  getExpensePlantDDLAction,
+  getSBU,
+  validationSchema,
+} from "../helper";
+import Loading from "./../../../../_helper/_loading";
+import PaginationTable from "./../../../../_helper/_tablePagination";
 import ViewRowItem from "./modal";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import axios from "axios";
-import FormikError from "../../../../_helper/_formikError";
 
 const initData = {
   checkPublic: false,
@@ -380,15 +380,17 @@ const AdvanceForInternalExpLanding = () => {
                           <th style={{ width: "40px" }}>SL</th>
                           <th style={{ width: "100px" }}>Request Code</th>
                           <th style={{ width: "57px" }}>Request Date</th>
-                          <th style={{ width: "57px" }}>Due Date</th>
+                          {/* <th style={{ width: "57px" }}>Due Date</th> */}
                           <th style={{ width: "80px" }}>Payment Type</th>
                           <th style={{ width: "80px" }}>Exp. Group</th>
                           <th style={{ width: "100px" }}>Requested Amount</th>
                           <th style={{ width: "100px" }}>Approved Amount</th>
                           <th style={{ width: "100px" }}>Paid Amount</th>
-                          <th style={{ width: "100px" }}>
+                          <th style={{ width: "100px" }}>Bill Code</th>
+                          <th style={{ width: "100px" }}>Journal Code</th>
+                          {/* <th style={{ width: "100px" }}>
                             Disbursement Center
-                          </th>
+                          </th> */}
                           <th style={{ width: "100px" }}>Comments</th>
                           {/* new changes for miraj bhai */}
                           <th style={{ width: "85px" }}>Actions</th>
@@ -406,9 +408,9 @@ const AdvanceForInternalExpLanding = () => {
                               <div>{_dateFormatter(item?.requestDate)}</div>
                             </td>
 
-                            <td className="text-center">
+                            {/* <td className="text-center">
                               <div>{_dateFormatter(item?.dueDate)}</div>
-                            </td>
+                            </td> */}
 
                             <td className="text-left">
                               <div className="pl-2">{item?.instrumentName}</div>
@@ -427,11 +429,17 @@ const AdvanceForInternalExpLanding = () => {
                             <td className="text-center">
                               <div> {_formatMoney(item?.numAcpaidAmount)}</div>
                             </td>
-                            <td className="text-left">
+                            <td className="text-center">
+                              <div> {item?.billCode}</div>
+                            </td>
+                            <td className="text-center">
+                              <div> {item?.journalCode}</div>
+                            </td>
+                            {/* <td className="text-left">
                               <div className="pl-2">
                                 {item?.disbursementCenterName}
                               </div>
-                            </td>
+                            </td> */}
                             {/* <td className="text-left"><div className="pl-2">{item?.categoryName}</div></td> */}
                             <td className="text-left">
                               <div className="pl-2">{item?.comments}</div>
