@@ -385,9 +385,9 @@ const AdvanceForInternalExpLanding = () => {
                           <th style={{ width: "80px" }}>Exp. Group</th>
                           <th style={{ width: "100px" }}>Requested Amount</th>
                           <th style={{ width: "100px" }}>Approved Amount</th>
-                          <th style={{ width: "100px" }}>Paid Amount</th>
                           <th style={{ width: "100px" }}>Bill Code</th>
                           <th style={{ width: "100px" }}>Journal Code</th>
+                          <th style={{ width: "100px" }}>Paid Amount</th>
                           {/* <th style={{ width: "100px" }}>
                             Disbursement Center
                           </th> */}
@@ -426,14 +426,15 @@ const AdvanceForInternalExpLanding = () => {
                             <td className="text-center">
                               <div> {_formatMoney(item?.approvedAmount)}</div>
                             </td>
-                            <td className="text-center">
-                              <div> {_formatMoney(item?.numAcpaidAmount)}</div>
-                            </td>
+                            
                             <td className="text-center">
                               <div> {item?.billCode}</div>
                             </td>
                             <td className="text-center">
                               <div> {item?.journalCode}</div>
+                            </td>
+                            <td className="text-center">
+                              <div> {_formatMoney(item?.numAcpaidAmount)}</div>
                             </td>
                             {/* <td className="text-left">
                               <div className="pl-2">
