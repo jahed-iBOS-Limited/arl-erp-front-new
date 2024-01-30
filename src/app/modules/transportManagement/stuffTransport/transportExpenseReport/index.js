@@ -111,7 +111,7 @@ export default function TransportExpenseReport() {
                         { value: 1, label: "Fuel Station Summary" },
                         { value: 2, label: "Fuel Station Purchase Info" },
                         { value: 3, label: "Driver Wise Expense" },
-                        { value: 4, label: "Driver Trip Info" },
+                        { value: 4, label: "Driver Trip Details" },
                         { value: 5, label: "Vehicle Wise Fuel Cost" },
                         { value: 6, label: "Employee Wise Fuel Cost" },
                       ]}
@@ -169,7 +169,7 @@ export default function TransportExpenseReport() {
                       />
                     </div>
                   ) : null}
-                  {[3, 4]?.includes(values?.reportType?.value) ? (
+                  {[3]?.includes(values?.reportType?.value) ? (
                     <div className="col-lg-3">
                       <NewSelect
                         name="driver"
