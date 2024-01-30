@@ -1,7 +1,43 @@
 import React from "react";
 import IDelete from "../../../../../_helper/_helperIcons/_delete";
 
-const MilageAllowanceTable = ({ gridData, setDaAmount, remover }) => {
+const DailyAllowanceTable = ({ gridData, setGridData, setDaAmount, removeRowData }) => {
+
+  const handleChange = (configId, e) => {
+    const data = [...gridData];
+    const updatedData = data?.map((item) => {
+      if (item?.configId === configId) {
+        return {
+          ...item,
+          [e.target.name]: e.target.value,
+        };
+      }
+      return {
+        ...item,
+      };
+    });
+    setGridData(updatedData);
+  };
+
+
+console.log({gridData})
+
+
+  const handleDaComponentChange = (configId, value) => {
+    const data = [...gridData];
+    const updatedData = data?.map((item) => {
+      if (item?.configId === configId) {
+        return {
+          ...item,
+          daamount: value,
+        };
+      }
+      return {
+        ...item,
+      };
+    });
+    setGridData(updatedData)
+  };
   return (
     <div className="row">
       <div className="col-lg-12 pr-0">
@@ -10,7 +46,10 @@ const MilageAllowanceTable = ({ gridData, setDaAmount, remover }) => {
             <tr>
               <th style={{ width: "30px" }}>SL</th>
               <th style={{ width: "120px" }}>Vehicle Capacity</th>
-              <th style={{ width: "100px" }}>Local  Millage  Rate</th>
+              <th style={{ width: "100px" }}>DA Amount</th>
+              <th style={{ width: "100px" }}>DA Component</th>
+              <th style={{ width: "100px" }}>Down Trip Allowance Component</th>
+              <th style={{ width: "100px" }}>Down Trip Allowance Amount</th>
 
               <th style={{ width: "50px" }}>Actions</th>
             </tr>
@@ -38,7 +77,9 @@ const MilageAllowanceTable = ({ gridData, setDaAmount, remover }) => {
                         value={item?.daamount}
                         onChange={(e) => {
                           if (e.target.value >= 0) {
-                            setDaAmount(index, e.target.value, e.target.name);
+                            // handleDaComponentChange(item?.configId, e.target.value)
+                            handleChange(item?.configId, e)
+                            // setDaAmount(index, e.target.value, e.target.name);
                           }
                         }}
                       />
@@ -73,7 +114,8 @@ const MilageAllowanceTable = ({ gridData, setDaAmount, remover }) => {
                         value={item?.downTripAllowance}
                         onChange={(e) => {
                           if (e.target.value >= 0) {
-                            setDaAmount(index, e.target.value, e.target.name);
+                            handleChange(item?.configId, e)
+                            // setDaAmount(index, e.target.value, e.target.name);
                           }
                         }}
                       />
@@ -83,7 +125,7 @@ const MilageAllowanceTable = ({ gridData, setDaAmount, remover }) => {
 
                 <td className="text-center">
                   {item?.isDeleted ? (
-                    <IDelete remover={remover} id={index} />
+                       <IDelete remover={removeRowData}  id={index}/>
                   ) : (
                     "-"
                   )}
@@ -97,4 +139,4 @@ const MilageAllowanceTable = ({ gridData, setDaAmount, remover }) => {
   );
 };
 
-export default MilageAllowanceTable;
+export default DailyAllowanceTable;

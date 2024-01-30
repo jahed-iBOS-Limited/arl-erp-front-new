@@ -1,44 +1,65 @@
 import React from "react";
 import IDelete from "../../../../../_helper/_helperIcons/_delete";
 
-const CarryingAllowanceTable = ({ gridData, setDaAmount, remover }) => {
+const MilageAllowanceTable = ({
+  gridData,
+  setGridData,
+  setDaAmount,
+  removeRowData,
+}) => {
+  const handleChange = (configId, e) => {
+    const data = [...gridData];
+    const updatedData = data?.map((item) => {
+      if (item?.configId === configId) {
+        return {
+          ...item,
+          [e.target.name]: e.target.value,
+        };
+      }
+      return {
+        ...item,
+      };
+    });
+    setGridData(updatedData);
+  };
+
+  console.log({ gridData });
   return (
     <div className="row">
       <div className="col-lg-12 pr-0">
         <table className={"table table-responsive mt-1 bj-table"}>
-          <thead className={gridData.length < 1 && "d-none"}>
+          <thead className={`${gridData?.length < 1 && "d-none"}`}>
             <tr>
               <th style={{ width: "30px" }}>SL</th>
               <th style={{ width: "120px" }}>Vehicle Capacity</th>
-              <th style={{ width: "100px" }}>Carring Allowance  Rate</th>
+              <th style={{ width: "100px" }}>Local Millage Rate</th>
+              <th style={{ width: "100px" }}>Outer Millage Rate</th>
 
               <th style={{ width: "50px" }}>Actions</th>
             </tr>
           </thead>
           <tbody>
             {gridData?.map((item, index) => (
-              <tr key={index}>
+              <tr key={item?.configId}>
                 <td>{index + 1}</td>
-                <td>
-                  <div className="text-center">
-                    {item?.vahicleCapacity?.label || item?.vehicleCapacityName}
-                  </div>
+                <td className="text-center">
+                  {item?.vahicleCapacity?.label || item?.vehicleCapacityName}
                 </td>
                 <td>
                   <div>
                     <div className="text-right pr-2">
                       <input
-                        name="daamount"
+                        name="localMillageRate"
                         type="number"
                         className="trans-date cj-landing-date"
                         style={{
                           padding: "0 10px",
                           maxWidth: "98%",
                         }}
-                        value={item?.daamount}
+                        value={item?.localMillageRate}
                         onChange={(e) => {
                           if (e.target.value >= 0) {
-                            setDaAmount(index, e.target.value, e.target.name);
+                            handleChange(item?.configId, e);
                           }
                         }}
                       />
@@ -46,34 +67,20 @@ const CarryingAllowanceTable = ({ gridData, setDaAmount, remover }) => {
                   </div>
                 </td>
                 <td>
-                  <div className="text-center">
-                    {item?.daComponent?.label || item?.dacostComponentName}
-                  </div>
-                </td>
-                <td>
-                  <div className="text-center">
-                    {item?.allowance?.label || item?.downTripAllowanceName}
-                  </div>
-                </td>
-                <td>
-                  {/* <div className="text-center">
-                                  {item?.allowance?.label ||
-                                    item?.downTripAllowance}
-                                </div> */}
                   <div>
                     <div className="text-right pr-2">
                       <input
-                        name="downTripAllowance"
+                        name="outerMillageRate"
                         type="number"
                         className="trans-date cj-landing-date"
                         style={{
                           padding: "0 10px",
                           maxWidth: "98%",
                         }}
-                        value={item?.downTripAllowance}
+                        value={item?.outerMillageRate}
                         onChange={(e) => {
                           if (e.target.value >= 0) {
-                            setDaAmount(index, e.target.value, e.target.name);
+                            handleChange(item?.configId, e);
                           }
                         }}
                       />
@@ -83,7 +90,10 @@ const CarryingAllowanceTable = ({ gridData, setDaAmount, remover }) => {
 
                 <td className="text-center">
                   {item?.isDeleted ? (
-                    <IDelete remover={remover} id={index} />
+                    <IDelete
+                      remover={removeRowData}
+                      id={index}
+                    />
                   ) : (
                     "-"
                   )}
@@ -97,4 +107,4 @@ const CarryingAllowanceTable = ({ gridData, setDaAmount, remover }) => {
   );
 };
 
-export default CarryingAllowanceTable;
+export default MilageAllowanceTable;
