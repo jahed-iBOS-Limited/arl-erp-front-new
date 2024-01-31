@@ -118,13 +118,8 @@ export default function KeyRegisterLanding() {
   };
 
   const saveHandler = (values, cb) => {
-    createAllowance(
-      "/tms/AllowenceSetup/CreateAllowenceSetup",
-      gridData,
-      undefined,
-      true
-    );
-    console.log({ gridData });
+    const api = `/tms/AllowenceSetup/CreateMilageAndCarryingAllowanceSetup`;
+    createAllowance(api, gridData, undefined, true);
   };
 
   return (
@@ -167,7 +162,7 @@ export default function KeyRegisterLanding() {
                       setFieldValue("downTripAllowance", "");
                       setFieldValue("localMillageRate", "");
                       setFieldValue("outerMillageRate", "");
-                      setFieldValue("outerMillageRate", "");
+                      setFieldValue("carrierAllowanceRate", "");
                       if (valueOption) {
                         setFieldValue("daComponent", valueOption);
                         handlegetDownTripAllowanceDDL(valueOption?.value);
@@ -312,6 +307,7 @@ export default function KeyRegisterLanding() {
                     className="btn btn-primary"
                     onClick={() => {
                       const rowData = {
+                        configId: 0,
                         vehicleCapacityId: values?.vahicleCapacity?.value || 0,
                         vehicleCapacityName:
                           values?.vahicleCapacity?.label || "",
@@ -334,6 +330,7 @@ export default function KeyRegisterLanding() {
                       setFieldValue("localMillageRate", "");
                       setFieldValue("outerMillageRate", "");
                       setFieldValue("outerMillageRate", "");
+                      setFieldValue("carrierAllowanceRate", "");
                     }}
                   >
                     Add

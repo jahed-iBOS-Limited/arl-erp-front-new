@@ -33,7 +33,7 @@ const MilageAllowanceTable = ({
           </thead>
           <tbody>
             {gridData?.map((item, index) => (
-              <tr key={item?.configId}>
+              <tr key={index}>
                 <td>{index + 1}</td>
                 <td className="text-center">
                   {item?.vahicleCapacity?.label || item?.vehicleCapacityName}

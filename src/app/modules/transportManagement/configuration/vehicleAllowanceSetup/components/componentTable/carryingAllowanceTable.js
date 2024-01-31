@@ -28,7 +28,7 @@ console.log({gridData})
           </thead>
           <tbody>
             {gridData?.map((item, index) => (
-              <tr key={item?.configId}>
+              <tr key={index}>
                 <td>{index + 1}</td>
                 <td>
                   <div className="text-center">

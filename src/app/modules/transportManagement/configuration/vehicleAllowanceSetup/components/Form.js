@@ -141,6 +141,7 @@ export default function _Form({
                       <label>DA Component</label>
                       <Select
                         onChange={(valueOption) => {
+                          resetForm()
                           setFieldValue("daComponent", valueOption);
                         }}
                         value={values?.daComponent || ""}
