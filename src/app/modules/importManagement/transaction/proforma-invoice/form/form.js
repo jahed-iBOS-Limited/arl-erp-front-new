@@ -628,11 +628,11 @@ export default function _Form({
                     <div className="col-lg-3">
                       <NewSelect
                         name="itemDDL"
-                        options={itemDDL.map(item => ({value:item.value, label:`${item?.label} - ${values?.purchaseRequestNo?.label}`}))}
+                        options={itemDDL?.map(item => ({value:item.value, label:`${item?.label} - ${values?.purchaseRequestNo?.label}`}))}
                         value={values?.itemDDL}
                         label="Item"
                         onChange={(valueOption) => {
-                          const selectedItem = itemDDL.find(item => item?.value === valueOption.value)
+                          const selectedItem = itemDDL?.find(item => item?.value === valueOption?.value)
                           setFieldValue("itemDDL", selectedItem);
                         }}
                         placeholder="Select Item"
@@ -716,10 +716,9 @@ export default function _Form({
                         ]
                   }
                 >
-                  {console.log({rowDto})}
                   {rowDto?.length > 0 &&
                     rowDto?.map((item, index) => {
-                      console.log({rowDto})
+                      console.log({viewType, rowId: item?.rowId})
                       return (
                         <tr key={index}>
                           <td style={{ width: "30px" }} className="text-center">
@@ -743,6 +742,7 @@ export default function _Form({
                               errors={errors}
                               touched={touched}
                               disabled={viewType === "view" || item?.rowId}
+                              // disabled={viewType === "view"}
                             />
                           </td>
                           <td style={{ width: "150px" }}>
@@ -780,6 +780,8 @@ export default function _Form({
                                 );
                               }}
                               disabled={viewType === "view" || item?.rowId}
+                              // disabled={viewType === "view"}
+
                             />
                           </td>
                           <td
@@ -804,6 +806,7 @@ export default function _Form({
                                 );
                               }}
                               disabled={viewType === "view" || item?.rowId}
+                              // disabled={viewType === "view"}
                             />
                           </td>
 

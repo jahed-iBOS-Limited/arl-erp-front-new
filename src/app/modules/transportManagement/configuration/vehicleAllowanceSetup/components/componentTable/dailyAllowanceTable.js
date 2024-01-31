@@ -3,24 +3,17 @@ import IDelete from "../../../../../_helper/_helperIcons/_delete";
 
 const DailyAllowanceTable = ({ gridData, setGridData, setDaAmount, removeRowData }) => {
 
-  const handleChange = (configId, e) => {
-    const data = [...gridData];
-    const updatedData = data?.map((item) => {
-      if (item?.configId === configId) {
-        return {
-          ...item,
-          [e.target.name]: e.target.value,
-        };
-      }
-      return {
-        ...item,
-      };
+  const handleChange = (nthItem, e) => {
+    const updatedData = [...gridData];
+    updatedData.splice(nthItem, 1, {
+      ...updatedData[nthItem],
+      [e.target.name]: e.target.value,
     });
     setGridData(updatedData);
   };
 
 
-console.log({gridData})
+
 
 
   const handleDaComponentChange = (configId, value) => {
@@ -40,7 +33,7 @@ console.log({gridData})
   };
   return (
     <div className="row">
-      <div className="col-lg-12 pr-0">
+      <div className="col-lg-12">
         <table className={"table table-responsive mt-1 bj-table"}>
           <thead className={gridData.length < 1 && "d-none"}>
             <tr>
@@ -78,7 +71,7 @@ console.log({gridData})
                         onChange={(e) => {
                           if (e.target.value >= 0) {
                             // handleDaComponentChange(item?.configId, e.target.value)
-                            handleChange(item?.configId, e)
+                            handleChange(index, e)
                             // setDaAmount(index, e.target.value, e.target.name);
                           }
                         }}
@@ -114,7 +107,7 @@ console.log({gridData})
                         value={item?.downTripAllowance}
                         onChange={(e) => {
                           if (e.target.value >= 0) {
-                            handleChange(item?.configId, e)
+                            handleChange(index, e)
                             // setDaAmount(index, e.target.value, e.target.name);
                           }
                         }}

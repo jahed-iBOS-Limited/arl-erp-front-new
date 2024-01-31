@@ -11,6 +11,8 @@ import { shallowEqual, useSelector } from "react-redux";
 import DailyAllowanceTable from "./components/componentTable/dailyAllowanceTable";
 import MilageAllowanceTable from "./components/componentTable/milageAllowanceTable";
 import CarryingAllowanceTable from "./components/componentTable/carryingAllowanceTable";
+import { toast } from "react-toastify";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 
 const initData = {
   vahicleCapacity: "",
@@ -23,28 +25,11 @@ const initData = {
   carrierAllowanceRate: "",
 };
 
-// const validationSchema = Yup.object().shape({
-//   item: Yup.object()
-
-//     .shape({
-//       label: Yup.string().required("Item is required"),
-
-//       value: Yup.string().required("Item is required"),
-//     })
-
-//     .typeError("Item is required"),
-
-//   remarks: Yup.string().required("Remarks is required"),
-
-//   amount: Yup.number().required("Amount is required"),
-
-//   date: Yup.date().required("Date is required"),
-// });
-
 export default function KeyRegisterLanding() {
   const [objProps, setObjprops] = useState({});
   const [gridData, setGridData] = useState([]);
   const [vehicleDDL, getVehicleDDL, vehicleDDLLoading] = useAxiosGet();
+  const [, createAllowance, createAllowanceLoading] = useAxiosPost();
   const [
     componentDDL,
     getComponentDDL,
@@ -109,26 +94,37 @@ export default function KeyRegisterLanding() {
     } else if (daComponent?.value === 51) {
       return !vahicleCapacity || !carrierAllowanceRate;
     } else {
-      return true; // Handle other cases if necessary
+      return true;
     }
   };
 
   //add new allowance
   const AddAllowance = (newRowData, gridData, setGridData) => {
-    const rowData = [newRowData, ...gridData];
-    setGridData(rowData)
+    let updatedGridData;
+    const duplicate = gridData?.filter(
+      (item) => item?.vehicleCapacityId === newRowData?.vehicleCapacityId
+    );
+    if (duplicate?.length > 0) {
+      return toast.warning("You cannot add duplicate item.");
+    } else {
+      updatedGridData = [newRowData, ...gridData];
+      setGridData(updatedGridData);
+    }
   };
 
   const removeRowData = (nthItem) => {
-    const filterArr = gridData.toSpliced(nthItem, 1)
+    const filterArr = gridData.toSpliced(nthItem, 1);
     setGridData(filterArr);
   };
 
-  console.log({ vehicleDDL, componentDDL, downTripAllowanceDDL });
-
   const saveHandler = (values, cb) => {
-    
-    console.log({gridData})
+    createAllowance(
+      "/tms/AllowenceSetup/CreateAllowenceSetup",
+      gridData,
+      undefined,
+      true
+    );
+    console.log({ gridData });
   };
 
   return (
@@ -154,10 +150,32 @@ export default function KeyRegisterLanding() {
         <>
           {(vehicleDDLLoading ||
             componentLoading ||
-            downTripAllowanceDDLLoading) && <Loading />}
+            downTripAllowanceDDLLoading ||
+            createAllowanceLoading) && <Loading />}
 
           <IForm title="Vehicle Allowance Setup" getProps={setObjprops}>
             <Form>
+              <div className="col-lg-3">
+                <NewSelect
+                  name="daComponent"
+                  options={componentDDL || []}
+                  value={values?.daComponent}
+                  label="DA Component"
+                  onChange={(valueOption) => {
+                    setFieldValue("daamount", "");
+                    setFieldValue("downTripAllowance", "");
+                    setFieldValue("localMillageRate", "");
+                    setFieldValue("outerMillageRate", "");
+                    setFieldValue("outerMillageRate", "");
+                    if (valueOption) {
+                      setFieldValue("daComponent", valueOption);
+                      handlegetDownTripAllowanceDDL(valueOption?.value);
+                    }
+                  }}
+                  errors={errors}
+                  touched={touched}
+                />
+              </div>
               <div className="form-group  global-form row">
                 <div className="col-lg-3">
                   <NewSelect
@@ -167,27 +185,6 @@ export default function KeyRegisterLanding() {
                     label="Vahicle Capacity"
                     onChange={(valueOption) => {
                       setFieldValue("vahicleCapacity", valueOption);
-                    }}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="daComponent"
-                    options={componentDDL || []}
-                    value={values?.daComponent}
-                    label="DA Component"
-                    onChange={(valueOption) => {
-                      setFieldValue("daamount", "")
-                      setFieldValue("downTripAllowance", "")
-                      setFieldValue("localMillageRate", "")
-                      setFieldValue("outerMillageRate", "")
-                      setFieldValue("outerMillageRate", "")
-                      if (valueOption) {
-                        setFieldValue("daComponent", valueOption);
-                        handlegetDownTripAllowanceDDL(valueOption?.value);
-                      }
                     }}
                     errors={errors}
                     touched={touched}
@@ -316,25 +313,27 @@ export default function KeyRegisterLanding() {
                     onClick={() => {
                       const rowData = {
                         vehicleCapacityId: values?.vahicleCapacity?.value || 0,
-                        vehicleCapacityName: values?.vahicleCapacity?.label || '',
+                        vehicleCapacityName:
+                          values?.vahicleCapacity?.label || "",
                         daamount: +values?.daamount,
                         dacostComponentId: values?.daComponent?.value || 0,
-                        dacostComponentName: values?.daComponent?.label || '',
+                        dacostComponentName: values?.daComponent?.label || "",
                         downTripAllowance: +values?.downTripAllowance || 0,
                         downTripAllowanceId: values?.allowance?.value || 0,
-                        downTripAllowanceName: values?.allowance?.label || '',
+                        downTripAllowanceName: values?.allowance?.label || "",
                         localMillageRate: +values?.localMillageRate || 0,
                         outerMillageRate: +values?.outerMillageRate || 0,
-                        carrierAllowanceRate: +values?.carrierAllowanceRate || 0,
+                        carrierAllowanceRate:
+                          +values?.carrierAllowanceRate || 0,
                         isDeleted: true,
-                    };
-                      console.log({rowData})
+                      };
+                      console.log({ rowData });
                       AddAllowance(rowData, gridData, setGridData);
-                      setFieldValue("daamount", "")
-                      setFieldValue("downTripAllowance", "")
-                      setFieldValue("localMillageRate", "")
-                      setFieldValue("outerMillageRate", "")
-                      setFieldValue("outerMillageRate", "")
+                      setFieldValue("daamount", "");
+                      setFieldValue("downTripAllowance", "");
+                      setFieldValue("localMillageRate", "");
+                      setFieldValue("outerMillageRate", "");
+                      setFieldValue("outerMillageRate", "");
                     }}
                   >
                     Add

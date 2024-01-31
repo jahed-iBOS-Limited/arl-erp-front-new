@@ -2,18 +2,11 @@ import React from "react";
 import IDelete from "../../../../../_helper/_helperIcons/_delete";
 
 const CarryingAllowanceTable = ({ gridData,setGridData, setDaAmount, removeRowData }) => {
-  const handleChange = (configId, e) => {
-    const data = [...gridData];
-    const updatedData = data?.map((item) => {
-      if (item?.configId === configId) {
-        return {
-          ...item,
-          [e.target.name]: e.target.value,
-        };
-      }
-      return {
-        ...item,
-      };
+  const handleChange = (nthItem, e) => {
+    const updatedData = [...gridData];
+    updatedData.splice(nthItem, 1, {
+      ...updatedData[nthItem],
+      [e.target.name]: e.target.value,
     });
     setGridData(updatedData);
   };
@@ -22,8 +15,8 @@ const CarryingAllowanceTable = ({ gridData,setGridData, setDaAmount, removeRowDa
 console.log({gridData})
   return (
     <div className="row">
-      <div className="col-lg-12 pr-0">
-        <table className={"table table-responsive mt-1 bj-table"}>
+      <div className="col-lg-12 ">
+        <table className={"table table-responsive display-table mt-1 bj-table"}>
           <thead className={`${gridData?.length < 1 && "d-none"}`}>
             <tr>
               <th style={{ width: "30px" }}>SL</th>
@@ -56,7 +49,7 @@ console.log({gridData})
                         value={item?.carrierAllowanceRate}
                         onChange={(e) => {
                           if (e.target.value >= 0) {
-                            handleChange(item?.configId, e);
+                            handleChange(index, e);
                           }
                         }}
                       />
