@@ -212,7 +212,7 @@ export default function _Form({
                             downTripAllowance: +values?.downTripAllowance,
                             downTripAllowanceId: values?.allowance?.value,
                             downTripAllowanceName: values?.allowance?.label,
-                            isDeleted: true,
+                            isDeletable: true,
                           };
                           setter(newValus);
                         }}

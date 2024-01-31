@@ -583,24 +583,28 @@ export const getItemDDL = async (
     // const newData = [...rowDto, ...res?.data];
     const newData = [ ...res?.data];
     console.log("newData", [...rowDto, ...res?.data]);
-    const modifyData = newData?.map((data) => ({
-      ...data,
-      uom: { value: data?.uomId, label: data?.uomName },
-      itemId: data.value,
-      label: data.label,
-      itemName: data.label,
-      refQty: data?.quantity,
-      quantity: "",
-      referenceId:
-        values?.referenceType?.value === 1
-          ? values?.purchaseContractNo?.value
-          : values?.purchaseRequestNo?.value,
-      referenceCode:
-        values?.referenceType?.value === 1
-          ? values?.purchaseContractNo?.label
-          : values?.purchaseRequestNo?.label,
-      referenceType: values?.referenceType?.label,
-    }));
+    const modifyData = newData?.map((data) => {
+      //Doing this just because there is a weired condition based on rowId and the problem is urgent to be fixed
+      const {rowId, ...restData} = data || {};
+      return {
+        ...restData,
+        uom: { value: data?.uomId, label: data?.uomName },
+        itemId: data.value,
+        label: data.label,
+        itemName: data.label,
+        refQty: data?.quantity,
+        quantity: "",
+        referenceId:
+          values?.referenceType?.value === 1
+            ? values?.purchaseContractNo?.value
+            : values?.purchaseRequestNo?.value,
+        referenceCode:
+          values?.referenceType?.value === 1
+            ? values?.purchaseContractNo?.label
+            : values?.purchaseRequestNo?.label,
+        referenceType: values?.referenceType?.label,
+      }
+    });
     setter(modifyData);
 
     console.log("rowDto", rowDto);
