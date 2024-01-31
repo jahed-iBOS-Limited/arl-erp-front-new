@@ -155,28 +155,28 @@ export default function KeyRegisterLanding() {
 
           <IForm title="Vehicle Allowance Setup" getProps={setObjprops}>
             <Form>
-              <div className="col-lg-3">
-                <NewSelect
-                  name="daComponent"
-                  options={componentDDL || []}
-                  value={values?.daComponent}
-                  label="DA Component"
-                  onChange={(valueOption) => {
-                    setFieldValue("daamount", "");
-                    setFieldValue("downTripAllowance", "");
-                    setFieldValue("localMillageRate", "");
-                    setFieldValue("outerMillageRate", "");
-                    setFieldValue("outerMillageRate", "");
-                    if (valueOption) {
-                      setFieldValue("daComponent", valueOption);
-                      handlegetDownTripAllowanceDDL(valueOption?.value);
-                    }
-                  }}
-                  errors={errors}
-                  touched={touched}
-                />
-              </div>
               <div className="form-group  global-form row">
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="daComponent"
+                    options={componentDDL || []}
+                    value={values?.daComponent}
+                    label="DA Component"
+                    onChange={(valueOption) => {
+                      setFieldValue("daamount", "");
+                      setFieldValue("downTripAllowance", "");
+                      setFieldValue("localMillageRate", "");
+                      setFieldValue("outerMillageRate", "");
+                      setFieldValue("outerMillageRate", "");
+                      if (valueOption) {
+                        setFieldValue("daComponent", valueOption);
+                        handlegetDownTripAllowanceDDL(valueOption?.value);
+                      }
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
                 <div className="col-lg-3">
                   <NewSelect
                     name="vahicleCapacity"
