@@ -247,7 +247,7 @@ function Form() {
   const viewHandler = (values) => {
     setRowDto([]);
     setCompetitorProductsRowList(
-      `/oms/CompetitorPrice/GetCompetitorProductsRowList?channelId=${values?.channel?.value}&groupName=${values?.group?.label||""}`,
+      `/oms/CompetitorPrice/GetCompetitorProductsRowList?channelId=${values?.channel?.value}&groupName=${values?.group?.label||""}&businessUnitId=${values?.businessUnit?.value}`,
       (resData) => {
         setRowDto(resData);
       }
@@ -324,6 +324,10 @@ function Form() {
                       setTerritoryDDL(
                         `/oms/TerritoryInfo/GetTerritoryList?AccountId=${accId}&BusinessUnitId=${valueOption?.value}`
                       );
+                      viewHandler({
+                        ...values,
+                        businessUnit: valueOption,
+                      });
                     }}
                     placeholder='Select Business Unit'
                     errors={errors}
@@ -347,7 +351,7 @@ function Form() {
                     placeholder='Select Channel'
                     errors={errors}
                     touched={touched}
-                    isDisabled={id}
+                    isDisabled={id || !values?.businessUnit}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -358,11 +362,15 @@ function Form() {
                     label="Group"
                     onChange={(valueOption) => {
                       setFieldValue("group", valueOption || "");
+                      viewHandler({
+                        ...values,
+                        group: valueOption,
+                      });
                     }}
                     placeholder="Select Group"
                     errors={errors}
                     touched={touched}
-                    isDisabled={id}
+                    isDisabled={id || !values?.businessUnit}
                   />
                 </div>
                 <div className='col-lg-3'>

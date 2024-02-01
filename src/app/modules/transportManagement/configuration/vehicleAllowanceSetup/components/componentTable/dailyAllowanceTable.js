@@ -1,16 +1,48 @@
 import React from "react";
 import IDelete from "../../../../../_helper/_helperIcons/_delete";
 
-const CarryingAllowanceTable = ({ gridData, setDaAmount, remover }) => {
+const DailyAllowanceTable = ({ gridData, setGridData, setDaAmount, removeRowData }) => {
+
+  const handleChange = (nthItem, e) => {
+    const updatedData = [...gridData];
+    updatedData.splice(nthItem, 1, {
+      ...updatedData[nthItem],
+      [e.target.name]: e.target.value,
+    });
+    setGridData(updatedData);
+  };
+
+
+
+
+
+  const handleDaComponentChange = (configId, value) => {
+    const data = [...gridData];
+    const updatedData = data?.map((item) => {
+      if (item?.configId === configId) {
+        return {
+          ...item,
+          daamount: value,
+        };
+      }
+      return {
+        ...item,
+      };
+    });
+    setGridData(updatedData)
+  };
   return (
     <div className="row">
-      <div className="col-lg-12 pr-0">
+      <div className="col-lg-12">
         <table className={"table table-responsive mt-1 bj-table"}>
           <thead className={gridData.length < 1 && "d-none"}>
             <tr>
               <th style={{ width: "30px" }}>SL</th>
               <th style={{ width: "120px" }}>Vehicle Capacity</th>
-              <th style={{ width: "100px" }}>Carring Allowance  Rate</th>
+              <th style={{ width: "100px" }}>DA Amount</th>
+              <th style={{ width: "100px" }}>DA Component</th>
+              <th style={{ width: "100px" }}>Down Trip Allowance Component</th>
+              <th style={{ width: "100px" }}>Down Trip Allowance Amount</th>
 
               <th style={{ width: "50px" }}>Actions</th>
             </tr>
@@ -38,7 +70,9 @@ const CarryingAllowanceTable = ({ gridData, setDaAmount, remover }) => {
                         value={item?.daamount}
                         onChange={(e) => {
                           if (e.target.value >= 0) {
-                            setDaAmount(index, e.target.value, e.target.name);
+                            // handleDaComponentChange(item?.configId, e.target.value)
+                            handleChange(index, e)
+                            // setDaAmount(index, e.target.value, e.target.name);
                           }
                         }}
                       />
@@ -73,7 +107,8 @@ const CarryingAllowanceTable = ({ gridData, setDaAmount, remover }) => {
                         value={item?.downTripAllowance}
                         onChange={(e) => {
                           if (e.target.value >= 0) {
-                            setDaAmount(index, e.target.value, e.target.name);
+                            handleChange(index, e)
+                            // setDaAmount(index, e.target.value, e.target.name);
                           }
                         }}
                       />
@@ -83,7 +118,7 @@ const CarryingAllowanceTable = ({ gridData, setDaAmount, remover }) => {
 
                 <td className="text-center">
                   {item?.isDeleted ? (
-                    <IDelete remover={remover} id={index} />
+                       <IDelete remover={removeRowData}  id={index}/>
                   ) : (
                     "-"
                   )}
@@ -97,4 +132,4 @@ const CarryingAllowanceTable = ({ gridData, setDaAmount, remover }) => {
   );
 };
 
-export default CarryingAllowanceTable;
+export default DailyAllowanceTable;
