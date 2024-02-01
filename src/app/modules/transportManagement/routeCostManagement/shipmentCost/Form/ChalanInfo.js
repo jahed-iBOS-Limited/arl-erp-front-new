@@ -5,7 +5,9 @@ const ChalanInfo = ({ shipmentId }) => {
   const [chalanInfo, setChalanInfo] = useState([]);
 
   useEffect(() => {
-    getChalanInfo(shipmentId, setChalanInfo);
+    if (shipmentId) {
+      getChalanInfo(shipmentId, setChalanInfo);
+    }
   }, [shipmentId]);
 
   return (

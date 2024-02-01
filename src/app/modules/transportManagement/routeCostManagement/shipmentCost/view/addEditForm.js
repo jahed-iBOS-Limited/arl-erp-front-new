@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import {
-  getShipmentByID,
   GetFuelConstInfoById_api,
   GetPartnerShippingInformation_api,
-  getBUMilageAllowance,
-  GetShipmentCostEntryStatus_api,
+  getShipmentByID,
 } from "../helper";
-import { GetShipToPartnerDistanceByShipmentId_api } from "./../helper";
 import Loading from "./../../../../_helper/_loading";
+import { GetShipToPartnerDistanceByShipmentId_api } from "./../helper";
+import Form from "./form";
 
 const initData = {
   vehicleNo: "",
@@ -33,8 +31,6 @@ export default function ShipmentCostViewForm({ id, values }) {
   const [fuleCost, setFuleCost] = useState([]);
   const [distanceKM, setDistanceKM] = useState([]);
   const [vehicleReant, setVehicleReant] = useState([]);
-  const [buMilage, setBuMilage] = useState("");
-  const [, setEntryStatus] = useState("");
 
   // get user profile data from store
   const storeData = useSelector((state) => {
@@ -47,35 +43,41 @@ export default function ShipmentCostViewForm({ id, values }) {
   const { profileData, selectedBusinessUnit } = storeData;
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
-      getBUMilageAllowance(
-        profileData.accountId,
-        selectedBusinessUnit.value,
-        setBuMilage
-      );
+      // getBUMilageAllowance(
+      //   profileData.accountId,
+      //   selectedBusinessUnit.value,
+      //   setBuMilage
+      // );
     }
   }, [profileData, selectedBusinessUnit]);
   useEffect(() => {
     if (id) {
       GetFuelConstInfoById_api(id, setFuleCost);
-      GetShipmentCostEntryStatus_api(
-        profileData.accountId,
-        selectedBusinessUnit.value,
-        id,
-        setEntryStatus
-      );
+      // GetShipmentCostEntryStatus_api(
+      //   profileData.accountId,
+      //   selectedBusinessUnit.value,
+      //   id,
+      //   setEntryStatus
+      // );
       // if (values?.reportType?.label !== "Pending") {
       //   getShipmentByID(id, setSingleData, setRowDto, setDisabled, null, null, true);
       // } else {
       //   getShipmentByID(id, setSingleData, null, setDisabled, null, null, true);
       // }
-      getShipmentByID(
-        id,
-        setSingleData,
+      // getShipmentByID(
+      //   id,
+      //   setSingleData,
+      //   setRowDto,
+      //   setDisabled,
+      //   null,
+      //   null
+      // );
+      getShipmentByID({
+        shipmentId: id,
+        setter: setSingleData,
         setRowDto,
         setDisabled,
-        null,
-        null
-      );
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
