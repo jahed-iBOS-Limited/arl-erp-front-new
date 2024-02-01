@@ -6,6 +6,7 @@ import "./style.css";
 import Loading from "../../../../_helper/_loading";
 import IViewModal from "../../../../_helper/_viewModal";
 import TripCostDetailsTable from "./details";
+import { toast } from "react-toastify";
 
 const Table = ({ obj }) => {
   const { accId, buId, gridData, values, buName, printRef } = obj;
@@ -160,6 +161,8 @@ const Table = ({ obj }) => {
                                 (resData) => {
                                   if (resData?.length) {
                                     setOpen(true);
+                                  } else {
+                                    toast.warn("Data not found")
                                   }
                                 }
                               );

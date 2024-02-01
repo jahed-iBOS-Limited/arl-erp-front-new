@@ -369,7 +369,7 @@ export function TableRow() {
                         })}
                         {values?.reportType?.value === 2 && (
                           <tr>
-                            <td colSpan="5" className="text-right">
+                            <td colSpan="8" className="text-right">
                               <b>Total:</b>
                             </td>
                             <td className="">
