@@ -42,6 +42,7 @@ export const headers = [
   'Taka',
   'Approve Amount',
   'Remarks',
+  'Bill Id',
   'Action',
 ];
 
@@ -335,12 +336,12 @@ const PumpFoodingBillLanding = () => {
                             style={
                               item?.approveAmount > 0
                                 ? {
-                                    backgroundColor: '#63dc64ab',
-                                    width: '30px',
+                                    backgroundColor: "#63dc64ab",
+                                    width: "30px",
                                   }
                                 : {
-                                    width: '30px',
-                                    backgroundColor: '#d3e95eab',
+                                    width: "30px",
+                                    backgroundColor: "#d3e95eab",
                                   }
                             }
                           >
@@ -348,19 +349,19 @@ const PumpFoodingBillLanding = () => {
                               <td
                                 onClick={() => {
                                   rowDataHandler(
-                                    'isSelected',
+                                    "isSelected",
                                     index,
-                                    !item.isSelected,
+                                    !item.isSelected
                                   );
                                 }}
                                 className="text-center"
                                 style={
                                   item?.isSelected
                                     ? {
-                                        backgroundColor: '#aacae3',
-                                        width: '30px',
+                                        backgroundColor: "#aacae3",
+                                        width: "30px",
                                       }
-                                    : { width: '30px' }
+                                    : { width: "30px" }
                                 }
                               >
                                 <input
@@ -372,7 +373,7 @@ const PumpFoodingBillLanding = () => {
                               </td>
                             )}
                             <td
-                              style={{ width: '40px' }}
+                              style={{ width: "40px" }}
                               className="text-center"
                             >
                               {index + 1}
@@ -391,8 +392,9 @@ const PumpFoodingBillLanding = () => {
                               {item?.approveAmount}
                             </td>
                             <td>{item?.remarks}</td>
+                            <td>{item?.billId}</td>
                             <td
-                              style={{ width: '80px' }}
+                              style={{ width: "80px" }}
                               className="text-center"
                             >
                               <div className="d-flex justify-content-around">
@@ -429,8 +431,8 @@ const PumpFoodingBillLanding = () => {
                                               e.stopPropagation();
                                               dispatch(
                                                 getDownlloadFileView_Action(
-                                                  item?.attachmentUrl,
-                                                ),
+                                                  item?.attachmentUrl
+                                                )
                                               );
                                             }}
                                             className="ml-2"
