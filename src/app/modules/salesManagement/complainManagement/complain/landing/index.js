@@ -96,7 +96,7 @@ const ComplainLanding = () => {
         {({ values, setFieldValue, touched, errors }) => (
           <>
             <ICustomCard
-              title='Complaint'
+              title='Feedback'
               createHandler={() => {
                 history.push(
                   `/sales-management/complainmanagement/complain/entry`

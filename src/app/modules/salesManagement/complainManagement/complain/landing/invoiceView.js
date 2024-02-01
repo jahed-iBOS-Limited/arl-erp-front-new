@@ -59,7 +59,7 @@ function InvoiceView({ clickRowData }) {
           touched,
           resetForm,
         }) => (
-          <ICustomCard title={"Complaint View "}>
+          <ICustomCard title={"Feedback View "}>
             {loading && <Loading />}
             <div
               style={{

@@ -142,7 +142,7 @@ function Form({
           resetForm,
         }) => (
           <ICustomCard
-            title={"Complain Entry"}
+            title={"Feedback Entry"}
             backHandler={() => {
               history.goBack();
             }}
