@@ -13,11 +13,12 @@ import NewSelect from "../../../_helper/_select";
 import FormikError from "../../../_helper/_formikError";
 import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
 import axios from "axios";
+import SwitchBtn from "./components/switchBtn";
 const initData = {
   businessUnit: "",
   issueType: "",
   employee: "",
-  process: ""
+  process: "",
 };
 export default function ComplainAssignConfigLanding() {
   const saveHandler = (values, cb) => {};
@@ -26,6 +27,8 @@ export default function ComplainAssignConfigLanding() {
   const [issueTypeDDL, getIssueTypeDDL] = useAxiosGet();
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(15);
+  const [isChecked, setIsChecked] = useState(false);
+
   const [
     complainAssignData,
     getComplaiAssignData,
@@ -37,7 +40,6 @@ export default function ComplainAssignConfigLanding() {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-
   const formik = useFormik({
     initialValues: initData,
     onSubmit: (values) => {
@@ -47,18 +49,24 @@ export default function ComplainAssignConfigLanding() {
     },
   });
 
-  const handleGetLandingData = (values, pageNo, pageSize) =>{
-    const {issueType, employee, businessUnit} = values || {}
-    const api = `/oms/CustomerPoint/GetComplainAssignLanding?BusinessUnitId=${businessUnit?.value || 0}&EmployeeId=${employee?.value || 0}&IssueTypeId=${issueType?.value || 0}&pageNo=${pageNo}&pageSize=${pageSize}`;
-    getComplaiAssignData(api, data => console.log({data}))
-  }
+  const handleChange = () => {
+    setIsChecked(!isChecked);
+  };
+
+  const handleGetLandingData = (values, pageNo, pageSize) => {
+    const { issueType, employee, businessUnit } = values || {};
+    const api = `/oms/CustomerPoint/GetComplainAssignLanding?BusinessUnitId=${businessUnit?.value ||
+      0}&EmployeeId=${employee?.value || 0}&IssueTypeId=${issueType?.value ||
+      0}&pageNo=${pageNo}&pageSize=${pageSize}`;
+    getComplaiAssignData(api, (data) => console.log({ data }));
+  };
 
   const commonGridData = (pageNo, pageSize, searhValue) => {
-    handleGetLandingData(formik?.values, pageNo, pageSize)
+    handleGetLandingData(formik?.values, pageNo, pageSize);
   };
 
   useEffect(() => {
-    handleGetLandingData(formik?.values, pageNo, pageSize)
+    handleGetLandingData(formik?.values, pageNo, pageSize);
   }, []);
 
   useEffect(() => {
@@ -196,11 +204,11 @@ export default function ComplainAssignConfigLanding() {
                   <button
                     type="button"
                     onClick={() => {
-                      handleGetLandingData(formik?.values, pageNo, pageSize)
+                      handleGetLandingData(values, pageNo, pageSize);
+                      console.log({values})
                     }}
                     className="btn btn-primary btn-sm"
                     style={{ marginTop: "18px" }}
-                    disabled={!values?.user || !values?.issueType || !values?.process}
                   >
                     View
                   </button>
@@ -226,36 +234,33 @@ export default function ComplainAssignConfigLanding() {
                         complainAssignData?.data?.map((item, index) => (
                           <tr key={index}>
                             <td className="text-center">{index + 1}</td>
-                            <td className="text-center">
+                            <td className="text-left">
                               {item?.employeeName}
                             </td>
-                            <td className="text-center">
+                            <td className="text-left">
                               {item?.businessUnitName}
                             </td>
-                            <td className="text-center">
+                            <td className="text-left">
                               {item?.issueTypeName}
                             </td>
-                            <td className="text-center">{item?.process}</td>
-                            <td className="text-center">{item?.actionDate}</td>
+                            <td className="text-left">{item?.process}</td>
+                            <td className="text-left">{item?.actionDate}</td>
                             <td className="text-center">
                               {item?.isActive ? (
-                                <span style={{ color: "#249e45" }}>Active</span>
+                                <span style={{ color: "#249e45", fontWeight: "bold" }}>Active</span>
                               ) : (
-                                <span style={{ color: "#ad502b" }}>
+                                <span style={{ color: "#ad502b", fontWeight: "bold" }}>
                                   Inactive
                                 </span>
                               )}
                             </td>
                             <td className="text-center">
                               <span
-                                // onClick={() => {
-                                //   history.push(
-                                //     `/sales-management/complainmanagement/complaintassignconfig/edit/${item?.employeeId}`,
-                                //     item
-                                //   );
-                                // }}
                               >
-                                <IEdit />
+                                <SwitchBtn
+                                  checked={isChecked}
+                                  onChange={handleChange}
+                                />
                               </span>
                             </td>
                           </tr>
