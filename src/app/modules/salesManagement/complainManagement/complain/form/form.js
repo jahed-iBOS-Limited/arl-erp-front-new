@@ -345,7 +345,7 @@ function Form({
                       selectedValue={values?.respondentName}
                       handleChange={(valueOption) => {
                         setFieldValue("respondentName", valueOption || "");
-                       
+                        setFieldValue("designationOrRelationship", valueOption?.employeeDesignatioName || "");
                         setFieldValue(
                           "respondentContact",
                           valueOption?.contactNumber || ""
