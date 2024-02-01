@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import InfoCircle from "../../../../_helper/_helperIcons/_infoCircle";
 import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import "./style.css";
+import Loading from "../../../../_helper/_loading";
+import IViewModal from "../../../../_helper/_viewModal";
+import TripCostDetailsTable from "./details";
 
 const Table = ({ obj }) => {
   const { accId, buId, gridData, values, buName, printRef } = obj;
-  const [, getDetails] = useAxiosGet();
+  const [rowData, getDetails, loading] = useAxiosGet();
+  const [open, setOpen] = useState(false);
 
   //   totals initialization
   let F_totalMillage = 0;
@@ -26,6 +30,7 @@ const Table = ({ obj }) => {
 
   return (
     <div>
+      {loading && <Loading />}
       {gridData?.length > 0 && (
         <div ref={printRef}>
           <div className="text-center my-2">
@@ -151,7 +156,12 @@ const Table = ({ obj }) => {
                             title={"View Details"}
                             clickHandler={() => {
                               getDetails(
-                                `/tms/ShipmentExpReport/GetTripCostReportByVehicleId?AccountId=${accId}&BusinessUnitId=${buId}&shipPointId=${values?.shipPoint?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&vehicleid=${item?.vehicelId}`
+                                `/tms/ShipmentExpReport/GetTripCostReportByVehicleId?AccountId=${accId}&BusinessUnitId=${buId}&shipPointId=${values?.shipPoint?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&vehicleid=${item?.vehicelId}`,
+                                (resData) => {
+                                  if (resData?.length) {
+                                    setOpen(true);
+                                  }
+                                }
                               );
                             }}
                           />
@@ -214,6 +224,13 @@ const Table = ({ obj }) => {
           </div>
         </div>
       )}
+      <IViewModal
+        show={open}
+        onHide={() => setOpen(false)}
+        title={"Trip Cost Details"}
+      >
+        <TripCostDetailsTable obj={{ rowData }} />
+      </IViewModal>
     </div>
   );
 };
