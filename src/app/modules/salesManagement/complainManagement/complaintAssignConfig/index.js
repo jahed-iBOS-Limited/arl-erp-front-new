@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Form, Formik } from "formik";
+import { Form, Formik, useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -9,34 +9,67 @@ import Loading from "../../../_helper/_loading";
 import PaginationSearch from "../../../_helper/_search";
 import PaginationTable from "../../../_helper/_tablePagination";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-const initData = {};
+import NewSelect from "../../../_helper/_select";
+import FormikError from "../../../_helper/_formikError";
+import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
+import axios from "axios";
+const initData = {
+  businessUnit: "",
+  issueType: "",
+  employee: "",
+  process: ""
+};
 export default function ComplainAssignConfigLanding() {
   const saveHandler = (values, cb) => {};
   const history = useHistory();
+  const [businessUnitDDL, getBusinessUnitDDL] = useAxiosGet([]);
+  const [issueTypeDDL, getIssueTypeDDL] = useAxiosGet();
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(15);
-  const [complainAssignData,getComplaiAssignData,loadComplaintAssignData] = useAxiosGet()
+  const [
+    complainAssignData,
+    getComplaiAssignData,
+    loadComplaintAssignData,
+  ] = useAxiosGet();
+
   const {
     profileData: { accountId: accId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  const commonGridData = (
-    pageNo,
-    pageSize,
-    searhValue
-  ) => {
-    console.log("pageSize",pageSize);
-    console.log("pageNO",pageNo);
-    getComplaiAssignData(
-      `/oms/CustomerPoint/GetComplainAssignLanding?BusinessUnitId=${buId}&pageNo=${pageNo}&pageSize=${pageSize}&employeeId=${searhValue || ""}`
-    )
+
+  const formik = useFormik({
+    initialValues: initData,
+    onSubmit: (values) => {
+      saveHandler(values, () => {
+        formik.resetForm();
+      });
+    },
+  });
+
+  const handleGetLandingData = (values, pageNo, pageSize) =>{
+    const {issueType, employee, businessUnit} = values || {}
+    const api = `/oms/CustomerPoint/GetComplainAssignLanding?BusinessUnitId=${businessUnit?.value || 0}&EmployeeId=${employee?.value || 0}&IssueTypeId=${issueType?.value || 0}&pageNo=${pageNo}&pageSize=${pageSize}`;
+    getComplaiAssignData(api, data => console.log({data}))
+  }
+
+  const commonGridData = (pageNo, pageSize, searhValue) => {
+    handleGetLandingData(formik?.values, pageNo, pageSize)
   };
-  useEffect(()=>{
-    getComplaiAssignData(
-      `/oms/CustomerPoint/GetComplainAssignLanding?BusinessUnitId=${buId}&pageNo=${pageNo}&pageSize=${pageSize}`
-    )
-  },[buId])
+
+  useEffect(() => {
+    handleGetLandingData(formik?.values, pageNo, pageSize)
+  }, []);
+
+  useEffect(() => {
+    getIssueTypeDDL(
+      `/oms/CustomerPoint/ComplainCategory?businessUnitId=${buId}`
+    );
+    getBusinessUnitDDL(
+      `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${accId}`
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [buId, accId]);
   return (
     <Formik
       enableReinitialize={true}
@@ -58,85 +91,197 @@ export default function ComplainAssignConfigLanding() {
         touched,
       }) => (
         <>
-            {loadComplaintAssignData && <Loading />}
-            <IForm
-              title="User Role Manager"
-              isHiddenReset
-              isHiddenBack
-              isHiddenSave
-              renderProps={() => {
-                return (
-                  <div>
-                    <button
-                      type="button"
-                      className="btn btn-primary"
-                      onClick={() => {
-                        history.push("/sales-management/complainmanagement/complaintassignconfig/create");
-                      }}
-                    >
-                      Create
-                    </button>
-                  </div>
-                );
-              }}
-            >
-              <Form>
-              <div className="">
-              <PaginationSearch
-                placeholder='Search By Employee ID'
-                paginationSearchHandler={(searchValue) => {
-                  commonGridData(pageNo,pageSize,searchValue);
-                }}
-                values={values}
-              />
-             <div className='table-responsive'>
-                <table className='table table-striped table-bordered global-table'>
-                  <thead>
-                   <tr>
-                   <th>SL No</th>
-                    <th>Employee ID</th>
-                    <th>User Name</th>
-                    <th>Action</th>
-                   </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      complainAssignData?.data?.length>0 && complainAssignData?.data?.map((item,index)=>(
-                        <tr key={index}>
-                          <td className="text-center">{index + 1}</td>
-                          <td className="text-center">{item?.employeeId}</td>
-                          <td className="text-center">{item?.employeeName}</td>
-                          <td className="text-center">
-                            <span onClick={()=>{
-                              history.push(`/sales-management/complainmanagement/complaintassignconfig/edit/${item?.employeeId}`,item)
-                            }}>
-                              <IEdit/>
-                            </span>
-                          </td>
-                        </tr>
-                      ))
-                    }
-                  </tbody>
-                </table>
-                {
-                  console.log("pageSize",pageSize)
-                }
-             </div>
-              {
-                complainAssignData?.data?.length>0 && (
-                  <PaginationTable
-                  count={complainAssignData?.totalCount}
-                  setPositionHandler={(pageNo, pageSize) => {
-                    commonGridData(pageNo, pageSize);
-                  }}
-                  paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
-                  values={values}
-                />
-                )
-              }
+          {loadComplaintAssignData && <Loading />}
+          <IForm
+            title="User Role Manager"
+            isHiddenReset
+            isHiddenBack
+            isHiddenSave
+            renderProps={() => {
+              return (
+                <div>
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={() => {
+                      history.push(
+                        "/sales-management/complainmanagement/complaintassignconfig/create"
+                      );
+                    }}
+                  >
+                    Create
+                  </button>
+                </div>
+              );
+            }}
+          >
+            <Form>
+              <div className="form-group  global-form row">
+                <div
+                  style={{ alignItems: "center", gap: "3px" }}
+                  className="col-lg-3 d-flex"
+                >
+                  <NewSelect
+                    name="businessUnit"
+                    options={businessUnitDDL || []}
+                    value={values?.businessUnit}
+                    label="Assign Business Unit"
+                    onChange={(valueOption) => {
+                      setFieldValue("businessUnit", valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div
+                  style={{ alignItems: "center", gap: "3px" }}
+                  className="col-lg-3 d-flex"
+                >
+                  <NewSelect
+                    name="issueType"
+                    options={issueTypeDDL}
+                    value={values?.issueType}
+                    label="Issue Type"
+                    onChange={(valueOption) => {
+                      setFieldValue("issueType", valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3  ">
+                  <label>User Enroll & Name</label>
+                  <SearchAsyncSelect
+                    selectedValue={values?.user}
+                    handleChange={(valueOption) => {
+                      setFieldValue("employee", valueOption);
+                    }}
+                    // loadOptions={(v) => loadUserList(accId, buId, v)}
+                    loadOptions={(v) => {
+                      if (v?.length < 2) return [];
+                      return axios
+                        .get(
+                          `/asset/DropDown/GetEmployeeByEmpIdDDL?AccountId=${accId}&BusinessUnitId=0&searchTearm=${v}`
+                        )
+                        .then((res) => {
+                          return res?.data?.map((itm) => ({
+                            ...itm,
+                            value: itm?.value,
+                            label: `${itm?.level} (${itm?.employeeCode})`,
+                          }));
+                        })
+                        .catch((err) => []);
+                    }}
+                  />
+                  <FormikError errors={errors} name="user" touched={touched} />
+                </div>
+
+                <div
+                  style={{ alignItems: "center", gap: "3px" }}
+                  className="col-lg-3 d-flex"
+                >
+                  <NewSelect
+                    name="process"
+                    options={[{ value: 1, label: "Assign" }]}
+                    value={values?.process}
+                    label="Process"
+                    onChange={(valueOption) => {
+                      setFieldValue("process", valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleGetLandingData(formik?.values, pageNo, pageSize)
+                    }}
+                    className="btn btn-primary btn-sm"
+                    style={{ marginTop: "18px" }}
+                    disabled={!values?.user || !values?.issueType || !values?.process}
+                  >
+                    View
+                  </button>
+                </div>
               </div>
-              </Form>
-            </IForm>
+              <div>
+                <div className="table-responsive">
+                  <table className="table table-striped table-bordered global-table">
+                    <thead>
+                      <tr>
+                        <th>SL No</th>
+                        <th>Employee Name</th>
+                        <th>Business Unit</th>
+                        <th>Issue Type</th>
+                        <th>Process</th>
+                        <th>Action Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {complainAssignData?.data?.length > 0 &&
+                        complainAssignData?.data?.map((item, index) => (
+                          <tr key={index}>
+                            <td className="text-center">{index + 1}</td>
+                            <td className="text-center">
+                              {item?.employeeName}
+                            </td>
+                            <td className="text-center">
+                              {item?.businessUnitName}
+                            </td>
+                            <td className="text-center">
+                              {item?.issueTypeName}
+                            </td>
+                            <td className="text-center">{item?.process}</td>
+                            <td className="text-center">{item?.actionDate}</td>
+                            <td className="text-center">
+                              {item?.isActive ? (
+                                <span style={{ color: "#249e45" }}>Active</span>
+                              ) : (
+                                <span style={{ color: "#ad502b" }}>
+                                  Inactive
+                                </span>
+                              )}
+                            </td>
+                            <td className="text-center">
+                              <span
+                                // onClick={() => {
+                                //   history.push(
+                                //     `/sales-management/complainmanagement/complaintassignconfig/edit/${item?.employeeId}`,
+                                //     item
+                                //   );
+                                // }}
+                              >
+                                <IEdit />
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                  {console.log("pageSize", pageSize)}
+                </div>
+                {complainAssignData?.data?.length > 0 && (
+                  <PaginationTable
+                    count={complainAssignData?.totalCount}
+                    setPositionHandler={(pageNo, pageSize) => {
+                      commonGridData(pageNo, pageSize);
+                    }}
+                    paginationState={{
+                      pageNo,
+                      setPageNo,
+                      pageSize,
+                      setPageSize,
+                    }}
+                    values={values}
+                  />
+                )}
+              </div>
+            </Form>
+          </IForm>
         </>
       )}
     </Formik>
