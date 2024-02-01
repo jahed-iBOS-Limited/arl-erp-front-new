@@ -106,6 +106,10 @@ function InvoiceView({ clickRowData }) {
                   <b>Designation/Relationship:</b>{" "}
                   {singleData?.designationOrRelationship}
                 </p>
+                <p>
+                  <b>Contact Source:</b>{" "}
+                  {singleData?.contactSourceName}
+                </p>
               </div>
               <div>
                 <p>
