@@ -299,6 +299,10 @@ export const respondentTypeDDL = [
     value: 3,
     label: "Customer",
   },
+  {
+    value: 4,
+    label: "End User",
+  },
 ];
 
 export const getBusinessUnitDDLApi = async (accId, setter) => {
