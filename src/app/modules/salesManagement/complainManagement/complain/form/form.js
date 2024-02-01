@@ -23,6 +23,7 @@ import {
 } from "../helper";
 import TextArea from "../../../../_helper/TextArea";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 export const validationSchema = Yup.object().shape({
   occurrenceDate: Yup.date().required("Occurrence Date is required"),
   respondentType: Yup.object().shape({
@@ -33,8 +34,8 @@ export const validationSchema = Yup.object().shape({
   //   label: Yup.string().required("Field is required"),
   //   value: Yup.string().required("Field is required"),
   // }),
-  respondentName: Yup.object().when('respondentType.value', {
-    is: (value) => value !== '4',
+  respondentName: Yup.object().when("respondentType.value", {
+    is: (value) => value !== "4",
     then: Yup.object().shape({
       label: Yup.string().required("Field is required"),
       value: Yup.string().required("Field is required"),
@@ -78,11 +79,13 @@ function Form({
   const [businessUnitDDL, setBusinessUnitDDL] = useState([]);
   const [supplierDDL, setSupplierDDL] = useState([]);
   const [complainSubCategory, setComplainSubCategory] = useState([]);
+  const [contactSourceDDL, getContactSourceDDL] = useAxiosGet();
 
   useEffect(() => {
     if (accId && buId) {
       getBusinessUnitDDLApi(accId, setBusinessUnitDDL);
       getComplainCategory(buId, setComplainCategory);
+      getContactSourceDDL(`/oms/CustomerPoint/ContactSourceDD`);
     }
   }, [accId, buId]);
 
@@ -169,41 +172,41 @@ function Form({
             }
           >
             <form>
-              <div className='row global-form'>
-                <div className='col-lg-12'>
+              <div className="row global-form">
+                <div className="col-lg-12">
                   <h6>General Information</h6>
                 </div>
 
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <label>
                     <b style={{ color: "red" }}>* </b>Occurrence Date
                   </label>
                   <InputField
                     value={values?.occurrenceDate}
-                    placeholder='Occurrence Date'
-                    name='occurrenceDate'
-                    type='date'
+                    placeholder="Occurrence Date"
+                    name="occurrenceDate"
+                    type="date"
                     disabled={view}
                   />
                 </div>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <InputField
                     value={values?.occurrenceTime}
-                    label='Occurrence Time'
-                    placeholder='Occurrence Time'
-                    name='occurrenceTime'
-                    type='time'
+                    label="Occurrence Time"
+                    placeholder="Occurrence Time"
+                    name="occurrenceTime"
+                    type="time"
                     disabled={view}
                   />
                 </div>
 
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <NewSelect
                     isRequiredSymbol={true}
-                    name='respondentBusinessUnit'
+                    name="respondentBusinessUnit"
                     options={businessUnitDDL || []}
                     value={values?.respondentBusinessUnit}
-                    label='Respondent Business Unit'
+                    label="Respondent Business Unit"
                     onChange={(valueOption) => {
                       setFieldValue(
                         "respondentBusinessUnit",
@@ -232,20 +235,20 @@ function Form({
                       setFieldValue("issueType", "");
                       setFieldValue("issueSubType", "");
                     }}
-                    placeholder='Business Unit'
+                    placeholder="Business Unit"
                     errors={errors}
                     touched={touched}
                     isDisabled={view}
                   />
                 </div>
 
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <NewSelect
                     isRequiredSymbol={true}
-                    name='respondentType'
+                    name="respondentType"
                     options={respondentTypeDDL || []}
                     value={values?.respondentType}
-                    label='Respondent Type'
+                    label="Respondent Type"
                     onChange={(valueOption) => {
                       setFieldValue("respondentType", valueOption || "");
                       setFieldValue("respondentName", "");
@@ -273,7 +276,7 @@ function Form({
                         );
                       }
                     }}
-                    placeholder='Respondent Type'
+                    placeholder="Respondent Type"
                     errors={errors}
                     touched={touched}
                     isDisabled={!values?.respondentBusinessUnit || view}
@@ -281,10 +284,10 @@ function Form({
                 </div>
                 {/* if respondent type Customer "3" */}
                 {values?.respondentType?.value === 3 && (
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <NewSelect
                       isRequiredSymbol={true}
-                      name='respondentName'
+                      name="respondentName"
                       options={customerDDL || []}
                       value={values?.respondentName}
                       label={`${values?.respondentType?.label} Name`}
@@ -308,10 +311,10 @@ function Form({
                 )}
                 {/* if respondent type Supplier "2" */}
                 {values?.respondentType?.value === 2 && (
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <NewSelect
                       isRequiredSymbol={true}
-                      name='respondentName'
+                      name="respondentName"
                       options={supplierDDL || []}
                       value={values?.respondentName}
                       label={`${values?.respondentType?.label} Name`}
@@ -336,7 +339,7 @@ function Form({
 
                 {/* if respondent type End User "1" */}
                 {values?.respondentType?.value === 1 && (
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <label>
                       {" "}
                       <b
@@ -352,7 +355,10 @@ function Form({
                       selectedValue={values?.respondentName}
                       handleChange={(valueOption) => {
                         setFieldValue("respondentName", valueOption || "");
-                        setFieldValue("designationOrRelationship", valueOption?.employeeDesignatioName || "");
+                        setFieldValue(
+                          "designationOrRelationship",
+                          valueOption?.employeeDesignatioName || ""
+                        );
                         setFieldValue(
                           "respondentContact",
                           valueOption?.contactNumber || ""
@@ -374,78 +380,78 @@ function Form({
                           })
                           .catch((err) => []);
                       }}
-                      placeholder='Search by Enroll/ID No/Name (min 3 letter)'
+                      placeholder="Search by Enroll/ID No/Name (min 3 letter)"
                     />
                     <FormikError
-                      name='respondentName'
+                      name="respondentName"
                       errors={errors}
                       touched={touched}
                     />
                   </div>
                 )}
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <label>
                     <b style={{ color: "red" }}>*</b> Respondent Name
                   </label>
                   <InputField
                     value={values?.respondent}
-                    placeholder='Respondent Name'
-                    name='respondent'
-                    type='text'
+                    placeholder="Respondent Name"
+                    name="respondent"
+                    type="text"
                     disabled={view}
                     onChange={(e) => {
                       setFieldValue("respondent", e.target.value);
                     }}
                   />
                 </div>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <label>
                     <b style={{ color: "red" }}>*</b> Respondent Contact
                   </label>
                   <InputField
                     value={values?.respondentContact}
-                    placeholder='Respondent Contact'
-                    name='respondentContact'
-                    type='text'
+                    placeholder="Respondent Contact"
+                    name="respondentContact"
+                    type="text"
                     disabled={view}
                     onChange={(e) => {
                       setFieldValue("respondentContact", e.target.value);
                     }}
                   />
                 </div>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <InputField
                     value={values?.respondentOrg}
-                    label='Respondent Organization'
-                    placeholder='Respondent Organization'
-                    name='respondentOrg'
-                    type='text'
+                    label="Respondent Organization"
+                    placeholder="Respondent Organization"
+                    name="respondentOrg"
+                    type="text"
                     disabled={view}
                     onChange={(e) => {
                       setFieldValue("respondentOrg", e.target.value);
                     }}
                   />
                 </div>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <InputField
                     value={values?.respondentAddress}
-                    label='Respondent Address'
-                    placeholder='Respondent Address'
-                    name='respondentAddress'
-                    type='text'
+                    label="Respondent Address"
+                    placeholder="Respondent Address"
+                    name="respondentAddress"
+                    type="text"
                     disabled={view}
                     onChange={(e) => {
                       setFieldValue("respondentAddress", e.target.value);
                     }}
                   />
                 </div>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <InputField
                     value={values?.designationOrRelationship}
-                    label='Designation/Relationship'
-                    placeholder='Designation/Relationship'
-                    name='designationOrRelationship'
-                    type='text'
+                    label="Designation/Relationship"
+                    placeholder="Designation/Relationship"
+                    name="designationOrRelationship"
+                    type="text"
                     disabled={view}
                     onChange={(e) => {
                       setFieldValue(
@@ -456,27 +462,27 @@ function Form({
                   />
                 </div>
                 {/* Contact Source DDL */}
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <NewSelect
-                    name='contactSource'
-                    options={[]}
+                    name="contactSource"
+                    options={contactSourceDDL || []}
                     value={values?.contactSource}
-                    label='Contact Source'
+                    label="Contact Source"
                     onChange={(valueOption) => {
                       setFieldValue("contactSource", valueOption || "");
                     }}
-                    placeholder='Contact Source'
+                    placeholder="Contact Source"
                     errors={errors}
                     touched={touched}
                     isDisabled={view}
                   />
                 </div>
-                <div className='col-lg-3 d-flex align-items-center'>
+                <div className="col-lg-3 d-flex align-items-center">
                   {!view && (
-                    <div className=''>
+                    <div className="">
                       <button
-                        className='btn btn-primary mr-2'
-                        type='button'
+                        className="btn btn-primary mr-2"
+                        type="button"
                         onClick={() => setOpen(true)}
                         style={{ padding: "4px 5px" }}
                       >
@@ -488,8 +494,8 @@ function Form({
                   <div>
                     {values?.attachment && (
                       <button
-                        className='btn btn-primary'
-                        type='button'
+                        className="btn btn-primary"
+                        type="button"
                         onClick={() => {
                           dispatch(
                             getDownlloadFileView_Action(values?.attachment)
@@ -501,18 +507,18 @@ function Form({
                     )}
                   </div>
                 </div>
-                <div className='col-lg-12'>
+                <div className="col-lg-12">
                   <hr />
                   <h6>Issue</h6>
                 </div>
 
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <NewSelect
                     isRequiredSymbol={true}
-                    name='issueType'
+                    name="issueType"
                     options={complainCategory || []}
                     value={values?.issueType}
-                    label='Issue Type'
+                    label="Issue Type"
                     onChange={(valueOption) => {
                       setFieldValue("issueType", valueOption || "");
                       setFieldValue("issueSubType", "");
@@ -522,29 +528,29 @@ function Form({
                         setComplainSubCategory
                       );
                     }}
-                    placeholder='Issue Type'
+                    placeholder="Issue Type"
                     errors={errors}
                     touched={touched}
                     isDisabled={view || !values?.respondentBusinessUnit}
                   />
                 </div>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <NewSelect
                     isRequiredSymbol={true}
-                    name='issueSubType'
+                    name="issueSubType"
                     options={complainSubCategory || []}
                     value={values?.issueSubType}
-                    label='Sub Issue Type'
+                    label="Sub Issue Type"
                     onChange={(valueOption) => {
                       setFieldValue("issueSubType", valueOption || "");
                     }}
-                    placeholder='Sub Issue Type'
+                    placeholder="Sub Issue Type"
                     errors={errors}
                     touched={touched}
                     isDisabled={view}
                   />
                 </div>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <label>
                     <b
                       style={{
@@ -556,12 +562,12 @@ function Form({
                     Issue Details
                   </label>
                   <TextArea
-                    name='issueDetails'
+                    name="issueDetails"
                     value={values?.issueDetails || ""}
-                    label='Issue Details'
-                    placeholder='Issue Details'
+                    label="Issue Details"
+                    placeholder="Issue Details"
                     touched={touched}
-                    rows='2'
+                    rows="2"
                     disabled={view}
                     onChange={(e) => {
                       setFieldValue("issueDetails", e.target.value);
@@ -569,47 +575,47 @@ function Form({
                     errors={errors}
                   />
                 </div>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <InputField
                     value={values?.additionalCommentAndSuggestion}
-                    label='Additional Comment & Suggestion'
-                    placeholder='Additional Comment & Suggestion'
-                    name='additionalCommentAndSuggestion'
-                    type='text'
+                    label="Additional Comment & Suggestion"
+                    placeholder="Additional Comment & Suggestion"
+                    name="additionalCommentAndSuggestion"
+                    type="text"
                     disabled={view}
                   />
                 </div>
 
-                <div className='col-lg-12'>
+                <div className="col-lg-12">
                   <hr />
                   <h6>Product Information</h6>
                 </div>
 
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <NewSelect
-                    name='distributionChannel'
+                    name="distributionChannel"
                     options={distributionChannelDDL || []}
                     value={values?.distributionChannel}
-                    label='Distribution Channel'
+                    label="Distribution Channel"
                     onChange={(valueOption) => {
                       setFieldValue("distributionChannel", valueOption || "");
                     }}
-                    placeholder='Distribution Channel'
+                    placeholder="Distribution Channel"
                     errors={errors}
                     touched={touched}
                     isDisabled={view}
                   />
                 </div>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <NewSelect
-                    name='itemCategory'
+                    name="itemCategory"
                     options={itemCategoryDDL || []}
                     value={values?.itemCategory}
-                    label='Product Category'
+                    label="Product Category"
                     onChange={(valueOption) => {
                       setFieldValue("itemCategory", valueOption);
                     }}
-                    placeholder='Product Category'
+                    placeholder="Product Category"
                     errors={errors}
                     touched={touched}
                     isDisabled={!values?.respondentBusinessUnit || view}
@@ -617,7 +623,7 @@ function Form({
                 </div>
 
                 {[2, 3].includes(values?.respondentType?.value) && (
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <label>
                       {values?.respondentType?.value === 2
                         ? "PO No"
@@ -656,36 +662,36 @@ function Form({
                           })
                           .catch((err) => []);
                       }}
-                      placeholder='Search (min 3 letter)'
+                      placeholder="Search (min 3 letter)"
                       isDisabled={!values?.respondentBusinessUnit || view}
                     />
                     <FormikError
-                      name='challanOrPO'
+                      name="challanOrPO"
                       errors={errors}
                       touched={touched}
                     />
                   </div>
                 )}
 
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <InputField
                     value={values?.deliveryDate}
                     label={`${
                       values?.respondentType?.value === 2 ? "PO" : "Challan"
                     } Date`}
-                    placeholder='Delivery Date'
-                    name='deliveryDate'
-                    type='date'
+                    placeholder="Delivery Date"
+                    name="deliveryDate"
+                    type="date"
                     disabled={view}
                   />
                 </div>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <InputField
                     value={values?.reference}
-                    label='Reference (Factory/Batch/Number)'
-                    placeholder='Reference (Factory/Batch/Number)'
-                    name='reference'
-                    type='text'
+                    label="Reference (Factory/Batch/Number)"
+                    placeholder="Reference (Factory/Batch/Number)"
+                    name="reference"
+                    type="text"
                     disabled={view}
                   />
                 </div>
