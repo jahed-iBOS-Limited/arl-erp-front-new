@@ -85,7 +85,7 @@ function Form({
     if (accId && buId) {
       getBusinessUnitDDLApi(accId, setBusinessUnitDDL);
       getComplainCategory(buId, setComplainCategory);
-      getContactSourceDDL(`/oms/CustomerPoint/ContactSourceDD`);
+      getContactSourceDDL(`/oms/CustomerPoint/ContactSourceDDL`);
     }
   }, [accId, buId]);
 
