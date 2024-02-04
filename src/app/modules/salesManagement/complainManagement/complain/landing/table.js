@@ -10,6 +10,7 @@ import IViewModal from "../../../../_helper/_viewModal";
 import FeedbackModal from "../../resolution/landing/feedbackModal";
 import InvoiceView from "./invoiceView";
 import { saveColseComplainApi } from "../../resolution/helper";
+import { Rating } from "@material-ui/lab";
 const LandingTable = ({ obj }) => {
   const {
     profileData: { employeeId },
@@ -26,8 +27,8 @@ const LandingTable = ({ obj }) => {
 
   return (
     <>
-      <div className='table-responsive'>
-        <table className='table table-striped table-bordered global-table'>
+      <div className="table-responsive">
+        <table className="table table-striped table-bordered global-table">
           <thead>
             <tr>
               <th>SL</th>
@@ -56,7 +57,7 @@ const LandingTable = ({ obj }) => {
               const defaultEnvEmp = item?.investigatorAssignByName?.[0];
               return (
                 <tr key={index}>
-                  <td className='text-center'> {index + 1}</td>
+                  <td className="text-center"> {index + 1}</td>
                   <td>{item?.complainNo}</td>
                   <td>{item?.complainCategoryName}</td>
                   <td>{_dateFormatter(item?.requestDateTime)}</td>
@@ -76,7 +77,7 @@ const LandingTable = ({ obj }) => {
                   <td>
                     <OverlayTrigger
                       overlay={
-                        <Tooltip className='mytooltip' id='info-tooltip'>
+                        <Tooltip className="mytooltip" id="info-tooltip">
                           <>
                             {item?.investigatorAssignByName?.map((itm, idx) => (
                               <div
@@ -121,7 +122,7 @@ const LandingTable = ({ obj }) => {
                   <td>
                     <OverlayTrigger
                       overlay={
-                        <Tooltip className='mytooltip' id='info-tooltip'>
+                        <Tooltip className="mytooltip" id="info-tooltip">
                           <>
                             {item?.investigatorAssignByName?.map((itm, idx) => (
                               <div
@@ -186,7 +187,7 @@ const LandingTable = ({ obj }) => {
                   </td>
                   <td>
                     <div
-                      className='d-flex justify-content-around'
+                      className="d-flex justify-content-around"
                       style={{
                         gap: "8px",
                       }}
@@ -215,7 +216,7 @@ const LandingTable = ({ obj }) => {
                         <span>
                           <OverlayTrigger
                             overlay={
-                              <Tooltip id='cs-icon'>Issue Close </Tooltip>
+                              <Tooltip id="cs-icon">Issue Close </Tooltip>
                             }
                           >
                             <span
@@ -229,10 +230,31 @@ const LandingTable = ({ obj }) => {
                               }}
                             >
                               <i
-                                class='fa fa-times-circle text-danger'
-                                aria-hidden='true'
+                                class="fa fa-times-circle text-danger"
+                                aria-hidden="true"
                               ></i>
                             </span>
+                          </OverlayTrigger>
+                        </span>
+                      )}
+                      {item?.status === "Close" && (
+                        <span className="cursor-pointer">
+                          <OverlayTrigger
+                            overlay={
+                              <Tooltip id="cs-icon">
+                                <div>
+                                  <p className="text-center">
+                                    <Rating
+                                      name="pristine"
+                                      value={item?.closingReview || 0}
+                                    />
+                                  </p>
+                                  <p><span>Review Message: </span>{`${item?.closingReviewMessage}`}</p>
+                                </div>
+                              </Tooltip>
+                            }
+                          >
+                            <i class="fa fa-commenting" aria-hidden="true"></i>
                           </OverlayTrigger>
                         </span>
                       )}

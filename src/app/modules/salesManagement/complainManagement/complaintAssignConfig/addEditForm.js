@@ -16,163 +16,144 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 
 const initData = {
-  user: "",
+  businessUnit: "",
   issueType: "",
-  allFeature: false,
+  user: "",
+  process: "",
 };
-
-
 
 export default function ComplainAssignConfigCreateEdit() {
   const [objProps, setObjprops] = useState({});
-  const [rowData, getRowData,loadRowData,setRowData] = useAxiosGet([]);
-  const [issueTypeDDL,getIssueTypeDDL] = useAxiosGet()
-  const [,saveComplaintAssign,loadComplaintAssign] = useAxiosPost()
-  const [singleData,setSingleData] = useState()
-  const {state} = useLocation()
-  
+  const [rowData, getRowData, loadRowData, setRowData] = useAxiosGet([]);
+  const [businessUnitDDL, getBusinessUnitDDL] = useAxiosGet([]);
+  const [issueTypeDDL, getIssueTypeDDL] = useAxiosGet();
+  const [, saveComplaintAssign, loadComplaintAssign] = useAxiosPost();
+  const [singleData, setSingleData] = useState();
+  const { state } = useLocation();
+
   const {
-    profileData: { accountId: accId },
+    profileData: { accountId: accId , userId},
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
-  const {id} = useParams()
-
+  const { id } = useParams();
 
   // event handlers
-  const handleAddRowData = (values) => {
-    if (values?.allFeature) {
-      const updatedIssueType = [...issueTypeDDL]?.map((item) => ({
-        businessUnitId:buId,
+  const handleAddRowData = (values, resetForm) => {
+    const duplicateRowData = [...rowData]?.find(
+      (item) =>
+        item?.userName === values?.user?.employeeName &&
+        item?.userId === values?.user?.value &&
+        item?.issueTypeId === values?.issueType?.value
+    );
+    if (duplicateRowData) {
+      toast.warn("Duplicate data is not allowed");
+      return;
+    }
+    setRowData([
+      ...rowData,
+      {
+        businessUnitId: values?.businessUnit?.value,
+        businessUnitName: values?.businessUnit?.label,
         userName: values?.user?.employeeName,
         userId: values?.user?.value,
-        issueTypeName: item?.label,
-        issueTypeId:item?.value
-      }));
-
-     
-      const updatedDataWithoutRowData = updatedIssueType.filter((item) => {
-        return !rowData.some((rowItem) => {
-          return (
-            item.userName === rowItem.userName &&
-            item.userId === rowItem.userId &&
-            item.issueTypeId === rowItem.issueTypeId
-          );
-        });
-      });
-      
-      setRowData([...rowData,...updatedDataWithoutRowData])
-     
-    } else {
-      const duplicateRowData = [...rowData]?.find(
-        (item) =>
-          item?.userName === values?.user?.employeeName &&
-          item?.userId === values?.user?.value &&
-          item?.issueTypeId === values?.issueType?.value
-      );
-      if (duplicateRowData) {
-        toast.warn("Duplicate data is not allowed");
-        return;
-      }
-      setRowData([
-        ...rowData,
-        {
-          businessUnitId:buId,
-          userName: values?.user?.employeeName,
-          userId: values?.user?.value,
-          issueTypeName: values?.issueType?.label,
-          issueTypeId:values?.issueType?.value
-        },
-      ]);
-    }
+        issueTypeName: values?.issueType?.label,
+        issueTypeId: values?.issueType?.value,
+        process: values?.process?.label
+      },
+    ]);
+    resetForm();
   };
   const HandleDelete = (item) => {
     const updatedRowData = rowData?.filter(
-      (i) => !(i?.userName === item?.userName &&
-      i?.userId === item?.userId &&
-      i?.issueTypeId === item?.issueTypeId)
-        
+      (i) =>
+        !(
+          i?.userName === item?.userName &&
+          i?.userId === item?.userId &&
+          i?.issueTypeId === item?.issueTypeId
+        )
     );
     setRowData(updatedRowData);
   };
   const saveHandler = (values, cb) => {
-    
-    if(!id){
-      const payload = rowData?.map(i=>({
-        businessUnitId:buId,
-        EmployeeName:i?.userName,
-        issueTypeId:i.issueTypeId,
-        employeeId:i.userId,
-        process:"Assign"
-      }))
+    if (!id) {
+      const payload = rowData?.map((i) => ({
+        actionBy: userId,
+        businessUnitId: buId,
+        EmployeeName: i?.userName,
+        issueTypeId: i.issueTypeId,
+        employeeId: i.userId,
+        process: i.process,
+      }));
       saveComplaintAssign(
         `/oms/CustomerPoint/CreateComplaintAssign`,
         payload,
-        ()=>{},
+        () => {setRowData([])},
         true
-      )
-    }else{
-      const payload = rowData?.map(i=>({
-        autoId:i?.autoId || 0,
-        issueTypeId:i?.issueTypeId,
-        issueTypeName:i?.issueTypeName,
-        businessUnitId:i?.businessUnitId,
-        process:i?.process||"Assign",
-        employeeId:i?.userId,
-        employeeName:i?.userName
-      }))
+      );
+    } else {
+      const payload = rowData?.map((i) => ({
+        autoId: i?.autoId || 0,
+        issueTypeId: i?.issueTypeId,
+        issueTypeName: i?.issueTypeName,
+        businessUnitId: i?.businessUnitId,
+        process: i?.process || "Assign",
+        employeeId: i?.userId,
+        employeeName: i?.userName,
+      }));
       saveComplaintAssign(
         `/oms/CustomerPoint/CreateComplaintAssign`,
         payload,
-        ()=>{},
+        () => {},
         true
-      )
-    }    
+      );
+    }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     getIssueTypeDDL(
       `/oms/CustomerPoint/ComplainCategory?businessUnitId=${buId}`
-    )
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[buId])
-  useEffect(()=>{
-    if(id){
+    );
+    getBusinessUnitDDL(
+      `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${accId}`
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [buId, accId]);
+  useEffect(() => {
+    if (id) {
       getRowData(
         `/oms/CustomerPoint/GetComplainAssignByEmployeeId?BusinessUnitId=${buId}&EmployeeId=${id}`,
-        (data)=>{
-          const updatedData = data?.map((item)=>({
-            autoId:item?.autoId,
-            businessUnitId:item?.businessUnitId,
+        (data) => {
+          const updatedData = data?.map((item) => ({
+            autoId: item?.autoId,
+            businessUnitId: item?.businessUnitId,
             userName: item?.employeeName,
             userId: item?.employeeId,
-            issueTypeName:item?.issueTypeName,
-            issueTypeId:item?.issueTypeId,
-            process:item?.process
-          }))
-          setRowData(updatedData)
+            issueTypeName: item?.issueTypeName,
+            issueTypeId: item?.issueTypeId,
+            process: item?.process,
+          }));
+          setRowData(updatedData);
         }
-      )
+      );
       setSingleData({
-        user:{
-          label:state?.employeeName,
-          employeeName:state?.employeeName,
-          value:state?.employeeId
-
-        }
-      })
-    
+        user: {
+          label: state?.employeeName,
+          employeeName: state?.employeeName,
+          value: state?.employeeId,
+        },
+      });
     }
-  },[id])
+  }, [id]);
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={id?singleData : initData}
+      initialValues={id ? singleData : initData}
       //   validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        if(!rowData?.length>0){
-          toast.warn("Add minimum one issue type")
-          return
-        }else{
+        if (!rowData?.length > 0) {
+          toast.warn("Add minimum one issue type");
+          return;
+        } else {
           saveHandler(values, () => {
             resetForm(initData);
           });
@@ -189,12 +170,14 @@ export default function ComplainAssignConfigCreateEdit() {
         touched,
       }) => (
         <>
+          {console.log({ values })}
+          {console.log({ rowData })}
           {(loadComplaintAssign || loadRowData) && <Loading />}
           <IForm title="Feature Assign To User" getProps={setObjprops}>
             <Form>
               <div className="form-group  global-form row">
                 <div className="col-lg-3  ">
-                  <label>User Name</label>
+                  <label>User Enroll & Name</label>
                   <SearchAsyncSelect
                     selectedValue={values?.user}
                     handleChange={(valueOption) => {
@@ -226,6 +209,22 @@ export default function ComplainAssignConfigCreateEdit() {
                   className="col-lg-3 d-flex"
                 >
                   <NewSelect
+                    name="businessUnit"
+                    options={businessUnitDDL || []}
+                    value={values?.businessUnit}
+                    label="Assign Business Unit"
+                    onChange={(valueOption) => {
+                      setFieldValue("businessUnit", valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div
+                  style={{ alignItems: "center", gap: "3px" }}
+                  className="col-lg-3 d-flex"
+                >
+                  <NewSelect
                     name="issueType"
                     options={issueTypeDDL}
                     value={values?.issueType}
@@ -233,35 +232,37 @@ export default function ComplainAssignConfigCreateEdit() {
                     onChange={(valueOption) => {
                       setFieldValue("issueType", valueOption);
                     }}
-                    isDisabled={values?.allFeature}
                     errors={errors}
                     touched={touched}
                   />
                 </div>
-                <div style={{ marginTop: "17px" }} className="col-lg-2">
-                  <input
-                    type="checkbox"
-                    id="allFeatures"
-                    name="allFeature"
-                    onChange={(e) => {
-                      setFieldValue("issueType", "");
-                      setFieldValue("allFeature", e?.target?.checked);
+
+                <div
+                  style={{ alignItems: "center", gap: "3px" }}
+                  className="col-lg-3 d-flex"
+                >
+                  <NewSelect
+                    name="process"
+                    options={[{ value: 1, label: "Assign" }]}
+                    value={values?.process}
+                    label="Process"
+                    onChange={(valueOption) => {
+                      setFieldValue("process", valueOption);
                     }}
-                    checked={values?.allFeature}
+                    errors={errors}
+                    touched={touched}
                   />
-                  <label style={{ marginRight: "5px" }} htmlFor="allFeatures">
-                    All Features
-                  </label>
                 </div>
+
                 <div className="col-lg-2">
                   <button
                     type="button"
                     onClick={() => {
-                      handleAddRowData(values);
+                      handleAddRowData(values, resetForm);
                     }}
                     className="btn btn-primary btn-sm"
                     style={{ marginTop: "18px" }}
-                    disabled={!values?.user || !(values?.issueType || values?.allFeature)}
+                    disabled={!values?.user || !values?.issueType || !values?.process}
                   >
                     Add
                   </button>
@@ -274,8 +275,10 @@ export default function ComplainAssignConfigCreateEdit() {
                     <thead>
                       <tr>
                         <th>Sl</th>
-                        <th>User Name</th>
-                        <th>Issue Type Name</th>
+                        <th>Employee Name</th>
+                        <th>Business Unit</th>
+                        <th>Issue Type</th>
+                        <th>Process</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -283,9 +286,15 @@ export default function ComplainAssignConfigCreateEdit() {
                       {rowData?.length > 0 &&
                         rowData?.map((item, index) => (
                           <tr key={index}>
-                            <td className="text-center">{index + 1}</td>
-                            <td className="text-center">{item?.userName || item?.employeeName}</td>
-                            <td className="text-center">{item?.issueTypeName}</td>
+                            <td>{index + 1}</td>
+                            <td>{item?.userName}</td>
+                            <td>
+                              {item?.businessUnitName}
+                            </td>
+                            <td>
+                              {item?.issueTypeName}
+                            </td>
+                            <td>{item?.process}</td>
                             <td className="text-center">
                               <span onClick={() => HandleDelete(item)}>
                                 <IDelete />
