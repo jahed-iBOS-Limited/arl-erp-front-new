@@ -32,7 +32,7 @@ export default function ComplainAssignConfigCreateEdit() {
   const { state } = useLocation();
 
   const {
-    profileData: { accountId: accId },
+    profileData: { accountId: accId , userId},
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const { id } = useParams();
@@ -58,7 +58,7 @@ export default function ComplainAssignConfigCreateEdit() {
         userId: values?.user?.value,
         issueTypeName: values?.issueType?.label,
         issueTypeId: values?.issueType?.value,
-        process: values?.process?.label,
+        process: values?.process?.label
       },
     ]);
     resetForm();
@@ -77,6 +77,7 @@ export default function ComplainAssignConfigCreateEdit() {
   const saveHandler = (values, cb) => {
     if (!id) {
       const payload = rowData?.map((i) => ({
+        actionBy: userId,
         businessUnitId: buId,
         EmployeeName: i?.userName,
         issueTypeId: i.issueTypeId,

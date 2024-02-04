@@ -14,6 +14,9 @@ import FormikError from "../../../_helper/_formikError";
 import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
 import axios from "axios";
 import SwitchBtn from "./components/switchBtn";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { toast } from "react-toastify";
+import { _dateFormatter } from "../../../chartering/_chartinghelper/_dateFormatter";
 const initData = {
   businessUnit: "",
   issueType: "",
@@ -27,30 +30,31 @@ export default function ComplainAssignConfigLanding() {
   const [issueTypeDDL, getIssueTypeDDL] = useAxiosGet();
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(15);
-  const [isChecked, setIsChecked] = useState(false);
 
   const [
     complainAssignData,
     getComplaiAssignData,
     loadComplaintAssignData,
+    setComplainAssignData,
   ] = useAxiosGet();
+
+  const [, updateStatus, isUpdatingStatus, , updatingError] = useAxiosPost();
 
   const {
     profileData: { accountId: accId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  const formik = useFormik({
-    initialValues: initData,
-    onSubmit: (values) => {
-      saveHandler(values, () => {
-        formik.resetForm();
-      });
-    },
-  });
-
-  const handleChange = () => {
-    setIsChecked(!isChecked);
+  const handleStatusChange = async (index, autoId, values) => {
+    const api = `/oms/CustomerPoint/UpdateComplainAssignStatus?autoId=${autoId}`;
+    await updateStatus(
+      api,
+      null,
+      (res) => {
+        handleGetLandingData(values, pageNo, pageSize);
+      },
+      true
+    );
   };
 
   const handleGetLandingData = (values, pageNo, pageSize) => {
@@ -58,15 +62,15 @@ export default function ComplainAssignConfigLanding() {
     const api = `/oms/CustomerPoint/GetComplainAssignLanding?BusinessUnitId=${businessUnit?.value ||
       0}&EmployeeId=${employee?.value || 0}&IssueTypeId=${issueType?.value ||
       0}&pageNo=${pageNo}&pageSize=${pageSize}`;
-    getComplaiAssignData(api, (data) => console.log({ data }));
+    getComplaiAssignData(api);
   };
 
-  const commonGridData = (pageNo, pageSize, searhValue) => {
-    handleGetLandingData(formik?.values, pageNo, pageSize);
+  const commonGridData = (pageNo, pageSize, values) => {
+    handleGetLandingData(values, pageNo, pageSize);
   };
 
   useEffect(() => {
-    handleGetLandingData(formik?.values, pageNo, pageSize);
+    handleGetLandingData(null, pageNo, pageSize);
   }, []);
 
   useEffect(() => {
@@ -99,7 +103,7 @@ export default function ComplainAssignConfigLanding() {
         touched,
       }) => (
         <>
-          {loadComplaintAssignData && <Loading />}
+          {(loadComplaintAssignData || isUpdatingStatus) && <Loading />}
           <IForm
             title="User Role Manager"
             isHiddenReset
@@ -205,7 +209,6 @@ export default function ComplainAssignConfigLanding() {
                     type="button"
                     onClick={() => {
                       handleGetLandingData(values, pageNo, pageSize);
-                      console.log({values})
                     }}
                     className="btn btn-primary btn-sm"
                     style={{ marginTop: "18px" }}
@@ -234,32 +237,49 @@ export default function ComplainAssignConfigLanding() {
                         complainAssignData?.data?.map((item, index) => (
                           <tr key={index}>
                             <td className="text-center">{index + 1}</td>
-                            <td className="text-left">
-                              {item?.employeeName}
-                            </td>
+                            <td className="text-left">{item?.employeeName}</td>
                             <td className="text-left">
                               {item?.businessUnitName}
                             </td>
-                            <td className="text-left">
-                              {item?.issueTypeName}
-                            </td>
+                            <td className="text-left">{item?.issueTypeName}</td>
                             <td className="text-left">{item?.process}</td>
-                            <td className="text-left">{item?.actionDate}</td>
+                            <td className="text-center">
+                              {item?.actionDate &&
+                                _dateFormatter(item?.actionDate)}
+                            </td>
                             <td className="text-center">
                               {item?.isActive ? (
-                                <span style={{ color: "#249e45", fontWeight: "bold" }}>Active</span>
+                                <span
+                                  style={{
+                                    color: "#249e45",
+                                    fontWeight: "bold",
+                                  }}
+                                >
+                                  Active
+                                </span>
                               ) : (
-                                <span style={{ color: "#ad502b", fontWeight: "bold" }}>
+                                <span
+                                  style={{
+                                    color: "#ad502b",
+                                    fontWeight: "bold",
+                                  }}
+                                >
                                   Inactive
                                 </span>
                               )}
                             </td>
                             <td className="text-center">
-                              <span
-                              >
+                              <span>
                                 <SwitchBtn
-                                  checked={isChecked}
-                                  onChange={handleChange}
+                                  disabled={isUpdatingStatus}
+                                  checked={item?.isActive}
+                                  onChange={() =>
+                                    handleStatusChange(
+                                      index,
+                                      item?.autoId,
+                                      values
+                                    )
+                                  }
                                 />
                               </span>
                             </td>
@@ -267,13 +287,12 @@ export default function ComplainAssignConfigLanding() {
                         ))}
                     </tbody>
                   </table>
-                  {console.log("pageSize", pageSize)}
                 </div>
                 {complainAssignData?.data?.length > 0 && (
                   <PaginationTable
                     count={complainAssignData?.totalCount}
                     setPositionHandler={(pageNo, pageSize) => {
-                      commonGridData(pageNo, pageSize);
+                      commonGridData(pageNo, pageSize, values);
                     }}
                     paginationState={{
                       pageNo,

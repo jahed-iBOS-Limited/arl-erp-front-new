@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SwitchBtn = ({ checked, onChange }) => {
+const SwitchBtn = ({ checked, onChange, disabled }) => {
   const switchStyle = {
     position: 'relative',
     display: 'inline-block',
@@ -40,7 +40,7 @@ const SwitchBtn = ({ checked, onChange }) => {
 
   return (
     <label style={switchStyle}>
-      <input type="checkbox" style={inputStyle} checked={checked} onChange={onChange} />
+      <input  type="checkbox" style={inputStyle} checked={checked} onChange={onChange} disabled={disabled}/>
       <span style={sliderStyle}>
         <span style={sliderBeforeStyle}></span>
       </span>
