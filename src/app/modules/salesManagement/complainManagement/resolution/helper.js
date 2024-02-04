@@ -316,7 +316,7 @@ export const complainLandingPasignationByEmployeeId = async (
 export const respondentTypeDDL = [
   {
     value: 1,
-    label: "End User",
+    label: "Employee",
   },
   {
     value: 2,
@@ -325,6 +325,10 @@ export const respondentTypeDDL = [
   {
     value: 3,
     label: "Customer",
+  },
+  {
+    value: 4,
+    label: "End User",
   },
 ];
 export const getComplainByIdWidthOutModify = async (

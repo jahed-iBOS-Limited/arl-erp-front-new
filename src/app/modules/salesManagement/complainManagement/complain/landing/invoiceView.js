@@ -59,7 +59,7 @@ function InvoiceView({ clickRowData }) {
           touched,
           resetForm,
         }) => (
-          <ICustomCard title={"Complaint View "}>
+          <ICustomCard title={"Feedback View "}>
             {loading && <Loading />}
             <div
               style={{
@@ -105,6 +105,10 @@ function InvoiceView({ clickRowData }) {
                 <p>
                   <b>Designation/Relationship:</b>{" "}
                   {singleData?.designationOrRelationship}
+                </p>
+                <p>
+                  <b>Contact Source:</b>{" "}
+                  {singleData?.contactSourceName}
                 </p>
               </div>
               <div>
