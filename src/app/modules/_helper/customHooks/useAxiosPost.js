@@ -14,6 +14,7 @@ const useAxiosPost = () => {
     isToast,
     successMessage,
     errorMessage,
+    onErrorCB
   ) => {
     setLoading && setLoading(true);
     axios
@@ -32,6 +33,7 @@ const useAxiosPost = () => {
         setRes([]);
         setError(err);
         setLoading(false);
+        onErrorCB && onErrorCB(err);
         if (isToast) {
           toast.warn(
             err?.response?.data?.message || errorMessage || err?.response?.data?.[0]?.message || "Failed, try again"

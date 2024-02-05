@@ -195,14 +195,13 @@ export function PurchaseOrderViewTableRow({
                             <img
                               style={{
                                 width: "100px",
-                                height: "80px",
                               }}
                               src={`${APIUrl}/domain/Document/DownlloadFile?id=${selectedBusinessUnit?.imageId}`}
                               alt="logo"
                             />
                           ) : (
                             <img
-                              style={{ width: "150px", height: "100px" }}
+                              style={{ width: "150px" }}
                               class=""
                               src={imageObj[selectedBusinessUnit?.value]}
                               alt="img"
