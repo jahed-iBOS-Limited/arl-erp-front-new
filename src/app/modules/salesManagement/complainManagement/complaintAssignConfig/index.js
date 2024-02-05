@@ -53,7 +53,12 @@ export default function ComplainAssignConfigLanding() {
       (res) => {
         handleGetLandingData(values, pageNo, pageSize);
       },
-      true
+      true,
+      null,
+      null,
+      (err) => {
+        handleGetLandingData(values, pageNo, pageSize);
+      }
     );
   };
 
