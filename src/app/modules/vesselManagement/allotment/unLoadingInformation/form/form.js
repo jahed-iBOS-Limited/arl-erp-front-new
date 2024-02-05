@@ -10,7 +10,9 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from "../../../../../../_metronic/_partials/controls";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import {
+  _dateFormatter
+} from "../../../../_helper/_dateFormate";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
@@ -65,6 +67,15 @@ export default function _Form({
     }
     data["rowDataList"][index]["unLoadDetails"][i][name] = value;
     setDateWiseQuantity(data);
+  };
+
+  const minDate = () => {
+    let today = new Date();
+
+    let preDate = new Date();
+    preDate.setDate(today.getDate() - 1);
+
+    return preDate.toISOString().slice(0, 16);
   };
 
   return (
@@ -379,19 +390,20 @@ export default function _Form({
                                 name="unloadingComplete"
                                 type="datetime-local"
                                 disabled={viewType === "view"}
+                                min={minDate()}
                               />
                             </div>
                           )}
                           {/* { viewType === "edit" ||  && ( */}
-                            <div className="col-lg-12 mt-5">
-                              <h5>
-                                <b>Loaded Qty: </b>
-                                {pendingQty?.loadQty}, <b>Unloaded Qty: </b>
-                                {pendingQty?.unLoadQty},{" "}
-                                <b>Pending for Unload Qty: </b>
-                                {pendingQty?.pendingQty}
-                              </h5>
-                            </div>
+                          <div className="col-lg-12 mt-5">
+                            <h5>
+                              <b>Loaded Qty: </b>
+                              {pendingQty?.loadQty}, <b>Unloaded Qty: </b>
+                              {pendingQty?.unLoadQty},{" "}
+                              <b>Pending for Unload Qty: </b>
+                              {pendingQty?.pendingQty}
+                            </h5>
+                          </div>
                           {/* )} */}
                         </>
                       )}
@@ -464,7 +476,7 @@ export default function _Form({
                   {viewType === "view" ||
                   viewType === "modify" ||
                   viewType === "edit" ? (
-                    <div className="col-md-4">
+                    <div className="col-md-6">
                       <h5>Previous Unload Info</h5>
                       <table
                         id="table-to-xlsx"
