@@ -352,3 +352,20 @@ export const getComplainByIdWidthOutModify = async (
     setLoaing(false);
   }
 };
+
+
+export const feedbackReviewApi = async (payload, setLoading, cb) => {
+  setLoading(true);
+  try {
+    const res = await axios.post(
+      `/oms/CustomerPoint/UpdateComplainReviewFeedback`,
+      payload
+    );
+    cb && cb();
+    toast.success(res?.data?.message);
+    setLoading(false);
+  } catch (err) {
+    toast.error(err?.response?.data?.message);
+    setLoading(false);
+  }
+};
