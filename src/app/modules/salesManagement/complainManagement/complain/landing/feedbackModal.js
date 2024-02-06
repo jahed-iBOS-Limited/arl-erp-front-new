@@ -72,7 +72,6 @@ function FeedbackModalAfterClosing({ clickRowData, landingCB }) {
               <button
                 className="btn btn-primary mt-3"
                 onClick={() => {
-                  alert("Working")
                   const payload = {
                     complainId: clickRowData?.complainId,
                     reviewFeedbackCount: +review,
