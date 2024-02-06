@@ -402,6 +402,7 @@ const GridData = ({
           purchaseOrderTypeId = {currentItem?.purchaseOrderTypeId}
           orId={POorderType}
           isHiddenBackBtn={true}
+          formValues={values}
         />
       </IViewModal>
       <IViewModal
