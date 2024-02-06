@@ -37,6 +37,7 @@ export function PurchaseOrderViewTableRow({
   purchaseOrderTypeId,
   orId,
   isHiddenBackBtn,
+  formValues,
 }) {
   const [purchaseOrderReport, setPurchaseOrderReport] = useState("");
   const [isShowModal, setIsShowModal] = useState(false);
@@ -541,11 +542,11 @@ export function PurchaseOrderViewTableRow({
                       </div> */}
                       <div className="mt-3">
                         <p className="text-uppercase font-weight-bold">
-                          Total (In Word): {amountToWords(grandTotal)} tk only
-                        </p>
+                          Total (In Word): {amountToWords(grandTotal)} {formValues.purchaseOrg?.value === 12 ? purchaseOrderReport?.objHeaderDTO?.currencyCode : "TK"} only
+                        </p> 
                         <p style={{ wordWrap: "break-word" }}>
                           Other terms:{" "}
-                          {purchaseOrderReport?.objHeaderDTO?.otherTerms ||
+                          {purchaseOrderReport?.objHeaderDTO?.otherTerms || 
                             "NA"}
                         </p>
                         <p style={{ wordWrap: "break-word" }}>
@@ -610,7 +611,7 @@ export function PurchaseOrderViewTableRow({
                     </thead>
                     <tbody className="tableHead">
                       {purchaseOrderReport?.objEmpListDTO?.map((data, i) => (
-                        <tr>
+                        <tr key={`${i}-${data.groupName}`}>
                           <td className="text-center">{i + 1}</td>
                           <td>{data?.userNameDesignationName}</td>
                           <td>{data?.groupName}</td>
