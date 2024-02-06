@@ -11,11 +11,16 @@ import FeedbackModal from "../../resolution/landing/feedbackModal";
 import InvoiceView from "./invoiceView";
 import { saveColseComplainApi } from "../../resolution/helper";
 import { Rating } from "@material-ui/lab";
+import FeedbackModalAfterClosing from "./feedbackModal";
 const LandingTable = ({ obj }) => {
   const {
     profileData: { employeeId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const [isFeedbackModalShow, setIsFeedbackModalShow] = React.useState(false);
+  const [
+    isFeedbackModalShowAfterClosing,
+    setIsFeedbackModalShowAfterClosing,
+  ] = React.useState(false);
 
   const { gridData, setLoading, commonGridDataCB } = obj;
   const history = useHistory();
@@ -238,25 +243,51 @@ const LandingTable = ({ obj }) => {
                         </span>
                       )}
                       {item?.status === "Close" && (
-                        <span className="cursor-pointer">
-                          <OverlayTrigger
-                            overlay={
-                              <Tooltip id="cs-icon">
-                                <div>
-                                  <p className="text-center">
-                                    <Rating
-                                      name="pristine"
-                                      value={item?.closingReview || 0}
-                                    />
-                                  </p>
-                                  <p><span>Review Message: </span>{`${item?.closingReviewMessage}`}</p>
-                                </div>
-                              </Tooltip>
-                            }
-                          >
-                            <i class="fa fa-commenting" aria-hidden="true"></i>
-                          </OverlayTrigger>
-                        </span>
+                        <>
+                          {item?.reviewFeedbackMessage ? (
+                            <span className="cursor-pointer">
+                              <OverlayTrigger
+                                overlay={
+                                  <Tooltip id="cs-icon">
+                                    <div>
+                                      <p className="text-center">
+                                        <Rating
+                                          name="pristine"
+                                          value={item?.reviewFeedbackCount || 0}
+                                        />
+                                      </p>
+                                      <p>
+                                        <span>Review Message: </span>
+                                        {`${item?.reviewFeedbackMessage}`}
+                                      </p>
+                                    </div>
+                                  </Tooltip>
+                                }
+                              >
+                                <i class="fa fa-info-circle" aria-hidden="true"></i>
+                              </OverlayTrigger>
+                            </span>
+                          ) : (
+                            <span
+                              onClick={() => {
+                                setClickedRow({ ...item });
+                                setIsFeedbackModalShowAfterClosing(true);
+                              }}
+                              className="cursor-pointer"
+                            >
+                              <OverlayTrigger
+                                overlay={
+                                  <Tooltip id="cs-icon">FeedBack</Tooltip>
+                                }
+                              >
+                                <i
+                                  className="fa fa-commenting"
+                                  aria-hidden="true"
+                                ></i>
+                              </OverlayTrigger>
+                            </span>
+                          )}
+                        </>
                       )}
                     </div>
                   </td>
@@ -308,6 +339,27 @@ const LandingTable = ({ obj }) => {
                   setClickedRow({});
                   commonGridDataCB();
                 }
+              }}
+            />
+          </IViewModal>
+        </>
+      )}
+      {isFeedbackModalShowAfterClosing && (
+        <>
+          <IViewModal
+            show={isFeedbackModalShowAfterClosing}
+            onHide={() => {
+              setIsFeedbackModalShowAfterClosing(false);
+              setClickedRow({});
+            }}
+            modelSize={"sm"}
+          >
+            <FeedbackModalAfterClosing
+              clickRowData={clickedRow}
+              landingCB={() => {
+                setIsFeedbackModalShowAfterClosing(false);
+                setClickedRow({});
+                commonGridDataCB();
               }}
             />
           </IViewModal>
