@@ -189,7 +189,7 @@ function DelegateForm({ clickRowData, landingCB }) {
                   <b>Respondent Type:</b> {singleData?.respondentTypeName}
                 </p>
                 <p>
-                  <b>Respondent Name:</b> {singleData?.respondentName}
+                  <b>Respondent Name:</b> {singleData?.respondentType}
                 </p>
                 <p>
                   <b>Respondent Contact:</b> {singleData?.contactNo}
