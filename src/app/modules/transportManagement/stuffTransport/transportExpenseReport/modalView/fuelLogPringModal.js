@@ -16,7 +16,6 @@ export default function FuelLogPringModal({ item, values }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item, values]);
 
-  console.log("printData", printData);
 
   let grandTotalKM = 0;
   let grandFuelCash = 0;
@@ -139,10 +138,11 @@ export default function FuelLogPringModal({ item, values }) {
                       <td style={{ textAlign: "right" }}>
                         {" "}
                         {_formatMoney(
-                          item?.fuelCash +
-                            item?.numTollAmount +
-                            item?.daAmount +
-                            item?.otherExpanse
+                          item?.fuelCash ||
+                            0 + item?.numTollAmount ||
+                            0 + item?.daAmount ||
+                            0 + item?.otherExpanse ||
+                            0
                         )}
                       </td>
                       <td style={{ textAlign: "right" }}>
