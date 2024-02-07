@@ -61,7 +61,7 @@ export default function MedicalRegisterCreate() {
       `/mes/MesDDL/GetAllMedicineListDDL?BusinessunitId=${selectedBusinessUnit?.value}`,
     );
     getServiceReasonDDL(
-      `/mes/MSIL/GetServiceReasonDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
+      `/mes/MSIL/GetServiceReasonDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${0}`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
