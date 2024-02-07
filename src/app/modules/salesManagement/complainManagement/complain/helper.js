@@ -132,6 +132,7 @@ export const getComplainById = async (
         ? _dateFormatter(res?.data?.deliveryDate)
         : "",
       reference: res?.data?.reference || "",
+      respondentAddress: res?.data?.respondentAddress || ''
     });
   } catch (error) {
     setLoaing(false);

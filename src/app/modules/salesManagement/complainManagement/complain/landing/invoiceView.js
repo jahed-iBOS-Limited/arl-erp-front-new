@@ -102,6 +102,12 @@ function InvoiceView({ clickRowData }) {
                 <p>
                   <b>Respondent Contact:</b> {singleData?.contactNo}
                 </p>
+                {
+                  singleData?.respondentAddress &&  <p>
+                  <b>Respondent Address:</b> {singleData?.respondentAddress}
+                </p>
+                }
+               
                 <p>
                   <b>Designation/Relationship:</b>{" "}
                   {singleData?.designationOrRelationship}
