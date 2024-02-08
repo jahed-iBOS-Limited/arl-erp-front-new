@@ -37,6 +37,7 @@ export default function PartnerBasic() {
       `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerByID?accountId=${accid}&businessUnitId=${buid}&partnerID=${id}`
     );
     const { data, status } = res;
+    console.log({resData: data})
     if (status === 200 && data) {
       data.forEach((r) => {
         const singleObject = {
@@ -85,6 +86,7 @@ export default function PartnerBasic() {
         };
         setData(singleObject);
       });
+  
     }
   };
   // save business unit data to DB

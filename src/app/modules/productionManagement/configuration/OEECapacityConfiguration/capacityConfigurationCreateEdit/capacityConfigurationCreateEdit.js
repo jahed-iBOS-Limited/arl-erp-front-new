@@ -122,14 +122,14 @@ export default function CapacityConfigurationCreateEdit() {
       editCapacityConfiguration(
         `/mes/OeeProductWaste/EditCapacityConfiguration`,
         editingPayload,
-        null,
+        cb,
         true,
       );
     } else {
       saveCapacityConfiguration(
         `/mes/OeeProductWaste/CreateCapacityConfiguration`,
         savePayload,
-        null,
+        cb,
         true,
       );
     }

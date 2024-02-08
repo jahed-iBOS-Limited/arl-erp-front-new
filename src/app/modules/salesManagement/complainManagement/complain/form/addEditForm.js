@@ -21,6 +21,7 @@ const initData = {
   distributionChannel: "",
   product: "",
   issueDetails: "",
+  contactSource: "",
   // new add
   occurrenceTime: "",
   respondentBusinessUnit: "",
@@ -32,6 +33,7 @@ const initData = {
   challanOrPO: "",
   deliveryDate: "",
   reference: "",
+  respondentAddress: ''
 };
 
 function ComplainForm() {
@@ -88,6 +90,9 @@ function ComplainForm() {
       isActive: true,
       lastActionDateTime: new Date(),
       respondentType: values?.respondent || "",
+      contactSourceId: values?.contactSource?.value || 0, 
+      contactSourceName: values?.contactSource?.label || "",
+      respondentAddress: values?.respondentAddress || ''
     };
 
     if (edit) {

@@ -117,7 +117,7 @@ export const saveCommercialPayment = async (
         res?.data?.message ? res?.data?.message : "Submitted successfully"
       );
       cb();
-      getLandingDataForCommercialBill();
+      getLandingDataForCommercialBill && getLandingDataForCommercialBill();
     }
   } catch (error) {
     setDisabled(false);
@@ -141,11 +141,12 @@ export const CommercialCostingForTypeTwo = async (
   setDisabled,
   payload,
   cb,
-  getLandingDataForCommercialBill
+  getLandingDataForCommercialBill,
+  advanceAdjust
 ) => {
   try {
       const res = await axios.post(
-        `/imp/FormulaForCalculation/CommercialCostingForTypeTwo?accountId=${accId}&businessUnitId=${buId}&plantId=${plantId}&sbuId=${sbuId}&transactionDate=${_dateFormatter(new Date())}&costId=${costId}&businessPartnerId=${supplierId}&totalAmount=${totalAmount || 0}&typeId=${2}&actionById=${actionById}&SupplierBillRef=${supplierBillRef}`,
+        `/imp/FormulaForCalculation/CommercialCostingForTypeTwo?accountId=${accId}&businessUnitId=${buId}&plantId=${plantId}&sbuId=${sbuId}&transactionDate=${_dateFormatter(new Date())}&costId=${costId}&businessPartnerId=${supplierId}&totalAmount=${totalAmount < advanceAdjust ? 0 : totalAmount - advanceAdjust || 0}&typeId=${2}&actionById=${actionById}&SupplierBillRef=${supplierBillRef}&numAdvanceAdjust=${totalAmount < advanceAdjust ? totalAmount : advanceAdjust || 0}`,
         payload
       );
       setDisabled(false);
@@ -153,7 +154,7 @@ export const CommercialCostingForTypeTwo = async (
         res?.data?.message ? res?.data?.message : "Submitted successfully"
       );
       cb();
-      getLandingDataForCommercialBill();
+      getLandingDataForCommercialBill && getLandingDataForCommercialBill();
   } catch (error) {
     setDisabled(false);
     // toast.error(error.response.data.message);
@@ -227,13 +228,14 @@ export const getCommercialBreakdownForAdvanceAndBill = async(
   }
 }
 
-export const createCommercialBreakdownForAdvance= async(payload, setIsLoading)=>{
+export const createCommercialBreakdownForAdvance= async(payload, setIsLoading, cb)=>{
   try{
     setIsLoading(true)
     const res= await axios.post("/imp/AllCharge/CreateCommercialBreakdownForAdvance", payload)
     if(res.status === 200){
       setIsLoading(false)
       toast.success(res?.data?.message)
+      cb && cb()
     }
   }catch(err){
     setIsLoading(false)

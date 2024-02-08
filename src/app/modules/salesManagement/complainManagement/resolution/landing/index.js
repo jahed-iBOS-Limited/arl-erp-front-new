@@ -89,7 +89,7 @@ const ResolutionLanding = () => {
 
   const title =
     window.location.pathname === "/self-service/my-complaint"
-      ? "My Complaint"
+      ? "My Feedback"
       : window.location.pathname ===
         "/sales-management/complainmanagement/Delegate"
       ? "Delegate"

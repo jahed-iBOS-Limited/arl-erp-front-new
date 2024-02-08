@@ -257,6 +257,7 @@ const ServiceBreakDownViewModal = ({
                       <ExpansionPanelDetails>
                         <AddAdvance
                           bill={bill}
+                          setBill={setBill}
                           advanceBill={advanceBill}
                           setAdvanceBill={setAdvanceBill}
                           accountId={profileData?.accountId}
@@ -266,6 +267,7 @@ const ServiceBreakDownViewModal = ({
                           setSupplierName={setSupplierName}
                           setExpanded={setExpanded}
                           state={state}
+                          referenceId={referenceId}
                         />
                       </ExpansionPanelDetails>
                     </ExpansionPanel>
@@ -296,6 +298,7 @@ const ServiceBreakDownViewModal = ({
                           referenceId={referenceId}
                           supplierId={data?.supplierId}
                           setAdvanceBill={setAdvanceBill}
+                          advanceBill={advanceBill}
                         />
                       </ExpansionPanelDetails>
                     </ExpansionPanel>

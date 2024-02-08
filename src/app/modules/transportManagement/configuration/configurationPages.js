@@ -37,6 +37,7 @@ import FuelRateConfigCreateAndEdit from "./fuleRateConfig/create";
 import FuelRateConfig from "./fuleRateConfig/landing";
 import ShippingPointTransportZoneForm from "./shippingPointTransportZone/form/addEditForm";
 import ShippingPointTransportZoneLanding from "./shippingPointTransportZone/landing/form";
+import VehicleAllowanceSetup from "./vehicleAllowanceSetup/Landing";
 
 export function ConfigurationPages() {
   const userRole = useSelector(
@@ -242,6 +243,12 @@ export function ConfigurationPages() {
       <ContentRoute
         path="/transport-management/configuration/allowancesetup"
         component={AllowanceSetUpLanding}
+      />
+
+      {/* Vehicle allowance setup */}
+      <ContentRoute
+        path="/transport-management/configuration/vehicleallowancesetup"
+        component={VehicleAllowanceSetup}
       />
 
       {/* Partner wise rent setup */}

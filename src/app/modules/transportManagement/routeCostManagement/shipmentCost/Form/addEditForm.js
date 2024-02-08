@@ -75,6 +75,8 @@ export default function ShipmentCostForm() {
   const [dicrementNetPayable, setDicrementNetPayable] = useState(0);
   const [advanceAmount, setAdvanceAmount] = useState(0);
   const location = useLocation();
+  const landingData = location?.state?.singleData;
+
   // get user profile data from store
   const storeData = useSelector((state) => {
     return {
@@ -103,14 +105,15 @@ export default function ShipmentCostForm() {
         id,
         setEntryStatus
       );
-      getShipmentByID(
-        id,
-        setSingleData,
+      getShipmentByID({
+        shipmentId: id,
+        setter: setSingleData,
         setRowDto,
         setDisabled,
         setAttachmentGrid,
-        isReportTypeComplete
-      );
+        isReportTypeComplete,
+        landingData,
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
@@ -215,6 +218,7 @@ export default function ShipmentCostForm() {
           objRowList: row,
           objCreateShipmentCostAttachment: attachmentGrid,
         };
+
         if (isReportTypeComplete) {
           //reportTypeComplete true
           if (attachmentGrid?.length > 0) {
@@ -323,6 +327,7 @@ export default function ShipmentCostForm() {
   const commonUpdate = ({ values, setFieldValue }) => {
     const result = calculativeFuelCostAndFuelCostLtrAndMileageAllowance({
       values,
+      landingData,
     });
     setFieldValue("totalFuelCost", result.totalFuelCost.toFixed(2));
     setFieldValue("totalFuelCostLtr", result.totalFuelCostLtr.toFixed(2));
@@ -336,7 +341,6 @@ export default function ShipmentCostForm() {
         // standardCost: result.mileageAllowance.toFixed(2),
         actualCost: result.mileageAllowance.toFixed(2),
       };
-     
     }
     let foundFuel = rowDto?.findIndex(
       (item) => item?.transportRouteCostComponentId === 47
@@ -347,7 +351,6 @@ export default function ShipmentCostForm() {
         // standardCost: result.totalFuelCost.toFixed(2),
         actualCost: result.totalFuelCost.toFixed(2),
       };
-    
     }
     setRowDto([...copyRowDto]);
   };

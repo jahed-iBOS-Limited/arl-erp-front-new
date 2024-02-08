@@ -1,20 +1,20 @@
 import { Formik } from "formik";
 import React, { useEffect } from "react";
 import { shallowEqual, useSelector } from "react-redux";
+import { useParams } from "react-router";
 import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
 import ICustomCard from "../../../../_helper/_customCard";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import RowTable from "./rowTable";
-import { useParams } from "react-router";
-import { toast } from "react-toastify";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import Loading from "./../../../../_helper/_loading";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import useAxiosPut from "../../../../_helper/customHooks/useAxiosPut";
+import Loading from "./../../../../_helper/_loading";
+import RowTable from "./rowTable";
 const initData = {
   date: _todayDate(),
   businessUnit: "",
@@ -22,6 +22,7 @@ const initData = {
   district: "",
   policeStation: "",
   territory: "",
+   group: "",
 };
 export const validationSchema = Yup.object().shape({
   businessUnit: Yup.object().shape({
@@ -70,6 +71,7 @@ function Form() {
   const [, setCompetitorPriceById, loadingGetBy] = useAxiosGet();
   const [, postCreateCompetitorPrice, postLoading] = useAxiosPost();
   const [, putCompetitorPrice, putLoading] = useAxiosPut();
+  const [groupList, getGroupList] = useAxiosGet();
   const formikRef = React.useRef(null);
 
   useEffect(() => {
@@ -81,6 +83,7 @@ function Form() {
       setBusinessUnitDDL(
         `/domain/BusinessUnitDomain/GetBusinessUnitDDL?AccountId=${accId}&BusinessUnitId=0`
       );
+      getGroupList(`/oms/CompetitorChannel/GetCompetitorGroupDDL`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
@@ -244,7 +247,7 @@ function Form() {
   const viewHandler = (values) => {
     setRowDto([]);
     setCompetitorProductsRowList(
-      `/oms/CompetitorPrice/GetCompetitorProductsRowList?channelId=${values?.channel?.value}`,
+      `/oms/CompetitorPrice/GetCompetitorProductsRowList?channelId=${values?.channel?.value}&groupName=${values?.group?.label||""}&businessUnitId=${values?.businessUnit?.value}`,
       (resData) => {
         setRowDto(resData);
       }
@@ -321,6 +324,10 @@ function Form() {
                       setTerritoryDDL(
                         `/oms/TerritoryInfo/GetTerritoryList?AccountId=${accId}&BusinessUnitId=${valueOption?.value}`
                       );
+                      viewHandler({
+                        ...values,
+                        businessUnit: valueOption,
+                      });
                     }}
                     placeholder='Select Business Unit'
                     errors={errors}
@@ -344,7 +351,26 @@ function Form() {
                     placeholder='Select Channel'
                     errors={errors}
                     touched={touched}
-                    isDisabled={id}
+                    isDisabled={id || !values?.businessUnit}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="group"
+                    options={groupList}
+                    value={values?.group}
+                    label="Group"
+                    onChange={(valueOption) => {
+                      setFieldValue("group", valueOption || "");
+                      viewHandler({
+                        ...values,
+                        group: valueOption,
+                      });
+                    }}
+                    placeholder="Select Group"
+                    errors={errors}
+                    touched={touched}
+                    isDisabled={id || !values?.businessUnit}
                   />
                 </div>
                 <div className='col-lg-3'>
@@ -396,6 +422,7 @@ function Form() {
                     touched={touched}
                   />
                 </div>
+                
                 {!id && (
                   <div className='mt-3'>
                     <button

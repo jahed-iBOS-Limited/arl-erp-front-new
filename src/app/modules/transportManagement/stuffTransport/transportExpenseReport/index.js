@@ -62,7 +62,7 @@ export default function TransportExpenseReport() {
     } else if (reportTypeId === 3) {
       requestUrl = `/mes/VehicleLog/GetDriverAndTripInfo?partName=driverWiseExpanse&intDriverId=${values?.driver?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`;
     } else if (reportTypeId === 4) {
-      requestUrl = `/mes/VehicleLog/GetDriverAndTripInfo?partName=driverDateWiseTripInfo&intDriverId=0&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`;
+      requestUrl = `/mes/VehicleLog/GetDriverAndTripInfo?partName=driverDateWiseTripInfo&intDriverId=${values?.driver?.value || 0}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`;
     } else if (reportTypeId === 5) {
       requestUrl = `/mes/VehicleLog/GetDriverAndTripInfo?partName=VehicleWiseFuelCost&intDriverId=${values?.vehicle?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`;
     } else if (reportTypeId === 6) {
@@ -111,7 +111,7 @@ export default function TransportExpenseReport() {
                         { value: 1, label: "Fuel Station Summary" },
                         { value: 2, label: "Fuel Station Purchase Info" },
                         { value: 3, label: "Driver Wise Expense" },
-                        { value: 4, label: "Driver Trip Info" },
+                        { value: 4, label: "Driver Trip Details" },
                         { value: 5, label: "Vehicle Wise Fuel Cost" },
                         { value: 6, label: "Employee Wise Fuel Cost" },
                       ]}
@@ -169,7 +169,7 @@ export default function TransportExpenseReport() {
                       />
                     </div>
                   ) : null}
-                  {[3, 4]?.includes(values?.reportType?.value) ? (
+                  {[3]?.includes(values?.reportType?.value) ? (
                     <div className="col-lg-3">
                       <NewSelect
                         name="driver"

@@ -88,6 +88,27 @@ export function getGridData(
   );
 }
 
+//Call get grid data api for InventoryAdjustment
+export function getGridDataInventoryAdjustment(
+  fromDate,
+  toDate,
+  grId,
+  accId,
+  buId,
+  sbuId,
+  plId,
+  wrId,
+  PageNo,
+  pageSize,
+  search
+) {
+  const searchPath = search ? `searchTerm=${search}&` : "";
+  const pageNo = search ? 0 : PageNo;
+  return axios.get(
+    `/wms/InventoryTransaction/GetInventoryAdjustmentPagination?${searchPath}InventoryTransectionGroupId=${grId}&accountId=${accId}&fromDate=${fromDate}&toDate=${toDate}&businessUnitId=${buId}&sbuId=${sbuId || 0}&plantId=${plId || 0}&warehouse=${wrId || 0}&status=${true}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
+  );
+}
+
 //Call single data api
 export function getDataById(id) {
   return axios.get(

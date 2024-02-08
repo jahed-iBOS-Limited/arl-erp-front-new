@@ -117,7 +117,7 @@ export default function _Form({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itemTypeList]);
 
-
+console.log({product})
   return (
     <>
       <Formik
@@ -142,6 +142,7 @@ export default function _Form({
           isValid,
         }) => (
           <>
+          {console.log({editableValues: values})}
             <Form className="form form-label-right">
               <div className="form-group row global-form">
                 <div className="col-lg-4">

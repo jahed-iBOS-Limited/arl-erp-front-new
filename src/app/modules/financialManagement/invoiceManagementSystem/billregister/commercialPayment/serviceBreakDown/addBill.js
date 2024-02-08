@@ -1,26 +1,26 @@
 /* eslint-disable eqeqeq */
-import React, { useState } from "react";
-import { Formik, Form, Field } from "formik";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import { Field, Form, Formik } from "formik";
 import { DropzoneDialogBase } from "material-ui-dropzone";
+import React, { useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
-import InputField from "../../../../../_helper/_inputField";
 import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  Input,
+  ModalProgressBar,
 } from "../../../../../../../_metronic/_partials/controls";
-import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
-import { empAttachment_action } from "../../../../../humanCapitalManagement/humanResource/employeeInformation/helper";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import FormikError from "./../../../../../_helper/_formikError";
-import { Input } from "../../../../../../../_metronic/_partials/controls";
-import { CommercialCostingForTypeTwo, getCommercialBreakdownForAdvanceAndBill } from "../helper";
-import Loading from "../../../../../_helper/_loading";
 import { _dateFormatter } from "../../../../../_helper/_dateFormate";
 import IView from "../../../../../_helper/_helperIcons/_view";
+import InputField from "../../../../../_helper/_inputField";
+import Loading from "../../../../../_helper/_loading";
+import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
+import { _todayDate } from "../../../../../_helper/_todayDate";
+import { empAttachment_action } from "../../../../../humanCapitalManagement/humanResource/employeeInformation/helper";
+import { CommercialCostingForTypeTwo, getCommercialBreakdownForAdvanceAndBill } from "../helper";
+import FormikError from "./../../../../../_helper/_formikError";
 
 const initData = {
   billNo: "",
@@ -54,6 +54,7 @@ export default function AddBill({
   referenceId,
   supplierId,
   setAdvanceBill,
+  advanceBill,
 }) {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -111,6 +112,7 @@ export default function AddBill({
           bookedAmount: data?.numContractedAmount || 0,
           totalAmount: +values?.numAmount || 0,
           vat: +values?.vatAmount || 0,
+          numAdvanceAdjust: values?.numAmount < values?.numAdvanceAdjust ?  values?.numAmount : values?.numAdvanceAdjust || 0,
         },
       ],
       imageString: {
@@ -131,7 +133,9 @@ export default function AddBill({
       values?.numAmount,
       setIsLoading,
       payload,
-      cb
+      cb,
+      null,
+      values?.numAdvanceAdjust
     );
     // createCommercialBreakdownForBill(payload, setIsLoading);
     // if (bill) {
@@ -146,12 +150,17 @@ export default function AddBill({
   //   return ()=>{setBill("")};
   // }, [setBill]);
 console.log("bill", bill)
+
+let totalBillAmountWithVat = 0;
+let totalVatAmount = 0;
+let totalAdvanceAdjust = 0;
+
   return (
     <>
       <Formik
         enableReinitialize={true}
         // initialValues={bill ? bill : initData}
-        initialValues={initData}
+        initialValues={{...initData, numAdvanceAdjust: advanceBill[0]?.remainAdvance || 0}}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
@@ -269,11 +278,12 @@ console.log("bill", bill)
                     <div className="col-lg-3">
                       <label>Advance Adjust</label>
                       <InputField
-                        value={values?.numAdvanceAdjust}
+                        value={values?.numAdvanceAdjust || ""}
                         name="numAdvanceAdjust"
                         placeholder="Advance Adjust"
                         type="number"
                         // disabled={bill?.billAndAdvanceId}
+                        disabled
                       />
                     </div>
                     <div className="col-lg-3">
@@ -356,6 +366,10 @@ console.log("bill", bill)
                       <tbody>
                         {bill?.length > 0 &&
                           bill?.map((item, index) => {
+                            totalBillAmountWithVat += +item?.numAmount || 0
+                            totalVatAmount += +item?.vatAmount || 0
+                            totalAdvanceAdjust += +item?.numAdvanceAdjust || 0
+
                             return (
                               <>
                                 <tr key={index}>
@@ -411,10 +425,18 @@ console.log("bill", bill)
                                     )}
                                   </td>
                                 </tr>
-
                               </>
                             );
                           })}
+                           <tr>
+                            <td className="text-center font-weight-bold" colSpan="3">
+                              Total
+                            </td>
+                            <td className="text-right font-weight-bold">{totalBillAmountWithVat}</td>
+                            <td className="text-right font-weight-bold">{totalVatAmount}</td>
+                            <td className="text-right font-weight-bold">{totalAdvanceAdjust}</td>
+                            <td colSpan="2"></td>
+                          </tr>
                       </tbody>
                     </table>
                   </div>

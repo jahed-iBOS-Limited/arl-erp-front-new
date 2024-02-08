@@ -325,7 +325,7 @@ export default function _Form({
                   }}
                 >
                   <b>Pay to Driver: </b>
-                  {_fixedPoint(netPayable || 0)}
+                  {_fixedPoint(netPayable || 0, true, 0)}
                 </p>
                 <div className="row global-form">
                   <div className="col-lg-12">
@@ -731,7 +731,10 @@ export default function _Form({
                             if (componentId === 47) {
                               standardCost = +values?.totalFuelCost || 0;
                               actualCost = +values?.totalFuelCost || 0;
+                              // actualCost = +values?.totalFuelCost || 0;
                             }
+                            console.log("standard", standardCost);
+                            console.log("actual", actualCost);
                             let obj = {
                               transportRouteCostComponentId:
                                 values.costComponent.value,
@@ -740,6 +743,7 @@ export default function _Form({
                               standardCost: standardCost,
                               actualCost: actualCost,
                             };
+                            console.log("obj", obj);
                             setter(obj, () => {
                               setFieldValue("costComponent", "");
                             });

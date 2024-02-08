@@ -8,6 +8,7 @@ import IForm from "./../../../../../_helper/_form";
 import Loading from "./../../../../../_helper/_loading";
 import { _todayDate } from "./../../../../../_helper/_todayDate";
 import Form from "./form";
+import useAxiosPost from "../../../../../_helper/customHooks/useAxiosPost";
 
 const initData = {
   id: undefined,
@@ -29,21 +30,51 @@ export default function ItemTradeOfferSetupForm() {
   const { id } = useParams();
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
+  const [uploadedImage, setUploadedImage] = useState([]);
+  const [, postData, loading] = useAxiosPost();
   // get user profile data from store
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
   const saveHandler = async (values, cb) => {
-    if (values && profileData?.accountId && selectedBusinessUnit?.value) {
+    const offerTypeId = values?.offerType?.value;
+    if (offerTypeId === 1) {
       if (rowDto?.length === 0) return toast.warn("Minimum one item add");
       CreateTradeOfferConfiguration(rowDto, setDisabled, cb);
-    } else {
-      console.log(values);
+    } else if (offerTypeId === 2) {
+      const payload = {
+        head: {
+          promotionId: 0,
+          promotionCode: "",
+          promotionTypeId: values?.offerType?.value,
+          promotionName: values?.offerType?.label,
+          promotionStartDateTime: values?.fromDate,
+          promotionEndDateTime: values?.toDate,
+          remarks: values?.remarks,
+          accountId: profileData?.accountId,
+          businessUnitId: selectedBusinessUnit?.value,
+          status: 0,
+          actionBy: profileData?.userId,
+          userName: profileData?.userName,
+          channelId: values?.distributionChannel?.value,
+          attachmentLink: uploadedImage[0]?.id,
+        },
+        row: rowDto,
+      };
+
+      postData(
+        `/oms/TradeOffer/CreateTradeOfferConfigurationByRate`,
+        payload,
+        () => {},
+        true
+      );
     }
   };
 
   const [objProps, setObjprops] = useState({});
+
+  const loader = isDisabled || loading;
 
   return (
     <IForm
@@ -51,7 +82,7 @@ export default function ItemTradeOfferSetupForm() {
       getProps={setObjprops}
       isDisabled={isDisabled}
     >
-      {isDisabled && <Loading />}
+      {loader && <Loading />}
       <Form
         {...objProps}
         initData={initData}
@@ -60,6 +91,7 @@ export default function ItemTradeOfferSetupForm() {
         setRowDto={setRowDto}
         rowDto={rowDto}
         setDisabled={setDisabled}
+        setUploadedImage={setUploadedImage}
       />
     </IForm>
   );

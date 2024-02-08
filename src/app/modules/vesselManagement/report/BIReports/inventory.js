@@ -36,11 +36,33 @@ const types = [
   { value: 8, label: "Item Vs Warehouse" },
   { value: 9, label: "Item Vs Mother Vessel" },
   { value: 10, label: "Buffer Stock vs Delivery" },
+  { value: 11, label: "Warehouse vs Item Details" },
 ];
+
+const initData = {
+  type: "",
+  plant: "",
+  shippoint: { value: 0, label: "All" },
+  motherVessel: { value: 0, label: "All" },
+  lighterVessel: "",
+  viewType: "",
+  fromDate: _todayDate(),
+  toDate: _todayDate(),
+  wh: { value: 0, label: "All" },
+  intG2GItemId: { value: 0, label: "All" },
+  redioType: "badc",
+};
 
 const InventoryG2GReportRDLC = () => {
   const groupId = `e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`;
-  const reportId = `e6aa2fa0-33e0-4457-ac7c-a535717e326e`;
+  const reportId = (values) => {
+    const reportTypeId = values?.type?.value;
+    const other = `e6aa2fa0-33e0-4457-ac7c-a535717e326e`;
+    const warehouseVSItemDetails = `ca4323a4-7fa9-43c8-b4b0-ad715faf4d6b`;
+
+    return reportTypeId === 11 ? warehouseVSItemDetails : other;
+  };
+
   const formikRef = React.useRef(null);
   const [showReport, setShowReport] = useState(false);
   const [motherVesselDDL, setMotherVesselDDL] = useState([]);
@@ -52,22 +74,15 @@ const InventoryG2GReportRDLC = () => {
   const [portDDL, setPortDDL] = useState([]);
   const [wareHouseDDL, setwareHouseDDL] = useState([]);
   const [shipPointDDL, setShipPointDDL] = useState([]);
-  const initData = {
-    type: "",
-    plant: "",
-    shippoint: { value: 0, label: "All" },
-    motherVessel: { value: 0, label: "All" },
-    lighterVessel: "",
-    viewType: "",
-    fromDate: _todayDate(),
-    toDate: _todayDate(),
-    wh: { value: 0, label: "All" },
-    intG2GItemId: { value: 0, label: "All" },
-    redioType: "badc",
-  };
+
+  const {
+    profileData: { accountId: accId, userId },
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => state?.authData, shallowEqual);
 
   const parameterValues = (values) => {
-    return [
+    const reportTypeId = values?.type?.value;
+    const other = [
       { name: "intpartid", value: `${values?.type?.value}` },
       { name: "intshippingPointid", value: `${values?.shippoint?.value}` },
       { name: "intMotherVesselId", value: `${values?.motherVessel?.value}` },
@@ -76,12 +91,16 @@ const InventoryG2GReportRDLC = () => {
       { name: "fromdate", value: `${values?.fromDate}` },
       { name: "todate", value: `${values?.toDate}` },
     ];
-  };
+    const warehouseVSItemDetails = [
+      { name: "intUnit", value: `${buId}` },
+      { name: "dteFromDate", value: `${values?.fromDate}` },
+      { name: "dteToDate", value: `${values?.toDate}` },
+      { name: "intWarehouseId", value: `${values?.wh?.value}` },
+      { name: "intG2GItemId", value: `${values?.item?.value || 0}` },
+    ];
 
-  const {
-    profileData: { accountId: accId, userId },
-    selectedBusinessUnit: { value: buId },
-  } = useSelector((state) => state?.authData, shallowEqual);
+    return reportTypeId === 11 ? warehouseVSItemDetails : other;
+  };
 
   const getData = (values, searchTerm = "", _pageNo = 0, _pageSize = 1500) => {
     const typeId = values?.type?.value;
@@ -139,7 +158,7 @@ const InventoryG2GReportRDLC = () => {
     }
   }, [accId, buId]);
   const radioStyle = { height: "25px", width: "25px" };
-  
+
   return (
     <>
       <Formik
@@ -148,19 +167,19 @@ const InventoryG2GReportRDLC = () => {
         innerRef={formikRef}
       >
         {({ values, setFieldValue, errors, touched }) => (
-          <ICustomCard title='Inventory Report'>
+          <ICustomCard title="Inventory Report">
             {loading && <Loading />}
-            <form className='form form-label-right'>
-              <div className='form-group row global-form'>
+            <form className="form form-label-right">
+              <div className="form-group row global-form">
                 {[10].includes(values?.type?.value) && (
                   <>
-                    <div className='col-12 mt-3 d-flex'>
-                      <div className='d-flex align-items-center mr-5'>
+                    <div className="col-12 mt-3 d-flex">
+                      <div className="d-flex align-items-center mr-5">
                         <input
                           style={radioStyle}
-                          type='radio'
-                          name='redioType'
-                          id='badc'
+                          type="radio"
+                          name="redioType"
+                          id="badc"
                           value={values?.redioType}
                           checked={values?.redioType === "badc"}
                           onChange={() => {
@@ -170,16 +189,16 @@ const InventoryG2GReportRDLC = () => {
                             setRowData([]);
                           }}
                         />
-                        <label htmlFor='badc' className='ml-1'>
+                        <label htmlFor="badc" className="ml-1">
                           <h3>BADC</h3>
                         </label>
                       </div>
-                      <div className='d-flex align-items-center ml-5'>
+                      <div className="d-flex align-items-center ml-5">
                         <input
                           style={radioStyle}
-                          type='radio'
-                          name='redioType'
-                          id='bcic'
+                          type="radio"
+                          name="redioType"
+                          id="bcic"
                           value={values?.redioType}
                           checked={values?.redioType === "bcic"}
                           onChange={() => {
@@ -189,18 +208,18 @@ const InventoryG2GReportRDLC = () => {
                             setRowData([]);
                           }}
                         />
-                        <label htmlFor='bcic' className='ml-1'>
+                        <label htmlFor="bcic" className="ml-1">
                           <h3>BCIC</h3>
                         </label>
                       </div>
                     </div>
                   </>
                 )}
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <NewSelect
-                    name='type'
+                    name="type"
                     options={types}
-                    label='Type'
+                    label="Type"
                     value={values?.type}
                     onChange={(valueOption) => {
                       setShowReport(false);
@@ -214,16 +233,16 @@ const InventoryG2GReportRDLC = () => {
                         getGodownDDL(buId, 73244, setGodownDDL);
                       }
                     }}
-                    placeholder='Type'
+                    placeholder="Type"
                   />
                 </div>
-                {[5, 6, 7, 8, 9].includes(values?.type?.value) && (
+                {[5, 6, 7, 8, 9, 11].includes(values?.type?.value) && (
                   <>
-                    <div className='col-lg-3'>
+                    <div className="col-lg-3">
                       <NewSelect
-                        name='plant'
+                        name="plant"
                         options={plantDDL || []}
-                        label='Plant'
+                        label="Plant"
                         value={values?.plant}
                         onChange={(valueOption) => {
                           setShowReport(false);
@@ -239,22 +258,23 @@ const InventoryG2GReportRDLC = () => {
                             setwareHouseDDL
                           );
                         }}
-                        placeholder='Plant'
+                        placeholder="Plant"
                       />
                     </div>
-                    <div className='col-lg-3'>
+                    <div className="col-lg-3">
                       <NewSelect
-                        name='wh'
+                        name="wh"
                         options={
                           [{ value: 0, label: "All" }, ...wareHouseDDL] || []
                         }
                         value={values?.wh}
-                        label='WareHouse'
+                        label="WareHouse"
                         onChange={(valueOption) => {
                           setFieldValue("wh", valueOption);
                           setRowData([]);
+                          setShowReport(false);
                         }}
-                        placeholder='WareHouse'
+                        placeholder="WareHouse"
                         errors={errors}
                         touched={touched}
                       />
@@ -334,21 +354,21 @@ const InventoryG2GReportRDLC = () => {
                   </>
                 )} */}
                 {values?.type?.value === 3 ? (
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <NewSelect
-                      name='viewType'
+                      name="viewType"
                       options={[
                         { value: 1, label: "Summary" },
                         { value: 2, label: "Daily Unload Summary" },
                       ]}
-                      label='View Type'
+                      label="View Type"
                       value={values?.viewType}
                       onChange={(valueOption) => {
                         setShowReport(false);
                         setFieldValue("viewType", valueOption);
                         setRowData([]);
                       }}
-                      placeholder='View Type'
+                      placeholder="View Type"
                     />
                   </div>
                 ) : null}
@@ -356,32 +376,34 @@ const InventoryG2GReportRDLC = () => {
                 {/* if type Buffer Stock vs Delivery */}
                 {[10].includes(values?.type?.value) && (
                   <>
-                    <div className='col-lg-3'>
+                    <div className="col-lg-3">
                       <NewSelect
-                        name='shipPoint'
+                        name="shipPoint"
                         options={[{ value: 0, label: "All" }, ...shipPointDDL]}
                         value={values?.shipPoint}
-                        label='ShipPoint'
+                        label="ShipPoint"
                         onChange={(valueOption) => {
                           setFieldValue("shipPoint", valueOption);
                           setRowData([]);
                         }}
-                        placeholder='ShipPoint'
+                        placeholder="ShipPoint"
                       />
                     </div>
-                    <div className='col-lg-3'>
+                    <div className="col-lg-3">
                       <NewSelect
-                        name='bufferName'
-                        options={[
-                          {
-                            value: 0,
-                            label: "All",
-                          },
-                          ...godownDDL
-                        ] || []}
+                        name="bufferName"
+                        options={
+                          [
+                            {
+                              value: 0,
+                              label: "All",
+                            },
+                            ...godownDDL,
+                          ] || []
+                        }
                         value={values?.bufferName}
-                        label='Buffer Name'
-                        placeholder='Buffer Name'
+                        label="Buffer Name"
+                        placeholder="Buffer Name"
                         onChange={(e) => {
                           setFieldValue("bufferName", e);
                           setRowData([]);
@@ -393,12 +415,12 @@ const InventoryG2GReportRDLC = () => {
 
                 {[6, 7, 8, 9, 10]?.includes(values?.type?.value) && (
                   <>
-                    <div className='col-lg-3'>
+                    <div className="col-lg-3">
                       <NewSelect
-                        name='port'
+                        name="port"
                         options={portDDL || []}
                         value={values?.port}
-                        label='Port'
+                        label="Port"
                         onChange={(valueOption) => {
                           setFieldValue("port", valueOption);
                           setFieldValue("motherVessel", "");
@@ -409,40 +431,40 @@ const InventoryG2GReportRDLC = () => {
                             setMotherVesselDDL
                           );
                         }}
-                        placeholder='Port'
+                        placeholder="Port"
                         errors={errors}
                         touched={touched}
                       />
                     </div>
 
-                    <div className='col-lg-3'>
+                    <div className="col-lg-3">
                       <NewSelect
-                        name='motherVessel'
+                        name="motherVessel"
                         options={[
                           { value: 0, label: "All" },
                           ...motherVesselDDL,
                         ]}
                         value={values?.motherVessel}
-                        label='Mother Vessel'
+                        label="Mother Vessel"
                         onChange={(valueOption) => {
                           setFieldValue("motherVessel", valueOption);
                         }}
-                        placeholder='Mother Vessel'
+                        placeholder="Mother Vessel"
                       />
                     </div>
                   </>
                 )}
 
-                {[8, 9].includes(values?.type?.value) && (
+                {[8, 9, 11].includes(values?.type?.value) && (
                   <>
-                    <div className='col-lg-3'>
+                    <div className="col-lg-3">
                       <label>Item</label>
                       <SearchAsyncSelect
                         selectedValue={values?.intG2GItemId}
                         handleChange={(valueOption) => {
                           setFieldValue("intG2GItemId", valueOption);
                         }}
-                        placeholder='Search Item'
+                        placeholder="Search Item"
                         loadOptions={async (v) => {
                           const searchValue = v.trim();
                           if (searchValue?.length < 3)
@@ -475,7 +497,7 @@ const InventoryG2GReportRDLC = () => {
                 <IButton
                   colSize={"col-lg-1"}
                   onClick={() => {
-                    if ([1, 3].includes(values?.type?.value)) {
+                    if ([1, 3, 11].includes(values?.type?.value)) {
                       setShowReport(false);
                       setShowReport(true);
                     } else if (
@@ -487,9 +509,9 @@ const InventoryG2GReportRDLC = () => {
                 />
               </div>
             </form>
-            {showReport && [1, 3].includes(values?.type?.value) && (
+            {showReport && [1, 3, 11].includes(values?.type?.value) && (
               <PowerBIReport
-                reportId={reportId}
+                reportId={reportId(values)}
                 groupId={groupId}
                 parameterValues={parameterValues(values)}
                 parameterPanel={false}

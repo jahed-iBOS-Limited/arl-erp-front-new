@@ -70,7 +70,7 @@ export default function ItemAnalytics() {
   };
   const generateExcel = (values, pageSize) => {
   
-    getLandingApiCall(values, pageNo, 1500, "",insertDataInExcel); //page size will be 1500 ensure by hussain vai
+    getLandingApiCall(values, pageNo, pageSize, "",insertDataInExcel); 
     
   };
   useEffect(() => {

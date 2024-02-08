@@ -1,23 +1,29 @@
-import { Formik, Form } from "formik";
-import React, { useRef, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
+import axios from "axios";
+import { Form, Formik } from "formik";
+import React, { useRef } from "react";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import { shallowEqual, useSelector } from "react-redux";
+import ReactToPrint from "react-to-print";
 import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from "../../../../../../_metronic/_partials/controls";
-import { getAccountPayableAnalysisData } from "../helper";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
+import { _todayDate } from "../../../../_helper/_todayDate";
 import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import AccountPayableAgingTable from "./table/accPayableAgain";
 import AccountPayableAnalysisTable from "./table/accPayableAnalysis";
-import ReactToPrint from "react-to-print";
 
 const initData = {
+  payableType: "",
+  supplier: "",
   reportDate: _todayDate(),
 };
 
@@ -27,17 +33,18 @@ export function AccountPayableAnalysis() {
     shallowEqual
   );
 
-  const [rowDto, setRowDto] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [rowDto, getRowDto, rowDtoLoader, setRowDto] = useAxiosGet();
 
   const getLadingData = (values) => {
-    getAccountPayableAnalysisData(
-      profileData?.accountId,
-      selectedBusinessUnit?.value,
-      values?.reportDate,
-      setLoading,
-      setRowDto
-    );
+    if (values?.payableType?.value === 1) {
+      getRowDto(
+        `/fino/BalanceSheet/GetAccountsReceivableAgingReport?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&ReportDate=${values?.reportDate}&ChannelId=0&ReportType=2`
+      );
+    } else {
+      getRowDto(
+        `/fino/BalanceSheet/GetPayableAgingReport?businessUnitId=${selectedBusinessUnit?.value}&businessPartnerId=${values?.supplier?.value || 0}`
+      );
+    }
   };
 
   const printRef = useRef();
@@ -53,7 +60,7 @@ export function AccountPayableAnalysis() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title="Payable Analysis">
+              <CardHeader title="Payable Report">
                 <CardHeaderToolbar>
                   <div
                     className={
@@ -62,7 +69,9 @@ export function AccountPayableAnalysis() {
                         : "d-none"
                     }
                   >
-                    <ReactToPrint
+                   {
+                    values?.payableType === 1 && (
+                      <ReactToPrint
                       pageStyle={
                         "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
                       }
@@ -74,14 +83,28 @@ export function AccountPayableAnalysis() {
                       )}
                       content={() => printRef.current}
                     />
+                    )
+                   }
 
                     <div>
                       <ReactHTMLTableToExcel
                         id="test-table-xls-button-att-reports"
                         className="btn btn-primary"
-                        table={"table-to-xlsx"}
-                        filename="Account Payable Analysis"
-                        sheet="Account Payable Analysis"
+                        table={
+                          values?.payableType?.value === 1
+                            ? "table-to-xlsx"
+                            : "table-to-xlsx2"
+                        }
+                        filename={
+                          values?.payableType?.value === 1
+                            ? "Account Payable Analysis"
+                            : "Account Payable Aging"
+                        }
+                        sheet={
+                          values?.payableType?.value === 1
+                            ? "Account Payable Analysis"
+                            : "Account Payable Aging"
+                        }
                         buttonText="Export Excel"
                       />
                     </div>
@@ -91,23 +114,69 @@ export function AccountPayableAnalysis() {
 
               <CardBody>
                 <Form className="form form-label-right">
-                  {loading && <Loading />}
+                  {rowDtoLoader && <Loading />}
                   <div className="row global-form">
-                    <div className="col-lg-2">
-                      <InputField
-                        value={values?.reportDate}
-                        label="Report Date"
-                        name="reportDate"
-                        type="date"
-                        onChange={(e) => {
-                          setFieldValue("reportDate", e?.target?.value);
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="payableType"
+                        options={[
+                          { label: "Payable Analysis", value: 1 },
+                          { label: "Payable Aging", value: 2 },
+                        ]}
+                        onChange={(valueOption) => {
+                          setRowDto([]);
+                          setFieldValue("payableType", valueOption);
                         }}
+                        value={values?.payableType}
+                        label="Payable Type"
                       />
                     </div>
+                    {values?.payableType?.value === 2 && (
+                      <div className="col-lg-3">
+                        <label>Supplier Name</label>
+                        <SearchAsyncSelect
+                          selectedValue={values?.supplier}
+                          handleChange={(valueOption) => {
+                            setFieldValue("supplier", valueOption);
+                          }}
+                          loadOptions={(v) => {
+                            if (v.length < 3) return [];
+                            return axios
+                              .get(
+                                `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${
+                                  profileData?.accountId
+                                }&UnitId=${
+                                  selectedBusinessUnit?.value
+                                }&SBUId=${0}`
+                              )
+                              .then((res) => {
+                                const updateList = res?.data?.map((item) => ({
+                                  ...item,
+                                }));
+                                return updateList;
+                              });
+                          }}
+                        />
+                      </div>
+                    )}
+                    {values?.payableType?.value === 1 && (
+                      <div className="col-lg-2">
+                        <InputField
+                          value={values?.reportDate}
+                          label="Report Date"
+                          name="reportDate"
+                          type="date"
+                          onChange={(e) => {
+                            setFieldValue("reportDate", e?.target?.value);
+                          }}
+                        />
+                      </div>
+                    )}
 
                     <div className="col-lg-1 text-right">
                       <ButtonStyleOne
                         label="View"
+                        disabled={!values?.payableType}
                         onClick={() => {
                           getLadingData(values);
                         }}
@@ -117,11 +186,20 @@ export function AccountPayableAnalysis() {
                   </div>
                 </Form>
 
-                <AccountPayableAnalysisTable
-                  rowDto={rowDto}
-                  values={values}
-                  printRef={printRef}
-                />
+                {[1]?.includes(values?.payableType?.value) && (
+                  <AccountPayableAnalysisTable
+                    rowDto={rowDto}
+                    values={values}
+                    printRef={printRef}
+                  />
+                )}
+                {[2]?.includes(values?.payableType?.value) && (
+                  <AccountPayableAgingTable
+                    rowDto={rowDto}
+                    values={values}
+                    printRef={printRef}
+                  />
+                )}
               </CardBody>
             </Card>
           </>

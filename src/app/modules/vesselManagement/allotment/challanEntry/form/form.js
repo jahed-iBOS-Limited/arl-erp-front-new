@@ -139,7 +139,7 @@ export default function _Form({
       <Formik
         enableReinitialize={true}
         validationSchema={validationSchema}
-        initialValues={initData}
+        initialValues={{ ...initData, ...state }}
         onSubmit={(values, { resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
@@ -200,11 +200,17 @@ export default function _Form({
               </CardHeader>
               <CardBody>
                 <Form className="form form-label-right">
-                  <div className="global-form">
+                  <h3
+                    className="text-center mb-0 py-2"
+                    style={{ backgroundColor: "#ffff8d" }}
+                  >
+                    Selected Mother Vessel: {values?.motherVessel?.label}
+                  </h3>
+                  <div className="global-form mt-0">
                     <div className="row">
                       {buId === 94 && (
                         <BADCBCICForm
-                          values={{ ...values, ...state }}
+                          values={{ ...values }}
                           setFieldValue={setFieldValue}
                           disabled={state?.type}
                           onChange={onChangeHandler}
@@ -261,6 +267,7 @@ export default function _Form({
                         obj={{
                           values,
                           setFieldValue,
+                          allElement: false,
                           onChange: (fieldName, allValues) => {
                             onChangeHandler(
                               fieldName,
@@ -371,7 +378,8 @@ export default function _Form({
                           errors={errors}
                           touched={touched}
                           isDisabled={
-                            disableHandler() || !isTransportBill?.hasTransport
+                            disableHandler()
+                            // || !isTransportBill?.hasTransport
                           }
                         />
                       </div>
@@ -411,9 +419,9 @@ export default function _Form({
                             errors={errors}
                             touched={touched}
                             isDisabled={
-                              disableHandler() ||
-                              !isTransportBill?.hasTransport ||
-                              values?.logisticBy?.value === 3
+                              disableHandler()
+                              //  || !isTransportBill?.hasTransport ||
+                              //   values?.logisticBy?.value === 3
                             }
                           />
                         </div>
@@ -489,7 +497,16 @@ export default function _Form({
                           isDisabled={disableHandler() || !values?.motherVessel}
                           onChange={(e) => {
                             onChangeHandler("godown", values, e, setFieldValue);
+                            const partnerId =
+                              buId === 94
+                                ? state?.type === "badc"
+                                  ? 73244
+                                  : 73245
+                                : values?.organization?.value;
                             if (e) {
+                              getRestQty(
+                                `/tms/LigterLoadUnload/GetTotalQuantityForChallan?businessUnitId=${buId}&businessPartnerId=${partnerId}&shipToPartnerId=${e?.value}&motherVesselId=${values?.motherVessel?.value}&portId=${values?.port?.value}`
+                              );
                               GetGodownAndOtherLabourRates(
                                 2,
                                 { ...values, godown: e },
@@ -628,7 +645,28 @@ export default function _Form({
                           </div>
                         </>
                       )}
-                      <div className="col-lg-12 mt-4">
+                      <div className="col-lg-12"></div>
+                      <div className="col-lg-4 mt-4">
+                        <h5>
+                          Rest Allotment Qty (Ton):{" "}
+                          {restQty?.restAllotmentQntTon || 0}
+                        </h5>
+                        <h5>
+                          Rest Allotment Qty (Bag):{" "}
+                          {restQty?.restAllotmentQntBag || 0}
+                        </h5>
+                      </div>
+                      <div className="col-lg-4 mt-4">
+                        <h5>
+                          Rest Vessel Program Qty (Ton):{" "}
+                          {restQty?.restMVesselProgramQntTon || 0}
+                        </h5>
+                        <h5>
+                          Rest Vessel Program Qty (Bag):{" "}
+                          {restQty?.restMVesselProgramQntBag || 0}
+                        </h5>
+                      </div>
+                      <div className="col-lg-4 mt-4">
                         <button
                           className="btn btn-primary"
                           type="button"
@@ -638,7 +676,6 @@ export default function _Form({
                             !values?.godown
                           }
                           onClick={() => {
-                            setIsResetModalShow(true);
                             const partnerId =
                               buId === 94
                                 ? state?.type === "badc"
@@ -646,11 +683,14 @@ export default function _Form({
                                   : 73245
                                 : values?.organization?.value;
                             getRestQty(
-                              `/tms/LigterLoadUnload/GetTotalQuantityForChallan?businessUnitId=${buId}&businessPartnerId=${partnerId}&shipToPartnerId=${values?.godown?.value}&motherVesselId=${values?.motherVessel?.value}&portId=${values?.port?.value}`
+                              `/tms/LigterLoadUnload/GetTotalQuantityForChallan?businessUnitId=${buId}&businessPartnerId=${partnerId}&shipToPartnerId=${values?.godown?.value}&motherVesselId=${values?.motherVessel?.value}&portId=${values?.port?.value}`,
+                              () => {
+                                setIsResetModalShow(true);
+                              }
                             );
                           }}
                         >
-                          View Rest Qty
+                          View Other Qty
                         </button>
                       </div>
                     </div>
