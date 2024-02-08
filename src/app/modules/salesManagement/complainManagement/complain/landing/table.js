@@ -61,7 +61,7 @@ const LandingTable = ({ obj }) => {
                   <td>{item?.complainCategoryName}</td>
                   <td>{_dateFormatter(item?.requestDateTime)}</td>
                   <td>{item?.respondentTypeName}</td>
-                  <td>{item?.respondentName}</td>
+                  <td>{item?.respondentType}</td>
                   <td>{item?.actionByName}</td>
                   <td>{item?.respondentBusinessUnitCode}</td>
                   <td>{_dateFormatter(item?.lastActionDateTime)}</td>
