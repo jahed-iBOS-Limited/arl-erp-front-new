@@ -152,39 +152,39 @@ export default function FuelLogPringModal({ item, values }) {
                         )}
                       </td>
                     </tr>
-                    <tr>
-                      <td colSpan={2} className="text-center">
-                        <strong> Total</strong>
-                      </td>
-                      <td style={{ textAlign: "right" }}> {grandTotalKM} </td>
-                      <td style={{ textAlign: "right" }}> {grandFuelCash} </td>
-                      <td style={{ textAlign: "right" }}>
-                        {_formatMoney(grandFuelCredit)}
-                      </td>
-                      <td style={{ textAlign: "right" }}>
-                        {" "}
-                        {_formatMoney(grandTollAmount)}
-                      </td>
-                      <td style={{ textAlign: "right" }}>
-                        {" "}
-                        {_formatMoney(grandDaAmount)}
-                      </td>
-                      <td style={{ textAlign: "right" }}>
-                        {" "}
-                        {_formatMoney(grandOtherExpanse)}
-                      </td>
-                      <td style={{ textAlign: "right" }}>
-                        {" "}
-                        {_formatMoney(grandTotalAmount)}
-                      </td>
-                      <td style={{ textAlign: "right" }}>
-                        {" "}
-                        {_formatMoney(grandKMPL)}
-                      </td>
-                    </tr>
                   </>
                 );
               })}
+              <tr>
+                <td colSpan={2} className="text-center">
+                  <strong> Total</strong>
+                </td>
+                <td style={{ textAlign: "right" }}> {grandTotalKM} </td>
+                <td style={{ textAlign: "right" }}> {grandFuelCash} </td>
+                <td style={{ textAlign: "right" }}>
+                  {_formatMoney(grandFuelCredit)}
+                </td>
+                <td style={{ textAlign: "right" }}>
+                  {" "}
+                  {_formatMoney(grandTollAmount)}
+                </td>
+                <td style={{ textAlign: "right" }}>
+                  {" "}
+                  {_formatMoney(grandDaAmount)}
+                </td>
+                <td style={{ textAlign: "right" }}>
+                  {" "}
+                  {_formatMoney(grandOtherExpanse)}
+                </td>
+                <td style={{ textAlign: "right" }}>
+                  {" "}
+                  {_formatMoney(grandTotalAmount)}
+                </td>
+                <td style={{ textAlign: "right" }}>
+                  {" "}
+                  {_formatMoney(grandKMPL)}
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>

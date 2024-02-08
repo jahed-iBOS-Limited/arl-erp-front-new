@@ -542,7 +542,7 @@ export function PurchaseOrderViewTableRow({
                       </div> */}
                       <div className="mt-3">
                         <p className="text-uppercase font-weight-bold">
-                          Total (In Word): {amountToWords(grandTotal)} {formValues.purchaseOrg?.value === 12 ? purchaseOrderReport?.objHeaderDTO?.currencyCode : "TK"} only
+                          Total (In Word): {amountToWords(grandTotal)} {formValues?.purchaseOrg?.value === 12 ? purchaseOrderReport?.objHeaderDTO?.currencyCode : "TK"} only
                         </p> 
                         <p style={{ wordWrap: "break-word" }}>
                           Other terms:{" "}
