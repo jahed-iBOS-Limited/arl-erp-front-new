@@ -768,10 +768,20 @@ export default function _Form({
                       </p>
                     </div>
                     <div className="col-lg-3">
-                      <Field
+                      {/* <Field
                         value={values.numGrossWeight}
                         name="numGrossWeight"
                         component={Input}
+                        placeholder="Gross Weight (Kg)"
+                        label="Gross Weight (Kg)"
+                        type="number"
+                        // disabled={rowDto?.length > 1 || isEdit}
+                        min="0"
+                      /> */}
+                      <InputField
+                        value={values.numGrossWeight}
+                        name="numGrossWeight"
+                        // component={Input}
                         placeholder="Gross Weight (Kg)"
                         label="Gross Weight (Kg)"
                         type="number"

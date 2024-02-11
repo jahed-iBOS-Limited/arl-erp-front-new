@@ -204,7 +204,9 @@ function BillregisterLanding() {
                     <div className="col-lg-3">
                       <NewSelect
                         name="plant"
-                        options={plantDDL || []}
+                        options={
+                          [{ value: 0, label: "All" }, ...plantDDL] || []
+                        }
                         value={values?.plant}
                         label="Select Plant"
                         onChange={(valueOption) => {
