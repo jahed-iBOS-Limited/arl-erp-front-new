@@ -150,16 +150,16 @@ const dataSetForCreate = (
     lcNumber: LcNo,
     shipmentId: shipmentId,
     shipmentCode: shipmentCode,
-    paidById: values?.paidBy?.value,
+    paidById: values?.paidBy?.value||0,
     bankId: values?.bank?.value || 0,
-    customId: values?.custom?.value,
+    customId: values?.custom?.value||0,
     paymentInstrumentBy: values?.instrumentType?.value || 0,
-    boEnumber: values?.boeNo,
+    boEnumber: values?.boeNo||0,
     boEdate: values?.boeDate,
     paymentDate: values?.paymentDate,
     fineBdt: values?.fineBDT || 0,
     aitexemptionBdt: values?.AITExemptionBDT || 0,
-    exRate: values?.exRate,
+    exRate: values?.exRate||0,
     docProcessFee: values?.docProcessFee || 0,
     cnfIncomeTax: values?.CnFIncomeTax || 0,
     cnfVat: values?.cnfVat || 0,
@@ -169,7 +169,7 @@ const dataSetForCreate = (
     grandTotal: values?.grandTotal || 0,
     invoiceAmount: values?.invoiceAmount || 0,
     cnFpartnerId: values?.cnfAgencyDDL.value,
-    customsPartnerId: values?.custom?.value,
+    customsPartnerId: values?.custom?.value || 0,
     numAssesmentValueBdt: +values?.assessmentValue || 0,
     numCustomDuty: +values?.customDuty || 0,
     numRd: +values?.regulatoryDuty || 0,
@@ -353,24 +353,47 @@ export const GetHSCodeInfoForCustomDuty = async (
 };
 
 export const validationSchema = Yup.object().shape({
-  boeNo: Yup.string().required("BoE No is required"),
-  exRate: Yup.number()
+  is78Guarantee:Yup.boolean(),
+  guarantee78Amount:Yup.number().when("is78Guarantee",{
+    is:true,
+    then:Yup.number()
+    .required("Guarantee78 Amount is required")
+    .positive("Guarantee78 Amount Must be positive"),
+    otherwise:Yup.number()
+  }),
+  boeNo: Yup.string().when("is78Guarantee",{
+    is:false,
+    then:Yup.string().required("BoE No is required"),
+    otherwise: Yup.string(),
+  }), 
+  exRate: Yup.number().when("is78Guarantee",{
+    is:false,
+    then:Yup.number()
     .required("Exchange Rate is required")
     .positive("Exchange Rate Must be positive"),
+    otherwise:Yup.number()
+  }),
   // invoiceAmountBDT: Yup.string().required("Invoice Amount BDT is required"),
   cnfAgencyDDL: Yup.object().shape({
     value: Yup.string().required("CnF Agency is required"),
   }),
 
-  custom: Yup.object().shape({
-    label: Yup.string().required("Custom is required"),
-    value: Yup.string().required("Custom is required"),
+  custom: Yup.object().when("is78Guarantee",{
+    is:false,
+    then:Yup.object().shape({
+      label: Yup.string().required("Custom is required"),
+      value: Yup.string().required("Custom is required"),
+    }),
+    otherwise:Yup.object()
   }),
-  paidBy: Yup.object().shape({
-    label: Yup.string().required("Paid By is required"),
-    value: Yup.string().required("Paid By is required"),
+  paidBy: Yup.object().when("is78Guarantee",{
+    is:false,
+    then:Yup.object().shape({
+      label: Yup.string().required("Paid By is required"),
+      value: Yup.string().required("Paid By is required"),
+    }),
+    otherwise:Yup.object()
   }),
-
   assessmentValue: Yup.number()
     .positive("Assessment Value Must be a Positive Number")
     .nullable(),
