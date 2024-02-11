@@ -60,7 +60,7 @@ function InvoiceView({ clickRowData }) {
           <>
             {loading && <Loading />}
             <div className="d-flex justify-content-between pt-4 pb-2 pr-5 mb-2 border-bottom">
-              <h4>Feedback</h4>
+              <h4>Feedback Details</h4>
               <h6>
                 Status:{" "}
                 <span
