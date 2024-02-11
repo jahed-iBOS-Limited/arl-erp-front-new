@@ -257,6 +257,7 @@ function TransportZoneRateReport({ title }) {
                         <th>Dropping Charge</th>
                         <th>Dropping Charge less 6ton</th>
                         <th>Subsidy Rate</th>
+                        <th>Total Rate</th>
                         {/* <th className="printSectionNone">Action</th> */}
                       </tr>
                     </thead>
@@ -274,7 +275,7 @@ function TransportZoneRateReport({ title }) {
                           </td>
                           <td>
                             <div className="pl-2">
-                              {item?.transferRate || 0}
+                              {item?.factoryToGhatTransferRate || 0}
                             </div>
                           </td>
                           <td>
@@ -307,6 +308,11 @@ function TransportZoneRateReport({ title }) {
                           <td>
                             <div className="pl-2 text-right">
                               {_formatMoney(item?.subsidyCostRate)}
+                            </div>
+                          </td>
+                          <td>
+                            <div className="pl-2 text-right">
+                              {_formatMoney(item?.totalRate)}
                             </div>
                           </td>
                           {/* <td
