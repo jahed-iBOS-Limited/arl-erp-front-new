@@ -22,7 +22,7 @@ const initData = {
   district: "",
   policeStation: "",
   territory: "",
-   group: "",
+  group: "",
 };
 export const validationSchema = Yup.object().shape({
   businessUnit: Yup.object().shape({
@@ -71,7 +71,7 @@ function Form() {
   const [, setCompetitorPriceById, loadingGetBy] = useAxiosGet();
   const [, postCreateCompetitorPrice, postLoading] = useAxiosPost();
   const [, putCompetitorPrice, putLoading] = useAxiosPut();
-  const [groupList, getGroupList] = useAxiosGet();
+  const [groupList, getGroupList, groupLoading, setGroupList] = useAxiosGet();
   const formikRef = React.useRef(null);
 
   useEffect(() => {
@@ -83,8 +83,10 @@ function Form() {
       setBusinessUnitDDL(
         `/domain/BusinessUnitDomain/GetBusinessUnitDDL?AccountId=${accId}&BusinessUnitId=0`
       );
-      getGroupList(`/oms/CompetitorChannel/GetCompetitorGroupDDL`);
     }
+    getGroupList(
+      `/oms/CompetitorChannel/GetCompetitorGroupDDL?businessUnitId=${buId}`
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
 
@@ -247,7 +249,11 @@ function Form() {
   const viewHandler = (values) => {
     setRowDto([]);
     setCompetitorProductsRowList(
-      `/oms/CompetitorPrice/GetCompetitorProductsRowList?channelId=${values?.channel?.value}&groupName=${values?.group?.label||""}&businessUnitId=${values?.businessUnit?.value}`,
+      `/oms/CompetitorPrice/GetCompetitorProductsRowList?channelId=${
+        values?.channel?.value
+      }&groupName=${
+        values?.group?.label === "All" ? "" : values?.group?.label || ""
+      }&businessUnitId=${values?.businessUnit?.value}`,
       (resData) => {
         setRowDto(resData);
       }
@@ -287,12 +293,14 @@ function Form() {
               resetForm(initData);
             }}
           >
-            {(postLoading || rowListLoading || loadingGetBy || putLoading) && (
-              <Loading />
-            )}
+            {(postLoading ||
+              rowListLoading ||
+              loadingGetBy ||
+              putLoading ||
+              groupLoading) && <Loading />}
             <form>
-              <div className='row global-form'>
-                <div className='col-lg-3'>
+              <div className="row global-form">
+                <div className="col-lg-3">
                   <label>
                     <b
                       style={{
@@ -305,42 +313,47 @@ function Form() {
                   </label>
                   <InputField
                     value={values?.date}
-                    placeholder='date'
-                    name='date'
-                    type='date'
+                    placeholder="date"
+                    name="date"
+                    type="date"
                     disabled={id}
                   />
                 </div>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <NewSelect
                     isRequiredSymbol={true}
-                    name='businessUnit'
+                    name="businessUnit"
                     options={businessUnitDDL || []}
                     value={values?.businessUnit}
-                    label='Business Unit'
+                    label="Business Unit"
                     onChange={(valueOption) => {
                       setFieldValue("businessUnit", valueOption || "");
                       setFieldValue("territory", "");
+                      setFieldValue("group", "");
+                      setGroupList([]);
                       setTerritoryDDL(
                         `/oms/TerritoryInfo/GetTerritoryList?AccountId=${accId}&BusinessUnitId=${valueOption?.value}`
+                      );
+                      getGroupList(
+                        `/oms/CompetitorChannel/GetCompetitorGroupDDL?businessUnitId=${valueOption?.value}`
                       );
                       viewHandler({
                         ...values,
                         businessUnit: valueOption,
                       });
                     }}
-                    placeholder='Select Business Unit'
+                    placeholder="Select Business Unit"
                     errors={errors}
                     touched={touched}
                   />
                 </div>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <NewSelect
                     isRequiredSymbol={true}
-                    name='channel'
+                    name="channel"
                     options={channelList || []}
                     value={values?.channel}
-                    label='Channel'
+                    label="Channel"
                     onChange={(valueOption) => {
                       setFieldValue("channel", valueOption || "");
                       viewHandler({
@@ -348,12 +361,79 @@ function Form() {
                         channel: valueOption,
                       });
                     }}
-                    placeholder='Select Channel'
+                    placeholder="Select Channel"
                     errors={errors}
                     touched={touched}
                     isDisabled={id || !values?.businessUnit}
                   />
                 </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    isRequiredSymbol={true}
+                    name="district"
+                    options={districtDDL || []}
+                    value={values?.district}
+                    label="District"
+                    onChange={(valueOption) => {
+                      setFieldValue("district", valueOption || "");
+                      setFieldValue("policeStation", "");
+                      setPoliceStationDDL(
+                        `/oms/TerritoryInfo/GetThanaDDL?countryId=${18}&divisionId=${0}&districtId=${
+                          valueOption?.value
+                        }`
+                      );
+                    }}
+                    placeholder="Select District"
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3 ">
+                  <NewSelect
+                    name="policeStation"
+                    options={policeStationDDL || []}
+                    value={values?.policeStation}
+                    label="Police Station"
+                    onChange={(valueOption) => {
+                      setFieldValue("policeStation", valueOption);
+                    }}
+                    placeholder="Select Police Station"
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3 ">
+                  <NewSelect
+                    name="territory"
+                    options={territoryDDL || []}
+                    value={values?.territory}
+                    label="Territory"
+                    onChange={(valueOption) => {
+                      setFieldValue("territory", valueOption);
+                    }}
+                    placeholder="Select Territory"
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+
+                {!id && (
+                  <div className="mt-3">
+                    <button
+                      className="btn btn-primary mt-3"
+                      onClick={() => {
+                        viewHandler(values);
+                      }}
+                      type="button"
+                      disabled={!values?.channel}
+                    >
+                      View
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              <div>
                 <div className="col-lg-3">
                   <NewSelect
                     name="group"
@@ -373,70 +453,6 @@ function Form() {
                     isDisabled={id || !values?.businessUnit}
                   />
                 </div>
-                <div className='col-lg-3'>
-                  <NewSelect
-                    isRequiredSymbol={true}
-                    name='district'
-                    options={districtDDL || []}
-                    value={values?.district}
-                    label='District'
-                    onChange={(valueOption) => {
-                      setFieldValue("district", valueOption || "");
-                      setFieldValue("policeStation", "");
-                      setPoliceStationDDL(
-                        `/oms/TerritoryInfo/GetThanaDDL?countryId=${18}&divisionId=${0}&districtId=${
-                          valueOption?.value
-                        }`
-                      );
-                    }}
-                    placeholder='Select District'
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                <div className='col-lg-3 '>
-                  <NewSelect
-                    name='policeStation'
-                    options={policeStationDDL || []}
-                    value={values?.policeStation}
-                    label='Police Station'
-                    onChange={(valueOption) => {
-                      setFieldValue("policeStation", valueOption);
-                    }}
-                    placeholder='Select Police Station'
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                <div className='col-lg-3 '>
-                  <NewSelect
-                    name='territory'
-                    options={territoryDDL || []}
-                    value={values?.territory}
-                    label='Territory'
-                    onChange={(valueOption) => {
-                      setFieldValue("territory", valueOption);
-                    }}
-                    placeholder='Select Territory'
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                
-                {!id && (
-                  <div className='mt-3'>
-                    <button
-                      className='btn btn-primary mt-3'
-                      onClick={() => {
-                        viewHandler(values);
-                      }}
-                      type='button'
-                      disabled={!values?.channel}
-                    >
-                      View
-                    </button>
-                  </div>
-                )}
               </div>
 
               <RowTable

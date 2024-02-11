@@ -7,9 +7,7 @@ import ICustomCard from "../../../../_helper/_customCard";
 import Loading from "../../../../_helper/_loading";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import { _todayDate } from "../../../../_helper/_todayDate";
-import {
-  getComplainByIdWidthOutModify
-} from "../../resolution/helper";
+import { getComplainByIdWidthOutModify } from "../../resolution/helper";
 export const validationSchema = Yup.object().shape({});
 
 function InvoiceView({ clickRowData }) {
@@ -59,12 +57,32 @@ function InvoiceView({ clickRowData }) {
           touched,
           resetForm,
         }) => (
-          <ICustomCard title={"Feedback View "}>
+          <>
             {loading && <Loading />}
+            <div className="d-flex justify-content-between pt-4 pb-2 pr-5 mb-2 border-bottom">
+              <h4>Feedback Details</h4>
+              <h6>
+                Status:{" "}
+                <span
+                  style={{
+                    color:
+                      clickRowData?.status === "Open"
+                        ? "red"
+                        : clickRowData?.status === "Delegate"
+                        ? "blue"
+                        : clickRowData?.status === "Investigate"
+                        ? "orrage"
+                        : "green",
+                  }}
+                >
+                  {clickRowData?.status}
+                </span>
+              </h6>
+            </div>
             <div
               style={{
                 display: "flex",
-                gap: '10px',
+                gap: "10px",
                 justifyContent: "space-between",
               }}
             >
@@ -102,19 +120,18 @@ function InvoiceView({ clickRowData }) {
                 <p>
                   <b>Respondent Contact:</b> {singleData?.contactNo}
                 </p>
-                {
-                  singleData?.respondentAddress &&  <p>
-                  <b>Respondent Address:</b> {singleData?.respondentAddress}
-                </p>
-                }
-               
+                {singleData?.respondentAddress && (
+                  <p>
+                    <b>Respondent Address:</b> {singleData?.respondentAddress}
+                  </p>
+                )}
+
                 <p>
                   <b>Designation/Relationship:</b>{" "}
                   {singleData?.designationOrRelationship}
                 </p>
                 <p>
-                  <b>Contact Source:</b>{" "}
-                  {singleData?.contactSourceName}
+                  <b>Contact Source:</b> {singleData?.contactSourceName}
                 </p>
               </div>
               <div>
@@ -159,8 +176,8 @@ function InvoiceView({ clickRowData }) {
             </div>
 
             {rowDto?.length > 0 && (
-              <div className='table-responsive'>
-                <table className='table table-striped table-bordered global-table'>
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered global-table">
                   <thead>
                     <tr>
                       <th>SL</th>
@@ -174,7 +191,7 @@ function InvoiceView({ clickRowData }) {
                   <tbody>
                     {rowDto?.map((item, index) => (
                       <tr key={index}>
-                        <td className='text-center'> {index + 1}</td>
+                        <td className="text-center"> {index + 1}</td>
                         <td>
                           {item?.investigationDateTime &&
                             moment(item?.investigationDateTime).format(
@@ -185,7 +202,7 @@ function InvoiceView({ clickRowData }) {
                         <td>{item?.rootCause}</td>
                         <td>{item?.correctiveAction}</td>
                         <td>
-                          <div className='d-flex align-items-center justify-content-center'>
+                          <div className="d-flex align-items-center justify-content-center">
                             {item?.attachment && (
                               <span
                                 onClick={() => {
@@ -197,8 +214,8 @@ function InvoiceView({ clickRowData }) {
                                 }}
                               >
                                 <i
-                                  class='fa fa-paperclip pointer'
-                                  aria-hidden='true'
+                                  class="fa fa-paperclip pointer"
+                                  aria-hidden="true"
                                 ></i>
                               </span>
                             )}
@@ -210,7 +227,7 @@ function InvoiceView({ clickRowData }) {
                 </table>
               </div>
             )}
-          </ICustomCard>
+          </>
         )}
       </Formik>
     </>
