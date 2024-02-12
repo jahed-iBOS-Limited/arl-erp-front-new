@@ -37,6 +37,8 @@ const initData = {
   localRevenueRate: "",
   freightCostRate: "",
   freightCostRateBdt: "",
+  lighteringRate:"",
+  baggageNstorageRate:"",
 };
 
 const THeaders = [
@@ -49,6 +51,8 @@ const THeaders = [
   "Origin",
   "Lot No",
   "Local Revenue Rate",
+  "Lightering Rate",
+  "Baggage & Storage Rate",
   "Action",
 ];
 
@@ -164,6 +168,8 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
         strOrganizationName: values?.organization?.label,
         dteProgramDate: values?.programDate,
         localRevenueRate: +values?.localRevenueRate || 0,
+        lighteringRate: +values?.lighteringRate || 0,
+        baggageNstorageRate: +values?.baggageNstorageRate || 0,
       };
       setRowData([...rowData, newRow]);
       cb();
@@ -464,6 +470,40 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
                       </div>
                       <div className="col-lg-3">
                         <InputField
+                          label="Lightering Rate"
+                          placeholder="Lightering Rate"
+                          value={values?.lighteringRate}
+                          name="lighteringRate"
+                          onChange={(e) => {
+                            if (+e.target.value < 0) {
+                              return toast.warning("Rate must be positive");
+                            }
+                            setFieldValue("lighteringRate", e.target.value);
+                            setFieldValue("localRevenueRate", (+e.target.value || 0) + (+values?.baggageNstorageRate || 0));
+                          }}
+                          type="number"
+                          disabled={disableHandler(values)}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <InputField
+                          label="Baggage & Storage Rate"
+                          placeholder="Baggage & Storage Rate"
+                          value={values?.baggageNstorageRate}
+                          name="baggageNstorageRate"
+                          onChange={(e) => {
+                            if (+e.target.value < 0) {
+                              return toast.warning("Rate must be positive");
+                            }
+                            setFieldValue("baggageNstorageRate", e.target.value);
+                            setFieldValue("localRevenueRate", (+e.target.value || 0) + (+values?.lighteringRate || 0));
+                          }}
+                          type="number"
+                          disabled={disableHandler(values)}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <InputField
                           label="Local Revenue Rate"
                           placeholder="Local Revenue Rate"
                           value={values?.localRevenueRate}
@@ -527,6 +567,12 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
                         <td className="text-center">{item?.strLotNumber}</td>
                         <td className="text-center">
                           {item?.localRevenueRate}
+                        </td>
+                        <td className="text-center">
+                          {item?.lighteringRate}
+                        </td>
+                        <td className="text-center">
+                          {item?.baggageNstorageRate}
                         </td>
                         <td className="text-center">
                           {formType !== "view" && (
