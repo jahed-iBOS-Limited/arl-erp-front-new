@@ -110,7 +110,7 @@ export default function AddBill({
         {
           costId: data?.referenceId,
           bookedAmount: data?.numContractedAmount || 0,
-          totalAmount: +values?.numAmount || 0,
+          totalAmount: values?.numAmount < values?.numAdvanceAdjust ? 0 : values?.numAmount - values?.numAdvanceAdjust || 0,
           vat: +values?.vatAmount || 0,
           numAdvanceAdjust: values?.numAmount < values?.numAdvanceAdjust ?  values?.numAmount : values?.numAdvanceAdjust || 0,
         },
