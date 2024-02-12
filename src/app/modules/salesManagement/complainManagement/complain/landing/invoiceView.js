@@ -1,9 +1,9 @@
 import { Formik } from "formik";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
-import ICustomCard from "../../../../_helper/_customCard";
 import Loading from "../../../../_helper/_loading";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import { _todayDate } from "../../../../_helper/_todayDate";
@@ -65,6 +65,7 @@ function InvoiceView({ clickRowData }) {
                 Status:{" "}
                 <span
                   style={{
+                    fontSize:"14px",
                     color:
                       clickRowData?.status === "Open"
                         ? "red"
@@ -170,7 +171,34 @@ function InvoiceView({ clickRowData }) {
                   <b> Remarks:</b> {singleData?.statusRemarks}
                 </p>
                 <p>
-                  <b>Attachment: </b>
+                  <b>Attachment:</b>{" "}
+                  {singleData?.attachment && (
+                    <span>
+                      <OverlayTrigger
+                        overlay={
+                          <Tooltip id="cs-icon">View Attachment</Tooltip>
+                        }
+                      >
+                        <span
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            dispatch(
+                              getDownlloadFileView_Action(
+                                singleData?.attachment
+                              )
+                            );
+                          }}
+                          className="ml-2"
+                        >
+                          <i
+                            style={{ fontSize: "16px" }}
+                            className={`fa pointer fa-eye`}
+                            aria-hidden="true"
+                          ></i>
+                        </span>
+                      </OverlayTrigger>
+                    </span>
+                  )}
                 </p>
               </div>
             </div>
