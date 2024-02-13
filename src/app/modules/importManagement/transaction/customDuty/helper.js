@@ -113,7 +113,6 @@ export const CreateCustomsDuty = async (
     sbuID,
     plantID
   );
-  console.log({payload})
   try {
     const res = await axios.post(`/imp/CustomDuty/CreateCustomDuty`, payload);
     if (res.status === 200) {
@@ -150,16 +149,16 @@ const dataSetForCreate = (
     lcNumber: LcNo,
     shipmentId: shipmentId,
     shipmentCode: shipmentCode,
-    paidById: values?.paidBy?.value||0,
+    paidById: values?.paidBy?.value || 0,
     bankId: values?.bank?.value || 0,
-    customId: values?.custom?.value||0,
+    customId: values?.custom?.value || 0,
     paymentInstrumentBy: values?.instrumentType?.value || 0,
-    boEnumber: values?.boeNo||0,
+    boEnumber: values?.boeNo || "",
     boEdate: values?.boeDate,
     paymentDate: values?.paymentDate,
     fineBdt: values?.fineBDT || 0,
     aitexemptionBdt: values?.AITExemptionBDT || 0,
-    exRate: values?.exRate||0,
+    exRate: values?.exRate || 0,
     docProcessFee: values?.docProcessFee || 0,
     cnfIncomeTax: values?.CnFIncomeTax || 0,
     cnfVat: values?.cnfVat || 0,
@@ -181,7 +180,7 @@ const dataSetForCreate = (
     numAt: +values?.at || 0,
     invoiceAmountBDT: +values?.invoiceAmountBDT || 0,
     is78Guarantee: values?.is78Guarantee,
-    guarantee78Amount: values?.is78Guarantee ? values?.guarantee78Amount : 0
+    guarantee78Amount: values?.is78Guarantee ? values?.guarantee78Amount : 0,
   };
   return payload;
 };
@@ -191,9 +190,22 @@ export const EditCustomsDuty = async (
   cdId,
   values,
   profileData,
-  grandTotal
+  PoNo,
+  LcNo,
+  shipmentId,
+  shipmentCode,
+  hsCode
 ) => {
-  const payload = dataSetForEdit(cdId, values, profileData, grandTotal);
+  const payload = dataSetForEdit(
+    cdId,
+    values,
+    profileData,
+    PoNo,
+    LcNo,
+    shipmentId,
+    shipmentCode,
+    hsCode
+  );
   try {
     const res = await axios.put(`/imp/CustomDuty/EditCustomDuty`, payload);
     if (res.status === 200) {
@@ -205,33 +217,66 @@ export const EditCustomsDuty = async (
 };
 
 // Dataset For Edit
-const dataSetForEdit = (cdId, values, profileData, grandTotal) => {
+const dataSetForEdit = (
+  cdId,
+  values,
+  profileData,
+  PoNo,
+  LcNo,
+  shipmentId,
+  shipmentCode,
+  hsCode
+
+) => {
   const payload = {
-    // objHeader: {
-    //   customDutyId: cdId,
-    //   paidById: values?.paidBy?.value,
-    //   bankId: values?.bank?.value,
-    //   customId: values?.custom?.value,
-    //   customsPartnerId: values?.custom?.value,
-    //   paymentInstrumentBy: values?.instrumentType?.value,
-    //   boENumber: values?.boeNo,
-    //   boEDate: values?.boeDate,
-    //   paymentDate: values?.paymentDate,
-    //   docProcessFee: values?.docProcessFee,
-    //   aitExemptionBdt: values?.AITExemptionBDT,
-    //   exRate: values?.exRate,
-    //   fineBdt: +values?.fineBDT,
-    //   cnfIncomeTax: values?.CnFIncomeTax,
-    //   cnfVat: values?.cnfVat,
-    //   scanning: values?.scanning,
-    //   totalCustomDuty: subTotal,
-    //   customDutyDocumentId: "string",
-    //   lastActionBy: profileData?.employeeId,
-    //   grandTotal: grandTotal,
-    //   cnFpartnerId: values?.cnfAgencyDDL.value,
-    // invoiceAmountBDT: +values?.invoiceAmountBDT,
-    // },
-    // objRow: customsPayment,
+    objHeader: {
+      customDutyId: cdId,
+      paidById: values?.paidBy?.value,
+      bankId: values?.bank?.value,
+      customId: values?.custom?.value,
+      paymentInstrumentBy: values?.instrumentType?.value,
+      boENumber: values?.boeNo,
+      boEDate: values?.boeDate,
+      paymentDate: values?.paymentDate,
+      docProcessFee: values?.docProcessFee,
+      aitExemptionBdt: values?.AITExemptionBDT,
+      exRate: values?.exRate,
+      fineBdt: +values?.fineBDT,
+      cnfIncomeTax: values?.CnFIncomeTax,
+      cnfVat: values?.cnfVat,
+      scanning: values?.scanning,
+      // totalCustomDuty: subTotal,
+      customDutyDocumentId: "string",
+      is78Guarantee: values?.is78Guarantee,
+      guarantee78Amount: values?.is78Guarantee ? values?.guarantee78Amount : 0,
+      lastActionBy: profileData?.employeeId,
+      // grandTotal: grandTotal0,
+      // refundBy: refundBy,
+      // refundDate: refundDate,
+    },
+    objRow: [
+      {
+        rowId: 0,
+        poNumber: PoNo,
+        lcNumber: LcNo,
+        shipmentId: shipmentId,
+        shipmentCode: shipmentCode,
+        hscode: hsCode,
+        assesmentTk: +values?.assessmentValue,
+        customDuty: +values?.customDuty,
+        // totalDuty: totalDuty,
+        regulatoryDuty: +values?.regulatoryDuty,
+        supplimentaryDuty: +values?.supplementaryDuty,
+        vat: +values?.vat,
+        ait: +values?.ait,
+        advanceTradeVat: +values?.advanceTradeVat,
+        psi: +values?.psi,
+        at: +values?.at,
+        // dutyVat: dutyVat,
+        // otherVat: otherVat,
+        // otherCharges: otherCharges,
+      },
+    ],
   };
   return payload;
 };
@@ -353,46 +398,42 @@ export const GetHSCodeInfoForCustomDuty = async (
 };
 
 export const validationSchema = Yup.object().shape({
-  is78Guarantee:Yup.boolean(),
-  guarantee78Amount:Yup.number().when("is78Guarantee",{
-    is:true,
-    then:Yup.number()
-    .required("Guarantee78 Amount is required")
-    .positive("Guarantee78 Amount Must be positive"),
-    otherwise:Yup.number()
+  is78Guarantee: Yup.boolean(),
+  guarantee78Amount: Yup.number().when("is78Guarantee", {
+    is: true,
+    then: Yup.number()
+      .required("Guarantee78 Amount is required")
+      .positive("Guarantee78 Amount Must be positive"),
+    otherwise: Yup.number(),
   }),
-  boeNo: Yup.string().when("is78Guarantee",{
-    is:false,
-    then:Yup.string().required("BoE No is required"),
+  boeNo: Yup.string().when("is78Guarantee", {
+    is: false,
+    then: Yup.string().required("BoE No is required"),
     otherwise: Yup.string(),
-  }), 
-  exRate: Yup.number().when("is78Guarantee",{
-    is:false,
-    then:Yup.number()
-    .required("Exchange Rate is required")
-    .positive("Exchange Rate Must be positive"),
-    otherwise:Yup.number()
+  }),
+  exRate: Yup.number().when("is78Guarantee", {
+    is: false,
+    then: Yup.number()
+      .required("Exchange Rate is required")
+      .positive("Exchange Rate Must be positive"),
+    otherwise: Yup.number(),
   }),
   // invoiceAmountBDT: Yup.string().required("Invoice Amount BDT is required"),
   cnfAgencyDDL: Yup.object().shape({
     value: Yup.string().required("CnF Agency is required"),
   }),
 
-  custom: Yup.object().when("is78Guarantee",{
-    is:false,
-    then:Yup.object().shape({
-      label: Yup.string().required("Custom is required"),
-      value: Yup.string().required("Custom is required"),
-    }),
-    otherwise:Yup.object()
+  custom: Yup.object().shape({
+    label: Yup.string().required("Custom is required"),
+    value: Yup.string().required("Custom is required"),
   }),
-  paidBy: Yup.object().when("is78Guarantee",{
-    is:false,
-    then:Yup.object().shape({
+  paidBy: Yup.object().when("is78Guarantee", {
+    is: false,
+    then: Yup.object().shape({
       label: Yup.string().required("Paid By is required"),
       value: Yup.string().required("Paid By is required"),
     }),
-    otherwise:Yup.object()
+    otherwise: Yup.object(),
   }),
   assessmentValue: Yup.number()
     .positive("Assessment Value Must be a Positive Number")

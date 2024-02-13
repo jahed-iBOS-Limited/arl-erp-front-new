@@ -443,7 +443,6 @@ export default function _Form({
                               CnFIncomeTax: "",
                               cnfVat: "",
                               scanning: "",
-                              custom: "",
                               paidBy: "",
                               assessmentValue: "",
                               at: "",
@@ -548,10 +547,7 @@ export default function _Form({
                           onChange={(valueOption) => {
                             setFieldValue("custom", valueOption);
                           }}
-                          isDisabled={
-                            (viewType === "view" ? true : false) ||
-                            (!viewType && values?.is78Guarantee)
-                          }
+                          isDisabled={viewType === "view" ? true : false}
                           errors={errors}
                           touched={touched}
                         />
