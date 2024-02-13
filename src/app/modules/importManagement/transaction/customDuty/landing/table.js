@@ -1,28 +1,29 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
+import Axios from "axios";
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  CardHeaderToolbar,
+} from "../../../../../../_metronic/_partials/controls";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import ICustomTable from "../../../../_helper/_customTable";
+import { _formatMoney } from "../../../../_helper/_formatMoney";
+import IEdit from "../../../../_helper/_helperIcons/_edit";
+import IView from "../../../../_helper/_helperIcons/_view";
+import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
+import PaginationTable from "../../../../_helper/_tablePagination";
 import {
   docReleaseStatusCheck,
   getLandingData,
   getShipmentDDL,
 } from "../helper";
-import Loading from "../../../../_helper/_loading";
-import {
-  Card,
-  CardHeader,
-  CardHeaderToolbar,
-  CardBody,
-} from "../../../../../../_metronic/_partials/controls";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import ICustomTable from "../../../../_helper/_customTable";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import Axios from "axios";
-import { Form, Formik } from "formik";
-import NewSelect from "../../../../_helper/_select";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { toast } from "react-toastify";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
 // import IWarningModal from "../../../../_helper/_warningModal";
 // import numberWithCommas from "../../../../_helper/_numberWithCommas";
 
@@ -287,22 +288,26 @@ const CustomDutyLanding = () => {
                               >
                                 <IView />
                               </span>
-                              {/* <span
+                             {
+                              (item?.boENumber <= 0) && (
+                                <span
                                 className="edit"
                                 onClick={(e) =>
                                   history.push({
                                     pathname: `/managementImport/transaction/customs-duty/edit/${item?.customDutyId}`,
                                     state: {
-                                      PoNo: values?.poLc?.poNumber,
-                                      LcNo: values?.poLc?.lcNumber,
-                                      shipment: values?.shipment?.label,
+                                      PoNo: item?.poNumber,
+                                      LcNo: item?.lcNumber,
+                                      shipment: item?.shipmentCode,
                                       shipmentId: values?.shipment?.value,
                                     },
                                   })
                                 }
                               >
                                 <IEdit />
-                              </span> */}
+                              </span>
+                              )
+                             }
                             </td>
                           </tr>
                         );
