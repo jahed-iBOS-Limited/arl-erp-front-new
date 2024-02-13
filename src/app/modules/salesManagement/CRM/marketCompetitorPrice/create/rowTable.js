@@ -74,7 +74,7 @@ function Building({ rowDto, setRowDto, isView }) {
               width: "120px",
             }}
           >
-            Avg. Market Office
+            Avg. Market Offer
           </th>
           <th
             style={{
@@ -157,7 +157,7 @@ function Building({ rowDto, setRowDto, isView }) {
                 ) : (
                   <InputField
                     value={item?.numAvgMarketOffer}
-                    placeholder='Avg. Market Office'
+                    placeholder='Avg. Market Offer'
                     name='numAvgMarketOffer'
                     type='number'
                     onChange={(e) => {
@@ -174,7 +174,7 @@ function Building({ rowDto, setRowDto, isView }) {
                 ) : (
                   <InputField
                     value={item?.strRemarks}
-                    placeholder='Avg. Market Office'
+                    placeholder='Avg. Market Offer'
                     name='strRemarks'
                     type='text'
                     onChange={(e) => {
@@ -280,7 +280,7 @@ function Bulk({ rowDto, setRowDto, transactionTypeDDL, isView }) {
               width: "120px",
             }}
           >
-            Avg. Market Office
+            Avg. Market Offer
           </th>
           <th
             style={{
@@ -442,7 +442,7 @@ function Bulk({ rowDto, setRowDto, transactionTypeDDL, isView }) {
                 ) : (
                   <InputField
                     value={item?.numAvgMarketOffer}
-                    placeholder='Avg. Market Office'
+                    placeholder='Avg. Market Offer'
                     name='numAvgMarketOffer'
                     type='number'
                     onChange={(e) => {
@@ -459,7 +459,7 @@ function Bulk({ rowDto, setRowDto, transactionTypeDDL, isView }) {
                 ) : (
                   <InputField
                     value={item?.strRemarks}
-                    placeholder='Avg. Market Office'
+                    placeholder='Avg. Market Offer'
                     name='strRemarks'
                     type='text'
                     onChange={(e) => {
@@ -688,7 +688,7 @@ function Retail({ rowDto, setRowDto, isView }) {
                 ) : (
                   <InputField
                     value={item?.strRemarks}
-                    placeholder='Avg. Market Office'
+                    placeholder='Avg. Market Offer'
                     name='strRemarks'
                     type='text'
                     onChange={(e) => {
