@@ -137,7 +137,15 @@ export default function CustomDutyForm() {
 
   const saveHandler = async (values, cb) => {
     if (cdId) {
-      return EditCustomsDuty(cdId, values, profileData);
+      return EditCustomsDuty(
+        cdId,
+        values,
+        profileData,
+        state?.PoNo,
+        state?.LcNo,
+        state?.shipmentId,
+        state?.shipment,
+      );
     }
     // else if (hsCode?.length > customsPayment?.length) {
     //   toast.warning("Please add all HS code");
