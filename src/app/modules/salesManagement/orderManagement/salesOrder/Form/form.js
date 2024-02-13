@@ -174,6 +174,7 @@ export default function _Form({
 
   //Akij Essentials Ltd
   const isBUIEssentials = selectedBusinessUnit?.value === 144;
+  const isBUILineAsia = selectedBusinessUnit?.value === 209;
   const channelBulk = headerData?.distributionChannel?.value === 67;
 
   return (
@@ -1331,8 +1332,8 @@ export default function _Form({
                                     priceStructureCheck?.value) ||
                                   // &&
                                   // selectedBusinessUnit?.value !== 183
-                                  (isBUIEssentials &&
-                                    selectedBusinessUnit?.value !== 183) ? (
+                                  (isBUIEssentials || isBUILineAsia) &&
+                                    selectedBusinessUnit?.value !== 183 ? (
                                     <td
                                       className='align-middle'
                                       style={{ width: "100px" }}

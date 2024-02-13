@@ -58,7 +58,22 @@ export const getLandingData = async (
       `/tms/TMSReport/GetTransportZoneRate?AccountId=${accId}&BusinessUnitID=${buId}&ShippointId=${shipmentId}`
     );
     if (res.status === 200 && res?.data) {
-      setter(res?.data);
+      const modifiedData = res?.data?.map((item) => {
+        const totalRate =
+          item?.factoryToGhatTransferRate +
+          item?.num7tonRate +
+          item?.handlingCost +
+          item?.labourCost +
+          item?.subsidyCostRate;
+        return {
+          ...item,
+          totalRate,
+        };
+      });
+      const sortedData = modifiedData?.sort(
+        (a, b) => b?.totalRate - a?.totalRate
+      );
+      setter(sortedData);
       setLoading(false);
     }
   } catch (error) {
