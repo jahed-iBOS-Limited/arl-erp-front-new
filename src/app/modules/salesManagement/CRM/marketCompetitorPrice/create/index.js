@@ -219,6 +219,7 @@ function Form() {
           numMillRate: +itm?.numMillRate || 0,
           numAvgTransportFare: +itm?.numAvgTransportFare || 0,
           numLandingRate: +itm?.numLandingRate || 0,
+          numLandingRateMkt: +itm?.numLandingRateMkt || 0,
           numAvgMarketOffer: +itm?.numAvgMarketOffer || 0,
           numNsp: +itm?.numNsp || 0,
           numDp: +itm?.numDp || 0,
