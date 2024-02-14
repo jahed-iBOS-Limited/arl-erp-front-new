@@ -1,31 +1,26 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import customStyles from "../../../../selectCustomStyle";
+import Select from "react-select";
+import { toast } from "react-toastify";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IApproval from "../../../../_helper/_helperIcons/_approval";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
+import Loading from "../../../../_helper/_loading";
+import PaginationSearch from "../../../../_helper/_search";
+import { SetManufacturePETableLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import customStyles from "../../../../selectCustomStyle";
+import ProductionEntryViewModal from "../View/ViewModal";
+import BackCalculationPEViewModal from "../ViewForBackCalculation/ViewModal";
 import {
   getGridData,
-  getSingleDataById,
   getPlantNameDDL,
-  getShopFloorDDL,
+  getShopFloorDDL
 } from "../helper";
-import ProductionEntryViewModal from "../View/ViewModal";
-import Select from "react-select";
-import Loading from "../../../../_helper/_loading";
 import PaginationTable from "./../../../../_helper/_tablePagination";
-import PaginationSearch from "../../../../_helper/_search";
-import BackCalculationPEViewModal from "../ViewForBackCalculation/ViewModal";
-import { getSingleDataByForBackCalculation } from "./../helper";
-import { SetManufacturePETableLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import { toast } from "react-toastify";
+import NewSelect from "../../../../_helper/_select";
 
-export function TableRow({ dataForBackCalculationCheck }) {
+export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
   const { manufacturePETableLanding } = useSelector(
     (state) => state.localStorage
   );
@@ -42,6 +37,7 @@ export function TableRow({ dataForBackCalculationCheck }) {
     {}
   );
   const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState({value: false, label:"Pending"}); 
 
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
@@ -76,22 +72,6 @@ export function TableRow({ dataForBackCalculationCheck }) {
     );
   }, [profileData.accountId, selectedBusinessUnit.value]);
 
-  // console.log("singleBackCalculationData: ", singleBackCalculationData);
-  // useEffect(() => {
-  //   if (plant) {
-  //     setselectPlant(plant[0]);
-  //     getGridData(
-  //       profileData?.accountId,
-  //       selectedBusinessUnit?.value,
-  //       plant[0]?.value,
-  //       setLandingData,
-  //       setLoading,
-  //       pageNo,
-  //       pageSize,
-  //       null
-  //     );
-  //   }
-  // }, [plant]);
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize, searchValue) => {
@@ -108,7 +88,8 @@ export function TableRow({ dataForBackCalculationCheck }) {
       pageSize,
       searchValue,
       fromDate,
-      toDate
+      toDate,
+      status?.value,
     );
   };
 
@@ -138,7 +119,8 @@ export function TableRow({ dataForBackCalculationCheck }) {
         pageSize,
         "",
         fromDate,
-        toDate
+        toDate,
+        status?.value,
       );
     selectPlant?.value &&
       getShopFloorDDL(
@@ -161,7 +143,7 @@ export function TableRow({ dataForBackCalculationCheck }) {
           }}
         >
           <div className="row">
-            <div className="col-lg-3">
+            <div className="col-lg-2">
               <label>Plant</label>
               <Select
                 placeholder="Plant Name"
@@ -194,7 +176,7 @@ export function TableRow({ dataForBackCalculationCheck }) {
                 name="plant"
               />
             </div>
-            <div className="col-lg-3">
+            <div className="col-lg-2">
               <label>Shop Floor</label>
               <Select
                 placeholder="Shop Floor"
@@ -241,6 +223,17 @@ export function TableRow({ dataForBackCalculationCheck }) {
                 }}
               />
             </div>
+            <div className="col-lg-2">
+            <NewSelect
+            name="status"
+            options={[{ value: false, label: "Pending" },{value:true, label:"Approved"}]}
+            value={status}
+            label="Status"
+            onChange={(valueOption) => {
+              setStatus(valueOption)
+            }}
+          />
+            </div>
             <div style={{ marginTop: "10px" }} className="col-lg-1 ml-5">
               <button
                 className="btn btn-primary"
@@ -257,7 +250,8 @@ export function TableRow({ dataForBackCalculationCheck }) {
                     pageSize,
                     "",
                     fromDate,
-                    toDate
+                    toDate,
+                    status?.value,
                   );
                 }}
               >
@@ -330,7 +324,7 @@ export function TableRow({ dataForBackCalculationCheck }) {
                       <td className="text-center">{item?.productionQty}</td>
                       <td>
                         <div class="d-flex align-items-center justify-content-center">
-                          {productionEntry?.isView && (
+                          {/* {productionEntry?.isView && (
                             <button class="btn borderlessBtn">
                               <span className="text-center mx-2">
                                 <IView
@@ -380,45 +374,41 @@ export function TableRow({ dataForBackCalculationCheck }) {
                             <span className="edit text-center mr-2">
                               <IEdit />
                             </span>
-                          </button>
+                          </button> */}
                           {/* APPROVAL */}
-                          {item?.isApprove
-                            ? dataForBackCalculationCheck?.isBackCalculation !==
-                                2 && (
-                                <button
-                                  class="btn borderlessBtn"
-                                  disabled={item?.isApprove === true}
-                                >
-                                  <span>
-                                    <IApproval
-                                      title="Can't Approval"
-                                      classes="text-success"
-                                    />
-                                  </span>
-                                </button>
-                              )
-                            : dataForBackCalculationCheck?.isBackCalculation !==
-                                2 && (
-                                <button
-                                  class="btn borderlessBtn"
-                                  onClick={() => {
-                                    const path =
-                                      dataForBackCalculationCheck?.isBackCalculation ===
-                                      1
-                                        ? `/production-management/mes/productionentry/approveBackCalculation/${item?.productionId}`
-                                        : `/production-management/mes/productionentry/approval/${item?.productionId}/${dataForBackCalculationCheck?.isBackCalculation}`;
+                          {item?.isApprove ? (
+                            <button
+                              class="btn borderlessBtn"
+                              disabled={item?.isApprove === true}
+                            >
+                              <span>
+                                <IApproval
+                                  title="Can't Approval"
+                                  classes="text-success"
+                                />
+                              </span>
+                            </button>
+                          ) : (
+                            <button
+                              class="btn borderlessBtn"
+                              onClick={() => {
+                                const path =
+                                  dataForBackCalculationCheck?.isBackCalculation ===
+                                  1
+                                    ? `/production-management/mes/productionentry/approveBackCalculation/${item?.productionId}`
+                                    : `/production-management/mes/productionentry/approval/${item?.productionId}/${dataForBackCalculationCheck?.isBackCalculation}`;
 
-                                    history.push(path);
-                                  }}
-                                >
-                                  <span>
-                                    <IApproval
-                                      title="Approval"
-                                      classes="text-primary"
-                                    />
-                                  </span>
-                                </button>
-                              )}
+                                history.push(path);
+                              }}
+                            >
+                              <span>
+                                <IApproval
+                                  title="Approval"
+                                  classes="text-primary"
+                                />
+                              </span>
+                            </button>
+                          )}
                         </div>
                       </td>
                     </tr>
