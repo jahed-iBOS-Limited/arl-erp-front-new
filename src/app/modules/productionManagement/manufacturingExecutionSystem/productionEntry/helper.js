@@ -12,15 +12,17 @@ export const getGridData = async (
   pageSize,
   search,
   fromDate,
-  toDate
+  toDate,
+  Appstatus,
 ) => {
   setLoading(true);
   const searchPath = search ? `searchTerm=${search}&` : "";
   const strFromDate = fromDate ? `fromDate=${fromDate}&` : "";
   const strToDate = toDate ? `toDate=${toDate}&` : "";
+  const strAppstatus = [true, false]?.includes(Appstatus) ? `&Appstatus=${Appstatus}&` : "";
   try {
     const res = await axios.get(
-      `/mes/ProductionEntry/GetProductionEntrySearchPagination?${searchPath}accountId=${accId}&businessUnitId=${buId}&PlantId=${plId}&ShopFloorId=${shopFloorId}&status=true&${strFromDate}${strToDate}PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
+      `/mes/ProductionEntry/GetProductionEntrySearchPagination?${searchPath}accountId=${accId}&businessUnitId=${buId}&PlantId=${plId}&ShopFloorId=${shopFloorId}&status=true&${strFromDate}${strToDate}PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc${strAppstatus}`
     );
 
     if (res.status === 200 && res?.data) {

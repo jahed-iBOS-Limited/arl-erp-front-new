@@ -210,7 +210,7 @@ const IssueReportTable = () => {
             key: 'dteRequestDate',
           },
           {
-            text: 'Item ID',
+            text: 'Item Code',
             textFormat: 'text',
             alignment: 'center:middle',
             key: 'strItemCode',
@@ -515,7 +515,7 @@ const IssueReportTable = () => {
                         <th>Issue Date</th>
                         <th>Item Req Code</th>
                         <th>Item Req Date</th>
-                        <th>Item ID</th>
+                        <th>Item Code</th>
                         <th>Item Name</th>
                         <th>Uom</th>
                         <th>Request Quantity</th>
