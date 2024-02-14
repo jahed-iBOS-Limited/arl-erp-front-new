@@ -14,6 +14,9 @@ import IEdit from "../../_chartinghelper/icons/_edit";
 import { _formatMoney } from "../../_chartinghelper/_formatMoney";
 import PaginationTable from "../../_chartinghelper/_tablePagination";
 import { CharteringContext } from "../../charteringContext";
+import NewSelect from "../../../_helper/_select";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { imarineBaseUrl } from "../../../../App";
 
 const headers = [
   { name: "SL" },
@@ -34,6 +37,7 @@ export default function OffHireTable() {
   const [voyageNoDDL, setVoyageNoDDL] = useState([]);
   const history = useHistory();
   const [charteringState, setCharteringState] = useContext(CharteringContext);
+  const [, getLandingData, loader] = useAxiosGet();
 
   const initData = charteringState?.offHireLandingFormData;
 
@@ -50,17 +54,30 @@ export default function OffHireTable() {
   }, shallowEqual);
 
   const getGridData = (values, _pageNo = 0, _pageSize = 15) => {
-    getOffHireLandingData(
-      profileData?.accountId,
-      selectedBusinessUnit?.value,
-      values?.vesselName?.value || 0,
-      values?.voyageNo?.value || 0,
-      _pageNo,
-      _pageSize,
-      "",
-      setGridData,
-      setLoading
-    );
+    const typeId = values?.viewType?.value;
+    if (typeId === 1) {
+      getLandingData(
+        `${imarineBaseUrl}/domain/OffHire/GetOffHireLanding?AccountId=${
+          profileData?.accountId
+        }&BusinessUnitId=${selectedBusinessUnit?.value}&VoyageNoId=${values
+          ?.voyageNo?.value || 0}&VesselId=${values?.vesselName?.value || 0}`,
+        (resData) => {
+          setGridData(resData);
+        }
+      );
+    } else if (typeId === 2) {
+      getOffHireLandingData(
+        profileData?.accountId,
+        selectedBusinessUnit?.value,
+        values?.vesselName?.value || 0,
+        values?.voyageNo?.value || 0,
+        _pageNo,
+        _pageSize,
+        "",
+        setGridData,
+        setLoading
+      );
+    }
   };
 
   const getVoyageDDL = (values) => {
@@ -92,17 +109,18 @@ export default function OffHireTable() {
     getGridData(values, pageNo, pageSize);
   };
 
+  const isLoading = loader || loading;
+
   return (
     <>
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        // validationSchema={{}}
         onSubmit={(values) => {}}
       >
         {({ values, errors, touched, setFieldValue }) => (
           <>
-            {loading && <Loading />}
+            {isLoading && <Loading />}
             <form className="marine-form-card">
               <div className="marine-form-card-heading">
                 <p>Off Hire</p>
@@ -121,6 +139,30 @@ export default function OffHireTable() {
               </div>
               <div className="marine-form-card-content">
                 <div className="row">
+                  <div className="col-lg-3">
+                    <NewSelect
+                      value={values?.viewType || ""}
+                      options={[
+                        { value: 1, label: "Top Sheet" },
+                        { value: 2, label: "Details" },
+                      ]}
+                      name="viewType"
+                      placeholder="View Type"
+                      label="View Type"
+                      onChange={(valueOption) => {
+                        setFieldValue("viewType", valueOption);
+                        setGridData([]);
+                        const updatedValues = {
+                          ...values,
+                          viewType: valueOption,
+                        };
+                        updateCharteringState(updatedValues);
+                        getGridData(updatedValues);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
                   <div className="col-lg-3">
                     <FormikSelect
                       value={values?.vesselName || ""}
@@ -144,7 +186,6 @@ export default function OffHireTable() {
                         }
                         getGridData(updatedValues);
                       }}
-                      // isDisabled={viewType === "view"}
                       errors={errors}
                       touched={touched}
                     />
@@ -175,42 +216,71 @@ export default function OffHireTable() {
                 </div>
               </div>
 
-              <ICustomTable ths={headers}>
-                {gridData?.data?.map((item, index) => (
-                  <tr key={index}>
-                    <td className="text-center">{index + 1}</td>
-                    <td>{item?.vesselName}</td>
-                    <td>{item?.voyageNumber}</td>
-                    {/* <td>{item?.offHireId}</td> */}
-                    <td>{item?.offHireDuration}</td>
-                    <td className="text-right">
-                      {_formatMoney(item?.offHireCostAmount)}
-                    </td>
-                    <td className="text-center">
-                      <div className="d-flex justify-content-around">
-                        <IView
-                          clickHandler={() => {
-                            history.push(
-                              `/chartering/offHire/view/${item?.offHireId}`
-                            );
-                          }}
-                        />
-                        {item?.isEditable && (
-                          <IEdit
+              {values?.viewType?.value === 1 && (
+                <ICustomTable ths={headers}>
+                  {gridData?.map((item, index) => (
+                    <tr key={index}>
+                      <td className="text-center">{index + 1}</td>
+                      <td>{item?.vesselName}</td>
+                      <td>{item?.voyageNumber}</td>
+                      {/* <td>{item?.offHireId}</td> */}
+                      <td>{item?.offHireDuration}</td>
+                      <td className="text-right">
+                        {_formatMoney(item?.offHireCostAmount)}
+                      </td>
+                      <td className="text-center">
+                        {/* <div className="d-flex justify-content-around">
+                          <IView
                             clickHandler={() => {
                               history.push(
-                                `/chartering/offHire/edit/${item?.offHireId}`
+                                `/chartering/offHire/view/${item?.offHireId}`
                               );
                             }}
                           />
-                        )}
-                        {/* <IDelete /> */}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </ICustomTable>
-              {gridData?.data?.length > 0 && (
+                        </div> */}
+                      </td>
+                    </tr>
+                  ))}
+                </ICustomTable>
+              )}
+              {values?.viewType?.value === 2 && (
+                <ICustomTable ths={headers}>
+                  {gridData?.data?.map((item, index) => (
+                    <tr key={index}>
+                      <td className="text-center">{index + 1}</td>
+                      <td>{item?.vesselName}</td>
+                      <td>{item?.voyageNumber}</td>
+                      {/* <td>{item?.offHireId}</td> */}
+                      <td>{item?.offHireDuration}</td>
+                      <td className="text-right">
+                        {_formatMoney(item?.offHireCostAmount)}
+                      </td>
+                      <td className="text-center">
+                        <div className="d-flex justify-content-around">
+                          <IView
+                            clickHandler={() => {
+                              history.push(
+                                `/chartering/offHire/view/${item?.offHireId}`
+                              );
+                            }}
+                          />
+                          {item?.isEditable && (
+                            <IEdit
+                              clickHandler={() => {
+                                history.push(
+                                  `/chartering/offHire/edit/${item?.offHireId}`
+                                );
+                              }}
+                            />
+                          )}
+                          {/* <IDelete /> */}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </ICustomTable>
+              )}
+              {gridData?.data?.length > 0 && values?.viewType?.value === 2 && (
                 <PaginationTable
                   count={gridData?.totalCount}
                   setPositionHandler={setPositionHandler}

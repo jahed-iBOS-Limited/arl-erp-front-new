@@ -703,7 +703,7 @@ export default function ViewForm({ id, show, onHide, isLoading }) {
                     <td className="align-middle">{itm.isFree}</td>
                     <td className="align-middle">
                       {viewMode ? (
-                        itm?.numRequestQuantity
+                        itm?.numOrderQuantity // itm?.numRequestQuantity
                       ) : (
                         // <></>
                         <input
