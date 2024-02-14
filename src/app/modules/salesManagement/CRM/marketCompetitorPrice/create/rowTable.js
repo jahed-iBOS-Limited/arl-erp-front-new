@@ -9,7 +9,12 @@ function RowTable({ propsObj }) {
     <div className="table-responsive">
       <table className="table table-striped table-bordered global-table">
         {values?.channel?.value === 1 && (
-          <Building rowDto={rowDto} setRowDto={setRowDto} isView={isView} />
+          <Building
+            rowDto={rowDto}
+            setRowDto={setRowDto}
+            isView={isView}
+            values={values}
+          />
         )}
         {values?.channel?.value === 2 && (
           <Bulk
@@ -17,10 +22,16 @@ function RowTable({ propsObj }) {
             setRowDto={setRowDto}
             transactionTypeDDL={transactionTypeDDL}
             isView={isView}
+            values={values}
           />
         )}
         {values?.channel?.value === 3 && (
-          <Retail rowDto={rowDto} setRowDto={setRowDto} isView={isView} />
+          <Retail
+            rowDto={rowDto}
+            setRowDto={setRowDto}
+            isView={isView}
+            values={values}
+          />
         )}
       </table>
     </div>
@@ -29,7 +40,7 @@ function RowTable({ propsObj }) {
 
 export default RowTable;
 
-function Building({ rowDto, setRowDto, isView }) {
+function Building({ rowDto, setRowDto, isView, values }) {
   return (
     <>
       <thead>
@@ -69,13 +80,16 @@ function Building({ rowDto, setRowDto, isView }) {
           >
             Landing Rate (Mill)
           </th>
-          <th
-            style={{
-              width: "120px",
-            }}
-          >
-            Landing Rate (Market)
-          </th>
+          {[144]?.includes(values?.businessUnit?.value) &&
+            [2]?.includes(values?.channel?.value) && (
+              <th
+                style={{
+                  width: "120px",
+                }}
+              >
+                Landing Rate (Mkt)
+              </th>
+            )}
           <th
             style={{
               width: "120px",
@@ -158,23 +172,26 @@ function Building({ rowDto, setRowDto, isView }) {
                   />
                 )}
               </td>
-              <td className="text-right">
-                {isView ? (
-                  item?.numLandingRateMkt
-                ) : (
-                  <InputField
-                    value={item?.numLandingRateMkt}
-                    placeholder="Landing Rate (Market)"
-                    name="numLandingRateMkt"
-                    type="number"
-                    onChange={(e) => {
-                      const copyRowDto = [...rowDto];
-                      copyRowDto[index].numLandingRateMkt = e.target.value;
-                      setRowDto(copyRowDto);
-                    }}
-                  />
+              {[144]?.includes(values?.businessUnit?.value) &&
+                [2]?.includes(values?.channel?.value) && (
+                  <td className="text-right">
+                    {isView ? (
+                      item?.numLandingRateMkt
+                    ) : (
+                      <InputField
+                        value={item?.numLandingRateMkt}
+                        placeholder="Landing Rate (Mkt)"
+                        name="numLandingRateMkt"
+                        type="number"
+                        onChange={(e) => {
+                          const copyRowDto = [...rowDto];
+                          copyRowDto[index].numLandingRateMkt = e.target.value;
+                          setRowDto(copyRowDto);
+                        }}
+                      />
+                    )}
+                  </td>
                 )}
-              </td>
               <td className="text-right">
                 {isView ? (
                   item?.numAvgMarketOffer
@@ -231,7 +248,7 @@ function Building({ rowDto, setRowDto, isView }) {
     </>
   );
 }
-function Bulk({ rowDto, setRowDto, transactionTypeDDL, isView }) {
+function Bulk({ rowDto, setRowDto, transactionTypeDDL, isView, values }) {
   return (
     <>
       <thead>
@@ -299,13 +316,16 @@ function Bulk({ rowDto, setRowDto, transactionTypeDDL, isView }) {
           >
             Landing Rate (Mill)
           </th>
-          <th
-            style={{
-              width: "120px",
-            }}
-          >
-            Landing Rate (Market)
-          </th>
+          {[144]?.includes(values?.businessUnit?.value) &&
+            [2]?.includes(values?.channel?.value) && (
+              <th
+                style={{
+                  width: "120px",
+                }}
+              >
+                Landing Rate (Mkt)
+              </th>
+            )}
           <th
             style={{
               width: "120px",
@@ -467,23 +487,26 @@ function Bulk({ rowDto, setRowDto, transactionTypeDDL, isView }) {
                   />
                 )}
               </td>
-              <td className="text-right">
-                {isView ? (
-                  item?.numLandingRateMkt
-                ) : (
-                  <InputField
-                    value={item?.numLandingRateMkt}
-                    placeholder="Landing Rate (Market)"
-                    name="numLandingRateMkt"
-                    type="number"
-                    onChange={(e) => {
-                      const copyRowDto = [...rowDto];
-                      copyRowDto[index].numLandingRateMkt = e.target.value;
-                      setRowDto(copyRowDto);
-                    }}
-                  />
+              {[144]?.includes(values?.businessUnit?.value) &&
+                [2]?.includes(values?.channel?.value) && (
+                  <td className="text-right">
+                    {isView ? (
+                      item?.numLandingRateMkt
+                    ) : (
+                      <InputField
+                        value={item?.numLandingRateMkt}
+                        placeholder="Landing Rate (Mkt)"
+                        name="numLandingRateMkt"
+                        type="number"
+                        onChange={(e) => {
+                          const copyRowDto = [...rowDto];
+                          copyRowDto[index].numLandingRateMkt = e.target.value;
+                          setRowDto(copyRowDto);
+                        }}
+                      />
+                    )}
+                  </td>
                 )}
-              </td>
               <td className="text-right">
                 {isView ? (
                   item?.numAvgMarketOffer
@@ -540,7 +563,7 @@ function Bulk({ rowDto, setRowDto, transactionTypeDDL, isView }) {
     </>
   );
 }
-function Retail({ rowDto, setRowDto, isView }) {
+function Retail({ rowDto, setRowDto, isView, values }) {
   return (
     <>
       <thead>
