@@ -303,7 +303,6 @@ export default function _Form({
                                              }}
                                              step={'any'}
                                              min="0"
-                                             disabled
                                              className="form-control"
                                              type="number"
                                              name="approvedQuantity"
@@ -313,13 +312,13 @@ export default function _Form({
                                           />
                                        </td>
                                        <td className="text-center pb-0">
-                                          {/* <span
+                                          <span
                                              onClick={() =>
                                                 deleteHandler(index)
                                              }
                                           >
                                              <IDelete />
-                                          </span> */}
+                                          </span>
                                        </td>
                                     </tr>
                                  ))}
