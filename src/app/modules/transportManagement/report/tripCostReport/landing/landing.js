@@ -13,6 +13,7 @@ import {
 } from "../../../../../../_metronic/_partials/controls/Card";
 import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
 import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
 import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
 import IButton from "../../../../_helper/iButton";
@@ -21,7 +22,6 @@ import { GetTripCostReport_api } from "../helper";
 import NewSelect from "./../../../../_helper/_select";
 import "./style.css";
 import Table from "./table";
-import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
 
 const initData = {
   fromDate: _todayDate(),
@@ -274,14 +274,15 @@ function TripCostReportReport() {
                     />
                   )}
                   {/* Power BI Reports */}
-                  {[2, 3, 4].includes(values?.reportType?.value) && biReport && (
-                    <PowerBIReport
-                      groupId={groupId}
-                      reportId={reportId(values)}
-                      parameterValues={parameterValues(values)}
-                      parameterPanel={false}
-                    />
-                  )}
+                  {[2, 3, 4].includes(values?.reportType?.value) &&
+                    biReport && (
+                      <PowerBIReport
+                        groupId={groupId}
+                        reportId={reportId(values)}
+                        parameterValues={parameterValues(values)}
+                        parameterPanel={false}
+                      />
+                    )}
                 </Form>
               </>
             </CardBody>
