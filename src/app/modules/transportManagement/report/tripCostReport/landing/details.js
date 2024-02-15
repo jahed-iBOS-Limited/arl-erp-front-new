@@ -2,15 +2,16 @@ import React from "react";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import "./style.css";
 import ICustomTable from "../../../../chartering/_chartinghelper/_customTable";
+import moment from "moment";
 
 const headers = [
   { name: "SL", style: { minWidth: "30px" } },
   { name: "Vehicle No.", style: { minWidth: "160px" } },
   { name: "ShipPoint", style: { minWidth: "160px" } },
   { name: "Shipment Code", style: { minWidth: "130px" } },
-  // { name: "Shipment Qty", style: { minWidth: "70px" } },
-  // { name: "Out Date-Time", style: { minWidth: "80px" } },
-  // { name: "In Date-Time", style: { minWidth: "80px" } },
+  { name: "Shipment Qty", style: { minWidth: "70px" } },
+  { name: "Out Date-Time", style: { minWidth: "80px" } },
+  { name: "In Date-Time", style: { minWidth: "80px" } },
   { name: "Standard Millage (KM)", style: { minWidth: "70px" } },
   { name: "Addition Millage (Km)", style: { minWidth: "70px" } },
   { name: "Actual Millage (Km)", style: { minWidth: "70px" } },
@@ -25,7 +26,7 @@ const headers = [
   { name: "DA", style: { minWidth: "70px" } },
   { name: "Down Trip Allowance", style: { minWidth: "70px" } },
   { name: "Total Trip Cost", style: { minWidth: "70px" } },
-  // { name: "Advance Amount", style: { minWidth: "70px" } },
+  { name: "Advance Amount", style: { minWidth: "70px" } },
   { name: "Down Trip Fare Cash", style: { minWidth: "70px" } },
   { name: "Shipment Cost Total", style: { minWidth: "70px" } },
   { name: "Total Income", style: { minWidth: "70px" } },
@@ -42,15 +43,6 @@ const TripCostDetailsTable = ({ obj }) => {
   let F_otalAdditionalMillage = 0;
   let F_totalStandardFuelCost = 0;
 
-  // let F_totalAdministrativeCost = 0;
-  // let F_totalDriverExpense = 0;
-  // let F_totalTripFare = 0;
-  // let F_totalDownTripFareCredit = 0;
-  // let F_totalFuelCredit = 0;
-  // let F_totalNetPayable = 0;
-  // let F_manualNetPayable = 0;
-  // let F_systemNetPayable = 0;
-  // let totalDownTripFareCash = 0;
   let totalBridgeToll = 0,
     totalLaborTips = 0,
     totalPoliceTips = 0,
@@ -64,7 +56,9 @@ const TripCostDetailsTable = ({ obj }) => {
     grandTotalShipmentCost = 0,
     grandTotalIncome = 0,
     totalProfitLoss = 0,
-    totalDriverPayable = 0;
+    totalDriverPayable = 0,
+    totalShipmentQty = 0,
+    totalAdvanceAmount = 0;
 
   return (
     <>
@@ -94,6 +88,9 @@ const TripCostDetailsTable = ({ obj }) => {
               totalCarryingAllowance += item?.carryingAllowance;
               totalDailyAllowance += item?.dailyAllowance;
               totalDownTripAllowance += item?.downTripAllowance;
+              grandTotalShipmentCost += item?.shipmentFareAmount;
+              totalShipmentQty += item?.shipmentQnt;
+              totalAdvanceAmount += item?.advanceAmount;
 
               const totalTripCost =
                 item?.standardFuelCost +
@@ -108,7 +105,8 @@ const TripCostDetailsTable = ({ obj }) => {
 
               grandTotalTripCost += totalTripCost;
 
-              const totalIncome = 0 + item?.downTripFareCash;
+              const totalIncome =
+                item?.shipmentFareAmount + item?.downTripFareCash;
 
               grandTotalIncome += totalIncome;
 
@@ -117,9 +115,21 @@ const TripCostDetailsTable = ({ obj }) => {
 
               const driverNetPayable =
                 totalTripCost -
-                (item?.standardFuelCost + item?.downTripFareCash + 0);
+                (item?.standardFuelCost +
+                  item?.downTripFareCash +
+                  item?.advanceAmount);
 
               totalDriverPayable += driverNetPayable;
+
+              const inDateTime = `${_dateFormatter(item?.inDate)},  
+                ${moment(item?.inOutTime?.InTime, "HH:mm:ss.SSSSSSS").format(
+                  "hh:mm A"
+                )}`;
+
+              const outDateTime = `${_dateFormatter(item?.outDate)},  
+                ${moment(item?.inOutTime?.OutTime, "HH:mm:ss.SSSSSSS").format(
+                  "hh:mm A"
+                )}`;
 
               return (
                 <tr key={index}>
@@ -127,9 +137,9 @@ const TripCostDetailsTable = ({ obj }) => {
                   <td>{item?.vehicleNo}</td>
                   <td>{item?.shipPointName}</td>
                   <td>{item?.shipmentCode}</td>
-                  {/* <td className="text-center">{"qty"}</td>
-                  <td className="text-center">{"out"}</td>
-                  <td className="text-right">{"in"}</td> */}
+                  <td className="text-center">{item?.shipmentQnt}</td>
+                  <td className="text-center">{inDateTime}</td>
+                  <td className="text-right">{outDateTime}</td>
                   <td className="text-right">{item?.millage}</td>
                   <td className="text-right">{item?.additionalMillage}</td>
                   <td className="text-right">
@@ -146,9 +156,9 @@ const TripCostDetailsTable = ({ obj }) => {
                   <td className="text-right">{item?.dailyAllowance}</td>
                   <td className="text-right">{item?.downTripAllowance}</td>
                   <td className="text-right">{totalTripCost}</td>
-                  {/* <td className="text-right">{"advance"}</td> */}
+                  <td className="text-right">{item?.advanceAmount}</td>
                   <td className="text-right">{item?.downTripFareCash}</td>
-                  <td className="text-right">{"0"}</td>
+                  <td className="text-right">{item?.shipmentFareAmount}</td>
                   <td className="text-right">{totalIncome}</td>
                   <td className="text-right">{profitLoss}</td>
                   <td className="text-right">{driverNetPayable}</td>
@@ -162,7 +172,10 @@ const TripCostDetailsTable = ({ obj }) => {
                 Total
               </td>
 
+              <td>{totalShipmentQty}</td>
               <td>{F_totalMillage}</td>
+              <td colSpan={2}></td>
+
               <td>{F_otalAdditionalMillage}</td>
               <td>{F_otalAdditionalMillage + F_totalMillage}</td>
               <td>{F_totalStandardFuelCost}</td>
@@ -176,6 +189,7 @@ const TripCostDetailsTable = ({ obj }) => {
               <td>{totalDownTripAllowance}</td>
 
               <td> {grandTotalTripCost} </td>
+              <td> {totalAdvanceAmount} </td>
               <td> {totalDownTripFareCash} </td>
               <td> {grandTotalShipmentCost} </td>
               <td> {grandTotalIncome} </td>
