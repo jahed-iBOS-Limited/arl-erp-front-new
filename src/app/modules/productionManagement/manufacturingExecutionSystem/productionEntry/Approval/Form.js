@@ -238,12 +238,13 @@ export default function _Form({
                               type="number"
                               name="approvedQuantity"
                               defaultValue={item?.approvedQuantity}
+                              disabled
                             />
                           </td>
                           <td className="text-center pb-0">
-                            <span onClick={() => deleteHandler(index)}>
+                            {/* <span onClick={() => deleteHandler(index)}>
                               <IDelete />
-                            </span>
+                            </span> */}
                           </td>
                         </tr>
                       ))}
