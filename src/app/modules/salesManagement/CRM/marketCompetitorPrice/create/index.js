@@ -1,5 +1,5 @@
 import { Formik } from "formik";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { useHistory } from "react-router-dom";
@@ -15,6 +15,11 @@ import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import useAxiosPut from "../../../../_helper/customHooks/useAxiosPut";
 import Loading from "./../../../../_helper/_loading";
 import RowTable from "./rowTable";
+import {
+  getUniqueGroups,
+  onFilterHandler,
+  onResetFilterHandler,
+} from "./helper";
 const initData = {
   date: _todayDate(),
   businessUnit: "",
@@ -23,6 +28,9 @@ const initData = {
   policeStation: "",
   territory: "",
   group: "",
+  subCategory: "",
+  skuName: "",
+  brandName: "",
 };
 export const validationSchema = Yup.object().shape({
   businessUnit: Yup.object().shape({
@@ -71,8 +79,14 @@ function Form() {
   const [, setCompetitorPriceById, loadingGetBy] = useAxiosGet();
   const [, postCreateCompetitorPrice, postLoading] = useAxiosPost();
   const [, putCompetitorPrice, putLoading] = useAxiosPut();
-  const [groupList, getGroupList, groupLoading, setGroupList] = useAxiosGet();
   const formikRef = React.useRef(null);
+  const [filterType, setFilterType] = useState({
+    groupList: [],
+    subCategoryList: [],
+    skuList: [],
+    brandList: [],
+  });
+  const [allData, setAllData] = useState([]);
 
   useEffect(() => {
     if (buId && accId) {
@@ -84,9 +98,6 @@ function Form() {
         `/domain/BusinessUnitDomain/GetBusinessUnitDDL?AccountId=${accId}&BusinessUnitId=0`
       );
     }
-    getGroupList(
-      `/oms/CompetitorChannel/GetCompetitorGroupDDL?businessUnitId=${buId}`
-    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
 
@@ -208,6 +219,7 @@ function Form() {
           numMillRate: +itm?.numMillRate || 0,
           numAvgTransportFare: +itm?.numAvgTransportFare || 0,
           numLandingRate: +itm?.numLandingRate || 0,
+          numLandingRateMkt: +itm?.numLandingRateMkt || 0,
           numAvgMarketOffer: +itm?.numAvgMarketOffer || 0,
           numNsp: +itm?.numNsp || 0,
           numDp: +itm?.numDp || 0,
@@ -248,14 +260,19 @@ function Form() {
 
   const viewHandler = (values) => {
     setRowDto([]);
+    onResetFilterHandler(values?.setFieldValue);
     setCompetitorProductsRowList(
-      `/oms/CompetitorPrice/GetCompetitorProductsRowList?channelId=${
-        values?.channel?.value
-      }&groupName=${
-        values?.group?.label === "All" ? "" : values?.group?.label || ""
-      }&businessUnitId=${values?.businessUnit?.value}`,
+      `/oms/CompetitorPrice/GetCompetitorProductsRowList?channelId=${values?.channel?.value}&businessUnitId=${values?.businessUnit?.value}`,
       (resData) => {
         setRowDto(resData);
+        setAllData(resData);
+        const generatedFilterType = {
+          groupList: getUniqueGroups("strGroup", resData),
+          subCategoryList: getUniqueGroups("strProductCategory", resData),
+          skuList: getUniqueGroups("strProductSku", resData),
+          brandList: getUniqueGroups("strProductBrand", resData),
+        };
+        setFilterType(generatedFilterType);
       }
     );
   };
@@ -293,11 +310,9 @@ function Form() {
               resetForm(initData);
             }}
           >
-            {(postLoading ||
-              rowListLoading ||
-              loadingGetBy ||
-              putLoading ||
-              groupLoading) && <Loading />}
+            {(postLoading || rowListLoading || loadingGetBy || putLoading) && (
+              <Loading />
+            )}
             <form>
               <div className="row global-form">
                 <div className="col-lg-3">
@@ -329,17 +344,13 @@ function Form() {
                     onChange={(valueOption) => {
                       setFieldValue("businessUnit", valueOption || "");
                       setFieldValue("territory", "");
-                      setFieldValue("group", "");
-                      setGroupList([]);
                       setTerritoryDDL(
                         `/oms/TerritoryInfo/GetTerritoryList?AccountId=${accId}&BusinessUnitId=${valueOption?.value}`
-                      );
-                      getGroupList(
-                        `/oms/CompetitorChannel/GetCompetitorGroupDDL?businessUnitId=${valueOption?.value}`
                       );
                       viewHandler({
                         ...values,
                         businessUnit: valueOption,
+                        setFieldValue,
                       });
                     }}
                     placeholder="Select Business Unit"
@@ -359,6 +370,7 @@ function Form() {
                       viewHandler({
                         ...values,
                         channel: valueOption,
+                        setFieldValue,
                       });
                     }}
                     placeholder="Select Channel"
@@ -422,7 +434,7 @@ function Form() {
                     <button
                       className="btn btn-primary mt-3"
                       onClick={() => {
-                        viewHandler(values);
+                        viewHandler({ ...values, setFieldValue });
                       }}
                       type="button"
                       disabled={!values?.channel}
@@ -433,24 +445,81 @@ function Form() {
                 )}
               </div>
 
-              <div>
-                <div className="col-lg-3">
+              <div className="row">
+                <div className="col-lg-2">
                   <NewSelect
                     name="group"
-                    options={groupList}
+                    options={filterType?.groupList || []}
                     value={values?.group}
                     label="Group"
                     onChange={(valueOption) => {
                       setFieldValue("group", valueOption || "");
-                      viewHandler({
-                        ...values,
-                        group: valueOption,
-                      });
+                      onFilterHandler(
+                        allData,
+                        { ...values, group: { ...valueOption } },
+                        setRowDto
+                      );
                     }}
                     placeholder="Select Group"
                     errors={errors}
                     touched={touched}
-                    isDisabled={id || !values?.businessUnit}
+                  />
+                </div>
+                <div className="col-lg-2">
+                  <NewSelect
+                    name="subCategory"
+                    options={filterType?.subCategoryList || []}
+                    value={values?.subCategory}
+                    label="Sub Category"
+                    onChange={(valueOption) => {
+                      setFieldValue("subCategory", valueOption || "");
+                      onFilterHandler(
+                        allData,
+                        { ...values, subCategory: { ...valueOption } },
+                        setRowDto
+                      );
+                    }}
+                    placeholder="Sub Category"
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-2">
+                  <NewSelect
+                    name="skuName"
+                    options={filterType?.skuList || []}
+                    value={values?.skuName}
+                    label="SKU Name"
+                    onChange={(valueOption) => {
+                      setFieldValue("skuName", valueOption || "");
+                      onFilterHandler(
+                        allData,
+                        { ...values, skuName: { ...valueOption } },
+                        setRowDto
+                      );
+                    }}
+                    placeholder="SKU Name"
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-2">
+                  <NewSelect
+                    name="brandName"
+                    options={filterType?.brandList || []}
+                    value={values?.brandName}
+                    label="Brand Name"
+                    onChange={(valueOption) => {
+                      setFieldValue("brandName", valueOption || "");
+                      onFilterHandler(
+                        allData,
+                        { ...values, brandName: { ...valueOption } },
+                        setRowDto
+                      );
+                    }}
+                    placeholder="Brand Name"
+                    errors={errors}
+                    touched={touched}
                   />
                 </div>
               </div>

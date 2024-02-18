@@ -175,6 +175,7 @@ export default function _Form({
   //Akij Essentials Ltd
   const isBUIEssentials = selectedBusinessUnit?.value === 144;
   const isBUILineAsia = selectedBusinessUnit?.value === 209;
+  const isBUICommodities = selectedBusinessUnit?.value === 221;
   const channelBulk = headerData?.distributionChannel?.value === 67;
 
   return (
@@ -1321,7 +1322,7 @@ export default function _Form({
                                 </td>
                               )}
                               {/* is Vat Price true*/}
-                              {itm.isVatPrice &&
+                              {!isBUICommodities && itm.isVatPrice &&
                               headerData?.salesOrg?.value !== 17 ? (
                                 <td className='text-center'>
                                   {itm.vatPrice || 0}
@@ -1332,7 +1333,7 @@ export default function _Form({
                                     priceStructureCheck?.value) ||
                                   // &&
                                   // selectedBusinessUnit?.value !== 183
-                                  (isBUIEssentials || isBUILineAsia) &&
+                                  (isBUIEssentials || isBUILineAsia || isBUICommodities) &&
                                     selectedBusinessUnit?.value !== 183 ? (
                                     <td
                                       className='align-middle'

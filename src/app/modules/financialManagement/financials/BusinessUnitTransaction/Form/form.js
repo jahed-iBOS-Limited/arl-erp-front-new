@@ -74,7 +74,8 @@ export default function _Form({
                 <div className="col-lg-3">
                   <ISelect
                     label="Select General Ledger"
-                    options={generalLedger?.length ? generalLedger?.filter((item)=> item?.isSubGlAllowed) : []}
+                    // options={generalLedger?.length ? generalLedger?.filter((item)=> item?.isSubGlAllowed) : []}
+                    options={generalLedger || []}
                     value={values.generalLedger}
                     name="generalLedger"
                     setFieldValue={setFieldValue}
