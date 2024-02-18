@@ -10,8 +10,8 @@ const headers = [
   { name: "ShipPoint", style: { minWidth: "160px" } },
   { name: "Shipment Code", style: { minWidth: "130px" } },
   { name: "Shipment Qty", style: { minWidth: "70px" } },
-  { name: "Out Date-Time", style: { minWidth: "80px" } },
-  { name: "In Date-Time", style: { minWidth: "80px" } },
+  { name: "Out Date-Time", style: { minWidth: "120px" } },
+  { name: "In Date-Time", style: { minWidth: "120px" } },
   { name: "Standard Millage (KM)", style: { minWidth: "70px" } },
   { name: "Addition Millage (Km)", style: { minWidth: "70px" } },
   { name: "Actual Millage (Km)", style: { minWidth: "70px" } },
@@ -110,7 +110,7 @@ const TripCostDetailsTable = ({ obj }) => {
 
               grandTotalIncome += totalIncome;
 
-              const profitLoss = totalTripCost - totalIncome;
+              const profitLoss = totalIncome - totalTripCost;
               totalProfitLoss += profitLoss;
 
               const driverNetPayable =
@@ -121,15 +121,25 @@ const TripCostDetailsTable = ({ obj }) => {
 
               totalDriverPayable += driverNetPayable;
 
+              const inOutTime = item?.inOutTime?.split(" ");
+
               const inDateTime = `${_dateFormatter(item?.inDate)},  
-                ${moment(item?.inOutTime?.InTime, "HH:mm:ss.SSSSSSS").format(
-                  "hh:mm A"
-                )}`;
+                ${
+                  item?.inOutTime
+                    ? moment(inOutTime[3]?.split(".")[0], "HH:mm:ss").format(
+                        "hh:mm A"
+                      )
+                    : ""
+                }`;
 
               const outDateTime = `${_dateFormatter(item?.outDate)},  
-                ${moment(item?.inOutTime?.OutTime, "HH:mm:ss.SSSSSSS").format(
-                  "hh:mm A"
-                )}`;
+                ${
+                  item?.inOutTime
+                    ? moment(inOutTime[6]?.split(".")[0], "HH:mm:ss").format(
+                        "hh:mm A"
+                      )
+                    : ""
+                }`;
 
               return (
                 <tr key={index}>
@@ -137,9 +147,9 @@ const TripCostDetailsTable = ({ obj }) => {
                   <td>{item?.vehicleNo}</td>
                   <td>{item?.shipPointName}</td>
                   <td>{item?.shipmentCode}</td>
-                  <td className="text-center">{item?.shipmentQnt}</td>
-                  <td className="text-center">{inDateTime}</td>
-                  <td className="text-right">{outDateTime}</td>
+                  <td className="text-right">{item?.shipmentQnt}</td>
+                  <td>{inDateTime}</td>
+                  <td>{outDateTime}</td>
                   <td className="text-right">{item?.millage}</td>
                   <td className="text-right">{item?.additionalMillage}</td>
                   <td className="text-right">
@@ -173,8 +183,8 @@ const TripCostDetailsTable = ({ obj }) => {
               </td>
 
               <td>{totalShipmentQty}</td>
-              <td>{F_totalMillage}</td>
               <td colSpan={2}></td>
+              <td>{F_totalMillage}</td>
 
               <td>{F_otalAdditionalMillage}</td>
               <td>{F_otalAdditionalMillage + F_totalMillage}</td>
