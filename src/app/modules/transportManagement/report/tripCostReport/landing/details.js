@@ -15,6 +15,7 @@ const headers = [
   { name: "Standard Millage (KM)", style: { minWidth: "70px" } },
   { name: "Addition Millage (Km)", style: { minWidth: "70px" } },
   { name: "Actual Millage (Km)", style: { minWidth: "70px" } },
+  { name: "Standard Fuel Cost", style: { minWidth: "70px" } },
   { name: "Actual Fuel Cost", style: { minWidth: "70px" } },
   { name: "Bridge Toll", style: { minWidth: "70px" } },
   // { name: "Chada", style: { minWidth: "70px" } },
@@ -40,8 +41,9 @@ const TripCostDetailsTable = ({ obj }) => {
 
   //   totals initialization
   let F_totalMillage = 0;
-  let F_otalAdditionalMillage = 0;
+  let F_totalAdditionalMillage = 0;
   let F_totalStandardFuelCost = 0;
+  let F_totalActualFuelCost = 0;
 
   let totalBridgeToll = 0,
     totalLaborTips = 0,
@@ -68,8 +70,9 @@ const TripCostDetailsTable = ({ obj }) => {
             {rowData?.map((item, index) => {
               //==========row CalCulation============//
               F_totalMillage += item?.millage;
-              F_otalAdditionalMillage += item?.additionalMillage;
-              F_totalStandardFuelCost += item?.standardFuelCost;
+              F_totalAdditionalMillage += item?.additionalMillage;
+              F_totalStandardFuelCost += item?.fuelStandard;
+              F_totalStandardFuelCost += item?.fuelActual;
               // F_totalAdministrativeCost += item?.administrativeCost;
               // F_totalDriverExpense += item?.driverExpense;
               // F_totalTripFare += item?.tripFare;
@@ -93,7 +96,7 @@ const TripCostDetailsTable = ({ obj }) => {
               totalAdvanceAmount += item?.advanceAmount;
 
               const totalTripCost =
-                item?.standardFuelCost +
+                item?.fuelActual +
                 item?.bridgeTollChada +
                 item?.laborTips +
                 item?.policeTips +
@@ -115,7 +118,7 @@ const TripCostDetailsTable = ({ obj }) => {
 
               const driverNetPayable =
                 totalTripCost -
-                (item?.standardFuelCost +
+                (item?.fuelActual +
                   item?.downTripFareCash +
                   item?.advanceAmount);
 
@@ -123,23 +126,21 @@ const TripCostDetailsTable = ({ obj }) => {
 
               const inOutTime = item?.inOutTime?.split(" ");
 
-              const inDateTime = `${_dateFormatter(item?.inDate)},  
-                ${
-                  item?.inOutTime
-                    ? moment(inOutTime[3]?.split(".")[0], "HH:mm:ss").format(
-                        "hh:mm A"
-                      )
-                    : ""
-                }`;
+              const inDateTime = `${_dateFormatter(item?.inDate)}${
+                item?.inOutTime
+                  ? `, ${moment(inOutTime[3]?.split(".")[0], "HH:mm:ss").format(
+                      "hh:mm A"
+                    )}`
+                  : ""
+              }`;
 
-              const outDateTime = `${_dateFormatter(item?.outDate)},  
-                ${
-                  item?.inOutTime
-                    ? moment(inOutTime[6]?.split(".")[0], "HH:mm:ss").format(
-                        "hh:mm A"
-                      )
-                    : ""
-                }`;
+              const outDateTime = `${_dateFormatter(item?.outDate)}${
+                item?.inOutTime
+                  ? `, ${moment(inOutTime[6]?.split(".")[0], "HH:mm:ss").format(
+                      "hh:mm A"
+                    )}`
+                  : ""
+              }`;
 
               return (
                 <tr key={index}>
@@ -148,14 +149,15 @@ const TripCostDetailsTable = ({ obj }) => {
                   <td>{item?.shipPointName}</td>
                   <td>{item?.shipmentCode}</td>
                   <td className="text-right">{item?.shipmentQnt}</td>
-                  <td>{inDateTime}</td>
-                  <td>{outDateTime}</td>
+                  <td>{item?.inDate ? inDateTime : ""}</td>
+                  <td>{item?.outDate ? outDateTime : ""}</td>
                   <td className="text-right">{item?.millage}</td>
                   <td className="text-right">{item?.additionalMillage}</td>
                   <td className="text-right">
                     {item?.millage + item?.additionalMillage}
                   </td>
-                  <td className="text-right">{item?.standardFuelCost}</td>
+                  <td className="text-right">{item?.fuelStandard}</td>
+                  <td className="text-right">{item?.fuelActual}</td>
                   <td className="text-right">{item?.bridgeTollChada}</td>
                   {/* <td className="text-right">{"Chada"}</td> */}
                   <td className="text-right">{item?.laborTips}</td>
@@ -170,7 +172,16 @@ const TripCostDetailsTable = ({ obj }) => {
                   <td className="text-right">{item?.downTripFareCash}</td>
                   <td className="text-right">{item?.shipmentFareAmount}</td>
                   <td className="text-right">{totalIncome}</td>
-                  <td className="text-right">{profitLoss}</td>
+                  <td
+                    className="text-right"
+                    style={{
+                      backgroundColor: `${
+                        profitLoss > 0 ? "#26f5188f" : "#ff000070"
+                      }`,
+                    }}
+                  >
+                    {profitLoss}
+                  </td>
                   <td className="text-right">{driverNetPayable}</td>
                   <td>{_dateFormatter(item?.billDate)}</td>
                 </tr>
@@ -186,9 +197,10 @@ const TripCostDetailsTable = ({ obj }) => {
               <td colSpan={2}></td>
               <td>{F_totalMillage}</td>
 
-              <td>{F_otalAdditionalMillage}</td>
-              <td>{F_otalAdditionalMillage + F_totalMillage}</td>
+              <td>{F_totalAdditionalMillage}</td>
+              <td>{F_totalAdditionalMillage + F_totalMillage}</td>
               <td>{F_totalStandardFuelCost}</td>
+              <td>{F_totalActualFuelCost}</td>
               <td>{totalBridgeToll}</td>
               <td>{totalLaborTips}</td>
               <td>{totalPoliceTips}</td>
