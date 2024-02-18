@@ -118,7 +118,7 @@ export function TableRow() {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={{}}
+      initialValues={initData}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         // saveHandler(values, () => {
         //   resetForm(initData);

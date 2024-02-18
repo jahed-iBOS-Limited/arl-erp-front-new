@@ -10,7 +10,8 @@ export const initData = {
   item: "",
   busiPartner: "",
   personnel: "",
-  //locaStock:""
+  //locaStock:"",
+  profitCenter:"",
 };
 
 // // Validation schema

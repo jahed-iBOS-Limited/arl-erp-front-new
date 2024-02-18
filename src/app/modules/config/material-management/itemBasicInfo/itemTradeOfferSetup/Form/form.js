@@ -15,6 +15,8 @@ import { _dateFormatter } from "./../../../../../_helper/_dateFormate";
 import { toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
 import { _todayDate } from "./../../../../../_helper/_todayDate";
+import IButton from "../../../../../_helper/iButton";
+import AttachFile from "../../../../../_helper/commonInputFieldsGroups/attachemntUpload";
 // Validation schema
 const validationSchema = Yup.object().shape({
   // offerItem: Yup.string().required("Code is required"),
@@ -30,8 +32,10 @@ export default function _Form({
   setRowDto,
   rowDto,
   setDisabled,
+  setUploadedImage,
 }) {
   const [distributionChannelDDL, setDistributionChannelDDL] = useState([]);
+  const [open, setOpen] = useState(false);
   const { state: landingRowData } = useLocation();
   // get user profile data from store
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -41,7 +45,6 @@ export default function _Form({
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
- 
       GetDistributionChannelDDL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
@@ -53,46 +56,69 @@ export default function _Form({
   }, [selectedBusinessUnit, profileData]);
 
   const addRowHandler = (values) => {
-    const numMinQuantity = +values?.numMinQuantity || 0,
-      numMaxQuantity = +values?.numMaxQuantity || 0;
+    console.log("values", values);
+    const offerTypeId = values?.offerType?.value;
 
-    if (values?.isProportionalOffer === true && numMinQuantity <= 0)
-      return toast.warn("Minimum Qty  1");
+    if (offerTypeId === 1) {
+      const numMinQuantity = +values?.numMinQuantity || 0,
+        numMaxQuantity = +values?.numMaxQuantity || 0;
 
-    if (
-      numMinQuantity > numMaxQuantity &&
-      values?.isProportionalOffer === false
-    )
-      return toast.warn(`Please Input required  maximum  qty "${values?.numMinQuantity}"`);
+      if (values?.isProportionalOffer === true && numMinQuantity <= 0)
+        return toast.warn("Minimum Qty  1");
 
-    // const duplicateCheck = rowDto.some(
-    //   (itm) => itm?.intOfferItemId === values?.offerItem?.value
-    // );
-    // if (duplicateCheck) return toast.warn("Item duplicate not allowed");
+      if (
+        numMinQuantity > numMaxQuantity &&
+        values?.isProportionalOffer === false
+      )
+        return toast.warn(
+          `Please Input required  maximum  qty "${values?.numMinQuantity}"`
+        );
 
-    const obj = {
-      intAutoId: 0,
-      intItemId: landingRowData?.itemId || 0,
-      strItemName: landingRowData?.itemName || "",
-      intDistributionChannelId: values?.distributionChannel?.value || 0,
-      strDistributionChannelName: values?.distributionChannel?.label || "",
-      intOfferItemId: values?.offerItem?.value || 0,
-      strOfferItemName: values?.offerItem?.label || "",
-      dteFromDate: values?.fromDate,
-      dteToDate: values?.toDate,
-      numOfferQuantity: +values?.offerQuantity || 0,
-      numMinQuantity: +values?.numMinQuantity || 0,
-      numMaxQuantity: +values?.numMaxQuantity || 0,
-      isOfferContinuous: values?.isOfferContinuous || false,
-      isMinApplied: values?.isMinApplied || false,
-      isMaxApplied: values?.isMaxApplied || false,
-      intActionBy: profileData?.userId,
-      isProportionalOffer: values?.isProportionalOffer || false,
-      intAccountId: profileData?.accountId,
-      intBusinessUnitId: selectedBusinessUnit?.value,
-    };
-    setRowDto([...rowDto, obj]);
+      // const duplicateCheck = rowDto.some(
+      //   (itm) => itm?.intOfferItemId === values?.offerItem?.value
+      // );
+      // if (duplicateCheck) return toast.warn("Item duplicate not allowed");
+
+      const obj = {
+        intAutoId: 0,
+        intItemId: landingRowData?.itemId || 0,
+        strItemName: landingRowData?.itemName || "",
+        intDistributionChannelId: values?.distributionChannel?.value || 0,
+        strDistributionChannelName: values?.distributionChannel?.label || "",
+        intOfferItemId: values?.offerItem?.value || 0,
+        strOfferItemName: values?.offerItem?.label || "",
+        dteFromDate: values?.fromDate,
+        dteToDate: values?.toDate,
+        numOfferQuantity: +values?.offerQuantity || 0,
+        numMinQuantity: +values?.numMinQuantity || 0,
+        numMaxQuantity: +values?.numMaxQuantity || 0,
+        isOfferContinuous: values?.isOfferContinuous || false,
+        isMinApplied: values?.isMinApplied || false,
+        isMaxApplied: values?.isMaxApplied || false,
+        intActionBy: profileData?.userId,
+        isProportionalOffer: values?.isProportionalOffer || false,
+        intAccountId: profileData?.accountId,
+        intBusinessUnitId: selectedBusinessUnit?.value,
+      };
+      setRowDto([...rowDto, obj]);
+    } else if (offerTypeId === 2) {
+      const discountOnRateRow = {
+        promotionRowId: 0,
+        promotionId: 0,
+        orderFrom: +values?.numMinQuantity || 0,
+        orderTo: +values?.numMaxQuantity || 0,
+        discountTypeId: values?.offerType?.value,
+        discountTypeName: values?.offerType?.label,
+        itemId: values?.offerItem?.value,
+        itemName: values?.offerItem?.label,
+        discount: values?.offerQuantity,
+      };
+
+      setRowDto([...rowDto, discountOnRateRow]);
+    }
   };
+
+  console.log("rowDto", rowDto);
 
   const distributionChannelHandler = (values) => {
     getDistributionChannelIdApi(
@@ -144,19 +170,40 @@ export default function _Form({
               <div className="form-group row  global-form">
                 <div className="col-lg-3">
                   <NewSelect
+                    name="offerType"
+                    options={[
+                      {
+                        value: 1,
+                        label: "Discount on Quantity",
+                      },
+                      { value: 2, label: "Discount on Rate" },
+                    ]}
+                    value={values?.offerType}
+                    label="Offer Type"
+                    onChange={(valueOption) => {
+                      setFieldValue("offerType", valueOption);
+                    }}
+                    placeholder="Offer Type"
+                    errors={errors}
+                    touched={touched}
+                    isDisabled={rowDto?.length}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
                     name="distributionChannel"
                     options={distributionChannelDDL || []}
                     value={values?.distributionChannel}
                     label="Distribution Channel"
                     onChange={(valueOption) => {
                       setFieldValue("distributionChannel", valueOption);
-                      setFieldValue("offerItem", '');
+                      setFieldValue("offerItem", "");
                       setRowDto([]);
                       distributionChannelHandler({
                         ...values,
                         distributionChannel: valueOption,
                       });
-                      setItemDDL([])
+                      setItemDDL([]);
                       getItemSalesOfferDDLApi(
                         profileData?.accountId,
                         selectedBusinessUnit?.value,
@@ -167,6 +214,9 @@ export default function _Form({
                     placeholder="Distribution Channel"
                     errors={errors}
                     touched={touched}
+                    isDisabled={
+                      values?.offerType?.value === 2 && rowDto?.length
+                    }
                   />
                 </div>
                 <div className="col-lg-3">
@@ -207,11 +257,19 @@ export default function _Form({
                 </div>
 
                 <div className="col-lg-3">
-                  <label>Offer Quantity</label>
+                  <label>
+                    {values?.offerType?.value === 1
+                      ? "Offer Quantity"
+                      : "Discount Rate"}
+                  </label>
                   <InputField
                     value={values?.offerQuantity}
                     name="offerQuantity"
-                    placeholder="Offer Quantity"
+                    placeholder={
+                      values?.offerType?.value === 1
+                        ? "Offer Quantity"
+                        : "Discount Rate"
+                    }
                     type="number"
                   />
                 </div>
@@ -281,151 +339,226 @@ export default function _Form({
                     </div>
                   )}
                 </div>
-                <div
-                  className="col-lg-3 d-flex align-items-center"
-                  style={{ gap: "10px" }}
+
+                {values?.offerType?.value === 1 && (
+                  <>
+                    <div
+                      className="col-lg-3 d-flex align-items-center"
+                      style={{ gap: "10px" }}
+                    >
+                      <div className="d-flex flex-column">
+                        <label className="" for="isOfferContinuous">
+                          <b>Offer Continuous</b>
+                        </label>
+                        <input
+                          value={values?.isOfferContinuous}
+                          checked={values?.isOfferContinuous}
+                          type="checkbox"
+                          className=" ml-3 mt-2"
+                          name="isOfferContinuous"
+                          onChange={(e) => {
+                            setFieldValue(
+                              "isOfferContinuous",
+                              e.target.checked
+                            );
+                            if (e.target.checked) {
+                              setFieldValue("toDate", _todayDate());
+                            } else {
+                              setFieldValue("toDate", values?.fromDate || "");
+                            }
+                          }}
+                          id="isOfferContinuous"
+                        />
+                      </div>
+                      <div className="d-flex flex-column">
+                        <label className="" for="isProportionalOffer">
+                          <b>Proportional Offer</b>
+                        </label>
+
+                        <input
+                          type="checkbox"
+                          value={values?.isProportionalOffer}
+                          checked={values?.isProportionalOffer}
+                          className=" ml-3 mt-2"
+                          name="isProportionalOffer"
+                          onChange={(e) => {
+                            setFieldValue(
+                              "isProportionalOffer",
+                              e.target.checked
+                            );
+                            setFieldValue("isMaxApplied", false);
+                            setFieldValue("numMaxQuantity", "");
+                          }}
+                          id="isProportionalOffer"
+                        />
+                      </div>
+                    </div>
+                  </>
+                )}
+                <IButton
+                  onClick={() => {
+                    addRowHandler(values);
+                  }}
+                  disabled={
+                    !values?.toDate ||
+                    !values?.offerQuantity ||
+                    !values?.offerItem ||
+                    !values?.distributionChannel ||
+                    (values?.isOfferContinuous ? false : !values?.fromDate)
+                  }
                 >
-                  <div className="d-flex flex-column">
-                    <label className="" for="isOfferContinuous">
-                      <b>Offer Continuous</b>
-                    </label>
-                    <input
-                      value={values?.isOfferContinuous}
-                      checked={values?.isOfferContinuous}
-                      type="checkbox"
-                      className=" ml-3 mt-2"
-                      name="isOfferContinuous"
-                      onChange={(e) => {
-                        setFieldValue("isOfferContinuous", e.target.checked);
-                        if (e.target.checked) {
-                          setFieldValue("toDate", _todayDate());
-                        } else {
-                          setFieldValue("toDate", values?.fromDate || "");
-                        }
-                      }}
-                      id="isOfferContinuous"
-                    />
-                  </div>
-                  <div className="d-flex flex-column">
-                    <label className="" for="isProportionalOffer">
-                      <b>Proportional Offer</b>
-                    </label>
-
-                    <input
-                      type="checkbox"
-                      value={values?.isProportionalOffer}
-                      checked={values?.isProportionalOffer}
-                      className=" ml-3 mt-2"
-                      name="isProportionalOffer"
-                      onChange={(e) => {
-                        setFieldValue("isProportionalOffer", e.target.checked);
-                        setFieldValue("isMaxApplied", false);
-                        setFieldValue("numMaxQuantity", "");
-                      }}
-                      id="isProportionalOffer"
-                    />
-                  </div>
-                </div>
-
-                <div className="col-lg d-flex justify-content-end">
-                  <button
-                    type="button"
+                  Add
+                </IButton>
+                {values?.offerType?.value === 2 && (
+                  <IButton
                     onClick={() => {
-                      addRowHandler(values);
+                      setOpen(true);
                     }}
-                    disabled={
-                      !values?.toDate ||
-                      !values?.offerQuantity ||
-                      !values?.offerItem ||
-                      !values?.distributionChannel ||
-                      (values?.isOfferContinuous ? false : !values?.fromDate)
-                    }
-                    className="btn btn-primary"
                   >
-                    Add
-                  </button>
-                </div>
+                    Attach File
+                  </IButton>
+                )}
+                <AttachFile obj={{ open, setOpen, setUploadedImage }} />
               </div>
 
-              <div className="table-responsive">
-                <table className="table table-striped global-table">
-                  <thead>
-                    <tr>
-                      <th style={{ width: "30px" }}>SL</th>
-                      <th style={{ width: "50px" }}>Offer Item</th>
-                      <th style={{ width: "50px" }}>From Date</th>
-                      <th style={{ width: "50px" }}>To Date</th>
-                      <th style={{ width: "50px" }}>Offer Quantity</th>
-                      <th style={{ width: "50px" }}>Minimum Qty</th>
-                      <th style={{ width: "50px" }}>Maximum Qty</th>
-                      <th style={{ width: "50px" }}>Offer Continuous</th>
-                      <th style={{ width: "50px" }}>Proportional Offer</th>
-                      <th style={{ width: "50px" }}>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {rowDto?.map((data, index) => (
-                      <tr key={index} style={{ textAlign: "center" }}>
-                        <td>{index + 1}</td>
-                        <td>
-                          <div className="pl-2">{data?.strOfferItemName}</div>
-                        </td>
-
-                        <td>{_dateFormatter(data?.dteFromDate)}</td>
-                        <td>
-                          {data?.isOfferContinuous
-                            ? ""
-                            : _dateFormatter(data?.dteToDate)}
-                        </td>
-                        <td>
-                          <InputField
-                            value={data?.numOfferQuantity || ""}
-                            name="offerQuantity"
-                            placeholder="Offer Quantity"
-                            type="number"
-                            onChange={(e) => {
-                              const coppyRowDto = [...rowDto];
-                              coppyRowDto[index].numOfferQuantity =
-                                e.target.value;
-                              setRowDto(coppyRowDto);
-                            }}
-                          />
-                        </td>
-                        <td>{data?.numMinQuantity || 0}</td>
-                        <td>{data?.numMaxQuantity || 0}</td>
-                        <td>{data?.isOfferContinuous ? "Yes" : "No"}</td>
-                        <td>{data?.isProportionalOffer ? "Yes" : "No"}</td>
-                        <td>
-                          <div className="d-flex justify-content-around">
-                            <span
-                              className="delete"
-                              onClick={() => {
-                                const filterArr = rowDto.filter(
-                                  (itm, idx) => index !== idx
-                                );
-                                if (data?.intAutoId) {
-                                  const payload = [data?.intAutoId];
-                                  DeleteTradeOfferConfigurationApi(
-                                    payload,
-                                    setDisabled,
-                                    () => {
-                                      setRowDto(filterArr);
-                                    }
-                                  );
-                                } else {
-                                  setRowDto(filterArr);
-                                }
-                              }}
-                            >
-                              <IDelete />
-                            </span>
-                          </div>
-                        </td>
+              {values?.offerType?.value === 1 ? (
+                <div className="table-responsive">
+                  <table className="table table-striped global-table">
+                    <thead>
+                      <tr>
+                        <th style={{ width: "30px" }}>SL</th>
+                        <th style={{ width: "50px" }}>Offer Item</th>
+                        <th style={{ width: "50px" }}>From Date</th>
+                        <th style={{ width: "50px" }}>To Date</th>
+                        <th style={{ width: "50px" }}>Offer Quantity</th>
+                        <th style={{ width: "50px" }}>Minimum Qty</th>
+                        <th style={{ width: "50px" }}>Maximum Qty</th>
+                        <th style={{ width: "50px" }}>Offer Continuous</th>
+                        <th style={{ width: "50px" }}>Proportional Offer</th>
+                        <th style={{ width: "50px" }}>Action</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                    </thead>
+                    <tbody>
+                      {rowDto?.map((data, index) => (
+                        <tr key={index} style={{ textAlign: "center" }}>
+                          <td>{index + 1}</td>
+                          <td>
+                            <div className="pl-2">{data?.strOfferItemName}</div>
+                          </td>
+
+                          <td>{_dateFormatter(data?.dteFromDate)}</td>
+                          <td>
+                            {data?.isOfferContinuous
+                              ? ""
+                              : _dateFormatter(data?.dteToDate)}
+                          </td>
+                          <td>
+                            <InputField
+                              value={data?.numOfferQuantity || ""}
+                              name="offerQuantity"
+                              placeholder="Offer Quantity"
+                              type="number"
+                              onChange={(e) => {
+                                const coppyRowDto = [...rowDto];
+                                coppyRowDto[index].numOfferQuantity =
+                                  e.target.value;
+                                setRowDto(coppyRowDto);
+                              }}
+                            />
+                          </td>
+                          <td>{data?.numMinQuantity || 0}</td>
+                          <td>{data?.numMaxQuantity || 0}</td>
+                          <td>{data?.isOfferContinuous ? "Yes" : "No"}</td>
+                          <td>{data?.isProportionalOffer ? "Yes" : "No"}</td>
+                          <td>
+                            <div className="d-flex justify-content-around">
+                              <span
+                                className="delete"
+                                onClick={() => {
+                                  const filterArr = rowDto.filter(
+                                    (itm, idx) => index !== idx
+                                  );
+                                  if (data?.intAutoId) {
+                                    const payload = [data?.intAutoId];
+                                    DeleteTradeOfferConfigurationApi(
+                                      payload,
+                                      setDisabled,
+                                      () => {
+                                        setRowDto(filterArr);
+                                      }
+                                    );
+                                  } else {
+                                    setRowDto(filterArr);
+                                  }
+                                }}
+                              >
+                                <IDelete />
+                              </span>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : values?.offerType?.value === 2 ? (
+                <div className="table-responsive">
+                  <table className="table table-striped global-table">
+                    <thead>
+                      <tr>
+                        <th style={{ width: "30px" }}>SL</th>
+                        <th style={{ width: "50px" }}>Offer Item</th>
+                        <th style={{ width: "50px" }}>Offer Quantity</th>
+                        <th style={{ width: "50px" }}>Minimum Qty</th>
+                        <th style={{ width: "50px" }}>Maximum Qty</th>
+                        <th style={{ width: "50px" }}>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rowDto?.map((data, index) => (
+                        <tr key={index} style={{ textAlign: "center" }}>
+                          <td>{index + 1}</td>
+                          <td>
+                            <div className="pl-2">{data?.itemName}</div>
+                          </td>
+
+                          <td>{data?.discount}</td>
+                          <td>{data?.orderFrom || 0}</td>
+                          <td>{data?.orderTo || 0}</td>
+                          <td>
+                            <div className="d-flex justify-content-around">
+                              <span
+                                className="delete"
+                                onClick={() => {
+                                  const filterArr = rowDto.filter(
+                                    (itm, idx) => index !== idx
+                                  );
+                                  if (data?.intAutoId) {
+                                    // const payload = [data?.intAutoId];
+                                    // DeleteTradeOfferConfigurationApi(
+                                    //   payload,
+                                    //   setDisabled,
+                                    //   () => {
+                                    //     setRowDto(filterArr);
+                                    //   }
+                                    // );
+                                  } else {
+                                    setRowDto(filterArr);
+                                  }
+                                }}
+                              >
+                                <IDelete />
+                              </span>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <></>
+              )}
 
               <button
                 type="submit"

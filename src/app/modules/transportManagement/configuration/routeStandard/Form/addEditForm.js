@@ -1,19 +1,20 @@
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
+import React, { useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import IForm from "../../../../_helper/_form";
-import { useLocation } from "react-router-dom";
-import {
-  createRouteStandardCost,
-
-  GetRouteStandardCostDetails_api,
-} from "../helper";
+import { createRouteStandardCost } from "../helper";
+import Form from "./form";
+import Loading from "./../../../../_helper/_loading";
+import { toast } from "react-toastify";
 
 const initData = {
   id: undefined,
   transportOrganizationName: "",
   routeName: "",
+  vehicleCapacity: "",
+  componentName: "",
+  amount: "",
+  shipPoint: "",
   itemLists: [],
 };
 
@@ -24,8 +25,7 @@ export default function RouteStandardForm({
   },
 }) {
   const [isDisabled, setDisabled] = useState(false);
-  const [singleData, setSingleData] = useState("");
-  const { state: landingData } = useLocation();
+
   // get user profile data from store
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -38,6 +38,9 @@ export default function RouteStandardForm({
 
   const saveHandler = async (values, cb) => {
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
+      if (values?.itemLists?.length === 0)
+        return toast.warn("Please add atleast one item");
+
       const payload = values?.itemLists?.map((itm) => ({
         standardCostId: itm?.standardCostId || 0,
         accountId: profileData?.accountId,
@@ -48,6 +51,10 @@ export default function RouteStandardForm({
         transportRouteCostComponentId: itm?.transportRouteCostComponentId || 0,
         amount: +itm?.amount || 0,
         actionBy: profileData?.userId,
+        vehicleCapacityName: itm?.vehicleCapacityName || 0,
+        vehicleCapacityId: itm?.vehicleCapacityId || 0,
+        shipPointId: itm?.shipPointId || 0,
+        shipPointName: itm?.shipPointName || '',
       }));
       createRouteStandardCost(payload, cb, setDisabled, id);
     } else {
@@ -55,30 +62,6 @@ export default function RouteStandardForm({
     }
   };
   const [objProps, setObjprops] = useState({});
-
-  const tableDataGetFunc = (orgId, routeId, setFieldValue, id) => {
-    GetRouteStandardCostDetails_api(
-      profileData?.accountId,
-      selectedBusinessUnit?.value,
-      orgId,
-      routeId,
-      setFieldValue,
-      id,
-      isDisabled
-    );
-  };
-
- useEffect(() => {
-    if (id && landingData?.transportOrganizationId && landingData?.routeId) {
-      tableDataGetFunc(
-        landingData?.transportOrganizationId,
-        landingData?.routeId,
-        setSingleData,
-        id
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, landingData]);
 
   return (
     <IForm
@@ -88,15 +71,17 @@ export default function RouteStandardForm({
       isHiddenSave={type === "view"}
       isHiddenReset={type === "view"}
     >
+      {isDisabled && <Loading />}
       <Form
         {...objProps}
-        initData={id ? singleData : initData}
+        initData={initData}
         saveHandler={saveHandler}
         // disableHandler={disableHandler}
         profileData={profileData}
         selectedBusinessUnit={selectedBusinessUnit}
         isEdit={id || false}
-        tableDataGetFunc={tableDataGetFunc}
+        id={id}
+        setDisabled={setDisabled}
       />
     </IForm>
   );

@@ -12,6 +12,8 @@ import PaginationTable from "../../../../_helper/_tablePagination";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import {
   complainLandingPasignation,
+  getBusinessUnitDDLApi,
+  getComplainCategory,
   getComplainStatus,
   respondentTypeDDL
 } from "../helper";
@@ -26,6 +28,14 @@ const initData = {
     value: 0,
     label: "All",
   },
+  respondentBusinessUnit: {
+    value: 0,
+    label: "All",
+  },
+  issueType: {
+    value: 0,
+    label: "All",
+  },
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -37,6 +47,8 @@ const ComplainLanding = () => {
   const [pageSize, setPageSize] = useState(15);
   const history = useHistory();
   const [complainStatus, setComplainStatus] = useState([]);
+  const [businessUnitDDL, setBusinessUnitDDL] = useState([]);
+  const [complainCategory, setComplainCategory] = useState([]);
   // get user data from store
   const {
     profileData: { accountId: accId, },
@@ -48,6 +60,8 @@ const ComplainLanding = () => {
       // employeEnroll_Api(accId, buId, SetEmployeeDDL);
       getComplainStatus(buId, setComplainStatus);
       commonGridData(pageNo, pageSize, initData);
+      getBusinessUnitDDLApi(accId, setBusinessUnitDDL);
+      getComplainCategory(buId, setComplainCategory);
     }
   }, [accId, buId]);
 
@@ -61,16 +75,18 @@ const ComplainLanding = () => {
   ) => {
     complainLandingPasignation(
       accId,
-      buId,
+      values?.respondentBusinessUnit?.value || 0,
       values?.respondentType?.value || 0,
       values?.fromDate,
       values?.toDate,
       values?.status?.value || 0,
-      pageNo,
-      pageSize,
+      values?.issueType?.value || 0,
+      _pageNo,
+      _pageSize,
       setGridData,
       setLoading,
-      searhValue
+      searhValue,
+      values?.respondentBusinessUnit?.value,
     );
   };
   return (
@@ -80,7 +96,7 @@ const ComplainLanding = () => {
         {({ values, setFieldValue, touched, errors }) => (
           <>
             <ICustomCard
-              title='Complaint'
+              title='Feedback'
               createHandler={() => {
                 history.push(
                   `/sales-management/complainmanagement/complain/entry`
@@ -113,6 +129,21 @@ const ComplainLanding = () => {
                 </div>
                 <div className='col-lg-3'>
                   <NewSelect
+                    name='respondentBusinessUnit'
+                    options={[{value:0, label:"All"}, ...businessUnitDDL] || []}
+                    value={values?.respondentBusinessUnit}
+                    label='Respondent Business Unit'
+                    onChange={(valueOption) => {
+                      setFieldValue(
+                        "respondentBusinessUnit",
+                        valueOption || ""
+                      );
+                     
+                    }}                   
+                  />
+                </div>
+                <div className='col-lg-3'>
+                  <NewSelect
                     name='status'
                     options={
                       [
@@ -130,6 +161,27 @@ const ComplainLanding = () => {
                       setGridData([]);
                     }}
                     placeholder='Status'
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className='col-lg-3'>
+                  <NewSelect
+                    name='issueType'
+                    options={[
+                      {
+                        value: 0,
+                        label: "All",
+                      },
+                      ...complainCategory,
+                    ] || []}
+                    value={values?.issueType}
+                    label='Issue Type'
+                    onChange={(valueOption) => {
+                      setFieldValue("issueType", valueOption || "");
+                      setGridData([]);
+                    }}
+                    placeholder='Issue Type'
                     errors={errors}
                     touched={touched}
                   />
@@ -159,7 +211,7 @@ const ComplainLanding = () => {
                     }}
                   />
                 </div>
-                <div className='col d-flex align-items-end justify-content-end'>
+                <div className='mt-3'>
                   <button
                     className='btn btn-primary mt-3'
                     onClick={() => {

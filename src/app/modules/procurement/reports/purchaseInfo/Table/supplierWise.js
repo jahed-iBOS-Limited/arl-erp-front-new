@@ -1,6 +1,6 @@
 import React from "react";
+import { _formatMoney } from "../../../../_helper/_formatMoney";
 import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
 
 function SupplierWise({ gridData }) {
   let numReceiveQty = 0,
@@ -44,13 +44,13 @@ function SupplierWise({ gridData }) {
                       <td className="text-left">{td?.strPaymentTermsName}</td>
                       <td className="text-left">{td?.strOtherTerms}</td>
                       <td className="text-right">
-                        {_fixedPoint(td?.numReceiveQty)}
+                        {_formatMoney(td?.numReceiveQty)}
                       </td>
                       <td className="text-right">
-                        {_fixedPoint(td?.numTotalQty)}
+                        {_formatMoney(td?.numTotalQty)}
                       </td>
                       <td className="text-right">
-                        {_fixedPoint(td?.numTotalAmount)}
+                        {_formatMoney(td?.numTotalAmount.toFixed(2))}
                       </td>
                     </tr>
                   );
@@ -60,9 +60,15 @@ function SupplierWise({ gridData }) {
                     Total
                   </td>
 
-                  <td className="text-right">{_fixedPoint(numReceiveQty)}</td>
-                  <td className="text-right">{_fixedPoint(numTotalQty)}</td>
-                  <td className="text-right">{_fixedPoint(numTotalAmount)}</td>
+                  <td className="text-right">
+                    {_formatMoney(numReceiveQty)}
+                  </td>
+                  <td className="text-right">
+                    {_formatMoney(numTotalQty)}
+                  </td>
+                  <td className="text-right">
+                    {_formatMoney(numTotalAmount.toFixed(2))}
+                  </td>
                 </tr>
               </tbody>
             </table>

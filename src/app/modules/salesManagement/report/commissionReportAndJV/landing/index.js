@@ -19,12 +19,15 @@ import {
   createJV,
   createTradeCommissionJV,
   getCommissionReport,
+  getCommissionStatus,
   getTradeCommissionData,
 } from "../helper";
 import CommissionReportAndJVForm from "./form";
 import CommissionReportAndJVTable from "./table";
+import CommissionReportAndJVTableTwo from "./tableTwo";
 
 const initData = {
+  reportType: { value: 1, label: "Pending" },
   type: "",
   month: "",
   year: "",
@@ -37,10 +40,11 @@ const initData = {
   area: "",
   transactionHead: "",
   narration: "",
+  status: { value: true, label: "Non-Reversed" },
 };
 
 // Government subsidy ids for six business units - (bongo, batayon, arl traders, direct trading, daily trading, eureshia)
-const idSet1 = [8, 9, 10, 11, 12, 13];
+const idSet1 = [8, 9, 10, 11, 12, 13, 21];
 const idSet2 = [14, 15, 16, 17, 18, 19, 20];
 const allIds = [...idSet1, ...idSet2];
 
@@ -55,7 +59,7 @@ const CommissionReportAndJV = () => {
 
   // get user profile data from store
   const {
-    profileData: { accountId: accId, userId, sectionId },
+    profileData: { accountId: accId, userId, sectionId, departmentId },
     selectedBusinessUnit: { value: buId, label: buName },
   } = useSelector((state) => state?.authData, shallowEqual);
 
@@ -70,33 +74,44 @@ const CommissionReportAndJV = () => {
   }, [accId, buId]);
 
   const getData = (values) => {
-    const typeId = idSet1.includes(values?.type?.value)
-      ? 8
-      : values?.type?.value;
-    if ([5, 3, 6, 7, ...allIds].includes(values?.type?.value)) {
-      getTradeCommissionData(
-        // values?.type?.value,
-        typeId,
-        accId,
-        buId,
-        values?.channel?.value,
-        values?.region?.value || 0,
-        values?.area?.value || 0,
-        values?.fromDate,
-        values?.toDate,
-        userId,
-        values?.commissionRate || 0,
-        setRowData,
-        setLoading
-      );
-    } else {
-      getCommissionReport(
-        accId,
+    const ids = [8, 9, 10, 11, 12, 13];
+    const typeId = ids.includes(values?.type?.value) ? 8 : values?.type?.value;
+    if (values?.reportType?.value === 1) {
+      if ([5, 3, 6, 7, ...allIds].includes(values?.type?.value)) {
+        getTradeCommissionData(
+          // values?.type?.value,
+          typeId,
+          accId,
+          buId,
+          values?.channel?.value,
+          values?.region?.value || 0,
+          values?.area?.value || 0,
+          values?.fromDate,
+          values?.toDate,
+          userId,
+          values?.commissionRate || 0,
+          setRowData,
+          setLoading
+        );
+      } else {
+        getCommissionReport(
+          accId,
+          buId,
+          values?.month?.value,
+          values?.year?.value,
+          values?.type?.value,
+          userId,
+          setRowData,
+          setLoading
+        );
+      }
+    } else if (values?.reportType?.value === 2) {
+      getCommissionStatus(
         buId,
         values?.month?.value,
         values?.year?.value,
-        values?.type?.value,
-        userId,
+        typeId,
+        values?.status?.value,
         setRowData,
         setLoading
       );
@@ -139,7 +154,8 @@ const CommissionReportAndJV = () => {
         (a, b) => a + +b?.commissiontaka,
         0
       );
-      const commissionTypeId = idSet1.includes(values?.type?.value)
+      const ids = [8, 9, 10, 11, 12, 13];
+      const commissionTypeId = ids.includes(values?.type?.value)
         ? 8
         : values?.type?.value;
       const payload = {
@@ -235,10 +251,11 @@ const CommissionReportAndJV = () => {
               <CardHeader title="Commission report and JV">
                 <CardHeaderToolbar>
                   <div className="d-flex justify-content-end">
-                    {sectionIds.includes(sectionId) && (
+                    {(sectionIds.includes(sectionId) ||
+                      departmentId === 299) && (
                       <>
                         <button
-                          className="btn btn-primary "
+                          className="btn btn-primary"
                           type="button"
                           onClick={() => {
                             JVCrate(values);
@@ -285,17 +302,34 @@ const CommissionReportAndJV = () => {
                     setUploadedImage,
                   }}
                 />
-                <CommissionReportAndJVTable
-                  obj={{
-                    buId,
-                    values,
-                    rowData,
-                    allSelect,
-                    selectedAll,
-                    editCommission,
-                    rowDataHandler,
-                  }}
-                />
+                {/* Pending Table */}
+                {values?.reportType?.value === 1 && (
+                  <CommissionReportAndJVTable
+                    obj={{
+                      buId,
+                      values,
+                      rowData,
+                      allSelect,
+                      selectedAll,
+                      editCommission,
+                      rowDataHandler,
+                    }}
+                  />
+                )}
+
+                {/* JV Created Table */}
+                {values?.reportType?.value === 2 && (
+                  <CommissionReportAndJVTableTwo
+                    obj={{
+                      values,
+                      rowData,
+                      setLoading,
+                      // allSelect,
+                      // selectedAll,
+                      // rowDataHandler,
+                    }}
+                  />
+                )}
               </CardBody>
             </Card>
           </>

@@ -639,6 +639,15 @@ const initState = {
   },
   bankGuarantee:{
     type: { value: 1, label: "Bank Guarantee" },
+  },
+  itemBasicInfoInitData:{
+    id: undefined,
+    itemSearch: "",
+    itemType: "",
+    itemCategory: { value: 0, label: "All" },
+    itemSubCategory: { value: 0, label: "All" },
+    plant: { value: 0, label: "All" },
+    warehouse: { value: 0, label: "All" },
   }
 };
 
@@ -1130,6 +1139,10 @@ export const localStorageSlice = createSlice({
     setBankGuaranteeStore: (state, action) => {
       const { payload } = action;
       state.bankGuarantee = payload;
+    },
+    setItemBasicInfoInitData: (state, action) => {
+      const { payload } = action;
+      state.itemBasicInfoInitData = payload;
     },
   },
 });

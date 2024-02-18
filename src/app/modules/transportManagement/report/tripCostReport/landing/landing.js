@@ -13,6 +13,7 @@ import {
 } from "../../../../../../_metronic/_partials/controls/Card";
 import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
 import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
 import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
 import IButton from "../../../../_helper/iButton";
@@ -21,7 +22,6 @@ import { GetTripCostReport_api } from "../helper";
 import NewSelect from "./../../../../_helper/_select";
 import "./style.css";
 import Table from "./table";
-import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
 
 const initData = {
   fromDate: _todayDate(),
@@ -37,6 +37,7 @@ const reportTypes = [
   { value: 1, label: "Trip Cost Report" },
   { value: 2, label: "Per Bag Cost Details" },
   { value: 3, label: "Vehicle Efficiency Details" },
+  { value: 4, label: "Bridge Toll Report" },
 ];
 
 function TripCostReportReport() {
@@ -56,11 +57,16 @@ function TripCostReportReport() {
 
   const reportId = (values) => {
     const typeId = values?.reportType?.value;
+    const perBagCostDetails = `c8aafa76-d1d0-476c-8f83-39819a54af63`;
+    const vehicleEfficiencyDetails = `3a7f6f69-1b3a-4564-8898-a21598556915`;
+    const bridgeTollReport = `c9fd3580-e27f-45a4-aac3-97c58ff0cdcd`;
     const report_id =
       typeId === 2
-        ? `c8aafa76-d1d0-476c-8f83-39819a54af63`
+        ? perBagCostDetails
         : typeId === 3
-        ? `3a7f6f69-1b3a-4564-8898-a21598556915`
+        ? vehicleEfficiencyDetails
+        : typeId === 4
+        ? bridgeTollReport
         : "";
     return report_id;
   };
@@ -91,11 +97,18 @@ function TripCostReportReport() {
       { name: "ToDate", value: `${values?.toDate}` },
     ];
 
+    const bridgeTollReport = [
+      { name: "intShipPointId", value: `${+values?.shipPoint?.value}` },
+      { name: "intBusinessUnitId", value: `${+buId}` },
+    ];
+
     const params =
       typeId === 2
         ? perBagCostDetails
         : typeId === 3
         ? vehicleEfficiencyDetails
+        : typeId === 4
+        ? bridgeTollReport
         : [];
     return params;
   };
@@ -113,7 +126,7 @@ function TripCostReportReport() {
         setGridData,
         setLoading
       );
-    } else if ([2, 3].includes(typeId)) {
+    } else if ([2, 3, 4].includes(typeId)) {
       setBIReport(true);
     }
   };
@@ -232,16 +245,18 @@ function TripCostReportReport() {
                         </>
                       )}
 
-                      <FromDateToDateForm
-                        obj={{
-                          values,
-                          setFieldValue,
-                          onChange: () => {
-                            setGridData([]);
-                            setBIReport(false);
-                          },
-                        }}
-                      />
+                      {[1, 2, 3].includes(values?.reportType?.value) && (
+                        <FromDateToDateForm
+                          obj={{
+                            values,
+                            setFieldValue,
+                            onChange: () => {
+                              setGridData([]);
+                              setBIReport(false);
+                            },
+                          }}
+                        />
+                      )}
 
                       <IButton
                         onClick={() => {
@@ -259,14 +274,15 @@ function TripCostReportReport() {
                     />
                   )}
                   {/* Power BI Reports */}
-                  {[2, 3].includes(values?.reportType?.value) && biReport && (
-                    <PowerBIReport
-                      groupId={groupId}
-                      reportId={reportId(values)}
-                      parameterValues={parameterValues(values)}
-                      parameterPanel={false}
-                    />
-                  )}
+                  {[2, 3, 4].includes(values?.reportType?.value) &&
+                    biReport && (
+                      <PowerBIReport
+                        groupId={groupId}
+                        reportId={reportId(values)}
+                        parameterValues={parameterValues(values)}
+                        parameterPanel={false}
+                      />
+                    )}
                 </Form>
               </>
             </CardBody>

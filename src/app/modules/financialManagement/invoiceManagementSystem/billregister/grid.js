@@ -33,6 +33,7 @@ import ViewSalesCommission from "./salesCommission/view/viewSalesCommission";
 import ViewStevedoreBill from "./stevedoreBill/view/table";
 import ViewSurveyorBill from "./surveyorBill/view/table";
 import ViewTransportBill from "./transportBill/view/viewBillRegister";
+import PumpFoodingBillDetails from "./pumpFoodingBillDetails";
 const GridData = ({
   rowDto,
   values,
@@ -57,6 +58,11 @@ const GridData = ({
 
   const [attachmentListModal, setAttachmentListModal] = useState(false);
   const [attachmentItemList, setAttachmentItemList] = useState([]);
+
+  const [pumpFoodingDetailsView, setPumpFoodingDetailsView] = useState(false);
+  const [selectedItemForPumpFooding, setSelectedItemForPumpFooding] = useState(
+    null
+  );
 
   // attachment save actions
   const saveHandler = async () => {
@@ -136,9 +142,31 @@ const GridData = ({
                   <td className="text-center">
                     {/* <span > */}
                     <div className="d-flex justify-content-around align-items-center">
+                      {tableData?.billType === 18 ? (
+                        <OverlayTrigger
+                          placement="top"
+                          overlay={
+                            <Tooltip id="quick-user-tooltip">
+                              {" "}
+                              Details View
+                            </Tooltip>
+                          }
+                        >
+                          <span className="ml-2 cursor: pointer">
+                            <i
+                              class="fa fa-info-circle"
+                              aria-hidden="true"
+                              onClick={() => {
+                                setPumpFoodingDetailsView(true);
+                                setSelectedItemForPumpFooding(tableData);
+                              }}
+                            ></i>
+                          </span>
+                        </OverlayTrigger>
+                      ) : null}
+
                       {tableData?.billType !== 5 && (
                         <IView
-                          //classes="text-muted"
                           clickHandler={() => {
                             setModalShow(true);
                             setGridItem({
@@ -158,7 +186,6 @@ const GridData = ({
                           }}
                         />
                       ) : null}
-
                       <button
                         type="button"
                         onClick={(e) => {
@@ -331,6 +358,18 @@ const GridData = ({
             modelSize="sm"
           >
             <AttachmentListTable attachmentItemList={attachmentItemList} />
+          </IViewModal>
+
+          <IViewModal
+            show={pumpFoodingDetailsView}
+            onHide={() => {
+              setPumpFoodingDetailsView(false);
+              setSelectedItemForPumpFooding(null);
+            }}
+          >
+            <PumpFoodingBillDetails
+              selectedItemForPumpFooding={selectedItemForPumpFooding}
+            />
           </IViewModal>
 
           <DropzoneDialogBase

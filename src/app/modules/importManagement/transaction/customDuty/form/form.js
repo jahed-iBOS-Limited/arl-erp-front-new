@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { Form, Formik } from "formik";
 import React from "react";
-import { Formik, Form } from "formik";
 
-import NewSelect from "../../../../_helper/_select";
 import InputField from "../../../../_helper/_inputField";
+import NewSelect from "../../../../_helper/_select";
 // import IDelete from "../../../../_helper/_helperIcons/_delete";
+import { useState } from "react";
 import { useHistory, useLocation } from "react-router";
 import { toast } from "react-toastify";
 import {
@@ -14,9 +15,8 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from "../../../../../../_metronic/_partials/controls";
-import { useState } from "react";
-import {  validationSchema } from "../helper";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
+import { validationSchema } from "../helper";
 
 export default function _Form({
   initData,
@@ -47,10 +47,8 @@ export default function _Form({
   // setLoading,
   bankDDL,
 }) {
-
   const history = useHistory();
   const { state } = useLocation();
-  console.log("hsCodeInfo: ", hsCodeInfo);
 
   const [headerDisable] = useState(false);
 
@@ -94,6 +92,7 @@ export default function _Form({
           errors,
           touched,
           setFieldValue,
+          setValues,
           isValid,
         }) => (
           <>
@@ -142,11 +141,11 @@ export default function _Form({
                 <div style={{ fontWeight: "900" }}>PO : {state?.PoNo}</div>
                 <div style={{ fontWeight: "900", marginLeft: "30px" }}>
                   {" "}
-                  LC : {state.LcNo}
+                  LC : {state?.LcNo}
                 </div>
                 <div style={{ fontWeight: "900", marginLeft: "30px" }}>
                   {" "}
-                  Shipment : {state.shipment}
+                  Shipment : {state?.shipment}
                 </div>
               </div>
               <CardBody>
@@ -160,7 +159,10 @@ export default function _Form({
                           placeholder="BoE No"
                           name="boeNo"
                           touched={touched}
-                          disabled={viewType === "view" ? true : false}
+                          disabled={
+                            (viewType === "view" ? true : false) ||
+                            (!viewType && values?.is78Guarantee)
+                          }
                         />
                       </div>
                       <div className="col-lg-3">
@@ -172,7 +174,10 @@ export default function _Form({
                           type="date"
                           errors={errors}
                           touched={touched}
-                          disabled={viewType === "view" ? true : false}
+                          disabled={
+                            (viewType === "view" ? true : false) ||
+                            (!viewType && values?.is78Guarantee)
+                          }
                         />
                       </div>
                       <div className="col-lg-3">
@@ -184,7 +189,10 @@ export default function _Form({
                           type="date"
                           errors={errors}
                           touched={touched}
-                          disabled={viewType === "view" ? true : false}
+                          disabled={
+                            (viewType === "view" ? true : false) ||
+                            (!viewType && values?.is78Guarantee)
+                          }
                         />
                       </div>
                       <div className="col-lg-3">
@@ -213,7 +221,11 @@ export default function _Form({
                                 valueOption?.target?.value
                             );
                           }}
-                          disabled={viewType === "view" || headerDisable}
+                          disabled={
+                            viewType === "view" ||
+                            headerDisable ||
+                            (!viewType && values?.is78Guarantee)
+                          }
                         />
                       </div>
                       <div className="col-lg-3">
@@ -247,7 +259,10 @@ export default function _Form({
                             );
                           }}
                           disabled={
-                            viewType === "view" || headerDisable ? true : false
+                            (viewType === "view" || headerDisable
+                              ? true
+                              : false) ||
+                            (!viewType && values?.is78Guarantee)
                           }
                         />
                       </div>
@@ -272,7 +287,10 @@ export default function _Form({
                             );
                           }}
                           disabled={
-                            viewType === "view" || headerDisable ? true : false
+                            (viewType === "view" || headerDisable
+                              ? true
+                              : false) ||
+                            (!viewType && values?.is78Guarantee)
                           }
                         />
                       </div>
@@ -298,7 +316,10 @@ export default function _Form({
                             );
                           }}
                           disabled={
-                            viewType === "view" || headerDisable ? true : false
+                            (viewType === "view" || headerDisable
+                              ? true
+                              : false) ||
+                            (!viewType && values?.is78Guarantee)
                           }
                         />
                       </div>
@@ -323,7 +344,10 @@ export default function _Form({
                             );
                           }}
                           disabled={
-                            viewType === "view" || headerDisable ? true : false
+                            (viewType === "view" || headerDisable
+                              ? true
+                              : false) ||
+                            (!viewType && values?.is78Guarantee)
                           }
                         />
                       </div>
@@ -345,7 +369,10 @@ export default function _Form({
                             );
                           }}
                           disabled={
-                            viewType === "view" || headerDisable ? true : false
+                            (viewType === "view" || headerDisable
+                              ? true
+                              : false) ||
+                            (!viewType && values?.is78Guarantee)
                           }
                         />
                       </div>
@@ -370,7 +397,10 @@ export default function _Form({
                             );
                           }}
                           disabled={
-                            viewType === "view" || headerDisable ? true : false
+                            (viewType === "view" || headerDisable
+                              ? true
+                              : false) ||
+                            (!viewType && values?.is78Guarantee)
                           }
                         />
                       </div>
@@ -385,9 +415,84 @@ export default function _Form({
                           }}
                           errors={errors}
                           touched={touched}
-                          isDisabled={viewType === "view"}
+                          isDisabled={
+                            viewType === "view" ||
+                            (!viewType && values?.is78Guarantee)
+                          }
                         />
                       </div>
+
+                      <div className="col-lg-3 d-flex flex-row mt-5 align-items-center">
+                        <input
+                          style={{ width: "15px", height: "15px" }}
+                          id="is78Guarantee"
+                          name="is78Guarantee"
+                          checked={values?.is78Guarantee}
+                          className="form-control ml-2"
+                          type="checkbox"
+                          disabled={viewType}
+                          onChange={(e) => {
+                            setValues({
+                              ...values,
+                              boeNo: "",
+                              invoiceAmountBDT: "",
+                              exRate: "",
+                              fineBDT: "",
+                              AITExemptionBDT: "",
+                              docProcessFee: "",
+                              CnFIncomeTax: "",
+                              cnfVat: "",
+                              scanning: "",
+                              paidBy: "",
+                              assessmentValue: "",
+                              at: "",
+                              bank: "",
+                              instrumentType: "",
+                            });
+                            setFieldValue("is78Guarantee", e.target.checked);
+                          }}
+                        />
+
+                        {/* <InputField
+                          value={values.is78Guarantee}
+                          placeholder=""
+                          name="is78Guarantee"
+                          type="checkbox"
+                          onChange={(valueOption) => {
+                            console.log({v: valueOption.target.value})
+                            setIs78Guarantee(valueOption?.target?.value)
+                            setFieldValue(
+                              'is78Guarantee',
+                              valueOption?.target?.value,
+                            );
+                          }}
+                        /> */}
+                        <label htmlFor="is78Guarantee" className="px-2">
+                          is78Guarantee
+                        </label>
+                      </div>
+
+                      {values?.is78Guarantee && (
+                        <div className="col-lg-3">
+                          <label>Guarantee78 Amount</label>
+                          <InputField
+                            value={values?.guarantee78Amount}
+                            placeholder="Amount"
+                            name="guarantee78Amount"
+                            type="text"
+                            onChange={(valueOption) => {
+                              setFieldValue(
+                                "guarantee78Amount",
+                                valueOption?.target?.value
+                              );
+                            }}
+                            disabled={
+                              viewType === "view" ||
+                              (viewType === "edit" && values?.is78Guarantee)
+                            }
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="global-form">
@@ -456,7 +561,10 @@ export default function _Form({
                           onChange={(valueOption) => {
                             setFieldValue("paidBy", valueOption);
                           }}
-                          isDisabled={viewType === "view" ? true : false}
+                          isDisabled={
+                            (viewType === "view" ? true : false) ||
+                            (!viewType && values?.is78Guarantee)
+                          }
                           errors={errors}
                           touched={touched}
                         />
@@ -473,7 +581,10 @@ export default function _Form({
                             }}
                             errors={errors}
                             touched={touched}
-                            isDisabled={viewType === "view"}
+                            isDisabled={
+                              viewType === "view" ||
+                              (!viewType && values?.is78Guarantee)
+                            }
                           />
                         </div>
                       )}
@@ -488,7 +599,10 @@ export default function _Form({
                             onChange={(valueOption) => {
                               setFieldValue("instrumentType", valueOption);
                             }}
-                            isDisabled={viewType === "view" ? true : false}
+                            isDisabled={
+                              (viewType === "view" ? true : false) ||
+                              (!viewType && values?.is78Guarantee)
+                            }
                             errors={errors}
                             touched={touched}
                           />
@@ -518,7 +632,10 @@ export default function _Form({
                           }}
                           type="number"
                           min={0}
-                          disabled={viewType === "view"}
+                          disabled={
+                            viewType === "view" ||
+                            (!viewType && values?.is78Guarantee)
+                          }
                         />
                       </div>
                       <div className="col-lg-3">
@@ -527,7 +644,10 @@ export default function _Form({
                           value={values?.customDuty}
                           placeholder="Custom Duty"
                           name="customDuty"
-                          disabled={viewType === "view" ? true : false}
+                          disabled={
+                            (viewType === "view" ? true : false) ||
+                            (!viewType && values?.is78Guarantee)
+                          }
                           type="number"
                           onChange={(e) => {
                             setFieldValue("customDuty", e.target.value);
@@ -549,7 +669,10 @@ export default function _Form({
                           value={values?.regulatoryDuty}
                           placeholder="Regulatory Duty"
                           name="regulatoryDuty"
-                          disabled={viewType === "view" ? true : false}
+                          disabled={
+                            (viewType === "view" ? true : false) ||
+                            (!viewType && values?.is78Guarantee)
+                          }
                           type="number"
                           onChange={(e) => {
                             setFieldValue("regulatoryDuty", e.target.value);
@@ -571,7 +694,10 @@ export default function _Form({
                           value={values?.supplementaryDuty}
                           placeholder="Supplementary Duty"
                           name="supplementaryDuty"
-                          disabled={viewType === "view" ? true : false}
+                          disabled={
+                            (viewType === "view" ? true : false) ||
+                            (!viewType && values?.is78Guarantee)
+                          }
                           type="number"
                           onChange={(e) => {
                             setFieldValue("supplementaryDuty", e.target.value);
@@ -602,7 +728,10 @@ export default function _Form({
                               "vat"
                             );
                           }}
-                          disabled={viewType === "view" ? true : false}
+                          disabled={
+                            (viewType === "view" ? true : false) ||
+                            (!viewType && values?.is78Guarantee)
+                          }
                           type="number"
                           min="0"
                           required
@@ -624,7 +753,10 @@ export default function _Form({
                             );
                           }}
                           name="ait"
-                          disabled={viewType === "view" ? true : false}
+                          disabled={
+                            (viewType === "view" ? true : false) ||
+                            (!viewType && values?.is78Guarantee)
+                          }
                           type="number"
                           min="0"
                           required
@@ -646,7 +778,10 @@ export default function _Form({
                               "advanceTradeVat"
                             );
                           }}
-                          disabled={viewType === "view" ? true : false}
+                          disabled={
+                            (viewType === "view" ? true : false) ||
+                            (!viewType && values?.is78Guarantee)
+                          }
                           type="number"
                           min="0"
                           required
@@ -659,7 +794,10 @@ export default function _Form({
                           value={values?.psi}
                           placeholder="PSI"
                           name="psi"
-                          disabled={viewType === "view" ? true : false}
+                          disabled={
+                            (viewType === "view" ? true : false) ||
+                            (!viewType && values?.is78Guarantee)
+                          }
                           type="number"
                           min="0"
                           required
@@ -690,7 +828,10 @@ export default function _Form({
                               "at"
                             );
                           }}
-                          disabled={viewType === "view" ? true : false}
+                          disabled={
+                            (viewType === "view" ? true : false) ||
+                            (!viewType && values?.is78Guarantee)
+                          }
                           type="number"
                           min="0"
                           required
@@ -759,7 +900,10 @@ export default function _Form({
                           //     index
                           //   );
                           // }}
-                          disabled={viewType === "view" ? true : false}
+                          disabled={
+                            (viewType === "view" ? true : false) ||
+                            (!viewType && values?.is78Guarantee)
+                          }
                         />
                       </div>
                     </div>

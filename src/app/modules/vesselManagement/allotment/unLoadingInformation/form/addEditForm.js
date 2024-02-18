@@ -64,8 +64,22 @@ export default function UnLoadingInformationForm() {
     ,
     setDateWiseQuantity,
   ] = useAxiosGet();
+  const [organizationDDL, getOrganizationDDL] = useAxiosGet();
+
+  const pendingQuantity = (
+    motherVesselId,
+    lighterVesselId,
+    lighterDestinationId
+  ) => {
+    getPendingQty(
+      `/tms/LigterLoadUnload/GetLighterLoadUnLoadQuantity?MotherVesselId=${motherVesselId}&LighterVesselId=${lighterVesselId}&DestinationId=${lighterDestinationId}`
+    );
+  };
 
   useEffect(() => {
+    getOrganizationDDL(
+      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`
+    );
     if (!type || type !== "view") {
       GetShipPointDDL(accId, buId, setShipPointDDL);
       // getMotherVesselDDL(accId, buId, setMotherVesselDDL);
@@ -81,19 +95,32 @@ export default function UnLoadingInformationForm() {
           setSingleData,
           setLoading,
           (resData) => {
-            getPendingQty(
-              `/tms/LigterLoadUnload/GetLighterLoadUnLoadQuantity?MotherVesselId=${resData?.motherVessel?.value}&LighterVesselId=${resData?.lighterVessel?.value}&DestinationId=${resData?.lighterDestination?.value}`
+            pendingQuantity(
+              resData?.motherVessel?.value,
+              resData?.lighterVessel?.value,
+              resData?.lighterDestination?.value
             );
+            // getPendingQty(
+            //   `/tms/LigterLoadUnload/GetLighterLoadUnLoadQuantity?MotherVesselId=${}&LighterVesselId=${}&DestinationId=${}`
+            // );
           }
         );
       } else {
         getLoadingInfoByVoyageNo(
+          state?.rowId,
           id,
           state?.lighterVesselId,
           setSingleData,
           setRowData,
           setLoading,
-          type
+          type,
+          (resData) => {
+            pendingQuantity(
+              resData?.motherVessel?.value,
+              resData?.lighterVessel?.value,
+              resData?.lighterDestination?.value
+            );
+          }
         );
       }
     }
@@ -110,7 +137,7 @@ export default function UnLoadingInformationForm() {
     if (type === "modify") {
       if (pendingQty?.pendingQty < values?.unloadedQty) {
         return toast.warn(
-          "Sorry, you can't unload greater than pending quantity!"
+          "Sorry, you can't unload more than pending quantity!"
         );
       }
       // const payload = {
@@ -197,6 +224,8 @@ export default function UnLoadingInformationForm() {
         });
 
         if (currentValue) {
+          console.log("currentValue", currentValue);
+
           getLightersByVesselNLighterDestination(
             values?.lighterDestination?.value,
             currentValue?.value,
@@ -237,6 +266,11 @@ export default function UnLoadingInformationForm() {
               });
               setFieldValue("unloadedQty", resData?.surveyQnt);
             }
+          );
+          pendingQuantity(
+            values?.motherVessel?.value,
+            currentValue?.value,
+            values?.lighterDestination?.value
           );
         }
         break;
@@ -281,6 +315,8 @@ export default function UnLoadingInformationForm() {
           getDateWiseQuantity={getDateWiseQuantity}
           setDateWiseQuantity={setDateWiseQuantity}
           state={state}
+          organizationDDL={organizationDDL}
+          pendingQuantity={pendingQuantity}
         />
       </div>
     </>

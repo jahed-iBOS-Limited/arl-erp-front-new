@@ -16,11 +16,35 @@ import { deleteTenderInfo, getMotherVesselDDL } from "../helper";
 import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import { toast } from "react-toastify";
+import ICustomTable from "../../../../chartering/_chartinghelper/_customTable";
 
 const initData = {
   motherVessel: "",
   port: "",
 };
+
+const tHeaders = [
+  { name: "SL", style: { minWidth: "30px" } },
+  { name: "Mother Vessel", style: { minWidth: "150px" } },
+  { name: "Program No", style: { minWidth: "80px" } },
+  { name: "Award", style: { minWidth: "160px" } },
+  { name: "CNF", style: { minWidth: "130px" } },
+  { name: "CNF Rate", style: { minWidth: "50px" } },
+  { name: "Steve Dore", style: { minWidth: "130px" } },
+  { name: "Steve Dore Rate", style: { minWidth: "50px" } },
+  { name: "Surveyor", style: { minWidth: "130px" } },
+  { name: "Surveyor Rate", style: { minWidth: "50px" } },
+  { name: "Hatch Labour", style: { minWidth: "130px" } },
+  { name: "Hatch Labour Rate", style: { minWidth: "50px" } },
+  { name: "Lot No", style: { minWidth: "50px" } },
+  { name: "Program Qty", style: { minWidth: "80px" } },
+  { name: "Transfer Qty", style: { minWidth: "80px" } },
+  { name: "Challan Qty", style: { minWidth: "80px" } },
+  { name: "Remaining Qty", style: { minWidth: "80px" } },
+  { name: "Weight", style: { minWidth: "80px" } },
+  { name: "Action", style: { minWidth: "70px" } },
+  { name: "Bill Generate", style: { minWidth: "70px" } },
+];
 
 export default function TenderInformationLandingTable() {
   const history = useHistory();
@@ -106,6 +130,7 @@ export default function TenderInformationLandingTable() {
 
   return (
     <>
+      {loader && <Loading />}
       <Formik initialValues={initData} onSubmit={() => {}}>
         {({ values, setFieldValue }) => (
           <ICard
@@ -128,7 +153,7 @@ export default function TenderInformationLandingTable() {
                     onChange={(valueOption) => {
                       setFieldValue("port", valueOption);
                       setFieldValue("motherVessel", "");
-                      setGridData([])
+                      setGridData([]);
                       getMotherVesselDDL(
                         accId,
                         buId,
@@ -170,136 +195,148 @@ export default function TenderInformationLandingTable() {
                   </button>
                 </div>
               </div>
-              <div className="row cash_journal">
-                {loader && <Loading />}
-                <div className="col-lg-12">
-                  <table className="table table-striped table-bordered global-table">
-                    <thead>
-                      <tr>
-                        <th style={{ width: "40px" }}>SL</th>
-                        <th>Mother Vessel</th>
-                        <th>Program No</th>
-                        <th>Award</th>
-                        <th>CNF</th>
-                        <th>CNF Rate</th>
-                        <th>Steve Dore</th>
-                        <th>Steve Dore Rate</th>
-                        <th>Surveyor</th>
-                        <th>Surveyor Rate</th>
-                        <th>Hatch Labour</th>
-                        <th>Hatch Labour Rate</th>
-                        <th>Lot No</th>
-                        <th>Program Quantity</th>
-                        <th>Challan Quantity</th>
-                        <th>Remaining Quantity</th>
-                        <th>Weight</th>
-                        <th>Action</th>
-                        <th>Bill Generate</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {gridData?.data?.map((item, index) => {
-                        return (
-                          <tr key={index}>
-                            <td> {item?.sl}</td>
-                            <td>{item?.motherVesselName}</td>
-                            <td>{item?.program}</td>
-                            <td>{item?.award}</td>
-                            <td>{item?.cnfname}</td>
-                            <td className="text-right">{item?.cnfrate}</td>
-                            <td>{item?.stevdoreName}</td>
-                            <td className="text-right">{item?.stevdorRate}</td>
-                            <td>{item?.serveyorName}</td>
-                            <td className="text-right">{item?.serveyorRate}</td>
-                            <td>{item?.hatchLabour}</td>
-                            <td className="text-right">
-                              {item?.hatchLabourRate}
-                            </td>
-                            <td>{item?.lotNo}</td>
-                            <td className="text-right">
-                              {_fixedPoint(item?.programQnt, true)}
-                            </td>
-                            <td className="text-right">
-                              {_fixedPoint(item?.challanQuantity, true)}
-                            </td>
-                            <td
-                              className="text-right"
-                              style={
-                                item?.remaingQuantity < 0
-                                  ? { backgroundColor: "#ff00007d" }
-                                  : { backgroundColor: "#90ee90" }
+              <ICustomTable ths={tHeaders} scrollable={true}>
+                {gridData?.data?.map((item, index) => {
+                  return (
+                    <tr key={index}>
+                      <td> {item?.sl}</td>
+                      <td>{item?.motherVesselName}</td>
+                      <td>{item?.program}</td>
+                      <td>{item?.award}</td>
+                      <td>{item?.cnfname}</td>
+                      <td className="text-right">{item?.cnfrate}</td>
+                      <td>{item?.stevdoreName}</td>
+                      <td className="text-right">{item?.stevdorRate}</td>
+                      <td>{item?.serveyorName}</td>
+                      <td className="text-right">{item?.serveyorRate}</td>
+                      <td>{item?.hatchLabour}</td>
+                      <td className="text-right">{item?.hatchLabourRate}</td>
+                      <td>{item?.lotNo}</td>
+                      <td className="text-right">
+                        {_fixedPoint(item?.programQnt, true)}
+                      </td>
+                      <td
+                        className="text-right"
+                        style={{ backgroundColor: "#f6f602" }}
+                      >
+                        {_fixedPoint(item?.transferQnt, true)}
+                      </td>
+                      <td className="text-right">
+                        {_fixedPoint(item?.challanQuantity, true)}
+                      </td>
+                      <td
+                        className="text-right"
+                        style={
+                          item?.remaingQuantity < 0
+                            ? { backgroundColor: "#ff00007d" }
+                            : { backgroundColor: "#90ee90" }
+                        }
+                      >
+                        {_fixedPoint(item?.remaingQuantity, true)}
+                      </td>
+                      <td className="text-right">
+                        {_fixedPoint(item?.netWeight, true)}
+                      </td>
+                      <td className="text-center">
+                        <div className="d-flex justify-content-around">
+                          <span>
+                            <IEdit
+                              onClick={() =>
+                                history.push({
+                                  pathname: `/vessel-management/allotment/tenderinformation/edit/${item?.programId}`,
+                                  state: item,
+                                })
                               }
-                            >
-                              {_fixedPoint(item?.remaingQuantity, true)}
-                            </td>
-                            <td className="text-right">
-                              {_fixedPoint(item?.netWeight, true)}
-                            </td>
-                            <td className="text-center">
-                              <div className="d-flex justify-content-around">
-                                <span>
-                                  <IEdit
-                                    onClick={() =>
-                                      history.push({
-                                        pathname: `/vessel-management/allotment/tenderinformation/Edit/${item?.programId}`,
-                                        state: item,
-                                      })
-                                    }
-                                  />
-                                </span>
-                                <span>
-                                  <IDelete
-                                    id={item?.programId}
-                                    remover={(id) => {
-                                      deleteHandler(id, values);
+                            />
+                          </span>
+                          <span>
+                            <IDelete
+                              id={item?.programId}
+                              remover={(id) => {
+                                deleteHandler(id, values);
+                              }}
+                            />
+                          </span>
+                        </div>
+                      </td>
+                      {index === 0 && (
+                        <td
+                          className="text-center"
+                          rowSpan={gridData?.data?.length}
+                        >
+                          <div className="d-flex justify-content-around align-items-center">
+                            {billIcons?.map((e) => {
+                              return (
+                                <span className="p-1">
+                                  <ICon
+                                    title={e?.title}
+                                    onClick={() => {
+                                      generateBills(item, e?.billType);
                                     }}
-                                  />
+                                  >
+                                    <i class="fas fa-file-invoice-dollar"></i>{" "}
+                                  </ICon>
                                 </span>
-                              </div>
-                            </td>
-                            {index === 0 && (
-                              <td
-                                className="text-center"
-                                rowSpan={gridData?.data?.length}
-                              >
-                                <div className="d-flex justify-content-around align-items-center">
-                                  {billIcons?.map((e) => {
-                                    return (
-                                      <span className="p-1">
-                                        <ICon
-                                          title={e?.title}
-                                          onClick={() => {
-                                            generateBills(item, e?.billType);
-                                          }}
-                                        >
-                                          <i class="fas fa-file-invoice-dollar"></i>{" "}
-                                        </ICon>
-                                      </span>
-                                    );
-                                  })}
-                                </div>
-                              </td>
-                            )}
+                              );
+                            })}
+                          </div>
+                        </td>
+                      )}
+                    </tr>
+                  );
+                })}
+              </ICustomTable>
+              {/* <div className="row cash_journal">
+                <div className="col-lg-12">
+                  <div className="loan-scrollable-table inventory-statement-report">
+                    <div
+                      style={{ maxHeight: "500px" }}
+                      className="scroll-table"
+                    >
+                      <table className="table table-striped table-bordered bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th style={{ width: "40px" }}>SL</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
                           </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                        </thead>
+                        <tbody></tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
-                {gridData?.data?.length > 0 && (
-                  <PaginationTable
-                    count={gridData?.totalCount}
-                    setPositionHandler={setLandingData}
-                    paginationState={{
-                      pageNo,
-                      setPageNo,
-                      pageSize,
-                      setPageSize,
-                    }}
-                    values={values}
-                  />
-                )}
-              </div>
+              </div> */}{" "}
+              {gridData?.data?.length > 0 && (
+                <PaginationTable
+                  count={gridData?.totalCount}
+                  setPositionHandler={setLandingData}
+                  paginationState={{
+                    pageNo,
+                    setPageNo,
+                    pageSize,
+                    setPageSize,
+                  }}
+                  values={values}
+                />
+              )}
             </Form>
           </ICard>
         )}

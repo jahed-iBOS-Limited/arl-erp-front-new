@@ -17,7 +17,7 @@ import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import IViewModal from "../../../../_helper/_viewModal";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { BADCBCICForm } from "../../../common/components";
+import { BADCBCICForm, PortAndMotherVessel } from "../../../common/components";
 import { getG2GMotherVesselLocalRevenueApi, validationSchema } from "../helper";
 import AddVehicleNameModal from "./addVehicleNameModal";
 import RestQtyModal from "./restQtyModal";
@@ -31,7 +31,7 @@ export default function _Form({
   viewType,
   initData,
   itemList,
-  godownDDL,
+  // godownDDL,
   deleteRow,
   lighterDDL,
   vehicleDDL,
@@ -39,24 +39,25 @@ export default function _Form({
   saveHandler,
   shipPointDDL,
   setVehicleDDL,
+  destinationDDL,
   motherVesselDDL,
   onChangeHandler,
   isTransportBill,
+  organizationDDL,
 }) {
   const [isShowModal, setIsShowModal] = useState(false);
   const [isRestQtyModalShow, setIsResetModalShow] = useState(false);
   const [logisticId, setLogisticId] = useState(null);
-  const [portDDL, getPortDDL] = useAxiosGet();
+  // const [portDDL, getPortDDL] = useAxiosGet();
   const [altSuppliers, getaltSuppliers] = useAxiosGet();
   const [, getRates, loader] = useAxiosGet();
   const [restQty, getRestQty, restQtyLoader] = useAxiosGet();
 
   const { state } = useLocation();
   const { id } = useParams();
-  console.log("state", state);
   const history = useHistory();
   useEffect(() => {
-    getPortDDL(`/wms/FertilizerOperation/GetDomesticPortDDL`);
+    // getPortDDL(`/wms/FertilizerOperation/GetDomesticPortDDL`);
     getaltSuppliers(
       `/wms/TransportMode/GetTransportMode?intParid=2&intBusinessUnitId=${buId}`
     );
@@ -107,7 +108,13 @@ export default function _Form({
     const portId = values?.port?.value || 0;
     const godownId = values?.godown?.value || 0;
 
-    const partnerId = state?.type === "badc" ? 73244 : 73245;
+    const partnerId =
+      buId === 94
+        ? values?.type === "badc"
+          ? 73244
+          : 73245
+        : values?.organization?.value;
+    console.log({ partnerId });
     getG2GMotherVesselLocalRevenueApi(
       accId,
       buId,
@@ -120,9 +127,10 @@ export default function _Form({
         setFieldValue("localRevenueRate", data?.localRevenueRate || 0);
         setFieldValue(
           "internationalRevenueRate",
-          data?.internationalRevenueRate || 0
+          data?.motherVesselRevenueRate || 0
         );
         setFieldValue("transportRevenueRate", data?.transportRevenueRate || 0);
+        setFieldValue("mothervasselFreightRate", data?.freightInBDT || 0);
       }
     );
   };
@@ -131,7 +139,7 @@ export default function _Form({
       <Formik
         enableReinitialize={true}
         validationSchema={validationSchema}
-        initialValues={initData}
+        initialValues={{ ...initData, ...state }}
         onSubmit={(values, { resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
@@ -192,14 +200,43 @@ export default function _Form({
               </CardHeader>
               <CardBody>
                 <Form className="form form-label-right">
-                  <div className="global-form">
+                  <h3
+                    className="text-center mb-0 py-2"
+                    style={{ backgroundColor: "#ffff8d" }}
+                  >
+                    Selected Mother Vessel: {values?.motherVessel?.label}
+                  </h3>
+                  <div className="global-form mt-0">
                     <div className="row">
-                      <BADCBCICForm
-                        values={{ ...values, ...state }}
-                        setFieldValue={setFieldValue}
-                        disabled={state?.type}
-                        onChange={onChangeHandler}
-                      />
+                      {buId === 94 && (
+                        <BADCBCICForm
+                          values={{ ...values }}
+                          setFieldValue={setFieldValue}
+                          disabled={state?.type}
+                          onChange={onChangeHandler}
+                        />
+                      )}
+                      {buId === 178 && (
+                        <div className="col-lg-3">
+                          <NewSelect
+                            name="organization"
+                            options={organizationDDL || []}
+                            value={values?.organization}
+                            label="Organization"
+                            onChange={(valueOption) => {
+                              onChangeHandler(
+                                "organization",
+                                values,
+                                valueOption,
+                                setFieldValue
+                              );
+                            }}
+                            placeholder="Organization"
+                            errors={errors}
+                            touched={touched}
+                          />
+                        </div>
+                      )}
                       <div className="col-lg-3">
                         <NewSelect
                           name="shipPoint"
@@ -226,7 +263,22 @@ export default function _Form({
                           isDisabled={disableHandler()}
                         />
                       </div>
-                      <div className="col-lg-3">
+                      <PortAndMotherVessel
+                        obj={{
+                          values,
+                          setFieldValue,
+                          allElement: false,
+                          onChange: (fieldName, allValues) => {
+                            onChangeHandler(
+                              fieldName,
+                              values,
+                              allValues?.[fieldName],
+                              setFieldValue
+                            );
+                          },
+                        }}
+                      />
+                      {/* <div className="col-lg-3">
                         <NewSelect
                           name="port"
                           options={portDDL || []}
@@ -255,15 +307,15 @@ export default function _Form({
                               e,
                               setFieldValue
                             );
-                            if (values?.godown) {
-                              commonItemPriceSet(
-                                {
-                                  ...values,
-                                  motherVessel: e,
-                                },
-                                setFieldValue
-                              );
-                            }
+                            // if (values?.godown) {
+                            //   commonItemPriceSet(
+                            //     {
+                            //       ...values,
+                            //       motherVessel: e,
+                            //     },
+                            //     setFieldValue
+                            //   );
+                            // }
                           }}
                           placeholder="Mother Vessel"
                           errors={errors}
@@ -271,7 +323,7 @@ export default function _Form({
                           isDisabled={disableHandler()}
                           // isDisabled={disableHandler() || id}
                         />
-                      </div>
+                      </div> */}
                       <div className="col-lg-3">
                         <InputField
                           label="Program No"
@@ -303,7 +355,6 @@ export default function _Form({
                           isDisabled={disableHandler()}
                         />
                       </div>
-                      {console.log(errors, "errors")}
                       <div className="col-lg-3">
                         <NewSelect
                           name="logisticBy"
@@ -326,7 +377,10 @@ export default function _Form({
                           placeholder="Logistic By"
                           errors={errors}
                           touched={touched}
-                          isDisabled={disableHandler()}
+                          isDisabled={
+                            disableHandler()
+                            // || !isTransportBill?.hasTransport
+                          }
                         />
                       </div>
                       {values?.logisticBy?.value === 1 && (
@@ -364,7 +418,11 @@ export default function _Form({
                             placeholder="Supplier Name"
                             errors={errors}
                             touched={touched}
-                            isDisabled={disableHandler()}
+                            isDisabled={
+                              disableHandler()
+                              //  || !isTransportBill?.hasTransport ||
+                              //   values?.logisticBy?.value === 3
+                            }
                           />
                         </div>
                       )}
@@ -397,7 +455,10 @@ export default function _Form({
                           }}
                         >
                           <i
-                            style={{ fontSize: "15px", color: "#3699FF" }}
+                            style={{
+                              fontSize: "15px",
+                              color: "#3699FF",
+                            }}
                             className="fa pointer fa-plus-circle"
                             aria-hidden="true"
                           ></i>
@@ -426,28 +487,40 @@ export default function _Form({
                       <div className="col-lg-3">
                         <NewSelect
                           name="godown"
-                          options={godownDDL || []}
+                          // options={godownDDL || []}
+                          options={destinationDDL || []}
                           value={values?.godown}
                           label="Destination/Godown Name"
                           placeholder="Destination/Godown Name"
                           errors={errors}
                           touched={touched}
-                          isDisabled={disableHandler()}
+                          isDisabled={disableHandler() || !values?.motherVessel}
                           onChange={(e) => {
                             onChangeHandler("godown", values, e, setFieldValue);
-                            GetGodownAndOtherLabourRates(
-                              2,
-                              { ...values, godown: e },
-                              setFieldValue
-                            );
-                            if (values?.motherVessel) {
-                              commonItemPriceSet(
-                                {
-                                  ...values,
-                                  godown: e,
-                                },
+                            const partnerId =
+                              buId === 94
+                                ? state?.type === "badc"
+                                  ? 73244
+                                  : 73245
+                                : values?.organization?.value;
+                            if (e) {
+                              getRestQty(
+                                `/tms/LigterLoadUnload/GetTotalQuantityForChallan?businessUnitId=${buId}&businessPartnerId=${partnerId}&shipToPartnerId=${e?.value}&motherVesselId=${values?.motherVessel?.value}&portId=${values?.port?.value}`
+                              );
+                              GetGodownAndOtherLabourRates(
+                                2,
+                                { ...values, godown: e },
                                 setFieldValue
                               );
+                              if (values?.motherVessel) {
+                                commonItemPriceSet(
+                                  {
+                                    ...values,
+                                    godown: e,
+                                  },
+                                  setFieldValue
+                                );
+                              }
                             }
                           }}
                         />
@@ -572,7 +645,28 @@ export default function _Form({
                           </div>
                         </>
                       )}
-                      <div className="col-lg-12 mt-4">
+                      <div className="col-lg-12"></div>
+                      <div className="col-lg-4 mt-4">
+                        <h5>
+                          Rest Allotment Qty (Ton):{" "}
+                          {restQty?.restAllotmentQntTon || 0}
+                        </h5>
+                        <h5>
+                          Rest Allotment Qty (Bag):{" "}
+                          {restQty?.restAllotmentQntBag || 0}
+                        </h5>
+                      </div>
+                      <div className="col-lg-4 mt-4">
+                        <h5>
+                          Rest Vessel Program Qty (Ton):{" "}
+                          {restQty?.restMVesselProgramQntTon || 0}
+                        </h5>
+                        <h5>
+                          Rest Vessel Program Qty (Bag):{" "}
+                          {restQty?.restMVesselProgramQntBag || 0}
+                        </h5>
+                      </div>
+                      <div className="col-lg-4 mt-4">
                         <button
                           className="btn btn-primary"
                           type="button"
@@ -582,19 +676,21 @@ export default function _Form({
                             !values?.godown
                           }
                           onClick={() => {
-                            setIsResetModalShow(true);
+                            const partnerId =
+                              buId === 94
+                                ? state?.type === "badc"
+                                  ? 73244
+                                  : 73245
+                                : values?.organization?.value;
                             getRestQty(
-                              `/tms/LigterLoadUnload/GetTotalQuantityForChallan?businessUnitId=${buId}&businessPartnerId=${
-                                state?.type === "badc" ? 73244 : 73245
-                              }&shipToPartnerId=${
-                                values?.godown?.value
-                              }&motherVesselId=${
-                                values?.motherVessel?.value
-                              }&portId=${values?.port?.value}`
+                              `/tms/LigterLoadUnload/GetTotalQuantityForChallan?businessUnitId=${buId}&businessPartnerId=${partnerId}&shipToPartnerId=${values?.godown?.value}&motherVesselId=${values?.motherVessel?.value}&portId=${values?.port?.value}`,
+                              () => {
+                                setIsResetModalShow(true);
+                              }
                             );
                           }}
                         >
-                          View Rest Qty
+                          View Other Qty
                         </button>
                       </div>
                     </div>

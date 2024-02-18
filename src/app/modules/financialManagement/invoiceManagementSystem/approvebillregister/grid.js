@@ -7,6 +7,7 @@ import ViewG2GTruckBill from "../billregister/g2gTruckBill/view/viewBillRegister
 import ViewGhatLoadUnloadBill from "../billregister/ghatLoadUnloadBill/view/viewBillRegister";
 import ViewHatchLaborBill from "../billregister/hatchLaborBill/view/table";
 import OthersBillView from "../billregister/othersBillNew/view/othersBillView";
+import ViewPumpFoodingBill from "../billregister/pumpFoodingBill/view/viewPumpFoodingBill";
 import ViewSalesCommission from "../billregister/salesCommission/view/viewSalesCommission";
 import ViewStevedoreBill from "../billregister/stevedoreBill/view/table";
 import ViewSurveyorBill from "../billregister/surveyorBill/view/table";
@@ -21,11 +22,11 @@ import ViewFuelBill from "./../billregister/fuelBill/view/viewBillRegister";
 import ViewInternalTransportBill from "./../billregister/internalTransportBill/view/viewBillRegister";
 import ViewLabourBill from "./../billregister/labourBill/view/viewBillRegister";
 import AdvForInternalView from "./advForInternal";
+import CommercialBillTypeDetails from "./commercialBillType";
 import ExpenseView from "./expenseView";
 import RejectModel from "./rejectModel/form";
 import SupplerInvoiceView from "./supplerInvoiceView";
 import SupplierAdvanceView from "./supplierAdvanceView";
-import CommercialBillTypeDetails from "./commercialBillType";
 const GridData = ({
   rowDto,
   setRowDto,
@@ -278,6 +279,11 @@ const GridData = ({
             gridItem={gridItem}
             setModalShow={setModalShow}
             girdDataFunc={girdDataFunc}
+          />
+        )}
+        {gridItem?.billType === 18 && (
+          <ViewPumpFoodingBill // this component import from bill register orderby sakib vai
+            billRegisterId={gridItem?.billRegisterId}
           />
         )}
         {gridItem?.billType === 21 && (

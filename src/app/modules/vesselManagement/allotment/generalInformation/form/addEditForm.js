@@ -27,6 +27,7 @@ const initData = {
   allotmentDate: _todayDate(),
   lotNo: "",
   type: "badc",
+  organization: "",
 };
 
 export default function GeneralInformationCreate() {
@@ -44,6 +45,7 @@ export default function GeneralInformationCreate() {
   const [motherVesselDDL, setMotherVesselDDL] = useState([]);
   const [singleData, setSingleData] = useState({});
   const [, getTenderInfo] = useAxiosGet({});
+  const [organizationDDL, getOrganizationDDL] = useAxiosGet();
 
   // get user data from store
   const {
@@ -55,7 +57,9 @@ export default function GeneralInformationCreate() {
     GetLighterCNFDDL(setLighterCNFDDL);
     GetLighterStevedoreDDL(setLighterStevedoreDDL);
     GetDomesticPortDDL(setDomesticPortDDL);
-
+    getOrganizationDDL(
+      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`
+    );
     GetShipPointDDL(accId, buId, setShipPointDDL);
     GetLighterDDL(accId, buId, setLightertDDL);
     // getMotherVesselDDL(accId, buId, setMotherVesselDDL);
@@ -238,6 +242,7 @@ export default function GeneralInformationCreate() {
         type={type}
         title={title}
         accId={accId}
+        organizationDDL={organizationDDL}
         initData={id ? singleData : initData}
         saveHandler={saveHandler}
         shipPointDDL={shipPointDDL}

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import {
   Card,
@@ -9,7 +9,6 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from "../../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import IConfirmModal from "../../../../_helper/_confirmModal";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
@@ -17,8 +16,9 @@ import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import PaginationTable from "../../../../_helper/_tablePagination";
 import IViewModal from "../../../../_helper/_viewModal";
-import { deleteGodown } from "../helper";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import GodownForm from "../_form/_form";
+import { deleteGodown } from "../helper";
 
 const headers = [
   "SL",
@@ -42,6 +42,7 @@ const GodownLanding = () => {
   const [loading, setLoading] = useState(false);
   const [formType, setFormType] = useState("");
   const [singleItem, setSingleItem] = useState({});
+  const [businessPartnerDDL, getBusinessPartnerDDL] = useAxiosGet();
 
   // get user data from store
   const {
@@ -73,6 +74,11 @@ const GodownLanding = () => {
     };
     IConfirmModal(objProps);
   };
+
+  useEffect(()=>{
+    const api = `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`;
+    getBusinessPartnerDDL(api, data => console.log({data}));
+  }, [accId, buId])
 
   return (
     <>
@@ -116,10 +122,7 @@ const GodownLanding = () => {
                       <div className="col-lg-3">
                         <NewSelect
                           name="businessPartner"
-                          options={[
-                            { value: 73244, label: "BADC" },
-                            { value: 73245, label: "BCIC" },
-                          ]}
+                          options={businessPartnerDDL || []}
                           value={values?.businessPartner}
                           label="Business Partner"
                           onChange={(e) => {
@@ -224,6 +227,7 @@ const GodownLanding = () => {
                   formType={formType}
                   singleItem={singleItem}
                   values={values}
+                  businessPartnerDDL={businessPartnerDDL}
                 />
               </IViewModal>
             </Card>

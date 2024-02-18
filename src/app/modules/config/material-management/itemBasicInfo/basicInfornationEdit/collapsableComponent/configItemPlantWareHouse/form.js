@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import Axios from "axios";
+import { Field, Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
+import Select from "react-select";
 import * as Yup from "yup";
 import { Input } from "../../../../../../../../_metronic/_partials/controls";
-import Axios from "axios";
-import Select from "react-select";
-import customStyles from "../../../../../../selectCustomStyle";
-import NewSelect from "../../../../../../_helper/_select";
-import InputField from "../../../../../../_helper/_inputField";
 import { IInput } from "../../../../../../_helper/_input";
+import InputField from "../../../../../../_helper/_inputField";
+import NewSelect from "../../../../../../_helper/_select";
+import customStyles from "../../../../../../selectCustomStyle";
 
 const DataValiadtionSchema = Yup.object().shape({
   numGrossWeight: Yup.number()
@@ -17,7 +17,7 @@ const DataValiadtionSchema = Yup.object().shape({
   numNetWeight: Yup.number()
     .required("Net Weight (Kg) required")
     .min(0, "Minimum 0"),
-    // ahsan kabir said this should be minimum 0
+  // ahsan kabir said this should be minimum 0
   // conversionBaseUom:Yup.number().min(2,"Minimum Value Conversion Base Uom"),
   plant: Yup.object().shape({
     label: Yup.string().required("Plant is required"),
@@ -200,7 +200,7 @@ export default function _Form({
     const data = [...defaultRowDto];
     data[index][name] = value;
     setDefaultRowDto(data);
- };
+  };
 
   useEffect(() => {
     altUomSetting(productData.baseUomid);
@@ -245,7 +245,7 @@ export default function _Form({
             <Form className="form form-label-right">
               {!isViewPage && (
                 <div className="form-group row align-content-center my-5 global-form">
-                  <div className="col-lg-3 mb-1 p-1">
+                  <div className="col-lg-3  p-1">
                     <NewSelect
                       name="plant"
                       options={plantList || []}
@@ -341,13 +341,109 @@ export default function _Form({
                         : ""}
                     </p>
                   </div>
-                  <div className="col-lg-2">
+                  <div className="col-lg-3">
                     <label>Bin Number</label>
                     <InputField
                       value={values?.binNumber}
                       name="binNumber"
                       placeholder="Bin Number"
                       type="text"
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <label>Minimum Stock QTY</label>
+                    <InputField
+                      value={values?.minStockQty}
+                      name="minStockQty"
+                      placeholder="Minimum Stock Qty"
+                      type="number"
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <label>Safety Stock QTY</label>
+                    <InputField
+                      value={values?.safetyStockQty}
+                      name="safetyStockQty"
+                      placeholder="Safety Stock Qty"
+                      type="number"
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <label>Maximum Stock QTY</label>
+                    <InputField
+                      value={values?.maxStockQty}
+                      name="maxStockQty"
+                      placeholder="Maximum Stock Qty"
+                      type="number"
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <label>Reorder Level</label>
+                    <InputField
+                      value={values?.reOrderLevel}
+                      name="reOrderLevel"
+                      placeholder="Reorder Level"
+                      type="number"
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <label>Reorder Qty</label>
+                    <InputField
+                      value={values?.reOrderQty}
+                      name="reOrderQty"
+                      placeholder="Reorder Qty"
+                      type="number"
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <label>Avg Daily Consumption</label>
+                    <InputField
+                      value={values?.avgDailyConsumption}
+                      name="avgDailyConsumption"
+                      placeholder="Avg Daily Consumption  "
+                      type="number"
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <label>Max Lead Days</label>
+                    <InputField
+                      value={values?.maxLeadDays}
+                      name="maxLeadDays"
+                      placeholder="Max Lead Days"
+                      type="number"
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <label>Minimum Lead Days</label>
+                    <InputField
+                      value={values?.minLeadDays}
+                      name="minLeadDays"
+                      placeholder="Min Lead Days"
+                      type="number"
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <label>ABC</label>
+                    <InputField
+                      value={values?.abc}
+                      name="abc"
+                      type="number"
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <label>VED</label>
+                    <InputField
+                      value={values?.ved}
+                      name="ved"
+                      type="number"
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <label>FNS</label>
+                    <InputField
+                      value={values?.fns}
+                      name="fns"
+                      type="number"
                     />
                   </div>
                   <div className="col-lg-1">
@@ -369,6 +465,17 @@ export default function _Form({
                           inventoryLocationId: values?.inventoryLocation?.value,
                           inventoryLocationName:
                             values?.inventoryLocation?.label,
+                          averageDailyConsumption: values?.avgDailyConsumption || 0,
+                          maximumQuantity: values?.maxStockQty || 0,
+                          maxLeadDays: values?.maxLeadDays||0,
+                          minimumStockQuantity: values?.minStockQty||0,
+                          minLeadDays: values?.minLeadDays||0,
+                          abc: values?.abc ||0,
+                          ved: values?.ved ||0,
+                          fns: values?.fns ||0,
+                          reorderLevel: values?.reOrderLevel||0,
+                          reorderQuantity: values?.reOrderQty||0,
+                          safetyStockQuantity: values?.safetyStockQty||0,
                         };
                         defaultSetter(obj);
                       }}
@@ -380,52 +487,210 @@ export default function _Form({
                   </div>
                 </div>
               )}
-              <div>
-                <table className="table table-striped table-bordered my-5 global-table">
-                  <thead>
-                    <tr className="text-center">
-                      <th>SL</th>
-                      <th>Plant</th>
-                      <th>Warehouse</th>
-                      <th>Location</th>
-                      <th style={{ width: "200px" }}>Bin Number</th>
-                      
-                      {/* <th>UoM</th> */}
-                      {/* <th>Action</th> */}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {defaultRowDto &&
-                      defaultRowDto.map((itm, i) => (
-                        <tr
-                          key={i}
-                          style={{ marginBottom: "15px", textAlign: "center" }}
-                        >
-                          <td>{i + 1}</td>
-                          <td>{itm?.plantName}</td>
-                          <td>{itm?.wareHouseName}</td>
-                          <td>{itm?.inventoryLocationName}</td>
-                          {/* <td>{itm?.binNumber}</td> */}
+              <div className="common-scrollable-table two-column-sticky">
+                <div className="scroll-table _table">
+                  <table className="table table-striped table-bordered my-5 global-table">
+                    <thead>
+                      <tr className="text-center">
+                        <th>SL</th>
+                        <th>Plant</th>
+                        <th>Warehouse</th>
+                        <th>Location</th>
+                        <th style={{ width: "200px" }}>Bin Number</th>
+                        <th style={{ width: "200px" }}>
+                          Minimum Stock Quantity
+                        </th>
+                        <th style={{ width: "200px" }}>
+                          {" "}
+                          Safety Stock Quantity
+                        </th>
+                        <th style={{ width: "200px" }}> Maximum Qty</th>
+                        <th style={{ width: "200px" }}> Reorder Level</th>
+                        <th style={{ width: "200px" }}>Reorder Qty</th>
+                        <th style={{ width: "200px" }}>Avg Daily Consumption</th>
+                        <th style={{ width: "200px" }}>Max Lead Days</th>
+                        <th style={{ width: "200px" }}>Min Lead Days</th>
+                        <th style={{ width: "200px" }}>ABC</th>
+                        <th style={{ width: "200px" }}>VED</th>
+                        <th style={{ width: "200px" }}>FNS</th>
 
-                          <td
-                            className="disabled-feedback disable-border"
-                            style={{ width: "100px" }}
+                        {/* <th>UoM</th> */}
+                        {/* <th>Action</th> */}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {defaultRowDto &&
+                        defaultRowDto.map((itm, i) => (
+                          <tr
+                            key={i}
+                            style={{
+                              marginBottom: "15px",
+                              textAlign: "center",
+                            }}
                           >
-                            <IInput
-                              value={itm?.binNumber}
-                              name="binNumber"
-                              type="text"
-                              onChange={(e) => {                       
-                                rowDtoHandler(
-                                  "binNumber",
-                                  i,
-                                  e.target.value
-                                )
-                              }}
-                            />
-                          </td>
+                            <td>{i + 1}</td>
+                            <td>{itm?.plantName}</td>
+                            <td>{itm?.wareHouseName}</td>
+                            <td>{itm?.inventoryLocationName}</td>
 
-                          {/* <td>
+                            <td
+                              className="disabled-feedback disable-border"
+                              style={{ width: "100px" }}
+                            >
+                              <IInput
+                                value={itm?.binNumber||""}
+                                name="binNumber"
+                                type="text"
+                                onChange={(e) => {
+                                  rowDtoHandler("binNumber", i, e.target.value);
+                                }}
+                              />
+                            </td>
+                            <td
+                              className="disabled-feedback disable-border"
+                              style={{ width: "100px" }}
+                            >
+                              <IInput
+                                value={itm?.minimumStockQuantity||""}
+                                name="minimumStockQuantity"
+                                type="number"
+                                onChange={(e) => {
+                                  rowDtoHandler("minimumStockQuantity", i, +e.target.value);
+                                }}
+                              />
+                            </td>
+                            <td
+                              className="disabled-feedback disable-border"
+                              style={{ width: "100px" }}
+                            >
+                              <IInput
+                                value={itm?.safetyStockQuantity||""}
+                                name="safetyStockQuantity"
+                                type="number"
+                                onChange={(e) => {
+                                  rowDtoHandler("safetyStockQuantity", i, +e.target.value);
+                                }}
+                              />
+                            </td>
+                            <td
+                              className="disabled-feedback disable-border"
+                              style={{ width: "100px" }}
+                            >
+                              <IInput
+                                value={itm?.maximumQuantity||""}
+                                name="maximumQuantity"
+                                type="number"
+                                onChange={(e) => {
+                                  rowDtoHandler("maximumQuantity", i, +e.target.value);
+                                }}
+                              />
+                            </td>
+                            <td
+                              className="disabled-feedback disable-border"
+                              style={{ width: "100px" }}
+                            >
+                              <IInput
+                                value={itm?.reorderLevel||""}
+                                name="reorderLevel"
+                                type="number"
+                                onChange={(e) => {
+                                  rowDtoHandler("reorderLevel", i, +e.target.value);
+                                }}
+                              />
+                            </td>
+                            <td
+                              className="disabled-feedback disable-border"
+                              style={{ width: "100px" }}
+                            >
+                              <IInput
+                                value={itm?.reorderQuantity||""}
+                                name="reorderQuantity"
+                                type="number"
+                                onChange={(e) => {
+                                  rowDtoHandler("reorderQuantity", i, +e.target.value);
+                                }}
+                              />
+                            </td>
+                            <td
+                              className="disabled-feedback disable-border"
+                              style={{ width: "100px" }}
+                            >
+                              <IInput
+                                value={itm?.averageDailyConsumption||""}
+                                name="averageDailyConsumption"
+                                type="number"
+                                onChange={(e) => {
+                                  rowDtoHandler("averageDailyConsumption", i, +e.target.value);
+                                }}
+                              />
+                            </td>
+                            <td
+                              className="disabled-feedback disable-border"
+                              style={{ width: "100px" }}
+                            >
+                              <IInput
+                                value={itm?.maxLeadDays||""}
+                                name="maxLeadDays"
+                                type="number"
+                                onChange={(e) => {
+                                  rowDtoHandler("maxLeadDays", i, +e.target.value);
+                                }}
+                              />
+                            </td>
+                            <td
+                              className="disabled-feedback disable-border"
+                              style={{ width: "100px" }}
+                            >
+                              <IInput
+                                value={itm?.minLeadDays||""}
+                                name="minLeadDays"
+                                type="number"
+                                onChange={(e) => {
+                                  rowDtoHandler("minLeadDays", i, +e.target.value);
+                                }}
+                              />
+                            </td>
+                            <td
+                              className="disabled-feedback disable-border"
+                              style={{ width: "100px" }}
+                            >
+                              <IInput
+                                value={itm?.abc ||""}
+                                name="abc"
+                                type="number"
+                                onChange={(e) => {
+                                  rowDtoHandler("abc", i, +e.target.value);
+                                }}
+                              />
+                            </td>
+                            <td
+                              className="disabled-feedback disable-border"
+                              style={{ width: "100px" }}
+                            >
+                              <IInput
+                                value={itm?.ved ||""}
+                                name="ved"
+                                type="number"
+                                onChange={(e) => {
+                                  rowDtoHandler("ved", i, +e.target.value);
+                                }}
+                              />
+                            </td>
+                            <td
+                              className="disabled-feedback disable-border"
+                              style={{ width: "100px" }}
+                            >
+                              <IInput
+                                value={itm?.fns ||""}
+                                name="fns"
+                                type="number"
+                                onChange={(e) => {
+                                  rowDtoHandler("fns", i, +e.target.value);
+                                }}
+                              />
+                            </td>
+
+                            {/* <td>
                             <span
                               className="pointer alterUomDeleteIcon"
                               style={{
@@ -440,10 +705,11 @@ export default function _Form({
                               ></i>
                             </span>
                           </td> */}
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
               <div className="form-group row align-content-center my-5 global-form">
                 <div className="col-12">
@@ -502,10 +768,20 @@ export default function _Form({
                       </p>
                     </div>
                     <div className="col-lg-3">
-                      <Field
+                      {/* <Field
                         value={values.numGrossWeight}
                         name="numGrossWeight"
                         component={Input}
+                        placeholder="Gross Weight (Kg)"
+                        label="Gross Weight (Kg)"
+                        type="number"
+                        // disabled={rowDto?.length > 1 || isEdit}
+                        min="0"
+                      /> */}
+                      <InputField
+                        value={values.numGrossWeight}
+                        name="numGrossWeight"
+                        // component={Input}
                         placeholder="Gross Weight (Kg)"
                         label="Gross Weight (Kg)"
                         type="number"

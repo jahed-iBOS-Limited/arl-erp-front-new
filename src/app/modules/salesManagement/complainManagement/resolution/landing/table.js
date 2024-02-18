@@ -5,7 +5,7 @@ import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IViewModal from "../../../../_helper/_viewModal";
-import feedbackIcon from "../../../../_helper/images/feedback.png";
+// import feedbackIcon from "../../../../_helper/images/feedback.png";
 import DelegateForm from "./delegate";
 import FeedbackModal from "./feedbackModal";
 import InvestigateForm from "./investigate";
@@ -15,6 +15,7 @@ const LandingTable = ({ obj }) => {
   const {
     profileData: { accountId: accId, employeeId, userId },
     selectedBusinessUnit: { value: buId },
+    tokenData: { token },
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const { gridData, commonGridDataCB, setLoading } = obj;
@@ -42,7 +43,7 @@ const LandingTable = ({ obj }) => {
               <th>Create Date</th>
               <th>Delegate By</th>
               <th>Delegate Date</th>
-              <th>Deligate To</th>
+              <th>Delegate To</th>
               <th>Investigation By</th>
               <th>Investigation Date</th>
               <th>Status</th>
@@ -253,7 +254,7 @@ const LandingTable = ({ obj }) => {
                               </span>
                             </OverlayTrigger>
                           </span>
-                          <span
+                          {/* <span
                             onClick={() => {
                               setIsFeedbackModalShow(true);
                               setClickRowData(item);
@@ -268,7 +269,7 @@ const LandingTable = ({ obj }) => {
                                 height: "20px",
                               }}
                             />
-                          </span>
+                          </span> */}
                         </>
                       )}
                       {item?.status === "Investigate" && matchEmployeeId && (

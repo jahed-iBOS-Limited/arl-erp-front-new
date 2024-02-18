@@ -50,7 +50,7 @@ export default function _Form({
       const updateList = res?.data.map((item) => ({
         ...item,
         value: item?.value,
-        label: item?.employeeName,
+        label: item?.labelCode,
       }));
       return updateList;
     });
@@ -320,7 +320,7 @@ export default function _Form({
                     value={values?.transactionQuantity}
                     placeholder="Transaction Quantity"
                     name="transactionQuantity"
-                    // disabled={true}
+                    disabled={true}
                   />
                 </div>
 

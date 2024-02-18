@@ -4,22 +4,22 @@ import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { GetCountryDDL } from "../../../../chartering/helper";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import IButton from "../../../../_helper/iButton";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import ICustomCard from "../../../../_helper/_customCard";
 import ICustomTable from "../../../../_helper/_customTable";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import FormikError from "../../../../_helper/_formikError";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
+import IEdit from "../../../../_helper/_helperIcons/_edit";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import IButton from "../../../../_helper/iButton";
+import { GetCountryDDL } from "../../../../chartering/helper";
 import { GetDomesticPortDDL } from "../../../allotment/generalInformation/helper";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
 import { editMotherVessel } from "../helper";
 
 const initData = {
@@ -37,6 +37,8 @@ const initData = {
   localRevenueRate: "",
   freightCostRate: "",
   freightCostRateBdt: "",
+  lighteringRate:"",
+  baggageNstorageRate:"",
 };
 
 const THeaders = [
@@ -49,6 +51,8 @@ const THeaders = [
   "Origin",
   "Lot No",
   "Local Revenue Rate",
+  "Lightering Rate",
+  "Baggage & Storage Rate",
   "Action",
 ];
 
@@ -60,6 +64,7 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
   const [rowData, setRowData] = useState([]);
   const [singleData, setSingleData] = useState({});
   const [loading, setLoading] = useState(false);
+  const [organizationDDL, getOrganizationDDL] = useAxiosGet();
 
   // get user data from store
   const {
@@ -110,6 +115,12 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
     }
   }, [item]);
 
+  useEffect(() => {
+    getOrganizationDDL(
+      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`
+    );
+  }, [accId, buId]);
+
   const singleDataSet = (item, values) => {
     setRowData(rowData?.filter((element) => element?.id !== item?.id));
     const newData = {
@@ -157,6 +168,8 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
         strOrganizationName: values?.organization?.label,
         dteProgramDate: values?.programDate,
         localRevenueRate: +values?.localRevenueRate || 0,
+        lighteringRate: +values?.lighteringRate || 0,
+        baggageNstorageRate: +values?.baggageNstorageRate || 0,
       };
       setRowData([...rowData, newRow]);
       cb();
@@ -220,6 +233,14 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
   };
 
   const createOrEdit = ["create", "edit"].includes(formType);
+
+  const disableHandler = (values) => {
+    const organization = values?.organization?.label
+      ?.split(" ")[1]
+      .toLowerCase();
+
+    return organization !== "badc";
+  };
 
   return (
     <>
@@ -387,10 +408,7 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
                       <div className="col-lg-3">
                         <NewSelect
                           name="organization"
-                          options={[
-                            { value: 73244, label: "G2G BADC" },
-                            { value: 73245, label: "G2G BCIC" },
-                          ]}
+                          options={organizationDDL || []}
                           value={values?.organization}
                           label="Organization"
                           onChange={(valueOption) => {
@@ -452,6 +470,40 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
                       </div>
                       <div className="col-lg-3">
                         <InputField
+                          label="Lightering Rate"
+                          placeholder="Lightering Rate"
+                          value={values?.lighteringRate}
+                          name="lighteringRate"
+                          onChange={(e) => {
+                            if (+e.target.value < 0) {
+                              return toast.warning("Rate must be positive");
+                            }
+                            setFieldValue("lighteringRate", e.target.value);
+                            setFieldValue("localRevenueRate", (+e.target.value || 0) + (+values?.baggageNstorageRate || 0));
+                          }}
+                          type="number"
+                          disabled={disableHandler(values)}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <InputField
+                          label="Baggage & Storage Rate"
+                          placeholder="Baggage & Storage Rate"
+                          value={values?.baggageNstorageRate}
+                          name="baggageNstorageRate"
+                          onChange={(e) => {
+                            if (+e.target.value < 0) {
+                              return toast.warning("Rate must be positive");
+                            }
+                            setFieldValue("baggageNstorageRate", e.target.value);
+                            setFieldValue("localRevenueRate", (+e.target.value || 0) + (+values?.lighteringRate || 0));
+                          }}
+                          type="number"
+                          disabled={disableHandler(values)}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <InputField
                           label="Local Revenue Rate"
                           placeholder="Local Revenue Rate"
                           value={values?.localRevenueRate}
@@ -463,7 +515,7 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
                             setFieldValue("localRevenueRate", e.target.value);
                           }}
                           type="number"
-                          disabled={values?.organization?.value !== 73244}
+                          disabled={disableHandler(values)}
                         />
                       </div>
                       <IButton
@@ -515,6 +567,12 @@ const MotherVesselCreateForm = ({ setShow, getData, formType, item }) => {
                         <td className="text-center">{item?.strLotNumber}</td>
                         <td className="text-center">
                           {item?.localRevenueRate}
+                        </td>
+                        <td className="text-center">
+                          {item?.lighteringRate}
+                        </td>
+                        <td className="text-center">
+                          {item?.baggageNstorageRate}
                         </td>
                         <td className="text-center">
                           {formType !== "view" && (

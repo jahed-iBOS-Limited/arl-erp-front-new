@@ -1,13 +1,83 @@
-import React from "react";
-import { Formik, Form } from "formik";
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import * as Yup from "yup";
+import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
+import { GetRouteStandardCostByRouteId } from "../helper";
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
 
-export default function _Form({ initData, btnRef, saveHandler, resetBtnRef }) {
+export default function _Form({
+  initData,
+  btnRef,
+  saveHandler,
+  resetBtnRef,
+  landingData,
+}) {
+  const [isDisabled, setDisabled] = useState(false);
+
+  // get user profile data from store
+  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
+
+  useEffect(() => {
+    if (landingData?.transportOrganizationId && landingData?.routeId) {
+      commonPrvSaveData(
+        landingData?.routeId,
+        landingData?.transportOrganizationId,
+        landingData?.shipPointId
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [landingData]);
+  const formikRef = React.useRef(null);
+  const commonPrvSaveData = (routeId, transportORGId, shipPointId) => {
+    GetRouteStandardCostByRouteId(
+      profileData?.accountId,
+      selectedBusinessUnit?.value,
+      routeId,
+      transportORGId,
+      shipPointId,
+      (data) => {
+        if (formikRef.current) {
+          const obj = data?.[0] || {};
+          formikRef.current.setFieldValue("itemLists", data || []);
+
+          formikRef.current.setFieldValue(
+            "transportOrganizationName",
+            obj?.transportOrganizationId
+              ? {
+                  value: obj?.transportOrganizationId,
+                  label: obj?.transportOrganizationName,
+                }
+              : ""
+          );
+          formikRef.current.setFieldValue(
+            "routeName",
+            obj?.routeId
+              ? {
+                  value: obj?.routeId,
+                  label: obj?.routeName,
+                }
+              : ""
+          );
+          formikRef.current.setFieldValue(
+            "shipPoint",
+            obj?.shipPointId
+              ? {
+                  value: obj?.shipPointId,
+                  label: obj?.shipPointName,
+                }
+              : ""
+          );
+        }
+      },
+      setDisabled
+    );
+  };
   return (
     <>
       <Formik
@@ -19,6 +89,7 @@ export default function _Form({ initData, btnRef, saveHandler, resetBtnRef }) {
             resetForm(initData);
           });
         }}
+        innerRef={formikRef}
       >
         {({
           handleSubmit,
@@ -30,6 +101,7 @@ export default function _Form({ initData, btnRef, saveHandler, resetBtnRef }) {
           isValid,
         }) => (
           <>
+            {isDisabled && <Loading />}
             <Form className='form form-label-right'>
               <div className=''>
                 <div className='form-group row global-form'>
@@ -48,7 +120,22 @@ export default function _Form({ initData, btnRef, saveHandler, resetBtnRef }) {
                       isDisabled={true}
                     />
                   </div>
-                  <div className='col-lg-2'>
+                  <div className='col-lg-3'>
+                    <NewSelect
+                      name='shipPoint'
+                      options={[]}
+                      value={values?.shipPoint}
+                      label='ShipPoint'
+                      onChange={(valueOption) => {
+                        setFieldValue("shipPoint", valueOption);
+                      }}
+                      placeholder='Select ShipPoint'
+                      errors={errors}
+                      touched={touched}
+                      isDisabled={true}
+                    />
+                  </div>
+                  <div className='col-lg-3'>
                     <NewSelect
                       name='routeName'
                       options={[]}
@@ -69,8 +156,10 @@ export default function _Form({ initData, btnRef, saveHandler, resetBtnRef }) {
                     <thead>
                       <tr>
                         <th style={{ width: "35px" }}>SL</th>
+
                         <th>Component Name</th>
-                        <th style={{ width: "400px" }}>Amount</th>
+                        <th> Vehicle Capacity</th>
+                        <th>Amount</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -80,21 +169,8 @@ export default function _Form({ initData, btnRef, saveHandler, resetBtnRef }) {
                           <td className='pl-2'>
                             {itm.transportRouteCostComponentName}
                           </td>
-
-                          <td className='pr-2'>
-                            <InputField
-                              value={values?.itemLists[index]?.amount}
-                              name={`itemLists.${index}.amount`}
-                              placeholder='Amount'
-                              type='number'
-                              onChange={(e) => {
-                                setFieldValue(e.target.name, e.target.value);
-                              }}
-                              errors={errors}
-                              touched={touched}
-                              disabled={true}
-                            />
-                          </td>
+                          <td className='pl-2'>{itm?.vehicleCapacityName}</td>
+                          <td className='pr-2'>{itm?.amount}</td>
                         </tr>
                       ))}
                     </tbody>

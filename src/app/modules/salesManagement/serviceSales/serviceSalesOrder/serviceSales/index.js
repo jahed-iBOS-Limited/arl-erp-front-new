@@ -10,7 +10,6 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const initData = {
   customer: "",
-  item: "",
 };
 export default function ServiceSalesLanding() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -18,7 +17,7 @@ export default function ServiceSalesLanding() {
   }, shallowEqual);
 
   const [customerList, getCustomerList] = useAxiosGet();
-  const [itemDDL, getItemDDL] = useAxiosGet();
+  const [, getItemDDL] = useAxiosGet();
   const [scheduleList, getScheduleList, loader] = useAxiosGet();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
@@ -107,19 +106,6 @@ export default function ServiceSalesLanding() {
                       touched={touched}
                     />
                   </div>
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="item"
-                      options={itemDDL || []}
-                      value={values?.item}
-                      label="Item Name"
-                      onChange={(valueOption) => {
-                        setFieldValue("item", valueOption);
-                      }}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
                   <div>
                     <button
                       className="btn btn-primary"
@@ -132,7 +118,7 @@ export default function ServiceSalesLanding() {
                           }&businessUnitId=${
                             selectedBusinessUnit?.value
                           }&customerId=${values?.customer?.value ||
-                            0}&itemId=${values?.item?.value ||
+                            0}&itemId=${
                             0}&pageNo=${pageNo}&pageSize=${pageSize}`
                         );
                       }}
@@ -160,7 +146,17 @@ export default function ServiceSalesLanding() {
                         <tr key={index}>
                           <td>{index + 1}</td>
                           <td>{item?.strServiceSalesOrderCode}</td>
-                          <td>{item?.strItemName}</td>
+                          <td>{(()=>{
+                              const itemStrings = item?.items?.map(singleItem => {
+                                const itemName = singleItem.strItemName || 'N/A';
+                                const qty = typeof singleItem.numSalesQty === 'number' ? singleItem.numSalesQty : 'N/A';
+                                const rate = typeof singleItem.numRate === 'number' ? singleItem.numRate : 'N/A';
+                              
+                                return `${itemName} - Qty: ${qty}, Rate: ${rate}`;
+                              });
+                              
+                              return itemStrings?.join(' / ');
+                            })()}</td>
                           <td>{item?.strCustomerName}</td>
                           <td>{item?.strSalesTypeName}</td>
                           <td>{item?.strPaymentType}</td>

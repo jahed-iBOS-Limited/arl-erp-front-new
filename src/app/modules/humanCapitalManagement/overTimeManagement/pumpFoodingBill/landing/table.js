@@ -1,48 +1,49 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
-import ICard from "../../../../_helper/_card";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IButton from "../../../../_helper/iButton";
-import { approvePumpFoodingBill, deletePumpFoodingBill } from "../helper";
+import { Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import ICard from '../../../../_helper/_card';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _firstDateofMonth } from '../../../../_helper/_firstDateOfCurrentMonth';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import IButton from '../../../../_helper/iButton';
+import { approvePumpFoodingBill, deletePumpFoodingBill } from '../helper';
 
 const initData = {
   fromDate: _firstDateofMonth(),
   toDate: _todayDate(),
-  status: { value: "", label: "All" },
-  workplace: {value: 0, label: "All"},
-  warehouse: {value: 0, label: "All"},
+  status: { value: '', label: 'All' },
+  workplace: { value: 0, label: 'All' },
+  warehouse: { value: 0, label: 'All' },
 };
 
 export const headers = [
-  "SL",
-  "Employee Name",
-  "Enroll",
-  "Workplace",
-  "Designation",
-  "Start Date",
-  "Start Time",
-  "End Date",
-  "End Time",
+  'SL',
+  'Employee Name',
+  'Enroll',
+  'Workplace',
+  'Designation',
+  'Start Date',
+  'Start Time',
+  'End Date',
+  'End Time',
   // "Hours",
-  "Taka",
-  "Approve Amount",
-  "Remarks",
-  "Action",
+  'Taka',
+  'Approve Amount',
+  'Remarks',
+  'Bill Id',
+  'Action',
 ];
 
 const PumpFoodingBillLanding = () => {
@@ -52,8 +53,18 @@ const PumpFoodingBillLanding = () => {
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [rowData, getRowData, isLoading, setRowData] = useAxiosGet();
-  const [workplaceDDL, getWorkplaceDDL, isWorkpalceDDLLoading, setWorkplaceDDL] = useAxiosGet();
-  const [wareHouseDDL, getWareHouseDDL, isWareHouseDDLLoading, setWareHouseDDL] = useAxiosGet();
+  const [
+    workplaceDDL,
+    getWorkplaceDDL,
+    isWorkpalceDDLLoading,
+    setWorkplaceDDL,
+  ] = useAxiosGet();
+  const [
+    wareHouseDDL,
+    getWareHouseDDL,
+    isWareHouseDDLLoading,
+    setWareHouseDDL,
+  ] = useAxiosGet();
   const [loading, setLoading] = useState(false);
 
   // get user profile data from store
@@ -83,20 +94,25 @@ const PumpFoodingBillLanding = () => {
   }, [accId, buId]);
 
   //Load DDL
-  useEffect(()=>{
-    //fetch workplace
-    getWorkplaceDDL(`/hcm/HCMDDL/GetWorkPlaceDDL?AccountId=${accId}&BusinessUnitId=${buId}`, (data)=>{
-      const DDL = [{value: 0, label: "All"}, ...data];
-      setWorkplaceDDL(DDL);
-    })
+
+  useEffect(() => {
+    getWorkplaceDDL(
+      `/hcm/TrustManagement/GetWorkPlacePeopleDeskDDL?businessUnitId=${buId}`,
+      (data) => {
+        const DDL = [{ value: 0, label: 'All' }, ...data];
+        setWorkplaceDDL(DDL);
+      },
+    );
 
     //get warehouse DDL
-    getWareHouseDDL(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=0&OrgUnitTypeId=8`, (data) => {
-    
-      const DDL = [{value: 0, label: "All"}, ...data];
-      setWareHouseDDL(DDL);
-    })
-  }, [accId, buId, userId])
+    getWareHouseDDL(
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=0&OrgUnitTypeId=8`,
+      (data) => {
+        const DDL = [{ value: 0, label: 'All' }, ...data];
+        setWareHouseDDL(DDL);
+      },
+    );
+  }, [accId, buId, userId]);
 
   // set PositionHandler
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -105,8 +121,8 @@ const PumpFoodingBillLanding = () => {
 
   const deleteHandler = (id, values) => {
     const objProps = {
-      title: "Are You Sure?",
-      message: "Are you sure you want to delete this bill?",
+      title: 'Are You Sure?',
+      message: 'Are you sure you want to delete this bill?',
       yesAlertFunc: () => {
         deletePumpFoodingBill(id, setLoading, () => {
           getData(values, pageNo, pageSize);
@@ -120,7 +136,7 @@ const PumpFoodingBillLanding = () => {
   const approveHandler = (values) => {
     const selectedItems = rowData?.data?.filter((item) => item?.isSelected);
     if (selectedItems?.length < 1) {
-      return toast.warn("Please select at least one item!");
+      return toast.warn('Please select at least one item!');
     }
     const payload = selectedItems?.map((item) => {
       return {
@@ -185,11 +201,14 @@ const PumpFoodingBillLanding = () => {
             isCreteBtn={true}
             createHandler={() => {
               history.push(
-                `/human-capital-management/overtime-management/pumpfoodingbill/entry`
+                `/human-capital-management/overtime-management/pumpfoodingbill/entry`,
               );
             }}
           >
-            {(isLoading || loading) && <Loading />}
+            {(isLoading ||
+              loading ||
+              isWareHouseDDLLoading ||
+              isWorkpalceDDLLoading) && <Loading />}
 
             <form className="form form-label-right">
               <div className="global-form">
@@ -217,16 +236,16 @@ const PumpFoodingBillLanding = () => {
                   <div className="col-lg-3">
                     <NewSelect
                       options={[
-                        { value: "", label: "All" },
-                        { value: 1, label: "UnApproved" },
-                        { value: 2, label: "Approved" },
+                        { value: '', label: 'All' },
+                        { value: 1, label: 'UnApproved' },
+                        { value: 2, label: 'Approved' },
                       ]}
                       label="Status"
                       placeholder="Status"
                       value={values?.status}
                       name="status"
                       onChange={(e) => {
-                        setFieldValue("status", e);
+                        setFieldValue('status', e);
                         setRowData([]);
                       }}
                     />
@@ -239,7 +258,7 @@ const PumpFoodingBillLanding = () => {
                       value={values?.workplace}
                       name="Workplace"
                       onChange={(e) => {
-                        setFieldValue("workplace", e);
+                        setFieldValue('workplace', e);
                         setRowData([]);
                       }}
                     />
@@ -252,7 +271,7 @@ const PumpFoodingBillLanding = () => {
                       value={values?.warehouse}
                       name="Warehouse"
                       onChange={(e) => {
-                        setFieldValue("warehouse", e);
+                        setFieldValue('warehouse', e);
                         setRowData([]);
                       }}
                     />
@@ -278,13 +297,13 @@ const PumpFoodingBillLanding = () => {
                 </div>
               )}
               <div ref={printRef}>
-                {" "}
+                {' '}
                 {rowData?.data?.length > 0 && (
                   <table
                     ref={printRef}
                     id="table-to-xlsx"
                     className={
-                      "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                      'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                     }
                   >
                     <thead>
@@ -292,7 +311,7 @@ const PumpFoodingBillLanding = () => {
                         {values?.status?.value === 1 && (
                           <th
                             onClick={() => allSelect(!selectedAll())}
-                            style={{ width: "30px" }}
+                            style={{ width: '30px' }}
                           >
                             <input
                               type="checkbox"
@@ -373,6 +392,7 @@ const PumpFoodingBillLanding = () => {
                               {item?.approveAmount}
                             </td>
                             <td>{item?.remarks}</td>
+                            <td>{item?.billId}</td>
                             <td
                               style={{ width: "80px" }}
                               className="text-center"
@@ -397,33 +417,34 @@ const PumpFoodingBillLanding = () => {
                                         id={item?.autoId}
                                       />
                                     </span>
-                                    {
-                                    item?.attachmentUrl &&
+                                    {item?.attachmentUrl && (
                                       <span className="cursor-pointer">
-                                      <OverlayTrigger
-                                        overlay={
-                                          <Tooltip id="cs-icon">
-                                            View Attachment
-                                          </Tooltip>
-                                        }
-                                      >
-                                        <span
-                                          onClick={(e) => {
-                                            e.stopPropagation();
-                                            dispatch(
-                                              getDownlloadFileView_Action(item?.attachmentUrl)
-                                            );
-                                          }}
-                                          className="ml-2"
+                                        <OverlayTrigger
+                                          overlay={
+                                            <Tooltip id="cs-icon">
+                                              View Attachment
+                                            </Tooltip>
+                                          }
                                         >
-                                          <i
-                                            class="fa fa-paperclip"
-                                            aria-hidden="true"
-                                          ></i>
-                                        </span>
-                                      </OverlayTrigger>
-                                    </span>
-                                    }
+                                          <span
+                                            onClick={(e) => {
+                                              e.stopPropagation();
+                                              dispatch(
+                                                getDownlloadFileView_Action(
+                                                  item?.attachmentUrl
+                                                )
+                                              );
+                                            }}
+                                            className="ml-2"
+                                          >
+                                            <i
+                                              class="fa fa-paperclip"
+                                              aria-hidden="true"
+                                            ></i>
+                                          </span>
+                                        </OverlayTrigger>
+                                      </span>
+                                    )}
                                   </>
                                 )}
                               </div>

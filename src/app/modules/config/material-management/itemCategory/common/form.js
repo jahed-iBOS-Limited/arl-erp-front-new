@@ -5,6 +5,7 @@ import { Input } from "../../../../../../_metronic/_partials/controls";
 import Axios from "axios";
 import Select from "react-select";
 import customStyles from "../../../../selectCustomStyle";
+import NewSelect from "../../../../_helper/_select";
 
 // Validation schema
 const ProductEditSchema = Yup.object().shape({
@@ -16,11 +17,16 @@ const ProductEditSchema = Yup.object().shape({
     label: Yup.string().required("Item Type is required"),
     value: Yup.string().required("Item Type is required"),
   }),
-  generalLedger: Yup.object().shape({
-    label: Yup.string().required("General Ledger is required"),
-    value: Yup.string().required("General Ledger is required"),
+  generalLedger: Yup.object().when("itemTypeName.label", {
+    is: label => label !== "Services",
+    then: Yup.object().shape({
+      label: Yup.string().required("General Ledger is required"),
+      value: Yup.string().required("General Ledger is required"),
+    }),
+    otherwise: Yup.object().notRequired(),
   }),
 });
+
 
 export default function _Form({
   product,
@@ -52,7 +58,7 @@ export default function _Form({
     const id = groupId === 10 ? 1 : groupId === 9 ? 12 : 16;
     try {
       const res = await Axios.get(
-        `/domain/BusinessUnitGeneralLedger/GetGeneralLedgerDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&AccountGroupId=${id}`
+        `/domain/BusinessUnitGeneralLedger/GetGeneralLedgerForItemCategoryDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&AccountGroupId=${id}`
       );
       if (res.status === 200 && res?.data) {
         const newData = res?.data?.map((itm) => ({
@@ -165,39 +171,21 @@ export default function _Form({
                     {errors?.itemTypeName?.value}
                   </p>
                 </div>
-                <div className="col-lg-4">
-                  <label>General Ledger</label>
-
-                  <Field
-                    name="generalLedger"
-                    component={() => (
-                      <Select
-                        options={generalLedgerDDL || []}
-                        placeholder="Select General Ledger"
-                        value={values?.generalLedger}
-                        onChange={(valueOption) => {
-                          setFieldValue("generalLedger", valueOption);
-                        }}
-                        isSearchable={true}
-                        styles={customStyles}
-                        name="generalLedger"
-                      />
-                    )}
-                    placeholder="Select General Ledger"
-                    label="Select General Ledger"
-                  />
-                  <p
-                    style={{
-                      fontSize: "0.9rem",
-                      fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
-                    }}
-                    className="text-danger"
-                  >
-                    {errors?.generalLedger?.value}
-                  </p>
-                </div>
+                {["Services"]?.includes(values.itemTypeName?.label) ? null : (
+                  <div className="col-lg-4">
+                    <NewSelect
+                      name="generalLedger"
+                      options={generalLedgerDDL || []}
+                      value={values?.generalLedger}
+                      label="General Ledger"
+                      onChange={(valueOption) => {
+                        setFieldValue("generalLedger", valueOption || "");
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                )}
                 <div className="col-lg-4">
                   <Field
                     name="itemCategoryName"

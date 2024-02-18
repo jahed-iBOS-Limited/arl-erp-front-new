@@ -260,7 +260,7 @@ export function TableRow() {
                           <th>Shipment Code</th>
                           <th>Vehicle No</th>
                           <th>Driver Name</th>
-                          <th>It Time</th>
+                          <th>In Time</th>
                           <th>Out Time</th>
                           <th>Route Name</th>
                           <th>Transport Zone</th>
@@ -354,6 +354,7 @@ export function TableRow() {
                                           state: {
                                             vehicleId: item?.vehicleId,
                                             values: values,
+                                            singleData: item,
                                           },
                                         });
                                       }}
@@ -368,7 +369,7 @@ export function TableRow() {
                         })}
                         {values?.reportType?.value === 2 && (
                           <tr>
-                            <td colSpan="5" className="text-right">
+                            <td colSpan="8" className="text-right">
                               <b>Total:</b>
                             </td>
                             <td className="">

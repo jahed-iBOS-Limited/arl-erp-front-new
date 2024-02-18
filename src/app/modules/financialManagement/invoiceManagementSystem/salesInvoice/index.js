@@ -12,23 +12,33 @@ import { _todayDate } from "../../../_helper/_todayDate";
 import SalesInvoiceGridData from "./grid";
 import { getSalesInvoiceLanding } from "./helper";
 import RATForm from "../../../_helper/commonInputFieldsGroups/ratForm";
+import NewSelect from "../../../_helper/_select";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { _firstDateofMonth } from "../../../_helper/_firstDateOfCurrentMonth";
 
 const initData = {
   order: "",
   purchaseOrderNo: "",
-  fromDate: _todayDate(),
+  fromDate: _firstDateofMonth(),
   toDate: _todayDate(),
   contactPerson: "",
   contactNo: "",
   projectName: "",
   delivery: "",
   challanNo: "",
-  channel: ""
+  channel: "",
+  type: { value: 1, label: "Details" },
 };
 
 function SalesInvoiceLanding() {
   const [disabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
+  const [
+    topSheetData,
+    getTopSheetData,
+    loading,
+    setTopSheetData,
+  ] = useAxiosGet();
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(20);
@@ -41,18 +51,25 @@ function SalesInvoiceLanding() {
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const getGridData = (values, pageNo = 0, pageSize = 20, search = "") => {
-    getSalesInvoiceLanding(
-      accId,
-      buId,
-      values?.fromDate,
-      values?.toDate,
-      values?.channel?.value || 0,
-      pageNo,
-      pageSize,
-      search,
-      setDisabled,
-      setRowDto
-    );
+    if (buId === 4 && values?.type?.value === 2) {
+      const searchTerm = search ? `&search=${search}` : "";
+      getTopSheetData(
+        `/oms/OManagementReport/GetSalesInvoiceLandingTopSheet?BusinessunitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc${searchTerm}`
+      );
+    } else {
+      getSalesInvoiceLanding(
+        accId,
+        buId,
+        values?.fromDate,
+        values?.toDate,
+        values?.channel?.value || 0,
+        pageNo,
+        pageSize,
+        search,
+        setDisabled,
+        setRowDto
+      );
+    }
   };
 
   useEffect(() => {
@@ -65,6 +82,14 @@ function SalesInvoiceLanding() {
 
   const paginationSearchHandler = (search, values) => {
     getGridData(values, pageNo, pageSize, search);
+  };
+
+  const rowData = (values) => {
+    if (buId === 4 && values?.type?.value === 2) {
+      return topSheetData;
+    } else {
+      return rowDto;
+    }
   };
 
   return (
@@ -85,9 +110,28 @@ function SalesInvoiceLanding() {
                 });
               }}
             >
-              {disabled && <Loading />}
+              {(disabled || loading) && <Loading />}
               <Form className="form form-label-right">
                 <div className="row global-form global-form-custom">
+                  {buId === 4 && (
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="type"
+                        value={values?.type}
+                        label="Type"
+                        placeholder="Type"
+                        options={[
+                          { value: 1, label: "Details" },
+                          { value: 2, label: "Top Sheet" },
+                        ]}
+                        onChange={(valueOption) => {
+                          setFieldValue("type", valueOption);
+                          setRowDto([]);
+                          setTopSheetData([]);
+                        }}
+                      />
+                    </div>
+                  )}
                   <RATForm
                     obj={{
                       values,
@@ -95,19 +139,34 @@ function SalesInvoiceLanding() {
                       region: false,
                       area: false,
                       territory: false,
+                      onChange: () => {
+                        setRowDto([]);
+                        setTopSheetData([]);
+                      },
                     }}
                   />
-                  <FromDateToDateForm obj={{ values, setFieldValue }} />
+                  <FromDateToDateForm
+                    obj={{
+                      values,
+                      setFieldValue,
+                      onChange: () => {
+                        setRowDto([]);
+                        setTopSheetData([]);
+                      },
+                    }}
+                  />
 
                   <IButton
-                    colSize={"col-lg-3"}
                     onClick={() => {
                       getGridData(values, pageNo, pageSize);
                     }}
-                    disabled={!values?.fromDate || !values?.toDate}
+                    disabled={
+                      !values?.fromDate || !values?.toDate || !values?.channel
+                    }
                   />
                 </div>
               </Form>
+              {/* {values?.type?.value !== 2 && ( */}
               <div className="col-lg-6 mt-5">
                 <PaginationSearch
                   placeholder="Search"
@@ -115,8 +174,9 @@ function SalesInvoiceLanding() {
                   values={values}
                 />
               </div>
+              {/* )} */}
               <SalesInvoiceGridData
-                rowDto={rowDto}
+                rowDto={rowData(values)}
                 values={values}
                 accId={accId}
                 buId={buId}

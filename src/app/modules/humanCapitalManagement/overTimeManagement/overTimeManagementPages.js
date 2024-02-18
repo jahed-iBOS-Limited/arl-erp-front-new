@@ -13,6 +13,7 @@ import { shallowEqual, useSelector } from "react-redux";
 import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
 import { PumpFoodingBill } from "./pumpFoodingBill/Form/AddEditForm";
 import PumpFoodingBillLanding from "./pumpFoodingBill/landing/table";
+import PumpFoodingBillReport from "./pumpFoodingBillReport";
 
 export function OverTimeManagementPages() {
   const { userRole } = useSelector((state) => state?.authData, shallowEqual);
@@ -87,6 +88,10 @@ export function OverTimeManagementPages() {
       <ContentRoute
         path="/human-capital-management/overtime-management/pumpfoodingbill"
         component={PumpFoodingBillLanding}
+      />
+      <ContentRoute
+        path="/human-capital-management/overtime-management/pumpfoodingbillreport"
+        component={PumpFoodingBillReport}
       />
     </Switch>
   );

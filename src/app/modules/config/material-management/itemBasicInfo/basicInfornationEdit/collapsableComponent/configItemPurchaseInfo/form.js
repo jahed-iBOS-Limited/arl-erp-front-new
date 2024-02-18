@@ -3,44 +3,11 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { Input } from "../../../../../../../../_metronic/_partials/controls";
 import Axios from "axios";
-// import InputField from "../../../../../../_helper/_inputField";
-// import Select from "react-select";
-// import customStyles from "../../../../../../selectCustomStyle";
+import NewSelect from "../../../../../../_helper/_select";
+import useAxiosGet from "../../../../../../_helper/customHooks/useAxiosGet";
+import Loading from "../../../../../../_helper/_loading";
 
-const DataValiadtionSchema = Yup.object().shape({
-  // maxLeadDays: Yup.number()
-  //   .required("Maximum lead days is required")
-  //   .integer()
-  //   .min(1, "Maximum lead days is required"),
-
-  // minOrderQuantity: Yup.number()
-  //   .integer()
-  //   .min(1)
-  //   .required("Minimum order quantity is required")
-  //   .integer()
-  //   .min(1, "Minimum order quantity is required"),
-  // lotSize: Yup.number()
-  //   .integer()
-  //   .min(1)
-  //   .required("Lot Size is required")
-  //   .integer()
-  //   .min(1, "Lot Size is required"),
-  // org: Yup.object().shape({
-  //   label: Yup.string().required("Item Organization is required"),
-  //   value: Yup.string().required("Item Organization is required"),
-  // }),
-});
-// const initValue = {
-//   org: { label: "", value: "" },
-//   maxLeadDays: 0,
-//   minLeadDays: 0,
-//   minOrderQuantity: 0,
-//   desc: "",
-//   isMrp: false,
-//   hsCode: "",
-//   lotSize: 0,
-//   purchaseDescription: basicItemInfo[0]?.itemName,
-// };
+const DataValiadtionSchema = Yup.object().shape({});
 
 export default function _Form({
   initData,
@@ -51,6 +18,7 @@ export default function _Form({
   selectedBusinessUnit,
   accountId,
   basicItemInfo,
+  id = null,
 }) {
   const [orgList, setOrgList] = useState("");
   useEffect(() => {
@@ -77,10 +45,56 @@ export default function _Form({
         setOrgList(orgs);
         orgs = null;
       }
-    } catch (error) {
-     
-    }
+    } catch (error) {}
   };
+
+  const [
+    profitCenterDDL,
+    getProfitCenterDDL,
+    loaderOnProfitCenterDDL,
+    setProfitCenterDDL,
+  ] = useAxiosGet();
+
+  const [
+    itemSalesInformation,
+    getItemSalesInformation,
+    loaderOnGetItemSalesInformation,
+  ] = useAxiosGet();
+
+  useEffect(() => {
+    getItemSalesInformation(
+      `/item/ItemSales/GetItemSalesById?ItemSalesId=${id}`
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
+  useEffect(() => {
+    if (basicItemInfo?.length > 0) {
+      const api = itemSalesInformation?.length
+        ? `/item/ItemPurchaseInfo/GetProfitCenterOfItemSales?itemId=${basicItemInfo[0]?.itemId}&businessUnitId=${selectedBusinessUnit?.value}`
+        : `/costmgmt/ProfitCenter/GetProfitCenterInformation?AccountId=${accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`;
+      getProfitCenterDDL(api, (data) => {
+        if (data && data.length > 0) {
+          if (itemSalesInformation?.length) {
+            const firstElement = data[0];
+            setProfitCenterDDL([firstElement]);
+          } else {
+            let modifiedProfitCenterDDL =
+              data?.length &&
+              data?.map((item) => {
+                return {
+                  value: item?.profitCenterId,
+                  label: item?.profitCenterName,
+                  code: item?.profitCenterCode,
+                };
+              });
+            setProfitCenterDDL(modifiedProfitCenterDDL);
+          }
+        }
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [basicItemInfo?.length]);
 
   return (
     <>
@@ -110,45 +124,12 @@ export default function _Form({
           isValid,
         }) => (
           <>
+            {(loaderOnProfitCenterDDL || loaderOnGetItemSalesInformation) && (
+              <Loading />
+            )}
             {disableHandler(!isValid)}
             <Form className="form form-label-right">
               <div className="form-group row global-form">
-                {/* <div className="col-lg-3">
-                  <label>Select Purchase Organization</label>
-                  <Field
-                    name="org"
-                    component={() => (
-                      <Select
-                        options={orgList || { value: "", label: "" }}
-                        placeholder="Select Purchase Organization"
-                        defaultValue={values.org || { value: "", label: "" }}
-                        onChange={(valueOption) => {
-                          setFieldValue("org", valueOption);
-                        }}
-                        isSearchable={true}
-                        styles={customStyles}
-                        name="org"
-                        isDisabled={!orgList}
-                      />
-                    )}
-                    placeholder="Select Plant"
-                    label="Select Plant"
-                  />
-                  <p
-                    style={{
-                      fontSize: "0.9rem",
-                      fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
-                    }}
-                    className="text-danger"
-                  >
-                    {errors && errors.org && touched && touched.org
-                      ? errors.org.value
-                      : ""}
-                  </p>
-                </div> */}
-
                 <div className="col-lg-3">
                   <Field
                     value={values.purchaseDescription || ""}
@@ -159,7 +140,6 @@ export default function _Form({
                     disabled={!orgList}
                   />
                 </div>
-
                 <div className="col-lg-3">
                   <Field
                     value={values.hscode || ""}
@@ -170,7 +150,6 @@ export default function _Form({
                     disabled={!orgList}
                   />
                 </div>
-
                 <div className="col-lg-3">
                   <Field
                     value={values.maxLeadDays || ""}
@@ -209,9 +188,21 @@ export default function _Form({
                     min="0"
                   />
                 </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="profitCenter"
+                    options={profitCenterDDL || []}
+                    value={values?.profitCenter}
+                    label="Profit Center"
+                    onChange={(valueOption) => {
+                      setFieldValue("profitCenter", valueOption);
+                    }}
+                    placeholder="Profit Center"
+                  />
+                </div>
                 <div
                   style={{
-                    marginTop: "27px",
+                    marginTop: "18px",
                   }}
                   className="col-lg-3"
                 >

@@ -59,7 +59,8 @@ const DamageEntryLanding = () => {
       values?.status?.value
     }&BusuinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${
       values?.toDate
-    }&pageNo=${_pageNo}&pageSize=${_pageSize}&SalesReturnType=${2}&viewOrder=desc`;
+    }&pageNo=${_pageNo}&pageSize=${_pageSize}&SalesReturnType=${2}&viewOrder=desc&CustomerId=${values
+      ?.customer?.value || 0}&ChannelId=${values?.channel?.value || 0}`;
 
     landingActions(url, (resData) => {
       setGridData({
@@ -237,6 +238,8 @@ const DamageEntryLanding = () => {
             >
               <DamageEntryLandingForm
                 obj={{
+                  buId,
+                  accId,
                   values,
                   pageNo,
                   sbuDDL,

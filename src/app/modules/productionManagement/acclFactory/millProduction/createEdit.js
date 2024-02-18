@@ -35,6 +35,7 @@ export default function MillProductionCreateEdit() {
   const [shopFloor, getShopFloor, shopFloorLoader] = useAxiosGet();
   const [mill, getMill, millLoader] = useAxiosGet();
   const [itemDDL, getItemDDL, itemDDLLoader, setItemDDL] = useAxiosGet();
+  const [shiftDDL, getShiftDDL, shiftDDLLoader] = useAxiosGet();
   const [
     materialIssueDetails,
     getMaterialIssueDetails,
@@ -64,8 +65,10 @@ export default function MillProductionCreateEdit() {
     getPlant(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
     );
+
+    getShiftDDL(`/mes/MesDDL/GetProductionShiftDDL?AccountId=${accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [userId, accountId, selectedBusinessUnit?.value]);
   const saveHandler = (values, cb) => {
     const payload = {
       sl: 0,
@@ -123,6 +126,7 @@ export default function MillProductionCreateEdit() {
             dataLoader ||
             itemDDLLoader ||
             bomLoader ||
+            shiftDDLLoader ||
             materialIssueDetailsLoader) && <Loading />}
           <IForm
             title={id ? "Edit Mill Production" : "Create Mill Production"}
@@ -130,6 +134,20 @@ export default function MillProductionCreateEdit() {
           >
             <Form>
               <div className="form-group  global-form row">
+              <div className="col-lg-2">
+                  <NewSelect
+                    name="shift"
+                    options={shiftDDL || []}
+                    value={values?.shift}
+                    label="shift"
+                    onChange={(valueOption) => {
+                      if (valueOption) {
+                        setFieldValue("shift", valueOption);
+                      }
+                    }}
+                    isDisabled={id || rowData?.length > 0 ? true : false}
+                  />
+                </div>
                 <div className="col-lg-2">
                   <InputField
                     label="Date"

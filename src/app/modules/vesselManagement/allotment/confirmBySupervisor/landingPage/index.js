@@ -19,6 +19,7 @@ import {
 import Form from "./form";
 import Table from "./table";
 import AttachFile from "../../../../_helper/commonInputFieldsGroups/attachemntUpload";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const ALL = { value: 0, label: "All" };
 
@@ -33,6 +34,7 @@ const initData = {
   jvDate: _todayDate(),
   remarks: "",
   billRef: "",
+  organization: "",
 };
 
 const ConfirmBySupervisor = () => {
@@ -45,6 +47,7 @@ const ConfirmBySupervisor = () => {
   const [status, setStatus] = useState(true);
   const [open, setOpen] = useState(false);
   const [uploadedImages, setUploadedImage] = useState([]);
+  const [organizationDDL, getOrganizationDDL] = useAxiosGet();
 
   // get user profile data from store
   const {
@@ -81,7 +84,10 @@ const ConfirmBySupervisor = () => {
   };
 
   useEffect(() => {
-    getData(initData, pageNo, pageSize);
+    getOrganizationDDL(
+      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`
+    );
+    // getData(initData, pageNo, pageSize);
     GetShipPointDDL(accId, buId, setShipPointDDL);
     getGodownDDL(buId, 73244, setGodownDDL, setLoading);
   }, [accId, buId]);
@@ -257,6 +263,19 @@ const ConfirmBySupervisor = () => {
         getData(values, pageNo, pageSize, "");
         break;
 
+      case "organization":
+        setFieldValue("organization", currentValue);
+        setFieldValue("shipToPartner", {
+          value: 0,
+          label: "All",
+        });
+        setRowData([]);
+        if (currentValue) {
+          getGodownDDL(buId, currentValue?.value, setGodownDDL, setLoading);
+        }
+        getData(values, pageNo, pageSize, "");
+        break;
+
       default:
         break;
     }
@@ -378,12 +397,12 @@ const ConfirmBySupervisor = () => {
         {({ values, setFieldValue }) => (
           <>
             <ICard
-              title='Challan Confirmation'
+              title="Challan Confirmation"
               createHandler={() => {
                 saveHandler(values);
               }}
               createBtnText={"Approve"}
-              createBtnClass='btn-info'
+              createBtnClass="btn-info"
               disableCreateBtn={disabled(values)}
             >
               {loading && <Loading />}
@@ -391,6 +410,7 @@ const ConfirmBySupervisor = () => {
                 obj={{
                   paginationSearchHandler,
                   onChangeHandler,
+                  organizationDDL,
                   setFieldValue,
                   shipPointDDL,
                   totalRevenue,
@@ -406,6 +426,7 @@ const ConfirmBySupervisor = () => {
                   status,
                   pageNo,
                   values,
+                  buId,
                 }}
               />
 
@@ -422,9 +443,9 @@ const ConfirmBySupervisor = () => {
                   selectedAll,
                   loadOptions,
                   setPageSize,
+                  deletHandler,
                   rowDataHandler,
                   setPositionHandler,
-                  deletHandler,
                 }}
               />
             </ICard>

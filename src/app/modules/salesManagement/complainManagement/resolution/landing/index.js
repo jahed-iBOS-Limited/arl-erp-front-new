@@ -11,10 +11,12 @@ import PaginationTable from "../../../../_helper/_tablePagination";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import {
   complainLandingPasignationByEmployeeId,
+  getComplainCategory,
   getComplainStatus,
   respondentTypeDDL,
 } from "../helper";
 import LandingTable from "./table";
+import { getBusinessUnitDDLApi } from "../../complain/helper";
 
 const initData = {
   respondentType: {
@@ -22,6 +24,14 @@ const initData = {
     label: "All",
   },
   status: {
+    value: 0,
+    label: "All",
+  },
+  issueType: {
+    value: 0,
+    label: "All",
+  },
+  respondentBusinessUnit: {
     value: 0,
     label: "All",
   },
@@ -35,6 +45,8 @@ const ResolutionLanding = () => {
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [complainStatus, setComplainStatus] = useState([]);
+  const [businessUnitDDL, setBusinessUnitDDL] = useState([]);
+  const [complainCategory, setComplainCategory] = useState([]);
   // get user data from store
   const {
     profileData: { accountId: accId, employeeId },
@@ -46,6 +58,8 @@ const ResolutionLanding = () => {
       // employeEnroll_Api(accId, buId, SetEmployeeDDL);
       getComplainStatus(buId, setComplainStatus);
       commonGridData(pageNo, pageSize, initData);
+      getBusinessUnitDDLApi(accId, setBusinessUnitDDL);
+      getComplainCategory(buId, setComplainCategory);
     }
   }, [accId, buId]);
 
@@ -62,18 +76,20 @@ const ResolutionLanding = () => {
       values?.fromDate,
       values?.toDate,
       values?.status?.value || 0,
-      pageNo,
-      pageSize,
+      _pageNo,
+      _pageSize,
       setGridData,
       setLoading,
       searhValue,
-      employeeId
+      employeeId,
+      values?.respondentBusinessUnit?.value || 0,
+      values?.issueType?.value || 0
     );
   };
 
   const title =
     window.location.pathname === "/self-service/my-complaint"
-      ? "My Complaint"
+      ? "My Feedback"
       : window.location.pathname ===
         "/sales-management/complainmanagement/Delegate"
       ? "Delegate"
@@ -114,6 +130,22 @@ const ResolutionLanding = () => {
                 </div>
                 <div className='col-lg-3'>
                   <NewSelect
+                    name='respondentBusinessUnit'
+                    options={[{value:0, label:"All"}, ...businessUnitDDL] || []}
+                    value={values?.respondentBusinessUnit}
+                    label='Respondent Business Unit'
+                    onChange={(valueOption) => {
+                      setFieldValue(
+                        "respondentBusinessUnit",
+                        valueOption || ""
+                      );
+                      setGridData([]);
+                    }}                   
+                  />
+                </div>
+
+                <div className='col-lg-3'>
+                  <NewSelect
                     name='status'
                     options={
                       [
@@ -131,6 +163,27 @@ const ResolutionLanding = () => {
                       setGridData([]);
                     }}
                     placeholder='Status'
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className='col-lg-3'>
+                  <NewSelect
+                    name='issueType'
+                    options={[
+                      {
+                        value: 0,
+                        label: "All",
+                      },
+                      ...complainCategory,
+                    ] || []}
+                    value={values?.issueType}
+                    label='Issue Type'
+                    onChange={(valueOption) => {
+                      setFieldValue("issueType", valueOption || "");
+                      setGridData([]);
+                    }}
+                    placeholder='Issue Type'
                     errors={errors}
                     touched={touched}
                   />
@@ -160,7 +213,7 @@ const ResolutionLanding = () => {
                     }}
                   />
                 </div>
-                <div className='col d-flex align-items-end justify-content-end'>
+                <div className='mt-3'>
                   <button
                     className='btn btn-primary mt-3'
                     onClick={() => {

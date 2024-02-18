@@ -45,6 +45,7 @@ function DelegateForm({ clickRowData, landingCB }) {
   const {
     profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
+    tokenData: { token },
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const dispatch = useDispatch();
@@ -188,7 +189,7 @@ function DelegateForm({ clickRowData, landingCB }) {
                   <b>Respondent Type:</b> {singleData?.respondentTypeName}
                 </p>
                 <p>
-                  <b>Respondent Name:</b> {singleData?.respondentName}
+                  <b>Respondent Name:</b> {singleData?.respondentType}
                 </p>
                 <p>
                   <b>Respondent Contact:</b> {singleData?.contactNo}

@@ -25,7 +25,6 @@ const initData = {
   requiredDate: _todayDate(),
   itemName: "",
   quantity: "",
-
   sbu: "",
   po: "",
   plant: "",

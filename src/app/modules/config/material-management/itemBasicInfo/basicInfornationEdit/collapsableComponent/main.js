@@ -48,20 +48,20 @@ export default function MainCollapsePanel() {
   const [loading, setLoading] = useState(false);
   const [loadingTwo, setLoadingTwo] = useState(false);
   const [itemProfileInfoByItemID, setItemProfileInfoByItemID] = useState({});
-  // get user profile data from store
+
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
-  // get selected business unit from store
+
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
+
   const location = useLocation();
   const isViewPage = location?.pathname?.includes("view");
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
-    // toast.dismiss(1)
   };
   const { state } = useLocation();
 
@@ -98,7 +98,7 @@ export default function MainCollapsePanel() {
           }}
         />
       ),
-      title: "Config Item Plant Warehosue ",
+      title: "Config Item Plant Warehosue",
     },
     {
       id: 3,
@@ -198,7 +198,6 @@ export default function MainCollapsePanel() {
               </Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-           
               <DynamicItemProfileForm
                 profileConfigList={profileConfigList}
                 singleProfileList={itm}

@@ -13,6 +13,8 @@ import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { deleteSalesForceTerritory } from "../Form/api";
 import { GetEmployeeLoginInfo_api } from "../_redux/Api";
+import NewSelect from "../../../../_helper/_select";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 export function TableRow() {
   const dispatch = useDispatch();
 
@@ -21,6 +23,8 @@ export function TableRow() {
     (state) => state?.authData,
     shallowEqual
   );
+
+const [territoryTypeDDL, getTerritoryDDL] = useAxiosGet();
 
   const [loading, setLoading] = useState(false);
   const [employeeLoginInfo, setEmployeeLoginInfo] = useState([]);
@@ -33,6 +37,7 @@ export function TableRow() {
   }, shallowEqual);
   const getData = (values) => {
     const filterData = {
+      TerritoryTypeId:values?.territoryType?.value || 0,
       channelId: values?.channel?.value || 0,
       regionId: values?.region?.value || 0,
       areaId: values?.area?.value || 0,
@@ -41,6 +46,7 @@ export function TableRow() {
       pkId: 0,
     };
     const userData = {
+      TerritoryTypeId: 0,
       channelId: employeeLoginInfo?.empChannelId || 0,
       regionId: employeeLoginInfo?.regionId || 0,
       areaId: employeeLoginInfo?.areaId || 0,
@@ -68,6 +74,9 @@ export function TableRow() {
       profileData?.employeeId,
       setEmployeeLoginInfo
     );
+
+    getTerritoryDDL(`/oms/TerritoryTypeInfo/GetTerritoryTypeList?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -98,6 +107,7 @@ export function TableRow() {
   const columns = [
     { dataField: "sl", text: "SL" },
     { dataField: "strChannel", text: "Distribution Channel" },
+    { dataField: "strSetupName", text: "Setup Name" },
     { dataField: "strRegion", text: "Region" },
     { dataField: "strArea", text: "Area" },
     { dataField: "strTerritory", text: "Territory" },
@@ -105,14 +115,6 @@ export function TableRow() {
     { dataField: "intEmployeeId", text: "Enroll" },
     { dataField: "strEmployeeName", text: "Name" },
     { dataField: "strEmail", text: "Email" },
-    {
-      dataField: "dteInsertionDate",
-      text: "Insertion Date",
-      style: {
-        width: "100px",
-      },
-      classes: "text-center",
-    },
     {
       dataField: "intSetupAutoId",
       text: "Actions",
@@ -142,10 +144,24 @@ export function TableRow() {
   ];
 
   const initData = {
+    territoryType:"",
     channel: "",
     region: "",
     area: "",
     territory: "",
+  };
+
+  const isHide = (values, name) => {
+    switch (name) {
+      case "region":
+        return ["Region", "Area", "Territory"].includes(values?.territoryType?.label);
+      case "area":
+        return ["Area", "Territory"].includes(values?.territoryType?.label);
+      case "territory":
+        return ["Territory"].includes(values?.territoryType?.label);
+      default:
+        return false; 
+    }
   };
 
   const tagZone = rowData?.filter((itm, idx) => {
@@ -175,7 +191,22 @@ export function TableRow() {
                 {loading && <Loading />}
                 <div className="global-form">
                   <div className="row">
-                    <RATForm obj={{ setFieldValue, values }} />
+                  <div className="col-lg-3">
+                  <NewSelect
+                    name="territoryType"
+                    options={territoryTypeDDL}
+                    value={values?.territoryType}
+                    label="Territory Type"
+                    onChange={(valueOption) => {
+                      setFieldValue("territoryType", valueOption);
+                      setFieldValue("channel", "");
+                      setFieldValue("region", "");
+                      setFieldValue("area", "");
+                      setFieldValue("territory", "");
+                    }}
+                  />
+                </div>
+                    <RATForm obj={{ setFieldValue, values,  region: isHide(values, "region"), area: isHide(values, "area"), territory: isHide(values, "territory") }} />
                     <div className="col-12 text-right mt-5">
                       <button
                         className="btn btn-primary"

@@ -1,11 +1,12 @@
+import { Form, Formik } from "formik";
+import moment from "moment";
 import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import Loading from "../../../../_helper/_loading";
+import { shallowEqual, useSelector } from "react-redux";
+import TextArea from "../../../../_helper/TextArea";
 import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import { getAreaList, getItemList, getRegionList } from "../helper";
-import TextArea from "../../../../_helper/TextArea";
-import moment from "moment";
 
 export default function _Form({
   initData,
@@ -30,6 +31,10 @@ export default function _Form({
   const [itemList, setItemList] = useState([]);
   const [regionList, setRegionList] = useState([]);
   const [areaList, setAreaList] = useState([]);
+  const {
+    profileData: { userId },
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => state?.authData, shallowEqual);
   return (
     <>
       {loading && <Loading />}
@@ -124,6 +129,8 @@ export default function _Form({
                             setLoading
                           );
                           getRegionList(
+                            buId,
+                            userId,
                             valueOption?.value,
                             setRegionList,
                             setLoading
@@ -159,8 +166,10 @@ export default function _Form({
                         onChange={(valueOption) => {
                           setFieldValue("region", valueOption);
                           getAreaList(
-                            values?.channel?.value,
+                            buId,
+                            userId,
                             valueOption?.value,
+                            values?.channel?.value,
                             setAreaList,
                             setLoading
                           );

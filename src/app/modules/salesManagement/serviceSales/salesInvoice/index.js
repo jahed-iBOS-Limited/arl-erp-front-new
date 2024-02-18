@@ -15,7 +15,6 @@ import PrintInvoiceModal from "./printInvoice";
 import InputField from "../../../_helper/_inputField";
 const initData = {
   customer: "",
-  item: "",
   type: { value: 1, label: "Pending for Invoice" },
 };
 export default function SalesInvoiceLanding() {
@@ -193,19 +192,6 @@ export default function SalesInvoiceLanding() {
                   </div>
                   <div className="col-lg-3">
                     <NewSelect
-                      name="item"
-                      options={itemDDL || []}
-                      value={values?.item}
-                      label="Item Name"
-                      onChange={(valueOption) => {
-                        setFieldValue("item", valueOption);
-                      }}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <NewSelect
                       name="type"
                       options={[
                         { value: 1, label: "Pending for Invoice" },
@@ -285,7 +271,17 @@ export default function SalesInvoiceLanding() {
                             </td>
                             <td>{item?.strCustomerName}</td>
                             <td>{item?.strScheduleTypeName}</td>
-                            <td>{item?.strItemName}</td>
+                            <td>{(()=>{
+                              const itemStrings = item?.items?.map(singleItem => {
+                                const itemName = singleItem.strItemName || 'N/A';
+                                const qty = typeof singleItem.numSalesQty === 'number' ? singleItem.numSalesQty : 'N/A';
+                                const rate = typeof singleItem.numRate === 'number' ? singleItem.numRate : 'N/A';
+                              
+                                return `${itemName} - Qty: ${qty}, Rate: ${rate}`;
+                              });
+                              
+                              return itemStrings?.join(' / ');
+                            })()}</td>
                             <td className="text-center">
                               {_dateFormatter(item?.dteDueDateTime)}
                             </td>
@@ -325,7 +321,17 @@ export default function SalesInvoiceLanding() {
                           <tr key={index}>
                             <td>{index + 1}</td>
                             <td>{item?.invocieHeader?.strCustomerName}</td>
-                            <td>{item?.strItemName}</td>
+                            <td>{(()=>{
+                              const itemStrings = item?.items?.map(singleItem => {
+                                const itemName = singleItem.strItemName || 'N/A';
+                                const qty = typeof singleItem.numSalesQty === 'number' ? singleItem.numSalesQty : 'N/A';
+                                const rate = typeof singleItem.numRate === 'number' ? singleItem.numRate : 'N/A';
+                              
+                                return `${itemName} - Qty: ${qty}, Rate: ${rate}`;
+                              });
+                              
+                              return itemStrings?.join(' / ');
+                            })()}</td>
                             <td>{item?.invocieHeader?.strCustomerAddress}</td>
                             <td>{item?.invocieHeader?.strScheduleTypeName}</td>
                             <td>{item?.invocieHeader?.strSalesTypeName}</td>

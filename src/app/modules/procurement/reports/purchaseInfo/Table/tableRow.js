@@ -1,22 +1,19 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { Form, Formik } from "formik";
-import * as Yup from "yup";
-import ICard from "../../../../_helper/_card";
-import Loading from "../../../../_helper/_loading";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import axios from "axios";
-import NewSelect from "../../../../_helper/_select";
+import { Form, Formik } from "formik";
+import React, { useEffect, useRef, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import * as Yup from "yup";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import ICard from "../../../../_helper/_card";
+import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { getPlantList, getSBUList, getWhList } from "../helper";
+import SummarySheet from "./SummarySheet";
 import ItemWise from "./itemWise";
 import SupplierWise from "./supplierWise";
-import {
-  getWhList,
-  getPlantList,
-  GetPurchaseInfoByItem_api,
-  GetPOInfoBySupplier_api,
-  getSBUList,
-} from "../helper";
 const validationSchema = Yup.object().shape({
   supplierName: Yup.object().shape({
     label: Yup.string().required("Responsible Person is required"),
@@ -26,8 +23,7 @@ const validationSchema = Yup.object().shape({
 
 export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
   const printRef = useRef();
-  const [loading, setLoading] = useState(false);
-  const [gridData, setGridData] = useState([]);
+  const [gridData, getGridData, gridDataLoader, setGridData] = useAxiosGet();
   const [plantList, setPlantList] = useState([]);
   const [SBUDDL, setSBUDDL] = useState([]);
   const [whList, setWhList] = useState([]);
@@ -37,13 +33,15 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
   const initData = {
     id: undefined,
     supplierName: reportPartnerLedger?.supplierName || "",
-    reportType: { value: 1, label: "Item Wase" },
+    reportType: { value: 1, label: "Item Wise" },
   };
 
   // get user profile data from store
-  const profileData = useSelector((state) => {
-    return state.authData.profileData;
-  }, shallowEqual);
+
+  const {
+    profileData,
+    selectedBusinessUnit: { value: buId },
+  } = useSelector((state) => state.authData, shallowEqual);
 
   // get selected business unit from store
   const selectedBusinessUnit = useSelector((state) => {
@@ -108,6 +106,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
               backHandler={backHandler}
               componentRef={printRef}
             >
+              {console.log("values", values)}
               <Form className="form form-label-right">
                 <div className="row">
                   <div className="col-lg-12">
@@ -115,10 +114,18 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                       <div className="col-lg-3">
                         <NewSelect
                           name="reportType"
-                          options={[
-                            { value: 1, label: "Item Wase" },
-                            { value: 2, label: "Supplier Wase" },
-                          ]}
+                          options={
+                            buId === 144 || buId === 188 || buId === 189
+                              ? [
+                                  { value: 1, label: "Item Wise" },
+                                  { value: 2, label: "Supplier Wise" },
+                                  { value: 3, label: "Paddy Purchase Summary" },
+                                ]
+                              : [
+                                  { value: 1, label: "Item Wise" },
+                                  { value: 2, label: "Supplier Wise" },
+                                ]
+                          }
                           value={values?.reportType}
                           label="ReportType"
                           onChange={(valueOption) => {
@@ -131,52 +138,6 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                           touched={touched}
                         />
                       </div>
-                      {values?.reportType?.value === 2 && (
-                        <>
-                          <div className="col-lg-3">
-                            <NewSelect
-                              name="sbu"
-                              options={SBUDDL || []}
-                              value={values?.sbu}
-                              label="SBU"
-                              onChange={(valueOption) => {
-                                setFieldValue("sbu", valueOption);
-                                setGridData([]);
-                              }}
-                              placeholder="SBU"
-                              errors={errors}
-                              touched={touched}
-                            />
-                          </div>
-
-                          <div className="col-lg-3">
-                            <label>Supplier Name</label>
-                            <SearchAsyncSelect
-                              selectedValue={values.supplierName}
-                              handleChange={(valueOption) => {
-                                setFieldValue("supplierName", valueOption);
-                                setGridData([]);
-                              }}
-                              isDisabled={!values?.sbu}
-                              loadOptions={(v) => {
-                                if (v.length < 3) return [];
-                                return axios
-                                  .get(
-                                    `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=${values?.sbu?.value}`
-                                  )
-                                  .then((res) => {
-                                    const updateList = res?.data.map(
-                                      (item) => ({
-                                        ...item,
-                                      })
-                                    );
-                                    return updateList;
-                                  });
-                              }}
-                            />
-                          </div>
-                        </>
-                      )}
 
                       <div className="col-lg-3">
                         <NewSelect
@@ -185,16 +146,23 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                           value={values?.plant}
                           label="Plant"
                           onChange={(valueOption) => {
-                            getWhList(
-                              profileData?.userId,
-                              profileData?.accountId,
-                              selectedBusinessUnit?.value,
-                              valueOption?.value,
-                              setWhList
-                            );
-                            setFieldValue("plant", valueOption);
+                            if(valueOption){
+                              getWhList(
+                                profileData?.userId,
+                                profileData?.accountId,
+                                selectedBusinessUnit?.value,
+                                valueOption?.value,
+                                setWhList
+                              );
+                              setFieldValue("plant", valueOption);
+                             
+                            }else{
+                              setFieldValue("plant", "");
+                            } 
                             setFieldValue("wh", "");
-                            setGridData([]);
+                            setFieldValue("itemName","")
+                            setGridData([]);                           
+                           
                           }}
                           placeholder="Plant"
                           errors={errors}
@@ -204,7 +172,11 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                       <div className="col-lg-3">
                         <NewSelect
                           name="wh"
-                          options={whList || []}
+                          options={
+                            values.plant?.value === 0
+                              ? [{ value: 0, label: "All" }]
+                              : [{ value: 0, label: "All" }, ...whList] || []
+                          }
                           // options={
                           //   values?.reportType?.value === 1
                           //     ? [{ value: 0, label: "All" }, ...whList]
@@ -223,7 +195,6 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                       </div>
                       {values?.reportType?.value === 1 && (
                         <>
-                          {" "}
                           {/* <div className="col-lg-3">
                             <NewSelect
                               name="requestType"
@@ -300,28 +271,113 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                           </div>
                         </>
                       )}
-
-                      <div className="col d-flex justify-content-end align-items-center">
+                      {values?.reportType?.value === 2 && (
+                        <>
+                          <div className="col-lg-3">
+                            <NewSelect
+                              name="sbu"
+                              options={SBUDDL || []}
+                              value={values?.sbu}
+                              label="SBU"
+                              onChange={(valueOption) => {
+                                setFieldValue("sbu", valueOption);
+                                setGridData([]);
+                              }}
+                              placeholder="SBU"
+                              errors={errors}
+                              touched={touched}
+                            />
+                          </div>
+                          <div className="col-lg-3">
+                            <label>Supplier Name</label>
+                            <SearchAsyncSelect
+                              selectedValue={values.supplierName}
+                              handleChange={(valueOption) => {
+                                setFieldValue("supplierName", valueOption);
+                                setGridData([]);
+                              }}
+                              loadOptions={(v) => {
+                                if (v.length < 3) return [];
+                                return axios
+                                  .get(
+                                    `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=${values?.sbu?.value}`
+                                  )
+                                  .then((res) => {
+                                    const updateList = res?.data.map(
+                                      (item) => ({
+                                        ...item,
+                                      })
+                                    );
+                                    return updateList;
+                                  });
+                              }}
+                            />
+                          </div>
+                        </>
+                      )}
+                      <div className="col-lg-2">
+                        <label>From Date</label>
+                        <InputField
+                          value={values?.fromDate}
+                          name="fromDate"
+                          placeholder="From Date"
+                          type="date"
+                          onChange={(e) => {
+                            setFieldValue("fromDate", e.target.value);
+                          }}
+                        />
+                      </div>
+                      <div className="col-lg-2">
+                        <label>To Date</label>
+                        <InputField
+                          value={values?.toDate}
+                          name="toDate"
+                          placeholder="To Date"
+                          type="date"
+                          min={values?.fromDate}
+                          onChange={(e) => {
+                            setFieldValue("toDate", e.target.value);
+                          }}
+                        />
+                      </div>
+                      {values?.reportType?.value === 3 && (
+                        <div className="col-lg-3">
+                          <label>Item Name</label>
+                          <SearchAsyncSelect
+                            selectedValue={values?.itemName}
+                            handleChange={(valueOption) => {
+                              setFieldValue("itemName", valueOption);
+                              setGridData([]);
+                            }}
+                            isDisabled={!values?.plant || !values?.wh}
+                            loadOptions={(v) => {
+                              if (v?.length < 3) return [];
+                              return axios
+                                .get(
+                                  `/asset/DropDown/GetPartsListAllItem?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&PlantId=${values?.plant?.value}&WHId=${values.wh?.value}&searchTearm=${v}`
+                                )
+                                .then((res) => res?.data);
+                            }}
+                          />
+                        </div>
+                      )}
+                      <div className="col-lg-2 d-flex align-items-end">
                         <button
                           className="btn btn-primary mt-2"
                           type="button"
                           onClick={() => {
                             setGridData([]);
                             if (values?.reportType?.value === 1) {
-                              GetPurchaseInfoByItem_api(
-                                values?.itemName?.value,
-                                values.wh?.value,
-                                selectedBusinessUnit?.value,
-                                setGridData,
-                                setLoading
+                              getGridData(
+                                `/procurement/PurchaseOrder/GetPurchaseInfoByItem?itemId=${values?.itemName?.value}&wareHouseId=${values.wh?.value}&businessUnitId=${buId}&fromDate=${values.fromDate}&toDate=${values.toDate}`
                               );
-                            } else {
-                              GetPOInfoBySupplier_api(
-                                values?.supplierName?.value,
-                                values.wh?.value,
-                                selectedBusinessUnit?.value,
-                                setGridData,
-                                setLoading
+                            } else if (values?.reportType?.value === 2) {
+                              getGridData(
+                                `/procurement/PurchaseOrder/GetPOInfoBySupplier?wareHouseId=${values.wh?.value}&businessUnitId=${buId}&businessPartnerId=${values?.supplierName?.value}&fromDate=${values.fromDate}&toDate=${values.toDate}`
+                              );
+                            } else if (values?.reportType?.value === 3) {
+                              getGridData(
+                                `/procurement/PurchaseOrder/GetPurchaseInfoTopSheet?businessUnitId=${buId}&wareHouseId=${values.wh?.value}&fromDate=${values.fromDate}&toDate=${values.toDate}&itemId=${values?.itemName?.value ? values?.itemName?.value : 0}`
                               );
                             }
                           }}
@@ -330,18 +386,25 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                           View
                         </button>
                       </div>
+
+                      {/* <div className="col d-flex justify-content-end align-items-center">
+                        
+                      </div> */}
                     </div>
                   </div>
                 </div>
 
                 <div className="mt-1" ref={printRef}>
                   {/* Table Start */}
-                  {loading && <Loading />}
+                  {gridDataLoader && <Loading />}
                   {values?.reportType?.value === 1 && (
                     <ItemWise gridData={gridData} />
                   )}
                   {values?.reportType?.value === 2 && (
                     <SupplierWise gridData={gridData} />
+                  )}
+                  {values?.reportType?.value === 3 && (
+                    <SummarySheet gridData={gridData} />
                   )}
                 </div>
                 <button

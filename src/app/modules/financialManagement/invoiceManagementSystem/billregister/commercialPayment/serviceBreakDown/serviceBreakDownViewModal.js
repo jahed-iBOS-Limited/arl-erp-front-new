@@ -257,6 +257,7 @@ const ServiceBreakDownViewModal = ({
                       <ExpansionPanelDetails>
                         <AddAdvance
                           bill={bill}
+                          setBill={setBill}
                           advanceBill={advanceBill}
                           setAdvanceBill={setAdvanceBill}
                           accountId={profileData?.accountId}
@@ -266,6 +267,7 @@ const ServiceBreakDownViewModal = ({
                           setSupplierName={setSupplierName}
                           setExpanded={setExpanded}
                           state={state}
+                          referenceId={referenceId}
                         />
                       </ExpansionPanelDetails>
                     </ExpansionPanel>
@@ -293,6 +295,10 @@ const ServiceBreakDownViewModal = ({
                           poNumber={poNumber}
                           supplierName={supplierName}
                           state={state}
+                          referenceId={referenceId}
+                          supplierId={data?.supplierId}
+                          setAdvanceBill={setAdvanceBill}
+                          advanceBill={advanceBill}
                         />
                       </ExpansionPanelDetails>
                     </ExpansionPanel>
@@ -308,7 +314,7 @@ const ServiceBreakDownViewModal = ({
                 onClick={() => {
                   onHide();
                   setData({});
-                  setBill({});
+                  setBill([]);
                   setAdvanceBill([]);
                 }}
                 className="btn btn-light btn-elevate"

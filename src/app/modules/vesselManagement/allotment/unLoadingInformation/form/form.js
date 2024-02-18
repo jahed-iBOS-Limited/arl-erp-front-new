@@ -10,7 +10,9 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from "../../../../../../_metronic/_partials/controls";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import {
+  _dateFormatter
+} from "../../../../_helper/_dateFormate";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
@@ -33,12 +35,13 @@ export default function _Form({
   getDateWiseQuantity,
   setDateWiseQuantity,
   state,
+  organizationDDL,
 }) {
   // const [unloadedQty, setUnloadedQty] = useState("");
   useEffect(() => {
     if (initData?.voyageNo && initData?.lighterVessel?.value) {
       getDateWiseQuantity(
-        `/tms/LigterLoadUnload/ViewLighterUnloadingInfoByVoyageNo?VoyageNo=${initData?.voyageNo}&LighterVesselId=${initData?.lighterVessel?.value}&shipPointId=${initData?.shipPointId}&RowId=${state?.rowId}`
+        `/tms/LigterLoadUnload/ViewLighterUnloadingInfoByVoyageNo?VoyageNo=${initData?.voyageNo}&LighterVesselId=${initData?.lighterVessel?.value}&shipPointId=${initData?.shipPoint?.value}&RowId=${state?.rowId}`
       );
     }
   }, [initData?.voyageNo, initData?.lighterVesselId]);
@@ -64,6 +67,15 @@ export default function _Form({
     }
     data["rowDataList"][index]["unLoadDetails"][i][name] = value;
     setDateWiseQuantity(data);
+  };
+
+  const minDate = () => {
+    let today = new Date();
+
+    let preDate = new Date();
+    preDate.setDate(today.getDate() - 1);
+
+    return preDate.toISOString().slice(0, 16);
   };
 
   return (
@@ -141,10 +153,11 @@ export default function _Form({
                           <div className="col-lg-3">
                             <NewSelect
                               name="organization"
-                              options={[
-                                { value: 73244, label: "G2G BADC" },
-                                { value: 73245, label: "G2G BCIC" },
-                              ]}
+                              options={
+                                organizationDDL
+                                // [ { value: 73244, label: "G2G BADC" },
+                                // { value: 73245, label: "G2G BCIC" },]
+                              }
                               value={values?.organization}
                               label="Organization"
                               onChange={(valueOption) => {
@@ -164,7 +177,10 @@ export default function _Form({
                               placeholder="Port"
                               onChange={(valueOption) => {
                                 setFieldValue("port", valueOption);
-                                getVessels({ ...values, port: valueOption });
+                                getVessels({
+                                  ...values,
+                                  port: valueOption,
+                                });
                               }}
                               isDisabled={!values?.organization}
                             />
@@ -374,20 +390,21 @@ export default function _Form({
                                 name="unloadingComplete"
                                 type="datetime-local"
                                 disabled={viewType === "view"}
+                                min={minDate()}
                               />
                             </div>
                           )}
-                          {viewType === "edit" && (
-                            <div className="col-lg-12 mt-5">
-                              <h5>
-                                <b>Loaded Qty: </b>
-                                {pendingQty?.loadQty}, <b>Unloaded Qty: </b>
-                                {pendingQty?.unLoadQty},{" "}
-                                <b>Pending for Unload Qty: </b>
-                                {pendingQty?.pendingQty}
-                              </h5>
-                            </div>
-                          )}
+                          {/* { viewType === "edit" ||  && ( */}
+                          <div className="col-lg-12 mt-5">
+                            <h5>
+                              <b>Loaded Qty: </b>
+                              {pendingQty?.loadQty}, <b>Unloaded Qty: </b>
+                              {pendingQty?.unLoadQty},{" "}
+                              <b>Pending for Unload Qty: </b>
+                              {pendingQty?.pendingQty}
+                            </h5>
+                          </div>
+                          {/* )} */}
                         </>
                       )}
                     </div>
@@ -459,7 +476,7 @@ export default function _Form({
                   {viewType === "view" ||
                   viewType === "modify" ||
                   viewType === "edit" ? (
-                    <div className="col-md-4">
+                    <div className="col-md-6">
                       <h5>Previous Unload Info</h5>
                       <table
                         id="table-to-xlsx"

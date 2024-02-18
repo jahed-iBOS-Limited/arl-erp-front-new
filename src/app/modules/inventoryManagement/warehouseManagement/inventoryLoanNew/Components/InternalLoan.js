@@ -1,16 +1,16 @@
+import Axios from 'axios';
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { toast } from "react-toastify";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import IForm from "../../../../_helper/_form";
+import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import Axios from 'axios';
-import { toast } from "react-toastify";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
 const initData = {
     sbu: "",
@@ -23,6 +23,7 @@ const initData = {
     uom: "",
     quantity: "",
     remarks: "",
+    itemRate:""
 };
 
 export default function InternalLoan({ loanType }) {
@@ -31,7 +32,7 @@ export default function InternalLoan({ loanType }) {
     const { profileData, selectedBusinessUnit } = useSelector((state) => {
         return state.authData;
     }, shallowEqual);
-
+    const [, getItemRate] = useAxiosGet();
     const [businessUnitDDL, getBusinessUnitDDL, businessUnitDDLloader] = useAxiosGet()
     const [, saveData, saveDataLoader] = useAxiosPost();
     const [, getSbuDDL, sbuDDLloader] = useAxiosGet();
@@ -88,15 +89,15 @@ export default function InternalLoan({ loanType }) {
                 strItemCode: values?.item?.code,
                 strUomName: values?.uom?.label,
                 numItemQty: +values?.quantity,
-                numItemRate: 0,
-                numItemAmount: 0,
+                numItemRate: +values?.itemRate || 0,
+                numItemAmount: +values?.itemRate *+values?.quantity || 0,
                 strNarration: values?.remarks,
                 intActionBy: profileData?.userId,
                 intFromOrToBusinessUnitId: values?.toBusinessUnit?.value,
                 strFromOrToBusinessUnitName: values?.toBusinessUnit?.label,
                 intLoanId: 0,
             };
-            saveData(`/wms/InventoryLoan/CreateInvItemloan`, payload, cb, true)
+            saveData(`/wms/InventoryLoan/CreateLoan`, payload, cb, true)
             console.log("transactionType 1 => payload", payload);
         }
         else if (transactionType === 2) {
@@ -312,7 +313,12 @@ export default function InternalLoan({ loanType }) {
                                     </div>
                                     <div className="col-lg-3">
                                         <label>Item Name</label>
-                                        <SearchAsyncSelect
+                                        <span style={{ marginTop: '8px' }}>
+                                        {values?.itemRate
+                                       ? `Rate: ${values?.itemRate || ''}`
+                                       : ''}
+                                 </span>
+                                        <SearchAsyncSelect 
                                             selectedValue={values?.item}
                                             handleChange={(valueOption) => {
                                                 if (valueOption) {
@@ -321,6 +327,15 @@ export default function InternalLoan({ loanType }) {
                                                         value: valueOption?.uomId,
                                                         label: valueOption?.uomName,
                                                     });
+                                                    getItemRate(
+                                                        `/wms/InventoryTransaction/sprRuningRate?businessUnitId=${
+                                                           selectedBusinessUnit?.value
+                                                        }&whId=${values?.warehouse?.value ||
+                                                           0}&itemId=${valueOption?.value}`,
+                                                        data =>
+                                                           setFieldValue('itemRate', data)
+                                                     );
+
                                                 } else {
                                                     setFieldValue("item", "");
                                                     setFieldValue("uom", "");

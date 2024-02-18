@@ -26,6 +26,7 @@ const initData = {
   item: "",
   itemRate: "",
   quantity: "",
+  plant:"",
 };
 
 export default function CreateInventoryLoanForm({ loanType }) {
@@ -57,9 +58,9 @@ export default function CreateInventoryLoanForm({ loanType }) {
         strTransTypeName: values?.createType === 1 ? "Issue" : "Receive",
         intWareHouseId: +values?.warehouse?.value || 0,
         strWareHouseName: values?.warehouse?.label || "",
-        intLcid: +values?.lcNo?.value || 0,
+        intLcid: +values?.lcNo?.lcId || 0,
         strLcnumber: +values?.lcNo?.label || "",
-        intShipmentId: +values?.shipment?.lcId || 0,
+        intShipmentId: +values?.shipment?.value || 0,   ///
         strShipmentName: values?.shipment?.label || "",
         strSurveyReportNo: values?.surveyReportNo || "",
         intLighterVesselId: 0,
@@ -81,7 +82,11 @@ export default function CreateInventoryLoanForm({ loanType }) {
         strFromOrToBusinessUnitName: values?.partner?.label,
         intLoanId: 0,
       };
-      saveData(`/wms/InventoryLoan/CreateInvItemloan`, payload, cb, true)
+      if(values?.createType === 1){
+        saveData(`/wms/InventoryLoan/CreateLoan`, payload, cb, true)  //api change order by zia bhai
+      }else{
+        saveData(`/wms/InventoryLoan/CreateLoan`, payload, cb, true)  //api change order by zia bhai
+      }
     }
   };
 

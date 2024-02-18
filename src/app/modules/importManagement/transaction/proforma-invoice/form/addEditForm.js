@@ -2,6 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
 import React, { useEffect, useState } from "react";
+import {useLocation} from 'react-router'
 import { shallowEqual, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { toast } from "react-toastify";
@@ -10,9 +11,10 @@ import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import { createPI, getSingleData, updatePi } from "../helper";
 import Form from "./form";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 // import { setter } from "../utils";
 const initData = {
-  plantDDL: "",
+  plant: "",
   purchaseOrganizationDDL: "",
   pinumber: "",
   beneficiaryNameDDL: "",
@@ -36,14 +38,16 @@ const initData = {
   uomDDL: "",
   quantity: "",
   rate: "",
-  sbuDDL: "",
+  sbu: "",
   purchaseRequestNo: "",
   isAllItem: false,
   referenceType: "",
   purchaseContractNo: "",
   etaDate: _todayDate(),
   dteEstimatedLaycanDate: _todayDate(),
+  warehouse: "",
 };
+
 
 export default function AddEditForm() {
   const params = useParams();
@@ -67,10 +71,27 @@ export default function AddEditForm() {
 
   const setDataToGrid = (values, cb) => {
     let data = [...rowDto];
-    if (data.find((item) => item?.itemId === values?.itemDDL.value)) {
+    if (
+      data?.find(
+        (item) =>
+          item?.itemId === values?.itemDDL?.value &&
+          (values?.referenceType?.value === 1
+            ? item?.referenceId === values?.purchaseContractNo?.value
+            : item?.referenceId === values?.purchaseRequestNo?.value)
+      )
+    ) {
       return toast.error("Item is already added");
     } else {
       const obj = {
+        referenceType: values?.referenceType?.label,
+        referenceId:
+          values?.referenceType?.value === 1
+            ? values?.purchaseContractNo?.value
+            : values?.purchaseRequestNo?.value,
+        referenceCode:
+          values?.referenceType?.value === 1
+            ? values?.purchaseContractNo?.label
+            : values?.purchaseRequestNo?.label,
         itemId: values?.itemDDL.value,
         label: values?.itemDDL.label,
         itemName: values?.itemDDL.label,
@@ -108,7 +129,6 @@ export default function AddEditForm() {
   };
 
   const saveHandler = async (values, cb) => {
-    console.log("saveHandler values", values);
     if (rowDto.length === 0) {
       toast.warn("Please add at least one Item");
       return;
@@ -140,6 +160,9 @@ export default function AddEditForm() {
     );
   };
 
+  
+
+
   return (
     <IForm
       title={
@@ -155,7 +178,7 @@ export default function AddEditForm() {
       {isDisabled && <Loading />}
       <Form
         {...objProps}
-        initData={params?.pid ? singleData : initData}
+        initData={params?.pid ? {...singleData, warehouse: {value:singleData?.warehouseId, label:singleData?.warehouseName}} : initData}
         saveHandler={saveHandler}
         viewType={params?.type}
         rowDto={rowDto}

@@ -6,6 +6,7 @@ import Loading from "../../../../_helper/_loading";
 import { GetDomesticPortDDL } from "../../loadingInformation/helper";
 import { editTenderInfo, tenderInfoApprove } from "../helper";
 import Form from "./form";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const initData = {
   motherVessel: "",
@@ -26,7 +27,8 @@ const initData = {
   steveDoreRate: "",
   hatchLabour: "",
   hatchLabourRate: "",
-  haveTransportBill: { value: true, label: "Yes" },
+  organization: "",
+  hasTransportBill: { value: true, label: "Yes" },
 };
 
 export default function TenderInformationCreateForm() {
@@ -37,6 +39,7 @@ export default function TenderInformationCreateForm() {
   const [, postData, loading] = useAxiosPost();
   const [portDDL, setPortDDL] = useState([]);
   const { state } = useLocation();
+  const [organizationDDL, getOrganizationDDL] = useAxiosGet();
 
   // get user data from store
   const {
@@ -46,7 +49,9 @@ export default function TenderInformationCreateForm() {
 
   useEffect(() => {
     GetDomesticPortDDL(setPortDDL);
-
+    getOrganizationDDL(
+      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`
+    );
     if (id) {
       const {
         motherVesselName,
@@ -71,10 +76,12 @@ export default function TenderInformationCreateForm() {
         cnfrate,
         stevdorRate,
         serveyorRate,
-        organizationId,
         hatchLabourId,
         hatchLabour,
         hatchLabourRate,
+        isTruckBill,
+        organizationId,
+        organizationName,
       } = state;
       const singleInfo = {
         motherVessel: {
@@ -119,6 +126,14 @@ export default function TenderInformationCreateForm() {
           label: hatchLabour || "",
           value: hatchLabourId || 0,
         },
+        hasTransportBill: {
+          label: isTruckBill ? "Yes" : "No",
+          value: isTruckBill || 0,
+        },
+        organization: {
+          label: organizationName || "",
+          value: organizationId || 0,
+        },
       };
       setSingleData(singleInfo);
     }
@@ -152,11 +167,22 @@ export default function TenderInformationCreateForm() {
       cnfrate: values?.cnfRate,
       stevdorRate: values?.steveDoreRate,
       serveyorRate: values?.surveyorRate,
-      organizationId: values?.type === "badc" ? 73244 : 73245,
-      organizationName: values?.type === "badc" ? "BADC" : "BCIC",
+      organizationId:
+        buId === 94
+          ? values?.type === "badc"
+            ? 73244
+            : 73245
+          : values?.organization?.value,
+      organizationName:
+        buId === 94
+          ? values?.type === "badc"
+            ? "BADC"
+            : "BCIC"
+          : values?.organization?.label,
       hatchLabourId: values?.hatchLabour?.value,
       hatchLabour: values?.hatchLabour?.label,
       hatchLabourRate: values?.hatchLabourRate,
+      isTruckBill: values?.hasTransportBill?.value,
     };
     if (id) {
       payload.programId = +id;
@@ -191,7 +217,7 @@ export default function TenderInformationCreateForm() {
       hatchLabourId: values?.hatchLabour?.value,
       hatchLabour: values?.hatchLabour?.label,
       hatchLabourRate: values?.hatchLabourRate,
-      isTruckBill: values?.haveTransportBill?.value,
+      isTruckBill: values?.hasTransportBill?.value,
     };
     tenderInfoApprove(payload, setDisabled);
   };
@@ -220,6 +246,7 @@ export default function TenderInformationCreateForm() {
         portDDL={portDDL}
         setLoading={setDisabled}
         saveHandler={saveHandler}
+        organizationDDL={organizationDDL}
         motherVesselDDL={motherVesselDDL}
         setMotherVesselDDL={setMotherVesselDDL}
         approveTenderInformation={approveTenderInformation}

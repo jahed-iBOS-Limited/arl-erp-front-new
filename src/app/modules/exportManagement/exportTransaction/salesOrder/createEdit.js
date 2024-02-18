@@ -45,6 +45,7 @@ const initData = {
   countryOfOrigin: "",
   freightCharge: "",
   narration: "",
+  modifyCiPercentage: 0,
 };
 
 const validationSchema = Yup.object().shape({
@@ -287,6 +288,9 @@ export default function SalesOrderCreateEdit() {
         numWaterProofRate: 0,
         currencyPrice: itm?.FobRatePerCartonUSD || 0,
         currencyValue: itm?.TotalFobAmountUSD || 0,
+        ciRate: +itm?.ciRate || 0,
+        cogs: +itm?.cogs || 0,
+        ciValue: +itm?.ciValue || 0,
       })
     );
 
@@ -785,12 +789,29 @@ export default function SalesOrderCreateEdit() {
                     value={values?.salesQuotationRef}
                     label="Reference No"
                     onChange={(valueOption) => {
+                      setFieldValue("modifyCiPercentage", 0);
                       if (valueOption) {
                         setFieldValue("salesQuotationRef", valueOption);
 
                         getSalesQuotationDetails(
                           `/oms/SalesQuotation/ViewForeignSalesQuotation?QuotationId=${valueOption?.value}&accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`,
                           (data) => {
+                            const modifyData = { ...data };
+
+                            const modifyRow = modifyData?.Data?.RowData?.map(
+                              (item) => {
+                                return {
+                                  ...item,
+                                  cogs: 0,
+                                  ciRate: 0,
+                                  ciValue: 0,
+                                };
+                              }
+                            );
+
+                            modifyData.Data.RowData = modifyRow;
+                            setSalesQuotationDetails(modifyData);
+
                             setFieldValue(
                               "currency",
                               {
@@ -1009,6 +1030,7 @@ export default function SalesOrderCreateEdit() {
                 values={values}
                 selectedBusinessUnit={selectedBusinessUnit}
                 profileData={profileData}
+                setFieldValue={setFieldValue}
               />
 
               <IViewModal

@@ -1,19 +1,19 @@
 /* eslint-disable no-unused-vars */
-import React, { useRef, useState, useEffect } from "react";
+import Axios from "axios";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
 } from "../../../../../../../../_metronic/_partials/controls";
-import Axios from "axios";
 import Form from "./form.js";
 
-import shortid from "shortid";
+import { shallowEqual, useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
-import { useSelector, shallowEqual } from "react-redux";
-import { isUniq } from "../../../../../../_helper/uniqChecker";
 import { toast } from "react-toastify";
+import shortid from "shortid";
+import { isUniq } from "../../../../../../_helper/uniqChecker";
 
 const initData = {
   plant: "",
@@ -25,7 +25,18 @@ const initData = {
   isMultipleUom: false,
   alternateUom: "",
   conversionBaseUom: "",
-  binNumber: ""
+  binNumber: "",
+  minStockQty:"",
+  safetyStockQty:"",
+  maxStockQty:"",
+  reOrderLevel:"",
+  reOrderQty:"",
+  avgDailyConsumption:"",
+  maxLeadDays:"",
+  minLeadDays:"",
+  abc:"",
+  ved:"",
+  fns:"",
 };
 
 export default function ConfigItemPlantWareHouse({isViewPage,onSuccess}) {
@@ -119,6 +130,17 @@ export default function ConfigItemPlantWareHouse({isViewPage,onSuccess}) {
               baseUomid: values?.baseUom?.value,
               baseUom: values?.baseUom?.label,
               actionBy: actionBy,
+              averageDailyConsumption:itm?.averageDailyConsumption || 0,
+              maximumQuantity:itm?.maximumQuantity || 0,
+              maxLeadDays:itm?.maxLeadDays || 0,
+              minimumStockQuantity:itm?.minimumStockQuantity || 0,
+              minLeadDays:itm?.minLeadDays || 0,
+              abc:itm?.abc || 0,
+              ved:itm?.ved || 0,
+              fns:itm?.fns || 0,
+              reorderLevel:itm?.reorderLevel || 0,
+              reorderQuantity:itm?.reorderQuantity || 0,
+              safetyStockQuantity:itm?.safetyStockQuantity || 0,
             };
           });
           const editConfigPlantWarehouseData = {

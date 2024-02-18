@@ -294,7 +294,9 @@ export const complainLandingPasignationByEmployeeId = async (
   setter,
   setLoading,
   search,
-  employeeId
+  employeeId,
+  respondentBusinessUnitId,
+  issueTypeId
 ) => {
   setLoading(true);
   setter([]);
@@ -302,7 +304,7 @@ export const complainLandingPasignationByEmployeeId = async (
     const _search = search ? `&search=${search}` : "";
     const _employeeId = employeeId ? `&employeeId=${employeeId}` : "";
     const res = await axios.get(
-      `/oms/CustomerPoint/ComplainLandingPasignationByEmployeeId?accountId=${accId}&businessUnitId=${buId}&respondentTypeId=${respondentTypeId}&statusId=${statusId}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}${_search}${_employeeId}`
+      `/oms/CustomerPoint/ComplainLandingPasignationByEmployeeId?accountId=${accId}&businessUnitId=${buId}&respondentTypeId=${respondentTypeId}&statusId=${statusId}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}${_search}${_employeeId}&respondentBusinessUnitId=${respondentBusinessUnitId || 0}&issueTypeId=${issueTypeId}`
     );
     setter(res?.data);
     setLoading(false);
@@ -314,7 +316,7 @@ export const complainLandingPasignationByEmployeeId = async (
 export const respondentTypeDDL = [
   {
     value: 1,
-    label: "End User",
+    label: "Employee",
   },
   {
     value: 2,
@@ -323,6 +325,10 @@ export const respondentTypeDDL = [
   {
     value: 3,
     label: "Customer",
+  },
+  {
+    value: 4,
+    label: "End User",
   },
 ];
 export const getComplainByIdWidthOutModify = async (
@@ -344,5 +350,22 @@ export const getComplainByIdWidthOutModify = async (
     });
   } catch (error) {
     setLoaing(false);
+  }
+};
+
+
+export const feedbackReviewApi = async (payload, setLoading, cb) => {
+  setLoading(true);
+  try {
+    const res = await axios.post(
+      `/oms/CustomerPoint/UpdateComplainReviewFeedback`,
+      payload
+    );
+    cb && cb();
+    toast.success(res?.data?.message);
+    setLoading(false);
+  } catch (err) {
+    toast.error(err?.response?.data?.message);
+    setLoading(false);
   }
 };

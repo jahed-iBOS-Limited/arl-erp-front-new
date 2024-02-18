@@ -23,6 +23,7 @@ import Loading from "./../../../../_helper/_loading";
 import PaginationTable from "./../../../../_helper/_tablePagination";
 import ProductionOrderViewFormModel from "./viewModal";
 // import findIndex from "./../../../../_helper/_findIndex";
+import { toast } from "react-toastify";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import IViewModal from "../../../../_helper/_viewModal";
@@ -376,6 +377,20 @@ export function TableRow() {
                     type="button"
                     className="btn btn-primary"
                     onClick={() => {
+
+                      const selectedItemRequest = gridData?.data?.filter(
+                        item => item.isItemRequestCheck === true && item?.isBackCalculation === 2
+                      );
+
+                      const isExist = selectedItemRequest?.some(
+                        item => item?.isBackCalculation === 2
+                      );
+                      
+                      if ( selectedDDLShop?.value === 106 && isExist && selectedItemRequest?.length > 1) {
+                        return toast.warn(
+                          "You cannot have multiple item requests for Shop Floor => Contract Manufacturing (Rice)"
+                        );
+                      }
                       itemRequestHandler();
                     }}
                     disabled={itemRequest}
@@ -510,6 +525,7 @@ export function TableRow() {
                                         orderQty: item?.orderQty,
                                         bomId: item?.bomId,
                                         lotSize: item?.lotSize,
+                                        shopFloorId: item?.shopFloorId
                                       },
                                     });
                                   }}

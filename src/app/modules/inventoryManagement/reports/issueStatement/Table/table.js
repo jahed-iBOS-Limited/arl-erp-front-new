@@ -210,10 +210,10 @@ const IssueReportTable = () => {
             key: 'dteRequestDate',
           },
           {
-            text: 'Item ID',
+            text: 'Item Code',
             textFormat: 'text',
             alignment: 'center:middle',
-            key: 'intItemId',
+            key: 'strItemCode',
           },
           {
             text: 'Item Name',
@@ -515,7 +515,7 @@ const IssueReportTable = () => {
                         <th>Issue Date</th>
                         <th>Item Req Code</th>
                         <th>Item Req Date</th>
-                        <th>Item ID</th>
+                        <th>Item Code</th>
                         <th>Item Name</th>
                         <th>Uom</th>
                         <th>Request Quantity</th>
@@ -537,7 +537,7 @@ const IssueReportTable = () => {
                             <td style={{ width: "70px" }}>{_dateFormatter(item?.dteTransactionDate)}</td>
                             <td style={{ width: "120px" }}>{item?.strItemRequestCode}</td>
                             <td style={{ width: "70px" }}>{_dateFormatter(item?.dteRequestDate)}</td>
-                            <td>{item?.intItemId}</td>
+                            <td>{item?.strItemCode}</td>
                             <td >{item?.strItemName}</td>
                             <td style={{ width: "70px" }}>{item?.strUoMName}</td>
                             <td style={{ width: "70px" }}>{item?.RequestQty}</td>

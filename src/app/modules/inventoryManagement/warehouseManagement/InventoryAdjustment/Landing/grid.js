@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import ICustomTable from "../../../../_helper/_customTable";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { shallowEqual, useSelector } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { useSelector, shallowEqual } from "react-redux";
+import IConfirmModal from "../../../../_helper/_confirmModal";
+import ICustomTable from "../../../../_helper/_customTable";
 import IViewModal from "../../../../_helper/_viewModal";
 import ViewForm from "../attachmentView/viewForm";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import IClose from "../../../../_helper/_helperIcons/_close";
 import { inventoryTransactionCancelAction } from "../helper";
-import IConfirmModal from "../../../../_helper/_confirmModal";
 import { InventoryTransactionReportViewTableRow } from "../report/tableRow";
 
 const GridData = ({ history, values, viewGridData, setLoading }) => {
@@ -16,6 +15,8 @@ const GridData = ({ history, values, viewGridData, setLoading }) => {
     "Transaction Code",
     "Reference Type",
     "Reference No.",
+    "Plant Name",
+    "Warehouse Name",
     "Transaction Type",
     "Action",
   ];
@@ -69,6 +70,8 @@ const GridData = ({ history, values, viewGridData, setLoading }) => {
               <td> {td.inventoryTransactionCode} </td>
               <td> {td.referenceTypeName} </td>
               <td> {td.referenceCode} </td>
+              <td> {td.plantName} </td>
+              <td> {td.warehouseName} </td>
               <td> {td.transactionTypeName} </td>
               <td style={{ width: "100px" }}>
                 <div className="d-flex justify-content-around">
@@ -116,7 +119,7 @@ const GridData = ({ history, values, viewGridData, setLoading }) => {
                       </OverlayTrigger>
                     </button>
                   )}
-                  {!td?.isBillPosted && (
+                  {/* {!td?.isBillPosted && (
                     <div
                       onClick={() => cancelPopUp(td)}
                       className="pointer"
@@ -127,8 +130,8 @@ const GridData = ({ history, values, viewGridData, setLoading }) => {
                         id={td?.inventoryTransactionId}
                         title="Cancel"
                       />
-                    </div>
-                  )}
+                    </div>  
+                  )}   cancel button remove order by ziaul vai 11-01-24 */}  
                 </div>
               </td>
             </tr>

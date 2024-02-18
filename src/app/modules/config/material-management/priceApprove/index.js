@@ -13,6 +13,7 @@ import IViewModal from "../../../_helper/_viewModal";
 import ApprovalModal from "./approvalModal";
 import { _todayDate } from "../../../_helper/_todayDate";
 const initData = {
+  conditionType: "",
   soldToPatner: "",
   item: "",
   startDate: "",
@@ -36,11 +37,8 @@ export default function PriceApprove() {
     return state.authData.profileData;
   }, shallowEqual);
 
-  const [
-    soldToPartnerDDL,
-    getSoldToPartnerDDL,
-    loadingOnSoldToPartnerDDL,
-  ] = useAxiosGet();
+  const [cehckedItems, setCheckedItems] = useState([]);
+
   const [itemListDDL, getItemListDDL, loadingOnItemListDDL] = useAxiosGet();
   const [
     tableData,
@@ -48,10 +46,15 @@ export default function PriceApprove() {
     tableDataLoader,
     setTableData,
   ] = useAxiosGet();
+  const [
+    conditionTypeDDL,
+    getConditionTypeDDL,
+    conditionTypeDDLloader,
+  ] = useAxiosGet();
 
   useEffect(() => {
-    getSoldToPartnerDDL(
-      `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
+    getConditionTypeDDL(
+      `/item/PriceSetup/GetPriceConditionTypeOrganizationDDL`
     );
     getItemListDDL(
       `/item/ItemSales/GetItemSalesDDL?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}`
@@ -61,13 +64,13 @@ export default function PriceApprove() {
 
   const setPositionHandler = (pageNo, pageSize, values) => {
     getTableData(
-      `/item/PriceSetup/GetItemApprovePagination?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}&CustomerId=${values?.soldToPatner?.value}&ItemId=${values?.item?.value}&ConditionTypeId=4&FromDate=${values?.startDate}&ToDate=${values?.endDate}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}&status=${values?.status?.value}`
+      `/item/PriceSetup/GetItemPriceRequestPagination?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}&ItemId=${values?.item?.value}&ConditionTypeId=4&FromDate=${values?.startDate}&ToDate=${values?.endDate}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}&Status=${values?.status?.value}`
     );
   };
 
   const getTableDataFromApi = (values) => {
     getTableData(
-      `/item/PriceSetup/GetItemApprovePagination?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}&CustomerId=${values?.soldToPatner?.value}&ItemId=${values?.item?.value}&ConditionTypeId=4&FromDate=${values?.startDate}&ToDate=${values?.endDate}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}&Status=${values?.status?.value}`,
+      `/item/PriceSetup/GetItemPriceRequestPagination?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}&ItemId=${values?.item?.value}&ConditionTypeId=4&FromDate=${values?.startDate}&ToDate=${values?.endDate}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}&Status=${values?.status?.value}`,
       (resData) => {
         setTableData({
           ...resData,
@@ -81,6 +84,19 @@ export default function PriceApprove() {
       }
     );
   };
+
+  // /item/PriceSetup/ApprovePriceRequest
+  // [
+  //   {
+  //     "priceRequestId": 0,
+  //     "price": 0,
+  //     "startDate": "2023-12-05",
+  //     "endDate": "2023-12-05",
+  //     "actionBy": 0
+  //   }
+  // ]
+
+  // /partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?AccountId=1&BusinessUnitId=175
 
   return (
     <Formik
@@ -103,8 +119,8 @@ export default function PriceApprove() {
       }) => (
         <>
           {(loadingOnItemListDDL ||
-            loadingOnSoldToPartnerDDL ||
-            tableDataLoader) && <Loading />}
+            tableDataLoader ||
+            conditionTypeDDLloader) && <Loading />}
           <IForm
             title="Price Approve"
             isHiddenReset
@@ -119,16 +135,16 @@ export default function PriceApprove() {
                 <div className="form-group  global-form row">
                   <div className="col-lg-3">
                     <NewSelect
-                      name="soldToPatner"
-                      options={soldToPartnerDDL || []}
-                      value={values?.soldToPatner}
-                      label="Sold To Patner"
+                      name="conditionType"
+                      options={conditionTypeDDL || []}
+                      value={values?.conditionType}
+                      label="Condition Type"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("soldToPatner", valueOption);
+                          setFieldValue("conditionType", valueOption);
                           setTableData([]);
                         } else {
-                          setFieldValue("soldToPatner", "");
+                          setFieldValue("conditionType", "");
                           setTableData([]);
                         }
                       }}
@@ -136,6 +152,7 @@ export default function PriceApprove() {
                       touched={touched}
                     />
                   </div>
+
                   <div className="col-lg-3">
                     <NewSelect
                       name="item"
@@ -219,7 +236,7 @@ export default function PriceApprove() {
                         getTableDataFromApi(values);
                       }}
                       disabled={
-                        !values?.soldToPatner ||
+                        !values?.conditionType ||
                         !values?.item ||
                         !values?.startDate ||
                         !values?.endDate ||
@@ -238,9 +255,16 @@ export default function PriceApprove() {
                     <button
                       className="btn btn-primary ml-2"
                       onClick={() => {
+                        setCheckedItems(
+                          tableData?.data?.filter((item) => item?.isChecked)
+                        );
                         setIsShowApprovalModal(true);
                       }}
-                      disabled={!tableData?.data?.length}
+                      disabled={
+                        !tableData?.data?.length ||
+                        values?.status?.value === 1 ||
+                        tableData?.data?.every((item) => !item?.isChecked)
+                      }
                     >
                       Approve
                     </button>
@@ -352,9 +376,11 @@ export default function PriceApprove() {
                 }}
               >
                 <ApprovalModal
-                  tableData={tableData}
-                  setTableData={setTableData}
-                  values={values}
+                  cehckedItems={cehckedItems}
+                  setCheckedItems={setCheckedItems}
+                  landingValues={values}
+                  getTableDataFromApi={getTableDataFromApi}
+                  setIsShowApprovalModal={setIsShowApprovalModal}
                 />
               </IViewModal>
             </Form>

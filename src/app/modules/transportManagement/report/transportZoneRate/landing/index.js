@@ -82,6 +82,12 @@ function TransportZoneRateReport({ title }) {
         key: "transportZoneName",
       },
       {
+        text: "Transport Rate",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "transferRate",
+      },
+      {
         text: "Three Tone Rate",
         textFormat: "money",
         alignment: "center:middle",
@@ -112,13 +118,13 @@ function TransportZoneRateReport({ title }) {
         key: "handlingCost",
       },
       {
-        text: "Labour Cost",
+        text: "Dropping Charge",
         textFormat: "money",
         alignment: "center:middle",
         key: "labourCost",
       },
       {
-        text: "Labour Cost less 6ton",
+        text: "Dropping Charge less 6ton",
         textFormat: "money",
         alignment: "center:middle",
         key: "labourCostLess6",
@@ -134,6 +140,7 @@ function TransportZoneRateReport({ title }) {
       return {
         ...item,
         sl: index + 1,
+        transferRate: item?.transferRate || 0,
       };
     });
     generateJsonToExcel(header, _data, "transportZoneRate");
@@ -241,14 +248,16 @@ function TransportZoneRateReport({ title }) {
                         <th>SL</th>
                         <th>Shippoint Name</th>
                         <th>Transport Zone</th>
+                        <th>Transfer Rate</th>
                         <th>Three Tone Rate</th>
                         <th>Five Tone Rate</th>
                         <th>Seven Tone Rate</th>
                         <th>Twenty Tone Rate</th>
                         <th>Handling Cost</th>
-                        <th>Labour Cost</th>
-                        <th>Labour Cost less 6ton</th>
+                        <th>Dropping Charge</th>
+                        <th>Dropping Charge less 6ton</th>
                         <th>Subsidy Rate</th>
+                        <th>Total Rate</th>
                         {/* <th className="printSectionNone">Action</th> */}
                       </tr>
                     </thead>
@@ -262,6 +271,11 @@ function TransportZoneRateReport({ title }) {
                           <td>
                             <div className="pl-2">
                               {item?.transportZoneName}
+                            </div>
+                          </td>
+                          <td>
+                            <div className="pl-2">
+                              {item?.factoryToGhatTransferRate || 0}
                             </div>
                           </td>
                           <td>
@@ -294,6 +308,11 @@ function TransportZoneRateReport({ title }) {
                           <td>
                             <div className="pl-2 text-right">
                               {_formatMoney(item?.subsidyCostRate)}
+                            </div>
+                          </td>
+                          <td>
+                            <div className="pl-2 text-right">
+                              {_formatMoney(item?.totalRate)}
                             </div>
                           </td>
                           {/* <td

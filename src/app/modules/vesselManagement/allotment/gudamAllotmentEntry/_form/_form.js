@@ -23,6 +23,7 @@ import NewSelect from "../../../../_helper/_select";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import { GetDomesticPortDDL } from "../../generalInformation/helper";
 // import { GetShipPointDDL } from "../../generalInformation/helper";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import {
   editGudamAllotment,
   getMotherVesselDDL,
@@ -42,7 +43,7 @@ const initData = {
   revenueRate: "",
   revenueByTransport: "",
   isNearShipPoint: "",
-  extraAllotmentQuantity:0
+  extraAllotmentQuantity: 0,
 };
 
 const GudamAllotmentForm = ({
@@ -67,6 +68,7 @@ const GudamAllotmentForm = ({
   // const [shipPointDDL, setShipPointDDL] = useState([]);
   const [portDDL, setPortDDL] = useState([]);
   const [motherVesselDDL, setMotherVesselDDL] = useState([]);
+  const [businessPartnerDDL, getBusinessPartnerDDL] = useAxiosGet();
 
   useEffect(() => {
     GetDomesticPortDDL(setPortDDL);
@@ -74,7 +76,13 @@ const GudamAllotmentForm = ({
     //   `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${accId}&businessUnitId=${buId}`
     // );
     // GetShipPointDDL(accId, buId, setShipPointDDL);
+
+    getBusinessPartnerDDL(
+      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`
+    );
   }, [accId, buId]);
+
+  useEffect(() => {}, [accId, buId]);
 
   const getInitData = () => {
     if (formType === "edit") {
@@ -87,6 +95,10 @@ const GudamAllotmentForm = ({
           value: singleItem?.shipToPartnerId,
           label: singleItem?.shipToPartnerName,
         },
+        port: {
+          value: singleItem?.portId,
+          label: singleItem?.portName,
+        },
         motherVessel: {
           value: singleItem?.motherVesselId,
           label: singleItem?.motherVesselName,
@@ -96,7 +108,7 @@ const GudamAllotmentForm = ({
           label: singleItem?.itemName,
         },
         allotmentQty: singleItem?.allotmentQuantity,
-        extraAllotmentQuantity:singleItem?.extraAllotmentQuantity || 0,
+        extraAllotmentQuantity: singleItem?.extraAllotmentQuantity || 0,
         month: {
           value: singleItem?.monthId,
           label: getMonth(singleItem?.monthId),
@@ -131,6 +143,9 @@ const GudamAllotmentForm = ({
         motherVesselId: values?.motherVessel?.value,
         revenueRate: +values?.revenueRate || 0,
         revenueByTransport: +values?.revenueByTransport || 0,
+        portId: values?.port?.value,
+        portName: values?.port?.label,
+        actionBy: userId
       };
       editGudamAllotment(payload, setIsLoading, () => {
         getData(tableValues, 0, 15);
@@ -226,10 +241,7 @@ const GudamAllotmentForm = ({
                       <div className="col-lg-3">
                         <NewSelect
                           name="soldToPartner"
-                          options={[
-                            { value: 73244, label: "G2G BADC" },
-                            { value: 73245, label: "G2G BCIC" },
-                          ]}
+                          options={businessPartnerDDL || []}
                           value={values?.soldToPartner}
                           label="Business Partner"
                           onChange={(e) => {
@@ -457,7 +469,10 @@ const GudamAllotmentForm = ({
                               {_fixedPoint(item?.allotmentQuantity, true)}
                             </td>
                             <td className="text-right">
-                              {_fixedPoint(item?.extraAllotmentQuantity, true) || 0}
+                              {_fixedPoint(
+                                item?.extraAllotmentQuantity,
+                                true
+                              ) || 0}
                             </td>
                             <td className="text-right">{item?.revenueRate}</td>
                             <td className="text-right">

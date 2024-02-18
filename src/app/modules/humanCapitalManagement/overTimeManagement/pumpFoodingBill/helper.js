@@ -1,23 +1,6 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
-export const getEmpInfoById = async (id, setFieldValue) => {
-  try {
-    let res = await axios.get(
-      `/hcm/HCMDDL/GetEmployeeDetailsByEmpId?EmpId=${id}`
-    );
-    let { workplaceName, workplaceId } = res?.data;
-    // setFieldValue("designation", employeeInfoDesignation || "");
-    // setFieldValue("designationId", employeeInfoDesignationId || 0);
-    setFieldValue(
-      "workPlace",
-      { value: workplaceId, label: workplaceName } || {}
-    );
-  } catch (error) {
-    return null;
-  }
-};
-
 export const getWorkplaceDDL_api = async (accId, buId, setter) => {
   try {
     const res = await axios.get(

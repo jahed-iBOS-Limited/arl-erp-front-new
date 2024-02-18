@@ -1,32 +1,32 @@
+import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
 import * as Yup from "yup";
-import NewSelect from "./../../../_helper/_select";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import PaginationSearch from "../../../_helper/_search";
+import IViewModal from "../../../_helper/_viewModal";
+import { setBillregisterLandingAtion } from "../../../_helper/reduxForLocalStorage/Actions";
 import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from "./../../../../../_metronic/_partials/controls";
+import InputField from "./../../../_helper/_inputField";
+import Loading from "./../../../_helper/_loading";
+import NewSelect from "./../../../_helper/_select";
+import PaginationTable from "./../../../_helper/_tablePagination";
+import { _todayDate } from "./../../../_helper/_todayDate";
+import GridData from "./grid";
 import {
-  getSbuDDL,
-  getPlantDDL,
   GetBillTypeDDL,
   getBillRegisterPagination_api,
   getCostCenterDDL,
+  getPlantDDL,
+  getSbuDDL,
 } from "./helper";
-import GridData from "./grid";
-import Loading from "./../../../_helper/_loading";
-import InputField from "./../../../_helper/_inputField";
-import { _todayDate } from "./../../../_helper/_todayDate";
-import { useHistory } from "react-router";
-import { setBillregisterLandingAtion } from "../../../_helper/reduxForLocalStorage/Actions";
-import PaginationTable from "./../../../_helper/_tablePagination";
-import IViewModal from "../../../_helper/_viewModal";
 import OthersBillForm from "./othersBill/Form/addEditForm";
-import PaginationSearch from "../../../_helper/_search";
 const initData = {
   sbu: "",
   billType: "",
@@ -168,7 +168,7 @@ function BillregisterLanding() {
                     className="btn btn-primary ml-2"
                     type="button"
                     disabled={
-                      !values?.sbu || !values?.plant || !values?.billType.label
+                      !values?.sbu || !values?.plant || !values?.billType?.label
                     }
                   >
                     Create
@@ -204,7 +204,9 @@ function BillregisterLanding() {
                     <div className="col-lg-3">
                       <NewSelect
                         name="plant"
-                        options={plantDDL || []}
+                        options={
+                          [{ value: 0, label: "All" }, ...plantDDL] || []
+                        }
                         value={values?.plant}
                         label="Select Plant"
                         onChange={(valueOption) => {

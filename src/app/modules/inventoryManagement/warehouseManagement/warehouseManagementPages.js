@@ -1,57 +1,59 @@
 import React from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute } from "../../../../_metronic/layout";
+import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
+import findIndex from "./../../_helper/_findIndex";
+import AssetsReceiveForm from "./assetReceive/Form/addEditForm";
+import AssetReceiveLanding from "./assetReceive/Landing";
+import { AssetReceiveReportView } from "./assetReceive/report/tableHeader";
+import AssetReceiveViewForm from "./assetReceive/view/addEditForm";
+import { CancelInventory } from "./cancelInventory";
+import CancelInventoryForm from "./cancelInventory/Form/addEditForm";
+import { CancelInvReportView } from "./cancelInventory/report/tableHeader";
 import { Delivery } from "./delivery";
 import DeliveryForm from "./delivery/Form/addEditForm";
 import { GrnforPO } from "./grnforPo";
+import ReceiveInvCreateForm from "./grnforPo/Form/createForm";
 import InvTransaction from "./invTransaction";
 import { ForminvTrans } from "./invTransaction/Form";
-import ReceiveInvCreateForm from "./grnforPo/Form/createForm";
 import ViewInvTransactionForm from "./invTransaction/View/addEditForm";
+import { CreateIssueForProduction } from "./issueForProduction/Create/addEditForm";
+import { IssueProduction } from "./issueForProduction/Landing/addEditForm";
 import { ItemRequest } from "./itemRequest";
 import ItemRequestForm from "./itemRequest/Form/addEditForm";
 import ViewItemRequestForm from "./itemRequest/view/addEditForm";
-import ServiceReceiveLanding from "./serviceReceive/Landing";
 import ServiceReceiveForm from "./serviceReceive/Form/addEditForm";
-import AssetReceiveLanding from "./assetReceive/Landing";
-import AssetsReceiveForm from "./assetReceive/Form/addEditForm";
-import ServiceReceiveViewForm from "./serviceReceive/view/addEditForm";
-import AssetReceiveViewForm from "./assetReceive/view/addEditForm";
-import { shallowEqual, useSelector } from "react-redux";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import { CancelInventory } from "./cancelInventory";
-import CancelInventoryForm from "./cancelInventory/Form/addEditForm";
+import ServiceReceiveLanding from "./serviceReceive/Landing";
 import { ServiceReceiveReportView } from "./serviceReceive/report/tableHeader";
-import { AssetReceiveReportView } from "./assetReceive/report/tableHeader";
-import { CancelInvReportView } from "./cancelInventory/report/tableHeader";
-import { IssueProduction } from "./issueForProduction/Landing/addEditForm";
-import { CreateIssueForProduction } from "./issueForProduction/Create/addEditForm";
-import findIndex from "./../../_helper/_findIndex";
+import ServiceReceiveViewForm from "./serviceReceive/view/addEditForm";
 // import InventoryLoadLanding from "./inventoryLoan/landing";
-import TargetVSProductionRequest from "./targetVSProductionRequest/landing";
-import TargetVSProductionRequestForm from "./targetVSProductionRequest/form/addEditForm";
-import LiftingEntry from "./liftingEntry/landing";
-import LiftingEntryForm from "./liftingEntry/form/addEditForm";
-import LiftingEntryApproveForm from "./liftingEntryApprove/landing/addEditForm";
-import CastingScheduleLanding from "./castingSchedule/landing";
+import InvAdjustment from "./InventoryAdjustment";
+import InventoryAdjustmentCreate from "./InventoryAdjustment/form";
+import BrandItemRequisitionForm from "./brandItemRequisition/form/addEditForm";
+import BrandItemRequisitionLanding from "./brandItemRequisition/landing";
 import CastingScheduleForm from "./castingSchedule/form/addEditForm";
+import CastingScheduleLanding from "./castingSchedule/landing";
 import CastingScheduleApproveLanding from "./castingScheduleApprove/landing/addEditForm";
-import LiftingPlan from "./liftingPlan";
+import HologramBaseDeliveryForm from "./hologramBaseDelivery/form/addEditForm";
+import HologramBaseDeliveryLanding from "./hologramBaseDelivery/landing/form";
 import InvTransactionImport from "./invTransactionImport";
 import { ForminvTransImport } from "./invTransactionImport/Form";
 import ViewInvTransactionFormImport from "./invTransactionImport/View/addEditForm";
-import InvAdjustment from "./InventoryAdjustment";
-import InventoryAdjustmentCreate from "./InventoryAdjustment/form";
+import InventoryLoanApproveLanding from "./inventoryLoanApprove";
+import InventoryLoanLandingNew from "./inventoryLoanNew";
+import InventoryLoanCreateEditNew from "./inventoryLoanNew/createEdit";
 import ItemWiseSerialUpdate from "./itemWiseSerialUpdate";
 import ItemWiseSerialCreate from "./itemWiseSerialUpdate/create";
 import ItemWiseSerialEdit from "./itemWiseSerialUpdate/editItemWiseSerial";
+import LiftingEntryForm from "./liftingEntry/form/addEditForm";
+import LiftingEntry from "./liftingEntry/landing";
+import LiftingEntryApproveForm from "./liftingEntryApprove/landing/addEditForm";
+import LiftingPlan from "./liftingPlan";
 import MRRCancel from "./mrrCancel";
-import HologramBaseDeliveryLanding from "./hologramBaseDelivery/landing/form";
-import HologramBaseDeliveryForm from "./hologramBaseDelivery/form/addEditForm";
-import InventoryLoanLandingNew from "./inventoryLoanNew";
-import InventoryLoanCreateEditNew from "./inventoryLoanNew/createEdit";
-import BrandItemRequisitionLanding from "./brandItemRequisition/landing";
-import BrandItemRequisitionForm from "./brandItemRequisition/form/addEditForm";
+import TargetVSProductionRequestForm from "./targetVSProductionRequest/form/addEditForm";
+import TargetVSProductionRequest from "./targetVSProductionRequest/landing";
+import InventoryAdjustApprove from "./inventoryAdjustApprove";
 
 export function WarehouseManagementPages() {
   const { userRole, selectedBusinessUnit } = useSelector(
@@ -314,6 +316,12 @@ export function WarehouseManagementPages() {
           inventoryLoan?.isView ? InventoryLoanLandingNew : NotPermittedPage
         }
       />
+      <ContentRoute
+        path="/inventory-management/warehouse-management/inventory-Loan-Approve"
+        component={
+          inventoryLoan?.isView ? InventoryLoanApproveLanding : NotPermittedPage
+        }
+      />
 
       <ContentRoute
         path="/inventory-management/warehouse-management/targetvsproductionrequset/entry"
@@ -422,6 +430,10 @@ export function WarehouseManagementPages() {
       <ContentRoute
         path="/inventory-management/warehouse-management/branditemrequisition"
         component={BrandItemRequisitionLanding}
+      />
+      <ContentRoute
+        path="/inventory-management/warehouse-management/inventory-Adjust-Approve"
+        component={InventoryAdjustApprove}
       />
     </Switch>
   );

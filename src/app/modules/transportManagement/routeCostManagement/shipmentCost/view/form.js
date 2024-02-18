@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
+import { Formik, Form, Field } from "formik";
 import InputField from "../../../../_helper/_inputField";
 import { getComponentDDL } from "../helper";
 import ICustomCard from "../../../../_helper/_customCard";
@@ -19,7 +19,7 @@ export default function _Form({
   vehicleReant,
   distanceKM,
   shipmentId,
-  landingValues
+  landingValues,
 }) {
   // eslint-disable-next-line no-unused-vars
   const [componentDDL, setComponentDDL] = useState([]);
@@ -69,265 +69,304 @@ export default function _Form({
         }}
       >
         {({ handleSubmit, resetForm, values, isValid }) => (
-          <ICustomCard title="View Shipment Cost">
+          <ICustomCard title='View Shipment Cost'>
             <>
-              <Form className="form form-label-right position-relative">
+              <Form className='form form-label-right position-relative'>
                 <p style={{ position: "absolute", top: "-46px", left: "45%" }}>
                   <b>Pay to Driver: </b>
                   {cal - values?.advanceAmount}
                 </p>
-                <div className="row global-form">
-                  <div className="col-lg-12">
+                <div className='row global-form'>
+                  <div className='col-lg-12'>
                     <div
-                      className="row bank-journal  "
+                      className='row bank-journal  '
                       style={{ paddingBottom: "20px 0" }}
                     >
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
-                          label="Vehicle No"
+                          label='Vehicle No'
                           value={values?.vehicleNo}
-                          name="vehicleNo"
-                          placeholder="vehial No"
-                          type="text"
+                          name='vehicleNo'
+                          placeholder='vehial No'
+                          type='text'
                           disabled={true}
                         />
                       </div>
-
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
-                          label="Driver Name"
+                          label='Driver Name'
                           value={values?.driverName}
-                          name="driverName"
-                          placeholder="Driver Name"
-                          type="text"
+                          name='driverName'
+                          placeholder='Driver Name'
+                          type='text'
                           disabled={true}
                         />
                       </div>
-
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
-                          label="Route Name"
+                          label='Route Name'
                           value={values?.routeName}
-                          name="routeName"
-                          placeholder="Route Name"
-                          type="text"
+                          name='routeName'
+                          placeholder='Route Name'
+                          type='text'
                           disabled={true}
                         />
                       </div>
-
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
-                          label="Distance Km"
+                          label='Distance Km'
                           value={values?.distanceKm}
-                          name="distanceKm"
-                          placeholder="Distance Km"
-                          type="number"
+                          name='distanceKm'
+                          placeholder='Distance Km'
+                          type='number'
                           disabled={true}
                         />
                       </div>
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
-                          label="Extra Millage (KM)"
+                          label='Extra Millage (KM)'
                           value={values?.extraMillage}
-                          name="extraKm"
-                          placeholder="Extra Millage"
-                          type="number"
+                          name='extraKm'
+                          placeholder='Extra Millage'
+                          type='number'
                           disabled={true}
                         />
                       </div>
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
-                          label="Reason For Extra Millage (KM)"
+                          label='Reason For Extra Millage (KM)'
                           value={values?.extraMillageReason}
-                          name="reasonKm"
-                          placeholder="Reason For Extra Millage"
-                          type="text"
+                          name='reasonKm'
+                          placeholder='Reason For Extra Millage'
+                          type='text'
                           disabled={true}
                         />
                       </div>
-
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
                           value={values?.shipmentDate}
-                          label="Shipment Date"
-                          type="date"
-                          name="shipmentDate"
-                          placeholder=""
+                          label='Shipment Date'
+                          type='date'
+                          name='shipmentDate'
+                          placeholder=''
                           disabled={true}
                         />
                       </div>
-
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
-                          label="Start Millage"
+                          label='Start Millage'
                           value={values?.startMillage}
-                          name="startMillage"
-                          placeholder="Start Millage"
-                          type="number"
+                          name='startMillage'
+                          placeholder='Start Millage'
+                          type='number'
                           disabled={true}
                         />
                       </div>
-
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
-                          label="End Millage"
+                          label='End Millage'
                           value={values?.endMillage}
-                          name="endMillage"
-                          placeholder="End Millage"
-                          type="number"
+                          name='endMillage'
+                          placeholder='End Millage'
+                          type='number'
                           disabled={true}
                         />
                       </div>
-
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <div style={{ marginBottom: "5px" }}>
                           Expense Entered
                         </div>
                         <input
                           checked={values.isExpenseEntered}
-                          name="isExpenseEntered"
-                          type="checkbox"
+                          name='isExpenseEntered'
+                          type='checkbox'
                           disabled={true}
                         />
                       </div>
-
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <div style={{ marginBottom: "5px" }}>
                           Advane Requested
                         </div>
                         <input
                           checked={values.isAdvanceRequested}
-                          name="isAdvanceRequested"
-                          type="checkbox"
+                          name='isAdvanceRequested'
+                          type='checkbox'
                           disabled={true}
                         />
                       </div>
-
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
-                          label="Total Standard Cost"
+                          label='Total Standard Cost'
                           value={total?.totalStandardCost}
-                          name="totalStandardCost"
-                          placeholder="Total Standard Cost"
-                          type="number"
+                          name='totalStandardCost'
+                          placeholder='Total Standard Cost'
+                          type='number'
                           disabled={true}
                         />
                       </div>
-
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
-                          label="Advance Amount"
+                          label='Advance Amount'
                           value={values?.advanceAmount}
-                          name="advanceAmount"
-                          placeholder="Advane Amount"
-                          type="number"
+                          name='advanceAmount'
+                          placeholder='Advane Amount'
+                          type='number'
                           disabled={true}
                         />
                       </div>
-
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
-                          label="Total Actual"
+                          label='Total Actual'
                           value={total?.totalActual}
-                          name="totalActualCost"
-                          placeholder="Total Actual"
-                          type="number"
+                          name='totalActualCost'
+                          placeholder='Total Actual'
+                          type='number'
                           disabled={true}
                         />
                       </div>
-
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
-                          label="Down Trip Cash"
+                          label='Down Trip Cash'
                           value={values?.downTripCash}
-                          name="downTripCash"
-                          placeholder="Down Trip Cash"
-                          type="number"
-                          min="0"
+                          name='downTripCash'
+                          placeholder='Down Trip Cash'
+                          type='number'
+                          min='0'
                           disabled={true}
                         />
                       </div>
-                      <div className="col-lg-3 pl pr-1 mb-1">
+                      <div className='col-lg-3 pl pr-1 mb-1'>
                         <InputField
-                          label="Down Trip Credit"
+                          label='Down Trip Credit'
                           value={values?.downTripCredit}
-                          name="downTripCredit"
-                          placeholder="Down Trip Credit"
-                          type="number"
-                          min="0"
+                          name='downTripCredit'
+                          placeholder='Down Trip Credit'
+                          type='number'
+                          min='0'
                           disabled={true}
                         />
                       </div>
                       {landingValues?.reportType?.label === "Complete" && (
                         <>
-                          <div className="col-lg-3">
+                          <div className='col-lg-3'>
                             <label>Vehicle In Date</label>
                             <InputField
                               value={values?.vehicleInDate}
-                              name="vehicleInDate"
-                              placeholder="Vehicle In Date"
-                              type="date"
+                              name='vehicleInDate'
+                              placeholder='Vehicle In Date'
+                              type='date'
                               disabled={true}
                             />
                           </div>
-                          <div className="col-lg-3">
+                          <div className='col-lg-3'>
                             <label>Vehicle In Time</label>
                             <InputField
                               value={values?.vehicleInTime}
-                              name="vehicleInTime"
-                              placeholder="Vehicle In Time"
-                              type="time"
+                              name='vehicleInTime'
+                              placeholder='Vehicle In Time'
+                              type='time'
                               disabled={true}
                             />
-                          </div>{" "}
+                          </div>
                         </>
                       )}
                       {+values?.downTripCredit > 0 && (
-                        <div className="col-lg-3 pl pr-1 mb-1">
+                        <div className='col-lg-3 pl pr-1 mb-1'>
                           <NewSelect
-                            name="businessUnitName"
+                            name='businessUnitName'
                             options={[]}
                             value={values?.businessUnitName}
-                            label="Business Unit Name"
-                            onChange={(valueOption) => { }}
-                            placeholder="Business Unit Name"
+                            label='Business Unit Name'
+                            onChange={(valueOption) => {}}
+                            placeholder='Business Unit Name'
                             isDisabled={true}
                           />
                         </div>
                       )}
-                      <div className="col-lg-3">
+                      <div className='col-lg-3'>
+                        <label>Fuel Rate</label>
+                        <InputField
+                          value={values?.fuelRate}
+                          name='fuelRate'
+                          placeholder='Fuel Rate'
+                          type='number'
+                          onChange={(e) => {}}
+                          disabled={true}
+                        />
+                      </div>
+                      <div className='col-lg-3'>
+                        <label>Total Fuel Cost</label>
+                        <InputField
+                          value={values?.totalFuelCost}
+                          name='totalFuelCost'
+                          placeholder='Total Fuel Cost'
+                          type='text'
+                          disabled={true}
+                        />
+                      </div>{" "}
+                      <div className='col-lg-3'>
+                        <label>Total Fuel Cost Liter</label>
+                        <InputField
+                          value={values?.totalFuelCostLtr}
+                          name='totalFuelCostLtr'
+                          placeholder='Total Fuel Cost Liter'
+                          type='text'
+                          disabled={true}
+                        />
+                      </div>
+                      <div className='col-lg-3' style={{ marginTop: "18px" }}>
+                        <Field
+                          type='checkbox'
+                          name='downTraip'
+                          checked={values?.downTraip}
+                          disabled={true}
+                        />
+                        <label className='ml-2'>is Down Trip Allowance?</label>
+                      </div>
+                      {values?.downTraip === true ? (
+                        <div className='col-lg-3 pl pr-1 mb-1'>
+                          <InputField
+                            label='Down Trip Allowance'
+                            value={values?.downTripAllowns}
+                            name='downTripAllowns'
+                            placeholder='Down Trip Allowance'
+                            type='number'
+                            disabled={true}
+                          />
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                      <div className='col-lg-12'>
+                        <hr />
+                      </div>
+                      <div className='col-lg-3'>
                         <NewSelect
-                          name="profitCenter"
+                          name='profitCenter'
                           value={values?.profitCenter}
-                          label="Profit Center"
-                          onChange={(valueOption) => {
-                            
-                          }}
-                          placeholder="Profit Center"
+                          label='Profit Center'
+                          onChange={(valueOption) => {}}
+                          placeholder='Profit Center'
                           isDisabled={true}
                         />
                       </div>
-                      <div className="col-lg-3">
+                      <div className='col-lg-3'>
                         <NewSelect
-                          name="costCenter"
+                          name='costCenter'
                           value={values?.costCenter}
-                          label="Cost Center"
-                          onChange={(valueOption) => {
-                            
-                          }}
-                          placeholder="Cost Center"
+                          label='Cost Center'
+                          onChange={(valueOption) => {}}
+                          placeholder='Cost Center'
                           isDisabled={true}
                         />
                       </div>
-                      <div className="col-lg-3">
+                      <div className='col-lg-3'>
                         <NewSelect
-                          name="costElement"
+                          name='costElement'
                           value={values?.costElement}
-                          label="Cost Element"
-                          onChange={(valueOption) => {
-                            
-                          }}
-                          placeholder="Cost Element"
+                          label='Cost Element'
+                          onChange={(valueOption) => {}}
+                          placeholder='Cost Element'
                           isDisabled={true}
                         />
                       </div>
@@ -335,8 +374,8 @@ export default function _Form({
                   </div>
                 </div>
 
-                <div className="row">
-                  <div className="col-lg-8 pr-0">
+                <div className='row'>
+                  <div className='col-lg-8 pr-0'>
                     <table className={"table mt-1 bj-table"}>
                       <thead>
                         <tr>
@@ -351,18 +390,18 @@ export default function _Form({
                           <tr key={index}>
                             <td>{index + 1}</td>
                             <td>
-                              <div className="text-left pl-2">
+                              <div className='text-left pl-2'>
                                 {item?.transportRouteCostComponent}
                               </div>
                             </td>
                             <td>
-                              <div className="text-left pl-2">
+                              <div className='text-left pl-2'>
                                 <input
-                                  type="number"
-                                  className="form-control"
+                                  type='number'
+                                  className='form-control'
                                   value={item.standardCost}
                                   disabled={true}
-                                  name="standardCost"
+                                  name='standardCost'
                                   onChange={(e) => {
                                     dataHandler(
                                       "standardCost",
@@ -374,13 +413,13 @@ export default function _Form({
                               </div>
                             </td>
                             <td>
-                              <div className="text-center">
+                              <div className='text-center'>
                                 <input
-                                  type="number"
-                                  className="form-control"
+                                  type='number'
+                                  className='form-control'
                                   disabled={true}
                                   value={item.actualCost}
-                                  name="actualCost"
+                                  name='actualCost'
                                   onChange={(e) => {
                                     dataHandler(
                                       "actualCost",
@@ -397,9 +436,9 @@ export default function _Form({
                     </table>
                   </div>
                 </div>
-                <h5 className="mt-3">Fule Cost</h5>
-                <div className="row">
-                  <div className="col-lg-12">
+                <h5 className='mt-3'>Fule Cost</h5>
+                <div className='row'>
+                  <div className='col-lg-12'>
                     <table className={"table global-table"}>
                       <thead>
                         <tr>
@@ -430,16 +469,16 @@ export default function _Form({
                     </table>
                   </div>
                 </div>
-                <div className="row">
-                  <div className="col-lg-6 mt-2">
-                    <h5 className="mt-1">Distance KM</h5>
+                <div className='row'>
+                  <div className='col-lg-6 mt-2'>
+                    <h5 className='mt-1'>Distance KM</h5>
                   </div>
-                  <div className="col-lg-6 mt-2">
+                  <div className='col-lg-6 mt-2'>
                     {" "}
-                    <h5 className="mt-1">Vehicle Rent</h5>
+                    <h5 className='mt-1'>Vehicle Rent</h5>
                   </div>
                   {/* distanceKM talbe */}
-                  <div className="col-lg-6">
+                  <div className='col-lg-6'>
                     <table className={"table global-table"}>
                       <thead>
                         <tr>
@@ -463,7 +502,7 @@ export default function _Form({
                   </div>
 
                   {/* Vehicle Reant table */}
-                  <div className="col-lg-6">
+                  <div className='col-lg-6'>
                     <table className={"table global-table"}>
                       <thead>
                         <tr>
@@ -489,14 +528,14 @@ export default function _Form({
                 </div>
 
                 <button
-                  type="submit"
+                  type='submit'
                   style={{ display: "none" }}
                   ref={btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
-                  type="reset"
+                  type='reset'
                   style={{ display: "none" }}
                   ref={resetBtnRef}
                   onSubmit={() => resetForm(initData)}

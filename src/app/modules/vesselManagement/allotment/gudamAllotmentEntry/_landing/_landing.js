@@ -71,6 +71,7 @@ const GudamAllotmentLanding = () => {
     ,
     setMotherVesselDDL,
   ] = useAxiosGet();
+  const [organizationDDL, getOrganizationDDL] = useAxiosGet();
 
   // get user data from store
   const {
@@ -105,6 +106,9 @@ const GudamAllotmentLanding = () => {
   };
 
   useEffect(() => {
+    getOrganizationDDL(
+      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`
+    );
     getData(initData, pageNo, pageSize);
   }, [accId, buId]);
 
@@ -188,6 +192,16 @@ const GudamAllotmentLanding = () => {
                     values={values}
                   />
                 </div> */}
+                <div className="row">
+                  <div className="col-lg-1"></div>
+                  <div className="col-lg-10">
+                    <marquee scrollamount="8" style={{ color: "#ff0000bd" }}>
+                      <h3>
+                        Please Insert the Allotment Quantity with the Rate{" "}
+                      </h3>
+                    </marquee>
+                  </div>
+                </div>
                 <form className="form form-label-right">
                   <div className="global-form row">
                     <FromDateToDateForm
@@ -196,11 +210,14 @@ const GudamAllotmentLanding = () => {
                     <div className="col-lg-3">
                       <NewSelect
                         name="organization"
-                        options={[
-                          { value: 0, label: "All" },
-                          { value: 73244, label: "G2G BADC" },
-                          { value: 73245, label: "G2G BCIC" },
-                        ]}
+                        options={
+                          [{ value: 0, label: "All" }, ...organizationDDL]
+                          //   [
+                          //   { value: 0, label: "All" },
+                          //   { value: 73244, label: "G2G BADC" },
+                          //   { value: 73245, label: "G2G BCIC" },
+                          // ]
+                        }
                         value={values?.organization}
                         label="Organization"
                         onChange={(valueOption) => {
@@ -426,6 +443,7 @@ const GudamAllotmentLanding = () => {
                           <th>Sl</th>
                           <th>Mother Vessel</th>
                           <th>Allotment Quantity</th>
+                          <th>Program Quantity</th>
                           <th>Extra Allotment Quantity</th>
                           <th>Challan Quantity</th>
                           <th>Remaining Quantity</th>
@@ -447,6 +465,9 @@ const GudamAllotmentLanding = () => {
                               <td>{item?.motherVesselName}</td>
                               <td className="text-center">
                                 {item?.allotmentQuantity}
+                              </td>
+                              <td className="text-center">
+                                {item?.programQuantity}
                               </td>
                               <td className="text-center">
                                 {item?.extraAllotmentQuantity}

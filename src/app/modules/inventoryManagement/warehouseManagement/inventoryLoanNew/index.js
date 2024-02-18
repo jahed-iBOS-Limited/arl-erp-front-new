@@ -1,15 +1,15 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
+import InputField from "../../../_helper/_inputField";
+import NewSelect from "../../../_helper/_select";
+import PaginationTable from "../../../_helper/_tablePagination";
+import { _todayDate } from "../../../_helper/_todayDate";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
-import InputField from "../../../_helper/_inputField";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { shallowEqual, useSelector } from "react-redux";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 // import IView from "../../../_helper/_helperIcons/_view";
 import IViewModal from "../../../_helper/_viewModal";
 import LoanViewModal from "./modal/loanViewModal";
@@ -150,6 +150,7 @@ export default function InventoryLoanLandingNew() {
                                                 <th>Transaction Code</th>
                                                 <th>Business Partner</th>
                                                 <th>Transaction Type</th>
+                                                <th>Loan Type</th>
                                                 <th>Warehouse</th>
                                                 <th>Transaction  Date</th>
                                                 <th>Item Name</th>
@@ -171,6 +172,9 @@ export default function InventoryLoanLandingNew() {
                                                     </td>
                                                     <td>
                                                         <div className="pl-2">{item?.transTypeName}</div>
+                                                    </td>
+                                                    <td>
+                                                        <div className="pl-2">{item?.intLoanTypeName}</div>
                                                     </td>
                                                     <td>
                                                         <div className="pl-2">{item?.wareHouseName}</div>

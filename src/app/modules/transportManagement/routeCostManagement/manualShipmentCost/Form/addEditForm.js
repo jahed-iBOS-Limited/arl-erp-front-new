@@ -15,7 +15,7 @@ import { toast } from "react-toastify";
 import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "./../../../../_helper/_todayDate";
 import { GetShipmentCostEntryStatus_api } from "./../helper";
-import { _currentTime } from './../../../../_helper/_currentTime';
+import { _currentTime } from "./../../../../_helper/_currentTime";
 import moment from "moment";
 const initData = {
   whName: "",
@@ -56,6 +56,9 @@ const initData = {
   extraMillage: "",
   vehicleInDate: _todayDate(),
   vehicleInTime: _currentTime(),
+  profitCenter: "",
+  costElement: "",
+  costCenter: "",
 };
 
 export default function ManualShipmentCostForm() {
@@ -75,7 +78,6 @@ export default function ManualShipmentCostForm() {
   const [advanceAmount, setAdvanceAmount] = useState(0);
   const [vehicleDDL, setVehicleDDL] = useState([]);
   const [routeNameDDL, setRouteNameDDL] = useState([]);
-
 
   const [vehicleId, setVehicleId] = useState("");
   const [whNameDDL, setWhNameDDL] = useState([]);
@@ -177,9 +179,9 @@ export default function ManualShipmentCostForm() {
   }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = async (values, cb) => {
-    const vehicleInDate = moment(`${values?.vehicleInDate} ${values?.vehicleInTime}`).format(
-      "YYYY-MM-DDTHH:mm:ss"
-    );
+    const vehicleInDate = moment(
+      `${values?.vehicleInDate} ${values?.vehicleInTime}`
+    ).format("YYYY-MM-DDTHH:mm:ss");
 
     const row = rowDto.map((item) => {
       return {
@@ -247,7 +249,10 @@ export default function ManualShipmentCostForm() {
           vehicleRent: values?.vehicleRent,
           fuelCost: 0,
           customerName: values?.customerName || "",
-          vehicleInDate: vehicleInDate || ""
+          vehicleInDate: vehicleInDate || "",
+          profitCenterId: values?.profitCenter?.value,
+          costElementId: values?.costElement?.value,
+          costCeneterId: values?.costCenter?.value,
         },
         objRowList: row,
         fuelCostInfo: fuleCost || [],
@@ -416,7 +421,9 @@ export default function ManualShipmentCostForm() {
         setVehicleId={setVehicleId}
         whNameDDL={whNameDDL}
         setDicrementNetPayable={setDicrementNetPayable}
-        totalStandardCost_TotalActualCalFunc={totalStandardCost_TotalActualCalFunc}
+        totalStandardCost_TotalActualCalFunc={
+          totalStandardCost_TotalActualCalFunc
+        }
       />
     </>
   );

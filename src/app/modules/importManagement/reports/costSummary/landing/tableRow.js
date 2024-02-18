@@ -1,25 +1,24 @@
-import React, { useRef, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { Formik } from "formik";
-import { Form } from "react-bootstrap";
-import ICustomCard from "../../../../_helper/_customCard";
 import axios from "axios";
+import { Formik } from "formik";
+import React, { useEffect, useRef, useState } from "react";
+import { Form } from "react-bootstrap";
+import { shallowEqual, useSelector } from "react-redux";
+import ReactToPrint from "react-to-print";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import ICustomCard from "../../../../_helper/_customCard";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import IViewModal from "../../../../_helper/_viewModal";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import printIcon from "../../../../_helper/images/print-icon.png";
+import { PurchaseOrderViewTableRow } from "../../../../procurement/purchase-management/purchaseOrder/report/tableRow";
 import {
   getCostingSummary,
   getReportHeaderInfo,
   getShipmentDDL,
 } from "../helper";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { useEffect } from "react";
 import Print from "./Print";
-import IViewModal from "../../../../_helper/_viewModal";
-import { PurchaseOrderViewTableRow } from "../../../../procurement/purchase-management/purchaseOrder/report/tableRow";
 import ShipmenmtQuantityModal from "./shipmentQuantityModal";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
 const TableRow = ({ formCommonApproval }) => {
   const [rowDto, setRowDto] = useState([]);
@@ -32,7 +31,7 @@ const TableRow = ({ formCommonApproval }) => {
   const printRef = useRef();
   const [POLCNO, setPOLCNO] = useState({});
   const [Shipment, setShipment] = useState({});
-  const [, approvalHandler] = useAxiosPost();
+  const [, approvalHandler,loadingApproveHandler] = useAxiosPost();
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
@@ -74,7 +73,8 @@ const TableRow = ({ formCommonApproval }) => {
       profileData?.accountId,
       selectedBusinessUnit?.value,
       poLc,
-      setShipmentDDL
+      setShipmentDDL,
+      formCommonApproval
     );
   };
 
@@ -115,7 +115,7 @@ const TableRow = ({ formCommonApproval }) => {
     totalCostIncludingVatAndTax() - totalDeductionOfVatAndTax();
   return (
     <>
-      {loader && <Loading />}
+      {(loader || loadingApproveHandler) && <Loading />}
       <ICustomCard
         title="LC Cost Sheet"
         renderProps={() => (
@@ -138,7 +138,9 @@ const TableRow = ({ formCommonApproval }) => {
                         shipmentId: Shipment?.value || 0,
                         poId: POLCNO?.value || 0,
                         approveBy: profileData?.userId,
-                      }
+                      },
+                      ()=>{},
+                      true
                     );
                   }}
                   type="button"

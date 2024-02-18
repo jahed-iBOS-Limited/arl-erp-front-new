@@ -27,6 +27,7 @@ import { ReceiveFromShopFloorTable } from "./receiveFromShopFloor/Table/tableHea
 import ReceiveFromShopFloorViewForm from "./receiveFromShopFloor/view/addEditForm";
 import ShopFloorInvTransCreateForm from "./shopFloorInvTrans/Create/addEditForm";
 import { ShopFloorInvTransactionTable } from "./shopFloorInvTrans/Table/tableHeader";
+import ProductionEntryApprove from "./productionEntry/productionentryApprove";
 
 export function ManufacturingExecutionSystemPages() {
   const userRole = useSelector(
@@ -116,6 +117,10 @@ export function ManufacturingExecutionSystemPages() {
 
       {/* PRODUCTION ENTRY */}
 
+      <ContentRoute
+        from="/production-management/mes/production-entry-approve"
+        component={ProductionEntryApprove}
+      />
       <ContentRoute
         from="/production-management/mes/productionentry/approval/:aId/:backCalculationId"
         component={ProductionEntryApprovalForm}

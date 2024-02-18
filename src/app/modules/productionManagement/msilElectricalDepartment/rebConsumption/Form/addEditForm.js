@@ -54,7 +54,7 @@ export default function REBConsumptionCreate() {
   const [objProps, setObjprops] = useState({});
   const [modifyData, setModifyData] = useState("");
   const [previousPressureData, getPreviousPressureData] = useAxiosGet();
-  const [, saveData] = useAxiosPost();
+  const [, saveData, saveDataLoader] = useAxiosPost();
   const params = useParams();
   const location = useLocation();
 
@@ -153,7 +153,7 @@ export default function REBConsumptionCreate() {
       isDisabled={isDisabled}
       isHiddenReset={true}
     >
-      {isDisabled && <Loading />}
+      {(isDisabled || saveDataLoader) && <Loading />}
       <REBConsumptionForm
         {...objProps}
         initData={params?.id ? modifyData : initData}

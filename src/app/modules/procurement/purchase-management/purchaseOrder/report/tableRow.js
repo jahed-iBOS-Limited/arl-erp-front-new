@@ -32,11 +32,17 @@ const initData = {};
 const validationSchema = Yup.object().shape({});
 
 // this component is used from multiple place, do not change existing props name and existing code which is related to this props,
-export function PurchaseOrderViewTableRow({ poId, orId, isHiddenBackBtn }) {
+export function PurchaseOrderViewTableRow({
+  poId,
+  purchaseOrderTypeId,
+  orId,
+  isHiddenBackBtn,
+  formValues,
+}) {
   const [purchaseOrderReport, setPurchaseOrderReport] = useState("");
   const [isShowModal, setIsShowModal] = useState(false);
-  const [isReceivePoModal, setIsReceivePoModal] = useState(false)
-  const [currentItem, setCurrentItem] = useState("")
+  const [isReceivePoModal, setIsReceivePoModal] = useState(false);
+  const [currentItem, setCurrentItem] = useState("");
   const [showPRModel, setShowPRModel] = useState(false);
 
   const profileData = useSelector((state) => {
@@ -49,10 +55,18 @@ export function PurchaseOrderViewTableRow({ poId, orId, isHiddenBackBtn }) {
   }, shallowEqual);
 
   useEffect(() => {
-    getReportPurchaseOrder(poId, orId, selectedBusinessUnit?.value, setPurchaseOrderReport);
-  }, [poId]);
+    getReportPurchaseOrder(
+      poId,
+      purchaseOrderTypeId ? purchaseOrderTypeId : orId,
+      selectedBusinessUnit?.value,
+      setPurchaseOrderReport
+    );
+  }, [poId, orId]);
 
-  let totalSum = purchaseOrderReport?.objRowListDTO?.reduce((acc, sum) => sum?.totalValue + acc, 0);
+  let totalSum = purchaseOrderReport?.objRowListDTO?.reduce(
+    (acc, sum) => sum?.totalValue + acc,
+    0
+  );
 
   const printRef = useRef();
   const history = useHistory();
@@ -126,7 +140,14 @@ export function PurchaseOrderViewTableRow({ poId, orId, isHiddenBackBtn }) {
               )}
               content={() => printRef.current}
             /> */}
-            <button className="btn btn-primary ml-2" onClick={(e) => pdfExport(`${purchaseOrderReport?.objHeaderDTO?.purchaseOrderNo}`)}>
+            <button
+              className="btn btn-primary ml-2"
+              onClick={(e) =>
+                pdfExport(
+                  `${purchaseOrderReport?.objHeaderDTO?.purchaseOrderNo}`
+                )
+              }
+            >
               PDF
             </button>
             <ReactHTMLTableToExcel
@@ -137,11 +158,19 @@ export function PurchaseOrderViewTableRow({ poId, orId, isHiddenBackBtn }) {
               sheet="tablexls"
               buttonText="Export Excel"
             />
-            <button type="button" onClick={() => setIsShowModal(true)} className="btn btn-primary back-btn ml-2">
+            <button
+              type="button"
+              onClick={() => setIsShowModal(true)}
+              className="btn btn-primary back-btn ml-2"
+            >
               Mail
             </button>
             {!isHiddenBackBtn && (
-              <button type="button" onClick={() => history.goBack()} className="btn btn-secondary back-btn ml-2">
+              <button
+                type="button"
+                onClick={() => history.goBack()}
+                className="btn btn-secondary back-btn ml-2"
+              >
                 <i className="fa fa-arrow-left mr-1"></i>
                 Back
               </button>
@@ -149,7 +178,12 @@ export function PurchaseOrderViewTableRow({ poId, orId, isHiddenBackBtn }) {
           </>
         )}
       >
-        <Formik enableReinitialize={true} initialValues={initData} validationSchema={validationSchema} onSubmit={(values, { setSubmitting, resetForm }) => {}}>
+        <Formik
+          enableReinitialize={true}
+          initialValues={initData}
+          validationSchema={validationSchema}
+          onSubmit={(values, { setSubmitting, resetForm }) => {}}
+        >
           {({ handleSubmit, resetForm, values, errors, touched, isValid }) => (
             <>
               <FormikForm>
@@ -162,13 +196,17 @@ export function PurchaseOrderViewTableRow({ poId, orId, isHiddenBackBtn }) {
                             <img
                               style={{
                                 width: "100px",
-                                height: "80px",
                               }}
                               src={`${APIUrl}/domain/Document/DownlloadFile?id=${selectedBusinessUnit?.imageId}`}
                               alt="logo"
                             />
                           ) : (
-                            <img style={{ width: "150px", height: "100px" }} class="" src={imageObj[selectedBusinessUnit?.value]} alt="img" />
+                            <img
+                              style={{ width: "150px" }}
+                              class=""
+                              src={imageObj[selectedBusinessUnit?.value]}
+                              alt="img"
+                            />
                           )}
                         </div>
                         {/* <div className="d-flex justify-content-center align-items-center">
@@ -178,9 +216,15 @@ export function PurchaseOrderViewTableRow({ poId, orId, isHiddenBackBtn }) {
                         </div> */}
 
                         <div className="d-flex flex-column justify-content-center align-items-center">
-                          <h3 className="my-2">{purchaseOrderReport?.objHeaderDTO?.billToName}</h3>
-                          <h6>{purchaseOrderReport?.objHeaderDTO?.billToAddress}</h6>
-                          <h4>{+orId === 8 ? "Purchase Return" : "Purchase Order"}</h4>
+                          <h3 className="my-2">
+                            {purchaseOrderReport?.objHeaderDTO?.billToName}
+                          </h3>
+                          <h6>
+                            {purchaseOrderReport?.objHeaderDTO?.billToAddress}
+                          </h6>
+                          <h4>
+                            {+orId === 8 ? "Purchase Return" : "Purchase Order"}
+                          </h4>
                         </div>
                         <div></div>
                       </div>
@@ -190,50 +234,113 @@ export function PurchaseOrderViewTableRow({ poId, orId, isHiddenBackBtn }) {
                           className="text-primary font-weight-bold cursor-pointer mr-2"
                           style={{ textDecoration: "underline" }}
                           onClick={() => {
-                            setIsReceivePoModal(true)
+                            setIsReceivePoModal(true);
                           }}
                         >
-                          {purchaseOrderReport?.objHeaderDTO?.purchaseOrderNo} {" "} ({purchaseOrderReport?.objHeaderDTO?.purchaseOrganizationName})
+                          {purchaseOrderReport?.objHeaderDTO?.purchaseOrderNo} (
+                          {
+                            purchaseOrderReport?.objHeaderDTO
+                              ?.purchaseOrganizationName
+                          }
+                          )
                         </span>
                         <b>Order Date: </b>
-                        <span className="mr-2">{_dateFormatter(purchaseOrderReport?.objHeaderDTO?.purchaseOrderDateTime)}</span>
+                        <span className="mr-2">
+                          {_dateFormatter(
+                            purchaseOrderReport?.objHeaderDTO
+                              ?.purchaseOrderDateTime
+                          )}
+                        </span>
                         <b>Status: </b>
-                        <span className="mr-2">{purchaseOrderReport?.objHeaderDTO?.isApproved ? "Approved" : "Pending"}</span>
+                        <span className="mr-2">
+                          {purchaseOrderReport?.objHeaderDTO?.isApproved
+                            ? "Approved"
+                            : "Pending"}
+                        </span>
                         <b>Warehouse: </b>
-                        <span className="mr-2">{purchaseOrderReport?.objHeaderDTO?.warehouseName}</span>
+                        <span className="mr-2">
+                          {purchaseOrderReport?.objHeaderDTO?.warehouseName}
+                        </span>
                       </div>
                       <div className="parchaseReport">
                         <div className="reportInfo">
                           <div className="reportInfo1">
-                            <p> Supplier: {purchaseOrderReport?.objHeaderDTO?.supplierName}</p>
-                            <p> Email: {purchaseOrderReport?.objHeaderDTO?.supplierEmail}</p>
-                            <p>Attn: {purchaseOrderReport?.objHeaderDTO?.strPropitor}</p>
-                            <p>Phone: {purchaseOrderReport?.objHeaderDTO?.supplierContactNo}</p>
-                            <p>Address: {purchaseOrderReport?.objHeaderDTO?.supplierAddress}</p>
+                            <p>
+                              {" "}
+                              Supplier:{" "}
+                              {purchaseOrderReport?.objHeaderDTO?.supplierName}
+                            </p>
+                            <p>
+                              {" "}
+                              Email:{" "}
+                              {purchaseOrderReport?.objHeaderDTO?.supplierEmail}
+                            </p>
+                            <p>
+                              Attn:{" "}
+                              {purchaseOrderReport?.objHeaderDTO?.strPropitor}
+                            </p>
+                            <p>
+                              Phone:{" "}
+                              {
+                                purchaseOrderReport?.objHeaderDTO
+                                  ?.supplierContactNo
+                              }
+                            </p>
+                            <p>
+                              Address:{" "}
+                              {
+                                purchaseOrderReport?.objHeaderDTO
+                                  ?.supplierAddress
+                              }
+                            </p>
                           </div>
                           <div className="reportInfo2">
-                            <p>Ship To: {purchaseOrderReport?.objHeaderDTO?.shipToName}</p>
                             <p>
-                              Bin No. {purchaseOrderReport?.objHeaderDTO?.companyBinNo}{" "}
+                              Ship To:{" "}
+                              {purchaseOrderReport?.objHeaderDTO?.shipToName}
                             </p>
-                            <p> PR No.{" "}
-                              <span onClick={()=> setShowPRModel(true)} className="text-primary font-weight-bold cursor-pointer">{purchaseOrderReport?.objHeaderDTO?.prNo}</span></p>
+                            <p>
+                              Bin No.{" "}
+                              {purchaseOrderReport?.objHeaderDTO?.companyBinNo}{" "}
+                            </p>
+                            <p>
+                              {" "}
+                              PR No.{" "}
+                              <span
+                                onClick={() => setShowPRModel(true)}
+                                className="text-primary font-weight-bold cursor-pointer"
+                              >
+                                {purchaseOrderReport?.objHeaderDTO?.prNo}
+                              </span>
+                            </p>
                           </div>
                           <div className="reportInfo3">
-                            <p>Bill To: {purchaseOrderReport?.objHeaderDTO?.billToName}</p>
+                            <p>
+                              Bill To:{" "}
+                              {purchaseOrderReport?.objHeaderDTO?.billToName}
+                            </p>
                             <div>
-                              <p style={{ wordWrap: "break-word" }}>{purchaseOrderReport?.objHeaderDTO?.billToAddress}</p>
+                              <p style={{ wordWrap: "break-word" }}>
+                                {
+                                  purchaseOrderReport?.objHeaderDTO
+                                    ?.billToAddress
+                                }
+                              </p>
                             </div>
                             {/* <p>{purchaseOrderReport?.objHeaderDTO?.prNo}</p> */}
                           </div>
                         </div>
                       </div>
 
-                      <table className="global-table table mt-5 mb-5" id="table-to-xlsx">
+                      <table
+                        className="global-table table mt-5 mb-5"
+                        id="table-to-xlsx"
+                      >
                         <thead className="tableHead">
                           <tr>
                             <th>SL</th>
                             <th>ITEM</th>
+                            <th>REFERENCE CODE</th>
                             <th>DESCRIPTION</th>
                             <th>UoM</th>
                             <th>QTY.</th>
@@ -244,21 +351,31 @@ export function PurchaseOrderViewTableRow({ poId, orId, isHiddenBackBtn }) {
                           </tr>
                         </thead>
                         <tbody className="tableHead">
-                          {purchaseOrderReport?.objRowListDTO?.map((data, i) => (
-                            <tr>
-                              <td className="text-center">{i + 1}</td>
-                              <td>{data?.itemName}</td>
-                              <td>{data?.purchaseDescription}</td>
-                              <td>{data?.uomName}</td>
-                              <td className="text-right">{data?.orderQty}</td>
-                              <td className="text-right">{data?.itemRate}</td>
-                              <td className="text-right">{data?.numVatPercentage || 0}</td>
-                              <td style={{ maxWidth: "40px" }} className="text-right">
-                                {data?.numVatAmount || 0}
-                              </td>
-                              <td className="text-right">{data?.totalValue}</td>
-                            </tr>
-                          ))}
+                          {purchaseOrderReport?.objRowListDTO?.map(
+                            (data, i) => (
+                              <tr>
+                                <td className="text-center">{i + 1}</td>
+                                <td>{data?.itemName}</td>
+                                <td>{data?.referenceCode}</td>
+                                <td>{data?.purchaseDescription}</td>
+                                <td>{data?.uomName}</td>
+                                <td className="text-right">{data?.orderQty}</td>
+                                <td className="text-right">{data?.itemRate}</td>
+                                <td className="text-right">
+                                  {data?.numVatPercentage || 0}
+                                </td>
+                                <td
+                                  style={{ maxWidth: "40px" }}
+                                  className="text-right"
+                                >
+                                  {data?.numVatAmount || 0}
+                                </td>
+                                <td className="text-right">
+                                  {data?.totalValue}
+                                </td>
+                              </tr>
+                            )
+                          )}
                           <tr>
                             {/* <td></td>
                             <td></td>
@@ -267,12 +384,17 @@ export function PurchaseOrderViewTableRow({ poId, orId, isHiddenBackBtn }) {
                             <td></td>
                             <td></td>
                             <td></td> */}
-                            <td className="font-weight-bold text-right" colspan="8">
+                            <td
+                              className="font-weight-bold text-right"
+                              colspan="8"
+                            >
                               Total
                             </td>
                             {/* <td className="font-weight-bold text-right">0</td>
                           <td className="font-weight-bold text-right">0</td> */}
-                            <td className="font-weight-bold text-right">{totalSum}</td>
+                            <td className="font-weight-bold text-right">
+                              {totalSum}
+                            </td>
                           </tr>
                         </tbody>
                       </table>
@@ -284,50 +406,94 @@ export function PurchaseOrderViewTableRow({ poId, orId, isHiddenBackBtn }) {
                                 <span className="pl-2">Partial Shipment</span>
                                 {/* <div className="pl-1">Payroll Group</div> */}
                               </td>
-                              <td>{purchaseOrderReport?.objHeaderDTO?.partialShipment === "true" ? "Yes" : "No"}</td>
+                              <td>
+                                {purchaseOrderReport?.objHeaderDTO
+                                  ?.partialShipment === "true"
+                                  ? "Yes"
+                                  : "No"}
+                              </td>
                               <td>
                                 <span className="pl-2">Freight</span>
                                 {/* <div className="pl-1">Calender Type</div> */}
                               </td>
-                              <td className="text-right" style={{ width: "100px" }}>
-                                {purchaseOrderReport?.objHeaderDTO?.numFreight || 0}
+                              <td
+                                className="text-right"
+                                style={{ width: "100px" }}
+                              >
+                                {purchaseOrderReport?.objHeaderDTO
+                                  ?.numFreight || 0}
                               </td>
                             </tr>
                             <tr>
                               <td>
                                 <span className="pl-2">No of Shipment</span>
                               </td>
-                              <td>{purchaseOrderReport?.objHeaderDTO?.numberOfShipment}</td>
+                              <td>
+                                {
+                                  purchaseOrderReport?.objHeaderDTO
+                                    ?.numberOfShipment
+                                }
+                              </td>
                               <td>
                                 <span className="pl-2"> Others Charge</span>
                               </td>
-                              <td className="text-right">{purchaseOrderReport?.objHeaderDTO?.othersCharge || 0}</td>
+                              <td className="text-right">
+                                {purchaseOrderReport?.objHeaderDTO
+                                  ?.othersCharge || 0}
+                              </td>
                             </tr>
                             <tr>
                               <td>
-                                <span className="pl-2"> Last Shipment Date</span>
+                                <span className="pl-2">
+                                  {" "}
+                                  Last Shipment Date
+                                </span>
                               </td>
-                              <td>{_dateFormatter(purchaseOrderReport?.objHeaderDTO?.lastShipmentDate)}</td>
+                              <td>
+                                {_dateFormatter(
+                                  purchaseOrderReport?.objHeaderDTO
+                                    ?.lastShipmentDate
+                                )}
+                              </td>
                               <td>
                                 <span className="pl-2"> Gross Discount</span>
                               </td>
-                              <td className="text-right">{purchaseOrderReport?.objHeaderDTO?.numGrossDiscount || 0}</td>
+                              <td className="text-right">
+                                {purchaseOrderReport?.objHeaderDTO
+                                  ?.numGrossDiscount || 0}
+                              </td>
                             </tr>
                             <tr>
                               <td>
                                 <span className="pl-2"> Payment terms</span>
                               </td>
-                              <td>{purchaseOrderReport?.objHeaderDTO?.paymentTerms}</td>
+                              <td>
+                                {
+                                  purchaseOrderReport?.objHeaderDTO
+                                    ?.paymentTerms
+                                }
+                              </td>
                               <td>
                                 <span className="pl-2"> Commission</span>
                               </td>
-                              <td className="text-right">{purchaseOrderReport?.objHeaderDTO?.numCommission || 0}</td>
+                              <td className="text-right">
+                                {purchaseOrderReport?.objHeaderDTO
+                                  ?.numCommission || 0}
+                              </td>
                             </tr>
                             <tr>
                               <td>
-                                <span className="pl-2"> Payment days after MRR</span>
+                                <span className="pl-2">
+                                  {" "}
+                                  Payment days after MRR
+                                </span>
                               </td>
-                              <td>{purchaseOrderReport?.objHeaderDTO?.paymentDaysAfterDelivery}</td>
+                              <td>
+                                {
+                                  purchaseOrderReport?.objHeaderDTO
+                                    ?.paymentDaysAfterDelivery
+                                }
+                              </td>
                               <td>
                                 <span className="pl-2">
                                   <b>Grand Total</b>
@@ -336,10 +502,14 @@ export function PurchaseOrderViewTableRow({ poId, orId, isHiddenBackBtn }) {
                               <td className="text-right">
                                 <b>
                                   {totalSum +
-                                    purchaseOrderReport?.objHeaderDTO?.numFreight +
-                                    purchaseOrderReport?.objHeaderDTO?.numCommission +
-                                    purchaseOrderReport?.objHeaderDTO?.othersCharge -
-                                    purchaseOrderReport?.objHeaderDTO?.numGrossDiscount}
+                                    purchaseOrderReport?.objHeaderDTO
+                                      ?.numFreight +
+                                    purchaseOrderReport?.objHeaderDTO
+                                      ?.numCommission +
+                                    purchaseOrderReport?.objHeaderDTO
+                                      ?.othersCharge -
+                                    purchaseOrderReport?.objHeaderDTO
+                                      ?.numGrossDiscount}
                                 </b>
                               </td>
                             </tr>
@@ -351,7 +521,10 @@ export function PurchaseOrderViewTableRow({ poId, orId, isHiddenBackBtn }) {
                             </tr>
                             <tr>
                               <td>
-                                <span className="pl-2"> Installment Interval (Days)</span>
+                                <span className="pl-2">
+                                  {" "}
+                                  Installment Interval (Days)
+                                </span>
                               </td>
                               <td>{0}</td>
                             </tr>
@@ -368,27 +541,58 @@ export function PurchaseOrderViewTableRow({ poId, orId, isHiddenBackBtn }) {
                       <span className="font-weight-bold">In Word : {amountToWords(totalSum ? totalSum : 0)}</span>
                       </div> */}
                       <div className="mt-3">
-                        <p className="text-uppercase font-weight-bold">Total (In Word): {amountToWords(grandTotal)} tk only</p>
-                        <p style={{ wordWrap: "break-word" }}>Other terms: {purchaseOrderReport?.objHeaderDTO?.otherTerms || "NA"}</p>
-                        <p style={{ wordWrap: "break-word" }}>Other charges: {purchaseOrderReport?.objHeaderDTO?.othersCharge || "NA"}</p>
+                        <p className="text-uppercase font-weight-bold">
+                          Total (In Word): {amountToWords(grandTotal)} {formValues?.purchaseOrg?.value === 12 ? purchaseOrderReport?.objHeaderDTO?.currencyCode : "TK"} only
+                        </p> 
+                        <p style={{ wordWrap: "break-word" }}>
+                          Other terms:{" "}
+                          {purchaseOrderReport?.objHeaderDTO?.otherTerms || 
+                            "NA"}
+                        </p>
+                        <p style={{ wordWrap: "break-word" }}>
+                          Other charges:{" "}
+                          {purchaseOrderReport?.objHeaderDTO?.othersCharge ||
+                            "NA"}
+                        </p>
                         <p>
                           Prepared By:{" "}
-                          {`${purchaseOrderReport?.objHeaderDTO?.preparedBy || "NA"}` +
-                            `${purchaseOrderReport?.objHeaderDTO?.designation ? " (" + purchaseOrderReport?.objHeaderDTO?.designation + ")" : ""}`}
+                          {`${purchaseOrderReport?.objHeaderDTO?.preparedBy ||
+                            "NA"}` +
+                            `${
+                              purchaseOrderReport?.objHeaderDTO?.designation
+                                ? " (" +
+                                  purchaseOrderReport?.objHeaderDTO
+                                    ?.designation +
+                                  ")"
+                                : ""
+                            }`}
                         </p>
                       </div>
                       <p className="text-left">
-                      Approved By:{" "}
-                      {`${purchaseOrderReport?.objHeaderDTO?.approvedBy || "NA"}` +
-                        `${purchaseOrderReport?.objHeaderDTO?.abDesignation ? " (" + purchaseOrderReport?.objHeaderDTO?.abDesignation + ")" : ""}`}
-                       </p>
-                       <p className="text-left">
-                      This is computer generated Purchase Order and does not required any signature.
+                        Approved By:{" "}
+                        {`${purchaseOrderReport?.objHeaderDTO?.approvedBy ||
+                          "NA"}` +
+                          `${
+                            purchaseOrderReport?.objHeaderDTO?.abDesignation
+                              ? " (" +
+                                purchaseOrderReport?.objHeaderDTO
+                                  ?.abDesignation +
+                                ")"
+                              : ""
+                          }`}
+                      </p>
+                      <p className="text-left">
+                        This is computer generated Purchase Order and does not
+                        required any signature.
                       </p>
                     </div>
                   </div>
                   <div>
-                    <IViewModal title="Send Email" show={isShowModal} onHide={() => setIsShowModal(false)}>
+                    <IViewModal
+                      title="Send Email"
+                      show={isShowModal}
+                      onHide={() => setIsShowModal(false)}
+                    >
                       <ViewForm initData={initDataforEmail} />
                     </IViewModal>
                   </div>
@@ -407,7 +611,7 @@ export function PurchaseOrderViewTableRow({ poId, orId, isHiddenBackBtn }) {
                     </thead>
                     <tbody className="tableHead">
                       {purchaseOrderReport?.objEmpListDTO?.map((data, i) => (
-                        <tr>
+                        <tr key={`${i}-${data.groupName}`}>
                           <td className="text-center">{i + 1}</td>
                           <td>{data?.userNameDesignationName}</td>
                           <td>{data?.groupName}</td>
@@ -419,8 +623,16 @@ export function PurchaseOrderViewTableRow({ poId, orId, isHiddenBackBtn }) {
                     </tbody>
                   </table>
                 )}
-                <IViewModal show={isReceivePoModal} onHide={() => setIsReceivePoModal(false)} title="Receive Purchase Order">
-                  <ReceivePoReportView poId={purchaseOrderReport?.objHeaderDTO?.purchaseOrderId}  isHiddenBackBtn={true} values={values} />
+                <IViewModal
+                  show={isReceivePoModal}
+                  onHide={() => setIsReceivePoModal(false)}
+                  title="Receive Purchase Order"
+                >
+                  <ReceivePoReportView
+                    poId={purchaseOrderReport?.objHeaderDTO?.purchaseOrderId}
+                    isHiddenBackBtn={true}
+                    values={values}
+                  />
                 </IViewModal>
               </FormikForm>
             </>
@@ -428,9 +640,13 @@ export function PurchaseOrderViewTableRow({ poId, orId, isHiddenBackBtn }) {
         </Formik>
       </ICustomCard>
       <div>
-      <IViewModal title="Purchase Request Details" show={showPRModel} onHide={() => setShowPRModel(false)}>
-              <PrModal prId={purchaseOrderReport?.objHeaderDTO?.prId}/>
-      </IViewModal>
+        <IViewModal
+          title="Purchase Request Details"
+          show={showPRModel}
+          onHide={() => setShowPRModel(false)}
+        >
+          <PrModal prId={purchaseOrderReport?.objHeaderDTO?.prId} />
+        </IViewModal>
       </div>
     </>
   );

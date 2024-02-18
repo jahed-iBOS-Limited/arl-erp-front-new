@@ -17,6 +17,8 @@ import IDelete from "../../../../_helper/_helperIcons/_delete";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { toast } from "react-toastify";
 import { editLighterVessel } from "../helper";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import axios from "axios";
 
 const initData = {
   port: "",
@@ -43,7 +45,7 @@ const LighterVesselCreateForm = ({
   ] = useAxiosGet();
   const [rows, setRows] = useState([]);
   const [portDDL, getPortDDL] = useAxiosGet();
-  const [lighterCarrierDDL, getLighterCarrierDDL] = useAxiosGet();
+  // const [lighterCarrierDDL, getLighterCarrierDDL] = useAxiosGet();
   const [loading, setLoading] = useState(false);
   const SI = singleItem;
 
@@ -56,9 +58,9 @@ const LighterVesselCreateForm = ({
   useEffect(() => {
     getPortDDL(`/wms/FertilizerOperation/GetDomesticPortDDL`);
     if (formType === "edit") {
-      getLighterCarrierDDL(
-        `/wms/FertilizerOperation/GetLighterCarrierDDL?BusinessUnitId=${buId}&PortId=${SI?.portId}`
-      );
+      // getLighterCarrierDDL(
+      //   `/wms/FertilizerOperation/GetLighterCarrierDDL?BusinessUnitId=${buId}&PortId=${SI?.portId}`
+      // );
       getMotherVesselDDL(
         `/wms/FertilizerOperation/GetMotherVesselProgramInfo?PortId=${SI?.portId}`
       );
@@ -156,6 +158,21 @@ const LighterVesselCreateForm = ({
     carrierRate: SI?.carrierRate,
   };
 
+  const loadOptions = async (v) => {
+    await [];
+    if (v.length < 3) return [];
+    return axios
+      .get(
+        `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accId}&UnitId=${buId}&SBUId=${0}`
+      )
+      .then((res) => {
+        const updateList = res?.data.map((item) => ({
+          ...item,
+        }));
+        return [...updateList];
+      });
+  };
+
   return (
     <>
       <Formik
@@ -200,11 +217,11 @@ const LighterVesselCreateForm = ({
                               setFieldValue("port", e);
                               setFieldValue("motherVessel", "");
                               getMotherVesselDDL(
-                                `/wms/FertilizerOperation/GetMotherVesselProgramInfo?PortId=${e.value}`
+                                `/wms/FertilizerOperation/GetMotherVesselProgramInfo?PortId=${e.value}&businessUnitId=${buId}`
                               );
-                              getLighterCarrierDDL(
-                                `/wms/FertilizerOperation/GetLighterCarrierDDL?BusinessUnitId=${buId}&PortId=${e?.value}`
-                              );
+                              // getLighterCarrierDDL(
+                              //   `/wms/FertilizerOperation/GetLighterCarrierDDL?BusinessUnitId=${buId}&PortId=${e?.value}`
+                              // );
                             } else {
                               setFieldValue("port", "");
                               setFieldValue("motherVessel", "");
@@ -247,7 +264,7 @@ const LighterVesselCreateForm = ({
                           placeholder="Capacity"
                         />
                       </div>
-                      <div className="col-lg-6">
+                      {/* <div className="col-lg-6">
                         <NewSelect
                           label="Carrier Name"
                           placeholder="Carrier Name"
@@ -264,6 +281,17 @@ const LighterVesselCreateForm = ({
                             setFieldValue("carrierName", e || "");
                           }}
                           isDisabled={false}
+                        />
+                      </div> */}
+                      <div className="col-lg-6">
+                        <label>Carrier Name</label>
+                        <SearchAsyncSelect
+                          selectedValue={values?.carrierName}
+                          handleChange={(valueOption) => {
+                            setFieldValue("carrierName", valueOption);
+                          }}
+                          placeholder={"Search Carrier Name"}
+                          loadOptions={loadOptions}
                         />
                       </div>
                       <div className="col-lg-6">

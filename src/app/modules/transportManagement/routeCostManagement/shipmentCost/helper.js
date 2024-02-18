@@ -192,15 +192,16 @@ const attachmentFileIdGroup = (arr) => {
   return result;
 };
 
-export const getShipmentByID = async (
+export const getShipmentByID = async ({
   shipmentId,
   setter,
   setRowDto,
   setDisabled,
   setAttachmentGrid,
-  reportTypeComplete,
-  emptyDate
-) => {
+  isReportTypeComplete,
+  emptyDate,
+  landingData,
+}) => {
   try {
     setDisabled && setDisabled(true);
     const res = await Axios.get(
@@ -210,32 +211,62 @@ export const getShipmentByID = async (
       setDisabled && setDisabled(false);
       const objHeader = res?.data?.objHeader;
 
+      const fuelRate = +objHeader?.fuelRate || 0;
+
       const vehicleInTime = moment(objHeader?.vehicleInDate).format("HH:mm:ss");
+
+      const totalFuelCost = Number(+objHeader?.totalFuelCost || 0).toFixed(2);
+      const distanceKm = +objHeader?.distanceKm || 0;
+      const extraMillage = +objHeader?.extraMillage || 0;
+      const totalFuelCostLtr = Number(objHeader?.totalFuelCostLtr || 0).toFixed(
+        2
+      );
+      const millageAllowance =
+        res?.data?.objList?.find(
+          (itm) => itm?.transportRouteCostComponentId === 50
+        )?.standardCost || 0;
+
+      // =======calculative=======
+      let fuelCostPerMillage = distanceKm
+        ? totalFuelCost / (distanceKm + extraMillage)
+        : 0;
+      const fuelCostLtrPerMillage = distanceKm
+        ? totalFuelCostLtr / (distanceKm + extraMillage)
+        : 0;
+      const costPerMillage = distanceKm
+        ? millageAllowance / (distanceKm + extraMillage)
+        : 0;
+
+      if (isReportTypeComplete) {
+        fuelCostPerMillage = fuelCostPerMillage
+          ? fuelCostPerMillage / fuelRate
+          : 0;
+      }
+
       const newObj = {
         ...objHeader,
-        // if objHeader?.profitCenterId is null then set empty string otherwise set objHeader?.profitCenterId
-        profitCenter: objHeader?.profitCenterId ? {
-          value: objHeader?.profitCenterId,
-          label: objHeader?.profitCenterName,
-        } : "",
+        fuelCostPerMillage,
+        fuelCostLtrPerMillage,
+        costPerMillage,
+        profitCenter: objHeader?.profitCenterId
+          ? {
+              value: objHeader?.profitCenterId,
+              label: objHeader?.profitCenterName,
+            }
+          : "",
 
-        costCenter: objHeader?.costCenterId ? {
-          value: objHeader?.costCenterId,
-          label: objHeader?.costCenterName,
-        } : "",
-        costElement: objHeader?.costElementId ? {
-          value: objHeader?.costElementId,
-          label: objHeader?.costElementName,
-        } : "",
-
-        // costCenter: {
-        //   value: objHeader?.costCenterId,
-        //   label: objHeader?.costCenterName,
-        // },
-        // costElement: {
-        //   value: objHeader?.costElementId,
-        //   label: objHeader?.costElementName,
-        // },
+        costCenter: objHeader?.costCenterId
+          ? {
+              value: objHeader?.costCenterId,
+              label: objHeader?.costCenterName,
+            }
+          : "",
+        costElement: objHeader?.costElementId
+          ? {
+              value: objHeader?.costElementId,
+              label: objHeader?.costElementName,
+            }
+          : "",
         shipmentDate: _dateFormatter(objHeader.shipmentDate),
         daQuantity: "",
         daAmount: "",
@@ -270,15 +301,39 @@ export const getShipmentByID = async (
           : emptyDate
           ? ""
           : _currentTime(),
-        vehicleInDateValidation: reportTypeComplete || false,
+        vehicleInDateValidation: isReportTypeComplete || false,
+        totalFuelCostLtr: totalFuelCostLtr,
+        totalFuelCost: totalFuelCost,
+        fuelRate: fuelRate,
       };
-      setter(newObj);
+
       const modify = res?.data?.objList?.map((itm) => ({
         ...itm,
         actualCost: itm?.actualCost,
       }));
-      setRowDto && setRowDto(modify);
 
+      const calculateResult = calculativeFuelCostAndFuelCostLtrAndMileageAllowance(
+        {
+          values: newObj,
+          landingData,
+        }
+      );
+      newObj.totalFuelCost = calculateResult.totalFuelCost.toFixed(2);
+      newObj.totalFuelCostLtr = calculateResult.totalFuelCostLtr.toFixed(2);
+
+      // let foundMilage = modify?.findIndex(
+      //   (item) => item?.transportRouteCostComponentId === 50
+      // );
+      // if (foundMilage !== -1) {
+      //   modify[foundMilage] = {
+      //     ...modify[foundMilage],
+      //     standardCost: calculateResult.mileageAllowance.toFixed(2),
+      //     actualCost: calculateResult.mileageAllowance.toFixed(2),
+      //   };
+      // }
+
+      setRowDto && setRowDto(modify);
+      setter(newObj);
       // attachmentFileIdGroup
       const result = attachmentFileIdGroup(res?.data?.objAttachment);
       setAttachmentGrid && setAttachmentGrid(result || []);
@@ -640,4 +695,40 @@ export const getBusinessUnitDDL_api = async (actionBy, accountId, setter) => {
       setter(newdata);
     }
   } catch (error) {}
+};
+
+export const calculativeFuelCostAndFuelCostLtrAndMileageAllowance = ({
+  values,
+  landingData,
+}) => {
+  const distanceAndExtraMillage =
+    (+values?.distanceKm || 0) + (+values?.extraMillage || 0);
+
+  // const totalFuelCost =
+  //   values?.fuelCostPerMillage * distanceAndExtraMillage * +values?.fuelRate;
+  // const totalFuelCostLtr =
+  //   values?.fuelCostLtrPerMillage * distanceAndExtraMillage;
+  // const mileageAllowance = values?.costPerMillage * distanceAndExtraMillage;
+
+  const totalFuelCostLtr =
+    distanceAndExtraMillage < 231
+      ? distanceAndExtraMillage / landingData?.localFuelRate === Infinity
+        ? 0
+        : distanceAndExtraMillage / landingData?.localFuelRate
+      : distanceAndExtraMillage / landingData?.outFuelRate === Infinity
+      ? 0
+      : distanceAndExtraMillage / landingData?.outFuelRate;
+
+  const mileageAllowance =
+    distanceAndExtraMillage < 231
+      ? distanceAndExtraMillage * landingData?.localMiallagRate
+      : distanceAndExtraMillage * landingData?.outMiallagRate;
+
+  const totalFuelCost = totalFuelCostLtr * +values?.fuelRate;
+
+  return {
+    totalFuelCost,
+    totalFuelCostLtr,
+    mileageAllowance,
+  };
 };

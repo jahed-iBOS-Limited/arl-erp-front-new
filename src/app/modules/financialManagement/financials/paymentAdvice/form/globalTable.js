@@ -19,22 +19,22 @@ export default function GlobalTableForBillType({
 }) {
   let monAmountTotal = 0;
   return (
-    <div className='loan-scrollable-table employee-overall-status'>
-      <div style={{ maxHeight: "450px" }} className='scroll-table _table'>
-        <table className='global-table table table-font-size-sm'>
+    <div className="loan-scrollable-table employee-overall-status">
+      <div style={{ maxHeight: "450px" }} className="scroll-table _table">
+        <table className="global-table table table-font-size-sm">
           <thead>
             <tr>
               <th style={{ minWidth: "40px" }}>SL</th>
               {values.type.value !== 2 && (
                 <th style={{ minWidth: "70px", textAlign: "center" }}>
-                  <span className='d-flex flex-column justify-content-center align-items-center text-center'>
+                  <span className="d-flex flex-column justify-content-center align-items-center text-center">
                     <label>Select</label>
                     <input
                       style={{ width: "15px", height: "15px" }}
-                      name='isSelect'
+                      name="isSelect"
                       checked={allSelect}
-                      className='form-control ml-2'
-                      type='checkbox'
+                      className="form-control ml-2"
+                      type="checkbox"
                       onChange={(e) => setAllSelect(!allSelect)}
                     />
                   </span>
@@ -60,7 +60,7 @@ export default function GlobalTableForBillType({
               return (
                 <tr key={item?.sl}>
                   <td
-                    className='text-center'
+                    className="text-center"
                     style={{ fontSize: 11, width: "15px" }}
                   >
                     {index + 1}
@@ -68,25 +68,25 @@ export default function GlobalTableForBillType({
                   {values.type.value !== 2 && (
                     <td
                       style={{ width: "40px", fontSize: 11 }}
-                      className='text-center pl-2'
+                      className="text-center pl-2"
                     >
-                      <span className='d-flex flex-column justify-content-center align-items-center text-center'>
+                      <span className="d-flex flex-column justify-content-center align-items-center text-center">
                         <input
                           style={{ width: "15px", height: "15px" }}
-                          name='isSelect'
+                          name="isSelect"
                           checked={item?.isSelect}
-                          className='form-control ml-2'
-                          type='checkbox'
+                          className="form-control ml-2"
+                          type="checkbox"
                           onChange={(e) => selectIndividualItem(index)}
                         />
                       </span>
                     </td>
                   )}
                   {/* <td className="pl-2">{item?.paymentRequestId}</td> */}
-                  <td className='text-center' style={{ fontSize: 11 }}>
+                  <td className="text-center" style={{ fontSize: 11 }}>
                     <input
                       style={{ width: 115, height: 22 }}
-                      type='date'
+                      type="date"
                       value={_dateFormatter(item?.paymentDate)}
                       onChange={(e) => {
                         updateDate(index, e.target.value);
@@ -94,30 +94,30 @@ export default function GlobalTableForBillType({
                     />
                   </td>
                   {values?.billType?.value === 1 && (
-                    <td className='text-center' style={{ fontSize: 11 }}>
+                    <td className="text-center" style={{ fontSize: 11 }}>
                       {_dateFormatter(item?.dteMaturityDate)}
                     </td>
                   )}
-                  <td className='text-center' style={{ fontSize: 11 }}>
+                  <td className="text-center" style={{ fontSize: 11 }}>
                     {item?.strBillNo}
                   </td>
-                  <td className='text-center' style={{ fontSize: 11 }}>
+                  <td className="text-center" style={{ fontSize: 11 }}>
                     {_dateFormatter(item?.dteBillDate)}
                   </td>
-                  <td className='text-center' style={{ fontSize: 11 }}>
+                  <td className="text-center" style={{ fontSize: 11 }}>
                     {item?.strDescription}
                   </td>
-                  <td className='text-center' style={{ fontSize: 11 }}>
+                  <td className="text-center" style={{ fontSize: 11 }}>
                     {_dateFormatter(item?.dteAuditDate)}
                   </td>
                   <td style={{ fontSize: 11 }}>{item?.strPayee}</td>
                   <td style={{ fontSize: 11 }}>{item?.strBankName}</td>
-                  <td className='text-right' style={{ fontSize: 11 }}>
+                  <td className="text-right" style={{ fontSize: 11 }}>
                     {item?.monAmount}
                   </td>
-                  <td className='text-center'>
+                  <td className="text-center">
                     {/* <span > */}
-                    <div className='d-flex justify-content-around align-items-center'>
+                    <div className="d-flex justify-content-around align-items-center">
                       <IView
                         classes={
                           preparepaymentIndex === item?.intBillId
@@ -125,20 +125,22 @@ export default function GlobalTableForBillType({
                             : ""
                         }
                         clickHandler={() => {
-                          setModalShow(true);
                           setGridItem({
                             ...item,
                             billRegisterId: item?.intBillId,
                             monTotalAmount:
                               item?.monTotalAmount || item?.monAmount || 0,
                           });
-                          dispatch(setPreparePaymentLastAction(item?.intBillId));
+                          setModalShow(true);
+                          dispatch(
+                            setPreparePaymentLastAction(item?.intBillId)
+                          );
                         }}
                       />
                       {values.type.value === 2 && values?.status?.value === 1 && (
                         <button
-                          className='btn btn-primary'
-                          type='button'
+                          className="btn btn-primary"
+                          type="button"
                           onClick={() => {
                             setBankModelShow(true);
                             setGridData(item);
@@ -162,7 +164,7 @@ export default function GlobalTableForBillType({
                     </div>
                     {/* </span> */}
                   </td>
-  
+
                   {/* <td className="text-center">
               <input
                 type="number"
@@ -181,14 +183,14 @@ export default function GlobalTableForBillType({
               <IDelete id={index} remover={remover} />
             </td> */}
                 </tr>
-              )
+              );
             })}
             {rowDto.length > 0 && (
               <tr>
                 <td colSpan={9}>
-                  <b className='pl-2'>Total</b>
+                  <b className="pl-2">Total</b>
                 </td>
-                <td className='text-right'>
+                <td className="text-right">
                   <div>{(monAmountTotal || 0).toFixed(0)}</div>
                 </td>
                 <td></td>

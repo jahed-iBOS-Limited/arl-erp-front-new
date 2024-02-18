@@ -39,7 +39,7 @@ export default function HatchLaborBill() {
 
   useEffect(() => {
     getVesselDDL(
-      `/wms/FertilizerOperation/GetMotherVesselProgramInfo?PortId=${1}`
+      `/wms/FertilizerOperation/GetMotherVesselProgramInfo?PortId=${1}&businessUnitId=${buId}`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
@@ -70,7 +70,7 @@ export default function HatchLaborBill() {
       return toast.warn("Please select at least one row!");
     }
     const totalBill = selectedItems?.reduce(
-      (acc, item) => acc + +item?.billAmount,
+      (acc, item) => acc + +item?.totalAmount,
       0
     );
     const payload = {
@@ -101,11 +101,11 @@ export default function HatchLaborBill() {
           narration: values?.narration || "",
           challanNo: "",
           deliveryId: item?.programId,
-          quantity: item?.programQnt || item?.quantity,
-          ammount: item?.billAmount,
-          billAmount: item?.billAmount || 0,
+          quantity: item?.receiveQnt,
+          ammount: item?.totalAmount,
+          billAmount: item?.totalAmount || 0,
           shipmentCode: "",
-          lighterVesselId: item?.stevdoreId,
+          lighterVesselId: item?.hatchLabourId,
           numFreightRateUSD: 0,
           numFreightRateBDT: item?.hatchLabourRate || 0,
           numCommissionRateBDT: 0,
@@ -113,7 +113,7 @@ export default function HatchLaborBill() {
           truckToDamRate: 0,
           bolgateToDamRate: 0,
           othersCostRate: item?.hatchLabourRate,
-          directRate: item?.stevdorRate || 0,
+          directRate: item?.hatchLabourRate || 0,
           dumpDeliveryRate: 0,
           lighterToBolgateRate: 0,
         };

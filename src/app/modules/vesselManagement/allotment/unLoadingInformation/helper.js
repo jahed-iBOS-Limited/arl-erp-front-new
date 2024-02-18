@@ -75,17 +75,19 @@ export const getUnloadingInformationById = async (
 };
 
 export const getLoadingInfoByVoyageNo = async (
+  rowId,
   voyageNo,
   lvId,
   setter,
   setRowData,
   setLoading,
-  type
+  type,
+  cb
 ) => {
   setLoading && setLoading(true);
   try {
     const res = await axios.get(
-      `/tms/LigterLoadUnload/ViewLighterUnloadingInfoByVoyageNo?VoyageNo=${voyageNo}&LighterVesselId=${lvId}`
+      `/tms/LigterLoadUnload/ViewLighterUnloadingInfoByVoyageNo?VoyageNo=${voyageNo}&LighterVesselId=${lvId}&RowId=${rowId}`
     );
     const { motherVesselId, motherVesselName, progarm } = res?.data;
 
@@ -125,7 +127,7 @@ export const getLoadingInfoByVoyageNo = async (
         label: row?.lighterDestinationName,
       },
     };
-
+    cb && cb(singleData);
     setter(singleData);
     setRowData(res?.data?.rowDataList);
     setLoading && setLoading(false);

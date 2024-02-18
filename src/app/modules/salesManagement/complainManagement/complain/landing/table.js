@@ -10,12 +10,17 @@ import IViewModal from "../../../../_helper/_viewModal";
 import FeedbackModal from "../../resolution/landing/feedbackModal";
 import InvoiceView from "./invoiceView";
 import { saveColseComplainApi } from "../../resolution/helper";
+import { Rating } from "@material-ui/lab";
+import FeedbackModalAfterClosing from "./feedbackModal";
 const LandingTable = ({ obj }) => {
   const {
-    profileData: { accountId: accId, employeeId },
-    selectedBusinessUnit: { value: buId },
+    profileData: { employeeId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const [isFeedbackModalShow, setIsFeedbackModalShow] = React.useState(false);
+  const [
+    isFeedbackModalShowAfterClosing,
+    setIsFeedbackModalShowAfterClosing,
+  ] = React.useState(false);
 
   const { gridData, setLoading, commonGridDataCB } = obj;
   const history = useHistory();
@@ -27,8 +32,8 @@ const LandingTable = ({ obj }) => {
 
   return (
     <>
-      <div className='table-responsive'>
-        <table className='table table-striped table-bordered global-table'>
+      <div className="table-responsive">
+        <table className="table table-striped table-bordered global-table">
           <thead>
             <tr>
               <th>SL</th>
@@ -38,10 +43,11 @@ const LandingTable = ({ obj }) => {
               <th>Respondent Type</th>
               <th>Respondent Name</th>
               <th>Create By</th>
+              <th>Business Unit Code</th>
               <th>Create Date</th>
               <th>Delegate By</th>
               <th>Delegate Date</th>
-              <th>Deligate To</th>
+              <th>Delegate To</th>
               <th>Investigation By</th>
               <th>Investigation Date</th>
               <th>Status</th>
@@ -53,16 +59,17 @@ const LandingTable = ({ obj }) => {
               const matchEmployeeId = item?.investigatorAssignByName?.find(
                 (itm) => itm?.investigatorId === employeeId
               );
-
+              const defaultEnvEmp = item?.investigatorAssignByName?.[0];
               return (
                 <tr key={index}>
-                  <td className='text-center'> {index + 1}</td>
+                  <td className="text-center"> {index + 1}</td>
                   <td>{item?.complainNo}</td>
                   <td>{item?.complainCategoryName}</td>
                   <td>{_dateFormatter(item?.requestDateTime)}</td>
                   <td>{item?.respondentTypeName}</td>
                   <td>{item?.respondentName}</td>
                   <td>{item?.actionByName}</td>
+                  <td>{item?.respondentBusinessUnitCode}</td>
                   <td>{_dateFormatter(item?.lastActionDateTime)}</td>
                   <td>{item?.delegateByName}</td>
                   <td>
@@ -75,7 +82,7 @@ const LandingTable = ({ obj }) => {
                   <td>
                     <OverlayTrigger
                       overlay={
-                        <Tooltip className='mytooltip' id='info-tooltip'>
+                        <Tooltip className="mytooltip" id="info-tooltip">
                           <>
                             {item?.investigatorAssignByName?.map((itm, idx) => (
                               <div
@@ -111,15 +118,16 @@ const LandingTable = ({ obj }) => {
                       }
                     >
                       <div>
-                        {matchEmployeeId?.investigatorName &&
-                          matchEmployeeId?.investigatorName}
+                        {(matchEmployeeId?.investigatorName || defaultEnvEmp) &&
+                          (matchEmployeeId?.investigatorName ||
+                            defaultEnvEmp?.investigatorName)}
                       </div>
                     </OverlayTrigger>
                   </td>
                   <td>
                     <OverlayTrigger
                       overlay={
-                        <Tooltip className='mytooltip' id='info-tooltip'>
+                        <Tooltip className="mytooltip" id="info-tooltip">
                           <>
                             {item?.investigatorAssignByName?.map((itm, idx) => (
                               <div
@@ -155,10 +163,14 @@ const LandingTable = ({ obj }) => {
                       }
                     >
                       <div>
-                        {matchEmployeeId?.investigationDateTime &&
-                          moment(matchEmployeeId?.investigationDateTime).format(
-                            "YYYY-MM-DD, HH:mm A"
-                          )}
+                        {(matchEmployeeId?.investigationDateTime ||
+                          defaultEnvEmp?.investigationDateTime) &&
+                          (moment(
+                            matchEmployeeId?.investigationDateTime
+                          ).format("YYYY-MM-DD, HH:mm A") ||
+                            moment(defaultEnvEmp?.investigationDateTime).format(
+                              "YYYY-MM-DD, HH:mm A"
+                            ))}
                       </div>
                     </OverlayTrigger>
                   </td>
@@ -180,7 +192,7 @@ const LandingTable = ({ obj }) => {
                   </td>
                   <td>
                     <div
-                      className='d-flex justify-content-around'
+                      className="d-flex justify-content-around"
                       style={{
                         gap: "8px",
                       }}
@@ -209,7 +221,7 @@ const LandingTable = ({ obj }) => {
                         <span>
                           <OverlayTrigger
                             overlay={
-                              <Tooltip id='cs-icon'>Issue Close </Tooltip>
+                              <Tooltip id="cs-icon">Issue Close </Tooltip>
                             }
                           >
                             <span
@@ -223,12 +235,59 @@ const LandingTable = ({ obj }) => {
                               }}
                             >
                               <i
-                                class='fa fa-times-circle text-danger'
-                                aria-hidden='true'
+                                class="fa fa-times-circle text-danger"
+                                aria-hidden="true"
                               ></i>
                             </span>
                           </OverlayTrigger>
                         </span>
+                      )}
+                      {item?.status === "Close" && (
+                        <>
+                          {item?.reviewFeedbackMessage ? (
+                            <span className="cursor-pointer">
+                              <OverlayTrigger
+                                overlay={
+                                  <Tooltip id="cs-icon">
+                                    <div>
+                                      <p className="text-center">
+                                        <Rating
+                                          name="pristine"
+                                          value={item?.reviewFeedbackCount || 0}
+                                        />
+                                      </p>
+                                      <p>
+                                        <span>Review Message: </span>
+                                        {`${item?.reviewFeedbackMessage}`}
+                                      </p>
+                                    </div>
+                                  </Tooltip>
+                                }
+                              >
+                                <i class="fa fa-info-circle" aria-hidden="true"></i>
+                              </OverlayTrigger>
+                            </span>
+                          ) : (
+                            <span
+                              onClick={() => {
+                                setClickedRow({ ...item });
+                                setIsFeedbackModalShowAfterClosing(true);
+                              }}
+                              className="cursor-pointer"
+                            >
+                              <OverlayTrigger
+                                overlay={
+                                  <Tooltip id="cs-icon">FeedBack</Tooltip>
+                                }
+                              >
+                                <i
+                                  className="fa fa-commenting"
+                                  aria-hidden="true"
+                                ></i>
+                              </OverlayTrigger>
+                            </span>
+                          )}
+                        </>
                       )}
                     </div>
                   </td>
@@ -280,6 +339,27 @@ const LandingTable = ({ obj }) => {
                   setClickedRow({});
                   commonGridDataCB();
                 }
+              }}
+            />
+          </IViewModal>
+        </>
+      )}
+      {isFeedbackModalShowAfterClosing && (
+        <>
+          <IViewModal
+            show={isFeedbackModalShowAfterClosing}
+            onHide={() => {
+              setIsFeedbackModalShowAfterClosing(false);
+              setClickedRow({});
+            }}
+            modelSize={"sm"}
+          >
+            <FeedbackModalAfterClosing
+              clickRowData={clickedRow}
+              landingCB={() => {
+                setIsFeedbackModalShowAfterClosing(false);
+                setClickedRow({});
+                commonGridDataCB();
               }}
             />
           </IViewModal>

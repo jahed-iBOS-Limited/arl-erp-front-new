@@ -5,7 +5,7 @@ import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { getTimeDifference } from "../../../../chartering/_chartinghelper/_getDateDiff";
-import { getWorkplaceDDL_api, pumpFoodingBillEntry } from "../helper";
+import { pumpFoodingBillEntry } from "../helper";
 import Form from "./Form";
 
 const initData = {
@@ -48,12 +48,10 @@ export function PumpFoodingBill() {
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const [loading, setLoading] = useState(false);
-  const [workPlaceDDL, setWorkplaceDDL] = useState([]);
   const [rowData, setRowData] = useState([]);
   const [plantDDL, getPlantDDL] = useAxiosGet();
 
   useEffect(() => {
-    getWorkplaceDDL_api(accId, buId, setWorkplaceDDL);
     getPlantDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
@@ -91,7 +89,7 @@ export function PumpFoodingBill() {
 
         return compareTimeIntervals();
       });
-      if (exists?.length > 0) {
+      if (exists?.length > 0 && exists?.some((item)=> +item?.employeeId === +values?.employee?.value)) {
         return toast.warn("Employee is not available in this time interval!");
       }
 
@@ -157,7 +155,6 @@ export function PumpFoodingBill() {
           initData={initData}
           addHandler={addHandler}
           saveHandler={saveHandler}
-          workPlaceDDL={workPlaceDDL}
           deleteHandler={deleteHandler}
         />
       </div>

@@ -1,22 +1,24 @@
 import { Form, Formik } from "formik";
 import React, { useMemo, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
 import ReactHtmlTableToExcel from "react-html-table-to-excel";
+import { shallowEqual, useSelector } from "react-redux";
+import IConfirmModal from "../../../_helper/_confirmModal";
+import { _formatMoney } from "../../../_helper/_formatMoney";
 import InputField from "../../../_helper/_inputField";
 import NewSelect from "../../../_helper/_select";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import useDebounce from "../../../_helper/customHooks/useDebounce";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
-import useDebounce from "../../../_helper/customHooks/useDebounce";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import IConfirmModal from "../../../_helper/_confirmModal";
 
 const initData = {
   customerCategory: "",
   monthYear: "",
   incentiveType: "",
   searchText: "",
+  fromDate: "",
+  toDate: "",
 };
 
 export default function CustomerIncentive() {
@@ -38,7 +40,10 @@ export default function CustomerIncentive() {
   const { userId } = useSelector((state) => {
     return state?.authData?.profileData;
   }, shallowEqual);
-  const userRole = useSelector((state) => state?.authData?.userRole, shallowEqual);
+  const userRole = useSelector(
+    (state) => state?.authData?.userRole,
+    shallowEqual
+  );
 
   // check user permission
   let permission = null;
@@ -107,7 +112,12 @@ export default function CustomerIncentive() {
       title: "Are you sure?",
       message: "Are you sure want to post this JV?",
       yesAlertFunc: () => {
-        saveData(`/oms/SalesInformation/CreateTradeCommission`, selectedTradeCommission, cb, true);
+        saveData(
+          `/oms/SalesInformation/CreateTradeCommission`,
+          selectedTradeCommission,
+          cb,
+          true
+        );
       },
       noAlertFunc: () => {},
     });
@@ -115,9 +125,31 @@ export default function CustomerIncentive() {
 
   // get trade commission api handler
   const getTradeCommissionHandler = (values) => {
-    getTradeCommission(
-      `/oms/SalesInformation/GetTradeCommission?partName=GetForCreate&businessUnitId=${buId}&customerId=0&monthYear=${values?.monthYear}-01&customerCategory=${values?.customerCategory?.value}&incentiveType=${values?.incentiveType?.value}`
-    );
+    if (values?.incentiveType?.value === "Performance") {
+      getTradeCommission(
+        `oms/SalesInformation/GetTradeCommissionForPerformance?businessUnitId=${buId}&customerId=0&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&customerCategory=${values?.customerCategory?.value}&incentiveType=${values?.incentiveType?.value}`
+      );
+    } else {
+      getTradeCommission(
+        `/oms/SalesInformation/GetTradeCommission?partName=GetForCreate&businessUnitId=${buId}&customerId=0&monthYear=${values?.monthYear}-01&customerCategory=${values?.customerCategory?.value}&incentiveType=${values?.incentiveType?.value}`
+      );
+    }
+  };
+
+  const modifyIncentiveTypeOptions = (values) => {
+    const customerCategoryLabel = values?.customerCategory?.label;
+
+    if (["All"].includes(customerCategoryLabel)) {
+      return [
+        { value: "General", label: "General" },
+        { value: "Delivery", label: "Delivery" },
+        { value: "Performance", label: "Performance Bonus" },
+      ];
+    } else if (["Platinum", "Gold"].includes(customerCategoryLabel)) {
+      return [{ value: "Monthly", label: "Monthly" }];
+    } else {
+      return [];
+    }
   };
 
   return (
@@ -132,7 +164,15 @@ export default function CustomerIncentive() {
         });
       }}
     >
-      {({ handleSubmit, resetForm, values, setFieldValue, isValid, errors, touched }) => (
+      {({
+        handleSubmit,
+        resetForm,
+        values,
+        setFieldValue,
+        isValid,
+        errors,
+        touched,
+      }) => (
         <>
           {(loadTradeCommission || saveLoader) && <Loading />}
           <IForm
@@ -156,6 +196,7 @@ export default function CustomerIncentive() {
                     value={values?.customerCategory}
                     onChange={(valueOption) => {
                       setFieldValue("customerCategory", valueOption);
+                      setFieldValue("incentiveType", "");
                       setTradeCommission([]);
                     }}
                     errors={errors}
@@ -166,11 +207,7 @@ export default function CustomerIncentive() {
                   <NewSelect
                     name="incentiveType"
                     label="Incentive Type"
-                    options={[
-                      { value: "General", label: "General" },
-                      { value: "Monthly", label: "Monthly" },
-                      { value: "Delivery", label: "Delivery" },
-                    ]}
+                    options={modifyIncentiveTypeOptions(values)}
                     value={values?.incentiveType}
                     onChange={(valueOption) => {
                       setFieldValue("incentiveType", valueOption);
@@ -180,27 +217,73 @@ export default function CustomerIncentive() {
                     touched={touched}
                   />
                 </div>
-                <div className="col-lg-3">
-                  <label>Month-Year</label>
-                  <InputField
-                    name="monthYear"
-                    type="month"
-                    placeholder="From Date"
-                    value={values?.monthYear}
-                    onChange={(e) => {
-                      setFieldValue("monthYear", e?.target?.value);
-                      setTradeCommission([]);
-                    }}
-                  />
-                </div>
-                <div className="col-md-3 d-flex" style={{ gap: "10px" }}>
+                {values?.incentiveType?.value === "Performance" ? (
+                  <>
+                    <div className="col-lg-3">
+                      <label>From Month-Year</label>
+                      <InputField
+                        name="fromMonthYear"
+                        type="month"
+                        placeholder="From Date"
+                        value={values?.fromMonthYear}
+                        onChange={(e) => {
+                          setFieldValue("fromMonthYear", e?.target?.value);
+                          setFieldValue("fromDate", `${e?.target?.value}-01`);
+                          setTradeCommission([]);
+                        }}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <label>To Month-Year</label>
+                      <InputField
+                        name="toMonthYear"
+                        type="month"
+                        placeholder="From Date"
+                        value={values?.toMonthYear}
+                        onChange={(e) => {
+                          setFieldValue("toMonthYear", e?.target?.value);
+                          setTradeCommission([]);
+
+                          if (e.target.value) {
+                            const [year, month] = e?.target?.value
+                              ?.split("-")
+                              .map(Number);
+                            const nextMonthFirstDay = new Date(year, month, 1);
+                            const lastDateOfMonth = new Date(
+                              nextMonthFirstDay - 1
+                            );
+                            const formattedLastDate = lastDateOfMonth
+                              .toISOString()
+                              .split("T")[0];
+                            setFieldValue("toDate", formattedLastDate || "");
+                          }
+                        }}
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <div className="col-lg-3">
+                    <label>Month-Year</label>
+                    <InputField
+                      name="monthYear"
+                      type="month"
+                      placeholder="From Date"
+                      value={values?.monthYear}
+                      onChange={(e) => {
+                        setFieldValue("monthYear", e?.target?.value);
+                        setTradeCommission([]);
+                      }}
+                    />
+                  </div>
+                )}
+                <div className="col-md-3 d-flex mt-3" style={{ gap: "10px" }}>
                   <div>
                     <button
                       type="button"
                       className="btn btn-primary"
                       onClick={() => getTradeCommissionHandler(values)}
                       disabled={
-                        !values?.customerCategory || !values?.incentiveType || !values?.monthYear
+                        !values?.customerCategory || !values?.incentiveType
                       }
                     >
                       View
@@ -255,11 +338,16 @@ export default function CustomerIncentive() {
                     </div>
                   </div>
                   <div>
-                    {tradeCommission?.some((item) => item?.isSelect) && permission?.isCreate && (
-                      <button type="button" className="btn btn-primary" onClick={handleSubmit}>
-                        JV Posting
-                      </button>
-                    )}
+                    {tradeCommission?.some((item) => item?.isSelect) &&
+                      permission?.isCreate && (
+                        <button
+                          type="button"
+                          className="btn btn-primary"
+                          onClick={handleSubmit}
+                        >
+                          JV Posting
+                        </button>
+                      )}
                   </div>
                 </div>
                 {tradeCommission?.length > 0 ? (
@@ -273,8 +361,12 @@ export default function CustomerIncentive() {
                           <input
                             type="checkbox"
                             name="isSelect"
-                            checked={tradeCommission?.every((item) => item?.isSelect)}
-                            onChange={(e) => handleAllSelect(e?.target?.checked)}
+                            checked={tradeCommission?.every(
+                              (item) => item?.isSelect
+                            )}
+                            onChange={(e) =>
+                              handleAllSelect(e?.target?.checked)
+                            }
                             disabled={!permission?.isCreate}
                           />
                         </th>
@@ -283,8 +375,17 @@ export default function CustomerIncentive() {
                         <th>Customer Name</th>
                         <th>Customer Category</th>
                         <th>UoM</th>
-                        <th>Delivery Qty</th>
-                        <th>{values?.incentiveType?.value} Incentive</th>
+                        <th>
+                          {values?.incentiveType?.value === "Performance"
+                            ? "Avg Delivery Qty"
+                            : "Delivery Qty"}
+                        </th>
+                        {/* <th>Total Delivery Qty</th> */}
+                        <th>Opening Balance</th>
+                        <th>Sales Amount</th>
+                        <th>Collection Amount</th>
+                        <th>Balance</th>
+                        <th>Amount</th>
                         <th>Is JV Posted</th>
                       </tr>
                     </thead>
@@ -298,26 +399,72 @@ export default function CustomerIncentive() {
                                 name="isSelect"
                                 checked={Boolean(item?.isSelect)}
                                 onChange={(e) =>
-                                  handleRowSelection(e?.target?.checked, item, index)
+                                  handleRowSelection(
+                                    e?.target?.checked,
+                                    item,
+                                    index
+                                  )
                                 }
-                                disabled={item?.isJvPosted || !permission?.isCreate}
+                                disabled={
+                                  item?.isJvPosted || !permission?.isCreate
+                                }
                               />
                             </td>
                             <td>{index + 1}</td>
-                            <td className="text-center">{item?.customerCode || ""}</td>
+                            <td className="text-center">
+                              {item?.customerCode || ""}
+                            </td>
                             <td>{item?.customerName || ""}</td>
                             <td>{item?.customerCategory || ""}</td>
                             <td className="text-center">{item?.uom || ""}</td>
-                            <td className="text-right">{item?.deliveryQty || 0}</td>
-                            <td className="text-right">{_formatMoney(item?.incentiveAmount)}</td>
-                            <td className="text-center">{item?.isJvPosted ? "Yes" : "No"}</td>
+                            <td className="text-right">
+                              {item?.deliveryQty || 0}
+                            </td>
+                            {/* <td className="text-right">
+                              {item?.totalDeliveryQTY || 0}
+                            </td> */}
+                            <td className="text-right">
+                              {_formatMoney(item?.openingBalance)}
+                            </td>
+                            <td className="text-right">
+                              {_formatMoney(item?.salesAmount)}
+                            </td>
+                            <td className="text-right">
+                              {_formatMoney(item?.collectionAmount)}
+                            </td>{" "}
+                            <td className="text-right">
+                              {_formatMoney(item?.balance)}
+                            </td>
+                            <td className="text-right">
+                              {_formatMoney(item?.incentiveAmount)}
+                            </td>
+                            <td className="text-center">
+                              {item?.isJvPosted ? "Yes" : "No"}
+                            </td>
                           </tr>
                         ))}
                       <tr>
-                        <td className="font-weight-bold text-left ml-2" colSpan={6}>
+                        <td
+                          className="font-weight-bold text-left ml-2"
+                          colSpan={6}
+                        >
                           Total
                         </td>
-                        <td className="font-weight-bold text-right">{countTotal("deliveryQty")}</td>
+                        <td className="font-weight-bold text-right">
+                          {countTotal("deliveryQty")}
+                        </td>
+                        <td className="font-weight-bold text-right">
+                          {_formatMoney(countTotal("openingBalance"))}
+                        </td>
+                        <td className="font-weight-bold text-right">
+                          {_formatMoney(countTotal("salesAmount"))}
+                        </td>
+                        <td className="font-weight-bold text-right">
+                          {_formatMoney(countTotal("collectionAmount"))}
+                        </td>{" "}
+                        <td className="font-weight-bold text-right">
+                          {countTotal("balance")}
+                        </td>
                         <td className="font-weight-bold text-right">
                           {_formatMoney(countTotal("incentiveAmount"))}
                         </td>

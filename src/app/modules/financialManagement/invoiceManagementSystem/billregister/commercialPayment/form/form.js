@@ -43,6 +43,7 @@ export default function _Form({
   setTotalCount,
   totalCount,
   state,
+  rowDtoSelectHandler,
 }) {
   const { state: headerData } = useLocation();
   const [fileObjects, setFileObjects] = useState([]);
@@ -126,17 +127,17 @@ export default function _Form({
               >
                 <CardHeaderToolbar>
                   <button
-                    type='button'
+                    type="button"
                     onClick={backHandler}
                     className={"btn btn-light"}
                   >
-                    <i className='fa fa-arrow-left'></i>
+                    <i className="fa fa-arrow-left"></i>
                     Back
                   </button>
                   <button
                     onClick={handleSubmit}
-                    className='btn btn-primary ml-2'
-                    type='submit'
+                    className="btn btn-primary ml-2"
+                    type="submit"
                     disabled={values?.billingStatus?.label === "Done"}
                   >
                     Save
@@ -144,14 +145,14 @@ export default function _Form({
                 </CardHeaderToolbar>
               </CardHeader>
               <CardBody>
-                <Form className='form form-label-right'>
-                  <div className=' row global-form'>
-                    <div className='col-lg-2'>
+                <Form className="form form-label-right">
+                  <div className=" row global-form">
+                    <div className="col-lg-2">
                       <label>PO/LC</label>
                       <SearchAsyncSelect
                         selectedValue={values?.poLc}
                         isSearchIcon={true}
-                        name='poLc'
+                        name="poLc"
                         handleChange={(valueOption) => {
                           setFieldValue("poLc", valueOption);
                           setFieldValue("supplier", "");
@@ -164,15 +165,15 @@ export default function _Form({
                           );
                         }}
                         loadOptions={loadPoLcList || []}
-                        placeholder='Search by PO/LC Id'
+                        placeholder="Search by PO/LC Id"
                       />
                     </div>
-                    <div className='col-lg-2'>
+                    <div className="col-lg-2">
                       <NewSelect
                         options={supplierDDL || []}
-                        label='Supplier'
-                        placeholder='Supplier'
-                        name='supplier'
+                        label="Supplier"
+                        placeholder="Supplier"
+                        name="supplier"
                         value={values?.supplier}
                         onChange={(valueOption) => {
                           setFieldValue("supplier", valueOption);
@@ -207,11 +208,11 @@ export default function _Form({
                       />
                     </div> */}
 
-                    <div className='col-lg-2'>
+                    <div className="col-lg-2">
                       <NewSelect
                         options={chargeTypeDDL || []}
-                        label='Charge Type'
-                        name='chargeType'
+                        label="Charge Type"
+                        name="chargeType"
                         value={values?.chargeType}
                         onChange={(valueOption) => {
                           if (valueOption) {
@@ -250,11 +251,11 @@ export default function _Form({
                       />
                     </div>
                     {subChargeTypeDDL?.length > 0 ? (
-                      <div className='col-lg-2'>
+                      <div className="col-lg-2">
                         <NewSelect
                           options={subChargeTypeDDL || []}
-                          label='Sub Charge Type'
-                          name='subChargeType'
+                          label="Sub Charge Type"
+                          name="subChargeType"
                           value={values?.subChargeType}
                           onChange={(valueOption) => {
                             setFieldValue("subChargeType", valueOption);
@@ -273,13 +274,13 @@ export default function _Form({
                     )}
 
                     {values?.billingStatus?.value === 0 && (
-                      <div className='col-lg-2'>
+                      <div className="col-lg-2">
                         <label>Bill No</label>
                         <InputField
                           value={values?.billNo}
-                          name='billNo'
-                          placeholder='Bill No'
-                          type='text'
+                          name="billNo"
+                          placeholder="Bill No"
+                          type="text"
                           // disabled={values?.billingStatus?.label === "Done"}
                         />
                       </div>
@@ -326,10 +327,10 @@ export default function _Form({
                       />
                     </div> */}
                     {/* {values?.billingStatus?.value === 0 && ( */}
-                    <div className='col-lg-2'>
+                    <div className="col-lg-2">
                       <button
-                        className='btn btn-primary mr-2 mt-5'
-                        type='button'
+                        className="btn btn-primary mr-2 mt-5"
+                        type="button"
                         onClick={() => setOpen(true)}
                       >
                         Attachment
@@ -365,8 +366,8 @@ export default function _Form({
                       showFileNamesInPreview={true}
                     />
                   </div>
-                  <div className='d-flex justify-content-center align-items-center'>
-                    <div className='mr-5'>
+                  <div className="d-flex justify-content-center align-items-center">
+                    <div className="mr-5">
                       <strong style={{ fontSize: "14px" }}>
                         Total Bill Amount (with VAT) :{" "}
                         {rowDto?.length > 0
@@ -383,26 +384,37 @@ export default function _Form({
                     </div>
                     <div>
                       <InputField
-                        name='vat'
-                        placeholder='Modify Vat'
-                        type='number'
-                        className='form-control'
+                        name="modifyVatPercentage"
+                        placeholder="Modify Vat Percentage"
+                        type="number"
+                        className="form-control"
                         disabled={
                           !rowDto?.filter((item) => item?.isSelect)?.length
                         }
                         onChange={(e) => {
-                          const modifyData = rowDto?.map((item) =>
-                            item?.isSelect
+                          setFieldValue("modifyVatPercentage", e.target.value || "")
+                          const modifyData = rowDto?.map((item) => {
+                            let numericTotalAmount =
+                              parseFloat(
+                                +item?.totalAmount.replace(/,/g, "")
+                              ) || 0;
+
+                            let modifyVatAmount =
+                              ((numericTotalAmount || 0) *
+                                (+e?.target?.value || 0)) /
+                              100;
+
+                            return item?.isSelect
                               ? {
                                   ...item,
-                                  vatamount: +e?.target?.value,
+                                  vatamount: modifyVatAmount,
+                                  modifyVatPercentage: +e.target.value || 0,
                                   totalBilledAmount:
-                                    (parseFloat(
-                                      +item?.totalAmount.replace(/,/g, "")
-                                    ) || 0) + (+e?.target?.value || 0),
+                                    (+item?.totalAmount || 0) +
+                                    (+modifyVatAmount || 0),
                                 }
-                              : item
-                          );
+                              : item;
+                          });
                           setRowDto(modifyData);
                         }}
                       />
@@ -410,19 +422,20 @@ export default function _Form({
                   </div>
                   <div
                     style={{ maxHeight: "900px" }}
-                    className='scroll-table-auto'
+                    className="scroll-table-auto"
                   >
-                    <table className='table table-striped table-bordered global-table'>
+                    <table className="table table-striped table-bordered global-table">
                       <thead>
                         <tr>
                           {/* {values?.billingStatus?.label !== "Done" && ( */}
                           <th style={{ minWidth: "35px" }}>
                             <input
-                              type='checkbox'
-                              name='allCheck'
+                              type="checkbox"
+                              name="allCheck"
                               onClick={() => {
                                 setAllCheck();
                               }}
+                              disabled
                             />
                           </th>
                           {/* )} */}
@@ -440,7 +453,7 @@ export default function _Form({
                           <th style={{ minWidth: "60px" }}>Due Date</th>
                         </tr>
                       </thead>
-                      <tbody className=''>
+                      <tbody className="">
                         {rowDto?.map((item, index) => (
                           <tr
                             key={index}
@@ -465,10 +478,10 @@ export default function _Form({
                               }
                             }}
                           >
-                            <td className='text-center'>
+                            <td className="text-center">
                               <input
-                                type='checkbox'
-                                name='isSelect'
+                                type="checkbox"
+                                name="isSelect"
                                 // disabled={
                                 //   item.costTypeId === 12 ||
                                 //   item.costTypeId === 21 ||
@@ -484,41 +497,43 @@ export default function _Form({
                                   e.stopPropagation();
                                 }}
                                 onChange={(valueOption) => {
-                                  rowDtoHandler(
+                                  rowDtoSelectHandler(
+                                    item?.costTypeName,
                                     "isSelect",
                                     !item?.isSelect,
-                                    index
+                                    index,
+                                    values
                                   );
                                 }}
                               />
                             </td>
                             {/* )} */}
-                            <td className='text-center'>
+                            <td className="text-center">
                               {item?.costTypeName}
                             </td>
-                            <td className='text-center'>{item?.ponumber}</td>
-                            <td className='text-center'>{item?.lcnumber}</td>
-                            <td className='text-center'>
+                            <td className="text-center">{item?.ponumber}</td>
+                            <td className="text-center">{item?.lcnumber}</td>
+                            <td className="text-center">
                               {item?.shipmentCode ? item.shipmentCode : "-"}
                             </td>
                             <td>{item?.subChargeTypeName}</td>
-                            <td className='text-center'>
+                            <td className="text-center">
                               {item?.businessPartnerName}
                             </td>
-                            <td className='text-right'>{item?.totalAmount}</td>
-                            <td className='text-right'>
+                            <td className="text-right">{item?.totalAmount}</td>
+                            <td className="text-right">
                               {/* {values?.billingStatus?.label === "Done" &&
                                 _formatMoney(item?.actualAmount)} */}
                               {/* {values?.billingStatus?.label !== "Done" && ( */}
                               <InputField
-                                name='totalBilledAmount'
-                                type='number'
-                                className='form-control'
+                                name="totalBilledAmount"
+                                type="number"
+                                className="form-control"
                                 // disabled={item.costTypeId===12 || item.costTypeId===21 ||
                                 //   item.costTypeId===22 || item.costTypeId===13 || item.costTypeId===14 || item.costTypeId===15 || item.costTypeId===20
                                 // }
                                 value={item?.totalBilledAmount}
-                                placeholder='Total Billed Amount'
+                                placeholder="Total Billed Amount"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                 }}
@@ -532,13 +547,13 @@ export default function _Form({
                               />
                               {/* )} */}
                             </td>
-                            <td className='text-right'>
+                            <td className="text-right">
                               {/* {values?.billingStatus?.label === "Done" &&
                                 _formatMoney(item?.actualVat)} */}
                               {/* {values?.billingStatus?.label !== "Done" && ( */}
                               <InputField
-                                name='vatamount'
-                                placeholder='VAT'
+                                name="vatamount"
+                                placeholder="VAT"
                                 value={rowDto[index]?.vatamount}
                                 // disabled={item.costTypeId===12 || item.costTypeId===21 ||
                                 //   item.costTypeId===22 || item.costTypeId===13 || item.costTypeId===14 || item.costTypeId===15 || item.costTypeId===20
@@ -557,23 +572,24 @@ export default function _Form({
                                   let numericTotalAmount = parseFloat(
                                     item?.totalAmount.replace(/,/g, "")
                                   );
+                                  // data[index]["totalBilledAmount"] = (numericTotalAmount|| 0) + (numericTotalAmount * +e?.target?.value /100 || 0);
                                   data[index]["totalBilledAmount"] =
-                                    (numericTotalAmount || 0) +
+                                    (+numericTotalAmount || 0) +
                                     (+e?.target?.value || 0);
                                   setRowDto(data);
                                 }}
                               />
                               {/* )} */}
                             </td>
-                            <td className='text-center'>
+                            <td className="text-center">
                               {/* {values?.billingStatus?.label === "Done" &&
                                 _dateFormatter(item?.dueDate)} */}
                               {/* {values?.billingStatus?.label !== "Done" && ( */}
                               <InputField
                                 value={item?.dueDate}
-                                type='date'
-                                name='dueDate'
-                                className='form-control'
+                                type="date"
+                                name="dueDate"
+                                className="form-control"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                 }}
@@ -597,14 +613,14 @@ export default function _Form({
                   </div>
 
                   <button
-                    type='submit'
+                    type="submit"
                     style={{ display: "none" }}
                     ref={btnRef}
                     onSubmit={() => handleSubmit()}
                   ></button>
 
                   <button
-                    type='reset'
+                    type="reset"
                     style={{ display: "none" }}
                     ref={resetBtnRef}
                     onSubmit={() => resetForm(initData)}

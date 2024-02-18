@@ -50,7 +50,7 @@ export default function _Form({
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const [channelList, getChannelList] = useAxiosGet();
-  const [_, saveOparetionSetup] = useAxiosPost();
+  const [, saveOparetionSetup] = useAxiosPost();
 
   const operationSetupHandler = (values) => {
     console.log("entire oparetion handler");

@@ -1,65 +1,62 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Formik, Form } from "formik";
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { toast } from "react-toastify";
-import ButtonStyleOne from "../../../_helper/button/ButtonStyleOne";
-import ICustomTable from "../../../_helper/_customTable";
-import InfoCircle from "../../../_helper/_helperIcons/_infoCircle";
-import Loading from "../../../_helper/_loading";
-import IViewModal from "../../../_helper/_viewModal";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import ICustomTable from '../../../_helper/_customTable';
+import { _firstDateofMonth } from '../../../_helper/_firstDateOfCurrentMonth';
+import InfoCircle from '../../../_helper/_helperIcons/_infoCircle';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
+import IViewModal from '../../../_helper/_viewModal';
+import ButtonStyleOne from '../../../_helper/button/ButtonStyleOne';
 import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "./../../../../../_metronic/_partials/controls";
-import NewSelect from "./../../../_helper/_select";
+  ModalProgressBar,
+} from './../../../../../_metronic/_partials/controls';
+import { _formatMoney } from './../../../_helper/_formatMoney';
+import NewSelect from './../../../_helper/_select';
+import GeneralLedgerTable from './GeneralLedgerTable';
+import RegisterDetailsModal from './RegisterDetailsModal';
 import {
   getGeneralLedgerDDL,
   getRegisterReportAction,
   getSbuDDLAction,
-} from "./helper";
-import RegisterDetailsModal from "./RegisterDetailsModal";
-import { _formatMoney } from "./../../../_helper/_formatMoney";
-import GeneralLedgerTable from "./GeneralLedgerTable";
-import InputField from "../../../_helper/_inputField";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { _firstDateofMonth } from "../../../_helper/_firstDateOfCurrentMonth";
+} from './helper';
 // import { useHistory } from "react-router-dom";
-import { setRegisterReportAction } from "../../../_helper/reduxForLocalStorage/Actions";
-import { PartnerLedger } from "../../../procurement/reports/partnerLedger";
-import ReactHtmlTableToExcel from "react-html-table-to-excel";
-import SubScheduleRDLCReport from "./registerReports/SubSheduleRDLCReport";
-import PartnerModal from "./partnerDetailsModal/partnerModal";
-import moment from "moment";
-
-// {businessPartnerTypeId: 1, businessPartnerTypeName: "Supplier"}
-// {businessPartnerTypeId: 2, businessPartnerTypeName: "Customer"}
-// {businessPartnerTypeId: 4, businessPartnerTypeName: "Investment Partner"}
-// { value: 3, label: "Employee" }
-
-// { value: 5, label: "Sub Schedule" },
-// { value: 6, label: "Cash at Bank" },
-//     { value: 7, label: "Partner" },
-
+import moment from 'moment';
+import ReactHtmlTableToExcel from 'react-html-table-to-excel';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { setRegisterReportAction } from '../../../_helper/reduxForLocalStorage/Actions';
+import { PartnerLedger } from '../../../procurement/reports/partnerLedger';
+import PartnerModal from './partnerDetailsModal/partnerModal';
+import SubScheduleRDLCReport from './registerReports/SubSheduleRDLCReport';
 
 const initData = {
   fromDate: _firstDateofMonth(),
   toDate: _todayDate(),
-  sbu: "",
-  generalLedger: "",
+  sbu: '',
+  generalLedger: '',
+  profitCenter: '',
 };
-export function RegisterReport({registerTypeId, partnerTypeId,partnerTypeName,title}) {
+export function RegisterReport({
+  registerTypeId,
+  partnerTypeId,
+  partnerTypeName,
+  title,
+}) {
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
-    shallowEqual
+    shallowEqual,
   );
   const dispatch = useDispatch();
   const { registerReport } = useSelector(
     (state) => state?.localStorage,
-    shallowEqual
+    shallowEqual,
   );
   // const history = useHistory();
   const [sbuDDL, setSbuDDL] = useState([]);
@@ -67,23 +64,29 @@ export function RegisterReport({registerTypeId, partnerTypeId,partnerTypeName,ti
   const [loading, setLoading] = useState(false);
   const [generalLedger, setGeneralLedger] = useState([]);
   const [isShowModal, setIsShowModal] = useState(false);
-  const [tableItem, setTableItem] = useState("");
+  const [tableItem, setTableItem] = useState('');
   const [partnerLedgerModalStatus, setPartnerLedgerModalStatus] = useState(
-    false
+    false,
   );
   const [partnerLedgerModalData, setPartnerLedgerModalData] = useState(null);
-  const [isDetailsReport, setIsDetailsReport] = useState(false)
+  const [isDetailsReport, setIsDetailsReport] = useState(false);
 
+  const [
+    profitCenterDDL,
+    getProfitCenterDDL,
+    ,
+    setProfitCenterDDL,
+  ] = useAxiosGet();
 
-  useEffect(() => {
-    getGeneralLedgerDDL(setLoading, setGeneralLedger);
-  }, [])
+  // useEffect(() => {
+  //   getGeneralLedgerDDL(setLoading, setGeneralLedger);
+  // }, []);
 
   useEffect(() => {
     getSbuDDLAction(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      setSbuDDL
+      setSbuDDL,
     );
 
     if (registerReport?.sbu?.value) {
@@ -92,41 +95,48 @@ export function RegisterReport({registerTypeId, partnerTypeId,partnerTypeName,ti
         selectedBusinessUnit?.value,
         registerReport,
         setRowDto,
-        setLoading
+        setLoading,
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
 
-  const ths = ["SL", "Partner", "Partner Code", "Debit", "Credit", "Action"];
+  const ths = ['SL', 'Partner', 'Partner Code', 'Debit', 'Credit', 'Action'];
   const thsTwo = [
-    "SL",
-    "Bank Account Name",
-    "Bank Account No",
-    "Bank Name",
-    "Bank Branch",
-    "Openning",
-    "Debit",
-    "Credit",
-    "Action",
+    'SL',
+    'Bank Account Name',
+    'Bank Account No',
+    'Bank Name',
+    'Bank Branch',
+    'Openning',
+    'Debit',
+    'Credit',
+    'Action',
   ];
 
   let totalAmount = 0;
 
   useEffect(() => {
-    if(registerTypeId === 5){
-      getGeneralLedgerDDL(setLoading, setGeneralLedger);
-    }
+    getGeneralLedgerDDL(setLoading, setGeneralLedger);
+    // if (registerTypeId === 5) {
+    //   getGeneralLedgerDDL(setLoading, setGeneralLedger);
+    // }
     dispatch(setRegisterReportAction(initData));
   }, []);
 
   const getThRow = (values) => {
     if (registerTypeId === 7) {
-      return ["SL", "Partner", "Partner Code", "Opening", "Debit", "Credit", "Ledger Balance", "Action"];
-    } else if (
-      registerTypeId !== 6 &&
-      registerTypeId
-    ) {
+      return [
+        'SL',
+        'Partner',
+        'Partner Code',
+        'Opening',
+        'Debit',
+        'Credit',
+        'Ledger Balance',
+        'Action',
+      ];
+    } else if (registerTypeId !== 6 && registerTypeId) {
       return ths;
     } else {
       return thsTwo;
@@ -138,7 +148,7 @@ export function RegisterReport({registerTypeId, partnerTypeId,partnerTypeName,ti
       <Formik
         enableReinitialize={true}
         initialValues={{ ...initData, ...registerReport }}
-        onSubmit={(values, { setSubmitting, resetForm }) => { }}
+        onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
@@ -146,7 +156,7 @@ export function RegisterReport({registerTypeId, partnerTypeId,partnerTypeName,ti
               {true && <ModalProgressBar />}
               <CardHeader title={title}>
                 <CardHeaderToolbar>
-                {rowDto?.length ? (
+                  {rowDto?.length ? (
                     <ReactHtmlTableToExcel
                       id="test-table-xls-button-att-reports"
                       className="btn btn-primary m-0 mx-2 py-2 px-2"
@@ -169,7 +179,7 @@ export function RegisterReport({registerTypeId, partnerTypeId,partnerTypeName,ti
                         value={values?.sbu}
                         label="SBU"
                         onChange={(valueOption) => {
-                          setFieldValue("sbu", valueOption);
+                          setFieldValue('sbu', valueOption);
                         }}
                         placeholder="SBU"
                         errors={errors}
@@ -177,7 +187,6 @@ export function RegisterReport({registerTypeId, partnerTypeId,partnerTypeName,ti
                       />
                     </div>
 
-                    
                     {[5, 7].includes(registerTypeId) && (
                       <div className="col-md-3 col-lg-2">
                         <InputField
@@ -186,12 +195,12 @@ export function RegisterReport({registerTypeId, partnerTypeId,partnerTypeName,ti
                           name="fromDate"
                           type="date"
                           onChange={(e) => {
-                            setFieldValue("fromDate", e?.target?.value);
+                            setFieldValue('fromDate', e?.target?.value);
                             setRowDto([]);
-                            setIsDetailsReport(false)
+                            setIsDetailsReport(false);
                           }}
                           resetFieldValue={() => {
-                            setFieldValue("fromDate", "")
+                            setFieldValue('fromDate', '');
                           }}
                         />
                       </div>
@@ -202,15 +211,15 @@ export function RegisterReport({registerTypeId, partnerTypeId,partnerTypeName,ti
                           value={values?.toDate}
                           label={
                             [5, 7].includes(registerTypeId)
-                              ? "To Date"
-                              : "Upto Date"
+                              ? 'To Date'
+                              : 'Upto Date'
                           }
                           name="toDate"
                           type="date"
                           onChange={(e) => {
-                            setFieldValue("toDate", e?.target?.value);
+                            setFieldValue('toDate', e?.target?.value);
                             setRowDto([]);
-                            setIsDetailsReport(false)
+                            setIsDetailsReport(false);
                           }}
                         />
                       </div>
@@ -225,8 +234,17 @@ export function RegisterReport({registerTypeId, partnerTypeId,partnerTypeName,ti
                           label="General Ledger"
                           onChange={(valueOption) => {
                             setRowDto([]);
-                            setFieldValue("generalLedger", valueOption);
-                            setIsDetailsReport(false)
+                            setFieldValue('generalLedger', valueOption);
+
+                            (valueOption?.id === 3 || valueOption?.id === 4) &&
+                              getProfitCenterDDL(
+                                `/fino/CostSheet/ProfitCenterDDL?BUId=${selectedBusinessUnit?.value}`,
+                                (data) => {
+                                  data.unshift({ value: 0, label: 'All' });
+                                  setProfitCenterDDL(data);
+                                },
+                              );
+                            setIsDetailsReport(false);
                           }}
                           placeholder="General Ledger"
                           errors={errors}
@@ -234,34 +252,76 @@ export function RegisterReport({registerTypeId, partnerTypeId,partnerTypeName,ti
                         />
                       </div>
                     )}
-                    
+
+                    {values?.generalLedger?.id === 3 ||
+                    values?.generalLedger?.id === 4 ? (
+                      <div className="col-md-3 col-lg-2">
+                        <NewSelect
+                          name="profitCenter"
+                          options={profitCenterDDL}
+                          value={values?.profitCenter}
+                          label="Profit Center"
+                          onChange={(valueOption) => {
+                            setRowDto([]);
+                            setFieldValue('profitCenter', valueOption);
+                            setIsDetailsReport(false);
+                          }}
+                          placeholder="Profit Center"
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+                    ) : null}
+
                     <div className="col-md-3 col-lg-2">
                       <div className="d-flex align-items-center flex align-items-end justify-content-between">
-                      <ButtonStyleOne
-                        label="Summary"
-                        onClick={() => {
-                          setIsDetailsReport(false);
-                          if (!values?.sbu?.value) return toast.warn("Please select SBU");
-                          if (registerTypeId === 5 && !values?.generalLedger?.value) {
-                            return toast.warn("Please select General Ledger");
-                          }
-                          getRegisterReportAction(profileData?.accountId, selectedBusinessUnit?.value, values, setRowDto, setLoading, registerTypeId, partnerTypeId);
-                          dispatch(setRegisterReportAction(values));
-                        }}
-                        style={{ marginTop: "19px" }}
-                      />
-                      {registerTypeId === 5 ? (
                         <ButtonStyleOne
-                          type="button"
-                          label="Details"
+                          label="Summary"
                           onClick={() => {
-                            if (!values?.generalLedger?.value) return toast.warn("Please select a general Ledger");
-                            setRowDto([]);
-                            setIsDetailsReport(true);
+                            setIsDetailsReport(false);
+                            if (!values?.sbu?.value)
+                              return toast.warn('Please select SBU');
+                            if (
+                              registerTypeId === 5 &&
+                              !values?.generalLedger?.value
+                            ) {
+                              return toast.warn('Please select General Ledger');
+                            }
+                            if (
+                              (values?.generalLedger?.id === 3 ||
+                                values?.generalLedger?.id === 4) &&
+                              !values?.profitCenter
+                            ) {
+                              return toast.warn('Please select Profit Center');
+                            }
+                            getRegisterReportAction(
+                              profileData?.accountId,
+                              selectedBusinessUnit?.value,
+                              values,
+                              setRowDto,
+                              setLoading,
+                              registerTypeId,
+                              partnerTypeId,
+                            );
+                            dispatch(setRegisterReportAction(values));
                           }}
-                          style={{ marginTop: "19px" }}
+                          style={{ marginTop: '19px' }}
                         />
-                      ) : null}
+                        {registerTypeId === 5 ? (
+                          <ButtonStyleOne
+                            type="button"
+                            label="Details"
+                            onClick={() => {
+                              if (!values?.generalLedger?.value)
+                                return toast.warn(
+                                  'Please select a general Ledger',
+                                );
+                              setRowDto([]);
+                              setIsDetailsReport(true);
+                            }}
+                            style={{ marginTop: '19px' }}
+                          />
+                        ) : null}
                       </div>
                     </div>
                   </div>
@@ -297,24 +357,25 @@ export function RegisterReport({registerTypeId, partnerTypeId,partnerTypeName,ti
                                   />
                                 </td>
                               </>
-                            ) : registerTypeId !== 6 &&
-                              registerTypeId ? (
+                            ) : registerTypeId !== 6 && registerTypeId ? (
                               <>
                                 <td>{item?.strPartnerName}</td>
                                 <td>{item?.strPartnerCode}</td>
                                 <td className="text-right">
                                   {item?.numLedgerBalance >= 0
                                     ? _formatMoney(
-                                      item?.numLedgerBalance?.toFixed(2)
-                                    )
-                                    : "-"}
+                                        item?.numLedgerBalance?.toFixed(2),
+                                      )
+                                    : '-'}
                                 </td>
                                 <td className="text-right">
                                   {item?.numLedgerBalance < 0
                                     ? _formatMoney(
-                                      Math.abs(item?.numLedgerBalance)?.toFixed(2)
-                                    )
-                                    : "-"}
+                                        Math.abs(
+                                          item?.numLedgerBalance,
+                                        )?.toFixed(2),
+                                      )
+                                    : '-'}
                                 </td>
                                 <td className="text-center">
                                   <InfoCircle
@@ -358,18 +419,20 @@ export function RegisterReport({registerTypeId, partnerTypeId,partnerTypeName,ti
                                 <td>{item?.strBankBranchName}</td>
                                 <td className="text-right">
                                   {item?.numBalance >= 0
-                                    ? _formatMoney(item?.numOppening?.toFixed(2))
-                                    : "-"}
+                                    ? _formatMoney(
+                                        item?.numOppening?.toFixed(2),
+                                      )
+                                    : '-'}
                                 </td>
                                 <td className="text-right">
                                   {item?.numBalance >= 0
                                     ? _formatMoney(item?.numBalance?.toFixed(2))
-                                    : "-"}
+                                    : '-'}
                                 </td>
                                 <td className="text-right">
                                   {item?.numBalance < 0
                                     ? _formatMoney(item?.numBalance?.toFixed(2))
-                                    : "-"}
+                                    : '-'}
                                 </td>
                                 <td className="text-center">
                                   <InfoCircle
@@ -385,53 +448,71 @@ export function RegisterReport({registerTypeId, partnerTypeId,partnerTypeName,ti
                           </tr>
                         );
                       })}
-                      {
-                        registerTypeId === 7 ?
-                          <tr>
-                            <td
-                              colSpan="3"
-                              className="text-right"
-                            >
-                              <b>Total</b>
-                            </td>
-                            <td className="text-right">
-                              <b>{_formatMoney(rowDto?.reduce((acc, item) => acc + item?.numOppening, 0).toFixed(2))}</b>
-                            </td>
-                            <td className="text-right">
-                              <b>{_formatMoney(rowDto?.reduce((acc, item) => acc + item?.numDebit, 0).toFixed(2))}</b>
-                            </td>
-                            <td className="text-right">
-                              <b>{_formatMoney(rowDto?.reduce((acc, item) => acc + item?.numCredit, 0).toFixed(2))}</b>
-                            </td>
-                            <td className="text-right">
-                              <b>{_formatMoney(totalAmount?.toFixed(2))}</b>
-                            </td>
-                            <td></td>
-                          </tr>
-                          :
-                          <tr>
-                            <td
-                              colSpan={
-                                registerTypeId !== 6 &&
-                                  registerTypeId
-                                  ? 3
-                                  : 6
-                              }
-                            >
-                              <b>Total</b>
-                            </td>
+                      {registerTypeId === 7 ? (
+                        <tr>
+                          <td colSpan="3" className="text-right">
+                            <b>Total</b>
+                          </td>
+                          <td className="text-right">
+                            <b>
+                              {_formatMoney(
+                                rowDto
+                                  ?.reduce(
+                                    (acc, item) => acc + item?.numOppening,
+                                    0,
+                                  )
+                                  .toFixed(2),
+                              )}
+                            </b>
+                          </td>
+                          <td className="text-right">
+                            <b>
+                              {_formatMoney(
+                                rowDto
+                                  ?.reduce(
+                                    (acc, item) => acc + item?.numDebit,
+                                    0,
+                                  )
+                                  .toFixed(2),
+                              )}
+                            </b>
+                          </td>
+                          <td className="text-right">
+                            <b>
+                              {_formatMoney(
+                                rowDto
+                                  ?.reduce(
+                                    (acc, item) => acc + item?.numCredit,
+                                    0,
+                                  )
+                                  .toFixed(2),
+                              )}
+                            </b>
+                          </td>
+                          <td className="text-right">
+                            <b>{_formatMoney(totalAmount?.toFixed(2))}</b>
+                          </td>
+                          <td></td>
+                        </tr>
+                      ) : (
+                        <tr>
+                          <td
+                            colSpan={
+                              registerTypeId !== 6 && registerTypeId ? 3 : 6
+                            }
+                          >
+                            <b>Total</b>
+                          </td>
 
-                            {totalAmount < 0 && <td></td>}
-                            <td className="text-right">
-                              <b>{_formatMoney(totalAmount?.toFixed(2))}</b>
-                            </td>
-                            {/* {totalAmount >= 0 && <td></td>} */}
-                            {totalAmount >= 0 && registerTypeId && (
-                              <td></td>
-                            )}
-                            {registerTypeId !== 7 && <td></td>}
-                          </tr>
-                      }
+                          {totalAmount < 0 && <td></td>}
+                          <td className="text-right">
+                            <b>{_formatMoney(totalAmount?.toFixed(2))}</b>
+                          </td>
+                          {/* {totalAmount >= 0 && <td></td>} */}
+                          {totalAmount >= 0 && registerTypeId && <td></td>}
+                          {registerTypeId !== 7 && <td></td>}
+                        </tr>
+                      )}
                       {/* <tr>
                         <td
                           colSpan={
@@ -454,15 +535,20 @@ export function RegisterReport({registerTypeId, partnerTypeId,partnerTypeName,ti
                         {registerTypeId !== 7 && <td></td>}
                       </tr> */}
                       <tr>
-                         <td
-                            className="text-center d-none"
-                            colSpan={4}
-                            >{`System Generated Report - ${moment().format('LLLL')}`}</td>
+                        <td
+                          className="text-center d-none"
+                          colSpan={4}
+                        >{`System Generated Report - ${moment().format(
+                          'LLLL',
+                        )}`}</td>
                       </tr>
                     </ICustomTable>
                   )}
                   {rowDto?.length > 0 && values?.generalLedger?.value && (
-                    <GeneralLedgerTable rowDto={rowDto} landingValues={values} />
+                    <GeneralLedgerTable
+                      rowDto={rowDto}
+                      landingValues={values}
+                    />
                   )}
                   <IViewModal
                     title=""
@@ -492,7 +578,12 @@ export function RegisterReport({registerTypeId, partnerTypeId,partnerTypeName,ti
                     <PartnerLedger modalData={partnerLedgerModalData} />
                   </IViewModal>
                 </Form>
-                {isDetailsReport && registerTypeId === 5 ? <SubScheduleRDLCReport values={values} selectedBusinessUnit={selectedBusinessUnit} /> : null}
+                {isDetailsReport && registerTypeId === 5 ? (
+                  <SubScheduleRDLCReport
+                    values={values}
+                    selectedBusinessUnit={selectedBusinessUnit}
+                  />
+                ) : null}
               </CardBody>
             </Card>
           </>

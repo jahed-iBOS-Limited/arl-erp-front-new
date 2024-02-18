@@ -144,6 +144,15 @@ export default function _Form({
       .catch((err) => []);
   };
 
+  useEffect(()=>{
+    if([184].includes(selectedBusinessUnit?.value)){
+      getProfitcenterDDL(
+        `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=0&businessUnitId=${selectedBusinessUnit.value}&employeeId=${[184].includes(selectedBusinessUnit?.value) ? profileData?.employeeId : 0}`,
+      );
+     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
+
   return (
     <>
       {loadingOnGetProfitCenter && <Loading />}
@@ -359,8 +368,6 @@ export default function _Form({
                         onChange={(valueOption) => {
                           setFieldValue("costCenter", valueOption);
                           setFieldValue("costElement", "");
-                          setFieldValue("profitCenter", "");
-                          setProfitcenterDDL([]);
                           setCostElementDDL([]);
                           if (valueOption) {
                             CostElementDDLApi(
@@ -369,14 +376,18 @@ export default function _Form({
                               valueOption?.value,
                               setCostElementDDL
                             );
+                           if(![184].includes(selectedBusinessUnit?.value)){
+                            setFieldValue("profitCenter", "");
+                            setProfitcenterDDL([]);
                             getProfitcenterDDL(
-                              `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=${valueOption?.value}&businessUnitId=${selectedBusinessUnit.value}`,
+                              `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=${valueOption?.value}&businessUnitId=${selectedBusinessUnit.value}&employeeId=${[184].includes(selectedBusinessUnit?.value) ? profileData?.employeeId : 0}`,
                               (data) => {
-                                if (data?.length) {
+                                if (data?.length === 1) {
                                   setFieldValue("profitCenter", data[0]);
                                 }
                               }
                             );
+                           }
                           }
                         }}
                         value={values?.costCenter || ""}
@@ -414,7 +425,7 @@ export default function _Form({
                         styles={customStyles}
                         placeholder="Profit Center"
                         name="Profit Center"
-                        isDisabled={!values?.costCenter}
+                        isDisabled={![184].includes(selectedBusinessUnit?.value) && !values?.costCenter}
                       />
                     </div>
 

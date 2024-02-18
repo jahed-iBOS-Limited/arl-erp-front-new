@@ -125,6 +125,7 @@ export default function G2GLighterBill() {
         <Form
           {...objProps}
           buId={buId}
+          accId={accId}
           getData={getData}
           gridData={gridData}
           initData={initData}

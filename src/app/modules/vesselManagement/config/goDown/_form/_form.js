@@ -1,25 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from "react";
+import axios from "axios";
 import { Formik } from "formik";
-import { useSelector, shallowEqual } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
 } from "../../../../../../_metronic/_partials/controls";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import TextArea from "../../../../_helper/TextArea";
+import FormikError from "../../../../_helper/_formikError";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import { editGodown } from "../helper";
 import NewSelect from "../../../../_helper/_select";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { useEffect } from "react";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import FormikError from "../../../../_helper/_formikError";
-import axios from "axios";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { editGodown } from "../helper";
 
 const initData = {
   businessPartner: "",
@@ -33,7 +32,7 @@ const initData = {
   bolgateUnloadRate: "",
 };
 
-const GodownForm = ({ setShow, getData, formType, singleItem, values }) => {
+const GodownForm = ({ setShow, getData, formType, singleItem, values , businessPartnerDDL}) => {
   // get user data from store
   const {
     profileData: { accountId: accId },
@@ -195,10 +194,7 @@ const GodownForm = ({ setShow, getData, formType, singleItem, values }) => {
                       <div className="col-lg-3">
                         <NewSelect
                           name="businessPartner"
-                          options={[
-                            { value: 73244, label: "BADC" },
-                            { value: 73245, label: "BCIC" },
-                          ]}
+                          options={businessPartnerDDL || []}
                           value={values?.businessPartner}
                           label="Business Partner"
                           onChange={(e) => {

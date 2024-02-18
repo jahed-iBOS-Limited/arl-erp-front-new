@@ -1,25 +1,25 @@
 /* eslint-disable eqeqeq */
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import { Form, Formik } from "formik";
 import { DropzoneDialogBase } from "material-ui-dropzone";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import * as Yup from "yup";
+import { _dateFormatter } from "../../../../../_helper/_dateFormate";
+import IView from "../../../../../_helper/_helperIcons/_view";
 import InputField from "../../../../../_helper/_inputField";
+import Loading from "../../../../../_helper/_loading";
+import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
+import { _todayDate } from "../../../../../_helper/_todayDate";
+import { empAttachment_action } from "../../../../../humanCapitalManagement/humanResource/employeeInformation/helper";
+import { createCommercialBreakdownForAdvance, getCommercialBreakdownForAdvanceAndBill } from "../helper";
 import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from "./../../../../../../../_metronic/_partials/controls";
-import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
-import { empAttachment_action } from "../../../../../humanCapitalManagement/humanResource/employeeInformation/helper";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import IView from "../../../../../_helper/_helperIcons/_view";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import { createCommercialBreakdownForAdvance } from "../helper";
-import Loading from "../../../../../_helper/_loading";
 
 const initData = {
   advanceAmount: "",
@@ -34,6 +34,7 @@ const validationSchema = Yup.object().shape({
 
 export default function AddAdvance({
   bill,
+  setBill,
   advanceBill,
   setAdvanceBill,
   accountId,
@@ -42,7 +43,8 @@ export default function AddAdvance({
   supplierName,
   setSupplierName,
   setExpanded,
-  state
+  state,
+  referenceId,
 }) {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -73,9 +75,9 @@ export default function AddAdvance({
     setTotalAmount(total);
   }, [advanceBill]);
 
-  const saveHandler = (data) => {
+  const saveHandler = (data, cb) => {
     if (data.length > 0) {
-      createCommercialBreakdownForAdvance(data, setIsLoading);
+      createCommercialBreakdownForAdvance(data, setIsLoading, cb);
     } else {
       toast.warning("Please add at least one row");
     }
@@ -88,6 +90,9 @@ export default function AddAdvance({
       setExpanded(false)
     };
   }, [setAdvanceBill, setSupplierName,setExpanded]);
+
+  let totalNumAdvanceAdjust = 0;
+  let totalRemainAdvance = 0;
 
   return (
     <>
@@ -119,7 +124,13 @@ export default function AddAdvance({
                     <button
                       onClick={() => {
                         saveHandler(advanceBill, () => {
-                          setAdvanceBill({});
+                          // setAdvanceBill({});
+                          getCommercialBreakdownForAdvanceAndBill(
+                            referenceId,
+                            data?.supplierId,
+                            setAdvanceBill,
+                            setBill
+                          );
                         });
                       }}
                       className="btn btn-primary ml-2"
@@ -218,7 +229,7 @@ export default function AddAdvance({
                     <div className="col-lg-1" style={{ marginTop: "20px" }}>
                       <button
                         type="button"
-                        disabled={!values?.advanceAmount}
+                        disabled={!values?.advanceAmount || advanceBill?.length}
                         onClick={() => {
                           if (!data?.supplierId) {
                             return toast.warn("Plaese Select Supplier");
@@ -263,16 +274,21 @@ export default function AddAdvance({
                       <thead>
                         <tr>
                           <th>SL</th>
+                          <th>Bill No</th>
                           <th>Supplier</th>
                           <th>Description</th>
                           <th>Date</th>
                           <th>Advance Amount</th>
+                          <th>Advance Adjust</th>
+                          <th>Remain Advance</th>
                           <th style={{ width: "70px" }}>Attachment</th>
                         </tr>
                       </thead>
                       <tbody>
                         {advanceBill?.length > 0 &&
                           advanceBill?.map((item, index) => {
+                            totalNumAdvanceAdjust +=  +item?.numAdvanceAdjust || 0
+                            totalRemainAdvance +=  +item?.remainAdvance || 0
                             return (
                               <>
                                 <tr key={index}>
@@ -281,6 +297,11 @@ export default function AddAdvance({
                                     className="text-center"
                                   >
                                     {index + 1}
+                                  </td>
+                                  <td>
+                                    <span className="pl-2 text-center">
+                                      {item?.billNo}
+                                    </span>
                                   </td>
                                   <td>
                                     <span className="pl-2">
@@ -300,6 +321,16 @@ export default function AddAdvance({
                                   <td className="text-right">
                                     <span className="pl-2">
                                       {item?.numAmount}
+                                    </span>
+                                  </td>
+                                  <td className="text-right">
+                                    <span className="pl-2">
+                                      {item?.numAdvanceAdjust}
+                                    </span>
+                                  </td>
+                                  <td className="text-right">
+                                    <span className="pl-2">
+                                      {item?.remainAdvance}
                                     </span>
                                   </td>
                                   <td className="text-center">
@@ -323,10 +354,12 @@ export default function AddAdvance({
                             );
                           })}
                           <tr>
-                            <td className="text-center font-weight-bold" colSpan="4">
+                            <td className="text-center font-weight-bold" colSpan="5">
                               Total
                             </td>
                             <td className="text-right font-weight-bold">{totalAmount}</td>
+                            <td className="text-right font-weight-bold">{totalNumAdvanceAdjust}</td>
+                            <td className="text-right font-weight-bold">{totalRemainAdvance}</td>
                             <td colSpan="2"></td>
                           </tr>
                       </tbody>

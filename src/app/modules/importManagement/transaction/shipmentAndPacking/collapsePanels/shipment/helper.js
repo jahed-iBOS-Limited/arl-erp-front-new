@@ -1,6 +1,6 @@
 import axios from "axios";
-import * as Yup from "yup";
 import { toast } from "react-toastify";
+import * as Yup from "yup";
 import { _dateFormatter } from "../../../../../_helper/_dateFormate";
 
 // GetShipTypeDDL
@@ -209,6 +209,7 @@ export const validationSchema = Yup.object().shape({
   cnfProvider: Yup.object().shape({
     value: Yup.string().required("CNF is required"),
   }),
+  etaDate: Yup.date().required("ETA Date is required")
   // packingCharge: Yup.number()
   //   .positive("Packing Charge is always positive")
   //   .required("Packing Charge is required"),

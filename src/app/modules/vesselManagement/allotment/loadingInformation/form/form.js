@@ -30,6 +30,7 @@ export default function _Form({
   rowDataHandler,
   domesticPortDDL,
   getVessels,
+  organizationDDL,
 }) {
   const { state } = useLocation();
   const history = useHistory();
@@ -108,10 +109,13 @@ export default function _Form({
                     <div className="col-lg-3">
                       <NewSelect
                         name="organization"
-                        options={[
-                          { value: 73244, label: "G2G BADC" },
-                          { value: 73245, label: "G2G BCIC" },
-                        ]}
+                        options={
+                          organizationDDL
+                          //   [
+                          //   { value: 73244, label: "G2G BADC" },
+                          //   { value: 73245, label: "G2G BCIC" },
+                          // ]
+                        }
                         value={values?.organization}
                         label="Organization"
                         onChange={(valueOption) => {
@@ -120,6 +124,7 @@ export default function _Form({
                         placeholder="Organization"
                         errors={errors}
                         touched={touched}
+                        isDisabled={disableHandler()}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -131,7 +136,10 @@ export default function _Form({
                         placeholder="Port"
                         onChange={(valueOption) => {
                           setFieldValue("loadingPort", valueOption);
-                          getVessels({ ...values, loadingPort: valueOption });
+                          getVessels({
+                            ...values,
+                            loadingPort: valueOption,
+                          });
                         }}
                         isDisabled={!values?.organization}
                       />
@@ -305,7 +313,9 @@ export default function _Form({
                                       moment(item?.sideAt).format("lll")
                                     ) : (
                                       <InputField
-                                        style={{ width: "130px" }}
+                                        style={{
+                                          width: "130px",
+                                        }}
                                         value={item?.sideAt}
                                         name="sideAt"
                                         type="datetime-local"
@@ -328,7 +338,9 @@ export default function _Form({
                                       )
                                     ) : (
                                       <InputField
-                                        style={{ width: "130px" }}
+                                        style={{
+                                          width: "130px",
+                                        }}
                                         value={item?.loadingStart}
                                         name="loadingStart"
                                         type="datetime-local"
@@ -374,7 +386,9 @@ export default function _Form({
                                       )
                                     ) : (
                                       <InputField
-                                        style={{ width: "130px" }}
+                                        style={{
+                                          width: "130px",
+                                        }}
                                         value={item?.loadingComplete}
                                         name="loadingComplete"
                                         type="datetime-local"
@@ -397,7 +411,9 @@ export default function _Form({
                                       )
                                     ) : (
                                       <InputField
-                                        style={{ width: "130px" }}
+                                        style={{
+                                          width: "130px",
+                                        }}
                                         value={item?.sailingDate}
                                         name="sailingDate"
                                         type="datetime-local"

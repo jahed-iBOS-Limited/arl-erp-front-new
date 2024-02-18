@@ -30,7 +30,11 @@ function ViewPumpFoodingBill({ billRegisterId }) {
       `hcm/MenuListOfFoodCorner/GetPumpFoodingBillByBillRegisterId?businessUnitId=${buId}&billRegisterId=${billRegisterId}`
     );
   }, [buId]);
-
+  const totalBillAmount = () => {
+    if(rowData?.data?.length > 0){
+      return rowData?.data?.reduce((acc,curr)=>acc+curr?.billAmount,0)
+    }
+  }
   return (
     <>
       <Formik>
@@ -112,40 +116,45 @@ function ViewPumpFoodingBill({ billRegisterId }) {
                             <th>Workplace Name</th>
                             <th>Start Date</th>
                             <th>End Date</th>
+                            <th>Bill Amount</th>
                             <th>Remarks</th>
                           </tr>
                         </thead>
                         <tbody>
                           {rowData?.data?.map((item, index) => {
                             return (
-                              <>
-                                <tr key={index}>
-                                  <td
-                                    style={{ width: "30px" }}
-                                    className="text-center"
-                                  >
-                                    {index + 1}
-                                  </td>
-                                  <td>{item?.employeeName}</td>
-                                  <td>{item?.empDesignation}</td>
-                                  <td>{item?.positionName}</td>
-                                  <td>{item?.empDepartment}</td>
-                                  <td>{item?.workplaceName}</td>
-                                  <td>
-                                    <span>{_dateFormatter(item?.date)}</span>{" "}
-                                    <span>
-                                      {_timeFormatter(item?.startTime)}
-                                    </span>
-                                  </td>
-                                  <td>
-                                    <span>{_dateFormatter(item?.endDate)}</span>{" "}
-                                    <span>{_timeFormatter(item?.endTime)}</span>
-                                  </td>
-                                  <td>{item?.remarks}</td>
-                                </tr>
-                              </>
+                              <tr key={index}>
+                              <td
+                                style={{ width: "30px" }}
+                                className="text-center"
+                              >
+                                {index + 1}
+                              </td>
+                              <td>{item?.employeeName}</td>
+                              <td>{item?.empDesignation}</td>
+                              <td>{item?.positionName}</td>
+                              <td>{item?.empDepartment}</td>
+                              <td>{item?.workplaceName}</td>
+                              <td>
+                                <span>{_dateFormatter(item?.date)}</span>{" "}
+                                <span>
+                                  {_timeFormatter(item?.startTime)}
+                                </span>
+                              </td>
+                              <td>
+                                <span>{_dateFormatter(item?.endDate)}</span>{" "}
+                                <span>{_timeFormatter(item?.endTime)}</span>
+                              </td>
+                              <td>{item?.billAmount}</td>
+                              <td>{item?.remarks}</td>
+                            </tr>
                             );
                           })}
+                          <tr>
+                            <td colSpan={8}>Total Bill Amount</td>
+                             <td>{totalBillAmount()}</td>
+                            <td/>
+                          </tr>
                         </tbody>
                       </table>
                     </div>

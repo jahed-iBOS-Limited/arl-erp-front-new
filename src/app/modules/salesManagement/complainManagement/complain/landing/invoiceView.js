@@ -1,18 +1,13 @@
 import { Formik } from "formik";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import * as Yup from "yup";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import Loading from "../../../../_helper/_loading";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import { _todayDate } from "../../../../_helper/_todayDate";
-import {
-  getComplainByIdWidthOutModify,
-  investigateComplainApi,
-} from "../../resolution/helper";
+import { getComplainByIdWidthOutModify } from "../../resolution/helper";
 export const validationSchema = Yup.object().shape({});
 
 function InvoiceView({ clickRowData }) {
@@ -21,27 +16,11 @@ function InvoiceView({ clickRowData }) {
   const dispatch = useDispatch();
   const [rowDto, setRowDto] = useState([]);
   const {
-    profileData: { accountId: accId, userId, employeeId },
+    profileData: { accountId: accId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  const saveHandler = (values, cb) => {
-    // rowDto empty check
-    if (rowDto.length === 0) {
-      return toast.error("Please add at least one row");
-    }
-    let payload = {
-      complainId: clickRowData?.complainId || 0,
-      statusId: 3,
-      status: "Investigate",
-      actionById: userId,
-      investigationInfo: rowDto || [],
-    };
-
-    investigateComplainApi(payload, setLoading, () => {
-      cb();
-    });
-  };
+  const saveHandler = (values, cb) => {};
 
   useEffect(() => {
     if (clickRowData?.complainId) {
@@ -78,12 +57,33 @@ function InvoiceView({ clickRowData }) {
           touched,
           resetForm,
         }) => (
-          <ICustomCard title={"Complaint View "}>
+          <>
             {loading && <Loading />}
+            <div className="d-flex justify-content-between pt-4 pb-2 pr-5 mb-2 border-bottom">
+              <h4>Feedback Details</h4>
+              <h6>
+                Status:{" "}
+                <span
+                  style={{
+                    fontSize:"14px",
+                    color:
+                      clickRowData?.status === "Open"
+                        ? "red"
+                        : clickRowData?.status === "Delegate"
+                        ? "blue"
+                        : clickRowData?.status === "Investigate"
+                        ? "orrage"
+                        : "green",
+                  }}
+                >
+                  {clickRowData?.status}
+                </span>
+              </h6>
+            </div>
             <div
               style={{
                 display: "flex",
-                flexWrap: "wrap",
+                gap: "10px",
                 justifyContent: "space-between",
               }}
             >
@@ -116,13 +116,23 @@ function InvoiceView({ clickRowData }) {
                   <b>Respondent Type:</b> {singleData?.respondentTypeName}
                 </p>
                 <p>
-                  <b>Respondent Name:</b> {singleData?.respondentName}
+                  <b>Respondent Name:</b> {singleData?.respondentType}
                 </p>
                 <p>
                   <b>Respondent Contact:</b> {singleData?.contactNo}
                 </p>
+                {singleData?.respondentAddress && (
+                  <p>
+                    <b>Respondent Address:</b> {singleData?.respondentAddress}
+                  </p>
+                )}
+
                 <p>
-                  <b>Designation/Relationship:</b> {singleData?.designationOrRelationship}
+                  <b>Designation/Relationship:</b>{" "}
+                  {singleData?.designationOrRelationship}
+                </p>
+                <p>
+                  <b>Contact Source:</b> {singleData?.contactSourceName}
                 </p>
               </div>
               <div>
@@ -161,14 +171,41 @@ function InvoiceView({ clickRowData }) {
                   <b> Remarks:</b> {singleData?.statusRemarks}
                 </p>
                 <p>
-                  <b>Attachment: </b>
+                  <b>Attachment:</b>{" "}
+                  {singleData?.attachment && (
+                    <span>
+                      <OverlayTrigger
+                        overlay={
+                          <Tooltip id="cs-icon">View Attachment</Tooltip>
+                        }
+                      >
+                        <span
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            dispatch(
+                              getDownlloadFileView_Action(
+                                singleData?.attachment
+                              )
+                            );
+                          }}
+                          className="ml-2"
+                        >
+                          <i
+                            style={{ fontSize: "16px" }}
+                            className={`fa pointer fa-eye`}
+                            aria-hidden="true"
+                          ></i>
+                        </span>
+                      </OverlayTrigger>
+                    </span>
+                  )}
                 </p>
               </div>
             </div>
 
             {rowDto?.length > 0 && (
-             <div className="table-responsive">
-                <table className='table table-striped table-bordered global-table'>
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered global-table">
                   <thead>
                     <tr>
                       <th>SL</th>
@@ -182,17 +219,18 @@ function InvoiceView({ clickRowData }) {
                   <tbody>
                     {rowDto?.map((item, index) => (
                       <tr key={index}>
-                        <td className='text-center'> {index + 1}</td>
+                        <td className="text-center"> {index + 1}</td>
                         <td>
-                          { item?.investigationDateTime &&moment(item?.investigationDateTime).format(
-                            "YYYY-MM-DD HH:mm A"
-                          )}
+                          {item?.investigationDateTime &&
+                            moment(item?.investigationDateTime).format(
+                              "YYYY-MM-DD HH:mm A"
+                            )}
                         </td>
                         <td>{item?.investigatorName}</td>
                         <td>{item?.rootCause}</td>
                         <td>{item?.correctiveAction}</td>
                         <td>
-                          <div className='d-flex align-items-center justify-content-center'>
+                          <div className="d-flex align-items-center justify-content-center">
                             {item?.attachment && (
                               <span
                                 onClick={() => {
@@ -204,8 +242,8 @@ function InvoiceView({ clickRowData }) {
                                 }}
                               >
                                 <i
-                                  class='fa fa-paperclip pointer'
-                                  aria-hidden='true'
+                                  class="fa fa-paperclip pointer"
+                                  aria-hidden="true"
                                 ></i>
                               </span>
                             )}
@@ -217,7 +255,7 @@ function InvoiceView({ clickRowData }) {
                 </table>
               </div>
             )}
-          </ICustomCard>
+          </>
         )}
       </Formik>
     </>

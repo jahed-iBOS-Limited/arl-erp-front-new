@@ -451,16 +451,17 @@ const ExpenseRegisterLanding = () => {
                     </div>
                     <div className="col-lg-3 d-flex align-items-center justify-content-end">
                       <button
-                        className="btn btn-success"
+                        className="btn btn-success pointer"
                         onClick={() => {
-                          dispatch(
-                            getDownlloadFileView_Action(
-                              "638323656050908814_ARL_TADA_POLICY.pdf",
-                              null,
-                              null,
-                              setLoading
-                            )
-                          );
+                          window.open(`https://drive.google.com/file/d/1WNjJxwpSD8j-wvFkvLv7vn2CCqcv-pSM/view`, "_blank");
+                          // dispatch(
+                          //   getDownlloadFileView_Action(
+                          //     "638323656050908814_ARL_TADA_POLICY.pdf",
+                          //     null,
+                          //     null,
+                          //     setLoading
+                          //   )
+                          // );
                         }}
                       >
                         TADA Policy

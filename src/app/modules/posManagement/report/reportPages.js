@@ -15,6 +15,7 @@ import CashBookReport from "./cashBook/cashBook"
 import POSSalaryDeduct from "./POSSalaryDeduct";
 import { shallowEqual, useSelector } from "react-redux";
 import NotPermitted from "../../performanceManagement/notPermittedPage/notPermitted";
+import ProfitAndLossReport from "./profitAndLossReport";
 
 export function ReportPages() {
 
@@ -96,6 +97,11 @@ export function ReportPages() {
           exact
           path="/pos-management/report/POSSalaryDeduct"
           component={POSSalaryDeductUser?.isView ? POSSalaryDeduct : NotPermitted}
+        />
+        <ContentRoute
+          exact
+          path="/pos-management/report/ProfitAndLossReport"
+          component={ProfitAndLossReport}
         />
       </Switch>
     </Suspense>

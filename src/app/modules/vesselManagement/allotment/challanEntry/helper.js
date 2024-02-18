@@ -64,13 +64,14 @@ export const getChallanById = async (deliveryId, setter, setLoading, cb) => {
 export const getLightersForChallan = async (
   shipPointId,
   vesselId,
+  portId,
   setter,
   setLoading
 ) => {
   setLoading && setLoading(true);
   try {
     const res = await axios.get(
-      `/tms/LigterLoadUnload/GetLighterVesselNItemDDL?ShipPointId=${shipPointId}&MotherVesselId=${vesselId}`
+      `/tms/LigterLoadUnload/GetLighterVesselNItemDDL?ShipPointId=${shipPointId}&MotherVesselId=${vesselId}&PortId=${portId}`
     );
     setter(
       res?.data?.map((item) => ({
@@ -208,7 +209,7 @@ export const validationSchema = Yup.object().shape({
   address: Yup.string().required("Delivery address is required"),
   deliveryDate: Yup.string().required("Delivery date is required"),
   shippingChallanNo: Yup.string().required("Shipping challan no is required"),
-  transportRate: Yup.number().required("Transport rate is required"),
+  // transportRate: Yup.number().required("Transport rate is required"),
   // goDownUnloadLabourRate: Yup.number().required(
   //   "Godown unload labor rate is required"
   // ),

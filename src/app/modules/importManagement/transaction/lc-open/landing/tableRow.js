@@ -2,13 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import { useHistory } from "react-router-dom";
-import {
-  getLandingData,
-  GetBankDDL,
-  // removeDaysToDate,
-  // checkDuplicateLc,
-  getPoForLcOpen,
-} from "../helper";
+import { getLandingData, GetBankDDL, getPoForLcOpen } from "../helper";
 import Loading from "../../../../_helper/_loading";
 import Axios from "axios";
 import {
@@ -29,6 +23,8 @@ import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { _firstDateofMonth } from "./../../../../_helper/_firstDateOfCurrentMonth";
+import IConfirmModal from "../../../../_helper/_confirmModal";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
 const header = [
   "PO No",
@@ -42,21 +38,21 @@ const header = [
 
 const TableRow = () => {
   const history = useHistory();
-  // const dispatch = useDispatch();
   const [gridData, setGridData] = useState();
   const [isloading, setIsLoading] = useState(false);
   const [bankDDL, setBankDDL] = useState([]);
+
+  const [, saveApproveLcOpen, saveApproveLcOpenLoader] = useAxiosPost();
+
   //paginationState
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(75);
   let isShowBtnClicked = false;
 
-  // get user profile data from store
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
 
-  // get selected business unit from store
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
@@ -96,12 +92,10 @@ const TableRow = () => {
     );
   }, []);
 
- 
   const loadPartsList = (v) => {
     if (v?.length < 3) return [];
     return Axios.get(
       `/imp/ImportCommonDDL/GetDirectPOForLC?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&searchPO=${v}`
-      // `/imp/LetterOfCredit/GetPOForLCOpen?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&searchTerm=${v}`
     ).then((res) => res?.data);
   };
 
@@ -115,68 +109,33 @@ const TableRow = () => {
           fromDate: _dateFormatter(_firstDateofMonth()),
           toDate: _dateFormatter(new Date()),
         }}
-        // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
-            {/* {console.log(values)} */}
             <Card>
               <CardHeader title="LC Open">
                 <CardHeaderToolbar>
                   <button
-                    onClick={
-                      () => {
-                        getPoForLcOpen(
-                          profileData?.accountId,
-                          selectedBusinessUnit?.value,
-                          values?.poNo?.poId
-                        ).then((response) => {
-                          if (response?.status === 200) {
-                            // console.log(values?.poNo?.label, "response");
-                            history.push({
-                              pathname:
-                                "/managementImport/transaction/lc-open/create",
-                              state: {
-                                poNo: response?.data[0],
-                                searchableLandingPoNo: values?.poNo,
-                                // searchableLandingPoNo: {
-                                //   label: values?.poNo?.label,
-                                //   value: values?.poNo?.value,
-                                // },
-                                routeState: "create",
-                              },
-                            });
-                          }
-                        });
-                      }
-
-                      // () =>
-                      // history.push({
-                      //   pathname:
-                      //     "/managementImport/transaction/lc-open/create",
-                      //   state: {
-                      //     poNo: values?.poNo,
-                      //     routeState: "create",
-                      //   },
-                      // })
-
-                      // checkDuplicateLc(
-                      //   profileData?.accountId,
-                      //   selectedBusinessUnit?.value,
-                      //   values?.poNo?.label,
-                      //   () => {
-                      //     history.push({
-                      //       pathname:
-                      //         "/managementImport/transaction/lc-open/create",
-                      //       state: {
-                      //         poNo: values?.poNo,
-                      //         routeState: "create",
-                      //       },
-                      //     });
-                      //   }
-                      // )
-                    }
+                    onClick={() => {
+                      getPoForLcOpen(
+                        profileData?.accountId,
+                        selectedBusinessUnit?.value,
+                        values?.poNo?.poId
+                      ).then((response) => {
+                        if (response?.status === 200) {
+                          history.push({
+                            pathname:
+                              "/managementImport/transaction/lc-open/create",
+                            state: {
+                              poNo: response?.data[0],
+                              searchableLandingPoNo: values?.poNo,
+                              routeState: "create",
+                            },
+                          });
+                        }
+                      });
+                    }}
                     className="btn btn-primary"
                     disabled={!values?.poNo}
                   >
@@ -185,7 +144,7 @@ const TableRow = () => {
                 </CardHeaderToolbar>
               </CardHeader>
               <CardBody>
-                {isloading && <Loading />}
+                {(isloading || saveApproveLcOpenLoader) && <Loading />}
                 <div className="row global-form">
                   <div className="col-lg-3 col-md-3">
                     <label>PO No/ LC No</label>
@@ -195,7 +154,6 @@ const TableRow = () => {
                       paddingRight={10}
                       handleChange={(valueOption) => {
                         setFieldValue("poNo", valueOption);
-                        // console.log("valueOption", valueOption);
                         getLandingData(
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
@@ -221,18 +179,6 @@ const TableRow = () => {
                       placeholder="Bank name"
                       onChange={(valueOption) => {
                         setFieldValue("bankDDL", valueOption);
-                        // getLandingData(
-                        //   profileData?.accountId,
-                        //   selectedBusinessUnit?.value,
-                        //   values?.poNo?.label ?? null,
-                        //   valueOption?.value ?? null,
-                        //   values?.fromDate ?? null,
-                        //   values?.toDate ?? null,
-                        //   setGridData,
-                        //   setIsLoading,
-                        //   pageNo,
-                        //   pageSize
-                        // );
                       }}
                       errors={errors}
                       touched={touched}
@@ -247,20 +193,6 @@ const TableRow = () => {
                       type="date"
                       onChange={(e) => {
                         setFieldValue("fromDate", e.target.value);
-                        // if (e.target.value) {
-                        //   getLandingData(
-                        //     profileData?.accountId,
-                        //     selectedBusinessUnit?.value,
-                        //     values?.poNo?.label ?? null,
-                        //     values?.bankDDL?.value ?? null,
-                        //     e.target.value ?? null,
-                        //     values?.toDate ?? null,
-                        //     setGridData,
-                        //     setIsLoading,
-                        //     pageNo,
-                        //     pageSize
-                        //   );
-                        // }
                       }}
                     />
                   </div>
@@ -273,20 +205,6 @@ const TableRow = () => {
                       type="date"
                       onChange={(e) => {
                         setFieldValue("toDate", e.target.value);
-                        // if (e.target.value) {
-                        //   getLandingData(
-                        //     profileData?.accountId,
-                        //     selectedBusinessUnit?.value,
-                        //     values?.poNo?.label ?? null,
-                        //     values?.bankDDL?.value ?? null,
-                        //     values?.fromDate ?? null,
-                        //     e.target.value ?? null,
-                        //     setGridData,
-                        //     setIsLoading,
-                        //     pageNo,
-                        //     pageSize
-                        //   );
-                        // }
                       }}
                     />
                   </div>
@@ -314,10 +232,6 @@ const TableRow = () => {
                     </button>
                   </div>
                 </div>
-                {/* <PaginationSearch
-                  placeholder="User Reference Search"
-                  paginationSearchHandler={paginationSearchHandler}
-                /> */}
                 <ICustomTable ths={header}>
                   {gridData?.data?.length > 0 &&
                     gridData?.data?.map((item, index) => {
@@ -362,7 +276,6 @@ const TableRow = () => {
                                   }}
                                 />
                               </span>
-                              {/* {console.log( , "expire date")} */}
                               <span
                                 className="ml-5 edit"
                                 onClick={() => {
@@ -392,42 +305,55 @@ const TableRow = () => {
                                   ></i>
                                 </OverlayTrigger>
                               </span>
-                              {/* <span className="ml-3">
-                                <button
-                                  className="btn btn-outline-dark mr-1 pointer"
-                                  type="button"
-                                  style={{
-                                    padding: "1px 5px",
-                                    fontSize: "11px",
-                                    width: "100px",
-                                  }}
-                                  onClick={() => {
-                                    // _dateFormatter(item?.dteLcexpireDate) >=
-                                    // _dateFormatter(new Date())
-                                    //   ?
-                                    history.push({
-                                      pathname: `/managementImport/transaction/lc-amendment`,
-                                      state: item,
-                                    });
-                                    // :
-                                    // Warning();
-                                  }}
-                                >
-                                  LC Amendment
-                                </button>
-                              </span> */}
+                              {!item?.isComplete ? (
+                                <span>
+                                  <OverlayTrigger
+                                    overlay={
+                                      <Tooltip id="cs-icon">Approve</Tooltip>
+                                    }
+                                  >
+                                    <i
+                                      class="fa fa-check-circle pointer"
+                                      aria-hidden="true"
+                                      onClick={() => {
+                                        IConfirmModal({
+                                          title: `LC Approve`,
+                                          message: `Are you sure to approve LC: ${item?.lcnumber}?`,
+                                          yesAlertFunc: () => {
+                                            saveApproveLcOpen(
+                                              `/imp/LetterOfCredit/LetterOfCreditComplete?LCId=${item?.lcid}&Lcnumber=${item?.lcnumber}`,
+                                              null,
+                                              () => {
+                                                getLandingData(
+                                                  profileData?.accountId,
+                                                  selectedBusinessUnit?.value,
+                                                  values?.poNo?.label ?? null,
+                                                  values?.bankDDL?.value ??
+                                                    null,
+                                                  values?.fromDate ?? null,
+                                                  values?.toDate ?? null,
+                                                  setGridData,
+                                                  setIsLoading,
+                                                  pageNo,
+                                                  pageSize
+                                                );
+                                              },
+                                              true
+                                            );
+                                          },
+                                          noAlertFunc: () => {},
+                                        });
+                                      }}
+                                    ></i>
+                                  </OverlayTrigger>
+                                </span>
+                              ) : null}
                             </div>
                           </td>
                         </tr>
                       );
                     })}
                 </ICustomTable>
-                {/* <PaginationSearch
-                        placeholder="Search Position/Emp. Type"
-                        paginationSearchHandler={paginationSearchHandler}
-                        values={values}
-                      /> */}
-                {/* Pagination Code */}
                 {gridData?.data?.length > 0 && (
                   <PaginationTable
                     count={gridData?.totalCount}

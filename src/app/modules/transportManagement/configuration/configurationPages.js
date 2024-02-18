@@ -1,40 +1,43 @@
 import React from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute } from "../../../../_metronic/layout";
+import findIndex from "../../_helper/_findIndex";
+import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
 import AllowanceSetUpLanding from "./allowanceSetUp";
-import CheckPostNewCreateForm from "./checkPostNew/create/addForm";
 import { checkPostNewTable } from "./checkPostNew/Table/tableHeader";
+import CheckPostNewCreateForm from "./checkPostNew/create/addForm";
 import CheckPostNewViewForm from "./checkPostNew/view/addForm";
 import CostComponentLanding from "./costComponent";
 import CostComponentCreateForm from "./costComponent/create/addForm";
+import { PartnerWiseRentSetupLanding } from "./partnerWiseRentSetup";
+import PartnerWiseRentSetupForm from "./partnerWiseRentSetup/Form/addEditForm";
+import PartnerWiseRentSetupExtendForm from "./partnerWiseRentSetup/extend/addEditForm";
 import { RouteStandardLanding } from "./routeStandard";
 import RouteStandardForm from "./routeStandard/Form/addEditForm";
+import ShipmentCostRatePermitForm from "./shipmentCostRatePermit/create/addForm";
+import { ShipmentCostRatePermitLanding } from "./shipmentCostRatePermit/landing/grid";
+import ShippmentTerritoryForm from "./shippmentTerritory/create/addForm";
+import { ShippmentTerritory } from "./shippmentTerritory/landing";
 import TranportOrganizationLanding from "./transportOrganization";
-import TransportOrgExtendForm from "./transportOrganization/extend/addEditForm";
 import TransportOrganizationCreateForm from "./transportOrganization/Form/addEditForm";
-import { Vehicle } from "./vehicle";
-import VehicleForm from "./vehicle/Form/addEditForm";
+import TransportOrgExtendForm from "./transportOrganization/extend/addEditForm";
 import { TransportRoute } from "./transportRoute";
 import TransportRouteForm from "./transportRoute/Form/addEditForm";
 import { TransportZone } from "./transportZone";
 import TransportZoneForm from "./transportZone/Form/addEditForm";
-import { PartnerWiseRentSetupLanding } from "./partnerWiseRentSetup";
-import PartnerWiseRentSetupForm from "./partnerWiseRentSetup/Form/addEditForm";
-import PartnerWiseRentSetupExtendForm from "./partnerWiseRentSetup/extend/addEditForm";
-import { shallowEqual, useSelector } from "react-redux";
-import findIndex from "../../_helper/_findIndex";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import { ZoneCostRateLanding } from "./zoneCostRate/landing";
-import ZoneCostRateForm from "./zoneCostRate/create/addForm";
-import { ShippmentTerritory } from "./shippmentTerritory/landing";
-import ShippmentTerritoryForm from "./shippmentTerritory/create/addForm";
-import { ShipmentCostRatePermitLanding } from "./shipmentCostRatePermit/landing/grid";
-import ShipmentCostRatePermitForm from "./shipmentCostRatePermit/create/addForm";
+import { Vehicle } from "./vehicle";
+import VehicleForm from "./vehicle/Form/addEditForm";
 import VehicleUserTagging from "./vehicleUserTagging";
+import ZoneCostRateForm from "./zoneCostRate/create/addForm";
+import { ZoneCostRateLanding } from "./zoneCostRate/landing";
 // import ShippingPointTransportZoneLanding from "./shippingPointTransportZone";
 // import ShippingPointTransportZoneLandingCreateEdit from "./shippingPointTransportZone/createEdit";
-import ShippingPointTransportZoneLanding from "./shippingPointTransportZone/landing/form";
+import FuelRateConfigCreateAndEdit from "./fuleRateConfig/create";
+import FuelRateConfig from "./fuleRateConfig/landing";
 import ShippingPointTransportZoneForm from "./shippingPointTransportZone/form/addEditForm";
+import ShippingPointTransportZoneLanding from "./shippingPointTransportZone/landing/form";
+import VehicleAllowanceSetup from "./vehicleAllowanceSetup/Landing";
 
 export function ConfigurationPages() {
   const userRole = useSelector(
@@ -242,6 +245,12 @@ export function ConfigurationPages() {
         component={AllowanceSetUpLanding}
       />
 
+      {/* Vehicle allowance setup */}
+      <ContentRoute
+        path="/transport-management/configuration/vehicleallowancesetup"
+        component={VehicleAllowanceSetup}
+      />
+
       {/* Partner wise rent setup */}
       <ContentRoute
         path="/transport-management/configuration/partner-wise-rent-setup/extend/:id"
@@ -297,6 +306,18 @@ export function ConfigurationPages() {
       <ContentRoute
         path="/transport-management/configuration/vehicleusertagging"
         component={VehicleUserTagging}
+      />
+      <ContentRoute
+        path="/transport-management/configuration/fuelrateconfig/edit/:id"
+        component={FuelRateConfigCreateAndEdit}
+      />
+      <ContentRoute
+        path="/transport-management/configuration/fuelrateconfig/create"
+        component={FuelRateConfigCreateAndEdit}
+      />
+      <ContentRoute
+        path="/transport-management/configuration/fuelrateconfig"
+        component={FuelRateConfig}
       />
     </Switch>
   );

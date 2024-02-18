@@ -55,6 +55,7 @@ export default function LoadInformationCreate({
   const [motherVesselDDL, getMotherVesselDDL] = useAxiosGet();
   const [singleData, setSingleData] = useState({});
   const [rowData, setRowData] = useState([]);
+  const [organizationDDL, getOrganizationDDL] = useAxiosGet();
 
   // get user data from store
   const {
@@ -63,10 +64,14 @@ export default function LoadInformationCreate({
   } = useSelector((state) => state?.authData, shallowEqual);
 
   useEffect(() => {
+    getOrganizationDDL(
+      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`
+    );
     if (!type || type !== "view") {
       GetDomesticPortDDL(setDomesticPortDDL);
       GetShipPointDDL(accId, buId, setShipPointDDL);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId, type]);
 
   const getVessels = (values) => {
@@ -135,7 +140,13 @@ export default function LoadInformationCreate({
 
   useEffect(() => {
     if (id) {
-      getLoadingInfoByVoyageNo(id, setSingleData, setRowData, setDisabled);
+      getLoadingInfoByVoyageNo(
+        // state?.rowId,
+        id,
+        setSingleData,
+        setRowData,
+        setDisabled
+      );
     }
   }, [id, state, type]);
 
@@ -218,6 +229,7 @@ export default function LoadInformationCreate({
         rowData={rowData}
         selectedAll={selectedAll}
         allSelect={allSelect}
+        organizationDDL={organizationDDL}
         saveHandler={saveHandler}
         shipPointDDL={shipPointDDL}
         rowDataHandler={rowDataHandler}

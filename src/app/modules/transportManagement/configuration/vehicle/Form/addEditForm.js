@@ -32,6 +32,8 @@ const initData = {
   fuelType: "",
   costPerKM: "",
   vehicleCapacity: "",
+  fuelAllowanceLocalKM: "",
+  fuelAllowanceOuterKM: "",
 };
 
 export default function VehicleForm({
@@ -146,6 +148,8 @@ export default function VehicleForm({
           fuelTypeId: values?.fuelType?.value,
           costPerKM: +values?.costPerKM,
           vehicleCapacityId: values?.vehicleCapacity?.value,
+          localStationKmpl: values?.ownerType?.value === 1 ? +values?.fuelAllowanceLocalKM : 0,
+          outStationKmpl: values?.ownerType?.value === 1 ? +values?.fuelAllowanceOuterKM : 0
         };
         dispatch(saveEditedVehicleUnit(payload,setDisabled));
       } else {
@@ -174,6 +178,8 @@ export default function VehicleForm({
           fuelTypeId: values?.fuelType?.value,
           costPerKM: +values?.costPerKM,
           vehicleCapacityId: values?.vehicleCapacity?.value,
+          localStationKmpl: values?.ownerType?.value === 1 ? +values?.fuelAllowanceLocalKM : 0,
+          outStationKmpl: values?.ownerType?.value === 1 ? +values?.fuelAllowanceOuterKM : 0
         };
         window.payload = payload;
         dispatch(saveVehicle(payload, cb, setDisabled));

@@ -1,14 +1,14 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { ToWords } from "to-words";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import logo from "../../../../_helper/images/akij_cement_logo.png";
-import "./InvoiceRecept.css";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { ToWords } from 'to-words';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import logo from '../../../../_helper/images/akij_cement_logo.png';
+import './InvoiceRecept.css';
 
 const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
   const toWords = new ToWords({
-    localeCode: "en-BD",
+    localeCode: 'en-BD',
     converterOptions: {
       currency: true,
       ignoreDecimal: false,
@@ -29,10 +29,10 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
   // let totalItemRate = 0;
 
   const getStyle = {
-    fontWeight: "bold",
-    fontSize: "16px",
-    color: "black !important",
-    verticalAlign: "middle",
+    fontWeight: 'bold',
+    fontSize: '16px',
+    color: 'black !important',
+    verticalAlign: 'middle',
   };
 
   return (
@@ -52,7 +52,7 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
         </div> */}
 
         <div>
-          <p style={{ marginBottom: "0" }}>
+          <p style={{ marginBottom: '0' }}>
             Akij House, 198 Bir Uttam Mir Shawkat Sarak <br /> (Gulshan Link
             Road), Tejgaon, Dhaka-1208 <br />
             Phone: 09613313131, 09604313131 <br />
@@ -62,22 +62,22 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
         <img
           src={logo}
           alt="logo"
-          width={"30%"}
-          style={{ alignContent: "end" }}
+          width={'30%'}
+          style={{ alignContent: 'end' }}
         />
       </div>
       <div
         style={{
-          textAlign: "center",
-          marginBottom: "10px",
+          textAlign: 'center',
+          marginBottom: '10px',
         }}
       >
         <i>
           <p
             style={{
-              fontSize: "30px",
-              textDecoration: "underLine",
-              fontWeight: "bold",
+              fontSize: '30px',
+              textDecoration: 'underLine',
+              fontWeight: 'bold',
             }}
           >
             Invoice {invoiceData[0]?.strInvoiceNo}
@@ -97,7 +97,7 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
         </p>
         <p>{invoiceData[0]?.businessPartnerAddress}</p>
 
-        <p style={{ margin: "2px 0" }}>
+        <p style={{ margin: '2px 0' }}>
           <strong> Delivery Address:</strong> {invoiceData[0]?.projLocation}
         </p>
 
@@ -116,24 +116,25 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
               <th style={getStyle}>Item</th>
               <th style={getStyle}>Delivery Order</th>
               {/* <th style={getStyle}>Destination</th> */}
-              <th style={{ width: "90px", ...getStyle }}>Delivery Date</th>
+              <th style={{ width: '90px', ...getStyle }}>Delivery Date</th>
               <th style={getStyle}>Challan No.</th>
               <th style={getStyle}>{`${
-                channelId === 43 ? "Primary Qty" : "Qty (Bag)"
+                channelId === 43 ? 'Primary Qty' : 'Qty (Bag)'
               }`}</th>
               {channelId === 43 && <th style={getStyle}>Net Qty</th>}
-              <th style={{ ...getStyle, width: "90px" }}>
-                Unit Price (TK/{`${channelId === 43 ? "M.T" : "Bag"}`})
+              <th style={{ ...getStyle, width: '90px' }}>
+                Unit Price (TK/{`${channelId === 43 ? 'M.T' : 'Bag'}`})
               </th>
               <th style={getStyle}>Total Amount</th>
             </tr>
           </thead>
           <tbody>
             {invoiceData?.map((item, index) => {
-              totalQty += item?.totalDeliveredQtyCFT;
+              totalQty += item?.quantity;
+              // totalQty += item?.totalDeliveredQtyCFT;
               grandTotal += item?.totalAmount || 0;
               // totalItemRate += item?.itemRate || 0;
-              totalNetQty += item?.actualDeliveryQty || 0;
+              totalNetQty += item?.netQty || 0;
 
               return (
                 <tr>
@@ -144,15 +145,14 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                   <td>{_dateFormatter(item?.deliveriDate)}</td>
                   <td>{item?.deliveryCode}</td>
                   <td className="text-right">
-                    {_fixedPoint(item?.totalDeliveredQtyCFT, true)}
+                    {item?.quantity}
+                    {/* {_fixedPoint(item?.totalDeliveredQtyCFT, true)} */}
                   </td>
                   {channelId === 43 && (
-                    <td className="text-right">
-                      {_fixedPoint(item?.actualDeliveryQty, true)}
-                    </td>
+                    <td className="text-right">{item?.netQty}</td>
                   )}
-                  <td className="text-right" style={{ width: "60px" }}>
-                    {_fixedPoint(item?.itemRate, true)}
+                  <td className="text-right" style={{ width: '60px' }}>
+                    {item?.itemRate}
                   </td>
                   <td className="text-right">
                     {_fixedPoint(item?.totalAmount, true)}
@@ -160,14 +160,14 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
                 </tr>
               );
             })}
-            <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+            <tr style={{ textAlign: 'right', fontWeight: 'bold' }}>
               <td colSpan={5}>Grand Total</td>
               <td>{_fixedPoint(totalQty, true)}</td>
               {channelId === 43 && <td>{_fixedPoint(totalNetQty, true)}</td>}
               <td>{/* {_fixedPoint(totalItemRate, true)} */}</td>
               <td>{_fixedPoint(grandTotal, true)}</td>
             </tr>
-            <tr style={{ fontWeight: "bold", textAlign: "left" }}>
+            <tr style={{ fontWeight: 'bold', textAlign: 'left' }}>
               <td colSpan={channelId === 43 ? 10 : 9} className="text-left">
                 IN WORDS: {toWords.convert(grandTotal?.toFixed(0))}
               </td>
@@ -184,19 +184,19 @@ const InvoiceReceptForCement = ({ printRef, invoiceData, channelId }) => {
       <p>{designationName}</p>
       <p>{buName}</p>
 
-      <div style={{ marginTop: "25px" }}>
+      <div style={{ marginTop: '25px' }}>
         <p>
           <b>Enclose</b>
         </p>
         <p>1. Delivery Invoice</p>
       </div>
-      <div style={{ position: "relative" }}>
+      <div style={{ position: 'relative' }}>
         <p
           style={{
-            bottom: "0px",
-            textAlign: "center",
-            position: "fixed",
-            width: "100%",
+            bottom: '0px',
+            textAlign: 'center',
+            position: 'fixed',
+            width: '100%',
           }}
         >
           This is an automatically generated invoice, no signature is required.

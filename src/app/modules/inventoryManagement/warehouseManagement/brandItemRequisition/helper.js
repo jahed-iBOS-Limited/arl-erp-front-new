@@ -99,3 +99,19 @@ export const cancelProductionRequest = async (id, remarks, setLoading, cb) => {
     setLoading(false);
   }
 };
+
+export const brandItemRequestApprove = async (payload, cb, setLoading) => {
+  setLoading(true);
+  try {
+    const res = await axios.put(
+      `/wms/ItemRequest/ApproveBrandItemRequest`,
+      payload
+    );
+    toast.success(res?.data?.message);
+    cb();
+    setLoading(false);
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setLoading(false);
+  }
+};
