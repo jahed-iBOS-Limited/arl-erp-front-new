@@ -17,6 +17,8 @@ import { CharteringContext } from "../../charteringContext";
 import NewSelect from "../../../_helper/_select";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { imarineBaseUrl } from "../../../../App";
+import IViewModal from "../../_chartinghelper/_viewModal";
+import OffHireDetails from "./details";
 
 const headers = [
   { name: "SL" },
@@ -37,7 +39,9 @@ export default function OffHireTable() {
   const [voyageNoDDL, setVoyageNoDDL] = useState([]);
   const history = useHistory();
   const [charteringState, setCharteringState] = useContext(CharteringContext);
-  const [, getLandingData, loader] = useAxiosGet();
+  const [detailsData, getLandingData, loader] = useAxiosGet();
+  const [show, setShow] = useState(false);
+  const [singleItem, setSingleItem] = useState({});
 
   const initData = charteringState?.offHireLandingFormData;
 
@@ -107,6 +111,23 @@ export default function OffHireTable() {
 
   const setPositionHandler = (pageNo, pageSize, values) => {
     getGridData(values, pageNo, pageSize);
+  };
+
+  const getDetails = (item) => {
+    getLandingData(
+      `${imarineBaseUrl}/domain/OffHire/GetOffHireLandingPagination?AccountId=${
+        profileData?.accountId
+      }&BusinessUnitId=${selectedBusinessUnit?.value}&VoyageNoId=${
+        item?.voyageId
+      }&VesselId=${
+        item?.vesselId
+      }&viewOrder=asc&PageNo=${0}&PageSize=${1000}${""}`,
+      (resData) => {
+        if (resData?.data?.length > 0) {
+          setShow(true);
+        }
+      }
+    );
   };
 
   const isLoading = loader || loading;
@@ -229,15 +250,15 @@ export default function OffHireTable() {
                         {_formatMoney(item?.offHireCostAmount)}
                       </td>
                       <td className="text-center">
-                        {/* <div className="d-flex justify-content-around">
+                        <div className="d-flex justify-content-around">
                           <IView
+                            title={"Show Details"}
                             clickHandler={() => {
-                              history.push(
-                                `/chartering/offHire/view/${item?.offHireId}`
-                              );
+                              getDetails(item);
+                              setSingleItem(item);
                             }}
                           />
-                        </div> */}
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -288,6 +309,13 @@ export default function OffHireTable() {
                   values={values}
                 />
               )}
+              <IViewModal
+                show={show}
+                onHide={() => setShow(false)}
+                // title={`Off Hire Details - ${singleItem?.vesselName}, V${singleItem?.voyageNumber}`}
+              >
+                <OffHireDetails obj={{ gridData: detailsData, singleItem }} />
+              </IViewModal>
             </form>
           </>
         )}
