@@ -2,14 +2,19 @@ import axios from "axios";
 import { Formik } from "formik";
 import { DropzoneDialogBase } from "material-ui-dropzone";
 import React, { useEffect, useState } from "react";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import TextArea from "../../../../_helper/TextArea";
 import ICustomCard from "../../../../_helper/_customCard";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import FormikError from "../../../../_helper/_formikError";
 import InputField from "../../../../_helper/_inputField";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import NewSelect from "../../../../_helper/_select";
+import IViewModal from "../../../../_helper/_viewModal";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import {
   attachment_action,
   customerListDDL,
@@ -21,9 +26,7 @@ import {
   getSupplierDDLApi,
   respondentTypeDDL,
 } from "../helper";
-import TextArea from "../../../../_helper/TextArea";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import RespondentModal from "./RespondentModal";
 export const validationSchema = Yup.object().shape({
   occurrenceDate: Yup.date().required("Occurrence Date is required"),
   respondentType: Yup.object().shape({
@@ -80,6 +83,7 @@ function Form({
   const [supplierDDL, setSupplierDDL] = useState([]);
   const [complainSubCategory, setComplainSubCategory] = useState([]);
   const [contactSourceDDL, getContactSourceDDL] = useAxiosGet();
+  const [isRespondentModal, setShowRespondentModal] = useState(false);
 
   useEffect(() => {
     if (accId && buId) {
@@ -389,19 +393,62 @@ function Form({
                     />
                   </div>
                 )}
+                {values?.respondentType?.value === 4 && (
+                  <div className="col-lg-3">
+                    <NewSelect
+                      isRequiredSymbol={true}
+                      name="sourceCustomerType"
+                      options={[
+                        { value: "Retailer", label: "Retailer" },
+                        { value: "Distributer", label: "Distributer" },
+                      ]}
+                      value={values?.sourceCustomerType}
+                      label="Source Customer Type"
+                      onChange={(valueOption) => {
+                        setFieldValue("respondent", "");
+                        setFieldValue("sourceCustomerType", valueOption);
+                      }}
+                      placeholder="Respondent Type"
+                      // errors={errors}
+                      // touched={touched}
+                      // isDisabled={!values?.respondentBusinessUnit || view}
+                    />
+                  </div>
+                )}
                 <div className="col-lg-3">
-                  <label>
-                    <b style={{ color: "red" }}>*</b> Respondent Name
-                  </label>
+                  <div
+                    style={{
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                    className="d-flex"
+                  >
+                    <label style={{ display: "block" }}>
+                      <b style={{ color: "red" }}>*</b> Respondent Name
+                    </label>
+                    {values?.respondentType?.value === 4 && (
+                      <OverlayTrigger
+                        overlay={<Tooltip id="cs-icon">{"Add"}</Tooltip>}
+                      >
+                        <span>
+                          <i
+                            className={`fas fa-plus-square`}
+                            onClick={() => setShowRespondentModal(true)}
+                          ></i>
+                        </span>
+                      </OverlayTrigger>
+                    )}
+                  </div>
                   <InputField
                     value={values?.respondent}
                     placeholder="Respondent Name"
                     name="respondent"
                     type="text"
-                    disabled={view}
-                    onChange={(e) => {
-                      setFieldValue("respondent", e.target.value);
-                    }}
+                    disabled={view || values?.respondentType?.value === 4}
+                    onChange={(e) =>
+                      setFieldValue("respondent", e.target.value)
+                    }
+                    
                   />
                 </div>
                 <div className="col-lg-3">
@@ -723,6 +770,16 @@ function Form({
               showPreviews={true}
               showFileNamesInPreview={true}
             />
+            <IViewModal
+              show={isRespondentModal}
+              onHide={() => setShowRespondentModal(false)}
+            >
+              <RespondentModal
+                title={values?.sourceCustomerType?.value}
+                setter={setFieldValue}
+                onHide={() => setShowRespondentModal(false)}
+              />
+            </IViewModal>
           </ICustomCard>
         )}
       </Formik>
