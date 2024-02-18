@@ -292,6 +292,8 @@ const CustomerSalesTargetReport = () => {
                           </>
                         )}
                       <th style={{ width: "150px" }}>Target Quantity</th>
+                      <th>Addition Qty</th>
+                      <th>Deduction Qty</th>
                       <th>isApprove</th>
                       <th>Action</th>
                     </tr>
@@ -377,6 +379,12 @@ const CustomerSalesTargetReport = () => {
                           </div>
                         </td>
                         <td>
+                          <div className="pl-2">{td?.additionQuantity}</div>
+                        </td>
+                        <td>
+                          <div className="pl-2">{td?.deductionQuantity}</div>
+                        </td>
+                        <td>
                           <div className="pl-2">
                             {td?.isApprove ? "Yes" : "No"}
                           </div>
@@ -403,6 +411,20 @@ const CustomerSalesTargetReport = () => {
                               </span>
                               <span
                                 onClick={() => {
+                                  const additionQuantity =
+                                    td?.targetQuantity <
+                                    td?.editedTargetQuantity
+                                      ? td?.editedTargetQuantity -
+                                        td?.targetQuantity
+                                      : 0;
+
+                                  const deductionQuantity =
+                                    td?.targetQuantity >
+                                    td?.editedTargetQuantity
+                                      ? td?.targetQuantity -
+                                        td?.editedTargetQuantity
+                                      : 0;
+
                                   editSalesTarget(
                                     {
                                       businessUnitId:
@@ -412,6 +434,8 @@ const CustomerSalesTargetReport = () => {
                                       targetQty: +td?.editedTargetQuantity,
                                       actionid: profileData?.employeeId,
                                       enroleid: profileData?.userId,
+                                      deductionQuantity,
+                                      additionQuantity,
                                     },
                                     setLoading,
                                     () => {
@@ -455,6 +479,8 @@ const CustomerSalesTargetReport = () => {
                           0
                         )}
                       </td>
+                      <td></td>
+                      <td></td>
                       <td colSpan={2}></td>
                     </tr>
                   </tbody>
