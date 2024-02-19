@@ -411,14 +411,14 @@ const CustomerSalesTargetReport = () => {
                               </span>
                               <span
                                 onClick={() => {
-                                  const additionQuantity =
+                                  const additionQnt =
                                     td?.targetQuantity <
                                     td?.editedTargetQuantity
                                       ? td?.editedTargetQuantity -
                                         td?.targetQuantity
                                       : 0;
 
-                                  const deductionQuantity =
+                                  const deductionQnt =
                                     td?.targetQuantity >
                                     td?.editedTargetQuantity
                                       ? td?.targetQuantity -
@@ -434,8 +434,8 @@ const CustomerSalesTargetReport = () => {
                                       targetQty: +td?.editedTargetQuantity,
                                       actionid: profileData?.employeeId,
                                       enroleid: profileData?.userId,
-                                      deductionQuantity,
-                                      additionQuantity,
+                                      additionQnt,
+                                      deductionQnt,
                                     },
                                     setLoading,
                                     () => {
