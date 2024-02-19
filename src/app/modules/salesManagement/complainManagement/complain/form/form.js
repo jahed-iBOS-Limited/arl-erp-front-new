@@ -269,6 +269,7 @@ function Form({
                       setFieldValue("challanOrPO", "");
                       setFieldValue("respondent", "");
                       setFieldValue("deliveryDate", "");
+                      setFieldValue("sourceCustomerType","")
 
                       // if type supplier
                       if (valueOption?.value === 2) {
@@ -400,6 +401,9 @@ function Form({
                       errors={errors}
                       touched={touched}
                     />
+                    {
+                      values?.respondentName && <small>Work Place :{values?.respondentName?.workPlace}</small>
+                    }
                   </div>
                 )}
                 {values?.respondentType?.value === 4 && (
@@ -417,7 +421,7 @@ function Form({
                         setFieldValue("respondent", "");
                         setFieldValue("sourceCustomerType", valueOption);
                       }}
-                      placeholder="Respondent Type"
+                      placeholder="Source Customer Type"
                       // errors={errors}
                       // touched={touched}
                       // isDisabled={!values?.respondentBusinessUnit || view}
@@ -787,6 +791,7 @@ function Form({
                 title={values?.sourceCustomerType?.value}
                 setter={setFieldValue}
                 onHide={() => setShowRespondentModal(false)}
+                respondedBuId={values?.respondentBusinessUnit?.value}
               />
             </IViewModal>
           </ICustomCard>
